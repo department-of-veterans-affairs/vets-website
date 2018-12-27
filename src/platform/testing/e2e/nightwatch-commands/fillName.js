@@ -5,10 +5,21 @@
  * @param {object} name The name object
  */
 exports.command = function fillName(baseName, name) {
-  this.fill(`input[name="${baseName}_first"]`, name.first)
-    .fill(`input[name="${baseName}_middle"]`, name.middle)
-    .fill(`input[name="${baseName}_last"]`, name.last)
-    .selectDropdown(`${baseName}_suffix`, name.suffix);
+  if (name.first) {
+    this.fill(`input[name="${baseName}_first"]`, name.first);
+  }
+
+  if (name.middle) {
+    this.fill(`input[name="${baseName}_middle"]`, name.middle);
+  }
+
+  if (name.last) {
+    this.fill(`input[name="${baseName}_last"]`, name.last);
+  }
+
+  if (name.suffix) {
+    this.selectDropdown(`${baseName}_suffix`, name.suffix);
+  }
 
   return this;
 };

@@ -3,7 +3,9 @@ import { PTSD_INCIDENT_ITERATION } from '../constants';
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./e2e/disability-benefits-helpers');
+const MockData = require('./e2e/mock-data');
 const Page781Helpers = require('./e2e/page-781-helpers');
+// const Page8940Helpers = require('./e2e/page-8940-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
@@ -20,11 +22,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
       3,
     );
 
-    PageHelpers.initInProgressMock(token);
-    PageHelpers.initDocumentUploadMock();
-    PageHelpers.initApplicationSubmitMock();
-    PageHelpers.initItfMock(token);
-    PageHelpers.initPaymentInformationMock(token);
+    MockData.initInProgressMock(token);
+    MockData.initDocumentUploadMock();
+    MockData.initApplicationSubmitMock();
+    MockData.initItfMock(token);
+    MockData.initPaymentInformationMock(token);
 
     // Ensure introduction page renders.
     client.assert
@@ -63,7 +65,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Military Service History
-    E2eHelpers.expectLocation(client, 'military-service-history');
+    E2eHelpers.expectLocation(client, '/military-service-history');
     client.axeCheck('.main');
     PageHelpers.completeMilitaryHistory(client, testData.data);
     client.click('.form-progress-buttons .usa-button-primary');
@@ -75,7 +77,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Reserves/National Guard Info
-    E2eHelpers.expectLocation(client, 'reserves-national-guard');
+    E2eHelpers.expectLocation(client, '/reserves-national-guard');
     client.axeCheck('.main');
     PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
     client.click('.form-progress-buttons .usa-button-primary');
@@ -138,32 +140,92 @@ const runTest = E2eHelpers.createE2eTest(client => {
       '/new-disabilities/walkthrough-781-choice',
     );
     client.axeCheck('.main');
-    PageHelpers.selectWalkthrough781Choice(client, testData.data);
+    Page781Helpers.selectWalkthrough781Choice(client, testData.data);
     client.click('.form-progress-buttons .usa-button-primary');
 
     for (let index = 0; index < PTSD_INCIDENT_ITERATION; index++) {
-      if (Page781Helpers.getPtsdIncident(testData.data, index)) {
+      const incident = Page781Helpers.getPtsdIncident(testData.data, index);
+      if (incident) {
         // PTSD - 781 - Medals
-        E2eHelpers.expectLocation(
-          client,
-          `/new-disabilities/ptsd-medals-0${index}`,
-        );
+        E2eHelpers.expectLocation(client, `/disabilities/ptsd-medals-${index}`);
         client.axeCheck('.main');
-        Page781Helpers.completePtsdMedals(client, testData.data, index);
+        Page781Helpers.completePtsdMedals(client, incident, index);
         client.click('.form-progress-buttons .usa-button-primary');
 
-        // PSTD - 781 - ADDITIONAL EVENTS OR SITUATIONS Y/N
+        // PTSD - 781 - Incident Date
         E2eHelpers.expectLocation(
           client,
-          `disabilities/ptsd-additional-events-${index}`,
+          `/disabilities/ptsd-incident-date-${index}`,
         );
         client.axeCheck('.main');
-        Page781Helpers.completePtsdAdditionalEvents(
+        Page781Helpers.completePtsdIncidentDate(client, incident, index);
+        client.click('.form-progress-buttons .usa-button-primary');
+
+        // PTSD - 781 - Incident Unit Assignment
+        E2eHelpers.expectLocation(
+          client,
+          `/disabilities/ptsd-incident-unit-assignment-${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdIncidentUnitAssignment(
+          client,
+          incident,
+          index,
+        );
+        client.click('.form-progress-buttons .usa-button-primary');
+
+        // PTSD - 781 - Incident Location
+        E2eHelpers.expectLocation(
+          client,
+          `/disabilities/ptsd-incident-location-${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdIncidentLocation(client, incident, index);
+        client.click('.form-progress-buttons .usa-button-primary');
+
+        // PTSD - 781 - Individuals Involved
+        E2eHelpers.expectLocation(
+          client,
+          `/disabilities/ptsd-individuals-involved-${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdIndividualsInvolved(
           client,
           testData.data,
           index,
         );
         client.click('.form-progress-buttons .usa-button-primary');
+
+        // PTSD - 781 - Incident Support
+        E2eHelpers.expectLocation(
+          client,
+          `/disabilities/ptsd-incident-support-${index}`,
+        );
+        client.axeCheck('.main');
+        client.click('.form-progress-buttons .usa-button-primary');
+
+        // PTSD - 781 - Individuals Involved Questions
+        E2eHelpers.expectLocation(
+          client,
+          `/disabilities/ptsd-individuals-involved-questions-${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdIndividualsInvolvedQuestions(
+          client,
+          incident,
+          index,
+        );
+        client.click('.form-progress-buttons .usa-button-primary');
+
+        break;
+        // PSTD - 781 - ADDITIONAL EVENTS OR SITUATIONS Y/N
+        // E2eHelpers.expectLocation(
+        //   client,
+        //   `/disabilities/ptsd-additional-events-${index}`,
+        // );
+        // client.axeCheck('.main');
+        // Page781Helpers.completePtsdAdditionalEvents(client, incident, index);
+        // client.click('.form-progress-buttons .usa-button-primary');
       }
     }
     // ***********************
@@ -173,7 +235,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // // Unemployability Status
     // E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
     // client.axeCheck('.main');
-    // PageHelpers.completeUnemployabilityStatus(client, testData.data);
+    // Page8940Helpers.completeUnemployabilityStatus(client, testData.data);
     // client.click('.form-progress-buttons .usa-button-primary');
 
     // // POW Status

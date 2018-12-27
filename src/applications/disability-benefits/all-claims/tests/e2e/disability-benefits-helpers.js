@@ -1,5 +1,8 @@
-const mock = require('../../../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../../../platform/testing/e2e/timeouts.js');
+
+export const clickAddAnother = (client, i, list) => {
+  if (i < list.length - 1) client.click('.va-growable-add-btn');
+};
 
 export const completeAlternateName = (client, data) => {
   const hasAlternateName = data['view:hasAlternateName'];
@@ -13,7 +16,7 @@ export const completeAlternateName = (client, data) => {
         .fill(`input[name="root_alternateNames_${i}_middle"]`, middle)
         .fill(`input[name="root_alternateNames_${i}_last"]`, last);
 
-      if (i < list.length - 1) client.click('.va-growable-add-btn');
+      clickAddAnother(client, i, list);
     });
   }
 };
@@ -42,7 +45,7 @@ export const completeMilitaryHistory = (client, data) => {
   const { servicePeriods } = data.serviceInformation;
 
   servicePeriods.forEach((period, i, list) => {
-    const { serviceBranch, dateRange } = servicePeriods[i];
+    const { serviceBranch, dateRange } = period;
 
     // increment i by 1 because of prefill
     client
@@ -59,7 +62,7 @@ export const completeMilitaryHistory = (client, data) => {
         dateRange.to,
       );
 
-    if (i < list.length - 1) client.click('.va-growable-add-btn');
+    clickAddAnother(client, i, list);
   });
 };
 
@@ -127,7 +130,7 @@ export const addNewDisability = (client, data) => {
       `input[name="root_newDisabilities_${i}_condition"]`,
       disability.condition,
     );
-    if (i < list.length - 1) client.click('.va-growable-add-btn');
+    clickAddAnother(client, i, list);
   });
   client.click('body');
 };
@@ -151,17 +154,6 @@ export const selectPtsdTypes = (client, data) => {
       'input[name="root_view:selectablePtsdTypes_view:nonCombatPtsdType"]',
       selectablePtsdTypes['view:nonCombatPtsdType'],
     );
-};
-
-export const selectWalkthrough781Choice = (client, data) => {
-  const upload781Choice = data['view:upload781Choice'];
-  client.selectRadio('root_view:upload781Choice_0', upload781Choice);
-};
-
-export const completeUnemployabilityStatus = (client, data) => {
-  const unemployabilityStatus = data['view:unemployabilityStatus'];
-
-  client.selectYesNo('root_view:unemployabilityStatus', unemployabilityStatus);
 };
 
 export const completePowStatus = (client, data) => {
@@ -247,7 +239,7 @@ export const completeRecordReleaseInformation = (client, data) => {
         facility.providerFacilityAddress.postalCode,
       );
 
-    if (i < list.length - 1) client.click('.va-growable-add-btn');
+    clickAddAnother(client, i, list);
 
     client
       .fillCheckbox(
@@ -259,202 +251,6 @@ export const completeRecordReleaseInformation = (client, data) => {
         Timeouts.normal,
       )
       .fill('input[name="root_limitedConsent"]', limitedConsent);
-  });
-};
-
-export const initInProgressMock = token => {
-  mock(token, {
-    path: '/v0/in_progress_forms/21-526EZ',
-    verb: 'get',
-    value: {
-      formData: {
-        veteran: {
-          primaryPhone: '4445551212',
-          emailAddress: 'test2@test1.net',
-        },
-        disabilities: [
-          {
-            name: 'Diabetes mellitus0',
-            ratedDisabilityId: '0',
-            ratingDecisionId: '63655',
-            diagnosticCode: 5238,
-            decisionCode: 'SVCCONNCTED',
-            decisionText: 'Service Connected',
-            ratingPercentage: 100,
-          },
-          {
-            name: 'Diabetes mellitus1',
-            ratedDisabilityId: '1',
-            ratingDecisionId: '63655',
-            diagnosticCode: 5238,
-            decisionCode: 'SVCCONNCTED',
-            decisionText: 'Service Connected',
-            ratingPercentage: 100,
-          },
-        ],
-        servicePeriods: [
-          {
-            serviceBranch: 'Air Force Reserve',
-            dateRange: {
-              from: '2001-03-21',
-              to: '2014-07-21',
-            },
-          },
-        ],
-        reservesNationalGuardService: {
-          obligationTermOfServiceDateRange: {
-            from: '2007-05-22',
-            to: '2008-06-05',
-          },
-        },
-      },
-      metadata: {
-        version: 0,
-        prefill: true,
-        returnUrl: '/veteran-information',
-      },
-    },
-  });
-};
-
-export const initDocumentUploadMock = () => {
-  mock(null, {
-    path: '/v0/claim_attachments',
-    verb: 'post',
-    value: {
-      data: {
-        attributes: {
-          guid: '123fake-submission-id-567',
-        },
-      },
-    },
-  });
-};
-
-export const initApplicationSubmitMock = () => {
-  mock(null, {
-    path: '/v0/21-526EZ',
-    verb: 'post',
-    value: {
-      data: {
-        attributes: {
-          guid: '123fake-submission-id-567',
-        },
-      },
-    },
-  });
-};
-
-export const initItfMock = token => {
-  mock(token, {
-    path: '/v0/intent_to_file',
-    verb: 'get',
-    value: {
-      data: {
-        id: '',
-        type: 'evss_intent_to_file_intent_to_files_responses',
-        attributes: {
-          intentToFile: [
-            {
-              id: '1',
-              creationDate: '2014-07-28T19:53:45.810+00:00',
-              expirationDate: '2015-08-28T19:47:52.786+00:00',
-              participantId: 1,
-              source: 'EBN',
-              status: 'active',
-              type: 'compensation',
-            },
-            {
-              id: '1',
-              creationDate: '2014-07-28T19:53:45.810+00:00',
-              expirationDate: '2015-08-28T19:47:52.788+00:00',
-              participantId: 1,
-              source: 'EBN',
-              status: 'claim_recieved',
-              type: 'compensation',
-            },
-            {
-              id: '1',
-              creationDate: '2014-07-28T19:53:45.810+00:00',
-              expirationDate: '2015-08-28T19:47:52.789+00:00',
-              participantId: 1,
-              source: 'EBN',
-              status: 'claim_recieved',
-              type: 'compensation',
-            },
-            {
-              id: '1',
-              creationDate: '2014-07-28T19:53:45.810+00:00',
-              expirationDate: '2015-08-28T19:47:52.789+00:00',
-              participantId: 1,
-              source: 'EBN',
-              status: 'expired',
-              type: 'compensation',
-            },
-            {
-              id: '1',
-              creationDate: '2014-07-28T19:53:45.810+00:00',
-              expirationDate: '2015-08-28T19:47:52.790+00:00',
-              participantId: 1,
-              source: 'EBN',
-              status: 'incomplete',
-              type: 'compensation',
-            },
-          ],
-        },
-      },
-    },
-  });
-};
-
-export const initPaymentInformationMock = token => {
-  mock(token, {
-    path: '/v0/ppiu/payment_information',
-    verb: 'get',
-    value: {
-      data: {
-        id: '',
-        type: 'evss_ppiu_payment_information_responses',
-        attributes: {
-          responses: [
-            {
-              controlInformation: {
-                canUpdateAddress: true,
-                corpAvailIndicator: true,
-                corpRecFoundIndicator: true,
-                hasNoBdnPaymentsIndicator: true,
-                identityIndicator: true,
-                isCompetentIndicator: true,
-                indexIndicator: true,
-                noFiduciaryAssignedIndicator: true,
-                notDeceasedIndicator: true,
-              },
-              paymentAccount: {
-                accountType: 'Checking',
-                financialInstitutionName: 'Comerica',
-                accountNumber: '9876543211234',
-                financialInstitutionRoutingNumber: '042102115',
-              },
-              paymentAddress: {
-                type: null,
-                addressEffectiveDate: null,
-                addressOne: null,
-                addressTwo: null,
-                addressThree: null,
-                city: null,
-                stateCode: null,
-                zipCode: null,
-                zipSuffix: null,
-                countryName: null,
-                militaryPostOfficeTypeCode: null,
-                militaryStateCode: null,
-              },
-              paymentType: 'CNP',
-            },
-          ],
-        },
-      },
-    },
   });
 };
 
