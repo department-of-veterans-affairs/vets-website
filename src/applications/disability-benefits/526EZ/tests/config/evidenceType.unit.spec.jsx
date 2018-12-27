@@ -32,6 +32,7 @@ describe('Disability benefits 526EZ evidence type', () => {
     );
 
     expect(form.find('input').length).to.equal(5);
+    form.unmount();
   });
 
   it('should fill in evidence type information', () => {
@@ -68,6 +69,7 @@ describe('Disability benefits 526EZ evidence type', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should not allow submission if no evidence types selected', () => {
@@ -89,5 +91,6 @@ describe('Disability benefits 526EZ evidence type', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

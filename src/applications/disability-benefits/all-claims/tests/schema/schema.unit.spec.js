@@ -16,8 +16,8 @@ describe('526 all claims schema tests', () => {
       );
       const submitData = JSON.parse(
         formConfig.transformForSubmit(formConfig, contents),
-      ).form526;
-      const result = v.validate(JSON.parse(submitData), fullSchema);
+      );
+      const result = v.validate(submitData.form526, fullSchema);
 
       if (!result.valid) {
         console.log(`Validation errors found in ${file}`); // eslint-disable-line

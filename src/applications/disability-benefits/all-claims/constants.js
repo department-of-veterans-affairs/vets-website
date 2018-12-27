@@ -134,9 +134,14 @@ export const DATA_PATHS = {
 export const VA_FORM4142_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
+export const TWENTY_FIVE_MB = 26214400;
+
 export const FIFTY_MB = 52428800;
 
 export const PTSD = 'ptsd';
+
+// Max number of incident iterations a user can go through.
+export const PTSD_INCIDENT_ITERATION = 3;
 
 export const NINE_ELEVEN = '2001-09-11';
 
@@ -144,9 +149,9 @@ export const ERR_MSG_CSS_CLASS = '.usa-input-error-message';
 
 export const submissionStatuses = {
   // Statuses returned by the API
-  pending: 'submitted', // Submitted to EVSS, waiting response
-  retry: 'retrying',
-  succeeded: 'received', // Submitted to EVSS, received response
+  pending: 'try', // Submitted to EVSS, waiting response
+  retry: 'retryable_error',
+  succeeded: 'success', // Submitted to EVSS, received response
   exhausted: 'exhausted', // EVSS is down or something; ran out of retries
   failed: 'non_retryable_error', // EVSS responded with some error
   // When the api serves a failure
@@ -159,3 +164,9 @@ export const terminalStatuses = new Set([
   submissionStatuses.retry,
   submissionStatuses.failed,
 ]);
+
+export const accountTitleLabels = {
+  CHECKING: 'Checking Account',
+  SAVINGS: 'Savings Account',
+  NOBANK: 'No Bank Account',
+};

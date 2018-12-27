@@ -1,4 +1,4 @@
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { hasMilitaryRetiredPay } from '../validations';
 
 const {
@@ -7,13 +7,13 @@ const {
 
 export const uiSchema = {
   'view:hasMilitaryRetiredPay': {
-    'ui:title': 'Are you receiving military retired pay?',
+    'ui:title': 'Have you received military retired pay at any time?',
     'ui:widget': 'yesNo',
     'ui:options': {},
   },
   militaryRetiredPayBranch: {
     'ui:title':
-      'Please choose the branch of service that gives you military retired pay',
+      'Please choose the branch of service that gave you military retired pay ',
     'ui:options': {
       expandUnder: 'view:hasMilitaryRetiredPay',
     },

@@ -29,6 +29,7 @@ describe('VRE chapter 36 applicant additional information', () => {
     );
     selectCheckbox(form, 'root_previousBenefitApplications_other', true);
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('renders spouse view', () => {
@@ -50,6 +51,7 @@ describe('VRE chapter 36 applicant additional information', () => {
 
     expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('renders surviving spouse view', () => {
@@ -71,6 +73,7 @@ describe('VRE chapter 36 applicant additional information', () => {
 
     expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('submits without info', () => {
@@ -92,5 +95,6 @@ describe('VRE chapter 36 applicant additional information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

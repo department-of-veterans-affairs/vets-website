@@ -15,6 +15,7 @@ describe('<PrintPage/>', () => {
   afterEach(() => pushSpy.reset());
 
   it('should render', () => {
+    // eslint-disable-next-line va-enzyme/unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -22,6 +23,7 @@ describe('<PrintPage/>', () => {
   });
 
   it('renders a UserInfoSection child', () => {
+    // eslint-disable-next-line va-enzyme/unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -29,6 +31,7 @@ describe('<PrintPage/>', () => {
   });
 
   it('should render a print button', () => {
+    // eslint-disable-next-line va-enzyme/unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -37,6 +40,7 @@ describe('<PrintPage/>', () => {
   });
 
   it('should render a back to statement button', () => {
+    // eslint-disable-next-line va-enzyme/unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -48,6 +52,7 @@ describe('<PrintPage/>', () => {
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
     global.window.print = printSpy;
+    // eslint-disable-next-line va-enzyme/unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -59,6 +64,7 @@ describe('<PrintPage/>', () => {
   });
 
   it('should navigate to statement when back to statement button clicked', () => {
+    // eslint-disable-next-line va-enzyme/unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });

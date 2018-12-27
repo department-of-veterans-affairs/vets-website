@@ -1,4 +1,5 @@
 import backendServices from '../../user/profile/constants/backendServices';
+import environment from '../../utilities/environment';
 
 const frontendApps = {
   HEALTH_RECORDS: 'health-records',
@@ -42,16 +43,7 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 export const mhvBaseUrl = () => {
-  const lowerEnvironments = [
-    'localhost',
-    'vagovdev',
-    'staging',
-    'vagovstaging',
-  ];
-
-  const mhvSubdomain = lowerEnvironments.includes(__BUILDTYPE__)
-    ? 'mhv-syst'
-    : 'www';
+  const mhvSubdomain = !environment.isProduction() ? 'mhv-syst' : 'www';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };

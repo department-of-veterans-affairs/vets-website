@@ -38,6 +38,7 @@ describe('Schemaform definition address', () => {
         .find('option')
         .everyWhere(n => !!n.props().value),
     ).to.be.true;
+    form.unmount();
   }).timeout(4000);
 
   it('should have required inputs if required', () => {
@@ -52,6 +53,7 @@ describe('Schemaform definition address', () => {
       .find('label')
       .find('span.schemaform-required-span');
     expect(requiredInputs.length).to.not.equal(0);
+    form.unmount();
   }).timeout(4000);
 
   it('should update labels and state selection conditionally', () => {
@@ -106,6 +108,7 @@ describe('Schemaform definition address', () => {
     // Change to another country that doesn't have a select box for state
     fillData(form, 'select#root_country', 'BEL');
     expect(form.find('input#root_state').exists()).to.be.true;
+    form.unmount();
   }).timeout(4000);
 
   it('should update address field', () => {
@@ -116,6 +119,7 @@ describe('Schemaform definition address', () => {
     fillData(form, 'input#root_street', '123 street');
 
     expect(form.find('input#root_street').props().value).to.equal('123 street');
+    form.unmount();
   }).timeout(4000);
 
   it('should update country field in empty address', () => {
@@ -126,6 +130,7 @@ describe('Schemaform definition address', () => {
     fillData(form, 'select#root_country', 'CAN');
 
     expect(form.find('select#root_country').props().value).to.equal('CAN');
+    form.unmount();
   }).timeout(4000);
 
   it('should require state for non-required addresses with other info', () => {
@@ -140,5 +145,6 @@ describe('Schemaform definition address', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    form.unmount();
   }).timeout(4000);
 });

@@ -2,7 +2,7 @@
 /* eslint-disable arrow-body-style */
 import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
-import { reverseGeocodeBox } from '../utils/helpers';
+import { reverseGeocodeBox } from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
@@ -11,6 +11,8 @@ import {
   FETCH_LOCATIONS,
   FETCH_SERVICES,
   FETCH_SERVICES_DONE,
+  FETCH_SERVICES_FAILED,
+  CLEAR_SEARCH_RESULTS,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
@@ -26,6 +28,10 @@ import { ccLocatorEnabled } from '../config';
 export const updateSearchQuery = (query) => ({
   type: SEARCH_QUERY_UPDATED,
   payload: { ...query },
+});
+
+export const clearSearchResults = () => ({
+  type: CLEAR_SEARCH_RESULTS,
 });
 
 /**
@@ -96,7 +102,7 @@ export const fetchProviderDetail = (id) => {
  */
 // eslint-disable-next-line prettier/prettier
 export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
-  const needsAddress = [LocationType.CC_PROVIDER, Location.ALL];
+  const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
   // eslint-disable-next-line prettier/prettier
   return (dispatch) => {
     if (needsAddress.includes(facilityType) && ccLocatorEnabled()) {
@@ -244,7 +250,7 @@ export const getProviderSvcs = () => {
     try {
       const data = await LocatorApi.getProviderSvcs();
       if (data.errors) {
-        dispatch({ type: SEARCH_FAILED, error: data.errors });
+        dispatch({ type: FETCH_SERVICES_FAILED, error: data.errors });
         return [];
       }
       // Great Success!
@@ -252,7 +258,7 @@ export const getProviderSvcs = () => {
       return data;
     }
     catch (error) {
-      dispatch({ type: SEARCH_FAILED, error });
+      dispatch({ type: FETCH_SERVICES_FAILED, error });
       return ['Services Temporarily Unavailable'];
     }
   };

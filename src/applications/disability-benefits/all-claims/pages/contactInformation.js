@@ -1,7 +1,7 @@
 // import _ from '../../../../platform/utilities/data';
 import _ from 'lodash';
 import merge from 'lodash/merge';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -143,14 +143,13 @@ const addressUISchema = (addressType, title) => {
 const {
   mailingAddress,
   forwardingAddress,
-  emailAddress,
-  primaryPhone,
+  phoneAndEmail,
 } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': 'Contact information',
   'ui:description': contactInfoDescription,
-  phoneEmailCard: {
+  phoneAndEmail: {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
     'ui:options': {
@@ -238,14 +237,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    phoneEmailCard: {
-      type: 'object',
-      required: ['primaryPhone', 'emailAddress'],
-      properties: {
-        primaryPhone,
-        emailAddress,
-      },
-    },
+    phoneAndEmail,
     mailingAddress,
     'view:hasForwardingAddress': {
       type: 'boolean',

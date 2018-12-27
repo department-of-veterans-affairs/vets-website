@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { errorCodes } from '../config';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
 class ErrorView extends React.Component {
   renderErrorMessage() {
@@ -30,12 +30,12 @@ class ErrorView extends React.Component {
             try again
           </a>{' '}
           in a few minutes. If it still doesn’t work, please{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {siteName}
             Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday
             &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       );
     }
