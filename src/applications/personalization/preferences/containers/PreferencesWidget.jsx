@@ -15,6 +15,7 @@ import PreferenceList from '../components/PreferenceList';
 import {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
 } from '../actions';
@@ -98,21 +99,28 @@ class PreferencesWidget extends React.Component {
     }
 
     // Display preferences saved message
-    this.setState({ savedMessage: true });
+    this.setState({ showSavedMessage: true });
 
     // Create new message timer
     const savedMessageTimer = setTimeout(
-      () => this.setState({ savedMessage: false }),
+      () => this.setState({ showSavedMessage: false }),
       ALERT_DELAY,
     );
     // Set new message timer to state
     this.setState({ savedMessageTimer });
   };
 
-  handleRemove = async code => {
+  handleRemoveBenefit = async code => {
     await this.props.setPreference(code, false);
-    this.props.savePreferences(this.props.preferences.dashboard);
-    this.setSavedMessage();
+    const dashboard = this.props.preferences.dashboard;
+    // We have to use a different endpoint/Redux action if the user has removed
+    // their last remaining selected benefit
+    if (Object.keys(dashboard).length) {
+      this.props.savePreferences(dashboard);
+    } else {
+      this.props.deletePreferences();
+    }
+    // TODO: call setSavedMessage when the `savedAt` state has changed
   };
 
   handleViewToggle = code => {
@@ -123,7 +131,7 @@ class PreferencesWidget extends React.Component {
 
   handleCloseSavedAlert = () => {
     clearTimeout(this.state.savedMessageTimer);
-    this.setState({ savedMessage: false });
+    this.setState({ showSavedMessage: false });
   };
 
   handleCloseBenefitAlert = name => {
@@ -164,7 +172,7 @@ class PreferencesWidget extends React.Component {
             benefits={selectedBenefits}
             view={this.state}
             handleViewToggle={this.handleViewToggle}
-            handleRemove={this.handleRemove}
+            handleRemove={this.handleRemoveBenefit}
           />,
         ];
         if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
@@ -199,7 +207,7 @@ class PreferencesWidget extends React.Component {
       item => !!dashboard[item.code],
     );
     const hasSelectedBenefits = !!selectedBenefits.length;
-    const { savedMessage } = this.state;
+    const { showSavedMessage } = this.state;
 
     return (
       <div>
@@ -222,7 +230,7 @@ class PreferencesWidget extends React.Component {
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
-          {savedMessage && (
+          {showSavedMessage && (
             <SaveSucceededMessageComponent
               handleCloseAlert={this.handleCloseSavedAlert}
             />
@@ -242,6 +250,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
 };
