@@ -1,13 +1,32 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 export const disabilitiesDescription = (
   <div>
-    <h5>Rated, Service-Connected and New Disabilities</h5>
+    <h5>Rated, service-connected and new disabilities</h5>
     <p>
-      Below are your rated, service-connected disabilities and any new unrated
-      disabilities you’re claiming. Please choose the disability or disabilities
-      that prevent you from getting a steady job.
+      Individual unemployability is awarded based on service-connected
+      disabilities.
     </p>
+    <p>
+      Below are your rated, service-connected disabilities, and new disabilities
+      you’re claiming. Please choose the disability or disabilities that prevent
+      you from getting a steady job (substantially gainful employment).
+    </p>
+    <AdditionalInfo triggerText="What’s substantially gainful employment?">
+      <p>Substantially gainful employment means:</p>
+      <ul>
+        <li>
+          You’re employed in a competitive marketplace or job that isn’t in a
+          protected environment, such as a family business or sheltered
+          workshop.
+        </li>
+        <li>
+          Your annual earnings are higher than the poverty threshold for one
+          person.
+        </li>
+      </ul>
+    </AdditionalInfo>
   </div>
 );
 
@@ -21,7 +40,3 @@ export const helpDescription = (
     </p>
   </div>
 );
-
-export const ratedDisabilitiesTitle = <h5>Rated Disabilities</h5>;
-
-export const newDisabilitiesTitle = <h5>Not Yet Rated</h5>;

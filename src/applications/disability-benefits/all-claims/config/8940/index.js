@@ -24,8 +24,8 @@ export default function() {
         schema: unemployabilityFormIntro.schema,
       },
       unemployabilityDisabilities: {
-        title: 'File a Claim for Individual Unemployability',
-        path: 'new-disabilities/unemployability-disabilities',
+        title: 'Unemployability disabilities',
+        path: 'unemployability-disabilities',
         depends: needsToAnswerUnemployability,
         uiSchema: unemployabilityDisabilities.uiSchema,
         schema: unemployabilityDisabilities.schema,

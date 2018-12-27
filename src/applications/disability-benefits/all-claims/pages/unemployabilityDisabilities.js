@@ -9,7 +9,7 @@ import {
 } from '../content/unemployabilityDisabilities';
 import { oneDisabilityRequired } from '../validations';
 
-const { disabilities: disabilitiesSchema } = fullSchema.properties;
+const { ratedDisabilities: disabilitiesSchema } = fullSchema.properties;
 const { condition } = fullSchema.properties.newDisabilities.items.properties;
 
 export const uiSchema = {
@@ -40,7 +40,7 @@ export const uiSchema = {
       label: disabilityOption,
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
-      customTitle: 'Not yet rated',
+      customTitle: 'New unrated disabilities',
     },
   },
   'view:unemployabilityHelp': {
