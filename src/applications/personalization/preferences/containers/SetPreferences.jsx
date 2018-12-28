@@ -19,6 +19,7 @@ import { LOADING_STATES } from '../constants';
 import {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
 } from '../actions';
@@ -65,7 +66,12 @@ class SetPreferences extends React.Component {
   };
 
   handleSave = () => {
-    this.props.savePreferences(this.props.preferences.dashboard);
+    const { dashboard } = this.props.preferences;
+    if (Object.keys(dashboard).length) {
+      this.props.savePreferences(dashboard);
+    } else {
+      this.props.deletePreferences();
+    }
   };
 
   handlePreferenceToggle = (code, value) => {
@@ -105,7 +111,7 @@ class SetPreferences extends React.Component {
     const availableBenefits = this.hydrateBenefits(
       this.props.preferences.availableBenefits,
     );
-    const { saveStatus } = this.props.preferences;
+    const { saveStatus, dashboard } = this.props.preferences;
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading benefit choices...'} />;
@@ -123,7 +129,7 @@ class SetPreferences extends React.Component {
                 key={benefitIndex}
                 item={benefit}
                 onChange={this.handlePreferenceToggle}
-                checked={!!this.props.preferences.dashboard[benefit.code]}
+                checked={!!dashboard[benefit.code]}
               />
             ))}
           </div>
@@ -170,6 +176,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
 };
