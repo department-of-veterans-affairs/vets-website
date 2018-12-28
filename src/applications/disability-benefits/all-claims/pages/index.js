@@ -264,6 +264,16 @@ import {
 } from './secondaryIncidentDescription';
 
 import {
+  uiSchema as secondaryOtherSourcesUISchema,
+  schema as secondaryOtherSourcesSchema,
+} from './secondaryOtherSources';
+
+import {
+  uiSchema as secondaryOtherSourcesHelpUISchema,
+  schema as secondaryOtherSourcesHelpSchema,
+} from './secondaryOtherSourcesHelp';
+
+import {
   uiSchema as mentalHealthChangesUISchema,
   schema as mentalHealthChangesSchema,
 } from './mentalHealthChanges';
@@ -293,10 +303,9 @@ import {
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
 
-import {
-  uiSchema as recentEducationTrainingUISchema,
-  schema as recentEducationTrainingSchema,
-} from './recentEducationTraining';
+import * as recentEducationTraining from './recentEducationTraining';
+
+import * as recentJobApplications from './recentJobApplications';
 
 import {
   uiSchema as supplementalBenefitsUISchema,
@@ -341,6 +350,10 @@ import {
 } from './secondaryUploadSourcesChoice';
 
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import {
+  uiSchema as incomeDetailsUISchema,
+  schema as incomeDetailsSchema,
+} from './incomeDetails';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -607,6 +620,16 @@ export const secondaryIncidentDescription = {
   schema: secondaryIncidentDescriptionSchema,
 };
 
+export const secondaryOtherSources = {
+  uiSchema: secondaryOtherSourcesUISchema,
+  schema: secondaryOtherSourcesSchema,
+};
+
+export const secondaryOtherSourcesHelp = {
+  uiSchema: secondaryOtherSourcesHelpUISchema,
+  schema: secondaryOtherSourcesHelpSchema,
+};
+
 export const mentalHealthChanges = {
   uiSchema: mentalHealthChangesUISchema,
   schema: mentalHealthChangesSchema,
@@ -637,10 +660,9 @@ export const hospitalizationHistory = {
   schema: hospitalizationHistorySchema,
 };
 
-export const recentEducationTraining = {
-  uiSchema: recentEducationTrainingUISchema,
-  schema: recentEducationTrainingSchema,
-};
+export { recentEducationTraining };
+
+export { recentJobApplications };
 
 export const supplementalBenefits = {
   uiSchema: supplementalBenefitsUISchema,
@@ -688,3 +710,8 @@ export const secondaryUploadSourcesChoice = {
 };
 
 export { ancillaryFormsWizardSummary };
+
+export const incomeDetails = {
+  uiSchema: incomeDetailsUISchema,
+  schema: incomeDetailsSchema,
+};

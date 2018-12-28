@@ -149,7 +149,7 @@ describe('526 All Claims Private medical records', () => {
           privateMedicalRecords: [
             {
               name: 'Test document.pdf',
-              attachmentId: 'L049',
+              attachmentId: 'L107',
               confirmationCode: '123345asdf',
             },
           ],

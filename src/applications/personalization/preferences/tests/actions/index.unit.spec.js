@@ -6,6 +6,7 @@ import {
   savePreferences,
   fetchUserSelectedBenefits,
   setPreference,
+  setDismissedBenefitAlerts,
   SET_DASHBOARD_PREFERENCE,
   SET_USER_PREFERENCE_REQUEST_STATUS,
   SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
@@ -13,6 +14,7 @@ import {
   SET_AVAILABLE_BENEFITS,
   SET_DASHBOARD_USER_PREFERENCES,
   SAVED_DASHBOARD_PREFERENCES,
+  SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
 } from '../../actions';
 import { LOADING_STATES } from '../../constants';
 
@@ -51,7 +53,21 @@ describe('preferences actions', () => {
       });
     });
   });
-
+  describe('setDismissedBenefitAlerts', () => {
+    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting the dismissedBenefitAlerts to `[]` by default', () => {
+      expect(setDismissedBenefitAlerts()).to.eql({
+        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+        value: [],
+      });
+    });
+    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting it to the correct value', () => {
+      const value = ['homelessness-alert'];
+      expect(setDismissedBenefitAlerts(value)).to.eql({
+        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+        value,
+      });
+    });
+  });
   describe('fetchUserSelectedBenefits', () => {
     beforeEach(() => {
       mockFetch();
@@ -106,7 +122,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'loaded' and the SET_DASHBOARD_USER_PREFERENCES action on request success`, done => {
+    it(`should dispatch the SET_DASHBOARD_USER_PREFERENCES action with the response on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -137,14 +153,8 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_DASHBOARD_USER_PREFERENCES,
-          preferences: { pensions: true, 'health-care': true },
+          payload: response,
         });
-        expect(
-          dispatch.thirdCall.calledWith({
-            type: SET_USER_PREFERENCE_REQUEST_STATUS,
-            status: LOADING_STATES.loaded,
-          }),
-        ).to.be.true;
         done();
       }, 0);
     });

@@ -77,7 +77,7 @@ export default function PreferenceItem({
   }
   return (
     <div>
-      <div className="title-container va-nav-linkslist-heading">
+      <div className="title-container preference-item-title">
         <h3>{title}</h3>
         <button
           className="va-button-link"
@@ -102,7 +102,10 @@ PreferenceItem.propTypes = {
     slug: PropTypes.string,
     description: PropTypes.string,
     introduction: PropTypes.string,
-    alert: PropTypes.func,
+    alert: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      component: PropTypes.func.isRequired,
+    }),
     faqs: PropTypes.array,
     cta: PropTypes.shape({
       description: PropTypes.element,
