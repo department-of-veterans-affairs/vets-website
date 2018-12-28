@@ -1,5 +1,3 @@
-import _ from '../../../platform/utilities/data';
-
 import { pick } from 'lodash';
 import applicantDescription from '../components/ApplicantDescription';
 
@@ -34,8 +32,6 @@ export default function applicantInformation(schema, options) {
   const prefix = options && options.isVeteran ? 'veteran' : 'relative';
   const mergedOptions = Object.assign({}, defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
-  const vetTecRequired = [`${prefix}FullName`, `${prefix}DateOfBirth`];
-  const requiredFields = options.isVeteran ? vetTecRequired : required;
 
   const possibleProperties = Object.assign({}, schema.properties, {
     'view:noSSN': {
@@ -76,7 +72,6 @@ export default function applicantInformation(schema, options) {
             'What’s your relationship to the Servicemember whose benefit is being transferred to you?',
           'ui:options': {
             labels: labels.relationship || relationshipLabels,
-            hideIf: form => _.get('veteranFullName', form),
           },
         },
       },
@@ -92,7 +87,7 @@ export default function applicantInformation(schema, options) {
         'date',
         'vaFileNumber',
       ]),
-      required: requiredFields,
+      required,
       properties: pick(possibleProperties, fields),
     },
   };
