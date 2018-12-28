@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { isEqual } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
 import localStorage from 'platform/utilities/storage/localStorage';
+
+import { LOADING_STATES } from './constants';
 
 export const DISMISSED_BENEFIT_ALERTS = 'DISMISSED_BENEFIT_ALERTS';
 
@@ -646,3 +649,14 @@ export const getNewSelections = (previousSelections, nextSelections) =>
   Object.keys(nextSelections).filter(
     key => !!nextSelections[key] && !previousSelections[key],
   );
+
+export const didPreferencesChange = (prevProps, props) =>
+  !isEqual(prevProps.preferences, props.preferences);
+
+export const didJustSave = (prevProps, props) =>
+  prevProps.preferences.saveStatus === LOADING_STATES.pending &&
+  props.preferences.saveStatus === LOADING_STATES.loaded;
+
+export const didJustFailToSave = (prevProps, props) =>
+  prevProps.preferences.saveStatus === LOADING_STATES.pending &&
+  props.preferences.saveStatus === LOADING_STATES.error;

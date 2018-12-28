@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -27,6 +27,9 @@ import {
   RetrieveFailedMessageComponent,
   dismissBenefitAlert,
   getDismissedBenefitAlerts,
+  didPreferencesChange,
+  didJustSave,
+  didJustFailToSave,
 } from '../helpers';
 import { LOADING_STATES } from '../constants';
 
@@ -44,7 +47,7 @@ class PreferencesWidget extends React.Component {
 
   componentWillMount() {
     this.props.fetchUserSelectedBenefits();
-    if (!_.isEmpty(this.props.preferences.dashboard)) {
+    if (!isEmpty(this.props.preferences.dashboard)) {
       this.setSelectedBenefits();
     }
     const savedRecently = moment().isBefore(
@@ -56,24 +59,13 @@ class PreferencesWidget extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const shouldUpdateSelectedBenefits = !_.isEqual(
-      prevProps.preferences,
-      this.props.preferences,
-    );
-    const shouldShowSavedMessage =
-      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
-      this.props.preferences.saveStatus === LOADING_STATES.loaded;
-    const shouldRestorePreviousSelections =
-      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
-      this.props.preferences.saveStatus === LOADING_STATES.error;
-    if (shouldUpdateSelectedBenefits) {
+    if (didPreferencesChange(prevProps, this.props)) {
       this.setSelectedBenefits();
     }
-    // show the saved message alert if saveStatus just flipped to `loaded`
-    if (shouldShowSavedMessage) {
+    if (didJustSave(prevProps, this.props)) {
       this.setSavedMessage();
     }
-    if (shouldRestorePreviousSelections) {
+    if (didJustFailToSave(prevProps, this.props)) {
       this.props.restorePreviousSelections();
     }
   }

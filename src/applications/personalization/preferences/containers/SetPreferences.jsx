@@ -13,6 +13,7 @@ import {
   benefitChoices,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
+  didJustSave,
 } from '../helpers';
 import { LOADING_STATES } from '../constants';
 
@@ -32,10 +33,7 @@ class SetPreferences extends React.Component {
 
   // if the preferences are saved successfully, then redirect to home
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
-      this.props.preferences.saveStatus === LOADING_STATES.loaded
-    ) {
+    if (didJustSave(prevProps, this.props)) {
       this.goHome();
     }
   }
