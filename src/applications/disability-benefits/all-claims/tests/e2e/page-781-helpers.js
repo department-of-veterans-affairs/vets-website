@@ -1,3 +1,5 @@
+import { clickAddAnother } from './disability-benefits-helpers';
+
 export const selectWalkthrough781Choice = (client, data) => {
   const upload781Choice = data['view:upload781Choice'];
   client.selectRadio('root_view:upload781Choice', upload781Choice);
@@ -43,6 +45,9 @@ export const completePtsdIncidentLocation = (client, incident, index) => {
       incident.incidentLocation.additionalDetails,
     );
 };
+
+export const getIndividualsInvolved = (data, index) =>
+  data[`view:individualsInvolved${index}`];
 
 export const completePtsdIndividualsInvolved = (
   client,
@@ -104,7 +109,7 @@ export const completePtsdIndividualsInvolvedQuestions = (
         );
       }
     }
-    if (i < list.length - 1) client.click('.va-growable-add-btn');
+    clickAddAnother(client, i, list);
   });
 };
 
