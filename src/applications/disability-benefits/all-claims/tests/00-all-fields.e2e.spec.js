@@ -6,7 +6,8 @@ const PageHelpers = require('./e2e/disability-benefits-helpers');
 const MockData = require('./e2e/mock-data');
 const Page781Helpers = require('./e2e/page-781-helpers');
 const Page781aHelpers = require('./e2e/page-781a-helpers');
-// const Page8940Helpers = require('./e2e/page-8940-helpers');
+const Page8940Helpers = require('./e2e/page-8940-helpers');
+const Page4142Helpers = require('./e2e/page-4142-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
@@ -445,7 +446,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // PSTD - 781a - Changes in physical health
     E2eHelpers.expectLocation(
       client,
-      `new-disabilities/ptsd-781a-physical-changes`,
+      `/new-disabilities/ptsd-781a-physical-changes`,
     );
     client.axeCheck('.main');
     Page781aHelpers.completePtsd781aTypeOfChanges(client, formData, 'physical');
@@ -454,73 +455,133 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // PSTD - 781a - Changes in mental health or substance abuse
     E2eHelpers.expectLocation(
       client,
-      `new-disabilities/ptsd-781a-mental-changes`,
+      `/new-disabilities/ptsd-781a-mental-changes`,
     );
     client.axeCheck('.main');
     Page781aHelpers.completePtsd781aTypeOfChanges(client, formData, 'mental');
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // ***********************
-    // 8940 - Unemployability
-    // ***********************
+    // PSTD - 781a - Changes in behavior at work
+    E2eHelpers.expectLocation(
+      client,
+      `/new-disabilities/ptsd-781a-work-changes`,
+    );
+    client.axeCheck('.main');
+    Page781aHelpers.completePtsd781aTypeOfChanges(
+      client,
+      formData,
+      'workBehavior',
+    );
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Unemployability Status
-    // E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
-    // client.axeCheck('.main');
-    // Page8940Helpers.completeUnemployabilityStatus(client, formData);
-    // client.click('.form-progress-buttons .usa-button-primary');
+    // PSTD - 781a - Changes in social behavior
+    E2eHelpers.expectLocation(
+      client,
+      `/new-disabilities/ptsd-781a-social-changes`,
+    );
+    client.axeCheck('.main');
+    Page781aHelpers.completePtsd781aTypeOfChanges(
+      client,
+      formData,
+      'socialBehavior',
+    );
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // POW Status
-    // E2eHelpers.expectLocation(client, '/pow');
-    // client.axeCheck('.main');
-    // PageHelpers.completePowStatus(client, formData);
-    // client.click('.form-progress-buttons .usa-button-primary');
+    // PSTD - 781a - Changes in Behavior or Activities: Additional Information
+    E2eHelpers.expectLocation(
+      client,
+      `/new-disabilities/ptsd-781a-additional-changes`,
+    );
+    client.axeCheck('.main');
+    Page781aHelpers.completePtsd781aAdditionalChanges(
+      client,
+      formData,
+      'socialBehavior',
+    );
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Additional disability benefits
-    // E2eHelpers.expectLocation(client, 'additional-disability-benefits');
-    // client.axeCheck('.main');
-    // client.click('.form-progress-buttons .usa-button-primary');
+    // PSTD - 781a - Conclusion
+    E2eHelpers.expectLocation(client, `/ptsd-conclusion-assault`);
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // start 4142
-    // // Summary of Disabilities
-    // E2eHelpers.expectLocation(client, '/disabilities/summary');
-    // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+    // POW Status
+    E2eHelpers.expectLocation(client, '/pow');
+    client.axeCheck('.main');
+    PageHelpers.completePowStatus(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Supporting Evidence
-    // // Orientation
-    // E2eHelpers.expectLocation(client, '/supporting-evidence/orientation');
-    // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+    // Additional disability benefits
+    E2eHelpers.expectLocation(client, '/additional-disability-benefits');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Evidence Types
-    // E2eHelpers.expectLocation(client, '/supporting-evidence/evidence-types');
-    // client.axeCheck('.main');
-    // PageHelpers.completeEvidenceTypes(client, formData);
-    // client.click('.form-progress-buttons .usa-button-primary');
+    // Automobile allowance and adaptive benefits
+    E2eHelpers.expectLocation(client, '/adaptive-benefits');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Private Medical Records Choice
-    // E2eHelpers.expectLocation(
-    //   client,
-    //   '/supporting-evidence/private-medical-records',
-    // );
-    // client.axeCheck('.main');
-    // PageHelpers.completePrivateMedicalRecordsChoice(client, formData);
-    // client
-    //   .click('.form-progress-buttons .usa-button-primary')
-    //   .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
+    // Aid and Attendance benefits
+    E2eHelpers.expectLocation(client, '/aid-and-attendance');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Private Medical Records Release
-    // E2eHelpers.expectLocation(
-    //   client,
-    //   '/supporting-evidence/private-medical-records-release',
-    // );
-    // client.axeCheck('.main');
-    // PageHelpers.completeRecordReleaseInformation(client, formData);
-    // client.click('.form-progress-buttons .usa-button-primary');
-    // E2eHelpers.expectLocation(
-    //   client,
-    //   '/supporting-evidence/private-medical-records-release',
-    // );
-    // end 4142
+    // 8940 - Unemployability Status
+    E2eHelpers.expectLocation(client, '/individual-unemployability');
+    client.axeCheck('.main');
+    Page8940Helpers.completeUnemployabilityStatus(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // Summary of additional benefits
+    E2eHelpers.expectLocation(
+      client,
+      '/additional-disability-benefits-summary',
+    );
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // 4142 - Summary of Disabilities
+    E2eHelpers.expectLocation(client, '/disabilities/summary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
+
+    // 4142 - Supporting Evidence
+    // 4142 - Orientation
+    E2eHelpers.expectLocation(client, '/supporting-evidence/orientation');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
+
+    // 4142 - Evidence Types
+    E2eHelpers.expectLocation(client, '/supporting-evidence/evidence-types');
+    client.axeCheck('.main');
+    Page4142Helpers.completeEvidenceTypes(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // 4142 - Private Medical Records Choice
+    E2eHelpers.expectLocation(
+      client,
+      '/supporting-evidence/private-medical-records',
+    );
+    client.axeCheck('.main');
+    Page4142Helpers.completePrivateMedicalRecordsChoice(client, formData);
+    client
+      .click('.form-progress-buttons .usa-button-primary')
+      .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
+
+    // 4142 - Private Medical Records Release
+    E2eHelpers.expectLocation(
+      client,
+      '/supporting-evidence/private-medical-records-release',
+    );
+    client.axeCheck('.main');
+    Page4142Helpers.completeRecordReleaseInformation(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectLocation(
+      client,
+      '/supporting-evidence/private-medical-records-release',
+    );
 
     // // Evidence Summary
     // E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
