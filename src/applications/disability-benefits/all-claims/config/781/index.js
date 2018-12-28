@@ -17,6 +17,8 @@ import {
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
   medals,
+  secondaryOtherSources,
+  secondaryOtherSourcesHelp,
 } from '../../pages';
 
 import {
@@ -24,6 +26,9 @@ import {
   isAnswering781aQuestions,
   isUploading781aSupportingDocuments,
   isAddingIndividuals,
+  wantsHelpWithOtherSourcesSecondary,
+  wantsHelpWithPrivateRecordsSecondary,
+  wantsHelpRequestingStatementsSecondary,
 } from '../../utils';
 
 const numberToWords = {
@@ -266,7 +271,28 @@ export function createFormConfig781a(iterations) {
         schema: secondaryIncidentDescription.schema(index),
       },
       // 8. OTHER SOURCES OF INFORMATION Y/N
-
+      [`secondaryOtherSources${index}`]: {
+        title: setReviewTitle(
+          `781a PTSD Other sources of information`,
+          index,
+          formType,
+        ),
+        path: `disabilities/ptsd-secondary-other-sources-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryOtherSources.uiSchema(index),
+        schema: secondaryOtherSources.schema(index),
+      },
+      [`secondaryOtherSourcesHelp${index}`]: {
+        title: setReviewTitle(
+          `781a PTSD Help with other sources of information`,
+          index,
+          formType,
+        ),
+        path: `disabilities/ptsd-secondary-other-sources-help-${index}`,
+        depends: wantsHelpWithOtherSourcesSecondary(index),
+        uiSchema: secondaryOtherSourcesHelp.uiSchema(index),
+        schema: secondaryOtherSourcesHelp.schema(index),
+      },
       // 8a. OTHER SOURCES OF INFORMATION: NEED HELP
       // If Yes, then PMR explanation page
       [`secondaryIncidentPermissionNotice${index}`]: {
@@ -276,7 +302,7 @@ export function createFormConfig781a(iterations) {
           formType,
         ),
         path: `disabilities/ptsd-secondary-permission-notice-${index}`,
-        depends: isAnswering781aQuestions(index),
+        depends: wantsHelpWithPrivateRecordsSecondary(index),
         uiSchema: secondaryIncidentPermissionNotice.uiSchema,
         schema: secondaryIncidentPermissionNotice.schema,
       },
@@ -284,7 +310,7 @@ export function createFormConfig781a(iterations) {
       [`secondaryIncidentAuthorities${index}`]: {
         title: 'Reports from authorities',
         path: `disabilities/ptsd-secondary-authorities-${index}`,
-        depends: isAnswering781aQuestions(index),
+        depends: wantsHelpRequestingStatementsSecondary(index),
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
         schema: secondaryIncidentAuthorities.schema(index),
       },

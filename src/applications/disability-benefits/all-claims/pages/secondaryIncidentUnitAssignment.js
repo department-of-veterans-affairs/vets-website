@@ -18,7 +18,8 @@ export const uiSchema = index => ({
   'ui:description': ptsdAssignmentDescription,
   [`secondaryIncident${index}`]: {
     unitAssigned: {
-      'ui:title': ' ',
+      'ui:title':
+        'Name of the unit you were assigned to when this event happened. (This can include your division, wing, battalion, cavalry, ship, etc.)',
     },
     unitAssignedDates: {
       ...dateRangeUI('From', 'To', 'The date must be after Start date'),

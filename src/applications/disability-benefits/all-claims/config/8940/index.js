@@ -3,6 +3,8 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  incomeDetails,
+  employmentHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
@@ -35,6 +37,20 @@ export default function() {
         depends: needsToAnswerUnemployability,
         uiSchema: supplementalBenefits.uiSchema,
         schema: supplementalBenefits.schema,
+      },
+      incomeDetails: {
+        title: 'Income details',
+        path: 'unemployability-income-details',
+        depends: needsToAnswerUnemployability,
+        uiSchema: incomeDetails.uiSchema,
+        schema: incomeDetails.schema,
+      },
+      employmentHistory: {
+        title: 'Employment history',
+        path: 'unemployability-employment-history',
+        depends: needsToAnswerUnemployability,
+        uiSchema: employmentHistory.uiSchema,
+        schema: employmentHistory.schema,
       },
       unemployabilityAdditionalInformation: {
         title: '8940 Additional Information',

@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
-import localStorage from '../../platform/utilities/storage/localStorage';
 
 // TODO: Remove me when done bug fixing
 // const environment = {
@@ -27,7 +26,7 @@ export const api = {
  * existing Facility Locator App.
  */
 export const ccLocatorEnabled = () => {
-  return !environment.isProduction() || !!localStorage.enableCCLocator;
+  return true;
 };
 
 /* eslint-disable camelcase */

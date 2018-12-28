@@ -264,6 +264,16 @@ import {
 } from './secondaryIncidentDescription';
 
 import {
+  uiSchema as secondaryOtherSourcesUISchema,
+  schema as secondaryOtherSourcesSchema,
+} from './secondaryOtherSources';
+
+import {
+  uiSchema as secondaryOtherSourcesHelpUISchema,
+  schema as secondaryOtherSourcesHelpSchema,
+} from './secondaryOtherSourcesHelp';
+
+import {
   uiSchema as mentalHealthChangesUISchema,
   schema as mentalHealthChangesSchema,
 } from './mentalHealthChanges';
@@ -336,6 +346,10 @@ import {
 } from './secondaryUploadSourcesChoice';
 
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import {
+  uiSchema as incomeDetailsUISchema,
+  schema as incomeDetailsSchema,
+} from './incomeDetails';
 
 import * as employmentHistory from './employmentHistory';
 
@@ -604,6 +618,16 @@ export const secondaryIncidentDescription = {
   schema: secondaryIncidentDescriptionSchema,
 };
 
+export const secondaryOtherSources = {
+  uiSchema: secondaryOtherSourcesUISchema,
+  schema: secondaryOtherSourcesSchema,
+};
+
+export const secondaryOtherSourcesHelp = {
+  uiSchema: secondaryOtherSourcesHelpUISchema,
+  schema: secondaryOtherSourcesHelpSchema,
+};
+
 export const mentalHealthChanges = {
   uiSchema: mentalHealthChangesUISchema,
   schema: mentalHealthChangesSchema,
@@ -680,3 +704,8 @@ export const secondaryUploadSourcesChoice = {
 };
 
 export { ancillaryFormsWizardSummary, employmentHistory };
+
+export const incomeDetails = {
+  uiSchema: incomeDetailsUISchema,
+  schema: incomeDetailsSchema,
+};
