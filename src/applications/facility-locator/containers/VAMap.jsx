@@ -9,6 +9,7 @@ import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import isMobile from 'ismobilejs';
 import { isEmpty, debounce } from 'lodash';
+import appendQuery from 'append-query';
 import {
   updateSearchQuery,
   genBBoxFromAddress,
@@ -27,7 +28,6 @@ import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes, ccLocatorEnabled } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
-import buildQueryString from '../../../platform/utilities/data/buildQueryString';
 
 const otherToolsLink = (
   <p>
@@ -266,7 +266,7 @@ class VAMap extends Component {
       ...params,
     };
 
-    const queryStringObj = buildQueryString(
+    const queryStringObj = appendQuery(
       `/find-locations${location.pathname}`,
       queryParams,
     );

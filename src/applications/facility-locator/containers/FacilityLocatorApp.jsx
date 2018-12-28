@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
+import appendQuery from 'append-query';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
-import buildQueryString from '../../../platform/utilities/data/buildQueryString';
 import { validateIdString } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
@@ -36,18 +36,11 @@ class FacilityLocatorApp extends React.Component {
       <a href="/" key="home">
         Home
       </a>,
-      <Link to={buildQueryString('/', searchQueryObj)} key="facility-locator">
+      <Link to={appendQuery('/', searchQueryObj)} key="facility-locator">
         Find Facilities & Services
       </Link>,
     ];
 
-    // Matches on all of the following URL shapes.
-    // The first item would not match our previous regex,
-    // and the breadcrumb would not add a third link.
-    //
-    // find-locations/facility/nca_s1130
-    // find-locations/facility/vha_691GE
-    // find-locations/facility/nca_827
     if (validateIdString(location.pathname, '/facility') && selectedResult) {
       crumbs.push(
         <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
