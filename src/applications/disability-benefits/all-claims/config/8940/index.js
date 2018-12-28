@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  recentEducationTraining,
   recentJobApplications,
   incomeDetails,
 } from '../../pages';
@@ -67,6 +68,13 @@ export default function() {
       },
       // 8940 - Education & Training
       // 8940 - Recent Education & Training
+      recentEducationTraining: {
+        title: 'Recent education & training',
+        path: 'recent-education-training',
+        depends: needsToAnswerUnemployability,
+        uiSchema: recentEducationTraining.uiSchema,
+        schema: recentEducationTraining.schema,
+      },
       // 8940 - Additional Remarks
       unemployabilityAdditionalInformation: {
         title: '8940 Additional Information',
