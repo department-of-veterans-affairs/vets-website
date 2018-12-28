@@ -14,6 +14,7 @@ const ENVIRONMENTS = require('../../../../site/constants/environments');
 const runTest = E2eHelpers.createE2eTest(client => {
   if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     const token = Auth.getUserToken();
+    const formData = testData.data;
 
     Auth.logIn(
       token,
@@ -55,37 +56,37 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Alternate Name
     E2eHelpers.expectLocation(client, '/alternate-names');
     client.axeCheck('.main');
-    PageHelpers.completeAlternateName(client, testData.data);
+    PageHelpers.completeAlternateName(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Military Retirement Pay
     E2eHelpers.expectLocation(client, '/service-pay');
     client.axeCheck('.main');
-    PageHelpers.completeMilitaryRetiredPay(client, testData.data);
+    PageHelpers.completeMilitaryRetiredPay(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Military Service History
     E2eHelpers.expectLocation(client, '/military-service-history');
     client.axeCheck('.main');
-    PageHelpers.completeMilitaryHistory(client, testData.data);
+    PageHelpers.completeMilitaryHistory(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Combat Zone Post 9/11
     E2eHelpers.expectLocation(client, '/combat-status');
     client.axeCheck('.main');
-    PageHelpers.completeCombatZonePost911(client, testData.data);
+    PageHelpers.completeCombatZonePost911(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Reserves/National Guard Info
     E2eHelpers.expectLocation(client, '/reserves-national-guard');
     client.axeCheck('.main');
-    PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
+    PageHelpers.completeReservesNationalGuardInfo(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Federal Orders
     E2eHelpers.expectLocation(client, '/federal-orders');
     client.axeCheck('.main');
-    PageHelpers.completeFederalOrders(client, testData.data);
+    PageHelpers.completeFederalOrders(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Disabilities
@@ -104,14 +105,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // New Disability
     E2eHelpers.expectLocation(client, '/new-disabilities');
     client.axeCheck('.main');
-    PageHelpers.completeNewDisability(client, testData.data);
+    PageHelpers.completeNewDisability(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // New Disability - Add
     E2eHelpers.expectLocation(client, '/new-disabilities/add');
     // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
     client.axeCheck('.main', { rules: ['section508'] });
-    PageHelpers.addNewDisability(client, testData.data);
+    PageHelpers.addNewDisability(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // New Disability - Follow up
@@ -131,7 +132,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // PTSD - Type
     E2eHelpers.expectLocation(client, '/new-disabilities/ptsd-type');
     client.axeCheck('.main');
-    PageHelpers.selectPtsdTypes(client, testData.data);
+    PageHelpers.selectPtsdTypes(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // PTSD - 781 - Walkthrough Choice
@@ -140,11 +141,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
       '/new-disabilities/walkthrough-781-choice',
     );
     client.axeCheck('.main');
-    Page781Helpers.selectWalkthrough781Choice(client, testData.data);
+    Page781Helpers.selectWalkthrough781Choice(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     for (let index = 0; index < PTSD_INCIDENT_ITERATION; index++) {
-      const incident = Page781Helpers.getPtsdIncident(testData.data, index);
+      const incident = Page781Helpers.getPtsdIncident(formData, index);
       if (incident) {
         // PTSD - 781 - Medals
         E2eHelpers.expectLocation(client, `/disabilities/ptsd-medals-${index}`);
@@ -184,6 +185,8 @@ const runTest = E2eHelpers.createE2eTest(client => {
         client.click('.form-progress-buttons .usa-button-primary');
 
         // PTSD - 781 - Individuals Involved
+        const individualsInvolved =
+          formData[`view:individualsInvolved${index}`];
         E2eHelpers.expectLocation(
           client,
           `/disabilities/ptsd-individuals-involved-${index}`,
@@ -191,7 +194,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
         client.axeCheck('.main');
         Page781Helpers.completePtsdIndividualsInvolved(
           client,
-          testData.data,
+          individualsInvolved,
           index,
         );
         client.click('.form-progress-buttons .usa-button-primary');
@@ -204,28 +207,46 @@ const runTest = E2eHelpers.createE2eTest(client => {
         client.axeCheck('.main');
         client.click('.form-progress-buttons .usa-button-primary');
 
-        // PTSD - 781 - Individuals Involved Questions
+        if (individualsInvolved) {
+          // PTSD - 781 - Individuals Involved Questions
+          E2eHelpers.expectLocation(
+            client,
+            `/disabilities/ptsd-individuals-involved-questions-${index}`,
+          );
+          client.axeCheck('.main');
+          Page781Helpers.completePtsdIndividualsInvolvedQuestions(
+            client,
+            incident,
+            index,
+          );
+          client.click('.form-progress-buttons .usa-button-primary');
+
+          // PTSD - 781 - Incident Support Additional Break
+          E2eHelpers.expectLocation(
+            client,
+            `/disabilities/ptsd-incident-support-additional-break-${index}`,
+          );
+          client.axeCheck('.main');
+          client.click('.form-progress-buttons .usa-button-primary');
+        }
+
+        // PTSD - 781 - Incident Description
         E2eHelpers.expectLocation(
           client,
-          `/disabilities/ptsd-individuals-involved-questions-${index}`,
+          `/disabilities/ptsd-incident-description-${index}`,
         );
         client.axeCheck('.main');
-        Page781Helpers.completePtsdIndividualsInvolvedQuestions(
-          client,
-          incident,
-          index,
-        );
+        Page781Helpers.completePtsdIncidentDescription(client, incident, index);
         client.click('.form-progress-buttons .usa-button-primary');
 
-        break;
         // PSTD - 781 - ADDITIONAL EVENTS OR SITUATIONS Y/N
-        // E2eHelpers.expectLocation(
-        //   client,
-        //   `/disabilities/ptsd-additional-events-${index}`,
-        // );
-        // client.axeCheck('.main');
-        // Page781Helpers.completePtsdAdditionalEvents(client, incident, index);
-        // client.click('.form-progress-buttons .usa-button-primary');
+        E2eHelpers.expectLocation(
+          client,
+          `/disabilities/ptsd-additional-events-${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdAdditionalEvents(client, formData, index);
+        client.click('.form-progress-buttons .usa-button-primary');
       }
     }
     // ***********************
@@ -235,13 +256,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // // Unemployability Status
     // E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
     // client.axeCheck('.main');
-    // Page8940Helpers.completeUnemployabilityStatus(client, testData.data);
+    // Page8940Helpers.completeUnemployabilityStatus(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
 
     // // POW Status
     // E2eHelpers.expectLocation(client, '/pow');
     // client.axeCheck('.main');
-    // PageHelpers.completePowStatus(client, testData.data);
+    // PageHelpers.completePowStatus(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
 
     // // Additional disability benefits
@@ -262,7 +283,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // // Evidence Types
     // E2eHelpers.expectLocation(client, '/supporting-evidence/evidence-types');
     // client.axeCheck('.main');
-    // PageHelpers.completeEvidenceTypes(client, testData.data);
+    // PageHelpers.completeEvidenceTypes(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
 
     // // Private Medical Records Choice
@@ -271,7 +292,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     //   '/supporting-evidence/private-medical-records',
     // );
     // client.axeCheck('.main');
-    // PageHelpers.completePrivateMedicalRecordsChoice(client, testData.data);
+    // PageHelpers.completePrivateMedicalRecordsChoice(client, formData);
     // client
     //   .click('.form-progress-buttons .usa-button-primary')
     //   .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
@@ -282,7 +303,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     //   '/supporting-evidence/private-medical-records-release',
     // );
     // client.axeCheck('.main');
-    // PageHelpers.completeRecordReleaseInformation(client, testData.data);
+    // PageHelpers.completeRecordReleaseInformation(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
     // E2eHelpers.expectLocation(
     //   client,
@@ -298,7 +319,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Possibly used outside of flow to, and including, 4142
     // Veteran Address Information
     // client.axeCheck('.main');
-    // PageHelpers.completeVeteranAddressInformation(client, testData.data);
+    // PageHelpers.completeVeteranAddressInformation(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
     // E2eHelpers.expectLocation(client, '/address-information');
 
@@ -309,7 +330,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
     // Homelessness
     // client.axeCheck('.main');
-    // PageHelpers.completeHomelessness(client, testData.data);
+    // PageHelpers.completeHomelessness(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
     // E2eHelpers.expectLocation(client, '/special-circumstances');
 
@@ -322,7 +343,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
     // VA Facilities
     // client.axeCheck('.main');
-    // PageHelpers.completeVAFacilitiesInformation(client, testData.data);
+    // PageHelpers.completeVAFacilitiesInformation(client, formData);
     // client.click('.form-panel .usa-button-primary');
     // E2eHelpers.expectLocation(
     //   client,

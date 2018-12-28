@@ -243,7 +243,7 @@
           "rank": "Sgt",
           "unitAssigned": "Unit B",
           "injuryDeathDate": "1992-07-03",
-          "injuryDeath": "injuredNonBattle",
+          "injuryDeath": "Injured non-battle",
           "view:individualAddMsg": {}
         }
       ],
@@ -300,7 +300,7 @@
             "last": "Doe"
           },
           "rank": "Private",
-          "injuryDeath": "other",
+          "injuryDeath": "Other",
           "injuryDeathOther": "Other text",
           "injuryDeathDate": "1992-01-01",
           "unitAssigned": "Unit A"

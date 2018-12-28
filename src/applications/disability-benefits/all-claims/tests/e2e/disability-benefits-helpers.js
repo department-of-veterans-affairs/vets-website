@@ -10,11 +10,7 @@ export const completeAlternateName = (client, data) => {
   client.selectYesNo('root_view:hasAlternateName', hasAlternateName);
   if (hasAlternateName) {
     data.alternateNames.forEach((name, i, list) => {
-      const { first, middle, last } = name;
-      client
-        .fill(`input[name="root_alternateNames_${i}_first"]`, first)
-        .fill(`input[name="root_alternateNames_${i}_middle"]`, middle)
-        .fill(`input[name="root_alternateNames_${i}_last"]`, last);
+      client.fillName(`root_alternateNames_${i}`, name);
 
       clickAddAnother(client, i, list);
     });

@@ -44,10 +44,14 @@ export const completePtsdIncidentLocation = (client, incident, index) => {
     );
 };
 
-export const completePtsdIndividualsInvolved = (client, data, index) => {
+export const completePtsdIndividualsInvolved = (
+  client,
+  individualsInvolved,
+  index,
+) => {
   client.selectRadio(
     `root_view:individualsInvolved${index}`,
-    data[`view:individualsInvolved${index}`] ? 'Y' : 'N',
+    individualsInvolved ? 'Y' : 'N',
   );
 };
 
@@ -68,7 +72,51 @@ export const completePtsdIndividualsInvolvedQuestions = (
         person['view:serviceMember'] ? 'Y' : 'N',
       );
 
+    if (person['view:serviceMember']) {
+      client
+        .fill(
+          `input[name="root_incident${index}_personInvolved_${i}_rank"]`,
+          person.rank,
+        )
+        .fill(
+          `input[name="root_incident${index}_personInvolved_${i}_unitAssigned"]`,
+          person.unitAssigned,
+        );
+    }
+
+    if (person.injuryDeathDate) {
+      client.fillDate(
+        `root_incident${index}_personInvolved_${i}_injuryDeathDate`,
+        person.injuryDeathDate,
+      );
+    }
+
+    if (person.injuryDeath) {
+      client.selectRadio(
+        `root_incident${index}_personInvolved_${i}_injuryDeath`,
+        person.injuryDeath,
+      );
+
+      if (person.injuryDeath === 'Other') {
+        client.fill(
+          `input[name="root_incident${index}_personInvolved_${i}_injuryDeathOther"]`,
+          person.injuryDeathOther,
+        );
+      }
+    }
     if (i < list.length - 1) client.click('.va-growable-add-btn');
   });
 };
-// export const completePtsdAdditionalEvents = (client, incident, index) => {};
+
+export const completePtsdIncidentDescription = (client, incident, index) => {
+  client.fill(
+    `textarea[id="root_incident${index}_description"]`,
+    incident.incidentDescription,
+  );
+};
+export const completePtsdAdditionalEvents = (client, data, index) => {
+  client.selectRadio(
+    `root_view:enterAdditionalEvents${index}`,
+    data[`view:enterAdditionalEvents${index}`] ? 'Y' : 'N',
+  );
+};
