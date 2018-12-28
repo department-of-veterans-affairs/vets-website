@@ -40,9 +40,9 @@ export const SecondaryDateDescription = ({ index }) => {
       )}
       <p>
         Please tell us when this event or situation happened. If it happened
-        over a period of time, please tell us around when the event started. (If
-        you’re having trouble remembering the exact date you can provide a month
-        and year. You'll have a chance to provide more information later.)
+        over a period of time, please tell us around when it started. (If you’re
+        having trouble remembering the exact date you can provide a month and
+        year. You'll have a chance to provide more information later.)
       </p>
       {eventHelpText}
     </div>
