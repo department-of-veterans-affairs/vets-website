@@ -200,7 +200,7 @@ class PreferencesWidget extends React.Component {
           );
         }
         if (saveStatus === LOADING_STATES.error) {
-          content.unshift(SaveFailedMessageComponent);
+          content.unshift(<SaveFailedMessageComponent />);
         }
         return content;
       }

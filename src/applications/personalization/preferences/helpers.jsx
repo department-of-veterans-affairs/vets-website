@@ -565,7 +565,7 @@ export const RetrieveFailedMessageComponent = ({ showLink }) => (
   </AlertBox>
 );
 
-export const SaveFailedMessageComponent = (
+export const SaveFailedMessageComponent = () => (
   <AlertBox
     status="error"
     className="preferences-alert"
