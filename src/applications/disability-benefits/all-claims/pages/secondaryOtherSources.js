@@ -11,7 +11,7 @@ export const uiSchema = index => ({
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': otherSourcesDescription,
-  [`incident${index}`]: {
+  [`secondaryIncident${index}`]: {
     otherSources: {
       'ui:title': 'Would you like us to help you gather this information?',
       'ui:widget': 'yesNo',
