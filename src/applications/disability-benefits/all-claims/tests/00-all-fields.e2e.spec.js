@@ -5,6 +5,7 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./e2e/disability-benefits-helpers');
 const MockData = require('./e2e/mock-data');
 const Page781Helpers = require('./e2e/page-781-helpers');
+const Page781aHelpers = require('./e2e/page-781a-helpers');
 // const Page8940Helpers = require('./e2e/page-8940-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
@@ -249,6 +250,33 @@ const runTest = E2eHelpers.createE2eTest(client => {
         client.click('.form-progress-buttons .usa-button-primary');
       }
     }
+
+    // PTSD - 781 - Additional Remarks
+    E2eHelpers.expectLocation(
+      client,
+      '/new-disabilities/additional-remarks-781',
+    );
+    client.axeCheck('.main');
+    Page781Helpers.complete781AdditionalRemarks(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // PTSD - 781 - Conclusion
+    E2eHelpers.expectLocation(
+      client,
+      '/new-disabilities/ptsd-conclusion-combat',
+    );
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // PTSD - 781a - Walkthrough Choice
+    E2eHelpers.expectLocation(
+      client,
+      '/new-disabilities/walkthrough-781a-choice',
+    );
+    client.axeCheck('.main');
+    Page781aHelpers.selectWalkthrough781aChoice(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
+
     // ***********************
     // 8940 - Unemployability
     // ***********************
