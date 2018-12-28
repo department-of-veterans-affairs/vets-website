@@ -3,295 +3,255 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-export const appealsFAQ = () => (
+const makeUnorderedList = questions => (
   <ul>
-    <li>
-      <a href="/disability-benefits/claims-appeal">
-        Find out how appeals work.
-      </a>
-    </li>
-    <li>
-      <a href="/disability/get-help-filing-claim">
-        Consider getting help from a VSO to appeal the decision on your claim.
-      </a>
-    </li>
+    {questions.map((question, index) => (
+      <li key={index}>
+        <a href={question.href}>{question.title}</a>
+      </li>
+    ))}
   </ul>
 );
 
-export const careersFAQ = () => (
-  <ul>
-    <li>
-      <a href="/careers-employment/vocational-rehabilitation">
-        See if you’re eligible for vocational rehabilitation benefits.
-      </a>
-    </li>
-    <li>
-      <a href="/careers-employment/veteran-owned-business-support">
-        Get support for your small business by registering to do business with
-        us.
-      </a>
-    </li>
-  </ul>
-);
+const appealsQuestions = [
+  {
+    href: '/disability-benefits/claims-appeal',
+    title: 'Find out how appeals work.',
+  },
+  {
+    href: '/disability/get-help-filing-claim',
+    title:
+      'Consider getting help from a VSO to appeal the decision on your claim.',
+  },
+];
+const burialQuestions = [
+  {
+    href: '/burials-memorials/',
+    title: 'View all burial benefits and memorial items.',
+  },
+  {
+    href: '/burials-memorials/eligibility/',
+    title:
+      'See who’s eligible for burial in a VA national cemetery and other honors.',
+  },
+  {
+    href: '/burials-memorials/plan-a-burial/',
+    title: 'Learn how we can help you plan a burial for a family member.',
+  },
+  {
+    href: '/burials-memorials/dependency-indemnity-compensation/',
+    title:
+      'Learn about compensation for surviving spouses, children, and parents.',
+  },
+];
+const careersQuestions = [
+  {
+    href: '/careers-employment/vocational-rehabilitation',
+    title: 'See if you’re eligible for vocational rehabilitation benefits.',
+  },
+  {
+    href: '/careers-employment/veteran-owned-business-support',
+    title:
+      'Get support for your small business by registering to do business with us.',
+  },
+];
+const disabilityQuestions = [
+  [
+    {
+      href: '/disability/eligibility',
+      title: 'See if you’re eligible for compensation.',
+    },
+    {
+      href: '/disability/how-to-file-claim/when-to-file/',
+      title: 'Learn about the different claim types.',
+    },
+    {
+      href: '/disability/get-help-filing-claim',
+      title:
+        'Consider working with a trained professional who can help you file your claim.',
+    },
+    {
+      href: '/disability/how-to-file-claim',
+      title: 'Find out how to file a claim online, by mail, or in person.',
+    },
+    {
+      href: '/disability/file-an-appeal',
+      title:
+        'Learn how to file an appeal if you disagree with our decision on your claim.',
+    },
+  ],
+  [
+    {
+      href: '/careers-employment/vocational-rehabilitation/',
+      title: 'Vocational Rehabilitation and Employment',
+    },
+    {
+      href: '/housing-assistance/disability-housing-grants/',
+      title: 'Adaptive Housing Grants',
+    },
+    {
+      href: '/pension/',
+      title: 'VA pension benefits',
+    },
+    {
+      href: '/health-care/family-caregiver-benefits/comprehensive-assistance/',
+      title:
+        'The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans',
+    },
+  ],
+];
+const educationQuestions = [
+  {
+    href: '/education/eligibility',
+    title: 'See if you’re eligible for education benefits.',
+  },
+  {
+    href: '/education/about-gi-bill-benefits',
+    title: 'Learn about the different types of GI Bill benefits.',
+  },
+  {
+    href: '/gi-bill-comparison-tool',
+    title: 'Compare schools, tuition costs, and benefits offered.',
+  },
+  {
+    href: '/education/after-you-apply',
+    title: 'Find out what to expect after you apply.',
+  },
+  {
+    href: '/education/transfer-post-9-11-gi-bill-benefits',
+    title:
+      'Learn how to transfer Post-9/11 GI Bill benefits to family members.',
+  },
+  {
+    href: '/careers-employment/vocational-rehabilitation',
+    title:
+      'Consider vocational rehabilitation if you have a service-connected disability.',
+  },
+];
+const familyQuestions = [
+  {
+    href: '/health-care/family-caregiver-benefits',
+    title: 'Find out if you qualify for health care benefits.',
+  },
+  {
+    href: '/education/transfer-post-9-11-gi-bill-benefits',
+    title:
+      'Find out how to transfer Post-9/11 GI Bill benefits to family members.',
+  },
+  {
+    href: '/careers-employment/dependent-benefits',
+    title: 'See if you’re eligible for educational and career counseling.',
+  },
+  {
+    href: '/life-insurance/options-eligibility/fsgli',
+    title: 'Learn about Family Servicemembers’ Group Life Insurance (FSGLI).',
+  },
+  {
+    href: '/health-care/about-va-health-benefits/long-term-care',
+    title: 'Consider options for assisted living and home health care.',
+  },
+];
+const healthQuestions = [
+  {
+    href: '/health-care/eligibility/',
+    title: 'See if you’re eligible for VA health care benefits.',
+  },
+  {
+    href: '/health-care/how-to-apply/',
+    title: 'Learn how to apply online, by mail, or in person.',
+  },
+  {
+    href: '/health-care/about-va-health-benefits/',
+    title: 'Find out what kinds of health care and services are covered.',
+  },
+];
+const housingQuestions = [
+  {
+    href: '/housing-assistance/home-loans/loan-types/',
+    title: 'Compare different VA loan types.',
+  },
+  {
+    href: '/housing-assistance/home-loans/eligibility/',
+    title:
+      'Find out if you may be eligible for a VA-backed or VA direct home loan.',
+  },
+  {
+    href: '/housing-assistance/disability-housing-grants/',
+    title:
+      'Learn about grants for adapting your home to meet service-connected disability needs.',
+  },
+];
+const lifeInsuranceQuestions = [
+  {
+    href: '/life-insurance/options-eligibility/',
+    title: 'Find out which VA life insurance programs may work for you.',
+  },
+  {
+    href: '/life-insurance/options-eligibility/vgli/',
+    title: 'Consider Veterans’ Group Life Insurance (VGLI) after your service.',
+  },
+  {
+    href: '/life-insurance/options-eligibility/s-dvi/',
+    title:
+      'See if Service-Disabled Veterans Life Insurance (S-DVI) might be an option.',
+  },
+];
+const pensionQuestions = [
+  {
+    href: '/pension/',
+    title: 'See what pension benefits are available.',
+  },
+  {
+    href: '/pension/eligibility/',
+    title: 'Find out what the requirements are for receiving pension benefits.',
+  },
+  {
+    href: '/pension/how-to-apply/',
+    title: 'Learn how to apply for a Veterans pension.',
+  },
+];
+const survivorQuestions = [
+  {
+    href: '/burials-memorials/veterans-burial-allowance',
+    title:
+      'Apply for a Veteran’s burial allowance to help cover burial and funeral costs.',
+  },
+  {
+    href: '/burials-memorials/bereavement-counseling',
+    title: 'Find out if you qualify for bereavement counseling.',
+  },
+  {
+    href: '/burials-memorials/dependency-indemnity-compensation',
+    title: 'Learn about compensation for survivors.',
+  },
+  {
+    href: '/pension/survivors-pension',
+    title: 'See if you’re eligible for pension benefits based on income.',
+  },
+  {
+    href: '/education/survivor-dependent-benefits',
+    title:
+      'Find out about other education and training benefits for survivors.',
+  },
+];
 
-export const familyFAQ = () => (
-  <ul>
-    <li>
-      <a href="/health-care/family-caregiver-benefits">
-        Find out if you qualify for health care benefits.
-      </a>
-    </li>
-    <li>
-      <a href="/education/transfer-post-9-11-gi-bill-benefits">
-        Find out how to transfer Post-9/11 GI Bill benefits to family members.
-      </a>
-    </li>
-    <li>
-      <a href="/careers-employment/dependent-benefits">
-        See if you’re eligible for educational and career counseling.
-      </a>
-    </li>
-    <li>
-      <a href="/life-insurance/options-eligibility/fsgli">
-        Learn about Family Servicemembers’ Group Life Insurance (FSGLI).
-      </a>
-    </li>
-    <li>
-      <a href="/health-care/about-va-health-benefits/long-term-care">
-        Consider options for assisted living and home health care.
-      </a>
-    </li>
-  </ul>
-);
-
-export const survivorFAQ = () => (
-  <ul>
-    <li>
-      <a href="/burials-memorials/veterans-burial-allowance">
-        Apply for a Veteran’s burial allowance to help cover burial and funeral
-        costs.
-      </a>
-    </li>
-    <li>
-      <a href="/burials-memorials/bereavement-counseling">
-        Find out if you qualify for bereavement counseling.
-      </a>
-    </li>
-    <li>
-      <a href="/burials-memorials/dependency-indemnity-compensation">
-        Learn about compensation for survivors.
-      </a>
-    </li>
-    <li>
-      <a href="/pension/survivors-pension">
-        See if you’re eligible for pension benefits based on income.
-      </a>
-    </li>
-    <li>
-      <a href="/education/survivor-dependent-benefits">
-        Find out about other education and training benefits for survivors.
-      </a>
-    </li>
-  </ul>
-);
-
-export const healthFAQ = () => (
-  <ul>
-    <li>
-      <a href="/health-care/eligibility/">
-        See if you’re eligible for VA health care benefits.
-      </a>
-    </li>
-    <li>
-      <a href="/health-care/how-to-apply/">
-        Learn how to apply online, by mail, or in person.
-      </a>
-    </li>
-    <li>
-      <a href="/health-care/about-va-health-benefits/">
-        Find out what kinds of health care and services are covered.
-      </a>
-    </li>
-  </ul>
-);
-
-export const housingFAQ = () => (
-  <ul>
-    <li>
-      <a href="/housing-assistance/home-loans/loan-types/">
-        Compare different VA loan types.
-      </a>
-    </li>
-    <li>
-      <a href="/housing-assistance/home-loans/eligibility/">
-        Find out if you may be eligible for a VA-backed or VA direct home loan.
-      </a>
-    </li>
-    <li>
-      <a href="/housing-assistance/disability-housing-grants/">
-        Learn about grants for adapting your home to meet service-connected
-        disability needs.
-      </a>
-    </li>
-  </ul>
-);
-
-export const lifeInsuranceFAQ = () => (
-  <ul>
-    <li>
-      <a href="/life-insurance/options-eligibility/">
-        Find out which VA life insurance programs may work for you.
-      </a>
-    </li>
-    <li>
-      <a href="/life-insurance/options-eligibility/vgli/">
-        Consider Veterans’ Group Life Insurance (VGLI) after your service.
-      </a>
-    </li>
-    <li>
-      <a href="/life-insurance/options-eligibility/s-dvi/">
-        See if Service-Disabled Veterans Life Insurance (S-DVI) might be an
-        option.
-      </a>
-    </li>
-  </ul>
-);
-
-export const burialFAQ = () => (
-  <ul>
-    <li>
-      <a href="/burials-memorials/">
-        View all burial benefits and memorial items.
-      </a>
-    </li>
-    <li>
-      <a href="/burials-memorials/eligibility/">
-        See who’s eligible for burial in a VA national cemetery and other
-        honors.
-      </a>
-    </li>
-    <li>
-      <a href="/burials-memorials/plan-a-burial/">
-        Learn how we can help you plan a burial for a family member.
-      </a>
-    </li>
-    <li>
-      <a href="/burials-memorials/dependency-indemnity-compensation/">
-        Learn about compensation for surviving spouses, children, and parents.
-      </a>
-    </li>
-  </ul>
-);
-
-export const pensionFAQ = () => (
-  <ul>
-    <li>
-      <a href="/pension/">See what pension benefits are available.</a>
-    </li>
-    <li>
-      <a href="/pension/eligibility/">
-        Find out what the requirements are for receiving pension benefits.
-      </a>
-    </li>
-    <li>
-      <a href="/pension/how-to-apply/">
-        Learn how to apply for a Veterans pension.
-      </a>
-    </li>
-  </ul>
-);
-
+export const appealsFAQ = () => makeUnorderedList(appealsQuestions);
+export const burialFAQ = () => makeUnorderedList(burialQuestions);
+export const careersFAQ = () => makeUnorderedList(careersQuestions);
 export const disabilityFAQ = () => (
   <div>
-    <ul>
-      <li>
-        <a href="/disability/eligibility">
-          See if you’re eligible for compensation.
-        </a>
-      </li>
-      <li>
-        <a href="/disability/how-to-file-claim/when-to-file/">
-          Learn about the different claim types.
-        </a>
-      </li>
-      <li>
-        <a href="/disability/get-help-filing-claim">
-          Consider working with a trained professional who can help you file
-          your claim.
-        </a>
-      </li>
-      <li>
-        <a href="/disability/how-to-file-claim">
-          Find out how to file a claim online, by mail, or in person.
-        </a>
-      </li>
-      <li>
-        <a href="/disability/file-an-appeal">
-          Learn how to file an appeal if you disagree with our decision on your
-          claim.
-        </a>
-      </li>
-    </ul>
+    {makeUnorderedList(disabilityQuestions[0])}
     <h6>You may also be interested in:</h6>
-    <ul>
-      <li>
-        <a href="/careers-employment/vocational-rehabilitation/">
-          Vocational Rehabilitation and Employment
-        </a>
-      </li>
-      <li>
-        <a href="/housing-assistance/disability-housing-grants/">
-          Adaptive Housing Grants
-        </a>
-      </li>
-      <li>
-        <a href="/pension/">VA pension benefits</a>
-      </li>
-      <li>
-        <a href="/health-care/family-caregiver-benefits/comprehensive-assistance/">
-          The Program of Comprehensive Assistance to Family Caregivers of
-          Post-9/11 Veterans
-        </a>
-      </li>
-    </ul>
+    {makeUnorderedList(disabilityQuestions[1])}
   </div>
 );
-
-export const educationFAQ = () => (
-  <ul>
-    <li>
-      <a href="/education/eligibility">
-        See if you’re eligible for education benefits.
-      </a>
-    </li>
-    <li>
-      <a href="/education/about-gi-bill-benefits">
-        Learn about the different types of GI Bill benefits.
-      </a>
-    </li>
-    <li>
-      <a href="/gi-bill-comparison-tool">
-        Compare schools, tuition costs, and benefits offered.
-      </a>
-    </li>
-    <li>
-      <a href="/education/after-you-apply">
-        Find out what to expect after you apply.
-      </a>
-    </li>
-    <li>
-      <a href="/education/transfer-post-9-11-gi-bill-benefits">
-        Learn how to transfer Post-9/11 GI Bill benefits to family members.
-      </a>
-    </li>
-    <li>
-      <a href="/careers-employment/vocational-rehabilitation">
-        Consider vocational rehabilitation if you have a service-connected
-        disability.
-      </a>
-    </li>
-  </ul>
-);
+export const educationFAQ = () => makeUnorderedList(educationQuestions);
+export const familyFAQ = () => makeUnorderedList(familyQuestions);
+export const healthFAQ = () => makeUnorderedList(healthQuestions);
+export const housingFAQ = () => makeUnorderedList(housingQuestions);
+export const lifeInsuranceFAQ = () => makeUnorderedList(lifeInsuranceQuestions);
+export const pensionFAQ = () => makeUnorderedList(pensionQuestions);
+export const survivorFAQ = () => makeUnorderedList(survivorQuestions);
 
 export const burialCTADescription = (
   <p>
