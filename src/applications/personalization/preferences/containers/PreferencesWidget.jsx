@@ -22,15 +22,17 @@ import {
 } from '../actions';
 import {
   benefitChoices,
-  SaveSucceededMessageComponent,
-  SaveFailedMessageComponent,
-  RetrieveFailedMessageComponent,
   dismissBenefitAlert,
   getDismissedBenefitAlerts,
   didPreferencesChange,
   didJustSave,
   didJustFailToSave,
 } from '../helpers';
+import {
+  SaveSucceededMessageComponent,
+  SaveFailedMessageComponent,
+  RetrieveFailedMessageComponent,
+} from '../helperComponents';
 import { LOADING_STATES } from '../constants';
 
 const BenefitAlert = ({ alert: Alert, onClose }) => (

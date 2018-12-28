@@ -9,12 +9,11 @@ import get from 'platform/utilities/data/get';
 import LoadingButton from '../../profile360/vet360/components/base/LoadingButton';
 
 import PreferenceOption from '../components/PreferenceOption';
+import { benefitChoices, didJustSave } from '../helpers';
 import {
-  benefitChoices,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
-  didJustSave,
-} from '../helpers';
+} from '../helperComponents';
 import { LOADING_STATES } from '../constants';
 
 import {
