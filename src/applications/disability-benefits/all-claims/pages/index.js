@@ -304,6 +304,11 @@ import {
 } from './hospitalizationHistory';
 
 import {
+  uiSchema as recentJobApplicationsUISchema,
+  schema as recentJobApplicationsSchema,
+} from './recentJobApplications';
+
+import {
   uiSchema as supplementalBenefitsUISchema,
   schema as supplementalBenefitsSchema,
 } from './supplementalBenefits';
@@ -654,6 +659,11 @@ export const physicalHealthChanges = {
 export const hospitalizationHistory = {
   uiSchema: hospitalizationHistoryUISchema,
   schema: hospitalizationHistorySchema,
+};
+
+export const recentJobApplications = {
+  uiSchema: recentJobApplicationsUISchema,
+  schema: recentJobApplicationsSchema,
 };
 
 export const supplementalBenefits = {
