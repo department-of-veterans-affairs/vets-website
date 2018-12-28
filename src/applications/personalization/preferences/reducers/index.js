@@ -15,6 +15,7 @@ import {
   SET_ALL_USER_PREFERENCES,
   SET_USER_PREFERENCE,
   SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+  RESTORE_PREVIOUS_USER_PREFERENCES,
 } from '../actions';
 
 const initialState = {
@@ -115,6 +116,12 @@ export default function preferences(state = initialState, action) {
     }
     case SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS: {
       return _.set(`dismissedBenefitAlerts`, action.value, state);
+    }
+    case RESTORE_PREVIOUS_USER_PREFERENCES: {
+      return {
+        ...state,
+        dashboard: { ...state.savedDashboard },
+      };
     }
     default: {
       return state;
