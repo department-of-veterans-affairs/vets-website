@@ -27,6 +27,7 @@ describe('Recent Job Applications', () => {
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(0);
+    form.unmount();
   });
 
   it('should add an recent job application', () => {
@@ -102,6 +103,7 @@ describe('Recent Job Applications', () => {
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should allow submission with no recent job applications', () => {
@@ -122,5 +124,6 @@ describe('Recent Job Applications', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
