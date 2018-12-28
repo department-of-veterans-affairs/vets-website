@@ -1,17 +1,18 @@
 import React from 'react';
 
-export const uploadDescription = (
+export const UploadDescription = ({ uploadTitle }) => (
   <div>
+    {uploadTitle && <h5>{uploadTitle}</h5>}
     <p>
       You can upload your document in a .pdf, .jpeg, or .png file format. You’ll
       first need to scan a copy of your document onto your computer or mobile
       phone. You can then upload the document from there.
       <br />
-      File upload guidelines:
+      Guidelines for uploading a file:
     </p>
     <ul>
-      <li>You can upload files in a .pdf, .jpeg, or .png format</li>
-      <li>Files can be a maximum of 25MB each</li>
+      <li>File types you can upload: .pdf, .jpeg, or .png</li>
+      <li>Maximum file size: 25 MB</li>
     </ul>
     <p>
       <em>
