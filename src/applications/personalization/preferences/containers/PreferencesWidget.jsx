@@ -18,6 +18,7 @@ import {
   deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
+  restorePreviousSelections,
 } from '../actions';
 import {
   benefitChoices,
@@ -59,8 +60,21 @@ class PreferencesWidget extends React.Component {
       prevProps.preferences,
       this.props.preferences,
     );
+    const shouldShowSavedMessage =
+      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
+      this.props.preferences.saveStatus === LOADING_STATES.loaded;
+    const shouldRestorePreviousSelections =
+      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
+      this.props.preferences.saveStatus === LOADING_STATES.error;
     if (shouldUpdateSelectedBenefits) {
       this.setSelectedBenefits();
+    }
+    // show the saved message alert if saveStatus just flipped to `loaded`
+    if (shouldShowSavedMessage) {
+      this.setSavedMessage();
+    }
+    if (shouldRestorePreviousSelections) {
+      this.props.restorePreviousSelections();
     }
   }
 
@@ -112,7 +126,7 @@ class PreferencesWidget extends React.Component {
 
   handleRemoveBenefit = async code => {
     await this.props.setPreference(code, false);
-    const dashboard = this.props.preferences.dashboard;
+    const { dashboard } = this.props.preferences;
     // We have to use a different endpoint/Redux action if the user has removed
     // their last remaining selected benefit
     if (Object.keys(dashboard).length) {
@@ -153,9 +167,6 @@ class PreferencesWidget extends React.Component {
     if (loadingStatus === LOADING_STATES.error) {
       return <RetrieveFailedMessageComponent />;
     }
-    if (saveStatus === LOADING_STATES.error) {
-      return SaveFailedMessageComponent;
-    }
     if (loadingStatus === LOADING_STATES.loaded) {
       if (!hasSelectedBenefits) {
         return (
@@ -187,6 +198,9 @@ class PreferencesWidget extends React.Component {
               ))}
             </div>,
           );
+        }
+        if (saveStatus === LOADING_STATES.error) {
+          content.unshift(SaveFailedMessageComponent);
         }
         return content;
       }
@@ -253,6 +267,7 @@ const mapDispatchToProps = {
   deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
+  restorePreviousSelections,
 };
 
 export default connect(
