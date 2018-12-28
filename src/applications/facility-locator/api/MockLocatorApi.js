@@ -260,53 +260,6 @@ export const facilityData = {
       },
     },
     {
-      id: 'nca_827',
-      type: 'va_facilities',
-      attributes: {
-        uniqueId: '827',
-        name: 'Balls Bluff National Cemetery',
-        facilityType: 'va_cemetery',
-        classification: 'National Cemetery',
-        website: 'https://www.cem.va.gov/cems/nchp/ballsbluff.asp',
-        lat: 39.1318417350001,
-        long: -77.52753613,
-        address: {
-          mailing: {
-            zip: '22701',
-            city: 'Culpeper',
-            state: 'VA',
-            address1: '305 U.S. Ave',
-            address2: null,
-            address3: null,
-          },
-          physical: {
-            zip: '22075',
-            city: 'Leesburg',
-            state: 'VA',
-            address1: 'Route 7',
-            address2: null,
-            address3: null,
-          },
-        },
-        phone: {
-          fax: '540-825-6684',
-          main: '540-825-0027',
-        },
-        hours: {
-          friday: 'Sunrise - Sunset',
-          monday: 'Sunrise - Sunset',
-          sunday: 'Sunrise - Sunset',
-          tuesday: 'Sunrise - Sunset',
-          saturday: 'Sunrise - Sunset',
-          thursday: 'Sunrise - Sunset',
-          wednesday: 'Sunrise - Sunset',
-        },
-        services: {},
-        feedback: {},
-        access: {},
-      },
-    },
-    {
       id: 'vba_343o',
       type: 'va_facilities',
       attributes: {
