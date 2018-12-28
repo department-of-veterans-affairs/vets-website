@@ -2,13 +2,14 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
+// import tempSchema from '../config/schema';
 
 import {
   benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
-  relationshipLabels,
+  // relationshipLabels,
   highSchoolStatusLabels,
   transform,
 } from '../helpers';
@@ -54,6 +55,7 @@ import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 import createNonRequiredFullName from '../../../../platform/forms/definitions/nonRequiredFullName';
 
 const {
+  //  applicantFullName,
   benefit,
   highSchool,
   currentlyActiveDuty,
@@ -77,17 +79,18 @@ const {
   vaFileNumber,
   phone,
   ssn,
+  //  bankAccount,
 } = fullSchema5490.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
-  trackingPrefix: 'edu-5490-',
-  formId: '22-5490',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
+  trackingPrefix: 'edu-0994-',
+  formId: '22-0994',
   version: 1,
-  migrations: [urlMigration('/5490')],
+  migrations: [urlMigration('/0994')],
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
@@ -97,8 +100,8 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Apply for education benefits as an eligible dependent',
-  subTitle: 'Form 22-5490',
+  title: 'Apply for Vet Tec Benefits',
+  subTitle: 'Form 22-0094',
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -116,7 +119,7 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {
         applicantInformation: applicantInformationPage(fullSchema5490, {
-          labels: { relationship: relationshipLabels },
+          isVeteran: true,
         }),
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
