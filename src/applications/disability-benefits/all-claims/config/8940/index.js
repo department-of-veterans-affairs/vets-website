@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityCertification,
   pastEducationTraining,
   militaryDutyImpact,
   recentEarnedIncome,
@@ -110,6 +111,13 @@ export default function() {
       // 8940 - Supporting Documents
       // 8940 - Upload Supporting Docs
       // 8940 - Certification
+      unemployabilityCertification: {
+        title: 'Unemployability Certification',
+        path: 'unemployability-certification',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityCertification.uiSchema,
+        schema: unemployabilityCertification.schema,
+      },
       // 4192 -
       conclusion4192: {
         title: 'Conclusion 4192',
