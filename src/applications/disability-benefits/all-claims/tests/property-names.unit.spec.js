@@ -13,6 +13,12 @@ const ignoreList = {
     'hospitalizationHistory',
     'unemployabilityAdditionalInformation',
     'supplementalBenefits',
+    'unemployabilityCertification',
+    'pastEducationTraining',
+    'militaryDutyImpact',
+    'recentEarnedIncome',
+    'recentEducationTraining',
+    'recentJobApplications',
     'incomeDetails',
   ],
 };
