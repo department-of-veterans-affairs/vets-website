@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  recentEarnedIncome,
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
@@ -49,6 +50,13 @@ export default function() {
       },
       // 8940 - Employment History
       // 8940 - Recent Earnings
+      recentEarnedIncome: {
+        title: 'Recent earnings',
+        path: 'recent-earnings',
+        depends: needsToAnswerUnemployability,
+        uiSchema: recentEarnedIncome.uiSchema,
+        schema: recentEarnedIncome.schema,
+      },
       // 8940 - Supplementary Benefits
       supplementalBenefits: {
         title: 'Supplemental Benefits',
