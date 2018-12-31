@@ -575,9 +575,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     );
     client.axeCheck('.main');
     Page4142Helpers.completePrivateMedicalRecordsChoice(client, formData);
-    client
-      .click('.form-progress-buttons .usa-button-primary')
-      .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
+    client.click('.form-progress-buttons .usa-button-primary');
 
     // 4142 - Private Medical Records Release
     E2eHelpers.expectLocation(
@@ -587,10 +585,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.axeCheck('.main');
     Page4142Helpers.completeRecordReleaseInformation(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
+
+    // 4142 - Additional Evidence
     E2eHelpers.expectLocation(
       client,
-      '/supporting-evidence/private-medical-records-release',
+      '/supporting-evidence/additional-evidence',
     );
+    client.axeCheck('.main');
+    Page4142Helpers.completeAdditionalEvidence(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
 
     // // Evidence Summary
     // E2eHelpers.expectLocation(client, '/supporting-evidence/summary');

@@ -61,7 +61,7 @@
       {
         "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de6969e94",
         "attachmentId": "L015",
-        "name": "Document Name"
+        "name": "page-4142-helpers.js"
       }
     ],
     "view:uploadPrivateRecordsQualifier": {
@@ -397,6 +397,26 @@
       "other": true,
       "otherExplanation": "Other work change"
     },
-    "additionalChanges": "Additional changes test"
+    "additionalChanges": "Additional changes test",
+    "view:patientAcknowledgement": {
+      "view:acknowledgement": true
+    },
+    "providerFacility": [
+      {
+        "providerFacilityName": "Authortay",
+        "treatmentDateRange": {
+          "from": "2010-01-02",
+          "to": "2010-12-02"
+        },
+        "providerFacilityAddress": {
+          "street": "123 Main St",
+          "street2": "Apt 321",
+          "city": "Abcd",
+          "postalCode": "12345",
+          "country": "USA",
+          "state": "SC"
+        }
+      }
+    ]
   }
 }

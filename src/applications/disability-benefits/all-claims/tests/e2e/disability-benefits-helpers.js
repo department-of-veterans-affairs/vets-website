@@ -163,16 +163,6 @@ export const completePowStatus = (client, data) => {
         .fillDate(`root_view:isPOW_confinements_${i}_to`, confinement.to);
       clickAddAnother(client, i, list);
     });
-
-    const powDisabilities = isPOW.powDisabilities;
-    if (powDisabilities) {
-      Object.keys(powDisabilities).forEach(disability => {
-        client.fillCheckbox(
-          `root_view:isPOW_powDisabilities_${disability}`,
-          powDisabilities[disability],
-        );
-      });
-    }
   }
 };
 
