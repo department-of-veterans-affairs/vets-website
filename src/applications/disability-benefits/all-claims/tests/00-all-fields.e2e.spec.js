@@ -544,22 +544,29 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
     // Summary of Disabilities
     E2eHelpers.expectLocation(client, '/disabilities/summary');
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
     // 4142 - Supporting Evidence
     // 4142 - Orientation
     E2eHelpers.expectLocation(client, '/supporting-evidence/orientation');
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
     // 4142 - Evidence Types
     E2eHelpers.expectLocation(client, '/supporting-evidence/evidence-types');
     client.axeCheck('.main');
     Page4142Helpers.completeEvidenceTypes(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
+
+    // 4142 - VA Medical Records Intro
+    E2eHelpers.expectLocation(
+      client,
+      '/supporting-evidence/va-medical-records',
+    );
+    client.axeCheck('.main');
+    Page4142Helpers.completeVaMedicalRecords(client, formData);
+    client.click('.form-panel .usa-button-primary');
 
     // 4142 - Private Medical Records Choice
     E2eHelpers.expectLocation(
@@ -607,13 +614,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // PageHelpers.completeHomelessness(client, formData);
     // client.click('.form-progress-buttons .usa-button-primary');
     // E2eHelpers.expectLocation(client, '/special-circumstances');
-
-    // VA Medical Records Intro
-    // client.axeCheck('.main').click('.form-panel .usa-button-primary');
-    // E2eHelpers.expectLocation(
-    //   client,
-    //   '/supporting-evidence/0/va-medical-records',
-    // );
 
     // VA Facilities
     // client.axeCheck('.main');

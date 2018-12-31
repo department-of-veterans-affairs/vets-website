@@ -7,20 +7,33 @@ export const completeEvidenceTypes = (client, data) => {
   const evidenceTypes =
     data['view:hasEvidenceFollowUp']['view:selectableEvidenceTypes'];
 
-  client
-    .selectYesNo('root_view:hasEvidence', hasEvidence)
-    // .fillCheckbox(
-    //   'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVAMedicalRecords"]',
-    //   evidenceTypes['view:vaMedicalRecords'],
-    // )
-    .fillCheckbox(
-      'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
-      evidenceTypes['view:privateMedicalRecords'],
+  client.selectYesNo('root_view:hasEvidence', hasEvidence);
+
+  if (hasEvidence) {
+    client
+      .fillCheckbox(
+        'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVAMedicalRecords"]',
+        evidenceTypes['view:vaMedicalRecords'],
+      )
+      .fillCheckbox(
+        'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+        evidenceTypes['view:privateMedicalRecords'],
+      )
+      .fillCheckbox(
+        'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasOtherEvidence"]',
+        evidenceTypes['view:otherEvidence'],
+      );
+  }
+};
+
+export const completeVaMedicalRecords = (client, data) => {
+  data.vaTreatmentFacilities.forEach((facility, i, list) => {
+    client.fill(
+      `root_vaTreatmentFacilities_${i}_treatmentCenterName`,
+      facility.treatmentCenterName,
     );
-  // .fillCheckbox(
-  //   'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasOtherEvidence"]',
-  //   evidenceTypes['view:otherEvidence'],
-  // );
+    clickAddAnother(client, i, list);
+  });
 };
 
 export const completePrivateMedicalRecordsChoice = (client, data) => {
