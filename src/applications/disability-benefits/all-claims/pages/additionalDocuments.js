@@ -1,4 +1,4 @@
-import { uploadDescription } from '../content/fileUploadDescriptions';
+import { UploadDescription } from '../content/fileUploadDescriptions';
 import { ancillaryFormUploadUi } from '../utils';
 
 import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -10,8 +10,9 @@ export const uiSchema = {
     ...ancillaryFormUploadUi(
       'Lay statements or other evidence',
       'Adding additional evidence:',
+      {},
     ),
-    'ui:description': uploadDescription,
+    'ui:description': UploadDescription,
   },
 };
 

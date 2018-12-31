@@ -14,6 +14,9 @@ const ignoreList = {
     'unemployabilityAdditionalInformation',
     'supplementalBenefits',
     'recentEarnedIncome',
+    'recentEducationTraining',
+    'recentJobApplications',
+    'incomeDetails',
   ],
 };
 
