@@ -511,22 +511,21 @@ const runTest = E2eHelpers.createE2eTest(client => {
     PageAllClaimsHelpers.completePowStatus(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // **** Needs max data entry
     // Additional disability benefits
     E2eHelpers.expectLocation(client, '/additional-disability-benefits');
     client.axeCheck('.main');
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // **** Needs max data entry
     // Automobile allowance and adaptive benefits
     E2eHelpers.expectLocation(client, '/adaptive-benefits');
     client.axeCheck('.main');
+    PageAllClaimsHelpers.completeAdaptiveBenefits(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // **** Needs max data entry
     // Aid and Attendance benefits
     E2eHelpers.expectLocation(client, '/aid-and-attendance');
     client.axeCheck('.main');
+    PageAllClaimsHelpers.compeleteAidAndAttendance(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // 8940 - Unemployability Status
@@ -543,7 +542,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.axeCheck('.main');
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // 4142 - Summary of Disabilities
+    // Summary of Disabilities
     E2eHelpers.expectLocation(client, '/disabilities/summary');
     client
       .axeCheck('.main')

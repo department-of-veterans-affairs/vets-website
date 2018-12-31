@@ -176,6 +176,31 @@ export const completePowStatus = (client, data) => {
   }
 };
 
+export const completeAdaptiveBenefits = (client, data) => {
+  const modifyingCar = data['view:modifyingCar'];
+  client
+    .selectYesNo('root_view:modifyingHome', data['view:modifyingHome'])
+    .selectYesNo('root_view:modifyingCar', modifyingCar);
+
+  if (modifyingCar) {
+    const needsCarHelp = data['view:needsCarHelp'];
+
+    if (needsCarHelp) {
+      client.selectYesNo(
+        'root_view:needsCarHelp_view:alreadyClaimedVehicleAllowance',
+        needsCarHelp['view:alreadyClaimedVehicleAllowance'],
+      );
+    }
+  }
+};
+
+export const compeleteAidAndAttendance = (client, data) => {
+  client.selectYesNo(
+    'root_view:aidAndAttendance',
+    data['view:aidAndAttendance'],
+  );
+};
+
 // Possibly used outside of flow to, and including, 4142
 // const completeApplicantInformation= (client, data) => {
 //   client
