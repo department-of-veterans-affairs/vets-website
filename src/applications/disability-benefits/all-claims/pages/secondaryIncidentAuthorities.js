@@ -20,7 +20,7 @@ export const uiSchema = index => ({
       },
       items: {
         name: {
-          'ui:title': 'Name of authority',
+          'ui:title': 'Name of official authority',
         },
         address: merge(addressUI(''), {
           'ui:order': [

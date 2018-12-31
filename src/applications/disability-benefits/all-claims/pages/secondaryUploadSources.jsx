@@ -19,6 +19,7 @@ export const uiSchema = index => ({
 
 export const schema = index => ({
   type: 'object',
+  required: [`secondaryUploadSources${index}`],
   properties: {
     [`secondaryUploadSources${index}`]: {
       type: 'array',
