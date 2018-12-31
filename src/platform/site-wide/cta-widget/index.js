@@ -367,10 +367,10 @@ export class CallToActionWidget extends React.Component {
     }
 
     return {
-      heading: `You’ll need to upgrade your account before you can ${
+      heading: `You’ll need to upgrade your My HealtheVet account before you can ${
         this._serviceDescription
-      }`,
-      buttonText: 'Upgrade Your Account',
+      }. It’ll only take us a minute to do this for you, and it’s free.`,
+      buttonText: 'Upgrade Your My HealtheVet Account',
       buttonHandler:
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
