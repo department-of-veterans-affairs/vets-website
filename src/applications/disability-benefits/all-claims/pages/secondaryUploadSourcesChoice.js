@@ -5,7 +5,7 @@ export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': uploadDescription,
   [`view:uploadChoice${index}`]: {
-    'ui:title': ' ',
+    'ui:title': 'Do you have supporting documents you would like to upload?',
     'ui:widget': 'yesNo',
   },
 });
