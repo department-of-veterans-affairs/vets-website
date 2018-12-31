@@ -3,6 +3,10 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityCertification,
+  pastEducationTraining,
+  militaryDutyImpact,
+  recentEarnedIncome,
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
@@ -49,6 +53,13 @@ export default function() {
       },
       // 8940 - Employment History
       // 8940 - Recent Earnings
+      recentEarnedIncome: {
+        title: 'Recent earnings',
+        path: 'recent-earnings',
+        depends: needsToAnswerUnemployability,
+        uiSchema: recentEarnedIncome.uiSchema,
+        schema: recentEarnedIncome.schema,
+      },
       // 8940 - Supplementary Benefits
       supplementalBenefits: {
         title: 'Supplemental Benefits',
@@ -58,6 +69,13 @@ export default function() {
         schema: supplementalBenefits.schema,
       },
       // 8940 - Military Duty
+      militaryDutyImpact: {
+        title: 'Impact on military duty',
+        path: 'military-duty-impact',
+        depends: needsToEnterUnemployability,
+        uiSchema: militaryDutyImpact.uiSchema,
+        schema: militaryDutyImpact.schema,
+      },
       // 8940 - Job Applications
       recentJobApplications: {
         title: 'Recent job applications',
@@ -67,6 +85,13 @@ export default function() {
         schema: recentJobApplications.schema,
       },
       // 8940 - Education & Training
+      pastEducationTraining: {
+        title: 'Education $ Training',
+        path: 'past-education-training',
+        depends: needsToAnswerUnemployability,
+        uiSchema: pastEducationTraining.uiSchema,
+        schema: pastEducationTraining.schema,
+      },
       // 8940 - Recent Education & Training
       recentEducationTraining: {
         title: 'Recent education & training',
@@ -86,6 +111,13 @@ export default function() {
       // 8940 - Supporting Documents
       // 8940 - Upload Supporting Docs
       // 8940 - Certification
+      unemployabilityCertification: {
+        title: 'Unemployability Certification',
+        path: 'unemployability-certification',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityCertification.uiSchema,
+        schema: unemployabilityCertification.schema,
+      },
       // 4192 -
       conclusion4192: {
         title: 'Conclusion 4192',

@@ -307,6 +307,14 @@ import * as recentEducationTraining from './recentEducationTraining';
 
 import * as recentJobApplications from './recentJobApplications';
 
+import * as recentEarnedIncome from './recentEarnedIncome';
+
+import * as militaryDutyImpact from './militaryDutyImpact';
+
+import * as pastEducationTraining from './pastEducationTraining';
+
+import * as unemployabilityCertification from './unemployabilityCertification';
+
 import {
   uiSchema as supplementalBenefitsUISchema,
   schema as supplementalBenefitsSchema,
@@ -659,6 +667,13 @@ export const hospitalizationHistory = {
   uiSchema: hospitalizationHistoryUISchema,
   schema: hospitalizationHistorySchema,
 };
+
+export { unemployabilityCertification };
+export { pastEducationTraining };
+
+export { militaryDutyImpact };
+
+export { recentEarnedIncome };
 
 export { recentEducationTraining };
 
