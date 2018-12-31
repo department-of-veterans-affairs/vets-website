@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
+import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -15,16 +16,21 @@ import {
   setPreference,
   savePreferences,
   fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
 } from '../actions';
 import {
   benefitChoices,
   SaveSucceededMessageComponent,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
+  dismissBenefitAlert,
+  getDismissedBenefitAlerts,
 } from '../helpers';
 import { LOADING_STATES } from '../constants';
 
-const BenefitAlert = ({ alert: Alert }) => <Alert />;
+const BenefitAlert = ({ alert: Alert, onClose }) => (
+  <Alert onCloseAlert={onClose} />
+);
 const ALERT_DELAY = 5000;
 
 class PreferencesWidget extends React.Component {
@@ -36,6 +42,9 @@ class PreferencesWidget extends React.Component {
 
   componentWillMount() {
     this.props.fetchUserSelectedBenefits();
+    if (!_.isEmpty(this.props.preferences.dashboard)) {
+      this.setSelectedBenefits();
+    }
     const savedRecently = moment().isBefore(
       this.props.preferences.savedAt + ALERT_DELAY,
     );
@@ -44,9 +53,43 @@ class PreferencesWidget extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const shouldUpdateSelectedBenefits = !_.isEqual(
+      prevProps.preferences,
+      this.props.preferences,
+    );
+    if (shouldUpdateSelectedBenefits) {
+      this.setSelectedBenefits();
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.state.savedMessageTimer);
   }
+
+  setSelectedBenefits = () => {
+    const {
+      preferences: { dashboard },
+    } = this.props;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    this.setState({ selectedBenefits }, this.getDisplayedBenefitAlerts);
+  };
+
+  getDisplayedBenefitAlerts = () => {
+    const dismissedAlerts = getDismissedBenefitAlerts();
+    this.props.setDismissedBenefitAlerts(dismissedAlerts);
+    const { dismissedBenefitAlerts } = this.props.preferences;
+    const selectedBenefitAlerts = this.state.selectedBenefits
+      .filter(item => !!item.alert)
+      .map(item => item.alert);
+    let displayedBenefitAlerts = selectedBenefitAlerts.filter(
+      alert => !dismissedBenefitAlerts.includes(alert.name),
+    );
+    displayedBenefitAlerts = deduplicate(displayedBenefitAlerts);
+    this.setState({ displayedBenefitAlerts });
+  };
 
   setSavedMessage = () => {
     // Clear any existing saved message timer
@@ -78,27 +121,23 @@ class PreferencesWidget extends React.Component {
     });
   };
 
-  handleCloseAlert = () => {
+  handleCloseSavedAlert = () => {
     clearTimeout(this.state.savedMessageTimer);
     this.setState({ savedMessage: false });
   };
 
-  renderContent() {
+  handleCloseBenefitAlert = name => {
+    dismissBenefitAlert(name);
+    this.getDisplayedBenefitAlerts();
+  };
+
+  renderContent = () => {
     const {
-      preferences: {
-        dashboard,
-        userBenefitsLoadingStatus: loadingStatus,
-        saveStatus,
-      },
+      preferences: { userBenefitsLoadingStatus: loadingStatus, saveStatus },
     } = this.props;
-    const selectedBenefits = benefitChoices.filter(
-      item => !!dashboard[item.code],
-    );
-    const hasSelectedBenefits = !!selectedBenefits.length;
-    let selectedBenefitAlerts = selectedBenefits
-      .filter(item => !!item.alert)
-      .map(item => item.alert);
-    selectedBenefitAlerts = deduplicate(selectedBenefitAlerts);
+    const { selectedBenefits, displayedBenefitAlerts } = this.state;
+
+    const hasSelectedBenefits = selectedBenefits && !!selectedBenefits.length;
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading your selections...'} />;
@@ -128,11 +167,15 @@ class PreferencesWidget extends React.Component {
             handleRemove={this.handleRemove}
           />,
         ];
-        if (selectedBenefitAlerts.length) {
+        if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
           content.unshift(
             <div key="benefit-alerts">
-              {selectedBenefitAlerts.map((alert, index) => (
-                <BenefitAlert alert={alert} key={index} />
+              {displayedBenefitAlerts.map(({ component, name }, index) => (
+                <BenefitAlert
+                  alert={component}
+                  key={index}
+                  onClose={() => this.handleCloseBenefitAlert(name)}
+                />
               ))}
             </div>,
           );
@@ -141,7 +184,7 @@ class PreferencesWidget extends React.Component {
       }
     }
     return null;
-  }
+  };
 
   render() {
     // do not show in production
@@ -149,16 +192,21 @@ class PreferencesWidget extends React.Component {
       return null;
     }
     const {
-      preferences: { userBenefitsLoadingStatus },
+      preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
     } = this.props;
+    const isLoaded = loadingStatus !== LOADING_STATES.pending;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    const hasSelectedBenefits = !!selectedBenefits.length;
     const { savedMessage } = this.state;
 
     return (
-      <div className="row user-profile-row">
-        <div className="small-12 columns">
-          <div className="title-container">
-            <h2>Find VA Benefits</h2>
-            {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
+      <div>
+        <div className="title-container">
+          <h2>Find VA Benefits</h2>
+          {isLoaded &&
+            hasSelectedBenefits && (
               <Link
                 className="usa-button usa-button-secondary"
                 to="find-benefits"
@@ -166,22 +214,21 @@ class PreferencesWidget extends React.Component {
                 Find VA Benefits
               </Link>
             )}
-          </div>
-          <ReactCSSTransitionGroup
-            transitionName="form-expanding-group-inner"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {savedMessage && (
-              <SaveSucceededMessageComponent
-                handleCloseAlert={this.handleCloseAlert}
-              />
-            )}
-          </ReactCSSTransitionGroup>
-          {this.renderContent()}
         </div>
+        <ReactCSSTransitionGroup
+          transitionName="form-expanding-group-inner"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {savedMessage && (
+            <SaveSucceededMessageComponent
+              handleCloseAlert={this.handleCloseSavedAlert}
+            />
+          )}
+        </ReactCSSTransitionGroup>
+        {this.renderContent()}
       </div>
     );
   }
@@ -196,6 +243,7 @@ const mapDispatchToProps = {
   setPreference,
   savePreferences,
   fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
 };
 
 export default connect(

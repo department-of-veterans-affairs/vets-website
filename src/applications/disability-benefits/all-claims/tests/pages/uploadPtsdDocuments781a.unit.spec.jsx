@@ -71,6 +71,7 @@ describe('781a record upload', () => {
             {
               confirmationCode: 'testing',
               name: '781a.pdf',
+              attachmentId: 'L229',
             },
           ],
         }}

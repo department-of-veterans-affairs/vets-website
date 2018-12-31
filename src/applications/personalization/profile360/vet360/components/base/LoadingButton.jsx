@@ -4,6 +4,7 @@ export default function LoadingButton({
   isLoading,
   children,
   onClick,
+  disabled,
   ...props
 }) {
   const contents = isLoading ? (
@@ -14,7 +15,7 @@ export default function LoadingButton({
   return (
     <button
       {...props}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       onClick={onClick}
       className="usa-button"
     >
