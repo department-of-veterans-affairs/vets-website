@@ -86,6 +86,49 @@ describe('preferencesReducer', () => {
     dateNowStub.restore();
   });
 
+  describe('SET_DASHBOARD_PREFERENCE', () => {
+    it('adds new prefs to dashboard with a value of `true`', () => {
+      state = {
+        dashboard: {},
+      };
+      action = {
+        type: preferencesActions.SET_DASHBOARD_PREFERENCE,
+        code: 'pref1',
+        value: true,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({ pref1: true });
+    });
+    it('completely removes prefs from dashboard when their new value is `false`', () => {
+      state = {
+        dashboard: { pref1: true, pref2: true },
+      };
+      action = {
+        type: preferencesActions.SET_DASHBOARD_PREFERENCE,
+        code: 'pref1',
+        value: false,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({ pref2: true });
+    });
+    it('does not touch the savedDashboard when updating the dashboard', () => {
+      state = {
+        dashboard: { pref1: true, pref2: true },
+        savedDashboard: { pref1: true, pref2: true },
+      };
+      action = {
+        type: preferencesActions.SET_DASHBOARD_PREFERENCE,
+        code: 'pref1',
+        value: false,
+      };
+      const newState = reducer(state, action);
+      expect(newState.savedDashboard).to.be.deep.equal({
+        pref1: true,
+        pref2: true,
+      });
+    });
+  });
+
   describe('SET_DASHBOARD_USER_PREFERENCES', () => {
     let userPreferencesResponse;
 
@@ -125,6 +168,9 @@ describe('preferencesReducer', () => {
       expect(newState.dashboard).to.be.deep.equal({
         'education-training': true,
       });
+      expect(newState.savedDashboard).to.be.deep.equal({
+        'education-training': true,
+      });
       expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
     });
     it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
@@ -149,6 +195,7 @@ describe('preferencesReducer', () => {
       };
       const newState = reducer(state, action);
       expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.savedDashboard).to.be.deep.equal({});
       expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
     });
   });

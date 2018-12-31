@@ -308,6 +308,18 @@ import {
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
 
+import * as recentEducationTraining from './recentEducationTraining';
+
+import * as recentJobApplications from './recentJobApplications';
+
+import * as recentEarnedIncome from './recentEarnedIncome';
+
+import * as militaryDutyImpact from './militaryDutyImpact';
+
+import * as pastEducationTraining from './pastEducationTraining';
+
+import * as unemployabilityCertification from './unemployabilityCertification';
+
 import {
   uiSchema as supplementalBenefitsUISchema,
   schema as supplementalBenefitsSchema,
@@ -351,6 +363,10 @@ import {
 } from './secondaryUploadSourcesChoice';
 
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import {
+  uiSchema as incomeDetailsUISchema,
+  schema as incomeDetailsSchema,
+} from './incomeDetails';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -662,6 +678,17 @@ export const hospitalizationHistory = {
   schema: hospitalizationHistorySchema,
 };
 
+export { unemployabilityCertification };
+export { pastEducationTraining };
+
+export { militaryDutyImpact };
+
+export { recentEarnedIncome };
+
+export { recentEducationTraining };
+
+export { recentJobApplications };
+
 export const supplementalBenefits = {
   uiSchema: supplementalBenefitsUISchema,
   schema: supplementalBenefitsSchema,
@@ -708,3 +735,8 @@ export const secondaryUploadSourcesChoice = {
 };
 
 export { ancillaryFormsWizardSummary };
+
+export const incomeDetails = {
+  uiSchema: incomeDetailsUISchema,
+  schema: incomeDetailsSchema,
+};
