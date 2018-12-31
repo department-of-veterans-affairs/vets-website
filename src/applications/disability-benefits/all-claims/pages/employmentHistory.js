@@ -3,14 +3,18 @@ import {
   uiSchema as addressUI,
   schema as addressSchema,
 } from '../../../../platform/forms/definitions/address';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { employmentDescription } from '../content/employmentHistory';
 import EmploymentHistoryCard from '../components/EmploymentHistoryCard';
+import { validateZIP } from '../../all-claims/validations';
+import { isValidCurrentOrPastDate } from '../../../../platform/forms/validations';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+const { phone } = fullSchema.definitions;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -43,9 +47,14 @@ export const uiSchema = {
           },
           zipCode: {
             'ui:title': 'Postal Code',
-            // 'ui:validations': [validateZIP],
+            'ui:validations': [validateZIP],
+            'ui:errorMessages': {
+              pattern:
+                'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+            },
           },
         }),
+        phone: phoneUI('Primary phone number'),
         typeOfWork: {
           'ui:title': 'Type of work',
         },
@@ -93,6 +102,7 @@ export const schema = {
                   'postalCode',
                 ]),
               },
+              phone,
               typeOfWork: {
                 type: 'string',
               },
