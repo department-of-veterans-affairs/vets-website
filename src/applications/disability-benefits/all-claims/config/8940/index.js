@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  militaryDutyImpact,
   recentEarnedIncome,
   recentEducationTraining,
   recentJobApplications,
@@ -66,6 +67,13 @@ export default function() {
         schema: supplementalBenefits.schema,
       },
       // 8940 - Military Duty
+      militaryDutyImpact: {
+        title: 'Impact on military duty',
+        path: 'military-duty-impact',
+        depends: needsToEnterUnemployability,
+        uiSchema: militaryDutyImpact.uiSchema,
+        schema: militaryDutyImpact.schema,
+      },
       // 8940 - Job Applications
       recentJobApplications: {
         title: 'Recent job applications',

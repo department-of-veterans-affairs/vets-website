@@ -309,6 +309,8 @@ import * as recentJobApplications from './recentJobApplications';
 
 import * as recentEarnedIncome from './recentEarnedIncome';
 
+import * as militaryDutyImpact from './militaryDutyImpact';
+
 import {
   uiSchema as supplementalBenefitsUISchema,
   schema as supplementalBenefitsSchema,
@@ -661,6 +663,8 @@ export const hospitalizationHistory = {
   uiSchema: hospitalizationHistoryUISchema,
   schema: hospitalizationHistorySchema,
 };
+
+export { militaryDutyImpact };
 
 export { recentEarnedIncome };
 
