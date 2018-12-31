@@ -2,7 +2,7 @@ import { PTSD_INCIDENT_ITERATION } from '../constants';
 
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
-const PageHelpers = require('./e2e/disability-benefits-helpers');
+const PageAllClaimsHelpers = require('./e2e/disability-benefits-helpers');
 const MockData = require('./e2e/mock-data');
 const Page781Helpers = require('./e2e/page-781-helpers');
 const Page781aHelpers = require('./e2e/page-781a-helpers');
@@ -58,37 +58,37 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Alternate Name
     E2eHelpers.expectLocation(client, '/alternate-names');
     client.axeCheck('.main');
-    PageHelpers.completeAlternateName(client, formData);
+    PageAllClaimsHelpers.completeAlternateName(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Military Retirement Pay
     E2eHelpers.expectLocation(client, '/service-pay');
     client.axeCheck('.main');
-    PageHelpers.completeMilitaryRetiredPay(client, formData);
+    PageAllClaimsHelpers.completeMilitaryRetiredPay(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Military Service History
     E2eHelpers.expectLocation(client, '/military-service-history');
     client.axeCheck('.main');
-    PageHelpers.completeMilitaryHistory(client, formData);
+    PageAllClaimsHelpers.completeMilitaryHistory(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Combat Zone Post 9/11
     E2eHelpers.expectLocation(client, '/combat-status');
     client.axeCheck('.main');
-    PageHelpers.completeCombatZonePost911(client, formData);
+    PageAllClaimsHelpers.completeCombatZonePost911(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Reserves/National Guard Info
     E2eHelpers.expectLocation(client, '/reserves-national-guard');
     client.axeCheck('.main');
-    PageHelpers.completeReservesNationalGuardInfo(client, formData);
+    PageAllClaimsHelpers.completeReservesNationalGuardInfo(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Federal Orders
     E2eHelpers.expectLocation(client, '/federal-orders');
     client.axeCheck('.main');
-    PageHelpers.completeFederalOrders(client, formData);
+    PageAllClaimsHelpers.completeFederalOrders(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // Disabilities
@@ -101,20 +101,20 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Rated Disability Selection
     E2eHelpers.expectLocation(client, '/disabilities/rated-disabilities');
     client.axeCheck('.main');
-    PageHelpers.selectDisabilities(client); // Just selects the first one
+    PageAllClaimsHelpers.selectDisabilities(client); // Just selects the first one
     client.click('.form-progress-buttons .usa-button-primary');
 
     // New Disability
     E2eHelpers.expectLocation(client, '/new-disabilities');
     client.axeCheck('.main');
-    PageHelpers.completeNewDisability(client, formData);
+    PageAllClaimsHelpers.completeNewDisability(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // New Disability - Add
     E2eHelpers.expectLocation(client, '/new-disabilities/add');
     // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
     client.axeCheck('.main', { rules: ['section508'] });
-    PageHelpers.addNewDisability(client, formData);
+    PageAllClaimsHelpers.addNewDisability(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // New Disability - Follow up
@@ -134,7 +134,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // PTSD - Type
     E2eHelpers.expectLocation(client, '/new-disabilities/ptsd-type');
     client.axeCheck('.main');
-    PageHelpers.selectPtsdTypes(client, formData);
+    PageAllClaimsHelpers.selectPtsdTypes(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // PTSD - 781 - Walkthrough Choice
@@ -508,7 +508,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // POW Status
     E2eHelpers.expectLocation(client, '/pow');
     client.axeCheck('.main');
-    PageHelpers.completePowStatus(client, formData);
+    PageAllClaimsHelpers.completePowStatus(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // **** Needs max data entry
