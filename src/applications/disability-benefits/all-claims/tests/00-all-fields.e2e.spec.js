@@ -511,16 +511,19 @@ const runTest = E2eHelpers.createE2eTest(client => {
     PageHelpers.completePowStatus(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
+    // **** Needs max data entry
     // Additional disability benefits
     E2eHelpers.expectLocation(client, '/additional-disability-benefits');
     client.axeCheck('.main');
     client.click('.form-progress-buttons .usa-button-primary');
 
+    // **** Needs max data entry
     // Automobile allowance and adaptive benefits
     E2eHelpers.expectLocation(client, '/adaptive-benefits');
     client.axeCheck('.main');
     client.click('.form-progress-buttons .usa-button-primary');
 
+    // **** Needs max data entry
     // Aid and Attendance benefits
     E2eHelpers.expectLocation(client, '/aid-and-attendance');
     client.axeCheck('.main');
