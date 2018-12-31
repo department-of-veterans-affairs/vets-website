@@ -12,7 +12,6 @@ import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { employmentDescription } from '../content/employmentHistory';
 import EmploymentHistoryCard from '../components/EmploymentHistoryCard';
 import { validateZIP } from '../../all-claims/validations';
-import { isValidCurrentOrPastDate } from '../../../../platform/forms/validations';
 
 const { phone } = fullSchema.definitions;
 
