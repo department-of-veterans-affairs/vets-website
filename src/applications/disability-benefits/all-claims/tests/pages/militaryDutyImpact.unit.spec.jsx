@@ -41,7 +41,7 @@ describe('Recent Job Applications', () => {
     selectRadio(
       form,
       'root_unemployability_disabilityPreventMilitaryDuties',
-      'alsoNo',
+      'reservesNo',
     );
 
     form.find('form').simulate('submit');
