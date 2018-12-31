@@ -311,6 +311,8 @@ import * as recentEarnedIncome from './recentEarnedIncome';
 
 import * as militaryDutyImpact from './militaryDutyImpact';
 
+import * as pastEducationTraining from './pastEducationTraining';
+
 import {
   uiSchema as supplementalBenefitsUISchema,
   schema as supplementalBenefitsSchema,
@@ -663,6 +665,8 @@ export const hospitalizationHistory = {
   uiSchema: hospitalizationHistoryUISchema,
   schema: hospitalizationHistorySchema,
 };
+
+export { pastEducationTraining };
 
 export { militaryDutyImpact };
 

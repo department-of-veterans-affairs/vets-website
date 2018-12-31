@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  pastEducationTraining,
   militaryDutyImpact,
   recentEarnedIncome,
   recentEducationTraining,
@@ -83,6 +84,13 @@ export default function() {
         schema: recentJobApplications.schema,
       },
       // 8940 - Education & Training
+      pastEducationTraining: {
+        title: 'Education $ Training',
+        path: 'past-education-training',
+        depends: needsToAnswerUnemployability,
+        uiSchema: pastEducationTraining.uiSchema,
+        schema: pastEducationTraining.schema,
+      },
       // 8940 - Recent Education & Training
       recentEducationTraining: {
         title: 'Recent education & training',
