@@ -31,8 +31,11 @@ describe('<DisabilityWizard>', () => {
   });
   it('should validate status page on submit', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
+    tree
+      .find('ButtonContainer')
+      .find('button')
+      .simulate('click');
 
-    tree.find('a').simulate('click');
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
     tree.unmount();
   });
@@ -48,7 +51,10 @@ describe('<DisabilityWizard>', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({ disabilityStatus: 'update', currentLayout: chooseUpdate });
-    tree.find('a').simulate('click');
+    tree
+      .find('ButtonContainer')
+      .find('.usa-button-primary')
+      .simulate('click');
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
     tree.unmount();
   });

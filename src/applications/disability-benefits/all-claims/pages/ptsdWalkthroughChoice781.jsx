@@ -16,8 +16,10 @@ export const uiSchema = {
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        answerQuestions: 'I want to answer questions',
-        upload: 'I want to upload VA Form 21-0781',
+        answerQuestions:
+          'I want to continue online with questions about my PTSD.',
+        upload:
+          'I’ve already filled out a paper form (21-0781) and want to upload it.',
       },
     },
   },

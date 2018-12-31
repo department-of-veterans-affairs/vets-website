@@ -19,14 +19,17 @@
       .title-container {
         display: flex;
         align-items: center;
+        margin-bottom: 2rem;
         .title-item {
           margin: 0;
+          padding-right: 0.5em;
           &:first-child {
             flex: 1;
           }
         }
         .form-checkbox {
           margin: 0;
+          margin-right: -0.3em;
           flex: 0;
           input[type=checkbox] {
             cursor: pointer;
@@ -36,6 +39,9 @@
           }
         }
       }
+      p {
+        margin: 0.5em 0 0.25em;
+      }
     }
   }
 }
@@ -44,13 +50,22 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 2rem;
+  a.usa-button {
+    margin-right: 0;
+  }
   .va-button-link {
     text-decoration: none;
   }
   h2 {
     margin-top: 0.5em;
   }
+  h3 {
+    margin-top: 1em;
+  }
+}
+
+.preference-item-title {
+  border-bottom: 1px solid $color-gray-light;
 }
 
 .form-expanding-group {
