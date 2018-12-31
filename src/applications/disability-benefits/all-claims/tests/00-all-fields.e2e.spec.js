@@ -146,6 +146,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Page781Helpers.selectWalkthrough781Choice(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
+    // PTSD - 781 - PTSD intro to questions
+    E2eHelpers.expectLocation(
+      client,
+      '/new-disabilities/ptsd-intro-to-questions',
+    );
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
+
     for (let index = 0; index < PTSD_INCIDENT_ITERATION; index++) {
       const incident = Page781Helpers.getPtsdIncident(formData, index);
       if (incident) {
@@ -343,12 +351,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
         );
         client.click('.form-progress-buttons .usa-button-primary');
 
-        // This is incorrect and should be fixed by changes to pages that need data retrived this way
-        const wrongIncident = Page781Helpers.getPtsdIncident(formData, index);
-        const otherSources = wrongIncident.otherSources;
-
-        // Correct thing but is broken
-        // const otherSources = secondaryIncident.otherSources;
+        const otherSources = secondaryIncident.otherSources;
 
         // PTSD - 781a - Other Sources
         E2eHelpers.expectLocation(
@@ -372,12 +375,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
           client.axeCheck('.main');
           Page781aHelpers.completePtsdSecondaryOtherSourcesHelp(
             client,
-            wrongIncident,
+            secondaryIncident,
             index,
           );
           client.click('.form-progress-buttons .usa-button-primary');
 
-          if (Page781aHelpers.getHelpPrivateMedicalTreatment(wrongIncident)) {
+          if (
+            Page781aHelpers.getHelpPrivateMedicalTreatment(secondaryIncident)
+          ) {
             // PTSD - 781a - Permission Notice
             E2eHelpers.expectLocation(
               client,
@@ -387,7 +392,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
             client.click('.form-progress-buttons .usa-button-primary');
           }
 
-          if (Page781aHelpers.getHelpRequestingStatements(wrongIncident)) {
+          if (Page781aHelpers.getHelpRequestingStatements(secondaryIncident)) {
             // PTSD - 781a - Reports from authorities
             E2eHelpers.expectLocation(
               client,

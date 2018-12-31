@@ -68,7 +68,7 @@ export const completePtsdSecondaryOtherSources = (
   index,
 ) => {
   client.selectRadio(
-    `root_incident${index}_otherSources`,
+    `root_secondaryIncident${index}_otherSources`,
     otherSources ? 'Y' : 'N',
   );
 };

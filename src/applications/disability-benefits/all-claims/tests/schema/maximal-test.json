@@ -417,6 +417,14 @@
           "state": "SC"
         }
       }
-    ]
+    ],
+    "view:modifyingHome": true,
+    "view:modifyingCar": true,
+    "view:aidAndAttendance": true,
+    "view:unemployable": false,
+    "view:needsCarHelp": {
+      "view:alreadyClaimedVehicleAllowance": false,
+      "view:doubleAllowanceAlert": {}
+    }
   }
 }
