@@ -11,9 +11,7 @@ const {
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
-  'ui:description': ({ formData }) => (
-    <SecondaryDateDescription formData={formData} index={index} />
-  ),
+  'ui:description': () => <SecondaryDateDescription index={index} />,
   [`secondaryIncident${index}`]: {
     incidentDate: currentOrPastDateUI(' '),
   },
