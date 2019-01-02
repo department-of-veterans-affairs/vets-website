@@ -22,6 +22,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -38,6 +39,10 @@ function gatherFromCommandLine() {
 function applyDefaultOptions(options) {
   const contentPagesRoot = options['content-directory'];
   const contentRoot = path.join(contentPagesRoot, '../');
+  const siteRoot = path.join(__dirname, '../../');
+  const includes = path.join(siteRoot, 'includes');
+  const components = path.join(siteRoot, 'components');
+  const layouts = path.join(siteRoot, 'layouts');
 
   Object.assign(options, {
     contentRoot,
@@ -59,6 +64,12 @@ function applyDefaultOptions(options) {
     layouts: path.join(__dirname, '../../layouts'),
     collections: require('./data/collections.json'),
     redirects: require('./data/vagovRedirects.json'),
+    watchPaths: {
+      [`${contentRoot}/**/*`]: '**/*.{md,html}',
+      [`${includes}/**/*`]: '**/*.{md,html}',
+      [`${components}/**/*`]: '**/*.{md,html}',
+      [`${layouts}/**/*`]: '**/*.{md,html}',
+    },
   });
 }
 

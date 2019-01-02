@@ -1,7 +1,11 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { isValidYear, startedAfterServicePeriod } from '../validations';
+import {
+  isValidYear,
+  startedAfterServicePeriod,
+  oneDisabilityRequired,
+} from '../validations';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -51,6 +55,38 @@ describe('526 All Claims validations', () => {
       };
       isValidYear(err, '2999');
       expect(err.addError.called).to.be.true;
+    });
+    describe('oneDisabilityRequired', () => {
+      it('should not add an error if atleast one disability is selected', () => {
+        const err = {
+          addError: sinon.spy(),
+        };
+        const formData = {
+          ratedDisabilities: [
+            {
+              'view:unemployabilityDisability': true,
+            },
+          ],
+          newDisabilities: [
+            {
+              'view:unemployabilityDisability': false,
+            },
+          ],
+        };
+        oneDisabilityRequired('rated')(err, null, formData);
+        expect(err.addError.called).to.be.false;
+      });
+      it('should add an error if no disabilities are selected', () => {
+        const err = {
+          addError: sinon.spy(),
+        };
+        const formData = {
+          ratedDisabilities: [],
+          newDisabilities: [],
+        };
+        oneDisabilityRequired('rated')(err, null, formData);
+        expect(err.addError.called).to.be.true;
+      });
     });
   });
 

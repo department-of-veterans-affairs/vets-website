@@ -37,6 +37,7 @@ $teamsite-large-screen: 1008px;
 
   div.row:first-child {
     display: inline-block;
+    max-width: 100%;
   }
 }
 
@@ -153,6 +154,14 @@ header.merger {
 footer.footer {
   font-size: 16px;
   width: 100%;
+}
+
+.footer-lastupdated {
+  background: $color-white;
+  color: $color-gray-dark;
+  font-size: 1em;
+  border: 2px solid $color-gray-light;
+  padding: 5px 0;
 }
 
 .sign-in-nav {

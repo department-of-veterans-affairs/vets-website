@@ -1,18 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mount } from 'enzyme';
+
 import {
   DefinitionTester,
   selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
+} from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('Unemployability Status', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityStatus;
+describe('Recent Job Applications', () => {
+  const page = formConfig.chapters.disabilities.pages.militaryDutyImpact;
+  const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
@@ -20,51 +20,53 @@ describe('Unemployability Status', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(3);
     form.unmount();
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  it('should select alsoNo', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
+        onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit when data filled in', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+    selectRadio(
+      form,
+      'root_unemployability_disabilityPreventMilitaryDuties',
+      'reservesNo',
     );
 
-    selectRadio(form, 'root_view:unemployabilityStatus', 'Y');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should not allow submission with no selection', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(3);
+
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

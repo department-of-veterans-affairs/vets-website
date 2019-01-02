@@ -3,6 +3,11 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import deduplicate from 'platform/utilities/data/deduplicate';
+import localStorage from 'platform/utilities/storage/localStorage';
+
+export const DISMISSED_BENEFIT_ALERTS = 'DISMISSED_BENEFIT_ALERTS';
+
 const appealsFAQ = () => (
   <ul>
     <li>
@@ -37,8 +42,23 @@ const careersFAQ = () => (
 const familyFAQ = () => (
   <ul>
     <li>
+      <a href="/health-care/family-caregiver-benefits">
+        Find out if you qualify for health care benefits.
+      </a>
+    </li>
+    <li>
       <a href="/education/transfer-post-9-11-gi-bill-benefits">
         Find out how to transfer Post-9/11 GI Bill benefits to family members.
+      </a>
+    </li>
+    <li>
+      <a href="/careers-employment/dependent-benefits">
+        See if you’re eligible for educational and career counseling.
+      </a>
+    </li>
+    <li>
+      <a href="/life-insurance/options-eligibility/fsgli">
+        Learn about Family Servicemembers’ Group Life Insurance (FSGLI).
       </a>
     </li>
     <li>
@@ -52,17 +72,28 @@ const familyFAQ = () => (
 const survivorFAQ = () => (
   <ul>
     <li>
-      <a href="/pension/survivors-pension/">
+      <a href="/burials-memorials/veterans-burial-allowance">
+        Apply for a Veteran’s burial allowance to help cover burial and funeral
+        costs.
+      </a>
+    </li>
+    <li>
+      <a href="/burials-memorials/bereavement-counseling">
+        Find out if you qualify for bereavement counseling.
+      </a>
+    </li>
+    <li>
+      <a href="/burials-memorials/dependency-indemnity-compensation">
+        Learn about compensation for survivors.
+      </a>
+    </li>
+    <li>
+      <a href="/pension/survivors-pension">
         See if you’re eligible for pension benefits based on income.
       </a>
     </li>
     <li>
-      <a href="/burials-memorials/dependency-indemnity-compensation/">
-        Learn about burial and memorial benefits for survivors.
-      </a>
-    </li>
-    <li>
-      <a href="/education/survivor-dependent-benefits/">
+      <a href="/education/survivor-dependent-benefits">
         Find out about other education and training benefits for survivors.
       </a>
     </li>
@@ -297,25 +328,30 @@ const educationFAQ = () => (
   </ul>
 );
 
-const homelessnessAlert = () => (
-  <AlertBox
-    status="warning"
-    headline="If you’re homeless or at risk of becoming homeless:"
-  >
-    <p>
-      You can talk with someone right now. Call the National Call Center for
-      Homeless Veterans at 1-877-4AID-VET (
-      <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7
-      days a week. You’ll talk privately with a trained VA counselor for free.
-    </p>
-  </AlertBox>
-);
+const homelessnessAlert = {
+  name: 'homelessness-alert',
+  component: ({ onCloseAlert }) => (
+    <AlertBox
+      status="warning"
+      headline="If you’re homeless or at risk of becoming homeless:"
+      onCloseAlert={onCloseAlert}
+    >
+      <p>
+        You can talk with someone right now. Call the National Call Center for
+        Homeless Veterans at 1-877-4AID-VET (
+        <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day,
+        7 days a week. You’ll talk privately with a trained VA counselor for
+        free.
+      </p>
+    </AlertBox>
+  ),
+};
 
 export const benefitChoices = [
   {
     title: 'Health Care',
     description: 'Get health care coverage.',
-    slug: 'healthcare',
+    code: 'health-care',
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists like cardiologists, gynecologists, and mental health providers. You can access Veterans health care services like home health or geriatric (elder) care, and get medical equipment, prosthetics, and prescriptions.',
     cta: {
@@ -334,7 +370,7 @@ export const benefitChoices = [
     title: 'Disability Compensation',
     description:
       'Find benefits for an illness or injury related to my service.',
-    slug: 'disability',
+    code: 'disability',
     introduction:
       'You may be able to get VA disability compensation (pay) if you got sick or injured while serving in the military—or if a condition that you already had got worse because of your service. You may qualify even if your condition didn’t appear until years after your service ended.',
     cta: {
@@ -352,7 +388,7 @@ export const benefitChoices = [
   {
     title: 'Appeals',
     description: 'Appeal the decision VA made on my disability claim.',
-    slug: 'appeals',
+    code: 'appeals',
     introduction:
       'If you disagree with our decision on your claim for disability compensation, you can file an appeal. You can also get help from a trained professional like a Veterans Service Officer (VSO) who specializes in filing appeals.',
     faqs: [
@@ -365,7 +401,7 @@ export const benefitChoices = [
   {
     title: 'Education and Training',
     description: 'Go back to school or get training or certification.',
-    slug: 'education',
+    code: 'education-training',
     introduction:
       'Education benefits like the GI Bill can help you find and pay for the cost of a college or graduate degree program, or training for a specific career, trade, or industry. If you have a service-connected disability, you may also want to consider applying for vocational rehabilitation and employment services.',
     cta: {
@@ -383,7 +419,7 @@ export const benefitChoices = [
     title: 'Careers and Employment',
     description:
       'Find a job, build skills, or get support for my own business.',
-    slug: 'careers',
+    code: 'careers-employment',
     introduction:
       'We can support your job search at every stage, whether you’re returning to work with a service-connected disability, looking for new skills and training, or starting or growing your own business. ',
     cta: {
@@ -402,7 +438,7 @@ export const benefitChoices = [
     title: 'Pension',
     description:
       'Get financial support for my disability or for care related to aging.',
-    slug: 'pensions',
+    code: 'pension',
     introduction:
       'If you’re a wartime Veteran with low or no income, and you meet certain age or disability requirements, you may be able to get monthly payments through our pension program. Survivors of wartime Veterans may also qualify for a VA pension.  ',
     cta: {
@@ -419,7 +455,7 @@ export const benefitChoices = [
   {
     title: 'Housing Assistance',
     description: 'Find, buy, build, modify, or refinance a place to live.',
-    slug: 'housing',
+    code: 'housing-assistance',
     introduction:
       'We may be able to help you buy or build a home, or repair or refinance your current home. If you have a service-connected disability, you may want to consider applying for a grant to help you make changes to your home that will help you live more independently. ',
     cta: {
@@ -439,7 +475,7 @@ export const benefitChoices = [
   {
     title: 'Life Insurance',
     description: 'Learn about my life insurance options.',
-    slug: 'life-insurance',
+    code: 'life-insurance',
     introduction:
       'You may be able to get VA life insurance during and after your active duty service. You may also be able to add coverage for your spouse and dependent children.',
     cta: { description: lifeInsuranceCTADescription },
@@ -452,10 +488,9 @@ export const benefitChoices = [
   },
   {
     title: 'Burial Benefits and Memorial Items',
-    shortTitle: 'Burials and Memorials',
     description:
       'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
-    slug: 'burials',
+    code: 'burials-memorials',
     introduction:
       'We can help you plan a burial or memorial service or honor a Veteran’s service with memorial items. If you’re the surviving family member of a Veteran, you may also be able to get help paying for burial costs and other benefits.',
     cta: {
@@ -474,7 +509,7 @@ export const benefitChoices = [
   {
     title: 'Family and Caregiver Benefits',
     description: 'Learn about benefits for family members and caregivers.',
-    slug: 'family',
+    code: 'family-caregiver-benefits',
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
     faqs: [
@@ -490,6 +525,29 @@ export const benefitChoices = [
     alert: homelessnessAlert,
   },
 ];
+
+// takes the user's selected benefits, as stored in the Redux store, and
+// converts it to the JSON expected by the v0/user/preferences POST request body
+export function transformPreferencesForSaving(preferences) {
+  if (typeof preferences !== 'object') {
+    return null;
+  }
+  const processedData = [
+    {
+      preference: {
+        code: 'benefits',
+      },
+      // eslint-disable-next-line camelcase
+      user_preferences: [],
+    },
+  ];
+  Object.entries(preferences).forEach(([key, value]) => {
+    if (value) {
+      processedData[0].user_preferences.push({ code: key });
+    }
+  });
+  return JSON.stringify(processedData);
+}
 
 export const RetrieveFailedMessageComponent = ({ showLink }) => (
   <AlertBox
@@ -524,10 +582,67 @@ export const SaveFailedMessageComponent = (
   </AlertBox>
 );
 
-export const SaveSucceededMessageComponent = handleCloseAlert => (
+export const SaveSucceededMessageComponent = ({ handleCloseAlert }) => (
   <AlertBox
     onCloseAlert={handleCloseAlert}
     status="success"
     headline="We’ve saved your preferences."
   />
 );
+
+/**
+ * Removes the specified items from the provided list.
+ * Incidentally, the provided list is also deduplicated
+ * as it is converted into a set for more efficient removal.
+ * @export
+ * @param {Array} list
+ * @param {Array} items
+ * @returns {Array}
+ */
+export const filterItems = (list, items) => {
+  const filteredList = new Set(list);
+  items.forEach(item => filteredList.delete(item));
+  return Array.from(filteredList);
+};
+
+export const getDismissedBenefitAlerts = () =>
+  JSON.parse(localStorage.getItem(DISMISSED_BENEFIT_ALERTS)) || [];
+
+/**
+ * Deduplicates and stores a list of dismissed benefit alerts
+ * to local storage.
+ *
+ * @param {Array} dismissedBenefitAlerts
+ */
+export const setDismissedBenefitAlerts = dismissedBenefitAlerts =>
+  localStorage.setItem(
+    DISMISSED_BENEFIT_ALERTS,
+    JSON.stringify(deduplicate(dismissedBenefitAlerts)),
+  );
+
+export const dismissBenefitAlert = name => {
+  const dismissedBenefitAlerts = getDismissedBenefitAlerts();
+  dismissedBenefitAlerts.push(name);
+  setDismissedBenefitAlerts(dismissedBenefitAlerts);
+};
+
+/**
+ * Filters any new benefit alerts from the list of
+ * dismissed benefit alerts and sets the updated
+ * list to local storage.
+ *
+ * @param {Array} newBenefitAlerts
+ */
+export const restoreDismissedBenefitAlerts = newBenefitAlerts => {
+  let dismissedBenefitAlerts = getDismissedBenefitAlerts();
+  dismissedBenefitAlerts = filterItems(
+    dismissedBenefitAlerts,
+    newBenefitAlerts,
+  );
+  setDismissedBenefitAlerts(dismissedBenefitAlerts);
+};
+
+export const getNewSelections = (previousSelections, nextSelections) =>
+  Object.keys(nextSelections).filter(
+    key => !!nextSelections[key] && !previousSelections[key],
+  );

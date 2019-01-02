@@ -8,7 +8,7 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
-import fullSchema from './config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 
@@ -319,9 +319,15 @@ export function transform(formConfig, form) {
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
   if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d =>
-      claimedConditions.push(d.condition.toLowerCase()),
-    );
+    clonedData.newDisabilities.forEach(d => {
+      const loweredCondition = d.condition.toLowerCase();
+      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
+      if (loweredCondition.includes('ptsd')) {
+        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
+        d.cause = 'NEW';
+      }
+      claimedConditions.push(loweredCondition);
+    });
   }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
@@ -362,15 +368,17 @@ export function transform(formConfig, form) {
       claimedConditions,
     ).map(name => name.toLowerCase());
 
-    clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-      if (powDisabilities.includes(d.condition.toLowerCase())) {
-        const newSpecialIssues = (d.specialIssues || []).slice();
-        // TODO: Make a constant with all the possibilities and use it here
-        newSpecialIssues.push('POW');
-        return _.set('specialIssues', newSpecialIssues, d);
-      }
-      return d;
-    });
+    if (clonedData.newDisabilities) {
+      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+        if (powDisabilities.includes(d.condition.toLowerCase())) {
+          const newSpecialIssues = (d.specialIssues || []).slice();
+          // TODO: Make a constant with all the possibilities and use it here
+          newSpecialIssues.push('POW');
+          return _.set('specialIssues', newSpecialIssues, d);
+        }
+        return d;
+      });
+    }
     delete clonedData.powDisabilities;
   }
 
@@ -517,7 +525,7 @@ export function incidentLocationSchemas() {
       },
       additionalDetails: {
         'ui:title':
-          'Additional details (Include address, landmark, military installation, or other location.)',
+          'Additional details (This could include an address, landmark, military installation, or other location.)',
         'ui:widget': 'textarea',
       },
       'ui:order': ['country', 'state', 'city', 'additionalDetails'],
@@ -552,7 +560,7 @@ export const servedAfter911 = formData => !!post911Periods(formData).length;
 
 export const needsToEnter781 = formData =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', formData, false);
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
 
 export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
@@ -600,17 +608,35 @@ export const isNotUploadingPrivateMedical = formData =>
 
 export const showPtsdCombatConclusion = form =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false);
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', form, false);
 
 export const showPtsdAssaultConclusion = form =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
 
-export const ancillaryFormUploadUi = (label, itemDescription) =>
+export const needsToEnterUnemployability = formData =>
+  _.get('view:unemployable', formData, false);
+
+export const needsToAnswerUnemployability = formData =>
+  needsToEnterUnemployability(formData) &&
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
+
+export const ancillaryFormUploadUi = (
+  label,
+  itemDescription,
+  {
+    attachmentId = '',
+    widgetType = 'select',
+    customClasses = '',
+    isDisabled = false,
+    addAnotherLabel = 'Add Another',
+  },
+) =>
   fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    addAnotherLabel,
     fileTypes: [
       'pdf',
       'jpg',
@@ -632,9 +658,35 @@ export const ancillaryFormUploadUi = (label, itemDescription) =>
     parseResponse: (response, file) => ({
       name: file.name,
       confirmationCode: response.data.attributes.guid,
+      attachmentId,
     }),
     attachmentSchema: {
       'ui:title': 'Document type',
+      'ui:disabled': isDisabled,
+      'ui:widget': widgetType,
     },
+    classNames: customClasses,
     attachmentName: false,
   });
+
+export const wantsHelpWithOtherSourcesSecondary = index => formData =>
+  _.get(`secondaryIncident${index}.otherSources`, formData, '') &&
+  isAnswering781aQuestions(index)(formData);
+
+export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
+  _.get(
+    `secondaryIncident${index}.otherSourcesHelp.view:helpPrivateMedicalTreatment`,
+    formData,
+    '',
+  ) &&
+  isAnswering781aQuestions(index)(formData) &&
+  wantsHelpWithOtherSourcesSecondary(index)(formData);
+
+export const wantsHelpRequestingStatementsSecondary = index => formData =>
+  _.get(
+    `secondaryIncident${index}.otherSourcesHelp.view:helpRequestingStatements`,
+    formData,
+    '',
+  ) &&
+  isAnswering781aQuestions(index)(formData) &&
+  wantsHelpWithOtherSourcesSecondary(index)(formData);
