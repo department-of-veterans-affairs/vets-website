@@ -4,6 +4,10 @@ export const uploadDescription = () => (
   <div>
     <h3>Supporting documents</h3>
     <p>
+      If you have other documents to support your PTSD claim, you’ll be able to
+      add those next.
+    </p>
+    <p>
       Some examples of other documents that could help support your claim
       include:
     </p>
@@ -23,6 +27,5 @@ export const uploadDescription = () => (
         showing a physical change
       </li>
     </ul>
-    <p>Do you have supporting documents you would like to upload?</p>
   </div>
 );
