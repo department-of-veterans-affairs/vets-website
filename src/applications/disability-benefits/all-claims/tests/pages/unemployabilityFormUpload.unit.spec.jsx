@@ -28,6 +28,7 @@ describe('8940 form upload', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit without required upload', () => {
@@ -49,6 +50,7 @@ describe('8940 form upload', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with uploaded form', () => {
@@ -66,6 +68,7 @@ describe('8940 form upload', () => {
             {
               confirmationCode: 'testing',
               name: '8940.pdf',
+              attachmentId: 'L149',
             },
           ],
         }}
@@ -76,5 +79,6 @@ describe('8940 form upload', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

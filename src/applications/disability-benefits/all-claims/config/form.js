@@ -34,7 +34,6 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
-  isUploading8940Form,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -88,7 +87,6 @@ import {
   physicalHealthChanges,
   newDisabilities,
   ancillaryFormsWizardSummary,
-  unemployabilityFormUpload,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -407,13 +405,6 @@ const formConfig = {
           depends: showPtsdAssaultConclusion,
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
-        },
-        unemployabilityFormUpload: {
-          title: 'unemployabilityFormUpload',
-          path: 'new-disabilities/unemployability-form-uplaod',
-          depends: isUploading8940Form,
-          uiSchema: unemployabilityFormUpload.uiSchema,
-          schema: unemployabilityFormUpload.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
