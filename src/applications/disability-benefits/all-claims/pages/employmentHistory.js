@@ -49,7 +49,7 @@ export const uiSchema = {
             'ui:validations': [validateZIP],
             'ui:errorMessages': {
               pattern:
-                'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+                'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
             },
           },
         }),
@@ -71,6 +71,14 @@ export const uiSchema = {
         mostEarningsInAMonth: currencyUI('Highest gross earnings per month'),
         inBusiness: {
           'ui:title': 'Employer is no longer in business',
+        },
+        'view:inBusinessMsg': {
+          'ui:title': '',
+          'ui:description':
+            'Since this employer is no longer in business, you don’t need to ask them to fill out VA Form 21-4192',
+          'ui:options': {
+            expandUnder: 'inBusiness',
+          },
         },
       },
     },
@@ -119,6 +127,11 @@ export const schema = {
               },
               inBusiness: {
                 type: 'boolean',
+              },
+              'view:inBusinessMsg': {
+                type: 'object',
+                'ui:collapsed': true,
+                properties: {},
               },
             },
           },
