@@ -22,9 +22,9 @@ describe('<PreferencesWidget>', () => {
     props.setDismissedBenefitAlerts = () => true;
     props.preferences.dismissedBenefitAlerts = [];
     const component = shallow(<PreferencesWidget {...props} />);
-    expect(component.find('Link').length).to.equal(1);
-    expect(component.find('Link').html()).to.contain('Select benefits now.');
-    expect(component.find('Link').html()).to.not.contain('Find VA Benefits');
+    expect(component.find('a').length).to.equal(1);
+    expect(component.find('Link').length).to.equal(0);
+    expect(component.find('a').html()).to.contain('Select benefits now.');
     expect(component.html()).to.contain(
       'You haven’t selected any benefits to learn about.',
     );
@@ -37,6 +37,7 @@ describe('<PreferencesWidget>', () => {
     props.preferences.dismissedBenefitAlerts = [];
     const component = shallow(<PreferencesWidget {...props} />);
     expect(component.find('Link').length).to.equal(1);
+    expect(component.find('a').length).to.equal(0);
     expect(component.find('Link').html()).to.contain('Find VA Benefits');
     expect(component.find('Link').html()).to.not.contain(
       'Select benefits now.',
