@@ -244,6 +244,11 @@ import {
 } from './unemployabilityFormUpload';
 
 import {
+  uiSchema as unemployabilityDisabilitiesUISchema,
+  schema as unemployabilityDisabilitiesSchema,
+} from './unemployabilityDisabilities';
+
+import {
   uiSchema as workBehaviorChangesUISchema,
   schema as workBehaviorChangesSchema,
 } from './workBehaviorChanges';
@@ -601,6 +606,11 @@ export const unemployabilityFormIntro = {
 export const unemployabilityFormUpload = {
   uiSchema: unemployabilityFormUploadUISchema,
   schema: unemployabilityFormUploadSchema,
+};
+
+export const unemployabilityDisabilities = {
+  uiSchema: unemployabilityDisabilitiesUISchema,
+  schema: unemployabilityDisabilitiesSchema,
 };
 
 export const socialBehaviorChanges = {

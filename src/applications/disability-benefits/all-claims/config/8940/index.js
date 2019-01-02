@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityDisabilities,
   unemployabilityCertification,
   pastEducationTraining,
   militaryDutyImpact,
@@ -41,6 +42,13 @@ export default function() {
         schema: unemployabilityFormUpload.schema,
       },
       // 8940 - Contentions
+      unemployabilityDisabilities: {
+        title: 'Unemployability disabilities',
+        path: 'unemployability-disabilities',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDisabilities.uiSchema,
+        schema: unemployabilityDisabilities.schema,
+      },
       // 8940 - Medical Care
       // 8940 - Hospital Treatment
       hospitalizationHistory: {
