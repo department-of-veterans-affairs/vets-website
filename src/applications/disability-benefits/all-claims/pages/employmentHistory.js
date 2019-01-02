@@ -45,7 +45,7 @@ export const uiSchema = {
             'ui:title': 'Street address (line 2)',
           },
           zipCode: {
-            'ui:title': 'Postal Code',
+            'ui:title': 'Postal code',
             'ui:validations': [validateZIP],
             'ui:errorMessages': {
               pattern:
@@ -115,6 +115,8 @@ export const schema = {
               },
               hoursPerWeek: {
                 type: 'number',
+                minimum: 0,
+                maximum: 999,
               },
               dates: {
                 $ref: '#/definitions/dateRange',
