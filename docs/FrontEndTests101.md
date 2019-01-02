@@ -52,7 +52,7 @@ Write tests as you go! New functionality added in a PR should ideally be covered
 
 4. Test utilities/helpers
 - **enzyme**: testing utility for React, use in place of React test-utils
-- **enzyme-adapter-react-15**
+- **enzyme-adapter-react-16**
 - **fs**: makes file system operations easier
 - **lodash**: library with utility functions for commonly used tasks, using functional programming
 - **moment**: library for parsing, manipulating, and displaying dates and times in JS
