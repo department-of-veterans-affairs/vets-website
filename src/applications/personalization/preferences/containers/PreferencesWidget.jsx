@@ -128,7 +128,6 @@ class PreferencesWidget extends React.Component {
     } else {
       this.props.deletePreferences();
     }
-    // TODO: call setSavedMessage when the `savedAt` state has changed
   };
 
   handleViewToggle = code => {
