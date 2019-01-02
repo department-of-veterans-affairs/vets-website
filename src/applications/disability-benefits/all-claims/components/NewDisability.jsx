@@ -1,6 +1,6 @@
 import React from 'react';
-import { getDisabilityName } from '../utils';
+import { capitalizeEachWord } from '../utils';
 
 export default function NewDisability({ formData }) {
-  return <div>{getDisabilityName(formData.condition)}</div>;
+  return <div>{capitalizeEachWord(formData.condition)}</div>;
 }
