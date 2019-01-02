@@ -406,7 +406,7 @@ describe('526 helpers', () => {
     it('should return true if user has selected Non-combat PTSD types', () => {
       const formData = {
         'view:selectablePtsdTypes': {
-          'view:noncombatPtsdType': true,
+          'view:nonCombatPtsdType': true,
         },
       };
       expect(needsToEnter781(formData)).to.be.true;

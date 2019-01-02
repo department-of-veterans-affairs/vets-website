@@ -340,6 +340,5 @@ disabled by the feature flag.
   - [How to Deploy](docs/HowToDeploy.md)
 
 - React JSON Schemaform
-  - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
-  - [Form Config](docs/schemaform/form-config.md)
-
+  - [Building a Form](https://github.com/usds/us-forms-system/blob/master/docs/building-a-form/README.md) - walkthrough for using schemaform and the form config
+ 
