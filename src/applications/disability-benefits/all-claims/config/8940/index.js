@@ -18,6 +18,7 @@ import environment from '../../../../../platform/utilities/environment';
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploading8940Form,
 } from '../../utils';
 
 export default function() {

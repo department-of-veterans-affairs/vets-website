@@ -1,9 +1,14 @@
+import React from 'react';
 import { ancillaryFormUploadUi } from '../utils';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { UploadDescription } from '../content/fileUploadDescriptions';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { completedFormAttachments } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:title': 'Upload VA Form 21-8940',
-  'ui:description': UploadDescription,
+  'ui:title': unemployabilityTitle,
+  'ui:description': <UploadDescription uploadTitle="Upload VA Form 21-8940" />,
   form8940Upload: ancillaryFormUploadUi('', 'Form 21-8940', {
     attachmentId: 'l202',
     widgetType: 'textarea',
@@ -43,23 +48,6 @@ export const schema = {
   type: 'object',
   required: ['form8940Upload'],
   properties: {
-    form8940Upload: {
-      type: 'array',
-      minItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          size: {
-            type: 'integer',
-          },
-          confirmationCode: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    form8940Upload: completedFormAttachments,
   },
 };
