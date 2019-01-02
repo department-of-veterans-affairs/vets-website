@@ -30,6 +30,7 @@ describe('Select related disabilities for unemployability', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(
       disabilitiesLength,
     );
+    form.unmount();
   });
 
   it('successfully submits when at least one condition is selected', () => {
@@ -51,6 +52,7 @@ describe('Select related disabilities for unemployability', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should not submit without at least one disability selected', () => {
@@ -68,6 +70,7 @@ describe('Select related disabilities for unemployability', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('renders the information about each disability', () => {
@@ -122,5 +125,7 @@ describe('Select related disabilities for unemployability', () => {
         .find('h4')
         .text(),
     ).to.equal('Cancer');
+
+    form.unmount();
   });
 });
