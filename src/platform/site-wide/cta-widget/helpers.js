@@ -184,7 +184,7 @@ export const serviceDescription = (appId, index) => {
       return 'view your VA medical records';
 
     case frontendApps.RX:
-      return 'refill VA prescriptions';
+      return 'refill prescriptions';
 
     case frontendApps.MESSAGING:
       return 'send secure messages';
@@ -194,7 +194,7 @@ export const serviceDescription = (appId, index) => {
 
     case frontendApps.APPOINTMENTS:
       return [
-        'view your appointments online',
+        'view your appointments',
         'schedule, reschedule, or cancel a VA appointment online',
       ][index];
 
