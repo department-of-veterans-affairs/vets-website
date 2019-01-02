@@ -75,6 +75,7 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
     redirectUrl,
     null,
     ({ url }) => {
+      recordEvent({ event: openedEvent });
       window.location = url;
     },
     () => {
