@@ -53,10 +53,6 @@ export const schema = {
   type: 'object',
   properties: {
     ratedDisabilities: disabilitiesSchema,
-    'view:disabilitiesClarification': {
-      type: 'object',
-      properties: {},
-    },
     newDisabilities: {
       type: 'array',
       minItems: 1,
