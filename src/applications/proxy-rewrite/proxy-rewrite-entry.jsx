@@ -93,9 +93,9 @@ function renderFooter() {
         </div>
       `;
 
-      document
-        .getElementById(footerElemementId)
-        .parentElement.prepend(lastUpdatedPanel);
+      const footer = document.getElementById(footerElemementId);
+
+      footer.parentElement.insertBefore(lastUpdatedPanel, footer);
     }
   });
 }
