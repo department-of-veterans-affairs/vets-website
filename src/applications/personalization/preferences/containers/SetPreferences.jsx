@@ -15,7 +15,6 @@ import {
   RetrieveFailedMessageComponent,
 } from '../helperComponents';
 import { LOADING_STATES } from '../constants';
-
 import {
   setPreference,
   savePreferences,

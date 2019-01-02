@@ -289,4 +289,21 @@ describe('preferencesReducer', () => {
       expect(newState.dismissedBenefitAlerts).to.be.deep.equal(['medical']);
     });
   });
+
+  describe('RESTORE_PREVIOUS_USER_PREFERENCES', () => {
+    it('sets the `dashboard` to the value of `savedDashboard`', () => {
+      state = {
+        dashboard: {},
+        savedDashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.RESTORE_PREVIOUS_USER_PREFERENCES,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal(state.savedDashboard);
+    });
+  });
 });

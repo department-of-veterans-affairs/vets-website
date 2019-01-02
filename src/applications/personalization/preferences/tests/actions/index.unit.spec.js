@@ -7,6 +7,7 @@ import {
   fetchUserSelectedBenefits,
   setPreference,
   setDismissedBenefitAlerts,
+  restorePreviousSelections,
   deletePreferences,
   FETCH_ALL_PREFERENCES_PENDING,
   FETCH_ALL_PREFERENCES_FAILED,
@@ -14,6 +15,7 @@ import {
   FETCH_USER_PREFERENCES_PENDING,
   FETCH_USER_PREFERENCES_FAILED,
   FETCH_USER_PREFERENCES_SUCCEEDED,
+  RESTORE_PREVIOUS_USER_PREFERENCES,
   SAVE_USER_PREFERENCES_PENDING,
   SAVE_USER_PREFERENCES_FAILED,
   SAVE_USER_PREFERENCES_SUCCEEDED,
@@ -252,6 +254,13 @@ describe('preferences actions', () => {
       expect(setDismissedBenefitAlerts(value)).to.eql({
         type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
         value,
+      });
+    });
+  });
+  describe('restorePreviousSelections', () => {
+    it('should return a RESTORE_PREVIOUS_USER_PREFERENCES action', () => {
+      expect(restorePreviousSelections()).to.eql({
+        type: RESTORE_PREVIOUS_USER_PREFERENCES,
       });
     });
   });
