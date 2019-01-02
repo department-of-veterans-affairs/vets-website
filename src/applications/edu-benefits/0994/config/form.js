@@ -12,7 +12,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { vetTecInfo } from '../pages';
 
-// import { transform } from '../helpers';
+import { prefillTransformer, transform } from '../helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -21,14 +21,14 @@ const formConfig = {
   formId: '22-0994',
   version: 1,
   migrations: [],
-  // prefillTransformer,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  //  transformForSubmit: transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   title: 'Apply for Vet Tec Benefits',
@@ -37,14 +37,6 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  // defaultDefinitions: {
-  //   date,
-  //   educationType,
-  //   dateRange,
-  //   fullName,
-  //   ssn,
-  //   vaFileNumber,
-  // },
   chapters: {
     applicantInformation: {
       title: 'Vet Tec Application',

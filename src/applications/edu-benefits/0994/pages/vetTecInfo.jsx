@@ -1,7 +1,14 @@
-import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
+import fullSchema0994 from 'vets-json-schema/dist/22-0994-schema.json';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
-const { fullName } = fullSchema0993.definitions;
+const { fullName } = fullSchema0994.definitions;
+
+const {
+  vetTecProgramLocations,
+  vetTecProgram,
+  highTechnologyEmploymentType,
+  currentSalary,
+} = fullSchema0994.properties;
 
 import { genderLabels } from '../../../../platform/static-data/labels';
 
@@ -181,23 +188,10 @@ export const schema = {
           type: 'string',
           pattern: '^\\d{9}$',
         },
-        vetTecProgram: {
-          type: 'string',
-          enum: ['program1', 'program2', 'program3', 'program4', 'program5'],
-        },
+        vetTecProgram,
         vetTecProgramLocations: {
           type: 'object',
-          properties: {
-            city: {
-              type: 'string',
-              maxLength: 30,
-              pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
-            },
-            state: {
-              type: 'string',
-              //  enum: states,
-            },
-          },
+          properties: vetTecProgramLocations.properties,
         },
         plannedStartDate: {
           type: 'string',
@@ -208,26 +202,8 @@ export const schema = {
         highTechnologyEmployment: {
           type: 'boolean',
         },
-        highTechnologyEmploymentType: {
-          type: 'string',
-          enum: [
-            'computerProgramming',
-            'dataProcessing',
-            'computerSoftware',
-            'informationSciences',
-            'mediaApplication',
-          ],
-        },
-        currentSalary: {
-          type: 'string',
-          enum: [
-            'lessThanTwenty',
-            'twentyToThirtyFive',
-            'thirtyFiveToFifty',
-            'fiftyToSeventyFive',
-            'moreThanSeventyFive',
-          ],
-        },
+        highTechnologyEmploymentType,
+        currentSalary,
         highestLevelofEducation: {
           type: 'string',
         },
