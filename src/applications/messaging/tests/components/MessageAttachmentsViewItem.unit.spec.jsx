@@ -32,8 +32,9 @@ describe('<MessageAttachmentsViewItem>', () => {
 
   it('should handle download correctly when URL is provided', () => {
     // mock out apiRequest function
+    const oldOpen = window.open;
     const windowOpen = sinon.spy();
-    global.window = { open: windowOpen };
+    global.window.open = windowOpen;
 
     const messageAttachmentsViewItem = ReactTestUtils.renderIntoDocument(
       <MessageAttachmentsViewItem {...props} />,
@@ -44,5 +45,6 @@ describe('<MessageAttachmentsViewItem>', () => {
     messageAttachmentsViewItem.downloadAttachment({ preventDefault: () => {} });
 
     expect(windowOpen.calledWith(props.url, '_blank')).to.be.true;
+    global.window.open = oldOpen;
   });
 });

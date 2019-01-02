@@ -33,7 +33,8 @@ describe('<MessageSend>', () => {
 
   it('should handle attachments change success correctly', () => {
     // mock window to get past conditionals in change handler
-    global.window = { File: true, FileList: true };
+    global.window.File = true;
+    global.window.FileList = true;
     const domEvent = {
       target: {
         files: [
@@ -56,7 +57,8 @@ describe('<MessageSend>', () => {
 
   it('should handle attachments change error for too many files', () => {
     // mock window to get past conditionals in change handler
-    global.window = { File: true, FileList: true };
+    global.window.File = true;
+    global.window.FileList = true;
     const domEvent = {
       target: {
         files: [
@@ -83,7 +85,8 @@ describe('<MessageSend>', () => {
 
   it('should handle attachments change error for files too large', () => {
     // mock window to get past conditionals in change handler
-    global.window = { File: true, FileList: true };
+    global.window.File = true;
+    global.window.FileList = true;
     const domEvent = {
       target: {
         files: [
