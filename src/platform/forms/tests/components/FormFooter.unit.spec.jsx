@@ -14,6 +14,7 @@ describe('FormFooter', () => {
     );
 
     expect(wrapper.text()).to.be.empty;
+    wrapper.unmount();
   });
 
   it('should not render if on the confirmation page', () => {
@@ -28,6 +29,7 @@ describe('FormFooter', () => {
     );
 
     expect(wrapper.text()).to.be.empty;
+    wrapper.unmount();
   });
 
   it('should render <GetFormHelp> if passed to config', () => {
@@ -47,5 +49,6 @@ describe('FormFooter', () => {
         .render()
         .text(),
     ).to.contain('Help!');
+    wrapper.unmount();
   });
 });

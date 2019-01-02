@@ -41,8 +41,10 @@ const props = {
   dispatch: () => {},
 };
 
+const context = { router: {} };
+
 describe('Thread', () => {
-  const tree = SkinDeep.shallowRender(<Thread {...props} />);
+  const tree = SkinDeep.shallowRender(<Thread {...props} />, context);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

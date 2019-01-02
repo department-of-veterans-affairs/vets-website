@@ -4,9 +4,11 @@ const Auth = require('../../../platform/testing/e2e/auth');
 
 function testStatus(client, page, url) {
   client
-    .url(`${E2eHelpers.baseUrl}${page}`)
+    .openUrl(`${E2eHelpers.baseUrl}${page}`)
     .waitForElementVisible('.sip-application-status', Timeouts.slow)
     .axeCheck('.main');
+
+  E2eHelpers.overrideScrolling(client);
 
   client.expect
     .element('main a.usa-button-primary')
@@ -14,8 +16,10 @@ function testStatus(client, page, url) {
     .contains(url);
 
   client
+    .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
+    .moveTo('.usa-button-secondary', 0, 200)
     .click('.usa-button-secondary')
-    .waitForElementPresent('.va-modal', Timeouts.normal)
+    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
     .expect.element('#start-over-modal-title')
     .text.equals('Starting over will delete your in-progress form.');
 
@@ -96,7 +100,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   testStatus(
     client,
-    '/health-care/apply',
+    '/health-care/how-to-apply/',
     '/health-care/apply/application/resume',
   );
   testStatus(
@@ -105,7 +109,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
     '/health-care/apply/application/resume',
   );
 
-  testStatus(client, '/pension/apply', '/pension/application/527EZ/resume');
+  testStatus(
+    client,
+    '/pension/how-to-apply/',
+    '/pension/application/527EZ/resume',
+  );
   testStatus(
     client,
     '/pension/eligibility',
@@ -114,13 +122,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   testStatus(
     client,
-    '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs',
+    '/burials-memorials/veterans-burial-allowance/',
     '/burials-and-memorials/application/530/resume',
   );
 
   testStatus(
     client,
-    '/education/apply',
+    '/education/how-to-apply/',
     '/education/apply-for-education-benefits/application/1995/resume',
   );
   testStatus(

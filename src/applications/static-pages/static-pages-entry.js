@@ -4,6 +4,7 @@ import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
 
+import createAdditionalInfoWidget from './createAdditionalInfoWidget';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -12,18 +13,14 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import create526EmailForm from '../disability-benefits/526EZ/components/create526EmailForm';
 
-import brandConsolidation from '../../platform/brand-consolidation';
-
 const pensionPages = new Set([
   '/pension/',
-  '/pension/apply/',
   '/pension/how-to-apply/',
   '/pension/eligibility/',
 ]);
 
 const healthcarePages = new Set([
   '/health-care/',
-  '/health-care/apply/',
   '/health-care/how-to-apply/',
   '/health-care/eligibility/',
 ]);
@@ -40,14 +37,12 @@ const ctaTools = new Set([
 ]);
 
 const burialPages = new Set([
-  '/burials-and-memorials/',
-  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/',
+  '/burials-memorials/',
   '/burials-memorials/veterans-burial-allowance/',
 ]);
 
 const eduPages = new Set([
   '/education/',
-  '/education/apply/',
   '/education/eligibility/',
   '/education/how-to-apply/',
 ]);
@@ -55,11 +50,6 @@ const eduPages = new Set([
 const eduOptOutPage = '/education/opt-out-information-sharing/';
 
 const disabilityPages = new Set([
-  // Vets.gov paths
-  '/disability-benefits/',
-  '/disability-benefits/apply/',
-  '/disability-benefits/eligibility/',
-  // VA.gov paths
   '/disability/',
   '/disability/how-to-file-claim/',
   '/disability/eligibility/',
@@ -74,28 +64,24 @@ import './sidebar-navigation.js';
 const store = createCommonStore();
 startSitewideComponents(store);
 
+createAdditionalInfoWidget();
+
 if (pensionPages.has(location.pathname)) {
-  const applyLink = brandConsolidation.isEnabled()
-    ? '/pension/how-to-apply/'
-    : '/pension/apply/';
   createApplicationStatus(store, {
     formId: '21P-527EZ',
     applyHeading: 'How do I apply?',
     additionalText: 'You can apply online right now.',
-    applyLink,
+    applyLink: '/pension/how-to-apply/',
     applyText: 'Apply for Veterans Pension Benefits',
   });
 }
 
 if (healthcarePages.has(location.pathname)) {
-  const applyLink = brandConsolidation.isEnabled()
-    ? '/health-care/how-to-apply/'
-    : '/health-care/apply/';
   createApplicationStatus(store, {
     formId: '1010ez',
     applyHeading: 'How do I apply?',
     additionalText: 'You can apply online right now.',
-    applyLink,
+    applyLink: '/health-care/how-to-apply/',
     applyText: 'Apply for Health Care Benefits',
   });
 }
@@ -121,11 +107,13 @@ if (burialPages.has(location.pathname)) {
   });
 }
 
-if (disabilityPages.has(location.pathname) && brandConsolidation.isEnabled()) {
+if (disabilityPages.has(location.pathname)) {
   createDisabilityIncreaseApplicationStatus(store);
 }
 
-if (location.pathname === '/disability-benefits/increase-claims-testing/') {
+if (
+  location.pathname === '/disability-benefits/apply/form-526-disability-claim/'
+) {
   create526EmailForm(store);
 }
 

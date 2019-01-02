@@ -1,4 +1,4 @@
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { waiveRetirementPayDescription } from '../content/waiveRetirementPay';
 
 const { waiveRetirementPay: waiveRetirementPaySchema } = fullSchema.properties;
@@ -9,16 +9,12 @@ export const uiSchema = {
     'ui:description': waiveRetirementPayDescription,
   },
   waiveRetirementPay: {
-    'ui:title':
-      'Please let us know what type of pay you would like to receive.',
+    'ui:title': 'What type of pay you would like to receive?',
     'ui:widget': 'yesNo',
     'ui:options': {
-      yesNoReverse: true, // If veteran elects to not receive VA pay, they waive their VA pay
       labels: {
-        Y:
-          'I want to receive VA disability compensation even though it will reduce my retirement pay.',
-        N:
-          'I don’t want to receive VA compensation pay so I can keep my retirement pay.',
+        Y: 'I want to receive VA compensation pay.',
+        N: 'I don’t want to receive tax-free VA compensation pay.',
       },
     },
   },

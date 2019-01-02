@@ -22,6 +22,7 @@ describe('limitation of consent', () => {
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(4);
+    form.unmount();
   });
 
   it('should continue without any check boxes filled in', () => {
@@ -40,5 +41,6 @@ describe('limitation of consent', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

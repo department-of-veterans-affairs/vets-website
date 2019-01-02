@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import CallToActionWidget from '../../../platform/site-wide/cta-widget';
 import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
-import isProduction from '../../../platform/utilities/environment/isProduction';
+import environment from '../../../platform/utilities/environment';
 
 import EducationWizard from '../components/EducationWizard';
 import { wizardConfig } from '../utils/helpers';
@@ -38,7 +38,7 @@ export function VetsDotGovSummary() {
           </li>
           <li>
             You haven’t yet applied for Post-9/11 GI Bill education benefits.{' '}
-            <a href="/education/apply/" target="_blank">
+            <a href="/education/how-to-apply/" target="_blank">
               Apply for education benefits.
             </a>
           </li>
@@ -102,7 +102,7 @@ export default function BrandConsolidationSummary() {
             <li>Received a decision from us on your application</li>
           </ul>
           <p>
-            <a href="/education/apply/">
+            <a href="/education/how-to-apply/">
               Find out how to apply for Post-9/11 GI Bill benefits
             </a>
             .
@@ -163,20 +163,18 @@ export default function BrandConsolidationSummary() {
         itemScope
         itemType="http://schema.org/Answer"
       >
-        {!isProduction() && (
-          <div itemProp="text">
-            <p>
-              There are a few situations where your Post-9/11 GI Bill Statement
-              of Benefits might not be available. Answer a few questions and
-              we’ll help you find out why:
-              <EducationWizard
-                config={wizardConfig}
-                toggleText="Troubleshoot My GI Bill Benefits"
-              />
-            </p>
+        {!environment.isProduction() && (
+          <div className="intro-wizard" itemProp="text">
+            There are a few situations where your Post-9/11 GI Bill Statement of
+            Benefits might not be available. Answer a few questions and we’ll
+            help you find out why:
+            <EducationWizard
+              config={wizardConfig}
+              toggleText="Troubleshoot My GI Bill Benefits"
+            />
           </div>
         )}
-        {isProduction() && (
+        {environment.isProduction() && (
           <div itemProp="text">
             <p>
               Your Post-9/11 GI Bill Statement of Benefits might not be
@@ -196,7 +194,10 @@ export default function BrandConsolidationSummary() {
               <li>
                 You haven’t applied yet for Post-9/11 GI Bill education
                 benefits. <br />
-                <a href="/education/apply/">Apply for education benefits</a>.
+                <a href="/education/how-to-apply/">
+                  Apply for education benefits
+                </a>
+                .
               </li>
               <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
               <li>

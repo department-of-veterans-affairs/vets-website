@@ -57,7 +57,7 @@ export const errorMessage = () => (
       nearest Veterans Service Officer (VSO).
     </p>
     <p>
-      <a href="/disability-benefits/apply/help/">Contact your nearest VSO.</a>
+      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO.</a>
     </p>
   </div>
 );

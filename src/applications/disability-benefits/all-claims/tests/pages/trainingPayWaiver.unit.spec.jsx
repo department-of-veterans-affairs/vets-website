@@ -22,6 +22,7 @@ describe('trainingPayWaiver', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit when user does not make a selection', () => {
@@ -39,6 +40,7 @@ describe('trainingPayWaiver', () => {
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit when user makes a selection', () => {
@@ -59,5 +61,6 @@ describe('trainingPayWaiver', () => {
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 });

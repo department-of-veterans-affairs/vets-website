@@ -79,6 +79,46 @@ import {
 } from './ptsdWalkthroughChoice781';
 
 import {
+  uiSchema as incidentSupportUISchema,
+  schema as incidentSupportSchema,
+} from './incidentSupport';
+
+import {
+  uiSchema as incidentDateUISchema,
+  schema as incidentDateSchema,
+} from './incidentDate';
+
+import {
+  uiSchema as individualsInvolvedUISchema,
+  schema as individualsInvolvedSchema,
+} from './individualsInvolved';
+
+import {
+  uiSchema as individualsInvolvedFollowUpUISchema,
+  schema as individualsInvolvedFollowUpSchema,
+} from './individualsInvolvedFollowUp';
+
+import {
+  uiSchema as incidentLocationUISchema,
+  schema as incidentLocationSchema,
+} from './incidentLocation';
+
+import {
+  uiSchema as incidentUnitAssignmentUISchema,
+  schema as incidentUnitAssignmentSchema,
+} from './incidentUnitAssignment';
+
+import {
+  uiSchema as finalIncidentUISchema,
+  schema as finalIncidentSchema,
+} from './finalIncident';
+
+import {
+  uiSchema as ptsdAdditionalEventsUISchema,
+  schema as ptsdAdditionalEventsSchema,
+} from './ptsdAdditionalEvents';
+
+import {
   uiSchema as uploadPtsdDocumentsUISchema,
   schema as uploadPtsdDocumentsSchema,
 } from './uploadPtsdDocuments';
@@ -87,6 +127,41 @@ import {
   uiSchema as ptsdWalkthroughChoice781aUISchema,
   schema as ptsdWalkthroughChoice781aSchema,
 } from './ptsdWalkthroughChoice781a';
+
+import {
+  uiSchema as secondaryIncidentDateUISchema,
+  schema as secondaryIncidentDateSchema,
+} from './secondaryIncidentDate';
+
+import {
+  uiSchema as secondaryIncidentLocationUISchema,
+  schema as secondaryIncidentLocationSchema,
+} from './secondaryIncidentLocation';
+
+import {
+  uiSchema as secondaryIncidentUnitAssignmentUISchema,
+  schema as secondaryIncidentUnitAssignmentSchema,
+} from './secondaryIncidentUnitAssignment';
+
+import {
+  uiSchema as secondaryFinalIncidentUISchema,
+  schema as secondaryFinalIncidentSchema,
+} from './secondaryFinalIncident';
+
+import {
+  uiSchema as secondaryIncidentPermissionNoticeUISchema,
+  schema as secondaryIncidentPermissionNoticeSchema,
+} from './secondaryIncidentPermissionNotice';
+
+import {
+  uiSchema as secondaryIncidentAuthoritiesUISchema,
+  schema as secondaryIncidentAuthoritiesSchema,
+} from './secondaryIncidentAuthorities';
+
+import {
+  uiSchema as ptsdSecondaryAdditionalEventsUISchema,
+  schema as ptsdSecondaryAdditionalEventsSchema,
+} from './ptsdSecondaryAdditionalEvents';
 
 import {
   uiSchema as uploadPersonalPtsdDocumentsUISchema,
@@ -159,11 +234,6 @@ import {
 } from './fullyDevelopedClaim';
 
 import {
-  uiSchema as unemployabilityStatusUISchema,
-  schema as unemployabilityStatusSchema,
-} from './unemployabilityStatus';
-
-import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
@@ -174,6 +244,93 @@ import {
 } from './unemployabilityFormUpload';
 
 import {
+  uiSchema as unemployabilityDisabilitiesUISchema,
+  schema as unemployabilityDisabilitiesSchema,
+} from './unemployabilityDisabilities';
+
+import {
+  uiSchema as workBehaviorChangesUISchema,
+  schema as workBehaviorChangesSchema,
+} from './workBehaviorChanges';
+
+import {
+  uiSchema as socialBehaviorChangesUISchema,
+  schema as socialBehaviorChangesSchema,
+} from './socialBehaviorChanges';
+
+import {
+  uiSchema as additionalBehaviorChangesUISchema,
+  schema as additionalBehaviorChangesSchema,
+} from './additionalBehaviorChanges';
+
+import {
+  uiSchema as incidentDescriptionUISchema,
+  schema as incidentDescriptionSchema,
+} from './incidentDescription';
+
+import {
+  uiSchema as secondaryIncidentDescriptionUISchema,
+  schema as secondaryIncidentDescriptionSchema,
+} from './secondaryIncidentDescription';
+
+import {
+  uiSchema as secondaryOtherSourcesUISchema,
+  schema as secondaryOtherSourcesSchema,
+} from './secondaryOtherSources';
+
+import {
+  uiSchema as secondaryOtherSourcesHelpUISchema,
+  schema as secondaryOtherSourcesHelpSchema,
+} from './secondaryOtherSourcesHelp';
+
+import {
+  uiSchema as mentalHealthChangesUISchema,
+  schema as mentalHealthChangesSchema,
+} from './mentalHealthChanges';
+
+import {
+  uiSchema as adaptiveBenefitsUISchema,
+  schema as adaptiveBenefitsSchema,
+} from './adaptiveBenefits';
+
+import {
+  uiSchema as aidAndAttendanceUISchema,
+  schema as aidAndAttendanceSchema,
+} from './aidAndAttendance';
+
+import {
+  uiSchema as individualUnemployabilityUISchema,
+  schema as individualUnemployabilitySchema,
+} from './individualUnemployability';
+
+import {
+  uiSchema as physicalHealthChangesUISchema,
+  schema as physicalHealthChangesSchema,
+} from './physicalHealthChanges';
+
+import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
+
+import * as recentEducationTraining from './recentEducationTraining';
+
+import * as recentJobApplications from './recentJobApplications';
+
+import * as recentEarnedIncome from './recentEarnedIncome';
+
+import * as militaryDutyImpact from './militaryDutyImpact';
+
+import * as pastEducationTraining from './pastEducationTraining';
+
+import * as unemployabilityCertification from './unemployabilityCertification';
+
+import {
+  uiSchema as supplementalBenefitsUISchema,
+  schema as supplementalBenefitsSchema,
+} from './supplementalBenefits';
+
+import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
 } from './conclusionCombat';
@@ -182,6 +339,39 @@ import {
   uiSchema as conclusionAssaultUISchema,
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
+
+import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
+
+import {
+  uiSchema as secondaryUploadSourcesUISchema,
+  schema as secondaryUploadSourcesSchema,
+} from './secondaryUploadSources';
+
+import {
+  uiSchema as additionalRemarks781UISchema,
+  schema as additionalRemarks781Schema,
+} from './additionalRemarks781';
+
+import {
+  uiSchema as newDisabilitiesUISchema,
+  schema as newDisabilitiesSchema,
+} from './newDisabilities';
+
+import {
+  uiSchema as unemployabilityAdditionalInformationUISchema,
+  schema as unemployabilityAdditionalInformationSchema,
+} from './unemployabilityAdditionalInformation';
+
+import {
+  uiSchema as secondaryUploadSourcesChoiceUISchema,
+  schema as secondaryUploadSourcesChoiceSchema,
+} from './secondaryUploadSourcesChoice';
+
+import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import {
+  uiSchema as incomeDetailsUISchema,
+  schema as incomeDetailsSchema,
+} from './incomeDetails';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -263,6 +453,46 @@ export const ptsdWalkthroughChoice781 = {
   schema: ptsdWalkthroughChoice781Schema,
 };
 
+export const incidentSupport = {
+  uiSchema: incidentSupportUISchema,
+  schema: incidentSupportSchema,
+};
+
+export const incidentDate = {
+  uiSchema: incidentDateUISchema,
+  schema: incidentDateSchema,
+};
+
+export const individualsInvolved = {
+  uiSchema: individualsInvolvedUISchema,
+  schema: individualsInvolvedSchema,
+};
+
+export const individualsInvolvedFollowUp = {
+  uiSchema: individualsInvolvedFollowUpUISchema,
+  schema: individualsInvolvedFollowUpSchema,
+};
+
+export const incidentLocation = {
+  uiSchema: incidentLocationUISchema,
+  schema: incidentLocationSchema,
+};
+
+export const incidentUnitAssignment = {
+  uiSchema: incidentUnitAssignmentUISchema,
+  schema: incidentUnitAssignmentSchema,
+};
+
+export const ptsdAdditionalEvents = {
+  uiSchema: ptsdAdditionalEventsUISchema,
+  schema: ptsdAdditionalEventsSchema,
+};
+
+export const ptsdSecondaryAdditionalEvents = {
+  uiSchema: ptsdSecondaryAdditionalEventsUISchema,
+  schema: ptsdSecondaryAdditionalEventsSchema,
+};
+
 export const uploadPtsdDocuments = {
   uiSchema: uploadPtsdDocumentsUISchema,
   schema: uploadPtsdDocumentsSchema,
@@ -271,6 +501,31 @@ export const uploadPtsdDocuments = {
 export const ptsdWalkthroughChoice781a = {
   uiSchema: ptsdWalkthroughChoice781aUISchema,
   schema: ptsdWalkthroughChoice781aSchema,
+};
+
+export const secondaryIncidentDate = {
+  uiSchema: secondaryIncidentDateUISchema,
+  schema: secondaryIncidentDateSchema,
+};
+
+export const secondaryIncidentLocation = {
+  uiSchema: secondaryIncidentLocationUISchema,
+  schema: secondaryIncidentLocationSchema,
+};
+
+export const secondaryIncidentUnitAssignment = {
+  uiSchema: secondaryIncidentUnitAssignmentUISchema,
+  schema: secondaryIncidentUnitAssignmentSchema,
+};
+
+export const secondaryIncidentPermissionNotice = {
+  uiSchema: secondaryIncidentPermissionNoticeUISchema,
+  schema: secondaryIncidentPermissionNoticeSchema,
+};
+
+export const secondaryIncidentAuthorities = {
+  uiSchema: secondaryIncidentAuthoritiesUISchema,
+  schema: secondaryIncidentAuthoritiesSchema,
 };
 
 export const uploadPersonalPtsdDocuments = {
@@ -343,11 +598,6 @@ export const fullyDevelopedClaim = {
   schema: fullyDevelopedClaimSchema,
 };
 
-export const unemployabilityStatus = {
-  uiSchema: unemployabilityStatusUISchema,
-  schema: unemployabilityStatusSchema,
-};
-
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
@@ -358,6 +608,102 @@ export const unemployabilityFormUpload = {
   schema: unemployabilityFormUploadSchema,
 };
 
+export const unemployabilityDisabilities = {
+  uiSchema: unemployabilityDisabilitiesUISchema,
+  schema: unemployabilityDisabilitiesSchema,
+};
+
+export const socialBehaviorChanges = {
+  uiSchema: socialBehaviorChangesUISchema,
+  schema: socialBehaviorChangesSchema,
+};
+
+export const finalIncident = {
+  uiSchema: finalIncidentUISchema,
+  schema: finalIncidentSchema,
+};
+
+export const secondaryFinalIncident = {
+  uiSchema: secondaryFinalIncidentUISchema,
+  schema: secondaryFinalIncidentSchema,
+};
+
+export const workBehaviorChanges = {
+  uiSchema: workBehaviorChangesUISchema,
+  schema: workBehaviorChangesSchema,
+};
+
+export const additionalBehaviorChanges = {
+  uiSchema: additionalBehaviorChangesUISchema,
+  schema: additionalBehaviorChangesSchema,
+};
+
+export const incidentDescription = {
+  uiSchema: incidentDescriptionUISchema,
+  schema: incidentDescriptionSchema,
+};
+
+export const secondaryIncidentDescription = {
+  uiSchema: secondaryIncidentDescriptionUISchema,
+  schema: secondaryIncidentDescriptionSchema,
+};
+
+export const secondaryOtherSources = {
+  uiSchema: secondaryOtherSourcesUISchema,
+  schema: secondaryOtherSourcesSchema,
+};
+
+export const secondaryOtherSourcesHelp = {
+  uiSchema: secondaryOtherSourcesHelpUISchema,
+  schema: secondaryOtherSourcesHelpSchema,
+};
+
+export const mentalHealthChanges = {
+  uiSchema: mentalHealthChangesUISchema,
+  schema: mentalHealthChangesSchema,
+};
+
+export const adaptiveBenefits = {
+  uiSchema: adaptiveBenefitsUISchema,
+  schema: adaptiveBenefitsSchema,
+};
+
+export const aidAndAttendance = {
+  uiSchema: aidAndAttendanceUISchema,
+  schema: aidAndAttendanceSchema,
+};
+
+export const individualUnemployability = {
+  uiSchema: individualUnemployabilityUISchema,
+  schema: individualUnemployabilitySchema,
+};
+
+export const physicalHealthChanges = {
+  uiSchema: physicalHealthChangesUISchema,
+  schema: physicalHealthChangesSchema,
+};
+
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
+};
+
+export { unemployabilityCertification };
+export { pastEducationTraining };
+
+export { militaryDutyImpact };
+
+export { recentEarnedIncome };
+
+export { recentEducationTraining };
+
+export { recentJobApplications };
+
+export const supplementalBenefits = {
+  uiSchema: supplementalBenefitsUISchema,
+  schema: supplementalBenefitsSchema,
+};
+
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
   schema: conclusionCombatSchema,
@@ -366,4 +712,41 @@ export const conclusionCombat = {
 export const conclusionAssault = {
   uiSchema: conclusionAssaultUISchema,
   schema: conclusionAssaultSchema,
+};
+
+export const secondaryUploadSources = {
+  uiSchema: secondaryUploadSourcesUISchema,
+  schema: secondaryUploadSourcesSchema,
+};
+
+export const medals = {
+  uiSchema: medalsUISchema,
+  schema: medalsSchema,
+};
+
+export const additionalRemarks781 = {
+  uiSchema: additionalRemarks781UISchema,
+  schema: additionalRemarks781Schema,
+};
+
+export const newDisabilities = {
+  uiSchema: newDisabilitiesUISchema,
+  schema: newDisabilitiesSchema,
+};
+
+export const unemployabilityAdditionalInformation = {
+  uiSchema: unemployabilityAdditionalInformationUISchema,
+  schema: unemployabilityAdditionalInformationSchema,
+};
+
+export const secondaryUploadSourcesChoice = {
+  uiSchema: secondaryUploadSourcesChoiceUISchema,
+  schema: secondaryUploadSourcesChoiceSchema,
+};
+
+export { ancillaryFormsWizardSummary };
+
+export const incomeDetails = {
+  uiSchema: incomeDetailsUISchema,
+  schema: incomeDetailsSchema,
 };

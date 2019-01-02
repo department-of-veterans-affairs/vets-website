@@ -8,7 +8,7 @@ import {
   fillData,
   fillDate,
   selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 spouse marriage history', () => {
@@ -42,6 +42,7 @@ describe('686 spouse marriage history', () => {
     expect(form.find('#root_dateOfMarriage-label').text()).to.contain(
       'Jane Doe',
     );
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -59,6 +60,7 @@ describe('686 spouse marriage history', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with valid data and add another', () => {
@@ -94,6 +96,7 @@ describe('686 spouse marriage history', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('depends should return true if married and spouse was married before', () => {

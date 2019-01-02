@@ -3,12 +3,13 @@ const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
-function setUserToken(token, client) {
+function setUserSession(token, client) {
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
   client.execute(
-    inToken => {
-      window.sessionStorage.setItem('userToken', inToken);
+    () => {
+      window.localStorage.setItem('hasSession', true);
     },
-    [token],
+    [],
     val => {
       if (val.state !== 'success') {
         // eslint-disable-next-line no-console
@@ -52,7 +53,7 @@ function initUserMock(token, level) {
               metadata: {},
             },
           ],
-          prefills_available: [],
+          prefills_available: ['21-526EZ'],
           services: [
             'facilities',
             'hca',
@@ -62,6 +63,8 @@ function initUserMock(token, level) {
             'health-records',
             'rx',
             'messaging',
+            'form-save-in-progress',
+            'form-prefill',
           ],
           va_profile: {
             status: 'OK',
@@ -99,14 +102,14 @@ function logIn(token, client, url, level) {
   initLogoutMock(token);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.disableAnnouncements(client);
-  setUserToken(token, client);
+  setUserSession(token, client);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideSmoothScrolling(client);
@@ -120,7 +123,7 @@ function testUnauthedUserFlow(client, path) {
 
   initLogoutMock(token);
 
-  client.url(appURL).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(appURL).waitForElementVisible('body', Timeouts.normal);
 
   client
     .waitForElementVisible('.login', Timeouts.normal)
@@ -135,5 +138,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
-  setUserToken,
+  setUserSession,
 };

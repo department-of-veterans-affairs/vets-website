@@ -23,6 +23,7 @@ describe('526 All Claims Private medical records', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not expand the upload button by default', () => {
@@ -39,6 +40,7 @@ describe('526 All Claims Private medical records', () => {
     expect(form.find('#root_privateMedicalRecords_add_label').length).to.equal(
       0,
     );
+    form.unmount();
   });
 
   it('should expand upload when "yes" option selected', () => {
@@ -59,6 +61,7 @@ describe('526 All Claims Private medical records', () => {
     expect(form.find('#root_privateMedicalRecords_add_label').length).to.equal(
       1,
     );
+    form.unmount();
   });
 
   // TODO: This will change once 4142 is integrated
@@ -82,6 +85,7 @@ describe('526 All Claims Private medical records', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find(errorClass).length).to.equal(0);
+    form.unmount();
   });
 
   it('should not submit without an upload if one indicated', () => {
@@ -104,6 +108,7 @@ describe('526 All Claims Private medical records', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find(errorClass).length).to.equal(1); // upload at least 1 doc
+    form.unmount();
   });
 
   it('should not submit without additional upload info', () => {
@@ -126,7 +131,8 @@ describe('526 All Claims Private medical records', () => {
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
-    expect(form.find(errorClass).length).to.equal(2); // name, doc type req'd
+    expect(form.find(errorClass).length).to.equal(1); // name, doc type req'd
+    form.unmount();
   });
 
   it('should submit with all required info', () => {
@@ -143,7 +149,7 @@ describe('526 All Claims Private medical records', () => {
           privateMedicalRecords: [
             {
               name: 'Test document.pdf',
-              attachmentId: 'L049',
+              attachmentId: 'L107',
               confirmationCode: '123345asdf',
             },
           ],
@@ -156,5 +162,6 @@ describe('526 All Claims Private medical records', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find(errorClass).length).to.equal(0); // name, doc type req'd
+    form.unmount();
   });
 });

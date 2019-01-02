@@ -109,7 +109,7 @@ describe('<ClaimPhase>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
-    expect(tree.everySubTree('button').length).to.equal(1);
+    expect(tree.everySubTree('button').length).to.equal(2);
   });
   describe('event descriptions', () => {
     const activity = {

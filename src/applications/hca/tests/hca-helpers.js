@@ -505,9 +505,9 @@ function initSaveInProgressMock(url, client) {
   });
   /* eslint-enable camelcase */
 
-  client.url(url).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(url).waitForElementVisible('body', Timeouts.normal);
 
-  Auth.setUserToken(token, client);
+  Auth.setUserSession(token, client);
 
   return token;
 }
