@@ -126,6 +126,7 @@ export const schema = {
               },
               mostEarningsInAMonth: {
                 type: 'number',
+                minimum: 0,
               },
               inBusiness: {
                 type: 'boolean',
