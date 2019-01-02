@@ -78,6 +78,17 @@ ul.original-disability-list {
   }
 }
 
+// removes gap when using multiple widget-outlines
+.widget-outline-group {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.all-disabilities-title {
+  margin-top: 0.2em;
+  margin-bottom: 1.4em;
+}
+
 // ReviewCardField styles
 .review-card {
   .review-card--header {
