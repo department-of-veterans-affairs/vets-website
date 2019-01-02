@@ -67,7 +67,7 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
   }
 
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem('returnUrl', window.location);
+  sessionStorage.setItem('authReturnUrl', window.location);
 
   recordEvent({ event: clickedEvent });
 

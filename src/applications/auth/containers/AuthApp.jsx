@@ -30,8 +30,8 @@ export class AuthApp extends React.Component {
     setupProfileSession(payload);
 
     if (isFullScreenLoginEnabled()) {
-      const returnUrl = sessionStorage.getItem('returnUrl');
-      sessionStorage.removeItem('returnUrl');
+      const returnUrl = sessionStorage.getItem('authReturnUrl');
+      sessionStorage.removeItem('authReturnUrl');
       window.location = returnUrl || '/';
     } else {
       const parent = window.opener;
