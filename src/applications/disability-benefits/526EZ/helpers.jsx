@@ -4,6 +4,7 @@ import Raven from 'raven-js';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
+import moment from 'moment';
 
 import { apiRequest } from '../../../platform/utilities/api';
 import {
@@ -151,7 +152,25 @@ export function transform(formConfig, form) {
     selectedDisabilities,
     'treatments',
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
-  );
+  ).map(treatment => {
+    // If the day is missing, set it to the last day of the month because EVSS requires a day
+    const [year, month, day] = get(
+      'treatmentDateRange.to',
+      treatment,
+      '',
+    ).split('-');
+    if (day && day === 'XX') {
+      return set(
+        'treatmentDateRange.to',
+        moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        treatment,
+      );
+    }
+
+    return treatment;
+  });
 
   const attachments = additionalDocuments.concat(privateRecords);
 
