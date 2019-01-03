@@ -4,21 +4,27 @@ import {
   benefitChoices,
   transformPreferencesForSaving,
   restoreDismissedBenefitAlerts,
-  getDismissedBenefitAlerts, // eslint-disable-line no-unused-vars
+  getDismissedBenefitAlerts,
   // getNewSelections,
 } from '../helpers';
-import { LOADING_STATES } from '../constants';
 
-export const SET_USER_PREFERENCE_REQUEST_STATUS =
-  'SET_USER_PREFERENCE_REQUEST_STATUS';
-export const SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS =
-  'SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS';
-export const SET_SAVE_PREFERENCES_REQUEST_STATUS =
-  'SET_SAVE_PREFERENCES_REQUEST_STATUS';
+export const FETCH_ALL_PREFERENCES_PENDING = 'FETCH_ALL_PREFERENCES_PENDING';
+export const FETCH_ALL_PREFERENCES_SUCCEEDED =
+  'FETCH_ALL_PREFERENCES_SUCCEEDED';
+export const FETCH_ALL_PREFERENCES_FAILED = 'FETCH_ALL_PREFERENCES_FAILED';
+export const FETCH_USER_PREFERENCES_PENDING = 'FETCH_USER_PREFERENCES_PENDING';
+export const FETCH_USER_PREFERENCES_SUCCEEDED =
+  'FETCH_USER_PREFERENCES_SUCCEEDED';
+export const FETCH_USER_PREFERENCES_FAILED = 'FETCH_USER_PREFERENCES_FAILED';
+export const RESTORE_PREVIOUS_USER_PREFERENCES =
+  'RESTORE_PREVIOUS_USER_PREFERENCES';
+export const SAVE_USER_PREFERENCES_PENDING = 'SAVE_USER_PREFERENCES_PENDING';
+export const SAVE_USER_PREFERENCES_SUCCEEDED =
+  'SAVE_USER_PREFERENCES_SUCCEEDED';
+export const SAVE_USER_PREFERENCES_FAILED = 'SAVE_USER_PREFERENCES_FAILED';
 export const SET_AVAILABLE_BENEFITS = 'SET_AVAILABLE_BENEFITS';
-export const SET_DASHBOARD_USER_PREFERENCES = 'SET_DASHBOARD_USER_PREFERENCES';
-export const SET_DASHBOARD_PREFERENCE = 'SET_DASHBOARD_PREFERENCE';
-export const SAVED_DASHBOARD_PREFERENCES = 'SAVED_DASHBOARD_PREFERENCES';
+export const SET_ALL_USER_PREFERENCES = 'SET_ALL_USER_PREFERENCES';
+export const SET_USER_PREFERENCE = 'SET_USER_PREFERENCE';
 export const SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS =
   'SET_DISMISSED_DASHBOARD_PREFERENCE_ALERTS';
 
@@ -26,22 +32,23 @@ export const SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS =
 export function fetchUserSelectedBenefits() {
   return dispatch => {
     dispatch({
-      type: SET_USER_PREFERENCE_REQUEST_STATUS,
-      status: LOADING_STATES.pending,
+      type: FETCH_USER_PREFERENCES_PENDING,
     });
     return apiRequest(
       '/user/preferences',
       null,
       response => {
         dispatch({
-          type: SET_DASHBOARD_USER_PREFERENCES,
+          type: SET_ALL_USER_PREFERENCES,
           payload: response,
+        });
+        dispatch({
+          type: FETCH_USER_PREFERENCES_SUCCEEDED,
         });
       },
       () => {
         dispatch({
-          type: SET_USER_PREFERENCE_REQUEST_STATUS,
-          status: LOADING_STATES.error,
+          type: FETCH_USER_PREFERENCES_FAILED,
         });
       },
     );
@@ -52,8 +59,7 @@ export function fetchUserSelectedBenefits() {
 export function fetchAvailableBenefits() {
   return dispatch => {
     dispatch({
-      type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-      status: LOADING_STATES.pending,
+      type: FETCH_ALL_PREFERENCES_PENDING,
     });
 
     return apiRequest(
@@ -61,21 +67,17 @@ export function fetchAvailableBenefits() {
       null,
       response => {
         const availableBenefits = response.data.attributes.preferenceChoices;
-
         dispatch({
           type: SET_AVAILABLE_BENEFITS,
           preferences: availableBenefits,
         });
-
         dispatch({
-          type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-          status: LOADING_STATES.loaded,
+          type: FETCH_ALL_PREFERENCES_SUCCEEDED,
         });
       },
       () => {
         dispatch({
-          type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-          status: LOADING_STATES.error,
+          type: FETCH_ALL_PREFERENCES_FAILED,
         });
       },
     );
@@ -84,7 +86,7 @@ export function fetchAvailableBenefits() {
 
 export function setPreference(code, value = true) {
   return {
-    type: SET_DASHBOARD_PREFERENCE,
+    type: SET_USER_PREFERENCE,
     code,
     value,
   };
@@ -97,12 +99,17 @@ export function setDismissedBenefitAlerts(value = []) {
   };
 }
 
+export function restorePreviousSelections() {
+  return {
+    type: RESTORE_PREVIOUS_USER_PREFERENCES,
+  };
+}
+
 export function savePreferences(benefitsData) {
   // eslint-disable-next-line no-unused-vars
   return (dispatch, getState) => {
     dispatch({
-      type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
-      status: LOADING_STATES.pending,
+      type: SAVE_USER_PREFERENCES_PENDING,
     });
 
     const body = transformPreferencesForSaving(benefitsData);
@@ -114,12 +121,7 @@ export function savePreferences(benefitsData) {
       { headers, method, body },
       () => {
         dispatch({
-          type: SAVED_DASHBOARD_PREFERENCES,
-        });
-
-        dispatch({
-          type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
-          status: LOADING_STATES.loaded,
+          type: SAVE_USER_PREFERENCES_SUCCEEDED,
         });
 
         // TODO: use getNewSelections helper with staged and saved data
@@ -133,7 +135,7 @@ export function savePreferences(benefitsData) {
         const newBenefitSelections = Object.keys(benefitsData);
         // Get alert names for new selections
 
-        const newBenefitAlerts = benefitChoices // eslint-disable-line no-unused-vars
+        const newBenefitAlerts = benefitChoices
           .filter(
             choice =>
               !!choice.alert && newBenefitSelections.includes(choice.code),
@@ -148,8 +150,7 @@ export function savePreferences(benefitsData) {
       },
       () => {
         dispatch({
-          type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
-          status: LOADING_STATES.error,
+          type: SAVE_USER_PREFERENCES_FAILED,
         });
       },
     );
@@ -157,6 +158,27 @@ export function savePreferences(benefitsData) {
 }
 
 export function deletePreferences() {
-  // TODO: flesh out with a call to the DELETE
-  // /v0/user/preferences/:code/delete_all endpoint
+  return dispatch => {
+    dispatch({
+      type: SAVE_USER_PREFERENCES_PENDING,
+    });
+
+    const method = 'DELETE';
+    const headers = { 'Content-Type': 'application/json' };
+    return apiRequest(
+      '/user/preferences/benefits/delete_all',
+      { headers, method },
+      () => {
+        dispatch({
+          type: SAVE_USER_PREFERENCES_SUCCEEDED,
+        });
+        // TODO: make sure that benefit-related alerts are removed/hidden?
+      },
+      () => {
+        dispatch({
+          type: SAVE_USER_PREFERENCES_FAILED,
+        });
+      },
+    );
+  };
 }

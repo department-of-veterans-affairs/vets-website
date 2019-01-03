@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDisabilityName } from '../utils';
+import { capitalizeEachWord } from '../utils';
 
 /**
  * @typedef {Object} Disability
@@ -15,7 +15,7 @@ export const disabilityOption = ({ name, ratingPercentage }) => {
 
   return (
     <div>
-      <h4>{getDisabilityName(name)}</h4>
+      <h4>{capitalizeEachWord(name)}</h4>
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
