@@ -18,7 +18,7 @@ import {
 
 import {
   hasGuardOrReservePeriod,
-  getDisabilityName,
+  capitalizeEachWord,
   prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
@@ -90,6 +90,9 @@ import {
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
+
+import { ptsd781NameTitle } from '../content/ptsdClassification';
+import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
 import { createFormConfig781, createFormConfig781a } from './781';
 
@@ -224,7 +227,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          title: formData => getDisabilityName(formData.condition),
+          title: formData => capitalizeEachWord(formData.condition),
           depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
@@ -250,7 +253,7 @@ const formConfig = {
         },
         // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
-          title: formData => getDisabilityName(formData.condition),
+          title: formData => capitalizeEachWord(formData.condition),
           path: 'new-disabilities/ptsd-intro',
           depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,
@@ -273,6 +276,19 @@ const formConfig = {
             hasNewPtsdDisability(formData) && needsToEnter781(formData),
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
+        },
+        incidentIntro: {
+          title: 'PTSD intro to questions',
+          path: 'new-disabilities/ptsd-intro-to-questions',
+          depends: isAnswering781Questions(0),
+          uiSchema: {
+            'ui:title': ptsd781NameTitle,
+            'ui:description': ptsdFirstIncidentIntro,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         // 781 - Pages 3 - 12 (Event Loop)
         ...createFormConfig781(PTSD_INCIDENT_ITERATION),
