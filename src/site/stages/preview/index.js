@@ -12,6 +12,7 @@ const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('../build/options');
 const createBuildSettings = require('../build/plugins/create-build-settings');
+const fetchContent = require('../build/plugins/metalsmith-graphql');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const nonceTransformer = require('../build/plugins/nonceTransformer');
@@ -33,12 +34,14 @@ function createPipeline(options) {
   smith.source(`${BUILD_OPTIONS.contentPagesRoot}`);
   // smith.destination(BUILD_OPTIONS.destination);
 
+
   // This lets us access the {{buildtype}} variable within liquid templates.
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
   });
 
+  smith.use(fetchContent(BUILD_OPTIONS));
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   smith.use(applyFragments(BUILD_OPTIONS));
