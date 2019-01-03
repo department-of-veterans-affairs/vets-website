@@ -14,11 +14,10 @@ import PreferenceList from '../components/PreferenceList';
 
 import {
   setPreference,
-  savePreferences,
-  deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
   restorePreviousSelections,
+  updatePreferences,
 } from '../actions';
 import {
   benefitChoices,
@@ -121,13 +120,7 @@ class PreferencesWidget extends React.Component {
   handleRemoveBenefit = async code => {
     await this.props.setPreference(code, false);
     const { dashboard } = this.props.preferences;
-    // We have to use a different endpoint/Redux action if the user has removed
-    // their last remaining selected benefit
-    if (Object.keys(dashboard).length) {
-      this.props.savePreferences(dashboard);
-    } else {
-      this.props.deletePreferences();
-    }
+    this.props.updatePreferences(dashboard);
   };
 
   handleViewToggle = code => {
@@ -256,11 +249,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setPreference,
-  savePreferences,
-  deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
   restorePreviousSelections,
+  updatePreferences,
 };
 
 export default connect(
