@@ -20,7 +20,7 @@ import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
+import { capitalizeEachWord, transformDisabilities } from '../all-claims/utils';
 import { AddressViewField } from '../all-claims/content/contactInformation';
 
 import { VA_FORM4142_URL } from '../all-claims/constants';
@@ -286,13 +286,13 @@ export const supportingEvidenceOrientation = (
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {getDisabilityName(formData.name)}
+    {capitalizeEachWord(formData.name)}
   </legend>
 );
 
 export const facilityDescription = ({ formData }) => (
   <p>
-    Please tell us where VA treated you for {getDisabilityName(formData.name)}{' '}
+    Please tell us where VA treated you for {capitalizeEachWord(formData.name)}{' '}
     <strong>after you got your disability rating</strong>.
   </p>
 );
@@ -300,7 +300,7 @@ export const facilityDescription = ({ formData }) => (
 export const vaMedicalRecordsIntro = ({ formData }) => (
   <p>
     First we’ll ask you about your VA medical records that show your{' '}
-    {getDisabilityName(formData.name)} has gotten worse.
+    {capitalizeEachWord(formData.name)} has gotten worse.
   </p>
 );
 
@@ -308,7 +308,7 @@ export const privateRecordsChoice = ({ formData }) => (
   <div>
     <h4>About private medical records</h4>
     <p>
-      You said you were treated for {getDisabilityName(formData.name)} by a
+      You said you were treated for {capitalizeEachWord(formData.name)} by a
       private doctor. If you have your private medical records, you can upload
       them to your application. If you want us to get them for you, you’ll need
       to authorize their release.
@@ -322,7 +322,7 @@ export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
     {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you
     about your private medical records that show your{' '}
-    {getDisabilityName(formData.name)} has gotten worse.
+    {capitalizeEachWord(formData.name)} has gotten worse.
   </p>
 );
 
@@ -677,7 +677,7 @@ const evidenceTypesDescription = disabilityName => (
 
 export const getEvidenceTypesDescription = (form, index) => {
   const { name } = form.disabilities[index];
-  return evidenceTypesDescription(getDisabilityName(name));
+  return evidenceTypesDescription(capitalizeEachWord(name));
 };
 
 /**

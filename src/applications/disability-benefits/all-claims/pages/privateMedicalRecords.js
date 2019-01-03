@@ -2,7 +2,7 @@ import {
   privateRecordsChoiceHelp,
   patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
-import { uploadDescription } from '../content/fileUploadDescriptions';
+import { UploadDescription } from '../content/fileUploadDescriptions';
 import _ from '../../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { ancillaryFormUploadUi } from '../utils';
@@ -51,7 +51,7 @@ export const uiSchema = {
       expandUnderCondition: data =>
         _.get('view:hasPrivateRecordsToUpload', data, false),
     },
-    'ui:description': uploadDescription,
+    'ui:description': UploadDescription,
     'ui:required': data =>
       _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),
   },
