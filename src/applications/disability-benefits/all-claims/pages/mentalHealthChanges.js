@@ -3,8 +3,6 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
-import { explanationOfOther } from '../content/explanationOfOther';
-
 const mentalDescriptionChanges = (
   <div>
     <h5>Changes in mental health or substance abuse</h5>
@@ -50,7 +48,7 @@ export const uiSchema = {
       'ui:title': 'Other',
     },
     otherExplanation: {
-      'ui:title': explanationOfOther,
+      'ui:title': 'Please describe',
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,
