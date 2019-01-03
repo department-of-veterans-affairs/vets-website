@@ -16,7 +16,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
   { name: 'buildpath', type: String, defaultValue: 'build/localhost' },
   { name: 'host', type: String, defaultValue: defaultHost },
-  { name: 'port', type: Number, defaultValue: 3001 },
+  { name: 'port', type: Number, defaultValue: process.env.PORT || 3001 },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'destination', type: String, defaultValue: null },
@@ -25,8 +25,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
 ];
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
-
-if (process.env.PORT) options.port = process.env.PORT;
 
 if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
