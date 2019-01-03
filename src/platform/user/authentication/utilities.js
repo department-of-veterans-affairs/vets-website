@@ -75,8 +75,10 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
     redirectUrl,
     null,
     ({ url }) => {
-      recordEvent({ event: openedEvent });
-      window.location = url;
+      if (url) {
+        recordEvent({ event: openedEvent });
+        window.location = url;
+      }
     },
     () => {
       // TODO: Create a separate page or modal when failed to get the URL.
