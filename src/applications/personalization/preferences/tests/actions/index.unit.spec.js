@@ -9,9 +9,9 @@ import {
   setDismissedBenefitAlerts,
   restorePreviousSelections,
   deletePreferences,
-  FETCH_ALL_PREFERENCES_STARTED,
-  FETCH_ALL_PREFERENCES_FAILED,
-  FETCH_ALL_PREFERENCES_SUCCEEDED,
+  FETCH_ALL_BENEFITS_STARTED,
+  FETCH_ALL_BENEFITS_FAILED,
+  FETCH_ALL_BENEFITS_SUCCEEDED,
   FETCH_USER_PREFERENCES_STARTED,
   FETCH_USER_PREFERENCES_FAILED,
   FETCH_USER_PREFERENCES_SUCCEEDED,
@@ -138,14 +138,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the FETCH_ALL_PREFERENCES_STARTED action`, done => {
+    it(`should immediately dispatch the FETCH_ALL_BENEFITS_STARTED action`, done => {
       const dispatch = sinon.spy();
 
       fetchAvailableBenefits()(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: FETCH_ALL_PREFERENCES_STARTED,
+          type: FETCH_ALL_BENEFITS_STARTED,
         }),
       ).to.be.true;
 
@@ -166,7 +166,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the FETCH_ALL_PREFERENCES_FAILED on request failure`, done => {
+    it(`should dispatch the FETCH_ALL_BENEFITS_FAILED on request failure`, done => {
       const error = { test: 'test' };
       setFetchFailure(global.fetch.onFirstCall(), error);
 
@@ -177,14 +177,14 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(
           dispatch.secondCall.calledWith({
-            type: FETCH_ALL_PREFERENCES_FAILED,
+            type: FETCH_ALL_BENEFITS_FAILED,
           }),
         ).to.be.true;
         done();
       }, 0);
     });
 
-    it(`should dispatch the FETCH_ALL_PREFERENCES_SUCCEEDED action on request success`, done => {
+    it(`should dispatch the FETCH_ALL_BENEFITS_SUCCEEDED action on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -207,7 +207,7 @@ describe('preferences actions', () => {
 
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
-          type: FETCH_ALL_PREFERENCES_SUCCEEDED,
+          type: FETCH_ALL_BENEFITS_SUCCEEDED,
           preferences: [{ code: 'pensions', description: 'pension benefits' }],
         });
         done();

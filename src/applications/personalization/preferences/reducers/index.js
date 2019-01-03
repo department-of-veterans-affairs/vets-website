@@ -3,9 +3,9 @@ import get from 'platform/utilities/data/get';
 
 import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
 import {
-  FETCH_ALL_PREFERENCES_STARTED,
-  FETCH_ALL_PREFERENCES_SUCCEEDED,
-  FETCH_ALL_PREFERENCES_FAILED,
+  FETCH_ALL_BENEFITS_STARTED,
+  FETCH_ALL_BENEFITS_SUCCEEDED,
+  FETCH_ALL_BENEFITS_FAILED,
   FETCH_USER_PREFERENCES_STARTED,
   FETCH_USER_PREFERENCES_SUCCEEDED,
   FETCH_USER_PREFERENCES_FAILED,
@@ -62,20 +62,20 @@ export default function preferences(state = initialState, action) {
         userBenefitsLoadingStatus: LOADING_STATES.error,
       };
     }
-    case FETCH_ALL_PREFERENCES_STARTED: {
+    case FETCH_ALL_BENEFITS_STARTED: {
       return {
         ...state,
         allBenefitsLoadingStatus: LOADING_STATES.pending,
       };
     }
-    case FETCH_ALL_PREFERENCES_SUCCEEDED: {
+    case FETCH_ALL_BENEFITS_SUCCEEDED: {
       return {
         ...state,
         availableBenefits: action.preferences,
         allBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
-    case FETCH_ALL_PREFERENCES_FAILED: {
+    case FETCH_ALL_BENEFITS_FAILED: {
       return {
         ...state,
         allBenefitsLoadingStatus: LOADING_STATES.error,

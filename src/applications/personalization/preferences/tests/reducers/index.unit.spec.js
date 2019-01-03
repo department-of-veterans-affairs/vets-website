@@ -130,10 +130,10 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('FETCH_ALL_PREFERENCES_STARTED', () => {
+  describe('FETCH_ALL_BENEFITS_STARTED', () => {
     it('sets the `allBenefitsLoadingStatus` to `pending`', () => {
       action = {
-        type: preferencesActions.FETCH_ALL_PREFERENCES_STARTED,
+        type: preferencesActions.FETCH_ALL_BENEFITS_STARTED,
       };
       const newState = reducer(state, action);
       expect(newState.allBenefitsLoadingStatus).to.equal('pending');
@@ -142,11 +142,11 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('FETCH_ALL_PREFERENCES_SUCCEEDED', () => {
+  describe('FETCH_ALL_BENEFITS_SUCCEEDED', () => {
     let newState;
     beforeEach(() => {
       action = {
-        type: preferencesActions.FETCH_ALL_PREFERENCES_SUCCEEDED,
+        type: preferencesActions.FETCH_ALL_BENEFITS_SUCCEEDED,
         preferences: [
           { code: 'benefits', title: 'benefits' },
           { code: 'benefits', title: 'benefits' },
@@ -167,10 +167,10 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('FETCH_ALL_PREFERENCES_FAILED', () => {
+  describe('FETCH_ALL_BENEFITS_FAILED', () => {
     it('sets the `allBenefitsLoadingStatus` to `error`', () => {
       action = {
-        type: preferencesActions.FETCH_ALL_PREFERENCES_FAILED,
+        type: preferencesActions.FETCH_ALL_BENEFITS_FAILED,
       };
       const newState = reducer(state, action);
       expect(newState.allBenefitsLoadingStatus).to.equal('error');

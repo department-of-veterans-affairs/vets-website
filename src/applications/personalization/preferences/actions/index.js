@@ -9,10 +9,9 @@ import {
   // getNewSelections,
 } from '../helpers';
 
-export const FETCH_ALL_PREFERENCES_STARTED = 'FETCH_ALL_PREFERENCES_STARTED';
-export const FETCH_ALL_PREFERENCES_SUCCEEDED =
-  'FETCH_ALL_PREFERENCES_SUCCEEDED';
-export const FETCH_ALL_PREFERENCES_FAILED = 'FETCH_ALL_PREFERENCES_FAILED';
+export const FETCH_ALL_BENEFITS_STARTED = 'FETCH_ALL_BENEFITS_STARTED';
+export const FETCH_ALL_BENEFITS_SUCCEEDED = 'FETCH_ALL_BENEFITS_SUCCEEDED';
+export const FETCH_ALL_BENEFITS_FAILED = 'FETCH_ALL_BENEFITS_FAILED';
 export const FETCH_USER_PREFERENCES_STARTED = 'FETCH_USER_PREFERENCES_STARTED';
 export const FETCH_USER_PREFERENCES_SUCCEEDED =
   'FETCH_USER_PREFERENCES_SUCCEEDED';
@@ -55,7 +54,7 @@ export function fetchUserSelectedBenefits() {
 export function fetchAvailableBenefits() {
   return dispatch => {
     dispatch({
-      type: FETCH_ALL_PREFERENCES_STARTED,
+      type: FETCH_ALL_BENEFITS_STARTED,
     });
 
     return apiRequest(
@@ -68,13 +67,13 @@ export function fetchAvailableBenefits() {
           [],
         );
         dispatch({
-          type: FETCH_ALL_PREFERENCES_SUCCEEDED,
+          type: FETCH_ALL_BENEFITS_SUCCEEDED,
           preferences: availableBenefits,
         });
       },
       () => {
         dispatch({
-          type: FETCH_ALL_PREFERENCES_FAILED,
+          type: FETCH_ALL_BENEFITS_FAILED,
         });
       },
     );
