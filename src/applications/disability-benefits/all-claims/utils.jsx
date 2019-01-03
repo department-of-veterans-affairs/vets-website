@@ -738,7 +738,7 @@ export const ancillaryFormUploadUi = (
     customClasses = '',
     isDisabled = false,
     addAnotherLabel = 'Add Another',
-  },
+  } = {},
 ) =>
   fileUploadUI(label, {
     itemDescription,
@@ -776,6 +776,10 @@ export const ancillaryFormUploadUi = (
     classNames: customClasses,
     attachmentName: false,
   });
+
+export const isUploadingSupporting8940Documents = formData =>
+  needsToAnswerUnemployability &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, true);
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&
