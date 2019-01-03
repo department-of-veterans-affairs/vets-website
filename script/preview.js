@@ -26,6 +26,8 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 
+if (process.env.PORT) options.port = process.env.PORT;
+
 if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
@@ -72,7 +74,7 @@ app.use('/preview', (req, res) => {
     });
 });
 
-app.listen(process.env.PORT || options.port, () => {
+app.listen(options.port, () => {
   // eslint-disable-next-line no-console
-  console.log('Content preview server running');
+  console.log(`Content preview server running on port ${options.port}`);
 });
