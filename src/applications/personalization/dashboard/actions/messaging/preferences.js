@@ -7,9 +7,9 @@ import {
   SM_SAVING_PREFERENCES,
   SM_SET_NOTIFICATION_EMAIL,
   SM_SET_NOTIFICATION_FREQUENCY,
-} from '../utils/constants';
+} from '../../utils/constants';
 
-import { apiRequest } from '../utils/helpers';
+import { apiRequest } from '../../utils/helpers';
 
 const baseUrl = '/preferences';
 

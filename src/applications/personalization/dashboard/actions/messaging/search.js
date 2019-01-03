@@ -5,7 +5,7 @@ import {
   SET_ADVSEARCH_END_DATE,
   SET_SEARCH_PARAM,
   TOGGLE_ADVANCED_SEARCH,
-} from '../utils/constants';
+} from '../../utils/constants';
 
 export function toggleAdvancedSearch() {
   return {

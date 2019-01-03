@@ -7,10 +7,10 @@ import {
   LOADING_RECIPIENTS,
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
-} from '../utils/constants';
+} from '../../utils/constants';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../utils/helpers';
+import recordEvent from '../../../../../platform/monitoring/record-event';
+import { apiRequest } from '../../utils/helpers';
 
 export function deleteComposeMessage() {
   recordEvent({

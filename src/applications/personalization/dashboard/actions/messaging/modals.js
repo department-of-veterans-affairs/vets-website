@@ -6,7 +6,7 @@ import {
   TOGGLE_CONFIRM_DELETE,
   SET_NEW_FOLDER_NAME,
   TOGGLE_CONFIRM_SAVE,
-} from '../utils/constants';
+} from '../../utils/constants';
 
 export function closeCreateFolderModal() {
   return { type: CLOSE_CREATE_FOLDER };

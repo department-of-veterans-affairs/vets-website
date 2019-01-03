@@ -1,5 +1,5 @@
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../utils/helpers';
+import recordEvent from '../../../../../platform/monitoring/record-event';
+import { apiRequest } from '../../utils/helpers';
 
 import {
   ADD_DRAFT_ATTACHMENTS,
@@ -30,7 +30,7 @@ import {
   TOGGLE_THREAD_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
   UPDATE_DRAFT,
-} from '../utils/constants';
+} from '../../utils/constants';
 
 const baseUrl = '/messages';
 

@@ -2,8 +2,21 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 
-import environment from '../../../platform/utilities/environment';
-import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
+import environment from '../../../../platform/utilities/environment';
+import { apiRequest as commonApiClient } from '../../../../platform/utilities/api';
+
+export function formatDate(date, options = {}) {
+  const momentDate = moment(date);
+
+  const isValidDate =
+    momentDate.isValid() &&
+    (!options.validateInPast ||
+      momentDate.isSameOrBefore(moment().endOf('day')));
+
+  return isValidDate
+    ? momentDate.format(options.format || 'MMMM DD, YYYY')
+    : 'Not available';
+}
 
 function createQueryString(query) {
   const segments = [];

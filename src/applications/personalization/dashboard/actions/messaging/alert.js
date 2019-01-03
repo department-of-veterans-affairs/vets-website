@@ -1,4 +1,4 @@
-import { CLOSE_ALERT, OPEN_ALERT } from '../utils/constants';
+import { CLOSE_ALERT, OPEN_ALERT } from '../../utils/constants';
 
 export function closeAlert() {
   return {

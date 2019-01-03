@@ -1,5 +1,5 @@
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest, createUrlWithQuery } from '../utils/helpers';
+import recordEvent from '../../../../../platform/monitoring/record-event';
+import { apiRequest, createUrlWithQuery } from '../../utils/helpers';
 
 import {
   CREATE_FOLDER_FAILURE,
@@ -17,7 +17,7 @@ import {
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
-} from '../utils/constants';
+} from '../../utils/constants';
 
 const baseUrl = '/folders';
 
