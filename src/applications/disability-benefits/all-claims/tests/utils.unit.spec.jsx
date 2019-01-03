@@ -168,6 +168,9 @@ describe('526 helpers', () => {
       expect(capitalizeEachWord('some disability - some detail')).to.equal(
         'Some Disability - Some Detail',
       );
+      expect(capitalizeEachWord('some disability (some detail)')).to.equal(
+        'Some Disability (Some Detail)',
+      );
     });
     it('should return Unknown Condition with undefined name', () => {
       expect(capitalizeEachWord()).to.equal('Unknown Condition');
