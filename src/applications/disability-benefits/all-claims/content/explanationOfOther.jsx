@@ -1,5 +1,5 @@
 import React from 'react';
 
 export const explanationOfOther = (
-  <span className="hiddenTitle">Explanation of Other</span>
+  <span className="sr-only">Explanation of Other</span>
 );
