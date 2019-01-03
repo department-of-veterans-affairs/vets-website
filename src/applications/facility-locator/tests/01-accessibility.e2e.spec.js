@@ -11,8 +11,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.facility-locator', Timeouts.slow)
-    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-    .axeCheck('.main', { rules: ['section508'] });
+    .axeCheck('.main');
 
   // Traverse form controls via keyboard input
   client
