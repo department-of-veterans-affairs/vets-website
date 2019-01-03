@@ -144,13 +144,29 @@ describe('preferencesReducer', () => {
 
   describe('FETCH_ALL_BENEFITS_SUCCEEDED', () => {
     let newState;
+    const response = {
+      data: {
+        attributes: {
+          code: 'benefits',
+          title: 'Available Benefits',
+          preferenceChoices: [
+            {
+              code: 'health-care',
+              description: 'Get health care coverage',
+            },
+            {
+              code: 'disability',
+              description:
+                'Find benefits for an illness or injury related to a veterans service benefits',
+            },
+          ],
+        },
+      },
+    };
     beforeEach(() => {
       action = {
         type: preferencesActions.FETCH_ALL_BENEFITS_SUCCEEDED,
-        preferences: [
-          { code: 'benefits', title: 'benefits' },
-          { code: 'benefits', title: 'benefits' },
-        ],
+        payload: response,
       };
       newState = reducer(state, action);
     });
@@ -160,8 +176,12 @@ describe('preferencesReducer', () => {
     });
     it('sets the `availableBenefits`', () => {
       expect(newState.availableBenefits).to.deep.equal([
-        { code: 'benefits', title: 'benefits' },
-        { code: 'benefits', title: 'benefits' },
+        { code: 'health-care', description: 'Get health care coverage' },
+        {
+          code: 'disability',
+          description:
+            'Find benefits for an illness or injury related to a veterans service benefits',
+        },
       ]);
       expect(newState.dashboard).to.be.deep.equal({});
     });

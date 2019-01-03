@@ -208,7 +208,7 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
           type: FETCH_ALL_BENEFITS_SUCCEEDED,
-          preferences: [{ code: 'pensions', description: 'pension benefits' }],
+          payload: response,
         });
         done();
       }, 0);

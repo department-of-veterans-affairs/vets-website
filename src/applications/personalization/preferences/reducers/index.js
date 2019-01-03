@@ -69,9 +69,14 @@ export default function preferences(state = initialState, action) {
       };
     }
     case FETCH_ALL_BENEFITS_SUCCEEDED: {
+      const availableBenefits = get(
+        'payload.data.attributes.preferenceChoices',
+        action,
+        [],
+      );
       return {
         ...state,
-        availableBenefits: action.preferences,
+        availableBenefits,
         allBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }

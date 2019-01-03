@@ -1,5 +1,4 @@
 import { apiRequest } from 'platform/utilities/api';
-import get from 'platform/utilities/data/get';
 
 import {
   benefitChoices,
@@ -61,14 +60,9 @@ export function fetchAvailableBenefits() {
       '/user/preferences/choices/benefits',
       null,
       response => {
-        const availableBenefits = get(
-          'data.attributes.preferenceChoices',
-          response,
-          [],
-        );
         dispatch({
           type: FETCH_ALL_BENEFITS_SUCCEEDED,
-          preferences: availableBenefits,
+          payload: response,
         });
       },
       () => {
