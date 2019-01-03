@@ -249,7 +249,7 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: {
-              from: '2019-01-01',
+              from: '2020-01-01',
             },
             country: 'USA',
             addressLine1: '123 Any Street',
@@ -291,7 +291,7 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: {
-              from: '2019-01-01',
+              from: '2020-01-01',
             },
             country: 'USA',
             addressLine1: '123 Any Street',
@@ -456,7 +456,7 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: {
-              from: '2019-01-01',
+              from: '2020-01-01',
             },
             country: 'USA',
             addressLine1: '234 Maple St.',
