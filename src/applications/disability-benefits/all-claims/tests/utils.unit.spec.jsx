@@ -759,6 +759,51 @@ describe('isAnswering781aQuestions', () => {
       });
     });
 
+    const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
+    it('should have mappings for all workBehaviorChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
+          .properties.workBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all mentalHealthChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
+          .properties.mentalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all physicalHealthChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+          .properties.physicalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all socialBehaviorChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+          .properties.socialBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
     it('should return UI titles', () => {
       const fieldTitles = getPtsdChangeText({
         increasedLeave: true,

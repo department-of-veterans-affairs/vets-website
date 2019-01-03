@@ -388,7 +388,8 @@
       "fear": true,
       "hypervigilance": true,
       "other": true,
-      "otherExplanation": "Other mental change"
+      "otherExplanation": "Other mental change",
+      "noneApply": true
     },
     "workBehaviorChanges": {
       "performanceChanges": true,
