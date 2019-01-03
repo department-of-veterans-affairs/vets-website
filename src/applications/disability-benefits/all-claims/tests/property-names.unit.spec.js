@@ -7,12 +7,24 @@ import * as pages from '../pages';
 //  objects and should be ignored.
 const ignoreList = {
   // propName: ['list', 'of', 'pages'],
-  newDisabilities: ['addDisabilities', 'newDisabilityFollowUp'],
+  newDisabilities: [
+    'addDisabilities',
+    'newDisabilityFollowUp',
+    'unemployabilityDisabilities',
+  ],
+  ratedDisabilities: ['unemployabilityDisabilities', 'ratedDisabilities'],
   serviceInformation: ['federalOrders', 'reservesNationalGuardService'],
   unemployability: [
     'hospitalizationHistory',
     'unemployabilityAdditionalInformation',
     'supplementalBenefits',
+    'unemployabilityCertification',
+    'pastEducationTraining',
+    'militaryDutyImpact',
+    'recentEarnedIncome',
+    'recentEducationTraining',
+    'recentJobApplications',
+    'incomeDetails',
   ],
 };
 

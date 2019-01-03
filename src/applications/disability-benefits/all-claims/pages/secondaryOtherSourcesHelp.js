@@ -14,7 +14,7 @@ export const uiSchema = index => ({
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': otherSourcesHelpDescription,
-  [`incident${index}`]: {
+  [`secondaryIncident${index}`]: {
     otherSourcesHelp: {
       'view:helpPrivateMedicalTreatment': {
         'ui:title':
@@ -31,7 +31,7 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`incident${index}`]: {
+    [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
         otherSourcesHelp: {

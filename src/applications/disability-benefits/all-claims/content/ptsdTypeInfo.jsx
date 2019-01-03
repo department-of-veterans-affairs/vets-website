@@ -23,44 +23,33 @@ export const nonCombatPtsdTypeLong = (
   </span>
 );
 
-export const ptsdTypeDescription = (
-  <div>
-    <p>
-      First we‘re going to ask you about the type of event or events that
-      contributed to your PTSD.
-    </p>
-  </div>
-);
-
 export const ptsdTypeHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
-    <h4>Types of Stressful incidents</h4>
+    <h4>Types of stressful events</h4>
     <h5>Combat</h5>
     <p>
       This means you participated in a fight or encounter with a military enemy
-      or hostile unit or weapon. It also includes if you were present during
+      or hostile unit or weapon. It also could mean you were present during
       these events either as a combatant or a Servicemember supporting
-      combatants such as providing medical care to the wounded.
+      combatants -- for example, providing medical care to the wounded.
     </p>
-    <h5>Military sexual trauma</h5>
+    <h5>Sexual trauma</h5>
     <p>
-      This includes sexual harassment, sexual assault, or rape that happens in a
-      military setting.
+      This means you experienced sexual harassment, sexual assault, or rape, by
+      a Servicemember or civilian, while on active duty, active duty for
+      training, or inactive duty training.
     </p>
     <h5>Personal assault</h5>
     <p>
-      This means a person, who isn‘t part of an enemy force, committed harm.
-      Examples of personal assault include: assault, battery, robbery, mugging,
-      stalking, or harassment.
+      This means you were a victim of an assault, battery, robbery, mugging,
+      stalking, or harassment by a person who wasn't part of an enemy force.
     </p>
-    <h5>
-      Non-combat PTSD other than Military sexual trauma or Personal assault
-    </h5>
+    <h5>Non-combat PTSD other than sexual trauma or personal assault</h5>
     <p>
       This means you experienced an event such as a car accident, hurricane, or
-      plane crash, or witnessing the death, injury, or threat to another person
-      or to yourself, caused by something other than a hostile military or
-      terrorist activity.
+      plane crash, or witnessed the death, injury, or threat to another person
+      or to yourself, that was caused by something other than a hostile military
+      or terrorist activity.
     </p>
   </AdditionalInfo>
 );

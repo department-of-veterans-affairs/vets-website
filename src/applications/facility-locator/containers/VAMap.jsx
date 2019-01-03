@@ -8,7 +8,8 @@ import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import isMobile from 'ismobilejs';
-import { map, compact, isEmpty, debounce } from 'lodash';
+import { isEmpty, debounce } from 'lodash';
+import appendQuery from 'append-query';
 import {
   updateSearchQuery,
   genBBoxFromAddress,
@@ -265,15 +266,12 @@ class VAMap extends Component {
       ...params,
     };
 
-    /* eslint-disable prettier/prettier */
-    const queryString = compact(
-      map(queryParams, (value, key) => {
-        return (value) ? `${key}=${value}` : null;
-      })
-    ).join('&');
-    /* eslint-enable prettier/prettier */
+    const queryStringObj = appendQuery(
+      `/find-locations${location.pathname}`,
+      queryParams,
+    );
 
-    browserHistory.push(`/find-locations${location.pathname}?${queryString}`);
+    browserHistory.push(queryStringObj);
   };
 
   /**
