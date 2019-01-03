@@ -18,6 +18,7 @@ export const benefitChoices = [
     cta: {
       link: '/health-care/apply/application/introduction',
       text: 'Apply Now for VA Health Care',
+      gaTag: 'recommendations-health-care-apply-now',
     },
     faqs: [
       {
@@ -38,6 +39,7 @@ export const benefitChoices = [
       link:
         'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
       text: 'File a Claim now on eBenefits',
+      gaTag: 'recommendations-disability-file-claim',
     },
     faqs: [
       {
@@ -68,6 +70,7 @@ export const benefitChoices = [
     cta: {
       link: '/education/apply',
       text: 'Apply Now for Education Benefits',
+      gaTag: 'recommendations-education-apply-now',
     },
     faqs: [
       {
@@ -86,6 +89,7 @@ export const benefitChoices = [
     cta: {
       link: '/careers-employment',
       text: 'View All Related Benefits',
+      gaTag: 'recommendations-careers-view-benefits',
     },
     faqs: [
       {
@@ -105,6 +109,7 @@ export const benefitChoices = [
     cta: {
       link: '/pension/application/527EZ/introduction',
       text: 'Apply Now for Pension Benefits',
+      gaTag: 'recommendations-pension-apply-now',
     },
     faqs: [
       {
@@ -124,6 +129,7 @@ export const benefitChoices = [
       link:
         'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan',
       text: 'Apply for a Home Loan COE',
+      gaTag: 'recommendations-home-loan-apply-now',
     },
     faqs: [
       {
@@ -159,6 +165,7 @@ export const benefitChoices = [
       link:
         '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/introduction',
       text: 'Apply for Pre-Need Burial Eligibility',
+      gaTag: 'recommendations-burials-apply-for-preneed',
     },
     faqs: [
       {
