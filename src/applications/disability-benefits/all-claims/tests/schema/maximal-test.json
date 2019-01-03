@@ -83,7 +83,7 @@
           "state": "AL"
         },
         "treatedDisabilityNames": {
-          "First Condition": true,
+          "Aging": true,
           "PTSD (post Traumatic Stress Disorder)": true
         }
       }
@@ -132,7 +132,7 @@
     ],
     "ratedDisabilities": [
       {
-        "name": "First Condition",
+        "name": "Aging",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
@@ -170,7 +170,7 @@
         "view:isTitle10Activated": true,
         "title10Activation": {
           "title10ActivationDate": "1902-01-01",
-          "anticipatedSeparationDate": "2019-01-01"
+          "anticipatedSeparationDate": "2025-01-01"
         },
         "obligationTermOfServiceDateRange": {
           "from": "1902-01-01",

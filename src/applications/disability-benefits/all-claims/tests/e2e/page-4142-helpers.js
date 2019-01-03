@@ -35,7 +35,7 @@ export const completeVaMedicalRecords = (client, data) => {
 
     Object.keys(facility.treatedDisabilityNames).forEach(disability => {
       client.fillCheckbox(
-        `root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}`,
+        `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
         facility.treatedDisabilityNames[disability],
       );
     });

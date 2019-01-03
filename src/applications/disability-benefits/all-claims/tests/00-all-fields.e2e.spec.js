@@ -12,6 +12,7 @@ const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 const ENVIRONMENTS = require('../../../../site/constants/environments');
+const { isDisabilityPtsd } = require('../validations');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
@@ -121,6 +122,20 @@ const runTest = E2eHelpers.createE2eTest(client => {
     E2eHelpers.expectLocation(client, '/new-disabilities/follow-up');
     client.axeCheck('.main');
     client.click('.form-progress-buttons .usa-button-primary');
+
+    formData.newDisabilities.forEach((disability, i) => {
+      if (!isDisabilityPtsd(disability.condition)) {
+        // New Disability - Follow up ${i}
+        E2eHelpers.expectLocation(client, `/new-disabilities/follow-up/${i}`);
+        client.axeCheck('.main');
+        PageAllClaimsHelpers.completeNewDisabilityFollowUp(
+          client,
+          disability,
+          i,
+        );
+        client.click('.form-progress-buttons .usa-button-primary');
+      }
+    });
 
     // ***********************
     // 781/a - PTSD

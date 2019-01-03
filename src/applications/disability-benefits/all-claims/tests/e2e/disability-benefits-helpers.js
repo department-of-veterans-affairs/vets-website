@@ -129,6 +129,30 @@ export const addNewDisability = (client, data) => {
   client.click('body');
 };
 
+export const completeNewDisabilityFollowUp = (client, disability, index) => {
+  client.selectRadio(`root_cause`, disability.cause);
+
+  switch (disability.cause) {
+    case 'NEW':
+      client.assert.fail(
+        `All fields on /new-disabilities/follow-up/${index} are required`,
+      );
+      client.fill(
+        `textarea[id="root_primaryDescription"]`,
+        disability.primaryDescription,
+      );
+      break;
+    case 'SECONDARY':
+    case 'WORSENED':
+    case 'VA':
+    default:
+      client.assert.fail(
+        `All fields on /new-disabilities/follow-up/${index} are required`,
+      );
+      break;
+  }
+};
+
 export const selectPtsdTypes = (client, data) => {
   const selectablePtsdTypes = data['view:selectablePtsdTypes'];
   client
