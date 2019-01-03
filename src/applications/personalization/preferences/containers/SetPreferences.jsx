@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -8,16 +9,16 @@ import get from 'platform/utilities/data/get';
 import LoadingButton from '../../profile360/vet360/components/base/LoadingButton';
 
 import PreferenceOption from '../components/PreferenceOption';
+import { benefitChoices, didJustSave } from '../helpers';
 import {
-  benefitChoices,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
-} from '../helpers';
+} from '../helperComponents';
 import { LOADING_STATES } from '../constants';
-
 import {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
 } from '../actions';
@@ -30,10 +31,7 @@ class SetPreferences extends React.Component {
 
   // if the preferences are saved successfully, then redirect to home
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
-      this.props.preferences.saveStatus === LOADING_STATES.loaded
-    ) {
+    if (didJustSave(prevProps, this.props)) {
       this.goHome();
     }
   }
@@ -64,12 +62,26 @@ class SetPreferences extends React.Component {
   };
 
   handleSave = () => {
-    this.props.savePreferences(this.props.preferences.dashboard);
+    const { dashboard } = this.props.preferences;
+    if (Object.keys(dashboard).length) {
+      this.props.savePreferences(dashboard);
+    } else {
+      this.props.deletePreferences();
+    }
   };
 
-  handlePreferenceToggle = code => {
-    this.props.setPreference(code, !this.props.preferences.dashboard[code]);
+  handlePreferenceToggle = (code, value) => {
+    this.props.setPreference(code, value);
   };
+
+  // checks to see if the current state of the dashboard (ie preferences
+  // selected by the user) is different from how they were when they were pulled
+  // from the server
+  userHasNotMadeChange = () =>
+    isEqual(
+      this.props.preferences.dashboard,
+      this.props.preferences.savedDashboard,
+    );
 
   // hydrate benefit options from the backend with data from the benefitChoices
   // helper array. We are storing user-facing info in the benefitChoices array
@@ -81,7 +93,7 @@ class SetPreferences extends React.Component {
       const helperData = benefitChoices.find(
         choice => choice.code === benefit.code,
       );
-      hydratedBenefit.title = get('title', helperData, benefit.description);
+      hydratedBenefit.title = helperData.title;
       hydratedBenefit.description = get(
         'description',
         helperData,
@@ -95,7 +107,7 @@ class SetPreferences extends React.Component {
     const availableBenefits = this.hydrateBenefits(
       this.props.preferences.availableBenefits,
     );
-    const { saveStatus } = this.props.preferences;
+    const { saveStatus, dashboard } = this.props.preferences;
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading benefit choices...'} />;
@@ -113,7 +125,7 @@ class SetPreferences extends React.Component {
                 key={benefitIndex}
                 item={benefit}
                 onChange={this.handlePreferenceToggle}
-                checked={!!this.props.preferences.dashboard[benefit.code]}
+                checked={!!dashboard[benefit.code]}
               />
             ))}
           </div>
@@ -122,6 +134,7 @@ class SetPreferences extends React.Component {
             <LoadingButton
               isLoading={saveStatus === LOADING_STATES.pending}
               onClick={this.handleSave}
+              disabled={this.userHasNotMadeChange()}
             >
               <span>Save Preferences</span>
             </LoadingButton>
@@ -159,6 +172,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
 };

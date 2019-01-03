@@ -80,7 +80,7 @@
   "devDependencies": {
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
-    "axe-core": "^2.3.1",
+    "axe-core": "^2.6.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^23.6.0",
@@ -188,7 +188,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.12.2",
+    "@department-of-veterans-affairs/formation": "^1.16.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@octokit/rest": "^16.2.0",
     "blob-polyfill": "^2.0.20171115",

@@ -10,83 +10,206 @@ describe('preferencesReducer', () => {
 
   beforeEach(() => {
     state = undefined;
+  });
+
+  describe('default state', () => {
     action = { type: 'NOT_RELEVANT' };
-  });
-
-  it('defaults `dashboard` to empty object', () => {
     const newState = reducer(state, action);
-    expect(newState.dashboard).to.deep.equal({});
+    it('sets `dashboard` to empty object', () => {
+      expect(newState.dashboard).to.deep.equal({});
+    });
+    it('sets `availableBenefits` to empty array', () => {
+      expect(newState.availableBenefits).to.deep.equal([]);
+    });
+    it('sets `dismissedBenefitAlerts` to empty array', () => {
+      expect(newState.dismissedBenefitAlerts).to.deep.equal([]);
+    });
   });
 
-  it('defaults `availableBenefits` to empty array', () => {
-    const newState = reducer(state, action);
-    expect(newState.availableBenefits).to.deep.equal([]);
+  describe('FETCH_USER_PREFERENCES_PENDING', () => {
+    it('sets the `userBenefitsLoadingStatus` to `pending`', () => {
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_PENDING,
+      };
+      const newState = reducer(state, action);
+      expect(newState.userBenefitsLoadingStatus).to.equal('pending');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
   });
 
-  it('sets the `userBenefitsLoadingStatus` when the `SET_USER_PREFERENCE_REQUEST_STATUS` action is dispatched', () => {
-    action = {
-      type: preferencesActions.SET_USER_PREFERENCE_REQUEST_STATUS,
-      status: 'pending',
-    };
-    const newState = reducer(state, action);
-    expect(newState.userBenefitsLoadingStatus).to.equal('pending');
-    expect(newState.dashboard).to.be.deep.equal({});
-    expect(newState.availableBenefits).to.be.deep.equal([]);
+  describe('FETCH_USER_PREFERENCES_SUCCEEDED', () => {
+    it('sets the `userBenefitsLoadingStatus` to `loaded`', () => {
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+      };
+      const newState = reducer(state, action);
+      expect(newState.userBenefitsLoadingStatus).to.equal('loaded');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
   });
 
-  it('sets the `allBenefitsLoadingStatus` when the `SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS` action is dispatched', () => {
-    action = {
-      type: preferencesActions.SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-      status: 'error',
-    };
-    const newState = reducer(state, action);
-    expect(newState.allBenefitsLoadingStatus).to.equal('error');
-    expect(newState.dashboard).to.be.deep.equal({});
-    expect(newState.availableBenefits).to.be.deep.equal([]);
+  describe('FETCH_USER_PREFERENCES_FAILED', () => {
+    it('sets the `userBenefitsLoadingStatus` to `error`', () => {
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_FAILED,
+      };
+      const newState = reducer(state, action);
+      expect(newState.userBenefitsLoadingStatus).to.equal('error');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
   });
 
-  it('sets the `saveStatus` when the `SET_SAVE_PREFERENCES_REQUEST_STATUS` action is dispatched', () => {
-    action = {
-      type: preferencesActions.SET_SAVE_PREFERENCES_REQUEST_STATUS,
-      status: 'loaded',
-    };
-    const newState = reducer(state, action);
-    expect(newState.saveStatus).to.equal('loaded');
-    expect(newState.dashboard).to.be.deep.equal({});
-    expect(newState.availableBenefits).to.be.deep.equal([]);
+  describe('FETCH_ALL_PREFERENCES_PENDING', () => {
+    it('sets the `allBenefitsLoadingStatus` to `pending`', () => {
+      action = {
+        type: preferencesActions.FETCH_ALL_PREFERENCES_PENDING,
+      };
+      const newState = reducer(state, action);
+      expect(newState.allBenefitsLoadingStatus).to.equal('pending');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
   });
 
-  it('sets the `availableBenefits` when the `SET_AVAILABLE_BENEFITS` action is dispatched', () => {
-    action = {
-      type: preferencesActions.SET_AVAILABLE_BENEFITS,
-      preferences: [
+  describe('FETCH_ALL_PREFERENCES_SUCCEEDED', () => {
+    it('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
+      action = {
+        type: preferencesActions.FETCH_ALL_PREFERENCES_SUCCEEDED,
+      };
+      const newState = reducer(state, action);
+      expect(newState.allBenefitsLoadingStatus).to.equal('loaded');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+  });
+
+  describe('FETCH_ALL_PREFERENCES_FAILED', () => {
+    it('sets the `allBenefitsLoadingStatus` to `error`', () => {
+      action = {
+        type: preferencesActions.FETCH_ALL_PREFERENCES_FAILED,
+      };
+      const newState = reducer(state, action);
+      expect(newState.allBenefitsLoadingStatus).to.equal('error');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+  });
+
+  describe('SAVE_USER_PREFERENCES_PENDING', () => {
+    it('sets the `saveStatus` to `pending`', () => {
+      action = {
+        type: preferencesActions.SAVE_USER_PREFERENCES_PENDING,
+      };
+      const newState = reducer(state, action);
+      expect(newState.saveStatus).to.equal('pending');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+  });
+
+  describe('SAVE_USER_PREFERENCES_SUCCEEDED', () => {
+    it('sets the `saveStatus` to `loaded`', () => {
+      action = {
+        type: preferencesActions.SAVE_USER_PREFERENCES_SUCCEEDED,
+      };
+      const newState = reducer(state, action);
+      expect(newState.saveStatus).to.equal('loaded');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+
+    it('uses Date.now() to set the `savedAt` timestamp', () => {
+      const ts = 1544809132931;
+      const dateNowStub = sinon.stub(Date, 'now').callsFake(() => ts);
+      action = {
+        type: preferencesActions.SAVE_USER_PREFERENCES_SUCCEEDED,
+      };
+      const newState = reducer(state, action);
+      expect(dateNowStub.called);
+      expect(newState.savedAt).to.equal(ts);
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+      dateNowStub.restore();
+    });
+  });
+
+  describe('SAVE_USER_PREFERENCES_FAILED', () => {
+    it('sets the `saveStatus` to `error`', () => {
+      action = {
+        type: preferencesActions.SAVE_USER_PREFERENCES_FAILED,
+      };
+      const newState = reducer(state, action);
+      expect(newState.saveStatus).to.equal('error');
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+  });
+
+  describe('SET_AVAILABLE_BENEFITS', () => {
+    it('sets the `availableBenefits`', () => {
+      action = {
+        type: preferencesActions.SET_AVAILABLE_BENEFITS,
+        preferences: [
+          { code: 'benefits', title: 'benefits' },
+          { code: 'benefits', title: 'benefits' },
+        ],
+      };
+      const newState = reducer(state, action);
+      expect(newState.availableBenefits).to.deep.equal([
         { code: 'benefits', title: 'benefits' },
         { code: 'benefits', title: 'benefits' },
-      ],
-    };
-    const newState = reducer(state, action);
-    expect(newState.availableBenefits).to.deep.equal([
-      { code: 'benefits', title: 'benefits' },
-      { code: 'benefits', title: 'benefits' },
-    ]);
-    expect(newState.dashboard).to.be.deep.equal({});
+      ]);
+      expect(newState.dashboard).to.be.deep.equal({});
+    });
   });
 
-  it('uses Date.now() to set the `savedAt` timestamp when the `SAVED_DASHBOARD_PREFERENCES` action is dispatched', () => {
-    const ts = 1544809132931;
-    const dateNowStub = sinon.stub(Date, 'now').callsFake(() => ts);
-    action = {
-      type: preferencesActions.SAVED_DASHBOARD_PREFERENCES,
-    };
-    const newState = reducer(state, action);
-    expect(dateNowStub.called);
-    expect(newState.savedAt).to.equal(ts);
-    expect(newState.dashboard).to.be.deep.equal({});
-    expect(newState.availableBenefits).to.be.deep.equal([]);
-    dateNowStub.restore();
+  describe('SET_USER_PREFERENCE', () => {
+    it('adds new prefs to dashboard with a value of `true`', () => {
+      state = {
+        dashboard: {},
+      };
+      action = {
+        type: preferencesActions.SET_USER_PREFERENCE,
+        code: 'pref1',
+        value: true,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({ pref1: true });
+    });
+    it('completely removes prefs from dashboard when their new value is `false`', () => {
+      state = {
+        dashboard: { pref1: true, pref2: true },
+      };
+      action = {
+        type: preferencesActions.SET_USER_PREFERENCE,
+        code: 'pref1',
+        value: false,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({ pref2: true });
+    });
+    it('does not touch the savedDashboard when updating the dashboard', () => {
+      state = {
+        dashboard: { pref1: true, pref2: true },
+        savedDashboard: { pref1: true, pref2: true },
+      };
+      action = {
+        type: preferencesActions.SET_USER_PREFERENCE,
+        code: 'pref1',
+        value: false,
+      };
+      const newState = reducer(state, action);
+      expect(newState.savedDashboard).to.be.deep.equal({
+        pref1: true,
+        pref2: true,
+      });
+    });
   });
 
-  describe('SET_DASHBOARD_USER_PREFERENCES', () => {
+  describe('SET_ALL_USER_PREFERENCES', () => {
     let userPreferencesResponse;
 
     it('correctly parses the server payload and updates the state when the user has set preferences', () => {
@@ -118,14 +241,16 @@ describe('preferencesReducer', () => {
         },
       };
       action = {
-        type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
+        type: preferencesActions.SET_ALL_USER_PREFERENCES,
         payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
       expect(newState.dashboard).to.be.deep.equal({
         'education-training': true,
       });
-      expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
+      expect(newState.savedDashboard).to.be.deep.equal({
+        'education-training': true,
+      });
     });
     it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
       userPreferencesResponse = {
@@ -144,12 +269,41 @@ describe('preferencesReducer', () => {
         },
       };
       action = {
-        type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
+        type: preferencesActions.SET_ALL_USER_PREFERENCES,
         payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
       expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
+      expect(newState.savedDashboard).to.be.deep.equal({});
+    });
+  });
+
+  describe('SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS', () => {
+    it('sets the `dismissedBenefitAlerts`', () => {
+      action = {
+        type:
+          preferencesActions.SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+        value: ['medical'],
+      };
+      const newState = reducer(state, action);
+      expect(newState.dismissedBenefitAlerts).to.be.deep.equal(['medical']);
+    });
+  });
+
+  describe('RESTORE_PREVIOUS_USER_PREFERENCES', () => {
+    it('sets the `dashboard` to the value of `savedDashboard`', () => {
+      state = {
+        dashboard: {},
+        savedDashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.RESTORE_PREVIOUS_USER_PREFERENCES,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal(state.savedDashboard);
     });
   });
 });

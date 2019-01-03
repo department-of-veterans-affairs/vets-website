@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -14,17 +15,29 @@ import PreferenceList from '../components/PreferenceList';
 import {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
+  restorePreviousSelections,
 } from '../actions';
 import {
   benefitChoices,
+  dismissBenefitAlert,
+  getDismissedBenefitAlerts,
+  didPreferencesChange,
+  didJustSave,
+  didJustFailToSave,
+} from '../helpers';
+import {
   SaveSucceededMessageComponent,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
-} from '../helpers';
+} from '../helperComponents';
 import { LOADING_STATES } from '../constants';
 
-const BenefitAlert = ({ alert: Alert }) => <Alert />;
+const BenefitAlert = ({ alert: Alert, onClose }) => (
+  <Alert onCloseAlert={onClose} />
+);
 const ALERT_DELAY = 5000;
 
 class PreferencesWidget extends React.Component {
@@ -36,6 +49,9 @@ class PreferencesWidget extends React.Component {
 
   componentWillMount() {
     this.props.fetchUserSelectedBenefits();
+    if (!isEmpty(this.props.preferences.dashboard)) {
+      this.setSelectedBenefits();
+    }
     const savedRecently = moment().isBefore(
       this.props.preferences.savedAt + ALERT_DELAY,
     );
@@ -44,9 +60,45 @@ class PreferencesWidget extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (didPreferencesChange(prevProps, this.props)) {
+      this.setSelectedBenefits();
+    }
+    if (didJustSave(prevProps, this.props)) {
+      this.setSavedMessage();
+    }
+    if (didJustFailToSave(prevProps, this.props)) {
+      this.props.restorePreviousSelections();
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.state.savedMessageTimer);
   }
+
+  setSelectedBenefits = () => {
+    const {
+      preferences: { dashboard },
+    } = this.props;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    this.setState({ selectedBenefits }, this.getDisplayedBenefitAlerts);
+  };
+
+  getDisplayedBenefitAlerts = () => {
+    const dismissedAlerts = getDismissedBenefitAlerts();
+    this.props.setDismissedBenefitAlerts(dismissedAlerts);
+    const { dismissedBenefitAlerts } = this.props.preferences;
+    const selectedBenefitAlerts = this.state.selectedBenefits
+      .filter(item => !!item.alert)
+      .map(item => item.alert);
+    let displayedBenefitAlerts = selectedBenefitAlerts.filter(
+      alert => !dismissedBenefitAlerts.includes(alert.name),
+    );
+    displayedBenefitAlerts = deduplicate(displayedBenefitAlerts);
+    this.setState({ displayedBenefitAlerts });
+  };
 
   setSavedMessage = () => {
     // Clear any existing saved message timer
@@ -55,21 +107,27 @@ class PreferencesWidget extends React.Component {
     }
 
     // Display preferences saved message
-    this.setState({ savedMessage: true });
+    this.setState({ showSavedMessage: true });
 
     // Create new message timer
     const savedMessageTimer = setTimeout(
-      () => this.setState({ savedMessage: false }),
+      () => this.setState({ showSavedMessage: false }),
       ALERT_DELAY,
     );
     // Set new message timer to state
     this.setState({ savedMessageTimer });
   };
 
-  handleRemove = async code => {
+  handleRemoveBenefit = async code => {
     await this.props.setPreference(code, false);
-    this.props.savePreferences(this.props.preferences.dashboard);
-    this.setSavedMessage();
+    const { dashboard } = this.props.preferences;
+    // We have to use a different endpoint/Redux action if the user has removed
+    // their last remaining selected benefit
+    if (Object.keys(dashboard).length) {
+      this.props.savePreferences(dashboard);
+    } else {
+      this.props.deletePreferences();
+    }
   };
 
   handleViewToggle = code => {
@@ -78,27 +136,23 @@ class PreferencesWidget extends React.Component {
     });
   };
 
-  handleCloseAlert = () => {
+  handleCloseSavedAlert = () => {
     clearTimeout(this.state.savedMessageTimer);
-    this.setState({ savedMessage: false });
+    this.setState({ showSavedMessage: false });
   };
 
-  renderContent() {
+  handleCloseBenefitAlert = name => {
+    dismissBenefitAlert(name);
+    this.getDisplayedBenefitAlerts();
+  };
+
+  renderContent = () => {
     const {
-      preferences: {
-        dashboard,
-        userBenefitsLoadingStatus: loadingStatus,
-        saveStatus,
-      },
+      preferences: { userBenefitsLoadingStatus: loadingStatus, saveStatus },
     } = this.props;
-    const selectedBenefits = benefitChoices.filter(
-      item => !!dashboard[item.code],
-    );
-    const hasSelectedBenefits = !!selectedBenefits.length;
-    let selectedBenefitAlerts = selectedBenefits
-      .filter(item => !!item.alert)
-      .map(item => item.alert);
-    selectedBenefitAlerts = deduplicate(selectedBenefitAlerts);
+    const { selectedBenefits, displayedBenefitAlerts } = this.state;
+
+    const hasSelectedBenefits = selectedBenefits && !!selectedBenefits.length;
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading your selections...'} />;
@@ -106,15 +160,12 @@ class PreferencesWidget extends React.Component {
     if (loadingStatus === LOADING_STATES.error) {
       return <RetrieveFailedMessageComponent />;
     }
-    if (saveStatus === LOADING_STATES.error) {
-      return SaveFailedMessageComponent;
-    }
     if (loadingStatus === LOADING_STATES.loaded) {
       if (!hasSelectedBenefits) {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <Link to="find-benefits">Select benefits now.</Link>
+            <a href="/my-va/find-benefits">Select benefits now.</a>
           </div>
         );
       }
@@ -125,23 +176,30 @@ class PreferencesWidget extends React.Component {
             benefits={selectedBenefits}
             view={this.state}
             handleViewToggle={this.handleViewToggle}
-            handleRemove={this.handleRemove}
+            handleRemove={this.handleRemoveBenefit}
           />,
         ];
-        if (selectedBenefitAlerts.length) {
+        if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
           content.unshift(
             <div key="benefit-alerts">
-              {selectedBenefitAlerts.map((alert, index) => (
-                <BenefitAlert alert={alert} key={index} />
+              {displayedBenefitAlerts.map(({ component, name }, index) => (
+                <BenefitAlert
+                  alert={component}
+                  key={index}
+                  onClose={() => this.handleCloseBenefitAlert(name)}
+                />
               ))}
             </div>,
           );
+        }
+        if (saveStatus === LOADING_STATES.error) {
+          content.unshift(<SaveFailedMessageComponent />);
         }
         return content;
       }
     }
     return null;
-  }
+  };
 
   render() {
     // do not show in production
@@ -149,22 +207,28 @@ class PreferencesWidget extends React.Component {
       return null;
     }
     const {
-      preferences: { userBenefitsLoadingStatus },
+      preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
     } = this.props;
-    const { savedMessage } = this.state;
+    const isLoaded = loadingStatus !== LOADING_STATES.pending;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    const hasSelectedBenefits = !!selectedBenefits.length;
+    const { showSavedMessage } = this.state;
 
     return (
       <div>
         <div className="title-container">
           <h2>Find VA Benefits</h2>
-          {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
-            <Link
-              className="usa-button usa-button-secondary"
-              to="find-benefits"
-            >
-              Find VA Benefits
-            </Link>
-          )}
+          {isLoaded &&
+            hasSelectedBenefits && (
+              <Link
+                className="usa-button usa-button-secondary"
+                to="find-benefits"
+              >
+                Find VA Benefits
+              </Link>
+            )}
         </div>
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
@@ -173,9 +237,9 @@ class PreferencesWidget extends React.Component {
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
-          {savedMessage && (
+          {showSavedMessage && (
             <SaveSucceededMessageComponent
-              handleCloseAlert={this.handleCloseAlert}
+              handleCloseAlert={this.handleCloseSavedAlert}
             />
           )}
         </ReactCSSTransitionGroup>
@@ -193,7 +257,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
+  restorePreviousSelections,
 };
 
 export default connect(
