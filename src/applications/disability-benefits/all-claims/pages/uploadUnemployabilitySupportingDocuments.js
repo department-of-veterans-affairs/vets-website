@@ -4,7 +4,7 @@ import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
-  'ui:description': uploadDescription,
+  'ui:description': uploadDescription('Supporting Documents'),
   unemployabilitySupportingDocuments: ancillaryFormUploadUi(
     '',
     'Individual Unemployability 8940 form supporting documents',

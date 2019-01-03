@@ -13,12 +13,10 @@ function configureAssets(smith, buildOptions) {
   );
 
   if (buildOptions.watch) {
-    const watchPaths = {
-      [`${buildOptions.contentRoot}/**/*`]: '**/*.{md,html}',
-      [`${buildOptions.contentPagesRoot}/**/*`]: '**/*.{md,html}',
-    };
-
-    const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
+    const watchMetalSmith = watch({
+      paths: buildOptions.watchPaths,
+      livereload: true,
+    });
 
     smith.use(watchMetalSmith);
     smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));

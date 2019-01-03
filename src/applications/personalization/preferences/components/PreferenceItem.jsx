@@ -46,7 +46,7 @@ export default function PreferenceItem({
   isRemoving,
   benefit,
 }) {
-  const { title, introduction, slug, cta, faqs } = benefit;
+  const { title, introduction, code, cta, faqs } = benefit;
 
   if (isRemoving) {
     return (
@@ -61,13 +61,13 @@ export default function PreferenceItem({
           </p>
           <button
             className="usa-button-primary"
-            onClick={() => handleRemove(slug)}
+            onClick={() => handleRemove(code)}
           >
             Remove
           </button>
           <button
             className="usa-button-secondary"
-            onClick={() => handleViewToggle(slug)}
+            onClick={() => handleViewToggle(code)}
           >
             Cancel
           </button>
@@ -77,11 +77,11 @@ export default function PreferenceItem({
   }
   return (
     <div>
-      <div className="title-container va-nav-linkslist-heading">
+      <div className="title-container preference-item-title">
         <h3>{title}</h3>
         <button
           className="va-button-link"
-          onClick={() => handleViewToggle(slug)}
+          onClick={() => handleViewToggle(code)}
         >
           <i className="fa fa-close" /> <span>Remove</span>
         </button>
@@ -102,7 +102,10 @@ PreferenceItem.propTypes = {
     slug: PropTypes.string,
     description: PropTypes.string,
     introduction: PropTypes.string,
-    alert: PropTypes.func,
+    alert: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      component: PropTypes.func.isRequired,
+    }),
     faqs: PropTypes.array,
     cta: PropTypes.shape({
       description: PropTypes.element,

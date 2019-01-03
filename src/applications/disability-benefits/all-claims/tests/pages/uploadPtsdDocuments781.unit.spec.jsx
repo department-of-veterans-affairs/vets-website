@@ -71,6 +71,8 @@ describe('781 record upload', () => {
             {
               confirmationCode: 'testing',
               name: '781.pdf',
+              attachmentId:
+                'VA Form 21-781 - Statement in Support of Claim for PTSD',
             },
           ],
         }}
