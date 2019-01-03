@@ -9,6 +9,7 @@ import {
   setDismissedBenefitAlerts,
   restorePreviousSelections,
   deletePreferences,
+  updatePreferences,
   FETCH_ALL_BENEFITS_STARTED,
   FETCH_ALL_BENEFITS_FAILED,
   FETCH_ALL_BENEFITS_SUCCEEDED,
@@ -427,6 +428,25 @@ describe('preferences actions', () => {
         ).to.be.true;
         done();
       }, 0);
+    });
+  });
+
+  describe('updatePreferences', () => {
+    let saveSpy;
+    let deleteSpy;
+    beforeEach(() => {
+      saveSpy = sinon.spy();
+      deleteSpy = sinon.spy();
+    });
+    it('should call savePreferences if it is passed a non-empty array of benefits', () => {
+      updatePreferences({ pref: true }, saveSpy, deleteSpy);
+      expect(deleteSpy.called).not.to.be.true;
+      expect(saveSpy.firstCall.calledWith({ pref: true })).to.be.true;
+    });
+    it('should call deletePreferences if it is passed an empty array of benefits', () => {
+      updatePreferences({}, saveSpy, deleteSpy);
+      expect(saveSpy.called).not.to.be.true;
+      expect(deleteSpy.called).to.be.true;
     });
   });
 });

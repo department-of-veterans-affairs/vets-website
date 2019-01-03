@@ -172,3 +172,15 @@ export function deletePreferences() {
     );
   };
 }
+
+// Wrapper to call either savePreferences or deletePreferences
+export function updatePreferences(
+  benefitsData,
+  saveFunc = savePreferences,
+  deleteFunc = deletePreferences,
+) {
+  if (Object.keys(benefitsData).length) {
+    return saveFunc(benefitsData);
+  }
+  return deleteFunc();
+}
