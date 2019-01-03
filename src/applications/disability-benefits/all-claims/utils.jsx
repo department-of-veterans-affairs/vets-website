@@ -348,18 +348,32 @@ export function transform(formConfig, form) {
     ),
   );
 
-  // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      _.set(
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+      // Transform the related disabilities lists into an array of strings
+      const newFacility = _.set(
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,
-      ),
-    );
+      );
+
+      // If the day is missing, set it to the last day of the month because EVSS requires a day
+      const [year, month, day] = _.get(
+        'treatmentDateRange.to',
+        newFacility,
+        '',
+      ).split('-');
+      if (day && day === 'XX') {
+        newFacility.treatmentDateRange.to = moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD');
+      }
+
+      return newFacility;
+    });
     clonedData.vaTreatmentFacilities = newVAFacilities;
   }
 
