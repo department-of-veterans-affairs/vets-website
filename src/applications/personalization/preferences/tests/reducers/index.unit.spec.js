@@ -51,7 +51,7 @@ describe('preferencesReducer', () => {
       expect(newState.availableBenefits).to.be.deep.equal([]);
     });
 
-    it('correctly parses the server payload and updates the state when the user has set preferences', () => {
+    it('correctly parses the server payload and updates the `dashboard` and `savedDashboard` state when the user has set preferences', () => {
       userPreferencesResponse = {
         data: {
           id: '',
@@ -143,7 +143,8 @@ describe('preferencesReducer', () => {
   });
 
   describe('FETCH_ALL_PREFERENCES_SUCCEEDED', () => {
-    it('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
+    let newState;
+    beforeEach(() => {
       action = {
         type: preferencesActions.FETCH_ALL_PREFERENCES_SUCCEEDED,
         preferences: [
@@ -151,19 +152,13 @@ describe('preferencesReducer', () => {
           { code: 'benefits', title: 'benefits' },
         ],
       };
-      const newState = reducer(state, action);
+      newState = reducer(state, action);
+    });
+    it('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
       expect(newState.allBenefitsLoadingStatus).to.equal('loaded');
       expect(newState.dashboard).to.be.deep.equal({});
     });
     it('sets the `availableBenefits`', () => {
-      action = {
-        type: preferencesActions.FETCH_ALL_PREFERENCES_SUCCEEDED,
-        preferences: [
-          { code: 'benefits', title: 'benefits' },
-          { code: 'benefits', title: 'benefits' },
-        ],
-      };
-      const newState = reducer(state, action);
       expect(newState.availableBenefits).to.deep.equal([
         { code: 'benefits', title: 'benefits' },
         { code: 'benefits', title: 'benefits' },
