@@ -632,7 +632,7 @@ export const ancillaryFormUploadUi = (
     customClasses = '',
     isDisabled = false,
     addAnotherLabel = 'Add Another',
-  },
+  } = {},
 ) =>
   fileUploadUI(label, {
     itemDescription,
