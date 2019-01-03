@@ -8,8 +8,8 @@ export const AddressViewField = ({ formData }) => {
     addressLine2,
     addressLine3,
     city,
-    state,
     country,
+    state,
     zipCode,
   } = formData;
   let zipString;
@@ -95,6 +95,13 @@ export const phoneEmailViewField = ({ formData }) => {
     </div>
   );
 };
+
+export const forwardingAddressDescription = () => (
+  <p>
+    If you give us a temporary or forwarding address, we’ll look at the dates
+    you provide to see if we need to use this address when scheduling any exams.
+  </p>
+);
 
 export const contactInfoDescription = () => (
   <p>
