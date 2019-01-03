@@ -615,10 +615,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Page4142Helpers.completeAdditionalEvidence(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // // Evidence Summary
-    // E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
-    // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-    // E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
+    // Evidence Summary
+    E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
 
     // Possibly used outside of flow to, and including, 4142
     // Veteran Address Information

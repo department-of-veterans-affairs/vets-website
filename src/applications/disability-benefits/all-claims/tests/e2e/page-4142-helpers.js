@@ -34,10 +34,15 @@ export const completeVaMedicalRecords = (client, data) => {
     );
 
     Object.keys(facility.treatedDisabilityNames).forEach(disability => {
-      client.fillCheckbox(
-        `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
-        facility.treatedDisabilityNames[disability],
-      );
+      client
+        .waitForElementVisible(
+          `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
+          Timeouts.normal,
+        )
+        .fillCheckbox(
+          `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
+          facility.treatedDisabilityNames[disability],
+        );
     });
 
     const treatmentDateRange = facility.treatmentDateRange;
@@ -67,7 +72,7 @@ export const completeVaMedicalRecords = (client, data) => {
 export const completePrivateMedicalRecordsChoice = (client, data) => {
   const pmrChoice =
     data['view:uploadPrivateRecordsQualifier'][
-      'view:hasPrivateMedicalRecordsToUpload'
+      'view:hasPrivateRecordsToUpload'
     ];
 
   client.selectYesNo(
@@ -82,16 +87,14 @@ export const completePrivateMedicalRecordsChoice = (client, data) => {
       'root_view:patientAcknowledgement_view:acknowledgement',
       acknowledgement,
     );
+  } else {
+    client.verify.fail('Upload required');
   }
 };
 
 export const completeRecordReleaseInformation = (client, data) => {
   data.providerFacility.forEach((facility, i, list) => {
     client
-      .waitForElementVisible(
-        `input[name="root_providerFacility_${i}_providerFacilityName"]`,
-        Timeouts.normal,
-      )
       .fill(
         `input[name="root_providerFacility_${i}_providerFacilityName"]`,
         facility.providerFacilityName,
@@ -104,46 +107,29 @@ export const completeRecordReleaseInformation = (client, data) => {
         `root_providerFacility_${i}_treatmentDateRange_to`,
         facility.treatmentDateRange.to,
       )
-      .selectDropdown(
-        `root_providerFacility_${i}_providerFacilityAddress_country`,
-        facility.providerFacilityAddress.country,
-      )
-      .fill(
-        `input[name="root_providerFacility_${i}_providerFacilityAddress_street"]`,
-        facility.providerFacilityAddress.street,
-      )
-      .fill(
-        `input[name="root_providerFacility_${i}_providerFacilityAddress_city"]`,
-        facility.providerFacilityAddress.city,
-      )
-      .selectDropdown(
-        `root_providerFacility_${i}_providerFacilityAddress_state`,
-        facility.providerFacilityAddress.state,
-      )
-      .fill(
-        `input[name="root_providerFacility_${i}_providerFacilityAddress_postalCode"]`,
-        facility.providerFacilityAddress.postalCode,
+      .fillAddress(
+        `root_providerFacility_${i}_providerFacilityAddress`,
+        facility.providerFacilityAddress,
       );
 
     clickAddAnother(client, i, list);
   });
 
   const limitedConsentChoice = data['view:limitedConsent'];
-  const { limitedConsent } = data;
 
-  client
-    .fillCheckbox(
-      'input[name="root_view:limitedConsent"]',
-      limitedConsentChoice,
-    )
-    .waitForElementVisible('input[name="root_limitedConsent"]', Timeouts.normal)
-    .fill('input[name="root_limitedConsent"]', limitedConsent);
+  client.fillCheckbox(
+    'input[name="root_view:limitedConsent"]',
+    limitedConsentChoice,
+  );
+  if (limitedConsentChoice) {
+    client.fill('input[name="root_limitedConsent"]', data.limitedConsent);
+  }
 };
 
 export const completeAdditionalEvidence = (client, data) => {
   data.additionalDocuments.forEach((document, i, list) => {
     client
-      .fillUpload(__dirname, document.name)
+      .fillUpload('root_additionalDocuments', __dirname, document.name)
       .selectDropdown(
         `root_additionalDocuments_${i}_atachmentId`,
         document.attachmentId,

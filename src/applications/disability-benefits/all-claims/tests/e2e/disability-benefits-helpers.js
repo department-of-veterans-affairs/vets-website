@@ -134,9 +134,6 @@ export const completeNewDisabilityFollowUp = (client, disability, index) => {
 
   switch (disability.cause) {
     case 'NEW':
-      client.assert.fail(
-        `All fields on /new-disabilities/follow-up/${index} are required`,
-      );
       client.fill(
         `textarea[id="root_primaryDescription"]`,
         disability.primaryDescription,
@@ -146,7 +143,7 @@ export const completeNewDisabilityFollowUp = (client, disability, index) => {
     case 'WORSENED':
     case 'VA':
     default:
-      client.assert.fail(
+      client.verify.fail(
         `All fields on /new-disabilities/follow-up/${index} are required`,
       );
       break;
