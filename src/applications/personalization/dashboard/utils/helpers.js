@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import moment from 'moment';
 
 import environment from '../../../../platform/utilities/environment';
@@ -40,29 +39,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
 
   return commonApiClient(url, optionalSettings, success, error);
-}
-
-export function formatFileSize(bytes, decimalplaces = 2) {
-  const kilo = 1000;
-  const mega = 1000000;
-  const multiplier = 10 ** decimalplaces;
-  let size;
-
-  if (bytes < kilo) {
-    size = `${bytes}B`;
-  }
-
-  if (bytes > kilo && bytes < mega) {
-    const kbytes = Math.ceil(bytes / kilo);
-    size = `${kbytes}K`;
-  }
-
-  if (bytes > mega) {
-    const mbytes = Math.round((bytes / mega) * multiplier) / multiplier;
-    size = `${mbytes}M`;
-  }
-
-  return size;
 }
 
 export function formattedDate(date, options = {}) {
@@ -111,8 +87,4 @@ export function formattedDate(date, options = {}) {
   }
 
   return dateString;
-}
-
-export function folderUrl(folderName) {
-  return folderName ? `/${_.kebabCase(folderName)}` : '/inbox';
 }

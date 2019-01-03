@@ -1,6 +1,5 @@
 import assign from 'lodash/fp/assign';
 import set from 'lodash/fp/set';
-import _ from 'lodash';
 
 const initialState = {
   currentItem: null,
@@ -28,50 +27,6 @@ const initialState = {
   },
 };
 
-function sortByName(items) {
-  /*
-  Making all values the same case, to prevent
-  alphabetization from getting wonky.
-  */
-  return items.attributes.prescriptionName.toLowerCase();
-}
-
-function sortByFacilityName(items) {
-  return items.attributes.facilityName;
-}
-
-function sortByLastSubmitDate(items) {
-  return new Date(items.attributes.refillSubmitDate).getTime();
-}
-
-function sortByLastFillDate(items) {
-  return new Date(items.attributes.refillDate).getTime();
-}
-
-function updateRefillStatus(items, id) {
-  const itemToUpdate = items.findIndex(
-    item =>
-      // The + converts to a number for comparison
-      +item.id === id,
-  );
-
-  // Update the refill status
-  const isRefillable = set(
-    'attributes.isRefillable',
-    false,
-    items[itemToUpdate],
-  );
-  const refillStatus = set(
-    'attributes.refillStatus',
-    'submitted',
-    isRefillable,
-  );
-
-  const updatedItems = set(itemToUpdate, refillStatus, items);
-
-  return updatedItems;
-}
-
 export default function prescriptions(state = initialState, action) {
   switch (action.type) {
     case 'LOADING_ACTIVE':
@@ -79,14 +34,6 @@ export default function prescriptions(state = initialState, action) {
 
     case 'LOADING_HISTORY':
       return set('history.loading', true, state);
-
-    case 'LOADING_DETAIL':
-      return set('detail.loading', true, state);
-
-    case 'LOAD_PRESCRIPTION_FAILURE': {
-      const loadingState = set('detail.loading', false, state);
-      return set('currentItem', null, loadingState);
-    }
 
     case 'LOAD_PRESCRIPTIONS_FAILURE': {
       const section = action.active ? 'active' : 'history';
@@ -97,11 +44,6 @@ export default function prescriptions(state = initialState, action) {
         loadingState,
       );
       return set('items', null, errorState);
-    }
-
-    case 'LOAD_PRESCRIPTION_SUCCESS': {
-      const loadingState = set('detail.loading', false, state);
-      return set('currentItem', action.data, loadingState);
     }
 
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
@@ -128,62 +70,6 @@ export default function prescriptions(state = initialState, action) {
       }
 
       return assign(state, newState);
-    }
-
-    case 'REFILL_SUCCESS': {
-      const newItems = updateRefillStatus(
-        state.items,
-        action.prescription.prescriptionId,
-      );
-      return set('items', newItems, state);
-    }
-
-    case 'SORT_PRESCRIPTIONS': {
-      const newState = set(
-        'active.sort',
-        {
-          value: action.sort,
-          order: action.order,
-        },
-        state,
-      );
-      const order = action.order.toLowerCase();
-
-      switch (action.sort) {
-        case 'prescriptionName':
-          return set(
-            'items',
-            _.orderBy(state.items, sortByName, [order]),
-            newState,
-          );
-        case 'facilityName':
-          return set(
-            'items',
-            _.orderBy(state.items, sortByFacilityName, [order]),
-            newState,
-          );
-        case 'lastSubmitDate':
-          return set(
-            'items',
-            _.orderBy(state.items, sortByLastSubmitDate, [order]),
-            newState,
-          );
-        case 'lastFillDate':
-          return set(
-            'items',
-            _.orderBy(state.items, sortByLastFillDate, [order]),
-            newState,
-          );
-        default:
-          return set(
-            'active.sort',
-            {
-              value: 'prescriptionName',
-              order: 'ASC',
-            },
-            state,
-          );
-      }
     }
 
     default:
