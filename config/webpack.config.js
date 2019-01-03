@@ -98,9 +98,13 @@ const configGenerator = (buildOptions, apps) => {
                 loader: 'css-loader',
                 options: {
                   minimize: isOptimizedBuild,
+                  sourceMap: !isOptimizedBuild,
                 },
               },
-              { loader: 'sass-loader' },
+              {
+                loader: 'sass-loader',
+                options: { sourceMap: !isOptimizedBuild },
+              },
             ],
           }),
         },
@@ -195,19 +199,18 @@ const configGenerator = (buildOptions, apps) => {
   };
 
   if (isOptimizedBuild) {
-    const bucket = BUCKETS[buildOptions.buildtype];
+    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    baseConfig.mode = 'production';
+  } else {
+    const bucket = BUCKETS[buildOptions.buildtype] || '';
 
+    baseConfig.devtool = '#eval-source-map';
     baseConfig.plugins.push(
       new webpack.SourceMapDevToolPlugin({
         append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
         filename: '[file].map',
       }),
     );
-
-    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
-    baseConfig.mode = 'production';
-  } else {
-    baseConfig.devtool = '#eval-source-map';
   }
 
   if (buildOptions.analyzer) {
