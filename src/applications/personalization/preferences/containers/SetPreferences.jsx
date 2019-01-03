@@ -9,16 +9,16 @@ import get from 'platform/utilities/data/get';
 import LoadingButton from '../../profile360/vet360/components/base/LoadingButton';
 
 import PreferenceOption from '../components/PreferenceOption';
+import { benefitChoices, didJustSave } from '../helpers';
 import {
-  benefitChoices,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
-} from '../helpers';
+} from '../helperComponents';
 import { LOADING_STATES } from '../constants';
-
 import {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
 } from '../actions';
@@ -31,10 +31,7 @@ class SetPreferences extends React.Component {
 
   // if the preferences are saved successfully, then redirect to home
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.preferences.saveStatus === LOADING_STATES.pending &&
-      this.props.preferences.saveStatus === LOADING_STATES.loaded
-    ) {
+    if (didJustSave(prevProps, this.props)) {
       this.goHome();
     }
   }
@@ -65,7 +62,12 @@ class SetPreferences extends React.Component {
   };
 
   handleSave = () => {
-    this.props.savePreferences(this.props.preferences.dashboard);
+    const { dashboard } = this.props.preferences;
+    if (Object.keys(dashboard).length) {
+      this.props.savePreferences(dashboard);
+    } else {
+      this.props.deletePreferences();
+    }
   };
 
   handlePreferenceToggle = (code, value) => {
@@ -78,7 +80,7 @@ class SetPreferences extends React.Component {
   userHasNotMadeChange = () =>
     isEqual(
       this.props.preferences.dashboard,
-      this.props.preferences.dashboardBackup,
+      this.props.preferences.savedDashboard,
     );
 
   // hydrate benefit options from the backend with data from the benefitChoices
@@ -105,7 +107,7 @@ class SetPreferences extends React.Component {
     const availableBenefits = this.hydrateBenefits(
       this.props.preferences.availableBenefits,
     );
-    const { saveStatus } = this.props.preferences;
+    const { saveStatus, dashboard } = this.props.preferences;
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading benefit choices...'} />;
@@ -123,7 +125,7 @@ class SetPreferences extends React.Component {
                 key={benefitIndex}
                 item={benefit}
                 onChange={this.handlePreferenceToggle}
-                checked={!!this.props.preferences.dashboard[benefit.code]}
+                checked={!!dashboard[benefit.code]}
               />
             ))}
           </div>
@@ -170,6 +172,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setPreference,
   savePreferences,
+  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
 };
