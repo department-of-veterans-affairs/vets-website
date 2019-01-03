@@ -63,6 +63,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
           response.status === 401 &&
           !pathname.includes('auth/login/callback') &&
           !isLogout;
+
         if (shouldRedirectToLogin) {
           const loginUrl = appendQuery(environment.BASE_URL, {
             next: pathname,
