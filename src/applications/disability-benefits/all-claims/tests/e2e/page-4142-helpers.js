@@ -28,21 +28,21 @@ export const completeEvidenceTypes = (client, data) => {
 
 export const completeVaMedicalRecords = (client, data) => {
   data.vaTreatmentFacilities.forEach((facility, i, list) => {
-    client.fill(
-      `input[name="root_vaTreatmentFacilities_${i}_treatmentCenterName"]`,
-      facility.treatmentCenterName,
-    );
+    client
+      .waitForElementVisible(
+        `input[name="root_vaTreatmentFacilities_${i}_treatmentCenterName"]`,
+        Timeouts.normal,
+      )
+      .fill(
+        `input[name="root_vaTreatmentFacilities_${i}_treatmentCenterName"]`,
+        facility.treatmentCenterName,
+      );
 
     Object.keys(facility.treatedDisabilityNames).forEach(disability => {
-      client
-        .waitForElementVisible(
-          `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
-          Timeouts.normal,
-        )
-        .fillCheckbox(
-          `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
-          facility.treatedDisabilityNames[disability],
-        );
+      client.fillCheckbox(
+        `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
+        facility.treatedDisabilityNames[disability],
+      );
     });
 
     const treatmentDateRange = facility.treatmentDateRange;
