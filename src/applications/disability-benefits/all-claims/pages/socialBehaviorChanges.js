@@ -2,6 +2,8 @@ import React from 'react';
 
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
+import { explanationOfOther } from '../content/explanationOfOther';
+
 const socialDescriptionChanges = (
   <div>
     <h5>Changes in social behavior</h5>
@@ -33,7 +35,7 @@ export const uiSchema = {
       'ui:title': 'Other',
     },
     otherExplanation: {
-      'ui:title': ' ',
+      'ui:title': explanationOfOther,
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,

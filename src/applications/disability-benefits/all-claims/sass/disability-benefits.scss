@@ -136,7 +136,7 @@ ul.original-disability-list {
 }
 
 .patient-acknowldegment-help {
-  max-width: 80vw; 
+  max-width: 80vw;
 }
 
 .upload-completed-form .schemaform-widget-wrapper textarea {
@@ -146,4 +146,8 @@ ul.original-disability-list {
   padding-left: 0;
   height: auto;
   resize: none;
+}
+
+.hiddenTitle {
+  opacity: 0;
 }
