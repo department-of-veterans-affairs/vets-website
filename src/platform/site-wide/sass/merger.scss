@@ -543,8 +543,10 @@ $medium-phone-screen: 375px;
     // very tricky to write and maintain
     @media (max-width: $medium-large-screen - 1) {
       @include button-link;
+      font-weight: 600;
       color: $color-white !important;
       text-decoration: none;
+      -webkit-font-smoothing: antialiased;
     }
   }
 }
