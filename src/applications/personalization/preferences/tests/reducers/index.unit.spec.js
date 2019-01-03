@@ -26,10 +26,10 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('FETCH_USER_PREFERENCES_PENDING', () => {
+  describe('FETCH_USER_PREFERENCES_STARTED', () => {
     it('sets the `userBenefitsLoadingStatus` to `pending`', () => {
       action = {
-        type: preferencesActions.FETCH_USER_PREFERENCES_PENDING,
+        type: preferencesActions.FETCH_USER_PREFERENCES_STARTED,
       };
       const newState = reducer(state, action);
       expect(newState.userBenefitsLoadingStatus).to.equal('pending');
@@ -39,14 +39,82 @@ describe('preferencesReducer', () => {
   });
 
   describe('FETCH_USER_PREFERENCES_SUCCEEDED', () => {
+    let userPreferencesResponse;
     it('sets the `userBenefitsLoadingStatus` to `loaded`', () => {
+      userPreferencesResponse = {};
       action = {
         type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+        payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
       expect(newState.userBenefitsLoadingStatus).to.equal('loaded');
-      expect(newState.dashboard).to.be.deep.equal({});
       expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+
+    it('correctly parses the server payload and updates the state when the user has set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [
+              {
+                code: 'benefits',
+                title:
+                  'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+                userPreferences: [
+                  {
+                    code: 'education-training',
+                    description: 'Info about education and training benefits',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({
+        'education-training': true,
+      });
+      expect(newState.savedDashboard).to.be.deep.equal({
+        'education-training': true,
+      });
+    });
+
+    it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [],
+          },
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.savedDashboard).to.be.deep.equal({});
     });
   });
 
@@ -62,10 +130,10 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('FETCH_ALL_PREFERENCES_PENDING', () => {
+  describe('FETCH_ALL_PREFERENCES_STARTED', () => {
     it('sets the `allBenefitsLoadingStatus` to `pending`', () => {
       action = {
-        type: preferencesActions.FETCH_ALL_PREFERENCES_PENDING,
+        type: preferencesActions.FETCH_ALL_PREFERENCES_STARTED,
       };
       const newState = reducer(state, action);
       expect(newState.allBenefitsLoadingStatus).to.equal('pending');
@@ -78,11 +146,29 @@ describe('preferencesReducer', () => {
     it('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
       action = {
         type: preferencesActions.FETCH_ALL_PREFERENCES_SUCCEEDED,
+        preferences: [
+          { code: 'benefits', title: 'benefits' },
+          { code: 'benefits', title: 'benefits' },
+        ],
       };
       const newState = reducer(state, action);
       expect(newState.allBenefitsLoadingStatus).to.equal('loaded');
       expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+    });
+    it('sets the `availableBenefits`', () => {
+      action = {
+        type: preferencesActions.FETCH_ALL_PREFERENCES_SUCCEEDED,
+        preferences: [
+          { code: 'benefits', title: 'benefits' },
+          { code: 'benefits', title: 'benefits' },
+        ],
+      };
+      const newState = reducer(state, action);
+      expect(newState.availableBenefits).to.deep.equal([
+        { code: 'benefits', title: 'benefits' },
+        { code: 'benefits', title: 'benefits' },
+      ]);
+      expect(newState.dashboard).to.be.deep.equal({});
     });
   });
 
@@ -98,10 +184,10 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('SAVE_USER_PREFERENCES_PENDING', () => {
+  describe('SAVE_USER_PREFERENCES_STARTED', () => {
     it('sets the `saveStatus` to `pending`', () => {
       action = {
-        type: preferencesActions.SAVE_USER_PREFERENCES_PENDING,
+        type: preferencesActions.SAVE_USER_PREFERENCES_STARTED,
       };
       const newState = reducer(state, action);
       expect(newState.saveStatus).to.equal('pending');
@@ -148,24 +234,6 @@ describe('preferencesReducer', () => {
     });
   });
 
-  describe('SET_AVAILABLE_BENEFITS', () => {
-    it('sets the `availableBenefits`', () => {
-      action = {
-        type: preferencesActions.SET_AVAILABLE_BENEFITS,
-        preferences: [
-          { code: 'benefits', title: 'benefits' },
-          { code: 'benefits', title: 'benefits' },
-        ],
-      };
-      const newState = reducer(state, action);
-      expect(newState.availableBenefits).to.deep.equal([
-        { code: 'benefits', title: 'benefits' },
-        { code: 'benefits', title: 'benefits' },
-      ]);
-      expect(newState.dashboard).to.be.deep.equal({});
-    });
-  });
-
   describe('SET_USER_PREFERENCE', () => {
     it('adds new prefs to dashboard with a value of `true`', () => {
       state = {
@@ -206,75 +274,6 @@ describe('preferencesReducer', () => {
         pref1: true,
         pref2: true,
       });
-    });
-  });
-
-  describe('SET_ALL_USER_PREFERENCES', () => {
-    let userPreferencesResponse;
-
-    it('correctly parses the server payload and updates the state when the user has set preferences', () => {
-      userPreferencesResponse = {
-        data: {
-          id: '',
-          type: 'arrays',
-          attributes: {
-            userPreferences: [
-              {
-                code: 'benefits',
-                title:
-                  'the benefits a veteran is interested in, so VA.gov can help you apply for them',
-                userPreferences: [
-                  {
-                    code: 'education-training',
-                    description: 'Info about education and training benefits',
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      };
-      state = {
-        dashboard: {
-          appeals: true,
-          'education-training': false,
-        },
-      };
-      action = {
-        type: preferencesActions.SET_ALL_USER_PREFERENCES,
-        payload: userPreferencesResponse,
-      };
-      const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal({
-        'education-training': true,
-      });
-      expect(newState.savedDashboard).to.be.deep.equal({
-        'education-training': true,
-      });
-    });
-    it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
-      userPreferencesResponse = {
-        data: {
-          id: '',
-          type: 'arrays',
-          attributes: {
-            userPreferences: [],
-          },
-        },
-      };
-      state = {
-        dashboard: {
-          appeals: true,
-          'education-training': false,
-        },
-      };
-      action = {
-        type: preferencesActions.SET_ALL_USER_PREFERENCES,
-        payload: userPreferencesResponse,
-      };
-      const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.savedDashboard).to.be.deep.equal({});
     });
   });
 
