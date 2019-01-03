@@ -108,6 +108,13 @@ export default class ReviewCardField extends React.Component {
       : uiSchema['ui:title'];
   };
 
+  getSubtitle = () => {
+    const { uiSchema, formData } = this.props;
+    return typeof uiSchema['ui:subtitle'] === 'function'
+      ? uiSchema['ui:subtitle'](formData)
+      : uiSchema['ui:subtitle'];
+  };
+
   getDescription = () => {
     const {
       uiSchema: { 'ui:description': description },
@@ -151,11 +158,13 @@ export default class ReviewCardField extends React.Component {
 
     const { volatileData, editTitle } = this.props.uiSchema['ui:options'];
     const title = editTitle || this.getTitle();
+    const subtitle = this.getSubtitle();
 
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
           <h4 className="review-card--title">{title}</h4>
+          {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           <SchemaField
             name={idSchema.$id}
             required={required}
@@ -335,6 +344,7 @@ ReviewCardField.propTypes = {
         .isRequired,
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,
