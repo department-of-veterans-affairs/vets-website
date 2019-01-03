@@ -26,6 +26,7 @@ import {
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
   PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -301,16 +302,15 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-export function getPtsdChangeFieldTitles(changeFields, formConfig) {
+export function getPtsdChangeText(changeFields) {
   return Object.keys(changeFields)
     .filter(
       key =>
         key !== 'other' &&
         key !== 'otherExplanation' &&
-        formConfig[key] &&
-        typeof formConfig[key]['ui:title'] === 'string',
+        PTSD_CHANGE_LABELS[key],
     )
-    .map(key => formConfig[key]['ui:title']);
+    .map(key => PTSD_CHANGE_LABELS[key]);
 }
 
 /**
@@ -468,29 +468,13 @@ export function transform(formConfig, form) {
       additionalSecondaryIncidentText:
         clonedData.additionalSecondaryIncidentText,
       otherInformation: [
-        ...getPtsdChangeFieldTitles(
-          clonedData.physicalChanges,
-          formConfig.chapters.disabilities.pages.physicalHealthChanges.uiSchema
-            .physicalChanges,
-        ),
+        ...getPtsdChangeText(clonedData.physicalChanges),
         _.get('physicalChanges.otherExplanation', clonedData, ''),
-        ...getPtsdChangeFieldTitles(
-          clonedData.socialBehaviorChanges,
-          formConfig.chapters.disabilities.pages.socialBehaviorChanges.uiSchema
-            .socialBehaviorChanges,
-        ),
+        ...getPtsdChangeText(clonedData.socialBehaviorChanges),
         _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
-        ...getPtsdChangeFieldTitles(
-          clonedData.mentalChanges,
-          formConfig.chapters.disabilities.pages.mentalHealthChanges.uiSchema
-            .mentalChanges,
-        ),
+        ...getPtsdChangeText(clonedData.mentalChanges),
         _.get('mentalChanges.otherExplanation', clonedData, ''),
-        ...getPtsdChangeFieldTitles(
-          clonedData.workBehaviorChanges,
-          formConfig.chapters.disabilities.pages.workBehaviorChanges.uiSchema
-            .workBehaviorChanges,
-        ),
+        ...getPtsdChangeText(clonedData.workBehaviorChanges),
         _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
         _.get('additionalChanges', clonedData, ''),
       ].filter(info => info.length > 0),

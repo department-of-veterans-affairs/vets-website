@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import React from 'react';
 import _ from '../../../../platform/utilities/data';
 
 import formConfig from '../config/form';
@@ -31,7 +30,7 @@ import {
   needsToAnswerUnemployability,
   concatIncidentLocationString,
   getFlatIncidentKeys,
-  getPtsdChangeFieldTitles,
+  getPtsdChangeText,
 } from '../utils.jsx';
 
 import {
@@ -47,6 +46,7 @@ import initialData from './initialData';
 import {
   SERVICE_CONNECTION_TYPES,
   PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
@@ -752,43 +752,23 @@ describe('isAnswering781aQuestions', () => {
     });
   });
 
-  describe('getPtsdChangeFieldTitles', () => {
-    const uiSchema = {
-      field1: {
-        'ui:title': 'field1',
-      },
-      field2: {
-        'ui:title': 'field2',
-      },
-      field3: <div>test</div>,
-    };
-
-    it('should return UI titles', () => {
-      const fieldTitles = getPtsdChangeFieldTitles(
-        {
-          field1: true,
-          field2: true,
-          other: true,
-          otherExplanation: 'Other change',
-        },
-        uiSchema,
-      );
-
-      expect(fieldTitles.length).to.eql(2);
+  describe('getPtsdChangeText', () => {
+    it('should have valid labels', () => {
+      Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
+        expect(PTSD_CHANGE_LABELS[key]).to.be.a('string');
+      });
     });
 
-    it('should ignore invalid ui:title values', () => {
-      const fieldTitles = getPtsdChangeFieldTitles(
-        {
-          field1: true,
-          field3: true,
-          other: true,
-          otherExplanation: 'Other social change',
-        },
-        uiSchema,
-      );
+    it('should return UI titles', () => {
+      const fieldTitles = getPtsdChangeText({
+        increasedLeave: true,
+        withdrawal: true,
+        field2: true,
+        other: true,
+        otherExplanation: 'Other change',
+      });
 
-      expect(fieldTitles.length).to.eql(1);
+      expect(fieldTitles.length).to.eql(2);
     });
   });
 });

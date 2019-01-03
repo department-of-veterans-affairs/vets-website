@@ -1,40 +1,28 @@
-import React from 'react';
-
+import { PTSD_CHANGE_LABELS } from '../constants';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
-
-const workDescriptionChanges = (
-  <div>
-    <h5>Changes in Behavior at work</h5>
-    <p>
-      Please tell us about any issue you had at work as a result of the
-      event(s). You may have experienced some or none of these. (Please check
-      any that apply.)
-    </p>
-  </div>
-);
+import { changeDescription } from '../content/workBehaviorChanges';
 
 export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
-  'ui:description': workDescriptionChanges,
+  'ui:description': changeDescription,
   workBehaviorChanges: {
     changeAssignment: {
-      'ui:title':
-        'Sudden requests for a change in occupational series or duty assignment',
+      'ui:title': PTSD_CHANGE_LABELS.changeAssignment,
     },
     increasedLeave: {
-      'ui:title': 'Increased use of leave',
+      'ui:title': PTSD_CHANGE_LABELS.increasedLeave,
     },
     withoutLeave: {
-      'ui:title': 'AWOL - Absent without leave',
+      'ui:title': PTSD_CHANGE_LABELS.withoutLeave,
     },
     performanceChanges: {
-      'ui:title': 'Changes in performance and performance evaluations',
+      'ui:title': PTSD_CHANGE_LABELS.performanceChanges,
     },
     economicChanges: {
-      'ui:title': 'Economic changes',
+      'ui:title': PTSD_CHANGE_LABELS.economicChanges,
     },
     resign: {
-      'ui:title': 'Resigning from your job',
+      'ui:title': PTSD_CHANGE_LABELS.resign,
     },
     other: {
       'ui:title': 'Other',

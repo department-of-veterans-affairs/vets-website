@@ -228,6 +228,8 @@
     "view:enterAdditionalSecondaryEvents0": true,
     "view:enterAdditionalSecondaryEvents1": true,
     "view:enterAdditionalSecondaryEvents2": true,
+    "view:individualsInvolved0": true,
+    "view:individualsInvolved2": true,
     "incident0": {
       "incidentDescription": "First PTSD event description",
       "personsInvolved": [
