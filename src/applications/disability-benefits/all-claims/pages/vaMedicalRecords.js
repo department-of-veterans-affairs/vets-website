@@ -69,9 +69,9 @@ export const uiSchema = {
         ),
         {
           from: {
-            'ui:validations': dateRangeUI().from['ui:validations'].push(
+            'ui:validations': dateRangeUI().from['ui:validations'].concat([
               startedAfterServicePeriod,
-            ),
+            ]),
           },
         },
         { to: { 'ui:validations': [hasMonthYear] } },
