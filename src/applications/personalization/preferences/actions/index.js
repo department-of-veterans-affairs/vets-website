@@ -1,7 +1,9 @@
 import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   benefitChoices,
+  transformPreferencesForAnalytics,
   transformPreferencesForSaving,
   restoreDismissedBenefitAlerts,
   getDismissedBenefitAlerts,
@@ -179,6 +181,10 @@ export function updatePreferences(
   saveFunc = savePreferences,
   deleteFunc = deletePreferences,
 ) {
+  recordEvent({
+    event: 'dashboard-preferences-saved-successful',
+    ...transformPreferencesForAnalytics(),
+  });
   if (Object.keys(benefitsData).length) {
     return saveFunc(benefitsData);
   }

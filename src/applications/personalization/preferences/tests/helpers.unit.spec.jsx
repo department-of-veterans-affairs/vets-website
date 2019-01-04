@@ -4,11 +4,13 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import {
   DISMISSED_BENEFIT_ALERTS,
+  benefitChoices,
   getDismissedBenefitAlerts,
   setDismissedBenefitAlerts,
   dismissBenefitAlert,
   restoreDismissedBenefitAlerts,
   getNewSelections,
+  transformPreferencesForAnalytics,
   transformPreferencesForSaving,
   filterItems,
   didPreferencesChange,
@@ -78,6 +80,33 @@ describe('getNewSelections', () => {
     expect(result).to.deep.equal(['test-2']);
   });
 });
+describe('transformPreferencesForAnalytics', () => {
+  it('returns data in the correct format', () => {
+    const selectedChoices = {
+      'health-care': true,
+      'burials-memorials': true,
+      'housing-assistance': false,
+    };
+    const allChoices = benefitChoices;
+    const result = transformPreferencesForAnalytics(
+      selectedChoices,
+      allChoices,
+    );
+    expect(result).to.deep.equal({
+      Health: 'True',
+      Disability: 'False',
+      Appeals: 'False',
+      Education: 'False',
+      Careers: 'False',
+      Pension: 'False',
+      Housing: 'False',
+      LifeInsurance: 'False',
+      Burials: 'True',
+      Family: 'False',
+    });
+  });
+});
+
 describe('transformPreferencesForSaving', () => {
   let preferences;
   it('should return the correct JSON data', () => {
