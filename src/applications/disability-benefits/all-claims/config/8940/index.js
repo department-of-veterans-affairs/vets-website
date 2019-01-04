@@ -3,6 +3,8 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  uploadUnemployabilitySupportingDocuments,
+  uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
   unemployabilityCertification,
   pastEducationTraining,
@@ -17,6 +19,7 @@ import environment from '../../../../../platform/utilities/environment';
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploadingSupporting8940Documents,
 } from '../../utils';
 
 export default function() {
@@ -118,6 +121,20 @@ export default function() {
       },
       // 8940 - Supporting Documents
       // 8940 - Upload Supporting Docs
+      uploadUnemployabilitySupportingDocumentsChoice: {
+        title: 'Supporting documents',
+        path: 'upload-unemployability-supporting-documents-choice',
+        depends: needsToAnswerUnemployability,
+        uiSchema: uploadUnemployabilitySupportingDocumentsChoice.uiSchema,
+        schema: uploadUnemployabilitySupportingDocumentsChoice.schema,
+      },
+      uploadUnemployabilitySupportingDocuments: {
+        title: 'Upload supporting documents',
+        path: 'upload-unemployability-supporting-documents',
+        depends: formData => isUploadingSupporting8940Documents(formData),
+        uiSchema: uploadUnemployabilitySupportingDocuments.uiSchema,
+        schema: uploadUnemployabilitySupportingDocuments.schema,
+      },
       // 8940 - Certification
       unemployabilityCertification: {
         title: 'Unemployability Certification',

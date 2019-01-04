@@ -7,14 +7,14 @@ import { SetPreferences } from '../../containers/SetPreferences';
 import { benefitChoices } from '../../helpers';
 import { LOADING_STATES } from '../../constants';
 
-const savePreferences = spy();
+const updatePreferences = spy();
 const setPreference = spy();
 const push = spy();
 
 const props = {
   fetchUserSelectedBenefits: () => true,
   fetchAvailableBenefits: () => true,
-  savePreferences,
+  updatePreferences,
   setPreference,
   isLoading: false,
   preferences: {
@@ -67,7 +67,7 @@ describe('<SetPreferences>', () => {
       .first()
       .simulate('click');
 
-    expect(savePreferences.args[0][0].healthcare).to.equal(false);
+    expect(updatePreferences.args[0][0].healthcare).to.equal(false);
     component.unmount();
   });
   it('should render loading view', () => {
