@@ -13,8 +13,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.slow)
-    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-    .axeCheck('.main', { rules: ['section508'] });
+    .axeCheck('.main');
 
   client
     .waitForElementVisible(
@@ -27,9 +26,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .click('#search-button')
     .waitForElementVisible('.search-page', Timeouts.normal)
-    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-    .axeCheck('.main', { rules: ['section508'] });
-
+    .axeCheck('.main');
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
     .click('.search-result a')
