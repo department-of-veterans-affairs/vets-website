@@ -38,7 +38,6 @@ const globalEntryFiles = {
 
 const configGenerator = (buildOptions, apps) => {
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
-  const bucket = BUCKETS[buildOptions.buildtype];
   const isOptimizedBuild = [
     ENVIRONMENTS.VAGOVSTAGING,
     ENVIRONMENTS.VAGOVPROD,
@@ -196,20 +195,23 @@ const configGenerator = (buildOptions, apps) => {
       new ManifestPlugin({
         fileName: 'file-manifest.json',
       }),
-      new webpack.SourceMapDevToolPlugin(
-        isOptimizedBuild
-          ? {
-              append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
-              filename: '[file].map',
-            }
-          : {},
-      ),
     ],
   };
 
   if (isOptimizedBuild) {
+    const bucket = BUCKETS[buildOptions.buildtype];
+
+    baseConfig.plugins.push(
+      new webpack.SourceMapDevToolPlugin({
+        append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
+        filename: '[file].map',
+      }),
+    );
+
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
     baseConfig.mode = 'production';
+  } else {
+    baseConfig.devtool = '#inline-cheap-module-source-map';
   }
 
   if (buildOptions.analyzer) {
