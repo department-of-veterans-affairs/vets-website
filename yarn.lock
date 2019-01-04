@@ -11202,9 +11202,9 @@ url@^0.11.0, url@~0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-"us-forms-system@https://github.com/usds/us-forms-system.git#827b57caf055ec268919c77afbe6a03c2ef59bd0":
+"us-forms-system@https://github.com/usds/us-forms-system.git#73f9b948f3eeb7392fbeb9181684f0dc9ec020e9":
   version "1.1.0"
-  resolved "https://github.com/usds/us-forms-system.git#827b57caf055ec268919c77afbe6a03c2ef59bd0"
+  resolved "https://github.com/usds/us-forms-system.git#73f9b948f3eeb7392fbeb9181684f0dc9ec020e9"
   dependencies:
     "@department-of-veterans-affairs/react-jsonschema-form" "^1.0.0"
     classnames "^2.2.5"
