@@ -195,9 +195,6 @@ const configGenerator = (buildOptions, apps) => {
       new ManifestPlugin({
         fileName: 'file-manifest.json',
       }),
-      new webpack.SourceMapDevToolPlugin({
-        test: /\.css$/,
-      }),
     ],
   };
 
@@ -215,6 +212,14 @@ const configGenerator = (buildOptions, apps) => {
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
+
+    // The eval-source-map devtool doesn't seem to work for CSS, so we
+    // add a separate plugin for CSS source maps.
+    baseConfig.plugins.push(
+      new webpack.SourceMapDevToolPlugin({
+        test: /\.css$/,
+      }),
+    );
   }
 
   if (buildOptions.analyzer) {
