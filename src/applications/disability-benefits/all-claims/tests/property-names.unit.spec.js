@@ -25,6 +25,7 @@ const ignoreList = {
     'recentEducationTraining',
     'recentJobApplications',
     'incomeDetails',
+    'employmentHistory',
   ],
 };
 
