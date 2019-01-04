@@ -210,20 +210,12 @@ export function transform(formConfig, form) {
         )
       : formData;
 
-  // Apply the transformations
-
-  // Remove rated disabilities that weren't selected
-  let clonedData = filterSelectedRatedDisabilities(form.data);
-
-  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
-  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
-  //  it here to remove reservesNationalGuardService if it's deeply empty.
-  clonedData = filterEmptyObjects(clonedData);
-
-  clonedData = addPOWSpecialIssues(clonedData);
-  clonedData = addPTSDCause(clonedData);
-
-  if (clonedData.newDisabilities) {
+  // newDisabilities -> newPrimaryDisabilities & newSecondaryDisabilities
+  const splitNewDisabilities = formData => {
+    if (!formData.newDisabilities) {
+      return formData;
+    }
+    const clonedData = _.cloneDeep(formData);
     // Split newDisabilities into primary and secondary arrays for backend
     const newPrimaryDisabilities = clonedData.newDisabilities.filter(
       disability => disability.cause !== causeTypes.SECONDARY,
@@ -238,10 +230,15 @@ export function transform(formConfig, form) {
       clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
     }
     delete clonedData.newDisabilities;
-  }
+    return clonedData;
+  };
 
   // Transform the related disabilities lists into an array of strings
-  if (clonedData.vaTreatmentFacilities) {
+  const stringifyRelatedDisabilities = formData => {
+    if (!formData.vaTreatmentFacilities) {
+      return formData;
+    }
+    const clonedData = _.cloneDeep(formData);
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
       // Transform the related disabilities lists into an array of strings
       const newFacility = _.set(
@@ -266,7 +263,23 @@ export function transform(formConfig, form) {
       return newFacility;
     });
     clonedData.vaTreatmentFacilities = newVAFacilities;
-  }
+    return clonedData;
+  };
+
+  // Apply the transformations
+
+  // Remove rated disabilities that weren't selected
+  let clonedData = filterSelectedRatedDisabilities(form.data);
+
+  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
+  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
+  //  it here to remove reservesNationalGuardService if it's deeply empty.
+  clonedData = filterEmptyObjects(clonedData);
+
+  clonedData = addPOWSpecialIssues(clonedData);
+  clonedData = addPTSDCause(clonedData);
+  clonedData = splitNewDisabilities(clonedData);
+  clonedData = stringifyRelatedDisabilities(clonedData);
 
   if (clonedData.providerFacility) {
     clonedData.form4142 = {
