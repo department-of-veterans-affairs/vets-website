@@ -63,17 +63,40 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
+function getClaimedConditionNames(formData) {
+  const claimedConditions = formData.ratedDisabilities
+    ? formData.ratedDisabilities.map(d => d.name.toLowerCase())
+    : [];
+
+  // Depending on where this is called in the transformation flow, we have to use different key names.
+  // This assumes newDisabilities is removed after it's split out into its primary and secondary counterparts.
+  [
+    'newDisabilities',
+    'newPrimaryDisabilities',
+    'newSecondaryDisabilities',
+  ].forEach(key => {
+    if (formData[key]) {
+      // Add new disabilities to claimed conditions list
+      formData[key].forEach(disability =>
+        claimedConditions.push(disability.condition.toLowerCase()),
+      );
+    }
+  });
+  return claimedConditions;
+}
+
 /**
  * Transforms the related disabilities object into an array of strings. The condition
  *  name only gets added to the list if the property value is truthy and is in the list
  *  of conditions claimed on the application.
  *
  * @param {Object} object - The object with dynamically generated property names
- * @param {Array<String>} claimedConditions - An array of lower-cased names of conditions claimed
+ * @param {Object} formData - The whole form data; used to get claimed condition names
  * @return {Array} - An array of the property names with truthy values
  *                   NOTE: This will return all lower-cased names
  */
-export function transformRelatedDisabilities(object, claimedConditions) {
+export function transformRelatedDisabilities(object, formData) {
+  const claimedConditions = getClaimedConditionNames(formData);
   return Object.keys(object)
     .filter(
       // The property name will be normal-cased in the object, but lower-cased in claimedConditions
@@ -158,19 +181,12 @@ export function transform(formConfig, form) {
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = filterEmptyObjects(clonedData, formConfig, form);
 
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
   if (clonedData.newDisabilities) {
-    // Add new disabilities to claimed conditions list
-    clonedData.newDisabilities.forEach(disability =>
-      claimedConditions.push(disability.condition.toLowerCase()),
-    );
     if (clonedData.powDisabilities) {
       // Add POW specialIssue to new conditions
       const powDisabilities = transformRelatedDisabilities(
         clonedData.powDisabilities,
-        claimedConditions,
+        clonedData,
       ).map(name => name.toLowerCase());
       clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
         if (powDisabilities.includes(d.condition.toLowerCase())) {
@@ -215,7 +231,7 @@ export function transform(formConfig, form) {
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
-          claimedConditions,
+          clonedData,
         ),
         facility,
       );
