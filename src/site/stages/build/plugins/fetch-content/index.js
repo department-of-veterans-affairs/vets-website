@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 const { ApolloClient } = require('apollo-boost');
 const { createHttpLink } = require('apollo-link-http');
 const { InMemoryCache } = require('apollo-cache-inmemory');
@@ -20,8 +22,13 @@ function fetchContent(buildOptions) {
       },
     } = responseData;
 
-    // eslint-disable-next-line no-console
-    console.log(pages);
+    for (const page of pages) {
+      const {
+        entityUrl: { path },
+      } = page;
+      files[path] = page;
+    }
+
     done();
   };
 }
