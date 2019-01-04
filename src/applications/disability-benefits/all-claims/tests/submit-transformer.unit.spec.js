@@ -3,13 +3,36 @@ import { expect } from 'chai';
 import formConfig from '../config/form';
 
 import {
+  transform,
   transformRelatedDisabilities,
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
 } from '../submit-transformer';
 
+import {
+  transformedMinimalData,
+  transformedMaximalData,
+} from './schema/transformedData';
+
+import minimalData from './schema/minimal-test.json';
+import maximalData from './schema/maximal-test.json';
+
 import { PTSD_INCIDENT_ITERATION, PTSD_CHANGE_LABELS } from '../constants';
+
+describe('transform', () => {
+  it('should transform minimal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
+      transformedMinimalData,
+    );
+  });
+
+  it('should transform maximal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
+      transformedMaximalData,
+    );
+  });
+});
 
 describe('transformRelatedDisabilities', () => {
   it('should return an array of strings', () => {
