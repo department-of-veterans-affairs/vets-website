@@ -7,6 +7,10 @@ module.exports = gql`
       entities {
         ... on NodePage {
           nid
+          entityUrl {
+            path
+            routed
+          }
           entityBundle
           entityPublished
           title

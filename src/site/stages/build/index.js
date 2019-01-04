@@ -13,6 +13,7 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
+const fetchContent = require('./plugins/fetch-content');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
@@ -44,6 +45,7 @@ function defaultBuild(BUILD_OPTIONS) {
     hostUrl: BUILD_OPTIONS.hostUrl,
   });
 
+  smith.use(fetchContent(BUILD_OPTIONS));
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   // This adds the filename into the "entry" that is passed to other plugins. Without this errors
