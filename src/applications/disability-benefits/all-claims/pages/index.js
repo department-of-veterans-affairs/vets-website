@@ -24,9 +24,14 @@ import {
 } from './servedInCombatZone';
 
 import {
-  uiSchema as separationTrainingPayUISchema,
-  schema as separationTrainingPaySchema,
-} from './separationTrainingPay';
+  uiSchema as separationUISchema,
+  schema as separationSchema,
+} from './separationPay';
+
+import {
+  uiSchema as trainingPayUISchema,
+  schema as trainingPaySchema,
+} from './trainingPay';
 
 import {
   uiSchema as trainingPayWaiverUISchema,
@@ -387,9 +392,14 @@ export const waiveRetirementPay = {
   schema: waiveRetirementPaySchema,
 };
 
-export const separationTrainingPay = {
-  uiSchema: separationTrainingPayUISchema,
-  schema: separationTrainingPaySchema,
+export const separationPay = {
+  uiSchema: separationUISchema,
+  schema: separationSchema,
+};
+
+export const trainingPay = {
+  uiSchema: trainingPayUISchema,
+  schema: trainingPaySchema,
 };
 
 export const trainingPayWaiver = {
