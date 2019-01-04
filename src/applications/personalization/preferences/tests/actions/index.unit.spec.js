@@ -9,19 +9,18 @@ import {
   setDismissedBenefitAlerts,
   restorePreviousSelections,
   deletePreferences,
-  FETCH_ALL_PREFERENCES_PENDING,
-  FETCH_ALL_PREFERENCES_FAILED,
-  FETCH_ALL_PREFERENCES_SUCCEEDED,
-  FETCH_USER_PREFERENCES_PENDING,
+  updatePreferences,
+  FETCH_ALL_BENEFITS_STARTED,
+  FETCH_ALL_BENEFITS_FAILED,
+  FETCH_ALL_BENEFITS_SUCCEEDED,
+  FETCH_USER_PREFERENCES_STARTED,
   FETCH_USER_PREFERENCES_FAILED,
   FETCH_USER_PREFERENCES_SUCCEEDED,
   RESTORE_PREVIOUS_USER_PREFERENCES,
-  SAVE_USER_PREFERENCES_PENDING,
+  SAVE_USER_PREFERENCES_STARTED,
   SAVE_USER_PREFERENCES_FAILED,
   SAVE_USER_PREFERENCES_SUCCEEDED,
   SET_USER_PREFERENCE,
-  SET_ALL_USER_PREFERENCES,
-  SET_AVAILABLE_BENEFITS,
   SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
 } from '../../actions';
 
@@ -51,14 +50,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should dispatch the FETCH_USER_PREFERENCES_PENDING action immediately`, done => {
+    it(`should dispatch the FETCH_USER_PREFERENCES_STARTED action immediately`, done => {
       const dispatch = sinon.spy();
 
       fetchUserSelectedBenefits()(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: FETCH_USER_PREFERENCES_PENDING,
+          type: FETCH_USER_PREFERENCES_STARTED,
         }),
       ).to.be.true;
       done();
@@ -96,7 +95,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED and SET_ALL_USER_PREFERENCES actions on request success`, done => {
+    it(`should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED action on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -126,14 +125,9 @@ describe('preferences actions', () => {
 
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
-          type: SET_ALL_USER_PREFERENCES,
+          type: FETCH_USER_PREFERENCES_SUCCEEDED,
           payload: response,
         });
-        expect(
-          dispatch.thirdCall.calledWith({
-            type: FETCH_USER_PREFERENCES_SUCCEEDED,
-          }),
-        ).to.be.true;
         done();
       }, 0);
     });
@@ -145,14 +139,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the FETCH_ALL_PREFERENCES_PENDING action`, done => {
+    it(`should immediately dispatch the FETCH_ALL_BENEFITS_STARTED action`, done => {
       const dispatch = sinon.spy();
 
       fetchAvailableBenefits()(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: FETCH_ALL_PREFERENCES_PENDING,
+          type: FETCH_ALL_BENEFITS_STARTED,
         }),
       ).to.be.true;
 
@@ -173,7 +167,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the FETCH_ALL_PREFERENCES_FAILED on request failure`, done => {
+    it(`should dispatch the FETCH_ALL_BENEFITS_FAILED on request failure`, done => {
       const error = { test: 'test' };
       setFetchFailure(global.fetch.onFirstCall(), error);
 
@@ -184,14 +178,14 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(
           dispatch.secondCall.calledWith({
-            type: FETCH_ALL_PREFERENCES_FAILED,
+            type: FETCH_ALL_BENEFITS_FAILED,
           }),
         ).to.be.true;
         done();
       }, 0);
     });
 
-    it(`should dispatch the FETCH_ALL_PREFERENCES_SUCCEEDED and the SET_AVAILABLE_BENEFITS actions on request success`, done => {
+    it(`should dispatch the FETCH_ALL_BENEFITS_SUCCEEDED action on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -214,14 +208,9 @@ describe('preferences actions', () => {
 
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
-          type: SET_AVAILABLE_BENEFITS,
-          preferences: [{ code: 'pensions', description: 'pension benefits' }],
+          type: FETCH_ALL_BENEFITS_SUCCEEDED,
+          payload: response,
         });
-        expect(
-          dispatch.thirdCall.calledWith({
-            type: FETCH_ALL_PREFERENCES_SUCCEEDED,
-          }),
-        ).to.be.true;
         done();
       }, 0);
     });
@@ -275,14 +264,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the SAVE_USER_PREFERENCES_PENDING action`, done => {
+    it(`should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`, done => {
       const dispatch = sinon.spy();
 
       savePreferences(benefitsData)(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: SAVE_USER_PREFERENCES_PENDING,
+          type: SAVE_USER_PREFERENCES_STARTED,
         }),
       ).to.be.true;
 
@@ -368,14 +357,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the SAVE_USER_PREFERENCES_PENDING action`, done => {
+    it(`should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`, done => {
       const dispatch = sinon.spy();
 
       deletePreferences()(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: SAVE_USER_PREFERENCES_PENDING,
+          type: SAVE_USER_PREFERENCES_STARTED,
         }),
       ).to.be.true;
 
@@ -439,6 +428,25 @@ describe('preferences actions', () => {
         ).to.be.true;
         done();
       }, 0);
+    });
+  });
+
+  describe('updatePreferences', () => {
+    let saveSpy;
+    let deleteSpy;
+    beforeEach(() => {
+      saveSpy = sinon.spy();
+      deleteSpy = sinon.spy();
+    });
+    it('should call savePreferences if it is passed a non-empty array of benefits', () => {
+      updatePreferences({ pref: true }, saveSpy, deleteSpy);
+      expect(deleteSpy.called).not.to.be.true;
+      expect(saveSpy.firstCall.calledWith({ pref: true })).to.be.true;
+    });
+    it('should call deletePreferences if it is passed an empty array of benefits', () => {
+      updatePreferences({}, saveSpy, deleteSpy);
+      expect(saveSpy.called).not.to.be.true;
+      expect(deleteSpy.called).to.be.true;
     });
   });
 });

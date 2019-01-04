@@ -118,14 +118,14 @@ describe('transformPreferencesForSaving', () => {
     });
   });
   describe('didJustSave', () => {
-    it('should return `true` is the `preferences.saveStatus` flipped from pending to loaded', () => {
+    it('should return `true` if the `preferences.saveStatus` flipped from pending to loaded', () => {
       const prevProps = { preferences: { saveStatus: LOADING_STATES.pending } };
       const nextProps = { preferences: { saveStatus: LOADING_STATES.loaded } };
       expect(didJustSave(prevProps, nextProps)).to.equal(true);
     });
   });
   describe('didJustFailToSave', () => {
-    it('should return `true` is the `preferences.saveStatus` flipped from pending to error', () => {
+    it('should return `true` if the `preferences.saveStatus` flipped from pending to error', () => {
       const prevProps = { preferences: { saveStatus: LOADING_STATES.pending } };
       const nextProps = { preferences: { saveStatus: LOADING_STATES.error } };
       expect(didJustFailToSave(prevProps, nextProps)).to.equal(true);

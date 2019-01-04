@@ -1,18 +1,17 @@
 import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 
 import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
 import {
-  FETCH_ALL_PREFERENCES_PENDING,
-  FETCH_ALL_PREFERENCES_SUCCEEDED,
-  FETCH_ALL_PREFERENCES_FAILED,
-  FETCH_USER_PREFERENCES_PENDING,
+  FETCH_ALL_BENEFITS_STARTED,
+  FETCH_ALL_BENEFITS_SUCCEEDED,
+  FETCH_ALL_BENEFITS_FAILED,
+  FETCH_USER_PREFERENCES_STARTED,
   FETCH_USER_PREFERENCES_SUCCEEDED,
   FETCH_USER_PREFERENCES_FAILED,
-  SAVE_USER_PREFERENCES_PENDING,
+  SAVE_USER_PREFERENCES_STARTED,
   SAVE_USER_PREFERENCES_SUCCEEDED,
   SAVE_USER_PREFERENCES_FAILED,
-  SET_AVAILABLE_BENEFITS,
-  SET_ALL_USER_PREFERENCES,
   SET_USER_PREFERENCE,
   SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
   RESTORE_PREVIOUS_USER_PREFERENCES,
@@ -26,15 +25,34 @@ const initialState = {
 
 export default function preferences(state = initialState, action) {
   switch (action.type) {
-    case FETCH_USER_PREFERENCES_PENDING: {
+    case FETCH_USER_PREFERENCES_STARTED: {
       return {
         ...state,
         userBenefitsLoadingStatus: LOADING_STATES.pending,
       };
     }
     case FETCH_USER_PREFERENCES_SUCCEEDED: {
+      let selectedBenefits = {};
+      const preferenceGroups = get(
+        'payload.data.attributes.userPreferences',
+        action,
+        [],
+      );
+      if (preferenceGroups.length) {
+        selectedBenefits = preferenceGroups
+          .find(
+            preferenceGroup =>
+              preferenceGroup.code === PREFERENCE_CODES.benefits,
+          )
+          .userPreferences.reduce((acc, pref) => {
+            acc[pref.code] = true;
+            return acc;
+          }, selectedBenefits);
+      }
       return {
         ...state,
+        dashboard: { ...selectedBenefits },
+        savedDashboard: { ...selectedBenefits },
         userBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
@@ -44,25 +62,31 @@ export default function preferences(state = initialState, action) {
         userBenefitsLoadingStatus: LOADING_STATES.error,
       };
     }
-    case FETCH_ALL_PREFERENCES_PENDING: {
+    case FETCH_ALL_BENEFITS_STARTED: {
       return {
         ...state,
         allBenefitsLoadingStatus: LOADING_STATES.pending,
       };
     }
-    case FETCH_ALL_PREFERENCES_SUCCEEDED: {
+    case FETCH_ALL_BENEFITS_SUCCEEDED: {
+      const availableBenefits = get(
+        'payload.data.attributes.preferenceChoices',
+        action,
+        [],
+      );
       return {
         ...state,
+        availableBenefits,
         allBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
-    case FETCH_ALL_PREFERENCES_FAILED: {
+    case FETCH_ALL_BENEFITS_FAILED: {
       return {
         ...state,
         allBenefitsLoadingStatus: LOADING_STATES.error,
       };
     }
-    case SAVE_USER_PREFERENCES_PENDING: {
+    case SAVE_USER_PREFERENCES_STARTED: {
       return {
         ...state,
         saveStatus: LOADING_STATES.pending,
@@ -79,30 +103,6 @@ export default function preferences(state = initialState, action) {
       return {
         ...state,
         saveStatus: LOADING_STATES.error,
-      };
-    }
-    case SET_AVAILABLE_BENEFITS: {
-      return _.set(`availableBenefits`, action.preferences, state);
-    }
-    case SET_ALL_USER_PREFERENCES: {
-      let selectedBenefits = {};
-      const preferenceGroups = action.payload.data.attributes.userPreferences;
-      if (preferenceGroups.length) {
-        selectedBenefits = preferenceGroups
-          .find(
-            preferenceGroup =>
-              preferenceGroup.code === PREFERENCE_CODES.benefits,
-          )
-          .userPreferences.reduce((acc, pref) => {
-            acc[pref.code] = true;
-            return acc;
-          }, selectedBenefits);
-      }
-
-      return {
-        ...state,
-        dashboard: { ...selectedBenefits },
-        savedDashboard: { ...selectedBenefits },
       };
     }
     case SET_USER_PREFERENCE: {
