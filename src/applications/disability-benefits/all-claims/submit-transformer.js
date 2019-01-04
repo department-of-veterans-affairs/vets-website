@@ -95,8 +95,7 @@ function getClaimedConditionNames(formData) {
  * @return {Array} - An array of the property names with truthy values
  *                   NOTE: This will return all lower-cased names
  */
-export function transformRelatedDisabilities(object, formData) {
-  const claimedConditions = getClaimedConditionNames(formData);
+export function transformRelatedDisabilities(object, claimedConditions) {
   return Object.keys(object)
     .filter(
       // The property name will be normal-cased in the object, but lower-cased in claimedConditions
@@ -180,7 +179,7 @@ export function transform(formConfig, form) {
       // Add POW specialIssue to new conditions
       const powDisabilities = transformRelatedDisabilities(
         clonedData.powDisabilities,
-        clonedData,
+        getClaimedConditionNames(formData),
       ).map(name => name.toLowerCase());
       clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
         if (powDisabilities.includes(d.condition.toLowerCase())) {
@@ -245,7 +244,7 @@ export function transform(formConfig, form) {
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
-          clonedData,
+          getClaimedConditionNames(formData),
         ),
         facility,
       );
