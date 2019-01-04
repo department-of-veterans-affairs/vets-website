@@ -1,31 +1,46 @@
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import React from 'react';
 
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+// import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { unemployabilityTitleHospitalization } from '../content/unemployabilityFormIntro';
 
-const { hospitalizationHistory } = fullSchema.properties;
+// const { hospitalizationHistory } = fullSchema.properties;
+
+import tempSchema from '../config/schema';
+
+const { hospitalizationHistory } = tempSchema.properties;
+
+const recordsDescription = (
+  <div>
+    <p>
+      If you received care from a private medical facility, we can get that
+      information for you. We'll ask you about that later in this process.
+    </p>
+    <p>
+      If you received care at a VA medical facility, we have access to those
+      records and can get them for you.
+    </p>
+  </div>
+);
 
 export const uiSchema = {
   unemployability: {
-    'ui:title': unemployabilityTitle,
+    'ui:title': unemployabilityTitleHospitalization,
     hospitalizationHistory: {
       'ui:title': 'Hospitalization',
-      'ui:description': 'Dates you were hospitalized?',
       'ui:options': {
         itemName: 'Hospital',
         viewField: HospitalizationPeriodView,
         hideTitle: true,
       },
       items: {
-        hospitalizationDateRange: dateRangeUI(
-          'From',
-          'To',
-          'End of hospitalization must be after start of treatment',
-        ),
         hospitalName: {
           'ui:title': 'Name of hospital',
+        },
+        hospitalizationDateRange: {
+          'ui:title':
+            'When were you in this hospital? Include the dates you were admitted and discharged for each stay.',
         },
         hospitalAddress: {
           addressLine1: {
@@ -55,6 +70,9 @@ export const uiSchema = {
         },
       },
     },
+    'view:recordsInfo': {
+      'ui:description': recordsDescription,
+    },
   },
 };
 
@@ -65,6 +83,10 @@ export const schema = {
       type: 'object',
       properties: {
         hospitalizationHistory,
+        'view:recordsInfo': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },

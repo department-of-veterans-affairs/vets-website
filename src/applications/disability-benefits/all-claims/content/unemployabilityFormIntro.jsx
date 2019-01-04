@@ -6,6 +6,12 @@ export const unemployabilityTitle = (
   </legend>
 );
 
+export const unemployabilityTitleHospitalization = (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    Individual Unemployability: Hospitalization
+  </legend>
+);
+
 export const introDescription = (
   <div>
     <p>

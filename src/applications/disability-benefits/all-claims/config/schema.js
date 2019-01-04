@@ -1144,9 +1144,6 @@ const schema = {
       items: {
         type: 'object',
         properties: {
-          hospitalizationDateRange: {
-            $ref: '#/definitions/dateRange',
-          },
           hospitalName: {
             type: 'string',
             minLength: 1,
@@ -1158,6 +1155,9 @@ const schema = {
               ['addressLine3', 'country'],
               baseAddressDef.properties,
             ),
+          },
+          hospitalizationDateRange: {
+            type: 'string',
           },
         },
       },
