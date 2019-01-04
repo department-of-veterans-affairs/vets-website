@@ -25,6 +25,8 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  causeTypes,
+  specialIssueTypes,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
 } from './constants';
@@ -360,21 +362,6 @@ export function transform(formConfig, form) {
     form.data,
   );
 
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
-  if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d => {
-      const loweredCondition = d.condition.toLowerCase();
-      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
-      if (loweredCondition.includes('ptsd')) {
-        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
-        d.cause = 'NEW';
-      }
-      claimedConditions.push(loweredCondition);
-    });
-  }
-
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
@@ -391,6 +378,60 @@ export function transform(formConfig, form) {
     ),
   );
 
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
+    : [];
+
+  if (clonedData.newDisabilities) {
+    // Add new disabilities to claimed conditions list
+    clonedData.newDisabilities.forEach(disability =>
+      claimedConditions.push(disability.condition.toLowerCase()),
+    );
+
+    if (clonedData.powDisabilities) {
+      // Add POW specialIssue to new conditions
+      const powDisabilities = transformRelatedDisabilities(
+        clonedData.powDisabilities,
+        claimedConditions,
+      ).map(name => name.toLowerCase());
+      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+        if (powDisabilities.includes(d.condition.toLowerCase())) {
+          const newSpecialIssues = (d.specialIssues || []).slice();
+          newSpecialIssues.push(specialIssueTypes.POW);
+          return _.set('specialIssues', newSpecialIssues, d);
+        }
+        return d;
+      });
+
+      delete clonedData.powDisabilities;
+    }
+
+    // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
+    const withPtsdCause = clonedData.newDisabilities.map(
+      disability =>
+        disability.condition.toLowerCase().includes('ptsd')
+          ? _.set('cause', causeTypes.NEW, disability)
+          : disability,
+    );
+
+    // Split newDisabilities into primary and secondary arrays for backend
+    const newPrimaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause !== causeTypes.SECONDARY,
+    );
+    const newSecondaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause === causeTypes.SECONDARY,
+    );
+
+    if (newPrimaryDisabilities.length) {
+      clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
+    }
+    if (newSecondaryDisabilities.length) {
+      clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
+    }
+    delete clonedData.newDisabilities;
+  }
+
+  // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
       // Transform the related disabilities lists into an array of strings
@@ -418,27 +459,6 @@ export function transform(formConfig, form) {
       return newFacility;
     });
     clonedData.vaTreatmentFacilities = newVAFacilities;
-  }
-
-  // Add POW specialIssue to new conditions
-  if (clonedData.powDisabilities) {
-    const powDisabilities = transformRelatedDisabilities(
-      clonedData.powDisabilities,
-      claimedConditions,
-    ).map(name => name.toLowerCase());
-
-    if (clonedData.newDisabilities) {
-      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition.toLowerCase())) {
-          const newSpecialIssues = (d.specialIssues || []).slice();
-          // TODO: Make a constant with all the possibilities and use it here
-          newSpecialIssues.push('POW');
-          return _.set('specialIssues', newSpecialIssues, d);
-        }
-        return d;
-      });
-    }
-    delete clonedData.powDisabilities;
   }
 
   if (clonedData.providerFacility) {
