@@ -186,13 +186,7 @@ export const isValidYear = (err, fieldData) => {
 };
 
 export function startedAfterServicePeriod(err, fieldData, formData) {
-  const { serviceInformation } = formData;
-  if (
-    !serviceInformation ||
-    !serviceInformation.servicePeriods ||
-    !Array.isArray(serviceInformation.servicePeriods) ||
-    !serviceInformation.servicePeriods.length
-  ) {
+  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
 
