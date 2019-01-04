@@ -183,7 +183,7 @@ export function updatePreferences(
 ) {
   recordEvent({
     event: 'dashboard-preferences-saved-successful',
-    ...transformPreferencesForAnalytics(),
+    ...transformPreferencesForAnalytics(benefitsData),
   });
   if (Object.keys(benefitsData).length) {
     return saveFunc(benefitsData);

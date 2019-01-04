@@ -87,22 +87,21 @@ describe('transformPreferencesForAnalytics', () => {
       'burials-memorials': true,
       'housing-assistance': false,
     };
-    const allChoices = benefitChoices;
     const result = transformPreferencesForAnalytics(
       selectedChoices,
-      allChoices,
+      benefitChoices,
     );
     expect(result).to.deep.equal({
-      Health: 'True',
-      Disability: 'False',
-      Appeals: 'False',
-      Education: 'False',
-      Careers: 'False',
-      Pension: 'False',
-      Housing: 'False',
-      LifeInsurance: 'False',
-      Burials: 'True',
-      Family: 'False',
+      savedPreferenceHealth: 'True',
+      savedPreferenceDisability: 'False',
+      savedPreferenceAppeals: 'False',
+      savedPreferenceEducation: 'False',
+      savedPreferenceCareers: 'False',
+      savedPreferencePension: 'False',
+      savedPreferenceHousing: 'False',
+      savedPreferenceLifeInsurance: 'False',
+      savedPreferenceBurials: 'True',
+      savedPreferenceFamily: 'False',
     });
   });
 });

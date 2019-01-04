@@ -197,17 +197,22 @@ export const benefitChoices = [
   },
 ];
 
-// loops over the entire array of benefitChoices and returns an array objects
+// Takes the user's selected benefits, as stored in the Redux store, and the
+// entire list of available benefits, and combines the data into an object the
+// analytics engine can use to record user activity
 export function transformPreferencesForAnalytics(
   selectedPreferences,
   preferenceChoices = benefitChoices,
 ) {
-  const result = preferenceChoices.reduce((acc, pref) => {
-    const val = selectedPreferences[pref.code] ? 'True' : 'False';
-    acc[pref.gaCode] = val;
-    return acc;
-  }, {});
-  return result;
+  return preferenceChoices.reduce(
+    (acc, pref) => ({
+      ...acc,
+      [`savedPreference${pref.gaCode}`]: selectedPreferences[pref.code]
+        ? 'True'
+        : 'False',
+    }),
+    {},
+  );
 }
 
 // takes the user's selected benefits, as stored in the Redux store, and
