@@ -195,6 +195,9 @@ const configGenerator = (buildOptions, apps) => {
       new ManifestPlugin({
         fileName: 'file-manifest.json',
       }),
+      new webpack.SourceMapDevToolPlugin({
+        test: /\.css$/,
+      }),
     ],
   };
 
@@ -211,7 +214,7 @@ const configGenerator = (buildOptions, apps) => {
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
     baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#inline-cheap-module-source-map';
+    baseConfig.devtool = '#eval-source-map';
   }
 
   if (buildOptions.analyzer) {
