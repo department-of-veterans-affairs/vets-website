@@ -127,6 +127,12 @@ export const completePtsdAdditionalEvents = (client, data, index) => {
   );
 };
 
+export const complete781AdditionalIncident = (client, data) => {
+  client.fill(
+    `textarea[id="root_additionalIncidentText"]`,
+    data.additionalIncidentText,
+  );
+};
 export const complete781AdditionalRemarks = (client, data) => {
   client.fill(
     `textarea[id="root_additionalRemarks781"]`,

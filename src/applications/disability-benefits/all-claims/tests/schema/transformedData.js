@@ -84,13 +84,13 @@ export const transformedMaximalData = {
         to: '2020-01-01',
       },
     },
-    additionalDocuments: [
-      {
-        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
-        attachmentId: 'L015',
-        name: 'Document Name',
-      },
-    ],
+    // additionalDocuments: [
+    //   {
+    //     confirmationCode: '09ae734d-88e4-432c-a115-1264c48f92ec',
+    //     attachmentId: 'L015',
+    //     name: 'e86bfe4f-8617-4700-ad8a-3535767ac1bd.pdf',
+    //   },
+    // ],
     vaTreatmentFacilities: [
       {
         treatmentCenterName: 'VA Clinic Name',
@@ -104,7 +104,7 @@ export const transformedMaximalData = {
           state: 'AL',
         },
         treatedDisabilityNames: [
-          'first condition',
+          'aging',
           'ptsd (post traumatic stress disorder)',
         ],
       },
@@ -125,7 +125,7 @@ export const transformedMaximalData = {
     ],
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Aging',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -143,7 +143,7 @@ export const transformedMaximalData = {
         },
         title10Activation: {
           title10ActivationDate: '1902-01-01',
-          anticipatedSeparationDate: '2019-01-01',
+          anticipatedSeparationDate: '2025-01-01',
         },
         unitName: 'RNG Unit 1',
         unitAddress: {
@@ -320,6 +320,28 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
+        },
+      ],
+    },
+    form4142: {
+      limitedConsent: 'Treatment dates',
+      providerFacility: [
+        {
+          providerFacilityAddress: {
+            city: 'Abcd',
+            country: 'USA',
+            postalCode: '12345',
+            state: 'SC',
+            street: '123 Main St',
+            street2: 'Apt 321',
+          },
+          providerFacilityName: 'Authortay',
+          treatmentDateRange: [
+            {
+              from: '2010-01-02',
+              to: '2010-12-02',
+            },
+          ],
         },
       ],
     },

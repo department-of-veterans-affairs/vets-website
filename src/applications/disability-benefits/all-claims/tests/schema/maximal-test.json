@@ -57,13 +57,6 @@
       }
     },
     "view:contactInfoDescription": {},
-    "additionalDocuments": [
-      {
-        "confirmationCode": "09ae734d-88e4-432c-a115-1264c48f92ec",
-        "attachmentId": "L015",
-        "name": "e86bfe4f-8617-4700-ad8a-3535767ac1bd.pdf"
-      }
-    ],
     "view:uploadPrivateRecordsQualifier": {
       "view:aboutPrivateMedicalRecords": {},
       "view:hasPrivateRecordsToUpload": false,
@@ -227,10 +220,10 @@
     "privacyAgreementAccepted": true,
     "view:enterAdditionalEvents0": true,
     "view:enterAdditionalEvents1": true,
-    "view:enterAdditionalEvents2": false,
+    "view:enterAdditionalEvents2": true,
     "view:enterAdditionalSecondaryEvents0": true,
     "view:enterAdditionalSecondaryEvents1": true,
-    "view:enterAdditionalSecondaryEvents2": false,
+    "view:enterAdditionalSecondaryEvents2": true,
     "view:individualsInvolved0": true,
     "view:individualsInvolved1": false,
     "view:individualsInvolved2": true,

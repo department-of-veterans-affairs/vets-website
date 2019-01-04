@@ -279,6 +279,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
       }
     }
 
+    // PTSD - 781 - Additional Incident
+    E2eHelpers.expectLocation(
+      client,
+      '/new-disabilities/ptsd-additional-incident',
+    );
+    client.axeCheck('.main');
+    Page781Helpers.complete781AdditionalIncident(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
+
     // PTSD - 781 - Additional Remarks
     E2eHelpers.expectLocation(
       client,
@@ -463,6 +472,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
         client.click('.form-progress-buttons .usa-button-primary');
       }
     }
+
+    // PSTD - 781a - Changes in physical health
+    E2eHelpers.expectLocation(
+      client,
+      `/new-disabilities/ptsd-assault-additional-incident`,
+    );
+    client.axeCheck('.main');
+    Page781aHelpers.completePtsd781aAdditionalIncident(client, formData);
+    client.click('.form-progress-buttons .usa-button-primary');
 
     // PSTD - 781a - Changes in physical health
     E2eHelpers.expectLocation(

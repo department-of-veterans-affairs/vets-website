@@ -154,6 +154,12 @@ export const completePtsd781aTypeOfChanges = (client, data, type) => {
     }
   });
 };
+export const completePtsd781aAdditionalIncident = (client, data) => {
+  client.fill(
+    'textarea[id="root_additionalSecondaryIncidentText"]',
+    data.additionalSecondaryIncidentText,
+  );
+};
 
 export const completePtsd781aAdditionalChanges = (client, data) => {
   client.fill('textarea[id="root_additionalChanges"]', data.additionalChanges);
