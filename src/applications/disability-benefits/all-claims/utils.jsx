@@ -354,13 +354,13 @@ export function customReplacer(key, value) {
   return value;
 }
 
-function filterSelectedRatedDisabilities(formData) {
-  return _.set(
+const filterSelectedRatedDisabilities = formData =>
+  _.set(
     'ratedDisabilities',
     formData.ratedDisabilities.filter(condition => condition['view:selected']),
     formData,
   );
-}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = filterSelectedRatedDisabilities(form.data);
