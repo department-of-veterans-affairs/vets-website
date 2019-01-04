@@ -195,6 +195,21 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
+  const addPTSDCause = formData =>
+    formData.newDisabilities
+      ? _.set(
+          'newDisabilities',
+          formData.newDisabilities.map(
+            disability =>
+              disability.condition.toLowerCase().includes('ptsd')
+                ? _.set('cause', causeTypes.NEW, disability)
+                : disability,
+          ),
+          formData,
+        )
+      : formData;
+
   // Apply the transformations
 
   // Remove rated disabilities that weren't selected
@@ -206,21 +221,14 @@ export function transform(formConfig, form) {
   clonedData = filterEmptyObjects(clonedData);
 
   clonedData = addPOWSpecialIssues(clonedData);
+  clonedData = addPTSDCause(clonedData);
 
   if (clonedData.newDisabilities) {
-    // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
-    const withPtsdCause = clonedData.newDisabilities.map(
-      disability =>
-        disability.condition.toLowerCase().includes('ptsd')
-          ? _.set('cause', causeTypes.NEW, disability)
-          : disability,
-    );
-
     // Split newDisabilities into primary and secondary arrays for backend
-    const newPrimaryDisabilities = withPtsdCause.filter(
+    const newPrimaryDisabilities = clonedData.newDisabilities.filter(
       disability => disability.cause !== causeTypes.SECONDARY,
     );
-    const newSecondaryDisabilities = withPtsdCause.filter(
+    const newSecondaryDisabilities = clonedData.newDisabilities.filter(
       disability => disability.cause === causeTypes.SECONDARY,
     );
     if (newPrimaryDisabilities.length) {
