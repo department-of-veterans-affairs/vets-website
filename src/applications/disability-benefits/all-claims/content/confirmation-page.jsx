@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import siteName from '../../../../platform/brand-consolidation/site-name';
-import { getDisabilityName } from '../utils';
+import { capitalizeEachWord } from '../utils';
 import {
   successMessage,
   checkLaterMessage,
@@ -34,7 +34,7 @@ const template = (props, title, content, submissionMessage) => {
           <br />
           <ul className="disability-list">
             {disabilities.map((disability, i) => (
-              <li key={i}>{getDisabilityName(disability)}</li>
+              <li key={i}>{capitalizeEachWord(disability)}</li>
             ))}
           </ul>
           {submissionMessage}
