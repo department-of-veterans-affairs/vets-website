@@ -74,7 +74,13 @@ export const uiSchema = {
             ]),
           },
         },
-        { to: { 'ui:validations': [hasMonthYear] } },
+        {
+          to: {
+            'ui:validations': dateRangeUI().to['ui:validations'].concat([
+              hasMonthYear,
+            ]),
+          },
+        },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],
