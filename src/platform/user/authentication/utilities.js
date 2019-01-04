@@ -46,7 +46,7 @@ function popup(popupUrl, clickedEvent, openedEvent) {
       popupUrl,
       null,
       ({ url }) => {
-        popupWindow.location = url;
+        if (url) popupWindow.location = url;
       },
       () => {
         popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
@@ -75,8 +75,10 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
     redirectUrl,
     null,
     ({ url }) => {
-      recordEvent({ event: openedEvent });
-      window.location = url;
+      if (url) {
+        recordEvent({ event: openedEvent });
+        window.location = url;
+      }
     },
     () => {
       // TODO: Create a separate page or modal when failed to get the URL.
