@@ -1,5 +1,5 @@
-import merge from 'lodash/merge';
 import set from '../../../../platform/utilities/data/set';
+import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
@@ -9,6 +9,7 @@ import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
   startedAfterServicePeriod,
+  hasMonthYear,
 } from '../validations';
 import { USA } from '../constants';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -68,11 +69,12 @@ export const uiSchema = {
         ),
         {
           from: {
-            'ui:validations': dateRangeUI().from['ui:validations'].concat([
+            'ui:validations': dateRangeUI().from['ui:validations'].push(
               startedAfterServicePeriod,
-            ]),
+            ),
           },
         },
+        { to: { 'ui:validations': [hasMonthYear] } },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],

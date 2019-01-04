@@ -2,6 +2,7 @@ import React from 'react';
 import { spy } from 'sinon';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
+import _ from 'lodash/fp';
 
 import set from '../../../../../platform/utilities/data/set';
 
@@ -26,6 +27,7 @@ describe('Schemaform: ReviewCardField', () => {
     },
     uiSchema: {
       'ui:title': 'Thing',
+      'ui:subtitle': 'Subtitle',
       'ui:field': ReviewCardField,
       'ui:options': { viewComponent },
     },
@@ -164,6 +166,19 @@ describe('Schemaform: ReviewCardField', () => {
     );
     const tree = shallow(<ReviewCardField {...props} />);
     expect(tree.find('.review-card--title').text()).to.equal('Thingy');
+    tree.unmount();
+  });
+
+  it('should handle a subtitle', () => {
+    const props = _.flow(
+      _.set('uiSchema.ui:subtitle', 'Subtitle text'),
+      _.set('uiSchema.ui:options.startInEdit', true),
+    )(defaultProps);
+
+    const tree = shallow(<ReviewCardField {...props} />);
+    expect(tree.find('.review-card--subtitle').text()).to.equal(
+      'Subtitle text',
+    );
     tree.unmount();
   });
 

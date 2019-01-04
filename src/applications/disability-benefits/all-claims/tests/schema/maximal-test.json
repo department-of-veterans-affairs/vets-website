@@ -221,6 +221,182 @@
       }
     ],
     "view:faqAccordion": {},
-    "privacyAgreementAccepted": true
+    "privacyAgreementAccepted": true,
+    "view:enterAdditionalEvents0": true,
+    "view:enterAdditionalEvents1": true,
+    "view:enterAdditionalEvents2": true,
+    "view:enterAdditionalSecondaryEvents0": true,
+    "view:enterAdditionalSecondaryEvents1": true,
+    "view:enterAdditionalSecondaryEvents2": true,
+    "view:individualsInvolved0": true,
+    "view:individualsInvolved2": true,
+    "incident0": {
+      "incidentDescription": "First PTSD event description",
+      "personsInvolved": [
+        {
+          "name": {
+            "first": "John"
+          },
+          "description": "John H Doe description",
+          "view:serviceMember": true,
+          "rank": "Sgt",
+          "unitAssigned": "Unit B",
+          "injuryDeathDate": "1992-07-03",
+          "injuryDeath": "injuredNonBattle",
+          "view:individualAddMsg": {}
+        }
+      ],
+      "incidentLocation": {
+        "country": "USA",
+        "city": "Test",
+        "state": "MS",
+        "additionalDetails": "Additional first incident location details"
+      },
+      "unitAssigned": "Division 1",
+      "unitAssignedDates": {
+        "from": "1991-03-03",
+        "to": "1996-03-06"
+      },
+      "incidentDate": "1992-03-04",
+      "medalsCitations": "Medal A and Medal B"
+    },
+    "incident1": {
+      "medalsCitations": "Medal B",
+      "incidentDate": "1992-01-01",
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personsInvolved": []
+    },
+    "incident2": {
+      "medalsCitations": "Medal C",
+      "incidentDate": "1992-01-01",
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personsInvolved": [
+        {
+          "name": {
+            "first": "John",
+            "last": "Doe"
+          },
+          "rank": "Private",
+          "injuryDeath": "other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-01-01",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "name": {
+            "first": "Jane",
+            "last": "Doe"
+          }
+        }
+      ]
+    },
+    "secondaryIncident0": {
+        "sources": [
+        {
+          "name": "Police",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Test St",
+            "city": "Test",
+            "state": "PA",
+            "zipCode": "12345"
+          }
+        }
+      ],
+      "incidentDescription": "First 781a PTSD incident description",
+      "incidentLocation": {
+        "country": "USA",
+        "city": "City Name",
+        "state": "AZ",
+        "additionalDetails": "First 781a PTSD incident location additional details"
+      },
+      "unitAssigned": "Unit Name",
+      "unitAssignedDates": {
+        "from": "1992-02-16",
+        "to": "1995-04-04"
+      },
+      "incidentDate": "1994-04-03"
+    },
+    "secondaryIncident1": {
+      "incidentDate": "1992-01-01",
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Second 781a PTSD incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      }
+    },
+    "secondaryIncident2": {
+      "incidentDate": "1992-01-01",
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Third 781a PTSD incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      }
+    },
+    "additionalRemarks781": "781 Remarks",
+    "additionalIncidentText": "Additional incident text",
+    "additionalSecondaryIncidentText": "Additional secondary incident text",
+    "physicalChanges": {
+      "increasedVisits": true,
+      "other": true,
+      "otherExplanation": "Other physical change"
+    },
+    "socialBehaviorChanges" : {
+      "withdrawal": true,
+      "unexplained": true,
+      "other": true,
+      "otherExplanation": "Other social change"
+    },
+    "mentalChanges": {
+      "depression": true,
+      "fear": true,
+      "hypervigilance": true,
+      "other": true,
+      "otherExplanation": "Other mental change",
+      "noneApply": true
+    },
+    "workBehaviorChanges": {
+      "performanceChanges": true,
+      "resign": true,
+      "other": true,
+      "otherExplanation": "Other work change"
+    },
+    "additionalChanges": "Additional changes test"
   }
 }

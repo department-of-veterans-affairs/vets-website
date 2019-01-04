@@ -5,9 +5,10 @@ import {
   isValidYear,
   startedAfterServicePeriod,
   oneDisabilityRequired,
+  hasMonthYear,
 } from '../validations';
 
-describe('526 All Claims validations', () => {
+describe.only('526 All Claims validations', () => {
   describe('isValidYear', () => {
     it('should add an error if the year is not a number', () => {
       const err = {
@@ -57,7 +58,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.true;
     });
     describe('oneDisabilityRequired', () => {
-      it('should not add an error if atleast one disability is selected', () => {
+      it('should not add an error if at least one disability is selected', () => {
         const err = {
           addError: sinon.spy(),
         };
@@ -159,6 +160,7 @@ describe('526 All Claims validations', () => {
       startedAfterServicePeriod(err, '1999-12-XX', formData);
       expect(err.addError.called).to.be.false;
     });
+
     it('should not add error if servicePeriod is not an array', () => {
       const err = { addError: sinon.spy() };
 
@@ -180,6 +182,31 @@ describe('526 All Claims validations', () => {
       };
 
       startedAfterServicePeriod(err, '1999-12-XX', formData);
+    });
+  });
+
+  describe('hasMonthYear', () => {
+    it('should add an error if the year is missing', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      hasMonthYear(err, 'XXXX-12-XX');
+      expect(err.addError.called).to.be.true;
+    });
+
+    it('should add an error if the month is missing', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      hasMonthYear(err, '1980-XX-XX');
+      expect(err.addError.called).to.be.true;
+    });
+
+    it('should not add an error if the month and year are present', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      hasMonthYear(err, '1980-12-XX');
       expect(err.addError.called).to.be.false;
     });
   });

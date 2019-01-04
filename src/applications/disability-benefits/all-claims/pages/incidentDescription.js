@@ -5,7 +5,7 @@ import { PtsdNameTitle } from '../content/ptsdClassification';
 
 const incidentDescriptionInstructions = <h3>Event description</h3>;
 
-const { description } = fullSchema.definitions.ptsdIncident.properties;
+const { incidentDescription } = fullSchema.definitions.ptsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
@@ -31,7 +31,7 @@ export const schema = index => ({
     [`incident${index}`]: {
       type: 'object',
       properties: {
-        description,
+        incidentDescription,
       },
     },
   },

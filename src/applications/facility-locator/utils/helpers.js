@@ -75,3 +75,26 @@ export const keyMap = {
   UP: 38,
   DOWN: 40,
 };
+
+/**
+ *
+ * @param {Object} urlObj Typically location.pathname
+ * @param {String} urlPrefixString Types like "/facility" or "/provider"
+ *
+ * Matches on all of the following URL shapes.
+ * The first item would not match our previous regex,
+ * and the breadcrumb would not add a third link.
+ *
+ * find-locations/facility/nca_s1130
+ * find-locations/facility/vha_691GE
+ * find-locations/facility/nca_827
+ */
+export const validateIdString = (urlObj, urlPrefixString) => {
+  /* eslint-disable prettier/prettier, no-useless-escape */
+  const regex = '\/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
+  /* eslint-enable prettier/prettier, no-useless-escape */
+  const unparsedString = `${urlPrefixString}${regex}`;
+  const validString = urlObj.match(unparsedString);
+
+  return validString;
+};
