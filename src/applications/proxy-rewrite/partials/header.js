@@ -5,7 +5,7 @@ export default `
   <div class="incompatible-browser-warning">
     <div class="row full">
       <div class="small-12">
-        Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
+        Your browser is out of date. To use this website, please <a href="https://browsehappy.com/">update your browser</a> or use a different device.
       </div>
     </div>
   </div>
