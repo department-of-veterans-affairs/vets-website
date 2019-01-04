@@ -171,17 +171,11 @@ export function transform(formConfig, form) {
       ),
     );
 
-  // Apply the transformations
-
-  // Remove rated disabilities that weren't selected
-  let clonedData = filterSelectedRatedDisabilities(form.data);
-
-  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
-  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
-  //  it here to remove reservesNationalGuardService if it's deeply empty.
-  clonedData = filterEmptyObjects(clonedData, formConfig, form);
-
-  if (clonedData.newDisabilities) {
+  const addPOWSpecialIssues = formData => {
+    if (!formData.newDisabilities) {
+      return formData;
+    }
+    const clonedData = _.cloneDeep(formData);
     if (clonedData.powDisabilities) {
       // Add POW specialIssue to new conditions
       const powDisabilities = transformRelatedDisabilities(
@@ -198,7 +192,22 @@ export function transform(formConfig, form) {
       });
       delete clonedData.powDisabilities;
     }
+    return clonedData;
+  };
 
+  // Apply the transformations
+
+  // Remove rated disabilities that weren't selected
+  let clonedData = filterSelectedRatedDisabilities(form.data);
+
+  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
+  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
+  //  it here to remove reservesNationalGuardService if it's deeply empty.
+  clonedData = filterEmptyObjects(clonedData);
+
+  clonedData = addPOWSpecialIssues(clonedData);
+
+  if (clonedData.newDisabilities) {
     // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
     const withPtsdCause = clonedData.newDisabilities.map(
       disability =>
