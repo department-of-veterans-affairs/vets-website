@@ -63,13 +63,6 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
-const filterSelectedRatedDisabilities = formData =>
-  _.set(
-    'ratedDisabilities',
-    formData.ratedDisabilities.filter(condition => condition['view:selected']),
-    formData,
-  );
-
 /**
  * Transforms the related disabilities object into an array of strings. The condition
  *  name only gets added to the list if the property value is truthy and is in the list
@@ -134,25 +127,40 @@ export function getPtsdChangeText(changeFields) {
 }
 
 export function transform(formConfig, form) {
+  // Define the transformations
+  const filterSelectedRatedDisabilities = formData =>
+    _.set(
+      'ratedDisabilities',
+      formData.ratedDisabilities.filter(
+        condition => condition['view:selected'],
+      ),
+      formData,
+    );
+
+  const filterEmptyObjects = formData =>
+    removeDeeplyEmptyObjects(
+      JSON.parse(
+        transformForSubmit(
+          formConfig,
+          { ...form, data: formData },
+          customReplacer,
+        ),
+      ),
+    );
+
+  // Apply the transformations
+
   // Remove rated disabilities that weren't selected
   let clonedData = filterSelectedRatedDisabilities(form.data);
+
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
-  clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(
-      transformForSubmit(
-        formConfig,
-        { ...form, data: clonedData },
-        customReplacer,
-      ),
-    ),
-  );
+  clonedData = filterEmptyObjects(clonedData, formConfig, form);
 
   const claimedConditions = clonedData.ratedDisabilities
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
-
   if (clonedData.newDisabilities) {
     // Add new disabilities to claimed conditions list
     clonedData.newDisabilities.forEach(disability =>
