@@ -1,9 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import environment from '../../../../platform/utilities/environment';
-import { apiRequest as commonApiClient } from '../../../../platform/utilities/api';
-
 export function formatDate(date, options = {}) {
   const momentDate = moment(date);
 
@@ -32,13 +29,6 @@ export function createUrlWithQuery(url, query) {
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   return fullUrl;
-}
-
-export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const baseUrl = `${environment.API_URL}/v0/messaging/health`;
-  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
-
-  return commonApiClient(url, optionalSettings, success, error);
 }
 
 export function formattedDate(date, options = {}) {
