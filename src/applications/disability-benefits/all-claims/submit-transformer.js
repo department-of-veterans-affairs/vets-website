@@ -286,55 +286,64 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Apply the transformations
-  let clonedData = filterSelectedRatedDisabilities(form.data);
-  clonedData = filterEmptyObjects(clonedData);
-  clonedData = addPOWSpecialIssues(clonedData);
-  clonedData = addPTSDCause(clonedData);
-  clonedData = splitNewDisabilities(clonedData);
-  clonedData = stringifyRelatedDisabilities(clonedData);
-  clonedData = addForm4142(clonedData);
+  const addForm0781 = formData => {
+    const clonedData = _.cloneDeep(formData);
+    const incidentKeys = getFlatIncidentKeys();
+    const incidents = incidentKeys
+      .filter(incidentKey => clonedData[incidentKey])
+      .map(incidentKey => ({
+        ...clonedData[incidentKey],
+        personalAssault: incidentKey.includes('secondary'),
+        incidentLocation: concatIncidentLocationString(
+          clonedData[incidentKey].incidentLocation,
+        ),
+      }));
+    incidentKeys.forEach(incidentKey => {
+      delete clonedData[incidentKey];
+    });
+    if (incidents.length > 0) {
+      clonedData.form0781 = {
+        incidents,
+        remarks: clonedData.additionalRemarks781,
+        additionalIncidentText: clonedData.additionalIncidentText,
+        additionalSecondaryIncidentText:
+          clonedData.additionalSecondaryIncidentText,
+        otherInformation: [
+          ...getPtsdChangeText(clonedData.physicalChanges),
+          _.get('physicalChanges.otherExplanation', clonedData, ''),
+          ...getPtsdChangeText(clonedData.socialBehaviorChanges),
+          _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
+          ...getPtsdChangeText(clonedData.mentalChanges),
+          _.get('mentalChanges.otherExplanation', clonedData, ''),
+          ...getPtsdChangeText(clonedData.workBehaviorChanges),
+          _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
+          _.get('additionalChanges', clonedData, ''),
+        ].filter(info => info.length > 0),
+      };
+      delete clonedData.physicalChanges;
+      delete clonedData.socialBehaviorChanges;
+      delete clonedData.mentalChanges;
+      delete clonedData.workBehaviorChanges;
+      delete clonedData.additionalChanges;
+      delete clonedData.additionalRemarks781;
+      delete clonedData.additionalIncidentText;
+      delete clonedData.additionalSecondaryIncidentText;
+    }
+    return clonedData;
+  };
+  // End transformation definitions
 
-  const incidentKeys = getFlatIncidentKeys();
-  const incidents = incidentKeys
-    .filter(incidentKey => clonedData[incidentKey])
-    .map(incidentKey => ({
-      ...clonedData[incidentKey],
-      personalAssault: incidentKey.includes('secondary'),
-      incidentLocation: concatIncidentLocationString(
-        clonedData[incidentKey].incidentLocation,
-      ),
-    }));
-  incidentKeys.forEach(incidentKey => {
-    delete clonedData[incidentKey];
-  });
-  if (incidents.length > 0) {
-    clonedData.form0781 = {
-      incidents,
-      remarks: clonedData.additionalRemarks781,
-      additionalIncidentText: clonedData.additionalIncidentText,
-      additionalSecondaryIncidentText:
-        clonedData.additionalSecondaryIncidentText,
-      otherInformation: [
-        ...getPtsdChangeText(clonedData.physicalChanges),
-        _.get('physicalChanges.otherExplanation', clonedData, ''),
-        ...getPtsdChangeText(clonedData.socialBehaviorChanges),
-        _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
-        ...getPtsdChangeText(clonedData.mentalChanges),
-        _.get('mentalChanges.otherExplanation', clonedData, ''),
-        ...getPtsdChangeText(clonedData.workBehaviorChanges),
-        _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
-        _.get('additionalChanges', clonedData, ''),
-      ].filter(info => info.length > 0),
-    };
-    delete clonedData.physicalChanges;
-    delete clonedData.socialBehaviorChanges;
-    delete clonedData.mentalChanges;
-    delete clonedData.workBehaviorChanges;
-    delete clonedData.additionalChanges;
-    delete clonedData.additionalRemarks781;
-    delete clonedData.additionalIncidentText;
-    delete clonedData.additionalSecondaryIncidentText;
-  }
-  return JSON.stringify({ form526: clonedData });
+  // Apply the transformations
+  const transformedData = [
+    filterSelectedRatedDisabilities,
+    filterEmptyObjects,
+    addPOWSpecialIssues,
+    addPTSDCause,
+    splitNewDisabilities,
+    stringifyRelatedDisabilities,
+    addForm4142,
+    addForm0781,
+  ].reduce((formData, transformer) => transformer(formData), form.data);
+
+  return JSON.stringify({ form526: transformedData });
 }
