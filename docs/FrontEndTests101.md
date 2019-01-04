@@ -1,7 +1,7 @@
 ### General information
 
 #### Where they live
-- Tests can live anywhere in the `src` directory, but in general are located in a directory close to the code that they are written to test.
+- Tests can live anywhere in the `src` directory, but in general are located in a directory close to the code or application that they are written to test.
 - The `.unit.spec.js` file extension is used for unit tests, while `.e2e.spec.js` is used for end-to-end (E2E) tests.
 - Visual regression test config has its own directory under `src/platform/testing/visual-regression`
 - Test commands are specified in `package.json`, as well as in vets-website's `README.md`
