@@ -102,7 +102,8 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Rated Disability Selection
     E2eHelpers.expectLocation(client, '/disabilities/rated-disabilities');
     client.axeCheck('.main');
-    PageAllClaimsHelpers.selectDisabilities(client); // Just selects the first one
+    // Just selects the first one
+    PageAllClaimsHelpers.selectDisabilities(client);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // New Disability
@@ -576,7 +577,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // 4142 - Evidence Types
     E2eHelpers.expectLocation(client, '/supporting-evidence/evidence-types');
     client.axeCheck('.main');
-    Page4142Helpers.completeEvidenceTypes(client, formData);
+    PageAllClaimsHelpers.completeEvidenceTypes(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
     // 4142 - VA Medical Records Intro
@@ -585,7 +586,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
       '/supporting-evidence/va-medical-records',
     );
     client.axeCheck('.main');
-    Page4142Helpers.completeVaMedicalRecords(client, formData);
+    PageAllClaimsHelpers.completeVaMedicalRecords(client, formData);
     client.click('.form-panel .usa-button-primary');
 
     // 4142 - Private Medical Records Choice
@@ -606,14 +607,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Page4142Helpers.completeRecordReleaseInformation(client, formData);
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // 4142 - Additional Evidence
-    E2eHelpers.expectLocation(
-      client,
-      '/supporting-evidence/additional-evidence',
-    );
-    client.axeCheck('.main');
-    Page4142Helpers.completeAdditionalEvidence(client, formData);
-    client.click('.form-progress-buttons .usa-button-primary');
+    // // 4142 - Additional Evidence
+    // E2eHelpers.expectLocation(
+    //   client,
+    //   '/supporting-evidence/additional-evidence',
+    // );
+    // client.axeCheck('.main');
+    // Page4142Helpers.completeAdditionalEvidence(client, formData);
+    // client.click('.form-progress-buttons .usa-button-primary');
 
     // Evidence Summary
     E2eHelpers.expectLocation(client, '/supporting-evidence/summary');

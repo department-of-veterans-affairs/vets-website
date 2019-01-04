@@ -1,3 +1,5 @@
+const Timeouts = require('../../../../../platform/testing/e2e/timeouts.js');
+
 export const clickAddAnother = (client, i, list) => {
   if (i < list.length - 1) client.click('.va-growable-add-btn');
 };
@@ -109,7 +111,7 @@ export const completeFederalOrders = (client, data) => {
 
 export const selectDisabilities = client => {
   // Prefill data allows this to work
-  client.fillCheckbox('input[name="root_ratedDisabilities_0"]', true);
+  client.fillCheckbox('input[name="root_ratedDisabilities_0"]');
 };
 
 export const completeNewDisability = (client, data) => {
@@ -210,6 +212,73 @@ export const compeleteAidAndAttendance = (client, data) => {
     'root_view:aidAndAttendance',
     data['view:aidAndAttendance'],
   );
+};
+
+export const completeEvidenceTypes = (client, data) => {
+  const hasEvidence = data['view:hasEvidence'];
+  const evidenceTypes =
+    data['view:hasEvidenceFollowUp']['view:selectableEvidenceTypes'];
+
+  client.selectYesNo('root_view:hasEvidence', hasEvidence);
+
+  if (hasEvidence) {
+    client
+      .fillCheckbox(
+        'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVAMedicalRecords"]',
+        evidenceTypes['view:vaMedicalRecords'],
+      )
+      .fillCheckbox(
+        'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+        evidenceTypes['view:privateMedicalRecords'],
+      )
+      .fillCheckbox(
+        'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasOtherEvidence"]',
+        evidenceTypes['view:hasOtherEvidence'],
+      );
+  }
+};
+
+export const completeVaMedicalRecords = (client, data) => {
+  data.vaTreatmentFacilities.forEach((facility, i, list) => {
+    client
+      .waitForElementVisible(
+        `input[name="root_vaTreatmentFacilities_${i}_treatmentCenterName"]`,
+        Timeouts.normal,
+      )
+      .fill(
+        `input[name="root_vaTreatmentFacilities_${i}_treatmentCenterName"]`,
+        facility.treatmentCenterName,
+      );
+
+    Object.keys(facility.treatedDisabilityNames).forEach(disability => {
+      client.fillCheckbox(
+        `input[name="root_vaTreatmentFacilities_${i}_treatedDisabilityNames_${disability}"]`,
+        facility.treatedDisabilityNames[disability],
+      );
+    });
+
+    const treatmentDateRange = facility.treatmentDateRange;
+    if (treatmentDateRange) {
+      client
+        .fillDate(
+          `root_vaTreatmentFacilities_${i}_treatmentDateRange_from`,
+          treatmentDateRange.from,
+        )
+        .fillDate(
+          `root_vaTreatmentFacilities_${i}_treatmentDateRange_to`,
+          treatmentDateRange.to,
+        );
+    }
+
+    if (facility.treatmentCenterAddress) {
+      client.fillAddress(
+        `root_vaTreatmentFacilities_${0}_treatmentCenterAddress_country`,
+        facility.treatmentCenterAddress,
+      );
+    }
+
+    clickAddAnother(client, i, list);
+  });
 };
 
 // Possibly used outside of flow to, and including, 4142

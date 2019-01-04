@@ -11,7 +11,7 @@ function completeApplicantInformation(client, data) {
 }
 
 function selectDisabilities(client) {
-  client.fillCheckbox('input[name="root_disabilities_0"]', true);
+  client.fillCheckbox('input[name="root_disabilities_0"]');
 }
 
 function completeEvidenceTypeInformation(client, data) {

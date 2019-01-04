@@ -59,7 +59,7 @@
     "view:contactInfoDescription": {},
     "additionalDocuments": [
       {
-        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de6969e94",
+        "confirmationCode": "09ae734d-88e4-432c-a115-1264c48f92ec",
         "attachmentId": "L015",
         "name": "e86bfe4f-8617-4700-ad8a-3535767ac1bd.pdf"
       }
@@ -96,7 +96,7 @@
       "view:selectableEvidenceTypes": {
         "view:hasVAMedicalRecords": true,
         "view:hasPrivateMedicalRecords": true,
-        "view:hasOtherEvidence": true
+        "view:hasOtherEvidence": false
       },
       "view:evidenceTypeHelp": {}
     },
