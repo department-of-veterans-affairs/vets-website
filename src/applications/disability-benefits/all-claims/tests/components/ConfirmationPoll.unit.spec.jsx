@@ -136,7 +136,6 @@ describe('ConfirmationPoll', () => {
       const selectedDisabilities = selectAllDisabilityNames(state);
       const { ratedDisabilities } = state.form.data;
 
-      expect(selectedDisabilities.length).to.equal(2);
       expect(selectedDisabilities).to.deep.equal([
         ratedDisabilities[0].name,
         ratedDisabilities[2].name,
@@ -162,7 +161,6 @@ describe('ConfirmationPoll', () => {
       const selectedDisabilities = selectAllDisabilityNames(state);
       const { newDisabilities } = state.form.data;
 
-      expect(selectedDisabilities.length).to.equal(2);
       expect(selectedDisabilities).to.deep.equal([
         newDisabilities[0].condition,
         newDisabilities[1].condition,
@@ -206,7 +204,6 @@ describe('ConfirmationPoll', () => {
       const selectedDisabilities = selectAllDisabilityNames(state);
       const { newDisabilities, ratedDisabilities } = state.form.data;
 
-      expect(selectedDisabilities.length).to.equal(4);
       expect(selectedDisabilities).to.deep.equal([
         ratedDisabilities[0].name,
         ratedDisabilities[2].name,
