@@ -7,7 +7,10 @@ import {
   mockMultipleApiRequests,
 } from '../../../../../platform/testing/unit/helpers';
 
-import { ConfirmationPoll } from '../../components/ConfirmationPoll';
+import {
+  ConfirmationPoll,
+  selectAllDisabilityNames,
+} from '../../components/ConfirmationPoll';
 import { submissionStatuses } from '../../constants';
 
 const originalFetch = global.fetch;
@@ -101,5 +104,112 @@ describe('ConfirmationPoll', () => {
       tree.unmount();
       done();
     }, 500);
+  });
+
+  describe('selectAllDisabilityNames', () => {
+    it('should return selected rated disability names', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                name: 'first rated disability',
+              },
+              {
+                'view:selected': false,
+                name: 'second rated disability',
+              },
+              {
+                'view:selected': true,
+                name: 'third rated disability',
+              },
+              {
+                'view:selected': false,
+                name: 'fourth rated disability',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+      const { ratedDisabilities } = state.form.data;
+
+      expect(selectedDisabilities).to.deep.equal([
+        ratedDisabilities[0].name,
+        ratedDisabilities[2].name,
+      ]);
+    });
+
+    it('should return new disability names', () => {
+      const state = {
+        form: {
+          data: {
+            newDisabilities: [
+              {
+                condition: 'first new disability',
+              },
+              {
+                condition: 'second new disability',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+      const { newDisabilities } = state.form.data;
+
+      expect(selectedDisabilities).to.deep.equal([
+        newDisabilities[0].condition,
+        newDisabilities[1].condition,
+      ]);
+    });
+
+    it('should return both rated and new disabilities', () => {
+      const state = {
+        form: {
+          data: {
+            newDisabilities: [
+              {
+                condition: 'first new disability',
+              },
+              {
+                condition: 'second new disability',
+              },
+            ],
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                name: 'first rated disability',
+              },
+              {
+                'view:selected': false,
+                name: 'second rated disability',
+              },
+              {
+                'view:selected': true,
+                name: 'third rated disability',
+              },
+              {
+                'view:selected': false,
+                name: 'fourth rated disability',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+      const { newDisabilities, ratedDisabilities } = state.form.data;
+
+      expect(selectedDisabilities).to.deep.equal([
+        ratedDisabilities[0].name,
+        ratedDisabilities[2].name,
+        newDisabilities[0].condition,
+        newDisabilities[1].condition,
+      ]);
+    });
   });
 });

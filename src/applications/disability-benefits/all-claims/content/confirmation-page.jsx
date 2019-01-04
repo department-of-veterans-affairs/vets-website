@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import siteName from '../../../../platform/brand-consolidation/site-name';
+import { getDisabilityName } from '../utils';
 import {
   successMessage,
   checkLaterMessage,
@@ -32,11 +33,9 @@ const template = (props, title, content, submissionMessage) => {
           <strong>Conditions claimed</strong>
           <br />
           <ul className="disability-list">
-            {disabilities
-              .filter(item => item['view:selected'])
-              .map((disability, i) => (
-                <li key={i}>{disability.name}</li>
-              ))}
+            {disabilities.map((disability, i) => (
+              <li key={i}>{getDisabilityName(disability)}</li>
+            ))}
           </ul>
           {submissionMessage}
           <li>
