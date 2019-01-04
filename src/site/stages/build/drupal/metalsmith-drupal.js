@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const ENVIRONMENTS = require('../../../../constants/environments');
+const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
 const getAllPages = require('./getAllPages.graphql');
 
@@ -9,6 +9,9 @@ const ENABLED_ENVIRONMENTS = new Set([
 ]);
 
 function pipeApiDataIntoMetalsmith(contentData, files) {
+  // Generates a Drupal index page at /drupal, which is a useful (temporary) resource
+  // for checking Drupal payloads.
+
   const {
     data: {
       nodeQuery: { entities: pages },
@@ -40,7 +43,7 @@ function pipeApiDataIntoMetalsmith(contentData, files) {
   };
 }
 
-function fetchContent(buildOptions) {
+function getDrupalContent(buildOptions) {
   const contentApi = getApiClient(buildOptions);
 
   // Declared above the middleware scope so that it's cached during the watch task.
@@ -65,4 +68,4 @@ function fetchContent(buildOptions) {
   };
 }
 
-module.exports = fetchContent;
+module.exports = getDrupalContent;

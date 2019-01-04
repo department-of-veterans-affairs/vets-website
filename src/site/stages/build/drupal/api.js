@@ -3,7 +3,7 @@ const { createHttpLink } = require('apollo-link-http');
 const { InMemoryCache } = require('apollo-cache-inmemory');
 const fetch = require('node-fetch');
 
-const CONTENT_APIS = require('../../../../constants/content-apis');
+const CONTENT_APIS = require('../../../constants/content-apis');
 
 function getApiClient(buildOptions) {
   const contentApiRoute = `${CONTENT_APIS[buildOptions.buildtype]}/graphql`;
