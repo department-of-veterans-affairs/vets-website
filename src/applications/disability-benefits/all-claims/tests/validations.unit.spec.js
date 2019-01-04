@@ -8,7 +8,7 @@ import {
   hasMonthYear,
 } from '../validations';
 
-describe.only('526 All Claims validations', () => {
+describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
     it('should add an error if the year is not a number', () => {
       const err = {

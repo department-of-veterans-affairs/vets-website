@@ -68,52 +68,6 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it('should submit with all required info', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                'Diabetes Melitus': true,
-              },
-              treatmentDateRange: {
-                from: '2010-04-XX',
-                to: '2015-09-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
-  });
-
   it('should not submit when treatment start date precedes service start date', () => {
     const onSubmit = sinon.spy();
     const form = mount(
