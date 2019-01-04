@@ -4,10 +4,10 @@
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
     "apps": "node --eval \"require('./script/manifest-helpers.js').displayApplications()\"",
-    "analyze": "webpack-bundle-analyzer build/production/generated/stats.json",
+    "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "node script/build.js",
     "build:redirects": "node script/vets-gov-to-va-gov.js",
-    "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
+    "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
