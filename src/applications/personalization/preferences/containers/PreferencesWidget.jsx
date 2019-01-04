@@ -9,6 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 
 import deduplicate from 'platform/utilities/data/deduplicate';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import PreferenceList from '../components/PreferenceList';
 
@@ -158,7 +159,18 @@ class PreferencesWidget extends React.Component {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <a href="/my-va/find-benefits">Select benefits now.</a>
+            <a
+              href="/my-va/find-benefits"
+              onClick={() =>
+                recordEvent({
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link',
+                  'dashboard-product': 'select-benefits-now',
+                })
+              }
+            >
+              Select benefits now.
+            </a>
           </div>
         );
       }
@@ -218,6 +230,13 @@ class PreferencesWidget extends React.Component {
               <Link
                 className="usa-button usa-button-secondary"
                 to="find-benefits"
+                onClick={() =>
+                  recordEvent({
+                    event: 'dashboard-navigation',
+                    'dashboard-action': 'view-button',
+                    'dashboard-product': 'find-va-benefits',
+                  })
+                }
               >
                 Find VA Benefits
               </Link>

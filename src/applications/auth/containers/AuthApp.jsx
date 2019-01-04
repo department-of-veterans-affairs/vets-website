@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 
 import siteName from '../../../platform/brand-consolidation/site-name';
 import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
+import { isFullScreenLoginEnabled } from '../../../platform/user/authentication/utilities';
 import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -28,19 +29,25 @@ export class AuthApp extends React.Component {
   handleAuthSuccess = payload => {
     setupProfileSession(payload);
 
-    const parent = window.opener;
-    parent.postMessage('loggedIn', environment.BASE_URL);
+    if (isFullScreenLoginEnabled()) {
+      const returnUrl = sessionStorage.getItem('authReturnUrl');
+      sessionStorage.removeItem('authReturnUrl');
+      window.location = returnUrl || '/';
+    } else {
+      const parent = window.opener;
+      parent.postMessage('loggedIn', environment.BASE_URL);
 
-    // Internet Explorer 6-11
-    const isIE = /*@cc_on!@*/ false || !!document.documentMode; // eslint-disable-line spaced-comment
-    // Edge 20+
-    const isEdge = !isIE && !!window.StyleMedia;
+      // Internet Explorer 6-11
+      const isIE = /*@cc_on!@*/ false || !!document.documentMode; // eslint-disable-line spaced-comment
+      // Edge 20+
+      const isEdge = !isIE && !!window.StyleMedia;
 
-    // Reload the parent window if the user is using IE or Edge,
-    // due to unreliable support for postMessage.
-    if (isIE || isEdge) parent.location.reload();
+      // Reload the parent window if the user is using IE or Edge,
+      // due to unreliable support for postMessage.
+      if (isIE || isEdge) parent.location.reload();
 
-    window.close();
+      window.close();
+    }
   };
 
   // Fetch the user to get the login policy and validate the session.
