@@ -239,6 +239,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as unemployabilityDisabilitiesUISchema,
+  schema as unemployabilityDisabilitiesSchema,
+} from './unemployabilityDisabilities';
+
+import {
   uiSchema as workBehaviorChangesUISchema,
   schema as workBehaviorChangesSchema,
 } from './workBehaviorChanges';
@@ -302,6 +307,10 @@ import {
   uiSchema as hospitalizationHistoryUISchema,
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
+
+import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
+
+import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
 
 import * as recentEducationTraining from './recentEducationTraining';
 
@@ -593,6 +602,11 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const unemployabilityDisabilities = {
+  uiSchema: unemployabilityDisabilitiesUISchema,
+  schema: unemployabilityDisabilitiesSchema,
+};
+
 export const socialBehaviorChanges = {
   uiSchema: socialBehaviorChangesUISchema,
   schema: socialBehaviorChangesSchema,
@@ -668,7 +682,12 @@ export const hospitalizationHistory = {
   schema: hospitalizationHistorySchema,
 };
 
+export { uploadUnemployabilitySupportingDocuments };
+
+export { uploadUnemployabilitySupportingDocumentsChoice };
+
 export { unemployabilityCertification };
+
 export { pastEducationTraining };
 
 export { militaryDutyImpact };

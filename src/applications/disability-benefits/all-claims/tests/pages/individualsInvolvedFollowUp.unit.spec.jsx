@@ -77,38 +77,42 @@ describe('781 individuals involved', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_incident0_personInvolved_0_name_first', 'John');
-    fillData(form, 'input#root_incident0_personInvolved_0_name_last', 'Doe');
-    fillData(form, 'input#root_incident0_personInvolved_0_name_middle', 'Phil');
+    fillData(form, 'input#root_incident0_personsInvolved_0_name_first', 'John');
+    fillData(form, 'input#root_incident0_personsInvolved_0_name_last', 'Doe');
     fillData(
       form,
-      'textarea#root_incident0_personInvolved_0_personDescription',
+      'input#root_incident0_personsInvolved_0_name_middle',
+      'Phil',
+    );
+    fillData(
+      form,
+      'textarea#root_incident0_personsInvolved_0_description',
       '6ft tall brown hair green eyes.',
     );
 
     selectRadio(
       form,
-      'root_incident0_personInvolved_0_view:serviceMember',
+      'root_incident0_personsInvolved_0_view:serviceMember',
       'Y',
     );
 
-    fillData(form, 'input#root_incident0_personInvolved_0_rank', 'First Sgt.');
+    fillData(form, 'input#root_incident0_personsInvolved_0_rank', 'First Sgt.');
     fillData(
       form,
-      'input#root_incident0_personInvolved_0_unitAssigned',
+      'input#root_incident0_personsInvolved_0_unitAssigned',
       '101st Airborne',
     );
     fillDate(
       form,
-      'root_incident0_personInvolved_0_injuryDeathDate',
+      'root_incident0_personsInvolved_0_injuryDeathDate',
       '2010-05-05',
     );
 
-    selectRadio(form, 'root_incident0_personInvolved_0_injuryDeath', 'Other');
+    selectRadio(form, 'root_incident0_personsInvolved_0_injuryDeath', 'other');
 
     fillData(
       form,
-      'input#root_incident0_personInvolved_0_injuryDeathOther',
+      'input#root_incident0_personsInvolved_0_injuryDeathOther',
       'lorem ipsum',
     );
 

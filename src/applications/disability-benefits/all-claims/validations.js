@@ -126,6 +126,29 @@ export const validateIfHasEvidence = (
   }
 };
 
+// Need the Lambda to pass the disability list type, so only 1 disability list has the error message.
+export const oneDisabilityRequired = disabilityList => (
+  errors,
+  state,
+  formData,
+) => {
+  const ratedDisabilities = _.get('ratedDisabilities', formData, []);
+  const newDisabilities = _.get('newDisabilities', formData, []);
+
+  const hasNewDisabilitiesSelected = some(
+    [...newDisabilities, ...ratedDisabilities],
+    disability => disability['view:unemployabilityDisability'],
+  );
+
+  if (!hasNewDisabilitiesSelected) {
+    const errMsg =
+      disabilityList === 'new' && ratedDisabilities.length
+        ? ''
+        : 'Please select at least one disability from the lists below.';
+    errors.addError(errMsg);
+  }
+};
+
 export const isDisabilityPtsd = disability =>
   disability.toLowerCase().includes(PTSD);
 
@@ -158,5 +181,16 @@ export const isValidYear = (err, fieldData) => {
 
   if (parsedInt > new Date().getFullYear()) {
     err.addError('The year can’t be in the future');
+  }
+};
+
+// Doesn't require a complete date; just month and year
+export const hasMonthYear = (err, fieldData) => {
+  if (!fieldData) return;
+
+  const [year, month] = fieldData.split('-');
+
+  if (year === 'XXXX' || month === 'XX') {
+    err.addError('Please provide both month and year');
   }
 };

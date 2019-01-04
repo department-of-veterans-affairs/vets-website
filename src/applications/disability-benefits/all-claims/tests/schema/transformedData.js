@@ -187,5 +187,141 @@ export const transformedMaximalData = {
       },
     ],
     privacyAgreementAccepted: true,
+    form0781: {
+      remarks: '781 Remarks',
+      additionalIncidentText: 'Additional incident text',
+      additionalSecondaryIncidentText: 'Additional secondary incident text',
+      otherInformation: [
+        'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
+        'Other physical change',
+        'Withdrawal from friends',
+        'Unexplained social behavior changes',
+        'Other social change',
+        'Episodes of depression, panic attacks, or anxiety without an identifiable cause',
+        'Increased fear of surroundings, inability to go to certain areas',
+        'Hypervigilance, heightened fight or flight response',
+        'Other mental change',
+        'Changes in performance and performance evaluations',
+        'Resigning from your job',
+        'Other work change',
+        'Additional changes test',
+      ],
+      incidents: [
+        {
+          personalAssault: false,
+          medalsCitations: 'Medal A and Medal B',
+          incidentDate: '1992-03-04',
+          incidentLocation:
+            'Test, MS, USA, Additional first incident location details',
+          incidentDescription: 'First PTSD event description',
+          unitAssigned: 'Division 1',
+          unitAssignedDates: {
+            from: '1991-03-03',
+            to: '1996-03-06',
+          },
+          personsInvolved: [
+            {
+              name: {
+                first: 'John',
+              },
+              rank: 'Sgt',
+              injuryDeath: 'injuredNonBattle',
+              injuryDeathDate: '1992-07-03',
+              unitAssigned: 'Unit B',
+              description: 'John H Doe description',
+            },
+          ],
+        },
+        {
+          personalAssault: false,
+          medalsCitations: 'Medal B',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+        },
+        {
+          personalAssault: false,
+          medalsCitations: 'Medal C',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+          personsInvolved: [
+            {
+              name: {
+                first: 'John',
+                last: 'Doe',
+              },
+              rank: 'Private',
+              injuryDeath: 'other',
+              injuryDeathOther: 'Other text',
+              injuryDeathDate: '1992-01-01',
+              unitAssigned: 'Unit A',
+            },
+            {
+              name: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
+        },
+        {
+          personalAssault: true,
+          incidentDate: '1994-04-03',
+          incidentLocation:
+            'City Name, AZ, USA, First 781a PTSD incident location additional details',
+          incidentDescription: 'First 781a PTSD incident description',
+          unitAssigned: 'Unit Name',
+          unitAssignedDates: {
+            from: '1992-02-16',
+            to: '1995-04-04',
+          },
+          sources: [
+            {
+              address: {
+                addressLine1: '123 Test St',
+                city: 'Test',
+                country: 'USA',
+                state: 'PA',
+                zipCode: '12345',
+              },
+              name: 'Police',
+            },
+          ],
+        },
+        {
+          personalAssault: true,
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Second 781a PTSD incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+        },
+        {
+          personalAssault: true,
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Third 781a PTSD incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+        },
+      ],
+    },
   },
 };
