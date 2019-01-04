@@ -25,6 +25,8 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -270,6 +272,50 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 /**
+ * Concatenates incident location address object into location string. This will ignore null
+ *  or undefined address fields
+ * @param {Object} incidentLocation location address with city, state, country, and additional details
+ * @returns {String} incident location string
+ */
+export function concatIncidentLocationString(incidentLocation) {
+  return [
+    incidentLocation.city,
+    incidentLocation.state,
+    incidentLocation.country,
+    incidentLocation.additionalDetails,
+  ]
+    .filter(locationField => locationField)
+    .join(', ');
+}
+
+/**
+ * Returns an array of the maximum set of PTSD incident form data field names
+ */
+export function getFlatIncidentKeys() {
+  const incidentKeys = [];
+
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`incident${i}`);
+  }
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`secondaryIncident${i}`);
+  }
+
+  return incidentKeys;
+}
+
+export function getPtsdChangeText(changeFields) {
+  return Object.keys(changeFields)
+    .filter(
+      key =>
+        key !== 'other' &&
+        key !== 'otherExplanation' &&
+        PTSD_CHANGE_LABELS[key],
+    )
+    .map(key => PTSD_CHANGE_LABELS[key]);
+}
+
+/**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
  * for any of the 3 addresses (mailing, forwarding, treatment facility) in our
@@ -348,18 +394,32 @@ export function transform(formConfig, form) {
     ),
   );
 
-  // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      _.set(
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+      // Transform the related disabilities lists into an array of strings
+      const newFacility = _.set(
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,
-      ),
-    );
+      );
+
+      // If the day is missing, set it to the last day of the month because EVSS requires a day
+      const [year, month, day] = _.get(
+        'treatmentDateRange.to',
+        newFacility,
+        '',
+      ).split('-');
+      if (day && day === 'XX') {
+        newFacility.treatmentDateRange.to = moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD');
+      }
+
+      return newFacility;
+    });
     clonedData.vaTreatmentFacilities = newVAFacilities;
   }
 
@@ -398,6 +458,52 @@ export function transform(formConfig, form) {
 
     delete clonedData.limitedConsent;
     delete clonedData.providerFacility;
+  }
+
+  const incidentKeys = getFlatIncidentKeys();
+
+  const incidents = incidentKeys
+    .filter(incidentKey => clonedData[incidentKey])
+    .map(incidentKey => ({
+      ...clonedData[incidentKey],
+      personalAssault: incidentKey.includes('secondary'),
+      incidentLocation: concatIncidentLocationString(
+        clonedData[incidentKey].incidentLocation,
+      ),
+    }));
+
+  incidentKeys.forEach(incidentKey => {
+    delete clonedData[incidentKey];
+  });
+
+  if (incidents.length > 0) {
+    clonedData.form0781 = {
+      incidents,
+      remarks: clonedData.additionalRemarks781,
+      additionalIncidentText: clonedData.additionalIncidentText,
+      additionalSecondaryIncidentText:
+        clonedData.additionalSecondaryIncidentText,
+      otherInformation: [
+        ...getPtsdChangeText(clonedData.physicalChanges),
+        _.get('physicalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.socialBehaviorChanges),
+        _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.mentalChanges),
+        _.get('mentalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.workBehaviorChanges),
+        _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
+        _.get('additionalChanges', clonedData, ''),
+      ].filter(info => info.length > 0),
+    };
+
+    delete clonedData.physicalChanges;
+    delete clonedData.socialBehaviorChanges;
+    delete clonedData.mentalChanges;
+    delete clonedData.workBehaviorChanges;
+    delete clonedData.additionalChanges;
+    delete clonedData.additionalRemarks781;
+    delete clonedData.additionalIncidentText;
+    delete clonedData.additionalSecondaryIncidentText;
   }
 
   return JSON.stringify({ form526: clonedData });
@@ -632,7 +738,7 @@ export const ancillaryFormUploadUi = (
     customClasses = '',
     isDisabled = false,
     addAnotherLabel = 'Add Another',
-  },
+  } = {},
 ) =>
   fileUploadUI(label, {
     itemDescription,
@@ -670,6 +776,10 @@ export const ancillaryFormUploadUi = (
     classNames: customClasses,
     attachmentName: false,
   });
+
+export const isUploadingSupporting8940Documents = formData =>
+  needsToAnswerUnemployability &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, true);
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&

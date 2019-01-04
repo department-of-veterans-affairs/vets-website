@@ -1,4 +1,5 @@
 import set from '../../../../platform/utilities/data/set';
+import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
@@ -7,6 +8,7 @@ import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
+  hasMonthYear,
 } from '../validations';
 import { USA } from '../constants';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -57,10 +59,13 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
       },
-      treatmentDateRange: dateRangeUI(
-        'When did you first visit this facility?',
-        'When was your most recent visit?',
-        'Date of last treatment must be after date of first treatment',
+      treatmentDateRange: merge(
+        dateRangeUI(
+          'When did you first visit this facility?',
+          'When was your most recent visit?',
+          'Date of last treatment must be after date of first treatment',
+        ),
+        { to: { 'ui:validations': [hasMonthYear] } },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],

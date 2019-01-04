@@ -246,7 +246,7 @@
           "rank": "Sgt",
           "unitAssigned": "Unit B",
           "injuryDeathDate": "1992-07-03",
-          "injuryDeath": "Injured non-battle",
+          "injuryDeath": "injuredNonBattle",
           "view:individualAddMsg": {}
         }
       ],
@@ -303,7 +303,7 @@
             "last": "Doe"
           },
           "rank": "Private",
-          "injuryDeath": "Other",
+          "injuryDeath": "other",
           "injuryDeathOther": "Other text",
           "injuryDeathDate": "1992-01-01",
           "unitAssigned": "Unit A"
@@ -392,7 +392,8 @@
       "fear": true,
       "hypervigilance": true,
       "other": true,
-      "otherExplanation": "Other mental change"
+      "otherExplanation": "Other mental change",
+      "noneApply": true
     },
     "workBehaviorChanges": {
       "performanceChanges": true,

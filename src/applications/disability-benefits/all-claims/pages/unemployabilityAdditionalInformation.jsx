@@ -1,7 +1,9 @@
 import React from 'react';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const additionalInformationDescription = (
   <div>
+    <h4>Additional Information</h4>
     <p>
       If there is any other information you would like to provide as part of
       your claim, please add it here.
@@ -19,7 +21,7 @@ const additionalInformationDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Individual Unemployability',
+  'ui:title': unemployabilityTitle,
   'ui:description': additionalInformationDescription,
   unemployability: {
     remarks: {
