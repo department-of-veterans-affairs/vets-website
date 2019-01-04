@@ -22,15 +22,11 @@ import {
   isUploading781aSupportingDocuments,
   isUploading781Form,
   isUploading781aForm,
-  transformRelatedDisabilities,
   viewifyFields,
   transformMVPData,
   transform,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
-  concatIncidentLocationString,
-  getFlatIncidentKeys,
-  getPtsdChangeText,
 } from '../utils.jsx';
 
 import {
@@ -43,11 +39,7 @@ import maximalData from './schema/maximal-test.json';
 
 import initialData from './initialData';
 
-import {
-  SERVICE_CONNECTION_TYPES,
-  PTSD_INCIDENT_ITERATION,
-  PTSD_CHANGE_LABELS,
-} from '../../all-claims/constants';
+import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -484,34 +476,6 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformRelatedDisabilities', () => {
-    it('should return an array of strings', () => {
-      const claimedConditions = [
-        'some condition name',
-        'another condition name',
-      ];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name', 'another condition name']);
-    });
-    it('should not add conditions if they are not claimed', () => {
-      const claimedConditions = ['some condition name'];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name']);
-    });
-  });
-
   describe('viewifyFields', () => {
     const formData = {
       prop1: {
@@ -726,100 +690,6 @@ describe('isAnswering781aQuestions', () => {
         'view:unemployabilityUploadChoice': 'upload',
       };
       expect(needsToAnswerUnemployability(formData)).to.be.false;
-    });
-  });
-
-  describe('concatIncidentLocationString', () => {
-    it('should concat full address', () => {
-      const locationString = concatIncidentLocationString({
-        city: 'Test',
-        state: 'TN',
-        country: 'USA',
-        additionalDetails: 'details',
-      });
-
-      expect(locationString).to.eql('Test, TN, USA, details');
-    });
-
-    it('should handle null and undefined values', () => {
-      const locationString = concatIncidentLocationString({
-        city: 'Test',
-        state: null,
-        additionalDetails: 'details',
-      });
-
-      expect(locationString).to.eql('Test, details');
-    });
-  });
-
-  describe('getFlatIncidentKeys', () => {
-    it('should return correct amount of incident keys', () => {
-      expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
-    });
-  });
-
-  describe('getPtsdChangeText', () => {
-    it('should have valid labels', () => {
-      Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
-        expect(PTSD_CHANGE_LABELS[key]).to.be.a('string');
-      });
-    });
-
-    const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
-    it('should have mappings for all workBehaviorChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
-          .properties.workBehaviorChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should have mappings for all mentalHealthChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
-          .properties.mentalChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should have mappings for all physicalHealthChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
-          .properties.physicalChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should have mappings for all socialBehaviorChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
-          .properties.socialBehaviorChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should return UI titles', () => {
-      const fieldTitles = getPtsdChangeText({
-        increasedLeave: true,
-        withdrawal: true,
-        field2: true,
-        other: true,
-        otherExplanation: 'Other change',
-      });
-
-      expect(fieldTitles.length).to.eql(2);
     });
   });
 });

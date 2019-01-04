@@ -1,0 +1,42 @@
+{
+  "form526": {
+    "hasTrainingPay": false,
+    "isVAEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "1231231234",
+      "emailAddress": "asdf@as.asdf"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "asdf",
+      "city": "asdf",
+      "state": "AL",
+      "zipCode": "19234"
+    },
+    "ratedDisabilities": [
+      {
+        "name": "First Condition",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE"
+      }
+    ],
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        }
+      ]
+    },
+    "standardClaim": false
+  }
+}
