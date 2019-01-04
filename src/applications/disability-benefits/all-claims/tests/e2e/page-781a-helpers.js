@@ -57,7 +57,7 @@ export const completePtsdSecondaryIncidentDescription = (
   index,
 ) => {
   client.fill(
-    `textarea[id="root_secondaryIncident${index}_description"]`,
+    `input[name="root_secondaryIncident${index}_incidentDescription"]`,
     incident.incidentDescription,
   );
 };

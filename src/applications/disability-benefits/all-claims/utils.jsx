@@ -778,8 +778,8 @@ export const ancillaryFormUploadUi = (
   });
 
 export const isUploadingSupporting8940Documents = formData =>
-  needsToAnswerUnemployability &&
-  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, true);
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, false);
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&

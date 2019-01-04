@@ -67,44 +67,44 @@ export const completePtsdIndividualsInvolvedQuestions = (
 ) => {
   incident.personsInvolved.forEach((person, i, list) => {
     client
-      .fillName(`root_incident${index}_personInvolved_${i}_name`, person.name)
+      .fillName(`root_incident${index}_personsInvolved_${i}_name`, person.name)
       .fill(
-        `textarea[id="root_incident${index}_personInvolved_${i}_personDescription"]`,
+        `textarea[id="root_incident${index}_personsInvolved_${i}_description"]`,
         person.personDescription,
       )
       .selectRadio(
-        `root_incident${index}_personInvolved_${i}_view:serviceMember`,
+        `root_incident${index}_personsInvolved_${i}_view:serviceMember`,
         person['view:serviceMember'] ? 'Y' : 'N',
       );
 
     if (person['view:serviceMember']) {
       client
         .fill(
-          `input[name="root_incident${index}_personInvolved_${i}_rank"]`,
+          `input[name="root_incident${index}_personsInvolved_${i}_rank"]`,
           person.rank,
         )
         .fill(
-          `input[name="root_incident${index}_personInvolved_${i}_unitAssigned"]`,
+          `input[name="root_incident${index}_personsInvolved_${i}_unitAssigned"]`,
           person.unitAssigned,
         );
     }
 
     if (person.injuryDeathDate) {
       client.fillDate(
-        `root_incident${index}_personInvolved_${i}_injuryDeathDate`,
+        `root_incident${index}_personsInvolved_${i}_injuryDeathDate`,
         person.injuryDeathDate,
       );
     }
 
     if (person.injuryDeath) {
       client.selectRadio(
-        `root_incident${index}_personInvolved_${i}_injuryDeath`,
+        `root_incident${index}_personsInvolved_${i}_injuryDeath`,
         person.injuryDeath,
       );
 
       if (person.injuryDeath === 'Other') {
         client.fill(
-          `input[name="root_incident${index}_personInvolved_${i}_injuryDeathOther"]`,
+          `input[name="root_incident${index}_personsInvolved_${i}_injuryDeathOther"]`,
           person.injuryDeathOther,
         );
       }
@@ -115,7 +115,7 @@ export const completePtsdIndividualsInvolvedQuestions = (
 
 export const completePtsdIncidentDescription = (client, incident, index) => {
   client.fill(
-    `textarea[id="root_incident${index}_description"]`,
+    `input[name="root_incident${index}_incidentDescription"]`,
     incident.incidentDescription,
   );
 };
