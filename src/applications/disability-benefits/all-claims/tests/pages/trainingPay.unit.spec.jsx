@@ -57,7 +57,6 @@ describe('Training Pay', () => {
         uiSchema={uiSchema}
         data={{
           hasTrainingPay: false,
-          'view:hasSeparationPay': false,
         }}
         formData={{}}
         onSubmit={onSubmit}
