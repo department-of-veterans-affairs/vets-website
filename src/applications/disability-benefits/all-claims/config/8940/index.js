@@ -14,6 +14,7 @@ import {
   recentJobApplications,
   incomeDetails,
   employmentHistory,
+  unemployabilityDoctorCare,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
@@ -54,6 +55,13 @@ export default function() {
         schema: hospitalizationHistory.schema,
       },
       // 8940 - Doctor Treatment
+      unemployabilityDoctorCare: {
+        title: "Doctor's care",
+        path: 'doctor-care',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDoctorCare.uiSchema,
+        schema: unemployabilityDoctorCare.schema,
+      },
       // 8940 - Disability Dates
       // 8940 - Income Details
       incomeDetails: {
