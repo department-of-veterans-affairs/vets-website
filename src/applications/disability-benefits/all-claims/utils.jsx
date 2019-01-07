@@ -25,6 +25,10 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  causeTypes,
+  specialIssueTypes,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -112,7 +116,7 @@ export const isInFuture = (errors, fieldData) => {
   }
 };
 
-const capitalizeEach = word => {
+const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
@@ -123,15 +127,14 @@ const capitalizeEach = word => {
  * @param {string} name the lower-case name of a disability
  * @returns {string} the input name, but with all words capitalized
  */
-export const getDisabilityName = name => {
+export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name
-      .split(/ +/)
-      .map(capitalizeEach)
-      .join(' ');
+    return name.replace(/\w+/g, capitalizeWord);
   }
 
-  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  Raven.captureMessage(
+    `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+  );
   return 'Unknown Condition';
 };
 
@@ -268,6 +271,50 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 /**
+ * Concatenates incident location address object into location string. This will ignore null
+ *  or undefined address fields
+ * @param {Object} incidentLocation location address with city, state, country, and additional details
+ * @returns {String} incident location string
+ */
+export function concatIncidentLocationString(incidentLocation) {
+  return [
+    incidentLocation.city,
+    incidentLocation.state,
+    incidentLocation.country,
+    incidentLocation.additionalDetails,
+  ]
+    .filter(locationField => locationField)
+    .join(', ');
+}
+
+/**
+ * Returns an array of the maximum set of PTSD incident form data field names
+ */
+export function getFlatIncidentKeys() {
+  const incidentKeys = [];
+
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`incident${i}`);
+  }
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`secondaryIncident${i}`);
+  }
+
+  return incidentKeys;
+}
+
+export function getPtsdChangeText(changeFields) {
+  return Object.keys(changeFields)
+    .filter(
+      key =>
+        key !== 'other' &&
+        key !== 'otherExplanation' &&
+        PTSD_CHANGE_LABELS[key],
+    )
+    .map(key => PTSD_CHANGE_LABELS[key]);
+}
+
+/**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
  * for any of the 3 addresses (mailing, forwarding, treatment facility) in our
@@ -315,21 +362,6 @@ export function transform(formConfig, form) {
     form.data,
   );
 
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
-  if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d => {
-      const loweredCondition = d.condition.toLowerCase();
-      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
-      if (loweredCondition.includes('ptsd')) {
-        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
-        d.cause = 'NEW';
-      }
-      claimedConditions.push(loweredCondition);
-    });
-  }
-
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
@@ -346,40 +378,87 @@ export function transform(formConfig, form) {
     ),
   );
 
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
+    : [];
+
+  if (clonedData.newDisabilities) {
+    // Add new disabilities to claimed conditions list
+    clonedData.newDisabilities.forEach(disability =>
+      claimedConditions.push(disability.condition.toLowerCase()),
+    );
+
+    if (clonedData.powDisabilities) {
+      // Add POW specialIssue to new conditions
+      const powDisabilities = transformRelatedDisabilities(
+        clonedData.powDisabilities,
+        claimedConditions,
+      ).map(name => name.toLowerCase());
+      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+        if (powDisabilities.includes(d.condition.toLowerCase())) {
+          const newSpecialIssues = (d.specialIssues || []).slice();
+          newSpecialIssues.push(specialIssueTypes.POW);
+          return _.set('specialIssues', newSpecialIssues, d);
+        }
+        return d;
+      });
+
+      delete clonedData.powDisabilities;
+    }
+
+    // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
+    const withPtsdCause = clonedData.newDisabilities.map(
+      disability =>
+        disability.condition.toLowerCase().includes('ptsd')
+          ? _.set('cause', causeTypes.NEW, disability)
+          : disability,
+    );
+
+    // Split newDisabilities into primary and secondary arrays for backend
+    const newPrimaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause !== causeTypes.SECONDARY,
+    );
+    const newSecondaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause === causeTypes.SECONDARY,
+    );
+
+    if (newPrimaryDisabilities.length) {
+      clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
+    }
+    if (newSecondaryDisabilities.length) {
+      clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
+    }
+    delete clonedData.newDisabilities;
+  }
+
   // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      _.set(
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+      // Transform the related disabilities lists into an array of strings
+      const newFacility = _.set(
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,
-      ),
-    );
+      );
+
+      // If the day is missing, set it to the last day of the month because EVSS requires a day
+      const [year, month, day] = _.get(
+        'treatmentDateRange.to',
+        newFacility,
+        '',
+      ).split('-');
+      if (day && day === 'XX') {
+        newFacility.treatmentDateRange.to = moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD');
+      }
+
+      return newFacility;
+    });
     clonedData.vaTreatmentFacilities = newVAFacilities;
-  }
-
-  // Add POW specialIssue to new conditions
-  if (clonedData.powDisabilities) {
-    const powDisabilities = transformRelatedDisabilities(
-      clonedData.powDisabilities,
-      claimedConditions,
-    ).map(name => name.toLowerCase());
-
-    if (clonedData.newDisabilities) {
-      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition.toLowerCase())) {
-          const newSpecialIssues = (d.specialIssues || []).slice();
-          // TODO: Make a constant with all the possibilities and use it here
-          newSpecialIssues.push('POW');
-          return _.set('specialIssues', newSpecialIssues, d);
-        }
-        return d;
-      });
-    }
-    delete clonedData.powDisabilities;
   }
 
   if (clonedData.providerFacility) {
@@ -396,6 +475,52 @@ export function transform(formConfig, form) {
 
     delete clonedData.limitedConsent;
     delete clonedData.providerFacility;
+  }
+
+  const incidentKeys = getFlatIncidentKeys();
+
+  const incidents = incidentKeys
+    .filter(incidentKey => clonedData[incidentKey])
+    .map(incidentKey => ({
+      ...clonedData[incidentKey],
+      personalAssault: incidentKey.includes('secondary'),
+      incidentLocation: concatIncidentLocationString(
+        clonedData[incidentKey].incidentLocation,
+      ),
+    }));
+
+  incidentKeys.forEach(incidentKey => {
+    delete clonedData[incidentKey];
+  });
+
+  if (incidents.length > 0) {
+    clonedData.form0781 = {
+      incidents,
+      remarks: clonedData.additionalRemarks781,
+      additionalIncidentText: clonedData.additionalIncidentText,
+      additionalSecondaryIncidentText:
+        clonedData.additionalSecondaryIncidentText,
+      otherInformation: [
+        ...getPtsdChangeText(clonedData.physicalChanges),
+        _.get('physicalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.socialBehaviorChanges),
+        _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.mentalChanges),
+        _.get('mentalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.workBehaviorChanges),
+        _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
+        _.get('additionalChanges', clonedData, ''),
+      ].filter(info => info.length > 0),
+    };
+
+    delete clonedData.physicalChanges;
+    delete clonedData.socialBehaviorChanges;
+    delete clonedData.mentalChanges;
+    delete clonedData.workBehaviorChanges;
+    delete clonedData.additionalChanges;
+    delete clonedData.additionalRemarks781;
+    delete clonedData.additionalIncidentText;
+    delete clonedData.additionalSecondaryIncidentText;
   }
 
   return JSON.stringify({ form526: clonedData });
@@ -455,7 +580,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
-      const capitalizedDisabilityName = getDisabilityName(disabilityName);
+      const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
       return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
     }, {});
   return {
@@ -466,7 +591,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
 const formattedNewDisabilitiesSelector = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) =>
-    newDisabilities.map(disability => getDisabilityName(disability.condition)),
+    newDisabilities.map(disability => capitalizeEachWord(disability.condition)),
 );
 
 export const addCheckboxPerNewDisability = createSelector(
@@ -630,7 +755,7 @@ export const ancillaryFormUploadUi = (
     customClasses = '',
     isDisabled = false,
     addAnotherLabel = 'Add Another',
-  },
+  } = {},
 ) =>
   fileUploadUI(label, {
     itemDescription,
@@ -668,6 +793,10 @@ export const ancillaryFormUploadUi = (
     classNames: customClasses,
     attachmentName: false,
   });
+
+export const isUploadingSupporting8940Documents = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, false);
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&

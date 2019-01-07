@@ -11,7 +11,7 @@ export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': incidentDescriptionInstructions,
   [`secondaryIncident${index}`]: {
-    description: {
+    incidentDescription: {
       'ui:title':
         'Please tell us what happened during the event or describe the situation. Provide the level of detail that you’re comfortable sharing. You don’t have to repeat any information that you’ve already shared.',
       'ui:widget': 'textarea',
@@ -29,7 +29,7 @@ export const schema = index => ({
     [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
-        description,
+        incidentDescription: description,
       },
     },
   },

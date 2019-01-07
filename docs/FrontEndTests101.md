@@ -1,11 +1,9 @@
 ### General information
 
 #### Where they live
-- Test directory contains all of the test code
-  - Configuration and helpers for test libraries live under `test/util/`, minus a few files that live directly under `test/`
-  - Unit tests and e2e tests live under each project directory
-  - Helpers for e2e tests are under `test/e2e/`
-  - Visual regression test config has it's own directory under `test/visual-regression`
+- Tests can live anywhere in the `src` directory, but in general are located in a directory close to the code or application that they are written to test.
+- The `.unit.spec.js` file extension is used for unit tests, while `.e2e.spec.js` is used for end-to-end (E2E) tests.
+- Visual regression test config has its own directory under `src/platform/testing/visual-regression`
 - Test commands are specified in `package.json`, as well as in vets-website's `README.md`
 - Configuration files for nightwatch and sass-lint live under `config/`
 - Scripts for running nightwatch tests live under `script/`
