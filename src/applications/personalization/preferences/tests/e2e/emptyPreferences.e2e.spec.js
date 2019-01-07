@@ -122,5 +122,3 @@ module.exports = E2eHelpers.createE2eTest(browser => {
   emptyPreferences(browser, token);
   browser.end();
 });
-
-module.exports['@disabled'] = true;
