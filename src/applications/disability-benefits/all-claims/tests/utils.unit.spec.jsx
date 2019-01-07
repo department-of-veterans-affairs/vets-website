@@ -825,11 +825,11 @@ describe('isAnswering781aQuestions', () => {
   });
 
   describe('needsToAnswerUnemployabilityMedicalCare', () => {
-    it('be default of false', () => {
+    it('should be default of false', () => {
       const formData = {};
       expect(needsToAnswerUnemployabilityMedicalCare(formData)).to.be.false;
     });
-    it('be true', () => {
+    it('should be true', () => {
       const formData = {
         'view:unemployabilityMedicalCareChoice': true,
       };
