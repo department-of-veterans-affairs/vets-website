@@ -7,7 +7,7 @@ import { unemployabilityTitleHospitalization } from '../content/unemployabilityF
 
 // const { hospitalizationHistory } = fullSchema.properties;
 
-import tempSchema from '../config/schema';
+import tempSchema from '../config/schema'; // Will change to fullSchema when json schema approved
 
 const { hospitalizationHistory } = tempSchema.properties;
 
