@@ -383,6 +383,14 @@ export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = setActionTypes(form.data);
 
+  // Need to set up claimedConditions before we transformForSubmit because we
+  // depend on the `view:selected` property here
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities
+        .filter(disabilityIsSelected)
+        .map(d => d.name.toLowerCase())
+    : [];
+
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
@@ -398,12 +406,6 @@ export function transform(formConfig, form) {
       ),
     ),
   );
-
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities
-        .filter(disabilityIsSelected)
-        .map(d => d.name.toLowerCase())
-    : [];
 
   if (clonedData.newDisabilities) {
     // Add new disabilities to claimed conditions list
