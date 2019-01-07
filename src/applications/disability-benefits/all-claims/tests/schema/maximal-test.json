@@ -79,7 +79,7 @@
           "state": "AL"
         },
         "treatedDisabilityNames": {
-          "Aging": true,
+          "gout": true,
           "PTSD (post Traumatic Stress Disorder)": true
         }
       }
@@ -128,17 +128,20 @@
       {
         "cause": "NEW",
         "primaryDescription": "A thing happened.",
-        "condition": "Some condition"
+        "condition": "asthma",
+        "view:descriptionInfo": {}
       },
       {
-        "cause": "WORSENED",
+        "cause": "NEW",
+        "condition": "gout",
         "primaryDescription": "A thing happened.",
-        "condition": "Some fourth condition"
+        "view:descriptionInfo": {}
       },
       {
         "cause": "SECONDARY",
         "primaryDescription": "A thing happened.",
-        "condition": "Some other condition"
+        "condition": "nerves",
+        "view:descriptionInfo": {}
       }
     ],
     "ratedDisabilities": [

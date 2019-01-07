@@ -125,19 +125,19 @@ export const transformedMaximalData = {
       {
         cause: 'NEW',
         primaryDescription: 'A thing happened.',
-        condition: 'Some condition',
+        condition: 'asthma',
       },
       {
-        cause: 'WORSENED',
+        cause: 'NEW',
         primaryDescription: 'A thing happened.',
-        condition: 'Some fourth condition',
+        condition: 'gout',
       },
     ],
     newSecondaryDisabilities: [
       {
         cause: 'SECONDARY',
         primaryDescription: 'A thing happened.',
-        condition: 'Some other condition',
+        condition: 'nerves',
       },
     ],
     ratedDisabilities: [

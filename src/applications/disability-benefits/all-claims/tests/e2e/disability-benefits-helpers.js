@@ -126,6 +126,7 @@ export const addNewDisability = (client, data) => {
       `input[name="root_newDisabilities_${i}_condition"]`,
       disability.condition,
     );
+    client.click('body');
     clickAddAnother(client, i, list);
   });
   client.click('body');
@@ -142,11 +143,47 @@ export const completeNewDisabilityFollowUp = (client, disability, index) => {
       );
       break;
     case 'SECONDARY':
+      client
+        .selectDropdown(
+          'root_view:secondaryFollowUp_causedByDisability',
+          disability.causedByDisability,
+        )
+        .fill(
+          `textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]`,
+          disability.causedByDisabilityDescription,
+        );
+      break;
     case 'WORSENED':
+      client
+        .fill(
+          'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
+          disability.worsenedDescription,
+        )
+        .fill(
+          `textarea[id="root_view:worsenedFollowUp_worsenedEffects"]`,
+          disability.worsenedEffects,
+        );
+      break;
     case 'VA':
+      client
+        .fill(
+          `textarea[id="root_view:VAFollowUp_VAMistreatmentDescription"]`,
+          disability.VAMistreatmentDescription,
+        )
+        .fill(
+          'input[name="root_view:VAFollowUp_VAMistreatmentLocation"]',
+          disability.VAMistreatmentLocation,
+        )
+        .fill(
+          'input[name="root_view:VAFollowUp_VAMistreatmentDate"]',
+          disability.VAMistreatmentDate,
+        );
+      break;
     default:
       client.verify.fail(
-        `All fields on /new-disabilities/follow-up/${index} are required`,
+        `All fields on /new-disabilities/follow-up/${index} are required for ${
+          disability.condition
+        }`,
       );
       break;
   }
