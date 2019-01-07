@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
-const getAllPages = require('./getAllPages.graphql');
+const GET_ALL_PAGES = require('./get-all-pages.graphql');
 
 const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.LOCALHOST,
@@ -62,7 +62,7 @@ function getDrupalContent(buildOptions) {
 
     try {
       if (!contentData) {
-        contentData = await contentApi.query({ query: getAllPages });
+        contentData = await contentApi.query({ query: GET_ALL_PAGES });
       }
 
       pipeApiDataIntoMetalsmith(contentData, files);
