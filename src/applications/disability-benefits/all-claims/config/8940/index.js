@@ -22,6 +22,7 @@ import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   isUploadingSupporting8940Documents,
+  needsToAnswerUnemployabilityMedicalCare,
 } from '../../utils';
 
 export default function() {
@@ -50,7 +51,7 @@ export default function() {
       hospitalizationHistory: {
         title: 'Hospitalization',
         path: 'hospitalization-history',
-        depends: needsToAnswerUnemployability,
+        depends: needsToAnswerUnemployabilityMedicalCare,
         uiSchema: hospitalizationHistory.uiSchema,
         schema: hospitalizationHistory.schema,
       },
@@ -58,7 +59,7 @@ export default function() {
       unemployabilityDoctorCare: {
         title: "Doctor's care",
         path: 'doctor-care',
-        depends: needsToAnswerUnemployability,
+        depends: needsToAnswerUnemployabilityMedicalCare,
         uiSchema: unemployabilityDoctorCare.uiSchema,
         schema: unemployabilityDoctorCare.schema,
       },

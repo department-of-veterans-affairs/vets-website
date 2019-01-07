@@ -746,6 +746,10 @@ export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
 
+export const needsToAnswerUnemployabilityMedicalCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:unemployabilityMedicalCareChoice', formData, false);
+
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
