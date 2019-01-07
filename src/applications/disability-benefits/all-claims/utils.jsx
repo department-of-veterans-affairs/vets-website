@@ -355,16 +355,14 @@ export function customReplacer(key, value) {
 }
 
 export function transform(formConfig, form) {
-  let clonedData = {
-    ...form.data,
-  };
-
   // Remove rated disabilities that weren't selected
-  if (form.data.ratedDisabilities) {
-    clonedData.ratedDisabilities = form.data.ratedDisabilities.filter(
+  let clonedData = _.set(
+    'ratedDisabilities',
+    _.get('data.ratedDisabilities', form, []).filter(
       condition => condition['view:selected'],
-    );
-  }
+    ),
+    form.data,
+  );
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
