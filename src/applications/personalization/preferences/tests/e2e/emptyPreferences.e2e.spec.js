@@ -8,7 +8,7 @@ import {
   initHealthPostMock,
 } from './helpers';
 
-async function emptyPreferences(browser, token) {
+function emptyPreferences(browser, token) {
   initEmptyGetMock(token);
   initChoicesGetMock(token);
   initHealthPostMock(token);

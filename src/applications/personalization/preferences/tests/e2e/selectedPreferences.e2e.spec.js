@@ -6,7 +6,7 @@ import { initHealthGetMock } from './helpers';
 // This would make a great candidate for integration testing
 // given the frequency of interaction between the FE and BE
 
-async function selectedPreferences(browser, token) {
+function selectedPreferences(browser, token) {
   // Verify homelessness alert
   initHealthGetMock(token);
   browser
