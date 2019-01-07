@@ -10,7 +10,7 @@ import {
   ReservesGuardDescription,
   isInFuture,
   capitalizeEachWord,
-  transformDisabilities,
+  setActionTypes,
   queryForFacilities,
   hasOtherEvidence,
   fieldsHaveInput,
@@ -31,6 +31,7 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
+  filterServiceConnected,
 } from '../utils.jsx';
 
 import {
@@ -41,15 +42,40 @@ import {
 import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
 
-import initialData from './initialData';
-
 import {
   SERVICE_CONNECTION_TYPES,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
 } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
+  describe('filterServiceConnected', () => {
+    it('should filter non-service-connected disabililties', () => {
+      const disabilities = [
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      ];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities.length).to.equal(2);
+      filteredDisabilities.forEach(d =>
+        expect(d.decisionCode).to.equal(
+          SERVICE_CONNECTION_TYPES.serviceConnected,
+        ),
+      );
+    });
+
+    it('should return an empty array when no disabilities provided', () => {
+      const disabilities = [];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(Array.isArray(filteredDisabilities)).to.be.true;
+    });
+  });
+
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -193,27 +219,31 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformDisabilities', () => {
-    const rawDisability = initialData.ratedDisabilities[1];
-    const formattedDisability = Object.assign(
-      { disabilityActionType: 'INCREASE' },
-      rawDisability,
-    );
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([rawDisability])).to.deep.equal([
-        formattedDisability,
-      ]);
-    });
-    it('should return an empty array when given undefined input', () => {
-      expect(transformDisabilities(undefined)).to.deep.equal([]);
-    });
-    it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.set(
-        'decisionCode',
-        SERVICE_CONNECTION_TYPES.notServiceConnected,
-        rawDisability,
+  describe('setActionTypes', () => {
+    const formData = maximalData.data;
+
+    it('should set disabilityActionType for each disability properly', () => {
+      const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
+
+      expect(formattedDisabilities.length).to.equal(
+        formData.ratedDisabilities.length,
       );
-      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+
+      expect(formattedDisabilities[0].disabilityActionType).to.equal(
+        disabilityActionTypes.INCREASE,
+      );
+      expect(formattedDisabilities[1].disabilityActionType).to.equal(
+        disabilityActionTypes.NONE,
+      );
+      expect(formattedDisabilities[2].disabilityActionType).to.equal(
+        disabilityActionTypes.NONE,
+      );
+    });
+
+    it('should return cloned formData when no rated disabilities', () => {
+      const noRated = _.omit('ratedDisabilities', formData);
+
+      expect(setActionTypes(noRated)).to.deep.equal(noRated);
     });
   });
 

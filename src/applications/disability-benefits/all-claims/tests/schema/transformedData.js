@@ -151,6 +151,26 @@ export const transformedMaximalData = {
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
       },
+      {
+        name: 'Second Condition',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 0,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Third Condition',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
     ],
     serviceInformation: {
       reservesNationalGuardService: {

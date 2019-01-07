@@ -140,23 +140,11 @@ export const capitalizeEachWord = name => {
   return 'Unknown Condition';
 };
 
-export function filterServiceConnected(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities that aren't service-connected
-      .filter(
-        disability =>
-          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-      )
-    // .map(disability =>
-    //   _.set(
-    //     'disabilityActionType',
-    //     disabilityActionTypes.INCREASE,
-    //     disability,
-    //   ),
-    // )
+// Only service-connected disabilities should be included in the form
+export const filterServiceConnected = (disabilities = []) =>
+  disabilities.filter(
+    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
-}
 
 export function transformMVPData(formData) {
   const newFormData = _.omit(
@@ -378,7 +366,7 @@ const setActionType = disability =>
  * exist
  */
 export const setActionTypes = formData => {
-  const ratedDisabilities = formData;
+  const { ratedDisabilities } = formData;
 
   if (ratedDisabilities) {
     return _.set(
