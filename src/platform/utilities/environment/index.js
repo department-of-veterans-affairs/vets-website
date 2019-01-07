@@ -13,6 +13,13 @@ import ENVIRONMENTS from '../../../site/constants/environments';
 // eslint-disable-next-line no-undef
 const BUILDTYPE = __BUILDTYPE__;
 
+// __API__ is defined the same way, and is used to indicate the URL of the VA API. The main use
+// case for this at the moment is for internal review instances to pass configuration during the build.
+// This is only applicable during localhost builds.
+
+// eslint-disable-next-line no-undef
+const CUSTOM_API = __API__;
+
 const ENVIRONMENT_CONFIGURATIONS = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
@@ -37,7 +44,7 @@ const ENVIRONMENT_CONFIGURATIONS = {
     BASE_URL: `http://${location.hostname}${
       location.port ? `:${location.port}` : ''
     }`,
-    API_URL: `http://${location.hostname}:3000`,
+    API_URL: CUSTOM_API || `http://${location.hostname}:3000`,
   },
 };
 
