@@ -115,12 +115,29 @@ export const transformedMaximalData = {
         to: '1901-01-01',
       },
     ],
-    newDisabilities: [
+    newPrimaryDisabilities: [
       {
         cause: 'NEW',
         primaryDescription: 'A thing happened.',
         condition: 'PTSD (post traumatic stress disorder)',
         specialIssues: ['POW'],
+      },
+      {
+        cause: 'NEW',
+        primaryDescription: 'A thing happened.',
+        condition: 'Some condition',
+      },
+      {
+        cause: 'WORSENED',
+        primaryDescription: 'A thing happened.',
+        condition: 'Some fourth condition',
+      },
+    ],
+    newSecondaryDisabilities: [
+      {
+        cause: 'SECONDARY',
+        primaryDescription: 'A thing happened.',
+        condition: 'Some other condition',
       },
     ],
     ratedDisabilities: [

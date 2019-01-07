@@ -124,6 +124,21 @@
         "cause": "NEW",
         "primaryDescription": "A thing happened.",
         "condition": "PTSD (post traumatic stress disorder)"
+      },
+      {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "Some condition"
+      },
+      {
+        "cause": "WORSENED",
+        "primaryDescription": "A thing happened.",
+        "condition": "Some fourth condition"
+      },
+      {
+        "cause": "SECONDARY",
+        "primaryDescription": "A thing happened.",
+        "condition": "Some other condition"
       }
     ],
     "ratedDisabilities": [
