@@ -225,11 +225,11 @@ export const completeEvidenceTypes = (client, data) => {
     client
       .fillCheckbox(
         'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVAMedicalRecords"]',
-        evidenceTypes['view:vaMedicalRecords'],
+        evidenceTypes['view:hasVAMedicalRecords'],
       )
       .fillCheckbox(
         'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
-        evidenceTypes['view:privateMedicalRecords'],
+        evidenceTypes['view:hasPrivateMedicalRecords'],
       )
       .fillCheckbox(
         'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasOtherEvidence"]',
@@ -276,6 +276,19 @@ export const completeVaMedicalRecords = (client, data) => {
         facility.treatmentCenterAddress,
       );
     }
+
+    clickAddAnother(client, i, list);
+  });
+};
+
+export const completeAdditionalEvidence = (client, data) => {
+  data.additionalDocuments.forEach((document, i, list) => {
+    client
+      .fillUpload('root_additionalDocuments', __dirname, document.name)
+      .selectDropdown(
+        `root_additionalDocuments_${i}_atachmentId`,
+        document.attachmentId,
+      );
 
     clickAddAnother(client, i, list);
   });

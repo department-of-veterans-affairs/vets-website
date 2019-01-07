@@ -15,7 +15,7 @@ export const completePrivateMedicalRecordsChoice = (client, data) => {
     const acknowledgement =
       data['view:patientAcknowledgement']['view:acknowledgement'];
     client.fillCheckbox(
-      'root_view:patientAcknowledgement_view:acknowledgement',
+      'input[id="root_view:patientAcknowledgement_view:acknowledgement"]',
       acknowledgement,
     );
   } else {
@@ -55,17 +55,4 @@ export const completeRecordReleaseInformation = (client, data) => {
   if (limitedConsentChoice) {
     client.fill('input[name="root_limitedConsent"]', data.limitedConsent);
   }
-};
-
-export const completeAdditionalEvidence = (client, data) => {
-  data.additionalDocuments.forEach((document, i, list) => {
-    client
-      .fillUpload('root_additionalDocuments', __dirname, document.name)
-      .selectDropdown(
-        `root_additionalDocuments_${i}_atachmentId`,
-        document.attachmentId,
-      );
-
-    clickAddAnother(client, i, list);
-  });
 };

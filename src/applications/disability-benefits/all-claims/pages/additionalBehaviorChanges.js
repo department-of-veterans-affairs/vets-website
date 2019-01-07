@@ -1,24 +1,17 @@
 import React from 'react';
 
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const additionalDescriptionChanges = (
-  <div>
-    <h5>Changes in Behavior or Activities: Additional Information</h5>
-    <p>
-      Please provide additional information about any behavior changes or
-      actions you took as a result of the event(s).
-    </p>
-  </div>
+  <h5>Changes in Behavior or Activities: Additional Information</h5>
 );
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': additionalDescriptionChanges,
   additionalChanges: {
-    'ui:title': ' ',
+    'ui:title':
+      'Please provide additional information about any behavior changes or actions you took as a result of the event(s).',
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,

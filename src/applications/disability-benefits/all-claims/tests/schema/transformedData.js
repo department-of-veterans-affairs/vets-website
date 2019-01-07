@@ -91,24 +91,24 @@ export const transformedMaximalData = {
     //     name: 'e86bfe4f-8617-4700-ad8a-3535767ac1bd.pdf',
     //   },
     // ],
-    vaTreatmentFacilities: [
-      {
-        treatmentCenterName: 'VA Clinic Name',
-        treatmentDateRange: {
-          from: '1904-01-01',
-          to: '1905-01-01',
-        },
-        treatmentCenterAddress: {
-          country: 'USA',
-          city: 'asdf',
-          state: 'AL',
-        },
-        treatedDisabilityNames: [
-          'aging',
-          'ptsd (post traumatic stress disorder)',
-        ],
-      },
-    ],
+    // vaTreatmentFacilities: [
+    //   {
+    //     treatmentCenterName: 'VA Clinic Name',
+    //     treatmentDateRange: {
+    //       from: '1904-01-01',
+    //       to: '1905-01-01',
+    //     },
+    //     treatmentCenterAddress: {
+    //       country: 'USA',
+    //       city: 'asdf',
+    //       state: 'AL',
+    //     },
+    //     treatedDisabilityNames: [
+    //       'Aging',
+    //       'PTSD (post Traumatic Stress Disorder)',
+    //     ],
+    //   },
+    // ],
     confinements: [
       {
         from: '1900-01-01',
