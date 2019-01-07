@@ -1,4 +1,6 @@
 /* eslint-disable no-param-reassign */
+const chalk = require('chalk');
+
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
 const getAllPages = require('./getAllPages.graphql');
@@ -41,6 +43,9 @@ function pipeApiDataIntoMetalsmith(contentData, files) {
   files['drupal/index.html'] = {
     contents: Buffer.from(drupalIndexPage),
   };
+
+  // eslint-disable-next-line no-console
+  console.log(chalk.rgb(73, 167, 222)('Drupal index page written to /drupal.'));
 }
 
 function getDrupalContent(buildOptions) {
