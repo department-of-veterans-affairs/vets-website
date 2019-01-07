@@ -303,7 +303,7 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>
@@ -355,12 +355,16 @@ export function customReplacer(key, value) {
 }
 
 export function transform(formConfig, form) {
+  let clonedData = {
+    ...form.data,
+  };
+
   // Remove rated disabilities that weren't selected
-  let clonedData = _.set(
-    'ratedDisabilities',
-    form.data.ratedDisabilities.filter(condition => condition['view:selected']),
-    form.data,
-  );
+  if (form.data.ratedDisabilities) {
+    clonedData.ratedDisabilities = form.data.ratedDisabilities.filter(
+      condition => condition['view:selected'],
+    );
+  }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
