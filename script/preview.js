@@ -5,6 +5,9 @@ const express = require('express');
 const octokit = require('@octokit/rest')();
 const createPipieline = require('../src/site/stages/preview');
 
+const getDrupalClient = require('../src/site/stages/build/drupal/api');
+const getPageById = require('../src/site/stages/build/drupal/getPageById.graphql');
+
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
 
@@ -31,16 +34,28 @@ if (options.unexpected && options.unexpected.length !== 0) {
 }
 
 const app = express();
+const drupalClient = getDrupalClient(options);
 
 app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
-app.use('/preview', (req, res) => {
+app.use('/preview', async (req, res) => {
   const smith = createPipieline({
     ...options,
     port: process.env.PORT,
   });
 
   const contentId = req.query.contentId;
+  const pageData = await drupalClient.query({
+    query: getPageById,
+    variables: { path: contentId },
+  });
+
+  if (pageData.data.route) {
+    // Once we have Metalsmith templating in place for Drupal data, we should
+    // use that instead of the GH data.
+    res.json(pageData);
+    return;
+  }
 
   octokit.repos
     .getContents({

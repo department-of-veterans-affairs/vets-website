@@ -12,7 +12,6 @@ const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('../build/options');
 const createBuildSettings = require('../build/plugins/create-build-settings');
-const fetchContent = require('../build/plugins/fetch-content');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const nonceTransformer = require('../build/plugins/nonceTransformer');
@@ -40,7 +39,6 @@ function createPipeline(options) {
     hostUrl: BUILD_OPTIONS.hostUrl,
   });
 
-  smith.use(fetchContent(BUILD_OPTIONS));
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   smith.use(applyFragments(BUILD_OPTIONS));
