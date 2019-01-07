@@ -172,9 +172,15 @@ describe('526 helpers', () => {
 
   describe('capitalizeEachWord', () => {
     it('should return string with each word capitalized when name supplied', () => {
-      expect(capitalizeEachWord('some disability - some detail')).to.equal(
-        'Some Disability - Some Detail',
-      );
+      [
+        ['some disability - some detail', 'Some Disability - Some Detail'],
+        ['some disability (some detail)', 'Some Disability (Some Detail)'],
+        [
+          'some disability with hyphenated-words',
+          'Some Disability With Hyphenated-Words',
+        ],
+        ['some "quote" disability', 'Some "Quote" Disability'],
+      ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
     it('should return Unknown Condition with undefined name', () => {
       expect(capitalizeEachWord()).to.equal('Unknown Condition');
