@@ -59,13 +59,9 @@ if (environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST) {
   // __API__ is defined the same way as __BUILDTYPE__, and is used to indicate the URL of the VA API. The main use
   // case for this at the moment is for internal review instances to pass configuration during the build.
 
-  try {
-    // eslint-disable-next-line no-undef
-    const CUSTOM_API = __API__;
-    if (CUSTOM_API) environment.API_URL = CUSTOM_API;
-  } catch (err) {
-    // Nothing to be done - continue using the default localhost API
-  }
+  // eslint-disable-next-line no-undef
+  const CUSTOM_API = __API__;
+  if (CUSTOM_API) environment.API_URL = CUSTOM_API;
 }
 
 export default Object.freeze({
