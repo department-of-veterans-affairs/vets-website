@@ -31,6 +31,7 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
+  hospitalCare,
 } from '../utils.jsx';
 
 import {
@@ -820,6 +821,18 @@ describe('isAnswering781aQuestions', () => {
       });
 
       expect(fieldTitles.length).to.eql(2);
+    });
+  });
+  describe('needsToAnswerHospitalCare', () => {
+    it('should be default of false', () => {
+      const formData = {};
+      expect(hospitalCare(formData)).to.be.false;
+    });
+    it('should be true', () => {
+      const formData = {
+        'view:medicalCareType.view:hospitalized': true,
+      };
+      expect(hospitalCare(formData)).to.be.false;
     });
   });
 });
