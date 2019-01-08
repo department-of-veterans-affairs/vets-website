@@ -4,9 +4,9 @@ import {
 } from './alternateNames';
 
 import {
-  uiSchema as servicePayUISchema,
-  schema as servicePaySchema,
-} from './servicePay';
+  uiSchema as retirementPayUISchema,
+  schema as retirementPaySchema,
+} from './retirementPay';
 
 import {
   uiSchema as waiveRetirementPayUISchema,
@@ -384,9 +384,9 @@ export const alternateNames = {
   schema: alternateNamesSchema,
 };
 
-export const servicePay = {
-  uiSchema: servicePayUISchema,
-  schema: servicePaySchema,
+export const retirementPay = {
+  uiSchema: retirementPayUISchema,
+  schema: retirementPaySchema,
 };
 
 export const waiveRetirementPay = {

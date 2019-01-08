@@ -76,7 +76,7 @@ import {
   secondaryFinalIncident,
   separationPay,
   servedInCombatZone,
-  servicePay,
+  retirementPay,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -151,12 +151,6 @@ const formConfig = {
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
-        servicePay: {
-          title: 'Service Pay',
-          path: 'service-pay',
-          uiSchema: servicePay.uiSchema,
-          schema: servicePay.schema,
-        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -191,6 +185,12 @@ const formConfig = {
           path: 'separation-pay',
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
+        },
+        retirementPay: {
+          title: 'Retirement Pay',
+          path: 'retirement-pay',
+          uiSchema: retirementPay.uiSchema,
+          schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training Pay',
