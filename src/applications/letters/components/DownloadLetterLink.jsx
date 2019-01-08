@@ -119,7 +119,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-DownloadLetterLink.PropTypes = {
+DownloadLetterLink.propTypes = {
   letterType: PropTypes.string.required,
   letterName: PropTypes.string.required,
   downloadStatus: PropTypes.string,

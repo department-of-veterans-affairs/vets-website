@@ -377,6 +377,8 @@ import {
   schema as incomeDetailsSchema,
 } from './incomeDetails';
 
+import * as employmentHistory from './employmentHistory';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -753,7 +755,7 @@ export const secondaryUploadSourcesChoice = {
   schema: secondaryUploadSourcesChoiceSchema,
 };
 
-export { ancillaryFormsWizardSummary };
+export { ancillaryFormsWizardSummary, employmentHistory };
 
 export const incomeDetails = {
   uiSchema: incomeDetailsUISchema,

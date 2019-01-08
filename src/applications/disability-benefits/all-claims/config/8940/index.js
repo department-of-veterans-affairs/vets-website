@@ -13,6 +13,7 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  employmentHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
@@ -63,6 +64,13 @@ export default function() {
         schema: incomeDetails.schema,
       },
       // 8940 - Employment History
+      employmentHistory: {
+        title: 'Employment history',
+        path: 'unemployability-employment-history',
+        depends: needsToAnswerUnemployability,
+        uiSchema: employmentHistory.uiSchema,
+        schema: employmentHistory.schema,
+      },
       // 8940 - Recent Earnings
       recentEarnedIncome: {
         title: 'Recent earnings',

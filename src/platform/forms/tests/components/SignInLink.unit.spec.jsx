@@ -21,11 +21,12 @@ const setup = () => {
   fetchPromise = Promise.resolve(response); // Reset it every time.
 
   global.fetch = sinon.spy(() => fetchPromise);
-  global.window = {
+  global.window = Object.create(global.window);
+  Object.assign(global.window, {
     dataLayer: [],
     open: sinon.spy(() => ({ focus: sinon.stub() })),
     addEventListener: () => {},
-  };
+  });
 };
 const teardown = () => {
   global.window = oldWindow;
