@@ -37,7 +37,7 @@ SignInProfileMenu.propTypes = {
   clickHandler: PropTypes.func.isRequired,
   cssClass: PropTypes.string,
   greeting: PropTypes.oneOfType([
-    PropTypes.string,
+    PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
   isOpen: PropTypes.bool.isRequired,

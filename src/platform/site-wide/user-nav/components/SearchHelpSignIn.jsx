@@ -107,7 +107,7 @@ SearchHelpSignIn.propTypes = {
   isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
   isProfileLoading: PropTypes.bool.isRequired,
   userGreeting: PropTypes.oneOfType([
-    PropTypes.string,
+    PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
   userEmail: PropTypes.string,
