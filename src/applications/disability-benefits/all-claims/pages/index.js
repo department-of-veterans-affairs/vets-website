@@ -81,6 +81,7 @@ import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 import * as incomeDetails from './incomeDetails';
 import * as employmentHistory from './employmentHistory';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
+import * as medicalCare from './medicalCare';
 
 export {
   adaptiveBenefits,
@@ -113,6 +114,7 @@ export {
   individualsInvolvedFollowUp,
   individualUnemployability,
   medals,
+  medicalCare,
   mentalHealthChanges,
   militaryDutyImpact,
   militaryHistory,
