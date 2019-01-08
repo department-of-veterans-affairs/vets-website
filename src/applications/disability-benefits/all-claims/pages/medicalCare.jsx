@@ -13,8 +13,9 @@ const medicalDescription = (
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
+  'ui:description': medicalDescription,
   'view:medicalCare': {
-    'ui:title': medicalDescription,
+    'ui:title': ' ',
     'ui:widget': 'yesNo',
   },
   'view:medicalCareType': {

@@ -1,5 +1,5 @@
 import { PTSD_CHANGE_LABELS } from '../constants';
-import { changeDescription } from '../content/workBehaviorChanges';
+import { changeDescription } from '../content/physicalHealthChanges';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 export const uiSchema = {
