@@ -72,7 +72,7 @@ describe('526 helpers', () => {
       const disabilities = [];
 
       const filteredDisabilities = filterServiceConnected(disabilities);
-      expect(Array.isArray(filteredDisabilities)).to.be.true;
+      expect(filteredDisabilities).to.be.an('array').that.is.empty;
     });
   });
 
@@ -225,7 +225,7 @@ describe('526 helpers', () => {
     it('should set disabilityActionType for each disability properly', () => {
       const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
 
-      expect(formattedDisabilities.length).to.equal(
+      expect(formattedDisabilities).to.have.lengthOf(
         formData.ratedDisabilities.length,
       );
 
