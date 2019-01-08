@@ -3,7 +3,7 @@ import React from 'react';
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 
 // import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { unemployabilityTitleHospitalization } from '../content/unemployabilityFormIntro';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 // const { hospitalizationHistory } = fullSchema.properties;
 
@@ -11,11 +11,13 @@ import tempSchema from '../config/schema'; // Will change to fullSchema when jso
 
 const { hospitalizationHistory } = tempSchema.properties;
 
+const hospitalTitle = <h4>Hospitalization</h4>;
+
 const recordsDescription = (
   <div>
     <p>
       If you received care from a private medical facility, we can get that
-      information for you. We'll ask you about that later in this process.
+      information for you. We‘ll ask you about that later in this process.
     </p>
     <p>
       If you received care at a VA medical facility, we have access to those
@@ -26,9 +28,9 @@ const recordsDescription = (
 
 export const uiSchema = {
   unemployability: {
-    'ui:title': unemployabilityTitleHospitalization,
+    'ui:title': unemployabilityTitle,
     hospitalizationHistory: {
-      'ui:title': 'Hospitalization',
+      'ui:title': hospitalTitle,
       'ui:options': {
         itemName: 'Hospital',
         viewField: HospitalizationPeriodView,
