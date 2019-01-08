@@ -69,12 +69,12 @@ async function loadDrupal(buildOptions) {
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
-    log('Drupal unavailable in cache');
+    log('Drupal content unavailable in cache');
     shouldPullDrupal = true;
   }
 
   if (shouldPullDrupal) {
-    log('Attempting to load content from Drupal API...');
+    log('Attempting to load Drupal content from API...');
 
     const contentApi = getApiClient(buildOptions);
 
@@ -86,18 +86,19 @@ async function loadDrupal(buildOptions) {
       fs.writeFileSync(drupalCache, serialized);
     }
   } else {
-    log('Attempting to load content from cache...');
+    log('Attempting to load Drupal content from cache...');
 
     // eslint-disable-next-line import/no-dynamic-require
     drupalPages = require(drupalCache);
   }
 
-  log('Content successfully loaded!');
+  log('Drupal successfully loaded!');
   return drupalPages;
 }
 
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
+    log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
     const noop = () => {};
     return noop;
   }
@@ -112,10 +113,10 @@ function getDrupalContent(buildOptions) {
       }
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
     } catch (err) {
-      log('Failed to pipe Drupal into Metalsmith!');
+      log('Failed to pipe Drupal content into Metalsmith!');
       done(err);
     }
-    log('Successfully piped Drupal into Metalsmith!');
+    log('Successfully piped Drupal content into Metalsmith!');
     done();
   };
 }
