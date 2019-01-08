@@ -11,7 +11,8 @@ export const uiSchema = {
   'ui:description': <UploadDescription uploadTitle="Upload VA Form 21-0781a" />,
   form781aUpload: ancillaryFormUploadUi('', 'PTSD 781a form', {
     attachmentId: PTSD_781A_ATTACHMENT_ID,
-    disabled: true,
+    customClasses: 'upload-completed-form',
+    isDisabled: true,
   }),
 };
 
