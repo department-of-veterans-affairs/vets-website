@@ -308,6 +308,8 @@ import {
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
 
+import * as medicalCare from './medicalCare';
+
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 
 import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
@@ -745,7 +747,7 @@ export const secondaryUploadSourcesChoice = {
   schema: secondaryUploadSourcesChoiceSchema,
 };
 
-export { ancillaryFormsWizardSummary, employmentHistory };
+export { ancillaryFormsWizardSummary, employmentHistory, medicalCare };
 
 export const incomeDetails = {
   uiSchema: incomeDetailsUISchema,

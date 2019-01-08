@@ -31,6 +31,7 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
+  hasHospitalCare,
   filterServiceConnected,
 } from '../utils.jsx';
 
@@ -855,6 +856,20 @@ describe('isAnswering781aQuestions', () => {
     it('should correctly handle undefined ptsd changes', () => {
       const fieldTitles = getPtsdChangeText(undefined);
       expect(fieldTitles.length).to.eql(0);
+    });
+  });
+  describe('needsToAnswerHospitalCare', () => {
+    it('should be default of false', () => {
+      const formData = {};
+      expect(hasHospitalCare(formData)).to.be.false;
+    });
+    it('should be true', () => {
+      const formData = {
+        'view:medicalCareType': {
+          'view:hospialized': true,
+        },
+      };
+      expect(hasHospitalCare(formData)).to.be.false;
     });
   });
 });
