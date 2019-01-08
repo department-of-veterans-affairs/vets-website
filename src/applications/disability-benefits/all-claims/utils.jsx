@@ -28,6 +28,7 @@ import {
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
 } from './constants';
+
 /**
  * Show one thing, have a screen reader say another.
  *
@@ -355,6 +356,24 @@ export function customReplacer(key, value) {
   return value;
 }
 
+function concatAttachments(formData) {
+  const documentKeys = [
+    'ptsd781',
+    'form781aUpload',
+    'additionalDocuments',
+    'unemployabilitySupportingDocuments',
+    'secondaryUploadSources0',
+    'secondaryUploadSources1',
+    'secondaryUploadSources2',
+  ];
+  const allAttachments = [];
+  documentKeys.forEach(key => {
+    const documentArr = _.get(key, formData, []);
+    allAttachments.concat(documentArr);
+  });
+  return allAttachments;
+}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -506,7 +525,11 @@ export function transform(formConfig, form) {
     delete clonedData.additionalSecondaryIncidentText;
   }
 
-  return JSON.stringify({ form526: clonedData });
+  const attachments = concatAttachments(clonedData);
+
+  return JSON.stringify({
+    form526: { ...clonedData, ...(attachments.length && { attachments }) },
+  });
 }
 
 export const hasForwardingAddress = formData =>
@@ -802,3 +825,12 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
   ) &&
   isAnswering781aQuestions(index)(formData) &&
   wantsHelpWithOtherSourcesSecondary(index)(formData);
+
+export const setDefaultAttachmentId = attachmentId => {
+  const { attachments } = fullSchema.properties;
+  return _.set(
+    'items.properties.attachmentId.default',
+    attachmentId,
+    attachments,
+  );
+};
