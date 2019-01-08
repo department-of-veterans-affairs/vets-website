@@ -9,17 +9,17 @@ export const recentJobApplicationsDescription = () => (
       since you became too disabled to work?
     </p>
     <p>
-      (Don't include applications to the VA's Compensated Work Therapy Program.)
+      (Don’t include applications to the VA’s Compensated Work Therapy Program.)
     </p>
   </div>
 );
 
 export const substantiallyGainfulEmployment = () => (
-  <AdditionalInfo triggerText="What's substantially gainful employment?">
+  <AdditionalInfo triggerText="What’s substantially gainful employment?">
     <p>Substantially gainful employment means:</p>
     <ul>
       <li>
-        You're employed in a competitive marketplace or job that isn't in a
+        You’re employed in a competitive marketplace or job that isn’t in a
         protected environment, such as a family business or sheltered workshop.
       </li>
       <li>
