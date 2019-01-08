@@ -21,8 +21,6 @@ const checkCollections = () => (files, metalsmith, done) => {
       const file = files[key];
 
       // Checks whether a page has a collection which is an Array. A page can have more then 1 collection
-      console.log(`Checking ${key}`);
-
       if (file.collection) {
         if (
           file.collection.constructor.name === 'Array' &&
