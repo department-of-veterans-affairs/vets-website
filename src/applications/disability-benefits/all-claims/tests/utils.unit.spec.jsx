@@ -31,7 +31,6 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
-  needsToAnswerUnemployabilityMedicalCare,
 } from '../utils.jsx';
 
 import {
@@ -821,19 +820,6 @@ describe('isAnswering781aQuestions', () => {
       });
 
       expect(fieldTitles.length).to.eql(2);
-    });
-  });
-
-  describe('needsToAnswerUnemployabilityMedicalCare', () => {
-    it('should be default of false', () => {
-      const formData = {};
-      expect(needsToAnswerUnemployabilityMedicalCare(formData)).to.be.false;
-    });
-    it('should be true', () => {
-      const formData = {
-        'view:unemployabilityMedicalCareChoice': true,
-      };
-      expect(needsToAnswerUnemployabilityMedicalCare(formData)).to.be.true;
     });
   });
 });
