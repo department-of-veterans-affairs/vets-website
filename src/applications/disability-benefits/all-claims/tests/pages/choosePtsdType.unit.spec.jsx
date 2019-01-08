@@ -39,6 +39,7 @@ describe('Disability benefits 718 PTSD type', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should fill in ptsd type information', () => {
@@ -79,13 +80,14 @@ describe('Disability benefits 718 PTSD type', () => {
     );
     selectCheckbox(
       form,
-      'root_view:selectablePtsdTypes_view:noncombatPtsdType',
+      'root_view:selectablePtsdTypes_view:nonCombatPtsdType',
       true,
     );
 
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should require a PTSD type to be selected', () => {
@@ -112,5 +114,6 @@ describe('Disability benefits 718 PTSD type', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

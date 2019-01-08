@@ -40,7 +40,10 @@ class EnrollmentPeriod extends React.Component {
     const yellowRibbonStatus = enrollment.yellowRibbonAmount > 0 && (
       <div className="yellow-ribbon-school">
         This is a Yellow Ribbon School.{' '}
-        <a href="/education/gi-bill/yellow-ribbon/" target="_blank">
+        <a
+          href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+          target="_blank"
+        >
           Learn more about the Yellow Ribbon Program.
         </a>
       </div>

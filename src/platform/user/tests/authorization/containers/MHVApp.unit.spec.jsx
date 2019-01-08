@@ -24,7 +24,6 @@ describe('<MHVApp>', () => {
     serviceRequired: backendServices.RX,
     createMHVAccount: sinon.spy(),
     fetchMHVAccount: sinon.spy(),
-    refreshProfile: sinon.spy(),
     upgradeMHVAccount: sinon.spy(),
   };
 
@@ -32,7 +31,6 @@ describe('<MHVApp>', () => {
     global.window.location.replace = sinon.spy();
     props.createMHVAccount.reset();
     props.fetchMHVAccount.reset();
-    props.refreshProfile.reset();
     props.upgradeMHVAccount.reset();
   };
 
@@ -47,6 +45,9 @@ describe('<MHVApp>', () => {
         : shallow(headlineProp).text();
     expect(alertBox.prop('status')).to.eq(expectedStatus);
     expect(headlineText).to.eq(expectedHeadline);
+    if (headlineText.unmount) {
+      headlineText.unmount();
+    }
   };
 
   beforeEach(setup);
@@ -55,6 +56,7 @@ describe('<MHVApp>', () => {
     const newProps = set('mhvAccount.loading', true, props);
     const wrapper = shallow(<MHVApp {...newProps} />, { context });
     expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should create an account if the user does not have an account but is eligible', () => {
@@ -62,6 +64,7 @@ describe('<MHVApp>', () => {
     const mhvAccount = set('accountState', 'no_account', props.mhvAccount);
     wrapper.setProps({ mhvAccount });
     expect(props.createMHVAccount.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should redirect if the user needs to accepts T&C', () => {
@@ -73,6 +76,7 @@ describe('<MHVApp>', () => {
     );
     wrapper.setProps({ mhvAccount });
     expect(global.window.location.replace.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should invoke upgrade if the user is only registered', () => {
@@ -80,6 +84,7 @@ describe('<MHVApp>', () => {
     const mhvAccount = set('accountState', 'registered', props.mhvAccount);
     wrapper.setProps({ mhvAccount });
     expect(props.upgradeMHVAccount.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should invoke upgrade if the user is existing without access to the service', () => {
@@ -87,6 +92,7 @@ describe('<MHVApp>', () => {
     const mhvAccount = set('accountState', 'existing', props.mhvAccount);
     wrapper.setProps({ mhvAccount });
     expect(props.upgradeMHVAccount.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should show a success message after the user accepts T&C and gets upgraded', () => {
@@ -101,17 +107,20 @@ describe('<MHVApp>', () => {
       'success',
       'Thank you for accepting the Terms and Conditions for using Vets.gov health tools',
     );
+    wrapper.unmount();
   });
 
   it('should show MHV access error if nothing is loading or processing', () => {
     const wrapper = shallow(<MHVApp {...props} />, { context });
     expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should show MHV access error if user has an account but not the required service', () => {
     const newProps = set('mhvAccount.accountState', 'existing', props);
     const wrapper = shallow(<MHVApp {...newProps} />, { context });
     expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render children if user has the required service as an existing user', () => {
@@ -126,6 +135,7 @@ describe('<MHVApp>', () => {
       { context },
     );
     expect(wrapper.find('#test').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render children if user has the required service as a registered user', () => {
@@ -140,6 +150,7 @@ describe('<MHVApp>', () => {
       { context },
     );
     expect(wrapper.find('#test').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should show placeholder account error', () => {
@@ -159,6 +170,7 @@ describe('<MHVApp>', () => {
       'error',
       'We’re not able to process your My HealtheVet account',
     );
+    wrapper.unmount();
   });
 
   it('should show error if unable to determine MHV account level', () => {
@@ -169,6 +181,7 @@ describe('<MHVApp>', () => {
       'error',
       'We can’t confirm your My HealtheVet account level',
     );
+    wrapper.unmount();
   });
 
   it('should show error if failed to register MHV account', () => {
@@ -179,6 +192,7 @@ describe('<MHVApp>', () => {
       'error',
       'We can’t give you access to Vets.gov health tools right now',
     );
+    wrapper.unmount();
   });
 
   it('should show error if failed to upgrade MHV account', () => {
@@ -189,6 +203,7 @@ describe('<MHVApp>', () => {
       'error',
       'We can’t give you access to Vets.gov health tools right now',
     );
+    wrapper.unmount();
   });
 
   it('should show error if the user has mismatched SSNs', () => {
@@ -203,6 +218,7 @@ describe('<MHVApp>', () => {
       'error',
       'We can’t give you access to the Vets.gov health tools',
     );
+    wrapper.unmount();
   });
 
   it('should show error if the user is not a VA patient', () => {
@@ -213,6 +229,7 @@ describe('<MHVApp>', () => {
       'error',
       'We can’t give you access to the Vets.gov health tools',
     );
+    wrapper.unmount();
   });
 
   it('should show error if the user has a disabled MHV account', () => {
@@ -227,6 +244,7 @@ describe('<MHVApp>', () => {
       'error',
       'It looks like you’ve disabled your My HealtheVet account',
     );
+    wrapper.unmount();
   });
 
   it('should show error if the user has multiple active MHV accounts', () => {
@@ -241,5 +259,6 @@ describe('<MHVApp>', () => {
       'error',
       'It looks like you have more than one My HealtheVet account',
     );
+    wrapper.unmount();
   });
 });

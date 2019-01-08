@@ -9,7 +9,7 @@ import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
   isInFuture,
-  getDisabilityName,
+  capitalizeEachWord,
   transformDisabilities,
   queryForFacilities,
   hasOtherEvidence,
@@ -19,11 +19,18 @@ import {
   needsToEnter781a,
   isAnswering781Questions,
   isAnswering781aQuestions,
+  isUploading781aSupportingDocuments,
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
+  viewifyFields,
   transformMVPData,
   transform,
+  needsToEnterUnemployability,
+  needsToAnswerUnemployability,
+  concatIncidentLocationString,
+  getFlatIncidentKeys,
+  getPtsdChangeText,
 } from '../utils.jsx';
 
 import {
@@ -36,7 +43,11 @@ import maximalData from './schema/maximal-test.json';
 
 import initialData from './initialData';
 
-import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
+import {
+  SERVICE_CONNECTION_TYPES,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
+} from '../../all-claims/constants';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -125,10 +136,9 @@ describe('526 helpers', () => {
         },
       };
 
-      const renderedText = shallow(ReservesGuardDescription(form))
-        .render()
-        .text();
-      expect(renderedText).to.contain('Marine Corps Reserve');
+      const renderedText = shallow(ReservesGuardDescription(form));
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      renderedText.unmount();
     });
 
     it('should return null when no service periods present', () => {
@@ -160,20 +170,26 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('getDisabilityName', () => {
+  describe('capitalizeEachWord', () => {
     it('should return string with each word capitalized when name supplied', () => {
-      expect(getDisabilityName('some disability - some detail')).to.equal(
-        'Some Disability - Some Detail',
-      );
+      [
+        ['some disability - some detail', 'Some Disability - Some Detail'],
+        ['some disability (some detail)', 'Some Disability (Some Detail)'],
+        [
+          'some disability with hyphenated-words',
+          'Some Disability With Hyphenated-Words',
+        ],
+        ['some "quote" disability', 'Some "Quote" Disability'],
+      ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
     it('should return Unknown Condition with undefined name', () => {
-      expect(getDisabilityName()).to.equal('Unknown Condition');
+      expect(capitalizeEachWord()).to.equal('Unknown Condition');
     });
     it('should return Unknown Condition when input is empty string', () => {
-      expect(getDisabilityName('')).to.equal('Unknown Condition');
+      expect(capitalizeEachWord('')).to.equal('Unknown Condition');
     });
     it('should return Unknown Condition when name is not a string', () => {
-      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
+      expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
     });
   });
 
@@ -403,7 +419,7 @@ describe('526 helpers', () => {
     it('should return true if user has selected Non-combat PTSD types', () => {
       const formData = {
         'view:selectablePtsdTypes': {
-          'view:noncombatPtsdType': true,
+          'view:nonCombatPtsdType': true,
         },
       };
       expect(needsToEnter781(formData)).to.be.true;
@@ -493,6 +509,33 @@ describe('526 helpers', () => {
       expect(
         transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
       ).to.eql(['some condition name']);
+    });
+  });
+
+  describe('viewifyFields', () => {
+    const formData = {
+      prop1: {
+        'view:nestedProp': {
+          anotherNestedProp: 'value',
+          'view:doubleView': 'whoa, man--it’s like inception',
+        },
+        siblingProp: 'another value',
+      },
+      'view:prop2': 'this is a string',
+    };
+
+    it('should prefix all the property names with "view:" if needed', () => {
+      const viewifiedFormData = {
+        'view:prop1': {
+          'view:nestedProp': {
+            'view:anotherNestedProp': 'value',
+            'view:doubleView': 'whoa, man--it’s like inception',
+          },
+          'view:siblingProp': 'another value',
+        },
+        'view:prop2': 'this is a string',
+      };
+      expect(viewifyFields(formData)).to.eql(viewifiedFormData);
     });
   });
 });
@@ -636,5 +679,147 @@ describe('isAnswering781aQuestions', () => {
       'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
+  });
+
+  describe('isUploading781aSupportingDocuments', () => {
+    it('', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:uploadChoice0': true,
+      };
+      expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
+  });
+
+  describe('needsToEnterUnemployability', () => {
+    it('should return true if user selects yes', () => {
+      const formData = {
+        'view:unemployable': true,
+      };
+      expect(needsToEnterUnemployability(formData)).to.be.true;
+    });
+    it('should return false if user does not select anything', () => {
+      const formData = {};
+      expect(needsToEnterUnemployability(formData)).to.be.false;
+    });
+    it('should return false if user selects no', () => {
+      const formData = {
+        'view:unemployable': false,
+      };
+      expect(needsToEnterUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('needsToAnswerUnemployability', () => {
+    it('should return true if user selects to answer unemployability questions', () => {
+      const formData = {
+        'view:unemployable': true,
+        'view:unemployabilityUploadChoice': 'answerQuestions',
+      };
+      expect(needsToAnswerUnemployability(formData)).to.be.true;
+    });
+    it('should return false if user selects to upload an 8940 form', () => {
+      const formData = {
+        'view:unemployable': true,
+        'view:unemployabilityUploadChoice': 'upload',
+      };
+      expect(needsToAnswerUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('concatIncidentLocationString', () => {
+    it('should concat full address', () => {
+      const locationString = concatIncidentLocationString({
+        city: 'Test',
+        state: 'TN',
+        country: 'USA',
+        additionalDetails: 'details',
+      });
+
+      expect(locationString).to.eql('Test, TN, USA, details');
+    });
+
+    it('should handle null and undefined values', () => {
+      const locationString = concatIncidentLocationString({
+        city: 'Test',
+        state: null,
+        additionalDetails: 'details',
+      });
+
+      expect(locationString).to.eql('Test, details');
+    });
+  });
+
+  describe('getFlatIncidentKeys', () => {
+    it('should return correct amount of incident keys', () => {
+      expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
+    });
+  });
+
+  describe('getPtsdChangeText', () => {
+    it('should have valid labels', () => {
+      Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
+        expect(PTSD_CHANGE_LABELS[key]).to.be.a('string');
+      });
+    });
+
+    const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
+    it('should have mappings for all workBehaviorChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
+          .properties.workBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all mentalHealthChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
+          .properties.mentalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all physicalHealthChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+          .properties.physicalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all socialBehaviorChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+          .properties.socialBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should return UI titles', () => {
+      const fieldTitles = getPtsdChangeText({
+        increasedLeave: true,
+        withdrawal: true,
+        field2: true,
+        other: true,
+        otherExplanation: 'Other change',
+      });
+
+      expect(fieldTitles.length).to.eql(2);
+    });
   });
 });

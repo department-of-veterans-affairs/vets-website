@@ -1,5 +1,5 @@
 import _ from '../../../../platform/utilities/data';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
   recordReleaseDescription,
@@ -11,9 +11,14 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
-const { form4142 } = fullSchema.definitions;
+import { validateZIP } from '../validations';
 
-const providerFacilities = form4142.properties.providerFacility;
+const { form4142 } = fullSchema.properties;
+
+const {
+  providerFacilityName,
+  providerFacilityAddress,
+} = form4142.properties.providerFacility.items.properties;
 const limitedConsent = form4142.properties.limitedConsent;
 
 export const uiSchema = {
@@ -27,8 +32,7 @@ export const uiSchema = {
       expandUnder: 'view:limitedConsent',
       expandUnderCondition: true,
     },
-    'ui:required': (formData, index) =>
-      _.get(`disabilities.${index}.view:limitedConsent`, formData),
+    'ui:required': formData => _.get('view:limitedConsent', formData, false),
   },
   'view:privateRecordsChoiceHelp': {
     'ui:description': limitedConsentDescription,
@@ -75,6 +79,11 @@ export const uiSchema = {
         },
         postalCode: {
           'ui:title': 'Postal Code',
+          'ui:validations': [validateZIP],
+          'ui:errorMessages': {
+            pattern:
+              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+          },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
@@ -87,7 +96,27 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    providerFacility: providerFacilities,
+    providerFacility: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 100,
+      items: {
+        type: 'object',
+        required: [
+          'providerFacilityName',
+          'treatmentDateRange',
+          'providerFacilityAddress',
+        ],
+        properties: {
+          providerFacilityName,
+          treatmentDateRange: {
+            type: 'object',
+            $ref: '#/definitions/dateRangeAllRequired',
+          },
+          providerFacilityAddress,
+        },
+      },
+    },
     'view:limitedConsent': {
       type: 'boolean',
     },

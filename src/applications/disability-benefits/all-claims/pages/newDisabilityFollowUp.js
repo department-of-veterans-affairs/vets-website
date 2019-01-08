@@ -1,10 +1,10 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 
-import { getDisabilityName } from '../utils';
+import { capitalizeEachWord } from '../utils';
 import disabilityLabels from '../content/disabilityLabels';
 
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import {
   CauseTitle,
   disabilityNameTitle,
@@ -20,7 +20,7 @@ const {
   worsenedEffects,
   VAMistreatmentDescription,
   VAMistreatmentLocation,
-} = fullSchema.properties.newDisabilities.items.properties;
+} = fullSchema.definitions.newDisabilities.items.properties;
 
 const getDisabilitiesList = createSelector(
   formData => formData.ratedDisabilities,
@@ -29,10 +29,10 @@ const getDisabilitiesList = createSelector(
   (ratedDisabilities = [], newDisabilities = [], currentIndex) => {
     const newDisabilitiesWithoutCurrent = newDisabilities
       .filter((item, index) => index !== currentIndex)
-      .map(item => getDisabilityName(item.condition));
+      .map(item => capitalizeEachWord(item.condition));
 
     return ratedDisabilities
-      .map(disability => getDisabilityName(disability.name))
+      .map(disability => capitalizeEachWord(disability.name))
       .concat(newDisabilitiesWithoutCurrent);
   },
 );

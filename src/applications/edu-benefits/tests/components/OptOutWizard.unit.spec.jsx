@@ -10,6 +10,7 @@ describe('<OptOutWizard>', () => {
 
     expect(component.find('button').length).to.equal(1);
     expect(component.state('modalOpen')).to.be.false;
+    component.unmount();
   });
   it('should show modal when opt out button is clicked', () => {
     // Modal uses query selector to get focus
@@ -27,6 +28,7 @@ describe('<OptOutWizard>', () => {
 
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
+    component.unmount();
   });
   it('should close modal', () => {
     // Modal uses query selector to get focus
@@ -49,5 +51,6 @@ describe('<OptOutWizard>', () => {
 
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
+    component.unmount();
   });
 });

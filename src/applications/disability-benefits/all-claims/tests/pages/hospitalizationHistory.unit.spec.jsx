@@ -31,6 +31,7 @@ describe('Hospitalization Interview Questions', () => {
 
     expect(form);
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('should add a hospital', () => {
@@ -51,12 +52,13 @@ describe('Hospitalization Interview Questions', () => {
     //  No fields are required
     fillData(
       form,
-      'input#root_hospitalizationHistory_0_hospitalName',
+      'input#root_unemployability_hospitalizationHistory_0_hospitalName',
       'Local facility',
     );
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     expect(form.find('.usa-input-error').length).to.equal(0);
+    form.unmount();
   });
 });

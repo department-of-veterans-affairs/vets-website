@@ -22,6 +22,9 @@ describe('<UserInteractionRecorder>', () => {
       />,
     );
   });
+  afterEach(() => {
+    component.unmount();
+  });
   it('does not render anything to the DOM', () => {
     expect(component.children().length).to.equal(0);
   });

@@ -15,16 +15,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.va-nav-breadcrumbs-list', Timeouts.normal)
     .waitForElementVisible('a[aria-current="page"', Timeouts.normal);
   client.expect.element(
-    '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+    '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
   ).to.be.present;
   client.expect
     .element(
-      '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
     )
-    .text.to.equal('Track Your Claims and Appeals');
+    .text.to.equal('Check Your Claims and Appeals');
   client.expect
     .element(
-      '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
     )
     .to.have.css('pointer-events')
     .which.equal('none');
@@ -37,7 +37,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .which.equal('none');
   client.expect
     .element('.va-nav-breadcrumbs-list li:nth-last-child(2)')
-    .text.to.equal('Disability Benefits');
+    .text.to.equal('Home');
   client.expect
     .element('.va-nav-breadcrumbs-list li:nth-last-child(2)')
     .to.have.css('display')

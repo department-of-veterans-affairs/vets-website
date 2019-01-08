@@ -15,6 +15,7 @@ describe('<CropperController>', () => {
 
     expect(tree.find('MoveRotateButton').length).to.equal(6);
     expect(tree.find('.cropper-control').length).to.equal(4);
+    tree.unmount();
   });
   it('should rotate', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -59,6 +60,7 @@ describe('<CropperController>', () => {
       .props()
       .onClick();
     expect(cropper.rotate.calledWith(90)).to.be.true;
+    tree.unmount();
   });
   it('should zoom on button click', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -104,6 +106,7 @@ describe('<CropperController>', () => {
       .props()
       .onClick();
     expect(cropper.zoom.calledWith(0.1)).to.be.true;
+    tree.unmount();
   });
   it('should not zoom outside of boundaries', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -129,6 +132,7 @@ describe('<CropperController>', () => {
 
     expect(cropper.zoomTo.calledWith(3)).to.be.true;
     expect(event.preventDefault.called).to.be.true;
+    tree.unmount();
   });
   it('should update instance after zooming', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -169,6 +173,7 @@ describe('<CropperController>', () => {
     const state = tree.state();
 
     expect(state.zoomValue).to.eql(1.5);
+    tree.unmount();
   });
   describe('should move', () => {
     let cropper;
@@ -204,6 +209,9 @@ describe('<CropperController>', () => {
         zoomMax: 3,
         zoomMin: 0.5,
       });
+    });
+    afterEach(() => {
+      tree.unmount();
     });
     it('up without warning', () => {
       tree
@@ -406,6 +414,7 @@ describe('<CropperController>', () => {
       width: 240,
       height: 240,
     });
+    tree.unmount();
   });
   it('should stop resize listener when unmounting', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -415,6 +424,7 @@ describe('<CropperController>', () => {
 
     expect(window.removeEventListener.firstCall.args[0]).to.equal('resize');
     expect(instance.deboundedDetectWidth).to.be.null;
+    tree.unmount();
   });
   it('crop start should prevent default on disallowed actions', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -429,6 +439,7 @@ describe('<CropperController>', () => {
     instance.onCropstart(event);
 
     expect(event.preventDefault.called).to.be.true;
+    tree.unmount();
   });
   it('crop start should not prevent default on allowed actions', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -443,6 +454,7 @@ describe('<CropperController>', () => {
     instance.onCropstart(event);
 
     expect(event.preventDefault.called).to.be.false;
+    tree.unmount();
   });
   it('should call onPhotoCropped when done', () => {
     const onPhotoCropped = sinon.spy();
@@ -464,6 +476,7 @@ describe('<CropperController>', () => {
     instance.onDone();
 
     expect(onPhotoCropped.calledWith(blob)).to.be.true;
+    tree.unmount();
   });
   it('should zoom on slider change', () => {
     const tree = shallow(<CropperController src="test" />);
@@ -484,5 +497,6 @@ describe('<CropperController>', () => {
       });
 
     expect(cropper.zoomTo.calledWith(5)).to.be.true;
+    tree.unmount();
   });
 });

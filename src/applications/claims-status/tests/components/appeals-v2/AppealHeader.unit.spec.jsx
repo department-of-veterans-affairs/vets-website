@@ -14,15 +14,18 @@ describe('<AppealHeader/>', () => {
   it('renders', () => {
     const wrapper = shallow(<AppealHeader {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('renders the heading text passed in as a prop', () => {
     const wrapper = shallow(<AppealHeader {...defaultProps} />);
     expect(wrapper.find('h1').text()).to.equal(defaultProps.heading);
+    wrapper.unmount();
   });
 
   it('renders a last updated <p/> with a formatted date and time', () => {
     const wrapper = shallow(<AppealHeader {...defaultProps} />);
     expect(wrapper.find('p').text()).to.equal(formattedDate);
+    wrapper.unmount();
   });
 });

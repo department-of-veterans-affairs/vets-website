@@ -23,6 +23,7 @@ describe('Add new disabilities', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should add another disability', () => {
@@ -52,6 +53,7 @@ describe('Add new disabilities', () => {
         .first()
         .text(),
     ).to.contain('Abnormal Heart');
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -76,5 +78,6 @@ describe('Add new disabilities', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

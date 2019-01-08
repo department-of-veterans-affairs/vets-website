@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import { getDisabilityName } from '../utils';
+import { capitalizeEachWord } from '../utils';
 
 export class CauseTitle extends React.Component {
   constructor(props) {
@@ -47,6 +47,6 @@ export class CauseTitle extends React.Component {
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {getDisabilityName(formData.condition)}
+    {capitalizeEachWord(formData.condition)}
   </legend>
 );

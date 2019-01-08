@@ -3,10 +3,19 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from '../../../platform/forms/definitions/address';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -15,6 +24,11 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  TWENTY_FIVE_MB,
+  causeTypes,
+  specialIssueTypes,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -102,7 +116,7 @@ export const isInFuture = (errors, fieldData) => {
   }
 };
 
-const capitalizeEach = word => {
+const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
@@ -113,15 +127,14 @@ const capitalizeEach = word => {
  * @param {string} name the lower-case name of a disability
  * @returns {string} the input name, but with all words capitalized
  */
-export const getDisabilityName = name => {
+export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name
-      .split(/ +/)
-      .map(capitalizeEach)
-      .join(' ');
+    return name.replace(/\w+/g, capitalizeWord);
   }
 
-  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  Raven.captureMessage(
+    `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+  );
   return 'Unknown Condition';
 };
 
@@ -162,6 +175,22 @@ export function transformMVPData(formData) {
   return newFormData;
 }
 
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -176,6 +205,32 @@ export function prefillTransformer(pages, formData, metadata) {
     transformMVPData(formData),
   );
   delete newFormData.disabilities;
+
+  // Pre-fill hidden bank info for use in the PaymentView
+  const bankAccount = {
+    bankAccountType: newFormData.bankAccountType,
+    bankAccountNumber: newFormData.bankAccountNumber,
+    bankRoutingNumber: newFormData.bankRoutingNumber,
+    bankName: newFormData.bankName,
+  };
+  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
+
+  // Let the payment info card start in review mode if we have pre-filled bank information
+  if (
+    Object.values(newFormData['view:originalBankAccount']).some(
+      value => !!value,
+    )
+  ) {
+    newFormData['view:bankAccount'] = {
+      'view:hasPrefilledBank': true,
+    };
+  }
+
+  // Remove bank fields since they're already in view:originalBankAccount
+  delete newFormData.bankAccountType;
+  delete newFormData.bankAccountNumber;
+  delete newFormData.bankRoutingNumber;
+  delete newFormData.bankName;
 
   return {
     metadata,
@@ -213,6 +268,50 @@ export function transformProviderFacilities(providerFacilities) {
     ...facility,
     treatmentDateRange: [facility.treatmentDateRange],
   }));
+}
+
+/**
+ * Concatenates incident location address object into location string. This will ignore null
+ *  or undefined address fields
+ * @param {Object} incidentLocation location address with city, state, country, and additional details
+ * @returns {String} incident location string
+ */
+export function concatIncidentLocationString(incidentLocation) {
+  return [
+    incidentLocation.city,
+    incidentLocation.state,
+    incidentLocation.country,
+    incidentLocation.additionalDetails,
+  ]
+    .filter(locationField => locationField)
+    .join(', ');
+}
+
+/**
+ * Returns an array of the maximum set of PTSD incident form data field names
+ */
+export function getFlatIncidentKeys() {
+  const incidentKeys = [];
+
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`incident${i}`);
+  }
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`secondaryIncident${i}`);
+  }
+
+  return incidentKeys;
+}
+
+export function getPtsdChangeText(changeFields) {
+  return Object.keys(changeFields)
+    .filter(
+      key =>
+        key !== 'other' &&
+        key !== 'otherExplanation' &&
+        PTSD_CHANGE_LABELS[key],
+    )
+    .map(key => PTSD_CHANGE_LABELS[key]);
 }
 
 /**
@@ -263,54 +362,103 @@ export function transform(formConfig, form) {
     form.data,
   );
 
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
-  if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d =>
-      claimedConditions.push(d.condition.toLowerCase()),
-    );
-  }
-
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(transformForSubmit(formConfig, form, customReplacer)),
+    JSON.parse(
+      transformForSubmit(
+        formConfig,
+        {
+          ...form,
+          data: clonedData,
+        },
+        customReplacer,
+      ),
+    ),
   );
+
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
+    : [];
+
+  if (clonedData.newDisabilities) {
+    // Add new disabilities to claimed conditions list
+    clonedData.newDisabilities.forEach(disability =>
+      claimedConditions.push(disability.condition.toLowerCase()),
+    );
+
+    if (clonedData.powDisabilities) {
+      // Add POW specialIssue to new conditions
+      const powDisabilities = transformRelatedDisabilities(
+        clonedData.powDisabilities,
+        claimedConditions,
+      ).map(name => name.toLowerCase());
+      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+        if (powDisabilities.includes(d.condition.toLowerCase())) {
+          const newSpecialIssues = (d.specialIssues || []).slice();
+          newSpecialIssues.push(specialIssueTypes.POW);
+          return _.set('specialIssues', newSpecialIssues, d);
+        }
+        return d;
+      });
+
+      delete clonedData.powDisabilities;
+    }
+
+    // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
+    const withPtsdCause = clonedData.newDisabilities.map(
+      disability =>
+        disability.condition.toLowerCase().includes('ptsd')
+          ? _.set('cause', causeTypes.NEW, disability)
+          : disability,
+    );
+
+    // Split newDisabilities into primary and secondary arrays for backend
+    const newPrimaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause !== causeTypes.SECONDARY,
+    );
+    const newSecondaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause === causeTypes.SECONDARY,
+    );
+
+    if (newPrimaryDisabilities.length) {
+      clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
+    }
+    if (newSecondaryDisabilities.length) {
+      clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
+    }
+    delete clonedData.newDisabilities;
+  }
 
   // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      _.set(
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+      // Transform the related disabilities lists into an array of strings
+      const newFacility = _.set(
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,
-      ),
-    );
-    clonedData.vaTreatmentFacilities = newVAFacilities;
-  }
+      );
 
-  // Add POW specialIssue to new conditions
-  if (clonedData.powDisabilities) {
-    const powDisabilities = transformRelatedDisabilities(
-      clonedData.powDisabilities,
-      claimedConditions,
-    ).map(name => name.toLowerCase());
-
-    clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-      if (powDisabilities.includes(d.condition.toLowerCase())) {
-        const newSpecialIssues = (d.specialIssues || []).slice();
-        // TODO: Make a constant with all the possibilities and use it here
-        newSpecialIssues.push('POW');
-        return _.set('specialIssues', newSpecialIssues, d);
+      // If the day is missing, set it to the last day of the month because EVSS requires a day
+      const [year, month, day] = _.get(
+        'treatmentDateRange.to',
+        newFacility,
+        '',
+      ).split('-');
+      if (day && day === 'XX') {
+        newFacility.treatmentDateRange.to = moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD');
       }
-      return d;
+
+      return newFacility;
     });
-    delete clonedData.powDisabilities;
+    clonedData.vaTreatmentFacilities = newVAFacilities;
   }
 
   if (clonedData.providerFacility) {
@@ -327,6 +475,52 @@ export function transform(formConfig, form) {
 
     delete clonedData.limitedConsent;
     delete clonedData.providerFacility;
+  }
+
+  const incidentKeys = getFlatIncidentKeys();
+
+  const incidents = incidentKeys
+    .filter(incidentKey => clonedData[incidentKey])
+    .map(incidentKey => ({
+      ...clonedData[incidentKey],
+      personalAssault: incidentKey.includes('secondary'),
+      incidentLocation: concatIncidentLocationString(
+        clonedData[incidentKey].incidentLocation,
+      ),
+    }));
+
+  incidentKeys.forEach(incidentKey => {
+    delete clonedData[incidentKey];
+  });
+
+  if (incidents.length > 0) {
+    clonedData.form0781 = {
+      incidents,
+      remarks: clonedData.additionalRemarks781,
+      additionalIncidentText: clonedData.additionalIncidentText,
+      additionalSecondaryIncidentText:
+        clonedData.additionalSecondaryIncidentText,
+      otherInformation: [
+        ...getPtsdChangeText(clonedData.physicalChanges),
+        _.get('physicalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.socialBehaviorChanges),
+        _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.mentalChanges),
+        _.get('mentalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeText(clonedData.workBehaviorChanges),
+        _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
+        _.get('additionalChanges', clonedData, ''),
+      ].filter(info => info.length > 0),
+    };
+
+    delete clonedData.physicalChanges;
+    delete clonedData.socialBehaviorChanges;
+    delete clonedData.mentalChanges;
+    delete clonedData.workBehaviorChanges;
+    delete clonedData.additionalChanges;
+    delete clonedData.additionalRemarks781;
+    delete clonedData.additionalIncidentText;
+    delete clonedData.additionalSecondaryIncidentText;
   }
 
   return JSON.stringify({ form526: clonedData });
@@ -386,7 +580,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
-      const capitalizedDisabilityName = getDisabilityName(disabilityName);
+      const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
       return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
     }, {});
   return {
@@ -397,7 +591,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
 const formattedNewDisabilitiesSelector = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) =>
-    newDisabilities.map(disability => getDisabilityName(disability.condition)),
+    newDisabilities.map(disability => capitalizeEachWord(disability.condition)),
 );
 
 export const addCheckboxPerNewDisability = createSelector(
@@ -429,11 +623,49 @@ export const fieldsHaveInput = (formData, fieldPaths) =>
 
 export const bankFieldsHaveInput = formData =>
   fieldsHaveInput(formData, [
-    'bankAccountType',
-    'bankAccountNumber',
-    'bankRoutingNumber',
-    'bankName',
+    'view:bankAccount.bankAccountType',
+    'view:bankAccount.bankAccountNumber',
+    'view:bankAccount.bankRoutingNumber',
+    'view:bankAccount.bankName',
   ]);
+
+export function incidentLocationSchemas() {
+  const addressOmitions = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'postalCode',
+    'zipCode',
+  ];
+
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  return {
+    addressUI: {
+      ...addressUIConfig,
+      state: {
+        ...addressUIConfig.state,
+        'ui:title': 'State/Province',
+      },
+      additionalDetails: {
+        'ui:title':
+          'Additional details (This could include an address, landmark, military installation, or other location.)',
+        'ui:widget': 'textarea',
+      },
+      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+        additionalDetails: {
+          type: 'string',
+        },
+      },
+    },
+  };
+}
 
 const post911Periods = createSelector(
   data => _.get('serviceInformation.servicePeriods', data, []),
@@ -453,7 +685,7 @@ export const servedAfter911 = formData => !!post911Periods(formData).length;
 
 export const needsToEnter781 = formData =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', formData, false);
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
 
 export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
@@ -464,6 +696,9 @@ export const isUploading781Form = formData =>
 
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
+
+export const isUploading781aSupportingDocuments = index => formData =>
+  _.get(`view:uploadChoice${index}`, formData, false);
 
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
@@ -481,6 +716,10 @@ export const isAnswering781aQuestions = index => formData =>
     )) &&
   needsToEnter781a(formData);
 
+export const isAddingIndividuals = index => formData =>
+  isAnswering781Questions(index)(formData) &&
+  _.get(`view:individualsInvolved${index}`, formData, false);
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (
@@ -493,11 +732,90 @@ export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
 export const showPtsdCombatConclusion = form =>
-  form['view:upload781Choice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', form, false);
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:upload781aChoice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+
+export const needsToEnterUnemployability = formData =>
+  _.get('view:unemployable', formData, false);
+
+export const needsToAnswerUnemployability = formData =>
+  needsToEnterUnemployability(formData) &&
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
+
+export const ancillaryFormUploadUi = (
+  label,
+  itemDescription,
+  {
+    attachmentId = '',
+    widgetType = 'select',
+    customClasses = '',
+    isDisabled = false,
+    addAnotherLabel = 'Add Another',
+  } = {},
+) =>
+  fileUploadUI(label, {
+    itemDescription,
+    hideLabelText: !label,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    addAnotherLabel,
+    fileTypes: [
+      'pdf',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'bmp',
+      'tif',
+      'tiff',
+      'txt',
+    ],
+    maxSize: TWENTY_FIVE_MB,
+    createPayload: file => {
+      const payload = new FormData();
+      payload.append('supporting_evidence_attachment[file_data]', file);
+
+      return payload;
+    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+      attachmentId,
+    }),
+    attachmentSchema: {
+      'ui:title': 'Document type',
+      'ui:disabled': isDisabled,
+      'ui:widget': widgetType,
+    },
+    classNames: customClasses,
+    attachmentName: false,
+  });
+
+export const isUploadingSupporting8940Documents = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, false);
+
+export const wantsHelpWithOtherSourcesSecondary = index => formData =>
+  _.get(`secondaryIncident${index}.otherSources`, formData, '') &&
+  isAnswering781aQuestions(index)(formData);
+
+export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
+  _.get(
+    `secondaryIncident${index}.otherSourcesHelp.view:helpPrivateMedicalTreatment`,
+    formData,
+    '',
+  ) &&
+  isAnswering781aQuestions(index)(formData) &&
+  wantsHelpWithOtherSourcesSecondary(index)(formData);
+
+export const wantsHelpRequestingStatementsSecondary = index => formData =>
+  _.get(
+    `secondaryIncident${index}.otherSourcesHelp.view:helpRequestingStatements`,
+    formData,
+    '',
+  ) &&
+  isAnswering781aQuestions(index)(formData) &&
+  wantsHelpWithOtherSourcesSecondary(index)(formData);

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { loadPrescriptions } from '../../../rx/actions/prescriptions';
+import { loadPrescriptions } from '../actions/prescriptions';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -88,7 +88,7 @@ class PrescriptionsWidget extends React.Component {
             ) : (
               <span>
                 <Link
-                  href="/health-care/prescriptions"
+                  href="/health-care/refill-track-prescriptions/"
                   onClick={recordDashboardClick('view-all-prescriptions')}
                 >
                   View all your prescriptions

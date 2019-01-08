@@ -37,12 +37,14 @@ describe('<AppealListItemV2/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should append open class to status-circle div when status active', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
     expect(wrapper.find('div.open').length).to.equal(1);
     expect(wrapper.find('div.closed').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should append closed class to status-circle div when status inactive', () => {
@@ -50,6 +52,7 @@ describe('<AppealListItemV2/>', () => {
     const wrapper = shallow(<AppealListItemV2 {...closedProps} />);
     expect(wrapper.find('div.closed').length).to.equal(1);
     expect(wrapper.find('div.open').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should show the right date in the header', () => {
@@ -60,6 +63,7 @@ describe('<AppealListItemV2/>', () => {
         .render()
         .text(),
     ).to.contain('May 1, 2016');
+    wrapper.unmount();
   });
 
   it('should say "issue" if there is only one issue on appeal', () => {
@@ -75,6 +79,7 @@ describe('<AppealListItemV2/>', () => {
       .text();
     expect(issuesText).to.contain('Issue');
     expect(issuesText).to.not.contain('Issues');
+    wrapper.unmount();
   });
 
   it('should say "issues" if there are multiple issues on appeal', () => {
@@ -84,6 +89,7 @@ describe('<AppealListItemV2/>', () => {
       .first()
       .text();
     expect(issuesText).to.contain('Issues');
+    wrapper.unmount();
   });
 
   it('should create a link to the appeal status page', () => {
@@ -94,6 +100,7 @@ describe('<AppealListItemV2/>', () => {
         .first()
         .props().to,
     ).to.equal(`appeals/${defaultProps.appeal.id}/status`);
+    wrapper.unmount();
   });
 
   it('should not show the issue text if no description is given', () => {
@@ -104,10 +111,12 @@ describe('<AppealListItemV2/>', () => {
     );
     const wrapper = shallow(<AppealListItemV2 {...props} />);
     expect(wrapper.find('.card-status + p').exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should show the issue text if a description is given', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
     expect(wrapper.find('.card-status + p').exists()).to.be.true;
+    wrapper.unmount();
   });
 });

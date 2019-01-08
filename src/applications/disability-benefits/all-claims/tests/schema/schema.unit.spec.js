@@ -4,7 +4,7 @@ import path from 'path';
 import { Validator } from 'jsonschema';
 
 import formConfig from '../../config/form';
-import fullSchema from '../../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 describe('526 all claims schema tests', () => {
   const v = new Validator();
@@ -17,7 +17,7 @@ describe('526 all claims schema tests', () => {
       const submitData = JSON.parse(
         formConfig.transformForSubmit(formConfig, contents),
       );
-      const result = v.validate(submitData, fullSchema);
+      const result = v.validate(submitData.form526, fullSchema);
 
       if (!result.valid) {
         console.log(`Validation errors found in ${file}`); // eslint-disable-line

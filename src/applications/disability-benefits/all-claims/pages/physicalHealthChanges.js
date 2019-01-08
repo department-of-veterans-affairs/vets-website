@@ -1,45 +1,25 @@
-import React from 'react';
-
-import { PtsdNameTitle } from '../content/ptsdClassification';
-
-const physicalDescriptionChanges = (
-  <div>
-    <h5>Changes in Behavior or Activities: Physical health</h5>
-    <p>
-      Now we‘re going to ask you questions about changes in your physical,
-      mental, professional and social behavior as a result of the event or
-      events. You may have experienced some of these or none of them. There‘s
-      space at the end of these questions for you to add comments or describe
-      other changes in behavior you‘d like us to know.
-    </p>
-    <p>
-      Please identify any changes in your physical health as a result of the
-      event(s).
-    </p>
-  </div>
-);
+import { PTSD_CHANGE_LABELS } from '../constants';
+import { changeDescription } from '../content/workBehaviorChanges';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
-  'ui:description': physicalDescriptionChanges,
+  'ui:title': ptsd781aNameTitle,
+  'ui:description': changeDescription,
   physicalChanges: {
     increasedVisits: {
-      'ui:title':
-        'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
+      'ui:title': PTSD_CHANGE_LABELS.increasedVisits,
     },
     pregnancyTests: {
-      'ui:title': 'Pregnancy tests around the time of the incident',
+      'ui:title': PTSD_CHANGE_LABELS.pregnancyTests,
     },
     hivTests: {
-      'ui:title': 'Tests for HIV or sexually transmitted diseases',
+      'ui:title': PTSD_CHANGE_LABELS.hivTests,
     },
     weightChanges: {
-      'ui:title': 'Extreme weight loss or gain',
+      'ui:title': PTSD_CHANGE_LABELS.weightChanges,
     },
     lethargy: {
-      'ui:title': 'Lethargy',
+      'ui:title': PTSD_CHANGE_LABELS.lethargy,
     },
     other: {
       'ui:title': 'Other',

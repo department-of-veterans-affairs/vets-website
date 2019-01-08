@@ -2,25 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import { FormSaved } from '../../save-in-progress/FormSaved';
 
 describe('Schemaform <FormSaved>', () => {
-  let windowOpen;
-  let oldWindow;
-  const setup = () => {
-    oldWindow = global.window;
-    windowOpen = sinon.stub().returns({ focus: f => f });
-    global.window = {
-      open: windowOpen,
-      dataLayer: [],
-      VetsGov: {},
-      location: {},
-    };
-  };
-  const takeDown = () => {
-    global.window = oldWindow;
-  };
   const route = {
     pageList: [
       {
@@ -43,12 +27,12 @@ describe('Schemaform <FormSaved>', () => {
   });
   const lastSavedDate = 1497300513914;
   const expirationDate = moment().unix() + 2000;
-  before(setup);
-  after(takeDown);
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <FormSaved
+        scrollParams={{}}
+        location={{}}
         formId={formId}
         lastSavedDate={lastSavedDate}
         expirationDate={expirationDate}
@@ -66,6 +50,8 @@ describe('Schemaform <FormSaved>', () => {
   it('should display verify link if user is not verified', () => {
     const tree = SkinDeep.shallowRender(
       <FormSaved
+        scrollParams={{}}
+        location={{}}
         formId={formId}
         lastSavedDate={lastSavedDate}
         expirationDate={expirationDate}
@@ -81,6 +67,8 @@ describe('Schemaform <FormSaved>', () => {
     u.profile.verified = true;
     const tree = SkinDeep.shallowRender(
       <FormSaved
+        scrollParams={{}}
+        location={{}}
         formId={formId}
         lastSavedDate={lastSavedDate}
         expirationDate={expirationDate}

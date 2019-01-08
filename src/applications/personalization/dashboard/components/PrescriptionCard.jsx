@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // import recordEvent from '../../../../platform/monitoring/record-event';
-import { formatDate } from '../../../rx/utils/helpers';
+import { formatDate } from '../utils/helpers';
 
 // Disabling interactivity.
 // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
