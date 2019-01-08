@@ -74,7 +74,8 @@ export const hasSession = () => localStorage.getItem('hasSession');
 export function setupProfileSession(payload) {
   localStorage.setItem('hasSession', true);
   const userData = get('data.attributes.profile', payload, {});
-  const { firstName, authnContext: loginPolicy = 'idme', loa } = userData;
+  const { firstName, authnContext, loa } = userData;
+  const loginPolicy = authnContext || 'idme';
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
