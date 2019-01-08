@@ -19,9 +19,9 @@ const address = addressSchema(fullSchema);
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
-  'ui:description': doctorCareDescription,
   unemployability: {
     'ui:title': "Doctor's care",
+    'ui:description': doctorCareDescription,
     doctorProvidedCare: {
       'ui:options': {
         viewField: UnemployabilityDoctorCareField,
