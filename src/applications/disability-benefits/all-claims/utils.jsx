@@ -746,11 +746,11 @@ export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
 
-export const doctorsCare = formData =>
+export const hasDoctorsCare = formData =>
   needsToAnswerUnemployability(formData) &&
   _.get('view:medicalCareType.view:doctorsCare', formData, false);
 
-export const hospitalCare = formData =>
+export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
   _.get('view:medicalCareType.view:hospitalized', formData, false);
 

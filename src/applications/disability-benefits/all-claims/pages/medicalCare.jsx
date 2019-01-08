@@ -1,7 +1,9 @@
 import React from 'react';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const medicalDescription = (
   <div>
+    <h4>Medical Care</h4>
     <p>
       Did you spend time in a hospital or under a doctor's care for your
       service-connected disabilties in the past 12 months?
@@ -10,8 +12,7 @@ const medicalDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Medical Care',
-
+  'ui:title': unemployabilityTitle,
   'view:medicalCare': {
     'ui:title': medicalDescription,
     'ui:widget': 'yesNo',
