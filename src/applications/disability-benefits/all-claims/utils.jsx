@@ -305,7 +305,7 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>
@@ -360,7 +360,9 @@ export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
     'ratedDisabilities',
-    form.data.ratedDisabilities.filter(condition => condition['view:selected']),
+    _.get('data.ratedDisabilities', form, []).filter(
+      condition => condition['view:selected'],
+    ),
     form.data,
   );
 
