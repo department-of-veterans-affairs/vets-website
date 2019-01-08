@@ -57,22 +57,20 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         ? response.json()
         : Promise.resolve(response);
 
-      if (!response.ok && response.status === 401) {
-        const { pathname } = window.location;
-        const shouldRedirectToLogin =
-          !pathname.includes('auth/login/callback') && !isLogout;
+      if (!response.ok) {
+        if (response.status === 401) {
+          const { pathname } = window.location;
 
-        if (shouldRedirectToLogin) {
-          const loginUrl = appendQuery(environment.BASE_URL, {
-            next: pathname,
-          });
-          window.location.href = loginUrl;
-        }
-
-        // If session has expired and user tries to log out, API will still return a 401.
-        // In this case, redirect the user home instead of displaying an error
-        if (isLogout) {
-          window.location.href = '/';
+          // If the user receives a 401 when trying to log out, it means their session
+          // has expired.  Redirect them home.  In all other cases, redirect to login
+          if (isLogout) {
+            window.location.href = '/';
+          } else if (!pathname.includes('auth/login/callback')) {
+            const loginUrl = appendQuery(environment.BASE_URL, {
+              next: pathname,
+            });
+            window.location.href = loginUrl;
+          }
         } else {
           return data.then(Promise.reject.bind(Promise));
         }
