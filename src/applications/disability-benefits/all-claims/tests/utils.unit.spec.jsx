@@ -830,7 +830,9 @@ describe('isAnswering781aQuestions', () => {
     });
     it('should be true', () => {
       const formData = {
-        'view:medicalCareType.view:hospitalized': true,
+        'view:medicalCareType': {
+          'view:hospialized': true,
+        },
       };
       expect(hasHospitalCare(formData)).to.be.false;
     });
