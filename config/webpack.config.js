@@ -184,6 +184,7 @@ const configGenerator = (buildOptions, apps) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
+        __API__: JSON.stringify(buildOptions.api),
       }),
 
       new ExtractTextPlugin({
