@@ -3,6 +3,8 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  uploadUnemployabilitySupportingDocuments,
+  uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
   unemployabilityCertification,
   pastEducationTraining,
@@ -11,12 +13,16 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  employmentHistory,
+  medicalCare,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploadingSupporting8940Documents,
+  hasHospitalCare,
 } from '../../utils';
 
 export default function() {
@@ -41,11 +47,18 @@ export default function() {
         schema: unemployabilityDisabilities.schema,
       },
       // 8940 - Medical Care
+      medicalCare: {
+        title: 'Medical Care',
+        path: 'medical-care',
+        depends: needsToAnswerUnemployability,
+        uiSchema: medicalCare.uiSchema,
+        schema: medicalCare.schema,
+      },
       // 8940 - Hospital Treatment
       hospitalizationHistory: {
         title: 'Hospitalization',
         path: 'hospitalization-history',
-        depends: needsToAnswerUnemployability,
+        depends: hasHospitalCare,
         uiSchema: hospitalizationHistory.uiSchema,
         schema: hospitalizationHistory.schema,
       },
@@ -60,6 +73,13 @@ export default function() {
         schema: incomeDetails.schema,
       },
       // 8940 - Employment History
+      employmentHistory: {
+        title: 'Employment history',
+        path: 'unemployability-employment-history',
+        depends: needsToAnswerUnemployability,
+        uiSchema: employmentHistory.uiSchema,
+        schema: employmentHistory.schema,
+      },
       // 8940 - Recent Earnings
       recentEarnedIncome: {
         title: 'Recent earnings',
@@ -118,6 +138,20 @@ export default function() {
       },
       // 8940 - Supporting Documents
       // 8940 - Upload Supporting Docs
+      uploadUnemployabilitySupportingDocumentsChoice: {
+        title: 'Supporting documents',
+        path: 'upload-unemployability-supporting-documents-choice',
+        depends: needsToAnswerUnemployability,
+        uiSchema: uploadUnemployabilitySupportingDocumentsChoice.uiSchema,
+        schema: uploadUnemployabilitySupportingDocumentsChoice.schema,
+      },
+      uploadUnemployabilitySupportingDocuments: {
+        title: 'Upload supporting documents',
+        path: 'upload-unemployability-supporting-documents',
+        depends: formData => isUploadingSupporting8940Documents(formData),
+        uiSchema: uploadUnemployabilitySupportingDocuments.uiSchema,
+        schema: uploadUnemployabilitySupportingDocuments.schema,
+      },
       // 8940 - Certification
       unemployabilityCertification: {
         title: 'Unemployability Certification',

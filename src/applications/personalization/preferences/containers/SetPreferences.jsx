@@ -17,10 +17,9 @@ import {
 import { LOADING_STATES } from '../constants';
 import {
   setPreference,
-  savePreferences,
-  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
+  updatePreferences,
 } from '../actions';
 
 class SetPreferences extends React.Component {
@@ -63,11 +62,7 @@ class SetPreferences extends React.Component {
 
   handleSave = () => {
     const { dashboard } = this.props.preferences;
-    if (Object.keys(dashboard).length) {
-      this.props.savePreferences(dashboard);
-    } else {
-      this.props.deletePreferences();
-    }
+    this.props.updatePreferences(dashboard);
   };
 
   handlePreferenceToggle = (code, value) => {
@@ -171,10 +166,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setPreference,
-  savePreferences,
-  deletePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
+  updatePreferences,
 };
 
 export default withRouter(

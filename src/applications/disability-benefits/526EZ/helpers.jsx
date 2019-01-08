@@ -4,6 +4,7 @@ import Raven from 'raven-js';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
+import moment from 'moment';
 
 import { apiRequest } from '../../../platform/utilities/api';
 import {
@@ -19,10 +20,14 @@ import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { capitalizeEachWord, transformDisabilities } from '../all-claims/utils';
+import { capitalizeEachWord } from '../all-claims/utils';
 import { AddressViewField } from '../all-claims/content/contactInformation';
 
-import { VA_FORM4142_URL } from '../all-claims/constants';
+import {
+  VA_FORM4142_URL,
+  SERVICE_CONNECTION_TYPES,
+  disabilityActionTypes,
+} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -151,7 +156,25 @@ export function transform(formConfig, form) {
     selectedDisabilities,
     'treatments',
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
-  );
+  ).map(treatment => {
+    // If the day is missing, set it to the last day of the month because EVSS requires a day
+    const [year, month, day] = get(
+      'treatmentDateRange.to',
+      treatment,
+      '',
+    ).split('-');
+    if (day && day === 'XX') {
+      return set(
+        'treatmentDateRange.to',
+        moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        treatment,
+      );
+    }
+
+    return treatment;
+  });
 
   const attachments = additionalDocuments.concat(privateRecords);
 
@@ -227,6 +250,20 @@ export function transformObligationDates(formData) {
   delete newFormData.reservesNationalGuardService;
 
   return newFormData;
+}
+
+export function transformDisabilities(disabilities = []) {
+  return (
+    disabilities
+      // We want to remove disabilities that aren't service-connected
+      .filter(
+        disability =>
+          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
+      )
+      .map(disability =>
+        set('disabilityActionType', disabilityActionTypes.INCREASE, disability),
+      )
+  );
 }
 
 export function prefillTransformer(pages, formData, metadata) {

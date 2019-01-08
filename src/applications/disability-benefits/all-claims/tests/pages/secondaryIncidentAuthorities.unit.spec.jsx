@@ -42,37 +42,37 @@ describe('PTSD Assault permission notice', () => {
 
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_name',
+      'input#root_secondaryIncident0_sources_0_name',
       'Authority Name',
     );
     fillData(
       form,
-      'select#root_secondaryIncident0_authorities_0_address_country',
+      'select#root_secondaryIncident0_sources_0_address_country',
       'USA',
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_addressLine1',
+      'input#root_secondaryIncident0_sources_0_address_addressLine1',
       '123 Street',
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_addressLine2',
+      'input#root_secondaryIncident0_sources_0_address_addressLine2',
       'Apt B',
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_city',
+      'input#root_secondaryIncident0_sources_0_address_city',
       'Test',
     );
     fillData(
       form,
-      'select#root_secondaryIncident0_authorities_0_address_state',
+      'select#root_secondaryIncident0_sources_0_address_state',
       'AL',
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_zipCode',
+      'input#root_secondaryIncident0_sources_0_address_zipCode',
       '12345-1234',
     );
     form.find('form').simulate('submit');

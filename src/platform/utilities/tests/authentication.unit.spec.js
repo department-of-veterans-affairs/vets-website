@@ -13,24 +13,24 @@ import {
 import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
 
 let windowOpen;
-let oldWindow;
+let oldOpen;
+let oldDataLayer;
 
 const fakeWindow = () => {
-  oldWindow = global.window;
+  oldOpen = global.window.open;
   windowOpen = sinon.stub().returns({
     focus: f => f,
     location: '',
   });
-  global.window = {
-    open: windowOpen,
-    dataLayer: [],
-  };
+  global.window.open = windowOpen;
+  global.window.dataLayer = [];
 };
 
 describe('auth URL helpers', () => {
   beforeEach(fakeWindow);
   afterEach(() => {
-    global.window = oldWindow;
+    global.window.open = oldOpen;
+    global.window.dataLayer = oldDataLayer;
   });
 
   describe('when able to open a window', () => {
