@@ -86,7 +86,7 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
-  waiveRetirementPay,
+  retirementPayWaiver,
   workBehaviorChanges,
 } from '../pages';
 
@@ -564,12 +564,12 @@ const formConfig = {
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
         },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
+        retirementPayWaiver: {
+          title: 'Retirement pay waiver',
+          path: 'retirement-pay-waiver',
           depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
+          uiSchema: retirementPayWaiver.uiSchema,
+          schema: retirementPayWaiver.schema,
         },
         trainingPayWaiver: {
           title: 'Training pay waiver',

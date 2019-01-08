@@ -9,9 +9,9 @@ import {
 } from './retirementPay';
 
 import {
-  uiSchema as waiveRetirementPayUISchema,
-  schema as waiveRetirementPaySchema,
-} from './waiveRetirementPay';
+  uiSchema as retirementPayWaiverUISchema,
+  schema as retirementPayWaiverSchema,
+} from './retirementPayWaiver';
 
 import {
   uiSchema as militaryHistoryUISchema,
@@ -389,9 +389,9 @@ export const retirementPay = {
   schema: retirementPaySchema,
 };
 
-export const waiveRetirementPay = {
-  uiSchema: waiveRetirementPayUISchema,
-  schema: waiveRetirementPaySchema,
+export const retirementPayWaiver = {
+  uiSchema: retirementPayWaiverUISchema,
+  schema: retirementPayWaiverSchema,
 };
 
 export const separationPay = {
