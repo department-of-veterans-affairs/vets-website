@@ -534,7 +534,15 @@ export function transform(formConfig, form) {
     attachments.concat(documentArr);
     delete clonedData[key];
   });
-
+  console.log('---------');
+  console.log('---------');
+  console.log('---------');
+  console.log('---------');
+  console.log(attachments);
+  console.log('---------');
+  console.log('---------');
+  console.log(clonedData.additionalChanges);
+  console.log('---------');
   return JSON.stringify({
     form526: { ...clonedData, ...(attachments.length && { attachments }) },
   });

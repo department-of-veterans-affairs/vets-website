@@ -17,7 +17,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['ptsd781a'],
+  required: ['form781aUpload'],
   properties: {
     form781aUpload: setDefaultAttachmentId(PTSD_781A_ATTACHMENT_ID),
   },

@@ -43,7 +43,7 @@ export const uiSchema = {
       'ui:description': privateRecordsChoiceHelp,
     },
   },
-  privateMedicalRecordsAttachments: {
+  privateMedicalRecordAttachments: {
     ...fileUploadUi,
     'ui:options': {
       ...fileUploadUi['ui:options'],

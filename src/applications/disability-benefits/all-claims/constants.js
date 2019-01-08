@@ -215,7 +215,7 @@ export const PTSD_CHANGE_LABELS = {
 export const ATTACHMENT_KEYS = [
   'form781Upload',
   'form781aUpload',
-  'privateMedicalRecordsAttachments',
+  'privateMedicalRecordAttachments',
   'additionalDocuments',
   'unemployabilitySupportingDocuments',
   'secondaryUploadSources0',

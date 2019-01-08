@@ -332,43 +332,43 @@ export const transformedMaximalData = {
           },
         },
       ],
-      attachments: [
-        {
-          confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
-          attachmentId: 'L228',
-          name: 'Doc.pdf',
-        },
-        {
-          confirmationCode: '354c6d40-b7f5-456d-9393-3b2de24569e94',
-          attachmentId: 'L229',
-          name: 'Doc.pdf',
-        },
-        {
-          confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
-          attachmentId: 'L048',
-          name: 'Doc.pdf',
-        },
-        {
-          confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
-          attachmentId: 'L015',
-          name: 'Document Name',
-        },
-        {
-          confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
-          attachmentId: 'L034',
-          name: 'Doc.pdf',
-        },
-        {
-          confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
-          attachmentId: 'L015',
-          name: 'Doc.pdf',
-        },
-        {
-          confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
-          attachmentId: 'L034',
-          name: 'Doc.pdf',
-        },
-      ],
     },
+    // attachments: [
+    //   {
+    //     confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
+    //     attachmentId: 'L228',
+    //     name: 'Doc.pdf',
+    //   },
+    //   {
+    //     confirmationCode: '354c6d40-b7f5-456d-9393-3b2de24569e94',
+    //     attachmentId: 'L229',
+    //     name: 'Doc.pdf',
+    //   },
+    //   {
+    //     confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
+    //     attachmentId: 'L048',
+    //     name: 'Doc.pdf',
+    //   },
+    //   {
+    //     confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
+    //     attachmentId: 'L015',
+    //     name: 'Document Name',
+    //   },
+    //   {
+    //     confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
+    //     attachmentId: 'L034',
+    //     name: 'Doc.pdf',
+    //   },
+    //   {
+    //     confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
+    //     attachmentId: 'L015',
+    //     name: 'Doc.pdf',
+    //   },
+    //   {
+    //     confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
+    //     attachmentId: 'L034',
+    //     name: 'Doc.pdf',
+    //   },
+    // ],
   },
 };

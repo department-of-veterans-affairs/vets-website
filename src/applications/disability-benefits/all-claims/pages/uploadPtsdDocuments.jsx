@@ -8,7 +8,7 @@ const PTSD_781_ATTACHMENT_ID = 'L228';
 export const uiSchema = {
   'ui:title': ptsd781NameTitle,
   'ui:description': <UploadDescription uploadTitle="Upload VA Form 21-0781" />,
-  ptsd781: ancillaryFormUploadUi('', 'PTSD 781 form', {
+  form781Upload: ancillaryFormUploadUi('', 'PTSD 781 form', {
     attachmentId: PTSD_781_ATTACHMENT_ID,
     customClasses: 'upload-completed-form',
     isDisabled: true,
@@ -17,8 +17,8 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['ptsd781'],
+  required: ['form781Upload'],
   properties: {
-    ptsd781: setDefaultAttachmentId(PTSD_781_ATTACHMENT_ID),
+    form781Upload: setDefaultAttachmentId(PTSD_781_ATTACHMENT_ID),
   },
 };
