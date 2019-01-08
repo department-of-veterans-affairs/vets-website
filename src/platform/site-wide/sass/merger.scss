@@ -187,6 +187,10 @@ $medium-phone-screen: 375px;
       @include media($medium-phone-screen) {
         span {
           max-width: 102px;
+
+          &.user-dropdown-email {
+            margin-top: 0;
+          }
         }
       }
 
