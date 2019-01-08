@@ -13,6 +13,7 @@ import ENVIRONMENTS from '../../../site/constants/environments';
 // import sinon from 'sinon'
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
+global.__API__ = null;
 
 chai.use(chaiAsPromised);
 

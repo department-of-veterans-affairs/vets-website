@@ -8,6 +8,7 @@ import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
+  startedAfterServicePeriod,
   hasMonthYear,
 } from '../validations';
 import { USA } from '../constants';
@@ -60,12 +61,26 @@ export const uiSchema = {
         },
       },
       treatmentDateRange: merge(
+        {},
         dateRangeUI(
           'When did you first visit this facility?',
           'When was your most recent visit?',
           'Date of last treatment must be after date of first treatment',
         ),
-        { to: { 'ui:validations': [hasMonthYear] } },
+        {
+          from: {
+            'ui:validations': dateRangeUI().from['ui:validations'].concat([
+              startedAfterServicePeriod,
+            ]),
+          },
+        },
+        {
+          to: {
+            'ui:validations': dateRangeUI().to['ui:validations'].concat([
+              hasMonthYear,
+            ]),
+          },
+        },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],
@@ -98,10 +113,7 @@ export const schema = {
     },
     vaTreatmentFacilities: set(
       'items.properties.treatedDisabilityNames',
-      {
-        type: 'object',
-        properties: {},
-      },
+      { type: 'object', properties: {} },
       vaTreatmentFacilities,
     ),
   },

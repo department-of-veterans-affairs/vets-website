@@ -13,7 +13,9 @@ export default ({ item, onChange, checked }) => {
         <Checkbox
           name={item.code}
           checked={checked}
-          label=""
+          label={
+            <span className="usa-sr-only">{item.shortTitle || item.title}</span>
+          }
           onChange={() => onChange(item.code, !checked)}
         />
       </div>
