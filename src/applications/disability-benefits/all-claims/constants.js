@@ -210,3 +210,13 @@ export const PTSD_CHANGE_LABELS = {
   agoraphobia: 'Staying at home, not wanting to go out, agoraphobia',
   fear: 'Increased fear of surroundings, inability to go to certain areas',
 };
+
+export const ATTACHMENT_KEYS = [
+  'ptsd781',
+  'form781aUpload',
+  'additionalDocuments',
+  'unemployabilitySupportingDocuments',
+  'secondaryUploadSources0',
+  'secondaryUploadSources1',
+  'secondaryUploadSources2',
+];

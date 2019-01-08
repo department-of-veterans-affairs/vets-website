@@ -29,6 +29,7 @@ import {
   specialIssueTypes,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  ATTACHMENT_KEYS,
 } from './constants';
 
 /**
@@ -355,24 +356,6 @@ export function customReplacer(key, value) {
   return value;
 }
 
-function concatAttachments(formData) {
-  const documentKeys = [
-    'ptsd781',
-    'form781aUpload',
-    'additionalDocuments',
-    'unemployabilitySupportingDocuments',
-    'secondaryUploadSources0',
-    'secondaryUploadSources1',
-    'secondaryUploadSources2',
-  ];
-  const allAttachments = [];
-  documentKeys.forEach(key => {
-    const documentArr = _.get(key, formData, []);
-    allAttachments.concat(documentArr);
-  });
-  return allAttachments;
-}
-
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -541,8 +524,14 @@ export function transform(formConfig, form) {
     delete clonedData.additionalIncidentText;
     delete clonedData.additionalSecondaryIncidentText;
   }
+  const attachments = [];
 
-  const attachments = concatAttachments(clonedData);
+  // CONCAT all attachment pages into attachments ARRAY
+  ATTACHMENT_KEYS.forEach(key => {
+    const documentArr = _.get(key, clonedData, []);
+    attachments.concat(documentArr);
+    delete clonedData[key];
+  });
 
   return JSON.stringify({
     form526: { ...clonedData, ...(attachments.length && { attachments }) },
