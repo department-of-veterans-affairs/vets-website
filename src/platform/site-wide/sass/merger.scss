@@ -197,7 +197,7 @@ $medium-phone-screen: 375px;
       @include media($medium-screen) {
         span {
           padding-left: 0;
-          max-width: 300px;
+          max-width: 293px;
           height: 20px;
 
           &.user-dropdown-email {
