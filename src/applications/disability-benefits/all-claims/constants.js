@@ -211,9 +211,11 @@ export const PTSD_CHANGE_LABELS = {
   fear: 'Increased fear of surroundings, inability to go to certain areas',
 };
 
+// KEYS on formData that contain uploaded files that need to be added to attachments
 export const ATTACHMENT_KEYS = [
-  'ptsd781',
+  'form781Upload',
   'form781aUpload',
+  'privateMedicalRecordsAttachments',
   'additionalDocuments',
   'unemployabilitySupportingDocuments',
   'secondaryUploadSources0',

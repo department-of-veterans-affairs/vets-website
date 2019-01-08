@@ -4,7 +4,6 @@ import { shallow } from 'enzyme';
 import _ from '../../../../platform/utilities/data';
 
 import formConfig from '../config/form';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import {
   hasGuardOrReservePeriod,
@@ -32,7 +31,6 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
-  setDefaultAttachmentId,
 } from '../utils.jsx';
 
 import {
