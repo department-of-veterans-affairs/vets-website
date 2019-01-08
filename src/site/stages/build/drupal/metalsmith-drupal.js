@@ -12,7 +12,7 @@ const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
-const SHOULD_PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
+const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 
 const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.LOCALHOST,
@@ -65,7 +65,7 @@ async function loadDrupal(buildOptions) {
   );
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
 
-  let shouldPullDrupal = buildOptions[SHOULD_PULL_DRUPAL_BUILD_ARG];
+  let shouldPullDrupal = buildOptions[PULL_DRUPAL_BUILD_ARG];
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
@@ -87,6 +87,7 @@ async function loadDrupal(buildOptions) {
     }
   } else {
     log('Attempting to load Drupal content from cache...');
+    log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
 
     // eslint-disable-next-line import/no-dynamic-require
     drupalPages = require(drupalCache);
