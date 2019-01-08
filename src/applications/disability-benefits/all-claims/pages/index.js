@@ -747,11 +747,6 @@ export const secondaryUploadSourcesChoice = {
   schema: secondaryUploadSourcesChoiceSchema,
 };
 
-// export const medicalCare = {
-//   uiSchema: medicalCareUISchema,
-//   schema: medicalCareSchema,
-// };
-
 export { ancillaryFormsWizardSummary, employmentHistory, medicalCare };
 
 export const incomeDetails = {
