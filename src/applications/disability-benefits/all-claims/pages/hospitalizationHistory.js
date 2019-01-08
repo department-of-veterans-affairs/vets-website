@@ -5,12 +5,12 @@ import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
-const { hospitalizationHistory } = fullSchema.properties.form8940;
+const { hospitalProvidedCare } = fullSchema.properties.form8940;
 
 export const uiSchema = {
   unemployability: {
     'ui:title': unemployabilityTitle,
-    hospitalizationHistory: {
+    hospitalProvidedCare: {
       'ui:title': 'Hospitalization',
       'ui:description': 'Dates you were hospitalized?',
       'ui:options': {
@@ -19,15 +19,15 @@ export const uiSchema = {
         hideTitle: true,
       },
       items: {
-        hospitalizationDateRange: dateRangeUI(
+        dates: dateRangeUI(
           'From',
           'To',
           'End of hospitalization must be after start of treatment',
         ),
-        hospitalName: {
+        name: {
           'ui:title': 'Name of hospital',
         },
-        hospitalAddress: {
+        address: {
           addressLine1: {
             'ui:title': 'Street address',
           },
@@ -64,7 +64,7 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        hospitalizationHistory,
+        hospitalProvidedCare,
       },
     },
   },
