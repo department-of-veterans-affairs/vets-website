@@ -10,7 +10,7 @@ const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.VAGOVDEV,
 ]);
 
-function pipeApiDataIntoMetalsmith(contentData, files) {
+function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   // Generates a Drupal index page at /drupal, which is a useful (temporary) resource
   // for checking Drupal payloads.
 
@@ -65,7 +65,7 @@ function getDrupalContent(buildOptions) {
         contentData = await contentApi.query({ query: GET_ALL_PAGES });
       }
 
-      pipeApiDataIntoMetalsmith(contentData, files);
+      pipeDrupalPagesIntoMetalsmith(contentData, files);
     } catch (err) {
       done(err);
     }

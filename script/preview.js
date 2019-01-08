@@ -45,15 +45,17 @@ app.use('/preview', async (req, res) => {
   });
 
   const contentId = req.query.contentId;
-  const pageData = await drupalClient.query({
+  const drupalPage = await drupalClient.query({
     query: GET_PAGE_BY_ID,
     variables: { path: contentId },
   });
 
-  if (pageData.data.route) {
+  const wasFoundInDrupal = !!drupalPage.data.route;
+
+  if (wasFoundInDrupal) {
     // Once we have Metalsmith templating in place for Drupal data, we should
     // use that instead of the GH data.
-    res.json(pageData);
+    res.json(drupalPage);
     return;
   }
 

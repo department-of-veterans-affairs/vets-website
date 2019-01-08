@@ -3,15 +3,15 @@ const { createHttpLink } = require('apollo-link-http');
 const { InMemoryCache } = require('apollo-cache-inmemory');
 const fetch = require('node-fetch');
 
-const CONTENT_APIS = require('../../../constants/content-apis');
+const DRUPALS = require('../../../constants/drupals');
 
-function getApiClient(buildOptions) {
-  const contentApiRoute = `${CONTENT_APIS[buildOptions.buildtype]}/graphql`;
-  const link = createHttpLink({ uri: contentApiRoute, fetch });
+function getDrupalClient(buildOptions) {
+  const drupalUri = `${DRUPALS[buildOptions.buildtype]}/graphql`;
+  const link = createHttpLink({ uri: drupalUri, fetch });
   const cache = new InMemoryCache();
-  const contentApi = new ApolloClient({ link, cache });
+  const drupalClient = new ApolloClient({ link, cache });
 
-  return contentApi;
+  return drupalClient;
 }
 
-module.exports = getApiClient;
+module.exports = getDrupalClient;
