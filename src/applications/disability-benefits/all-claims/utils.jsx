@@ -299,7 +299,7 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>

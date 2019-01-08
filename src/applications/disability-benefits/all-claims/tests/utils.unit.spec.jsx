@@ -851,5 +851,10 @@ describe('isAnswering781aQuestions', () => {
 
       expect(fieldTitles.length).to.eql(2);
     });
+
+    it('should correctly handle undefined ptsd changes', () => {
+      const fieldTitles = getPtsdChangeText(undefined);
+      expect(fieldTitles.length).to.eql(0);
+    });
   });
 });

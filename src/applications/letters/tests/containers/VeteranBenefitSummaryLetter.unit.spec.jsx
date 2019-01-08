@@ -100,10 +100,11 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('handles check and uncheck events', () => {
-    const oldWindow = _.cloneDeep(global.window);
-    global.window = {
+    const oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       dataLayer: [],
-    };
+    });
 
     const updateOptionSpy = sinon.spy();
     const props = _.set(
@@ -149,7 +150,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(firstCallArgs).to.have.members([DOMid, checkedValue]);
 
     // Reset window to pre-test state to be safe
-    global.window = _.cloneDeep(oldWindow);
+    global.window = oldWindow;
   });
 
   it('Does not render dependent options for veterans', () => {
