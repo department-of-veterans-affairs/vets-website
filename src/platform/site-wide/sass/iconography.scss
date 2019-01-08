@@ -9,6 +9,7 @@
   display: inline-block;
 }
 
+
 @mixin make-hub($hub-name,
   $icon,
   $color,
@@ -18,6 +19,9 @@
   $left-large: 11.47px,
   $top-baseline: 7px,
   $left-baseline: 11px) {
+
+  $icon-escaped: fa-content($icon);
+
   .hub-background-#{$hub-name} {
     background: $color;
     border-radius: 50%;
@@ -27,14 +31,14 @@
   }
   .hub-icon-#{$hub-name} {
     display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
+    font: normal normal normal 14px/1 "Font Awesome 5 Free";
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     &::before {
-      content: $icon;
+      content: $icon-escaped;
     }
 
     position: relative;
@@ -79,7 +83,7 @@
 
 @include make-hub(
   $hub-name: "disability",
-  $icon: $fa-var-file-text,
+  $icon: $fa-var-file-alt,
   $color: $red-60,
   $top-large: 9.5px,
   $left-large: 13px,
@@ -98,7 +102,7 @@
 
 @include make-hub(
   $hub-name: "pension",
-  $icon: $fa-var-handshake-o,
+  $icon: $fa-var-handshake,
   $color: $green-cool-50,
   $top-large: 9.75px,
   $left-large: 7.75px,
@@ -114,7 +118,7 @@
 
 @include make-hub(
   $hub-name: "life-insurance",
-  $icon: $fa-var-shield,
+  $icon: $fa-var-shield-alt,
   $color: $green-warm-50,
   $top-small: 8px,
   $left-small: 11px,
@@ -132,7 +136,7 @@
 
 @include make-hub(
   $hub-name: "records",
-  $icon: $fa-var-id-card,
+  $icon: "\f2c2",
   $color: $violet-warm-60,
   $top-small: 7px,
   $left-small: 6px,
