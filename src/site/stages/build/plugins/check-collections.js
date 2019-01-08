@@ -30,16 +30,16 @@ const checkCollections = () => (files, metalsmith, done) => {
             // Checks if the collection is valid
             if (!VALID_COLLECTIONS.includes(collectionName)) {
               accum.push(
-                `Error: Your [ collection "${collectionName}" ] does not exist in the collection: ${key}`,
+                `Error: Your { collection: "${collectionName}" }, does not exist in the collection: ${key}`,
               );
             }
           });
         } else if (file.collection.constructor.name === 'String') {
           if (!VALID_COLLECTIONS.includes(file.collection)) {
             accum.push(
-              `Error: Your [ collection "${
+              `Error: Your { collection: "${
                 file.collection
-              }" ] does not exist in the collection: ${key}`,
+              }" }, does not exist in the collection: ${key}`,
             );
           }
         }
@@ -48,9 +48,9 @@ const checkCollections = () => (files, metalsmith, done) => {
       // Checks if a page children is valid. A child collection is always going to be a string
       if (file.children && !VALID_COLLECTIONS.includes(file.children)) {
         accum.push(
-          `Error: Your [ children: "${
+          `Error: Your { children: "${
             file.children
-          }" ] does not exist in the collection: ${key}`,
+          }" }, does not exist in the collection: ${key}`,
         );
       }
 
