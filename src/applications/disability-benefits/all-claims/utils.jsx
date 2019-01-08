@@ -822,4 +822,4 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
 
 export const needsToAnswerUnemployabilityMedicalCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:unemployabilityMedicalCareChoice', formData, false);
+  _.get('view:unemployabilityMedicalCareChoice', formData, true);

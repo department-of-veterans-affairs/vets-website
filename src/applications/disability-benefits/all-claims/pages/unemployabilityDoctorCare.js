@@ -13,6 +13,7 @@ import {
   doctorDatesDecription,
   doctorCareDescription,
   privateMedicalFacilityDescription,
+  doctorCareTitle,
 } from '../content/unemployabilityDoctorCare';
 
 const address = addressSchema(fullSchema);
@@ -20,7 +21,7 @@ const address = addressSchema(fullSchema);
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': "Doctor's care",
+    'ui:title': doctorCareTitle,
     'ui:description': doctorCareDescription,
     doctorProvidedCare: {
       'ui:options': {

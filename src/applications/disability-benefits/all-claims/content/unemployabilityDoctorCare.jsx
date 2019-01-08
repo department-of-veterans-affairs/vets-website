@@ -18,3 +18,5 @@ export const doctorDatesDecription =
 
 export const doctorCareDescription =
   'Please tell us where and when you were treated by a doctor.';
+
+export const doctorCareTitle = <h4>Doctor's care</h4>;
