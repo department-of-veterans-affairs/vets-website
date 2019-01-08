@@ -17,7 +17,9 @@ const eventHelpText = (
 
 export const ptsdDateDescription = (
   <div>
-    <h5>Approximate event date</h5>
+    <div aria-valuetext="Approximate event date">
+      <legend>Approximate event date</legend>
+    </div>
     <p>
       Please tell us when this event happened. If the event happened over a
       period of time, please tell us around when it started.
@@ -30,7 +32,9 @@ export const SecondaryDateDescription = ({ index }) => {
   const isFirstIncident = index === 0;
   return (
     <div>
-      <h5>Event date</h5>
+      <div aria-valuetext="Event date">
+        <legend>Event date</legend>
+      </div>
       {isFirstIncident && (
         <p>
           Now we’ll ask about the first event that caused your PTSD. If there is

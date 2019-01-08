@@ -47,12 +47,7 @@ describe('686 <AuthorizationComponent>', () => {
       </AuthorizationComponent>,
     );
 
-    expect(
-      tree
-        .find('p')
-        .first()
-        .text(),
-    ).to.not.contain('Inner content');
+    expect(tree.first().text()).to.not.contain('Inner content');
     tree.unmount();
   });
 });

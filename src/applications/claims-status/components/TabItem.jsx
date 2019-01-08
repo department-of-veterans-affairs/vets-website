@@ -2,10 +2,6 @@ import React from 'react';
 import { IndexLink, withRouter } from 'react-router';
 
 class TabItem extends React.Component {
-  defaultProps = {
-    className: 'claims-status-tabs-item',
-  };
-
   componentDidMount() {
     document.addEventListener('keydown', this.tabShortcut);
   }

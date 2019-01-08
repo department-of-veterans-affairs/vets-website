@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const individualsInvolved = <h5>Individuals involved</h5>;
+export const individualsInvolved = (
+  <div aria-valuetext="Individuals involved">
+    <h5>Individuals involved</h5>
+  </div>
+);
 
 export const personDescriptionText = (
   <div>
