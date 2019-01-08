@@ -1,10 +1,15 @@
 import EducationTrainingField from '../components/EducationTrainingField';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { validateDate } from 'us-forms-system/lib/js/validation';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
-const { dateRange } = fullSchema.definitions;
+const {
+  education,
+  otherEducation,
+  receivedOtherEducationTrainingPreUnemployability,
+  otherEducationTrainingPreUnemployability,
+} = fullSchema.properties.form8940;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -17,7 +22,7 @@ export const uiSchema = {
       'ui:title': 'Other education completed',
       'ui:options': {
         expandUnder: 'education',
-        expandUnderCondition: education => education === 'Other',
+        expandUnderCondition: educationChoice => educationChoice === 'Other',
       },
     },
     receivedOtherEducationTrainingPreUnemployability: {
@@ -56,38 +61,10 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        education: {
-          type: 'string',
-          enum: [
-            'Some elementary school',
-            'Some high school',
-            'High school diploma or GED',
-            'Some college',
-            "Associate's degree",
-            'Bachelor’s degree',
-            'Master’s degree',
-            'Doctoral degre',
-            'Other',
-          ],
-        },
-        otherEducation: {
-          type: 'string',
-        },
-        receivedOtherEducationTrainingPreUnemployability: {
-          type: 'boolean',
-        },
-        otherEducationTrainingPreUnemployability: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-              dates: dateRange,
-            },
-          },
-        },
+        education,
+        otherEducation,
+        receivedOtherEducationTrainingPreUnemployability,
+        otherEducationTrainingPreUnemployability,
       },
     },
   },

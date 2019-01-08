@@ -1,5 +1,5 @@
 import { merge, omit } from 'lodash';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 import {
@@ -18,7 +18,7 @@ import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
 
 const address = addressSchema(fullSchema);
-const { date } = fullSchema.definitions;
+const { appliedEmployers } = fullSchema.properties.form8940;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -84,29 +84,18 @@ export const schema = {
           type: 'boolean',
         },
         appliedEmployers: {
-          type: 'array',
-          items: {
-            type: 'object',
+          ...appliedEmployers,
+          address: {
+            ...address,
             properties: {
-              name: {
+              ...omit(address.properties, ['addressLine3', 'postalCode']),
+              zipCode: {
                 type: 'string',
               },
-              address: {
-                ...address,
-                properties: {
-                  ...omit(address.properties, ['addressLine3', 'postalCode']),
-                  zipCode: {
-                    type: 'string',
-                  },
-                },
-              },
-              workType: {
-                type: 'string',
-              },
-              date,
             },
           },
         },
+
         'view:substantiallyGainfulEmploymentInfo': {
           type: 'object',
           properties: {},

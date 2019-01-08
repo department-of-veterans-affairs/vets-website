@@ -5,7 +5,7 @@ import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
-const { hospitalizationHistory } = fullSchema.properties;
+const { hospitalizationHistory } = fullSchema.properties.form8940;
 
 export const uiSchema = {
   unemployability: {

@@ -2,6 +2,12 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const {
+  receiveExpectDisabilityRetirement,
+  receiveExpectWorkersCompensation,
+} = fullSchema.properties.form8940;
 
 const supplementalBenefitsTitle = <h4>Supplemental benefits</h4>;
 
@@ -46,12 +52,8 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        receiveExpectDisabilityRetirement: {
-          type: 'boolean',
-        },
-        receiveExpectWorkersCompensation: {
-          type: 'boolean',
-        },
+        receiveExpectDisabilityRetirement,
+        receiveExpectWorkersCompensation,
         'view:supplementalBenefitsHelp': {
           type: 'object',
           properties: {},

@@ -3,6 +3,9 @@ import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { incomeDescription } from '../content/incomeDetails';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { mostIncome, yearEarned, job } = fullSchema.properties.form8940;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -30,15 +33,9 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        mostIncome: {
-          type: 'number',
-        },
-        yearEarned: {
-          type: 'string',
-        },
-        job: {
-          type: 'string',
-        },
+        mostIncome,
+        yearEarned,
+        job,
       },
     },
   },

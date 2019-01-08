@@ -1,8 +1,5 @@
-import { merge, omit } from 'lodash';
-import {
-  uiSchema as addressUI,
-  schema as addressSchema,
-} from '../../../../platform/forms/definitions/address';
+import { merge } from 'lodash';
+import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
@@ -13,7 +10,7 @@ import { employmentDescription } from '../content/employmentHistory';
 import EmploymentHistoryCard from '../components/EmploymentHistoryCard';
 import { validateZIP } from '../../all-claims/validations';
 
-const { phone } = fullSchema.definitions;
+const { previousEmployers } = fullSchema.properties.form8940;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -85,8 +82,6 @@ export const uiSchema = {
   },
 };
 
-const address = addressSchema(fullSchema);
-
 export const schema = {
   type: 'object',
   required: ['view:unemployabilityUploadChoice'],
@@ -94,51 +89,7 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        previousEmployers: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-              employerAddress: {
-                ...address,
-                properties: omit(address.properties, [
-                  'addressLine3',
-                  'postalCode',
-                ]),
-              },
-              phone,
-              typeOfWork: {
-                type: 'string',
-              },
-              hoursPerWeek: {
-                type: 'number',
-                minimum: 0,
-                maximum: 999,
-              },
-              dates: {
-                $ref: '#/definitions/dateRange',
-              },
-              timeLostFromIllness: {
-                type: 'string',
-              },
-              mostEarningsInAMonth: {
-                type: 'number',
-                minimum: 0,
-              },
-              inBusiness: {
-                type: 'boolean',
-              },
-              'view:inBusinessMsg': {
-                type: 'object',
-                'ui:collapsed': true,
-                properties: {},
-              },
-            },
-          },
-        },
+        previousEmployers,
       },
     },
   },

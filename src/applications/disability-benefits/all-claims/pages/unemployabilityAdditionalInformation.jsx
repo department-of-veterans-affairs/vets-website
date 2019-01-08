@@ -1,5 +1,8 @@
 import React from 'react';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { remarks } = fullSchema.properties.form8940;
 
 const additionalInformationDescription = (
   <div>
@@ -41,9 +44,7 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        remarks: {
-          type: 'string',
-        },
+        remarks,
       },
     },
   },
