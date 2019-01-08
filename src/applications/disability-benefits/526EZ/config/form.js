@@ -68,7 +68,7 @@ import {
 } from '../../all-claims/content/ratedDisabilities';
 
 import { privateRecordsChoiceHelp } from '../../all-claims/content/privateMedicalRecords';
-import { uploadDescription } from '../../all-claims/content/fileUploadDescriptions';
+import { UploadDescription } from '../../all-claims/content/fileUploadDescriptions';
 
 import {
   FDCDescription,
@@ -81,6 +81,7 @@ import { FIFTY_MB } from '../../all-claims/constants';
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 import { requireOneSelected, isInPast } from '../validations';
+import { hasMonthYear } from '../../all-claims/validations';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -513,10 +514,13 @@ const formConfig = {
                         },
                       },
                     ),
-                    treatmentDateRange: dateRangeUI(
-                      'Date of first treatment (This date doesn’t have to be exact.)',
-                      'Date of last treatment (This date doesn’t have to be exact.)',
-                      'Date of last treatment must be after date of first treatment',
+                    treatmentDateRange: merge(
+                      dateRangeUI(
+                        'Date of first treatment (This date doesn’t have to be exact.)',
+                        'Date of last treatment (This date doesn’t have to be exact.)',
+                        'Date of last treatment must be after date of first treatment',
+                      ),
+                      { to: { 'ui:validations': [hasMonthYear] } },
                     ),
                     treatmentCenterAddress: treatmentAddressUiSchema,
                   },
@@ -708,7 +712,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': uploadDescription },
+                  { 'ui:description': UploadDescription },
                 ),
               },
             },
@@ -787,7 +791,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': uploadDescription },
+                  { 'ui:description': UploadDescription },
                 ),
               },
             },

@@ -112,6 +112,51 @@ class MockLocatorApi {
 export const facilityData = {
   data: [
     {
+      id: 'nca_s1130',
+      type: 'va_facilities',
+      attributes: {
+        uniqueId: 's1130',
+        name: 'Washington State Veterans Cemetery Medical Lake',
+        facilityType: 'va_cemetery',
+        classification: 'State Cemetery',
+        website: 'http://www.dva.wa.gov/cemetery',
+        lat: 47.5862341059396,
+        long: -117.713961630042,
+        address: {
+          physical: {
+            address1: '21702 W Espanola Rd',
+            address2: null,
+            address3: null,
+            city: 'Medical Lake',
+            state: 'WA',
+            zip: '99022',
+          },
+          mailing: {},
+        },
+        phone: {
+          main: '509-299-6280',
+          fax: '',
+        },
+        hours: {
+          monday: 'Sunrise - Sunset',
+          tuesday: 'Sunrise - Sunset',
+          wednesday: 'Sunrise - Sunset',
+          thursday: 'Sunrise - Sunset',
+          friday: 'Sunrise - Sunset',
+          saturday: 'Sunrise - Sunset',
+          sunday: 'Sunrise - Sunset',
+        },
+        services: {
+          benefits: {
+            other: '',
+            standard: [],
+          },
+        },
+        feedback: {},
+        access: {},
+      },
+    },
+    {
       id: 'vha_691GE',
       type: 'va_facilities',
       attributes: {

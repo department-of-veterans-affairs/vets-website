@@ -1,15 +1,20 @@
 import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 
 import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
 import {
-  SET_DASHBOARD_PREFERENCE,
-  SAVED_DASHBOARD_PREFERENCES,
-  SET_USER_PREFERENCE_REQUEST_STATUS,
-  SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-  SET_SAVE_PREFERENCES_REQUEST_STATUS,
-  SET_DASHBOARD_USER_PREFERENCES,
-  SET_AVAILABLE_BENEFITS,
+  FETCH_ALL_BENEFITS_STARTED,
+  FETCH_ALL_BENEFITS_SUCCEEDED,
+  FETCH_ALL_BENEFITS_FAILED,
+  FETCH_USER_PREFERENCES_STARTED,
+  FETCH_USER_PREFERENCES_SUCCEEDED,
+  FETCH_USER_PREFERENCES_FAILED,
+  SAVE_USER_PREFERENCES_STARTED,
+  SAVE_USER_PREFERENCES_SUCCEEDED,
+  SAVE_USER_PREFERENCES_FAILED,
+  SET_USER_PREFERENCE,
   SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+  RESTORE_PREVIOUS_USER_PREFERENCES,
 } from '../actions';
 
 const initialState = {
@@ -20,21 +25,19 @@ const initialState = {
 
 export default function preferences(state = initialState, action) {
   switch (action.type) {
-    case SET_USER_PREFERENCE_REQUEST_STATUS: {
-      return _.set(`userBenefitsLoadingStatus`, action.status, state);
+    case FETCH_USER_PREFERENCES_STARTED: {
+      return {
+        ...state,
+        userBenefitsLoadingStatus: LOADING_STATES.pending,
+      };
     }
-    case SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS: {
-      return _.set(`allBenefitsLoadingStatus`, action.status, state);
-    }
-    case SET_SAVE_PREFERENCES_REQUEST_STATUS: {
-      return _.set(`saveStatus`, action.status, state);
-    }
-    case SET_AVAILABLE_BENEFITS: {
-      return _.set(`availableBenefits`, action.preferences, state);
-    }
-    case SET_DASHBOARD_USER_PREFERENCES: {
+    case FETCH_USER_PREFERENCES_SUCCEEDED: {
       let selectedBenefits = {};
-      const preferenceGroups = action.payload.data.attributes.userPreferences;
+      const preferenceGroups = get(
+        'payload.data.attributes.userPreferences',
+        action,
+        [],
+      );
       if (preferenceGroups.length) {
         selectedBenefits = preferenceGroups
           .find(
@@ -46,7 +49,6 @@ export default function preferences(state = initialState, action) {
             return acc;
           }, selectedBenefits);
       }
-
       return {
         ...state,
         dashboard: { ...selectedBenefits },
@@ -54,7 +56,56 @@ export default function preferences(state = initialState, action) {
         userBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
-    case SET_DASHBOARD_PREFERENCE: {
+    case FETCH_USER_PREFERENCES_FAILED: {
+      return {
+        ...state,
+        userBenefitsLoadingStatus: LOADING_STATES.error,
+      };
+    }
+    case FETCH_ALL_BENEFITS_STARTED: {
+      return {
+        ...state,
+        allBenefitsLoadingStatus: LOADING_STATES.pending,
+      };
+    }
+    case FETCH_ALL_BENEFITS_SUCCEEDED: {
+      const availableBenefits = get(
+        'payload.data.attributes.preferenceChoices',
+        action,
+        [],
+      );
+      return {
+        ...state,
+        availableBenefits,
+        allBenefitsLoadingStatus: LOADING_STATES.loaded,
+      };
+    }
+    case FETCH_ALL_BENEFITS_FAILED: {
+      return {
+        ...state,
+        allBenefitsLoadingStatus: LOADING_STATES.error,
+      };
+    }
+    case SAVE_USER_PREFERENCES_STARTED: {
+      return {
+        ...state,
+        saveStatus: LOADING_STATES.pending,
+      };
+    }
+    case SAVE_USER_PREFERENCES_SUCCEEDED: {
+      return {
+        ...state,
+        saveStatus: LOADING_STATES.loaded,
+        savedAt: Date.now(),
+      };
+    }
+    case SAVE_USER_PREFERENCES_FAILED: {
+      return {
+        ...state,
+        saveStatus: LOADING_STATES.error,
+      };
+    }
+    case SET_USER_PREFERENCE: {
       const newState = { ...state };
       if (action.value) {
         newState.dashboard[action.code] = true;
@@ -63,11 +114,14 @@ export default function preferences(state = initialState, action) {
       }
       return newState;
     }
-    case SAVED_DASHBOARD_PREFERENCES: {
-      return _.set('savedAt', Date.now(), state);
-    }
     case SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS: {
       return _.set(`dismissedBenefitAlerts`, action.value, state);
+    }
+    case RESTORE_PREVIOUS_USER_PREFERENCES: {
+      return {
+        ...state,
+        dashboard: { ...state.savedDashboard },
+      };
     }
     default: {
       return state;

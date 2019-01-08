@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import moment from 'moment';
 
 import {
   DefinitionTester, // selectCheckbox
@@ -11,6 +12,10 @@ import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
 } from '../../../all-claims/constants';
+
+const NEXT_YEAR = moment()
+  .add(1, 'year')
+  .format('YYYY-MM-DD');
 
 describe('Disability benefits 526EZ contact information', () => {
   const {
@@ -249,7 +254,7 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: {
-              from: '2019-01-01',
+              from: NEXT_YEAR,
             },
             country: 'USA',
             addressLine1: '123 Any Street',
@@ -291,7 +296,7 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: {
-              from: '2019-01-01',
+              from: NEXT_YEAR,
             },
             country: 'USA',
             addressLine1: '123 Any Street',
@@ -456,7 +461,7 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: {
-              from: '2019-01-01',
+              from: NEXT_YEAR,
             },
             country: 'USA',
             addressLine1: '234 Maple St.',
