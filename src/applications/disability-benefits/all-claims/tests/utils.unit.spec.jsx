@@ -10,7 +10,7 @@ import {
   ReservesGuardDescription,
   isInFuture,
   capitalizeEachWord,
-  transformDisabilities,
+  setActionTypes,
   queryForFacilities,
   hasOtherEvidence,
   fieldsHaveInput,
@@ -28,6 +28,11 @@ import {
   transform,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  concatIncidentLocationString,
+  getFlatIncidentKeys,
+  getPtsdChangeText,
+  hasHospitalCare,
+  filterServiceConnected,
 } from '../utils.jsx';
 
 import {
@@ -38,11 +43,40 @@ import {
 import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
 
-import initialData from './initialData';
-
-import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
+import {
+  SERVICE_CONNECTION_TYPES,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
+} from '../../all-claims/constants';
 
 describe('526 helpers', () => {
+  describe('filterServiceConnected', () => {
+    it('should filter non-service-connected disabililties', () => {
+      const disabilities = [
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      ];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities.length).to.equal(2);
+      filteredDisabilities.forEach(d =>
+        expect(d.decisionCode).to.equal(
+          SERVICE_CONNECTION_TYPES.serviceConnected,
+        ),
+      );
+    });
+
+    it('should return an empty array when no disabilities provided', () => {
+      const disabilities = [];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities).to.be.an('array').that.is.empty;
+    });
+  });
+
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -165,9 +199,15 @@ describe('526 helpers', () => {
 
   describe('capitalizeEachWord', () => {
     it('should return string with each word capitalized when name supplied', () => {
-      expect(capitalizeEachWord('some disability - some detail')).to.equal(
-        'Some Disability - Some Detail',
-      );
+      [
+        ['some disability - some detail', 'Some Disability - Some Detail'],
+        ['some disability (some detail)', 'Some Disability (Some Detail)'],
+        [
+          'some disability with hyphenated-words',
+          'Some Disability With Hyphenated-Words',
+        ],
+        ['some "quote" disability', 'Some "Quote" Disability'],
+      ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
     it('should return Unknown Condition with undefined name', () => {
       expect(capitalizeEachWord()).to.equal('Unknown Condition');
@@ -180,27 +220,31 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformDisabilities', () => {
-    const rawDisability = initialData.ratedDisabilities[1];
-    const formattedDisability = Object.assign(
-      { disabilityActionType: 'INCREASE' },
-      rawDisability,
-    );
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([rawDisability])).to.deep.equal([
-        formattedDisability,
-      ]);
-    });
-    it('should return an empty array when given undefined input', () => {
-      expect(transformDisabilities(undefined)).to.deep.equal([]);
-    });
-    it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.set(
-        'decisionCode',
-        SERVICE_CONNECTION_TYPES.notServiceConnected,
-        rawDisability,
+  describe('setActionTypes', () => {
+    const formData = maximalData.data;
+
+    it('should set disabilityActionType for each disability properly', () => {
+      const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
+
+      expect(formattedDisabilities).to.have.lengthOf(
+        formData.ratedDisabilities.length,
       );
-      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+
+      expect(formattedDisabilities[0].disabilityActionType).to.equal(
+        disabilityActionTypes.INCREASE,
+      );
+      expect(formattedDisabilities[1].disabilityActionType).to.equal(
+        disabilityActionTypes.NONE,
+      );
+      expect(formattedDisabilities[2].disabilityActionType).to.equal(
+        disabilityActionTypes.NONE,
+      );
+    });
+
+    it('should return cloned formData when no rated disabilities', () => {
+      const noRated = _.omit('ratedDisabilities', formData);
+
+      expect(setActionTypes(noRated)).to.deep.equal(noRated);
     });
   });
 
@@ -713,6 +757,119 @@ describe('isAnswering781aQuestions', () => {
         'view:unemployabilityUploadChoice': 'upload',
       };
       expect(needsToAnswerUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('concatIncidentLocationString', () => {
+    it('should concat full address', () => {
+      const locationString = concatIncidentLocationString({
+        city: 'Test',
+        state: 'TN',
+        country: 'USA',
+        additionalDetails: 'details',
+      });
+
+      expect(locationString).to.eql('Test, TN, USA, details');
+    });
+
+    it('should handle null and undefined values', () => {
+      const locationString = concatIncidentLocationString({
+        city: 'Test',
+        state: null,
+        additionalDetails: 'details',
+      });
+
+      expect(locationString).to.eql('Test, details');
+    });
+  });
+
+  describe('getFlatIncidentKeys', () => {
+    it('should return correct amount of incident keys', () => {
+      expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
+    });
+  });
+
+  describe('getPtsdChangeText', () => {
+    it('should have valid labels', () => {
+      Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
+        expect(PTSD_CHANGE_LABELS[key]).to.be.a('string');
+      });
+    });
+
+    const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
+    it('should have mappings for all workBehaviorChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
+          .properties.workBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all mentalHealthChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
+          .properties.mentalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all physicalHealthChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+          .properties.physicalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should have mappings for all socialBehaviorChanges schema fields', () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+          .properties.socialBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        });
+    });
+
+    it('should return UI titles', () => {
+      const fieldTitles = getPtsdChangeText({
+        increasedLeave: true,
+        withdrawal: true,
+        field2: true,
+        other: true,
+        otherExplanation: 'Other change',
+      });
+
+      expect(fieldTitles.length).to.eql(2);
+    });
+
+    it('should correctly handle undefined ptsd changes', () => {
+      const fieldTitles = getPtsdChangeText(undefined);
+      expect(fieldTitles.length).to.eql(0);
+    });
+  });
+  describe('needsToAnswerHospitalCare', () => {
+    it('should be default of false', () => {
+      const formData = {};
+      expect(hasHospitalCare(formData)).to.be.false;
+    });
+    it('should be true', () => {
+      const formData = {
+        'view:medicalCareType': {
+          'view:hospialized': true,
+        },
+      };
+      expect(hasHospitalCare(formData)).to.be.false;
     });
   });
 });

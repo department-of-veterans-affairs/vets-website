@@ -181,20 +181,20 @@ export const requiredServices = appId => {
 export const serviceDescription = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
-      return 'use VA Blue Button';
+      return 'view your VA medical records';
 
     case frontendApps.RX:
-      return 'refill VA prescriptions online';
+      return 'refill prescriptions';
 
     case frontendApps.MESSAGING:
-      return 'send secure messages to your health care team';
+      return 'send secure messages';
 
     case frontendApps.LAB_AND_TEST_RESULTS:
-      return 'view your VA lab and test results';
+      return 'view your lab and test results';
 
     case frontendApps.APPOINTMENTS:
       return [
-        'view your VA appointments online',
+        'view your appointments',
         'schedule, reschedule, or cancel a VA appointment online',
       ][index];
 

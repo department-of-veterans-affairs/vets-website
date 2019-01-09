@@ -1,33 +1,22 @@
-import React from 'react';
-
+import { PTSD_CHANGE_LABELS } from '../constants';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
-
-const socialDescriptionChanges = (
-  <div>
-    <h5>Changes in social behavior</h5>
-    <p>
-      Please tell us about any changes in your social life as a result the
-      event(s). You may have experienced some or none of these. (Please check
-      any that apply.)
-    </p>
-  </div>
-);
+import { changeDescription } from '../content/socialBehaviorChanges';
 
 export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
-  'ui:description': socialDescriptionChanges,
+  'ui:description': changeDescription,
   socialBehaviorChanges: {
     breakup: {
-      'ui:title': 'Breakup of primary relationship',
+      'ui:title': PTSD_CHANGE_LABELS.breakup,
     },
     increasedDisregard: {
-      'ui:title': 'Increased disregard for military or civilian authority',
+      'ui:title': PTSD_CHANGE_LABELS.increasedDisregard,
     },
     withdrawal: {
-      'ui:title': 'Withdrawal from friends',
+      'ui:title': PTSD_CHANGE_LABELS.withdrawal,
     },
     unexplained: {
-      'ui:title': 'Unexplained social behavior changes',
+      'ui:title': PTSD_CHANGE_LABELS.unexplained,
     },
     other: {
       'ui:title': 'Other',
