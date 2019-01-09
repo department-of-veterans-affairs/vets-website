@@ -53,7 +53,7 @@ export default function FormStartControls(props) {
   );
 }
 
-FormStartControls.PropTypes = {
+FormStartControls.propTypes = {
   buttonOnly: PropTypes.boolean,
   prefillAlert: PropTypes.func.isRequired,
   verifyRequiredPrefill: PropTypes.func.isRequired,

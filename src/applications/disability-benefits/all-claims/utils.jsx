@@ -29,7 +29,9 @@ import {
   specialIssueTypes,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
 } from './constants';
+import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 /**
  * Show one thing, have a screen reader say another.
  *
@@ -138,17 +140,18 @@ export const capitalizeEachWord = name => {
   return 'Unknown Condition';
 };
 
-export function transformDisabilities(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities that aren't service-connected
-      .filter(
-        disability =>
-          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-      )
-      .map(disability => _.set('disabilityActionType', 'INCREASE', disability))
+// Only service-connected disabilities should be included in the form
+export const filterServiceConnected = (disabilities = []) =>
+  disabilities.filter(
+    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
-}
+
+// Add 'NONE' disabilityActionType to each rated disability because it's
+// required in the schema
+export const addNoneDisabilityActionType = (disabilities = []) =>
+  disabilities.map(d =>
+    _.set('disabilityActionType', disabilityActionTypes.NONE, d),
+  );
 
 export function transformMVPData(formData) {
   const newFormData = _.omit(
@@ -192,19 +195,17 @@ export const viewifyFields = formData => {
 };
 
 export function prefillTransformer(pages, formData, metadata) {
-  const { disabilities } = formData;
-  if (!disabilities || !Array.isArray(disabilities)) {
-    Raven.captureMessage(
-      'vets-disability-increase-no-rated-disabilities-found',
+  const newFormData = transformMVPData(formData);
+  const { disabilities } = newFormData;
+
+  // SiP automatically removes empty properties from prefill
+  if (disabilities) {
+    newFormData.ratedDisabilities = addNoneDisabilityActionType(
+      filterServiceConnected(disabilities),
     );
-    return { metadata, formData, pages };
+
+    delete newFormData.disabilities;
   }
-  const newFormData = _.set(
-    'ratedDisabilities',
-    transformDisabilities(disabilities),
-    transformMVPData(formData),
-  );
-  delete newFormData.disabilities;
 
   // Pre-fill hidden bank info for use in the PaymentView
   const bankAccount = {
@@ -303,7 +304,7 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>
@@ -354,13 +355,46 @@ export function customReplacer(key, value) {
   return value;
 }
 
+export const disabilityIsSelected = disability => disability['view:selected'];
+
+const setActionType = disability =>
+  disabilityIsSelected(disability)
+    ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
+    : _.set('disabilityActionType', disabilityActionTypes.NONE, disability);
+
+/**
+ * Sets disabilityActionType for rated disabilities to either INCREASE (for
+ * selected disabilities) or NONE (for unselected disabilities)
+ * @param {object} formData
+ * @returns {object} new object with either form data with disabilityActionType
+ * set for each rated disability, or cloned formData when no rated disabilities
+ * exist
+ */
+export const setActionTypes = formData => {
+  const { ratedDisabilities } = formData;
+
+  if (ratedDisabilities) {
+    return _.set(
+      'ratedDisabilities',
+      ratedDisabilities.map(setActionType),
+      formData,
+    );
+  }
+
+  return cloneDeep(formData);
+};
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
-  let clonedData = _.set(
-    'ratedDisabilities',
-    form.data.ratedDisabilities.filter(condition => condition['view:selected']),
-    form.data,
-  );
+  let clonedData = setActionTypes(form.data);
+
+  // Need to set up claimedConditions before we transformForSubmit because we
+  // depend on the `view:selected` property here
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities
+        .filter(disabilityIsSelected)
+        .map(d => d.name.toLowerCase())
+    : [];
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
@@ -377,10 +411,6 @@ export function transform(formConfig, form) {
       ),
     ),
   );
-
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
 
   if (clonedData.newDisabilities) {
     // Add new disabilities to claimed conditions list
@@ -566,7 +596,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     return pageSchema;
   }
   const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
-    ? ratedDisabilities.filter(disability => disability['view:selected'])
+    ? ratedDisabilities.filter(disabilityIsSelected)
     : [];
 
   const selectedNewDisabilities = Array.isArray(newDisabilities)
@@ -745,6 +775,14 @@ export const needsToEnterUnemployability = formData =>
 export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
+
+export const hasDoctorsCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+
+export const hasHospitalCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:hospitalized', formData, false);
 
 export const ancillaryFormUploadUi = (
   label,

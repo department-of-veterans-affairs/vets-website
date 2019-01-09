@@ -10,7 +10,7 @@ import {
   ReservesGuardDescription,
   isInFuture,
   capitalizeEachWord,
-  transformDisabilities,
+  setActionTypes,
   queryForFacilities,
   hasOtherEvidence,
   fieldsHaveInput,
@@ -31,6 +31,9 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
+  hasHospitalCare,
+  addNoneDisabilityActionType,
+  filterServiceConnected,
 } from '../utils.jsx';
 
 import {
@@ -41,15 +44,69 @@ import {
 import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
 
-import initialData from './initialData';
-
 import {
   SERVICE_CONNECTION_TYPES,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
 } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
+  describe('addNoneDisabilityActionType', () => {
+    const disabilities = [
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+    ];
+
+    it('should return an array of same length as input', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      expect(withActionType)
+        .to.be.an('array')
+        .that.has.length(disabilities.length);
+    });
+
+    it('should return an empty array when no input', () => {
+      expect(addNoneDisabilityActionType())
+        .to.be.an('array')
+        .that.has.length(0);
+    });
+
+    it('should set disabilityActionType to NONE for each rated disability', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      withActionType.forEach(d => {
+        expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
+      });
+    });
+  });
+
+  describe('filterServiceConnected', () => {
+    it('should filter non-service-connected disabililties', () => {
+      const disabilities = [
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      ];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities.length).to.equal(2);
+      filteredDisabilities.forEach(d =>
+        expect(d.decisionCode).to.equal(
+          SERVICE_CONNECTION_TYPES.serviceConnected,
+        ),
+      );
+    });
+
+    it('should return an empty array when no disabilities provided', () => {
+      const disabilities = [];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities).to.be.an('array').that.is.empty;
+    });
+  });
+
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -193,27 +250,31 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformDisabilities', () => {
-    const rawDisability = initialData.ratedDisabilities[1];
-    const formattedDisability = Object.assign(
-      { disabilityActionType: 'INCREASE' },
-      rawDisability,
-    );
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([rawDisability])).to.deep.equal([
-        formattedDisability,
-      ]);
-    });
-    it('should return an empty array when given undefined input', () => {
-      expect(transformDisabilities(undefined)).to.deep.equal([]);
-    });
-    it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.set(
-        'decisionCode',
-        SERVICE_CONNECTION_TYPES.notServiceConnected,
-        rawDisability,
+  describe('setActionTypes', () => {
+    const formData = maximalData.data;
+
+    it('should set disabilityActionType for each disability properly', () => {
+      const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
+
+      expect(formattedDisabilities).to.have.lengthOf(
+        formData.ratedDisabilities.length,
       );
-      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+
+      expect(formattedDisabilities[0].disabilityActionType).to.equal(
+        disabilityActionTypes.INCREASE,
+      );
+      expect(formattedDisabilities[1].disabilityActionType).to.equal(
+        disabilityActionTypes.NONE,
+      );
+      expect(formattedDisabilities[2].disabilityActionType).to.equal(
+        disabilityActionTypes.NONE,
+      );
+    });
+
+    it('should return cloned formData when no rated disabilities', () => {
+      const noRated = _.omit('ratedDisabilities', formData);
+
+      expect(setActionTypes(noRated)).to.deep.equal(noRated);
     });
   });
 
@@ -820,6 +881,25 @@ describe('isAnswering781aQuestions', () => {
       });
 
       expect(fieldTitles.length).to.eql(2);
+    });
+
+    it('should correctly handle undefined ptsd changes', () => {
+      const fieldTitles = getPtsdChangeText(undefined);
+      expect(fieldTitles.length).to.eql(0);
+    });
+  });
+  describe('needsToAnswerHospitalCare', () => {
+    it('should be default of false', () => {
+      const formData = {};
+      expect(hasHospitalCare(formData)).to.be.false;
+    });
+    it('should be true', () => {
+      const formData = {
+        'view:medicalCareType': {
+          'view:hospialized': true,
+        },
+      };
+      expect(hasHospitalCare(formData)).to.be.false;
     });
   });
 });

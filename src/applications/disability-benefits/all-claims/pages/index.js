@@ -28,6 +28,7 @@ import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualsInvolved from './individualsInvolved';
 import * as individualUnemployability from './individualUnemployability';
 import * as medals from './medals';
+import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
@@ -112,6 +113,7 @@ export {
   individualsInvolvedFollowUp,
   individualUnemployability,
   medals,
+  medicalCare,
   mentalHealthChanges,
   militaryDutyImpact,
   militaryHistory,

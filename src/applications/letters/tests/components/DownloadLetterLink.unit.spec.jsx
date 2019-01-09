@@ -31,10 +31,9 @@ describe('<DownloadLetterLink>', () => {
   });
 
   it('should call getLetterPdf when clicked', () => {
-    const oldWindow = global.window;
-    global.window = {
-      dataLayer: [],
-    };
+    const oldDataLayer = global.window.dataLayer;
+    global.window.dataLayer = [];
+
     const getLetterPdf = sinon.spy();
     const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
@@ -58,7 +57,7 @@ describe('<DownloadLetterLink>', () => {
     });
 
     // Cleanup on aisle 3
-    global.window = oldWindow;
+    global.window.dataLayer = oldDataLayer;
   });
 
   it('should update button when status is downloading', () => {
