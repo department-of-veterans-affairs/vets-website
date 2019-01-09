@@ -28,13 +28,13 @@ describe("Doctor's care unemployability", () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('textarea').length).to.equal(1);
 
     form.unmount();
   });
 
-  it('successfully submits when at least one condition is selected', () => {
+  it('successfully submits when at least one doctor is entered', () => {
     const doctorName = 'dr. acula';
     const onSubmit = sinon.spy();
     const form = mount(
@@ -84,11 +84,6 @@ describe("Doctor's care unemployability", () => {
     );
     fillData(
       form,
-      'input#root_unemployability_doctorProvidedCare_0_phoneNumber',
-      '1234512341',
-    );
-    fillData(
-      form,
       'textarea#root_unemployability_doctorProvidedCare_0_dates',
       '01/01/2010 to 02/01/2010',
     );
@@ -118,7 +113,7 @@ describe("Doctor's care unemployability", () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('textarea').length).to.equal(1);
 
     form.find('form').simulate('submit');
