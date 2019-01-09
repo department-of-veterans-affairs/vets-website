@@ -202,15 +202,17 @@
     font-size: 1.5em;
     display:inline-block;
     position: relative;
+    font-family: "Font Awesome 5 Free";
     &::before {
       position: absolute;
       margin: 0;
       top: 15px;
       left: -7.75px;
     }
-    &.fa-user-circle-o {
+    &.fa-user-circle {
       font-size: 1.5em;
       padding-right: .3em;
+      
     }
   }
 
