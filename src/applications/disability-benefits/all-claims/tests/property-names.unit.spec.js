@@ -17,6 +17,8 @@ const ignoreList = {
     'federalOrders',
     'reservesNationalGuardService',
     'militaryHistory',
+    'militaryHistory',
+    'reservesNationalGuardService',
   ],
   unemployability: [
     'hospitalizationHistory',
