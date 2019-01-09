@@ -83,44 +83,41 @@ class ServiceTypeAhead extends Component {
           inputValue,
           highlightedIndex,
           selectedItem,
-        }) => {
-          return (
-            <div>
-              <label {...getLabelProps()}>Service type (optional)</label>
-              <span id="service-typeahead">
-                <input
-                  {...getInputProps({
-                    placeholder: 'Like primary care, cardiology',
-                  })}
-                />
-                {isOpen && inputValue.length >= 2 ? (
-                  <div className="dropdown" role="listbox">
-                    {services
-                      .filter(svc => this.shouldShow(inputValue, svc))
-                      .map((svc, index) => (
-                        <div
-                          key={svc.name}
-                          {...getItemProps({
-                            item: svc,
-                            // eslint-disable-next-line prettier/prettier
+        }) => (
+          <div>
+            <label {...getLabelProps()}>Service type (optional)</label>
+            <span id="service-typeahead">
+              <input
+                {...getInputProps({
+                  placeholder: 'Like primary care, cardiology',
+                })}
+              />
+              {isOpen && inputValue.length >= 2 ? (
+                <div className="dropdown" role="listbox">
+                  {services
+                    .filter(svc => this.shouldShow(inputValue, svc))
+                    .map((svc, index) => (
+                      <div
+                        key={svc.name}
+                        {...getItemProps({
+                          item: svc,
+                          // eslint-disable-next-line prettier/prettier
                           className: this.optionClasses(index === highlightedIndex),
-                            role: 'option',
-                            'aria-selected': index === highlightedIndex,
-                          })}
-                          style={{
-                            fontWeight:
-                              selectedItem === svc ? 'bold' : 'normal',
-                          }}
-                        >
-                          {renderService(svc)}
-                        </div>
-                      ))}
-                  </div>
-                ) : null}
-              </span>
-            </div>
-          );
-        }}
+                          role: 'option',
+                          'aria-selected': index === highlightedIndex,
+                        })}
+                        style={{
+                          fontWeight: selectedItem === svc ? 'bold' : 'normal',
+                        }}
+                      >
+                        {renderService(svc)}
+                      </div>
+                    ))}
+                </div>
+              ) : null}
+            </span>
+          </div>
+        )}
       </Downshift>
     );
   }
