@@ -19,11 +19,6 @@ export const uiSchema = {
         hideTitle: true,
       },
       items: {
-        dates: dateRangeUI(
-          'From',
-          'To',
-          'End of hospitalization must be after start of treatment',
-        ),
         name: {
           'ui:title': 'Name of hospital',
         },
@@ -53,6 +48,11 @@ export const uiSchema = {
             },
           },
         },
+        dates: dateRangeUI(
+          'From',
+          'To',
+          'End of hospitalization must be after start of treatment',
+        ),
       },
     },
   },
