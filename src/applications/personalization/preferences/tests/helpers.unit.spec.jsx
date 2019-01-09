@@ -4,14 +4,20 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import {
   DISMISSED_BENEFIT_ALERTS,
+  benefitChoices,
   getDismissedBenefitAlerts,
   setDismissedBenefitAlerts,
   dismissBenefitAlert,
   restoreDismissedBenefitAlerts,
   getNewSelections,
+  transformPreferencesForAnalytics,
   transformPreferencesForSaving,
   filterItems,
+  didPreferencesChange,
+  didJustSave,
+  didJustFailToSave,
 } from '../helpers';
+import { LOADING_STATES } from '../constants';
 
 describe('getDismissedBenefitAlerts', () => {
   beforeEach(() => {
@@ -74,6 +80,32 @@ describe('getNewSelections', () => {
     expect(result).to.deep.equal(['test-2']);
   });
 });
+describe('transformPreferencesForAnalytics', () => {
+  it('returns data in the correct format', () => {
+    const selectedChoices = {
+      'health-care': true,
+      'burials-memorials': true,
+      'housing-assistance': false,
+    };
+    const result = transformPreferencesForAnalytics(
+      selectedChoices,
+      benefitChoices,
+    );
+    expect(result).to.deep.equal({
+      savedPreferenceHealth: 'True',
+      savedPreferenceDisability: 'False',
+      savedPreferenceAppeals: 'False',
+      savedPreferenceEducation: 'False',
+      savedPreferenceCareers: 'False',
+      savedPreferencePension: 'False',
+      savedPreferenceHousing: 'False',
+      savedPreferenceLifeInsurance: 'False',
+      savedPreferenceBurials: 'True',
+      savedPreferenceFamily: 'False',
+    });
+  });
+});
+
 describe('transformPreferencesForSaving', () => {
   let preferences;
   it('should return the correct JSON data', () => {
@@ -99,6 +131,32 @@ describe('transformPreferencesForSaving', () => {
       const filteredList = filterItems([1, 2, 6, 6], [1, 2, 3, 4, 5]);
       expect(filteredList).to.have.members([6]);
       expect(filteredList.length).to.equal(1);
+    });
+  });
+  describe('didPreferencesChange', () => {
+    it('should return `true` if the `preferences` do not match', () => {
+      const prevProps = { preferences: { key: { key: true } } };
+      const nextProps = { preferences: { key: { key: false } } };
+      expect(didPreferencesChange(prevProps, nextProps)).to.equal(true);
+    });
+    it('should return `false` if the `preferences` match', () => {
+      const prevProps = { preferences: { key: { key: true } } };
+      const nextProps = { preferences: { key: { key: true } } };
+      expect(didPreferencesChange(prevProps, nextProps)).to.equal(false);
+    });
+  });
+  describe('didJustSave', () => {
+    it('should return `true` if the `preferences.saveStatus` flipped from pending to loaded', () => {
+      const prevProps = { preferences: { saveStatus: LOADING_STATES.pending } };
+      const nextProps = { preferences: { saveStatus: LOADING_STATES.loaded } };
+      expect(didJustSave(prevProps, nextProps)).to.equal(true);
+    });
+  });
+  describe('didJustFailToSave', () => {
+    it('should return `true` if the `preferences.saveStatus` flipped from pending to error', () => {
+      const prevProps = { preferences: { saveStatus: LOADING_STATES.pending } };
+      const nextProps = { preferences: { saveStatus: LOADING_STATES.error } };
+      expect(didJustFailToSave(prevProps, nextProps)).to.equal(true);
     });
   });
 });

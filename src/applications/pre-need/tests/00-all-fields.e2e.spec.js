@@ -63,9 +63,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '.progress-bar-segmented div.progress-segment:nth-child(3)',
     'progress-segment-complete',
   );
-  client
-    .axeCheck('.main', { rules: ['section508'] })
-    .click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/sponsor-military-history');
 
   // Previous Names page
@@ -88,10 +86,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeBenefitSelection(client, testData.data.application);
-  // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-  client
-    .axeCheck('.main', { rules: ['section508'] })
-    .click('.form-panel .usa-button-primary');
+  client.axeCheck().click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/burial-benefits');
 
   // Supporting Documents page

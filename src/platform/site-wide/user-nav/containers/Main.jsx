@@ -19,13 +19,6 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
-const brandConsolidationEnabled = isBrandConsolidationEnabled();
-
-const DASHBOARD_URL = dashboardManifest.rootUrl;
-
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export class Main extends React.Component {
@@ -58,21 +51,12 @@ export class Main extends React.Component {
     if (nextParam) {
       return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
     }
-    return false;
+
+    return null;
   }
 
-  getRedirectUrl = () => {
-    const nextParam = this.getNextParameter();
-    if (nextParam) return nextParam;
-
-    if (brandConsolidationEnabled) return null;
-
-    // remove this line when refactoring isBrandConsolidationEnabled
-    return window.location.pathname === '/' && DASHBOARD_URL;
-  };
-
   executeRedirect() {
-    const redirectUrl = this.getRedirectUrl();
+    const redirectUrl = this.getNextParameter();
     const shouldRedirect =
       redirectUrl && !window.location.pathname.includes('verify');
 

@@ -3,29 +3,35 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
-import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import PreferenceList from '../components/PreferenceList';
 
 import {
   setPreference,
-  savePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
+  restorePreviousSelections,
+  updatePreferences,
 } from '../actions';
 import {
   benefitChoices,
+  dismissBenefitAlert,
+  getDismissedBenefitAlerts,
+  didPreferencesChange,
+  didJustSave,
+  didJustFailToSave,
+} from '../helpers';
+import {
   SaveSucceededMessageComponent,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
-  dismissBenefitAlert,
-  getDismissedBenefitAlerts,
-} from '../helpers';
+} from '../helperComponents';
 import { LOADING_STATES } from '../constants';
 
 const BenefitAlert = ({ alert: Alert, onClose }) => (
@@ -42,7 +48,7 @@ class PreferencesWidget extends React.Component {
 
   componentWillMount() {
     this.props.fetchUserSelectedBenefits();
-    if (!_.isEmpty(this.props.preferences.dashboard)) {
+    if (!isEmpty(this.props.preferences.dashboard)) {
       this.setSelectedBenefits();
     }
     const savedRecently = moment().isBefore(
@@ -54,12 +60,14 @@ class PreferencesWidget extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const shouldUpdateSelectedBenefits = !_.isEqual(
-      prevProps.preferences,
-      this.props.preferences,
-    );
-    if (shouldUpdateSelectedBenefits) {
+    if (didPreferencesChange(prevProps, this.props)) {
       this.setSelectedBenefits();
+    }
+    if (didJustSave(prevProps, this.props)) {
+      this.setSavedMessage();
+    }
+    if (didJustFailToSave(prevProps, this.props)) {
+      this.props.restorePreviousSelections();
     }
   }
 
@@ -98,21 +106,21 @@ class PreferencesWidget extends React.Component {
     }
 
     // Display preferences saved message
-    this.setState({ savedMessage: true });
+    this.setState({ showSavedMessage: true });
 
     // Create new message timer
     const savedMessageTimer = setTimeout(
-      () => this.setState({ savedMessage: false }),
+      () => this.setState({ showSavedMessage: false }),
       ALERT_DELAY,
     );
     // Set new message timer to state
     this.setState({ savedMessageTimer });
   };
 
-  handleRemove = async code => {
+  handleRemoveBenefit = async code => {
     await this.props.setPreference(code, false);
-    this.props.savePreferences(this.props.preferences.dashboard);
-    this.setSavedMessage();
+    const { dashboard } = this.props.preferences;
+    this.props.updatePreferences(dashboard);
   };
 
   handleViewToggle = code => {
@@ -123,7 +131,7 @@ class PreferencesWidget extends React.Component {
 
   handleCloseSavedAlert = () => {
     clearTimeout(this.state.savedMessageTimer);
-    this.setState({ savedMessage: false });
+    this.setState({ showSavedMessage: false });
   };
 
   handleCloseBenefitAlert = name => {
@@ -145,15 +153,23 @@ class PreferencesWidget extends React.Component {
     if (loadingStatus === LOADING_STATES.error) {
       return <RetrieveFailedMessageComponent />;
     }
-    if (saveStatus === LOADING_STATES.error) {
-      return SaveFailedMessageComponent;
-    }
     if (loadingStatus === LOADING_STATES.loaded) {
       if (!hasSelectedBenefits) {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <Link to="find-benefits">Select benefits now.</Link>
+            <a
+              href="/my-va/find-benefits"
+              onClick={() =>
+                recordEvent({
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link',
+                  'dashboard-product': 'select-benefits-now',
+                })
+              }
+            >
+              Select benefits now.
+            </a>
           </div>
         );
       }
@@ -164,7 +180,7 @@ class PreferencesWidget extends React.Component {
             benefits={selectedBenefits}
             view={this.state}
             handleViewToggle={this.handleViewToggle}
-            handleRemove={this.handleRemove}
+            handleRemove={this.handleRemoveBenefit}
           />,
         ];
         if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
@@ -180,6 +196,9 @@ class PreferencesWidget extends React.Component {
             </div>,
           );
         }
+        if (saveStatus === LOADING_STATES.error) {
+          content.unshift(<SaveFailedMessageComponent />);
+        }
         return content;
       }
     }
@@ -187,10 +206,6 @@ class PreferencesWidget extends React.Component {
   };
 
   render() {
-    // do not show in production
-    if (environment.isProduction()) {
-      return null;
-    }
     const {
       preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
     } = this.props;
@@ -199,7 +214,7 @@ class PreferencesWidget extends React.Component {
       item => !!dashboard[item.code],
     );
     const hasSelectedBenefits = !!selectedBenefits.length;
-    const { savedMessage } = this.state;
+    const { showSavedMessage } = this.state;
 
     return (
       <div>
@@ -210,6 +225,13 @@ class PreferencesWidget extends React.Component {
               <Link
                 className="usa-button usa-button-secondary"
                 to="find-benefits"
+                onClick={() =>
+                  recordEvent({
+                    event: 'dashboard-navigation',
+                    'dashboard-action': 'view-button',
+                    'dashboard-product': 'find-va-benefits',
+                  })
+                }
               >
                 Find VA Benefits
               </Link>
@@ -222,7 +244,7 @@ class PreferencesWidget extends React.Component {
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
-          {savedMessage && (
+          {showSavedMessage && (
             <SaveSucceededMessageComponent
               handleCloseAlert={this.handleCloseSavedAlert}
             />
@@ -241,9 +263,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setPreference,
-  savePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
+  restorePreviousSelections,
+  updatePreferences,
 };
 
 export default connect(

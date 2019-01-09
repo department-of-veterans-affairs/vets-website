@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 const CallToAction = ({ cta }) => {
-  const { description, link, text } = cta;
+  const { description, link, text, gaTag } = cta;
   const hasLinkAndText = link && text;
   return (
     <div>
       {description}
       {hasLinkAndText && (
-        <a className="usa-button va-button-primary" href={link}>
+        <a
+          className="usa-button va-button-primary"
+          href={link}
+          onClick={() =>
+            recordEvent({
+              event: 'dashboard-navigation',
+              'dashboard-action': 'view-button',
+              'dashboard-product': gaTag,
+            })
+          }
+        >
           {text}
         </a>
       )}
