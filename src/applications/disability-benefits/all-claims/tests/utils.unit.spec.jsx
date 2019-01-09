@@ -32,6 +32,7 @@ import {
   getFlatIncidentKeys,
   getPtsdChangeText,
   hasHospitalCare,
+  addNoneDisabilityActionType,
   filterServiceConnected,
 } from '../utils.jsx';
 
@@ -51,6 +52,35 @@ import {
 } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
+  describe('addNoneDisabilityActionType', () => {
+    const disabilities = [
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+    ];
+
+    it('should return an array of same length as input', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      expect(withActionType)
+        .to.be.an('array')
+        .that.has.length(disabilities.length);
+    });
+
+    it('should return an empty array when no input', () => {
+      expect(addNoneDisabilityActionType())
+        .to.be.an('array')
+        .that.has.length(0);
+    });
+
+    it('should set disabilityActionType to NONE for each rated disability', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      withActionType.forEach(d => {
+        expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
+      });
+    });
+  });
+
   describe('filterServiceConnected', () => {
     it('should filter non-service-connected disabililties', () => {
       const disabilities = [
