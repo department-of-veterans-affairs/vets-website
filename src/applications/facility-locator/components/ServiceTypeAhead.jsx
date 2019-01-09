@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
@@ -26,7 +26,15 @@ class ServiceTypeAhead extends Component {
 
   getServices = async () => {
     const services = await this.props.getProviderSvcs();
-    this.setState({ services });
+    this.setState({
+      services,
+      defaultSelectedItem:
+        this.props.initialSelectedServiceType &&
+        services.find(
+          ({ specialtyCode }) =>
+            specialtyCode === this.props.initialSelectedServiceType,
+        ),
+    });
   };
 
   // eslint-disable-next-line prettier/prettier
@@ -56,12 +64,17 @@ class ServiceTypeAhead extends Component {
   };
 
   render() {
-    const { services } = this.state;
+    const { defaultSelectedItem, services } = this.state;
     // eslint-disable-next-line prettier/prettier
     const renderService = (s) => { return (s && s.name) ? s.name.trim() : ''; };
 
     return (
-      <Downshift onChange={this.handleOnSelect} itemToString={renderService}>
+      <Downshift
+        onChange={this.handleOnSelect}
+        defaultSelectedItem={defaultSelectedItem}
+        itemToString={renderService}
+        key={defaultSelectedItem}
+      >
         {({
           getInputProps,
           getItemProps,
@@ -70,49 +83,53 @@ class ServiceTypeAhead extends Component {
           inputValue,
           highlightedIndex,
           selectedItem,
-        }) => (
-          <div>
-            <label {...getLabelProps()}>Service type (optional)</label>
-            <span id="service-typeahead">
-              <input
-                {...getInputProps({
-                  placeholder: 'Like primary care, cardiology',
-                })}
-              />
-              {isOpen && inputValue.length >= 2 ? (
-                <div className="dropdown" role="listbox">
-                  {services
-                    .filter(svc => this.shouldShow(inputValue, svc))
-                    .map((svc, index) => (
-                      <div
-                        key={svc.name}
-                        {...getItemProps({
-                          item: svc,
-                          // eslint-disable-next-line prettier/prettier
+        }) => {
+          return (
+            <div>
+              <label {...getLabelProps()}>Service type (optional)</label>
+              <span id="service-typeahead">
+                <input
+                  {...getInputProps({
+                    placeholder: 'Like primary care, cardiology',
+                  })}
+                />
+                {isOpen && inputValue.length >= 2 ? (
+                  <div className="dropdown" role="listbox">
+                    {services
+                      .filter(svc => this.shouldShow(inputValue, svc))
+                      .map((svc, index) => (
+                        <div
+                          key={svc.name}
+                          {...getItemProps({
+                            item: svc,
+                            // eslint-disable-next-line prettier/prettier
                           className: this.optionClasses(index === highlightedIndex),
-                          role: 'option',
-                          'aria-selected': index === highlightedIndex,
-                        })}
-                        style={{
-                          fontWeight: selectedItem === svc ? 'bold' : 'normal',
-                        }}
-                      >
-                        {renderService(svc)}
-                      </div>
-                    ))}
-                </div>
-              ) : null}
-            </span>
-          </div>
-        )}
+                            role: 'option',
+                            'aria-selected': index === highlightedIndex,
+                          })}
+                          style={{
+                            fontWeight:
+                              selectedItem === svc ? 'bold' : 'normal',
+                          }}
+                        >
+                          {renderService(svc)}
+                        </div>
+                      ))}
+                  </div>
+                ) : null}
+              </span>
+            </div>
+          );
+        }}
       </Downshift>
     );
   }
 }
 
 ServiceTypeAhead.propTypes = {
-  onSelect: func.isRequired,
   getProviderSvcs: func.isRequired,
+  initialSelectedServiceType: string,
+  onSelect: func.isRequired,
 };
 
 const mapDispatch = { getProviderSvcs };
