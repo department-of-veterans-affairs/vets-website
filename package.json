@@ -10,6 +10,7 @@
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
     "prebuild": "node script/prebuild.js",
+    "preview": "node script/preview.js",
     "heroku-serve": "http-server",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "lint": "npm run lint:js && npm run lint:sass",
@@ -185,6 +186,9 @@
     "@department-of-veterans-affairs/formation": "^1.16.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@octokit/rest": "^16.2.0",
+    "apollo-boost": "^0.1.23",
+    "apollo-cache-inmemory": "^1.3.12",
+    "apollo-link-http": "^1.5.9",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
     "classlist-polyfill": "^1.0.3",
@@ -198,6 +202,7 @@
     "fine-uploader": "^5.11.8",
     "font-awesome": "^4.6.3",
     "foundation-sites": "^5.5.3",
+    "graphql": "^14.0.2",
     "gray-matter": "^4.0.1",
     "history": "3",
     "ismobilejs": "^0.4.0",
@@ -240,7 +245,7 @@
     "us-forms-system": "https://github.com/usds/us-forms-system.git#da7a7ee754bbd11047366566934ae585f150089a",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#20a977ed1074a53f93045ef1c0e99caeb6183003",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bd461ead9c52d12f1e496e8c7f68faa064320df",
     "whatwg-fetch": "^2.0.3"
   }
 }
