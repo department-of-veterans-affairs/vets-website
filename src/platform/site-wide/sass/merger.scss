@@ -197,7 +197,7 @@ $medium-phone-screen: 375px;
       @include media($medium-screen) {
         span {
           padding-left: 0;
-          max-width: 293px;
+          max-width: 215px;
           height: 20px;
 
           &.user-dropdown-email {
@@ -206,6 +206,12 @@ $medium-phone-screen: 375px;
           svg {
             display: inline-block;
           }
+        }
+      }
+
+      @include media($small-desktop-screen) {
+        span {
+          max-width: 300px;
         }
       }
     }
