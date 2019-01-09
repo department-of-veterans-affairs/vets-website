@@ -1,7 +1,6 @@
 import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
 import SetPreferences from '../preferences/containers/SetPreferences';
-import environment from 'platform/utilities/environment';
 
 const findBenefitsRoute = {
   path: 'find-benefits',
@@ -9,11 +8,6 @@ const findBenefitsRoute = {
   key: 'find-benefits',
   name: 'Find VA Benefits',
 };
-
-// do not allow route in production
-if (environment.isProduction()) {
-  findBenefitsRoute.onEnter = (nextState, replace) => replace('/');
-}
 
 const routes = {
   path: '/',

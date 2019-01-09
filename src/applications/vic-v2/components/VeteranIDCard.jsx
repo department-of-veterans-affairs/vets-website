@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { branchCodeLabels } from '../labels';
 
 const FONT_FAMILY = 'Arial, Helvetica, sans-serif';
@@ -142,10 +143,10 @@ const VeteranIDCard = ({
 );
 
 VeteranIDCard.propTypes = {
-  veteranBranchCode: React.PropTypes.oneOf(['F', 'A', 'C', 'M', 'N']),
-  veteranFullName: React.PropTypes.string.isRequired,
-  caseId: React.PropTypes.string.isRequired,
-  veteranPhotoUrl: React.PropTypes.string.isRequired,
+  veteranBranchCode: PropTypes.oneOf(['F', 'A', 'C', 'M', 'N']),
+  veteranFullName: PropTypes.string.isRequired,
+  caseId: PropTypes.string.isRequired,
+  veteranPhotoUrl: PropTypes.string.isRequired,
 };
 
 export default VeteranIDCard;

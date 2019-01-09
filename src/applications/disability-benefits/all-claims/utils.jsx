@@ -25,9 +25,13 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  causeTypes,
+  specialIssueTypes,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
 } from './constants';
+import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 /**
  * Show one thing, have a screen reader say another.
  *
@@ -136,17 +140,11 @@ export const capitalizeEachWord = name => {
   return 'Unknown Condition';
 };
 
-export function transformDisabilities(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities that aren't service-connected
-      .filter(
-        disability =>
-          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-      )
-      .map(disability => _.set('disabilityActionType', 'INCREASE', disability))
+// Only service-connected disabilities should be included in the form
+export const filterServiceConnected = (disabilities = []) =>
+  disabilities.filter(
+    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
-}
 
 export function transformMVPData(formData) {
   const newFormData = _.omit(
@@ -199,7 +197,7 @@ export function prefillTransformer(pages, formData, metadata) {
   }
   const newFormData = _.set(
     'ratedDisabilities',
-    transformDisabilities(disabilities),
+    filterServiceConnected(disabilities),
     transformMVPData(formData),
   );
   delete newFormData.disabilities;
@@ -301,7 +299,7 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>
@@ -352,28 +350,46 @@ export function customReplacer(key, value) {
   return value;
 }
 
+export const disabilityIsSelected = disability => disability['view:selected'];
+
+const setActionType = disability =>
+  disabilityIsSelected(disability)
+    ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
+    : _.set('disabilityActionType', disabilityActionTypes.NONE, disability);
+
+/**
+ * Sets disabilityActionType for rated disabilities to either INCREASE (for
+ * selected disabilities) or NONE (for unselected disabilities)
+ * @param {object} formData
+ * @returns {object} new object with either form data with disabilityActionType
+ * set for each rated disability, or cloned formData when no rated disabilities
+ * exist
+ */
+export const setActionTypes = formData => {
+  const { ratedDisabilities } = formData;
+
+  if (ratedDisabilities) {
+    return _.set(
+      'ratedDisabilities',
+      ratedDisabilities.map(setActionType),
+      formData,
+    );
+  }
+
+  return cloneDeep(formData);
+};
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
-  let clonedData = _.set(
-    'ratedDisabilities',
-    form.data.ratedDisabilities.filter(condition => condition['view:selected']),
-    form.data,
-  );
+  let clonedData = setActionTypes(form.data);
 
+  // Need to set up claimedConditions before we transformForSubmit because we
+  // depend on the `view:selected` property here
   const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
+    ? clonedData.ratedDisabilities
+        .filter(disabilityIsSelected)
+        .map(d => d.name.toLowerCase())
     : [];
-  if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d => {
-      const loweredCondition = d.condition.toLowerCase();
-      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
-      if (loweredCondition.includes('ptsd')) {
-        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
-        d.cause = 'NEW';
-      }
-      claimedConditions.push(loweredCondition);
-    });
-  }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
@@ -391,6 +407,56 @@ export function transform(formConfig, form) {
     ),
   );
 
+  if (clonedData.newDisabilities) {
+    // Add new disabilities to claimed conditions list
+    clonedData.newDisabilities.forEach(disability =>
+      claimedConditions.push(disability.condition.toLowerCase()),
+    );
+
+    if (clonedData.powDisabilities) {
+      // Add POW specialIssue to new conditions
+      const powDisabilities = transformRelatedDisabilities(
+        clonedData.powDisabilities,
+        claimedConditions,
+      ).map(name => name.toLowerCase());
+      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+        if (powDisabilities.includes(d.condition.toLowerCase())) {
+          const newSpecialIssues = (d.specialIssues || []).slice();
+          newSpecialIssues.push(specialIssueTypes.POW);
+          return _.set('specialIssues', newSpecialIssues, d);
+        }
+        return d;
+      });
+
+      delete clonedData.powDisabilities;
+    }
+
+    // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
+    const withPtsdCause = clonedData.newDisabilities.map(
+      disability =>
+        disability.condition.toLowerCase().includes('ptsd')
+          ? _.set('cause', causeTypes.NEW, disability)
+          : disability,
+    );
+
+    // Split newDisabilities into primary and secondary arrays for backend
+    const newPrimaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause !== causeTypes.SECONDARY,
+    );
+    const newSecondaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause === causeTypes.SECONDARY,
+    );
+
+    if (newPrimaryDisabilities.length) {
+      clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
+    }
+    if (newSecondaryDisabilities.length) {
+      clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
+    }
+    delete clonedData.newDisabilities;
+  }
+
+  // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
       // Transform the related disabilities lists into an array of strings
@@ -418,27 +484,6 @@ export function transform(formConfig, form) {
       return newFacility;
     });
     clonedData.vaTreatmentFacilities = newVAFacilities;
-  }
-
-  // Add POW specialIssue to new conditions
-  if (clonedData.powDisabilities) {
-    const powDisabilities = transformRelatedDisabilities(
-      clonedData.powDisabilities,
-      claimedConditions,
-    ).map(name => name.toLowerCase());
-
-    if (clonedData.newDisabilities) {
-      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition.toLowerCase())) {
-          const newSpecialIssues = (d.specialIssues || []).slice();
-          // TODO: Make a constant with all the possibilities and use it here
-          newSpecialIssues.push('POW');
-          return _.set('specialIssues', newSpecialIssues, d);
-        }
-        return d;
-      });
-    }
-    delete clonedData.powDisabilities;
   }
 
   if (clonedData.providerFacility) {
@@ -546,7 +591,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     return pageSchema;
   }
   const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
-    ? ratedDisabilities.filter(disability => disability['view:selected'])
+    ? ratedDisabilities.filter(disabilityIsSelected)
     : [];
 
   const selectedNewDisabilities = Array.isArray(newDisabilities)
@@ -726,6 +771,14 @@ export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
 
+export const hasDoctorsCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+
+export const hasHospitalCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:hospitalized', formData, false);
+
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
@@ -775,8 +828,8 @@ export const ancillaryFormUploadUi = (
   });
 
 export const isUploadingSupporting8940Documents = formData =>
-  needsToAnswerUnemployability &&
-  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, true);
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, false);
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&

@@ -171,6 +171,22 @@ export const accountTitleLabels = {
   NOBANK: 'No Bank Account',
 };
 
+export const disabilityActionTypes = {
+  INCREASE: 'INCREASE',
+  NONE: 'NONE',
+};
+
+export const causeTypes = {
+  NEW: 'NEW',
+  SECONDARY: 'SECONDARY',
+  WORSENED: 'WORSENED',
+  VA: 'VA',
+};
+
+export const specialIssueTypes = {
+  POW: 'POW',
+};
+
 export const PTSD_CHANGE_LABELS = {
   changeAssignment:
     'Sudden requests for a change in occupational series or duty assignment',

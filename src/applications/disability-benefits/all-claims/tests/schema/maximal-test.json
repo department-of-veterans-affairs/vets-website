@@ -128,6 +128,21 @@
         "cause": "NEW",
         "primaryDescription": "A thing happened.",
         "condition": "PTSD (post traumatic stress disorder)"
+      },
+      {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "Some condition"
+      },
+      {
+        "cause": "WORSENED",
+        "primaryDescription": "A thing happened.",
+        "condition": "Some fourth condition"
+      },
+      {
+        "cause": "SECONDARY",
+        "primaryDescription": "A thing happened.",
+        "condition": "Some other condition"
       }
     ],
     "ratedDisabilities": [
@@ -139,7 +154,6 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE",
         "view:selected": true
       },
       {
@@ -150,7 +164,6 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 0,
-        "disabilityActionType": "INCREASE",
         "view:selected": false
       },
       {
@@ -160,8 +173,7 @@
         "diagnosticCode": 5238,
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE"
+        "ratingPercentage": 100
       }
     ],
     "view:disabilitiesClarification": {},
@@ -313,7 +325,7 @@
       ]
     },
     "secondaryIncident0": {
-        "sources": [
+      "sources": [
         {
           "name": "Police",
           "address": {
@@ -377,7 +389,7 @@
       "other": true,
       "otherExplanation": "Other physical change"
     },
-    "socialBehaviorChanges" : {
+    "socialBehaviorChanges": {
       "withdrawal": true,
       "unexplained": true,
       "other": true,

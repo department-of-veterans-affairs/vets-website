@@ -115,12 +115,29 @@ export const transformedMaximalData = {
         to: '1901-01-01',
       },
     ],
-    newDisabilities: [
+    newPrimaryDisabilities: [
       {
         cause: 'NEW',
         primaryDescription: 'A thing happened.',
         condition: 'PTSD (post traumatic stress disorder)',
         specialIssues: ['POW'],
+      },
+      {
+        cause: 'NEW',
+        primaryDescription: 'A thing happened.',
+        condition: 'Some condition',
+      },
+      {
+        cause: 'WORSENED',
+        primaryDescription: 'A thing happened.',
+        condition: 'Some fourth condition',
+      },
+    ],
+    newSecondaryDisabilities: [
+      {
+        cause: 'SECONDARY',
+        primaryDescription: 'A thing happened.',
+        condition: 'Some other condition',
       },
     ],
     ratedDisabilities: [
@@ -133,6 +150,26 @@ export const transformedMaximalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
+      },
+      {
+        name: 'Second Condition',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 0,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Third Condition',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
       },
     ],
     serviceInformation: {
