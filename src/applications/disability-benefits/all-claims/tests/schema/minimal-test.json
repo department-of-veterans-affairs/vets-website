@@ -29,7 +29,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "view:selected": true
+        "view:selected": true,
+        "disabilityActionType": "NONE"
       }
     ],
     "view:disabilitiesClarification": {},

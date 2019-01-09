@@ -146,6 +146,13 @@ export const filterServiceConnected = (disabilities = []) =>
     d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
 
+// Add 'NONE' disabilityActionType to each rated disability because it's
+// required in the schema
+export const addNoneDisabilityActionType = (disabilities = []) =>
+  disabilities.map(d =>
+    _.set('disabilityActionType', disabilityActionTypes.NONE, d),
+  );
+
 export function transformMVPData(formData) {
   const newFormData = _.omit(
     ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
@@ -188,19 +195,17 @@ export const viewifyFields = formData => {
 };
 
 export function prefillTransformer(pages, formData, metadata) {
-  const { disabilities } = formData;
-  if (!disabilities || !Array.isArray(disabilities)) {
-    Raven.captureMessage(
-      'vets-disability-increase-no-rated-disabilities-found',
+  const newFormData = transformMVPData(formData);
+  const { disabilities } = newFormData;
+
+  // SiP automatically removes empty properties from prefill
+  if (disabilities) {
+    newFormData.ratedDisabilities = addNoneDisabilityActionType(
+      filterServiceConnected(disabilities),
     );
-    return { metadata, formData, pages };
+
+    delete newFormData.disabilities;
   }
-  const newFormData = _.set(
-    'ratedDisabilities',
-    filterServiceConnected(disabilities),
-    transformMVPData(formData),
-  );
-  delete newFormData.disabilities;
 
   // Pre-fill hidden bank info for use in the PaymentView
   const bankAccount = {
