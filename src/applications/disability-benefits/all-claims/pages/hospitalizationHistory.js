@@ -1,9 +1,9 @@
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import { merge } from 'lodash';
+import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 
 const { hospitalProvidedCare } = fullSchema.properties.form8940;
 
@@ -22,37 +22,35 @@ export const uiSchema = {
         name: {
           'ui:title': 'Name of hospital',
         },
-        address: {
+        address: merge(addressUI('', false), {
+          'ui:order': [
+            'addressLine1',
+            'addressLine2',
+            'city',
+            'state',
+            'zipCode',
+          ],
           addressLine1: {
             'ui:title': 'Street address',
           },
           addressLine2: {
             'ui:title': 'Street address (optional)',
           },
-          city: {
-            'ui:title': 'City',
-          },
           state: {
             'ui:title': 'State',
-            'ui:options': {
-              widgetClassNames: 'usa-input-medium',
-            },
           },
           zipCode: {
             'ui:title': 'ZIP',
-            'ui:options': {
-              widgetClassNames: 'usa-input-medium',
-            },
-            'ui:errorMessages': {
-              pattern: 'Please provide valid 5 or 9 digit zip code.',
-            },
+          },
+        }),
+        dates: {
+          'ui:title': 'End of hospitalization must be after start of treatment',
+          'ui:widget': 'textarea',
+          'ui:options': {
+            rows: 5,
+            maxLength: 32000,
           },
         },
-        dates: dateRangeUI(
-          'From',
-          'To',
-          'End of hospitalization must be after start of treatment',
-        ),
       },
     },
   },
