@@ -81,6 +81,7 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as waiveRetirementPay from './waiveRetirementPay';
 import * as workBehaviorChanges from './workBehaviorChanges';
+import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 
 export {
   adaptiveBenefits,
@@ -157,6 +158,7 @@ export {
   unemployabilityAdditionalInformation,
   unemployabilityCertification,
   unemployabilityDisabilities,
+  unemployabilityDoctorCare,
   unemployabilityFormIntro,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
