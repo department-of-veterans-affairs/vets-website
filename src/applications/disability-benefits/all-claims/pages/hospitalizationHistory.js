@@ -28,7 +28,7 @@ export const uiSchema = {
             'addressLine2',
             'city',
             'state',
-            'zipCode',
+            'postalCode',
           ],
           addressLine1: {
             'ui:title': 'Street address',
@@ -39,7 +39,7 @@ export const uiSchema = {
           state: {
             'ui:title': 'State',
           },
-          zipCode: {
+          postalCode: {
             'ui:title': 'ZIP',
           },
         }),
