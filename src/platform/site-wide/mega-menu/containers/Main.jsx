@@ -1,7 +1,7 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import defaultLinkData from '../mega-menu-link-data.json';
+import defaultLinkData from '../../../../../.cache/megamenu.json';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import {
   togglePanelOpen,
