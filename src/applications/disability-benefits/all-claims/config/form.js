@@ -33,8 +33,9 @@ import {
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
-  transform,
 } from '../utils';
+
+import { transform } from '../submit-transformer';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
