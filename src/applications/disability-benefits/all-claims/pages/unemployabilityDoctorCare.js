@@ -30,7 +30,7 @@ export const uiSchema = {
       },
       items: {
         name: {
-          'ui:title': "Doctor's name",
+          'ui:title': 'Doctor’s name',
         },
         address: merge(addressUI('', false), {
           'ui:order': [

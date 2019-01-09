@@ -66,7 +66,7 @@ export default function() {
       },
       // 8940 - Doctor Treatment
       unemployabilityDoctorCare: {
-        title: "Doctor's care",
+        title: 'Doctor’s care',
         path: 'doctor-care',
         depends: hasDoctorsCare,
         uiSchema: unemployabilityDoctorCare.uiSchema,

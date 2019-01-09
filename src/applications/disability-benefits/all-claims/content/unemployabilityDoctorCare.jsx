@@ -14,9 +14,9 @@ export const privateMedicalFacilityDescription = (
 );
 
 export const doctorDatesDecription =
-  "When were you under this doctor's care? Include the dates for the whole time you were under this doctor’s care.";
+  'When were you under this doctor’s care? Include the dates for the whole time you were under this doctor’s care.';
 
 export const doctorCareDescription =
   'Please tell us where and when you were treated by a doctor.';
 
-export const doctorCareTitle = <h4>Doctor's care</h4>;
+export const doctorCareTitle = <h4>Doctor’s care</h4>;
