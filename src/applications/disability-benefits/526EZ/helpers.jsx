@@ -20,10 +20,14 @@ import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { capitalizeEachWord, transformDisabilities } from '../all-claims/utils';
+import { capitalizeEachWord } from '../all-claims/utils';
 import { AddressViewField } from '../all-claims/content/contactInformation';
 
-import { VA_FORM4142_URL } from '../all-claims/constants';
+import {
+  VA_FORM4142_URL,
+  SERVICE_CONNECTION_TYPES,
+  disabilityActionTypes,
+} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -246,6 +250,20 @@ export function transformObligationDates(formData) {
   delete newFormData.reservesNationalGuardService;
 
   return newFormData;
+}
+
+export function transformDisabilities(disabilities = []) {
+  return (
+    disabilities
+      // We want to remove disabilities that aren't service-connected
+      .filter(
+        disability =>
+          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
+      )
+      .map(disability =>
+        set('disabilityActionType', disabilityActionTypes.INCREASE, disability),
+      )
+  );
 }
 
 export function prefillTransformer(pages, formData, metadata) {
