@@ -24,10 +24,10 @@ const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
+const checkCollections = require('./plugins/check-collections');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
@@ -52,6 +52,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(filenames());
 
   smith.use(applyFragments(BUILD_OPTIONS));
+  smith.use(checkCollections(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
   smith.use(dateInFilename(true));
