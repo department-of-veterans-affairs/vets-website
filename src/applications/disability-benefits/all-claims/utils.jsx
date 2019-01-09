@@ -526,12 +526,12 @@ export function transform(formConfig, form) {
     delete clonedData.additionalIncidentText;
     delete clonedData.additionalSecondaryIncidentText;
   }
-  const attachments = [];
+  let attachments = [];
 
   // CONCAT all attachment pages into attachments ARRAY
   ATTACHMENT_KEYS.forEach(key => {
     const documentArr = _.get(key, clonedData, []);
-    attachments.concat(documentArr);
+    attachments = [...attachments, ...documentArr];
     delete clonedData[key];
   });
   console.log('---------');
@@ -541,7 +541,6 @@ export function transform(formConfig, form) {
   console.log(attachments);
   console.log('---------');
   console.log('---------');
-  console.log(clonedData.additionalChanges);
   console.log('---------');
   return JSON.stringify({
     form526: { ...clonedData, ...(attachments.length && { attachments }) },
@@ -720,7 +719,7 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isUploading781aSupportingDocuments = index => formData =>
-  _.get(`view:uploadChoice${index}`, formData, false);
+  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
