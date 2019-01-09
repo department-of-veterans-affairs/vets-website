@@ -171,6 +171,11 @@ export const accountTitleLabels = {
   NOBANK: 'No Bank Account',
 };
 
+export const disabilityActionTypes = {
+  INCREASE: 'INCREASE',
+  NONE: 'NONE',
+};
+
 export const causeTypes = {
   NEW: 'NEW',
   SECONDARY: 'SECONDARY',
