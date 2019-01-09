@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import _ from '../../../../platform/utilities/data';
+
 import formConfig from '../config/form';
 
 import {
@@ -8,6 +10,7 @@ import {
   concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
+  setActionTypes,
 } from '../submit-transformer';
 
 import {
@@ -18,7 +21,11 @@ import {
 import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
 
-import { PTSD_INCIDENT_ITERATION, PTSD_CHANGE_LABELS } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
+} from '../constants';
 
 describe('transform', () => {
   it('should transform minimal data correctly', () => {
@@ -150,5 +157,33 @@ describe('getPtsdChangeText', () => {
     });
 
     expect(fieldTitles.length).to.eql(2);
+  });
+});
+
+describe('setActionTypes', () => {
+  const formData = maximalData.data;
+
+  it('should set disabilityActionType for each disability properly', () => {
+    const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
+
+    expect(formattedDisabilities).to.have.lengthOf(
+      formData.ratedDisabilities.length,
+    );
+
+    expect(formattedDisabilities[0].disabilityActionType).to.equal(
+      disabilityActionTypes.INCREASE,
+    );
+    expect(formattedDisabilities[1].disabilityActionType).to.equal(
+      disabilityActionTypes.NONE,
+    );
+    expect(formattedDisabilities[2].disabilityActionType).to.equal(
+      disabilityActionTypes.NONE,
+    );
+  });
+
+  it('should return cloned formData when no rated disabilities', () => {
+    const noRated = _.omit('ratedDisabilities', formData);
+
+    expect(setActionTypes(noRated)).to.deep.equal(noRated);
   });
 });

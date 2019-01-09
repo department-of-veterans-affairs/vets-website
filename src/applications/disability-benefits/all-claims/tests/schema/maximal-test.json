@@ -154,8 +154,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE",
-        "view:selected": true
+        "view:selected": true,
+        "disabilityActionType": "NONE"
       },
       {
         "name": "Second Condition",
@@ -165,8 +165,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 0,
-        "disabilityActionType": "INCREASE",
-        "view:selected": false
+        "view:selected": false,
+        "disabilityActionType": "NONE"
       },
       {
         "name": "Third Condition",
@@ -176,7 +176,7 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE"
+        "disabilityActionType": "NONE"
       }
     ],
     "view:disabilitiesClarification": {},
@@ -328,7 +328,7 @@
       ]
     },
     "secondaryIncident0": {
-        "sources": [
+      "sources": [
         {
           "name": "Police",
           "address": {
@@ -392,7 +392,7 @@
       "other": true,
       "otherExplanation": "Other physical change"
     },
-    "socialBehaviorChanges" : {
+    "socialBehaviorChanges": {
       "withdrawal": true,
       "unexplained": true,
       "other": true,

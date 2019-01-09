@@ -23,6 +23,7 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  disabilityActionTypes,
 } from './constants';
 
 /**
@@ -133,17 +134,18 @@ export const capitalizeEachWord = name => {
   return 'Unknown Condition';
 };
 
-export function transformDisabilities(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities that aren't service-connected
-      .filter(
-        disability =>
-          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-      )
-      .map(disability => _.set('disabilityActionType', 'INCREASE', disability))
+// Only service-connected disabilities should be included in the form
+export const filterServiceConnected = (disabilities = []) =>
+  disabilities.filter(
+    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
-}
+
+// Add 'NONE' disabilityActionType to each rated disability because it's
+// required in the schema
+export const addNoneDisabilityActionType = (disabilities = []) =>
+  disabilities.map(d =>
+    _.set('disabilityActionType', disabilityActionTypes.NONE, d),
+  );
 
 export function transformMVPData(formData) {
   const newFormData = _.omit(
@@ -187,19 +189,17 @@ export const viewifyFields = formData => {
 };
 
 export function prefillTransformer(pages, formData, metadata) {
-  const { disabilities } = formData;
-  if (!disabilities || !Array.isArray(disabilities)) {
-    Raven.captureMessage(
-      'vets-disability-increase-no-rated-disabilities-found',
+  const newFormData = transformMVPData(formData);
+  const { disabilities } = newFormData;
+
+  // SiP automatically removes empty properties from prefill
+  if (disabilities) {
+    newFormData.ratedDisabilities = addNoneDisabilityActionType(
+      filterServiceConnected(disabilities),
     );
-    return { metadata, formData, pages };
+
+    delete newFormData.disabilities;
   }
-  const newFormData = _.set(
-    'ratedDisabilities',
-    transformDisabilities(disabilities),
-    transformMVPData(formData),
-  );
-  delete newFormData.disabilities;
 
   // Pre-fill hidden bank info for use in the PaymentView
   const bankAccount = {
@@ -266,6 +266,8 @@ export function queryForFacilities(input = '') {
   );
 }
 
+export const disabilityIsSelected = disability => disability['view:selected'];
+
 export const addCheckboxPerDisability = (form, pageSchema) => {
   const { ratedDisabilities, newDisabilities } = form;
   // This shouldn't happen, but could happen if someone directly
@@ -274,7 +276,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     return pageSchema;
   }
   const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
-    ? ratedDisabilities.filter(disability => disability['view:selected'])
+    ? ratedDisabilities.filter(disabilityIsSelected)
     : [];
 
   const selectedNewDisabilities = Array.isArray(newDisabilities)
@@ -454,6 +456,14 @@ export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
 
+export const hasDoctorsCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+
+export const hasHospitalCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:hospitalized', formData, false);
+
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
@@ -503,8 +513,8 @@ export const ancillaryFormUploadUi = (
   });
 
 export const isUploadingSupporting8940Documents = formData =>
-  needsToAnswerUnemployability &&
-  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, true);
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, false);
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&

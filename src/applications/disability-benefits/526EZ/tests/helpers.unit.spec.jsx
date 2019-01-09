@@ -7,11 +7,14 @@ import {
   prefillTransformer,
   get4142Selection,
   transform,
+  transformDisabilities,
   transformObligationDates,
   getReservesGuardData,
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
+
+import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
@@ -184,6 +187,30 @@ describe('526 helpers', () => {
       const transformedNoAttachments = transform(null, noAttachments);
       expect(JSON.parse(transformedNoAttachments).form526.attachments).to.be
         .undefined;
+    });
+  });
+
+  describe('transformDisabilities', () => {
+    const rawDisability = initialData.disabilities[1];
+    const formattedDisability = Object.assign(
+      { disabilityActionType: 'INCREASE' },
+      rawDisability,
+    );
+    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
+      expect(transformDisabilities([rawDisability])).to.deep.equal([
+        formattedDisability,
+      ]);
+    });
+    it('should return an empty array when given undefined input', () => {
+      expect(transformDisabilities(undefined)).to.deep.equal([]);
+    });
+    it('should remove ineligible disabilities', () => {
+      const ineligibleDisability = _.set(
+        'decisionCode',
+        SERVICE_CONNECTION_TYPES.notServiceConnected,
+        rawDisability,
+      );
+      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
 

@@ -9,7 +9,10 @@ import {
   specialIssueTypes,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
 } from './constants';
+
+import { disabilityIsSelected } from './utils';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -64,6 +67,8 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 function getClaimedConditionNames(formData) {
+  // Assumes we have only selected conditions at this point
+  // TODO: Filter by disabilityIsSelected
   const claimedConditions = formData.ratedDisabilities
     ? formData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
@@ -84,6 +89,33 @@ function getClaimedConditionNames(formData) {
   });
   return claimedConditions;
 }
+
+const setActionType = disability =>
+  disabilityIsSelected(disability)
+    ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
+    : _.set('disabilityActionType', disabilityActionTypes.NONE, disability);
+
+/**
+ * Sets disabilityActionType for rated disabilities to either INCREASE (for
+ * selected disabilities) or NONE (for unselected disabilities)
+ * @param {object} formData
+ * @returns {object} new object with either form data with disabilityActionType
+ * set for each rated disability, or cloned formData when no rated disabilities
+ * exist
+ */
+export const setActionTypes = formData => {
+  const { ratedDisabilities } = formData;
+
+  if (ratedDisabilities) {
+    return _.set(
+      'ratedDisabilities',
+      ratedDisabilities.map(setActionType),
+      formData,
+    );
+  }
+
+  return _.cloneDeep(formData);
+};
 
 /**
  * Transforms the related disabilities object into an array of strings. The condition
@@ -150,15 +182,6 @@ export function getPtsdChangeText(changeFields) {
 
 export function transform(formConfig, form) {
   // Define the transformations
-  const filterSelectedRatedDisabilities = formData =>
-    _.set(
-      'ratedDisabilities',
-      formData.ratedDisabilities.filter(
-        condition => condition['view:selected'],
-      ),
-      formData,
-    );
-
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
       JSON.parse(
@@ -334,7 +357,7 @@ export function transform(formConfig, form) {
 
   // Apply the transformations
   const transformedData = [
-    filterSelectedRatedDisabilities,
+    setActionTypes,
     filterEmptyObjects,
     addPOWSpecialIssues,
     addPTSDCause,
