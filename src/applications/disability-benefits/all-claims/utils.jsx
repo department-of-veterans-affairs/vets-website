@@ -149,7 +149,7 @@ export const addNoneDisabilityActionType = (disabilities = []) =>
 
 export function transformMVPData(formData) {
   const newFormData = _.omit(
-    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
+    ['servicePeriods', 'reservesNationalGuardService'],
     formData,
   );
 
@@ -226,6 +226,20 @@ export function prefillTransformer(pages, formData, metadata) {
   delete newFormData.bankAccountNumber;
   delete newFormData.bankRoutingNumber;
   delete newFormData.bankName;
+
+  // Put phone and email prefill into the right place
+  const { veteran } = newFormData;
+  if (veteran) {
+    newFormData.phoneAndEmail = {};
+    if (veteran.emailAddress) {
+      newFormData.phoneAndEmail.emailAddress = veteran.emailAddress;
+    }
+    if (veteran.primaryPhone) {
+      newFormData.phoneAndEmail.primaryPhone = veteran.primaryPhone;
+    }
+
+    delete newFormData.veteran;
+  }
 
   return {
     metadata,
