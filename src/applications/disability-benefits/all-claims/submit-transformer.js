@@ -354,7 +354,7 @@ export function transform(formConfig, form) {
     }
     return clonedData;
   };
-
+  // Flatten all attachment pages into attachments ARRAY
   const addFileAttachmments = formData => {
     const clonedData = _.cloneDeep(formData);
     let attachments = [];
@@ -380,8 +380,6 @@ export function transform(formConfig, form) {
     addForm0781,
     addFileAttachmments,
   ].reduce((formData, transformer) => transformer(formData), form.data);
-
-  // Flatten all attachment pages into attachments ARRAY
 
   return JSON.stringify({ form526: transformedData });
 }
