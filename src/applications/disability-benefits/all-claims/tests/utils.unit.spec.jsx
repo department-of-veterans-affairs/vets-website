@@ -51,7 +51,7 @@ import {
   disabilityActionTypes,
 } from '../../all-claims/constants';
 
-describe.only('526 helpers', () => {
+describe('526 helpers', () => {
   describe('addNoneDisabilityActionType', () => {
     const disabilities = [
       { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
