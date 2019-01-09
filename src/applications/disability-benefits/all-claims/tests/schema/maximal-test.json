@@ -154,7 +154,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "view:selected": true
+        "view:selected": true,
+        "disabilityActionType": "NONE"
       },
       {
         "name": "Second Condition",
@@ -164,7 +165,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 0,
-        "view:selected": false
+        "view:selected": false,
+        "disabilityActionType": "NONE"
       },
       {
         "name": "Third Condition",
@@ -173,7 +175,8 @@
         "diagnosticCode": 5238,
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
-        "ratingPercentage": 100
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE"
       }
     ],
     "view:disabilitiesClarification": {},
