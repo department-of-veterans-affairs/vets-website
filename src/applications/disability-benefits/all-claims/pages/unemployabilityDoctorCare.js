@@ -5,7 +5,6 @@ import {
   uiSchema as addressUI,
   schema as addressSchema,
 } from '../../../../platform/forms/definitions/address';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { validateZIP } from '../validations';
 import UnemployabilityDoctorCareField from '../components/UnemployabilityDoctorCareField';
@@ -55,7 +54,6 @@ export const uiSchema = {
             'ui:validations': [validateZIP],
           },
         }),
-        phoneNumber: phoneUI('Primary Phone number'),
         dates: {
           'ui:title': doctorDatesDecription,
           'ui:widget': 'textarea',
@@ -95,9 +93,6 @@ export const schema = {
                     type: 'string',
                   },
                 },
-              },
-              phoneNumber: {
-                $ref: '#/definitions/phone',
               },
               dates: {
                 type: 'string',
