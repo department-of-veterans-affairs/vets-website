@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const path = require('path');
 const collections = require('../data/collections.json');
-
 /**
  * This checks whether there are broken collections in a front-matter .md file.
  * It checks whether a collection or children is available in the MetalSmith collections list
