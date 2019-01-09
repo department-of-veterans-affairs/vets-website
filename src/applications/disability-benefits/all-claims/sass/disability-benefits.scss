@@ -153,3 +153,13 @@ ul.original-disability-list {
     visibility: hidden;
   }
 }
+
+.upload-completed-form .schemaform-widget-wrapper select {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  font-weight: bold;
+  padding-left: 0;
+  height: auto;
+  white-space: pre-wrap;
+}
