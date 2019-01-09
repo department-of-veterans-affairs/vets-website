@@ -1,13 +1,13 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../../platform/forms/sass/m-schemaform";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../../platform/forms/sass/m-schemaform';
 // @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 // @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
+@import '../../../../platform/forms/sass/m-form-confirmation';
 
 .full-page-alert {
   margin-bottom: 2em;
@@ -37,8 +37,8 @@ ul.original-disability-list {
   }
 }
 
- // Bring the text of an element nested in a <label> up to the same line as the check box
- .form-checkbox input[type="checkbox"] + label {
+// Bring the text of an element nested in a <label> up to the same line as the check box
+.form-checkbox input[type='checkbox'] + label {
   div {
     display: inline-block;
     // Also give a little more space between the checkbox and the label
@@ -65,7 +65,7 @@ ul.original-disability-list {
     margin-bottom: 1em;
   }
 
-  input[type="checkbox"] + label {
+  input[type='checkbox'] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
     margin-top: 0em;
@@ -116,7 +116,8 @@ ul.original-disability-list {
       margin: 1.5rem 0 2.5rem;
     }
 
-    .update-button, .cancel-button {
+    .update-button,
+    .cancel-button {
       width: auto;
       margin-top: 1rem;
     }
@@ -136,14 +137,19 @@ ul.original-disability-list {
 }
 
 .patient-acknowldegment-help {
-  max-width: 80vw; 
+  max-width: 80vw;
 }
 
-.upload-completed-form .schemaform-widget-wrapper textarea {
-  background-color: transparent;
-  border: none;
-  font-weight: bold;
-  padding-left: 0;
-  height: auto;
-  resize: none;
+.upload-completed-form .schemaform-widget-wrapper {
+  textarea {
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+    padding-left: 0;
+    height: auto;
+    resize: none;
+  }
+  span {
+    visibility: hidden;
+  }
 }
