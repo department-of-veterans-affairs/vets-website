@@ -550,20 +550,13 @@ export function transform(formConfig, form) {
   }
   let attachments = [];
 
-  // CONCAT all attachment pages into attachments ARRAY
+  // Flatten all attachment pages into attachments ARRAY
   ATTACHMENT_KEYS.forEach(key => {
     const documentArr = _.get(key, clonedData, []);
     attachments = [...attachments, ...documentArr];
     delete clonedData[key];
   });
-  console.log('---------');
-  console.log('---------');
-  console.log('---------');
-  console.log('---------');
-  console.log(attachments);
-  console.log('---------');
-  console.log('---------');
-  console.log('---------');
+
   return JSON.stringify({
     form526: { ...clonedData, ...(attachments.length && { attachments }) },
   });
