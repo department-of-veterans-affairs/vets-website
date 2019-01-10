@@ -96,8 +96,9 @@
   $icon: $fa-var-briefcase,
   $color: $orange-warm-50,
   $top-large: 11.5px,
-  $left-large: 10.5px,
-  $top-small: 8px
+  $left-large: 9.5px,
+  $left-small: 7.5px,
+  $top-small: 7.5px
 );
 
 @include make-hub(
@@ -106,14 +107,19 @@
   $color: $green-cool-50,
   $top-large: 9.75px,
   $left-large: 7.75px,
-  $top-small: 6.5px,
+  $top-small: 7px,
   $left-small: 6px
 );
 
 @include make-hub(
   $hub-name: "housing",
   $icon: $fa-var-home,
-  $color: $gold-50
+  $color: $gold-50,
+  $top-large: 10px,
+  $left-large: 8.2px,
+  $top-small: 7.5px,
+  $left-small: 5.75px,
+  $top-baseline: 9px
 );
 
 @include make-hub(
@@ -121,7 +127,7 @@
   $icon: $fa-var-shield-alt,
   $color: $green-warm-50,
   $top-small: 8px,
-  $left-small: 11px,
+  $left-small: 8px,
   $top-large: 11px,
   $left-large: 14px
 );
@@ -131,7 +137,10 @@
   $icon: $fa-var-star,
   $color: $blue-50,
   $top-small: 7px,
-  $top-large: 11px
+  $top-large: 11px,
+  $left-large: 9px,
+  $left-small: 6.75px
+
 );
 
 @include make-hub(
