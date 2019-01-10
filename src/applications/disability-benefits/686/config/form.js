@@ -969,7 +969,7 @@ const formConfig = {
                     hideIf: (form, index) => {
                       const childAge = calculateChildAge(form, index);
                       if (childAge) {
-                        return childAge > 18;
+                        return childAge >= 18;
                       }
                       return true;
                     },
