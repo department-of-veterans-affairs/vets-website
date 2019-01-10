@@ -158,6 +158,11 @@ describe('getPtsdChangeText', () => {
 
     expect(fieldTitles.length).to.eql(2);
   });
+
+  it('should correctly handle undefined ptsd changes', () => {
+    const fieldTitles = getPtsdChangeText(undefined);
+    expect(fieldTitles.length).to.eql(0);
+  });
 });
 
 describe('setActionTypes', () => {
