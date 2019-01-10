@@ -4,6 +4,12 @@ import { ancillaryFormUploadUi } from '../utils';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
+// import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+// Will use fullschema when vets-json-schema updated
+import tempSchema from '../config/schema';
+
+const { unemployabilityAttachments } = tempSchema.properties;
+
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': (
@@ -18,22 +24,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    unemployabilitySupportingDocuments: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          size: {
-            type: 'integer',
-          },
-          confirmationCode: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    unemployabilitySupportingDocuments: unemployabilityAttachments,
   },
 };
