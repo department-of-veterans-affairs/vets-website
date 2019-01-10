@@ -9,7 +9,7 @@ import {
 import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('781 record upload', () => {
+describe('8940 record upload', () => {
   const page =
     formConfig.chapters.disabilities.pages
       .uploadUnemployabilitySupportingDocuments;
@@ -30,7 +30,7 @@ describe('781 record upload', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(1);
+    expect(form.find('input').length).to.equal(0);
     form.unmount();
   });
 
