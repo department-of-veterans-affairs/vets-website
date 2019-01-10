@@ -30,10 +30,10 @@ $modal-layer: 400;
 $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
 
 @font-face {
-  font-family: "FontAwesome";
-  src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
-    url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
-    url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
+  font-family: "Font Awesome 5 Free";
+  src: url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2") format("woff2"),
+    url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff") format("woff"),
+    url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot") format("eot");
   font-weight: normal;
   font-style: normal;
 }
@@ -102,7 +102,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 
 .consolidated {
   font-family: $font-stack;
-  @import "~@department-of-veterans-affairs/formation/sass/core";
+  @import "../../../../../design-system/src/sass/core.scss";
 
   @import "../../site-wide/user-nav/sass/user-nav";
 

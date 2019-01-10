@@ -76,6 +76,7 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.6.3",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
     "axe-core": "^2.6.0",
