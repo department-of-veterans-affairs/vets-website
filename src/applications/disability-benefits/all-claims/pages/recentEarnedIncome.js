@@ -9,7 +9,7 @@ const {
   currentMonthlyEarnedIncome,
   leftLastJobDueToDisability,
   leftLastJobDueToDisabilityRemarks,
-} = fullSchema.properties.form8940;
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const currentMonthlyEarnedIncomeCurrency = currencyUI(
   "What's your current gross monthly income?",

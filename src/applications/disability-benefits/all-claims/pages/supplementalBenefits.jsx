@@ -7,7 +7,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 const {
   receiveExpectDisabilityRetirement,
   receiveExpectWorkersCompensation,
-} = fullSchema.properties.form8940;
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const supplementalBenefitsTitle = <h4>Supplemental benefits</h4>;
 

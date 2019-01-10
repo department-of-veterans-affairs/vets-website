@@ -5,7 +5,11 @@ import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { incomeDescription } from '../content/incomeDetails';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { mostIncome, yearEarned, job } = fullSchema.properties.form8940;
+const {
+  mostIncome,
+  yearEarned,
+  job,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,

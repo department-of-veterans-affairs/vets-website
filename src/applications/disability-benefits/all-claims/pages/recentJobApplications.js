@@ -18,7 +18,9 @@ import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
 
 const address = addressSchema(fullSchema);
-const { appliedEmployers } = fullSchema.properties.form8940;
+const {
+  appliedEmployers,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,

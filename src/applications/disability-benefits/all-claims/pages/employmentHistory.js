@@ -10,7 +10,9 @@ import { employmentDescription } from '../content/employmentHistory';
 import EmploymentHistoryCard from '../components/EmploymentHistoryCard';
 import { validateZIP } from '../../all-claims/validations';
 
-const { previousEmployers } = fullSchema.properties.form8940;
+const {
+  previousEmployers,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,

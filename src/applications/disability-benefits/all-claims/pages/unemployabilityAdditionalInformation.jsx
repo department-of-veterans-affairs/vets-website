@@ -2,7 +2,9 @@ import React from 'react';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { remarks } = fullSchema.properties.form8940;
+const {
+  remarks,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const additionalInformationDescription = (
   <div>

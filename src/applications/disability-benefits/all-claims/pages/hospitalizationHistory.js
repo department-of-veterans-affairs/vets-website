@@ -2,10 +2,12 @@ import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
-import { merge } from 'lodash';
+import { merge, omit } from 'lodash';
 import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 
-const { hospitalProvidedCare } = fullSchema.properties.form8940;
+const {
+  hospitalProvidedCare,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   unemployability: {
@@ -22,27 +24,30 @@ export const uiSchema = {
         name: {
           'ui:title': 'Name of hospital',
         },
-        address: merge(addressUI('', false), {
-          'ui:order': [
-            'addressLine1',
-            'addressLine2',
-            'city',
-            'state',
-            'postalCode',
-          ],
-          addressLine1: {
-            'ui:title': 'Street address',
-          },
-          addressLine2: {
-            'ui:title': 'Street address (optional)',
-          },
-          state: {
-            'ui:title': 'State',
-          },
-          postalCode: {
-            'ui:title': 'ZIP',
-          },
-        }),
+        address: omit(
+          ['country'],
+          merge(addressUI('', false), {
+            'ui:order': [
+              'addressLine1',
+              'addressLine2',
+              'city',
+              'state',
+              'zipCode',
+            ],
+            addressLine1: {
+              'ui:title': 'Street address',
+            },
+            addressLine2: {
+              'ui:title': 'Street address (optional)',
+            },
+            state: {
+              'ui:title': 'State',
+            },
+            zipCode: {
+              'ui:title': 'ZIP',
+            },
+          }),
+        ),
         dates: {
           'ui:title': 'End of hospitalization must be after start of treatment',
           'ui:widget': 'textarea',

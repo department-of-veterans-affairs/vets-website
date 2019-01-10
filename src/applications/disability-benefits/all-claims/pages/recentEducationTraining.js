@@ -8,7 +8,7 @@ import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 const {
   receivedOtherEducationTrainingPostUnemployability,
   otherEducationTrainingPostUnemployability,
-} = fullSchema.properties.form8940;
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,

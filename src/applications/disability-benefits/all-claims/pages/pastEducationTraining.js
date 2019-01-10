@@ -9,7 +9,7 @@ const {
   otherEducation,
   receivedOtherEducationTrainingPreUnemployability,
   otherEducationTrainingPreUnemployability,
-} = fullSchema.properties.form8940;
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
