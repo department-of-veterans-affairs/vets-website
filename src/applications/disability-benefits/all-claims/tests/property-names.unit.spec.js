@@ -13,7 +13,13 @@ const ignoreList = {
     'unemployabilityDisabilities',
   ],
   ratedDisabilities: ['unemployabilityDisabilities', 'ratedDisabilities'],
-  serviceInformation: ['federalOrders', 'reservesNationalGuardService'],
+  serviceInformation: [
+    'federalOrders',
+    'reservesNationalGuardService',
+    'militaryHistory',
+    'militaryHistory',
+    'reservesNationalGuardService',
+  ],
   unemployability: [
     'hospitalizationHistory',
     'unemployabilityAdditionalInformation',
@@ -26,6 +32,7 @@ const ignoreList = {
     'recentJobApplications',
     'incomeDetails',
     'employmentHistory',
+    'unemployabilityDoctorCare',
   ],
 };
 

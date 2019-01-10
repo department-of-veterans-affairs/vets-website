@@ -5,11 +5,11 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-describe('Separation or Training Pay', () => {
+describe('Separation Pay', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.separationTrainingPay;
+  } = formConfig.chapters.veteranDetails.pages.separationPay;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -23,9 +23,9 @@ describe('Separation or Training Pay', () => {
       />,
     );
 
-    // Expect two questions with two radio inputs each
-    expect(form.find('.form-radio-buttons').length).to.equal(2);
-    expect(form.find('input').length).to.equal(4);
+    // Expect one question with two radio inputs
+    expect(form.find('.form-radio-buttons').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -43,12 +43,12 @@ describe('Separation or Training Pay', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should submit if both questions answered with a no', () => {
+  it('should submit if question answered with a no', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -56,7 +56,6 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          hasTrainingPay: false,
           'view:hasSeparationPay': false,
         }}
         formData={{}}
@@ -70,7 +69,7 @@ describe('Separation or Training Pay', () => {
     form.unmount();
   });
 
-  it('should not submit if both answers are Yes but no other info provided', () => {
+  it('should not submit if answer is Yes but no other info provided', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -78,7 +77,6 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          hasTrainingPay: true,
           'view:hasSeparationPay': true,
         }}
         formData={{}}
@@ -92,22 +90,21 @@ describe('Separation or Training Pay', () => {
     form.unmount();
   });
 
-  it('should expand more questions when answers are Yes', () => {
+  it('should expand more questions when answer is Yes', () => {
     const form = mount(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          hasTrainingPay: true,
           'view:hasSeparationPay': true,
         }}
         formData={{}}
       />,
     );
 
-    expect(form.find('.form-radio-buttons').length).to.equal(2);
-    expect(form.find('input').length).to.equal(5); // 4 radios + year input
+    expect(form.find('.form-radio-buttons').length).to.equal(1);
+    expect(form.find('input').length).to.equal(3); // 2 radios + year input
     expect(form.find('select').length).to.equal(1); // service branch
     form.unmount();
   });
