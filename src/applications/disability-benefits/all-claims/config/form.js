@@ -19,7 +19,6 @@ import {
 import {
   hasGuardOrReservePeriod,
   capitalizeEachWord,
-  prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
@@ -34,6 +33,8 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
 } from '../utils';
+
+import { prefillTransformer } from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
 
