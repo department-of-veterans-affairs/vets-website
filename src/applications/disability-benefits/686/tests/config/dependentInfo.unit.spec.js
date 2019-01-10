@@ -8,11 +8,10 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
-  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe.only('686 dependent info', () => {
+describe('686 dependent info', () => {
   const {
     schema,
     uiSchema,
