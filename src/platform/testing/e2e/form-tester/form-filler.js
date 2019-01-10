@@ -1,3 +1,4 @@
+const { get } = require('../../../../platform/utilities/data');
 const {
   expectNavigateAwayFrom,
 } = require('../../../../platform/testing/e2e/helpers');
@@ -8,12 +9,55 @@ const isDateField = selector =>
   selector.endsWith('Month') ||
   selector.endsWith('Day');
 
-// eslint-disable-next-line
-const findData = (field, testData) => {};
+/**
+ * Finds the data in testData for a single field.
+ */
+const findData = (fieldSelector, testData) => {
+  const dataPath = fieldSelector.replace(/^root_/, '').replace('_', '.');
+  return get(dataPath, testData);
+};
 
-// NOTE: If the type is `select-one`, it's really a select element :mindblown:
-// eslint-disable-next-line
-const enterData = (client, field, fieldData) => {};
+/**
+ * Enters data into a single field.
+ */
+const enterData = (client, field, fieldData) => {
+  const { type, selector } = field;
+  switch (type) {
+    case 'select-one': // Select fields register as having a type === 'select-one'
+    case 'select':
+      client.selectDropdown(selector, fieldData);
+      break;
+    case 'checkbox':
+      // Only click the checkbox if we need to
+      client.execute(
+        name => document.querySelector(`input[name="${name}"]`).checked,
+        [selector],
+        isChecked => {
+          client.clickIf(
+            `input[name="${selector}"]`,
+            // If it's already checked and it shouldn't be, click
+            // If it's not already checked and it should be, click
+            isChecked ? !fieldData : fieldData,
+          );
+        },
+      );
+      break;
+    case 'text':
+      client.fill(`input[name="${selector}"]`, fieldData);
+      break;
+    case 'radio':
+      typeof fieldData === 'boolean'
+        ? client.selectYesNo(selector, fieldData)
+        : client.selectRadio(selector, fieldData);
+      break;
+    case 'date':
+      client.fillDate(selector, fieldData);
+      break;
+    default:
+      client.assert.fail(`Unknown element type '${type}' for ${selector}`);
+      break;
+  }
+};
 
 /**
  * Navigate through all the pages, filling in the data
@@ -56,7 +100,7 @@ const fillPage = (client, testData) => {
     [],
     fieldList => {
       fieldList.forEach(field =>
-        enterData(client, field, findData(field, testData)),
+        enterData(client, field, findData(field.selector, testData)),
       );
     },
   );
