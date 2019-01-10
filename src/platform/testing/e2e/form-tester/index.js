@@ -10,21 +10,17 @@ const runTest = require('./run-test');
  *  nightwatch without creating an actual test source file, however, so this is what
  *  we have to work with right now.
  */
-const compileTests = (testData, testConfig) => {
-  const testRuns = Object.keys(testData).reduce(
+const compileTests = (testDataSets, testConfig) =>
+  Object.keys(testDataSets).reduce(
     (e2eTests, testName) =>
       Object.assign({}, e2eTests, {
         [testName]: client => {
           E2eHelpers.overrideSmoothScrolling(client);
-          runTest(client, testData[testName], testConfig);
+          runTest(client, testDataSets[testName], testConfig);
         },
       }),
     {},
   );
-
-  // Only .end() at the _very_ end of _all_ the tests
-  testRuns.endTests = client => client.end();
-};
 
 /**
  * Runs through the form one time for each item in testDataSets.
@@ -49,7 +45,11 @@ const compileTests = (testData, testConfig) => {
  * @param {TestData} testDataSets
  */
 const testForm = (testDataSets, testConfig) => {
-  testDataSets.forEach(testData => compileTests(testData, testConfig));
+  const testRuns = compileTests(testDataSets, testConfig);
+  // Only .end() at the _very_ end of _all_ the tests
+  testRuns.endTests = client => client.end();
+
+  return testRuns;
 };
 
 module.exports = testForm;
