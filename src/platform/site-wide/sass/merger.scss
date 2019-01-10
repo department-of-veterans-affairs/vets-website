@@ -437,8 +437,9 @@ $medium-phone-screen: 375px;
     }
   }
 
-  button.va-modal-close > i.fa.fa-close{
+  button.va-modal-close > i.far.fa-times-circle{
     color: $color-black;
+    font-family: "Font Awesome 5 Free";
   }
 
   .usa-accordion-bordered {

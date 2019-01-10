@@ -14,7 +14,7 @@ export default function CrisisPanel() {
           type="button"
         >
           <i
-            className="fa fa-times-circle-o va-overlay-close"
+            className="far fa-times-circle va-overlay-close"
             aria-hidden="true"
           />
         </button>
