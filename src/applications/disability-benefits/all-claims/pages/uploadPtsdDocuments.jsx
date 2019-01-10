@@ -1,7 +1,7 @@
 import React from 'react';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
-import { ancillaryFormUploadUi, setDefaultAttachmentId } from '../utils';
+import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils';
 
 const PTSD_781_ATTACHMENT_ID = 'L228';
 
@@ -19,6 +19,6 @@ export const schema = {
   type: 'object',
   required: ['form781Upload'],
   properties: {
-    form781Upload: setDefaultAttachmentId(PTSD_781_ATTACHMENT_ID),
+    form781Upload: getAttachmentsSchema(PTSD_781_ATTACHMENT_ID),
   },
 };

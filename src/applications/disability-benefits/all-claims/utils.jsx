@@ -538,11 +538,11 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
   isAnswering781aQuestions(index)(formData) &&
   wantsHelpWithOtherSourcesSecondary(index)(formData);
 
-export const setDefaultAttachmentId = attachmentId => {
+export const getAttachmentsSchema = defaultAttachmentId => {
   const { attachments } = fullSchema.properties;
   return _.set(
     'items.properties.attachmentId.default',
-    attachmentId,
+    defaultAttachmentId,
     attachments,
   );
 };
