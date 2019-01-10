@@ -65,7 +65,7 @@
   $icon: $fa-var-medkit,
   $color: $indigo-cool-60,
   $top-large: 10.25px,
-  $left-large: 11px,
+  $left-large: 10px,
   $top-small: 7px,
   $left-small: 8px
 );
@@ -85,7 +85,7 @@
   $hub-name: "disability",
   $icon: $fa-var-file-alt,
   $color: $red-60,
-  $top-large: 9.5px,
+  $top-large: 10px,
   $left-large: 13px,
   $left-small: 10px,
   $top-small: 7px
@@ -95,8 +95,8 @@
   $hub-name: "careers",
   $icon: $fa-var-briefcase,
   $color: $orange-warm-50,
-  $top-large: 11.5px,
-  $left-large: 9.5px,
+  $top-large: 10px,
+  $left-large: 10px,
   $left-small: 7.5px,
   $top-small: 7.5px
 );
@@ -105,9 +105,9 @@
   $hub-name: "pension",
   $icon: $fa-var-handshake,
   $color: $green-cool-50,
-  $top-large: 9.75px,
+  $top-large: 10px,
   $left-large: 7.75px,
-  $top-small: 7px,
+  $top-small: 7.5px,
   $left-small: 6px
 );
 
@@ -129,7 +129,7 @@
   $top-small: 8px,
   $left-small: 8px,
   $top-large: 11px,
-  $left-large: 14px
+  $left-large: 10px
 );
 
 @include make-hub(
@@ -137,7 +137,7 @@
   $icon: $fa-var-star,
   $color: $blue-50,
   $top-small: 7px,
-  $top-large: 11px,
+  $top-large: 10px,
   $left-large: 9px,
   $left-small: 6.75px
 
@@ -150,7 +150,7 @@
   $top-small: 7px,
   $left-small: 6px,
   $top-large: 10.25px,
-  $left-large: 9.5px
+  $left-large: 9px
 );
 
 .icon-large {
