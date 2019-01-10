@@ -1,20 +1,36 @@
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
-
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
-import { merge, omit } from 'lodash';
-import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
+import {
+  recordsDescription,
+  datesDescription,
+} from '../content/hospitalizationHistory';
+import { generateAddressSchemas } from '../utils';
 
 const {
   hospitalProvidedCare,
 } = fullSchema.properties.form8940.properties.unemployability.properties;
 
+const { addressUI, addressSchema } = generateAddressSchemas(
+  ['country', 'addressLine3', 'postalCode'],
+  ['addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
+  {
+    addressLine1: 'Street address',
+    addressLine2: 'Street address (optional)',
+    city: 'City',
+    state: 'State',
+    zipCode: 'ZIP',
+  },
+);
+
 export const uiSchema = {
   unemployability: {
     'ui:title': unemployabilityTitle,
     hospitalProvidedCare: {
-      'ui:title': 'Hospitalization',
-      'ui:description': 'Dates you were hospitalized?',
+      'ui:title': unemployabilityPageTitle('Hospitalization'),
       'ui:options': {
         itemName: 'Hospital',
         viewField: HospitalizationPeriodView,
@@ -24,32 +40,9 @@ export const uiSchema = {
         name: {
           'ui:title': 'Name of hospital',
         },
-        address: omit(
-          ['country'],
-          merge(addressUI('', false), {
-            'ui:order': [
-              'addressLine1',
-              'addressLine2',
-              'city',
-              'state',
-              'zipCode',
-            ],
-            addressLine1: {
-              'ui:title': 'Street address',
-            },
-            addressLine2: {
-              'ui:title': 'Street address (optional)',
-            },
-            state: {
-              'ui:title': 'State',
-            },
-            zipCode: {
-              'ui:title': 'ZIP',
-            },
-          }),
-        ),
+        address: addressUI,
         dates: {
-          'ui:title': 'End of hospitalization must be after start of treatment',
+          'ui:title': datesDescription,
           'ui:widget': 'textarea',
           'ui:options': {
             rows: 5,
@@ -57,6 +50,9 @@ export const uiSchema = {
           },
         },
       },
+    },
+    'view:recordsInfo': {
+      'ui:description': recordsDescription,
     },
   },
 };
@@ -67,8 +63,21 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        hospitalProvidedCare,
+        hospitalProvidedCare: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              ...hospitalProvidedCare.items.properties,
+              address: addressSchema,
+            },
+          },
+        },
       },
+    },
+    'view:recordsInfo': {
+      type: 'object',
+      properties: {},
     },
   },
 };

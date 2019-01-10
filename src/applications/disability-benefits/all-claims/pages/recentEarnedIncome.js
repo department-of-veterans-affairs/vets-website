@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import { grossIncomeAdditionalInfo } from '../content/recentEarnedIncome';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const {
@@ -18,7 +21,7 @@ const currentMonthlyEarnedIncomeCurrency = currencyUI(
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': 'Recent earnings',
+    'ui:title': unemployabilityPageTitle('Recent earnings'),
     past12MonthsEarnedIncome: currencyUI(
       'What was your gross income over the past 12 months?',
     ),

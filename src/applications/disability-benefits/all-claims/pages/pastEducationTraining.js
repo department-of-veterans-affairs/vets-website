@@ -2,11 +2,13 @@ import EducationTrainingField from '../components/EducationTrainingField';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
 
 const {
   education,
-  otherEducation,
   receivedOtherEducationTrainingPreUnemployability,
   otherEducationTrainingPreUnemployability,
 } = fullSchema.properties.form8940.properties.unemployability.properties;
@@ -14,7 +16,7 @@ const {
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': 'Education & training',
+    'ui:title': unemployabilityPageTitle('Education & training'),
     education: {
       'ui:title': 'What’s the highest level of education you’ve completed?',
     },
@@ -62,7 +64,9 @@ export const schema = {
       type: 'object',
       properties: {
         education,
-        otherEducation,
+        otherEducation: {
+          type: 'string',
+        },
         receivedOtherEducationTrainingPreUnemployability,
         otherEducationTrainingPreUnemployability,
       },
