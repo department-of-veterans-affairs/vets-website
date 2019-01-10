@@ -182,15 +182,15 @@ $medium-phone-screen: 375px;
         text-overflow: ellipsis;
         max-width: 60px;
         padding-left: 6px;
+
+        &.user-dropdown-email {
+          margin-top: 5px;
+        }
       }
 
       @include media($medium-phone-screen) {
         span {
           max-width: 102px;
-
-          &.user-dropdown-email {
-            margin-top: 0;
-          }
         }
       }
 
@@ -200,9 +200,6 @@ $medium-phone-screen: 375px;
           max-width: 215px;
           height: 20px;
 
-          &.user-dropdown-email {
-            margin-top: 5px;
-          }
           svg {
             display: inline-block;
           }
