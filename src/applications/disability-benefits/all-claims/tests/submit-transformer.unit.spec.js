@@ -16,10 +16,12 @@ import {
 import {
   transformedMinimalData,
   transformedMaximalData,
+  transformedMinimalPtsdFormUploadData,
 } from './schema/transformedData';
 
 import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
+import minimalPtsdFormUploadData from './schema/minimal-ptsd-form-upload-test.json';
 
 import {
   PTSD_INCIDENT_ITERATION,
@@ -38,6 +40,11 @@ describe('transform', () => {
     expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
       transformedMaximalData,
     );
+  });
+  it('should transform ptsd form upload data correctly', () => {
+    expect(
+      JSON.parse(transform(formConfig, minimalPtsdFormUploadData)),
+    ).to.deep.equal(transformedMinimalPtsdFormUploadData);
   });
 });
 

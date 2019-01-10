@@ -170,7 +170,7 @@ export function concatIncidentLocationString(incidentLocation) {
     .join(', ');
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>
