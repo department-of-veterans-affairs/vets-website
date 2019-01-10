@@ -24,8 +24,8 @@ import * as incidentLocation from './incidentLocation';
 import * as incidentSupport from './incidentSupport';
 import * as incidentUnitAssignment from './incidentUnitAssignment';
 import * as incomeDetails from './incomeDetails';
-import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualsInvolved from './individualsInvolved';
+import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualUnemployability from './individualUnemployability';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
@@ -43,13 +43,15 @@ import * as privateMedicalRecords from './privateMedicalRecords';
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
 import * as ptsdAdditionalEvents from './ptsdAdditionalEvents';
 import * as ptsdSecondaryAdditionalEvents from './ptsdSecondaryAdditionalEvents';
-import * as ptsdWalkthroughChoice781a from './ptsdWalkthroughChoice781a';
 import * as ptsdWalkthroughChoice781 from './ptsdWalkthroughChoice781';
+import * as ptsdWalkthroughChoice781a from './ptsdWalkthroughChoice781a';
 import * as ratedDisabilities from './ratedDisabilities';
 import * as recentEarnedIncome from './recentEarnedIncome';
 import * as recentEducationTraining from './recentEducationTraining';
 import * as recentJobApplications from './recentJobApplications';
 import * as reservesNationalGuardService from './reservesNationalGuardService';
+import * as retirementPay from './retirementPay';
+import * as retirementPayWaiver from './retirementPayWaiver';
 import * as secondaryFinalIncident from './secondaryFinalIncident';
 import * as secondaryIncidentAuthorities from './secondaryIncidentAuthorities';
 import * as secondaryIncidentDate from './secondaryIncidentDate';
@@ -59,15 +61,15 @@ import * as secondaryIncidentPermissionNotice from './secondaryIncidentPermissio
 import * as secondaryIncidentUnitAssignment from './secondaryIncidentUnitAssignment';
 import * as secondaryOtherSources from './secondaryOtherSources';
 import * as secondaryOtherSourcesHelp from './secondaryOtherSourcesHelp';
-import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
 import * as secondaryUploadSources from './secondaryUploadSources';
-import * as separationTrainingPay from './separationTrainingPay';
+import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
+import * as separationPay from './separationPay';
 import * as servedInCombatZone from './servedInCombatZone';
-import * as servicePay from './servicePay';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
+import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
 import * as unemployabilityCertification from './unemployabilityCertification';
@@ -75,12 +77,12 @@ import * as unemployabilityDisabilities from './unemployabilityDisabilities';
 import * as unemployabilityFormIntro from './unemployabilityFormIntro';
 import * as uploadPersonalPtsdDocuments from './uploadPersonalPtsdDocuments';
 import * as uploadPtsdDocuments from './uploadPtsdDocuments';
-import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
+import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
-import * as waiveRetirementPay from './waiveRetirementPay';
 import * as workBehaviorChanges from './workBehaviorChanges';
+import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 
 export {
   adaptiveBenefits,
@@ -135,6 +137,8 @@ export {
   recentEducationTraining,
   recentJobApplications,
   reservesNationalGuardService,
+  retirementPay,
+  retirementPayWaiver,
   secondaryFinalIncident,
   secondaryIncidentAuthorities,
   secondaryIncidentDate,
@@ -146,17 +150,18 @@ export {
   secondaryOtherSourcesHelp,
   secondaryUploadSources,
   secondaryUploadSourcesChoice,
-  separationTrainingPay,
+  separationPay,
   servedInCombatZone,
-  servicePay,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
   supplementalBenefits,
+  trainingPay,
   trainingPayWaiver,
   unemployabilityAdditionalInformation,
   unemployabilityCertification,
   unemployabilityDisabilities,
+  unemployabilityDoctorCare,
   unemployabilityFormIntro,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
@@ -164,6 +169,5 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
-  waiveRetirementPay,
   workBehaviorChanges,
 };
