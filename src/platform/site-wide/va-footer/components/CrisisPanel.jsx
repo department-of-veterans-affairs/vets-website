@@ -40,7 +40,7 @@ export default function CrisisPanel() {
             </li>
             <li>
               <i
-                className="fa fa-mobile va-crisis-panel-icon"
+                className="fa fa-mobile-alt va-crisis-panel-icon"
                 aria-hidden="true"
               />
               <a href="sms:838255">
@@ -49,7 +49,7 @@ export default function CrisisPanel() {
             </li>
             <li>
               <i
-                className="fa fa-comments-o va-crisis-panel-icon"
+                className="fa fa-comments va-crisis-panel-icon"
                 aria-hidden="true"
               />
               <a
