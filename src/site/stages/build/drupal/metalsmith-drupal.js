@@ -113,12 +113,14 @@ function getDrupalContent(buildOptions) {
         drupalData = await loadDrupal(buildOptions);
       }
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      log('Successfully piped Drupal content into Metalsmith!');
+      done();
     } catch (err) {
       log('Failed to pipe Drupal content into Metalsmith!');
-      done(err);
+      log('Continuing with build anyway...');
+      // done(err);
+      done();
     }
-    log('Successfully piped Drupal content into Metalsmith!');
-    done();
   };
 }
 
