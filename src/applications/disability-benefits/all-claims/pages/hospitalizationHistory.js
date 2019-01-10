@@ -15,9 +15,10 @@ const {
 } = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const { addressUI, addressSchema } = generateAddressSchemas(
-  ['country', 'addressLine3', 'postalCode'],
-  ['addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
+  ['addressLine3', 'postalCode'],
+  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
   {
+    country: 'Country',
     addressLine1: 'Street address',
     addressLine2: 'Street address (optional)',
     city: 'City',
@@ -52,6 +53,7 @@ export const uiSchema = {
       },
     },
     'view:recordsInfo': {
+      'ui:title': ' ',
       'ui:description': recordsDescription,
     },
   },
@@ -73,11 +75,11 @@ export const schema = {
             },
           },
         },
+        'view:recordsInfo': {
+          type: 'object',
+          properties: {},
+        },
       },
-    },
-    'view:recordsInfo': {
-      type: 'object',
-      properties: {},
     },
   },
 };
