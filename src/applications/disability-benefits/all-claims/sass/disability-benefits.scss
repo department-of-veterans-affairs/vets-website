@@ -140,23 +140,12 @@ ul.original-disability-list {
   max-width: 80vw;
 }
 
-.upload-completed-form .schemaform-widget-wrapper {
-  textarea {
-    background-color: transparent;
-    border: none;
-    font-weight: bold;
-    padding-left: 0;
-    height: auto;
-    resize: none;
-  }
-}
-
 .upload-completed-form .schemaform-widget-wrapper select {
-  background-color: transparent;
-  background-image: none;
+  background: none;
   border: none;
   font-weight: bold;
   padding-left: 0;
+  white-space: pre-wrap;
   height: auto;
   white-space: pre-wrap;
 }

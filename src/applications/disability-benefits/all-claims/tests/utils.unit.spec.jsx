@@ -659,7 +659,9 @@ describe('isAnswering781aQuestions', () => {
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
-        'view:uploadChoice0': true,
+        secondaryIncident0: {
+          'view:uploadSources': true,
+        },
       };
       expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
     });

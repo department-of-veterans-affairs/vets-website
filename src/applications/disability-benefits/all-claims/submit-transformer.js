@@ -9,6 +9,7 @@ import {
   specialIssueTypes,
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  ATTACHMENT_KEYS,
   disabilityActionTypes,
 } from './constants';
 
@@ -169,7 +170,7 @@ export function concatIncidentLocationString(incidentLocation) {
     .join(', ');
 }
 
-export function getPtsdChangeText(changeFields) {
+export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
       key =>
@@ -353,6 +354,18 @@ export function transform(formConfig, form) {
     }
     return clonedData;
   };
+  // Flatten all attachment pages into attachments ARRAY
+  const addFileAttachmments = formData => {
+    const clonedData = _.cloneDeep(formData);
+    let attachments = [];
+
+    ATTACHMENT_KEYS.forEach(key => {
+      const documentArr = _.get(key, clonedData, []);
+      attachments = [...attachments, ...documentArr];
+      delete clonedData[key];
+    });
+    return { ...clonedData, ...(attachments.length && { attachments }) };
+  };
   // End transformation definitions
 
   // Apply the transformations
@@ -365,6 +378,7 @@ export function transform(formConfig, form) {
     stringifyRelatedDisabilities,
     addForm4142,
     addForm0781,
+    addFileAttachmments,
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
   return JSON.stringify({ form526: transformedData });
