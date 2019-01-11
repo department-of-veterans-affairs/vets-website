@@ -1,12 +1,6 @@
 /* eslint-disable no-unreachable */
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
-const { expect } = require('chai');
-
-const isDateField = selector =>
-  selector.endsWith('Year') ||
-  selector.endsWith('Month') ||
-  selector.endsWith('Day');
 
 /**
  * Finds the data in testData for a single field.
@@ -64,11 +58,11 @@ const enterData = (page, field, fieldData) => {
  * Navigate through all the pages, filling in the data
  */
 const fillPage = async (page, testData) => {
-  const selectors = new Set();
-
-  const elements = await page.$$('input, select');
-  elements
-    .map(element => {
+  (await page.$$eval('input, select', elements => {
+    // This whole function is executed in the browser and can't contain references
+    //  to anything outside of the local scope.
+    const selectors = new Set();
+    return elements.map(element => {
       // <select> elements have neither a type nor a name
       let type = element.type || element.tagName;
       let selector = element.name || element.id;
@@ -76,6 +70,8 @@ const fillPage = async (page, testData) => {
       // Date fields have one piece of data for two or three fields,
       //  so we only want the base selector to both find the data
       //  and use with our custom .fillDate() nightwatch command.
+      const isDateField = sel =>
+        sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
       if (isDateField(selector)) {
         type = 'date';
         // The fillDate nightwatch command takes the shortened version
@@ -95,7 +91,8 @@ const fillPage = async (page, testData) => {
         type,
         selector,
       };
-    }, {})
+    });
+  }))
     .filter(item => item)
     .forEach(field =>
       enterData(page, field, findData(field.selector, testData)),
@@ -127,10 +124,13 @@ const fillForm = async (page, testData, testConfig) => {
 
       // Hit the continue button
       await page.click('.form-progress-buttons .usa-button-primary');
-      await page.waitForNavigation();
-
-      // URL should change if we don't have a validation error
-      expect(page.url()).not.to.equal(url);
+      if (page.url() === url) {
+        try {
+          await page.waitForNavigation({ timeout: 1000 });
+        } catch (e) {
+          throw new Error(`Expected to navigate away from ${url}`);
+        }
+      }
     }
   }
   /* eslint-enable no-await-in-loop */
