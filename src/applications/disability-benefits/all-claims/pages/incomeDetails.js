@@ -6,19 +6,18 @@ import { incomeDescription } from '../content/incomeDetails';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const {
-  mostIncome,
-  yearEarned,
-  job,
+  yearOfMostEarnings,
+  occupationDuringMostEarnings,
 } = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': incomeDescription,
   unemployability: {
-    mostIncome: currencyUI(
+    mostEarningsInAYear: currencyUI(
       'What was the most money you ever earned in one year?',
     ),
-    yearEarned: {
+    yearOfMostEarnings: {
       'ui:title': 'Year earned',
       'ui:validations': [isValidYear],
       'ui:errorMessages': {
@@ -37,9 +36,11 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        mostIncome,
-        yearEarned,
-        job,
+        mostEarningsInAYear: {
+          type: 'number',
+        },
+        yearOfMostEarnings,
+        occupationDuringMostEarnings,
       },
     },
   },
