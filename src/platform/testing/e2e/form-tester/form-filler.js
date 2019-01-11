@@ -124,14 +124,14 @@ const fillForm = async (page, testData, testConfig) => {
       }
     } else {
       await fillPage(page, testData, testConfig);
+
+      // Hit the continue button
+      await page.click('.form-progress-buttons .usa-button-primary');
+      await page.waitForNavigation();
+
+      // URL should change if we don't have a validation error
+      expect(page.url()).not.to.equal(url);
     }
-
-    // Hit the continue button
-    await page.click('.form-progress-buttons .usa-button-primary');
-    await page.waitForNavigation();
-
-    // URL should change if we don't have a validation error
-    expect(page.url()).not.to.equal(url);
   }
   /* eslint-enable no-await-in-loop */
 };

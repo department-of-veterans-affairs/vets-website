@@ -7,10 +7,10 @@ const {
 } = require('../../../../platform/testing/e2e-puppeteer/auth');
 const fillForm = require('./form-filler');
 
-const runTest = async (page, testData, testConfig) => {
+const runTest = async (page, testData, testConfig, userToken) => {
   // Go to the starting page either by logging in or going there directly
   if (testConfig.logIn) {
-    await logIn(getUserToken(), page, testConfig.url, 3);
+    await logIn(userToken, page, testConfig.url, 3);
   } else {
     await page.goto(`${baseUrl}${testConfig.url}`);
   }
@@ -34,6 +34,7 @@ const runTest = async (page, testData, testConfig) => {
  * @property {object.<function>} pageHooks - Functions used to bypass the automatic form filling
  *                                           for a single page. The property name corresponds to
  *                                           the url for the page.
+ * @property {number} timeoutPerTest - The maximum time in milliseconds that a single run can take
  * ---
  * @typedef {TestDataSets}
  * @type {object}
@@ -46,6 +47,13 @@ const runTest = async (page, testData, testConfig) => {
  */
 const testForm = (testDataSets, testConfig) => {
   let browser;
+  const token = getUserToken();
+
+  beforeAll(() => {
+    if (testConfig.setup) {
+      testConfig.setup(token);
+    }
+  });
 
   beforeEach(async () => {
     browser = await puppeteer.launch({ headless: false });
@@ -55,17 +63,17 @@ const testForm = (testDataSets, testConfig) => {
     await browser.close();
   });
 
-  // TODO: Handle failures better (browser.close() when needed)
   Object.keys(testDataSets).forEach(testName =>
     test(
       testName,
       async () => {
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
-        await runTest(page, testDataSets[testName], testConfig);
+        await runTest(page, testDataSets[testName], testConfig, token);
         await browser.close();
       },
-      50000,
+      // TODO: Make the timeout based on the number of inputs by default
+      testConfig.timeoutPerTest || 50000,
     ),
   );
 };
