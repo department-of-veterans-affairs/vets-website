@@ -473,7 +473,7 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isUploading781aSupportingDocuments = index => formData =>
-  _.get(`view:uploadChoice${index}`, formData, false);
+  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
@@ -602,3 +602,12 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
   ) &&
   isAnswering781aQuestions(index)(formData) &&
   wantsHelpWithOtherSourcesSecondary(index)(formData);
+
+export const getAttachmentsSchema = defaultAttachmentId => {
+  const { attachments } = fullSchema.properties;
+  return _.set(
+    'items.properties.attachmentId.default',
+    defaultAttachmentId,
+    attachments,
+  );
+};
