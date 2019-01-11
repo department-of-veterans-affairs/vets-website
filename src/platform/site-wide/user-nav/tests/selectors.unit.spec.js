@@ -15,15 +15,18 @@ describe('User navigation selectors', () => {
       },
     };
 
-    it('should return My Account', () => {
+    it('should return My Account and email', () => {
       const result = selectUserGreeting(state);
-      expect(result).to.equal('My Account');
+      const resultItemText = result.map(component => component.props.children);
+
+      expect(result.length).to.equal(2);
+      expect(resultItemText).to.eql(['My Account', 'test@test.gov']);
     });
 
     it('should return session name', () => {
       localStorage.setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(state);
-      expect(result).to.equal('Joe');
+      expect(result.props.children).to.equal('Joe');
     });
 
     it('should return profile name', () => {
@@ -31,7 +34,7 @@ describe('User navigation selectors', () => {
       const result = selectUserGreeting(
         set('user.profile.userFullName.first', 'Jane', state),
       );
-      expect(result).to.equal('Jane');
+      expect(result.props.children).to.equal('Jane');
     });
 
     afterEach(() => {

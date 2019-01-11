@@ -352,7 +352,8 @@
         "from": "1992-02-16",
         "to": "1995-04-04"
       },
-      "incidentDate": "1994-04-03"
+      "incidentDate": "1994-04-03",
+      "view:uploadSources": true
     },
     "secondaryIncident1": {
       "incidentDate": "1992-01-01",
@@ -367,7 +368,8 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      }
+      },
+      "view:uploadSources": true
     },
     "secondaryIncident2": {
       "incidentDate": "1992-01-01",
@@ -382,7 +384,8 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      }
+      },
+      "view:uploadSources": true
     },
     "additionalRemarks781": "781 Remarks",
     "additionalIncidentText": "Additional incident text",
@@ -412,6 +415,27 @@
       "other": true,
       "otherExplanation": "Other work change"
     },
-    "additionalChanges": "Additional changes test"
+    "additionalChanges": "Additional changes test",
+
+    "secondaryUploadSources0": [{
+      "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2da24569e94",
+      "attachmentId": "L034",
+      "name": "Doc.pdf"
+    }],
+    "secondaryUploadSources1": [{
+      "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de24569e94",
+      "attachmentId": "L015",
+      "name": "Doc.pdf"
+    }],
+    "secondaryUploadSources2": [{
+      "confirmationCode": "354c6d40-b6f5-4c6d-9393-3b7de24569e94",
+      "attachmentId": "L048",
+      "name": "Doc.pdf"
+    }],
+    "privateMedicalRecordAttachments": [{
+      "confirmationCode": "354c6d40-b6f5-8c6d-9393-3b7de24569e94",
+      "attachmentId": "L048",
+      "name": "Doc.pdf"
+    }]
   }
 }
