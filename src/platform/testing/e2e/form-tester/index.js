@@ -1,26 +1,26 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const runTest = require('./run-test');
+const puppeteer = require('puppeteer');
 
-/**
- * Returns an object with one test per property in testData per the second example in
- *  http://nightwatchjs.org/guide#writing-tests
- *
- * NOTE: This will run any number of tests in a single browser, which may cause some
- *  weird side-effects. There doesn't seem to be a good way to isolate each run in
- *  nightwatch without creating an actual test source file, however, so this is what
- *  we have to work with right now.
- */
-const compileTests = (testDataSets, testConfig) =>
-  Object.keys(testDataSets).reduce(
-    (e2eTests, testName) =>
-      Object.assign({}, e2eTests, {
-        [testName]: client => {
-          E2eHelpers.overrideSmoothScrolling(client);
-          runTest(client, testDataSets[testName], testConfig);
-        },
-      }),
-    {},
-  );
+const { baseUrl } = require('../../../../platform/testing/e2e/helpers');
+const {
+  getUserToken,
+  logIn,
+} = require('../../../../platform/testing/e2e-puppeteer/auth');
+const fillForm = require('./form-filler');
+
+const runTest = async (page, testData, testConfig) => {
+  // Go to the starting page either by logging in or going there directly
+  if (testConfig.logIn) {
+    await logIn(getUserToken(), page, testConfig.url, 3);
+  } else {
+    await page.goto(`${baseUrl}${testConfig.url}`);
+  }
+
+  await fillForm(page, testData, testConfig);
+
+  // TODO: Check for unused data
+  // TODO: Submit
+  //   - Configurable; we may not always want to submit
+};
 
 /**
  * Runs through the form one time for each item in testDataSets.
@@ -45,11 +45,29 @@ const compileTests = (testDataSets, testConfig) =>
  * @param {TestData} testDataSets
  */
 const testForm = (testDataSets, testConfig) => {
-  const testRuns = compileTests(testDataSets, testConfig);
-  // Only .end() at the _very_ end of _all_ the tests
-  testRuns.endTests = client => client.end();
+  let browser;
 
-  return testRuns;
+  beforeEach(async () => {
+    browser = await puppeteer.launch({ headless: false });
+  });
+
+  afterEach(async () => {
+    await browser.close();
+  });
+
+  // TODO: Handle failures better (browser.close() when needed)
+  Object.keys(testDataSets).forEach(testName =>
+    test(
+      testName,
+      async () => {
+        const pageList = await browser.pages();
+        const page = pageList[0] || (await browser.newPage());
+        await runTest(page, testDataSets[testName], testConfig);
+        await browser.close();
+      },
+      50000,
+    ),
+  );
 };
 
 module.exports = testForm;
