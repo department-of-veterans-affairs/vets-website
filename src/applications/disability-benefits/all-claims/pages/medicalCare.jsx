@@ -19,6 +19,9 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
   },
   'view:medicalCareType': {
+    'ui:title': ' ',
+    'ui:description':
+      'Please tell us if you were hospitalized or under a doctor‘s care for the service-connected disabilities.',
     'view:doctorsCare': {
       'ui:title': 'Yes, I‘ve been under a doctor‘s care',
     },
