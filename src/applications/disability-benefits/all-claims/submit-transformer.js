@@ -354,6 +354,15 @@ export function transform(formConfig, form) {
     }
     return clonedData;
   };
+
+  const addForm8940 = formData => {
+    const clonedData = _.cloneDeep(formData);
+
+    clonedData.form8940 = {
+      unemployability: clonedData.unemployability,
+    };
+    return clonedData;
+  };
   // Flatten all attachment pages into attachments ARRAY
   const addFileAttachmments = formData => {
     const clonedData = _.cloneDeep(formData);
@@ -378,6 +387,7 @@ export function transform(formConfig, form) {
     stringifyRelatedDisabilities,
     addForm4142,
     addForm0781,
+    addForm8940,
     addFileAttachmments,
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
