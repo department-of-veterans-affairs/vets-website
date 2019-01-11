@@ -67,7 +67,7 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
-function getClaimedConditionNames(formData) {
+function getClaimedConditions(formData) {
   // Assumes we have only selected conditions at this point
   // TODO: Filter by disabilityIsSelected
   const claimedConditions = formData.ratedDisabilities
@@ -83,12 +83,16 @@ function getClaimedConditionNames(formData) {
   ].forEach(key => {
     if (formData[key]) {
       // Add new disabilities to claimed conditions list
-      formData[key].forEach(disability =>
-        claimedConditions.push(disability.condition.toLowerCase()),
-      );
+      formData[key].forEach(disability => claimedConditions.push(disability));
     }
   });
   return claimedConditions;
+}
+
+function getClaimedConditionNames(formData) {
+  return getClaimedConditions(formData).flatMap(disability =>
+    disability.condition.toLowerCase(),
+  );
 }
 
 const setActionType = disability =>
@@ -357,9 +361,23 @@ export function transform(formConfig, form) {
 
   const addForm8940 = formData => {
     const clonedData = _.cloneDeep(formData);
+    const unemployability = clonedData.unemployability;
+    // const claimedConditions = getClaimedConditions(formData);
+
+    // console.log(unemployability['view:doctorsCare']);
+    // console.log(unemployability['view:hospitalized']);
 
     clonedData.form8940 = {
-      unemployability: clonedData.unemployability,
+      unemployability: {
+        ...unemployability,
+        disabilityPreventingEmployment: '',
+        underDoctorHopitalCarePast12M:
+          unemployability['view:doctorsCare'] ||
+          unemployability['view:hospitalized'],
+        mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+        attemptedToObtainEmploymentSinceUnemployability:
+          unemployability['view:hasAppliedEmployers'],
+      },
     };
     return clonedData;
   };

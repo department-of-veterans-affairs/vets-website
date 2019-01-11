@@ -356,9 +356,6 @@ export const transformedMaximalData = {
   },
   form8940: {
     unemployability: {
-      mostIncome: 120,
-      yearEarned: '2010',
-      job: 'a',
       disabilityPreventingEmployment: '', // transform - go through ratedDisabilities and newDisabilities look for view:unemployabilityDisability
       underDoctorHopitalCarePast12M: true, // transform - view:doctorsCare || view:hospitalized
       doctorProvidedCare: [
@@ -398,16 +395,9 @@ export const transformedMaximalData = {
       // becameTooDisabledToWorkDate: {
       //   $ref: '#/definitions/date'
       // },
-      // ??????????????? these are mostIncome, yearEarned, job
-      // mostEarningsInAYear: {
-      //   type: 'string'
-      // },
-      // yearOfMostEarnings: {
-      //   type: 'string'
-      // },
-      // occupationDuringMostEarnings: {
-      //   type: 'string'
-      // },
+      mostEarningsInAYear: '120', // transform from number to string
+      yearOfMostEarnings: '2010',
+      occupationDuringMostEarnings: 'a',
       previousEmployers: [
         {
           name: 'Authortay',
@@ -436,10 +426,7 @@ export const transformedMaximalData = {
       currentMonthlyEarnedIncome: 50,
       receiveExpectDisabilityRetirement: true,
       receiveExpectWorkersCompensation: true,
-      // ???????????????
-      // attemptedToObtainEmploymentSinceUnemployability: {
-      //   type: 'boolean'
-      // },
+      attemptedToObtainEmploymentSinceUnemployability: true, // transform 'view:hasAppliedEmployers'
       appliedEmployers: [
         {
           name: 'Recent Company',

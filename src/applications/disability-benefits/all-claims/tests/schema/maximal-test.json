@@ -188,9 +188,9 @@
           "inBusiness": false
         }
       ],
-      "mostIncome": 120,
-      "yearEarned": "2010",
-      "job": "a",
+      "mostEarningsInAYear": 120,
+      "yearOfMostEarnings": "2010",
+      "occupationDuringMostEarnings": "a",
       "doctorProvidedCare": [
         {
           "name": "Dr Authortay",
