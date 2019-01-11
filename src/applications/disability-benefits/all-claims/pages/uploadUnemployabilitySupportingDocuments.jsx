@@ -4,11 +4,9 @@ import { ancillaryFormUploadUi } from '../utils';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
-// import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-// Will use fullschema when vets-json-schema updated
-import tempSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { unemployabilityAttachments } = tempSchema.properties;
+const { unemployabilityAttachments } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
