@@ -27,6 +27,8 @@ import {
   hasDoctorsCare,
 } from '../../utils';
 
+import createFormConfig4192 from '../4192';
+
 export default function() {
   let configObj = {};
   if (!environment.isProduction()) {
@@ -184,6 +186,7 @@ export default function() {
           properties: {},
         },
       },
+      ...createFormConfig4192(),
     };
   }
   return configObj;
