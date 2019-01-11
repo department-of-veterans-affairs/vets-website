@@ -2,94 +2,108 @@ import _ from '../../../platform/utilities/data';
 import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
 import { viewifyFields } from './utils';
 
-// Only service-connected disabilities should be included in the form
-export const filterServiceConnected = (disabilities = []) =>
+const filterServiceConnected = (disabilities = []) =>
   disabilities.filter(
     d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
 
-// Add 'NONE' disabilityActionType to each rated disability because it's
-// required in the schema
-export const addNoneDisabilityActionType = (disabilities = []) =>
+const addNoneDisabilityActionType = (disabilities = []) =>
   disabilities.map(d =>
     _.set('disabilityActionType', disabilityActionTypes.NONE, d),
   );
 
-export function transformMVPData(formData) {
-  const newFormData = _.omit(
-    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
-    formData,
-  );
-
-  // Put phone and email prefill into the right place
-  const { veteran } = formData;
-  if (veteran) {
-    newFormData.phoneAndEmail = {};
-    if (veteran.emailAddress) {
-      newFormData.phoneAndEmail.emailAddress = veteran.emailAddress;
+export function prefillTransformer(pages, form, metadata) {
+  const prefillRatedDisabilities = formData => {
+    const newFormData = _.omit(['disabilities'], formData);
+    const { disabilities } = formData;
+    if (disabilities) {
+      newFormData.ratedDisabilities = addNoneDisabilityActionType(
+        filterServiceConnected(disabilities),
+      );
     }
-    if (veteran.primaryPhone) {
-      newFormData.phoneAndEmail.primaryPhone = veteran.primaryPhone;
+
+    return newFormData;
+  };
+
+  const prefillContactInformation = formData => {
+    const newFormData = _.omit(['veteran'], formData);
+    const { veteran } = formData;
+
+    if (veteran) {
+      const { emailAddress, primaryPhone, mailingAddress } = veteran;
+      if (emailAddress || primaryPhone) {
+        newFormData.phoneAndEmail = {
+          emailAddress,
+          primaryPhone,
+        };
+      }
+      if (mailingAddress) {
+        newFormData.mailingAddress = mailingAddress;
+      }
     }
-  }
 
-  // Nest servicePeriods and reservesNationalGuardService under serviceInformation
-  //  without creating a serviceInformation property unnecessarily
-  const { servicePeriods, reservesNationalGuardService } = formData;
-  if (servicePeriods || reservesNationalGuardService) {
-    newFormData.serviceInformation = {
-      ..._.get('serviceInformation', newFormData, {}),
-      servicePeriods,
-      reservesNationalGuardService,
-    };
-  }
+    return newFormData;
+  };
 
-  return newFormData;
-}
+  const prefillServiceInformation = formData => {
+    const newFormData = _.omit(
+      ['servicePeriods', 'reservesNationalGuardService'],
+      formData,
+    );
+    const { servicePeriods, reservesNationalGuardService } = formData;
+    if (servicePeriods || reservesNationalGuardService) {
+      newFormData.serviceInformation = {};
+      if (servicePeriods) {
+        newFormData.serviceInformation.servicePeriods = servicePeriods;
+      }
+      if (reservesNationalGuardService) {
+        newFormData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
+      }
+    }
 
-export function prefillTransformer(pages, formData, metadata) {
-  // Define transformer functions
-  const newFormData = transformMVPData(formData);
-  const { disabilities } = newFormData;
+    return newFormData;
+  };
 
-  // SiP automatically removes empty properties from prefill
-  if (disabilities) {
-    newFormData.ratedDisabilities = addNoneDisabilityActionType(
-      filterServiceConnected(disabilities),
+  const prefillBankInformation = formData => {
+    const newFormData = _.omit(
+      ['bankAccountType', 'bankAccountNumber', 'bankRoutingNumber', 'bankName'],
+      formData,
     );
 
-    delete newFormData.disabilities;
-  }
+    const {
+      bankAccountType,
+      bankAccountNumber,
+      bankRoutingNumber,
+      bankName,
+    } = formData;
 
-  // Pre-fill hidden bank info for use in the PaymentView
-  const bankAccount = {
-    bankAccountType: newFormData.bankAccountType,
-    bankAccountNumber: newFormData.bankAccountNumber,
-    bankRoutingNumber: newFormData.bankRoutingNumber,
-    bankName: newFormData.bankName,
+    if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
+      newFormData['view:originalBankAccount'] = viewifyFields({
+        bankAccountType,
+        bankAccountNumber,
+        bankRoutingNumber,
+        bankName,
+      });
+
+      // start the bank widget in 'review' mode
+      newFormData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
+    }
+
+    return newFormData;
   };
-  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
 
-  // Let the payment info card start in review mode if we have pre-filled bank information
-  if (
-    Object.values(newFormData['view:originalBankAccount']).some(
-      value => !!value,
-    )
-  ) {
-    newFormData['view:bankAccount'] = {
-      'view:hasPrefilledBank': true,
-    };
-  }
+  const transformations = [
+    prefillRatedDisabilities,
+    prefillContactInformation,
+    prefillServiceInformation,
+    prefillBankInformation,
+  ];
 
-  // Remove bank fields since they're already in view:originalBankAccount
-  delete newFormData.bankAccountType;
-  delete newFormData.bankAccountNumber;
-  delete newFormData.bankRoutingNumber;
-  delete newFormData.bankName;
+  const applyTransformations = (data, transformer) => transformer(data);
 
   return {
     metadata,
-    formData: newFormData,
+    formData: transformations.reduce(applyTransformations, form),
     pages,
   };
 }
