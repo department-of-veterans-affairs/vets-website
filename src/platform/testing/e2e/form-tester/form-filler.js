@@ -57,7 +57,7 @@ const enterData = (page, field, fieldData) => {
 /**
  * Navigate through all the pages, filling in the data
  */
-const fillPage = async (page, testData) => {
+export const fillPage = async (page, testData) => {
   (await page.$$eval('input, select', elements => {
     // This whole function is executed in the browser and can't contain references
     //  to anything outside of the local scope.
