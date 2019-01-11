@@ -18,7 +18,6 @@ const pastEmploymentHistory = (
       VA will send the form on your behalf, but you may be able to get it
       completed more quickly.
     </p>
-    <p>Please tell us what you‘d like to do.</p>
   </div>
 );
 
@@ -34,7 +33,7 @@ export const uiSchema = {
       },
     ],
     'ui:errorMessages': {
-      atLeastOne: 'Please select at least one choice',
+      atLeastOne: ' Please select at least one option (or all that apply).',
     },
     'view:4192Info': {
       'ui:title': 'I want to find out how to complete VA Form 21-4192.',
@@ -55,5 +54,23 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  properties: {},
+  properties: {
+    'view:upload4192Choice': {
+      type: 'object',
+      properties: {
+        'view:4192Info': {
+          type: 'boolean',
+        },
+        'view:download4192': {
+          type: 'boolean',
+        },
+        'view:upload4192': {
+          type: 'boolean',
+        },
+        'view:sendRequests': {
+          type: 'boolean',
+        },
+      },
+    },
+  },
 };
