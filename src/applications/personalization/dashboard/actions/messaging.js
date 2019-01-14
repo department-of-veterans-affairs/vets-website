@@ -7,8 +7,8 @@ import {
   FETCH_FOLDER_SUCCESS,
   LOADING_FOLDER,
   FETCH_RECIPIENTS_SUCCESS,
-  FETCH_INBOX_FAILURE,
-  FETCH_INBOX_SUCCESS,
+  FETCH_INBOX_FAILED,
+  FETCH_INBOX_SUCCEEDED,
   FETCH_RECIPIENTS_FAILURE,
   LOADING_RECIPIENTS,
 } from '../utils/constants';
@@ -65,11 +65,11 @@ export function fetchInbox() {
       null,
       response => {
         dispatch({
-          type: FETCH_INBOX_SUCCESS,
-          messages: response,
+          type: FETCH_INBOX_SUCCEEDED,
+          response,
         });
       },
-      () => dispatch({ type: FETCH_INBOX_FAILURE }),
+      () => dispatch({ type: FETCH_INBOX_FAILED }),
     );
   };
 }

@@ -4,7 +4,7 @@ import set from 'lodash/fp/set';
 import {
   FETCH_FOLDER_SUCCESS,
   LOADING_FOLDER,
-  FETCH_INBOX_SUCCESS,
+  FETCH_INBOX_SUCCEEDED,
 } from '../utils/constants';
 
 const initialState = {
@@ -68,9 +68,9 @@ export default function folders(state = initialState, action) {
       );
     }
 
-    case FETCH_INBOX_SUCCESS: {
-      const messages = action.messages.data.map(message => message.attributes);
-      const meta = action.messages.meta;
+    case FETCH_INBOX_SUCCEEDED: {
+      const messages = action.response.data.map(message => message.attributes);
+      const meta = action.response.meta;
       const filter = meta.filter;
       const pagination = meta.pagination;
       const sort = meta.sort;

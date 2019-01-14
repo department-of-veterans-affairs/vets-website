@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { selectAvailableServices } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
@@ -29,9 +30,7 @@ class MessagingWidget extends React.Component {
   }
 
   render() {
-    const { recipients, canAccessMessaging } = this.props;
-    let { messages } = this.props;
-    messages = messages || [];
+    const { recipients, canAccessMessaging, messages = [] } = this.props;
     let content;
 
     if (!canAccessMessaging || (recipients && recipients.length === 0)) {
@@ -104,6 +103,7 @@ class MessagingWidget extends React.Component {
             onClick={recordDashboardClick('view-all-messages')}
             href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
             target="_blank"
+            rel="noopener"
           >
             View all your secure messages
           </a>
@@ -116,8 +116,7 @@ class MessagingWidget extends React.Component {
 const mapStateToProps = state => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
-  const profileState = state.user.profile;
-  const canAccessMessaging = profileState.services.includes(
+  const canAccessMessaging = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
 
