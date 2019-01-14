@@ -423,6 +423,12 @@ describe('526 helpers', () => {
   describe('needsToEnter781', () => {
     it('should return true if user has selected Combat PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:combatPtsdType': true,
         },
@@ -432,6 +438,12 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Non-combat PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:nonCombatPtsdType': true,
         },
@@ -448,6 +460,12 @@ describe('526 helpers', () => {
   describe('needsToEnter781a', () => {
     it('should return true if user has selected MST PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:mstPtsdType': true,
         },
@@ -457,6 +475,12 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Assault PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
@@ -487,6 +511,12 @@ describe('526 helpers', () => {
   describe('isUploading781aForm', () => {
     it('should return true if user has chosen to upload 781a', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:upload781aChoice': 'upload',
       };
       expect(isUploading781aForm(formData)).to.be.true;
@@ -526,16 +556,15 @@ describe('526 helpers', () => {
   });
 });
 
-describe('isAnsweringPtsdForm', () => {
-  it('should return false if user has chosen to not answer questions', () => {
-    const formData = {};
-    expect(needsToEnter781(formData)).to.be.false;
-  });
-});
-
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -545,6 +574,12 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -593,6 +628,12 @@ describe('transformMVPData', () => {
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -602,6 +643,12 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -625,6 +672,12 @@ describe('isAnswering781Questions', () => {
 describe('isAnswering781aQuestions', () => {
   it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -634,6 +687,12 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -644,6 +703,12 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -656,6 +721,12 @@ describe('isAnswering781aQuestions', () => {
   describe('isUploading781aSupportingDocuments', () => {
     it('', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
