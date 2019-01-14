@@ -22,7 +22,6 @@ import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   isUploadingSupporting8940Documents,
-  //  hasHospitalCare,
   hasDoctorsCare,
 } from '../../utils';
 
