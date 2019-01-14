@@ -72,7 +72,7 @@ const enterData = async (page, field, fieldData, log) => {
  * Navigate through all the pages, filling in the data
  */
 export const fillPage = async (page, testData, testConfig, log) => {
-  const dataEntryPromises = (await page.$$eval('input, select', elements => {
+  const fields = (await page.$$eval('input, select', elements => {
     // This whole function is executed in the browser and can't contain references
     //  to anything outside of the local scope.
     const selectors = new Set();
@@ -111,7 +111,7 @@ export const fillPage = async (page, testData, testConfig, log) => {
     .filter(item => item) // Duplicates are null items
     .filter(item => item.selector.startsWith('root_')); // Only grab form fields
 
-  for (const field of dataEntryPromises) {
+  for (const field of fields) {
     log('looping through fields:', field.selector);
     // We want these data entries to be performed synchronously
     // eslint-disable-next-line no-await-in-loop
