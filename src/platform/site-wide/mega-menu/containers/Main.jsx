@@ -14,19 +14,14 @@ import { replaceDomainsInData } from '../../../utilities/environment/stagingDoma
 
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
-let defaultLinkData = null;
+// The MegaMenu data is generated out of the content, rather than a static JSON file.
+// During the build, the generated link data is written into temporary storage
+// and passed into the Webpack compilation. That data is not available during Mocha tests
+// or in any environment that executes this module outside of the build, so we have to
+// wrap this in a NODE_ENV check.
 
-if (process.env.NODE_ENV !== 'test') {
-  // The MegaMenu data is generated out of the content, rather than a static JSON file.
-  // During the build, the generated link data is written into temporary storage
-  // (project-root/.cache) so that the data is available for import before
-  // Webpack begins compilation. However, the data is not available during Mocha tests
-  // or in any environment that executes this module outside of the build, so we have to
-  // wrap this in a NODE_ENV check.
-
-  // eslint-disable-next-line import/no-unresolved
-  defaultLinkData = require('../../../../../.cache/megamenu.json');
-}
+// eslint-disable-next-line no-undef
+const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -44,7 +39,7 @@ export function flagCurrentPageInTopLevelLinks(
 export function getAuthorizedLinkData(
   loggedIn,
   authenticatedLinks = authenticatedUserLinkData,
-  defaultLinks = defaultLinkData,
+  defaultLinks = MEGAMENU_CONFIG,
 ) {
   return [
     ...replaceDomainsInData(defaultLinks),
