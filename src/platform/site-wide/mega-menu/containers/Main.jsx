@@ -15,10 +15,8 @@ import { replaceDomainsInData } from '../../../utilities/environment/stagingDoma
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
 // The MegaMenu data is generated out of vagov-content, rather than a static JSON file.
-// During the build, the generated link data is written into temporary storage
-// and passed into the Webpack compilation. That data is not available during Mocha tests
-// or in any environment that executes this module outside of the build, so we have to
-// wrap this in a NODE_ENV check.
+// During the build, the resultant link data is first written into temporary storage,
+// and then required by Webpack to be made available under __MEGAMENU_CONFIG__.
 
 // eslint-disable-next-line no-undef
 const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
