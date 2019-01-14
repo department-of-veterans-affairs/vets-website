@@ -2,17 +2,17 @@ import _ from '../../../platform/utilities/data';
 import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
 import { viewifyFields } from './utils';
 
-const filterServiceConnected = (disabilities = []) =>
+export const filterServiceConnected = (disabilities = []) =>
   disabilities.filter(
     d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
 
-const addNoneDisabilityActionType = (disabilities = []) =>
+export const addNoneDisabilityActionType = (disabilities = []) =>
   disabilities.map(d =>
     _.set('disabilityActionType', disabilityActionTypes.NONE, d),
   );
 
-export function prefillTransformer(pages, form, metadata) {
+export default function prefillTransformer(pages, form, metadata) {
   const prefillRatedDisabilities = formData => {
     const newFormData = _.omit(['disabilities'], formData);
     const { disabilities } = formData;
@@ -31,11 +31,12 @@ export function prefillTransformer(pages, form, metadata) {
 
     if (veteran) {
       const { emailAddress, primaryPhone, mailingAddress } = veteran;
-      if (emailAddress || primaryPhone) {
-        newFormData.phoneAndEmail = {
-          emailAddress,
-          primaryPhone,
-        };
+      newFormData.phoneAndEmail = {};
+      if (emailAddress) {
+        newFormData.phoneAndEmail.emailAddress = emailAddress;
+      }
+      if (primaryPhone) {
+        newFormData.phoneAndEmail.primaryPhone = primaryPhone;
       }
       if (mailingAddress) {
         newFormData.mailingAddress = mailingAddress;
