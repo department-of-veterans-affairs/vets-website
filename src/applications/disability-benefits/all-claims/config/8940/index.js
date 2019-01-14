@@ -1,5 +1,4 @@
 import {
-  hospitalizationHistory,
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
@@ -23,7 +22,7 @@ import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   isUploadingSupporting8940Documents,
-  hasHospitalCare,
+  //  hasHospitalCare,
   hasDoctorsCare,
 } from '../../utils';
 
@@ -57,13 +56,6 @@ export default function() {
         schema: medicalCare.schema,
       },
       // 8940 - Hospital Treatment
-      hospitalizationHistory: {
-        title: 'Hospitalization',
-        path: 'hospitalization-history',
-        depends: hasHospitalCare,
-        uiSchema: hospitalizationHistory.uiSchema,
-        schema: hospitalizationHistory.schema,
-      },
       // 8940 - Doctor Treatment
       unemployabilityDoctorCare: {
         title: 'Doctor’s care',
