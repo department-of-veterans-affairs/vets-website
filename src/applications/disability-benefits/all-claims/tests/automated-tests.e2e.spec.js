@@ -5,6 +5,7 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = require('./schema/minimal-test.json');
 
 const testConfig = {
+  debug: true,
   setup: userToken => {
     PageHelpers.initInProgressMock(userToken);
     PageHelpers.initDocumentUploadMock();
@@ -14,6 +15,7 @@ const testConfig = {
   },
   url: '/disability-benefits/apply/form-526-all-claims/introduction',
   logIn: true,
+  testDataPathPrefix: 'data',
   pageHooks: {
     '/disability-benefits/apply/form-526-all-claims/introduction': async page => {
       // Hit the start button

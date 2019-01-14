@@ -1,11 +1,15 @@
 const puppeteer = require('puppeteer');
 
+const { get } = require('lodash/fp');
 const { baseUrl } = require('../../../../platform/testing/e2e/helpers');
 const {
   getUserToken,
   logIn,
 } = require('../../../../platform/testing/e2e-puppeteer/auth');
 const fillForm = require('./form-filler');
+
+const getTestData = (testDataSets, testName, pathPrefix) =>
+  get(pathPrefix, testDataSets[testName], {});
 
 const runTest = async (page, testData, testConfig, userToken) => {
   // Go to the starting page either by logging in or going there directly
@@ -30,11 +34,16 @@ const runTest = async (page, testData, testConfig, userToken) => {
  * @property {function} setup - Function called before the browser navigates to the initial URL.
  *                              Useful for setting up api mocks.
  * @property {string} url - The url where the form can be found.
- * @property {boolean} logIn - Whether to log in at LoA 3 or not
+ * @property {boolean} logIn - Whether to log in at LoA 3 or not.
  * @property {object.<function>} pageHooks - Functions used to bypass the automatic form filling
  *                                           for a single page. The property name corresponds to
  *                                           the url for the page.
  * @property {number} timeoutPerTest - The maximum time in milliseconds that a single run can take
+ * @property {string} testDataPathPrefix - The path prefix to get to the field data. For example,
+ *                                         if the test data looks like { data: { field1: 'value' } },
+ *                                         testDataPathPrefix should be set to 'data'.
+ * @property {boolean} debug - If true, the test won't run in headless mode, will do some extra
+ *                             logging, and won't close the browser on a failed test.
  * ---
  * @typedef {TestDataSets}
  * @type {object}
@@ -56,11 +65,17 @@ const testForm = (testDataSets, testConfig) => {
   });
 
   beforeEach(async () => {
-    browser = await puppeteer.launch({ headless: false });
+    browser = await puppeteer.launch({
+      headless: !testConfig.debug,
+      // slowMo seems to cause other bugs
+      // slowMo: testConfig.debug ? 100 : 0,
+    });
   });
 
   afterEach(async () => {
-    await browser.close();
+    if (!testConfig.debug) {
+      await browser.close();
+    }
   });
 
   Object.keys(testDataSets).forEach(testName =>
@@ -69,8 +84,12 @@ const testForm = (testDataSets, testConfig) => {
       async () => {
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
-        await runTest(page, testDataSets[testName], testConfig, token);
-        await browser.close();
+        await runTest(
+          page,
+          getTestData(testDataSets, testName, testConfig.testDataPathPrefix),
+          testConfig,
+          token,
+        );
       },
       // TODO: Make the timeout based on the number of inputs by default
       testConfig.timeoutPerTest || 50000,

@@ -6,50 +6,73 @@ const _ = require('lodash/fp');
  * Finds the data in testData for a single field.
  */
 const findData = (fieldSelector, testData) => {
-  const dataPath = fieldSelector.replace(/^root_/, '').replace('_', '.');
-  return _.get(dataPath, testData);
+  const dataPath = fieldSelector
+    .replace(/^root_/, '')
+    .replace(/_/g, '.')
+    .replace(/\.(\d+)\./g, (match, number) => `[${number}]`);
+  const result = _.get(dataPath, testData);
+  return result;
 };
 
 /**
  * Enters data into a single field.
  */
-const enterData = (page, field, fieldData) => {
+const enterData = async (page, field, fieldData, debug) => {
   const { type, selector } = field;
-  return;
+  if (fieldData === undefined) {
+    if (debug) {
+      // eslint-disable-next-line no-console
+      console.log(`No data found for ${selector}`);
+    }
+    return;
+  }
+
+  if (debug) {
+    // eslint-disable-next-line no-console
+    console.log(`${selector} (${type}):`, fieldData);
+  }
 
   switch (type) {
     case 'select-one': // Select fields register as having a type === 'select-one'
-    case 'select':
-      page.selectDropdown(selector, fieldData);
+      await page.select(`select[name="${selector}"]`, fieldData);
       break;
     case 'checkbox':
       // Only click the checkbox if we need to
-      page.execute(
-        name => document.querySelector(`input[name="${name}"]`).checked,
-        [selector],
-        isChecked => {
-          page.clickIf(
-            `input[name="${selector}"]`,
-            // If it's already checked and it shouldn't be, click
-            // If it's not already checked and it should be, click
-            isChecked ? !fieldData : fieldData,
-          );
-        },
+      await page.click(
+        `input[id="${selector}"]${fieldData ? ':not(checked)' : ':checked'}`,
       );
       break;
     case 'text':
-      page.fill(`input[name="${selector}"]`, fieldData);
+      await page.type(`input[name="${selector}"]`, fieldData);
       break;
-    case 'radio':
-      typeof fieldData === 'boolean'
-        ? page.selectYesNo(selector, fieldData)
-        : page.selectRadio(selector, fieldData);
+    case 'radio': {
+      // Use 'Y' / 'N' if it's a boolean because of the yesNo widget
+      let optionValue = fieldData;
+      if (typeof fieldData === 'boolean') {
+        optionValue = fieldData ? 'Y' : 'N';
+      }
+      await page.click(`input[name="${selector}"][value="${optionValue}"]`);
       break;
-    case 'date':
-      page.fillDate(selector, fieldData);
+    }
+    case 'date': {
+      const date = fieldData.split('-');
+      await page.select(
+        `select[name="${selector}Month"]`,
+        parseInt(date[1], 10).toString(),
+      );
+      if (date[2]) {
+        await page.select(
+          `select[name="${selector}Day"]`,
+          parseInt(date[2], 10).toString(),
+        );
+      }
+      await page.type(`input[name="${selector}Year"]`, date[0]);
+      // eslint-disable-next-line no-console
+      console.log(`Filling year for ${selector}: ${date[0]}`);
       break;
+    }
     default:
-      page.assert.fail(`Unknown element type '${type}' for ${selector}`);
+      throw new Error(`Unknown element type '${type}' for ${selector}`);
       break;
   }
 };
@@ -57,7 +80,7 @@ const enterData = (page, field, fieldData) => {
 /**
  * Navigate through all the pages, filling in the data
  */
-export const fillPage = async (page, testData) => {
+export const fillPage = async (page, testData, testConfig) => {
   (await page.$$eval('input, select', elements => {
     // This whole function is executed in the browser and can't contain references
     //  to anything outside of the local scope.
@@ -74,7 +97,8 @@ export const fillPage = async (page, testData) => {
         sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
       if (isDateField(selector)) {
         type = 'date';
-        // The fillDate nightwatch command takes the shortened version
+        // We only have one date field in the test data, so we fill two or three
+        //  fields with one enterData call
         selector = selector.replace(/(Year|Month|Day)$/, '');
       }
 
@@ -93,9 +117,15 @@ export const fillPage = async (page, testData) => {
       };
     });
   }))
-    .filter(item => item)
-    .forEach(field =>
-      enterData(page, field, findData(field.selector, testData)),
+    .filter(item => item) // Duplicates are null items
+    .filter(item => item.selector.startsWith('root_')) // Only grab form fields
+    .forEach(async field =>
+      enterData(
+        page,
+        field,
+        findData(field.selector, testData),
+        testConfig.debug,
+      ),
     );
 };
 
