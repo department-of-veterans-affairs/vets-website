@@ -1,12 +1,14 @@
 import { createUrlWithQuery } from '../utils/helpers';
-import environment from '../../../../platform/utilities/environment';
-import { apiRequest } from '../../../../platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 
 import {
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   LOADING_FOLDER,
   FETCH_RECIPIENTS_SUCCESS,
+  FETCH_INBOX_FAILURE,
+  FETCH_INBOX_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   LOADING_RECIPIENTS,
 } from '../utils/constants';
@@ -47,6 +49,28 @@ export function fetchFolder(id, query = {}) {
     } else {
       errorHandler();
     }
+  };
+}
+
+export function fetchInbox() {
+  return dispatch => {
+    const query = { page: 1, sort: '-sent_date' };
+    const messagesUrl = createUrlWithQuery(
+      `${baseUrl}/folders/0/messages`,
+      query,
+    );
+
+    return apiRequest(
+      messagesUrl,
+      null,
+      response => {
+        dispatch({
+          type: FETCH_INBOX_SUCCESS,
+          messages: response,
+        });
+      },
+      () => dispatch({ type: FETCH_INBOX_FAILURE }),
+    );
   };
 }
 

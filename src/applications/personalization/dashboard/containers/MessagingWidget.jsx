@@ -4,13 +4,12 @@ import classNames from 'classnames';
 import { Link } from 'react-router';
 
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
-import { formattedDate } from '../utils/helpers';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../../platform/monitoring/record-event';
-import { fetchFolder, fetchRecipients } from '../actions/messaging';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
+import { formattedDate } from '../utils/helpers';
+import { fetchInbox } from '../actions/messaging';
 
 function recordDashboardClick(product) {
   return () => {
@@ -25,29 +24,15 @@ function recordDashboardClick(product) {
 class MessagingWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessMessaging) {
-      this.props.fetchRecipients();
-      this.props.fetchFolder(0, { page: 1, sort: '-sent_date' });
+      this.props.fetchInbox();
     }
   }
 
   render() {
-    const fields = [
-      { label: 'From', value: 'senderName', nonSortable: true },
-      { label: 'Subject line', value: 'subject', nonSortable: true },
-      { label: '', value: 'hasAttachment', nonSortable: true },
-      { label: 'Date', value: 'sentDate', nonSortable: true },
-    ];
-
-    // eslint-disable-next-line
-    const makeMessageLink = (content, id) => (
-      // Messaging temporarily disabled.
-      // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
-      // <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
-      <Link>{content}</Link>
-    );
-
-    let { messages } = this.props;
     const { recipients, canAccessMessaging } = this.props;
+    let { messages } = this.props;
+    messages = messages || [];
+    let content;
 
     if (!canAccessMessaging || (recipients && recipients.length === 0)) {
       // do not show widget if user is not a VA patient
@@ -55,12 +40,26 @@ class MessagingWidget extends React.Component {
       return null;
     }
 
-    let content;
-    messages = messages || [];
+    const fields = [
+      { label: 'From', value: 'senderName', nonSortable: true },
+      { label: 'Subject line', value: 'subject', nonSortable: true },
+      { label: '', value: 'hasAttachment', nonSortable: true },
+      { label: 'Date', value: 'sentDate', nonSortable: true },
+    ];
 
-    messages = messages.filter(message => message.readReceipt !== 'READ');
+    // eslint-disable-next-line no-unused-vars
+    const makeMessageLink = (linkContent, id) => (
+      // Messaging temporarily disabled.
+      // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
+      // <Link href={`/health-care/messaging/inbox/${id}`}>{linkContent}</Link>
+      <Link>{linkContent}</Link>
+    );
 
-    const data = messages.map(message => {
+    const unreadMessages = messages.filter(
+      message => message.readReceipt !== 'READ',
+    );
+
+    const data = unreadMessages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
@@ -81,7 +80,7 @@ class MessagingWidget extends React.Component {
       };
     });
 
-    if (messages && messages.length > 0) {
+    if (unreadMessages && unreadMessages.length > 0) {
       content = (
         <SortableTable
           className="usa-table-borderless va-table-list msg-table-list"
@@ -101,24 +100,13 @@ class MessagingWidget extends React.Component {
         <h2>Check Secure Messages</h2>
         {content}
         <p>
-          {isBrandConsolidationEnabled() ? (
-            <a
-              href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
-              target="_blank"
-            >
-              View all your secure messages
-            </a>
-          ) : (
-            <span>
-              <Link
-                href="/health-care/secure-messaging/"
-                onClick={recordDashboardClick('view-all-messages')}
-              >
-                View all your secure messages
-              </Link>
-              .
-            </span>
-          )}
+          <a
+            onClick={recordDashboardClick('view-all-messages')}
+            href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+            target="_blank"
+          >
+            View all your secure messages
+          </a>
         </p>
       </div>
     );
@@ -133,22 +121,19 @@ const mapStateToProps = state => {
     backendServices.MESSAGING,
   );
 
-  const { attributes, messages, pagination, sort } = folder;
+  const { messages, sort } = folder;
 
   return {
-    attributes,
     loading: msgState.loading,
     messages,
     recipients: msgState.recipients.data,
     sort,
-    pagination,
     canAccessMessaging,
   };
 };
 
 const mapDispatchToProps = {
-  fetchFolder,
-  fetchRecipients,
+  fetchInbox,
 };
 
 export default connect(
