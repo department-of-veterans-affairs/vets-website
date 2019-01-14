@@ -18,7 +18,7 @@ function writeToCache(buildOptions, megaMenuData) {
   fs.writeFileSync(megamenuDataCacheFileName, serialized);
 }
 
-function createMegaMenu(buildOptions) {
+function createMegaMenuData(buildOptions) {
   return (files, metalsmith, done) => {
     const fragmentsRoot = metalsmith.path(buildOptions.contentFragments);
     const megaMenuDataSourceFile = path.join(
@@ -46,4 +46,4 @@ function createMegaMenu(buildOptions) {
   };
 }
 
-module.exports = createMegaMenu;
+module.exports = createMegaMenuData;
