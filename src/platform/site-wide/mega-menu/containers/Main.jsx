@@ -1,7 +1,7 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import defaultLinkData from '../../../../../.cache/megamenu.json';
+
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import {
   togglePanelOpen,
@@ -13,6 +13,20 @@ import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
+
+let defaultLinkData = null;
+
+if (process.env.NODE_ENV !== 'test') {
+  // The MegaMenu data is generated out of the content, rather than a static JSON file.
+  // During the build, the generated link data is written into temporary storage
+  // (project-root/.cache) so that the data is available for import before
+  // Webpack begins compilation. However, the data is not available during Mocha tests
+  // or in any environment that executes this module outside of the build, so we have to
+  // wrap this in a NODE_ENV check.
+
+  // eslint-disable-next-line import/no-unresolved
+  defaultLinkData = require('../../../../../.cache/megamenu.json');
+}
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
