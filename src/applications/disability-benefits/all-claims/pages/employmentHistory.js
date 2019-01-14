@@ -86,6 +86,11 @@ export const schema = {
             properties: {
               ...previousEmployers.items.properties,
               employerAddress: addressSchema,
+              'view:inBusinessMsg': {
+                type: 'object',
+                'ui:collapsed': true,
+                properties: {},
+              },
             },
           },
         },

@@ -24,7 +24,7 @@ export const uiSchema = {
         pattern: 'Please provide a valid year',
       },
     },
-    job: {
+    occupationDuringMostEarnings: {
       'ui:title': 'What was your job that year?',
     },
   },
