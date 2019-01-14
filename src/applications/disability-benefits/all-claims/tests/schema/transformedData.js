@@ -422,7 +422,7 @@ export const transformedMaximalData = {
             inBusiness: false, // transform flip
           },
         ],
-        disabilityPreventMilitaryDuties: 'yes',
+        disabilityPreventMilitaryDuties: true,
         past12MonthsEarnedIncome: 10,
         currentMonthlyEarnedIncome: 50,
         receiveExpectDisabilityRetirement: true,

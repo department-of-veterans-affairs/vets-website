@@ -96,6 +96,7 @@ function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
   return name ? name.toLowerCase() : '';
 }
+
 function getClaimedConditionNames(formData) {
   return getDisabilities(formData).flatMap(disability =>
     getDisabilityName(disability),
@@ -383,6 +384,8 @@ export function transform(formConfig, form) {
           underDoctorHopitalCarePast12M:
             unemployability.underDoctorsCare || unemployability.hospitalized,
           mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+          disabilityPreventMilitaryDuties:
+            unemployability.disabilityPreventMilitaryDuties === 'yes',
         },
       };
 
