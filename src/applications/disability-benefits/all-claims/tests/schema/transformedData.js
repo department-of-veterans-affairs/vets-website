@@ -84,13 +84,6 @@ export const transformedMaximalData = {
         to: '2020-01-01',
       },
     },
-    additionalDocuments: [
-      {
-        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
-        attachmentId: 'L015',
-        name: 'Document Name',
-      },
-    ],
     vaTreatmentFacilities: [
       {
         treatmentCenterName: 'VA Clinic Name',
@@ -360,5 +353,108 @@ export const transformedMaximalData = {
         },
       ],
     },
+    attachments: [
+      {
+        attachmentId: 'L048',
+        confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
+        name: 'Doc.pdf',
+      },
+      {
+        attachmentId: 'L015',
+        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
+        name: 'Document Name',
+      },
+      {
+        attachmentId: 'L034',
+        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
+        name: 'Doc.pdf',
+      },
+      {
+        attachmentId: 'L015',
+        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
+        name: 'Doc.pdf',
+      },
+      {
+        attachmentId: 'L048',
+        confirmationCode: '354c6d40-b6f5-4c6d-9393-3b7de24569e94',
+        name: 'Doc.pdf',
+      },
+    ],
+  },
+};
+
+export const transformedMinimalPtsdFormUploadData = {
+  form526: {
+    standardClaim: true,
+    hasTrainingPay: false,
+    isVAEmployee: false,
+    homelessOrAtRisk: 'no',
+    phoneAndEmail: {
+      primaryPhone: '8035555555',
+      emailAddress: 'bill@gmail.com',
+    },
+    mailingAddress: {
+      country: 'USA',
+      addressLine1: '100 cool ln.',
+      city: 'Charleston',
+      state: 'SC',
+      zipCode: '29412',
+    },
+    serviceInformation: {
+      reservesNationalGuardService: {
+        obligationTermOfServiceDateRange: {
+          from: '2007-05-22',
+          to: '2008-06-05',
+        },
+        unitName: 'billy',
+      },
+      servicePeriods: [
+        {
+          serviceBranch: 'Air Force Reserve',
+          dateRange: { from: '2001-03-21', to: '2014-07-21' },
+        },
+      ],
+    },
+    servedInCombatZonePost911: false,
+    ratedDisabilities: [
+      {
+        name: 'Diabetes mellitus0',
+        ratedDisabilityId: '0',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Diabetes mellitus1',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+    ],
+    primaryPhone: '4445551212',
+    emailAddress: 'test2@test1.net',
+    privacyAgreementAccepted: true,
+    newPrimaryDisabilities: [
+      { condition: 'PTSD personal trauma', cause: 'NEW' },
+    ],
+    attachments: [
+      {
+        name: '781Form.pdf',
+        confirmationCode: 'c22924e2-3024-450b-8182-46df6e189060',
+        attachmentId: 'L228',
+      },
+      {
+        name: '781aForm.pdf',
+        confirmationCode: 'a9915db8-5083-4a68-9372-35404f0c56dc',
+        attachmentId: 'L229',
+      },
+    ],
   },
 };

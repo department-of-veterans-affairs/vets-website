@@ -132,6 +132,7 @@ export class Main extends React.Component {
           isMenuOpen={this.props.utilitiesMenuIsOpen}
           isProfileLoading={this.props.isProfileLoading}
           userGreeting={this.props.userGreeting}
+          userGreetingMobile={this.props.userGreetingMobile}
           toggleLoginModal={this.props.toggleLoginModal}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
         />

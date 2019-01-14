@@ -136,14 +136,15 @@ ul.original-disability-list {
 }
 
 .patient-acknowldegment-help {
-  max-width: 80vw; 
+  max-width: 80vw;
 }
 
-.upload-completed-form .schemaform-widget-wrapper textarea {
-  background-color: transparent;
+.upload-completed-form .schemaform-widget-wrapper select {
+  background: none;
   border: none;
   font-weight: bold;
-  padding-left: 0;
+  padding-left: 0;    
+  white-space: pre-wrap;
   height: auto;
   resize: none;
 }

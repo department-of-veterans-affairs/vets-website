@@ -5,7 +5,6 @@ import { separationPayDetailsDescription } from '../content/separationTrainingPa
 const {
   separationPayDate: separationPayDateSchema,
   separationPayBranch: separationPayBranchSchema,
-  hasTrainingPay,
 } = fullSchema.properties;
 
 export const uiSchema = {
@@ -39,16 +38,11 @@ export const uiSchema = {
       'ui:required': hasSeparationPay,
     },
   },
-  hasTrainingPay: {
-    'ui:title':
-      'Do you expect to receive active or inactive duty training pay?',
-    'ui:widget': 'yesNo',
-  },
 };
 
 export const schema = {
   type: 'object',
-  required: ['view:hasSeparationPay', 'hasTrainingPay'],
+  required: ['view:hasSeparationPay'],
   properties: {
     'view:hasSeparationPay': {
       type: 'boolean',
@@ -64,6 +58,5 @@ export const schema = {
         separationPayBranch: separationPayBranchSchema,
       },
     },
-    hasTrainingPay,
   },
 };

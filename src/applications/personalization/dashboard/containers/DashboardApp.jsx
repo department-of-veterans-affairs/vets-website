@@ -15,7 +15,8 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
-import DowntimeNotification, {
+import {
+  DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';

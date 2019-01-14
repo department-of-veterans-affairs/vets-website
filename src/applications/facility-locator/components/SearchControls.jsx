@@ -68,7 +68,12 @@ class SearchControls extends Component {
         );
         break;
       case LocationType.CC_PROVIDER:
-        return <ServiceTypeAhead onSelect={this.handleServiceTypeChange} />;
+        return (
+          <ServiceTypeAhead
+            onSelect={this.handleServiceTypeChange}
+            initialSelectedServiceType={serviceType}
+          />
+        );
       default:
         services = {};
     }
