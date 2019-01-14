@@ -719,7 +719,7 @@ describe('isAnswering781aQuestions', () => {
   });
 
   describe('isUploading781aSupportingDocuments', () => {
-    it('', () => {
+    it('should return true when a use selects yes to upload sources', () => {
       const formData = {
         'view:newDisabilities': true,
         newDisabilities: [
@@ -730,6 +730,7 @@ describe('isAnswering781aQuestions', () => {
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
+        'view:upload781aChoice': 'answerQuestions',
         secondaryIncident0: {
           'view:uploadSources': true,
         },
