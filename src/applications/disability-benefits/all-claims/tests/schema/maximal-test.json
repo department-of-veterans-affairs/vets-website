@@ -83,7 +83,7 @@
           "state": "AL"
         },
         "treatedDisabilityNames": {
-          "First Condition": true,
+          "Aging": true,
           "PTSD (post Traumatic Stress Disorder)": true
         }
       }
@@ -110,7 +110,7 @@
       }
     },
     "view:unemployabilityUploadChoice": "answerQuestions",
-    "view:unemployability": true,
+    "view:unemployable": true,
     "unemployability": {
       "view:statementsAreTrue": {
         "view:statementsAreTrueAccept": true
@@ -140,7 +140,7 @@
           }
         }
       ],
-      "view:hasAppliedEmployers": true,
+      "attemptedToObtainEmploymentSinceUnemployability": true,
       "appliedEmployers": [
         {
           "name": "Recent Company",
@@ -191,6 +191,8 @@
       "mostEarningsInAYear": 120,
       "yearOfMostEarnings": "2010",
       "occupationDuringMostEarnings": "a",
+      "underDoctorsCare": true,
+      "hospitalized": true,
       "doctorProvidedCare": [
         {
           "name": "Dr Authortay",
@@ -256,7 +258,7 @@
     ],
     "ratedDisabilities": [
       {
-        "name": "First Condition",
+        "name": "Aging",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
@@ -264,7 +266,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "view:selected": true,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
       },
       {
         "name": "Second Condition",

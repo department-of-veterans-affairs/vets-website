@@ -18,12 +18,12 @@ export const uiSchema = {
     'ui:title': ' ',
     'ui:widget': 'yesNo',
   },
-  'view:medicalCareType': {
-    'view:doctorsCare': {
+  unemployability: {
+    underDoctorsCare: {
       'ui:title':
         'I‘ve been under a doctor‘s care in the past 12 months for these disabilities.',
     },
-    'view:hospitalized': {
+    hospitalized: {
       'ui:title':
         'I‘ve spent time in a hospital in the past 12 months for these disabilities.',
     },
@@ -40,13 +40,13 @@ export const schema = {
     'view:medicalCare': {
       type: 'boolean',
     },
-    'view:medicalCareType': {
+    unemployability: {
       type: 'object',
       properties: {
-        'view:doctorsCare': {
+        underDoctorsCare: {
           type: 'boolean',
         },
-        'view:hospitalized': {
+        hospitalized: {
           type: 'boolean',
         },
       },

@@ -67,11 +67,14 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
-function getClaimedConditions(formData) {
+/**
+ * Returns an array of disabilities pulled from ratedDisabilties, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
+ * @param {object} formData
+ */
+function getDisabilities(formData) {
   // Assumes we have only selected conditions at this point
-  // TODO: Filter by disabilityIsSelected
   const claimedConditions = formData.ratedDisabilities
-    ? formData.ratedDisabilities.map(d => d.name.toLowerCase())
+    ? formData.ratedDisabilities
     : [];
 
   // Depending on where this is called in the transformation flow, we have to use different key names.
@@ -89,9 +92,13 @@ function getClaimedConditions(formData) {
   return claimedConditions;
 }
 
+function getDisabilityName(disability) {
+  const name = disability.name ? disability.name : disability.condition;
+  return name ? name.toLowerCase() : '';
+}
 function getClaimedConditionNames(formData) {
-  return getClaimedConditions(formData).flatMap(disability =>
-    disability.condition.toLowerCase(),
+  return getDisabilities(formData).flatMap(disability =>
+    getDisabilityName(disability),
   );
 }
 
@@ -362,23 +369,28 @@ export function transform(formConfig, form) {
   const addForm8940 = formData => {
     const clonedData = _.cloneDeep(formData);
     const unemployability = clonedData.unemployability;
-    // const claimedConditions = getClaimedConditions(formData);
 
-    // console.log(unemployability['view:doctorsCare']);
-    // console.log(unemployability['view:hospitalized']);
+    if (unemployability) {
+      const disabilities = getDisabilities(formData);
 
-    clonedData.form8940 = {
-      unemployability: {
-        ...unemployability,
-        disabilityPreventingEmployment: '',
-        underDoctorHopitalCarePast12M:
-          unemployability['view:doctorsCare'] ||
-          unemployability['view:hospitalized'],
-        mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
-        attemptedToObtainEmploymentSinceUnemployability:
-          unemployability['view:hasAppliedEmployers'],
-      },
-    };
+      clonedData.form8940 = {
+        unemployability: {
+          ...unemployability,
+          disabilityPreventingEmployment: disabilities
+            .filter(disability => disability.unemployabilityDisability)
+            .flatMap(disability => getDisabilityName(disability))
+            .join(),
+          underDoctorHopitalCarePast12M:
+            unemployability.underDoctorsCare || unemployability.hospitalized,
+          mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+        },
+      };
+
+      delete clonedData.form8940.unemployability.underDoctorsCare;
+      delete clonedData.form8940.unemployability.hospitalized;
+      delete clonedData.unemployability;
+    }
+
     return clonedData;
   };
   // Flatten all attachment pages into attachments ARRAY
