@@ -34,11 +34,11 @@ export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
     'ui:title': unemployabilityPageTitle('Recent job applications'),
-    hasAppliedEmployers: {
+    attemptedToObtainEmploymentSinceUnemployability: {
       'ui:title': recentJobApplicationsDescription(),
       'ui:widget': 'yesNo',
     },
-    attemptedToObtainEmploymentSinceUnemployability: {
+    appliedEmployers: {
       'ui:options': {
         viewField: RecentJobApplicationField,
         expandUnder: 'attemptedToObtainEmploymentSinceUnemployability',
