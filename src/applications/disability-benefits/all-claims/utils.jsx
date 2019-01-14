@@ -3,7 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit } from 'lodash';
+import { omit, some } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -23,6 +23,7 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  PTSD,
   disabilityActionTypes,
 } from './constants';
 
@@ -393,12 +394,30 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
+export const isDisabilityPtsd = disability =>
+  disability.toLowerCase().includes(PTSD);
+
+export const hasNewPtsdDisability = formData => {
+  if (!_.get('view:newDisabilities', formData, false)) {
+    return false;
+  }
+  return some(_.get('newDisabilities', formData, []), item => {
+    let hasPtsd = false;
+    if (item && typeof item.condition === 'string') {
+      hasPtsd = isDisabilityPtsd(item.condition);
+    }
+    return hasPtsd;
+  });
+};
+
 export const needsToEnter781 = formData =>
-  _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
+  (hasNewPtsdDisability(formData) &&
+    _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false)) ||
   _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
 
 export const needsToEnter781a = formData =>
-  _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
+  (hasNewPtsdDisability(formData) &&
+    _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false)) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
 export const isUploading781Form = formData =>
@@ -441,13 +460,15 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
-export const showPtsdCombatConclusion = form =>
-  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', form, false);
+export const showPtsdCombatConclusion = formData =>
+  (needsToEnter781(formData) &&
+    _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false)) ||
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
 
-export const showPtsdAssaultConclusion = form =>
-  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+export const showPtsdAssaultConclusion = formData =>
+  (needsToEnter781a(formData) &&
+    _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false)) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);

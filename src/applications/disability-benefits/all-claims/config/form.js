@@ -10,11 +10,7 @@ import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
-import {
-  hasMilitaryRetiredPay,
-  hasRatedDisabilities,
-  hasNewPtsdDisability,
-} from '../validations';
+import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
 
 import {
   hasGuardOrReservePeriod,
@@ -33,6 +29,7 @@ import {
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
+  hasNewPtsdDisability,
 } from '../utils';
 
 import { transform } from '../submit-transformer';

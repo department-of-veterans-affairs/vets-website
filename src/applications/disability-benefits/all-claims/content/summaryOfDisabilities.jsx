@@ -1,6 +1,5 @@
 import React from 'react';
-import { capitalizeEachWord } from '../utils';
-import { isDisabilityPtsd } from '../validations';
+import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
