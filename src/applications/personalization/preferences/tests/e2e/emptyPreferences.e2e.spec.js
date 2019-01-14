@@ -21,7 +21,7 @@ function emptyPreferences(browser, token) {
     );
   });
 
-  // verify modal
+  // verify FTUX Find VA Benefits modal
   browser
     .url(`${E2eHelpers.baseUrl}/my-va`)
     .waitForElementVisible('.va-modal-body', Timeouts.slow);
