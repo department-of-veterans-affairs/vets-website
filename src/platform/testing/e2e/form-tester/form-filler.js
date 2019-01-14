@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
@@ -17,20 +16,14 @@ const findData = (fieldSelector, testData) => {
 /**
  * Enters data into a single field.
  */
-const enterData = async (page, field, fieldData, debug) => {
+const enterData = async (page, field, fieldData, log) => {
   const { type, selector } = field;
   if (fieldData === undefined) {
-    if (debug) {
-      // eslint-disable-next-line no-console
-      console.log(`No data found for ${selector}`);
-    }
+    log(`No data found for ${selector}`);
     return;
   }
 
-  if (debug) {
-    // eslint-disable-next-line no-console
-    console.log(`${selector} (${type}):`, fieldData);
-  }
+  log(`${selector} (${type}):`, fieldData);
 
   switch (type) {
     case 'select-one': // Select fields register as having a type === 'select-one'
@@ -67,21 +60,19 @@ const enterData = async (page, field, fieldData, debug) => {
         );
       }
       await page.type(`input[name="${selector}Year"]`, date[0]);
-      // eslint-disable-next-line no-console
-      console.log(`Filling year for ${selector}: ${date[0]}`);
+      log(`Filling year for ${selector}: ${date[0]}`);
       break;
     }
     default:
       throw new Error(`Unknown element type '${type}' for ${selector}`);
-      break;
   }
 };
 
 /**
  * Navigate through all the pages, filling in the data
  */
-export const fillPage = async (page, testData, testConfig) => {
-  (await page.$$eval('input, select', elements => {
+export const fillPage = async (page, testData, testConfig, log) => {
+  const dataEntryPromises = (await page.$$eval('input, select', elements => {
     // This whole function is executed in the browser and can't contain references
     //  to anything outside of the local scope.
     const selectors = new Set();
@@ -118,22 +109,22 @@ export const fillPage = async (page, testData, testConfig) => {
     });
   }))
     .filter(item => item) // Duplicates are null items
-    .filter(item => item.selector.startsWith('root_')) // Only grab form fields
-    .forEach(async field =>
-      enterData(
-        page,
-        field,
-        findData(field.selector, testData),
-        testConfig.debug,
-      ),
-    );
+    .filter(item => item.selector.startsWith('root_')); // Only grab form fields
+
+  for (const field of dataEntryPromises) {
+    log('looping through fields:', field.selector);
+    // We want these data entries to be performed synchronously
+    // eslint-disable-next-line no-await-in-loop
+    await enterData(page, field, findData(field.selector, testData), log);
+  }
 };
 
-const fillForm = async (page, testData, testConfig) => {
+const fillForm = async (page, testData, testConfig, log) => {
   // We want these actions to be performed synchronously, so the await
   //  statements in the loop make sense.
   /* eslint-disable no-await-in-loop */
   while (!page.url().endsWith('review-and-submit')) {
+    log(page.url());
     // TODO: Run axe checker
 
     // If there's a page hook, run that
@@ -150,7 +141,7 @@ const fillForm = async (page, testData, testConfig) => {
         await retVal;
       }
     } else {
-      await fillPage(page, testData, testConfig);
+      await fillPage(page, testData, testConfig, log);
 
       // Hit the continue button
       await page.click('.form-progress-buttons .usa-button-primary');

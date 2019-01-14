@@ -11,6 +11,13 @@ const fillForm = require('./form-filler');
 const getTestData = (testDataSets, testName, pathPrefix) =>
   get(pathPrefix, testDataSets[testName], {});
 
+const getLogger = debugMode => (...params) => {
+  if (debugMode) {
+    // eslint-disable-next-line no-console
+    console.log(...params);
+  }
+};
+
 const runTest = async (page, testData, testConfig, userToken) => {
   // Go to the starting page either by logging in or going there directly
   if (testConfig.logIn) {
@@ -19,7 +26,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
     await page.goto(`${baseUrl}${testConfig.url}`);
   }
 
-  await fillForm(page, testData, testConfig);
+  await fillForm(page, testData, testConfig, getLogger(testConfig.debug));
 
   // TODO: Check for unused data
   // TODO: Submit
