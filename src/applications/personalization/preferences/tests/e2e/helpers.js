@@ -91,7 +91,24 @@ export function initChoicesGetMock(token) {
   });
 }
 
-// TODO: add delete all mock and test
+export function initDeleteMock(token) {
+  mock(token, {
+    path: '/v0/user/preferences/benefits/delete_all',
+    verb: 'delete',
+    value: {
+      value: {
+        data: {
+          id: 'string',
+          type: 'string',
+          attributes: {
+            preferenceCode: 'string',
+            userPreferences: [],
+          },
+        },
+      },
+    },
+  });
+}
 
 export function initHealthPostMock(token) {
   mock(token, {
@@ -141,6 +158,40 @@ export function initHealthGetMock(token) {
                 {
                   code: 'health-care',
                   description: 'Get health care coverage',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  });
+}
+
+export function initCareersAndEducationGetMock(token) {
+  mock(token, {
+    path: '/v0/user/preferences',
+    verb: 'get',
+    value: {
+      data: {
+        id: '',
+        type: 'arrays',
+        attributes: {
+          userPreferences: [
+            {
+              code: 'benefits',
+              title:
+                'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+              userPreferences: [
+                {
+                  code: 'careers-employment',
+                  description:
+                    'Find a job, build skills, or get support for my own business',
+                },
+                {
+                  code: 'education-training',
+                  description:
+                    'GI Bill to help pay for college, training, or certification',
                 },
               ],
             },
