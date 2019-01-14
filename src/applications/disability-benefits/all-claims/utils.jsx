@@ -397,28 +397,25 @@ export const servedAfter911 = formData => !!post911Periods(formData).length;
 export const isDisabilityPtsd = disability =>
   disability.toLowerCase().includes(PTSD);
 
-export const hasNewPtsdDisability = formData => {
-  if (!_.get('view:newDisabilities', formData, false)) {
-    return false;
-  }
-  return some(_.get('newDisabilities', formData, []), item => {
+export const hasNewPtsdDisability = formData =>
+  _.get('view:newDisabilities', formData, false) &&
+  some(_.get('newDisabilities', formData, []), item => {
     let hasPtsd = false;
     if (item && typeof item.condition === 'string') {
       hasPtsd = isDisabilityPtsd(item.condition);
     }
     return hasPtsd;
   });
-};
 
 export const needsToEnter781 = formData =>
-  (hasNewPtsdDisability(formData) &&
-    _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false)) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
+  hasNewPtsdDisability(formData) &&
+  (_.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
+    _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false));
 
 export const needsToEnter781a = formData =>
-  (hasNewPtsdDisability(formData) &&
-    _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false)) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
+  hasNewPtsdDisability(formData) &&
+  (_.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
+    _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false));
 
 export const isUploading781Form = formData =>
   _.get('view:upload781Choice', formData, '') === 'upload';
@@ -427,23 +424,19 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isAnswering781Questions = index => formData =>
+  needsToEnter781(formData) &&
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
-  (index === 0 ||
-    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
-  needsToEnter781(formData);
+  (_.get(`view:enterAdditionalEvents${index - 1}`, formData, false) ||
+    index === 0);
 
 export const isAnswering781aQuestions = index => formData =>
+  needsToEnter781a(formData) &&
   _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
-  (index === 0 ||
-    _.get(
-      `view:enterAdditionalSecondaryEvents${index - 1}`,
-      formData,
-      false,
-    )) &&
-  needsToEnter781a(formData);
+  (_.get(`view:enterAdditionalSecondaryEvents${index - 1}`, formData, false) ||
+    index === 0);
 
 export const isUploading781aSupportingDocuments = index => formData =>
-  isAnswering781aQuestions(formData) &&
+  isAnswering781aQuestions(index)(formData) &&
   _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAddingIndividuals = index => formData =>
@@ -460,16 +453,6 @@ export const getHomelessOrAtRisk = formData => {
 
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
-
-export const showPtsdCombatConclusion = formData =>
-  (needsToEnter781(formData) &&
-    _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false)) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
-
-export const showPtsdAssaultConclusion = formData =>
-  (needsToEnter781a(formData) &&
-    _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false)) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);
