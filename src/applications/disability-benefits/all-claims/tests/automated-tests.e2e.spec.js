@@ -28,8 +28,6 @@ const testConfig = {
   },
 };
 
-// TODO: Figure out why I have to manually set the WEB_PORT env variable
-
 describe('526 all-claims e2e tests', async () => {
   testForm({ 'minimal-test.json': testData }, testConfig);
 });
