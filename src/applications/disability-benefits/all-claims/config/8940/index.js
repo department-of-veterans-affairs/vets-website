@@ -172,20 +172,6 @@ export default function() {
         schema: unemployabilityCertification.schema,
       },
       // 4192 -
-      conclusion4192: {
-        title: 'Conclusion 4192',
-        path: 'disabilities/conclusion-4192',
-        depends: needsToEnterUnemployability,
-        uiSchema: {
-          'ui:title': ' ',
-          'ui:description':
-            'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-        },
-        schema: {
-          type: 'object',
-          properties: {},
-        },
-      },
       ...createFormConfig4192(),
     };
   }
