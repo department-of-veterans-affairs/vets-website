@@ -32,7 +32,7 @@ describe('4192 form upload', () => {
     form.unmount();
   });
 
-  it('should submit without required upload', () => {
+  it('should not submit without required upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -64,10 +64,10 @@ describe('4192 form upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          unemployabilitySupportingDocuments: [
+          uploaded4192: [
             {
               confirmationCode: 'testing',
-              name: '8940.pdf',
+              name: '4192.pdf',
             },
           ],
         }}
