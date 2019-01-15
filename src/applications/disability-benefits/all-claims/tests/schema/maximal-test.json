@@ -220,6 +220,9 @@
           "dates": "asdfasd"
         }
       ],
+      "disabilityAffectedEmploymentFullTimeDate": "2010-01-01",
+      "lastWorkedFullTimeDate": "2010-01-01",
+      "becameTooDisabledToWorkDate": "2010-01-01",
       "view:recordsInfo": {}
     },
     "view:upload781Choice": "answerQuestions",

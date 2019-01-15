@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityDates,
   uploadUnemployabilitySupportingDocuments,
   uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
@@ -75,6 +76,13 @@ export default function() {
         schema: unemployabilityDoctorCare.schema,
       },
       // 8940 - Disability Dates
+      unemployabilityDates: {
+        title: 'Disability dates',
+        path: 'unemployability-disability-dates',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDates.uiSchema,
+        schema: unemployabilityDates.schema,
+      },
       // 8940 - Income Details
       incomeDetails: {
         title: 'Income details',

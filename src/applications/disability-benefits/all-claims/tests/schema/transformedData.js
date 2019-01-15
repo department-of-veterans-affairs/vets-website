@@ -386,16 +386,9 @@ export const transformedMaximalData = {
             dates: 'asdfasd',
           },
         ],
-        // waiting on a PR to add these properties in
-        // disabilityAffectedEmploymentFullTimeDate: {
-        //   $ref: '#/definitions/date'
-        // },
-        // lastWorkedFullTimeDate: {
-        //   $ref: '#/definitions/date'
-        // },
-        // becameTooDisabledToWorkDate: {
-        //   $ref: '#/definitions/date'
-        // },
+        disabilityAffectedEmploymentFullTimeDate: '2010-01-01',
+        lastWorkedFullTimeDate: '2010-01-01',
+        becameTooDisabledToWorkDate: '2010-01-01',
         mostEarningsInAYear: '120', // transform from number to string
         yearOfMostEarnings: '2010',
         occupationDuringMostEarnings: 'a',

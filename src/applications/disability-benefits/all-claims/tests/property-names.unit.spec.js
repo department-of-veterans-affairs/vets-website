@@ -24,6 +24,7 @@ const ignoreList = {
     'medicalCare',
     'hospitalizationHistory',
     'unemployabilityDoctorCare',
+    'unemployabilityDates',
     'incomeDetails',
     'employmentHistory',
     'recentEarnedIncome',
