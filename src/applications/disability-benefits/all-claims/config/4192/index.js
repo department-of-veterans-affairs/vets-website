@@ -29,7 +29,8 @@ export default function() {
       // Download
       pastEmploymentFormDownload: {
         path: 'past-employment-download',
-        depends: isDownloading,
+        depends: formData =>
+          isDownloading(formData) && needsToEnterUnemployability(formData),
         uiSchema: pastEmploymentFormDownload.uiSchema,
         schema: pastEmploymentFormDownload.schema,
       },
