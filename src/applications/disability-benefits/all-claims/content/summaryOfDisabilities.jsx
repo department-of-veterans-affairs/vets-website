@@ -1,9 +1,9 @@
 import React from 'react';
-import { capitalizeEachWord, hasNewPtsdDisability } from '../utils';
+import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
-  if (hasNewPtsdDisability(formData)) {
+  if (isDisabilityPtsd(disabilityName)) {
     const selectablePtsdTypes = formData['view:selectablePtsdTypes'];
     if (selectablePtsdTypes) {
       const selectedPtsdTypes = Object.keys(selectablePtsdTypes)
