@@ -95,9 +95,15 @@ const enterData = async (page, field, fieldData, log) => {
  *  it will only enter data into new fields (in the event that some fields have been
  *  expanded);
  */
-export const pageFiller = (page, testData, testConfig, log) => {
+const fillPage = async (page, testData, testConfig, log) => {
   const touchedFields = new Set();
-  return async function fillPage() {
+
+  // Continue to fill out the fields until there are new fields shown
+  let fieldCount;
+  let newFieldCount;
+  /* eslint-disable no-await-in-loop */
+  do {
+    fieldCount = await page.$$eval(FIELD_SELECTOR, elements => elements.length);
     log(
       'Field list:',
       await page.$$eval(FIELD_SELECTOR, elements =>
@@ -153,7 +159,13 @@ export const pageFiller = (page, testData, testConfig, log) => {
 
     // TODO: Check for arrays and click the appropriate add buttons
     // TODO: Check for multiple add buttons and warn if there are
-  };
+
+    newFieldCount = await page.$$eval(
+      FIELD_SELECTOR,
+      elements => elements.length,
+    );
+  } while (fieldCount !== newFieldCount);
+  /* eslint-enable no-await-in-loop */
 };
 
 const fillForm = async (page, testData, testConfig, log) => {
@@ -178,21 +190,7 @@ const fillForm = async (page, testData, testConfig, log) => {
         await retVal;
       }
     } else {
-      const fillPage = pageFiller(page, testData, testConfig, log);
-      let fieldCount;
-      let newFieldCount;
-      // Continue to fill out the fields until there are new fields shown
-      do {
-        fieldCount = await page.$$eval(
-          FIELD_SELECTOR,
-          elements => elements.length,
-        );
-        await fillPage();
-        newFieldCount = await page.$$eval(
-          FIELD_SELECTOR,
-          elements => elements.length,
-        );
-      } while (fieldCount !== newFieldCount);
+      await fillPage(page, testData, testConfig, log);
 
       // Hit the continue button
       await page.click(CONTINUE_BUTTON);
@@ -221,4 +219,8 @@ const fillForm = async (page, testData, testConfig, log) => {
   /* eslint-enable no-await-in-loop */
 };
 
-module.exports = fillForm;
+module.exports = {
+  enterData,
+  fillPage,
+  fillForm,
+};
