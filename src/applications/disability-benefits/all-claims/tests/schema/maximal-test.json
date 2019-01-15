@@ -63,7 +63,7 @@
     ],
     "view:uploadPrivateRecordsQualifier": {
       "view:aboutPrivateMedicalRecords": {},
-      "view:hasPrivateRecordsToUpload": false,
+      "view:hasPrivateRecordsToUpload": true,
       "view:privateRecordsChoiceHelp": {}
     },
     "view:vaMedicalRecordsIntro": {},
@@ -89,7 +89,7 @@
     "view:hasEvidenceFollowUp": {
       "view:selectableEvidenceTypes": {
         "view:hasVAMedicalRecords": true,
-        "view:hasPrivateMedicalRecords": false,
+        "view:hasPrivateMedicalRecords": true,
         "view:hasOtherEvidence": true
       },
       "view:evidenceTypeHelp": {}
@@ -431,7 +431,7 @@
     }],
     "privateMedicalRecordAttachments": [{
       "confirmationCode": "354c6d40-b6f5-8c6d-9393-3b7de24569e94",
-      "attachmentId": "L048",
+      "attachmentId": "L107",
       "name": "Doc.pdf"
     }]
   }
