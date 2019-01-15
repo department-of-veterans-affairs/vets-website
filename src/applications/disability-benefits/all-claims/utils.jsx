@@ -397,6 +397,9 @@ export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
     locationSchema.addressUI.zipCode = {
       'ui:title': fieldLabels.zipCode,
       'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+      },
     };
   }
 
