@@ -1,6 +1,6 @@
 import environment from '../../../../../platform/utilities/environment';
 
-import { pastEmploymentFormIntro } from '../../pages';
+import { pastEmploymentFormIntro, instructionalPart1 } from '../../pages';
 
 import { needsToEnterUnemployability } from '../../utils';
 
@@ -12,6 +12,11 @@ export default function() {
         path: 'past-employment-walkthrough-choice',
         uiSchema: pastEmploymentFormIntro.uiSchema,
         schema: pastEmploymentFormIntro.schema,
+      },
+      instructionalPart1: {
+        path: '4192-instructions-part-1',
+        uiSchema: instructionalPart1.uiSchema,
+        schema: instructionalPart1.schema,
       },
       conclusion4192: {
         title: 'Conclusion 4192',

@@ -1,0 +1,28 @@
+import React from 'react';
+
+// import { image } from '/img/part1-image.png';
+
+export const instructionalPart1Description = (
+  <div>
+    <div>
+      Both you and your past employer fill out sections of VA Form 21-4192.
+      You’ll complete your part first, then send the form to your past employer
+      to finish and sign.
+    </div>
+    <div>
+      <img src="/img/part1-image.png" alt="stuff" />
+    </div>
+    <span>VA Form 21-4192</span>
+    <p>
+      <strong>Note:</strong> You don’t need to turn in a VA Form 21-4192 for any
+      employers who have gone out of business or any time you were
+      self-employed.
+    </p>
+  </div>
+);
+
+export const instructionalPart1Image = (
+  <div>
+    <img src="/img/5.2.1-image.png" alt="" />
+  </div>
+);

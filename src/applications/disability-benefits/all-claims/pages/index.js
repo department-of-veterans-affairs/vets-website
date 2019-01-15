@@ -84,6 +84,7 @@ import * as vaMedicalRecords from './vaMedicalRecords';
 import * as workBehaviorChanges from './workBehaviorChanges';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
+import * as instructionalPart1 from './instructionalPart1';
 
 export {
   adaptiveBenefits,
@@ -172,4 +173,5 @@ export {
   vaMedicalRecords,
   workBehaviorChanges,
   pastEmploymentFormIntro,
+  instructionalPart1,
 };
