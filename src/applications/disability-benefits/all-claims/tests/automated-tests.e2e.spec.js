@@ -2,7 +2,7 @@ const testForm = require('../../../../platform/testing/e2e/form-tester');
 const PageHelpers = require('./disability-benefits-helpers');
 
 // TODO: Replace this with all the test data sets
-const testData = require('./schema/minimal-test.json');
+const testData = require('./schema/maximal-test.json');
 
 const testConfig = {
   debug: true,

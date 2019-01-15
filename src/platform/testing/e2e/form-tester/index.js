@@ -74,7 +74,6 @@ const testForm = (testDataSets, testConfig) => {
   beforeEach(async () => {
     browser = await puppeteer.launch({
       headless: !testConfig.debug,
-      // slowMo seems to cause other bugs
       // slowMo: testConfig.debug ? 100 : 0,
     });
   });
@@ -99,7 +98,7 @@ const testForm = (testDataSets, testConfig) => {
         );
       },
       // TODO: Make the timeout based on the number of inputs by default
-      testConfig.timeoutPerTest || 50000,
+      testConfig.timeoutPerTest || 120000,
     ),
   );
 };

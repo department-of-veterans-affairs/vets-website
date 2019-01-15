@@ -74,8 +74,8 @@
       {
         "treatmentCenterName": "VA Clinic Name",
         "treatmentDateRange": {
-          "from": "1904-01-01",
-          "to": "1905-01-01"
+          "from": "1904-01-XX",
+          "to": "1905-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "USA",
@@ -84,7 +84,7 @@
         },
         "treatedDisabilityNames": {
           "First Condition": true,
-          "PTSD (post Traumatic Stress Disorder)": true
+          "PTSD (Post Traumatic Stress Disorder)": true
         }
       }
     ],

@@ -2,6 +2,7 @@ const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
 const FIELD_SELECTOR = 'input, select';
+const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
 
 /**
  * Finds the data in testData for a single field.
@@ -39,6 +40,10 @@ const enterData = async (page, field, fieldData, log) => {
       break;
     case 'text':
       await page.type(`input[name="${selector}"]`, fieldData);
+      // Get the autocomplete menu out of the way
+      if (field.role === 'combobox') {
+        page.keyboard.press('Tab');
+      }
       break;
     case 'radio': {
       // Use 'Y' / 'N' if it's a boolean because of the yesNo widget
@@ -55,7 +60,7 @@ const enterData = async (page, field, fieldData, log) => {
         `select[name="${selector}Month"]`,
         parseInt(date[1], 10).toString(),
       );
-      if (date[2]) {
+      if (date[2] !== 'XX') {
         await page.select(
           `select[name="${selector}Day"]`,
           parseInt(date[2], 10).toString(),
@@ -113,10 +118,20 @@ export const pageFiller = (page, testData, testConfig, log) => {
         // Add the item to the set for easy lookup
         selectors.add(selector);
 
-        return {
+        const result = {
           type,
           selector,
         };
+
+        // Add anything special enterData needs to know about the field here
+
+        // Needed to get the autocomplete menu out of the way
+        const role = element.getAttribute('role');
+        if (role === 'combobox') {
+          result.role = role;
+        }
+
+        return result;
       });
     }))
       .filter(field => field) // Duplicates are null fields
@@ -171,12 +186,20 @@ const fillForm = async (page, testData, testConfig, log) => {
       } while (fieldCount !== newFieldCount);
 
       // Hit the continue button
-      await page.click('.form-progress-buttons .usa-button-primary');
+      await page.click(CONTINUE_BUTTON);
 
       // Sometimes the pages isn't done re-rendering before we query for the
       //  elements on the next page, so wait a moment.
       // TODO: Figure out how to remove this arbitrary time
       await page.waitFor(300);
+
+      // Sometimes an expanded field or something gets in the way
+      //  Try again before failing the test
+      if (page.url() === url) {
+        await page.waitFor(300);
+        page.click(CONTINUE_BUTTON);
+      }
+
       if (page.url() === url) {
         try {
           await page.waitForNavigation({ timeout: 1000 });
