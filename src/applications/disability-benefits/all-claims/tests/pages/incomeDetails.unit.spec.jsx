@@ -48,8 +48,8 @@ describe('Income Details Questions', () => {
       />,
     );
 
-    fillData(form, 'input#root_unemployability_mostIncome', '10000');
-    fillData(form, 'input#root_unemployability_yearEarned', '2012');
+    fillData(form, 'input#root_unemployability_mostEarningsInAYear', '10000');
+    fillData(form, 'input#root_unemployability_yearOfMostEarnings', '2012');
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
@@ -71,7 +71,7 @@ describe('Income Details Questions', () => {
       />,
     );
 
-    fillData(form, 'input#root_unemployability_mostIncome', 'abcde');
+    fillData(form, 'input#root_unemployability_mostEarningsInAYear', 'abcde');
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
@@ -93,7 +93,7 @@ describe('Income Details Questions', () => {
       />,
     );
 
-    fillData(form, 'input#root_unemployability_yearEarned', '0000');
+    fillData(form, 'input#root_unemployability_yearOfMostEarnings', '0000');
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;

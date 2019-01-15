@@ -1,29 +1,39 @@
-import { merge, omit } from 'lodash';
-import fullSchema from '../config/schema';
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
 
 import {
   recentJobApplicationsDescription,
   substantiallyGainfulEmployment,
 } from '../content/recentJobApplications';
 
-import {
-  uiSchema as addressUI,
-  schema as addressSchema,
-} from '../../../../platform/forms/definitions/address';
-
-import { validateZIP } from '../validations';
-
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
+import { generateAddressSchemas } from '../utils';
 
-const address = addressSchema(fullSchema);
-const { date } = fullSchema.definitions;
+const { addressUI, addressSchema } = generateAddressSchemas(
+  ['addressLine3', 'postalCode'],
+  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
+  {
+    country: 'Country',
+    addressLine1: 'Street address',
+    addressLine2: 'Street address (line 2)',
+    city: 'City',
+    state: 'State',
+    zipCode: 'Postal code',
+  },
+);
+
+const {
+  appliedEmployers,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': 'Recent job applications',
+    'ui:title': unemployabilityPageTitle('Recent job applications'),
     'view:hasAppliedEmployers': {
       'ui:title': recentJobApplicationsDescription(),
       'ui:widget': 'yesNo',
@@ -38,29 +48,7 @@ export const uiSchema = {
         name: {
           'ui:title': "Company's Name",
         },
-        address: merge(addressUI('', false), {
-          'ui:order': [
-            'country',
-            'addressLine1',
-            'addressLine2',
-            'city',
-            'state',
-            'zipCode',
-          ],
-          addressLine1: {
-            'ui:title': 'Street 1',
-          },
-          addressLine2: {
-            'ui:title': 'Street 2',
-          },
-          state: {
-            'ui:title': 'State',
-          },
-          zipCode: {
-            'ui:title': 'Postal Code',
-            'ui:validations': [validateZIP],
-          },
-        }),
+        address: addressUI,
         workType: {
           'ui:title': 'Type of work',
         },
@@ -88,22 +76,8 @@ export const schema = {
           items: {
             type: 'object',
             properties: {
-              name: {
-                type: 'string',
-              },
-              address: {
-                ...address,
-                properties: {
-                  ...omit(address.properties, ['addressLine3', 'postalCode']),
-                  zipCode: {
-                    type: 'string',
-                  },
-                },
-              },
-              workType: {
-                type: 'string',
-              },
-              date,
+              ...appliedEmployers.items.properties,
+              address: addressSchema,
             },
           },
         },

@@ -3,22 +3,28 @@ import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { incomeDescription } from '../content/incomeDetails';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const {
+  yearOfMostEarnings,
+  occupationDuringMostEarnings,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': incomeDescription,
   unemployability: {
-    mostIncome: currencyUI(
+    mostEarningsInAYear: currencyUI(
       'What was the most money you ever earned in one year?',
     ),
-    yearEarned: {
+    yearOfMostEarnings: {
       'ui:title': 'Year earned',
       'ui:validations': [isValidYear],
       'ui:errorMessages': {
         pattern: 'Please provide a valid year',
       },
     },
-    job: {
+    occupationDuringMostEarnings: {
       'ui:title': 'What was your job that year?',
     },
   },
@@ -30,15 +36,11 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        mostIncome: {
+        mostEarningsInAYear: {
           type: 'number',
         },
-        yearEarned: {
-          type: 'string',
-        },
-        job: {
-          type: 'string',
-        },
+        yearOfMostEarnings,
+        occupationDuringMostEarnings,
       },
     },
   },

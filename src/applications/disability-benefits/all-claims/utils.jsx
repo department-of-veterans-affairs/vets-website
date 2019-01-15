@@ -9,6 +9,7 @@ import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import { validateZIP } from './validations';
 
 import {
   schema as addressSchema,
@@ -340,6 +341,70 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
+/**
+ * Creates uiSchema and schema for address widget based on params
+ * @param {array} addressOmitions
+ * @param {array} order
+ * @param {object} fieldLabels
+ */
+export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  const locationSchema = {
+    addressUI: {
+      ...addressUIConfig,
+      'ui:order': order,
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+      },
+    },
+  };
+
+  if (!addressOmitions.includes('country')) {
+    locationSchema.addressUI.country = {
+      'ui:title': fieldLabels.country,
+    };
+  }
+
+  if (!addressOmitions.includes('addressLine1')) {
+    locationSchema.addressUI.addressLine1 = {
+      'ui:title': fieldLabels.addressLine1,
+    };
+  }
+
+  if (!addressOmitions.includes('addressLine2')) {
+    locationSchema.addressUI.addressLine2 = {
+      'ui:title': fieldLabels.addressLine2,
+    };
+  }
+
+  if (!addressOmitions.includes('city')) {
+    locationSchema.addressUI.city = {
+      'ui:title': fieldLabels.city,
+    };
+  }
+
+  if (!addressOmitions.includes('state')) {
+    locationSchema.addressUI.state = {
+      'ui:title': fieldLabels.state,
+    };
+  }
+
+  if (!addressOmitions.includes('zipCode')) {
+    locationSchema.addressUI.zipCode = {
+      'ui:title': fieldLabels.zipCode,
+      'ui:validations': [validateZIP],
+    };
+  }
+
+  return locationSchema;
+}
+
+// Could be changed to use generateLocationSchemas
 export function incidentLocationSchemas() {
   const addressOmitions = [
     'addressLine1',
