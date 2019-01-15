@@ -21,6 +21,7 @@ export default function() {
       // Intro
       pastEmploymentFormIntro: {
         path: 'past-employment-walkthrough-choice',
+        depends: needsToEnterUnemployability,
         uiSchema: pastEmploymentFormIntro.uiSchema,
         schema: pastEmploymentFormIntro.schema,
       },
