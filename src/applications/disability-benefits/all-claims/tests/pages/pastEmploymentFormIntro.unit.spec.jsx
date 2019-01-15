@@ -3,38 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  DefinitionTester,
-  fillData,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('Hospitalization Interview Questions', () => {
+describe('Disability benefits 4192', () => {
   const {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.hospitalizationHistory;
+  } = formConfig.chapters.disabilities.pages.pastEmploymentFormIntro;
 
-  it('should render hospital info form', () => {
-    const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect(form);
-    expect(form.find('input').length).to.equal(6);
-    form.unmount();
-  });
-
-  it('should add a hospital', () => {
+  it('renders 4192 form intro choices', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -43,22 +23,33 @@ describe('Hospitalization Interview Questions', () => {
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={initialData}
-        formData={initialData}
+        data={{}}
+        formData={{}}
         uiSchema={uiSchema}
       />,
     );
 
-    //  No fields are required
-    fillData(
-      form,
-      'input#root_unemployability_hospitalProvidedCare_0_name',
-      'Local facility',
+    expect(form.find('input').length).to.equal(4);
+    form.unmount();
+  });
+  it('should require an option to be selected', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });
