@@ -40,6 +40,7 @@ const enterData = async (page, field, fieldData, log) => {
       if (checkbox) await checkbox.click();
       break;
     }
+    case 'tel':
     case 'textarea':
     case 'text': {
       await page.type(`input[name="${selector}"]`, fieldData);
