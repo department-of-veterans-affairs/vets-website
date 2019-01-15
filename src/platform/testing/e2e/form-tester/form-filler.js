@@ -1,6 +1,8 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
+const FIELD_SELECTOR = 'input, select';
+
 /**
  * Finds the data in testData for a single field.
  */
@@ -60,7 +62,6 @@ const enterData = async (page, field, fieldData, log) => {
         );
       }
       await page.type(`input[name="${selector}Year"]`, date[0]);
-      log(`Filling year for ${selector}: ${date[0]}`);
       break;
     }
     default:
@@ -69,54 +70,66 @@ const enterData = async (page, field, fieldData, log) => {
 };
 
 /**
- * Navigate through all the pages, filling in the data
+ * Returns a function that enters data for each field. When called subsequent times,
+ *  it will only enter data into new fields (in the event that some fields have been
+ *  expanded);
  */
-export const fillPage = async (page, testData, testConfig, log) => {
-  const fields = (await page.$$eval('input, select', elements => {
-    // This whole function is executed in the browser and can't contain references
-    //  to anything outside of the local scope.
-    const selectors = new Set();
-    return elements.map(element => {
-      // <select> elements have neither a type nor a name
-      let type = element.type || element.tagName;
-      let selector = element.name || element.id;
+export const pageFiller = (page, testData, testConfig, log) => {
+  const touchedFields = new Set();
+  return async function fillPage() {
+    log(
+      'Field list:',
+      await page.$$eval(FIELD_SELECTOR, elements =>
+        elements.map(e => e.name || e.id),
+      ),
+    );
+    const fields = (await page.$$eval(FIELD_SELECTOR, elements => {
+      // This whole function is executed in the browser and can't contain references
+      //  to anything outside of the local scope.
+      const selectors = new Set();
+      return elements.map(element => {
+        // <select> elements have neither a type nor a name
+        let type = element.type || element.tagName;
+        let selector = element.name || element.id;
 
-      // Date fields have one piece of data for two or three fields,
-      //  so we only want the base selector to both find the data
-      //  and use with our custom .fillDate() nightwatch command.
-      const isDateField = sel =>
-        sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
-      if (isDateField(selector)) {
-        type = 'date';
-        // We only have one date field in the test data, so we fill two or three
-        //  fields with one enterData call
-        selector = selector.replace(/(Year|Month|Day)$/, '');
-      }
+        // Date fields have one piece of data for two or three fields,
+        //  so we only want the base selector to both find the data
+        //  and use with our custom .fillDate() nightwatch command.
+        const isDateField = sel =>
+          sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
+        if (isDateField(selector)) {
+          type = 'date';
+          // We only have one date field in the test data, so we fill two or three
+          //  fields with one enterData call
+          selector = selector.replace(/(Year|Month|Day)$/, '');
+        }
 
-      // Make sure not to duplicate entries
-      //  (specifically useful for radio buttons and date fields)
-      if (selectors.has(selector)) {
-        return null;
-      }
+        // Make sure not to duplicate entries
+        //  (specifically useful for radio buttons and date fields)
+        if (selectors.has(selector)) {
+          return null;
+        }
 
-      // Add the item to the set for easy lookup
-      selectors.add(selector);
+        // Add the item to the set for easy lookup
+        selectors.add(selector);
 
-      return {
-        type,
-        selector,
-      };
-    });
-  }))
-    .filter(item => item) // Duplicates are null items
-    .filter(item => item.selector.startsWith('root_')); // Only grab form fields
+        return {
+          type,
+          selector,
+        };
+      });
+    }))
+      .filter(field => field) // Duplicates are null fields
+      .filter(field => !touchedFields.has(field.selector))
+      .filter(field => field.selector.startsWith('root_')); // Only grab form fields
 
-  for (const field of fields) {
-    log('looping through fields:', field.selector);
-    // We want these data entries to be performed synchronously
-    // eslint-disable-next-line no-await-in-loop
-    await enterData(page, field, findData(field.selector, testData), log);
-  }
+    for (const field of fields) {
+      touchedFields.add(field.selector);
+      // We want these data entries to be performed synchronously
+      // eslint-disable-next-line no-await-in-loop
+      await enterData(page, field, findData(field.selector, testData), log);
+    }
+  };
 };
 
 const fillForm = async (page, testData, testConfig, log) => {
@@ -141,10 +154,29 @@ const fillForm = async (page, testData, testConfig, log) => {
         await retVal;
       }
     } else {
-      await fillPage(page, testData, testConfig, log);
+      const fillPage = pageFiller(page, testData, testConfig, log);
+      let fieldCount;
+      let newFieldCount;
+      // Continue to fill out the fields until there are new fields shown
+      do {
+        fieldCount = await page.$$eval(
+          FIELD_SELECTOR,
+          elements => elements.length,
+        );
+        await fillPage();
+        newFieldCount = await page.$$eval(
+          FIELD_SELECTOR,
+          elements => elements.length,
+        );
+      } while (fieldCount !== newFieldCount);
 
       // Hit the continue button
       await page.click('.form-progress-buttons .usa-button-primary');
+
+      // Sometimes the pages isn't done re-rendering before we query for the
+      //  elements on the next page, so wait a moment.
+      // TODO: Figure out how to remove this arbitrary time
+      await page.waitFor(300);
       if (page.url() === url) {
         try {
           await page.waitForNavigation({ timeout: 1000 });
