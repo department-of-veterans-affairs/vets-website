@@ -27,6 +27,8 @@ import * as incomeDetails from './incomeDetails';
 import * as individualsInvolved from './individualsInvolved';
 import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualUnemployability from './individualUnemployability';
+import * as instructionalPart1 from './instructionalPart1';
+import * as instructionalPart2 from './instructionalPart2';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
@@ -36,6 +38,7 @@ import * as newDisabilities from './newDisabilities';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
+import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
 import * as paymentInformation from './paymentInformation';
 import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
@@ -83,9 +86,6 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as workBehaviorChanges from './workBehaviorChanges';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
-import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
-import * as instructionalPart1 from './instructionalPart1';
-import * as instructionalPart2 from './instructionalPart2';
 
 export {
   adaptiveBenefits,
@@ -117,6 +117,8 @@ export {
   individualsInvolved,
   individualsInvolvedFollowUp,
   individualUnemployability,
+  instructionalPart1,
+  instructionalPart2,
   medals,
   medicalCare,
   mentalHealthChanges,
@@ -126,6 +128,7 @@ export {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   pastEducationTraining,
+  pastEmploymentFormIntro,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -173,7 +176,4 @@ export {
   vaEmployee,
   vaMedicalRecords,
   workBehaviorChanges,
-  pastEmploymentFormIntro,
-  instructionalPart1,
-  instructionalPart2,
 };
