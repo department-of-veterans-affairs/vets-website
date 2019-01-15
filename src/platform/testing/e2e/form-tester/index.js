@@ -8,6 +8,14 @@ const {
 } = require('../../../../platform/testing/e2e-puppeteer/auth');
 const fillForm = require('./form-filler');
 
+/**
+ * Makes expanding fields and other animations go fast enough to not get in
+ *  the way.
+ */
+const fastForwardAnimations = async page => {
+  await page._client.send('Animation.setPlaybackRate', { playbackRate: 10 });
+};
+
 const getTestData = (testDataSets, testName, pathPrefix) =>
   get(pathPrefix, testDataSets[testName], {});
 
@@ -90,6 +98,7 @@ const testForm = (testDataSets, testConfig) => {
       async () => {
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
+        await fastForwardAnimations(page);
         await runTest(
           page,
           getTestData(testDataSets, testName, testConfig.testDataPathPrefix),
