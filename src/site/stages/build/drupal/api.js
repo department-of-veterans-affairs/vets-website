@@ -5,9 +5,20 @@ const fetch = require('node-fetch');
 
 const DRUPALS = require('../../../constants/drupals');
 
+function getCredentials(drupalAddress) {
+  const { username, password } = DRUPALS.CREDENTIALS[drupalAddress];
+  const credentials = `${username}:${password}`;
+  const credentialsEncoded = Buffer.from(credentials).toString('base64');
+  return credentialsEncoded;
+}
+
 function getDrupalClient(buildOptions) {
-  const drupalUri = `${DRUPALS[buildOptions.buildtype]}/graphql`;
-  const link = createHttpLink({ uri: drupalUri, fetch });
+  const drupalAddress = DRUPALS[buildOptions.buildtype];
+  const drupalUri = `${drupalAddress}/graphql`;
+  const credentials = getCredentials(drupalAddress);
+  const headers = { Authorization: `Basic ${credentials}` };
+  const link = createHttpLink({ uri: drupalUri, fetch, headers });
+
   const cache = new InMemoryCache();
   const drupalClient = new ApolloClient({ link, cache });
 
