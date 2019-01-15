@@ -3,6 +3,7 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityDates,
   uploadUnemployabilitySupportingDocuments,
   uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
@@ -14,6 +15,7 @@ import {
   recentJobApplications,
   incomeDetails,
   employmentHistory,
+  unemployabilityDoctorCare,
   medicalCare,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
@@ -23,7 +25,10 @@ import {
   needsToAnswerUnemployability,
   isUploadingSupporting8940Documents,
   hasHospitalCare,
+  hasDoctorsCare,
 } from '../../utils';
+
+import createFormConfig4192 from '../4192';
 
 export default function() {
   let configObj = {};
@@ -63,7 +68,21 @@ export default function() {
         schema: hospitalizationHistory.schema,
       },
       // 8940 - Doctor Treatment
+      unemployabilityDoctorCare: {
+        title: 'Doctor’s care',
+        path: 'doctor-care',
+        depends: hasDoctorsCare,
+        uiSchema: unemployabilityDoctorCare.uiSchema,
+        schema: unemployabilityDoctorCare.schema,
+      },
       // 8940 - Disability Dates
+      unemployabilityDates: {
+        title: 'Disability dates',
+        path: 'unemployability-disability-dates',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDates.uiSchema,
+        schema: unemployabilityDates.schema,
+      },
       // 8940 - Income Details
       incomeDetails: {
         title: 'Income details',
@@ -161,20 +180,7 @@ export default function() {
         schema: unemployabilityCertification.schema,
       },
       // 4192 -
-      conclusion4192: {
-        title: 'Conclusion 4192',
-        path: 'disabilities/conclusion-4192',
-        depends: needsToEnterUnemployability,
-        uiSchema: {
-          'ui:title': ' ',
-          'ui:description':
-            'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-        },
-        schema: {
-          type: 'object',
-          properties: {},
-        },
-      },
+      ...createFormConfig4192(),
     };
   }
   return configObj;

@@ -5,7 +5,8 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, {
+import {
+  DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 

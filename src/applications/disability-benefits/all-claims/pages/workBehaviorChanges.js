@@ -28,7 +28,7 @@ export const uiSchema = {
       'ui:title': 'Other',
     },
     otherExplanation: {
-      'ui:title': ' ',
+      'ui:title': 'Please describe',
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,

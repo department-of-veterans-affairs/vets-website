@@ -20,10 +20,12 @@ export const uiSchema = {
   },
   'view:medicalCareType': {
     'view:doctorsCare': {
-      'ui:title': 'Yes, I‘ve been under a doctor‘s care',
+      'ui:title':
+        'I‘ve been under a doctor‘s care in the past 12 months for these disabilities.',
     },
     'view:hospitalized': {
-      'ui:title': 'Yes, I‘ve been hospitalized',
+      'ui:title':
+        'I‘ve spent time in a hospital in the past 12 months for these disabilities.',
     },
     'ui:options': {
       expandUnder: 'view:medicalCare',
