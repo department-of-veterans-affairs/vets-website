@@ -45,7 +45,7 @@ export const transformedMaximalData = {
   form526: {
     hasTrainingPay: true,
     standardClaim: false,
-    separationPayDate: '2019-01-01',
+    separationPayDate: '2019',
     separationPayBranch: 'Air Force',
     waiveTrainingPay: true,
     waiveRetirementPay: false,
@@ -80,8 +80,8 @@ export const transformedMaximalData = {
       state: 'OH',
       zipCode: '12343',
       effectiveDate: {
-        from: '2019-01-01',
-        to: '2020-01-01',
+        from: '2118-01-01',
+        to: '2119-01-01',
       },
     },
     additionalDocuments: [
@@ -95,8 +95,8 @@ export const transformedMaximalData = {
       {
         treatmentCenterName: 'VA Clinic Name',
         treatmentDateRange: {
-          from: '1904-01-01',
-          to: '1905-01-01',
+          from: '1904-01-XX',
+          to: '1905-01-31',
         },
         treatmentCenterAddress: {
           country: 'USA',
