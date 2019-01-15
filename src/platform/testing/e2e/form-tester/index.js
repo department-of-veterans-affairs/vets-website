@@ -73,7 +73,7 @@ const testForm = (testDataSets, testConfig) => {
 
   beforeEach(async () => {
     browser = await puppeteer.launch({
-      headless: !testConfig.debug,
+      devtools: testConfig.debug,
       // slowMo: testConfig.debug ? 100 : 0,
     });
   });

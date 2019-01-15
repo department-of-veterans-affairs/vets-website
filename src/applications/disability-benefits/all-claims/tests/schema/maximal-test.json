@@ -92,7 +92,7 @@
     "view:hasEvidenceFollowUp": {
       "view:selectableEvidenceTypes": {
         "view:hasVAMedicalRecords": true,
-        "view:hasPrivateMedicalRecords": true,
+        "view:hasPrivateMedicalRecords": false,
         "view:hasOtherEvidence": true
       },
       "view:evidenceTypeHelp": {}

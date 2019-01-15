@@ -250,7 +250,7 @@ function initInProgressMock(token) {
 
 function initDocumentUploadMock() {
   mock(null, {
-    path: '/v0/claim_attachments',
+    path: '/v0/upload_supporting_evidence',
     verb: 'post',
     value: {
       data: {

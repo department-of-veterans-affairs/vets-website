@@ -32,19 +32,26 @@ const enterData = async (page, field, fieldData, log) => {
     case 'select-one': // Select fields register as having a type === 'select-one'
       await page.select(`select[name="${selector}"]`, fieldData);
       break;
-    case 'checkbox':
+    case 'checkbox': {
       // Only click the checkbox if we need to
-      await page.click(
+      const checkbox = await page.$(
         `input[id="${selector}"]${fieldData ? ':not(checked)' : ':checked'}`,
       );
+      if (checkbox) await checkbox.click();
       break;
-    case 'text':
+    }
+    case 'textarea':
+    case 'text': {
       await page.type(`input[name="${selector}"]`, fieldData);
       // Get the autocomplete menu out of the way
-      if (field.role === 'combobox') {
-        page.keyboard.press('Tab');
+      const role = await page.$eval(`input[name="${selector}"]`, textbox =>
+        textbox.getAttribute('role'),
+      );
+      if (role === 'combobox') {
+        await page.keyboard.press('Tab');
       }
       break;
+    }
     case 'radio': {
       // Use 'Y' / 'N' if it's a boolean because of the yesNo widget
       let optionValue = fieldData;
@@ -67,6 +74,14 @@ const enterData = async (page, field, fieldData, log) => {
         );
       }
       await page.type(`input[name="${selector}Year"]`, date[0]);
+      break;
+    }
+    case 'file': {
+      // The upload endpoint should already be mocked; just click the button
+      // TODO: Ensure the file we're uploading is valid for this input
+      const fileField = await page.$(`input[id="${selector}"]`);
+      // TODO: Change this to not assume the test is being run from the project root
+      await fileField.uploadFile('./src/platform/testing/example-upload.png');
       break;
     }
     default:
@@ -118,20 +133,10 @@ export const pageFiller = (page, testData, testConfig, log) => {
         // Add the item to the set for easy lookup
         selectors.add(selector);
 
-        const result = {
+        return {
           type,
           selector,
         };
-
-        // Add anything special enterData needs to know about the field here
-
-        // Needed to get the autocomplete menu out of the way
-        const role = element.getAttribute('role');
-        if (role === 'combobox') {
-          result.role = role;
-        }
-
-        return result;
       });
     }))
       .filter(field => field) // Duplicates are null fields
@@ -144,6 +149,9 @@ export const pageFiller = (page, testData, testConfig, log) => {
       // eslint-disable-next-line no-await-in-loop
       await enterData(page, field, findData(field.selector, testData), log);
     }
+
+    // TODO: Check for arrays and click the appropriate add buttons
+    // TODO: Check for multiple add buttons and warn if there are
   };
 };
 
