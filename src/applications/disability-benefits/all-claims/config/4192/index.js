@@ -1,6 +1,6 @@
 import environment from '../../../../../platform/utilities/environment';
 
-import { pastEmploymentFormIntro } from '../../pages';
+import { pastEmploymentFormIntro, pastEmploymentFormUpload } from '../../pages';
 
 import { needsToEnterUnemployability } from '../../utils';
 
@@ -8,8 +8,9 @@ import { needsToEnterUnemployability } from '../../utils';
 // const isDownloading = formData =>
 // _.get(formData, 'view:upload4192Choice.view:download4192', false);
 // const isUploading = formData =>
-//   _.get(formData, 'view:upload4192Choice.view:upload4192', false);
+// _.get(formData, 'view:upload4192Choice.view:upload4192', false);
 // const isExiting = formData => _.get(formData, 'view:upload4192Choice.view:sendRequests', false);
+
 export default function() {
   let configObj = {};
   if (!environment.isProduction()) {
@@ -24,7 +25,11 @@ export default function() {
       // Download
       // Upload
       pastEmploymentFormUpload: {
-        path: '',
+        path: 'past-employment-form-upload',
+        // depends: formData =>
+        // isUploading(formData) && needsToEnterUnemployability(formData),
+        uiSchema: pastEmploymentFormUpload.uiSchema,
+        schema: pastEmploymentFormUpload.schema,
       },
       // ***Below page comments for when logic is added in***
       // Conditional Options (Intro page again if A and not A && B && C)
