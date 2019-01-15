@@ -30,6 +30,7 @@ const enterData = async (page, field, fieldData, log) => {
 
   switch (type) {
     case 'select-one': // Select fields register as having a type === 'select-one'
+      // TODO: Error if it's not an option the select has
       await page.select(`select[name="${selector}"]`, fieldData);
       break;
     case 'checkbox': {
