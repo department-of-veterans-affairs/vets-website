@@ -78,11 +78,13 @@ const enterData = async (page, field, fieldData, log) => {
       break;
     }
     case 'file': {
-      // The upload endpoint should already be mocked; just click the button
-      // TODO: Ensure the file we're uploading is valid for this input
-      const fileField = await page.$(`input[id="${selector}"]`);
-      // TODO: Change this to not assume the test is being run from the project root
-      await fileField.uploadFile('./src/platform/testing/example-upload.png');
+      if (fieldData) {
+        // The upload endpoint should already be mocked; just click the button
+        // TODO: Ensure the file we're uploading is valid for this input
+        const fileField = await page.$(`input[id="${selector}"]`);
+        // TODO: Change this to not assume the test is being run from the project root
+        await fileField.uploadFile('./src/platform/testing/example-upload.png');
+      }
       break;
     }
     default:
@@ -198,7 +200,7 @@ const fillForm = async (page, testData, testConfig, log) => {
       // Sometimes the pages isn't done re-rendering before we query for the
       //  elements on the next page, so wait a moment.
       // TODO: Figure out how to remove this arbitrary time
-      await page.waitFor(300);
+      await page.waitFor(500);
 
       // Sometimes an expanded field or something gets in the way
       //  Try again before failing the test
