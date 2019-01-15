@@ -6,6 +6,13 @@ import {
 } from '../content/unemployabilityDates';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const {
+  disabilityAffectedEmploymentFullTimeDate,
+  lastWorkedFullTimeDate,
+  becameTooDisabledToWorkDate,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -33,15 +40,9 @@ export const schema = {
       type: 'object',
       required: ['disabilityAffectedEmploymentFullTimeDate'],
       properties: {
-        disabilityAffectedEmploymentFullTimeDate: {
-          $ref: '#/definitions/date',
-        },
-        lastWorkedFullTimeDate: {
-          $ref: '#/definitions/date',
-        },
-        becameTooDisabledToWorkDate: {
-          $ref: '#/definitions/date',
-        },
+        disabilityAffectedEmploymentFullTimeDate,
+        lastWorkedFullTimeDate,
+        becameTooDisabledToWorkDate,
         'view:unemployabilityDatesDesc': {
           type: 'object',
           properties: {},
