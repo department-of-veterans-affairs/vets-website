@@ -28,7 +28,7 @@ export default function() {
       // Download
       pastEmploymentFormDownload: {
         path: 'past-employment-download',
-        depends: formData => isDownloading(formData),
+        depends: isDownloading,
         uiSchema: pastEmploymentFormDownload.uiSchema,
         schema: pastEmploymentFormDownload.schema,
       },
