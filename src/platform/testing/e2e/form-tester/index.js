@@ -6,14 +6,14 @@ const {
   getUserToken,
   logIn,
 } = require('../../../../platform/testing/e2e-puppeteer/auth');
-const fillForm = require('./form-filler');
+const { fillForm } = require('./form-filler');
 
 /**
  * Makes expanding fields and other animations go fast enough to not get in
  *  the way.
  */
 const fastForwardAnimations = async page => {
-  await page._client.send('Animation.setPlaybackRate', { playbackRate: 10 });
+  await page._client.send('Animation.setPlaybackRate', { playbackRate: 100 });
 };
 
 const getTestData = (testDataSets, testName, pathPrefix) =>
