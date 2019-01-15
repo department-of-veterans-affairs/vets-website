@@ -32,7 +32,7 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
         .map(disability => capitalizeEachWord(disability.name))
     : [];
   const newDisabilityNames =
-    newDisabilities && formData['view:newDisablities']
+    newDisabilities && formData['view:newDisabilities']
       ? newDisabilities.map(disability =>
           capitalizeEachWord(disability.condition),
         )
