@@ -1,10 +1,10 @@
-import { instructionalPart1Description } from '../content/instructionalPart1';
+import { instructionalPart2Description } from '../content/instructionalPart2';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
-  'ui:description': instructionalPart1Description,
+  'ui:description': instructionalPart2Description,
 };
 
 export const schema = {

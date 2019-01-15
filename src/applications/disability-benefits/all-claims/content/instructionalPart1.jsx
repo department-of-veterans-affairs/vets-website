@@ -1,7 +1,5 @@
 import React from 'react';
 
-// import { image } from '/img/part1-image.png';
-
 export const instructionalPart1Description = (
   <div>
     <div>
@@ -18,11 +16,5 @@ export const instructionalPart1Description = (
       employers who have gone out of business or any time you were
       self-employed.
     </p>
-  </div>
-);
-
-export const instructionalPart1Image = (
-  <div>
-    <img src="/img/5.2.1-image.png" alt="" />
   </div>
 );
