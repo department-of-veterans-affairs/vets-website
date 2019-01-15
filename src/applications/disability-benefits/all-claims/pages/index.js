@@ -83,6 +83,7 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as workBehaviorChanges from './workBehaviorChanges';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
+import * as unemployabilityDates from './unemployabilityDates';
 import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
 import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
 
@@ -164,6 +165,7 @@ export {
   trainingPayWaiver,
   unemployabilityAdditionalInformation,
   unemployabilityCertification,
+  unemployabilityDates,
   unemployabilityDisabilities,
   unemployabilityDoctorCare,
   unemployabilityFormIntro,
