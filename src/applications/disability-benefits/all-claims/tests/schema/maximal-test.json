@@ -5,14 +5,11 @@
     "view:hasSeparationPay": true,
     "view:separationPayDetails": {
       "view:separationPayDetailsDescription": {},
-      "separationPayDate": "2019-01-01",
+      "separationPayDate": "2019",
       "separationPayBranch": "Air Force"
     },
     "hasTrainingPay": true,
-    "view:waiveTrainingPay": {
-      "view:waiveTrainingPayDescription": {},
-      "waiveTrainingPay": true
-    },
+    "waiveTrainingPay": true,
     "view:waiveRetirementPayDescription": {},
     "waiveRetirementPay": false,
     "isVAEmployee": true,
@@ -52,8 +49,8 @@
       "state": "OH",
       "zipCode": "12343",
       "effectiveDate": {
-        "from": "2019-01-01",
-        "to": "2020-01-01"
+        "from": "2118-01-01",
+        "to": "2119-01-01"
       }
     },
     "view:contactInfoDescription": {},
