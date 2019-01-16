@@ -495,6 +495,9 @@ export const isAddingIndividuals = index => formData =>
   isAnswering781Questions(index)(formData) &&
   _.get(`view:individualsInvolved${index}`, formData, false);
 
+export const isUploading8940Form = formData =>
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'upload';
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (

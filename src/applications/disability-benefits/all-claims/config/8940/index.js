@@ -14,6 +14,7 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  unemployabilityFormUpload,
   employmentHistory,
   unemployabilityDoctorCare,
   medicalCare,
@@ -23,6 +24,7 @@ import environment from '../../../../../platform/utilities/environment';
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploading8940Form,
   isUploadingSupporting8940Documents,
   hasHospitalCare,
   hasDoctorsCare,
@@ -43,6 +45,13 @@ export default function() {
         schema: unemployabilityFormIntro.schema,
       },
       // 8940 - Upload 8940
+      unemployabilityFormUpload: {
+        title: 'Upload Unemployability Form',
+        path: 'new-disabilities/unemployability-form-uplaod',
+        depends: isUploading8940Form,
+        uiSchema: unemployabilityFormUpload.uiSchema,
+        schema: unemployabilityFormUpload.schema,
+      },
       // 8940 - Contentions
       unemployabilityDisabilities: {
         title: 'Unemployability disabilities',
