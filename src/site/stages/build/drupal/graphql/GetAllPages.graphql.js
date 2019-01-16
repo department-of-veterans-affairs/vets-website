@@ -1,31 +1,18 @@
-const { gql } = require('apollo-boost');
+const Hub = require('./Hub.graphql');
+const StandardPage = require('./StandardPage.graphql');
 
-module.exports = gql`
-  {
+module.exports = `
+
+  ${Hub}
+  ${StandardPage}
+
+  query GetAllPages {
     nodeQuery {
-      count
       entities {
-        ... on NodePage {
-          nid
-          entityUrl {
-            path
-            routed
-          }
-          entityBundle
-          entityPublished
-          title
-          fieldIntroText
-          fieldContentBlock {
-            entity {
-              ... on Paragraph {
-                id
-                entityBundle
-                entityRendered
-              }
-            }
-          }
-        }
+        ... Hub
+        ... StandardPage
       }
     }
   }
+
 `;

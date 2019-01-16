@@ -6,7 +6,6 @@ const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
-const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -86,7 +85,7 @@ async function loadDrupal(buildOptions) {
 
     const contentApi = getApiClient(buildOptions);
 
-    drupalPages = await contentApi.query({ query: GET_ALL_PAGES });
+    drupalPages = await contentApi.getAllPages();
 
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));

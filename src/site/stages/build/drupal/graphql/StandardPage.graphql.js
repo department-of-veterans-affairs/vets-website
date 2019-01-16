@@ -1,10 +1,22 @@
-const { gql } = require('apollo-boost');
-
 /**
  *
  */
-module.exports = gql`
+module.exports = `
   fragment StandardPage on NodePage {
-
+    entityUrl {
+      path
+      routed
+    }
+    entityBundle
+    entityPublished
+    title
+    fieldIntroText
+    fieldContentBlock {
+      entity {
+        entityType
+        entityBundle
+        entityRendered
+      }
+    }
   }
 `;

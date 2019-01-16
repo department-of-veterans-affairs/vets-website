@@ -6,8 +6,6 @@ const octokit = require('@octokit/rest')();
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
-const GET_PAGE_BY_ID = require('../src/site/stages/build/drupal/graphql/GetPageById.graphql');
-
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
 
@@ -45,10 +43,7 @@ app.use('/preview', async (req, res) => {
   });
 
   const contentId = req.query.contentId;
-  const drupalPage = await drupalClient.query({
-    query: GET_PAGE_BY_ID,
-    variables: { path: contentId },
-  });
+  const drupalPage = await drupalClient.getPageById(contentId);
 
   const wasFoundInDrupal = !!drupalPage.data.route;
 
