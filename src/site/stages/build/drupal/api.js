@@ -5,18 +5,17 @@ const fetch = require('node-fetch');
 
 const DRUPALS = require('../../../constants/drupals');
 
-function getCredentials(drupalAddress) {
-  const { username, password } = DRUPALS.CREDENTIALS[drupalAddress];
+function encodeCredentials({ username, password }) {
   const credentials = `${username}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
   return credentialsEncoded;
 }
 
 function getDrupalClient(buildOptions) {
-  const drupalAddress = DRUPALS[buildOptions.buildtype];
-  const drupalUri = `${drupalAddress}/graphql`;
-  const credentials = getCredentials(drupalAddress);
-  const headers = { Authorization: `Basic ${credentials}` };
+  const { address, credentials } = DRUPALS[buildOptions.buildtype];
+  const drupalUri = `${address}/graphql`;
+  const encodedCredentials = encodeCredentials(credentials);
+  const headers = { Authorization: `Basic ${encodedCredentials}` };
   const link = createHttpLink({ uri: drupalUri, fetch, headers });
 
   const cache = new InMemoryCache();

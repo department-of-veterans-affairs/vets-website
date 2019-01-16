@@ -1,6 +1,17 @@
 const ENVIRONMENTS = require('./environments');
 
-const DRUPAL_STAGING = 'http://staging.va.agile6.com';
+const DRUPAL_STAGING = {
+  address: 'http://staging.va.agile6.com',
+  credentials: {
+    username: 'api',
+    password: 'drupal8',
+  },
+};
+
+const DRUPAL_PROD = {
+  address: 'http://vagovcms.lndo.site',
+  credentials: {},
+};
 
 /**
  * The decoupled-Drupal API locations by environment
@@ -12,14 +23,7 @@ const DRUPALS = {
   [ENVIRONMENTS.LOCALHOST]: DRUPAL_STAGING,
   [ENVIRONMENTS.VAGOVDEV]: DRUPAL_STAGING,
   [ENVIRONMENTS.VAGOVSTAGING]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVPROD]: 'http://vagovcms.lndo.site',
-};
-
-DRUPALS.CREDENTIALS = {
-  [DRUPAL_STAGING]: {
-    username: 'api',
-    password: 'drupal8',
-  },
+  [ENVIRONMENTS.VAGOVPROD]: DRUPAL_PROD,
 };
 
 module.exports = DRUPALS;
