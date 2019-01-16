@@ -6,6 +6,8 @@ export const unemployabilityTitle = (
   </legend>
 );
 
+export const unemployabilityPageTitle = title => <h4>{title}</h4>;
+
 export const introDescription = (
   <div>
     <p>

@@ -1,16 +1,12 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import _ from '../../../../platform/utilities/data';
-
-import formConfig from '../config/form';
 
 import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
   isInFuture,
   capitalizeEachWord,
-  setActionTypes,
   queryForFacilities,
   hasOtherEvidence,
   fieldsHaveInput,
@@ -22,35 +18,50 @@ import {
   isUploading781aSupportingDocuments,
   isUploading781Form,
   isUploading781aForm,
-  transformRelatedDisabilities,
   viewifyFields,
   transformMVPData,
-  transform,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
-  concatIncidentLocationString,
-  getFlatIncidentKeys,
-  getPtsdChangeText,
   hasHospitalCare,
+  addNoneDisabilityActionType,
   filterServiceConnected,
 } from '../utils.jsx';
 
 import {
-  transformedMinimalData,
-  transformedMaximalData,
-} from './schema/transformedData';
-
-import minimalData from './schema/minimal-test.json';
-import maximalData from './schema/maximal-test.json';
-
-import {
   SERVICE_CONNECTION_TYPES,
-  PTSD_INCIDENT_ITERATION,
-  PTSD_CHANGE_LABELS,
   disabilityActionTypes,
 } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
+  describe('addNoneDisabilityActionType', () => {
+    const disabilities = [
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+    ];
+
+    it('should return an array of same length as input', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      expect(withActionType)
+        .to.be.an('array')
+        .that.has.length(disabilities.length);
+    });
+
+    it('should return an empty array when no input', () => {
+      expect(addNoneDisabilityActionType())
+        .to.be.an('array')
+        .that.has.length(0);
+    });
+
+    it('should set disabilityActionType to NONE for each rated disability', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      withActionType.forEach(d => {
+        expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
+      });
+    });
+  });
+
   describe('filterServiceConnected', () => {
     it('should filter non-service-connected disabililties', () => {
       const disabilities = [
@@ -217,34 +228,6 @@ describe('526 helpers', () => {
     });
     it('should return Unknown Condition when name is not a string', () => {
       expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
-    });
-  });
-
-  describe('setActionTypes', () => {
-    const formData = maximalData.data;
-
-    it('should set disabilityActionType for each disability properly', () => {
-      const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
-
-      expect(formattedDisabilities).to.have.lengthOf(
-        formData.ratedDisabilities.length,
-      );
-
-      expect(formattedDisabilities[0].disabilityActionType).to.equal(
-        disabilityActionTypes.INCREASE,
-      );
-      expect(formattedDisabilities[1].disabilityActionType).to.equal(
-        disabilityActionTypes.NONE,
-      );
-      expect(formattedDisabilities[2].disabilityActionType).to.equal(
-        disabilityActionTypes.NONE,
-      );
-    });
-
-    it('should return cloned formData when no rated disabilities', () => {
-      const noRated = _.omit('ratedDisabilities', formData);
-
-      expect(setActionTypes(noRated)).to.deep.equal(noRated);
     });
   });
 
@@ -515,34 +498,6 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformRelatedDisabilities', () => {
-    it('should return an array of strings', () => {
-      const claimedConditions = [
-        'some condition name',
-        'another condition name',
-      ];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name', 'another condition name']);
-    });
-    it('should not add conditions if they are not claimed', () => {
-      const claimedConditions = ['some condition name'];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name']);
-    });
-  });
-
   describe('viewifyFields', () => {
     const formData = {
       prop1: {
@@ -635,20 +590,6 @@ describe('transformMVPData', () => {
   });
 });
 
-describe('transform', () => {
-  it('should transform minimal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
-      transformedMinimalData,
-    );
-  });
-
-  it('should transform maximal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
-      transformedMaximalData,
-    );
-  });
-});
-
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
@@ -718,7 +659,9 @@ describe('isAnswering781aQuestions', () => {
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
-        'view:uploadChoice0': true,
+        secondaryIncident0: {
+          'view:uploadSources': true,
+        },
       };
       expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
     });
@@ -760,104 +703,6 @@ describe('isAnswering781aQuestions', () => {
     });
   });
 
-  describe('concatIncidentLocationString', () => {
-    it('should concat full address', () => {
-      const locationString = concatIncidentLocationString({
-        city: 'Test',
-        state: 'TN',
-        country: 'USA',
-        additionalDetails: 'details',
-      });
-
-      expect(locationString).to.eql('Test, TN, USA, details');
-    });
-
-    it('should handle null and undefined values', () => {
-      const locationString = concatIncidentLocationString({
-        city: 'Test',
-        state: null,
-        additionalDetails: 'details',
-      });
-
-      expect(locationString).to.eql('Test, details');
-    });
-  });
-
-  describe('getFlatIncidentKeys', () => {
-    it('should return correct amount of incident keys', () => {
-      expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
-    });
-  });
-
-  describe('getPtsdChangeText', () => {
-    it('should have valid labels', () => {
-      Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
-        expect(PTSD_CHANGE_LABELS[key]).to.be.a('string');
-      });
-    });
-
-    const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
-    it('should have mappings for all workBehaviorChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
-          .properties.workBehaviorChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should have mappings for all mentalHealthChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
-          .properties.mentalChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should have mappings for all physicalHealthChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
-          .properties.physicalChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should have mappings for all socialBehaviorChanges schema fields', () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
-          .properties.socialBehaviorChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).to.have.property(key);
-        });
-    });
-
-    it('should return UI titles', () => {
-      const fieldTitles = getPtsdChangeText({
-        increasedLeave: true,
-        withdrawal: true,
-        field2: true,
-        other: true,
-        otherExplanation: 'Other change',
-      });
-
-      expect(fieldTitles.length).to.eql(2);
-    });
-
-    it('should correctly handle undefined ptsd changes', () => {
-      const fieldTitles = getPtsdChangeText(undefined);
-      expect(fieldTitles.length).to.eql(0);
-    });
-  });
   describe('needsToAnswerHospitalCare', () => {
     it('should be default of false', () => {
       const formData = {};

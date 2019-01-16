@@ -9,7 +9,7 @@ import {
 import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('781 record upload', () => {
+describe('8940 record upload', () => {
   const page =
     formConfig.chapters.disabilities.pages
       .uploadUnemployabilitySupportingDocuments;
@@ -71,6 +71,7 @@ describe('781 record upload', () => {
             {
               confirmationCode: 'testing',
               name: '8940.pdf',
+              attachmentId: 'L149',
             },
           ],
         }}
