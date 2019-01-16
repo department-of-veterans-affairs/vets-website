@@ -239,11 +239,6 @@ const fillForm = async (page, testData, testConfig, log) => {
         await fillPage(page, testData, testConfig, log);
       }
 
-      // Sometimes the pages isn't done re-rendering before we query for the
-      //  elements on the next page, so wait a moment.
-      // TODO: Figure out how to remove this arbitrary time
-      // await page.waitFor(300);
-
       if (page.url() === url) {
         try {
           await page.waitForNavigation({ timeout: 1000 });
