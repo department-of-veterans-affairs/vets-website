@@ -27,6 +27,7 @@ import * as incomeDetails from './incomeDetails';
 import * as individualsInvolved from './individualsInvolved';
 import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualUnemployability from './individualUnemployability';
+import * as instructionalPart3 from './instructionalPart3';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
@@ -119,6 +120,7 @@ export {
   individualsInvolved,
   individualsInvolvedFollowUp,
   individualUnemployability,
+  instructionalPart3,
   medals,
   medicalCare,
   mentalHealthChanges,
