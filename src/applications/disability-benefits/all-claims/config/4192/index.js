@@ -1,6 +1,10 @@
 import environment from '../../../../../platform/utilities/environment';
 
-import { pastEmploymentFormIntro, instructionalPart1 } from '../../pages';
+import {
+  pastEmploymentFormIntro,
+  instructionalPart1,
+  instructionalPart2,
+} from '../../pages';
 
 import { needsToEnterUnemployability } from '../../utils';
 
@@ -17,6 +21,11 @@ export default function() {
         path: '4192-instructions-part-1',
         uiSchema: instructionalPart1.uiSchema,
         schema: instructionalPart1.schema,
+      },
+      instructionalPart2: {
+        path: '4192-instructions-part-2',
+        uiSchema: instructionalPart2.uiSchema,
+        schema: instructionalPart2.schema,
       },
       conclusion4192: {
         title: 'Conclusion 4192',

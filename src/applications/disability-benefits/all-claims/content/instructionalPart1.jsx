@@ -7,9 +7,7 @@ export const instructionalPart1Description = (
       You’ll complete your part first, then send the form to your past employer
       to finish and sign.
     </div>
-    <div>
-      <img src="/img/part1-image.png" alt="stuff" />
-    </div>
+    <img src="/img/part1-image.png" alt="VA Form 21-4192" />
     <span>VA Form 21-4192</span>
     <p>
       <strong>Note:</strong> You don’t need to turn in a VA Form 21-4192 for any
