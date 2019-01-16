@@ -26,6 +26,7 @@ const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
+const createMegaMenu = require('./plugins/create-megamenu');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -125,6 +126,8 @@ function defaultBuild(BUILD_OPTIONS) {
       pattern: '**/*.{md,html}',
     }),
   );
+
+  smith.use(createMegaMenu(BUILD_OPTIONS));
 
   /*
   Add nonce attribute with substition string to all inline script tags

@@ -33,6 +33,7 @@ const ignoreList = {
     'incomeDetails',
     'employmentHistory',
     'unemployabilityDoctorCare',
+    'unemployabilityDates',
   ],
 };
 

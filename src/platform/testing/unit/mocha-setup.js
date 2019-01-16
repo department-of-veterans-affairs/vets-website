@@ -14,6 +14,7 @@ import ENVIRONMENTS from '../../../site/constants/environments';
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
+global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 
