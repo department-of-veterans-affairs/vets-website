@@ -1,16 +1,22 @@
 import EducationTrainingField from '../components/EducationTrainingField';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { validateDate } from 'us-forms-system/lib/js/validation';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { RecentEducationTrainingTitle } from '../content/recentEducationTraining';
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
 
-const { dateRange } = fullSchema.definitions;
+const {
+  receivedOtherEducationTrainingPostUnemployability,
+  otherEducationTrainingPostUnemployability,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': 'Recent Education & training',
+    'ui:title': unemployabilityPageTitle('Recent Education & training'),
     receivedOtherEducationTrainingPostUnemployability: {
       'ui:title': RecentEducationTrainingTitle,
       'ui:widget': 'yesNo',
@@ -46,21 +52,8 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        receivedOtherEducationTrainingPostUnemployability: {
-          type: 'boolean',
-        },
-        otherEducationTrainingPostUnemployability: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-              dates: dateRange,
-            },
-          },
-        },
+        receivedOtherEducationTrainingPostUnemployability,
+        otherEducationTrainingPostUnemployability,
       },
     },
   },

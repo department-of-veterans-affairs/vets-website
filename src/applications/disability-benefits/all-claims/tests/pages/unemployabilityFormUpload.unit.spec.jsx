@@ -9,10 +9,8 @@ import {
 import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('8940 record upload', () => {
-  const page =
-    formConfig.chapters.disabilities.pages
-      .uploadUnemployabilitySupportingDocuments;
+describe('8940 form upload', () => {
+  const page = formConfig.chapters.disabilities.pages.unemployabilityFormUpload;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -23,8 +21,7 @@ describe('8940 record upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:unemployabilityUploadChoice': 'answerQuestions',
-          'view:uploadUnemployabilitySupportingDocumentsChoice': true,
+          'view:unemployabilityUploadChoice': 'upload',
         }}
         uiSchema={uiSchema}
       />,
@@ -34,7 +31,7 @@ describe('8940 record upload', () => {
     form.unmount();
   });
 
-  it('should submit without required upload', () => {
+  it('should not submit without required upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -44,16 +41,15 @@ describe('8940 record upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:unemployabilityUploadChoice': 'answerQuestions',
-          'view:uploadUnemployabilitySupportingDocumentsChoice': true,
+          'view:unemployabilityUploadChoice': 'upload',
         }}
         uiSchema={uiSchema}
       />,
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
@@ -67,7 +63,8 @@ describe('8940 record upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          unemployabilitySupportingDocuments: [
+          'view:unemployabilityUploadChoice': 'upload',
+          form8940Upload: [
             {
               confirmationCode: 'testing',
               name: '8940.pdf',
@@ -80,8 +77,8 @@ describe('8940 record upload', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });
