@@ -16,37 +16,75 @@ const findData = (fieldSelector, testData) => {
   return result;
 };
 
+const getElementSelector = (field, fieldData) => {
+  const selectors = {
+    'select-one': `select[name="${field.selector}"]`,
+    checkbox: `input[id="${field.selector}"]${
+      fieldData ? ':not(checked)' : ':checked'
+    }`,
+    tel: `input[name="${field.selector}"]`,
+    textarea: `input[name="${field.selector}"]`,
+    text: `input[name="${field.selector}"]`,
+    radio: `input[name="${field.selector}"][value="${
+      // Use 'Y' / 'N' because of the yesNo widget
+      // eslint-disable-next-line no-nested-ternary
+      typeof fieldData === 'boolean' ? (fieldData ? 'Y' : 'N') : fieldData
+    }"]`,
+    // Date has two or three elements, but should always have a year
+    // Return a valid selector so it doesn't get skippeG
+    date: `input[name="${field.selector}Year"]`,
+    file: `input[id="${field.selector}"]`,
+  };
+  if (!selectors[field.type]) {
+    throw new Error(
+      `Unknown element type '${field.type}' for ${field.selector}`,
+    );
+  }
+
+  return selectors[field.type];
+};
 /**
  * Enters data into a single field.
  */
 const enterData = async (page, field, fieldData, log) => {
-  const { type, selector } = field;
+  const { type } = field;
   if (fieldData === undefined) {
-    log(`No data found for ${selector}`);
+    log(`No data found for ${field.selector}`);
     return;
   }
 
-  log(`${selector} (${type}):`, fieldData);
+  log(`${field.selector} (${type}):`, fieldData);
+
+  const selector = getElementSelector(field, fieldData);
+
+  const element = await page.$(selector);
+
+  if (!element) {
+    log(`Skipping ${selector}; no element found.`);
+    return;
+  }
 
   switch (type) {
     case 'select-one': // Select fields register as having a type === 'select-one'
       // TODO: Error if it's not an option the select has
-      await page.select(`select[name="${selector}"]`, fieldData);
+      await page.select(selector, fieldData);
       break;
     case 'checkbox': {
       // Only click the checkbox if we need to
-      const checkbox = await page.$(
-        `input[id="${selector}"]${fieldData ? ':not(checked)' : ':checked'}`,
-      );
+      const checkbox = await page.$(selector);
       if (checkbox) await checkbox.click();
       break;
     }
     case 'tel':
     case 'textarea':
     case 'text': {
-      await page.type(`input[name="${selector}"]`, fieldData);
+      // Clear text before typing
+      await page.evaluate(sel => {
+        document.querySelector(sel).value = '';
+      }, selector);
+      await page.type(selector, fieldData);
       // Get the autocomplete menu out of the way
-      const role = await page.$eval(`input[name="${selector}"]`, textbox =>
+      const role = await page.$eval(selector, textbox =>
         textbox.getAttribute('role'),
       );
       if (role === 'combobox') {
@@ -55,41 +93,36 @@ const enterData = async (page, field, fieldData, log) => {
       break;
     }
     case 'radio': {
-      // Use 'Y' / 'N' if it's a boolean because of the yesNo widget
-      let optionValue = fieldData;
-      if (typeof fieldData === 'boolean') {
-        optionValue = fieldData ? 'Y' : 'N';
-      }
-      await page.click(`input[name="${selector}"][value="${optionValue}"]`);
+      await page.click(selector);
       break;
     }
     case 'date': {
       const date = fieldData.split('-');
       await page.select(
-        `select[name="${selector}Month"]`,
+        `select[name="${field.selector}Month"]`,
         parseInt(date[1], 10).toString(),
       );
       if (date[2] !== 'XX') {
         await page.select(
-          `select[name="${selector}Day"]`,
+          `select[name="${field.selector}Day"]`,
           parseInt(date[2], 10).toString(),
         );
       }
-      await page.type(`input[name="${selector}Year"]`, date[0]);
+      await page.type(`input[name="${field.selector}Year"]`, date[0]);
       break;
     }
     case 'file': {
       if (fieldData) {
         // The upload endpoint should already be mocked; just click the button
         // TODO: Ensure the file we're uploading is valid for this input
-        const fileField = await page.$(`input[id="${selector}"]`);
+        const fileField = await page.$(selector);
         // TODO: Change this to not assume the test is being run from the project root
         await fileField.uploadFile('./src/platform/testing/example-upload.png');
       }
       break;
     }
     default:
-      throw new Error(`Unknown element type '${type}' for ${selector}`);
+      break;
   }
 };
 
@@ -198,17 +231,18 @@ const fillForm = async (page, testData, testConfig, log) => {
       // Hit the continue button
       await page.click(CONTINUE_BUTTON);
 
+      // If we're still on the page, it may be because an element was expanded
+      //  and we tried to enter data too fast; try again
+      if (page.url() === url) {
+        // TODO: Figure out how to remove this arbitrary time
+        await page.waitFor(300);
+        await fillPage(page, testData, testConfig, log);
+      }
+
       // Sometimes the pages isn't done re-rendering before we query for the
       //  elements on the next page, so wait a moment.
       // TODO: Figure out how to remove this arbitrary time
-      await page.waitFor(500);
-
-      // Sometimes an expanded field or something gets in the way
-      //  Try again before failing the test
-      if (page.url() === url) {
-        await page.waitFor(300);
-        page.click(CONTINUE_BUTTON);
-      }
+      // await page.waitFor(300);
 
       if (page.url() === url) {
         try {

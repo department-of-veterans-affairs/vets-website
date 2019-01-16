@@ -13,7 +13,7 @@ const { fillForm } = require('./form-filler');
  *  the way.
  */
 const fastForwardAnimations = async page => {
-  await page._client.send('Animation.setPlaybackRate', { playbackRate: 100 });
+  await page._client.send('Animation.setPlaybackRate', { playbackRate: 10000 });
 };
 
 const getTestData = (testDataSets, testName, pathPrefix) =>
