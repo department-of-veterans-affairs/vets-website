@@ -17,6 +17,7 @@ import {
   employmentHistory,
   unemployabilityDoctorCare,
   medicalCare,
+  hospitalizationHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
@@ -25,6 +26,7 @@ import {
   needsToAnswerUnemployability,
   isUploading8940Form,
   isUploadingSupporting8940Documents,
+  hasHospitalCare,
   hasDoctorsCare,
 } from '../../utils';
 
@@ -67,6 +69,13 @@ export default function() {
         schema: medicalCare.schema,
       },
       // 8940 - Hospital Treatment
+      hospitalizationHistory: {
+        title: 'Hospitalization',
+        path: 'hospitalization-history',
+        depends: hasHospitalCare,
+        uiSchema: hospitalizationHistory.uiSchema,
+        schema: hospitalizationHistory.schema,
+      },
       // 8940 - Doctor Treatment
       unemployabilityDoctorCare: {
         title: 'Doctor’s care',
