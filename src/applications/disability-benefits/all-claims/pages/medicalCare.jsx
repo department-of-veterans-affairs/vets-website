@@ -29,7 +29,7 @@ export const uiSchema = {
     },
     hospitalized: {
       'ui:title':
-        'I‘åve spent time in a hospital in the past 12 months for these disabilities.',
+        'I‘ve spent time in a hospital in the past 12 months for these disabilities.',
       'ui:options': {
         expandUnder: 'view:medicalCare',
         expandUnderCondition: true,
