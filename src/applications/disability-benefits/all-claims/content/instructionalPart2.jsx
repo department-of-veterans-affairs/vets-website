@@ -2,7 +2,7 @@ import React from 'react';
 
 export const instructionalPart2Description = (
   <div>
-    <h3>Fill in employer details</h3>
+    <h4>Fill in employer details</h4>
     <p>
       Put the employer’s name and address in <strong>Box 1.</strong>
     </p>

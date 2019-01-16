@@ -27,6 +27,7 @@ export default function() {
         uiSchema: pastEmploymentFormIntro.uiSchema,
         schema: pastEmploymentFormIntro.schema,
       },
+      // Form Tutorial (multiple pages)
       instructionalPart1: {
         path: '4192-instructions-part-1',
         uiSchema: instructionalPart1.uiSchema,
@@ -37,7 +38,6 @@ export default function() {
         uiSchema: instructionalPart2.uiSchema,
         schema: instructionalPart2.schema,
       },
-      // Form Tutorial (multiple pages)
       // Download
       pastEmploymentFormDownload: {
         path: 'past-employment-download',

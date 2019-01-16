@@ -28,7 +28,7 @@ export const uiSchema = {
     },
     'view:hospitalized': {
       'ui:title':
-        'Yes, I‘ve been hospitalized im the past 12 months for these disabilities.',
+        'Yes, I‘ve been hospitalized in the past 12 months for these disabilities.',
     },
     'ui:options': {
       expandUnder: 'view:medicalCare',
