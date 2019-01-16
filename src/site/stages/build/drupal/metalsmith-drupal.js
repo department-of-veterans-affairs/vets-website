@@ -23,15 +23,26 @@ const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 // eslint-disable-next-line no-console
 const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
 
+function getDrupalIndexPage(files) {
+  log('Drupal index page written to /drupal.');
+
+  const drupalPages = Object.keys(files)
+    .filter(page => page.startsWith('drupal'))
+    .map(page => `<li><a href="/${page}">/${page}</a></li>`)
+    .join('');
+
+  return `
+    <h1>The following pages were provided by Drupal:</h1>
+    <ol>${drupalPages}</ol>
+  `;
+}
+
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
     },
   } = contentData;
-
-  let drupalIndexPage =
-    '<h1>The following pages were provided by Drupal:</h1><ol>\n';
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -46,23 +57,16 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityUrl: { path: drupalPagePath },
     } = page;
 
-    const jsonPath = `drupal${drupalPagePath}.json`;
-
-    drupalIndexPage += `<li><a href="/${jsonPath}">${drupalPagePath}</a></li>`;
-
-    files[jsonPath] = {
+    files[`drupal${drupalPagePath}/index.html`] = {
       ...page,
+      layout: 'page.drupal.liquid',
       contents: Buffer.from(JSON.stringify(page, null, 4)),
     };
   }
 
-  drupalIndexPage += '</ol>';
-
   files['drupal/index.html'] = {
-    contents: Buffer.from(drupalIndexPage),
+    contents: Buffer.from(getDrupalIndexPage(files)),
   };
-
-  log('Drupal index page written to /drupal.');
 }
 
 async function loadDrupal(buildOptions) {
@@ -125,8 +129,8 @@ function getDrupalContent(buildOptions) {
     } catch (err) {
       log('Failed to pipe Drupal content into Metalsmith!');
       log('Continuing with build anyway...');
-      // done(err);
-      done();
+      done(err);
+      // done();
     }
   };
 }
