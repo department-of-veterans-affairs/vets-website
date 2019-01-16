@@ -42,7 +42,7 @@ export const uiSchema = {
           'ui:title': 'Hospital’s name',
         },
         'view:hospitalAddressTitle': {
-          'ui:title': "Hospital's address",
+          'ui:title': 'Hospital’s address',
         },
         address: addressUI,
         dates: {
