@@ -7,6 +7,7 @@ trap 'if [ $(jobs -p) ] ; then kill $(jobs -p); fi' EXIT
 if [ "$(nc -z localhost 3000; echo $?)" -ne 0 ]; then
     echo "Starting mockapi.js..."
     node src/platform/testing/e2e/mockapi.js &
+    sleep 5;
 else
     # echo "Error: Port 3000 is already in use.  If you're sure that's OK, tests will continue in 5 seconds..."
     echo "Port 3000 is already in use."
