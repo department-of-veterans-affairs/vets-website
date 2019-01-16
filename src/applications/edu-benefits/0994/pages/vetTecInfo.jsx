@@ -13,7 +13,20 @@ const {
 import { genderLabels } from '../../../../platform/static-data/labels';
 
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import { generateAddressSchemas } from '../../../disability-benefits/all-claims/utils';
 
+const { addressUI, addressSchema } = generateAddressSchemas(
+  ['addressLine3', 'postalCode'],
+  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
+  {
+    country: 'Country',
+    addressLine1: 'Street address',
+    addressLine2: 'Street address (line 2)',
+    city: 'City',
+    state: 'State',
+    zipCode: 'Postal code',
+  },
+);
 export const uiSchema = {
   'ui:title': 'Vet Tec',
   'ui:description': 'Please fill out the following fields.',
@@ -40,6 +53,7 @@ export const uiSchema = {
     nightTimePhone: {
       'ui:title': 'Night Time Telephone Number',
     },
+    address: addressUI,
     appliedForVAEducationBenefits: {
       'ui:title':
         'Have you ever applied for VA education benefits? If not, you must complete and submit VA Form-22-1900 with this application',
@@ -91,7 +105,10 @@ export const uiSchema = {
         'ui:title': 'State',
       },
     },
-    plannedStartDate: currentOrPastDateUI('Planned Start Date'),
+    plannedStartDate: {
+      'ui:title': 'Planned Start Date',
+      'ui:widget': 'date',
+    },
     currentlyEmployed: {
       'ui:title': 'Are you currently employed?',
       'ui:widget': 'yesNo',
@@ -166,6 +183,7 @@ export const schema = {
           type: 'string',
           pattern: '^\\d{10}$',
         },
+        address: addressSchema,
         appliedForVAEducationBenefits: {
           type: 'boolean',
         },

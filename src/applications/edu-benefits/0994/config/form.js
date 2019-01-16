@@ -32,7 +32,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   title: 'Apply for Vet Tec Benefits',
-  subTitle: 'Form 22-0094',
+  subTitle: 'Form 22-0994',
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,

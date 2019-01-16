@@ -3,5 +3,5 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "0994-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/0994",
-  "production": true
+  "production": false
 }
