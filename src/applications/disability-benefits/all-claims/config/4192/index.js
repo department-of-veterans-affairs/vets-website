@@ -2,16 +2,23 @@ import _ from 'lodash';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
-  pastEmploymentFormIntro,
   pastEmploymentFormDownload,
+  pastEmploymentFormIntro,
+  pastEmploymentFormUpload,
 } from '../../pages';
 
 import { needsToEnterUnemployability } from '../../utils';
 
 // const showFormTutorial = formData => _.get(formData, 'view:upload4192Choice.view:4192Info', false);
+
 const isDownloading = formData =>
-  _.get(formData, 'view:upload4192Choice.view:download4192', false);
-// const isUploading = formData => _.get(formData, 'view:upload4192Choice.view:upload4192', false);
+  _.get(formData, 'view:upload4192Choice.view:download4192', false) &&
+  needsToEnterUnemployability(formData);
+
+const isUploading = formData =>
+  _.get(formData, 'view:upload4192Choice.view:upload4192', false) &&
+  needsToEnterUnemployability(formData);
+
 // const isExiting = formData => _.get(formData, 'view:upload4192Choice.view:sendRequests', false);
 
 export default function() {
@@ -29,12 +36,17 @@ export default function() {
       // Download
       pastEmploymentFormDownload: {
         path: 'past-employment-download',
-        depends: formData =>
-          isDownloading(formData) && needsToEnterUnemployability(formData),
+        depends: isDownloading,
         uiSchema: pastEmploymentFormDownload.uiSchema,
         schema: pastEmploymentFormDownload.schema,
       },
       // Upload
+      pastEmploymentFormUpload: {
+        path: 'past-employment-form-upload',
+        depends: isUploading,
+        uiSchema: pastEmploymentFormUpload.uiSchema,
+        schema: pastEmploymentFormUpload.schema,
+      },
       // ***Below page comments for when logic is added in***
       // Conditional Options (Intro page again if A and not A && B && C)
       // Form Tutorial (multiple pages)

@@ -86,6 +86,7 @@ import * as workBehaviorChanges from './workBehaviorChanges';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 import * as unemployabilityDates from './unemployabilityDates';
 import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
+import * as pastEmploymentFormUpload from './pastEmploymentFormUpload';
 import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
 
 export {
@@ -129,6 +130,7 @@ export {
   pastEducationTraining,
   pastEmploymentFormDownload,
   pastEmploymentFormIntro,
+  pastEmploymentFormUpload,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
