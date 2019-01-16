@@ -83,7 +83,7 @@
           "state": "AL"
         },
         "treatedDisabilityNames": {
-          "First Condition": true,
+          "Aging": true,
           "PTSD (post Traumatic Stress Disorder)": true
         }
       }
@@ -110,7 +110,121 @@
       }
     },
     "view:unemployabilityUploadChoice": "answerQuestions",
-    "view:unemployabilityStatus": true,
+    "view:unemployable": true,
+    "unemployability": {
+      "view:statementsAreTrue": {
+        "view:statementsAreTrueAccept": true
+      },
+      "view:informOfReturnToWork": {
+        "view:informOfReturnToWorkAccept": true
+      },
+      "remarks": "Remarks",
+      "receivedOtherEducationTrainingPostUnemployability": true,
+      "otherEducationTrainingPostUnemployability": [
+        {
+          "name": "Education",
+          "dates": {
+            "from": "2010-01-01",
+            "to": "2010-01-03"
+          }
+        }
+      ],
+      "education": "Some elementary school",
+      "receivedOtherEducationTrainingPreUnemployability": true,
+      "otherEducationTrainingPreUnemployability": [
+        {
+          "name": "Test",
+          "dates": {
+            "from": "2010-01-02",
+            "to": "2010-01-03"
+          }
+        }
+      ],
+      "attemptedToObtainEmploymentSinceUnemployability": true,
+      "appliedEmployers": [
+        {
+          "name": "Recent Company",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "0100",
+            "city": "Somewhere",
+            "state": "SC",
+            "zipCode": "12345"
+          },
+          "workType": "Work",
+          "date": "2010-01-01"
+        }
+      ],
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "disabilityPreventMilitaryDuties": "yes",
+      "receiveExpectDisabilityRetirement": true,
+      "receiveExpectWorkersCompensation": true,
+      "view:supplementalBenefitsHelp": {},
+      "past12MonthsEarnedIncome": 10,
+      "view:grossIncomeAdditionalInfo": {},
+      "view:isEmployed": true,
+      "currentMonthlyEarnedIncome": 50,
+      "previousEmployers": [
+        {
+          "name": "Authortay",
+          "employerAddress": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "Apt 321",
+            "city": "Abcd",
+            "state": "SC",
+            "zipCode": "12345"
+          },
+          "phone": "1234561234",
+          "typeOfWork": "Work",
+          "hoursPerWeek": 20,
+          "dates": {
+            "from": "2010-01-02",
+            "to": "2010-01-03"
+          },
+          "timeLostFromIllness": "Some",
+          "mostEarningsInAMonth": 100,
+          "inBusiness": false
+        }
+      ],
+      "mostEarningsInAYear": 120,
+      "yearOfMostEarnings": "2010",
+      "occupationDuringMostEarnings": "a",
+      "underDoctorsCare": true,
+      "hospitalized": true,
+      "doctorProvidedCare": [
+        {
+          "name": "Dr Authortay",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "Apt 321",
+            "city": "Abcd",
+            "state": "SC",
+            "zipCode": "12345"
+          },
+          "dates": "asdfasdf"
+        }
+      ],
+      "hospitalProvidedCare": [
+        {
+          "name": "Authortay",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "Apt 321",
+            "city": "Abcd",
+            "zipCode": "12345"
+          },
+          "dates": "asdfasd"
+        }
+      ],
+      "disabilityAffectedEmploymentFullTimeDate": "2010-01-01",
+      "lastWorkedFullTimeDate": "2010-01-01",
+      "becameTooDisabledToWorkDate": "2010-01-01",
+      "view:recordsInfo": {}
+    },
     "view:upload781Choice": "answerQuestions",
     "view:upload781ChoiceHelp": {},
     "view:upload781aChoice": "answerQuestions",
@@ -147,7 +261,7 @@
     ],
     "ratedDisabilities": [
       {
-        "name": "First Condition",
+        "name": "Aging",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
@@ -155,7 +269,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "view:selected": true,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
       },
       {
         "name": "Second Condition",
@@ -352,7 +467,8 @@
         "from": "1992-02-16",
         "to": "1995-04-04"
       },
-      "incidentDate": "1994-04-03"
+      "incidentDate": "1994-04-03",
+      "view:uploadSources": true
     },
     "secondaryIncident1": {
       "incidentDate": "1992-01-01",
@@ -367,7 +483,8 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      }
+      },
+      "view:uploadSources": true
     },
     "secondaryIncident2": {
       "incidentDate": "1992-01-01",
@@ -382,7 +499,8 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      }
+      },
+      "view:uploadSources": true
     },
     "additionalRemarks781": "781 Remarks",
     "additionalIncidentText": "Additional incident text",
@@ -412,6 +530,34 @@
       "other": true,
       "otherExplanation": "Other work change"
     },
-    "additionalChanges": "Additional changes test"
+    "additionalChanges": "Additional changes test",
+    "secondaryUploadSources0": [
+      {
+        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2da24569e94",
+        "attachmentId": "L034",
+        "name": "Doc.pdf"
+      }
+    ],
+    "secondaryUploadSources1": [
+      {
+        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de24569e94",
+        "attachmentId": "L015",
+        "name": "Doc.pdf"
+      }
+    ],
+    "secondaryUploadSources2": [
+      {
+        "confirmationCode": "354c6d40-b6f5-4c6d-9393-3b7de24569e94",
+        "attachmentId": "L048",
+        "name": "Doc.pdf"
+      }
+    ],
+    "privateMedicalRecordAttachments": [
+      {
+        "confirmationCode": "354c6d40-b6f5-8c6d-9393-3b7de24569e94",
+        "attachmentId": "L048",
+        "name": "Doc.pdf"
+      }
+    ]
   }
 }

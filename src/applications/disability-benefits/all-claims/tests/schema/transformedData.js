@@ -16,7 +16,7 @@ export const transformedMinimalData = {
     },
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Aging',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -24,6 +24,7 @@ export const transformedMinimalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
+        unemployabilityDisability: true,
       },
     ],
     serviceInformation: {
@@ -84,13 +85,6 @@ export const transformedMaximalData = {
         to: '2020-01-01',
       },
     },
-    additionalDocuments: [
-      {
-        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
-        attachmentId: 'L015',
-        name: 'Document Name',
-      },
-    ],
     vaTreatmentFacilities: [
       {
         treatmentCenterName: 'VA Clinic Name',
@@ -104,7 +98,7 @@ export const transformedMaximalData = {
           state: 'AL',
         },
         treatedDisabilityNames: [
-          'first condition',
+          'aging',
           'ptsd (post traumatic stress disorder)',
         ],
       },
@@ -142,7 +136,7 @@ export const transformedMaximalData = {
     ],
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Aging',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -150,6 +144,7 @@ export const transformedMaximalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
+        unemployabilityDisability: true,
       },
       {
         name: 'Second Condition',
@@ -360,5 +355,213 @@ export const transformedMaximalData = {
         },
       ],
     },
+    form8940: {
+      unemployability: {
+        disabilityPreventingEmployment: 'aging',
+        underDoctorHopitalCarePast12M: true,
+        doctorProvidedCare: [
+          {
+            name: 'Dr Authortay',
+            address: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 321',
+              city: 'Abcd',
+              state: 'SC',
+              zipCode: '12345',
+            },
+            dates: 'asdfasdf',
+          },
+        ],
+        hospitalProvidedCare: [
+          {
+            name: 'Authortay',
+            address: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 321',
+              city: 'Abcd',
+              zipCode: '12345',
+            },
+            dates: 'asdfasd',
+          },
+        ],
+        disabilityAffectedEmploymentFullTimeDate: '2010-01-01',
+        lastWorkedFullTimeDate: '2010-01-01',
+        becameTooDisabledToWorkDate: '2010-01-01',
+        mostEarningsInAYear: '120', // transform from number to string
+        yearOfMostEarnings: '2010',
+        occupationDuringMostEarnings: 'a',
+        previousEmployers: [
+          {
+            name: 'Authortay',
+            employerAddress: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 321',
+              city: 'Abcd',
+              state: 'SC',
+              zipCode: '12345',
+            },
+            phone: '1234561234',
+            typeOfWork: 'Work',
+            hoursPerWeek: 20,
+            dates: {
+              from: '2010-01-02',
+              to: '2010-01-03',
+            },
+            timeLostFromIllness: 'Some',
+            mostEarningsInAMonth: 100,
+            inBusiness: false, // transform flip
+          },
+        ],
+        disabilityPreventMilitaryDuties: true,
+        past12MonthsEarnedIncome: 10,
+        currentMonthlyEarnedIncome: 50,
+        receiveExpectDisabilityRetirement: true,
+        receiveExpectWorkersCompensation: true,
+        attemptedToObtainEmploymentSinceUnemployability: true,
+        appliedEmployers: [
+          {
+            name: 'Recent Company',
+            address: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: '0100',
+              city: 'Somewhere',
+              state: 'SC',
+              zipCode: '12345',
+            },
+            workType: 'Work',
+            date: '2010-01-01',
+          },
+        ],
+        education: 'Some elementary school',
+        receivedOtherEducationTrainingPreUnemployability: true,
+        otherEducationTrainingPreUnemployability: [
+          {
+            name: 'Test',
+            dates: {
+              from: '2010-01-02',
+              to: '2010-01-03',
+            },
+          },
+        ],
+        receivedOtherEducationTrainingPostUnemployability: true,
+        otherEducationTrainingPostUnemployability: [
+          {
+            name: 'Education',
+            dates: {
+              from: '2010-01-01',
+              to: '2010-01-03',
+            },
+          },
+        ],
+        remarks: 'Remarks',
+      },
+    },
+    attachments: [
+      {
+        attachmentId: 'L048',
+        confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
+        name: 'Doc.pdf',
+      },
+      {
+        attachmentId: 'L015',
+        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
+        name: 'Document Name',
+      },
+      {
+        attachmentId: 'L034',
+        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
+        name: 'Doc.pdf',
+      },
+      {
+        attachmentId: 'L015',
+        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
+        name: 'Doc.pdf',
+      },
+      {
+        attachmentId: 'L048',
+        confirmationCode: '354c6d40-b6f5-4c6d-9393-3b7de24569e94',
+        name: 'Doc.pdf',
+      },
+    ],
+  },
+};
+
+export const transformedMinimalPtsdFormUploadData = {
+  form526: {
+    standardClaim: true,
+    hasTrainingPay: false,
+    isVAEmployee: false,
+    homelessOrAtRisk: 'no',
+    phoneAndEmail: {
+      primaryPhone: '8035555555',
+      emailAddress: 'bill@gmail.com',
+    },
+    mailingAddress: {
+      country: 'USA',
+      addressLine1: '100 cool ln.',
+      city: 'Charleston',
+      state: 'SC',
+      zipCode: '29412',
+    },
+    serviceInformation: {
+      reservesNationalGuardService: {
+        obligationTermOfServiceDateRange: {
+          from: '2007-05-22',
+          to: '2008-06-05',
+        },
+        unitName: 'billy',
+      },
+      servicePeriods: [
+        {
+          serviceBranch: 'Air Force Reserve',
+          dateRange: { from: '2001-03-21', to: '2014-07-21' },
+        },
+      ],
+    },
+    servedInCombatZonePost911: false,
+    ratedDisabilities: [
+      {
+        name: 'Diabetes mellitus0',
+        ratedDisabilityId: '0',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Diabetes mellitus1',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+    ],
+    primaryPhone: '4445551212',
+    emailAddress: 'test2@test1.net',
+    privacyAgreementAccepted: true,
+    newPrimaryDisabilities: [
+      { condition: 'PTSD personal trauma', cause: 'NEW' },
+    ],
+    attachments: [
+      {
+        name: '781Form.pdf',
+        confirmationCode: 'c22924e2-3024-450b-8182-46df6e189060',
+        attachmentId: 'L228',
+      },
+      {
+        name: '781aForm.pdf',
+        confirmationCode: 'a9915db8-5083-4a68-9372-35404f0c56dc',
+        attachmentId: 'L229',
+      },
+    ],
   },
 };

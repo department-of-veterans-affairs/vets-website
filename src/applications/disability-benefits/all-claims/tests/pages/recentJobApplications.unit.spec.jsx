@@ -42,7 +42,11 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    selectRadio(form, 'root_unemployability_view:hasAppliedEmployers', 'Y');
+    selectRadio(
+      form,
+      'root_unemployability_attemptedToObtainEmploymentSinceUnemployability',
+      'Y',
+    );
 
     fillData(
       form,
@@ -117,7 +121,11 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    selectRadio(form, 'root_unemployability_view:hasAppliedEmployers', 'N');
+    selectRadio(
+      form,
+      'root_unemployability_attemptedToObtainEmploymentSinceUnemployability',
+      'N',
+    );
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(0);
 

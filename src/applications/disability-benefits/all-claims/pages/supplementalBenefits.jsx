@@ -1,9 +1,16 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const supplementalBenefitsTitle = <h4>Supplemental benefits</h4>;
+const {
+  receiveExpectDisabilityRetirement,
+  receiveExpectWorkersCompensation,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const supplementalBenefitsHelp = (
   <AdditionalInfo triggerText="How do these benefits affect my claim?">
@@ -22,7 +29,7 @@ const supplementalBenefitsHelp = (
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
-  'ui:description': supplementalBenefitsTitle,
+  'ui:description': unemployabilityPageTitle('Supplemental benefits'),
   unemployability: {
     receiveExpectDisabilityRetirement: {
       'ui:title':
@@ -46,12 +53,8 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        receiveExpectDisabilityRetirement: {
-          type: 'boolean',
-        },
-        receiveExpectWorkersCompensation: {
-          type: 'boolean',
-        },
+        receiveExpectDisabilityRetirement,
+        receiveExpectWorkersCompensation,
         'view:supplementalBenefitsHelp': {
           type: 'object',
           properties: {},
