@@ -98,7 +98,7 @@ function getDisabilityName(disability) {
 }
 
 function getClaimedConditionNames(formData) {
-  return getDisabilities(formData).flatMap(disability =>
+  return getDisabilities(formData).map(disability =>
     getDisabilityName(disability),
   );
 }
@@ -369,7 +369,7 @@ export function transform(formConfig, form) {
 
   const addForm8940 = formData => {
     const clonedData = _.cloneDeep(formData);
-    const unemployability = clonedData.unemployability;
+    const { unemployability } = clonedData;
 
     if (unemployability) {
       const disabilities = getDisabilities(formData);
@@ -379,7 +379,7 @@ export function transform(formConfig, form) {
           ...unemployability,
           disabilityPreventingEmployment: disabilities
             .filter(disability => disability.unemployabilityDisability)
-            .flatMap(disability => getDisabilityName(disability))
+            .map(disability => getDisabilityName(disability))
             .join(),
           underDoctorHopitalCarePast12M:
             unemployability.underDoctorsCare || unemployability.hospitalized,
