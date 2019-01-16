@@ -73,9 +73,7 @@ export function transformProviderFacilities(providerFacilities) {
  */
 function getDisabilities(formData) {
   // Assumes we have only selected conditions at this point
-  const claimedConditions = formData.ratedDisabilities
-    ? formData.ratedDisabilities
-    : [];
+  const claimedConditions = formData.ratedDisabilities || [];
 
   // Depending on where this is called in the transformation flow, we have to use different key names.
   // This assumes newDisabilities is removed after it's split out into its primary and secondary counterparts.
