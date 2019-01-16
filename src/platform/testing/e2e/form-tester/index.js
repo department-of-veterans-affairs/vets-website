@@ -83,6 +83,7 @@ const testForm = (testDataSets, testConfig) => {
     browser = await puppeteer.launch({
       devtools: testConfig.debug,
       // slowMo: testConfig.debug ? 100 : 0,
+      args: ['--window-size=1400,750'],
     });
   });
 
