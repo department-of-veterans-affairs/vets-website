@@ -36,6 +36,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['view:upload4192Choice'],
   properties: {
     'view:upload4192Choice': {
       type: 'object',
