@@ -30,7 +30,7 @@ describe('8940 record upload', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(0);
+    expect(form.find('input').length).to.equal(1);
     form.unmount();
   });
 
@@ -71,6 +71,7 @@ describe('8940 record upload', () => {
             {
               confirmationCode: 'testing',
               name: '8940.pdf',
+              attachmentId: 'L149',
             },
           ],
         }}
