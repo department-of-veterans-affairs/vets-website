@@ -25,9 +25,10 @@ const testConfig = {
       await page.waitFor('.usa-button-primary:not(.schemaform-start-button)');
       await page.click('.usa-button-primary');
     },
+    // TODO: Add a hook for the bank info page
   },
 };
 
 describe('526 all-claims e2e tests', async () => {
-  testForm({ 'minimal-test.json': testData }, testConfig);
+  testForm({ 'maximal-test.json': testData }, testConfig);
 });
