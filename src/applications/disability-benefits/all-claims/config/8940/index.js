@@ -119,7 +119,7 @@ export default function() {
       militaryDutyImpact: {
         title: 'Impact on military duty',
         path: 'military-duty-impact',
-        depends: needsToEnterUnemployability,
+        depends: needsToAnswerUnemployability,
         uiSchema: militaryDutyImpact.uiSchema,
         schema: militaryDutyImpact.schema,
       },

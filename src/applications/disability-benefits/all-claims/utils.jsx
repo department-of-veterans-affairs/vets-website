@@ -397,6 +397,9 @@ export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
     locationSchema.addressUI.zipCode = {
       'ui:title': fieldLabels.zipCode,
       'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+      },
     };
   }
 
@@ -526,11 +529,11 @@ export const needsToAnswerUnemployability = formData =>
 
 export const hasDoctorsCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+  _.get('unemployability.underDoctorsCare', formData, false);
 
 export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:hospitalized', formData, false);
+  _.get('unemployability.hospitalized', formData, false);
 
 export const ancillaryFormUploadUi = (
   label,
