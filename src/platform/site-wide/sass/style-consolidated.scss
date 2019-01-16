@@ -102,7 +102,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 
 .consolidated {
   font-family: $font-stack;
-  @import "../../../../../design-system/src/sass/core.scss";
+  @import "~@department-of-veterans-affairs/formation/sass/core";
 
   @import "../../site-wide/user-nav/sass/user-nav";
 
