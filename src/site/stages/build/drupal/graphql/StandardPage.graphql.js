@@ -5,7 +5,6 @@ module.exports = `
   fragment StandardPage on NodePage {
     entityUrl {
       path
-      routed
     }
     entityBundle
     entityPublished
