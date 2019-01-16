@@ -4,13 +4,12 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import { validateZIP } from './validations';
 
 import {
   schema as addressSchema,
@@ -25,7 +24,9 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  disabilityActionTypes,
 } from './constants';
+
 /**
  * Show one thing, have a screen reader say another.
  *
@@ -125,10 +126,7 @@ const capitalizeWord = word => {
  */
 export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name
-      .split(/ +/)
-      .map(capitalizeWord)
-      .join(' ');
+    return name.replace(/\w+/g, capitalizeWord);
   }
 
   Raven.captureMessage(
@@ -137,17 +135,18 @@ export const capitalizeEachWord = name => {
   return 'Unknown Condition';
 };
 
-export function transformDisabilities(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities that aren't service-connected
-      .filter(
-        disability =>
-          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-      )
-      .map(disability => _.set('disabilityActionType', 'INCREASE', disability))
+// Only service-connected disabilities should be included in the form
+export const filterServiceConnected = (disabilities = []) =>
+  disabilities.filter(
+    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
   );
-}
+
+// Add 'NONE' disabilityActionType to each rated disability because it's
+// required in the schema
+export const addNoneDisabilityActionType = (disabilities = []) =>
+  disabilities.map(d =>
+    _.set('disabilityActionType', disabilityActionTypes.NONE, d),
+  );
 
 export function transformMVPData(formData) {
   const newFormData = _.omit(
@@ -191,19 +190,17 @@ export const viewifyFields = formData => {
 };
 
 export function prefillTransformer(pages, formData, metadata) {
-  const { disabilities } = formData;
-  if (!disabilities || !Array.isArray(disabilities)) {
-    Raven.captureMessage(
-      'vets-disability-increase-no-rated-disabilities-found',
+  const newFormData = transformMVPData(formData);
+  const { disabilities } = newFormData;
+
+  // SiP automatically removes empty properties from prefill
+  if (disabilities) {
+    newFormData.ratedDisabilities = addNoneDisabilityActionType(
+      filterServiceConnected(disabilities),
     );
-    return { metadata, formData, pages };
+
+    delete newFormData.disabilities;
   }
-  const newFormData = _.set(
-    'ratedDisabilities',
-    transformDisabilities(disabilities),
-    transformMVPData(formData),
-  );
-  delete newFormData.disabilities;
 
   // Pre-fill hidden bank info for use in the PaymentView
   const bankAccount = {
@@ -238,171 +235,6 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
-/**
- * Transforms the related disabilities object into an array of strings. The condition
- *  name only gets added to the list if the property value is truthy and is in the list
- *  of conditions claimed on the application.
- *
- * @param {Object} object - The object with dynamically generated property names
- * @param {Array<String>} claimedConditions - An array of lower-cased names of conditions claimed
- * @return {Array} - An array of the property names with truthy values
- *                   NOTE: This will return all lower-cased names
- */
-export function transformRelatedDisabilities(object, claimedConditions) {
-  return Object.keys(object)
-    .filter(
-      // The property name will be normal-cased in the object, but lower-cased in claimedConditions
-      key => object[key] && claimedConditions.includes(key.toLowerCase()),
-    )
-    .map(key => key.toLowerCase());
-}
-
-/**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacilities array of objects being transformed
- * @returns {array} containing the new Provider Facility structure
- */
-export function transformProviderFacilities(providerFacilities) {
-  return providerFacilities.map(facility => ({
-    ...facility,
-    treatmentDateRange: [facility.treatmentDateRange],
-  }));
-}
-
-/**
- * This is mostly copied from us-forms' own stringifyFormReplacer, but with
- * the incomplete / empty address check removed, since we don't need this
- * for any of the 3 addresses (mailing, forwarding, treatment facility) in our
- * form. Leaving it in breaks treatment facility addresses because by design
- * they don't have street / line 1 addresses, so would get incorrectly filtered
- * out. Trivia: this check is also gone in the latest us-forms replacer.
- */
-export function customReplacer(key, value) {
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-
-    // autosuggest widgets save value and label info, but we should just return the value
-    if (value.widget === 'autosuggest') {
-      return value.id;
-    }
-
-    // Exclude file data
-    if (value.confirmationCode && value.file) {
-      return _.omit('file', value);
-    }
-  }
-
-  // Clean up empty objects in arrays
-  if (Array.isArray(value)) {
-    const newValues = value.filter(v => !!customReplacer(key, v));
-    // If every item in the array is cleared, remove the whole array
-    return newValues.length > 0 ? newValues : undefined;
-  }
-
-  return value;
-}
-
-export function transform(formConfig, form) {
-  // Remove rated disabilities that weren't selected
-  let clonedData = _.set(
-    'ratedDisabilities',
-    form.data.ratedDisabilities.filter(condition => condition['view:selected']),
-    form.data,
-  );
-
-  const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
-  if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d => {
-      const loweredCondition = d.condition.toLowerCase();
-      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
-      if (loweredCondition.includes('ptsd')) {
-        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
-        d.cause = 'NEW';
-      }
-      claimedConditions.push(loweredCondition);
-    });
-  }
-
-  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
-  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
-  //  it here to remove reservesNationalGuardService if it's deeply empty.
-  clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(
-      transformForSubmit(
-        formConfig,
-        {
-          ...form,
-          data: clonedData,
-        },
-        customReplacer,
-      ),
-    ),
-  );
-
-  // Transform the related disabilities lists into an array of strings
-  if (clonedData.vaTreatmentFacilities) {
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      _.set(
-        'treatedDisabilityNames',
-        transformRelatedDisabilities(
-          facility.treatedDisabilityNames,
-          claimedConditions,
-        ),
-        facility,
-      ),
-    );
-    clonedData.vaTreatmentFacilities = newVAFacilities;
-  }
-
-  // Add POW specialIssue to new conditions
-  if (clonedData.powDisabilities) {
-    const powDisabilities = transformRelatedDisabilities(
-      clonedData.powDisabilities,
-      claimedConditions,
-    ).map(name => name.toLowerCase());
-
-    if (clonedData.newDisabilities) {
-      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition.toLowerCase())) {
-          const newSpecialIssues = (d.specialIssues || []).slice();
-          // TODO: Make a constant with all the possibilities and use it here
-          newSpecialIssues.push('POW');
-          return _.set('specialIssues', newSpecialIssues, d);
-        }
-        return d;
-      });
-    }
-    delete clonedData.powDisabilities;
-  }
-
-  if (clonedData.providerFacility) {
-    clonedData.form4142 = {
-      ...(clonedData.limitedConsent && {
-        limitedConsent: clonedData.limitedConsent,
-      }),
-      ...(clonedData.providerFacility && {
-        providerFacility: transformProviderFacilities(
-          clonedData.providerFacility,
-        ),
-      }),
-    };
-
-    delete clonedData.limitedConsent;
-    delete clonedData.providerFacility;
-  }
-
-  return JSON.stringify({ form526: clonedData });
-}
-
 export const hasForwardingAddress = formData =>
   _.get('view:hasForwardingAddress', formData, false);
 
@@ -435,6 +267,8 @@ export function queryForFacilities(input = '') {
   );
 }
 
+export const disabilityIsSelected = disability => disability['view:selected'];
+
 export const addCheckboxPerDisability = (form, pageSchema) => {
   const { ratedDisabilities, newDisabilities } = form;
   // This shouldn't happen, but could happen if someone directly
@@ -443,7 +277,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     return pageSchema;
   }
   const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
-    ? ratedDisabilities.filter(disability => disability['view:selected'])
+    ? ratedDisabilities.filter(disabilityIsSelected)
     : [];
 
   const selectedNewDisabilities = Array.isArray(newDisabilities)
@@ -506,6 +340,70 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
+/**
+ * Creates uiSchema and schema for address widget based on params
+ * @param {array} addressOmitions
+ * @param {array} order
+ * @param {object} fieldLabels
+ */
+export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  const locationSchema = {
+    addressUI: {
+      ...addressUIConfig,
+      'ui:order': order,
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+      },
+    },
+  };
+
+  if (!addressOmitions.includes('country')) {
+    locationSchema.addressUI.country = {
+      'ui:title': fieldLabels.country,
+    };
+  }
+
+  if (!addressOmitions.includes('addressLine1')) {
+    locationSchema.addressUI.addressLine1 = {
+      'ui:title': fieldLabels.addressLine1,
+    };
+  }
+
+  if (!addressOmitions.includes('addressLine2')) {
+    locationSchema.addressUI.addressLine2 = {
+      'ui:title': fieldLabels.addressLine2,
+    };
+  }
+
+  if (!addressOmitions.includes('city')) {
+    locationSchema.addressUI.city = {
+      'ui:title': fieldLabels.city,
+    };
+  }
+
+  if (!addressOmitions.includes('state')) {
+    locationSchema.addressUI.state = {
+      'ui:title': fieldLabels.state,
+    };
+  }
+
+  if (!addressOmitions.includes('zipCode')) {
+    locationSchema.addressUI.zipCode = {
+      'ui:title': fieldLabels.zipCode,
+      'ui:validations': [validateZIP],
+    };
+  }
+
+  return locationSchema;
+}
+
+// Could be changed to use generateLocationSchemas
 export function incidentLocationSchemas() {
   const addressOmitions = [
     'addressLine1',
@@ -575,7 +473,7 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isUploading781aSupportingDocuments = index => formData =>
-  _.get(`view:uploadChoice${index}`, formData, false);
+  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
@@ -623,6 +521,14 @@ export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
 
+export const hasDoctorsCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+
+export const hasHospitalCare = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:medicalCareType.view:hospitalized', formData, false);
+
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
@@ -632,7 +538,7 @@ export const ancillaryFormUploadUi = (
     customClasses = '',
     isDisabled = false,
     addAnotherLabel = 'Add Another',
-  },
+  } = {},
 ) =>
   fileUploadUI(label, {
     itemDescription,
@@ -671,6 +577,10 @@ export const ancillaryFormUploadUi = (
     attachmentName: false,
   });
 
+export const isUploadingSupporting8940Documents = formData =>
+  needsToAnswerUnemployability(formData) &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, false);
+
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`secondaryIncident${index}.otherSources`, formData, '') &&
   isAnswering781aQuestions(index)(formData);
@@ -692,3 +602,12 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
   ) &&
   isAnswering781aQuestions(index)(formData) &&
   wantsHelpWithOtherSourcesSecondary(index)(formData);
+
+export const getAttachmentsSchema = defaultAttachmentId => {
+  const { attachments } = fullSchema.properties;
+  return _.set(
+    'items.properties.attachmentId.default',
+    defaultAttachmentId,
+    attachments,
+  );
+};

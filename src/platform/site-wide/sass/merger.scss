@@ -182,6 +182,10 @@ $medium-phone-screen: 375px;
         text-overflow: ellipsis;
         max-width: 60px;
         padding-left: 6px;
+
+        &.user-dropdown-email {
+          margin-top: 5px;
+        }
       }
 
       @include media($medium-phone-screen) {
@@ -192,12 +196,19 @@ $medium-phone-screen: 375px;
 
       @include media($medium-screen) {
         span {
-          display: inline-block;
           padding-left: 0;
+          max-width: 215px;
+          height: 20px;
 
           svg {
             display: inline-block;
           }
+        }
+      }
+
+      @include media($small-desktop-screen) {
+        span {
+          max-width: 300px;
         }
       }
     }
@@ -353,7 +364,7 @@ $medium-phone-screen: 375px;
 
     .va-sidebarnav--opened {
       position: fixed;
-      display: initial;
+      display: block;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
@@ -543,8 +554,10 @@ $medium-phone-screen: 375px;
     // very tricky to write and maintain
     @media (max-width: $medium-large-screen - 1) {
       @include button-link;
+      font-weight: 600;
       color: $color-white !important;
       text-decoration: none;
+      -webkit-font-smoothing: antialiased;
     }
   }
 }

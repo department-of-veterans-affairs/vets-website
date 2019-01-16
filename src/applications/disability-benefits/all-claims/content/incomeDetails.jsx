@@ -3,7 +3,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 
 export const incomeDescription = (
   <div>
-    <h5>Income details</h5>
+    <h4>Income details</h4>
     <p>
       Now we’re going to ask you about your income history. Please provide your
       gross income, which is all the money you earned through employment for the

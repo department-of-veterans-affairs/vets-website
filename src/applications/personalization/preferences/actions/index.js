@@ -1,29 +1,28 @@
 import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   benefitChoices,
+  transformPreferencesForAnalytics,
   transformPreferencesForSaving,
   restoreDismissedBenefitAlerts,
   getDismissedBenefitAlerts,
-  // getNewSelections,
+  getNewSelections,
 } from '../helpers';
 
-export const FETCH_ALL_PREFERENCES_PENDING = 'FETCH_ALL_PREFERENCES_PENDING';
-export const FETCH_ALL_PREFERENCES_SUCCEEDED =
-  'FETCH_ALL_PREFERENCES_SUCCEEDED';
-export const FETCH_ALL_PREFERENCES_FAILED = 'FETCH_ALL_PREFERENCES_FAILED';
-export const FETCH_USER_PREFERENCES_PENDING = 'FETCH_USER_PREFERENCES_PENDING';
+export const FETCH_ALL_BENEFITS_STARTED = 'FETCH_ALL_BENEFITS_STARTED';
+export const FETCH_ALL_BENEFITS_SUCCEEDED = 'FETCH_ALL_BENEFITS_SUCCEEDED';
+export const FETCH_ALL_BENEFITS_FAILED = 'FETCH_ALL_BENEFITS_FAILED';
+export const FETCH_USER_PREFERENCES_STARTED = 'FETCH_USER_PREFERENCES_STARTED';
 export const FETCH_USER_PREFERENCES_SUCCEEDED =
   'FETCH_USER_PREFERENCES_SUCCEEDED';
 export const FETCH_USER_PREFERENCES_FAILED = 'FETCH_USER_PREFERENCES_FAILED';
 export const RESTORE_PREVIOUS_USER_PREFERENCES =
   'RESTORE_PREVIOUS_USER_PREFERENCES';
-export const SAVE_USER_PREFERENCES_PENDING = 'SAVE_USER_PREFERENCES_PENDING';
+export const SAVE_USER_PREFERENCES_STARTED = 'SAVE_USER_PREFERENCES_STARTED';
 export const SAVE_USER_PREFERENCES_SUCCEEDED =
   'SAVE_USER_PREFERENCES_SUCCEEDED';
 export const SAVE_USER_PREFERENCES_FAILED = 'SAVE_USER_PREFERENCES_FAILED';
-export const SET_AVAILABLE_BENEFITS = 'SET_AVAILABLE_BENEFITS';
-export const SET_ALL_USER_PREFERENCES = 'SET_ALL_USER_PREFERENCES';
 export const SET_USER_PREFERENCE = 'SET_USER_PREFERENCE';
 export const SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS =
   'SET_DISMISSED_DASHBOARD_PREFERENCE_ALERTS';
@@ -32,18 +31,15 @@ export const SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS =
 export function fetchUserSelectedBenefits() {
   return dispatch => {
     dispatch({
-      type: FETCH_USER_PREFERENCES_PENDING,
+      type: FETCH_USER_PREFERENCES_STARTED,
     });
     return apiRequest(
       '/user/preferences',
       null,
       response => {
         dispatch({
-          type: SET_ALL_USER_PREFERENCES,
-          payload: response,
-        });
-        dispatch({
           type: FETCH_USER_PREFERENCES_SUCCEEDED,
+          payload: response,
         });
       },
       () => {
@@ -59,25 +55,21 @@ export function fetchUserSelectedBenefits() {
 export function fetchAvailableBenefits() {
   return dispatch => {
     dispatch({
-      type: FETCH_ALL_PREFERENCES_PENDING,
+      type: FETCH_ALL_BENEFITS_STARTED,
     });
 
     return apiRequest(
       '/user/preferences/choices/benefits',
       null,
       response => {
-        const availableBenefits = response.data.attributes.preferenceChoices;
         dispatch({
-          type: SET_AVAILABLE_BENEFITS,
-          preferences: availableBenefits,
-        });
-        dispatch({
-          type: FETCH_ALL_PREFERENCES_SUCCEEDED,
+          type: FETCH_ALL_BENEFITS_SUCCEEDED,
+          payload: response,
         });
       },
       () => {
         dispatch({
-          type: FETCH_ALL_PREFERENCES_FAILED,
+          type: FETCH_ALL_BENEFITS_FAILED,
         });
       },
     );
@@ -109,7 +101,7 @@ export function savePreferences(benefitsData) {
   // eslint-disable-next-line no-unused-vars
   return (dispatch, getState) => {
     dispatch({
-      type: SAVE_USER_PREFERENCES_PENDING,
+      type: SAVE_USER_PREFERENCES_STARTED,
     });
 
     const body = transformPreferencesForSaving(benefitsData);
@@ -124,16 +116,10 @@ export function savePreferences(benefitsData) {
           type: SAVE_USER_PREFERENCES_SUCCEEDED,
         });
 
-        // TODO: use getNewSelections helper with staged and saved data
-        // const newBenefitSelections = getNewSelections(
-        //   getState().preferences.savedPreferences,
-        //   benefitsData,
-        // );
-        // TODO: remove this mock newBenefitSelections
-        // This re-enables an alert whenever any relevant benefit is included
-        // not only if it is a new addition to the selected benefits
-        const newBenefitSelections = Object.keys(benefitsData);
-        // Get alert names for new selections
+        const newBenefitSelections = getNewSelections(
+          getState().preferences.savedDashboard,
+          benefitsData,
+        );
 
         const newBenefitAlerts = benefitChoices
           .filter(
@@ -160,7 +146,7 @@ export function savePreferences(benefitsData) {
 export function deletePreferences() {
   return dispatch => {
     dispatch({
-      type: SAVE_USER_PREFERENCES_PENDING,
+      type: SAVE_USER_PREFERENCES_STARTED,
     });
 
     const method = 'DELETE';
@@ -181,4 +167,20 @@ export function deletePreferences() {
       },
     );
   };
+}
+
+// Wrapper to call either savePreferences or deletePreferences
+export function updatePreferences(
+  benefitsData,
+  saveFunc = savePreferences,
+  deleteFunc = deletePreferences,
+) {
+  recordEvent({
+    event: 'dashboard-preferences-saved-successful',
+    ...transformPreferencesForAnalytics(benefitsData),
+  });
+  if (Object.keys(benefitsData).length) {
+    return saveFunc(benefitsData);
+  }
+  return deleteFunc();
 }

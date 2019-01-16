@@ -43,7 +43,7 @@ export const uiSchema = {
       'ui:description': privateRecordsChoiceHelp,
     },
   },
-  privateMedicalRecords: {
+  privateMedicalRecordAttachments: {
     ...fileUploadUi,
     'ui:options': {
       ...fileUploadUi['ui:options'],
@@ -97,7 +97,7 @@ export const schema = {
         },
       },
     },
-    privateMedicalRecords: privateMedicalRecordAttachments,
+    privateMedicalRecordAttachments,
     'view:patientAcknowledgement': {
       type: 'object',
       required: ['view:acknowledgement'],

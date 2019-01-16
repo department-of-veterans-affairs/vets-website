@@ -5,22 +5,24 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
 import {
-  PrimaryAddressViewField,
-  ForwardingAddressViewField,
   contactInfoDescription,
   contactInfoUpdateHelp,
+  forwardingAddressDescription,
+  ForwardingAddressViewField,
   phoneEmailViewField,
+  PrimaryAddressViewField,
 } from '../content/contactInformation';
 
 import {
-  validateZIP,
+  isInFuture,
   validateMilitaryCity,
   validateMilitaryState,
-  isInFuture,
+  validateZIP,
 } from '../validations';
 
 import { hasForwardingAddress, forwardingCountryIsUSA } from '../utils';
@@ -124,7 +126,7 @@ const addressUISchema = (addressType, title) => {
       ],
     },
     zipCode: {
-      'ui:title': 'ZIP code',
+      'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
       'ui:required': formData =>
         _.get(formData, `${addressType}.country`, '') === USA,
@@ -158,6 +160,7 @@ export const uiSchema = {
     primaryPhone: {
       'ui:title': 'Phone number',
       'ui:widget': PhoneNumberWidget,
+      'ui:reviewWidget': PhoneNumberReviewWidget,
       'ui:errorMessages': {
         pattern: 'Phone numbers must be 10 digits (dashes allowed)',
       },
@@ -177,12 +180,13 @@ export const uiSchema = {
     'Mailing address',
   ),
   'view:hasForwardingAddress': {
-    'ui:title':
-      'I want to provide a forwarding address since my address will be changing soon.',
+    'ui:title': 'My address will be changing soon.',
   },
   forwardingAddress: merge(
     addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
     {
+      'ui:field': ReviewCardField,
+      'ui:subtitle': forwardingAddressDescription,
       'ui:order': [
         'effectiveDate',
         'country',
@@ -199,8 +203,8 @@ export const uiSchema = {
       },
       effectiveDate: merge(
         dateRangeUI(
-          'Effective from',
-          'Effective to',
+          'Start date',
+          'End date',
           'End date must be after start date',
         ),
         {

@@ -1,16 +1,12 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import _ from '../../../../platform/utilities/data';
-
-import formConfig from '../config/form';
 
 import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
   isInFuture,
   capitalizeEachWord,
-  transformDisabilities,
   queryForFacilities,
   hasOtherEvidence,
   fieldsHaveInput,
@@ -22,27 +18,76 @@ import {
   isUploading781aSupportingDocuments,
   isUploading781Form,
   isUploading781aForm,
-  transformRelatedDisabilities,
   viewifyFields,
   transformMVPData,
-  transform,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  hasHospitalCare,
+  addNoneDisabilityActionType,
+  filterServiceConnected,
 } from '../utils.jsx';
 
 import {
-  transformedMinimalData,
-  transformedMaximalData,
-} from './schema/transformedData';
-
-import minimalData from './schema/minimal-test.json';
-import maximalData from './schema/maximal-test.json';
-
-import initialData from './initialData';
-
-import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
+  SERVICE_CONNECTION_TYPES,
+  disabilityActionTypes,
+} from '../../all-claims/constants';
 
 describe('526 helpers', () => {
+  describe('addNoneDisabilityActionType', () => {
+    const disabilities = [
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+    ];
+
+    it('should return an array of same length as input', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      expect(withActionType)
+        .to.be.an('array')
+        .that.has.length(disabilities.length);
+    });
+
+    it('should return an empty array when no input', () => {
+      expect(addNoneDisabilityActionType())
+        .to.be.an('array')
+        .that.has.length(0);
+    });
+
+    it('should set disabilityActionType to NONE for each rated disability', () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      withActionType.forEach(d => {
+        expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
+      });
+    });
+  });
+
+  describe('filterServiceConnected', () => {
+    it('should filter non-service-connected disabililties', () => {
+      const disabilities = [
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
+        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
+      ];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities.length).to.equal(2);
+      filteredDisabilities.forEach(d =>
+        expect(d.decisionCode).to.equal(
+          SERVICE_CONNECTION_TYPES.serviceConnected,
+        ),
+      );
+    });
+
+    it('should return an empty array when no disabilities provided', () => {
+      const disabilities = [];
+
+      const filteredDisabilities = filterServiceConnected(disabilities);
+      expect(filteredDisabilities).to.be.an('array').that.is.empty;
+    });
+  });
+
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -165,9 +210,15 @@ describe('526 helpers', () => {
 
   describe('capitalizeEachWord', () => {
     it('should return string with each word capitalized when name supplied', () => {
-      expect(capitalizeEachWord('some disability - some detail')).to.equal(
-        'Some Disability - Some Detail',
-      );
+      [
+        ['some disability - some detail', 'Some Disability - Some Detail'],
+        ['some disability (some detail)', 'Some Disability (Some Detail)'],
+        [
+          'some disability with hyphenated-words',
+          'Some Disability With Hyphenated-Words',
+        ],
+        ['some "quote" disability', 'Some "Quote" Disability'],
+      ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
     it('should return Unknown Condition with undefined name', () => {
       expect(capitalizeEachWord()).to.equal('Unknown Condition');
@@ -177,30 +228,6 @@ describe('526 helpers', () => {
     });
     it('should return Unknown Condition when name is not a string', () => {
       expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
-    });
-  });
-
-  describe('transformDisabilities', () => {
-    const rawDisability = initialData.ratedDisabilities[1];
-    const formattedDisability = Object.assign(
-      { disabilityActionType: 'INCREASE' },
-      rawDisability,
-    );
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([rawDisability])).to.deep.equal([
-        formattedDisability,
-      ]);
-    });
-    it('should return an empty array when given undefined input', () => {
-      expect(transformDisabilities(undefined)).to.deep.equal([]);
-    });
-    it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.set(
-        'decisionCode',
-        SERVICE_CONNECTION_TYPES.notServiceConnected,
-        rawDisability,
-      );
-      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
 
@@ -471,34 +498,6 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformRelatedDisabilities', () => {
-    it('should return an array of strings', () => {
-      const claimedConditions = [
-        'some condition name',
-        'another condition name',
-      ];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name', 'another condition name']);
-    });
-    it('should not add conditions if they are not claimed', () => {
-      const claimedConditions = ['some condition name'];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name']);
-    });
-  });
-
   describe('viewifyFields', () => {
     const formData = {
       prop1: {
@@ -591,20 +590,6 @@ describe('transformMVPData', () => {
   });
 });
 
-describe('transform', () => {
-  it('should transform minimal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
-      transformedMinimalData,
-    );
-  });
-
-  it('should transform maximal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
-      transformedMaximalData,
-    );
-  });
-});
-
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
@@ -674,7 +659,9 @@ describe('isAnswering781aQuestions', () => {
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
-        'view:uploadChoice0': true,
+        secondaryIncident0: {
+          'view:uploadSources': true,
+        },
       };
       expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
     });
@@ -713,6 +700,21 @@ describe('isAnswering781aQuestions', () => {
         'view:unemployabilityUploadChoice': 'upload',
       };
       expect(needsToAnswerUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('needsToAnswerHospitalCare', () => {
+    it('should be default of false', () => {
+      const formData = {};
+      expect(hasHospitalCare(formData)).to.be.false;
+    });
+    it('should be true', () => {
+      const formData = {
+        'view:medicalCareType': {
+          'view:hospialized': true,
+        },
+      };
+      expect(hasHospitalCare(formData)).to.be.false;
     });
   });
 });

@@ -4,16 +4,17 @@ import appendQuery from 'append-query';
 import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
+import localStorage from '../../utilities/storage/localStorage';
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const redirectUrl = type => `${SESSIONS_URI}/${type}/new`;
+const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
 
-const MHV_URL = redirectUrl('mhv');
-const DSLOGON_URL = redirectUrl('dslogon');
-const IDME_URL = redirectUrl('idme');
-const MFA_URL = redirectUrl('mfa');
-const VERIFY_URL = redirectUrl('verify');
-const LOGOUT_URL = redirectUrl('slo');
+const MHV_URL = sessionTypeUrl('mhv');
+const DSLOGON_URL = sessionTypeUrl('dslogon');
+const IDME_URL = sessionTypeUrl('idme');
+const MFA_URL = sessionTypeUrl('mfa');
+const VERIFY_URL = sessionTypeUrl('verify');
+const LOGOUT_URL = sessionTypeUrl('slo');
 
 const loginUrl = policy => {
   switch (policy) {
@@ -25,6 +26,10 @@ const loginUrl = policy => {
       return IDME_URL;
   }
 };
+
+export function isFullScreenLoginEnabled() {
+  return !!localStorage.getItem('enableFullScreenLogin');
+}
 
 function popup(popupUrl, clickedEvent, openedEvent) {
   recordEvent({ event: clickedEvent });
@@ -41,7 +46,7 @@ function popup(popupUrl, clickedEvent, openedEvent) {
       popupUrl,
       null,
       ({ url }) => {
-        popupWindow.location = url;
+        if (url) popupWindow.location = url;
       },
       () => {
         popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
@@ -56,24 +61,54 @@ function popup(popupUrl, clickedEvent, openedEvent) {
   return Promise.reject(new Error('Failed to open new window'));
 }
 
+function redirect(redirectUrl, clickedEvent, openedEvent) {
+  if (!isFullScreenLoginEnabled()) {
+    return popup(redirectUrl, clickedEvent, openedEvent);
+  }
+
+  // Keep track of the URL to return to after auth operation.
+  sessionStorage.setItem('authReturnUrl', window.location);
+
+  recordEvent({ event: clickedEvent });
+
+  return apiRequest(
+    redirectUrl,
+    null,
+    ({ url }) => {
+      if (url) {
+        recordEvent({ event: openedEvent });
+        window.location = url;
+      }
+    },
+    () => {
+      // TODO: Create a separate page or modal when failed to get the URL.
+      window.location = `${environment.BASE_URL}/auth/login/callback`;
+    },
+  );
+}
+
 export function login(policy) {
-  return popup(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  return redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
 }
 
 export function mfa() {
-  return popup(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
+  return redirect(
+    MFA_URL,
+    'multifactor-link-clicked',
+    'multifactor-link-opened',
+  );
 }
 
 export function verify() {
-  return popup(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
 }
 
 export function logout() {
-  return popup(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  return redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
 }
 
 export function signup() {
-  return popup(
+  return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
     'register-link-opened',

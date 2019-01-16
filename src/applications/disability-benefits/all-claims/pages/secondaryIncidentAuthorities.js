@@ -7,13 +7,13 @@ import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthori
 import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import { validateZIP } from '../validations';
 
-const { authorities } = fullSchema.definitions.secondaryPtsdIncident.properties;
+const { sources } = fullSchema.definitions.secondaryPtsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': PtsdAssaultAuthoritiesDescription,
   [`secondaryIncident${index}`]: {
-    authorities: {
+    sources: {
       'ui:options': {
         itemName: 'Authority',
         viewField: AuthorityField,
@@ -40,6 +40,10 @@ export const uiSchema = index => ({
           zipCode: {
             'ui:title': 'Postal Code',
             'ui:validations': [validateZIP],
+            'ui:errorMessages': {
+              pattern:
+                'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+            },
           },
         }),
       },
@@ -53,7 +57,7 @@ export const schema = index => ({
     [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
-        authorities,
+        sources,
       },
     },
   },

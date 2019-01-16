@@ -8,17 +8,16 @@ import { isEmpty } from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
-import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import PreferenceList from '../components/PreferenceList';
 
 import {
   setPreference,
-  savePreferences,
-  deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
   restorePreviousSelections,
+  updatePreferences,
 } from '../actions';
 import {
   benefitChoices,
@@ -121,13 +120,7 @@ class PreferencesWidget extends React.Component {
   handleRemoveBenefit = async code => {
     await this.props.setPreference(code, false);
     const { dashboard } = this.props.preferences;
-    // We have to use a different endpoint/Redux action if the user has removed
-    // their last remaining selected benefit
-    if (Object.keys(dashboard).length) {
-      this.props.savePreferences(dashboard);
-    } else {
-      this.props.deletePreferences();
-    }
+    this.props.updatePreferences(dashboard);
   };
 
   handleViewToggle = code => {
@@ -165,7 +158,18 @@ class PreferencesWidget extends React.Component {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <a href="/my-va/find-benefits">Select benefits now.</a>
+            <a
+              href="/my-va/find-benefits"
+              onClick={() =>
+                recordEvent({
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link',
+                  'dashboard-product': 'select-benefits-now',
+                })
+              }
+            >
+              Select benefits now.
+            </a>
           </div>
         );
       }
@@ -202,10 +206,6 @@ class PreferencesWidget extends React.Component {
   };
 
   render() {
-    // do not show in production
-    if (environment.isProduction()) {
-      return null;
-    }
     const {
       preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
     } = this.props;
@@ -225,6 +225,13 @@ class PreferencesWidget extends React.Component {
               <Link
                 className="usa-button usa-button-secondary"
                 to="find-benefits"
+                onClick={() =>
+                  recordEvent({
+                    event: 'dashboard-navigation',
+                    'dashboard-action': 'view-button',
+                    'dashboard-product': 'find-va-benefits',
+                  })
+                }
               >
                 Find VA Benefits
               </Link>
@@ -256,11 +263,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setPreference,
-  savePreferences,
-  deletePreferences,
   fetchUserSelectedBenefits,
   setDismissedBenefitAlerts,
   restorePreviousSelections,
+  updatePreferences,
 };
 
 export default connect(

@@ -1,7 +1,14 @@
 import React from 'react';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const {
+  remarks,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const additionalInformationDescription = (
   <div>
+    <h4>Additional Information</h4>
     <p>
       If there is any other information you would like to provide as part of
       your claim, please add it here.
@@ -19,7 +26,7 @@ const additionalInformationDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Individual Unemployability',
+  'ui:title': unemployabilityTitle,
   'ui:description': additionalInformationDescription,
   unemployability: {
     remarks: {
@@ -39,9 +46,7 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        remarks: {
-          type: 'string',
-        },
+        remarks,
       },
     },
   },

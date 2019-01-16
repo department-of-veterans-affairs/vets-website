@@ -3,6 +3,9 @@ import {
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityDates,
+  uploadUnemployabilitySupportingDocuments,
+  uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
   unemployabilityCertification,
   pastEducationTraining,
@@ -11,13 +14,21 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  employmentHistory,
+  unemployabilityDoctorCare,
+  medicalCare,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploadingSupporting8940Documents,
+  hasHospitalCare,
+  hasDoctorsCare,
 } from '../../utils';
+
+import createFormConfig4192 from '../4192';
 
 export default function() {
   let configObj = {};
@@ -41,16 +52,37 @@ export default function() {
         schema: unemployabilityDisabilities.schema,
       },
       // 8940 - Medical Care
+      medicalCare: {
+        title: 'Medical Care',
+        path: 'medical-care',
+        depends: needsToAnswerUnemployability,
+        uiSchema: medicalCare.uiSchema,
+        schema: medicalCare.schema,
+      },
       // 8940 - Hospital Treatment
       hospitalizationHistory: {
         title: 'Hospitalization',
         path: 'hospitalization-history',
-        depends: needsToAnswerUnemployability,
+        depends: hasHospitalCare,
         uiSchema: hospitalizationHistory.uiSchema,
         schema: hospitalizationHistory.schema,
       },
       // 8940 - Doctor Treatment
+      unemployabilityDoctorCare: {
+        title: 'Doctor’s care',
+        path: 'doctor-care',
+        depends: hasDoctorsCare,
+        uiSchema: unemployabilityDoctorCare.uiSchema,
+        schema: unemployabilityDoctorCare.schema,
+      },
       // 8940 - Disability Dates
+      unemployabilityDates: {
+        title: 'Disability dates',
+        path: 'unemployability-disability-dates',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDates.uiSchema,
+        schema: unemployabilityDates.schema,
+      },
       // 8940 - Income Details
       incomeDetails: {
         title: 'Income details',
@@ -60,6 +92,13 @@ export default function() {
         schema: incomeDetails.schema,
       },
       // 8940 - Employment History
+      employmentHistory: {
+        title: 'Employment history',
+        path: 'unemployability-employment-history',
+        depends: needsToAnswerUnemployability,
+        uiSchema: employmentHistory.uiSchema,
+        schema: employmentHistory.schema,
+      },
       // 8940 - Recent Earnings
       recentEarnedIncome: {
         title: 'Recent earnings',
@@ -118,6 +157,20 @@ export default function() {
       },
       // 8940 - Supporting Documents
       // 8940 - Upload Supporting Docs
+      uploadUnemployabilitySupportingDocumentsChoice: {
+        title: 'Supporting documents',
+        path: 'upload-unemployability-supporting-documents-choice',
+        depends: needsToAnswerUnemployability,
+        uiSchema: uploadUnemployabilitySupportingDocumentsChoice.uiSchema,
+        schema: uploadUnemployabilitySupportingDocumentsChoice.schema,
+      },
+      uploadUnemployabilitySupportingDocuments: {
+        title: 'Upload supporting documents',
+        path: 'upload-unemployability-supporting-documents',
+        depends: formData => isUploadingSupporting8940Documents(formData),
+        uiSchema: uploadUnemployabilitySupportingDocuments.uiSchema,
+        schema: uploadUnemployabilitySupportingDocuments.schema,
+      },
       // 8940 - Certification
       unemployabilityCertification: {
         title: 'Unemployability Certification',
@@ -127,20 +180,7 @@ export default function() {
         schema: unemployabilityCertification.schema,
       },
       // 4192 -
-      conclusion4192: {
-        title: 'Conclusion 4192',
-        path: 'disabilities/conclusion-4192',
-        depends: needsToEnterUnemployability,
-        uiSchema: {
-          'ui:title': ' ',
-          'ui:description':
-            'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-        },
-        schema: {
-          type: 'object',
-          properties: {},
-        },
-      },
+      ...createFormConfig4192(),
     };
   }
   return configObj;
