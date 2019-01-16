@@ -20,7 +20,7 @@ export const download4192Notice = (
     {claimsIntakeAddress}
     <p>Or fax them toll-free: 1-844-531-7818</p>
     <p>
-      If you need help completing this form, they can call Veterans Benefits
+      If they need help completing this form, they can call Veterans Benefits
       Assistance at 1-800-827-1000.
     </p>
   </div>
