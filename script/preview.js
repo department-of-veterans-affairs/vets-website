@@ -6,7 +6,7 @@ const octokit = require('@octokit/rest')();
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
-const GET_PAGE_BY_ID = require('../src/site/stages/build/drupal/get-page-by-id.graphql');
+const GET_PAGE_BY_ID = require('../src/site/stages/build/drupal/graphql/GetPageById.graphql');
 
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
