@@ -245,7 +245,7 @@
     "us-forms-system": "https://github.com/usds/us-forms-system.git#da7a7ee754bbd11047366566934ae585f150089a",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bd461ead9c52d12f1e496e8c7f68faa064320df",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#44c5f711d80267f019f4b3170653fa1011216d9c",
     "whatwg-fetch": "^2.0.3"
   }
 }
