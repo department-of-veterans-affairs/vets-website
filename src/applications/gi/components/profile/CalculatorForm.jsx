@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
 class CalculatorForm extends React.Component {
   constructor(props) {

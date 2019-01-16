@@ -1,8 +1,8 @@
 import React from 'react';
 import { merge } from 'lodash';
 
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Vet360EditModal from '../base/EditModal';
 

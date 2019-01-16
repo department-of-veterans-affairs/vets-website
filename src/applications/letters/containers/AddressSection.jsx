@@ -8,8 +8,8 @@ import {
   scrollToFirstError,
   focusElement,
 } from '../../../platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import {
   addressModalContent,

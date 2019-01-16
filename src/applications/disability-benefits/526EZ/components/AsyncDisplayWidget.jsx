@@ -1,7 +1,7 @@
 import React from 'react';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { PENDING, RESOLVED, REJECTED } from '../constants';
 
 /**

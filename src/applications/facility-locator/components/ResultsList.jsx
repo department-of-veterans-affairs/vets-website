@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithBounds } from '../actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SearchResult from './SearchResult';
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 
 class ResultsList extends Component {
   handlePageSelect = page => {

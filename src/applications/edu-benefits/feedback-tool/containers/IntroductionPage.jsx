@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import SaveInProgressIntro, {
   introActions,
   introSelector,

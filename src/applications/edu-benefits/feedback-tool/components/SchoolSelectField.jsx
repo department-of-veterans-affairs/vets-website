@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
