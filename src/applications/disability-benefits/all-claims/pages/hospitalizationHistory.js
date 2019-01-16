@@ -23,7 +23,7 @@ const { addressUI, addressSchema } = generateAddressSchemas(
     addressLine2: 'Street address (optional)',
     city: 'City',
     state: 'State',
-    zipCode: 'ZIP',
+    zipCode: 'Postal Code',
   },
 );
 
@@ -39,7 +39,10 @@ export const uiSchema = {
       },
       items: {
         name: {
-          'ui:title': 'Name of hospital',
+          'ui:title': 'Hospital’s name',
+        },
+        'view:hospitalAddressTitle': {
+          'ui:title': 'Hospital’s address',
         },
         address: addressUI,
         dates: {
@@ -70,8 +73,13 @@ export const schema = {
           items: {
             type: 'object',
             properties: {
-              ...hospitalProvidedCare.items.properties,
+              name: hospitalProvidedCare.items.properties.name,
+              'view:hospitalAddressTitle': {
+                type: 'object',
+                properties: {},
+              },
               address: addressSchema,
+              dates: hospitalProvidedCare.items.properties.dates,
             },
           },
         },

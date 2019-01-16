@@ -26,7 +26,7 @@ export const uiSchema = {
     },
     'view:upload4192': {
       'ui:title':
-        ' want to upload a completed Request for Employment Information (VA Form 21-4192).',
+        'I want to upload a completed Request for Employment Information (VA Form 21-4192).',
     },
     'view:sendRequests': {
       'ui:title': 'I would like you to handle these requests for me.',
@@ -36,6 +36,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['view:upload4192Choice'],
   properties: {
     'view:upload4192Choice': {
       type: 'object',

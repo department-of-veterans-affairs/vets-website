@@ -14,25 +14,26 @@ const medicalDescription = (
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': medicalDescription,
-  'view:medicalCare': {
-    'ui:title': ' ',
-    'ui:widget': 'yesNo',
-  },
-  'view:medicalCareType': {
-    'ui:title': ' ',
-    'ui:description':
-      'Please tell us if you were hospitalized under a doctor‘s care for the service-connected disabilities',
-    'view:doctorsCare': {
-      'ui:title':
-        'Yes, I‘ve been under a doctor‘s care in the past 12 months for these disabilities.',
+  unemployability: {
+    'view:medicalCare': {
+      'ui:title': ' ',
+      'ui:widget': 'yesNo',
     },
-    'view:hospitalized': {
+    underDoctorsCare: {
       'ui:title':
-        'Yes, I‘ve been hospitalized in the past 12 months for these disabilities.',
+        'I‘ve been under a doctor‘s care in the past 12 months for these disabilities.',
+      'ui:options': {
+        expandUnder: 'view:medicalCare',
+        expandUnderCondition: true,
+      },
     },
-    'ui:options': {
-      expandUnder: 'view:medicalCare',
-      expandUnderCondition: true,
+    hospitalized: {
+      'ui:title':
+        'I‘åve spent time in a hospital in the past 12 months for these disabilities.',
+      'ui:options': {
+        expandUnder: 'view:medicalCare',
+        expandUnderCondition: true,
+      },
     },
   },
 };
@@ -40,16 +41,16 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:medicalCare': {
-      type: 'boolean',
-    },
-    'view:medicalCareType': {
+    unemployability: {
       type: 'object',
       properties: {
-        'view:doctorsCare': {
+        'view:medicalCare': {
           type: 'boolean',
         },
-        'view:hospitalized': {
+        underDoctorsCare: {
+          type: 'boolean',
+        },
+        hospitalized: {
           type: 'boolean',
         },
       },
