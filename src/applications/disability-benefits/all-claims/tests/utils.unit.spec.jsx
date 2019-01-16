@@ -719,7 +719,7 @@ describe('isAnswering781aQuestions', () => {
   });
 
   describe('isUploading781aSupportingDocuments', () => {
-    it('should return true when a use selects yes to upload sources', () => {
+    it('should return true when a user selects yes to upload sources', () => {
       const formData = {
         'view:newDisabilities': true,
         newDisabilities: [
