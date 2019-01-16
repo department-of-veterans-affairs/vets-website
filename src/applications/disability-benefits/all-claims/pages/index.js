@@ -79,12 +79,14 @@ import * as uploadPersonalPtsdDocuments from './uploadPersonalPtsdDocuments';
 import * as uploadPtsdDocuments from './uploadPtsdDocuments';
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
+import * as unemployabilityFormUpload from './unemployabilityFormUpload';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as workBehaviorChanges from './workBehaviorChanges';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 import * as unemployabilityDates from './unemployabilityDates';
 import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
+import * as pastEmploymentFormUpload from './pastEmploymentFormUpload';
 import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
 
 export {
@@ -128,6 +130,7 @@ export {
   pastEducationTraining,
   pastEmploymentFormDownload,
   pastEmploymentFormIntro,
+  pastEmploymentFormUpload,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -169,6 +172,7 @@ export {
   unemployabilityDisabilities,
   unemployabilityDoctorCare,
   unemployabilityFormIntro,
+  unemployabilityFormUpload,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
   uploadUnemployabilitySupportingDocuments,

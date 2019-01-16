@@ -397,6 +397,9 @@ export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
     locationSchema.addressUI.zipCode = {
       'ui:title': fieldLabels.zipCode,
       'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+      },
     };
   }
 
@@ -495,6 +498,9 @@ export const isAddingIndividuals = index => formData =>
   isAnswering781Questions(index)(formData) &&
   _.get(`view:individualsInvolved${index}`, formData, false);
 
+export const isUploading8940Form = formData =>
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'upload';
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (
@@ -523,11 +529,11 @@ export const needsToAnswerUnemployability = formData =>
 
 export const hasDoctorsCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+  _.get('unemployability.underDoctorsCare', formData, false);
 
 export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:hospitalized', formData, false);
+  _.get('unemployability.hospitalized', formData, false);
 
 export const ancillaryFormUploadUi = (
   label,

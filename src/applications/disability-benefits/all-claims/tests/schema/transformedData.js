@@ -16,7 +16,7 @@ export const transformedMinimalData = {
     },
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Aging',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -24,6 +24,7 @@ export const transformedMinimalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
+        unemployabilityDisability: true,
       },
     ],
     serviceInformation: {
@@ -97,7 +98,7 @@ export const transformedMaximalData = {
           state: 'AL',
         },
         treatedDisabilityNames: [
-          'first condition',
+          'aging',
           'ptsd (post traumatic stress disorder)',
         ],
       },
@@ -135,7 +136,7 @@ export const transformedMaximalData = {
     ],
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Aging',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -143,6 +144,7 @@ export const transformedMaximalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
+        unemployabilityDisability: true,
       },
       {
         name: 'Second Condition',
@@ -352,6 +354,111 @@ export const transformedMaximalData = {
           },
         },
       ],
+    },
+    form8940: {
+      unemployability: {
+        disabilityPreventingEmployment: 'aging',
+        underDoctorHopitalCarePast12M: true,
+        doctorProvidedCare: [
+          {
+            name: 'Dr Authortay',
+            address: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 321',
+              city: 'Abcd',
+              state: 'SC',
+              zipCode: '12345',
+            },
+            dates: 'asdfasdf',
+          },
+        ],
+        hospitalProvidedCare: [
+          {
+            name: 'Authortay',
+            address: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 321',
+              city: 'Abcd',
+              zipCode: '12345',
+            },
+            dates: 'asdfasd',
+          },
+        ],
+        disabilityAffectedEmploymentFullTimeDate: '2010-01-01',
+        lastWorkedFullTimeDate: '2010-01-01',
+        becameTooDisabledToWorkDate: '2010-01-01',
+        mostEarningsInAYear: '120', // transform from number to string
+        yearOfMostEarnings: '2010',
+        occupationDuringMostEarnings: 'a',
+        previousEmployers: [
+          {
+            name: 'Authortay',
+            employerAddress: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 321',
+              city: 'Abcd',
+              state: 'SC',
+              zipCode: '12345',
+            },
+            phone: '1234561234',
+            typeOfWork: 'Work',
+            hoursPerWeek: 20,
+            dates: {
+              from: '2010-01-02',
+              to: '2010-01-03',
+            },
+            timeLostFromIllness: 'Some',
+            mostEarningsInAMonth: 100,
+            inBusiness: false, // transform flip
+          },
+        ],
+        disabilityPreventMilitaryDuties: true,
+        past12MonthsEarnedIncome: 10,
+        currentMonthlyEarnedIncome: 50,
+        receiveExpectDisabilityRetirement: true,
+        receiveExpectWorkersCompensation: true,
+        attemptedToObtainEmploymentSinceUnemployability: true,
+        appliedEmployers: [
+          {
+            name: 'Recent Company',
+            address: {
+              country: 'USA',
+              addressLine1: '123 Main St',
+              addressLine2: '0100',
+              city: 'Somewhere',
+              state: 'SC',
+              zipCode: '12345',
+            },
+            workType: 'Work',
+            date: '2010-01-01',
+          },
+        ],
+        education: 'Some elementary school',
+        receivedOtherEducationTrainingPreUnemployability: true,
+        otherEducationTrainingPreUnemployability: [
+          {
+            name: 'Test',
+            dates: {
+              from: '2010-01-02',
+              to: '2010-01-03',
+            },
+          },
+        ],
+        receivedOtherEducationTrainingPostUnemployability: true,
+        otherEducationTrainingPostUnemployability: [
+          {
+            name: 'Education',
+            dates: {
+              from: '2010-01-01',
+              to: '2010-01-03',
+            },
+          },
+        ],
+        remarks: 'Remarks',
+      },
     },
     attachments: [
       {

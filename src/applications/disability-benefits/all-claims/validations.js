@@ -138,7 +138,7 @@ export const oneDisabilityRequired = disabilityList => (
 
   const hasNewDisabilitiesSelected = some(
     [...newDisabilities, ...ratedDisabilities],
-    disability => disability['view:unemployabilityDisability'],
+    disability => disability.unemployabilityDisability,
   );
 
   if (!hasNewDisabilitiesSelected) {
