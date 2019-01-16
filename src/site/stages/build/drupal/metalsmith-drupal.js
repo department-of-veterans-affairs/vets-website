@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-continue */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -35,6 +35,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     '<h1>The following pages were provided by Drupal:</h1><ol>\n';
 
   for (const page of pages) {
+    // At this time, null values are returned for pages that are not yet published.
+    // Once the Content-Preview server is up and running, then unpublished pages should
+    // reliably return like any other page and we can delete this.
+    if (!page) {
+      log('Skipping null entity...');
+      continue;
+    }
+
     const {
       entityUrl: { path: drupalPagePath },
     } = page;
@@ -113,12 +121,14 @@ function getDrupalContent(buildOptions) {
         drupalData = await loadDrupal(buildOptions);
       }
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      log('Successfully piped Drupal content into Metalsmith!');
+      done();
     } catch (err) {
       log('Failed to pipe Drupal content into Metalsmith!');
-      done(err);
+      log('Continuing with build anyway...');
+      // done(err);
+      done();
     }
-    log('Successfully piped Drupal content into Metalsmith!');
-    done();
   };
 }
 

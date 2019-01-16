@@ -1,26 +1,38 @@
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
-import { merge, omit } from 'lodash';
-import fullSchema from '../config/schema';
 import {
-  uiSchema as addressUI,
-  schema as addressSchema,
-} from '../../../../platform/forms/definitions/address';
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import { validateZIP } from '../validations';
 import UnemployabilityDoctorCareField from '../components/UnemployabilityDoctorCareField';
 import {
   doctorDatesDecription,
   doctorCareDescription,
   privateMedicalFacilityDescription,
-  doctorCareTitle,
 } from '../content/unemployabilityDoctorCare';
+import { generateAddressSchemas } from '../utils';
 
-const address = addressSchema(fullSchema);
+const {
+  doctorProvidedCare,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
+
+const { addressUI, addressSchema } = generateAddressSchemas(
+  ['addressLine3', 'postalCode'],
+  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
+  {
+    country: 'Country',
+    addressLine1: 'Street address',
+    addressLine2: 'Street address (optional)',
+    city: 'City',
+    state: 'State',
+    zipCode: 'Postal Code',
+  },
+);
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': doctorCareTitle,
+    'ui:title': unemployabilityPageTitle('Doctor’s care'),
     'ui:description': doctorCareDescription,
     doctorProvidedCare: {
       'ui:options': {
@@ -31,31 +43,10 @@ export const uiSchema = {
         name: {
           'ui:title': 'Doctor’s name',
         },
-        address: merge(addressUI('', false), {
-          'ui:order': [
-            'country',
-            'addressLine1',
-            'addressLine2',
-            'city',
-            'state',
-            'zipCode',
-          ],
-          addressLine1: {
-            'ui:title': 'Street address',
-          },
-          addressLine2: {
-            'ui:title': 'Street address (line 2)',
-          },
-          state: {
-            'ui:title': 'State',
-          },
-          zipCode: {
-            'ui:title': 'Postal Code',
-            'ui:validations': [validateZIP],
-          },
-        }),
+        address: addressUI,
         dates: {
-          'ui:title': doctorDatesDecription,
+          'ui:title': ' ',
+          'ui:description': doctorDatesDecription,
           'ui:widget': 'textarea',
           'ui:options': {
             rows: 5,
@@ -82,21 +73,8 @@ export const schema = {
           items: {
             type: 'object',
             properties: {
-              name: {
-                type: 'string',
-              },
-              address: {
-                ...address,
-                properties: {
-                  ...omit(address.properties, ['addressLine3', 'postalCode']),
-                  zipCode: {
-                    type: 'string',
-                  },
-                },
-              },
-              dates: {
-                type: 'string',
-              },
+              ...doctorProvidedCare.items.properties,
+              address: addressSchema,
             },
           },
         },

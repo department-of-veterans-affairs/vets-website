@@ -9,6 +9,7 @@ import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import { validateZIP } from './validations';
 
 import {
   schema as addressSchema,
@@ -339,6 +340,73 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
+/**
+ * Creates uiSchema and schema for address widget based on params
+ * @param {array} addressOmitions
+ * @param {array} order
+ * @param {object} fieldLabels
+ */
+export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  const locationSchema = {
+    addressUI: {
+      ...addressUIConfig,
+      'ui:order': order,
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+      },
+    },
+  };
+
+  if (!addressOmitions.includes('country')) {
+    locationSchema.addressUI.country = {
+      'ui:title': fieldLabels.country,
+    };
+  }
+
+  if (!addressOmitions.includes('addressLine1')) {
+    locationSchema.addressUI.addressLine1 = {
+      'ui:title': fieldLabels.addressLine1,
+    };
+  }
+
+  if (!addressOmitions.includes('addressLine2')) {
+    locationSchema.addressUI.addressLine2 = {
+      'ui:title': fieldLabels.addressLine2,
+    };
+  }
+
+  if (!addressOmitions.includes('city')) {
+    locationSchema.addressUI.city = {
+      'ui:title': fieldLabels.city,
+    };
+  }
+
+  if (!addressOmitions.includes('state')) {
+    locationSchema.addressUI.state = {
+      'ui:title': fieldLabels.state,
+    };
+  }
+
+  if (!addressOmitions.includes('zipCode')) {
+    locationSchema.addressUI.zipCode = {
+      'ui:title': fieldLabels.zipCode,
+      'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+      },
+    };
+  }
+
+  return locationSchema;
+}
+
+// Could be changed to use generateLocationSchemas
 export function incidentLocationSchemas() {
   const addressOmitions = [
     'addressLine1',
@@ -408,7 +476,7 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isUploading781aSupportingDocuments = index => formData =>
-  _.get(`view:uploadChoice${index}`, formData, false);
+  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
@@ -429,6 +497,9 @@ export const isAnswering781aQuestions = index => formData =>
 export const isAddingIndividuals = index => formData =>
   isAnswering781Questions(index)(formData) &&
   _.get(`view:individualsInvolved${index}`, formData, false);
+
+export const isUploading8940Form = formData =>
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'upload';
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
@@ -458,11 +529,11 @@ export const needsToAnswerUnemployability = formData =>
 
 export const hasDoctorsCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+  _.get('unemployability.underDoctorsCare', formData, false);
 
 export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:hospitalized', formData, false);
+  _.get('unemployability.hospitalized', formData, false);
 
 export const ancillaryFormUploadUi = (
   label,
@@ -537,3 +608,12 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
   ) &&
   isAnswering781aQuestions(index)(formData) &&
   wantsHelpWithOtherSourcesSecondary(index)(formData);
+
+export const getAttachmentsSchema = defaultAttachmentId => {
+  const { attachments } = fullSchema.properties;
+  return _.set(
+    'items.properties.attachmentId.default',
+    defaultAttachmentId,
+    attachments,
+  );
+};
