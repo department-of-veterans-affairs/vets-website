@@ -23,7 +23,7 @@ const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 // eslint-disable-next-line no-console
 const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
 
-function getDrupalIndexPage(files) {
+function writeDrupalIndexPage(files) {
   log('Drupal index page written to /drupal.');
 
   const drupalPages = Object.keys(files)
@@ -31,10 +31,14 @@ function getDrupalIndexPage(files) {
     .map(page => `<li><a href="/${page}">/${page}</a></li>`)
     .join('');
 
-  return `
+  const drupalIndex = `
     <h1>The following pages were provided by Drupal:</h1>
     <ol>${drupalPages}</ol>
   `;
+
+  files['drupal/index.html'] = {
+    contents: Buffer.from(drupalIndex),
+  };
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
@@ -55,18 +59,18 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     const {
       entityUrl: { path: drupalPagePath },
+      entityBundle,
     } = page;
 
     files[`drupal${drupalPagePath}/index.html`] = {
       ...page,
-      layout: 'page.drupal.liquid',
+      layout: `${entityBundle}.drupal.liquid`,
       contents: Buffer.from(JSON.stringify(page, null, 4)),
+      debug: JSON.stringify(page, null, 4),
     };
   }
 
-  files['drupal/index.html'] = {
-    contents: Buffer.from(getDrupalIndexPage(files)),
-  };
+  writeDrupalIndexPage(files);
 }
 
 async function loadDrupal(buildOptions) {
