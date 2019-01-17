@@ -5,7 +5,7 @@ import { UploadDescription } from '../content/fileUploadDescriptions';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { attachments } = fullSchema.properties;
+const { unemployabilityAttachments } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
@@ -21,6 +21,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    unemployabilitySupportingDocuments: attachments,
+    unemployabilitySupportingDocuments: unemployabilityAttachments,
   },
 };

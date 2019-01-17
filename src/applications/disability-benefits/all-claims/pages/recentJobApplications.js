@@ -34,14 +34,14 @@ export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
     'ui:title': unemployabilityPageTitle('Recent job applications'),
-    'view:hasAppliedEmployers': {
+    attemptedToObtainEmploymentSinceUnemployability: {
       'ui:title': recentJobApplicationsDescription(),
       'ui:widget': 'yesNo',
     },
     appliedEmployers: {
       'ui:options': {
         viewField: RecentJobApplicationField,
-        expandUnder: 'view:hasAppliedEmployers',
+        expandUnder: 'attemptedToObtainEmploymentSinceUnemployability',
         itemName: 'Job',
       },
       items: {
@@ -68,7 +68,7 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        'view:hasAppliedEmployers': {
+        attemptedToObtainEmploymentSinceUnemployability: {
           type: 'boolean',
         },
         appliedEmployers: {
