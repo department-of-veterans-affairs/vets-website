@@ -29,6 +29,7 @@ import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualUnemployability from './individualUnemployability';
 import * as instructionalPart1 from './instructionalPart1';
 import * as instructionalPart2 from './instructionalPart2';
+import * as instructionalPart3 from './instructionalPart3';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
@@ -123,6 +124,7 @@ export {
   individualUnemployability,
   instructionalPart1,
   instructionalPart2,
+  instructionalPart3,
   medals,
   medicalCare,
   mentalHealthChanges,

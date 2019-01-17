@@ -21,7 +21,7 @@ export const uiSchema = {
     },
     underDoctorsCare: {
       'ui:title':
-        'I‘ve been under a doctor‘s care in the past 12 months for these disabilities.',
+        'I’ve been under a doctor’s care in the past 12 months for these disabilities.',
       'ui:options': {
         expandUnder: 'view:medicalCare',
         expandUnderCondition: true,
@@ -29,7 +29,7 @@ export const uiSchema = {
     },
     hospitalized: {
       'ui:title':
-        'I‘ve spent time in a hospital in the past 12 months for these disabilities.',
+        'I’ve spent time in a hospital in the past 12 months for these disabilities.',
       'ui:options': {
         expandUnder: 'view:medicalCare',
         expandUnderCondition: true,
