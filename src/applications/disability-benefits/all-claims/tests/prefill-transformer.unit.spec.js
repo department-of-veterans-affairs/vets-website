@@ -18,9 +18,12 @@ describe('526v2 prefill transformer', () => {
 
   it('should return a copy of the prefill data', () => {
     const { pages, formData, metadata } = noTransformData;
-    const transformedPrefill = prefillTransformer(pages, formData, metadata);
-    expect(transformedPrefill).to.not.equal(noTransformData);
-    expect(transformedPrefill).to.deep.equal(noTransformData);
+    const noTransformActual = prefillTransformer(pages, formData, metadata);
+    // ensure transformed data is not the same object as input data
+    expect(noTransformActual).to.not.equal(noTransformData);
+    // ensure the transformed data properties are the same as input since no
+    // changes expected given this input data set
+    expect(noTransformActual).to.deep.equal(noTransformData);
   });
 
   describe('prefillRatedDisabilities', () => {
