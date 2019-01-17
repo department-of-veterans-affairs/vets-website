@@ -335,6 +335,10 @@ function getFileError(file) {
   return null;
 }
 
+/**
+ * Returns a validator that checks the input length.
+ * Used like: 'ui:validations': [validateLength(50)]
+ */
 function validateLength(
   length,
   message = `Please enter ${length} or fewer characters.`,
