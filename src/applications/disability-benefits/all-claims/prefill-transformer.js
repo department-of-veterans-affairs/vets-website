@@ -12,63 +12,63 @@ export const addNoneDisabilityActionType = (disabilities = []) =>
     _.set('disabilityActionType', disabilityActionTypes.NONE, d),
   );
 
-export default function prefillTransformer(pages, form, metadata) {
-  const prefillRatedDisabilities = formData => {
-    const newFormData = _.omit(['disabilities'], formData);
-    const { disabilities } = formData;
+export default function prefillTransformer(pages, formData, metadata) {
+  const prefillRatedDisabilities = data => {
+    const newData = _.omit(['disabilities'], data);
+    const { disabilities } = data;
     if (disabilities) {
-      newFormData.ratedDisabilities = addNoneDisabilityActionType(
+      newData.ratedDisabilities = addNoneDisabilityActionType(
         filterServiceConnected(disabilities),
       );
     }
 
-    return newFormData;
+    return newData;
   };
 
-  const prefillContactInformation = formData => {
-    const newFormData = _.omit(['veteran'], formData);
-    const { veteran } = formData;
+  const prefillContactInformation = data => {
+    const newData = _.omit(['veteran'], data);
+    const { veteran } = data;
 
     if (veteran) {
       const { emailAddress, primaryPhone, mailingAddress } = veteran;
-      newFormData.phoneAndEmail = {};
+      newData.phoneAndEmail = {};
       if (emailAddress) {
-        newFormData.phoneAndEmail.emailAddress = emailAddress;
+        newData.phoneAndEmail.emailAddress = emailAddress;
       }
       if (primaryPhone) {
-        newFormData.phoneAndEmail.primaryPhone = primaryPhone;
+        newData.phoneAndEmail.primaryPhone = primaryPhone;
       }
       if (mailingAddress) {
-        newFormData.mailingAddress = mailingAddress;
+        newData.mailingAddress = mailingAddress;
       }
     }
 
-    return newFormData;
+    return newData;
   };
 
-  const prefillServiceInformation = formData => {
-    const newFormData = _.omit(
+  const prefillServiceInformation = data => {
+    const newData = _.omit(
       ['servicePeriods', 'reservesNationalGuardService'],
-      formData,
+      data,
     );
-    const { servicePeriods, reservesNationalGuardService } = formData;
+    const { servicePeriods, reservesNationalGuardService } = data;
     if (servicePeriods || reservesNationalGuardService) {
-      newFormData.serviceInformation = {};
+      newData.serviceInformation = {};
       if (servicePeriods) {
-        newFormData.serviceInformation.servicePeriods = servicePeriods;
+        newData.serviceInformation.servicePeriods = servicePeriods;
       }
       if (reservesNationalGuardService) {
-        newFormData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
+        newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
       }
     }
 
-    return newFormData;
+    return newData;
   };
 
-  const prefillBankInformation = formData => {
-    const newFormData = _.omit(
+  const prefillBankInformation = data => {
+    const newData = _.omit(
       ['bankAccountType', 'bankAccountNumber', 'bankRoutingNumber', 'bankName'],
-      formData,
+      data,
     );
 
     const {
@@ -76,10 +76,10 @@ export default function prefillTransformer(pages, form, metadata) {
       bankAccountNumber,
       bankRoutingNumber,
       bankName,
-    } = formData;
+    } = data;
 
     if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
-      newFormData['view:originalBankAccount'] = viewifyFields({
+      newData['view:originalBankAccount'] = viewifyFields({
         bankAccountType,
         bankAccountNumber,
         bankRoutingNumber,
@@ -87,10 +87,10 @@ export default function prefillTransformer(pages, form, metadata) {
       });
 
       // start the bank widget in 'review' mode
-      newFormData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
+      newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
     }
 
-    return newFormData;
+    return newData;
   };
 
   const transformations = [
@@ -100,11 +100,11 @@ export default function prefillTransformer(pages, form, metadata) {
     prefillBankInformation,
   ];
 
-  const applyTransformations = (data, transformer) => transformer(data);
+  const applyTransformations = (data = {}, transformer) => transformer(data);
 
   return {
     metadata,
-    formData: transformations.reduce(applyTransformations, form),
+    formData: transformations.reduce(applyTransformations, formData),
     pages,
   };
 }
