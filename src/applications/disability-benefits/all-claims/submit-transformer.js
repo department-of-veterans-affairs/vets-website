@@ -67,12 +67,13 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
-function getClaimedConditionNames(formData) {
+/**
+ * Returns an array of disabilities pulled from ratedDisabilties, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
+ * @param {object} formData
+ */
+function getDisabilities(formData) {
   // Assumes we have only selected conditions at this point
-  // TODO: Filter by disabilityIsSelected
-  const claimedConditions = formData.ratedDisabilities
-    ? formData.ratedDisabilities.map(d => d.name.toLowerCase())
-    : [];
+  const claimedConditions = formData.ratedDisabilities || [];
 
   // Depending on where this is called in the transformation flow, we have to use different key names.
   // This assumes newDisabilities is removed after it's split out into its primary and secondary counterparts.
@@ -83,12 +84,21 @@ function getClaimedConditionNames(formData) {
   ].forEach(key => {
     if (formData[key]) {
       // Add new disabilities to claimed conditions list
-      formData[key].forEach(disability =>
-        claimedConditions.push(disability.condition.toLowerCase()),
-      );
+      formData[key].forEach(disability => claimedConditions.push(disability));
     }
   });
   return claimedConditions;
+}
+
+function getDisabilityName(disability) {
+  const name = disability.name ? disability.name : disability.condition;
+  return name ? name.toLowerCase() : '';
+}
+
+function getClaimedConditionNames(formData) {
+  return getDisabilities(formData).map(disability =>
+    getDisabilityName(disability),
+  );
 }
 
 const setActionType = disability =>
@@ -354,6 +364,36 @@ export function transform(formConfig, form) {
     }
     return clonedData;
   };
+
+  const addForm8940 = formData => {
+    const clonedData = _.cloneDeep(formData);
+    const { unemployability } = clonedData;
+
+    if (unemployability) {
+      const disabilities = getDisabilities(formData);
+
+      clonedData.form8940 = {
+        unemployability: {
+          ...unemployability,
+          disabilityPreventingEmployment: disabilities
+            .filter(disability => disability.unemployabilityDisability)
+            .map(disability => getDisabilityName(disability))
+            .join(),
+          underDoctorHopitalCarePast12M:
+            unemployability.underDoctorsCare || unemployability.hospitalized,
+          mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+          disabilityPreventMilitaryDuties:
+            unemployability.disabilityPreventMilitaryDuties === 'yes',
+        },
+      };
+
+      delete clonedData.form8940.unemployability.underDoctorsCare;
+      delete clonedData.form8940.unemployability.hospitalized;
+      delete clonedData.unemployability;
+    }
+
+    return clonedData;
+  };
   // Flatten all attachment pages into attachments ARRAY
   const addFileAttachmments = formData => {
     const clonedData = _.cloneDeep(formData);
@@ -378,6 +418,7 @@ export function transform(formConfig, form) {
     stringifyRelatedDisabilities,
     addForm4142,
     addForm0781,
+    addForm8940,
     addFileAttachmments,
   ].reduce((formData, transformer) => transformer(formData), form.data);
 

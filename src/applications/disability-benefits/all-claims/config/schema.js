@@ -1212,6 +1212,30 @@ const schema = {
         },
       },
     },
+    unemployabilityAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: ['L149', 'L023', 'L023'],
+            enumNames: [
+              'VA 21-8940 Veterans Application for Increased Compensation Based on Unemployability',
+              'Multiple Documents',
+              'Other',
+            ],
+          },
+        },
+      },
+    },
     secondaryAttachments: {
       type: 'array',
       items: {

@@ -1,5 +1,4 @@
 import {
-  hospitalizationHistory,
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
@@ -18,6 +17,7 @@ import {
   employmentHistory,
   unemployabilityDoctorCare,
   medicalCare,
+  hospitalizationHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
@@ -128,7 +128,7 @@ export default function() {
       militaryDutyImpact: {
         title: 'Impact on military duty',
         path: 'military-duty-impact',
-        depends: needsToEnterUnemployability,
+        depends: needsToAnswerUnemployability,
         uiSchema: militaryDutyImpact.uiSchema,
         schema: militaryDutyImpact.schema,
       },

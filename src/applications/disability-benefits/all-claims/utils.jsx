@@ -3,7 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit } from 'lodash';
+import { omit, some, lowerCase } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -24,6 +24,7 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  PTSD,
   disabilityActionTypes,
 } from './constants';
 
@@ -397,6 +398,9 @@ export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
     locationSchema.addressUI.zipCode = {
       'ui:title': fieldLabels.zipCode,
       'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+      },
     };
   }
 
@@ -458,13 +462,24 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
+export const isDisabilityPtsd = disability =>
+  lowerCase(disability).includes(PTSD);
+
+export const hasNewPtsdDisability = formData =>
+  _.get('view:newDisabilities', formData, false) &&
+  some(_.get('newDisabilities', formData, []), item =>
+    isDisabilityPtsd(item.condition),
+  );
+
 export const needsToEnter781 = formData =>
-  _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
+  hasNewPtsdDisability(formData) &&
+  (_.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
+    _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false));
 
 export const needsToEnter781a = formData =>
-  _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
+  hasNewPtsdDisability(formData) &&
+  (_.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
+    _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false));
 
 export const isUploading781Form = formData =>
   _.get('view:upload781Choice', formData, '') === 'upload';
@@ -472,24 +487,21 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
-export const isUploading781aSupportingDocuments = index => formData =>
-  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
-
 export const isAnswering781Questions = index => formData =>
+  needsToEnter781(formData) &&
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
-  (index === 0 ||
-    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
-  needsToEnter781(formData);
+  (_.get(`view:enterAdditionalEvents${index - 1}`, formData, false) ||
+    index === 0);
 
 export const isAnswering781aQuestions = index => formData =>
+  needsToEnter781a(formData) &&
   _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
-  (index === 0 ||
-    _.get(
-      `view:enterAdditionalSecondaryEvents${index - 1}`,
-      formData,
-      false,
-    )) &&
-  needsToEnter781a(formData);
+  (_.get(`view:enterAdditionalSecondaryEvents${index - 1}`, formData, false) ||
+    index === 0);
+
+export const isUploading781aSupportingDocuments = index => formData =>
+  isAnswering781aQuestions(index)(formData) &&
+  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAddingIndividuals = index => formData =>
   isAnswering781Questions(index)(formData) &&
@@ -509,14 +521,6 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
-export const showPtsdCombatConclusion = form =>
-  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', form, false);
-
-export const showPtsdAssaultConclusion = form =>
-  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
-
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);
 
@@ -526,11 +530,11 @@ export const needsToAnswerUnemployability = formData =>
 
 export const hasDoctorsCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:doctorsCare', formData, false);
+  _.get('unemployability.underDoctorsCare', formData, false);
 
 export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
-  _.get('view:medicalCareType.view:hospitalized', formData, false);
+  _.get('unemployability.hospitalized', formData, false);
 
 export const ancillaryFormUploadUi = (
   label,
