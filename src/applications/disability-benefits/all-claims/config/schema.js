@@ -1212,7 +1212,7 @@ const schema = {
         },
       },
     },
-    secondaryAttachments: {
+    secondaryAttachment: {
       type: 'array',
       items: {
         type: 'object',
