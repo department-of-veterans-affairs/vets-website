@@ -112,6 +112,7 @@ export const patientAcknowledgmentText = (
           href="https://www.benefits.va.gov/privateproviders/"
           target="_blank"
           className="text-overflow-wrap"
+          rel="noopener"
         >
           https://www.benefits.va.gov/privateproviders/
         </a>
