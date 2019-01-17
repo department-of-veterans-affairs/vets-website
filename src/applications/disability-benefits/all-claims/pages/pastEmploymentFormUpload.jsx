@@ -9,7 +9,7 @@ const PTSD_4192_ATTACHMENT_ID = 'L115';
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': <UploadDescription uploadTitle="Upload VA Form 21-4192" />,
-  uploaded4192: ancillaryFormUploadUi(
+  form4192Upload: ancillaryFormUploadUi(
     '',
     'Individual Unemployability 4192 form documents',
     {
@@ -22,8 +22,8 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['uploaded4192'],
+  required: ['form4192Upload'],
   properties: {
-    uploaded4192: getAttachmentsSchema(PTSD_4192_ATTACHMENT_ID),
+    form4192Upload: getAttachmentsSchema(PTSD_4192_ATTACHMENT_ID),
   },
 };

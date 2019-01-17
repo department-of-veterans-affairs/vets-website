@@ -64,7 +64,7 @@ describe('4192 form upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          uploaded4192: [
+          form4192Upload: [
             {
               confirmationCode: 'testing',
               name: '4192.pdf',
