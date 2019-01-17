@@ -16,7 +16,7 @@ export const transformedMinimalData = {
     },
     ratedDisabilities: [
       {
-        name: 'Aging',
+        name: 'First Condition',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -98,7 +98,7 @@ export const transformedMaximalData = {
           state: 'AL',
         },
         treatedDisabilityNames: [
-          'aging',
+          'first condition',
           'ptsd (post traumatic stress disorder)',
         ],
       },
@@ -136,7 +136,7 @@ export const transformedMaximalData = {
     ],
     ratedDisabilities: [
       {
-        name: 'Aging',
+        name: 'First Condition',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -357,7 +357,7 @@ export const transformedMaximalData = {
     },
     form8940: {
       unemployability: {
-        disabilityPreventingEmployment: 'aging',
+        disabilityPreventingEmployment: 'first condition',
         underDoctorHopitalCarePast12M: true,
         doctorProvidedCare: [
           {
