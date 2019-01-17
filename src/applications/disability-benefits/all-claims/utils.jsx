@@ -3,7 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit, some } from 'lodash';
+import { omit, some, lowerCase } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -459,18 +459,11 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
-export const isDisabilityPtsd = disability =>
-  disability.toLowerCase().includes(PTSD);
+export const isDisabilityPtsd = disability => lowerCase(disability).includes(PTSD)
 
 export const hasNewPtsdDisability = formData =>
   _.get('view:newDisabilities', formData, false) &&
-  some(_.get('newDisabilities', formData, []), item => {
-    let hasPtsd = false;
-    if (item && typeof item.condition === 'string') {
-      hasPtsd = isDisabilityPtsd(item.condition);
-    }
-    return hasPtsd;
-  });
+  some(_.get('newDisabilities', formData, []), item => isDisabilityPtsd(item.condition)
 
 export const needsToEnter781 = formData =>
   hasNewPtsdDisability(formData) &&
