@@ -58,6 +58,7 @@ export class CautionaryInformation extends React.Component {
         </p>
         <p>
           <button
+            type="button"
             className="va-button-link learn-more-button"
             onClick={this.props.onShowModal.bind(this, 'cautionInfo')}
           >

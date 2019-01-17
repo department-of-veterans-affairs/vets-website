@@ -17,6 +17,7 @@ export class EligibilityForm extends React.Component {
       <span>
         {text} (
         <button
+          type="button"
           className="va-button-link learn-more-button"
           onClick={this.props.showModal.bind(this, modal)}
         >

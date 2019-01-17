@@ -35,6 +35,7 @@ class Outcomes extends React.Component {
             <h3>Retention rate</h3>
             &nbsp;(
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'retention')}
             >
@@ -55,6 +56,7 @@ class Outcomes extends React.Component {
             <h3>Graduation rate</h3>
             &nbsp;(
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'gradrates')}
             >
@@ -75,6 +77,7 @@ class Outcomes extends React.Component {
             <h3>Average salaries</h3>
             &nbsp;(
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'salaries')}
             >
@@ -95,6 +98,7 @@ class Outcomes extends React.Component {
             <h3>Repayment rate</h3>
             &nbsp;(
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'repayment')}
             >

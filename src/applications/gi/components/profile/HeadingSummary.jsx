@@ -70,6 +70,7 @@ class HeadingSummary extends React.Component {
               <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
               (
               <button
+                type="button"
                 className="va-button-link learn-more-button"
                 onClick={this.props.onLearnMore}
               >

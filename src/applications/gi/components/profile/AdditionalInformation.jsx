@@ -13,6 +13,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'typeAccredited')}
             >
@@ -28,13 +29,9 @@ export class AdditionalInformation extends React.Component {
       <div>
         <strong>Veterans tuition policy:</strong>
         &nbsp;
-        <button
-          className="va-button-link learn-more-button"
-          href={it.vetWebsiteLink}
-          target="_blank"
-        >
+        <a href={it.vetWebsiteLink} target="_blank" rel="noopener">
           View policy
-        </button>
+        </a>
       </div>
     );
 
@@ -44,6 +41,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'accredited')}
             >
@@ -54,15 +52,15 @@ export class AdditionalInformation extends React.Component {
           {it.accredited ? (
             <span>
               Yes (
-              <button
-                className="va-button-link learn-more-button"
+              <a
                 href={`http://nces.ed.gov/collegenavigator/?id=${
                   it.cross
                 }#accred`}
                 target="_blank"
+                rel="noopener"
               >
                 See accreditors
-              </button>
+              </a>
               )
             </span>
           ) : (
@@ -74,6 +72,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'singleContact')}
             >
@@ -86,6 +85,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'creditTraining')}
             >
@@ -98,6 +98,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'iStudy')}
             >
@@ -110,6 +111,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'stemOffered')}
             >
@@ -188,6 +190,7 @@ export class AdditionalInformation extends React.Component {
             <div>
               <strong>
                 <button
+                  type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'facilityCode')}
                 >
@@ -200,6 +203,7 @@ export class AdditionalInformation extends React.Component {
             <div>
               <strong>
                 <button
+                  type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'ipedsCode')}
                 >
@@ -212,6 +216,7 @@ export class AdditionalInformation extends React.Component {
             <div>
               <strong>
                 <button
+                  type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'opeCode')}
                 >

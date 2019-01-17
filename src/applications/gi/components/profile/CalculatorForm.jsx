@@ -52,6 +52,7 @@ class CalculatorForm extends React.Component {
       <span>
         {text} (
         <button
+          type="button"
           className="va-button-link learn-more-button"
           onClick={this.props.onShowModal.bind(this, modal)}
         >

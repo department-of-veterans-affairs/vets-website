@@ -18,6 +18,7 @@ class PreviewBanner extends React.Component {
               like.&nbsp;
               <span className="actions">
                 <button
+                  type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onViewLiveVersion}
                 >

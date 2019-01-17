@@ -37,6 +37,7 @@ class GiBillBreadcrumbs extends React.Component {
       if (this.props.includeSearch) {
         crumbs.push(
           <button
+            type="button"
             className="va-button-link learn-more-button"
             onClick={browserHistory.goBack}
             key="search-results"
