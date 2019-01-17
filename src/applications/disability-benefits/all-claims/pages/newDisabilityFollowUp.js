@@ -10,6 +10,8 @@ import {
   disabilityNameTitle,
 } from '../content/newDisabilityFollowUp';
 
+import { validateLength } from '../../../../platform/forms/validations';
+
 const {
   cause,
   causedByDisability,
@@ -78,6 +80,7 @@ export const uiSchema = {
           expandUnder: 'cause',
           expandUnderCondition: 'NEW',
         },
+        'ui:validations': [validateLength(400)],
       },
       'view:secondaryFollowUp': {
         'ui:options': {
@@ -125,6 +128,7 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
+          'ui:validations': [validateLength(50)],
         },
         worsenedEffects: {
           'ui:title':
@@ -133,6 +137,7 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
+          'ui:validations': [validateLength(350)],
         },
       },
       'view:VAFollowUp': {
@@ -147,12 +152,14 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
+          'ui:validations': [validateLength(350)],
         },
         VAMistreatmentLocation: {
           'ui:title': 'Please tell us where this happened',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
+          'ui:validations': [validateLength(25)],
         },
         VAMistreatmentDate: {
           'ui:title':
@@ -160,6 +167,7 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
+          'ui:validations': [validateLength(25)],
         },
       },
     },

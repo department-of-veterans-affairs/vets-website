@@ -335,6 +335,15 @@ function getFileError(file) {
   return null;
 }
 
+function validateLength(
+  length,
+  message = `Please enter ${length} or fewer characters.`,
+) {
+  return function hasValidLength(errors, input) {
+    if (input.length > length) errors.addError(message);
+  };
+}
+
 export {
   isBlank,
   isBlankDateField,
@@ -372,6 +381,7 @@ export {
   validateCustomFormComponent,
   validateIfDirty,
   validateIfDirtyDate,
+  validateLength,
   isValidRoutingNumber,
   getFileError,
 };
