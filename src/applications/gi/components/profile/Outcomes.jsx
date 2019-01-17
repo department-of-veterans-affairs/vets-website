@@ -34,9 +34,12 @@ class Outcomes extends React.Component {
           <div className="link-header">
             <h3>Retention rate</h3>
             &nbsp;(
-            <a onClick={this.props.onShowModal.bind(this, 'retention')}>
+            <button
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'retention')}
+            >
               Learn more
-            </a>
+            </button>
             )
           </div>
           <Graph
@@ -51,9 +54,12 @@ class Outcomes extends React.Component {
           <div className="link-header">
             <h3>Graduation rate</h3>
             &nbsp;(
-            <a onClick={this.props.onShowModal.bind(this, 'gradrates')}>
+            <button
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'gradrates')}
+            >
               Learn more
-            </a>
+            </button>
             )
           </div>
           <Graph
@@ -68,9 +74,12 @@ class Outcomes extends React.Component {
           <div className="link-header">
             <h3>Average salaries</h3>
             &nbsp;(
-            <a onClick={this.props.onShowModal.bind(this, 'salaries')}>
+            <button
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'salaries')}
+            >
               Learn more
-            </a>
+            </button>
             )
           </div>
           <Graph
@@ -85,9 +94,12 @@ class Outcomes extends React.Component {
           <div className="link-header">
             <h3>Repayment rate</h3>
             &nbsp;(
-            <a onClick={this.props.onShowModal.bind(this, 'repayment')}>
+            <button
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'repayment')}
+            >
               Learn more
-            </a>
+            </button>
             )
           </div>
           <Graph
@@ -105,6 +117,7 @@ class Outcomes extends React.Component {
             <a
               title="Veteran Outcome Measures"
               href={download.link}
+              rel="noopener"
               target="_blank"
             >
               Veteran Outcome Measures ({download.info})

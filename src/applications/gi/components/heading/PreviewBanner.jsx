@@ -17,7 +17,12 @@ class PreviewBanner extends React.Component {
               This is what the version of this data from {when} will look
               like.&nbsp;
               <span className="actions">
-                <a onClick={this.props.onViewLiveVersion}>View live version</a>
+                <button
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onViewLiveVersion}
+                >
+                  View live version
+                </button>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
                 <a href={this.props.toolUrl}>Go back to the data tool</a>
               </span>
