@@ -459,11 +459,14 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
-export const isDisabilityPtsd = disability => lowerCase(disability).includes(PTSD)
+export const isDisabilityPtsd = disability =>
+  lowerCase(disability).includes(PTSD);
 
 export const hasNewPtsdDisability = formData =>
   _.get('view:newDisabilities', formData, false) &&
-  some(_.get('newDisabilities', formData, []), item => isDisabilityPtsd(item.condition)
+  some(_.get('newDisabilities', formData, []), item =>
+    isDisabilityPtsd(item.condition),
+  );
 
 export const needsToEnter781 = formData =>
   hasNewPtsdDisability(formData) &&
