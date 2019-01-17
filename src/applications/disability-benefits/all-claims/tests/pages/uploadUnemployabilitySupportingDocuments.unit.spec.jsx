@@ -9,7 +9,7 @@ import {
 import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('8940 record upload', () => {
+describe('8940 supporting documents upload', () => {
   const page =
     formConfig.chapters.disabilities.pages
       .uploadUnemployabilitySupportingDocuments;
@@ -57,7 +57,7 @@ describe('8940 record upload', () => {
     form.unmount();
   });
 
-  it('should submit with uploaded form', () => {
+  it('should submit with uploaded documents', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
