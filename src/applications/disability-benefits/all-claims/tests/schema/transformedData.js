@@ -355,7 +355,7 @@ export const transformedMaximalData = {
     },
     attachments: [
       {
-        attachmentId: 'L048',
+        attachmentId: 'L107',
         confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
         name: 'Doc.pdf',
       },

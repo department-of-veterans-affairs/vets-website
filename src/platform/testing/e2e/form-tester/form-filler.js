@@ -43,6 +43,7 @@ const getElementSelector = (field, fieldData) => {
 
   return selectors[field.type];
 };
+
 /**
  * Enters data into a single field.
  */
