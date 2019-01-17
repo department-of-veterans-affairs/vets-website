@@ -2,6 +2,7 @@ import _ from 'lodash';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
+  instructionalPart3,
   pastEmploymentFormDownload,
   pastEmploymentFormIntro,
   pastEmploymentFormUpload,
@@ -33,6 +34,11 @@ export default function() {
         schema: pastEmploymentFormIntro.schema,
       },
       // Form Tutorial (multiple pages)
+      instructionalPart1: {
+        path: '4192-instructions-part-3',
+        uiSchema: instructionalPart3.uiSchema,
+        schema: instructionalPart3.schema,
+      },
       // Download
       pastEmploymentFormDownload: {
         path: 'past-employment-download',
