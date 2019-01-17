@@ -15,11 +15,11 @@ const {
   causedByDisability,
   causedByDisabilityDescription,
   primaryDescription,
-  VAMistreatmentDate,
+  VaMistreatmentDate,
   worsenedDescription,
   worsenedEffects,
-  VAMistreatmentDescription,
-  VAMistreatmentLocation,
+  VaMistreatmentDescription,
+  VaMistreatmentLocation,
 } = fullSchema.definitions.newDisabilities.items.properties;
 
 const getDisabilitiesList = createSelector(
@@ -140,7 +140,7 @@ export const uiSchema = {
           expandUnder: 'cause',
           expandUnderCondition: 'VA',
         },
-        VAMistreatmentDescription: {
+        VaMistreatmentDescription: {
           'ui:title':
             'Please briefly describe the injury or event while you were under VA care that caused your disability.',
           'ui:widget': 'textarea',
@@ -148,13 +148,13 @@ export const uiSchema = {
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
         },
-        VAMistreatmentLocation: {
+        VaMistreatmentLocation: {
           'ui:title': 'Please tell us where this happened',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
         },
-        VAMistreatmentDate: {
+        VaMistreatmentDate: {
           'ui:title':
             'Please tell us when this happened (If you’re having trouble remembering the exact date you can provide a year.)',
           'ui:required': (formData, index) =>
@@ -194,9 +194,9 @@ export const schema = {
           'view:VAFollowUp': {
             type: 'object',
             properties: {
-              VAMistreatmentDescription,
-              VAMistreatmentLocation,
-              VAMistreatmentDate,
+              VaMistreatmentDescription,
+              VaMistreatmentLocation,
+              VaMistreatmentDate,
             },
           },
         },

@@ -15,7 +15,7 @@
     },
     "view:waiveRetirementPayDescription": {},
     "waiveRetirementPay": false,
-    "isVAEmployee": true,
+    "isVaEmployee": true,
     "homelessOrAtRisk": "atRisk",
     "view:isAtRisk": {
       "atRiskHousingSituation": "other",
@@ -184,7 +184,7 @@
             "to": "2010-01-03"
           },
           "timeLostFromIllness": "Some",
-          "mostEarningsInAMonth": 100,
+          "mostEarningsInMonth": 100,
           "inBusiness": false
         }
       ],

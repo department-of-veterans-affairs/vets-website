@@ -1,7 +1,7 @@
 export const transformedMinimalData = {
   form526: {
     hasTrainingPay: false,
-    isVAEmployee: false,
+    isVaEmployee: false,
     homelessOrAtRisk: 'no',
     phoneAndEmail: {
       primaryPhone: '1231231234',
@@ -50,7 +50,7 @@ export const transformedMaximalData = {
     separationPayBranch: 'Air Force',
     waiveTrainingPay: true,
     waiveRetirementPay: false,
-    isVAEmployee: true,
+    isVaEmployee: true,
     homelessOrAtRisk: 'atRisk',
     atRiskHousingSituation: 'other',
     otherAtRiskHousing: 'Situation description',
@@ -411,7 +411,7 @@ export const transformedMaximalData = {
               to: '2010-01-03',
             },
             timeLostFromIllness: 'Some',
-            mostEarningsInAMonth: 100,
+            mostEarningsInMonth: 100,
             inBusiness: false, // transform flip
           },
         ],
@@ -494,7 +494,7 @@ export const transformedMinimalPtsdFormUploadData = {
   form526: {
     standardClaim: true,
     hasTrainingPay: false,
-    isVAEmployee: false,
+    isVaEmployee: false,
     homelessOrAtRisk: 'no',
     phoneAndEmail: {
       primaryPhone: '8035555555',
