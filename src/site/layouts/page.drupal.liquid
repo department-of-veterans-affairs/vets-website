@@ -1,17 +1,29 @@
 {% include "src/site/includes/header.html" %}
 <main>
   <div class="row">
+    {% if !entityPublished %}
+      <div class="usa-alert usa-alert-info" >
+        <div class="usa-alert-body">
+          <p class="usa-alert-text">You are viewing a draft.</p>
+        </div>
+      </div>
+    {% endif %}
+
     <article class="usa-content">
       <h1>{{ title }}</h1>
-      <div class="usa-font-lead">{{ fieldIntroText }}</div>
+      <div class="usa-font-lead">
+        {{ fieldIntroText }}
+      </div>
       {% for block in fieldContentBlock %}
         {{ block.entity.entityRendered }}
       {% endfor %}
     </article>
+
     <div class="last-updated usa-content">
         Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
     </div>
   </div>
+
 </main>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
