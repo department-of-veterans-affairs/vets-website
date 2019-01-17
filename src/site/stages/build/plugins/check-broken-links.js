@@ -29,7 +29,7 @@ function removeLazySrcAttribute(files) {
   });
 }
 
-function checkBrokenLinks(buildOptions) {
+function checkBrokenLinks() {
   return (files, metalsmith, done) => {
     const ignorePaths = [];
 
@@ -51,18 +51,9 @@ function checkBrokenLinks(buildOptions) {
       allowRegex: ignoreLinks,
     });
 
-    try {
-      brokenLinkChecker(files);
-      removeLazySrcAttribute(files);
-    } catch (err) {
-      if (buildOptions.watch) {
-        // eslint-disable-next-line no-console
-        console.warn(err);
-        done();
-      } else {
-        done(err);
-      }
-    }
+    brokenLinkChecker(files);
+    removeLazySrcAttribute(files);
+    done();
   };
 }
 

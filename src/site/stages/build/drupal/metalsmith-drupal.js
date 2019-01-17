@@ -65,7 +65,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     files[`drupal${drupalPagePath}/index.html`] = {
       ...page,
       layout: `${entityBundle}.drupal.liquid`,
-      contents: Buffer.from(JSON.stringify(page, null, 4)),
+      contents: Buffer.from('<!-- Placeholder -->'),
       debug: JSON.stringify(page, null, 4),
     };
   }
