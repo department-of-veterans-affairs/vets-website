@@ -55,7 +55,7 @@ export const uiSchema = {
           'ui:title':
             'How much time did you miss from work because of your disability',
         },
-        mostEarningsInMonth: currencyUI('Highest gross earnings per month'),
+        mostEarningsInAMonth: currencyUI('Highest gross earnings per month'),
         inBusiness: {
           'ui:title': 'Employer is no longer in business',
         },

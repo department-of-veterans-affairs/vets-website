@@ -411,7 +411,7 @@ export const transformedMaximalData = {
               to: '2010-01-03',
             },
             timeLostFromIllness: 'Some',
-            mostEarningsInMonth: 100,
+            mostEarningsInAMonth: 100,
             inBusiness: false, // transform flip
           },
         ],
