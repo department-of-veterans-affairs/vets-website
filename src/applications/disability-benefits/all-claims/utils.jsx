@@ -18,15 +18,29 @@ import {
 
 import {
   RESERVE_GUARD_TYPES,
-  SERVICE_CONNECTION_TYPES,
   USA,
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
   PTSD,
-  disabilityActionTypes,
 } from './constants';
+
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
 
 /**
  * Show one thing, have a screen reader say another.
@@ -135,106 +149,6 @@ export const capitalizeEachWord = name => {
   );
   return 'Unknown Condition';
 };
-
-// Only service-connected disabilities should be included in the form
-export const filterServiceConnected = (disabilities = []) =>
-  disabilities.filter(
-    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-  );
-
-// Add 'NONE' disabilityActionType to each rated disability because it's
-// required in the schema
-export const addNoneDisabilityActionType = (disabilities = []) =>
-  disabilities.map(d =>
-    _.set('disabilityActionType', disabilityActionTypes.NONE, d),
-  );
-
-export function transformMVPData(formData) {
-  const newFormData = _.omit(
-    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
-    formData,
-  );
-
-  // Spread the properties in formData.veteran
-  Object.keys(_.get('veteran', formData, {})).forEach(key => {
-    newFormData[key] = formData.veteran[key];
-  });
-
-  // Nest servicePeriods and reservesNationalGuardService under serviceInformation
-  //  without creating a serviceInformation property unnecessarily
-  const { servicePeriods, reservesNationalGuardService } = formData;
-  if (servicePeriods || reservesNationalGuardService) {
-    newFormData.serviceInformation = {
-      ..._.get('serviceInformation', newFormData, {}),
-      servicePeriods,
-      reservesNationalGuardService,
-    };
-  }
-
-  return newFormData;
-}
-
-/**
- * Returns an object where all the fields are prefixed with `view:` if they aren't already
- */
-export const viewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
-    // Recurse if necessary
-    newFormData[viewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? viewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
-export function prefillTransformer(pages, formData, metadata) {
-  const newFormData = transformMVPData(formData);
-  const { disabilities } = newFormData;
-
-  // SiP automatically removes empty properties from prefill
-  if (disabilities) {
-    newFormData.ratedDisabilities = addNoneDisabilityActionType(
-      filterServiceConnected(disabilities),
-    );
-
-    delete newFormData.disabilities;
-  }
-
-  // Pre-fill hidden bank info for use in the PaymentView
-  const bankAccount = {
-    bankAccountType: newFormData.bankAccountType,
-    bankAccountNumber: newFormData.bankAccountNumber,
-    bankRoutingNumber: newFormData.bankRoutingNumber,
-    bankName: newFormData.bankName,
-  };
-  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
-
-  // Let the payment info card start in review mode if we have pre-filled bank information
-  if (
-    Object.values(newFormData['view:originalBankAccount']).some(
-      value => !!value,
-    )
-  ) {
-    newFormData['view:bankAccount'] = {
-      'view:hasPrefilledBank': true,
-    };
-  }
-
-  // Remove bank fields since they're already in view:originalBankAccount
-  delete newFormData.bankAccountType;
-  delete newFormData.bankAccountNumber;
-  delete newFormData.bankRoutingNumber;
-  delete newFormData.bankName;
-
-  return {
-    metadata,
-    formData: newFormData,
-    pages,
-  };
-}
 
 export const hasForwardingAddress = formData =>
   _.get('view:hasForwardingAddress', formData, false);

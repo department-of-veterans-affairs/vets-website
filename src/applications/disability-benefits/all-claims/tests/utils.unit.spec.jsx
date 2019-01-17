@@ -19,75 +19,12 @@ import {
   isUploading781Form,
   isUploading781aForm,
   viewifyFields,
-  transformMVPData,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   hasHospitalCare,
-  addNoneDisabilityActionType,
-  filterServiceConnected,
 } from '../utils.jsx';
 
-import {
-  SERVICE_CONNECTION_TYPES,
-  disabilityActionTypes,
-} from '../../all-claims/constants';
-
 describe('526 helpers', () => {
-  describe('addNoneDisabilityActionType', () => {
-    const disabilities = [
-      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-    ];
-
-    it('should return an array of same length as input', () => {
-      const withActionType = addNoneDisabilityActionType(disabilities);
-      expect(withActionType)
-        .to.be.an('array')
-        .that.has.length(disabilities.length);
-    });
-
-    it('should return an empty array when no input', () => {
-      expect(addNoneDisabilityActionType())
-        .to.be.an('array')
-        .that.has.length(0);
-    });
-
-    it('should set disabilityActionType to NONE for each rated disability', () => {
-      const withActionType = addNoneDisabilityActionType(disabilities);
-      withActionType.forEach(d => {
-        expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
-      });
-    });
-  });
-
-  describe('filterServiceConnected', () => {
-    it('should filter non-service-connected disabililties', () => {
-      const disabilities = [
-        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-      ];
-
-      const filteredDisabilities = filterServiceConnected(disabilities);
-      expect(filteredDisabilities.length).to.equal(2);
-      filteredDisabilities.forEach(d =>
-        expect(d.decisionCode).to.equal(
-          SERVICE_CONNECTION_TYPES.serviceConnected,
-        ),
-      );
-    });
-
-    it('should return an empty array when no disabilities provided', () => {
-      const disabilities = [];
-
-      const filteredDisabilities = filterServiceConnected(disabilities);
-      expect(filteredDisabilities).to.be.an('array').that.is.empty;
-    });
-  });
-
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -597,31 +534,6 @@ describe('isAnswering781Questions', () => {
       'view:enterAdditionalEvents0': false,
     };
     expect(isAnswering781Questions(1)(formData)).to.be.false;
-  });
-});
-
-describe('transformMVPData', () => {
-  it('should omit the veteran property and spread its subproperties', () => {
-    const formData = {
-      veteran: {
-        emailAddress: 'asdf',
-        mailingAddress: { foo: 'bar' },
-        primaryPhone: '1231231234',
-      },
-    };
-    expect(transformMVPData(formData)).to.eql(formData.veteran);
-  });
-  it('should nest service periods and reservesNationalGuardService under serviceInformation', () => {
-    const formData = {
-      servicePeriods: [{ from: 'adf', to: 'asdf' }],
-      reservesNationalGuardService: 'asdf',
-    };
-    expect(transformMVPData(formData)).to.eql({
-      serviceInformation: formData,
-    });
-  });
-  it('should handle no pre-filled information', () => {
-    expect(transformMVPData({})).to.eql({});
   });
 });
 

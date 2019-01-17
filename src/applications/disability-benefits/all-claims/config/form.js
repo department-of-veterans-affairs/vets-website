@@ -15,7 +15,6 @@ import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
 import {
   hasGuardOrReservePeriod,
   capitalizeEachWord,
-  prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
@@ -29,6 +28,8 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
 } from '../utils';
+
+import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
 
