@@ -1,16 +1,16 @@
-const Hub = require('./Hub.graphql');
-const StandardPage = require('./StandardPage.graphql');
+const landingPage = require('./landingPage.graphql');
+const page = require('./page.graphql');
 
 module.exports = `
 
-  ${Hub}
-  ${StandardPage}
+  ${landingPage}
+  ${page}
 
   query GetAllPages {
     nodeQuery {
       entities {
-        ... Hub
-        ... StandardPage
+        ... landingPage
+        ... page
       }
     }
   }

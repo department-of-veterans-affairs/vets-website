@@ -2,7 +2,7 @@
  *
  */
 module.exports = `
-  fragment Hub on NodeLandingPage {
+  fragment landingPage on NodeLandingPage {
     entityUrl {
       path
     }

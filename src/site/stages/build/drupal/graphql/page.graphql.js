@@ -2,7 +2,7 @@
  *
  */
 module.exports = `
-  fragment StandardPage on NodePage {
+  fragment page on NodePage {
     entityUrl {
       path
     }

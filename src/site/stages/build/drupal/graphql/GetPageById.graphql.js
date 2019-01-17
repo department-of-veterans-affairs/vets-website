@@ -1,17 +1,17 @@
-const Hub = require('./Hub.graphql');
-const StandardPage = require('./StandardPage.graphql');
+const landingPage = require('./landingPage.graphql');
+const page = require('./page.graphql');
 
 module.exports = `
 
-  ${Hub}
-  ${StandardPage}
+  ${landingPage}
+  ${page}
 
   query GetPageById($path: String!) {
     route: route(path: $path) {
       ... on EntityCanonicalUrl {
         entity {
-          ... Hub
-          ... StandardPage
+          ... landingPage
+          ... page
         }
       }
     }
