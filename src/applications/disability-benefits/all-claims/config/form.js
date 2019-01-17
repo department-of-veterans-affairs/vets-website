@@ -10,16 +10,11 @@ import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
-import {
-  hasMilitaryRetiredPay,
-  hasRatedDisabilities,
-  hasNewPtsdDisability,
-} from '../validations';
+import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
 
 import {
   hasGuardOrReservePeriod,
   capitalizeEachWord,
-  prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
@@ -31,9 +26,10 @@ import {
   isUploading781aForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
-  showPtsdCombatConclusion,
-  showPtsdAssaultConclusion,
+  hasNewPtsdDisability,
 } from '../utils';
+
+import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
 
@@ -311,9 +307,7 @@ const formConfig = {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
           depends: formData =>
-            hasNewPtsdDisability(formData) &&
-            needsToEnter781(formData) &&
-            isUploading781Form(formData),
+            needsToEnter781(formData) && isUploading781Form(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
@@ -337,7 +331,7 @@ const formConfig = {
         conclusionCombat: {
           path: 'ptsd-conclusion-combat',
           title: 'PTSD combat conclusion',
-          depends: showPtsdCombatConclusion,
+          depends: needsToEnter781,
           uiSchema: conclusionCombat.uiSchema,
           schema: conclusionCombat.schema,
         },
@@ -346,8 +340,7 @@ const formConfig = {
         ptsdWalkthroughChoice781a: {
           title: 'Answer online questions or upload paper 21-0781A?',
           path: 'new-disabilities/walkthrough-781a-choice',
-          depends: formData =>
-            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          depends: needsToEnter781a,
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
@@ -358,9 +351,7 @@ const formConfig = {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
           depends: formData =>
-            hasNewPtsdDisability(formData) &&
-            needsToEnter781a(formData) &&
-            isUploading781aForm(formData),
+            needsToEnter781a(formData) && isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
@@ -416,7 +407,7 @@ const formConfig = {
         conclusionAssault: {
           path: 'ptsd-conclusion-assault',
           title: 'PTSD assault conclusion',
-          depends: showPtsdAssaultConclusion,
+          depends: needsToEnter781a,
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
         },

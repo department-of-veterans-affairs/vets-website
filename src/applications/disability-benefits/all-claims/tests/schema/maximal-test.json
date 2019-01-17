@@ -107,7 +107,121 @@
       }
     },
     "view:unemployabilityUploadChoice": "answerQuestions",
-    "view:unemployabilityStatus": true,
+    "view:unemployable": true,
+    "unemployability": {
+      "view:statementsAreTrue": {
+        "view:statementsAreTrueAccept": true
+      },
+      "view:informOfReturnToWork": {
+        "view:informOfReturnToWorkAccept": true
+      },
+      "remarks": "Remarks",
+      "receivedOtherEducationTrainingPostUnemployability": true,
+      "otherEducationTrainingPostUnemployability": [
+        {
+          "name": "Education",
+          "dates": {
+            "from": "2010-01-01",
+            "to": "2010-01-03"
+          }
+        }
+      ],
+      "education": "Some elementary school",
+      "receivedOtherEducationTrainingPreUnemployability": true,
+      "otherEducationTrainingPreUnemployability": [
+        {
+          "name": "Test",
+          "dates": {
+            "from": "2010-01-02",
+            "to": "2010-01-03"
+          }
+        }
+      ],
+      "attemptedToObtainEmploymentSinceUnemployability": true,
+      "appliedEmployers": [
+        {
+          "name": "Recent Company",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "0100",
+            "city": "Somewhere",
+            "state": "SC",
+            "zipCode": "12345"
+          },
+          "workType": "Work",
+          "date": "2010-01-01"
+        }
+      ],
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "disabilityPreventMilitaryDuties": "yes",
+      "receiveExpectDisabilityRetirement": true,
+      "receiveExpectWorkersCompensation": true,
+      "view:supplementalBenefitsHelp": {},
+      "past12MonthsEarnedIncome": 10,
+      "view:grossIncomeAdditionalInfo": {},
+      "view:isEmployed": true,
+      "currentMonthlyEarnedIncome": 50,
+      "previousEmployers": [
+        {
+          "name": "Authortay",
+          "employerAddress": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "Apt 321",
+            "city": "Abcd",
+            "state": "SC",
+            "zipCode": "12345"
+          },
+          "phone": "1234561234",
+          "typeOfWork": "Work",
+          "hoursPerWeek": 20,
+          "dates": {
+            "from": "2010-01-02",
+            "to": "2010-01-03"
+          },
+          "timeLostFromIllness": "Some",
+          "mostEarningsInAMonth": 100,
+          "inBusiness": false
+        }
+      ],
+      "mostEarningsInAYear": 120,
+      "yearOfMostEarnings": "2010",
+      "occupationDuringMostEarnings": "a",
+      "underDoctorsCare": true,
+      "hospitalized": true,
+      "doctorProvidedCare": [
+        {
+          "name": "Dr Authortay",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "Apt 321",
+            "city": "Abcd",
+            "state": "SC",
+            "zipCode": "12345"
+          },
+          "dates": "asdfasdf"
+        }
+      ],
+      "hospitalProvidedCare": [
+        {
+          "name": "Authortay",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main St",
+            "addressLine2": "Apt 321",
+            "city": "Abcd",
+            "zipCode": "12345"
+          },
+          "dates": "asdfasd"
+        }
+      ],
+      "disabilityAffectedEmploymentFullTimeDate": "2010-01-01",
+      "lastWorkedFullTimeDate": "2010-01-01",
+      "becameTooDisabledToWorkDate": "2010-01-01",
+      "view:recordsInfo": {}
+    },
     "view:upload781Choice": "answerQuestions",
     "view:upload781ChoiceHelp": {},
     "view:upload781aChoice": "answerQuestions",
@@ -152,7 +266,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "view:selected": true,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
       },
       {
         "name": "Second Condition",
@@ -413,7 +528,6 @@
       "otherExplanation": "Other work change"
     },
     "additionalChanges": "Additional changes test",
-
     "secondaryUploadSources0": [{
       "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2da24569e94",
       "attachmentId": "L034",

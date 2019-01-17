@@ -184,7 +184,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.16.2",
+    "@department-of-veterans-affairs/formation": "^1.18.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@octokit/rest": "^16.2.0",
     "apollo-boost": "^0.1.23",

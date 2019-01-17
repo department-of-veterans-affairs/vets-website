@@ -50,6 +50,7 @@ describe('summaryOfDisabilitiesDescription', () => {
 
   it('renders new disabilities', () => {
     const formData = {
+      'view:newDisabilities': true,
       newDisabilities: [
         { condition: 'Condition 1' },
         { condition: 'Condition 2' },

@@ -1,5 +1,4 @@
 import {
-  hospitalizationHistory,
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
@@ -14,15 +13,18 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  unemployabilityFormUpload,
   employmentHistory,
   unemployabilityDoctorCare,
   medicalCare,
+  hospitalizationHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploading8940Form,
   isUploadingSupporting8940Documents,
   hasHospitalCare,
   hasDoctorsCare,
@@ -43,6 +45,13 @@ export default function() {
         schema: unemployabilityFormIntro.schema,
       },
       // 8940 - Upload 8940
+      unemployabilityFormUpload: {
+        title: 'Upload Unemployability Form',
+        path: 'new-disabilities/unemployability-form-uplaod',
+        depends: isUploading8940Form,
+        uiSchema: unemployabilityFormUpload.uiSchema,
+        schema: unemployabilityFormUpload.schema,
+      },
       // 8940 - Contentions
       unemployabilityDisabilities: {
         title: 'Unemployability disabilities',
@@ -119,7 +128,7 @@ export default function() {
       militaryDutyImpact: {
         title: 'Impact on military duty',
         path: 'military-duty-impact',
-        depends: needsToEnterUnemployability,
+        depends: needsToAnswerUnemployability,
         uiSchema: militaryDutyImpact.uiSchema,
         schema: militaryDutyImpact.schema,
       },
