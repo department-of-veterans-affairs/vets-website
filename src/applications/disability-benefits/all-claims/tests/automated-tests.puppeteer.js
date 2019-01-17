@@ -25,6 +25,7 @@ const testConfig = {
       await page.waitFor('.usa-button-primary:not(.schemaform-start-button)');
       await page.click('.usa-button-primary');
     },
+    // TODO: Add a hook for the rated disabilities page
     // TODO: Add a hook for the bank info page
   },
 };
