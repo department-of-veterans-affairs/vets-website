@@ -14,7 +14,6 @@ const medicalDescription = (
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': medicalDescription,
-
   unemployability: {
     'view:medicalCare': {
       'ui:title': ' ',
