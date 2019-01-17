@@ -40,6 +40,10 @@ export const uiSchema = index => ({
           zipCode: {
             'ui:title': 'Postal Code',
             'ui:validations': [validateZIP],
+            'ui:errorMessages': {
+              pattern:
+                'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+            },
           },
         }),
       },

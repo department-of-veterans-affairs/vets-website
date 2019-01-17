@@ -1,8 +1,8 @@
 import {
-  hospitalizationHistory,
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityDates,
   uploadUnemployabilitySupportingDocuments,
   uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
@@ -13,19 +13,24 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  unemployabilityFormUpload,
   employmentHistory,
   unemployabilityDoctorCare,
   medicalCare,
+  hospitalizationHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploading8940Form,
   isUploadingSupporting8940Documents,
   hasHospitalCare,
   hasDoctorsCare,
 } from '../../utils';
+
+import createFormConfig4192 from '../4192';
 
 export default function() {
   let configObj = {};
@@ -40,6 +45,13 @@ export default function() {
         schema: unemployabilityFormIntro.schema,
       },
       // 8940 - Upload 8940
+      unemployabilityFormUpload: {
+        title: 'Upload Unemployability Form',
+        path: 'new-disabilities/unemployability-form-uplaod',
+        depends: isUploading8940Form,
+        uiSchema: unemployabilityFormUpload.uiSchema,
+        schema: unemployabilityFormUpload.schema,
+      },
       // 8940 - Contentions
       unemployabilityDisabilities: {
         title: 'Unemployability disabilities',
@@ -73,6 +85,13 @@ export default function() {
         schema: unemployabilityDoctorCare.schema,
       },
       // 8940 - Disability Dates
+      unemployabilityDates: {
+        title: 'Disability dates',
+        path: 'unemployability-disability-dates',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDates.uiSchema,
+        schema: unemployabilityDates.schema,
+      },
       // 8940 - Income Details
       incomeDetails: {
         title: 'Income details',
@@ -109,7 +128,7 @@ export default function() {
       militaryDutyImpact: {
         title: 'Impact on military duty',
         path: 'military-duty-impact',
-        depends: needsToEnterUnemployability,
+        depends: needsToAnswerUnemployability,
         uiSchema: militaryDutyImpact.uiSchema,
         schema: militaryDutyImpact.schema,
       },
@@ -170,20 +189,7 @@ export default function() {
         schema: unemployabilityCertification.schema,
       },
       // 4192 -
-      conclusion4192: {
-        title: 'Conclusion 4192',
-        path: 'disabilities/conclusion-4192',
-        depends: needsToEnterUnemployability,
-        uiSchema: {
-          'ui:title': ' ',
-          'ui:description':
-            'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-        },
-        schema: {
-          type: 'object',
-          properties: {},
-        },
-      },
+      ...createFormConfig4192(),
     };
   }
   return configObj;
