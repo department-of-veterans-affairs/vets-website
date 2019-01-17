@@ -68,6 +68,7 @@ describe('4192 form upload', () => {
             {
               confirmationCode: 'testing',
               name: '4192.pdf',
+              attachmentId: 'L115',
             },
           ],
         }}

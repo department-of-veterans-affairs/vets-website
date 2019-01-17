@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UploadDescription } from '../content/fileUploadDescriptions';
-import { ancillaryFormUploadUi } from '../utils';
+import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const PTSD_4192_ATTACHMENT_ID = 'L115';
@@ -24,22 +24,6 @@ export const schema = {
   type: 'object',
   required: ['form4192Upload'],
   properties: {
-    form4192Upload: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          size: {
-            type: 'integer',
-          },
-          confirmationCode: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    form4192Upload: getAttachmentsSchema(PTSD_4192_ATTACHMENT_ID),
   },
 };
