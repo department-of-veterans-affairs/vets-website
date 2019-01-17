@@ -17,5 +17,9 @@ module.exports = `
         entityRendered
       }
     }
+    fieldLastUpdate {
+      value
+      date
+    }
   }
 `;

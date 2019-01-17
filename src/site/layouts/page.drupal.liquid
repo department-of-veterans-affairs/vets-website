@@ -8,6 +8,9 @@
         {{ block.entity.entityRendered }}
       {% endfor %}
     </article>
+    <div class="last-updated usa-content">
+        Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
+    </div>
   </div>
 </main>
 {% include "src/site/includes/footer.html" %}
