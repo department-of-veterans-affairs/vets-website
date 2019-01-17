@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const instructionalPart1Description = (
+const instructionalPart1Description = (
   <div>
     <div>
       Both you and your past employer fill out sections of VA Form 21-4192.
@@ -16,3 +16,5 @@ export const instructionalPart1Description = (
     </p>
   </div>
 );
+
+export default instructionalPart1Description;

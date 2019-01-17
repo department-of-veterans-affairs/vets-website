@@ -1,4 +1,4 @@
-import { instructionalPart1Description } from '../content/instructionalPart1';
+import instructionalPart1Description from '../content/instructionalPart1';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
