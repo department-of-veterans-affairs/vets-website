@@ -46,7 +46,7 @@ export const transformedMaximalData = {
   form526: {
     hasTrainingPay: true,
     standardClaim: false,
-    separationPayDate: '2019-01-01',
+    separationPayDate: '2019-XX-XX',
     separationPayBranch: 'Air Force',
     waiveTrainingPay: true,
     waiveRetirementPay: false,
