@@ -23,6 +23,7 @@ function isJson(response) {
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
+  const isLogout = resource.endsWith('/slo/new');
 
   const defaultSettings = {
     method: 'GET',
@@ -40,6 +41,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
+
   return fetch(url, settings)
     .catch(err => {
       Raven.captureMessage(`vets_client_error: ${err.message}`, {
@@ -56,18 +58,22 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (!response.ok) {
-        const { pathname } = window.location;
-        const shouldRedirectToLogin =
-          response.status === 401 && !pathname.includes('auth/login/callback');
+        if (response.status === 401) {
+          const { pathname } = window.location;
 
-        if (shouldRedirectToLogin) {
-          const loginUrl = appendQuery(environment.BASE_URL, {
-            next: pathname,
-          });
-          window.location.href = loginUrl;
+          // If the user receives a 401 when trying to log out, it means their session
+          // has expired.  Redirect them home.  In all other cases, redirect to login
+          if (isLogout) {
+            window.location.href = '/';
+          } else if (!pathname.includes('auth/login/callback')) {
+            const loginUrl = appendQuery(environment.BASE_URL, {
+              next: pathname,
+            });
+            window.location.href = loginUrl;
+          }
+        } else {
+          return data.then(Promise.reject.bind(Promise));
         }
-
-        return data.then(Promise.reject.bind(Promise));
       }
 
       return data;

@@ -134,6 +134,9 @@ export const DATA_PATHS = {
 export const VA_FORM4142_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
+export const VA_FORM4192_URL =
+  'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf';
+
 export const TWENTY_FIVE_MB = 26214400;
 
 export const FIFTY_MB = 52428800;
@@ -169,6 +172,11 @@ export const accountTitleLabels = {
   CHECKING: 'Checking Account',
   SAVINGS: 'Savings Account',
   NOBANK: 'No Bank Account',
+};
+
+export const disabilityActionTypes = {
+  INCREASE: 'INCREASE',
+  NONE: 'NONE',
 };
 
 export const causeTypes = {
@@ -210,3 +218,17 @@ export const PTSD_CHANGE_LABELS = {
   agoraphobia: 'Staying at home, not wanting to go out, agoraphobia',
   fear: 'Increased fear of surroundings, inability to go to certain areas',
 };
+
+// KEYS on formData that contain uploaded files that need to be added to attachments
+export const ATTACHMENT_KEYS = [
+  'form781Upload',
+  'form781aUpload',
+  'form8940Upload',
+  'form4192Upload',
+  'privateMedicalRecordAttachments',
+  'additionalDocuments',
+  'unemployabilitySupportingDocuments',
+  'secondaryUploadSources0',
+  'secondaryUploadSources1',
+  'secondaryUploadSources2',
+];

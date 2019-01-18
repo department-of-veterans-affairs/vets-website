@@ -7,7 +7,7 @@ import {
   transformPreferencesForSaving,
   restoreDismissedBenefitAlerts,
   getDismissedBenefitAlerts,
-  // getNewSelections,
+  getNewSelections,
 } from '../helpers';
 
 export const FETCH_ALL_BENEFITS_STARTED = 'FETCH_ALL_BENEFITS_STARTED';
@@ -116,16 +116,10 @@ export function savePreferences(benefitsData) {
           type: SAVE_USER_PREFERENCES_SUCCEEDED,
         });
 
-        // TODO: use getNewSelections helper with staged and saved data
-        // const newBenefitSelections = getNewSelections(
-        //   getState().preferences.savedPreferences,
-        //   benefitsData,
-        // );
-        // TODO: remove this mock newBenefitSelections
-        // This re-enables an alert whenever any relevant benefit is included
-        // not only if it is a new addition to the selected benefits
-        const newBenefitSelections = Object.keys(benefitsData);
-        // Get alert names for new selections
+        const newBenefitSelections = getNewSelections(
+          getState().preferences.savedDashboard,
+          benefitsData,
+        );
 
         const newBenefitAlerts = benefitChoices
           .filter(

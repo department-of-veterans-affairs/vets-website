@@ -57,6 +57,7 @@ const excludedForms = new Set([
   '24-0296',
   '21-4142',
   'VIC',
+  '22-0994', // TODO: remove this when 0994 is ready
 ]);
 
 describe('form migrations:', () => {

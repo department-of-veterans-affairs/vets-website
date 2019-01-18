@@ -9,22 +9,19 @@ import {
   PREFILL_STATUSES,
 } from '../../save-in-progress/actions';
 
-let oldWindow;
+let oldAddEventListener;
+const location = {
+  pathname: '/',
+};
 
 const setup = () => {
-  oldWindow = global.window;
+  oldAddEventListener = global.window.addEventListener;
 
-  global.window = {
-    ...oldWindow,
-    location: {
-      pathname: '/',
-    },
-    addEventListener: () => {},
-  };
+  global.window.addEventListener = () => {};
 };
 
 const teardown = () => {
-  global.window = oldWindow;
+  global.window.addEventListener = oldAddEventListener;
 };
 
 describe('Schemaform <RoutedSavableApp>', () => {
@@ -45,6 +42,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
+        location={location}
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}

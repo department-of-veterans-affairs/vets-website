@@ -10,16 +10,11 @@ import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
-import {
-  hasMilitaryRetiredPay,
-  hasRatedDisabilities,
-  hasNewPtsdDisability,
-} from '../validations';
+import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
 
 import {
   hasGuardOrReservePeriod,
   capitalizeEachWord,
-  prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
@@ -31,62 +26,65 @@ import {
   isUploading781aForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
-  showPtsdCombatConclusion,
-  showPtsdAssaultConclusion,
-  transform,
+  hasNewPtsdDisability,
 } from '../utils';
+
+import prefillTransformer from '../prefill-transformer';
+
+import { transform } from '../submit-transformer';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
-  alternateNames,
-  servicePay,
-  waiveRetirementPay,
-  militaryHistory,
-  servedInCombatZone,
-  separationTrainingPay,
-  trainingPayWaiver,
-  reservesNationalGuardService,
-  federalOrders,
-  prisonerOfWar,
-  ratedDisabilities,
-  contactInformation,
+  adaptiveBenefits,
   addDisabilities,
+  additionalBehaviorChanges,
+  additionalDocuments,
+  additionalRemarks781,
+  aidAndAttendance,
+  alternateNames,
+  ancillaryFormsWizardSummary,
+  choosePtsdType,
+  claimExamsInfo,
+  conclusionAssault,
+  conclusionCombat,
+  contactInformation,
+  evidenceTypes,
+  federalOrders,
+  finalIncident,
+  fullyDevelopedClaim,
+  homelessOrAtRisk,
+  individualUnemployability,
+  mentalHealthChanges,
+  militaryHistory,
+  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
-  choosePtsdType,
-  ptsdWalkthroughChoice781,
-  uploadPtsdDocuments,
-  ptsdWalkthroughChoice781a,
-  finalIncident,
-  secondaryFinalIncident,
-  conclusionCombat,
-  conclusionAssault,
-  uploadPersonalPtsdDocuments,
-  summaryOfDisabilities,
-  vaMedicalRecords,
-  additionalDocuments,
+  paymentInformation,
+  physicalHealthChanges,
+  prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsRelease,
-  paymentInformation,
-  evidenceTypes,
-  claimExamsInfo,
-  homelessOrAtRisk,
-  vaEmployee,
-  summaryOfEvidence,
-  fullyDevelopedClaim,
-  workBehaviorChanges,
+  ptsdWalkthroughChoice781,
+  ptsdWalkthroughChoice781a,
+  ratedDisabilities,
+  reservesNationalGuardService,
+  secondaryFinalIncident,
+  separationPay,
+  servedInCombatZone,
+  retirementPay,
   socialBehaviorChanges,
-  additionalRemarks781,
-  additionalBehaviorChanges,
-  mentalHealthChanges,
-  adaptiveBenefits,
-  aidAndAttendance,
-  individualUnemployability,
-  physicalHealthChanges,
-  newDisabilities,
-  ancillaryFormsWizardSummary,
+  summaryOfDisabilities,
+  summaryOfEvidence,
+  trainingPay,
+  trainingPayWaiver,
+  uploadPersonalPtsdDocuments,
+  uploadPtsdDocuments,
+  vaEmployee,
+  vaMedicalRecords,
+  retirementPayWaiver,
+  workBehaviorChanges,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -150,12 +148,6 @@ const formConfig = {
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
-        servicePay: {
-          title: 'Service Pay',
-          path: 'service-pay',
-          uiSchema: servicePay.uiSchema,
-          schema: servicePay.schema,
-        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -184,6 +176,24 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+        separationPay: {
+          title: 'Separation or Severance Pay',
+          path: 'separation-pay',
+          uiSchema: separationPay.uiSchema,
+          schema: separationPay.schema,
+        },
+        retirementPay: {
+          title: 'Retirement Pay',
+          path: 'retirement-pay',
+          uiSchema: retirementPay.uiSchema,
+          schema: retirementPay.schema,
+        },
+        trainingPay: {
+          title: 'Training Pay',
+          path: 'training-pay',
+          uiSchema: trainingPay.uiSchema,
+          schema: trainingPay.schema,
         },
       },
     },
@@ -297,9 +307,7 @@ const formConfig = {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
           depends: formData =>
-            hasNewPtsdDisability(formData) &&
-            needsToEnter781(formData) &&
-            isUploading781Form(formData),
+            needsToEnter781(formData) && isUploading781Form(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
@@ -323,7 +331,7 @@ const formConfig = {
         conclusionCombat: {
           path: 'ptsd-conclusion-combat',
           title: 'PTSD combat conclusion',
-          depends: showPtsdCombatConclusion,
+          depends: needsToEnter781,
           uiSchema: conclusionCombat.uiSchema,
           schema: conclusionCombat.schema,
         },
@@ -332,8 +340,7 @@ const formConfig = {
         ptsdWalkthroughChoice781a: {
           title: 'Answer online questions or upload paper 21-0781A?',
           path: 'new-disabilities/walkthrough-781a-choice',
-          depends: formData =>
-            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          depends: needsToEnter781a,
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
@@ -344,9 +351,7 @@ const formConfig = {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
           depends: formData =>
-            hasNewPtsdDisability(formData) &&
-            needsToEnter781a(formData) &&
-            isUploading781aForm(formData),
+            needsToEnter781a(formData) && isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
@@ -402,7 +407,7 @@ const formConfig = {
         conclusionAssault: {
           path: 'ptsd-conclusion-assault',
           title: 'PTSD assault conclusion',
-          depends: showPtsdAssaultConclusion,
+          depends: needsToEnter781a,
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
         },
@@ -551,18 +556,12 @@ const formConfig = {
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
         },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
+        retirementPayWaiver: {
+          title: 'Retirement pay waiver',
+          path: 'retirement-pay-waiver',
           depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
+          uiSchema: retirementPayWaiver.uiSchema,
+          schema: retirementPayWaiver.schema,
         },
         trainingPayWaiver: {
           title: 'Training pay waiver',

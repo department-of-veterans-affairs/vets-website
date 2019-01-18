@@ -10,8 +10,7 @@ export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
   'ui:description': additionalDescriptionChanges,
   additionalChanges: {
-    'ui:title':
-      'Please provide additional information about any behavior changes or actions you took as a result of the event(s).',
+    'ui:title': 'Enter other behavior changes',
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,

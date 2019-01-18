@@ -8,7 +8,6 @@ import { isEmpty } from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import PreferenceList from '../components/PreferenceList';
@@ -207,10 +206,6 @@ class PreferencesWidget extends React.Component {
   };
 
   render() {
-    // do not show in production
-    if (environment.isProduction()) {
-      return null;
-    }
     const {
       preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
     } = this.props;
@@ -255,7 +250,7 @@ class PreferencesWidget extends React.Component {
             />
           )}
         </ReactCSSTransitionGroup>
-        {this.renderContent()}
+        <div ariaLive="polite">{this.renderContent()}</div>
       </div>
     );
   }

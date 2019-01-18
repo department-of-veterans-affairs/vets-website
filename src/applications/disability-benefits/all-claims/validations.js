@@ -1,7 +1,7 @@
 import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
-import { MILITARY_CITIES, MILITARY_STATE_VALUES, PTSD } from './constants';
+import { MILITARY_CITIES, MILITARY_STATE_VALUES } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -138,7 +138,7 @@ export const oneDisabilityRequired = disabilityList => (
 
   const hasNewDisabilitiesSelected = some(
     [...newDisabilities, ...ratedDisabilities],
-    disability => disability['view:unemployabilityDisability'],
+    disability => disability.unemployabilityDisability,
   );
 
   if (!hasNewDisabilitiesSelected) {
@@ -148,22 +148,6 @@ export const oneDisabilityRequired = disabilityList => (
         : 'Please select at least one disability from the lists below.';
     errors.addError(errMsg);
   }
-};
-
-export const isDisabilityPtsd = disability =>
-  disability.toLowerCase().includes(PTSD);
-
-export const hasNewPtsdDisability = formData => {
-  if (!_.get('view:newDisabilities', formData, false)) {
-    return false;
-  }
-  return some(_.get('newDisabilities', formData, []), item => {
-    let hasPtsd = false;
-    if (item && typeof item.condition === 'string') {
-      hasPtsd = isDisabilityPtsd(item.condition);
-    }
-    return hasPtsd;
-  });
 };
 
 export const isInFuture = (err, fieldData) => {

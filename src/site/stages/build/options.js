@@ -14,6 +14,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: 3001 },
+  { name: 'api', type: String, defaultValue: null },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
@@ -22,6 +23,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  { name: 'pull-drupal', type: Boolean, defaultValue: false },
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
@@ -39,6 +41,8 @@ function gatherFromCommandLine() {
 function applyDefaultOptions(options) {
   const contentPagesRoot = options['content-directory'];
   const contentRoot = path.join(contentPagesRoot, '../');
+
+  const projectRoot = path.resolve(__dirname, '../../../../');
   const siteRoot = path.join(__dirname, '../../');
   const includes = path.join(siteRoot, 'includes');
   const components = path.join(siteRoot, 'components');
@@ -52,16 +56,12 @@ function applyDefaultOptions(options) {
       source: path.join(contentRoot, 'assets'),
       destination: './',
     },
-    destination: path.resolve(
-      __dirname,
-      '../../../../build',
-      options.buildtype,
-    ),
+    destination: path.resolve(projectRoot, 'build', options.buildtype),
     appAssets: {
       source: '../../assets',
       destination: './',
     },
-    layouts: path.join(__dirname, '../../layouts'),
+    layouts,
     collections: require('./data/collections.json'),
     redirects: require('./data/vagovRedirects.json'),
     watchPaths: {
@@ -70,6 +70,7 @@ function applyDefaultOptions(options) {
       [`${components}/**/*`]: '**/*.{md,html}',
       [`${layouts}/**/*`]: '**/*.{md,html}',
     },
+    cacheDirectory: path.resolve(projectRoot, '.cache'),
   });
 }
 

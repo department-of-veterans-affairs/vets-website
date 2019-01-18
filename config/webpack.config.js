@@ -184,6 +184,9 @@ const configGenerator = (buildOptions, apps) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
+        __API__: JSON.stringify(buildOptions.api),
+        // eslint-disable-next-line import/no-unresolved
+        __MEGAMENU_CONFIG__: JSON.stringify(require('../.cache/megamenu.json')),
       }),
 
       new ExtractTextPlugin({

@@ -9,8 +9,6 @@ import ENVIRONMENTS from '../../../site/constants/environments';
 // to indicate the name of our current environment as passed from our build script. This should
 // be the only reference to this value throughout our client-side code. Other modules should
 // instead import this module and interface with it instead.
-
-// eslint-disable-next-line no-undef
 const BUILDTYPE = __BUILDTYPE__;
 
 const ENVIRONMENT_CONFIGURATIONS = {
@@ -53,6 +51,13 @@ if (!isPort80) {
   const LOCALHOST_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.LOCALHOST];
   environment.API_URL = LOCALHOST_ENV.API_URL;
   environment.BASE_URL = LOCALHOST_ENV.BASE_URL;
+}
+
+if (environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST) {
+  // __API__ is defined the same way as __BUILDTYPE__, and is used to indicate the URL of the VA API. The main use
+  // case for this at the moment is for internal review instances to pass configuration during the build.
+  const CUSTOM_API = __API__;
+  if (CUSTOM_API) environment.API_URL = CUSTOM_API;
 }
 
 export default Object.freeze({
