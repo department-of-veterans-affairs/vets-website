@@ -152,7 +152,6 @@ const fillPage = async (page, testData, testConfig, log) => {
       //  to anything outside of the local scope.
       const selectors = new Set();
       return elements.map(element => {
-        // <select> elements have neither a type nor a name
         let type = element.type || element.tagName;
         let selector = element.name || element.id;
 
@@ -205,6 +204,11 @@ const fillPage = async (page, testData, testConfig, log) => {
   /* eslint-enable no-await-in-loop */
 };
 
+/**
+ * This is the main entry point. After all the setup has been performed, this function
+ *  loops through the pages, filling in all the data it can until it gets to the review
+ *  page.
+ */
 const fillForm = async (page, testData, testConfig, log) => {
   // We want these actions to be performed synchronously, so the await
   //  statements in the loop make sense.
