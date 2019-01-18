@@ -155,9 +155,6 @@ const fillPage = async (page, testData, testConfig, log) => {
         let type = element.type || element.tagName;
         let selector = element.name || element.id;
 
-        // Date fields have one piece of data for two or three fields,
-        //  so we only want the base selector to both find the data
-        //  and use with our custom .fillDate() nightwatch command.
         const isDateField = sel =>
           sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
         if (isDateField(selector)) {
@@ -168,7 +165,7 @@ const fillPage = async (page, testData, testConfig, log) => {
         }
 
         // Make sure not to duplicate entries
-        //  (specifically useful for radio buttons and date fields)
+        //  (Specifically useful for radio buttons and date fields)
         if (selectors.has(selector)) {
           return null;
         }
