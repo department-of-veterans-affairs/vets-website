@@ -10,6 +10,6 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['isVAEmployee'],
+  required: ['isVaEmployee'],
   properties: { isVaEmployee },
 };
