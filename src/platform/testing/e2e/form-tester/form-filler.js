@@ -185,7 +185,6 @@ const fillPage = async (page, testData, testConfig, log) => {
 
     for (const field of fields) {
       touchedFields.add(field.selector);
-      // We want these data entries to be performed synchronously
       await enterData(page, field, findData(field.selector, testData), log);
     }
 
