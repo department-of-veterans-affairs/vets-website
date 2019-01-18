@@ -289,10 +289,13 @@ export function transform(formConfig, form) {
     if (!formData.separationPayDate) {
       return formData;
     }
-    const clonedData = _.cloneDeep(formData);
+
     // Format separationPayDate as 'YYYY-MM-DD'
-    clonedData.separationPayDate = `${formData.separationPayDate}-XX-XX`;
-    return clonedData;
+    return _.set(
+      'separationPayDate',
+      `${formData.separationPayDate}-XX-XX`,
+      formData,
+    );
   };
 
   const addForm4142 = formData => {
