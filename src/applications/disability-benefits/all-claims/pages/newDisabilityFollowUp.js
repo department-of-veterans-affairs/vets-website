@@ -72,7 +72,7 @@ export const uiSchema = {
       },
       primaryDescription: {
         'ui:title':
-          'Please briefly describe the injury or exposure that caused your condition. (For example, I operated loud machinery while in the Army, and this caused me to lose my hearing.)',
+          'Please briefly describe the injury or exposure that caused your condition. (For example, I operated loud machinery while in the Army, and this caused me to lose my hearing.) (400 characters maximum)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
           formData.newDisabilities[index].cause === 'NEW',
@@ -110,7 +110,7 @@ export const uiSchema = {
         },
         causedByDisabilityDescription: {
           'ui:title':
-            'Please briefly describe how the disability you selected caused your new disability.',
+            'Please briefly describe how the disability you selected caused your new disability. (400 characters maximum)',
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'SECONDARY' &&
@@ -125,7 +125,7 @@ export const uiSchema = {
         },
         worsenedDescription: {
           'ui:title':
-            'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
+            'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse. (50 characters maximum)',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
@@ -133,7 +133,7 @@ export const uiSchema = {
         },
         worsenedEffects: {
           'ui:title':
-            'Please tell us how the disability affected you before your service, and how it affects you now after your service.',
+            'Please tell us how the disability affected you before your service, and how it affects you now after your service. (350 characters maximum)',
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'WORSENED' &&
@@ -148,7 +148,7 @@ export const uiSchema = {
         },
         VAMistreatmentDescription: {
           'ui:title':
-            'Please briefly describe the injury or event while you were under VA care that caused your disability.',
+            'Please briefly describe the injury or event while you were under VA care that caused your disability. (350 characters maximum)',
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
@@ -156,7 +156,8 @@ export const uiSchema = {
           'ui:validations': [validateLength(350)],
         },
         VAMistreatmentLocation: {
-          'ui:title': 'Please tell us where this happened',
+          'ui:title':
+            'Please tell us where this happened. (25 characters maximum)',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
@@ -164,7 +165,7 @@ export const uiSchema = {
         },
         VAMistreatmentDate: {
           'ui:title':
-            'Please tell us when this happened (If you’re having trouble remembering the exact date you can provide a year.)',
+            'Please tell us when this happened (If you’re having trouble remembering the exact date you can provide a year.) (25 characters maximum)',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
