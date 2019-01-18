@@ -4,7 +4,6 @@
  */
 import '../monitoring/sentry.js';
 import './legacy/menu'; // Used in the footer.
-import './accessible-VCL-modal';
 import './moment-setup';
 import './popups';
 import addMenuListeners from './accessible-menus';
@@ -15,6 +14,7 @@ import startMobileMenuButton from './mobile-menu-button';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
+import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
 import brandConsolidation from '../brand-consolidation';
 
@@ -58,12 +58,8 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
-
-  if (brandConsolidation.isEnabled()) {
-    startMegaMenuWidget(commonStore);
-    startMobileMenuButton(commonStore);
-    startVAFooter();
-  }
-
+  startMegaMenuWidget(commonStore);
+  startMobileMenuButton(commonStore);
+  startVAFooter(addFocusBehaviorToCrisisLineModal);
   startMetrics();
 }
