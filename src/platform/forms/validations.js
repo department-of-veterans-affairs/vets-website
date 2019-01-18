@@ -341,7 +341,7 @@ function getFileError(file) {
  */
 function validateLength(
   length,
-  message = `Please enter ${length} or fewer characters.`,
+  message = `This field should be less than ${length} characters.`,
 ) {
   return function hasValidLength(errors, input) {
     if (input.length > length) errors.addError(message);
