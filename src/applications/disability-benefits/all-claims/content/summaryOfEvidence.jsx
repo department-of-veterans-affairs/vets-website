@@ -5,7 +5,11 @@ import { DATA_PATHS } from '../constants';
 export const summaryOfEvidenceDescription = ({ formData }) => {
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('providerFacility', formData, []);
-  const privateEvidenceUploads = _.get('privateMedicalRecords', formData, []);
+  const privateEvidenceUploads = _.get(
+    'privateMedicalRecordAttachments',
+    formData,
+    [],
+  );
   const layEvidenceUploads = _.get('additionalDocuments', formData, []);
   const evidenceLength = !!vaEvidence.concat(
     privateEvidence,
