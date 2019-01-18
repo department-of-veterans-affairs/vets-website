@@ -115,6 +115,7 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
+          'ui:validations': [validateLength(400)],
         },
       },
       'view:worsenedFollowUp': {
