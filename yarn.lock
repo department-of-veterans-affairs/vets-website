@@ -4725,6 +4725,7 @@ graceful-fs@~2.0.3:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
+<<<<<<< HEAD
 graphql-anywhere@^4.1.0-alpha.0:
   version "4.1.24"
   resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-4.1.24.tgz#59e2a8bfd3d00ac75f6a377e31e4e9fdaa5ce786"
@@ -4741,6 +4742,8 @@ graphql@^14.0.2:
   dependencies:
     iterall "^1.2.2"
 
+=======
+>>>>>>> e010d737be4fba6c07674e081bf5c30ea92bf2e2
 gray-matter@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/gray-matter/-/gray-matter-2.1.1.tgz#3042d9adec2a1ded6a7707a9ed2380f8a17a430e"
@@ -5155,10 +5158,13 @@ ignore@^3.1.2, ignore@^3.2.0, ignore@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.3.tgz#432352e57accd87ab3110e82d3fea0e47812156d"
 
+<<<<<<< HEAD
 immutable-tuple@^0.4.9:
   version "0.4.9"
   resolved "https://registry.yarnpkg.com/immutable-tuple/-/immutable-tuple-0.4.9.tgz#473ebdd6c169c461913a454bf87ef8f601a20ff0"
 
+=======
+>>>>>>> e010d737be4fba6c07674e081bf5c30ea92bf2e2
 import-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/import-local/-/import-local-1.0.0.tgz#5e4ffdc03f4fe6c009c6729beb29631c2f8227bc"
@@ -5744,10 +5750,13 @@ istanbul-reports@^1.5.1:
   dependencies:
     handlebars "^4.0.3"
 
+<<<<<<< HEAD
 iterall@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
 
+=======
+>>>>>>> e010d737be4fba6c07674e081bf5c30ea92bf2e2
 jest-changed-files@^23.4.2:
   version "23.4.2"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-23.4.2.tgz#1eed688370cd5eebafe4ae93d34bb3b64968fe83"
@@ -8000,12 +8009,15 @@ opn@^5.1.0:
   dependencies:
     is-wsl "^1.1.0"
 
+<<<<<<< HEAD
 optimism@^0.6.8:
   version "0.6.8"
   resolved "https://registry.yarnpkg.com/optimism/-/optimism-0.6.8.tgz#0780b546da8cd0a72e5207e0c3706c990c8673a6"
   dependencies:
     immutable-tuple "^0.4.9"
 
+=======
+>>>>>>> e010d737be4fba6c07674e081bf5c30ea92bf2e2
 optimist@0.6.1, optimist@0.6.x, optimist@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
@@ -11733,6 +11745,7 @@ yauzl@2.4.1:
   resolved "https://registry.yarnpkg.com/yauzl/-/yauzl-2.4.1.tgz#9528f442dab1b2284e58b4379bb194e22e0c4005"
   dependencies:
     fd-slicer "~1.0.1"
+<<<<<<< HEAD
 
 zen-observable-ts@^0.8.13:
   version "0.8.13"
@@ -11743,3 +11756,5 @@ zen-observable-ts@^0.8.13:
 zen-observable@^0.8.0:
   version "0.8.11"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.11.tgz#d3415885eeeb42ee5abb9821c95bb518fcd6d199"
+=======
+>>>>>>> e010d737be4fba6c07674e081bf5c30ea92bf2e2
