@@ -30,6 +30,10 @@ import * as individualUnemployability from './individualUnemployability';
 import * as instructionalPart1 from './instructionalPart1';
 import * as instructionalPart2 from './instructionalPart2';
 import * as instructionalPart3 from './instructionalPart3';
+import * as instructionalPart4 from './instructionalPart4';
+import * as instructionalPart5 from './instructionalPart5';
+import * as instructionalPart6 from './instructionalPart6';
+import * as instructionalPart7 from './instructionalPart7';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
@@ -125,6 +129,10 @@ export {
   instructionalPart1,
   instructionalPart2,
   instructionalPart3,
+  instructionalPart4,
+  instructionalPart5,
+  instructionalPart6,
+  instructionalPart7,
   medals,
   medicalCare,
   mentalHealthChanges,

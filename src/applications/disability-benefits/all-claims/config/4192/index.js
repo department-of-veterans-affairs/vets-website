@@ -5,6 +5,10 @@ import {
   instructionalPart1,
   instructionalPart2,
   instructionalPart3,
+  instructionalPart4,
+  instructionalPart5,
+  instructionalPart6,
+  instructionalPart7,
   pastEmploymentFormDownload,
   pastEmploymentFormIntro,
   pastEmploymentFormUpload,
@@ -54,6 +58,30 @@ export default function() {
         depends: showFormTutorial,
         uiSchema: instructionalPart3.uiSchema,
         schema: instructionalPart3.schema,
+      },
+      instructionalPart4: {
+        path: '4192-instructions-part-4',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart4.uiSchema,
+        schema: instructionalPart4.schema,
+      },
+      instructionalPart5: {
+        path: '4192-instructions-part-5',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart5.uiSchema,
+        schema: instructionalPart5.schema,
+      },
+      instructionalPart6: {
+        path: '4192-instructions-part-6',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart6.uiSchema,
+        schema: instructionalPart6.schema,
+      },
+      instructionalPart7: {
+        path: '4192-instructions-part-7',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart7.uiSchema,
+        schema: instructionalPart7.schema,
       },
       // Download
       pastEmploymentFormDownload: {
