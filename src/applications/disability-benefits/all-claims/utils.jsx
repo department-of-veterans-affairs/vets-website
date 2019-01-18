@@ -3,7 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit } from 'lodash';
+import { omit, some, lowerCase } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -18,14 +18,29 @@ import {
 
 import {
   RESERVE_GUARD_TYPES,
-  SERVICE_CONNECTION_TYPES,
   USA,
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
-  disabilityActionTypes,
+  PTSD,
 } from './constants';
+
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
 
 /**
  * Show one thing, have a screen reader say another.
@@ -134,106 +149,6 @@ export const capitalizeEachWord = name => {
   );
   return 'Unknown Condition';
 };
-
-// Only service-connected disabilities should be included in the form
-export const filterServiceConnected = (disabilities = []) =>
-  disabilities.filter(
-    d => d.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
-  );
-
-// Add 'NONE' disabilityActionType to each rated disability because it's
-// required in the schema
-export const addNoneDisabilityActionType = (disabilities = []) =>
-  disabilities.map(d =>
-    _.set('disabilityActionType', disabilityActionTypes.NONE, d),
-  );
-
-export function transformMVPData(formData) {
-  const newFormData = _.omit(
-    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
-    formData,
-  );
-
-  // Spread the properties in formData.veteran
-  Object.keys(_.get('veteran', formData, {})).forEach(key => {
-    newFormData[key] = formData.veteran[key];
-  });
-
-  // Nest servicePeriods and reservesNationalGuardService under serviceInformation
-  //  without creating a serviceInformation property unnecessarily
-  const { servicePeriods, reservesNationalGuardService } = formData;
-  if (servicePeriods || reservesNationalGuardService) {
-    newFormData.serviceInformation = {
-      ..._.get('serviceInformation', newFormData, {}),
-      servicePeriods,
-      reservesNationalGuardService,
-    };
-  }
-
-  return newFormData;
-}
-
-/**
- * Returns an object where all the fields are prefixed with `view:` if they aren't already
- */
-export const viewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
-    // Recurse if necessary
-    newFormData[viewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? viewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
-export function prefillTransformer(pages, formData, metadata) {
-  const newFormData = transformMVPData(formData);
-  const { disabilities } = newFormData;
-
-  // SiP automatically removes empty properties from prefill
-  if (disabilities) {
-    newFormData.ratedDisabilities = addNoneDisabilityActionType(
-      filterServiceConnected(disabilities),
-    );
-
-    delete newFormData.disabilities;
-  }
-
-  // Pre-fill hidden bank info for use in the PaymentView
-  const bankAccount = {
-    bankAccountType: newFormData.bankAccountType,
-    bankAccountNumber: newFormData.bankAccountNumber,
-    bankRoutingNumber: newFormData.bankRoutingNumber,
-    bankName: newFormData.bankName,
-  };
-  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
-
-  // Let the payment info card start in review mode if we have pre-filled bank information
-  if (
-    Object.values(newFormData['view:originalBankAccount']).some(
-      value => !!value,
-    )
-  ) {
-    newFormData['view:bankAccount'] = {
-      'view:hasPrefilledBank': true,
-    };
-  }
-
-  // Remove bank fields since they're already in view:originalBankAccount
-  delete newFormData.bankAccountType;
-  delete newFormData.bankAccountNumber;
-  delete newFormData.bankRoutingNumber;
-  delete newFormData.bankName;
-
-  return {
-    metadata,
-    formData: newFormData,
-    pages,
-  };
-}
 
 export const hasForwardingAddress = formData =>
   _.get('view:hasForwardingAddress', formData, false);
@@ -461,13 +376,24 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
+export const isDisabilityPtsd = disability =>
+  lowerCase(disability).includes(PTSD);
+
+export const hasNewPtsdDisability = formData =>
+  _.get('view:newDisabilities', formData, false) &&
+  some(_.get('newDisabilities', formData, []), item =>
+    isDisabilityPtsd(item.condition),
+  );
+
 export const needsToEnter781 = formData =>
-  _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
+  hasNewPtsdDisability(formData) &&
+  (_.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
+    _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false));
 
 export const needsToEnter781a = formData =>
-  _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
+  hasNewPtsdDisability(formData) &&
+  (_.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
+    _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false));
 
 export const isUploading781Form = formData =>
   _.get('view:upload781Choice', formData, '') === 'upload';
@@ -475,24 +401,21 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
-export const isUploading781aSupportingDocuments = index => formData =>
-  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
-
 export const isAnswering781Questions = index => formData =>
+  needsToEnter781(formData) &&
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
-  (index === 0 ||
-    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
-  needsToEnter781(formData);
+  (_.get(`view:enterAdditionalEvents${index - 1}`, formData, false) ||
+    index === 0);
 
 export const isAnswering781aQuestions = index => formData =>
+  needsToEnter781a(formData) &&
   _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
-  (index === 0 ||
-    _.get(
-      `view:enterAdditionalSecondaryEvents${index - 1}`,
-      formData,
-      false,
-    )) &&
-  needsToEnter781a(formData);
+  (_.get(`view:enterAdditionalSecondaryEvents${index - 1}`, formData, false) ||
+    index === 0);
+
+export const isUploading781aSupportingDocuments = index => formData =>
+  isAnswering781aQuestions(index)(formData) &&
+  _.get(`secondaryIncident${index}.view:uploadSources`, formData, false);
 
 export const isAddingIndividuals = index => formData =>
   isAnswering781Questions(index)(formData) &&
@@ -511,14 +434,6 @@ export const getHomelessOrAtRisk = formData => {
 
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
-
-export const showPtsdCombatConclusion = form =>
-  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', form, false);
-
-export const showPtsdAssaultConclusion = form =>
-  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
 
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);

@@ -2,6 +2,9 @@ import _ from 'lodash';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
+  instructionalPart1,
+  instructionalPart2,
+  instructionalPart3,
   pastEmploymentFormDownload,
   pastEmploymentFormIntro,
   pastEmploymentFormUpload,
@@ -9,7 +12,8 @@ import {
 
 import { needsToEnterUnemployability } from '../../utils';
 
-// const showFormTutorial = formData => _.get(formData, 'view:upload4192Choice.view:4192Info', false);
+const showFormTutorial = formData =>
+  _.get(formData, 'view:upload4192Choice.view:4192Info', false);
 
 const isDownloading = formData =>
   _.get(formData, 'view:upload4192Choice.view:download4192', false) &&
@@ -33,6 +37,24 @@ export default function() {
         schema: pastEmploymentFormIntro.schema,
       },
       // Form Tutorial (multiple pages)
+      instructionalPart1: {
+        path: '4192-instructions-part-1',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart1.uiSchema,
+        schema: instructionalPart1.schema,
+      },
+      instructionalPart2: {
+        path: '4192-instructions-part-2',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart2.uiSchema,
+        schema: instructionalPart2.schema,
+      },
+      instructionalPart3: {
+        path: '4192-instructions-part-3',
+        depends: showFormTutorial,
+        uiSchema: instructionalPart3.uiSchema,
+        schema: instructionalPart3.schema,
+      },
       // Download
       pastEmploymentFormDownload: {
         path: 'past-employment-download',
