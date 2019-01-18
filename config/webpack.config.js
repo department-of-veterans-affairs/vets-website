@@ -43,6 +43,10 @@ const configGenerator = (buildOptions, apps) => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  const enableCSSSourcemaps =
+    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildOptions['local-css-sourcemaps'];
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
@@ -98,7 +102,7 @@ const configGenerator = (buildOptions, apps) => {
                 loader: 'css-loader',
                 options: {
                   minimize: isOptimizedBuild,
-                  sourceMap: true,
+                  sourceMap: enableCSSSourcemaps,
                 },
               },
               {
