@@ -10,7 +10,7 @@ export const instructionalPart4Description = (
       <strong>Section I, Boxes 3-6.</strong> This will help us match the form to
       your claim.
     </p>
-    <img src="/img/part4-image.png" alt="Section I, Boxes 3-6" />
+    <img src="/img/part3-image.png" alt="Section I, Boxes 3-6" />
     <AdditionalInfo triggerText="What is a VA file number?">
       A VA file number helps us identify you when you file a claim. For most
       Veterans, your VA file number is your Social Security number without

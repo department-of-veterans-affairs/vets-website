@@ -13,6 +13,6 @@ export const instructionalPart3Description = (
       Janesville, WI 53547-4444 Or fax them toll-free: 1-844-531-7818
     </div>
 
-    <img src="/img/part3-image.png" alt="Your info goes in Section 1" />
+    <img src="/img/part3-va-address.png" alt="Your info goes in Section 1" />
   </div>
 );
