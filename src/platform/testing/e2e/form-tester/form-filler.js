@@ -233,6 +233,7 @@ const fillForm = async (page, testData, testConfig, log) => {
 
       // If we're still on the page, it may be because an element was expanded
       //  and we tried to enter data too fast; try again
+      // NOTE: This won't trigger if the field we missed isn't required!
       if (page.url() === url) {
         // TODO: Figure out how to remove this arbitrary time
         await page.waitFor(300);
