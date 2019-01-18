@@ -2,7 +2,7 @@ import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
 import SetPreferences from '../preferences/containers/SetPreferences';
 
-const findBenefitsRoute = {
+export const findBenefitsRoute = {
   path: 'find-benefits',
   component: SetPreferences,
   key: 'find-benefits',
