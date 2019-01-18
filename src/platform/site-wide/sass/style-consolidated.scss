@@ -31,9 +31,9 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 
 @font-face {
   font-family: "Font Awesome 5 Free";
-  src: url("~@department-of-veterans-affairs/formation/dist/fonts/fa-solid-900.woff2") format("woff2"),
-    url("~@department-of-veterans-affairs/formation/dist/fonts/fa-solid-900.woff") format("woff"),
-    url("~@department-of-veterans-affairs/formation/dist/fonts/fa-solid-900.eot") format("eot");
+  src: url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2") format("woff2"),
+       url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff") format("woff"),
+       url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot") format("eot");
   font-weight: normal;
   font-style: normal;
 }
