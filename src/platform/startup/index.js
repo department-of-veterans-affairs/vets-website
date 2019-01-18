@@ -3,6 +3,7 @@
  * @module platform/startup
  */
 import React from 'react';
+import Raven from 'raven-js';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
@@ -33,6 +34,7 @@ export default function startApp({
   reducer,
   url,
   analyticsEvents,
+  entryName,
 }) {
   const store = createCommonStore(reducer, analyticsEvents);
 
@@ -48,12 +50,26 @@ export default function startApp({
     });
   }
 
-  startSitewideComponents(store);
+  Raven.wrap(
+    {
+      tags: { source: 'site-wide' },
+    },
+    () => {
+      startSitewideComponents(store);
+    },
+  );
 
   let content = component;
   if (routes) {
     content = <Router history={history}>{routes}</Router>;
   }
 
-  startReactApp(<Provider store={store}>{content}</Provider>);
+  Raven.wrap(
+    {
+      tags: { source: entryName },
+    },
+    () => {
+      startReactApp(<Provider store={store}>{content}</Provider>);
+    },
+  );
 }

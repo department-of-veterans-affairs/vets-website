@@ -16,15 +16,9 @@ import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 
-import brandConsolidation from '../brand-consolidation';
+require('./usa-banner-toggle');
 
-if (!brandConsolidation.isEnabled()) {
-  require('./usa-banner-toggle');
-}
-
-if (brandConsolidation.isEnabled()) {
-  import(/* webpackChunkName: "uswds" */ 'uswds');
-}
+import(/* webpackChunkName: "uswds" */ 'uswds');
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -59,11 +53,9 @@ export default function startSitewideComponents(commonStore) {
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
 
-  if (brandConsolidation.isEnabled()) {
-    startMegaMenuWidget(commonStore);
-    startMobileMenuButton(commonStore);
-    startVAFooter();
-  }
+  startMegaMenuWidget(commonStore);
+  startMobileMenuButton(commonStore);
+  startVAFooter();
 
   startMetrics();
 }
