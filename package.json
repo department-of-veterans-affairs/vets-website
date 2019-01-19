@@ -183,7 +183,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^2.0.0-fa",
+    "@department-of-veterans-affairs/formation": "^2.0.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@octokit/rest": "^16.2.0",
