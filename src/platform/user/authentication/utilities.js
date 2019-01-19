@@ -63,28 +63,14 @@ function popup(popupUrl, clickedEvent, openedEvent) {
 
 function redirect(redirectUrl, clickedEvent, openedEvent) {
   if (!isFullScreenLoginEnabled()) {
-    return popup(redirectUrl, clickedEvent, openedEvent);
+    const popupUrl = `${redirectUrl}?json=true`;
+    return popup(popupUrl, clickedEvent, openedEvent);
   }
 
   // Keep track of the URL to return to after auth operation.
   sessionStorage.setItem('authReturnUrl', window.location);
-
   recordEvent({ event: clickedEvent });
-
-  return apiRequest(
-    redirectUrl,
-    null,
-    ({ url }) => {
-      if (url) {
-        recordEvent({ event: openedEvent });
-        window.location = url;
-      }
-    },
-    () => {
-      // TODO: Create a separate page or modal when failed to get the URL.
-      window.location = `${environment.BASE_URL}/auth/login/callback`;
-    },
-  );
+  window.location = redirectUrl;
 }
 
 export function login(policy) {
