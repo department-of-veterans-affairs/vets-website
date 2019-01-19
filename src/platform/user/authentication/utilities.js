@@ -64,34 +64,38 @@ function popup(popupUrl, clickedEvent, openedEvent) {
 function redirect(redirectUrl, clickedEvent, openedEvent) {
   if (!isFullScreenLoginEnabled()) {
     const popupUrl = `${redirectUrl}?json=true`;
-    popup(popupUrl, clickedEvent, openedEvent);
-    return;
+    return popup(popupUrl, clickedEvent, openedEvent);
   }
 
   // Keep track of the URL to return to after auth operation.
   sessionStorage.setItem('authReturnUrl', window.location);
   recordEvent({ event: clickedEvent });
   window.location = redirectUrl;
+  return redirectUrl;
 }
 
 export function login(policy) {
-  redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  return redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
 }
 
 export function mfa() {
-  redirect(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
+  return redirect(
+    MFA_URL,
+    'multifactor-link-clicked',
+    'multifactor-link-opened',
+  );
 }
 
 export function verify() {
-  redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
 }
 
 export function logout() {
-  redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  return redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
 }
 
 export function signup() {
-  redirect(
+  return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
     'register-link-opened',
