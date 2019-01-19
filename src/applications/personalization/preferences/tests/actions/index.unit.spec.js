@@ -50,86 +50,105 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should dispatch the FETCH_USER_PREFERENCES_STARTED action immediately`, done => {
-      const dispatch = sinon.spy();
+    let dispatch;
+    let getState;
 
-      fetchUserSelectedBenefits()(dispatch);
-
-      expect(
-        dispatch.firstCall.calledWith({
-          type: FETCH_USER_PREFERENCES_STARTED,
-        }),
-      ).to.be.true;
-      done();
-    });
-
-    it(`should call the API`, done => {
-      const dispatch = sinon.spy();
-
-      fetchUserSelectedBenefits()(dispatch);
-
-      setTimeout(() => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/user/preferences',
-        );
-        expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+    describe('when use selections have been cached', () => {
+      it(`should do nothing and its thunk should return null`, done => {
+        dispatch = sinon.spy();
+        getState = sinon.stub().returns({
+          preferences: {
+            selectedBenefitsCached: true,
+          },
+        });
+        const value = fetchUserSelectedBenefits()(dispatch, getState);
+        expect(value).to.be.null;
+        expect(dispatch.notCalled).to.be.true;
         done();
-      }, 0);
+      });
     });
+    describe('when user selections have not been cached', () => {
+      beforeEach(() => {
+        dispatch = sinon.spy();
+        getState = sinon.stub().returns({
+          preferences: {
+            selectedBenefitsCached: false,
+          },
+        });
+      });
+      it(`should dispatch the FETCH_USER_PREFERENCES_STARTED action immediately`, done => {
+        fetchUserSelectedBenefits()(dispatch, getState);
 
-    it(`should dispatch the FETCH_USER_PREFERENCES_FAILED action on request failure`, done => {
-      const error = { test: 'test' };
-      setFetchFailure(global.fetch.onFirstCall(), error);
-
-      const dispatch = sinon.spy();
-
-      fetchUserSelectedBenefits()(dispatch);
-
-      setTimeout(() => {
         expect(
-          dispatch.secondCall.calledWith({
-            type: FETCH_USER_PREFERENCES_FAILED,
+          dispatch.firstCall.calledWith({
+            type: FETCH_USER_PREFERENCES_STARTED,
           }),
         ).to.be.true;
         done();
-      }, 0);
-    });
+      });
 
-    it(`should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED action on request success`, done => {
-      const response = {
-        data: {
-          attributes: {
-            userPreferences: [
-              {
-                code: 'benefits',
-                userPreferences: [
-                  {
-                    code: 'pensions',
-                    description: 'pension benefits',
-                  },
-                  {
-                    code: 'health-care',
-                    description: 'health care benefits',
-                  },
-                ],
-              },
-            ],
+      it(`should call the API`, done => {
+        fetchUserSelectedBenefits()(dispatch, getState);
+
+        setTimeout(() => {
+          expect(global.fetch.firstCall.args[0]).to.contain(
+            '/v0/user/preferences',
+          );
+          expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+          done();
+        }, 0);
+      });
+
+      it(`should dispatch the FETCH_USER_PREFERENCES_FAILED action on request failure`, done => {
+        const error = { test: 'test' };
+        setFetchFailure(global.fetch.onFirstCall(), error);
+
+        fetchUserSelectedBenefits()(dispatch, getState);
+
+        setTimeout(() => {
+          expect(
+            dispatch.secondCall.calledWith({
+              type: FETCH_USER_PREFERENCES_FAILED,
+            }),
+          ).to.be.true;
+          done();
+        }, 0);
+      });
+
+      it(`should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED action on request success`, done => {
+        const response = {
+          data: {
+            attributes: {
+              userPreferences: [
+                {
+                  code: 'benefits',
+                  userPreferences: [
+                    {
+                      code: 'pensions',
+                      description: 'pension benefits',
+                    },
+                    {
+                      code: 'health-care',
+                      description: 'health care benefits',
+                    },
+                  ],
+                },
+              ],
+            },
           },
-        },
-      };
-      setFetchResponse(global.fetch.onFirstCall(), response);
+        };
+        setFetchResponse(global.fetch.onFirstCall(), response);
 
-      const dispatch = sinon.spy();
+        fetchUserSelectedBenefits()(dispatch, getState);
 
-      fetchUserSelectedBenefits()(dispatch);
-
-      setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
-          type: FETCH_USER_PREFERENCES_SUCCEEDED,
-          payload: response,
-        });
-        done();
-      }, 0);
+        setTimeout(() => {
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: FETCH_USER_PREFERENCES_SUCCEEDED,
+            payload: response,
+          });
+          done();
+        }, 0);
+      });
     });
   });
   describe('fetchAvailableBenefits', () => {
@@ -139,80 +158,100 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the FETCH_ALL_BENEFITS_STARTED action`, done => {
-      const dispatch = sinon.spy();
+    let dispatch;
+    let getState;
 
-      fetchAvailableBenefits()(dispatch);
-
-      expect(
-        dispatch.firstCall.calledWith({
-          type: FETCH_ALL_BENEFITS_STARTED,
-        }),
-      ).to.be.true;
-
-      done();
-    });
-
-    it(`should call the API`, done => {
-      const dispatch = sinon.spy();
-
-      fetchAvailableBenefits()(dispatch);
-
-      setTimeout(() => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/user/preferences/choices/benefits',
-        );
-        expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+    describe('when available preferences have been cached', () => {
+      it(`should do nothing and its thunk should return null`, done => {
+        dispatch = sinon.spy();
+        getState = sinon.stub().returns({
+          preferences: {
+            availableBenefitsCached: true,
+          },
+        });
+        const value = fetchAvailableBenefits()(dispatch, getState);
+        expect(value).to.be.null;
+        expect(dispatch.notCalled).to.be.true;
         done();
-      }, 0);
+      });
     });
 
-    it(`should dispatch the FETCH_ALL_BENEFITS_FAILED on request failure`, done => {
-      const error = { test: 'test' };
-      setFetchFailure(global.fetch.onFirstCall(), error);
+    describe('when available preferences have not been cached', () => {
+      beforeEach(() => {
+        dispatch = sinon.spy();
+        getState = sinon.stub().returns({
+          preferences: {
+            availableBenefitsCached: false,
+          },
+        });
+      });
+      it(`should immediately dispatch the FETCH_ALL_BENEFITS_STARTED action`, done => {
+        fetchAvailableBenefits()(dispatch, getState);
 
-      const dispatch = sinon.spy();
-
-      fetchAvailableBenefits()(dispatch);
-
-      setTimeout(() => {
         expect(
-          dispatch.secondCall.calledWith({
-            type: FETCH_ALL_BENEFITS_FAILED,
+          dispatch.firstCall.calledWith({
+            type: FETCH_ALL_BENEFITS_STARTED,
           }),
         ).to.be.true;
-        done();
-      }, 0);
-    });
 
-    it(`should dispatch the FETCH_ALL_BENEFITS_SUCCEEDED action on request success`, done => {
-      const response = {
-        data: {
-          attributes: {
-            code: 'benefits',
-            title: 'Available Benefits',
-            preferenceChoices: [
-              {
-                code: 'pensions',
-                description: 'pension benefits',
-              },
-            ],
+        done();
+      });
+
+      it(`should call the API`, done => {
+        fetchAvailableBenefits()(dispatch, getState);
+
+        setTimeout(() => {
+          expect(global.fetch.firstCall.args[0]).to.contain(
+            '/v0/user/preferences/choices/benefits',
+          );
+          expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+          done();
+        }, 0);
+      });
+
+      it(`should dispatch the FETCH_ALL_BENEFITS_FAILED on request failure`, done => {
+        const error = { test: 'test' };
+        setFetchFailure(global.fetch.onFirstCall(), error);
+
+        fetchAvailableBenefits()(dispatch, getState);
+
+        setTimeout(() => {
+          expect(
+            dispatch.secondCall.calledWith({
+              type: FETCH_ALL_BENEFITS_FAILED,
+            }),
+          ).to.be.true;
+          done();
+        }, 0);
+      });
+
+      it(`should dispatch the FETCH_ALL_BENEFITS_SUCCEEDED action on request success`, done => {
+        const response = {
+          data: {
+            attributes: {
+              code: 'benefits',
+              title: 'Available Benefits',
+              preferenceChoices: [
+                {
+                  code: 'pensions',
+                  description: 'pension benefits',
+                },
+              ],
+            },
           },
-        },
-      };
-      setFetchResponse(global.fetch.onFirstCall(), response);
+        };
+        setFetchResponse(global.fetch.onFirstCall(), response);
 
-      const dispatch = sinon.spy();
+        fetchAvailableBenefits()(dispatch, getState);
 
-      fetchAvailableBenefits()(dispatch);
-
-      setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
-          type: FETCH_ALL_BENEFITS_SUCCEEDED,
-          payload: response,
-        });
-        done();
-      }, 0);
+        setTimeout(() => {
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: FETCH_ALL_BENEFITS_SUCCEEDED,
+            payload: response,
+          });
+          done();
+        }, 0);
+      });
     });
   });
   describe('setPreference', () => {

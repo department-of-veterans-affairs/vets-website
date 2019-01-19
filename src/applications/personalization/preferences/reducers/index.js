@@ -18,6 +18,8 @@ import {
 } from '../actions';
 
 const initialState = {
+  selectedBenefitsCached: false,
+  availableBenefitsCached: false,
   dashboard: {},
   availableBenefits: [],
   dismissedBenefitAlerts: [],
@@ -53,6 +55,7 @@ export default function preferences(state = initialState, action) {
         ...state,
         dashboard: { ...selectedBenefits },
         savedDashboard: { ...selectedBenefits },
+        selectedBenefitsCached: true,
         userBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
@@ -77,6 +80,7 @@ export default function preferences(state = initialState, action) {
       return {
         ...state,
         availableBenefits,
+        availableBenefitsCached: true,
         allBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
@@ -95,6 +99,7 @@ export default function preferences(state = initialState, action) {
     case SAVE_USER_PREFERENCES_SUCCEEDED: {
       return {
         ...state,
+        savedDashboard: { ...state.dashboard },
         saveStatus: LOADING_STATES.loaded,
         savedAt: Date.now(),
       };

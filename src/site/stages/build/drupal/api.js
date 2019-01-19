@@ -1,7 +1,7 @@
-const { ApolloClient } = require('apollo-boost');
-const { createHttpLink } = require('apollo-link-http');
-const { InMemoryCache } = require('apollo-cache-inmemory');
 const fetch = require('node-fetch');
+
+const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
+const GET_PAGE_BY_ID = require('./graphql/GetPageById.graphql');
 
 const DRUPALS = require('../../../constants/drupals');
 
@@ -15,13 +15,33 @@ function getDrupalClient(buildOptions) {
   const { address, credentials } = DRUPALS[buildOptions.buildtype];
   const drupalUri = `${address}/graphql`;
   const encodedCredentials = encodeCredentials(credentials);
-  const headers = { Authorization: `Basic ${encodedCredentials}` };
-  const link = createHttpLink({ uri: drupalUri, fetch, headers });
+  const headers = {
+    Authorization: `Basic ${encodedCredentials}`,
+    'Content-Type': 'application/json',
+  };
 
-  const cache = new InMemoryCache();
-  const drupalClient = new ApolloClient({ link, cache });
+  return {
+    async query(args) {
+      const response = await fetch(drupalUri, {
+        headers,
+        method: 'post',
+        mode: 'cors',
+        body: JSON.stringify(args),
+      });
+      return response.json();
+    },
 
-  return drupalClient;
+    getAllPages() {
+      return this.query({ query: GET_ALL_PAGES });
+    },
+
+    getPageById(contentId) {
+      return this.query({
+        query: GET_PAGE_BY_ID,
+        variables: { path: contentId },
+      });
+    },
+  };
 }
 
 module.exports = getDrupalClient;

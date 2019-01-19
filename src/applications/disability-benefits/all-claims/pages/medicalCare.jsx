@@ -14,22 +14,26 @@ const medicalDescription = (
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': medicalDescription,
-  'view:medicalCare': {
-    'ui:title': ' ',
-    'ui:widget': 'yesNo',
-  },
   unemployability: {
+    'view:medicalCare': {
+      'ui:title': ' ',
+      'ui:widget': 'yesNo',
+    },
     underDoctorsCare: {
       'ui:title':
-        'I‘ve been under a doctor‘s care in the past 12 months for these disabilities.',
+        'I’ve been under a doctor’s care in the past 12 months for these disabilities.',
+      'ui:options': {
+        expandUnder: 'view:medicalCare',
+        expandUnderCondition: true,
+      },
     },
     hospitalized: {
       'ui:title':
-        'I‘ve spent time in a hospital in the past 12 months for these disabilities.',
-    },
-    'ui:options': {
-      expandUnder: 'view:medicalCare',
-      expandUnderCondition: true,
+        'I’ve spent time in a hospital in the past 12 months for these disabilities.',
+      'ui:options': {
+        expandUnder: 'view:medicalCare',
+        expandUnderCondition: true,
+      },
     },
   },
 };
@@ -37,12 +41,12 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:medicalCare': {
-      type: 'boolean',
-    },
     unemployability: {
       type: 'object',
       properties: {
+        'view:medicalCare': {
+          type: 'boolean',
+        },
         underDoctorsCare: {
           type: 'boolean',
         },
