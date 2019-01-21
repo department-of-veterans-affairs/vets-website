@@ -1,5 +1,6 @@
 import '../../platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
+import Raven from 'raven-js';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
@@ -62,68 +63,83 @@ import './sass/static-pages.scss';
 import './sidebar-navigation.js';
 
 const store = createCommonStore();
-startSitewideComponents(store);
+Raven.context(
+  {
+    tags: { source: 'site-wide' },
+  },
+  () => {
+    startSitewideComponents(store);
+  },
+);
 
-createAdditionalInfoWidget();
+Raven.context(
+  {
+    tags: { source: 'static-pages' },
+  },
+  () => {
+    createAdditionalInfoWidget();
 
-if (pensionPages.has(location.pathname)) {
-  createApplicationStatus(store, {
-    formId: '21P-527EZ',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyLink: '/pension/how-to-apply/',
-    applyText: 'Apply for Veterans Pension Benefits',
-  });
-}
+    if (pensionPages.has(location.pathname)) {
+      createApplicationStatus(store, {
+        formId: '21P-527EZ',
+        applyHeading: 'How do I apply?',
+        additionalText: 'You can apply online right now.',
+        applyLink: '/pension/how-to-apply/',
+        applyText: 'Apply for Veterans Pension Benefits',
+      });
+    }
 
-if (healthcarePages.has(location.pathname)) {
-  createApplicationStatus(store, {
-    formId: '1010ez',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyLink: '/health-care/how-to-apply/',
-    applyText: 'Apply for Health Care Benefits',
-  });
-}
+    if (healthcarePages.has(location.pathname)) {
+      createApplicationStatus(store, {
+        formId: '1010ez',
+        applyHeading: 'How do I apply?',
+        additionalText: 'You can apply online right now.',
+        applyLink: '/health-care/how-to-apply/',
+        applyText: 'Apply for Health Care Benefits',
+      });
+    }
 
-if (ctaTools.has(location.pathname)) {
-  createCallToActionWidget(store);
-}
+    if (ctaTools.has(location.pathname)) {
+      createCallToActionWidget(store);
+    }
 
-if (eduPages.has(location.pathname)) {
-  createEducationApplicationStatus(store);
-}
+    if (eduPages.has(location.pathname)) {
+      createEducationApplicationStatus(store);
+    }
 
-if (location.pathname === eduOptOutPage) {
-  createOptOutApplicationStatus(store);
-}
+    if (location.pathname === eduOptOutPage) {
+      createOptOutApplicationStatus(store);
+    }
 
-if (burialPages.has(location.pathname)) {
-  createApplicationStatus(store, {
-    formId: '21P-530',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyText: 'Apply for Burial Benefits',
-  });
-}
+    if (burialPages.has(location.pathname)) {
+      createApplicationStatus(store, {
+        formId: '21P-530',
+        applyHeading: 'How do I apply?',
+        additionalText: 'You can apply online right now.',
+        applyText: 'Apply for Burial Benefits',
+      });
+    }
 
-if (disabilityPages.has(location.pathname)) {
-  createDisabilityIncreaseApplicationStatus(store);
-}
+    if (disabilityPages.has(location.pathname)) {
+      createDisabilityIncreaseApplicationStatus(store);
+    }
 
-if (
-  location.pathname === '/disability-benefits/apply/form-526-disability-claim/'
-) {
-  create526EmailForm(store);
-}
+    if (
+      location.pathname ===
+      '/disability-benefits/apply/form-526-disability-claim/'
+    ) {
+      create526EmailForm(store);
+    }
 
-// homepage widgets
-if (location.pathname === '/') {
-  createMyVALoginWidget(store);
-}
+    // homepage widgets
+    if (location.pathname === '/') {
+      createMyVALoginWidget(store);
+    }
 
-/* eslint-disable no-unused-vars,camelcase */
-const lazyLoad = new LazyLoad({
-  elements_selector: '.lazy',
-});
-/* eslint-enable */
+    /* eslint-disable no-unused-vars,camelcase */
+    const lazyLoad = new LazyLoad({
+      elements_selector: '.lazy',
+    });
+    /* eslint-enable */
+  },
+);
