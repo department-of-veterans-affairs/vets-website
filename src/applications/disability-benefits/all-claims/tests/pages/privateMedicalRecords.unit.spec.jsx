@@ -37,9 +37,9 @@ describe('526 All Claims Private medical records', () => {
       />,
     );
 
-    expect(form.find('#root_privateMedicalRecords_add_label').length).to.equal(
-      0,
-    );
+    expect(
+      form.find('#root_privateMedicalRecordAttachments_add_label').length,
+    ).to.equal(0);
     form.unmount();
   });
 
@@ -58,9 +58,9 @@ describe('526 All Claims Private medical records', () => {
       />,
     );
 
-    expect(form.find('#root_privateMedicalRecords_add_label').length).to.equal(
-      1,
-    );
+    expect(
+      form.find('#root_privateMedicalRecordAttachments_add_label').length,
+    ).to.equal(1);
     form.unmount();
   });
 
@@ -122,7 +122,7 @@ describe('526 All Claims Private medical records', () => {
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': true,
           },
-          privateMedicalRecords: [{ confirmationCode: '123345asdf' }],
+          privateMedicalRecordAttachments: [{ confirmationCode: '123345asdf' }],
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -146,7 +146,7 @@ describe('526 All Claims Private medical records', () => {
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': true,
           },
-          privateMedicalRecords: [
+          privateMedicalRecordAttachments: [
             {
               name: 'Test document.pdf',
               attachmentId: 'L107',

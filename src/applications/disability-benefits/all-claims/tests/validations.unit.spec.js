@@ -65,12 +65,12 @@ describe('526 All Claims validations', () => {
         const formData = {
           ratedDisabilities: [
             {
-              'view:unemployabilityDisability': true,
+              unemployabilityDisability: true,
             },
           ],
           newDisabilities: [
             {
-              'view:unemployabilityDisability': false,
+              unemployabilityDisability: false,
             },
           ],
         };

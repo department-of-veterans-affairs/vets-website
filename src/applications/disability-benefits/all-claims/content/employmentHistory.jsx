@@ -2,7 +2,7 @@ import React from 'react';
 
 export const employmentDescription = (
   <div>
-    <h3>Employment history</h3>
+    <h4>Employment history</h4>
     <p>
       Now we’re going to ask you about your employment history. Please enter
       your most recent employer first and work back through the past 5 years. Be
