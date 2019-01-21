@@ -13,4 +13,5 @@ startApp({
   reducer,
   routes,
   analyticsEvents,
+  entryName: manifest.entryName,
 });

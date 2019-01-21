@@ -34,7 +34,7 @@ export default function startApp({
   reducer,
   url,
   analyticsEvents,
-  entryName,
+  entryName = 'unknown',
 }) {
   const store = createCommonStore(reducer, analyticsEvents);
 
@@ -50,7 +50,7 @@ export default function startApp({
     });
   }
 
-  Raven.wrap(
+  Raven.context(
     {
       tags: { source: 'site-wide' },
     },
@@ -64,7 +64,7 @@ export default function startApp({
     content = <Router history={history}>{routes}</Router>;
   }
 
-  Raven.wrap(
+  Raven.context(
     {
       tags: { source: entryName },
     },

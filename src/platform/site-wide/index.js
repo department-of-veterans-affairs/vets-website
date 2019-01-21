@@ -16,8 +16,6 @@ import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
-require('./usa-banner-toggle');
-
 import(/* webpackChunkName: "uswds" */ 'uswds');
 
 /**

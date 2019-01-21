@@ -63,7 +63,7 @@ import './sass/static-pages.scss';
 import './sidebar-navigation.js';
 
 const store = createCommonStore();
-Raven.wrap(
+Raven.context(
   {
     tags: { source: 'site-wide' },
   },
@@ -72,7 +72,7 @@ Raven.wrap(
   },
 );
 
-Raven.wrap(
+Raven.context(
   {
     tags: { source: 'static-pages' },
   },
