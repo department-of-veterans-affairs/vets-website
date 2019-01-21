@@ -45,7 +45,8 @@ const configGenerator = (buildOptions, apps) => {
 
   const enableCSSSourcemaps =
     buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
-    buildOptions['local-css-sourcemaps'];
+    buildOptions['local-css-sourcemaps'] ||
+    buildOptions.entry;
 
   const baseConfig = {
     mode: 'development',
