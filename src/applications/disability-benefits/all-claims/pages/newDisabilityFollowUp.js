@@ -72,7 +72,7 @@ export const uiSchema = {
       },
       primaryDescription: {
         'ui:title':
-          'Please briefly describe the injury or exposure that caused your condition. (For example, I operated loud machinery while in the Army, and this caused me to lose my hearing.) (400 characters maximum)',
+          'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the Army, and this caused me to lose my hearing. (400 characters maximum)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
           formData.newDisabilities[index].cause === 'NEW',
@@ -165,7 +165,7 @@ export const uiSchema = {
         },
         vaMistreatmentDate: {
           'ui:title':
-            'Please tell us when this happened (If you’re having trouble remembering the exact date you can provide a year.) (25 characters maximum)',
+            'Please tell us when this happened. If you’re having trouble remembering the exact date you can provide a year. (25 characters maximum)',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
