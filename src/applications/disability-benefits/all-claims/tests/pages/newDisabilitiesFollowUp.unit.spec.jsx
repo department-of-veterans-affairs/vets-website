@@ -363,17 +363,17 @@ describe('New disabilities follow up info', () => {
     selectRadio(form, 'root_cause', 'VA');
     fillData(
       form,
-      'textarea[id="root_view:VAFollowUp_VAMistreatmentDescription"]',
+      'textarea[id="root_view:VAFollowUp_vaMistreatmentDescription"]',
       longText,
     );
     fillData(
       form,
-      'input[id="root_view:VAFollowUp_VAMistreatmentLocation"]',
+      'input[id="root_view:VAFollowUp_vaMistreatmentLocation"]',
       longText,
     );
     fillData(
       form,
-      'input[id="root_view:VAFollowUp_VAMistreatmentDate"]',
+      'input[id="root_view:VAFollowUp_vaMistreatmentDate"]',
       longText,
     );
 
