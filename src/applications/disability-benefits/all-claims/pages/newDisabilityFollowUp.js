@@ -17,11 +17,11 @@ const {
   causedByDisability,
   causedByDisabilityDescription,
   primaryDescription,
-  VAMistreatmentDate,
+  vaMistreatmentDate,
   worsenedDescription,
   worsenedEffects,
-  VAMistreatmentDescription,
-  VAMistreatmentLocation,
+  vaMistreatmentDescription,
+  vaMistreatmentLocation,
 } = fullSchema.definitions.newDisabilities.items.properties;
 
 const getDisabilitiesList = createSelector(
@@ -146,7 +146,7 @@ export const uiSchema = {
           expandUnder: 'cause',
           expandUnderCondition: 'VA',
         },
-        VAMistreatmentDescription: {
+        vaMistreatmentDescription: {
           'ui:title':
             'Please briefly describe the injury or event while you were under VA care that caused your disability. (350 characters maximum)',
           'ui:widget': 'textarea',
@@ -155,7 +155,7 @@ export const uiSchema = {
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(350)],
         },
-        VAMistreatmentLocation: {
+        vaMistreatmentLocation: {
           'ui:title':
             'Please tell us where this happened. (25 characters maximum)',
           'ui:required': (formData, index) =>
@@ -163,7 +163,7 @@ export const uiSchema = {
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(25)],
         },
-        VAMistreatmentDate: {
+        vaMistreatmentDate: {
           'ui:title':
             'Please tell us when this happened (If you’re having trouble remembering the exact date you can provide a year.) (25 characters maximum)',
           'ui:required': (formData, index) =>
@@ -204,9 +204,9 @@ export const schema = {
           'view:VAFollowUp': {
             type: 'object',
             properties: {
-              VAMistreatmentDescription,
-              VAMistreatmentLocation,
-              VAMistreatmentDate,
+              vaMistreatmentDescription,
+              vaMistreatmentLocation,
+              vaMistreatmentDate,
             },
           },
         },
