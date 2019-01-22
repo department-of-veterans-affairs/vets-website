@@ -5,7 +5,6 @@ const { fullName } = fullSchema0994.definitions;
 
 const {
   vetTecProgramLocations,
-  vetTecProgram,
   highTechnologyEmploymentType,
   currentSalary,
 } = fullSchema0994.properties;
@@ -86,15 +85,6 @@ export const uiSchema = {
     },
     vetTecProgram: {
       'ui:title': 'Select the VET TEC program and provider you wish to attend',
-      'ui:options': {
-        labels: {
-          program1: 'Program 1',
-          program2: 'Program 2',
-          program3: 'Program 3',
-          program4: 'Program 4',
-          program5: 'Program 5',
-        },
-      },
     },
     vetTecProgramLocations: {
       'ui:title': 'Location of where you plan or will take training',
@@ -206,7 +196,9 @@ export const schema = {
           type: 'string',
           pattern: '^\\d{9}$',
         },
-        vetTecProgram,
+        vetTecProgram: {
+          type: 'string',
+        },
         vetTecProgramLocations: {
           type: 'object',
           properties: vetTecProgramLocations.properties,

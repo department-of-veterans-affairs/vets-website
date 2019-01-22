@@ -1,9 +1,3 @@
-import {
-  uiSchema as vetTecInfoUISchema,
-  schema as vetTecInfoSchema,
-} from './vetTecInfo';
+import * as vetTecInfo from './vetTecInfo';
 
-export const vetTecInfo = {
-  uiSchema: vetTecInfoUISchema,
-  schema: vetTecInfoSchema,
-};
+export { vetTecInfo };
