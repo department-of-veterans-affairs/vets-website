@@ -95,7 +95,7 @@ export default function PreferenceItem({
           className="va-button-link"
           onClick={() => handleViewToggle(code)}
         >
-          <i className="fa fa-close" /> <span>Remove</span>
+          <i className="fas fa-times" /> <span>Remove</span>
         </button>
       </div>
       <p className="va-introtext">{introduction}</p>
