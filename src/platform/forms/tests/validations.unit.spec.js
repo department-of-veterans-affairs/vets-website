@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { spy } from 'sinon';
 import moment from 'moment';
 
 import {
@@ -16,6 +17,7 @@ import {
   isValidPartialMonthYearRange,
   isValidSSN,
   validateCustomFormComponent,
+  validateLength,
 } from '../validations';
 
 describe('Validations unit tests', () => {
@@ -500,6 +502,24 @@ describe('Validations unit tests', () => {
             .toString(),
         ),
       ).to.be.false;
+    });
+  });
+
+  describe('validateLength', () => {
+    it('should return a validation function', () => {
+      expect(validateLength(10)).to.be.a('function');
+    });
+
+    it('should add an error if the input length is too large', () => {
+      const errors = { addError: spy() };
+      validateLength(4)(errors, 'More than four characters');
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not add an error if the input length is not too large', () => {
+      const errors = { addError: spy() };
+      validateLength(40)(errors, 'Less than forty characters');
+      expect(errors.addError.called).to.be.false;
     });
   });
 });
