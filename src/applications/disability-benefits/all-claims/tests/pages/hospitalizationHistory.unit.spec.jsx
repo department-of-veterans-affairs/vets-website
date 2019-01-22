@@ -30,7 +30,7 @@ describe('Hospitalization Interview Questions', () => {
     );
 
     expect(form);
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -52,7 +52,7 @@ describe('Hospitalization Interview Questions', () => {
     //  No fields are required
     fillData(
       form,
-      'input#root_unemployability_hospitalizationHistory_0_hospitalName',
+      'input#root_unemployability_hospitalProvidedCare_0_name',
       'Local facility',
     );
 

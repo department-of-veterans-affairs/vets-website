@@ -18,7 +18,7 @@ export const uiSchema = {
   ),
   'ui:description': additionalDescriptionChanges,
   additionalChanges: {
-    'ui:title': ' ',
+    'ui:title': 'Enter other behavior changes',
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,

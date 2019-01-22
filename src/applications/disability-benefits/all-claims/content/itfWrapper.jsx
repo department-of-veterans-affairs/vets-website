@@ -35,6 +35,18 @@ const expander = (
   </AdditionalInfo>
 );
 
+export const claimsIntakeAddress = (
+  <p className="va-address-block">
+    Department of Veterans Affairs
+    <br />
+    Claims Intake Center
+    <br />
+    PO Box 4444
+    <br />
+    Janesville, WI 53547-4444
+  </p>
+);
+
 export const itfError = (
   <div>
     <div>
@@ -46,15 +58,7 @@ export const itfError = (
         a.m. – 9:00 a.m. (ET). Or, you can fill out VA Form 21-0966 and submit
         it to:
       </p>
-      <p>
-        Department of Veterans Affairs
-        <br />
-        Claims Intake Center
-        <br />
-        PO Box 4444
-        <br />
-        Janesville, WI 53547-4444
-      </p>
+      {claimsIntakeAddress}
     </div>
     {expander}
   </div>

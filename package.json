@@ -53,6 +53,7 @@
     "test:integration": "jest -c=config/jest-integration.config.js",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
+    "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build.js --watch --local-css-sourcemaps",
     "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
@@ -183,12 +184,9 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.16.2",
+    "@department-of-veterans-affairs/formation": "^1.18.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@octokit/rest": "^16.2.0",
-    "apollo-boost": "^0.1.23",
-    "apollo-cache-inmemory": "^1.3.12",
-    "apollo-link-http": "^1.5.9",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
     "classlist-polyfill": "^1.0.3",
@@ -202,7 +200,6 @@
     "fine-uploader": "^5.11.8",
     "font-awesome": "^4.6.3",
     "foundation-sites": "^5.5.3",
-    "graphql": "^14.0.2",
     "gray-matter": "^4.0.1",
     "history": "3",
     "ismobilejs": "^0.4.0",
@@ -242,10 +239,10 @@
     "reselect": "^2.5.4",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
-    "us-forms-system": "https://github.com/usds/us-forms-system.git#da7a7ee754bbd11047366566934ae585f150089a",
+    "us-forms-system": "https://github.com/usds/us-forms-system.git#2b44328ec265a17f78d150ff07fce57a96e437b9",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bd461ead9c52d12f1e496e8c7f68faa064320df",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fb28c9645269be8e5913e536c8c06fb0c2384b06",
     "whatwg-fetch": "^2.0.3"
   }
 }

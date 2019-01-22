@@ -20,7 +20,10 @@
     "jest": true,
   },
   "globals": {
-    "PerformanceObserver": true
+    "PerformanceObserver": true,
+    "__BUILDTYPE__": true,
+    "__API__": true,
+    "__MEGAMENU_CONFIG__": true
   },
   "rules": {
     // Override airbnb style.

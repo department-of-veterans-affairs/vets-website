@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-continue */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -6,7 +6,6 @@ const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
-const GET_ALL_PAGES = require('./get-all-pages.graphql');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -24,6 +23,24 @@ const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 // eslint-disable-next-line no-console
 const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
 
+function writeDrupalIndexPage(files) {
+  log('Drupal index page written to /drupal.');
+
+  const drupalPages = Object.keys(files)
+    .filter(page => page.startsWith('drupal'))
+    .map(page => `<li><a href="/${page}">/${page}</a></li>`)
+    .join('');
+
+  const drupalIndex = `
+    <h1>The following pages were provided by Drupal:</h1>
+    <ol>${drupalPages}</ol>
+  `;
+
+  files['drupal/index.html'] = {
+    contents: Buffer.from(drupalIndex),
+  };
+}
+
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
@@ -31,31 +48,29 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     },
   } = contentData;
 
-  let drupalIndexPage =
-    '<h1>The following pages were provided by Drupal:</h1><ol>\n';
-
   for (const page of pages) {
+    // At this time, null values are returned for pages that are not yet published.
+    // Once the Content-Preview server is up and running, then unpublished pages should
+    // reliably return like any other page and we can delete this.
+    if (!page) {
+      log('Skipping null entity...');
+      continue;
+    }
+
     const {
       entityUrl: { path: drupalPagePath },
+      entityBundle,
     } = page;
 
-    const jsonPath = `drupal${drupalPagePath}.json`;
-
-    drupalIndexPage += `<li><a href="/${jsonPath}">${drupalPagePath}</a></li>`;
-
-    files[jsonPath] = {
+    files[`drupal${drupalPagePath}/index.html`] = {
       ...page,
-      contents: Buffer.from(JSON.stringify(page, null, 4)),
+      layout: `${entityBundle}.drupal.liquid`,
+      contents: Buffer.from('<!-- Drupal-provided data -->'),
+      debug: JSON.stringify(page, null, 4),
     };
   }
 
-  drupalIndexPage += '</ol>';
-
-  files['drupal/index.html'] = {
-    contents: Buffer.from(drupalIndexPage),
-  };
-
-  log('Drupal index page written to /drupal.');
+  writeDrupalIndexPage(files);
 }
 
 async function loadDrupal(buildOptions) {
@@ -78,7 +93,7 @@ async function loadDrupal(buildOptions) {
 
     const contentApi = getApiClient(buildOptions);
 
-    drupalPages = await contentApi.query({ query: GET_ALL_PAGES });
+    drupalPages = await contentApi.getAllPages();
 
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
@@ -113,12 +128,14 @@ function getDrupalContent(buildOptions) {
         drupalData = await loadDrupal(buildOptions);
       }
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      log('Successfully piped Drupal content into Metalsmith!');
+      done();
     } catch (err) {
       log('Failed to pipe Drupal content into Metalsmith!');
-      done(err);
+      log('Continuing with build anyway...');
+      // done(err);
+      done();
     }
-    log('Successfully piped Drupal content into Metalsmith!');
-    done();
   };
 }
 

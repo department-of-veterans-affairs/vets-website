@@ -13,20 +13,22 @@ class SignInProfileMenu extends React.Component {
     const icon = <IconUser color="#fff" role="presentation" />;
 
     return (
-      <DropDownPanel
-        buttonText={this.props.greeting}
-        clickHandler={this.props.clickHandler}
-        id="account-menu"
-        icon={icon}
-        isOpen={this.props.isOpen}
-        disabled={this.props.disabled}
-      >
-        {isPersonalizationEnabled() ? (
-          <PersonalizationDropdown />
-        ) : (
-          <LegacyDropdown />
-        )}
-      </DropDownPanel>
+      <div>
+        <DropDownPanel
+          buttonText={this.props.greeting}
+          clickHandler={this.props.clickHandler}
+          id="account-menu"
+          icon={icon}
+          isOpen={this.props.isOpen}
+          disabled={this.props.disabled}
+        >
+          {isPersonalizationEnabled() ? (
+            <PersonalizationDropdown />
+          ) : (
+            <LegacyDropdown />
+          )}
+        </DropDownPanel>
+      </div>
     );
   }
 }
@@ -34,7 +36,10 @@ class SignInProfileMenu extends React.Component {
 SignInProfileMenu.propTypes = {
   clickHandler: PropTypes.func.isRequired,
   cssClass: PropTypes.string,
-  greeting: PropTypes.node,
+  greeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   isOpen: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
 };

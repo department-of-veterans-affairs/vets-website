@@ -345,6 +345,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp"
               target="_blank"
+              rel="noopener"
             >
               Download the VSOC fact sheet.
             </a>
@@ -353,6 +354,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/vocrehab/vsoc.asp"
               target="_blank"
+              rel="noopener"
             >
               Learn more about the VSOC program.
             </a>
@@ -545,17 +547,26 @@ export class Modals extends React.Component {
             <a
               href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
               target="_blank"
+              rel="noopener"
             >
               Heightened Cash Monitoring
             </a>
           </p>
           <p>
-            <a href="http://ope.ed.gov/accreditation/" target="_blank">
+            <a
+              href="http://ope.ed.gov/accreditation/"
+              target="_blank"
+              rel="noopener"
+            >
               Accreditation
             </a>
           </p>
           <p>
-            <a href="https://www.dodmou.com/Home/Faq" target="_blank">
+            <a
+              href="https://www.dodmou.com/Home/Faq"
+              target="_blank"
+              rel="noopener"
+            >
               DoD Probation For Military Tuition Assistance
             </a>
           </p>
@@ -563,6 +574,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university"
               target="_blank"
+              rel="noopener"
             >
               Federal Trade Commission Filed Suit for Deceptive Advertising
             </a>
@@ -571,6 +583,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and"
               target="_blank"
+              rel="noopener"
             >
               Settlement reached with the Federal Trade Commission (FTC)
             </a>
@@ -579,6 +592,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
+              rel="noopener"
             >
               Suspended for 85/15 violation – Flight Program
             </a>
@@ -587,6 +601,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
+              rel="noopener"
             >
               Denial of Recertification Application to Participate in the
               Federal Student Financial Assistance Programs
@@ -596,6 +611,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS"
               target="_blank"
+              rel="noopener"
             >
               School operating under provisional accreditation (previously
               accredited by ACICS)
@@ -606,6 +622,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
+              rel="noopener"
             >
               "About this Tool"
             </a>{' '}
@@ -636,6 +653,7 @@ export class Modals extends React.Component {
               href="http://nces.ed.gov/ipeds/datacenter/"
               id="anch_442"
               target="blank"
+              rel="noopener"
             >
               IPEDS
             </a>
@@ -644,6 +662,7 @@ export class Modals extends React.Component {
               href="http://nces.ed.gov/collegenavigator/"
               id="anch_443"
               target="blank"
+              rel="noopener"
             >
               College Navigator
             </a>
@@ -656,6 +675,7 @@ export class Modals extends React.Component {
                 'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'
               }
               target="_blank"
+              rel="noopener"
             >
               About This Tool
             </a>
@@ -685,6 +705,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION"
               target="_blank"
+              rel="noopener"
             >
               Click here for more information.
             </a>
@@ -710,6 +731,7 @@ export class Modals extends React.Component {
               title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
               target="_blank"
+              rel="noopener"
             >
               this page.
             </a>
@@ -804,6 +826,7 @@ export class Modals extends React.Component {
               title="For more information about MHA increases or decreases click here"
               href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
               target="_blank"
+              rel="noopener"
             >
               this page
             </a>
@@ -836,6 +859,7 @@ export class Modals extends React.Component {
             <a
               href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
               target="_blank"
+              rel="noopener"
             >
               this page
             </a>
@@ -916,6 +940,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
               target="_blank"
+              rel="noopener"
             >
               this page
             </a>
@@ -948,6 +973,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
               target="_blank"
+              rel="noopener"
             >
               this page
             </a>
@@ -973,6 +999,7 @@ export class Modals extends React.Component {
               href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
               id="anch_399"
               target="_blank"
+              rel="noopener"
             >
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>
@@ -997,6 +1024,7 @@ export class Modals extends React.Component {
               href="https://www.benefits.va.gov/gibill/reap.asp"
               id="anch_403"
               target="_blank"
+              rel="noopener"
             >
               https://www.benefits.va.gov/gibill/reap.asp
             </a>

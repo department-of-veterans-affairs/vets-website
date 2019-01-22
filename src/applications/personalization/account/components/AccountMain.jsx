@@ -129,12 +129,6 @@ class AccountMain extends React.Component {
         <LoginSettings />
         {verified && <TermsAndConditions mhvAccount={mhvAccount} />}
 
-        <h3>Connected accounts</h3>
-        <p>
-          Manage the sites and applications that you've granted access to your
-          {propertyName} profile data.
-        </p>
-        <a href="/account/connected-accounts">Manage your connected accounts</a>
         <div className="feature">
           <h3>Have questions about signing in to {propertyName}?</h3>
           <p>

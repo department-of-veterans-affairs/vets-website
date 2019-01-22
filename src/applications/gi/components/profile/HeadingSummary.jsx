@@ -42,6 +42,7 @@ class HeadingSummary extends React.Component {
                 Are you enrolled in this school?{' '}
                 <a
                   href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
+                  rel="noopener"
                   target="_blank"
                 >
                   Find out if you qualify to have your benefits restored.
@@ -67,7 +68,15 @@ class HeadingSummary extends React.Component {
           <div className="column">
             <p>
               <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
-              (<a onClick={this.props.onLearnMore}>Learn more</a>)
+              (
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onLearnMore}
+              >
+                Learn more
+              </button>
+              )
             </p>
           </div>
           <div>

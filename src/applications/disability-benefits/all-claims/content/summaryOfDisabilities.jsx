@@ -1,6 +1,5 @@
 import React from 'react';
-import { capitalizeEachWord } from '../utils';
-import { isDisabilityPtsd } from '../validations';
+import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
@@ -32,11 +31,12 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
         .filter(disability => disability['view:selected'])
         .map(disability => capitalizeEachWord(disability.name))
     : [];
-  const newDisabilityNames = newDisabilities
-    ? newDisabilities.map(disability =>
-        capitalizeEachWord(disability.condition),
-      )
-    : [];
+  const newDisabilityNames =
+    newDisabilities && formData['view:newDisabilities']
+      ? newDisabilities.map(disability =>
+          capitalizeEachWord(disability.condition),
+        )
+      : [];
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));

@@ -108,10 +108,12 @@ class SideBarMenu {
     this.lastTabbableElement.addEventListener('keydown', this.captureFocus);
   }
   removeListeners() {
-    this.lastAccordionButton.removeEventListener(
-      'keydown',
-      this.checkAccordionFocus,
-    );
+    if (this.lastAccordionButton) {
+      this.lastAccordionButton.removeEventListener(
+        'keydown',
+        this.checkAccordionFocus,
+      );
+    }
     this.closeControl.removeEventListener('keydown', this.captureFocus);
     this.lastTabbableElement.removeEventListener('keydown', this.captureFocus);
   }
