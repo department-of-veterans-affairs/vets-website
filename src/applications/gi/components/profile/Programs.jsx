@@ -91,9 +91,13 @@ export class Programs extends React.Component {
       '';
 
     const label = program.modal ? (
-      <a onClick={this.props.onShowModal.bind(this, program.modal)}>
+      <button
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={this.props.onShowModal.bind(this, program.modal)}
+      >
         {program.text}
-      </a>
+      </button>
     ) : (
       program.text
     );

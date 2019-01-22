@@ -16,7 +16,7 @@ export default function ConsolidatedClaims({ onClose }) {
         aria-label="Close this modal"
         onClick={onClose}
       >
-        <i className="fa fa-close" />
+        <i className="fas fa-times-circle" />
       </button>
       <div>
         If you turn in a new claim while we’re reviewing another one from you,

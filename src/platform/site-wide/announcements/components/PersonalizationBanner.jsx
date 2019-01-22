@@ -15,7 +15,7 @@ export default function PersonalizationBanner({ dismiss, isLoggedIn }) {
         onClick={dismiss}
         className="va-modal-close"
       >
-        <i className="fa fa-close" />
+        <i className="fas fa-times-circle" />
       </button>
     </div>
   );
