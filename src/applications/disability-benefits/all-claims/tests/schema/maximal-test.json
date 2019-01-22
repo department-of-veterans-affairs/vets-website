@@ -12,7 +12,7 @@
     "waiveTrainingPay": true,
     "view:waiveRetirementPayDescription": {},
     "waiveRetirementPay": false,
-    "isVAEmployee": true,
+    "isVaEmployee": true,
     "homelessOrAtRisk": "atRisk",
     "view:isAtRisk": {
       "atRiskHousingSituation": "other",

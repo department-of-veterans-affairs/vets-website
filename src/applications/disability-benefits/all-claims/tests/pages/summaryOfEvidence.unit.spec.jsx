@@ -40,7 +40,7 @@ describe('Summary of Evidence', () => {
     },
   ];
 
-  const privateMedicalRecords = [
+  const privateMedicalRecordAttachments = [
     { name: 'TestFile.png' },
     { name: 'hospital records.pdf' },
   ];
@@ -93,7 +93,7 @@ describe('Summary of Evidence', () => {
         data={{
           'view:hasEvidence': false,
           vaTreatmentFacilities,
-          privateMedicalRecords,
+          privateMedicalRecordAttachments,
           additionalDocuments,
           providerFacility: privateFacilities,
         }}
@@ -122,7 +122,7 @@ describe('Summary of Evidence', () => {
             'view:selectableEvidenceTypes': {},
           },
           vaTreatmentFacilities,
-          privateMedicalRecords,
+          privateMedicalRecordAttachments,
           additionalDocuments,
           providerFacility: privateFacilities,
         }}
@@ -198,7 +198,7 @@ describe('Summary of Evidence', () => {
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': true,
           },
-          privateMedicalRecords,
+          privateMedicalRecordAttachments,
         }}
       />,
     );
@@ -210,13 +210,13 @@ describe('Summary of Evidence', () => {
         .at(0)
         .render()
         .text(),
-    ).to.contain(privateMedicalRecords[0].name);
+    ).to.contain(privateMedicalRecordAttachments[0].name);
     expect(
       list
         .at(1)
         .render()
         .text(),
-    ).to.contain(privateMedicalRecords[1].name);
+    ).to.contain(privateMedicalRecordAttachments[1].name);
     form.unmount();
   });
 
@@ -261,7 +261,7 @@ describe('Summary of Evidence', () => {
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': false,
           },
-          privateMedicalRecords,
+          privateMedicalRecordAttachments,
         }}
       />,
     );

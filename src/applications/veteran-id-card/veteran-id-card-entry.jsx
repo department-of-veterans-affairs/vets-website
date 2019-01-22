@@ -15,4 +15,5 @@ startApp({
       <Main />
     </VeteranIDCard>
   ),
+  entryName: 'veteran-id-card',
 });
