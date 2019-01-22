@@ -29,8 +29,9 @@ You can also use an application called Charles Proxy to map the `proxy-rewrite` 
 ## Teamsite Visual Regression Testing
 
 Both scripts compare production Teamsite header and footer against images in `vets-website` repo
-`npm run vrt` - test fails and generates diff images when images differ
-`npm run vrt:baseline` - test always succeeds and replaces existing baseline images when images differ
+
+- `npm run vrt` - test fails and generates diff images when images differ
+- `npm run vrt:baseline` - test always succeeds and replaces existing baseline images when images differ
 
 - If no baseline images exist for a test, both scripts will
   - succeed on each test that has no baseline image and
