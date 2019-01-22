@@ -53,6 +53,7 @@
     "test:integration": "jest -c=config/jest-integration.config.js",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
+    "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build.js --watch --local-css-sourcemaps",
     "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
