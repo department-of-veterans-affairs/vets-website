@@ -137,7 +137,9 @@ const enterData = async (page, field, fieldData, log) => {
  *  it will only enter data into new fields (in the event that some fields have been
  *  expanded);
  */
-const fillPage = async (page, testData, testConfig, log) => {
+const fillPage = async (page, testData, testConfig, log = () => {}) => {
+  // TODO: Make make log use getLogger
+  // TODO: Remove testConfig from params
   const touchedFields = new Set();
 
   // Continue to fill out the fields until there are new fields shown
@@ -244,13 +246,13 @@ const fillForm = async (page, testData, testConfig, log) => {
         await page.waitFor(300);
         await fillPage(page, testData, testConfig, log);
       }
+    }
 
-      if (page.url() === url) {
-        try {
-          await page.waitForNavigation({ timeout: 1000 });
-        } catch (e) {
-          throw new Error(`Expected to navigate away from ${url}`);
-        }
+    if (page.url() === url) {
+      try {
+        await page.waitForNavigation({ timeout: 1000 });
+      } catch (e) {
+        throw new Error(`Expected to navigate away from ${url}`);
       }
     }
   }
