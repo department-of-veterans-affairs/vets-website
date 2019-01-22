@@ -17,15 +17,18 @@ const findData = (fieldSelector, testData) => {
 };
 
 const getElementSelector = (field, fieldData) => {
+  const inputSelector = `input[name="${field.selector}"]`;
   const selectors = {
     'select-one': `select[name="${field.selector}"]`,
     checkbox: `input[id="${field.selector}"]${
       fieldData ? ':not(checked)' : ':checked'
     }`,
-    tel: `input[name="${field.selector}"]`,
-    textarea: `input[name="${field.selector}"]`,
-    text: `input[name="${field.selector}"]`,
-    radio: `input[name="${field.selector}"][value="${
+    tel: inputSelector,
+    textarea: inputSelector,
+    text: inputSelector,
+    email: inputSelector,
+    number: inputSelector,
+    radio: `${inputSelector}[value="${
       // Use 'Y' / 'N' because of the yesNo widget
       // eslint-disable-next-line no-nested-ternary
       typeof fieldData === 'boolean' ? (fieldData ? 'Y' : 'N') : fieldData
@@ -33,7 +36,7 @@ const getElementSelector = (field, fieldData) => {
     // Date has two or three elements, but should always have a year
     // Return a valid selector so it doesn't get skippeG
     date: `input[name="${field.selector}Year"]`,
-    file: `input[id="${field.selector}"]`,
+    file: inputSelector,
   };
   if (!selectors[field.type]) {
     throw new Error(
@@ -78,12 +81,14 @@ const enterData = async (page, field, fieldData, log) => {
     }
     case 'tel':
     case 'textarea':
+    case 'email':
+    case 'number':
     case 'text': {
       // Clear text before typing
       await page.evaluate(sel => {
         document.querySelector(sel).value = '';
       }, selector);
-      await page.type(selector, fieldData);
+      await page.type(selector, `${fieldData}`);
       // Get the autocomplete menu out of the way
       const role = await page.$eval(selector, textbox =>
         textbox.getAttribute('role'),
