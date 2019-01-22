@@ -10,8 +10,6 @@ import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { vetTecInfo } from '../pages';
-
 import { prefillTransformer, transform } from '../helpers';
 
 const formConfig = {
@@ -40,14 +38,7 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Vet Tec Application',
-      pages: {
-        vetTecInfo: {
-          title: 'Vet Tec Application',
-          path: 'vet-tec-application',
-          uiSchema: vetTecInfo.uiSchema,
-          schema: vetTecInfo.schema,
-        },
-      },
+      pages: {},
     },
   },
 };
