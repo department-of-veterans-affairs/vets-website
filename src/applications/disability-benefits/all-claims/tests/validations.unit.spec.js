@@ -6,7 +6,11 @@ import {
   startedAfterServicePeriod,
   oneDisabilityRequired,
   hasMonthYear,
+  validateDisabilityName,
 } from '../validations';
+
+import disabilityLabels from '../content/disabilityLabels';
+import { capitalizeEachWord } from '../utils';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -208,6 +212,29 @@ describe('526 All Claims validations', () => {
       };
       hasMonthYear(err, '1980-12-XX');
       expect(err.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateDisabilityName', () => {
+    it('should not add error when regex fails but disability is in list', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, disabilityLabels[5780]);
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability is in list but capitalization is different', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, capitalizeEachWord(disabilityLabels[5780]));
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability not in list but passes regex', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, 'blah. (and, blah) /blah');
+      expect(err.addError.called).to.be.false;
+    });
+    it('should add error when disability not in list and regex fails', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, 'blah -;');
+      expect(err.addError.calledOnce).to.be.true;
     });
   });
 });
