@@ -1,3 +1,5 @@
+import disabilityLabels from './content/disabilityLabels';
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -232,3 +234,13 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources1',
   'secondaryUploadSources2',
 ];
+
+export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
+  disabilityLabels,
+).map(v => v.toLowerCase());
+
+// This comes straight from EVSS but isn't documented in Swagger because
+// it's only used on disabilities that don't exist in the mapped list.
+// Note: the right single quote (’) is intentional - apostrophes are not
+//       allowed.
+export const VDC_DISABILITY_NAME_REGEX = /^(?!.*[ ]{2})[a-zA-Z0-9.,’()\\-\\/ ]*$/;
