@@ -28,26 +28,25 @@ export function mapRawUserDataToState(json) {
           verified,
         },
         services,
-        vaProfile: { status },
+        vaProfile,
         vet360ContactInformation,
-        veteranStatus: { isVeteran, status: veteranStatus, servedInMilitary },
+        veteranStatus,
       },
     },
+    errors,
   } = camelCaseKeysRecursive(json);
 
-  return {
+  const userState = {
     accountType: loa.current,
     authnContext,
     dob,
     email,
     gender,
-    isVeteran,
     loa,
     multifactor,
     prefillsAvailable,
     savedForms,
     services,
-    status,
     userFullName: {
       first,
       middle,
@@ -57,12 +56,35 @@ export function mapRawUserDataToState(json) {
     vet360: isVet360Configured()
       ? vet360ContactInformation
       : mockContactInformation,
-    veteranStatus: {
-      isVeteran,
-      veteranStatus,
-      servedInMilitary,
-    },
   };
+
+  if (veteranStatus === null) {
+    const errorStatus = errors.find(error => error.service === 'EMIS').status;
+    userState.veteranStatus.veteranStatus = errorStatus;
+  } else {
+    userState.isVeteran = veteranStatus.isVeteran;
+    userState.veteranStatus = {
+      isVeteran: veteranStatus.isVeteran,
+      veteranStatus,
+      servedInMilitary: veteranStatus.servedInMilitary,
+    };
+  }
+
+  if (vaProfile === null) {
+    const errorStatus = errors.find(error => error.service === 'MVI').status;
+    userState.status = errorStatus;
+  } else {
+    userState.status = vaProfile.status;
+  }
+
+  // This one is checking userState because there's no extra mapping and it's
+  // easier to leave the mocking code the way it is
+  if (userState.vet360 === null) {
+    const errorStatus = errors.find(error => error.service === 'Vet360').status;
+    userState.vet360 = { status: errorStatus };
+  }
+
+  return userState;
 }
 
 // Flag to indicate an active session for initial page loads.
