@@ -205,9 +205,14 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
   const disabilitiesViews = selectedRatedDisabilities
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
-      const disabilityName = curr.name || curr.condition;
+      const disabilityName = curr.name || curr.condition || '';
       const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
-      return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
+      return _.set(
+        // downcase value for SIP consistency
+        disabilityName.toLowerCase(),
+        { title: capitalizedDisabilityName, type: 'boolean' },
+        accum,
+      );
     }, {});
   return {
     properties: disabilitiesViews,
