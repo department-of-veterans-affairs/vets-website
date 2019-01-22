@@ -115,6 +115,7 @@ export const transformedMaximalData = {
         primaryDescription: 'A thing happened.',
         condition: 'PTSD (post traumatic stress disorder)',
         specialIssues: ['POW'],
+        classificationCode: '5420',
       },
       {
         cause: 'NEW',
@@ -549,7 +550,11 @@ export const transformedMinimalPtsdFormUploadData = {
     emailAddress: 'test2@test1.net',
     privacyAgreementAccepted: true,
     newPrimaryDisabilities: [
-      { condition: 'PTSD personal trauma', cause: 'NEW' },
+      {
+        condition: 'PTSD personal trauma',
+        cause: 'NEW',
+        classificationCode: '7290',
+      },
     ],
     attachments: [
       {
