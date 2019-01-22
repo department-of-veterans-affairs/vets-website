@@ -10,7 +10,8 @@ import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { prefillTransformer, transform } from '../helpers';
+import { prefillTransformer } from '../prefill-transformer';
+import { transform } from '../submit-transformer';
 
 const formConfig = {
   urlPrefix: '/',
