@@ -11,7 +11,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer } from '../prefill-transformer';
-import { transform } from '../submit-transformer';
+import { transformForSubmit } from '../submit-transformer';
 
 const formConfig = {
   urlPrefix: '/',
@@ -27,7 +27,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  transformForSubmit: transform,
+  transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   title: 'Apply for Vet Tec Benefits',
