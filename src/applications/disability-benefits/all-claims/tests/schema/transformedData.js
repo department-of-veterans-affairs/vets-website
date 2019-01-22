@@ -90,7 +90,7 @@ export const transformedMaximalData = {
         treatmentCenterName: 'VA Clinic Name',
         treatmentDateRange: {
           from: '1904-01-XX',
-          to: '1905-01-31',
+          to: '1905-01-XX',
         },
         treatmentCenterAddress: {
           country: 'USA',
