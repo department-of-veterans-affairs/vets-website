@@ -43,7 +43,8 @@ function popup(popupUrl, clickedEvent, openedEvent) {
     popupWindow.focus();
 
     return apiRequest(
-      popupUrl, {
+      popupUrl,
+      {
         headers: {
           Accept: 'application/json',
         },
