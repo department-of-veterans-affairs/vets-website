@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 export default function LoadingSection({
   isLoading,

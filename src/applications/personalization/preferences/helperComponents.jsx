@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const makeUnorderedList = questions => (
   <ul>

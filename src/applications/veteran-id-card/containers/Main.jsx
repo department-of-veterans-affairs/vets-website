@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import siteName from '../../../platform/brand-consolidation/site-name';
 import EmailVICHelp from '../../../platform/brand-consolidation/components/EmailVICHelp';
 

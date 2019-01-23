@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import {
   stringifyFormReplacer,
