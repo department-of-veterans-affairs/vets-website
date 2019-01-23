@@ -9,6 +9,12 @@ import {
   mockContactInformation,
 } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
 
+const commonServices = {
+  EMIS: 'EMIS',
+  MVI: 'MVI',
+  Vet360: 'Vet360',
+};
+
 export function mapRawUserDataToState(json) {
   const {
     data: {
@@ -59,7 +65,9 @@ export function mapRawUserDataToState(json) {
   };
 
   if (veteranStatus === null) {
-    const errorStatus = errors.find(error => error.service === 'EMIS').status;
+    const errorStatus = errors.find(
+      error => error.service === commonServices.EMIS,
+    ).status;
     userState.veteranStatus.veteranStatus = errorStatus;
   } else {
     userState.isVeteran = veteranStatus.isVeteran;
@@ -71,7 +79,9 @@ export function mapRawUserDataToState(json) {
   }
 
   if (vaProfile === null) {
-    const errorStatus = errors.find(error => error.service === 'MVI').status;
+    const errorStatus = errors.find(
+      error => error.service === commonServices.MVI,
+    ).status;
     userState.status = errorStatus;
   } else {
     userState.status = vaProfile.status;
@@ -80,7 +90,9 @@ export function mapRawUserDataToState(json) {
   // This one is checking userState because there's no extra mapping and it's
   // easier to leave the mocking code the way it is
   if (userState.vet360 === null) {
-    const errorStatus = errors.find(error => error.service === 'Vet360').status;
+    const errorStatus = errors.find(
+      error => error.service === commonServices.Vet360,
+    ).status;
     userState.vet360 = { status: errorStatus };
   }
 
