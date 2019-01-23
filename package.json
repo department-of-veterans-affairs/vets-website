@@ -184,7 +184,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^2.0.0",
+    "@department-of-veterans-affairs/formation": "^2.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@octokit/rest": "^16.2.0",
@@ -239,7 +239,7 @@
     "reselect": "^2.5.4",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
-    "us-forms-system": "https://github.com/usds/us-forms-system.git#2b44328ec265a17f78d150ff07fce57a96e437b9",
+    "us-forms-system": "https://github.com/usds/us-forms-system.git#1896964554d5122b236527f88253f2e1dd9d14b4",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fb28c9645269be8e5913e536c8c06fb0c2384b06",
