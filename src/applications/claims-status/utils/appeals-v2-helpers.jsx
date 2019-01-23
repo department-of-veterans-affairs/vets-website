@@ -8,7 +8,7 @@ import siteName from '../../../platform/brand-consolidation/site-name';
 // This literally determines how many rows are displayed per page on the v2 index page
 export const ROWS_PER_PAGE = 10;
 
-export const APPEAL_TYPES = {
+export const APPEAL_STATUSES = {
   original: 'original',
   postRemand: 'post_remand',
   postCavcRemand: 'post_cavc_remand',
@@ -16,7 +16,7 @@ export const APPEAL_TYPES = {
   cue: 'cue',
 };
 
-export const APPEAL_V2_TYPE = 'appealSeries';
+export const APPEAL_V2_TYPES = 'appealSeries';
 
 // TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
