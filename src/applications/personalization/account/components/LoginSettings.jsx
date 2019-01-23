@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

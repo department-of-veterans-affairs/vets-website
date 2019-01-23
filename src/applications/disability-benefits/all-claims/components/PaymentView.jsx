@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { accountTitleLabels } from '../constants';
 import { srSubstitute, viewifyFields } from '../utils';

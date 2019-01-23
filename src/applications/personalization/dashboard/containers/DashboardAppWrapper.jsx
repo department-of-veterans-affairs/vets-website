@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Modal from '@department-of-veterans-affairs/formation/Modal';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';

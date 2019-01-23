@@ -11,7 +11,7 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { isInProgress } from '../helpers';
 import { getSaveInProgressState } from './selectors';

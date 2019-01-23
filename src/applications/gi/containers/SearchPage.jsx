@@ -15,8 +15,8 @@ import {
   updateAutocompleteSearchTerm,
 } from '../actions';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
