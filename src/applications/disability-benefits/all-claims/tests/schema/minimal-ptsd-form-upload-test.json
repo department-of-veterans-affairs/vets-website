@@ -4,7 +4,7 @@
     "view:noFDCWarning": {},
     "view:hasSeparationPay": false,
     "hasTrainingPay": false,
-    "isVAEmployee": false,
+    "isVaEmployee": false,
     "homelessOrAtRisk": "no",
     "phoneAndEmail": {
       "primaryPhone": "8035555555",

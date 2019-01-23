@@ -17,6 +17,9 @@ if (trackErrors) {
       // https://github.com/getsentry/sentry/issues/5267
       /Blocked a frame with origin/,
     ],
+    tags: {
+      source: 'unknown',
+    },
   }).install();
 
   // this is for errors that happen in promises

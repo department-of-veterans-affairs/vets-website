@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import _ from '../../../platform/utilities/data';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
@@ -272,31 +270,32 @@ export function transform(formConfig, form) {
       return formData;
     }
     const clonedData = _.cloneDeep(formData);
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
       // Transform the related disabilities lists into an array of strings
-      const newFacility = _.set(
+      _.set(
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
           getClaimedConditionNames(formData),
         ),
         facility,
-      );
-      // If the day is missing, set it to the last day of the month because EVSS requires a day
-      const [year, month, day] = _.get(
-        'treatmentDateRange.to',
-        newFacility,
-        '',
-      ).split('-');
-      if (day && day === 'XX') {
-        newFacility.treatmentDateRange.to = moment(`${year}-${month}`)
-          .endOf('month')
-          .format('YYYY-MM-DD');
-      }
-      return newFacility;
-    });
+      ),
+    );
     clonedData.vaTreatmentFacilities = newVAFacilities;
     return clonedData;
+  };
+
+  const transformSeparationPayDate = formData => {
+    if (!formData.separationPayDate) {
+      return formData;
+    }
+
+    // Format separationPayDate as 'YYYY-MM-DD'
+    return _.set(
+      'separationPayDate',
+      `${formData.separationPayDate}-XX-XX`,
+      formData,
+    );
   };
 
   const addForm4142 = formData => {
@@ -416,6 +415,7 @@ export function transform(formConfig, form) {
     addPTSDCause,
     splitNewDisabilities,
     stringifyRelatedDisabilities,
+    transformSeparationPayDate,
     addForm4142,
     addForm0781,
     addForm8940,
