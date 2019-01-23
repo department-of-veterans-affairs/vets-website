@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import siteName from '../../../../platform/brand-consolidation/site-name';
 import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 

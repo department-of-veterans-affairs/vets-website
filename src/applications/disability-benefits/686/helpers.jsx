@@ -1,4 +1,4 @@
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import React from 'react';
 import moment from 'moment';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';

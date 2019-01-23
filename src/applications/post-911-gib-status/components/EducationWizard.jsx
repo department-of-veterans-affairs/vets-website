@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 export default class EducationWizard extends React.Component {
   constructor(props) {
