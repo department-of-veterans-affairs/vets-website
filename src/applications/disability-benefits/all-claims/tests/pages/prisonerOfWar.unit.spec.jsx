@@ -16,13 +16,19 @@ describe('Prisoner of war info', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.prisonerOfWar;
 
+  const formData = {
+    serviceInformation: {
+      servicePeriods: [{ dateRange: { from: '2009-01-01', to: '2013-01-01' } }],
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
@@ -36,7 +42,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
@@ -54,7 +60,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
         onSubmit={onSubmit}
       />,
     );
@@ -71,7 +77,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
@@ -97,7 +103,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
         onSubmit={onSubmit}
       />,
     );
@@ -118,10 +124,10 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
+        data={Object.assign({}, formData, {
           newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
           'view:newDisabilities': true,
-        }}
+        })}
       />,
     );
 
@@ -139,7 +145,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
