@@ -11,10 +11,10 @@ import { replaceWithStagingDomain } from '../../../platform/utilities/environmen
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 class SearchApp extends React.Component {
   static propTypes = {
