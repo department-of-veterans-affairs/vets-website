@@ -8,7 +8,11 @@ import {
   bankInfoHelpText,
 } from '../content/bankInformation';
 
-const { bankAccount } = fullSchema.properties;
+const {
+  accountType,
+  routingNumber,
+  accountNumber,
+} = fullSchema.definitions.bankAccount.properties;
 
 export const uiSchema = {
   'ui:title': bankInfoTitle,
@@ -26,9 +30,16 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['bankAccount'],
   properties: {
-    bankAccount,
+    bankAccount: {
+      type: 'object',
+      required: ['accountType', 'routingNumber', 'accountNumber'],
+      properties: {
+        accountType,
+        routingNumber,
+        accountNumber,
+      },
+    },
     'view:bankInfoNote': {
       type: 'object',
       properties: {},

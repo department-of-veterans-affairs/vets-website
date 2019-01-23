@@ -44,15 +44,4 @@ describe('Edu 0994 <ConfirmationPage>', () => {
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
     ).to.contain('Find out what happens after you apply.');
   });
-  it('should expand documents', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-
-    // Check to see that div.usa-accordion-content doesn't exist
-    expect(tree.subTree('.usa-accordion-content')).to.be.false;
-
-    tree.getMountedInstance().toggleExpanded({ preventDefault: f => f });
-
-    // Check to see that div.usa-accordion-content exists after expanding
-    expect(tree.subTree('.usa-accordion-content')).to.be.an('object');
-  });
 });

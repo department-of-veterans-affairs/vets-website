@@ -21,7 +21,9 @@ describe('Edu 0994 <IntroductionPage>', () => {
         }}
       />,
     );
-    expect(tree.find('FormTitle').props().title).to.contain('Apply for');
+    expect(tree.find('FormTitle').props().title).to.contain(
+      'Application for Veteran Employment through Technology Education Couses (Vet Tec)',
+    );
     expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
     expect(tree.find('.process-step').length).to.equal(4);
     tree.unmount();
