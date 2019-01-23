@@ -45,7 +45,7 @@ function popup(popupUrl, clickedEvent, openedEvent) {
     return apiRequest(
       popupUrl, {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
       },
       ({ url }) => {
