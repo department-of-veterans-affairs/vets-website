@@ -2,6 +2,14 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 import { addCheckboxPerNewDisability } from '../utils';
+import { isWithinServicePeriod } from '../validations';
+
+const confinementUI = dateRangeUI(
+  'From',
+  'To',
+  'Confinement start date must be before end date',
+);
+confinementUI['ui:validations'].push(isWithinServicePeriod);
 
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
@@ -21,11 +29,7 @@ export const uiSchema = {
         reviewTitle: 'Periods of confinement',
         itemName: 'Period',
       },
-      items: dateRangeUI(
-        'From',
-        'To',
-        'Confinement start date must be before end date',
-      ),
+      items: confinementUI,
     },
     powDisabilities: {
       'ui:title': ' ',

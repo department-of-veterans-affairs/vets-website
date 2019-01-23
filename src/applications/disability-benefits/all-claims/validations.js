@@ -2,6 +2,7 @@ import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 import { MILITARY_CITIES, MILITARY_STATE_VALUES } from './constants';
+import { isWithinRange } from './utils';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -203,5 +204,21 @@ export const hasMonthYear = (err, fieldData) => {
 
   if (year === 'XXXX' || month === 'XX') {
     err.addError('Please provide both month and year');
+  }
+};
+
+export const isWithinServicePeriod = (errors, fieldData, formData) => {
+  const inServicePeriod = _.get(
+    'serviceInformation.servicePeriods',
+    formData,
+    [],
+  ).some(pos => isWithinRange(fieldData, pos.dateRange));
+  if (!inServicePeriod) {
+    const dateIsComplete = dateString =>
+      dateString && !dateString.includes('X');
+    if (dateIsComplete(fieldData.from) && dateIsComplete(fieldData.to)) {
+      errors.from.addError('Must be within a single period of service.');
+      errors.to.addError('Must be within a single period of service.');
+    }
   }
 };
