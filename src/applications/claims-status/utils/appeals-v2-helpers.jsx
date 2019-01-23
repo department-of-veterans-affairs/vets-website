@@ -16,10 +16,10 @@ export const APPEAL_STATUSES = {
   cue: 'cue',
 };
 
-// Only `LegacyAppeal` is currently supported as the team works on adding new
+// Only `legacyAppeal` is currently supported as the team works on adding new
 // appeal types, but leaving the other old ones in here just in case
 export const APPEAL_TYPES = {
-  current: 'LegacyAppeal',
+  current: 'legacyAppeal',
   v2Legacy: 'appealSeries',
   v1Legacy: 'appeals_status_models_appeals',
 };

@@ -76,7 +76,7 @@ const props = {
         updated: '2018-05-10T10:20:42-05:00',
       },
       id: '1196201',
-      type: 'LegacyAppeal',
+      type: 'legacyAppeal',
     },
   ],
 };

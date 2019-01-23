@@ -315,7 +315,7 @@ export const mockData = {
     {
       // Status: Review your statement of the case - pending_form9
       id: '7387389',
-      type: 'LegacyAppeal',
+      type: 'legacyAppeal',
       attributes: {
         appealIds: ['7387389', '123'],
         updated: '2018-01-03T09:30:15-05:00',
@@ -402,7 +402,7 @@ export const mockData = {
     {
       // Status: Waiting to be assigned to a judge - on_docket
       id: '7387390',
-      type: 'LegacyAppeal',
+      type: 'legacyAppeal',
       attributes: {
         appealIds: ['7387390', '456'],
         updated: '2018-01-03T09:30:15-05:00',
@@ -482,7 +482,7 @@ export const mockData = {
     {
       // Status: The Board has made a decision on your appeal - bva_decision
       id: '7387391',
-      type: 'LegacyAppeal',
+      type: 'legacyAppeal',
       attributes: {
         appealIds: ['7387391', '789'],
         updated: '2018-01-03T09:30:15-05:00',
