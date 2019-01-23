@@ -42,11 +42,13 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
+    // Chapter - Applicant Information
     applicantInformation: {
-      title: 'Vet Tec Application',
+      title: 'Applicant Information',
       pages: {
-        vetTecInfo: {
-          title: 'Vet Tec Application',
+        // page - Applicant Information
+        applicantInformation: {
+          title: 'Applicant Information',
           path: 'applicant/information',
           uiSchema: {
             'ui:title': 'Place holder',
@@ -56,6 +58,50 @@ const formConfig = {
             properties: {},
           },
         },
+      },
+    },
+    // Chapter - Benefits eligibility
+    benefitsEligibility: {
+      title: 'Benefits eligibility',
+      pages: {
+        // page - Already submitted 1990
+      },
+    },
+    // Chapter - Military Service
+    militaryService: {
+      title: 'Military Service',
+      pages: {
+        // page - Not on active duty
+      },
+    },
+    // Chapter - Education History
+    educationHistory: {
+      title: 'Education History',
+      pages: {
+        // page - Highest Level of education completed
+      },
+    },
+    // Chapter - High tech work experience
+    highTechWorkExp: {
+      title: 'High tech work experience',
+      pages: {
+        // page - yes/no working in high-tech industry
+      },
+    },
+    // Chapter - Program Selection
+    programSelection: {
+      title: 'Program selection',
+      pages: {
+        // page - picked like to attend training programs
+        // page - interested in training programs
+      },
+    },
+    // Chapter - Personal Information
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        // page - contact information
+        // page - banking information
       },
     },
   },
