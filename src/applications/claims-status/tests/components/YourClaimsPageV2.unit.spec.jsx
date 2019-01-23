@@ -22,7 +22,7 @@ describe('<YourClaimsPageV2>', () => {
         id: '1122334455',
       },
       {
-        type: 'appealSeries',
+        type: 'LegacyAppeal',
         id: '1122334455',
       },
     ],
