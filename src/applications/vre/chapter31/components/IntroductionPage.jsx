@@ -8,7 +8,7 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

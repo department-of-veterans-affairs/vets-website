@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
 import { focusElement } from '../../../platform/utilities/ui';

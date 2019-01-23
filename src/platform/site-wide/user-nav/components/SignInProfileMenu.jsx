@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import IconUser from '@department-of-veterans-affairs/formation/IconUser';
+import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+import IconUser from '@department-of-veterans-affairs/formation-react/IconUser';
 
-import LegacyDropdown from './LegacyDropdown';
 import PersonalizationDropdown from './PersonalizationDropdown';
-
-import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
 
 class SignInProfileMenu extends React.Component {
   render() {
@@ -22,11 +19,7 @@ class SignInProfileMenu extends React.Component {
           isOpen={this.props.isOpen}
           disabled={this.props.disabled}
         >
-          {isPersonalizationEnabled() ? (
-            <PersonalizationDropdown />
-          ) : (
-            <LegacyDropdown />
-          )}
+          <PersonalizationDropdown />
         </DropDownPanel>
       </div>
     );

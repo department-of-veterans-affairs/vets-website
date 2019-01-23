@@ -36,6 +36,11 @@ export default function startApp({
   analyticsEvents,
   entryName = 'unknown',
 }) {
+  // Set further errors to have the appropriate source tag
+  Raven.setTagsContext({
+    source: entryName,
+  });
+
   const store = createCommonStore(reducer, analyticsEvents);
 
   let history = browserHistory;
@@ -64,12 +69,5 @@ export default function startApp({
     content = <Router history={history}>{routes}</Router>;
   }
 
-  Raven.context(
-    {
-      tags: { source: entryName },
-    },
-    () => {
-      startReactApp(<Provider store={store}>{content}</Provider>);
-    },
-  );
+  startReactApp(<Provider store={store}>{content}</Provider>);
 }

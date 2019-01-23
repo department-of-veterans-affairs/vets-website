@@ -6,7 +6,7 @@ import { selectUser } from '../../../../platform/user/selectors';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { loadConnectedAccounts, deleteConnectedAccount } from '../actions';
 import { NoConnectedApps, ConnectedApps } from '../components';
