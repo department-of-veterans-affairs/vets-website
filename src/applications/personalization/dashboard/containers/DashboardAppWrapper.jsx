@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -9,6 +11,8 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+
+import { findBenefitsRoute } from '../routes';
 
 class DashboardAppWrapper extends React.Component {
   constructor(props) {
@@ -63,6 +67,30 @@ class DashboardAppWrapper extends React.Component {
     }
   };
 
+  renderBreadcrumbs = location => {
+    const { pathname } = location;
+    const crumbs = [
+      <a href="/" key="home">
+        Home
+      </a>,
+      <Link to="/" key="dashboard">
+        My VA
+      </Link>,
+    ];
+
+    if (pathname.match(findBenefitsRoute.path)) {
+      crumbs.push(
+        <Link
+          to={`my-va/${findBenefitsRoute.path}`}
+          key={findBenefitsRoute.path}
+        >
+          {findBenefitsRoute.name}
+        </Link>,
+      );
+    }
+    return crumbs;
+  };
+
   render() {
     return (
       <RequiredLoginView
@@ -78,6 +106,10 @@ class DashboardAppWrapper extends React.Component {
           ]}
           render={this.renderDowntimeNotification}
         >
+          <Breadcrumbs>
+            {this.renderBreadcrumbs(this.props.location)}
+          </Breadcrumbs>
+
           {this.props.children}
         </DowntimeNotification>
       </RequiredLoginView>
