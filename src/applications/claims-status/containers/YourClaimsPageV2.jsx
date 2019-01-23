@@ -13,7 +13,7 @@ import {
   sortClaims,
 } from '../actions/index.jsx';
 import {
-  APPEAL_V2_TYPE,
+  APPEAL_TYPES,
   claimsAvailability,
   appealsAvailability,
   sortByLastUpdated,
@@ -74,7 +74,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_V2_TYPE) {
+    if (claim.type === APPEAL_TYPES.current) {
       return (
         <AppealListItem
           key={claim.id}

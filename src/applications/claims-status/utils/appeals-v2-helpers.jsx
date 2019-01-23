@@ -16,7 +16,13 @@ export const APPEAL_STATUSES = {
   cue: 'cue',
 };
 
-export const APPEAL_V2_TYPES = 'appealSeries';
+// Only `LegacyAppeal` is currently supported as the team works on adding new
+// appeal types, but leaving the other old ones in here just in case
+export const APPEAL_TYPES = {
+  current: 'LegacyAppeal',
+  v2Legacy: 'appealSeries',
+  v1Legacy: 'appeals_status_models_appeals',
+};
 
 // TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
@@ -1522,7 +1528,7 @@ const getDate = item => {
     return '0';
   }
 
-  return item.type === APPEAL_V2_TYPE
+  return item.type === APPEAL_STATUSES.current
     ? getAppealDate(item)
     : getClaimDate(item);
 };
