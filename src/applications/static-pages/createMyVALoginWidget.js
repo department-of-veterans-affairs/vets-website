@@ -9,7 +9,7 @@ export default function createMyVALoginWidget(store) {
       root.innerHTML =
         `<a href="${rootUrl}" class="homepage-button">` +
         '<div class="icon-wrapper">' +
-        '<i class="fa fa-user-circle-o homepage-button-icon"></i>' +
+        '<i class="fas fa-user-circle homepage-button-icon"></i>' +
         '</div>' +
         '<div class="button-inner">' +
         '<span>Go to your personalized “My VA” page</span>' +

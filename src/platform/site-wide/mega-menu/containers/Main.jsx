@@ -12,7 +12,7 @@ import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
-import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
+import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
 
 // The MegaMenu data is generated out of vagov-content, rather than a static JSON file.
 // During the build, the resultant link data is first written into temporary storage,

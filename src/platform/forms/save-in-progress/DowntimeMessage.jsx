@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import classNames from 'classnames';
 
 export default function DowntimeMessage({ downtime, isAfterSteps }) {

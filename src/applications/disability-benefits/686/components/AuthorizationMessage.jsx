@@ -1,4 +1,4 @@
-import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
 import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';

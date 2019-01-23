@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
 import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
 

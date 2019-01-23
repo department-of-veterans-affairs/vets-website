@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const CallToAction = ({ cta }) => {
   const { description, link, text, gaTag } = cta;
@@ -95,7 +95,7 @@ export default function PreferenceItem({
           className="va-button-link"
           onClick={() => handleViewToggle(code)}
         >
-          <i className="fa fa-close" /> <span>Remove</span>
+          <i className="fas fa-times" /> <span>Remove</span>
         </button>
       </div>
       <p className="va-introtext">{introduction}</p>

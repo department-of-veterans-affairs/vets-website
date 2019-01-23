@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { getPtsdClassification } from './ptsdClassification';
 
 export const PtsdUploadChoiceDescription = ({ formType }) => (
