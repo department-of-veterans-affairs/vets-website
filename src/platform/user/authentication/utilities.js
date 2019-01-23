@@ -43,8 +43,11 @@ function popup(popupUrl, clickedEvent, openedEvent) {
     popupWindow.focus();
 
     return apiRequest(
-      popupUrl,
-      null,
+      popupUrl, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      },
       ({ url }) => {
         if (url) popupWindow.location = url;
       },
@@ -63,8 +66,7 @@ function popup(popupUrl, clickedEvent, openedEvent) {
 
 function redirect(redirectUrl, clickedEvent, openedEvent) {
   if (!isFullScreenLoginEnabled()) {
-    const popupUrl = `${redirectUrl}?json=true`;
-    return popup(popupUrl, clickedEvent, openedEvent);
+    return popup(redirectUrl, clickedEvent, openedEvent);
   }
 
   // Keep track of the URL to return to after auth operation.
