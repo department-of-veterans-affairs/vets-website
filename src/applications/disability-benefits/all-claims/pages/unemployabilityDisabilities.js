@@ -23,7 +23,7 @@ export const uiSchema = {
     'ui:options': {
       showFieldLabel: 'label',
       label: disabilityOption,
-      selectedPropName: 'view:unemployabilityDisability',
+      selectedPropName: 'unemployabilityDisability',
       widgetClassNames: 'widget-outline widget-outline-group',
       keepInPageOnReview: true,
       customTitle: 'Rated disabilities',
@@ -36,7 +36,7 @@ export const uiSchema = {
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
       showFieldLabel: 'label',
-      selectedPropName: 'view:unemployabilityDisability',
+      selectedPropName: 'unemployabilityDisability',
       label: disabilityOption,
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,

@@ -19,75 +19,12 @@ import {
   isUploading781Form,
   isUploading781aForm,
   viewifyFields,
-  transformMVPData,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   hasHospitalCare,
-  addNoneDisabilityActionType,
-  filterServiceConnected,
 } from '../utils.jsx';
 
-import {
-  SERVICE_CONNECTION_TYPES,
-  disabilityActionTypes,
-} from '../../all-claims/constants';
-
 describe('526 helpers', () => {
-  describe('addNoneDisabilityActionType', () => {
-    const disabilities = [
-      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-      { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-      { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-    ];
-
-    it('should return an array of same length as input', () => {
-      const withActionType = addNoneDisabilityActionType(disabilities);
-      expect(withActionType)
-        .to.be.an('array')
-        .that.has.length(disabilities.length);
-    });
-
-    it('should return an empty array when no input', () => {
-      expect(addNoneDisabilityActionType())
-        .to.be.an('array')
-        .that.has.length(0);
-    });
-
-    it('should set disabilityActionType to NONE for each rated disability', () => {
-      const withActionType = addNoneDisabilityActionType(disabilities);
-      withActionType.forEach(d => {
-        expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
-      });
-    });
-  });
-
-  describe('filterServiceConnected', () => {
-    it('should filter non-service-connected disabililties', () => {
-      const disabilities = [
-        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-        { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
-        { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
-      ];
-
-      const filteredDisabilities = filterServiceConnected(disabilities);
-      expect(filteredDisabilities.length).to.equal(2);
-      filteredDisabilities.forEach(d =>
-        expect(d.decisionCode).to.equal(
-          SERVICE_CONNECTION_TYPES.serviceConnected,
-        ),
-      );
-    });
-
-    it('should return an empty array when no disabilities provided', () => {
-      const disabilities = [];
-
-      const filteredDisabilities = filterServiceConnected(disabilities);
-      expect(filteredDisabilities).to.be.an('array').that.is.empty;
-    });
-  });
-
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -423,6 +360,12 @@ describe('526 helpers', () => {
   describe('needsToEnter781', () => {
     it('should return true if user has selected Combat PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:combatPtsdType': true,
         },
@@ -432,6 +375,12 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Non-combat PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:nonCombatPtsdType': true,
         },
@@ -448,6 +397,12 @@ describe('526 helpers', () => {
   describe('needsToEnter781a', () => {
     it('should return true if user has selected MST PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:mstPtsdType': true,
         },
@@ -457,6 +412,12 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Assault PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
@@ -487,6 +448,12 @@ describe('526 helpers', () => {
   describe('isUploading781aForm', () => {
     it('should return true if user has chosen to upload 781a', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:upload781aChoice': 'upload',
       };
       expect(isUploading781aForm(formData)).to.be.true;
@@ -526,16 +493,15 @@ describe('526 helpers', () => {
   });
 });
 
-describe('isAnsweringPtsdForm', () => {
-  it('should return false if user has chosen to not answer questions', () => {
-    const formData = {};
-    expect(needsToEnter781(formData)).to.be.false;
-  });
-});
-
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -545,6 +511,12 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -565,34 +537,15 @@ describe('isAnswering781Questions', () => {
   });
 });
 
-describe('transformMVPData', () => {
-  it('should omit the veteran property and spread its subproperties', () => {
-    const formData = {
-      veteran: {
-        emailAddress: 'asdf',
-        mailingAddress: { foo: 'bar' },
-        primaryPhone: '1231231234',
-      },
-    };
-    expect(transformMVPData(formData)).to.eql(formData.veteran);
-  });
-  it('should nest service periods and reservesNationalGuardService under serviceInformation', () => {
-    const formData = {
-      servicePeriods: [{ from: 'adf', to: 'asdf' }],
-      reservesNationalGuardService: 'asdf',
-    };
-    expect(transformMVPData(formData)).to.eql({
-      serviceInformation: formData,
-    });
-  });
-  it('should handle no pre-filled information', () => {
-    expect(transformMVPData({})).to.eql({});
-  });
-});
-
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -602,6 +555,12 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -625,6 +584,12 @@ describe('isAnswering781Questions', () => {
 describe('isAnswering781aQuestions', () => {
   it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -634,6 +599,12 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -644,6 +615,12 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -654,11 +631,18 @@ describe('isAnswering781aQuestions', () => {
   });
 
   describe('isUploading781aSupportingDocuments', () => {
-    it('', () => {
+    it('should return true when a user selects yes to upload sources', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
+        'view:upload781aChoice': 'answerQuestions',
         secondaryIncident0: {
           'view:uploadSources': true,
         },

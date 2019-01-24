@@ -1,13 +1,13 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export default function FindVABenefitsIntro({ dismiss }) {
   return (
     <Modal visible onClose={dismiss} id="modal-announcement">
       <div className="announcement-heading">
-        <img alt="form icon" src="/img/dashboard-form.svg" />
+        <img aria-hidden="true" alt="" src="/img/dashboard-form.svg" />
       </div>
-      <h3 className="announcement-title">
+      <h3 className="announcement-title" id="modal-announcement-title">
         We can help you find and apply for benefits.
       </h3>
       <p>

@@ -2,7 +2,7 @@
   "data": {
     "view:hasSeparationPay": false,
     "hasTrainingPay": false,
-    "isVAEmployee": false,
+    "isVaEmployee": false,
     "homelessOrAtRisk": "no",
     "phoneAndEmail": {
       "primaryPhone": "1231231234",
@@ -22,7 +22,7 @@
     "view:newDisabilities": false,
     "ratedDisabilities": [
       {
-        "name": "First Condition",
+        "name": "Aging",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
@@ -30,7 +30,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "view:selected": true,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
       }
     ],
     "view:disabilitiesClarification": {},

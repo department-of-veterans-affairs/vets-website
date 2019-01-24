@@ -1,6 +1,6 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 import recordEvent from '../../../../platform/monitoring/record-event';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectAvailableServices } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';

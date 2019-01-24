@@ -364,7 +364,7 @@ $medium-phone-screen: 375px;
 
     .va-sidebarnav--opened {
       position: fixed;
-      display: initial;
+      display: block;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
@@ -448,9 +448,28 @@ $medium-phone-screen: 375px;
     }
   }
 
-  button.va-modal-close > i.fa.fa-close{
+  button.va-modal-close {
+    font-family: "Font Awesome 5 Free";
     color: $color-black;
+
+    .far.fa-times-circle{
+      font-size: 0.60em;
+      color: $color-link-default;
+      &:hover {
+        color: $color-black;
+      }
+     }
+
+    .far.fa-times {
+      font-size: 0.75em;
+    }
   }
+
+  // button.va-modal-close > i.far.fa-times{
+  //   color: $color-black;
+  //   font-family: "Font Awesome 5 Free";
+  //   font-size: 0.75em;
+  // }
 
   .usa-accordion-bordered {
 
@@ -502,7 +521,7 @@ $medium-phone-screen: 375px;
 
   .va-modal-close {
     .fa {
-      color: inherit;
+      color: inherit;      
     }
   }
 

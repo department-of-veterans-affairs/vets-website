@@ -5,7 +5,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
 import recordEvent from 'platform/monitoring/record-event';
@@ -158,8 +158,8 @@ class PreferencesWidget extends React.Component {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <a
-              href="/my-va/find-benefits"
+            <Link
+              to="find-benefits"
               onClick={() =>
                 recordEvent({
                   event: 'dashboard-navigation',
@@ -169,7 +169,7 @@ class PreferencesWidget extends React.Component {
               }
             >
               Select benefits now.
-            </a>
+            </Link>
           </div>
         );
       }
@@ -250,7 +250,7 @@ class PreferencesWidget extends React.Component {
             />
           )}
         </ReactCSSTransitionGroup>
-        {this.renderContent()}
+        <div ariaLive="polite">{this.renderContent()}</div>
       </div>
     );
   }

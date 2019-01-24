@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { capitalizeEachWord } from '../utils';
 
 export class CauseTitle extends React.Component {

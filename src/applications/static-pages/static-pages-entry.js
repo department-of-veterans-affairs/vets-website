@@ -1,5 +1,6 @@
 import '../../platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
+import Raven from 'raven-js';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
@@ -61,8 +62,20 @@ import './sass/static-pages.scss';
 // New sidebar menu
 import './sidebar-navigation.js';
 
+// Set further errors to have the appropriate source tag
+Raven.setTagsContext({
+  source: 'static-pages',
+});
+
 const store = createCommonStore();
-startSitewideComponents(store);
+Raven.context(
+  {
+    tags: { source: 'site-wide' },
+  },
+  () => {
+    startSitewideComponents(store);
+  },
+);
 
 createAdditionalInfoWidget();
 

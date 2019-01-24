@@ -3,29 +3,29 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import {
-  APPEAL_V2_TYPE,
+  APPEAL_TYPES,
   claimsAvailability,
   appealsAvailability,
-} from '../../../claims-status/utils/appeals-v2-helpers';
+} from 'applications/claims-status/utils/appeals-v2-helpers';
 
 import {
   getAppealsV2,
   getClaimsV2,
-} from '../../../claims-status/actions/index.jsx';
-import { scrollToTop } from '../../../claims-status/utils/page';
-import recordEvent from '../../../../platform/monitoring/record-event';
+} from 'applications/claims-status/actions/index.jsx';
+import { scrollToTop } from 'applications/claims-status/utils/page';
+import recordEvent from 'platform/monitoring/record-event';
 
-import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailable';
-import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
-import ClaimsAppealsUnavailable from '../../../claims-status/components/ClaimsAppealsUnavailable';
+import ClaimsUnavailable from 'applications/claims-status/components/ClaimsUnavailable';
+import AppealsUnavailable from 'applications/claims-status/components/AppealsUnavailable';
+import ClaimsAppealsUnavailable from 'applications/claims-status/components/ClaimsAppealsUnavailable';
 
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+} from 'platform/monitoring/DowntimeNotification';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItemV2';
@@ -54,7 +54,7 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_V2_TYPE) {
+    if (claim.type === APPEAL_TYPES.current) {
       return (
         <AppealListItem
           key={claim.id}
@@ -149,10 +149,7 @@ class ClaimsAppealsWidget extends React.Component {
 
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <LoadingIndicator
-          message="Loading your claims and appeals..."
-          setFocus
-        />
+        <LoadingIndicator message="Loading your claims and appeals..." />
       );
     } else if (!emptyList) {
       content = (

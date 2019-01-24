@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { PREFILL_STATUSES } from '../../../../platform/forms/save-in-progress/actions';
 import get from '../../../../platform/utilities/data/get';

@@ -18,7 +18,10 @@ import { whitelistedPaths } from './whitelisted-paths';
  */
 function contentfulPaintEntry() {
   const paintEntries = performance.getEntriesByName('first-contentful-paint');
-  if (typeof paintEntries === 'undefined') {
+  if (
+    typeof paintEntries === 'undefined' ||
+    (Array.isArray(paintEntries) && !paintEntries.length)
+  ) {
     return false;
   }
   return paintEntries[0].startTime;

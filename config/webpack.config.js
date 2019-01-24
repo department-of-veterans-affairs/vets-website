@@ -43,6 +43,13 @@ const configGenerator = (buildOptions, apps) => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  // enable css sourcemaps for all non-localhost builds
+  // or if build options include local-css-sourcemaps or entry
+  const enableCSSSourcemaps =
+    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildOptions['local-css-sourcemaps'] ||
+    !!buildOptions.entry;
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
@@ -98,7 +105,7 @@ const configGenerator = (buildOptions, apps) => {
                 loader: 'css-loader',
                 options: {
                   minimize: isOptimizedBuild,
-                  sourceMap: true,
+                  sourceMap: enableCSSSourcemaps,
                 },
               },
               {
@@ -185,6 +192,8 @@ const configGenerator = (buildOptions, apps) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
         __API__: JSON.stringify(buildOptions.api),
+        // eslint-disable-next-line import/no-unresolved
+        __MEGAMENU_CONFIG__: JSON.stringify(require('../.cache/megamenu.json')),
       }),
 
       new ExtractTextPlugin({

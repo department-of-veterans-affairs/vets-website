@@ -27,6 +27,9 @@ import * as incomeDetails from './incomeDetails';
 import * as individualsInvolved from './individualsInvolved';
 import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
 import * as individualUnemployability from './individualUnemployability';
+import * as instructionalPart1 from './instructionalPart1';
+import * as instructionalPart2 from './instructionalPart2';
+import * as instructionalPart3 from './instructionalPart3';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
@@ -36,6 +39,9 @@ import * as newDisabilities from './newDisabilities';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
+import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
+import * as pastEmploymentFormUpload from './pastEmploymentFormUpload';
+import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
 import * as paymentInformation from './paymentInformation';
 import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
@@ -79,11 +85,12 @@ import * as uploadPersonalPtsdDocuments from './uploadPersonalPtsdDocuments';
 import * as uploadPtsdDocuments from './uploadPtsdDocuments';
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
+import * as unemployabilityFormUpload from './unemployabilityFormUpload';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as workBehaviorChanges from './workBehaviorChanges';
+import * as unemployabilityDates from './unemployabilityDates';
 import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
-import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
 
 export {
   adaptiveBenefits,
@@ -115,6 +122,9 @@ export {
   individualsInvolved,
   individualsInvolvedFollowUp,
   individualUnemployability,
+  instructionalPart1,
+  instructionalPart2,
+  instructionalPart3,
   medals,
   medicalCare,
   mentalHealthChanges,
@@ -124,6 +134,9 @@ export {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   pastEducationTraining,
+  pastEmploymentFormIntro,
+  pastEmploymentFormDownload,
+  pastEmploymentFormUpload,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -161,9 +174,11 @@ export {
   trainingPayWaiver,
   unemployabilityAdditionalInformation,
   unemployabilityCertification,
+  unemployabilityDates,
   unemployabilityDisabilities,
   unemployabilityDoctorCare,
   unemployabilityFormIntro,
+  unemployabilityFormUpload,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
   uploadUnemployabilitySupportingDocuments,
@@ -171,5 +186,4 @@ export {
   vaEmployee,
   vaMedicalRecords,
   workBehaviorChanges,
-  pastEmploymentFormIntro,
 };

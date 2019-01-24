@@ -1,8 +1,8 @@
 import {
-  hospitalizationHistory,
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
   supplementalBenefits,
+  unemployabilityDates,
   uploadUnemployabilitySupportingDocuments,
   uploadUnemployabilitySupportingDocumentsChoice,
   unemployabilityDisabilities,
@@ -13,15 +13,18 @@ import {
   recentEducationTraining,
   recentJobApplications,
   incomeDetails,
+  unemployabilityFormUpload,
   employmentHistory,
   unemployabilityDoctorCare,
   medicalCare,
+  hospitalizationHistory,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploading8940Form,
   isUploadingSupporting8940Documents,
   hasHospitalCare,
   hasDoctorsCare,
@@ -42,6 +45,13 @@ export default function() {
         schema: unemployabilityFormIntro.schema,
       },
       // 8940 - Upload 8940
+      unemployabilityFormUpload: {
+        title: 'Upload Unemployability Form',
+        path: 'new-disabilities/unemployability-form-uplaod',
+        depends: isUploading8940Form,
+        uiSchema: unemployabilityFormUpload.uiSchema,
+        schema: unemployabilityFormUpload.schema,
+      },
       // 8940 - Contentions
       unemployabilityDisabilities: {
         title: 'Unemployability disabilities',
@@ -75,6 +85,13 @@ export default function() {
         schema: unemployabilityDoctorCare.schema,
       },
       // 8940 - Disability Dates
+      unemployabilityDates: {
+        title: 'Disability dates',
+        path: 'unemployability-disability-dates',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityDates.uiSchema,
+        schema: unemployabilityDates.schema,
+      },
       // 8940 - Income Details
       incomeDetails: {
         title: 'Income details',
@@ -111,7 +128,7 @@ export default function() {
       militaryDutyImpact: {
         title: 'Impact on military duty',
         path: 'military-duty-impact',
-        depends: needsToEnterUnemployability,
+        depends: needsToAnswerUnemployability,
         uiSchema: militaryDutyImpact.uiSchema,
         schema: militaryDutyImpact.schema,
       },

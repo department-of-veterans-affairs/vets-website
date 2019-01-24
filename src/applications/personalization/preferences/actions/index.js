@@ -29,7 +29,10 @@ export const SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS =
 
 // load the benefits the user has picked to learn more about
 export function fetchUserSelectedBenefits() {
-  return dispatch => {
+  return (dispatch, getState) => {
+    if (getState().preferences.selectedBenefitsCached) {
+      return null;
+    }
     dispatch({
       type: FETCH_USER_PREFERENCES_STARTED,
     });
@@ -53,7 +56,10 @@ export function fetchUserSelectedBenefits() {
 
 // load all available benefits
 export function fetchAvailableBenefits() {
-  return dispatch => {
+  return (dispatch, getState) => {
+    if (getState().preferences.availableBenefitsCached) {
+      return null;
+    }
     dispatch({
       type: FETCH_ALL_BENEFITS_STARTED,
     });
