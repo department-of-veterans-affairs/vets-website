@@ -14,6 +14,8 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transformForSubmit } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
+import { educationHistory } from '../pages';
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
@@ -79,6 +81,12 @@ const formConfig = {
       title: 'Education History',
       pages: {
         // page - Highest Level of education completed
+        educationHistory: {
+          title: 'Education History',
+          path: 'education-history',
+          uiSchema: educationHistory.uiSchema,
+          schema: educationHistory.schema,
+        },
       },
     },
     // Chapter - High tech work experience
