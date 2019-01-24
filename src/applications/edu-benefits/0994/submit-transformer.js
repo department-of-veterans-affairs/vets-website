@@ -63,9 +63,5 @@ export function transformForSubmit(formConfig, form) {
     form.data,
   );
 
-  return JSON.stringify({
-    educationBenefitsClaim: {
-      form: transformedData,
-    },
-  });
+  return JSON.stringify(transformedData);
 }

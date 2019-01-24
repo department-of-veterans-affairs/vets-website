@@ -16,7 +16,7 @@ describe('0994 schema tests', () => {
       );
       const submitData = JSON.parse(
         formConfig.transformForSubmit(formConfig, contents),
-      ).educationBenefitsClaim.form;
+      );
       // const result = v.validate(JSON.parse(submitData), fullSchema);
       const result = v.validate(submitData, fullSchema); // currently do not need to JSON.parse(submitData)
 
