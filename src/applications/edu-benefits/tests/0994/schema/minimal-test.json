@@ -1,3 +1,9 @@
 {
-  "data": {}
+  "data": {
+    "bankAccount": {
+      "accountType": "checking",
+      "routingNumber": "021000021",
+      "accountNumber": "1"
+    }
+  }
 }
