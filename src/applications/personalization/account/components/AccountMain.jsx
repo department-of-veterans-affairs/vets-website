@@ -3,8 +3,8 @@ import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import localStorage from '../../../../platform/utilities/storage/localStorage';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';

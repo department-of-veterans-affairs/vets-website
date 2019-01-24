@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class ClaimsBreadcrumbs extends React.Component {
   renderBreadcrumbs = childNodes => {

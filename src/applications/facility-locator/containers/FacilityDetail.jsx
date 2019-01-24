@@ -8,7 +8,7 @@ import LocationDirectionsLink from '../components/search-results/LocationDirecti
 import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
 import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';

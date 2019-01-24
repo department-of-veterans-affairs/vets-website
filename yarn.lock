@@ -23,20 +23,26 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-2.0.0.tgz#56c20483539f71f89403ade70ad3c6bc09adfdd4"
-  integrity sha512-uk5qkVYZliLDOhvO5rYZPW5d0An8XsgSUXoH7h4Uy/06awwNJqW2Fv9WqjrsCcF5Gvpuheg+5MYH8RoFDcX6bQ==
+"@department-of-veterans-affairs/formation-react@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.0.0.tgz#f5937d5c6c3f74cea993140ad4d4846a947102a0"
+  integrity sha512-tpBrQDgMZTW9V555KRtgSZTQntRIp7SvNr2HTD42qtoHWa59fjLLRzQymhfRV93mLVWQWCL87rbKic4puW6LMA==
+  dependencies:
+    classnames "^2.2.6"
+    lodash "^4.17.11"
+    moment "^2.23.0"
+    prop-types "^15.6.2"
+    react-transition-group "1"
+    window-or-global "^1.0.1"
+
+"@department-of-veterans-affairs/formation@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.0.0.tgz#1254f676f0ea40503d21e015770b99444a61132e"
+  integrity sha512-CBaSuPunk/xWfI2ebX03m/qrXMkgWBtHhcXHtgvrwSdrZIecMIrTBSmuHo2KbAeAzsQJr9q/PBl5UHeTdVfduA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
-    classnames "^2.2.5"
     foundation-sites "5"
-    is-docker "^1.1.0"
-    lodash "^4.5.1"
-    moment "^2.21.0"
-    prop-types "^15.6.0"
-    react-transition-group "^1.x"
-    window-or-global "^1.0.1"
+    moment "^2.23.0"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
   version "1.0.0"
@@ -2147,6 +2153,11 @@ classlist-polyfill@^1.0.3:
 classnames@^2.2.0, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 cli-cursor@^1.0.1:
   version "1.0.2"
@@ -5367,11 +5378,6 @@ is-descriptor@^1.0.0, is-descriptor@^1.0.2:
     is-data-descriptor "^1.0.0"
     kind-of "^6.0.2"
 
-is-docker@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-1.1.0.tgz#f04374d4eee5310e9a8e113bf1495411e46176a1"
-  integrity sha1-8EN01O7lMQ6ajhE78UlUEeRhdqE=
-
 is-dotfile@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.2.tgz#2c132383f39199f8edc268ca01b9b007d205cc4d"
@@ -5860,9 +5866,10 @@ jest-haste-map@^23.6.0:
     micromatch "^2.3.11"
     sane "^2.0.0"
 
-jest-image-snapshot@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/jest-image-snapshot/-/jest-image-snapshot-2.6.0.tgz#eda88e08e0a2022c1094d8e2ab5afd3e7c9809e2"
+jest-image-snapshot@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/jest-image-snapshot/-/jest-image-snapshot-2.7.0.tgz#6e3b11a1d5895123c45ce034e0fd163fe49e6149"
+  integrity sha512-BlayrfEw+qtWiUrSeYIZFQwT4yEIYdXCt0yiUVLdL/dSrH5qg46PIfy8yvbUBhGJLR9KhPHLpB3dNVRNd1OaaA==
   dependencies:
     chalk "^1.1.3"
     get-stdin "^5.0.1"
@@ -6827,7 +6834,7 @@ lodash@^2.4.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
 
-lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.4:
+lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -7448,10 +7455,10 @@ moment@^2.15.1, moment@^2.5.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
-moment@^2.21.0:
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
-  integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
+moment@^2.23.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 moo@^0.4.3:
   version "0.4.3"
@@ -8719,7 +8726,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.2:
+prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -9118,7 +9125,7 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.7.0:
     react-is "^16.7.0"
     scheduler "^0.12.0"
 
-react-transition-group@1, react-transition-group@^1.1.2, react-transition-group@^1.x:
+react-transition-group@1, react-transition-group@^1.1.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.2.1.tgz#e11f72b257f921b213229a774df46612346c7ca6"
   integrity sha512-CWaL3laCmgAFdxdKbhhps+c0HRGF4c+hdM4H23+FI1QBNUyx/AMeIJGWorehPNSaKnQNOAxL7PQmqMu78CDj3Q==
@@ -11324,9 +11331,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#fb28c9645269be8e5913e536c8c06fb0c2384b06":
-  version "3.131.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fb28c9645269be8e5913e536c8c06fb0c2384b06"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9b5bd9ecc5f1b13fd21743df9356e1ce8aec8520":
+  version "3.133.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9b5bd9ecc5f1b13fd21743df9356e1ce8aec8520"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"

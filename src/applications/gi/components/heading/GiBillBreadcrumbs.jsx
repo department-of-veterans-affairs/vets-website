@@ -1,7 +1,7 @@
 import { Link, browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class GiBillBreadcrumbs extends React.Component {
   render() {

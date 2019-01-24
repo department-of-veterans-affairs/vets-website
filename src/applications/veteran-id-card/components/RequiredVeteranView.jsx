@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
 
 import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
 import EmailVICHelp from '../../../platform/brand-consolidation/components/EmailVICHelp';

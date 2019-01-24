@@ -10,6 +10,7 @@ import edu1990nManifest from '../../edu-benefits/1990n/manifest.json';
 import edu5490Manifest from '../../edu-benefits/5490/manifest.json';
 import edu5495Manifest from '../../edu-benefits/5495/manifest.json';
 import edu0993Manifest from '../../edu-benefits/0993/manifest.json';
+import edu0994Manifest from '../../edu-benefits/0994/manifest.json';
 import preneedManifest from '../../pre-need/manifest.json';
 import pensionManifest from '../../pensions/manifest.json';
 import disability526Manifest from '../../disability-benefits/526EZ/manifest.json';
@@ -25,6 +26,7 @@ import edu1990nConfig from '../../edu-benefits/1990n/config/form.js';
 import edu5490Config from '../../edu-benefits/5490/config/form.js';
 import edu5495Config from '../../edu-benefits/5495/config/form.js';
 import edu0993Config from '../../edu-benefits/0993/config/form.js';
+import edu0994Config from '../../edu-benefits/0994/config/form.js';
 import preneedConfig from '../../pre-need/config/form.jsx';
 import pensionConfig from '../../pensions/config/form.js';
 import vicV2Config from '../../vic-v2/config/form';
@@ -37,6 +39,7 @@ export const formConfigs = {
   '21P-527EZ': pensionConfig,
   '21P-530': burialsConfig,
   '22-0993': edu0993Config,
+  '22-0994': edu0994Config,
   '22-1990': edu1990Config,
   '22-1990E': edu1990eConfig,
   '22-1990N': edu1990nConfig,
@@ -55,6 +58,7 @@ export const formBenefits = {
   '21P-530': 'burial benefits',
   '1010ez': 'health care benefits',
   '22-0993': 'opt out',
+  '22-0994': 'vet tec',
   '22-1990': 'education benefits',
   '22-1990E': 'education benefits',
   '22-1990N': 'education benefits',
@@ -90,6 +94,7 @@ export const formLinks = {
   '21P-530': `${burialsManifest.rootUrl}/`,
   '1010ez': `${hcaManifest.rootUrl}/`,
   '22-0993': `${edu0993Manifest.rootUrl}/`,
+  '22-0994': `${edu0994Manifest.rootUrl}/`,
   '22-1990': `${edu1990Manifest.rootUrl}/`,
   '22-1990E': `${edu1990eManifest.rootUrl}/`,
   '22-1990N': `${edu1990nManifest.rootUrl}/`,
@@ -110,6 +115,7 @@ export const trackingPrefixes = {
   '21P-530': 'burials-530-',
   '1010ez': 'hca-',
   '22-0993': 'edu-0993-',
+  '22-0994': 'edu-0994-',
   '22-1990': 'edu-',
   '22-1990E': 'edu-1990e-',
   '22-1990N': 'edu-1990n-',
@@ -130,6 +136,7 @@ export const sipEnabledForms = new Set([
   '21P-527EZ',
   '21P-530',
   '22-0993',
+  '22-0994',
   '22-1990',
   '22-1990E',
   '22-1990N',

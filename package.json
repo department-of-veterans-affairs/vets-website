@@ -5,7 +5,7 @@
   "scripts": {
     "apps": "node --eval \"require('./script/manifest-helpers.js').displayApplications()\"",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
-    "build": "node script/build.js",
+    "build": "node --max-old-space-size=4096 script/build.js",
     "build:redirects": "node script/vets-gov-to-va-gov.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
@@ -35,6 +35,7 @@
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --reporter dot --reporter mocha-junit-reporter --no-color --opts src/platform/testing/unit/mocha.opts --recursive '{src,test}/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js",
+    "test:puppeteer": "./script/run-puppeteer-tests.sh",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
@@ -50,6 +51,8 @@
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "test:visual:mobile": "./script/run-nightwatch.sh --visual --mobile",
     "test:visual:mobile:baseline": "./script/run-nightwatch.sh --visual --command=baseline --mobile",
+    "test:vrt:baseline": "jest -c=config/jest-vrt.config.js -u",
+    "test:vrt": "jest -c=config/jest-vrt.config.js",
     "test:integration": "jest -c=config/jest-integration.config.js",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
@@ -134,7 +137,7 @@
     "imports-loader": "^0.6.5",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
-    "jest-image-snapshot": "^2.6.0",
+    "jest-image-snapshot": "^2.7.0",
     "jsdom": "^11.1.0",
     "json2csv": "^4.2.1",
     "libxmljs": "^0.19.5",
@@ -184,7 +187,8 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^2.0.0",
+    "@department-of-veterans-affairs/formation": "^3.0.0",
+    "@department-of-veterans-affairs/formation-react": "^3.0.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@octokit/rest": "^16.2.0",
@@ -242,7 +246,7 @@
     "us-forms-system": "https://github.com/usds/us-forms-system.git#1896964554d5122b236527f88253f2e1dd9d14b4",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fb28c9645269be8e5913e536c8c06fb0c2384b06",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9b5bd9ecc5f1b13fd21743df9356e1ce8aec8520",
     "whatwg-fetch": "^2.0.3"
   }
 }

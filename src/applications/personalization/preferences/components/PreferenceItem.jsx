@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const CallToAction = ({ cta }) => {
   const { description, link, text, gaTag } = cta;
