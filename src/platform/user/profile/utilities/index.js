@@ -39,7 +39,7 @@ export function mapRawUserDataToState(json) {
         veteranStatus,
       },
     },
-    errors,
+    meta: { errors },
   } = camelCaseKeysRecursive(json);
 
   const userState = {
@@ -68,7 +68,9 @@ export function mapRawUserDataToState(json) {
     const errorStatus = errors.find(
       error => error.service === commonServices.EMIS,
     ).status;
-    userState.veteranStatus.veteranStatus = errorStatus;
+    userState.veteranStatus = {
+      veteranStatus: errorStatus,
+    };
   } else {
     userState.isVeteran = veteranStatus.isVeteran;
     userState.veteranStatus = {
