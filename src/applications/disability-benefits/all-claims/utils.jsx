@@ -571,3 +571,18 @@ export const isWithinRange = (inside, outside, inclusivity = '[]') => {
 
   return insideDate.isBetween(from, to, 'days', inclusivity);
 };
+
+// This is in here instead of validations.js because it returns a jsx element
+export const getPOWValidationMessage = servicePeriodDateRanges => (
+  <span>
+    The dates you enter must be within one of the service periods you entered.
+    <ul>
+      {servicePeriodDateRanges.map((range, index) => (
+        <li key={index}>
+          {moment(range.from).format('MMMM DD, YYYY')} —{' '}
+          {moment(range.to).format('MMMM DD, YYYY')}
+        </li>
+      ))}
+    </ul>
+  </span>
+);

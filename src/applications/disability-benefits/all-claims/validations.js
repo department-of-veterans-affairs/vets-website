@@ -2,7 +2,7 @@ import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
-import { isWithinRange } from './utils';
+import { isWithinRange, getPOWValidationMessage } from './utils';
 
 import {
   MILITARY_CITIES,
@@ -215,17 +215,21 @@ export const hasMonthYear = (err, fieldData) => {
 };
 
 export const isWithinServicePeriod = (errors, fieldData, formData) => {
-  const inServicePeriod = _.get(
+  const servicePeriods = _.get(
     'serviceInformation.servicePeriods',
     formData,
     [],
-  ).some(pos => isWithinRange(fieldData, pos.dateRange));
+  );
+  const inServicePeriod = servicePeriods.some(pos =>
+    isWithinRange(fieldData, pos.dateRange),
+  );
+
   if (!inServicePeriod) {
     const dateIsComplete = dateString =>
       dateString && !dateString.includes('X');
     if (dateIsComplete(fieldData.from) && dateIsComplete(fieldData.to)) {
       errors.from.addError(
-        'The dates you enter must be within a single service period.',
+        getPOWValidationMessage(servicePeriods.map(period => period.dateRange)),
       );
       errors.to.addError('');
     }
