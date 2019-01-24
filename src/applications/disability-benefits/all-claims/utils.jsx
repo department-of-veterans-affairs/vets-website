@@ -23,7 +23,6 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
-  PTSD,
   PTSD_MATCHES,
 } from './constants';
 
@@ -388,8 +387,10 @@ export const isDisabilityPtsd = disability => {
   }
 
   const loweredDisability = disability.toLowerCase();
-  return PTSD_MATCHES.some(ptsdString =>
-    ptsdString.includes(loweredDisability),
+  return PTSD_MATCHES.some(
+    ptsdString =>
+      ptsdString.includes(loweredDisability) ||
+      loweredDisability.includes(ptsdString),
   );
 };
 

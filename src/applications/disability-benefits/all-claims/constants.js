@@ -143,7 +143,6 @@ export const TWENTY_FIVE_MB = 26214400;
 
 export const FIFTY_MB = 52428800;
 
-export const PTSD = 'ptsd';
 export const PTSD_MATCHES = [
   'ptsd',
   'post traumatic stress disorder',
