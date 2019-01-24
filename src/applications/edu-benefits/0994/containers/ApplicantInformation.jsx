@@ -13,7 +13,7 @@ export class ApplicantInformation extends React.Component {
       dateOfBirth,
       applicantGender,
     } = formData;
-    const { first, middle, last, suffix } = formData.applicantFullName;
+    const { first, middle, last } = formData.applicantFullName;
     const mask = srSubstitute('●●●–●●–', 'ending with');
 
     return (
@@ -21,7 +21,7 @@ export class ApplicantInformation extends React.Component {
         <p>This is your personal information we have on file.</p>
         <div className="blue-bar-block">
           <strong>
-            {first} {middle} {last} {suffix}
+            {first} {middle} {last}
           </strong>
           {dateOfBirth && (
             <p>
@@ -38,6 +38,9 @@ export class ApplicantInformation extends React.Component {
           {applicantGender && <p>Gender: {genderLabels[applicantGender]}</p>}
         </div>
         {EditNote('personal information')}
+        <p>
+          <a href="/profile">Go to my profile page</a>.
+        </p>
       </div>
     );
   }
