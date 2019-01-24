@@ -148,11 +148,129 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
 
-  configureAssets(smith, BUILD_OPTIONS);
+  // configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
+
+  smith.use((files, smith) => {
+
+    const {
+      collections: COLLECTIONS
+    } = smith.metadata();
+
+    function getLinkElement(relatedPage) {
+      const element = {
+        destination: relatedPage.href || relatedPage.path,
+        label: relatedPage.display_title || relatedPage.title
+      };
+
+      if (relatedPage.children) {
+        const children = COLLECTIONS[relatedPage.children];
+
+        element.children = children.map(childPage => {
+          return {
+            destination: childPage.href || childPage.path,
+            label: childPage.display_title || childPage.title
+          };
+        });
+      }
+
+      return element;
+    }
+
+    const SIDENAV_DATA = [];
+
+    for (const fileName of Object.keys(files)) {
+      const page = files[fileName];
+
+      if (!page.collection) continue;
+
+      const collectionIds = page.collection;
+
+      for (const collectionId of collectionIds) {
+
+        const collection = COLLECTIONS[collectionId];
+
+        if (!collection) continue;
+
+        const {
+          metadata: {
+            name,
+            hub,
+            spokes: SPOKES = ['Get Benefits','Manage Benefits','More Resources']
+          }
+        } = collection;
+
+        let sideNav = SIDENAV_DATA.find(d => d.id === collectionId);
+
+        if (sideNav) {
+          sideNav.appliesTo.push(page.path);
+          continue;
+        }
+
+        if (page.spoke) {
+          const accordionSidebar = {
+            __hub__: hub,
+            id: collectionId,
+            name,
+            appliesTo: [page.path]
+          };
+
+          accordionSidebar.spokes = SPOKES.map(spoke => {
+
+            const links = collection
+              .filter(relatedPage => !relatedPage.hideFromSidebar)
+              .filter(relatedPage => relatedPage.spoke === spoke)
+              .map(getLinkElement);
+
+            return {
+              spoke,
+              links
+            };
+
+          });
+
+          SIDENAV_DATA.push(accordionSidebar);
+        } else {
+
+          const regularSidebar = {
+            id: collectionId,
+            name,
+            appliesTo: [page.path]
+          };
+
+          if (page.previous) {
+            regularSidebar.backLink = {
+              label: page.previous.display_title || page.previous.title,
+              destination: page.previous.path
+            };
+          }
+
+          regularSidebar.links = collection
+            .filter(relatedPage => collection.metadata.name !== relatedPage.display_title && collection.metadata.name !== relatedPage.title)
+            .filter(relatedPage => !relatedPage.hideFromSidebar)
+            .map(getLinkElement);
+
+          SIDENAV_DATA.push(regularSidebar);
+        }
+      }
+
+    }
+
+    SIDENAV_DATA.forEach(sideNav => {
+      delete sideNav.id;
+    });
+
+    files['sidenav-configurations.json'] = {
+      path: 'sidenav-configurations.json',
+      contents: JSON.stringify(SIDENAV_DATA, null, 4)
+    };
+
+
+    // console.log(SIDENAV_DATA);
+  });
 
   /* eslint-disable no-console */
   smith.build(err => {
