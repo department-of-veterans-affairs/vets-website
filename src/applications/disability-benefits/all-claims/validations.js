@@ -218,6 +218,6 @@ export const validateDisabilityName = (err, fieldData) => {
   ) {
     // technically single quotes (’) are allowed as well but leaving out of
     // this message to avoid confusing veterans who can't tell the difference
-    err.addError('The only special characters allowed are: , . ( ) / \\');
+    err.addError('The only special characters allowed are: , . ( ) / -');
   }
 };
