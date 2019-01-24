@@ -2,6 +2,7 @@ import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
 import { uiDescription } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
+import { validateDisabilityName } from '../validations';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
@@ -30,6 +31,8 @@ export const uiSchema = {
           'ui:options': {
             freeInput: true,
           },
+          // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+          'ui:validations': [validateDisabilityName],
         },
       ),
       'view:descriptionInfo': {
