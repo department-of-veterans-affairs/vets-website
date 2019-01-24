@@ -23,7 +23,8 @@ export const uiSchema = {
     },
     confinements: {
       'ui:title': ' ',
-      'ui:description': 'Please tell us your dates of confinement',
+      'ui:description':
+        'Please tell us your dates of confinement. The dates need to be within a single service period.',
       'ui:options': {
         viewField: PeriodOfConfinement,
         reviewTitle: 'Periods of confinement',

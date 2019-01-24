@@ -217,8 +217,10 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
     const dateIsComplete = dateString =>
       dateString && !dateString.includes('X');
     if (dateIsComplete(fieldData.from) && dateIsComplete(fieldData.to)) {
-      errors.from.addError('Must be within a single period of service.');
-      errors.to.addError('Must be within a single period of service.');
+      errors.from.addError(
+        'The dates you enter must be within a single service period.',
+      );
+      errors.to.addError('');
     }
   }
 };
