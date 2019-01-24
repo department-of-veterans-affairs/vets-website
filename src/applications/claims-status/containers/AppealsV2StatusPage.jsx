@@ -6,7 +6,7 @@ import {
   getStatusContents,
   getNextEvents,
   ALERT_TYPES,
-  APPEAL_TYPES,
+  APPEAL_STATUSES,
   EVENT_TYPES,
   STATUS_TYPES,
 } from '../utils/appeals-v2-helpers';
@@ -53,8 +53,8 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     STATUS_TYPES.bvaDevelopment,
   ];
   const hideDocketAppealTypes = [
-    APPEAL_TYPES.reconsideration,
-    APPEAL_TYPES.cue,
+    APPEAL_STATUSES.reconsideration,
+    APPEAL_STATUSES.cue,
   ];
   const shouldShowDocket =
     appealIsActive &&
