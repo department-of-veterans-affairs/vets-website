@@ -75,6 +75,7 @@ function initUserMock(token, level) {
           },
         },
       },
+      meta: { errors: null },
     },
   });
 }
