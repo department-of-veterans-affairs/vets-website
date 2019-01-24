@@ -5,7 +5,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
-  VDC_DISABILITY_NAME_REGEX,
+  EVSS_DISABILITY_NAME_REGEX,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -214,7 +214,7 @@ export const hasMonthYear = (err, fieldData) => {
 export const validateDisabilityName = (err, fieldData) => {
   if (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
-    !VDC_DISABILITY_NAME_REGEX.test(fieldData)
+    !EVSS_DISABILITY_NAME_REGEX.test(fieldData)
   ) {
     // technically single quotes (’) are allowed as well but leaving out of
     // this message to avoid confusing veterans who can't tell the difference
