@@ -39,7 +39,7 @@ export function mapRawUserDataToState(json) {
         veteranStatus,
       },
     },
-    meta: { errors },
+    meta,
   } = camelCaseKeysRecursive(json);
 
   const userState = {
@@ -64,8 +64,8 @@ export function mapRawUserDataToState(json) {
       : mockContactInformation,
   };
 
-  if (veteranStatus === null) {
-    const errorStatus = errors.find(
+  if (meta && veteranStatus === null) {
+    const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.EMIS,
     ).status;
     userState.veteranStatus = {
@@ -80,8 +80,8 @@ export function mapRawUserDataToState(json) {
     };
   }
 
-  if (vaProfile === null) {
-    const errorStatus = errors.find(
+  if (meta && vaProfile === null) {
+    const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.MVI,
     ).status;
     userState.status = errorStatus;
@@ -91,8 +91,8 @@ export function mapRawUserDataToState(json) {
 
   // This one is checking userState because there's no extra mapping and it's
   // easier to leave the mocking code the way it is
-  if (userState.vet360 === null) {
-    const errorStatus = errors.find(
+  if (meta && userState.vet360 === null) {
+    const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.Vet360,
     ).status;
     userState.vet360 = { status: errorStatus };
