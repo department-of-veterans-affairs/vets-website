@@ -39,7 +39,9 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
                       target="_blank" rel="noopener noreferrer"
                     {% endif %}
                     >
-                    {% if link.icon != empty %}
+                    {% if link.icon == 'fa-envelope' %}
+                      <i class="fas {{link.icon}}"></i>
+                    {% else if link.icon != empty %}
                       <i class="fab {{link.icon}}"></i>
                     {% endif %}
 

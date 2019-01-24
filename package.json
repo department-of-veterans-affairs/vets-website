@@ -202,7 +202,7 @@
     "downshift": "^1.22.5",
     "express": "^4.14.0",
     "fast-levenshtein": "^2.0.6",
-    "fine-uploader": "^5.11.8",
+    "fine-uploader": "^5.11.8",  
     "foundation-sites": "^5.5.3",
     "gray-matter": "^4.0.1",
     "history": "3",
