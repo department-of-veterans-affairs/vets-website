@@ -1,2 +1,14 @@
-<h1>{{ block.entity.entityType }}</h1>
+{% comment %}
+  Example data:
+  {
+    block: {
+      entity: {
+        entityBundle: "collapsible_panel"
+        entityRendered: "  <div class="paragraph paragraph--type--collapsible-panel paragraph--view-mode--full">...</div>"
+        entityType: "paragraph"
+      }
+    }
+  }
+{% endcomment %}
+
 {{ block.entity.entityRendered }}

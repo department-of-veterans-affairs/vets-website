@@ -9,8 +9,6 @@
       </div>
     {% endif %}
 
-    <h1>Entity ID: {{ entityId }}</h1>
-
     <article class="usa-content">
       <h1>{{ title }}</h1>
       <div class="usa-font-lead">
@@ -18,8 +16,8 @@
       </div>
       {% for block in fieldContentBlock %}
         {% assign bundleComponent = "src/site/bundles/" | append: block.entity.entityBundle %}
-        {% assign bundleComponentWithExtensions = bundleComponent | append: ".drupal.liquid" %}
-        {% include {{ bundleComponentWithExtensions }} with block = block %}
+        {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+        {% include {{ bundleComponentWithExtension }} with block = block %}
       {% endfor %}
     </article>
 
