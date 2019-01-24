@@ -22,7 +22,7 @@
     "view:newDisabilities": false,
     "ratedDisabilities": [
       {
-        "name": "Aging",
+        "name": "First Condition",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
