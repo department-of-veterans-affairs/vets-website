@@ -4,6 +4,7 @@
  */
 module.exports = `
   fragment page on NodePage {
+    entityId
     entityUrl {
       path
     }
