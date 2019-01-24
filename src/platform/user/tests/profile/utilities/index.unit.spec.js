@@ -60,6 +60,7 @@ let oldLocation;
 
 describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
+    // This url change is to work around the Vet 360 data mocking
     beforeEach(() => {
       oldLocation = document.location.href;
       global.dom.reconfigure({ url: 'https://www.va.gov' });
@@ -124,7 +125,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
-              service: 'MVI',
+              externalService: 'MVI',
               status: 'SERVER_ERROR',
             },
           ],
@@ -142,7 +143,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
-              service: 'EMIS',
+              externalService: 'EMIS',
               status: 'NOT_FOUND',
             },
           ],
@@ -160,7 +161,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
-              service: 'Vet360',
+              externalService: 'Vet360',
               status: 'NOT_AUTHORIZED',
             },
           ],

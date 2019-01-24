@@ -66,7 +66,7 @@ export function mapRawUserDataToState(json) {
 
   if (veteranStatus === null) {
     const errorStatus = errors.find(
-      error => error.service === commonServices.EMIS,
+      error => error.externalService === commonServices.EMIS,
     ).status;
     userState.veteranStatus = {
       veteranStatus: errorStatus,
@@ -82,7 +82,7 @@ export function mapRawUserDataToState(json) {
 
   if (vaProfile === null) {
     const errorStatus = errors.find(
-      error => error.service === commonServices.MVI,
+      error => error.externalService === commonServices.MVI,
     ).status;
     userState.status = errorStatus;
   } else {
@@ -93,7 +93,7 @@ export function mapRawUserDataToState(json) {
   // easier to leave the mocking code the way it is
   if (userState.vet360 === null) {
     const errorStatus = errors.find(
-      error => error.service === commonServices.Vet360,
+      error => error.externalService === commonServices.Vet360,
     ).status;
     userState.vet360 = { status: errorStatus };
   }
