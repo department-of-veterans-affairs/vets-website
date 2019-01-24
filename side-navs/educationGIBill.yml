@@ -1,9 +1,9 @@
 name: Education and Training
 appliesTo:
   - education/about-gi-bill-benefits/montgomery-active-duty
-  - education/about-gi-bill-benefits/montgomery-selected-reserve
-  - education/about-gi-bill-benefits/how-to-use-benefits
   - education/about-gi-bill-benefits/post-9-11
+  - education/about-gi-bill-benefits/how-to-use-benefits
+  - education/about-gi-bill-benefits/montgomery-selected-reserve
 backLink:
   label: GI Bill
   destination: education/about-gi-bill-benefits
@@ -11,43 +11,43 @@ links:
   - label: Post-9/11 GI Bill
     destination: education/about-gi-bill-benefits/post-9-11
     children:
-      - destination: education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
-        label: Yellow Ribbon Program
+      - label: Yellow Ribbon Program
+        destination: education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
   - label: Montgomery GI Bill Active Duty
     destination: education/about-gi-bill-benefits/montgomery-active-duty
     children:
-      - destination: education/about-gi-bill-benefits/montgomery-active-duty/buy-up
-        label: $600 Buy-Up Program
+      - label: $600 Buy-Up Program
+        destination: education/about-gi-bill-benefits/montgomery-active-duty/buy-up
   - label: Montgomery GI Bill Selected Reserve
     destination: education/about-gi-bill-benefits/montgomery-selected-reserve
   - label: How to Use Your Benefits
     destination: education/about-gi-bill-benefits/how-to-use-benefits
     children:
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs
-        label: Undergraduate and Graduate Degrees
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools
-        label: Foreign Programs
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning
-        label: Independent and Distance Learning
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training
-        label: Correspondence Training
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance
-        label: Tutorial Assistance
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/test-fees
-        label: Test Fees
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs
-        label: Non-College Degree Programs
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs
-        label: High-Tech Programs
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/flight-training
-        label: Flight Training
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training
-        label: Entrepreneurship Training
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/work-study
-        label: Work Study
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/co-op-training
-        label: Co-op Training
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships
-        label: On-the-Job Training
-      - destination: education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up
-        label: Tuition Assistance Top-Up
+      - label: Undergraduate and Graduate Degrees
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs
+      - label: Foreign Programs
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools
+      - label: Independent and Distance Learning
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning
+      - label: Correspondence Training
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training
+      - label: Tutorial Assistance
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance
+      - label: Test Fees
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/test-fees
+      - label: Non-College Degree Programs
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs
+      - label: High-Tech Programs
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs
+      - label: Flight Training
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/flight-training
+      - label: Entrepreneurship Training
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training
+      - label: Work Study
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/work-study
+      - label: Co-op Training
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/co-op-training
+      - label: On-the-Job Training
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships
+      - label: Tuition Assistance Top-Up
+        destination: education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up

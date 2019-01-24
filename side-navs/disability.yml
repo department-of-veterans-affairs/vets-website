@@ -1,52 +1,52 @@
 __hub__: disability
 name: Disability Benefits
 appliesTo:
-  - disability/after-you-file-claim
   - disability/add-remove-dependent
   - disability/about-disability-ratings
+  - disability/after-you-file-claim
   - disability/burials
-  - disability/check-claim
   - disability/change-direct-deposit-and-contact-information
+  - disability/check-claim
   - disability/dbq_forms
   - disability/eligibility
-  - disability/download-va-benefit-letters
   - disability/file-an-appeal
   - disability/file-for-increased
   - disability/get-help-filing-claim
+  - disability/download-va-benefit-letters
+  - disability
   - disability/how-to-file-claim
   - disability/share-medical-records
-  - disability
-  - disability/rates
   - disability/supplemental-forms
   - disability/upload-supporting-evidence
-  - disability/va-claim-exam
   - disability/va-benefits-letters
+  - disability/va-claim-exam
   - disability/va-payment-history
+  - disability/rates
 spokes:
   - spoke: Get Benefits
     links:
       - label: Eligibility
         destination: disability/eligibility
         children:
-          - destination: disability/eligibility/hazardous-materials-exposure
-            label: Exposure to Hazardous Materials
-          - destination: disability/eligibility/former-pows
-            label: Former POWs
-          - destination: disability/eligibility/ptsd
-            label: PTSD
-          - destination: disability/eligibility/illnesses-within-one-year-of-discharge
-            label: Illnesses within 1 Year of Discharge
-          - destination: disability/eligibility/special-claims
-            label: Special Claims
+          - label: Exposure to Hazardous Materials
+            destination: disability/eligibility/hazardous-materials-exposure
+          - label: Former POWs
+            destination: disability/eligibility/former-pows
+          - label: PTSD
+            destination: disability/eligibility/ptsd
+          - label: Illnesses within 1 Year of Discharge
+            destination: disability/eligibility/illnesses-within-one-year-of-discharge
+          - label: Special Claims
+            destination: disability/eligibility/special-claims
       - label: How to File a Claim
         destination: disability/how-to-file-claim
         children:
-          - destination: disability/how-to-file-claim/when-to-file
-            label: When to File
-          - destination: disability/how-to-file-claim/evidence-needed
-            label: Evidence Needed
-          - destination: disability/how-to-file-claim/supplemental-forms
-            label: Supplemental Forms
+          - label: When to File
+            destination: disability/how-to-file-claim/when-to-file
+          - label: Evidence Needed
+            destination: disability/how-to-file-claim/evidence-needed
+          - label: Supplemental Forms
+            destination: disability/how-to-file-claim/supplemental-forms
       - label: After You File Your Claim
         destination: disability/after-you-file-claim
         children: []
@@ -61,10 +61,10 @@ spokes:
       - label: File an Appeal
         destination: disability/file-an-appeal
         children:
-          - destination: disability/file-an-appeal/board-of-veterans-appeals
-            label: Board of Veterans' Appeals Hearing
-          - destination: disability/file-an-appeal/request-priority-review
-            label: Request a Priority Review
+          - label: Board of Veterans' Appeals Hearing
+            destination: disability/file-an-appeal/board-of-veterans-appeals
+          - label: Request a Priority Review
+            destination: disability/file-an-appeal/request-priority-review
       - label: Add or Remove a Dependent
         destination: disability/add-remove-dependent
       - label: Upload Evidence to Support Your Claim
@@ -84,10 +84,10 @@ spokes:
       - label: About Disability Ratings
         destination: disability/about-disability-ratings
         children:
-          - destination: disability/about-disability-ratings/effective-date
-            label: Effective Dates
-          - destination: disability/about-disability-ratings/after-you-get-a-rating
-            label: After You Get a Rating
+          - label: Effective Dates
+            destination: disability/about-disability-ratings/effective-date
+          - label: After You Get a Rating
+            destination: disability/about-disability-ratings/after-you-get-a-rating
       - label: Compensation Rates
         destination: 'http://www.benefits.va.gov/compensation/rates-index.asp'
       - label: VA Claim Exam (C&P Exam)

@@ -2,24 +2,24 @@ __hub__: life-insurance
 name: Life Insurance
 appliesTo:
   - life-insurance/about-soes
-  - life-insurance/assess-life-insurance-needs
   - life-insurance/check-appeal
+  - life-insurance/assess-life-insurance-needs
   - life-insurance/contact-us
-  - life-insurance/convert-to-commercial
   - life-insurance/enroll-vgli-autopay
   - life-insurance/file-a-claim
   - life-insurance/file-appeal-for-tsgli
-  - life-insurance/financial-counseling
+  - life-insurance/convert-to-commercial
   - life-insurance
   - life-insurance/life-insurance-forms
+  - life-insurance/financial-counseling
   - life-insurance/manage-your-policy
   - life-insurance/mandatory-payments
   - life-insurance/myths-and-rumors
-  - life-insurance/options-eligibility
   - life-insurance/publications-handbooks
+  - life-insurance/options-eligibility
   - life-insurance/search-unclaimed-funds
-  - life-insurance/totally-disabled-or-terminally-ill
   - life-insurance/uninsurable-conditions
+  - life-insurance/totally-disabled-or-terminally-ill
   - life-insurance/update-beneficiaries
 spokes:
   - spoke: Get Benefits
@@ -27,20 +27,20 @@ spokes:
       - label: Options and Eligibility
         destination: life-insurance/options-eligibility
         children:
-          - destination: life-insurance/options-eligibility/sgli
-            label: Servicemembers’ Group (SGLI)
-          - destination: life-insurance/options-eligibility/fsgli
-            label: Family Servicemembers’ Group (FSGLI)
-          - destination: life-insurance/options-eligibility/tsgli
-            label: Traumatic Injury Protection (TSGLI)
-          - destination: life-insurance/options-eligibility/vgli
-            label: Veterans’ Group (VGLI)
-          - destination: life-insurance/options-eligibility/s-dvi
-            label: Service-Disabled Veterans (S-DVI)
-          - destination: life-insurance/options-eligibility/vmli
-            label: Veterans’ Mortgage (VMLI)
-          - destination: 'https://www.benefits.va.gov/insurance/select.asp'
-            label: Other VA Programs
+          - label: Servicemembers’ Group (SGLI)
+            destination: life-insurance/options-eligibility/sgli
+          - label: Family Servicemembers’ Group (FSGLI)
+            destination: life-insurance/options-eligibility/fsgli
+          - label: Traumatic Injury Protection (TSGLI)
+            destination: life-insurance/options-eligibility/tsgli
+          - label: Veterans’ Group (VGLI)
+            destination: life-insurance/options-eligibility/vgli
+          - label: Service-Disabled Veterans (S-DVI)
+            destination: life-insurance/options-eligibility/s-dvi
+          - label: Veterans’ Mortgage (VMLI)
+            destination: life-insurance/options-eligibility/vmli
+          - label: Other VA Programs
+            destination: 'https://www.benefits.va.gov/insurance/select.asp'
       - label: Totally Disabled or Terminally Ill
         destination: life-insurance/totally-disabled-or-terminally-ill
       - label: Financial Counseling and Online Will Prep

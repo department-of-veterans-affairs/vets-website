@@ -1,55 +1,55 @@
 __hub__: burials
 name: Burials and Memorials
 appliesTo:
-  - burials-memorials/bereavement-counseling
   - burials-memorials/burial-benefits-faqs
   - burials-memorials/daily-burial-schedule
+  - burials-memorials/bereavement-counseling
   - burials-memorials/dependency-indemnity-compensation
   - burials-memorials/eligibility
   - burials-memorials/find-a-cemetery
-  - burials-memorials/grave-locator
   - burials-memorials/memorial-items
   - burials-memorials/parents-dic-rates
+  - burials-memorials/grave-locator
   - burials-memorials/plan-a-burial
-  - burials-memorials/schedule-a-burial
-  - burials-memorials/pre-need-eligibility
   - burials-memorials/replace-medals-awards-and-decorations
+  - burials-memorials/pre-need-eligibility
+  - burials-memorials/schedule-a-burial
   - burials-memorials/request-military-records
-  - burials-memorials/search-historical-military-records
   - burials-memorials/survivor-dic-rates
-  - burials-memorials/what-to-expect-at-military-funeral
+  - burials-memorials/search-historical-military-records
   - burials-memorials/veterans-burial-allowance
+  - burials-memorials/what-to-expect-at-military-funeral
 spokes:
   - spoke: Get Benefits
     links:
       - label: Eligibility
         destination: burials-memorials/eligibility
         children:
-          - destination: 'https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp'
-            label: Burial in a Private Cemetery
+          - label: Burial in a Private Cemetery
+            destination: 'https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp'
       - label: Pre-need Burial Eligibility Determination
         destination: burials-memorials/pre-need-eligibility
         children:
-          - destination: /burials-and-memorials/pre-need/form-10007-apply-for-eligibility/
-            label: Apply Now
-          - destination: 'http://www.cem.va.gov/CEM/pre-need/FAQ/'
-            label: FAQs
-          - destination: burials-memorials/pre-need-eligibility/after-you-apply
-            label: After You Apply
+          - label: Apply Now
+            destination: /burials-and-memorials/pre-need/form-10007-apply-for-eligibility/
+          - label: FAQs
+            destination: 'http://www.cem.va.gov/CEM/pre-need/FAQ/'
+          - label: After You Apply
+            destination: burials-memorials/pre-need-eligibility/after-you-apply
       - label: Burial Allowance
         destination: burials-memorials/veterans-burial-allowance
         children:
-          - destination: burials-and-memorials/application/530
-            label: Apply Now
+          - label: Apply Now
+            destination: burials-and-memorials/application/530
       - label: Memorial Items
         destination: burials-memorials/memorial-items
         children:
-          - destination: burials-memorials/memorial-items/headstones-markers-medallions
-            label: 'Headstones, Markers or Medallions'
-          - destination: burials-memorials/memorial-items/burial-flags
-            label: Burial Flags
-          - destination: burials-memorials/memorial-items/presidential-memorial-certificates
-            label: Presidential Memorial Certificates
+          - label: 'Headstones, Markers or Medallions'
+            destination: burials-memorials/memorial-items/headstones-markers-medallions
+          - label: Burial Flags
+            destination: burials-memorials/memorial-items/burial-flags
+          - label: Presidential Memorial Certificates
+            destination: burials-memorials/memorial-items/presidential-memorial-certificates
       - label: Survivor and Dependent Compensation (DIC)
         destination: burials-memorials/dependency-indemnity-compensation
       - label: Bereavement Counseling
@@ -59,8 +59,8 @@ spokes:
       - label: Plan a Burial
         destination: burials-memorials/plan-a-burial
         children:
-          - destination: 'https://www.cem.va.gov/CEM/military_funeral_honors.asp'
-            label: Military Funeral Honors
+          - label: Military Funeral Honors
+            destination: 'https://www.cem.va.gov/CEM/military_funeral_honors.asp'
       - label: Schedule a Burial
         destination: 'https://www.cem.va.gov/cem/burial_benefits/need.asp'
       - label: Find a Cemetery

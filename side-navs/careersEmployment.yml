@@ -1,37 +1,37 @@
 __hub__: careers
 name: Careers and Employment
 appliesTo:
-  - careers-employment/careerscope-skills-assessment
-  - careers-employment/dependent-benefits
   - careers-employment/education-and-career-counseling
   - careers-employment/family-resources
-  - careers-employment/find-a-job
   - careers-employment/find-va-careers
-  - careers-employment/get-linkedin-classes
+  - careers-employment/find-a-job
   - careers-employment
   - careers-employment/print-civil-service-preference-letter
+  - careers-employment/get-linkedin-classes
   - careers-employment/subsistence-allowance-rates
-  - careers-employment/program-definitions
   - careers-employment/success-stories
-  - careers-employment/veteran-owned-business-support
   - careers-employment/va-transition-assistance
+  - careers-employment/veteran-owned-business-support
   - careers-employment/veteran-resources
   - careers-employment/vetsuccess-on-campus
+  - careers-employment/careerscope-skills-assessment
   - careers-employment/vocational-rehabilitation
+  - careers-employment/dependent-benefits
+  - careers-employment/program-definitions
 spokes:
   - spoke: Get Benefits
     links:
       - label: Vocational Rehab and Employment
         destination: careers-employment/vocational-rehabilitation
         children:
-          - destination: careers-employment/vocational-rehabilitation/programs
-            label: Programs
-          - destination: careers-employment/vocational-rehabilitation/eligibility
-            label: Eligibility
-          - destination: careers-employment/vocational-rehabilitation/how-to-apply
-            label: How to Apply
-          - destination: careers-employment/vocational-rehabilitation/ides
-            label: Accessing VR&E Through IDES
+          - label: Programs
+            destination: careers-employment/vocational-rehabilitation/programs
+          - label: Eligibility
+            destination: careers-employment/vocational-rehabilitation/eligibility
+          - label: How to Apply
+            destination: careers-employment/vocational-rehabilitation/how-to-apply
+          - label: Accessing VR&E Through IDES
+            destination: careers-employment/vocational-rehabilitation/ides
       - label: Educational and Career Counseling
         destination: careers-employment/education-and-career-counseling
       - label: Veteran-Owned Business Support

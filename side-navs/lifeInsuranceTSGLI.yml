@@ -1,7 +1,7 @@
 name: Life Insurance
 appliesTo:
-  - life-insurance/options-eligibility/tsgli/loss-standards
   - life-insurance/options-eligibility/tsgli/retroactive-benefits
+  - life-insurance/options-eligibility/tsgli/loss-standards
 backLink:
   label: Traumatic Injury Protection (TSGLI)
   destination: life-insurance/options-eligibility/tsgli

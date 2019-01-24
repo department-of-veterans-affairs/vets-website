@@ -3,17 +3,17 @@ name: Pension Benefits
 appliesTo:
   - pension/aid-attendance-housebound
   - pension/change-direct-deposit-and-contact-info
+  - pension/check-claim-or-appeal-status
   - pension/eligibility
   - pension/how-to-apply
-  - pension/check-claim-or-appeal-status
-  - pension
-  - pension/protected-pension-rates
   - pension/pension-management-centers
-  - pension/survivors-pension-rates
-  - pension/va-claim-exam
-  - pension/view-va-payment-history
+  - pension
   - pension/survivors-pension
+  - pension/va-claim-exam
   - pension/veterans-pension-rates
+  - pension/view-va-payment-history
+  - pension/survivors-pension-rates
+  - pension/protected-pension-rates
   - pension/application/527EZ
 spokes:
   - spoke: Get Benefits
@@ -24,8 +24,8 @@ spokes:
       - label: How to Apply
         destination: pension/how-to-apply
         children:
-          - destination: pension/how-to-apply/fully-developed-claim
-            label: Fully Developed Claim Program
+          - label: Fully Developed Claim Program
+            destination: pension/how-to-apply/fully-developed-claim
       - label: Apply Now
         destination: pension/application/527EZ
       - label: Aid and Attendance Benefits and Housebound Allowance

@@ -2,18 +2,18 @@ name: Education and Training
 appliesTo:
   - education/about-gi-bill-benefits/how-to-use-benefits/co-op-training
   - education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training
-  - education/about-gi-bill-benefits/how-to-use-benefits/flight-training
   - education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs
+  - education/about-gi-bill-benefits/how-to-use-benefits/flight-training
   - education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs
-  - education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning
-  - education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships
-  - education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up
-  - education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools
-  - education/about-gi-bill-benefits/how-to-use-benefits/test-fees
-  - education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance
-  - education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs
   - education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training
+  - education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning
+  - education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools
+  - education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up
+  - education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships
+  - education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance
+  - education/about-gi-bill-benefits/how-to-use-benefits/test-fees
   - education/about-gi-bill-benefits/how-to-use-benefits/work-study
+  - education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs
 backLink:
   label: How to Use Your Benefits
   destination: education/about-gi-bill-benefits/how-to-use-benefits

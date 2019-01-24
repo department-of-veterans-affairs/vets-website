@@ -1,12 +1,12 @@
 name: Health Care
 appliesTo:
-  - health-care/about-va-health-benefits/cost-of-care
-  - health-care/about-va-health-benefits/dental-care
   - health-care/about-va-health-benefits/long-term-care
+  - health-care/about-va-health-benefits/dental-care
   - health-care/about-va-health-benefits/va-health-care-and-other-insurance
+  - health-care/about-va-health-benefits/cost-of-care
   - health-care/about-va-health-benefits/where-you-go-for-care
-  - health-care/about-va-health-benefits/vision-care
   - health-care/about-va-health-benefits/your-care-team
+  - health-care/about-va-health-benefits/vision-care
 backLink:
   label: About VA Health Benefits
   destination: health-care/about-va-health-benefits
@@ -15,23 +15,23 @@ links:
     destination: health-care/about-va-health-benefits/your-care-team
   - label: Where You'll Go for Care
     destination: health-care/about-va-health-benefits/where-you-go-for-care
+  - label: VA Health Care and Other Insurance
+    destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
   - label: Cost of Care
     destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
     children:
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
-        label: Cost Overview
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/copays.asp'
-        label: Health Benefit Copay
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp'
-        label: Financial Assessment
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/debt.asp'
-        label: Treasury Debt
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financialhardship.asp'
-        label: Financial Hardships
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
-        label: Dispute Medical Charges
-  - label: VA Health Care and Other Insurance
-    destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
+      - label: Cost Overview
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
+      - label: Health Benefit Copay
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/copays.asp'
+      - label: Financial Assessment
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp'
+      - label: Treasury Debt
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/debt.asp'
+      - label: Financial Hardships
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financialhardship.asp'
+      - label: Dispute Medical Charges
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
   - label: Long-Term Care
     destination: health-care/about-va-health-benefits/long-term-care
   - label: Dental Care
@@ -39,5 +39,5 @@ links:
   - label: Vision Care
     destination: health-care/about-va-health-benefits/vision-care
     children:
-      - destination: health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services
-        label: Blind and Low-Vision Services
+      - label: Blind and Low-Vision Services
+        destination: health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services

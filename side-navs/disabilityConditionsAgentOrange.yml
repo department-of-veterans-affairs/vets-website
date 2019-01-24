@@ -1,15 +1,15 @@
 name: Disability Benefits
 appliesTo:
   - disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft
-  - disability/eligibility/hazardous-materials-exposure/agent-orange/navy-coast-guard-ships-vietnam
   - disability/eligibility/hazardous-materials-exposure/agent-orange/non-hodgkins-lymphoma
-  - disability/eligibility/hazardous-materials-exposure/agent-orange/service-in-vietnam-korea
-  - disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/navy-coast-guard-ships-vietnam
   - disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam
   - disability/eligibility/hazardous-materials-exposure/agent-orange/service-outside-vietnam-korea
-  - disability/eligibility/hazardous-materials-exposure/agent-orange/thailand-military-bases
-  - disability/eligibility/hazardous-materials-exposure/agent-orange/testing-storage-areas
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/service-in-vietnam-korea
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases
   - disability/eligibility/hazardous-materials-exposure/agent-orange/vietnam-waters
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/testing-storage-areas
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/thailand-military-bases
 backLink:
   label: Agent Orange
   destination: disability/eligibility/hazardous-materials-exposure/agent-orange

@@ -1,16 +1,16 @@
 name: Housing Assistance
 appliesTo:
-  - housing-assistance/home-loans/eligibility
   - housing-assistance/home-loans/check-appeal-status
-  - housing-assistance/home-loans/find-va-acquired-properties
+  - housing-assistance/home-loans/eligibility
   - housing-assistance/home-loans/find-a-va-regional-loan-center
   - housing-assistance/home-loans/home-buying-process
+  - housing-assistance/home-loans/find-va-acquired-properties
+  - housing-assistance/home-loans/loan-types
+  - housing-assistance/home-loans/how-to-apply
   - housing-assistance/home-loans/guidance-on-natural-disasters
   - housing-assistance/home-loans/trouble-making-payments
-  - housing-assistance/home-loans/how-to-apply
   - housing-assistance/home-loans/va-loan-funding-fee
   - housing-assistance/home-loans/warning-about-refinancing-offers
-  - housing-assistance/home-loans/loan-types
 backLink:
   label: VA-Backed Home Loans
   destination: housing-assistance/home-loans
@@ -18,14 +18,14 @@ links:
   - label: Loan Types
     destination: housing-assistance/home-loans/loan-types
     children:
-      - destination: housing-assistance/home-loans/loan-types/purchase-loan
-        label: Purchase Loan
-      - destination: housing-assistance/home-loans/loan-types/cash-out-loan
-        label: Cash Out Refinance Loan
-      - destination: housing-assistance/home-loans/loan-types/native-american-direct-loan
-        label: Native American Direct Loan
-      - destination: housing-assistance/home-loans/loan-types/interest-rate-reduction-loan
-        label: Interest Rate Reduction Refinance Loan
+      - label: Purchase Loan
+        destination: housing-assistance/home-loans/loan-types/purchase-loan
+      - label: Cash Out Refinance Loan
+        destination: housing-assistance/home-loans/loan-types/cash-out-loan
+      - label: Native American Direct Loan
+        destination: housing-assistance/home-loans/loan-types/native-american-direct-loan
+      - label: Interest Rate Reduction Refinance Loan
+        destination: housing-assistance/home-loans/loan-types/interest-rate-reduction-loan
   - label: Eligibility
     destination: housing-assistance/home-loans/eligibility
   - label: How to Apply

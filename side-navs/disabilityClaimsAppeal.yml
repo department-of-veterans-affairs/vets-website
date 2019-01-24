@@ -1,7 +1,7 @@
 name: Disability Benefits
 appliesTo:
-  - disability/file-an-appeal/board-of-veterans-appeals
   - disability/file-an-appeal/request-priority-review
+  - disability/file-an-appeal/board-of-veterans-appeals
 backLink:
   label: File an Appeal
   destination: disability/file-an-appeal

@@ -1,11 +1,11 @@
 name: Health Care
 appliesTo:
   - health-care/health-needs-conditions/chemical-hazardous-materials-exposure
-  - health-care/health-needs-conditions/mental-health
-  - health-care/health-needs-conditions/health-topics-a-z
   - health-care/health-needs-conditions/health-issues-related-to-service-era
-  - health-care/health-needs-conditions/substance-use-problems
+  - health-care/health-needs-conditions/health-topics-a-z
+  - health-care/health-needs-conditions/mental-health
   - health-care/health-needs-conditions/military-sexual-trauma
+  - health-care/health-needs-conditions/substance-use-problems
   - health-care/health-needs-conditions/womens-health-needs
 backLink:
   label: Health Needs and Conditions
@@ -14,31 +14,31 @@ links:
   - label: Health Issues Related to Service Era
     destination: health-care/health-needs-conditions/health-issues-related-to-service-era
     children:
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
-        label: Operation Enduring Freedom
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
-        label: Iraq War
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
-        label: Gulf War
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
-        label: Cold War Era
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
-        label: Vietnam War
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
-        label: Korean War
-      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
-        label: World War II
+      - label: Operation Enduring Freedom
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
+      - label: Iraq War
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
+      - label: Gulf War
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
+      - label: Cold War Era
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
+      - label: Vietnam War
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
+      - label: Korean War
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
+      - label: World War II
+        destination: health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
   - label: Health Topics A-Z
     destination: 'https://www.va.gov/health/topics/index.asp'
   - label: Mental Health
     destination: health-care/health-needs-conditions/mental-health
     children:
-      - destination: health-care/health-needs-conditions/mental-health/ptsd
-        label: PTSD
-      - destination: health-care/health-needs-conditions/mental-health/depression
-        label: Depression
-      - destination: health-care/health-needs-conditions/mental-health/suicide-prevention
-        label: Suicide Prevention
+      - label: PTSD
+        destination: health-care/health-needs-conditions/mental-health/ptsd
+      - label: Depression
+        destination: health-care/health-needs-conditions/mental-health/depression
+      - label: Suicide Prevention
+        destination: health-care/health-needs-conditions/mental-health/suicide-prevention
   - label: Military Sexual Trauma
     destination: health-care/health-needs-conditions/military-sexual-trauma
   - label: Substance Use Problems

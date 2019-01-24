@@ -1,32 +1,32 @@
 __hub__: health-care
 name: Health Care
 appliesTo:
-  - health-care/about-va-health-benefits
   - health-care/about-affordable-care-act
+  - health-care/about-va-health-benefits
   - health-care/access-and-quality-in-va-health-care
   - health-care/after-you-apply
   - health-care/check-appeal-status
   - health-care/community-care
   - health-care/chemical-or-hazardous-material-exposures
   - health-care/cost-of-care
-  - health-care/family-caregiver-benefits
   - health-care/eligibility
+  - health-care/family-caregiver-benefits
+  - health-care/get-medical-records
   - health-care/get-travel-pay
   - health-care/health-benefits-explorer
   - health-care/health-needs-conditions
   - health-care/how-to-apply
-  - health-care/get-medical-records
   - health-care/make-a-payment
   - health-care/order-hearing-aid-batteries-prosthetic-socks
-  - health-care/patient-rights-and-responsibilities
-  - health-care/secure-messaging
   - health-care/request-a-health-id-card
-  - health-care/schedule-view-va-appointments
+  - health-care/patient-rights-and-responsibilities
   - health-care/the-million-veteran-program
   - health-care/update-health-information
   - health-care/veterans-choice-program
-  - health-care/wellness-programs
   - health-care/view-test-and-lab-results
+  - health-care/wellness-programs
+  - health-care/secure-messaging
+  - health-care/schedule-view-va-appointments
   - health-care/apply/application
   - health-care/refill-track-prescriptions
 spokes:
@@ -35,27 +35,27 @@ spokes:
       - label: About VA Health Benefits
         destination: health-care/about-va-health-benefits
         children:
-          - destination: health-care/about-va-health-benefits/your-care-team
-            label: Your Care Team
-          - destination: health-care/about-va-health-benefits/where-you-go-for-care
-            label: Where You'll Go for Care
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
-            label: Cost of Care
-          - destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
-            label: VA Health Care and Other Insurance
-          - destination: health-care/about-va-health-benefits/long-term-care
-            label: Long-Term Care
-          - destination: health-care/about-va-health-benefits/dental-care
-            label: Dental Care
-          - destination: health-care/about-va-health-benefits/vision-care
-            label: Vision Care
+          - label: Your Care Team
+            destination: health-care/about-va-health-benefits/your-care-team
+          - label: Where You'll Go for Care
+            destination: health-care/about-va-health-benefits/where-you-go-for-care
+          - label: VA Health Care and Other Insurance
+            destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
+          - label: Cost of Care
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
+          - label: Long-Term Care
+            destination: health-care/about-va-health-benefits/long-term-care
+          - label: Dental Care
+            destination: health-care/about-va-health-benefits/dental-care
+          - label: Vision Care
+            destination: health-care/about-va-health-benefits/vision-care
       - label: Eligibility
         destination: health-care/eligibility
         children:
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp'
-            label: Active Duty Service Members
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp'
-            label: Returning Service Members
+          - label: Active Duty Service Members
+            destination: 'https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp'
+          - label: Returning Service Members
+            destination: 'https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp'
       - label: How to Apply
         destination: health-care/how-to-apply
       - label: Apply Now
@@ -65,10 +65,10 @@ spokes:
       - label: Family and Caregiver Benefits
         destination: health-care/family-caregiver-benefits
         children:
-          - destination: health-care/family-caregiver-benefits/champva
-            label: CHAMPVA Benefits
-          - destination: health-care/family-caregiver-benefits/comprehensive-assistance
-            label: Comprehensive Assistance to Family Caregivers
+          - label: CHAMPVA Benefits
+            destination: health-care/family-caregiver-benefits/champva
+          - label: Comprehensive Assistance to Family Caregivers
+            destination: health-care/family-caregiver-benefits/comprehensive-assistance
   - spoke: Manage Benefits
     links:
       - label: Refill and Track Prescriptions
@@ -89,44 +89,44 @@ spokes:
         destination: 'https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp'
       - label: Make a Payment
         destination: 'https://www.pay.gov/public/form/start/25987221'
-      - label: Check Appeal Status
-        destination: /claim-or-appeal-status/
       - label: Request a Health ID Card
         destination: 'https://www.va.gov/HEALTHBENEFITS/vhic/index.asp'
+      - label: Check Appeal Status
+        destination: /claim-or-appeal-status/
   - spoke: More Resources
     links:
       - label: Cost of Care
         destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
         children:
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
-            label: Cost Overview
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/copays.asp'
-            label: Health Benefit Copay
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp'
-            label: Financial Assessment
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/debt.asp'
-            label: Treasury Debt
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financialhardship.asp'
-            label: Financial Hardships
-          - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
-            label: Dispute Medical Charges
+          - label: Cost Overview
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
+          - label: Health Benefit Copay
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/copays.asp'
+          - label: Financial Assessment
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp'
+          - label: Treasury Debt
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/debt.asp'
+          - label: Financial Hardships
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financialhardship.asp'
+          - label: Dispute Medical Charges
+            destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
       - label: Health Needs and Conditions
         destination: health-care/health-needs-conditions
         children:
-          - destination: health-care/health-needs-conditions/health-issues-related-to-service-era
-            label: Health Issues Related to Service Era
-          - destination: 'https://www.va.gov/health/topics/index.asp'
-            label: Health Topics A-Z
-          - destination: health-care/health-needs-conditions/mental-health
-            label: Mental Health
-          - destination: health-care/health-needs-conditions/military-sexual-trauma
-            label: Military Sexual Trauma
-          - destination: health-care/health-needs-conditions/substance-use-problems
-            label: Substance Use Problems
-          - destination: health-care/health-needs-conditions/chemical-hazardous-materials-exposure
-            label: Exposure to Hazardous Materials
-          - destination: health-care/health-needs-conditions/womens-health-needs
-            label: Women’s Health Care Needs
+          - label: Health Issues Related to Service Era
+            destination: health-care/health-needs-conditions/health-issues-related-to-service-era
+          - label: Health Topics A-Z
+            destination: 'https://www.va.gov/health/topics/index.asp'
+          - label: Mental Health
+            destination: health-care/health-needs-conditions/mental-health
+          - label: Military Sexual Trauma
+            destination: health-care/health-needs-conditions/military-sexual-trauma
+          - label: Substance Use Problems
+            destination: health-care/health-needs-conditions/substance-use-problems
+          - label: Exposure to Hazardous Materials
+            destination: health-care/health-needs-conditions/chemical-hazardous-materials-exposure
+          - label: Women’s Health Care Needs
+            destination: health-care/health-needs-conditions/womens-health-needs
       - label: Health Benefits Explorer
         destination: 'http://hbexplorer.vacloud.us/'
       - label: Wellness Programs

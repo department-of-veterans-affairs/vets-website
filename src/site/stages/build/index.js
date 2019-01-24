@@ -173,8 +173,8 @@ function defaultBuild(BUILD_OPTIONS) {
 
         element.children = children.map(childPage => {
           return {
+            label: childPage.display_title || childPage.title,
             destination: childPage.href || childPage.path,
-            label: childPage.display_title || childPage.title
           };
         });
       }

@@ -1,10 +1,10 @@
 name: Careers and Employment
 appliesTo:
-  - careers-employment/vocational-rehabilitation/programs/independent-living
   - careers-employment/vocational-rehabilitation/programs/long-term-services
+  - careers-employment/vocational-rehabilitation/programs/independent-living
+  - careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment
   - careers-employment/vocational-rehabilitation/programs/reemployment
   - careers-employment/vocational-rehabilitation/programs/self-employment
-  - careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment
 backLink:
   label: Programs
   destination: careers-employment/vocational-rehabilitation/programs

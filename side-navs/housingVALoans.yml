@@ -2,8 +2,8 @@ name: Housing Assistance
 appliesTo:
   - housing-assistance/home-loans/loan-types/cash-out-loan
   - housing-assistance/home-loans/loan-types/interest-rate-reduction-loan
-  - housing-assistance/home-loans/loan-types/native-american-direct-loan
   - housing-assistance/home-loans/loan-types/purchase-loan
+  - housing-assistance/home-loans/loan-types/native-american-direct-loan
 backLink:
   label: Loan Types
   destination: housing-assistance/home-loans/loan-types
@@ -15,7 +15,7 @@ links:
   - label: Native American Direct Loan
     destination: housing-assistance/home-loans/loan-types/native-american-direct-loan
     children:
-      - destination: 'https://www.benefits.va.gov/homeloans/nadl_mou.asp'
-        label: Tribes with Memorandums of Understanding
+      - label: Tribes with Memorandums of Understanding
+        destination: 'https://www.benefits.va.gov/homeloans/nadl_mou.asp'
   - label: Interest Rate Reduction Refinance Loan
     destination: housing-assistance/home-loans/loan-types/interest-rate-reduction-loan

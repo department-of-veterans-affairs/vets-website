@@ -1,12 +1,12 @@
 name: Health Care
 appliesTo:
-  - health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
-  - health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
   - health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
+  - health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
+  - health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
   - health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
+  - health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
   - health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
   - health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
-  - health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
 backLink:
   label: Health Issues Related to Service Era
   destination: health-care/health-needs-conditions/health-issues-related-to-service-era

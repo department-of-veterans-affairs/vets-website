@@ -1,8 +1,8 @@
 name: Education and Training
 appliesTo:
+  - education/other-va-education-benefits/veap
   - education/other-va-education-benefits/national-call-to-service-program
   - education/other-va-education-benefits/reap
-  - education/other-va-education-benefits/veap
 backLink:
   label: Other Education Benefits
   destination: education/other-va-education-benefits

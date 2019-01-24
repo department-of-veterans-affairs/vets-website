@@ -10,18 +10,18 @@ links:
   - label: 'Headstones, Markers or Medallions'
     destination: burials-memorials/memorial-items/headstones-markers-medallions
     children:
-      - destination: 'https://www.cem.va.gov/cem/hmm/types.asp'
-        label: Types
-      - destination: 'https://www.cem.va.gov/cem/hmm/replacements.asp'
-        label: Replacements
-      - destination: 'https://www.cem.va.gov/cem/hmm/pre_WWI_era.asp'
-        label: Pre-World War I Era
-      - destination: 'https://www.cem.va.gov/cem/hmm/abbreviations.asp'
-        label: Inscription Abbreviations
-      - destination: 'https://www.cem.va.gov/cem/hmm/emblems.asp'
-        label: Available Emblems of Belief
-      - destination: 'https://www.cem.va.gov/cem/hmm/discharge_documents.asp'
-        label: Discharge Documents Needed
+      - label: Types
+        destination: 'https://www.cem.va.gov/cem/hmm/types.asp'
+      - label: Replacements
+        destination: 'https://www.cem.va.gov/cem/hmm/replacements.asp'
+      - label: Pre-World War I Era
+        destination: 'https://www.cem.va.gov/cem/hmm/pre_WWI_era.asp'
+      - label: Inscription Abbreviations
+        destination: 'https://www.cem.va.gov/cem/hmm/abbreviations.asp'
+      - label: Available Emblems of Belief
+        destination: 'https://www.cem.va.gov/cem/hmm/emblems.asp'
+      - label: Discharge Documents Needed
+        destination: 'https://www.cem.va.gov/cem/hmm/discharge_documents.asp'
   - label: Burial Flags
     destination: burials-memorials/memorial-items/burial-flags
   - label: Presidential Memorial Certificates

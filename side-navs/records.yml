@@ -8,8 +8,8 @@ appliesTo:
   - records/download-va-letters
   - records/get-medical-records
   - records/get-military-service-records
-  - records/get-veteran-id-cards
   - records
+  - records/get-veteran-id-cards
 spokes:
   - spoke: Get Records
     links:
@@ -20,10 +20,10 @@ spokes:
       - label: Types of Veteran ID Cards
         destination: records/get-veteran-id-cards
         children:
-          - destination: records/get-veteran-id-cards/apply
-            label: Veteran ID Card
-          - destination: records/get-veteran-id-cards/vic
-            label: Veteran ID Card
+          - label: Veteran ID Card
+            destination: records/get-veteran-id-cards/apply
+          - label: Veteran ID Card
+            destination: records/get-veteran-id-cards/vic
       - label: Download VA Benefit Letters
         destination: records/download-va-letters
       - label: Learn How to Apply for a Home Loan COE

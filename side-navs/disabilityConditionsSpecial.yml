@@ -1,14 +1,14 @@
 name: Disability Benefits
 appliesTo:
   - disability/eligibility/special-claims/1151-claims-title-38
-  - disability/eligibility/special-claims/automobile-allowance-adaptive-equipment
   - disability/eligibility/special-claims/birth-defects
-  - disability/eligibility/special-claims/dental-care
   - disability/eligibility/special-claims/clothing-allowance
-  - disability/eligibility/special-claims/temporary-increase-for-time-in-hospital
+  - disability/eligibility/special-claims/automobile-allowance-adaptive-equipment
   - disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast
-  - disability/eligibility/special-claims/unemployability
+  - disability/eligibility/special-claims/dental-care
   - disability/eligibility/special-claims/temporary-rating-prestabilization
+  - disability/eligibility/special-claims/unemployability
+  - disability/eligibility/special-claims/temporary-increase-for-time-in-hospital
 backLink:
   label: Special Claims
   destination: disability/eligibility/special-claims

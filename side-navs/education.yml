@@ -2,34 +2,34 @@ __hub__: education
 name: Education and Training
 appliesTo:
   - gi-bill-comparison-tool
-  - education/about-gi-bill-benefits
   - education/after-you-apply
-  - education/bak_index
+  - education/apply-restore-benefits
   - education/benefit-rates
+  - education/bak_index
+  - education/change-direct-deposit
   - education/change-gi-bill-benefits
   - education/check-va-appeal-status
-  - education/change-direct-deposit
-  - education/compare-education-benefits
-  - education/choosing-a-school
-  - education/apply-restore-benefits
-  - education/contact-us
+  - education/about-gi-bill-benefits
   - education/education-and-career-counseling
-  - education/how-others-use-gi-bill
   - education/eligibility
-  - education/non-va-resources
-  - education/how-to-apply
-  - education
   - education/handouts-forms
-  - education/opt-out-information-sharing
-  - education/overpayments-and-debts
-  - education/school-feedback
+  - education/how-others-use-gi-bill
+  - education/how-to-apply
+  - education/compare-education-benefits
+  - education/non-va-resources
+  - education
+  - education/choosing-a-school
+  - education/contact-us
   - education/other-va-education-benefits
+  - education/school-feedback
   - education/submit-school-feedback
-  - education/transfer-post-9-11-gi-bill-benefits
+  - education/overpayments-and-debts
+  - education/opt-out-information-sharing
   - education/survivor-dependent-benefits
   - education/verify-school-enrollment
   - education/view-payment-history
   - education/vocational-rehab-and-employment
+  - education/transfer-post-9-11-gi-bill-benefits
   - education/gi-bill/post-9-11/ch-33-benefit
 spokes:
   - spoke: Get Benefits
@@ -37,14 +37,14 @@ spokes:
       - label: GI Bill
         destination: education/about-gi-bill-benefits
         children:
-          - destination: education/about-gi-bill-benefits/post-9-11
-            label: Post-9/11 GI Bill
-          - destination: education/about-gi-bill-benefits/montgomery-active-duty
-            label: Montgomery GI Bill Active Duty
-          - destination: education/about-gi-bill-benefits/montgomery-selected-reserve
-            label: Montgomery GI Bill Selected Reserve
-          - destination: education/about-gi-bill-benefits/how-to-use-benefits
-            label: How to Use Your Benefits
+          - label: Post-9/11 GI Bill
+            destination: education/about-gi-bill-benefits/post-9-11
+          - label: Montgomery GI Bill Active Duty
+            destination: education/about-gi-bill-benefits/montgomery-active-duty
+          - label: Montgomery GI Bill Selected Reserve
+            destination: education/about-gi-bill-benefits/montgomery-selected-reserve
+          - label: How to Use Your Benefits
+            destination: education/about-gi-bill-benefits/how-to-use-benefits
       - label: Eligibility
         destination: education/eligibility
       - label: How to Apply
@@ -58,19 +58,19 @@ spokes:
       - label: Survivor and Dependent Benefits
         destination: education/survivor-dependent-benefits
         children:
-          - destination: education/survivor-dependent-benefits/fry-scholarship
-            label: Fry Scholarship
-          - destination: education/survivor-dependent-benefits/dependents-education-assistance
-            label: Dependents Education Assistance (DEA)
+          - label: Fry Scholarship
+            destination: education/survivor-dependent-benefits/fry-scholarship
+          - label: Dependents Education Assistance (DEA)
+            destination: education/survivor-dependent-benefits/dependents-education-assistance
       - label: Other Education Benefits
         destination: education/other-va-education-benefits
         children:
-          - destination: education/other-va-education-benefits/reap
-            label: REAP
-          - destination: education/other-va-education-benefits/veap
-            label: VEAP
-          - destination: education/other-va-education-benefits/national-call-to-service-program
-            label: National Call to Service Program
+          - label: REAP
+            destination: education/other-va-education-benefits/reap
+          - label: VEAP
+            destination: education/other-va-education-benefits/veap
+          - label: National Call to Service Program
+            destination: education/other-va-education-benefits/national-call-to-service-program
   - spoke: Manage Benefits
     links:
       - label: View VA Payment History
@@ -99,10 +99,10 @@ spokes:
       - label: Choosing a School
         destination: education/choosing-a-school
         children:
-          - destination: education/choosing-a-school/principles-of-excellence
-            label: Principles of Excellence Program
-          - destination: 'https://www.benefits.va.gov/gibill/school_locator.asp'
-            label: WEAMS Institution Search
+          - label: Principles of Excellence Program
+            destination: education/choosing-a-school/principles-of-excellence
+          - label: WEAMS Institution Search
+            destination: 'https://www.benefits.va.gov/gibill/school_locator.asp'
       - label: Overpayments and Debts
         destination: 'https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp'
       - label: Contact Us

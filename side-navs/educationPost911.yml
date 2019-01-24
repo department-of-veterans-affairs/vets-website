@@ -8,7 +8,7 @@ links:
   - label: Yellow Ribbon Program
     destination: education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
     children:
-      - destination: '#'
-        label: Participating Schools
-      - destination: '#'
-        label: L5 Schools By State
+      - label: Participating Schools
+        destination: '#'
+      - label: L5 Schools By State
+        destination: '#'
