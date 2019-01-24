@@ -48,6 +48,7 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
 }
 
 export function login(policy) {
+  sessionStorage.removeItem('registrationPending');
   return redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
 }
 
@@ -68,6 +69,7 @@ export function logout() {
 }
 
 export function signup() {
+  sessionStorage.setItem('registrationPending', true);
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',

@@ -81,8 +81,14 @@ export function setupProfileSession(payload) {
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  // Report success for the login method.
-  recordEvent({ event: `login-success-${loginPolicy}` });
+  if (sessionStorage.registrationPending) {
+    // Record GA success event for the register method.
+    recordEvent({ event: `register-success-${loginPolicy}` });
+    sessionStorage.removeItem('registrationPending');
+  } else {
+    // Report GA success event for the login method.
+    recordEvent({ event: `login-success-${loginPolicy}` });
+  }
 
   // Report out the current level of assurance for the user.
   if (loa && loa.current) {
