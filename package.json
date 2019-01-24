@@ -5,7 +5,7 @@
   "scripts": {
     "apps": "node --eval \"require('./script/manifest-helpers.js').displayApplications()\"",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
-    "build": "node script/build.js",
+    "build": "node --max-old-space-size=4096 script/build.js",
     "build:redirects": "node script/vets-gov-to-va-gov.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
