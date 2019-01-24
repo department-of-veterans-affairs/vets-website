@@ -4,6 +4,9 @@ import { ancillaryFormUploadUi } from '../utils';
 
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { secondaryAttachment } = fullSchema.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
@@ -21,22 +24,6 @@ export const schema = index => ({
   type: 'object',
   required: [`secondaryUploadSources${index}`],
   properties: {
-    [`secondaryUploadSources${index}`]: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          size: {
-            type: 'integer',
-          },
-          confirmationCode: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    [`secondaryUploadSources${index}`]: secondaryAttachment,
   },
 });

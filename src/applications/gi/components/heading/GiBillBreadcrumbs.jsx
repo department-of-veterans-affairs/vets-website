@@ -1,7 +1,7 @@
 import { Link, browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class GiBillBreadcrumbs extends React.Component {
   render() {
@@ -36,9 +36,14 @@ class GiBillBreadcrumbs extends React.Component {
     if (pathname.match(/profile/)) {
       if (this.props.includeSearch) {
         crumbs.push(
-          <a onClick={browserHistory.goBack} key="search-results">
+          <button
+            type="button"
+            className="va-button-link learn-more-button"
+            onClick={browserHistory.goBack}
+            key="search-results"
+          >
             Search Results
-          </a>,
+          </button>,
         );
       }
       crumbs.push(

@@ -7,7 +7,7 @@ import moment from 'moment';
 import { loadPrescriptions } from '../actions/prescriptions';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';

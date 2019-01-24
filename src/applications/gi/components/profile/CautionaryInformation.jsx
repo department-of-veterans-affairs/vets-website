@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -45,6 +45,7 @@ export class CautionaryInformation extends React.Component {
       <a
         href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA"
         target="_blank"
+        rel="noopener"
       >
         More information on Ashford University
       </a>
@@ -56,9 +57,13 @@ export class CautionaryInformation extends React.Component {
           {it.cautionFlagReason} {schoolSpecificLink}
         </p>
         <p>
-          <a onClick={this.props.onShowModal.bind(this, 'cautionInfo')}>
+          <button
+            type="button"
+            className="va-button-link learn-more-button"
+            onClick={this.props.onShowModal.bind(this, 'cautionInfo')}
+          >
             Learn more about these warnings
-          </a>
+          </button>
         </p>
       </div>
     );
@@ -67,6 +72,7 @@ export class CautionaryInformation extends React.Component {
       <a
         href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses"
         target="_blank"
+        rel="noopener"
       >
         All campuses
       </a>
@@ -133,6 +139,7 @@ export class CautionaryInformation extends React.Component {
               <a
                 href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints"
                 target="_blank"
+                rel="noopener"
               >
                 student complaints
               </a>
@@ -142,6 +149,7 @@ export class CautionaryInformation extends React.Component {
               <a
                 href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata"
                 target="_blank"
+                rel="noopener"
               >
                 Source
               </a>

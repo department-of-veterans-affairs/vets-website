@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import ErrorableTextArea from '@department-of-veterans-affairs/formation/ErrorableTextArea';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import ErrorableTextArea from '@department-of-veterans-affairs/formation-react/ErrorableTextArea';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import CallVBACenter from '../../../brand-consolidation/components/CallVBACenter';
 
 class FeedbackForm extends React.Component {

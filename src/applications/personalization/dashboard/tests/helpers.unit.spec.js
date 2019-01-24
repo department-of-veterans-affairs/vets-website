@@ -9,6 +9,7 @@ import {
 
 import fullSchema1010ez from '../../../hca/config/form';
 import fullSchema0993 from '../../../edu-benefits/0993/config/form';
+import fullSchema0994 from '../../../edu-benefits/0994/config/form';
 import fullSchema1990 from '../../../edu-benefits/1990/config/form';
 import fullSchema1990e from '../../../edu-benefits/1990e/config/form';
 import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
@@ -33,6 +34,7 @@ const schemaToConfigIds = {
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
   '22-0993': '0993',
+  '22-0994': '0994',
   '22-1990': '1990',
   '22-1990E': '1990e',
   '22-1990N': '1990n',
@@ -51,7 +53,6 @@ const excludedForms = new Set([
   '24-0296',
   '21-4142',
   '21-526EZ-ALLCLAIMS', // TODO: remove this when we can?
-  '22-0994', // TODO: remove this when 0994 is ready
 ]);
 
 describe('profile helpers:', () => {
@@ -75,6 +76,7 @@ describe('profile helpers:', () => {
         fullSchema1010ez,
         fullSchema686,
         fullSchema0993,
+        fullSchema0994,
         fullSchema1990,
         fullSchema1990e,
         fullSchema1990n,

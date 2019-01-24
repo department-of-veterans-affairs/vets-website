@@ -17,7 +17,7 @@ import startVAFooter, {
   footerElemementId,
 } from '../../platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
-import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
+import addFocusBehaviorToCrisisLineModal from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 

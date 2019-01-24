@@ -1,6 +1,6 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'

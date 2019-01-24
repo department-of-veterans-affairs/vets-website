@@ -11,7 +11,7 @@ export default function MailOrFax({ onClose }) {
         aria-label="Close this modal"
         onClick={onClose}
       >
-        <i className="fa fa-close" />
+        <i className="far fa-times-circle" />
       </button>
       <p>
         Please upload your documents online here to help us process your claim

@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
 import Vet360EditModal from '../base/EditModal';
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
   changePageV2,
   getAppealsV2,
@@ -13,7 +13,7 @@ import {
   sortClaims,
 } from '../actions/index.jsx';
 import {
-  APPEAL_V2_TYPE,
+  APPEAL_TYPES,
   claimsAvailability,
   appealsAvailability,
   sortByLastUpdated,
@@ -29,8 +29,8 @@ import FeaturesWarning from '../components/FeaturesWarning';
 import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
 import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -74,7 +74,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_V2_TYPE) {
+    if (claim.type === APPEAL_TYPES.current) {
       return (
         <AppealListItem
           key={claim.id}

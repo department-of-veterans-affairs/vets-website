@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 

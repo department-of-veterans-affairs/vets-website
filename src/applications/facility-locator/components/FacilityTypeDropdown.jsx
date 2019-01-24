@@ -180,7 +180,7 @@ class FacilityTypeDropdown extends Component {
                       onClick={this.toggleCCInfo}
                       ref={this.setCCInfoCloseRef}
                     >
-                      <i className="fa fa-close cc-info-close-btn-icon" />
+                      <i className="fas fa-times-circle cc-info-close-btn-icon" />
                     </button>
                     <h6>What Is Community Care and Am I Eligible?</h6>
                     <p>

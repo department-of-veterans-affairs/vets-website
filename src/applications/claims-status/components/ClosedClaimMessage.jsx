@@ -3,11 +3,11 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import recordEvent from '../../../platform/monitoring/record-event';
-import { APPEAL_V2_TYPE } from '../utils/appeals-v2-helpers';
+import { APPEAL_TYPES } from '../utils/appeals-v2-helpers';
 
 import { getClaimType } from '../utils/helpers';
 
-const appealTypes = ['appeals_status_models_appeals', APPEAL_V2_TYPE];
+const appealTypes = Object.values(APPEAL_TYPES);
 
 export default function ClosedClaimMessage({ claims, onClose }) {
   const closedClaims = claims
@@ -77,7 +77,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         aria-label="Close notification"
       >
         <i
-          className="fa fa-close va-alert-close-icon"
+          className="fas fa-times-circle va-alert-close-icon"
           aria-label="Close icon"
         />
       </button>

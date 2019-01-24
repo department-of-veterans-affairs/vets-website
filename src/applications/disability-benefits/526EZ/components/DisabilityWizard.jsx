@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 
-import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation/ErrorableCheckboxGroup';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
+import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation-react/ErrorableCheckboxGroup';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
