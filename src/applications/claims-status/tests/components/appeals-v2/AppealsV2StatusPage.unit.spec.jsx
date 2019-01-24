@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { mockData } from '../../../utils/helpers';
-import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
+import { APPEAL_STATUSES } from '../../../utils/appeals-v2-helpers';
 import AppealsV2StatusPage from '../../../containers/AppealsV2StatusPage';
 
 describe('<AppealsV2StatusPage/>', () => {
@@ -84,7 +84,7 @@ describe('<AppealsV2StatusPage/>', () => {
       ...defaultProps,
       attributes: {
         ...defaultProps.attributes,
-        type: APPEAL_TYPES.cue,
+        type: APPEAL_STATUSES.cue,
       },
     };
     const wrapper = shallow(<AppealsV2StatusPage {...props} />);
