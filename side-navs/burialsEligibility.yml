@@ -5,5 +5,5 @@ backLink:
   label: Eligibility
   destination: burials-memorials/eligibility
 links:
-  - destination: 'https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp'
-    label: Burial in a Private Cemetery
+  - label: Burial in a Private Cemetery
+    destination: 'https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp'

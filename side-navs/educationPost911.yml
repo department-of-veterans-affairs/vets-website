@@ -5,8 +5,8 @@ backLink:
   label: Post-9/11 GI Bill
   destination: education/about-gi-bill-benefits/post-9-11
 links:
-  - destination: education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
-    label: Yellow Ribbon Program
+  - label: Yellow Ribbon Program
+    destination: education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
     children:
       - destination: '#'
         label: Participating Schools

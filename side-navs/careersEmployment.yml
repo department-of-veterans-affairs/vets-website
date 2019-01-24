@@ -2,27 +2,27 @@ __hub__: careers
 name: Careers and Employment
 appliesTo:
   - careers-employment/careerscope-skills-assessment
-  - careers-employment/education-and-career-counseling
   - careers-employment/dependent-benefits
+  - careers-employment/education-and-career-counseling
   - careers-employment/family-resources
   - careers-employment/find-a-job
   - careers-employment/find-va-careers
   - careers-employment/get-linkedin-classes
-  - careers-employment/print-civil-service-preference-letter
   - careers-employment
-  - careers-employment/va-transition-assistance
-  - careers-employment/success-stories
-  - careers-employment/veteran-resources
-  - careers-employment/veteran-owned-business-support
-  - careers-employment/vetsuccess-on-campus
+  - careers-employment/print-civil-service-preference-letter
   - careers-employment/subsistence-allowance-rates
-  - careers-employment/vocational-rehabilitation
   - careers-employment/program-definitions
+  - careers-employment/success-stories
+  - careers-employment/veteran-owned-business-support
+  - careers-employment/va-transition-assistance
+  - careers-employment/veteran-resources
+  - careers-employment/vetsuccess-on-campus
+  - careers-employment/vocational-rehabilitation
 spokes:
   - spoke: Get Benefits
     links:
-      - destination: careers-employment/vocational-rehabilitation
-        label: Vocational Rehab and Employment
+      - label: Vocational Rehab and Employment
+        destination: careers-employment/vocational-rehabilitation
         children:
           - destination: careers-employment/vocational-rehabilitation/programs
             label: Programs
@@ -32,38 +32,37 @@ spokes:
             label: How to Apply
           - destination: careers-employment/vocational-rehabilitation/ides
             label: Accessing VR&E Through IDES
-      - destination: careers-employment/education-and-career-counseling
-        label: Educational and Career Counseling
-      - destination: careers-employment/veteran-owned-business-support
-        label: Veteran-Owned Business Support
-      - destination: careers-employment/dependent-benefits
-        label: Dependent Benefits
+      - label: Educational and Career Counseling
+        destination: careers-employment/education-and-career-counseling
+      - label: Veteran-Owned Business Support
+        destination: careers-employment/veteran-owned-business-support
+      - label: Dependent Benefits
+        destination: careers-employment/dependent-benefits
   - spoke: Manage Benefits
     links:
-      - destination: 'https://www.benefits.va.gov/tap/'
-        label: VA Transition Assistance
-      - destination: careers-employment/careerscope-skills-assessment
-        label: CareerScope
-      - destination: 'https://www.dol.gov/veterans/findajob/'
-        label: Find a Job
-      - destination: >-
-          https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons
-        label: Find VA Careers and Support
-      - destination: /records/download-va-letters/
-        label: Print Civil Service Preference Letter
-      - destination: 'https://www.veterans.linkedin.com/'
-        label: Get LinkedIn Classes
+      - label: VA Transition Assistance
+        destination: 'https://www.benefits.va.gov/tap/'
+      - label: CareerScope
+        destination: careers-employment/careerscope-skills-assessment
+      - label: Find a Job
+        destination: 'https://www.dol.gov/veterans/findajob/'
+      - label: Find VA Careers and Support
+        destination: 'https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons'
+      - label: Print Civil Service Preference Letter
+        destination: /records/download-va-letters/
+      - label: Get LinkedIn Classes
+        destination: 'https://www.veterans.linkedin.com/'
   - spoke: More Resources
     links:
-      - destination: 'https://www.benefits.va.gov/vocrehab/subsistence_allowance_rates.asp'
-        label: Subsistence Allowance Rates
-      - destination: careers-employment/vetsuccess-on-campus
-        label: VetSuccess on Campus
-      - destination: 'https://www.benefits.va.gov/vocrehab/program_definitions.asp'
-        label: Program Definitions
-      - destination: 'https://www.benefits.va.gov/vocrehab/success_stories.asp'
-        label: Success Stories
-      - destination: careers-employment/veteran-resources
-        label: Veteran Resources
-      - destination: careers-employment/family-resources
-        label: Family Resources
+      - label: Subsistence Allowance Rates
+        destination: 'https://www.benefits.va.gov/vocrehab/subsistence_allowance_rates.asp'
+      - label: VetSuccess on Campus
+        destination: careers-employment/vetsuccess-on-campus
+      - label: Program Definitions
+        destination: 'https://www.benefits.va.gov/vocrehab/program_definitions.asp'
+      - label: Success Stories
+        destination: 'https://www.benefits.va.gov/vocrehab/success_stories.asp'
+      - label: Veteran Resources
+        destination: careers-employment/veteran-resources
+      - label: Family Resources
+        destination: careers-employment/family-resources

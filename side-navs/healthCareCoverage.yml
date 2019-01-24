@@ -3,20 +3,20 @@ appliesTo:
   - health-care/about-va-health-benefits/cost-of-care
   - health-care/about-va-health-benefits/dental-care
   - health-care/about-va-health-benefits/long-term-care
-  - health-care/about-va-health-benefits/vision-care
-  - health-care/about-va-health-benefits/where-you-go-for-care
   - health-care/about-va-health-benefits/va-health-care-and-other-insurance
+  - health-care/about-va-health-benefits/where-you-go-for-care
+  - health-care/about-va-health-benefits/vision-care
   - health-care/about-va-health-benefits/your-care-team
 backLink:
   label: About VA Health Benefits
   destination: health-care/about-va-health-benefits
 links:
-  - destination: health-care/about-va-health-benefits/your-care-team
-    label: Your Care Team
-  - destination: health-care/about-va-health-benefits/where-you-go-for-care
-    label: Where You'll Go for Care
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
-    label: Cost of Care
+  - label: Your Care Team
+    destination: health-care/about-va-health-benefits/your-care-team
+  - label: Where You'll Go for Care
+    destination: health-care/about-va-health-benefits/where-you-go-for-care
+  - label: Cost of Care
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
     children:
       - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
         label: Cost Overview
@@ -30,15 +30,14 @@ links:
         label: Financial Hardships
       - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
         label: Dispute Medical Charges
-  - destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
-    label: VA Health Care and Other Insurance
-  - destination: health-care/about-va-health-benefits/long-term-care
-    label: Long-Term Care
-  - destination: health-care/about-va-health-benefits/dental-care
-    label: Dental Care
-  - destination: health-care/about-va-health-benefits/vision-care
-    label: Vision Care
+  - label: VA Health Care and Other Insurance
+    destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
+  - label: Long-Term Care
+    destination: health-care/about-va-health-benefits/long-term-care
+  - label: Dental Care
+    destination: health-care/about-va-health-benefits/dental-care
+  - label: Vision Care
+    destination: health-care/about-va-health-benefits/vision-care
     children:
-      - destination: >-
-          health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services
+      - destination: health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services
         label: Blind and Low-Vision Services

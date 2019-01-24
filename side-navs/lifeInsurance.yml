@@ -1,31 +1,31 @@
 __hub__: life-insurance
 name: Life Insurance
 appliesTo:
-  - life-insurance/assess-life-insurance-needs
   - life-insurance/about-soes
+  - life-insurance/assess-life-insurance-needs
   - life-insurance/check-appeal
   - life-insurance/contact-us
   - life-insurance/convert-to-commercial
+  - life-insurance/enroll-vgli-autopay
   - life-insurance/file-a-claim
   - life-insurance/file-appeal-for-tsgli
-  - life-insurance/enroll-vgli-autopay
-  - life-insurance
   - life-insurance/financial-counseling
-  - life-insurance/manage-your-policy
+  - life-insurance
   - life-insurance/life-insurance-forms
+  - life-insurance/manage-your-policy
   - life-insurance/mandatory-payments
   - life-insurance/myths-and-rumors
   - life-insurance/options-eligibility
   - life-insurance/publications-handbooks
   - life-insurance/search-unclaimed-funds
   - life-insurance/totally-disabled-or-terminally-ill
-  - life-insurance/update-beneficiaries
   - life-insurance/uninsurable-conditions
+  - life-insurance/update-beneficiaries
 spokes:
   - spoke: Get Benefits
     links:
-      - destination: life-insurance/options-eligibility
-        label: Options and Eligibility
+      - label: Options and Eligibility
+        destination: life-insurance/options-eligibility
         children:
           - destination: life-insurance/options-eligibility/sgli
             label: Servicemembers’ Group (SGLI)
@@ -41,43 +41,43 @@ spokes:
             label: Veterans’ Mortgage (VMLI)
           - destination: 'https://www.benefits.va.gov/insurance/select.asp'
             label: Other VA Programs
-      - destination: life-insurance/totally-disabled-or-terminally-ill
-        label: Totally Disabled or Terminally Ill
-      - destination: 'https://www.benefits.va.gov/insurance/bfcs.asp'
-        label: Financial Counseling and Online Will Prep
+      - label: Totally Disabled or Terminally Ill
+        destination: life-insurance/totally-disabled-or-terminally-ill
+      - label: Financial Counseling and Online Will Prep
+        destination: 'https://www.benefits.va.gov/insurance/bfcs.asp'
   - spoke: Manage Benefits
     links:
-      - destination: life-insurance/manage-your-policy
-        label: Access Your Policy Online
-      - destination: 'https://www.benefits.va.gov/INSURANCE/updatebene.asp'
-        label: Update Beneficiaries
-      - destination: 'https://www.benefits.va.gov/INSURANCE/sglivgli.asp'
-        label: File a Claim
-      - destination: /claim-or-appeal-status/
-        label: Check Appeal Status
-      - destination: 'https://www.benefits.va.gov/INSURANCE/converting.asp'
-        label: Convert to Commercial Policy
-      - destination: life-insurance/file-appeal-for-tsgli
-        label: File a TSGLI Appeal
-      - destination: 'https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp'
-        label: Enroll in VGLI Auto Pay
-      - destination: 'https://www.insurance.va.gov/UnclaimedFunds/'
-        label: Search Unclaimed Insurance Funds
+      - label: Access Your Policy Online
+        destination: life-insurance/manage-your-policy
+      - label: Update Beneficiaries
+        destination: 'https://www.benefits.va.gov/INSURANCE/updatebene.asp'
+      - label: File a Claim
+        destination: 'https://www.benefits.va.gov/INSURANCE/sglivgli.asp'
+      - label: Check Appeal Status
+        destination: /claim-or-appeal-status/
+      - label: Convert to Commercial Policy
+        destination: 'https://www.benefits.va.gov/INSURANCE/converting.asp'
+      - label: File a TSGLI Appeal
+        destination: life-insurance/file-appeal-for-tsgli
+      - label: Enroll in VGLI Auto Pay
+        destination: 'https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp'
+      - label: Search Unclaimed Insurance Funds
+        destination: 'https://www.insurance.va.gov/UnclaimedFunds/'
   - spoke: More Resources
     links:
-      - destination: 'https://www.benefits.va.gov/insurance/lifeins101.asp'
-        label: Assess Your Life Insurance Needs
-      - destination: 'https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp'
-        label: Myths and Rumors about SGLI/VGLI
-      - destination: 'https://www.benefits.va.gov/INSURANCE/SOES.asp'
-        label: About SOES
-      - destination: 'https://www.benefits.va.gov/INSURANCE/resources-contact.asp'
-        label: Contact Us
-      - destination: 'https://www.benefits.va.gov/INSURANCE/resources-forms.asp'
-        label: Life Insurance Forms
-      - destination: 'https://www.benefits.va.gov/INSURANCE/ins_publications.asp'
-        label: Publications and Handbooks
-      - destination: 'https://www.benefits.va.gov/INSURANCE/payments-eft.asp'
-        label: Mandatory Electronic Payments
-      - destination: 'https://www.benefits.va.gov/INSURANCE/uninsurable.asp'
-        label: Uninsurable Conditions
+      - label: Assess Your Life Insurance Needs
+        destination: 'https://www.benefits.va.gov/insurance/lifeins101.asp'
+      - label: Myths and Rumors about SGLI/VGLI
+        destination: 'https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp'
+      - label: About SOES
+        destination: 'https://www.benefits.va.gov/INSURANCE/SOES.asp'
+      - label: Contact Us
+        destination: 'https://www.benefits.va.gov/INSURANCE/resources-contact.asp'
+      - label: Life Insurance Forms
+        destination: 'https://www.benefits.va.gov/INSURANCE/resources-forms.asp'
+      - label: Publications and Handbooks
+        destination: 'https://www.benefits.va.gov/INSURANCE/ins_publications.asp'
+      - label: Mandatory Electronic Payments
+        destination: 'https://www.benefits.va.gov/INSURANCE/payments-eft.asp'
+      - label: Uninsurable Conditions
+        destination: 'https://www.benefits.va.gov/INSURANCE/uninsurable.asp'

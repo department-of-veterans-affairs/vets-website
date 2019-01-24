@@ -1,24 +1,24 @@
 name: Health Care
 appliesTo:
   - health-care/about-va-health-benefits/cost-of-care/cost-overview
+  - health-care/about-va-health-benefits/cost-of-care/financial-assessment
   - health-care/about-va-health-benefits/cost-of-care/dispute-medical-charges
   - health-care/about-va-health-benefits/cost-of-care/financial-hardships
-  - health-care/about-va-health-benefits/cost-of-care/financial-assessment
   - health-care/about-va-health-benefits/cost-of-care/health-benefit-copay
   - health-care/about-va-health-benefits/cost-of-care/treasury-debt
 backLink:
   label: Cost of Care
   destination: health-care/about-va-health-benefits/cost-of-care
 links:
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
-    label: Cost Overview
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/copays.asp'
-    label: Health Benefit Copay
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp'
-    label: Financial Assessment
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/debt.asp'
-    label: Treasury Debt
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financialhardship.asp'
-    label: Financial Hardships
-  - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
-    label: Dispute Medical Charges
+  - label: Cost Overview
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
+  - label: Health Benefit Copay
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/copays.asp'
+  - label: Financial Assessment
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp'
+  - label: Treasury Debt
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/debt.asp'
+  - label: Financial Hardships
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/financialhardship.asp'
+  - label: Dispute Medical Charges
+    destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'

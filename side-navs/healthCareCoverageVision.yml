@@ -1,11 +1,9 @@
 name: Health Care
 appliesTo:
-  - >-
-    health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services
+  - health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services
 backLink:
   label: Vision Care
   destination: health-care/about-va-health-benefits/vision-care
 links:
-  - destination: >-
-      health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services
-    label: Blind and Low-Vision Services
+  - label: Blind and Low-Vision Services
+    destination: health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services

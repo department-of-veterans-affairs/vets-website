@@ -1,32 +1,29 @@
 name: Careers and Employment
 appliesTo:
   - careers-employment/vocational-rehabilitation/ides
-  - careers-employment/vocational-rehabilitation/eligibility
-  - careers-employment/vocational-rehabilitation/programs
   - careers-employment/vocational-rehabilitation/how-to-apply
+  - careers-employment/vocational-rehabilitation/programs
+  - careers-employment/vocational-rehabilitation/eligibility
 backLink:
   label: Vocational Rehab and Employment
   destination: careers-employment/vocational-rehabilitation
 links:
-  - destination: careers-employment/vocational-rehabilitation/programs
-    label: Programs
+  - label: Programs
+    destination: careers-employment/vocational-rehabilitation/programs
     children:
       - destination: careers-employment/vocational-rehabilitation/programs/reemployment
         label: Reemployment
-      - destination: >-
-          careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment
+      - destination: careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment
         label: Rapid Access to Employment
       - destination: careers-employment/vocational-rehabilitation/programs/self-employment
         label: Self-Employment
-      - destination: >-
-          careers-employment/vocational-rehabilitation/programs/long-term-services
+      - destination: careers-employment/vocational-rehabilitation/programs/long-term-services
         label: Long-Term Services
-      - destination: >-
-          careers-employment/vocational-rehabilitation/programs/independent-living
+      - destination: careers-employment/vocational-rehabilitation/programs/independent-living
         label: Independent Living
-  - destination: careers-employment/vocational-rehabilitation/eligibility
-    label: Eligibility
-  - destination: careers-employment/vocational-rehabilitation/how-to-apply
-    label: How to Apply
-  - destination: careers-employment/vocational-rehabilitation/ides
-    label: Accessing VR&E Through IDES
+  - label: Eligibility
+    destination: careers-employment/vocational-rehabilitation/eligibility
+  - label: How to Apply
+    destination: careers-employment/vocational-rehabilitation/how-to-apply
+  - label: Accessing VR&E Through IDES
+    destination: careers-employment/vocational-rehabilitation/ides

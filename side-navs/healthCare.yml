@@ -1,39 +1,39 @@
 __hub__: health-care
 name: Health Care
 appliesTo:
-  - health-care/about-affordable-care-act
   - health-care/about-va-health-benefits
+  - health-care/about-affordable-care-act
   - health-care/access-and-quality-in-va-health-care
   - health-care/after-you-apply
   - health-care/check-appeal-status
-  - health-care/chemical-or-hazardous-material-exposures
   - health-care/community-care
+  - health-care/chemical-or-hazardous-material-exposures
   - health-care/cost-of-care
-  - health-care/eligibility
   - health-care/family-caregiver-benefits
-  - health-care/get-medical-records
+  - health-care/eligibility
   - health-care/get-travel-pay
+  - health-care/health-benefits-explorer
   - health-care/health-needs-conditions
   - health-care/how-to-apply
-  - health-care/health-benefits-explorer
+  - health-care/get-medical-records
+  - health-care/make-a-payment
   - health-care/order-hearing-aid-batteries-prosthetic-socks
   - health-care/patient-rights-and-responsibilities
-  - health-care/request-a-health-id-card
-  - health-care/make-a-payment
-  - health-care/schedule-view-va-appointments
   - health-care/secure-messaging
+  - health-care/request-a-health-id-card
+  - health-care/schedule-view-va-appointments
   - health-care/the-million-veteran-program
-  - health-care/view-test-and-lab-results
-  - health-care/veterans-choice-program
   - health-care/update-health-information
+  - health-care/veterans-choice-program
   - health-care/wellness-programs
+  - health-care/view-test-and-lab-results
   - health-care/apply/application
   - health-care/refill-track-prescriptions
 spokes:
   - spoke: Get Benefits
     links:
-      - destination: health-care/about-va-health-benefits
-        label: About VA Health Benefits
+      - label: About VA Health Benefits
+        destination: health-care/about-va-health-benefits
         children:
           - destination: health-care/about-va-health-benefits/your-care-team
             label: Your Care Team
@@ -41,8 +41,7 @@ spokes:
             label: Where You'll Go for Care
           - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
             label: Cost of Care
-          - destination: >-
-              health-care/about-va-health-benefits/va-health-care-and-other-insurance
+          - destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
             label: VA Health Care and Other Insurance
           - destination: health-care/about-va-health-benefits/long-term-care
             label: Long-Term Care
@@ -50,22 +49,21 @@ spokes:
             label: Dental Care
           - destination: health-care/about-va-health-benefits/vision-care
             label: Vision Care
-      - destination: health-care/eligibility
-        label: Eligibility
+      - label: Eligibility
+        destination: health-care/eligibility
         children:
           - destination: 'https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp'
             label: Active Duty Service Members
-          - destination: >-
-              https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp
+          - destination: 'https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp'
             label: Returning Service Members
-      - destination: health-care/how-to-apply
-        label: How to Apply
-      - destination: health-care/apply/application
-        label: Apply Now
-      - destination: health-care/after-you-apply
-        label: After You Apply
-      - destination: health-care/family-caregiver-benefits
-        label: Family and Caregiver Benefits
+      - label: How to Apply
+        destination: health-care/how-to-apply
+      - label: Apply Now
+        destination: health-care/apply/application
+      - label: After You Apply
+        destination: health-care/after-you-apply
+      - label: Family and Caregiver Benefits
+        destination: health-care/family-caregiver-benefits
         children:
           - destination: health-care/family-caregiver-benefits/champva
             label: CHAMPVA Benefits
@@ -73,32 +71,32 @@ spokes:
             label: Comprehensive Assistance to Family Caregivers
   - spoke: Manage Benefits
     links:
-      - destination: health-care/refill-track-prescriptions
-        label: Refill and Track Prescriptions
-      - destination: health-care/secure-messaging
-        label: Use Secure Messaging
-      - destination: health-care/schedule-view-va-appointments
-        label: Schedule and View Appointments
-      - destination: health-care/view-test-and-lab-results
-        label: View Lab and Test Results
-      - destination: health-care/order-hearing-aid-batteries-prosthetic-socks
-        label: Order Hearing Aid Batteries and Prosthetic Socks
-      - destination: health-care/get-medical-records
-        label: Get Medical Records
-      - destination: health-care/update-health-information
-        label: Update Health Benefits Info
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp'
-        label: Get Travel Pay
-      - destination: 'https://www.pay.gov/public/form/start/25987221'
-        label: Make a Payment
-      - destination: /claim-or-appeal-status/
-        label: Check Appeal Status
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/vhic/index.asp'
-        label: Request a Health ID Card
+      - label: Refill and Track Prescriptions
+        destination: health-care/refill-track-prescriptions
+      - label: Use Secure Messaging
+        destination: health-care/secure-messaging
+      - label: Schedule and View Appointments
+        destination: health-care/schedule-view-va-appointments
+      - label: View Lab and Test Results
+        destination: health-care/view-test-and-lab-results
+      - label: Order Hearing Aid Batteries and Prosthetic Socks
+        destination: health-care/order-hearing-aid-batteries-prosthetic-socks
+      - label: Get Medical Records
+        destination: health-care/get-medical-records
+      - label: Update Health Benefits Info
+        destination: health-care/update-health-information
+      - label: Get Travel Pay
+        destination: 'https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp'
+      - label: Make a Payment
+        destination: 'https://www.pay.gov/public/form/start/25987221'
+      - label: Check Appeal Status
+        destination: /claim-or-appeal-status/
+      - label: Request a Health ID Card
+        destination: 'https://www.va.gov/HEALTHBENEFITS/vhic/index.asp'
   - spoke: More Resources
     links:
-      - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
-        label: Cost of Care
+      - label: Cost of Care
+        destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
         children:
           - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
             label: Cost Overview
@@ -112,11 +110,10 @@ spokes:
             label: Financial Hardships
           - destination: 'https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp'
             label: Dispute Medical Charges
-      - destination: health-care/health-needs-conditions
-        label: Health Needs and Conditions
+      - label: Health Needs and Conditions
+        destination: health-care/health-needs-conditions
         children:
-          - destination: >-
-              health-care/health-needs-conditions/health-issues-related-to-service-era
+          - destination: health-care/health-needs-conditions/health-issues-related-to-service-era
             label: Health Issues Related to Service Era
           - destination: 'https://www.va.gov/health/topics/index.asp'
             label: Health Topics A-Z
@@ -126,27 +123,25 @@ spokes:
             label: Military Sexual Trauma
           - destination: health-care/health-needs-conditions/substance-use-problems
             label: Substance Use Problems
-          - destination: >-
-              health-care/health-needs-conditions/chemical-hazardous-materials-exposure
+          - destination: health-care/health-needs-conditions/chemical-hazardous-materials-exposure
             label: Exposure to Hazardous Materials
           - destination: health-care/health-needs-conditions/womens-health-needs
             label: Women’s Health Care Needs
-      - destination: 'http://hbexplorer.vacloud.us/'
-        label: Health Benefits Explorer
-      - destination: health-care/wellness-programs
-        label: Wellness Programs
-      - destination: >-
-          /health-care/health-needs-conditions/chemical-hazardous-materials-exposure/
-        label: Chemical or Hazardous Material Exposures
-      - destination: 'https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp'
-        label: Veterans Choice Program
-      - destination: health-care/about-affordable-care-act
-        label: Affordable Care Act
-      - destination: 'https://www.research.va.gov/mvp/'
-        label: The Million Veteran Program
-      - destination: 'https://www.accesstocare.va.gov/'
-        label: Access and Quality in VA Health Care
-      - destination: 'https://www.va.gov/health/rights/patientrights.asp'
-        label: Patient Rights and Responsibilities
-      - destination: 'https://www.va.gov/communitycare/index.asp'
-        label: Community Care
+      - label: Health Benefits Explorer
+        destination: 'http://hbexplorer.vacloud.us/'
+      - label: Wellness Programs
+        destination: health-care/wellness-programs
+      - label: Chemical or Hazardous Material Exposures
+        destination: /health-care/health-needs-conditions/chemical-hazardous-materials-exposure/
+      - label: Veterans Choice Program
+        destination: 'https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp'
+      - label: Affordable Care Act
+        destination: health-care/about-affordable-care-act
+      - label: The Million Veteran Program
+        destination: 'https://www.research.va.gov/mvp/'
+      - label: Access and Quality in VA Health Care
+        destination: 'https://www.accesstocare.va.gov/'
+      - label: Patient Rights and Responsibilities
+        destination: 'https://www.va.gov/health/rights/patientrights.asp'
+      - label: Community Care
+        destination: 'https://www.va.gov/communitycare/index.asp'

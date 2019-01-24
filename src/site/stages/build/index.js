@@ -164,8 +164,8 @@ function defaultBuild(BUILD_OPTIONS) {
 
     function getLinkElement(relatedPage) {
       const element = {
+        label: relatedPage.display_title || relatedPage.title,
         destination: relatedPage.href || relatedPage.path,
-        label: relatedPage.display_title || relatedPage.title
       };
 
       if (relatedPage.children) {
@@ -270,8 +270,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
       files[fileName] = {
         path: fileName,
-        contents: yaml.safeDump(sideNav),
-        lineWidth: 1000
+        contents: yaml.safeDump(sideNav, { lineWidth: 10000 }),
       };
     });
 

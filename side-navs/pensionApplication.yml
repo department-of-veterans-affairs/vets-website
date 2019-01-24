@@ -5,5 +5,5 @@ backLink:
   label: How to Apply
   destination: pension/how-to-apply
 links:
-  - destination: pension/how-to-apply/fully-developed-claim
-    label: Fully Developed Claim Program
+  - label: Fully Developed Claim Program
+    destination: pension/how-to-apply/fully-developed-claim

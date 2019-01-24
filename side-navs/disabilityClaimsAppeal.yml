@@ -6,7 +6,7 @@ backLink:
   label: File an Appeal
   destination: disability/file-an-appeal
 links:
-  - destination: disability/file-an-appeal/board-of-veterans-appeals
-    label: Board of Veterans' Appeals Hearing
-  - destination: disability/file-an-appeal/request-priority-review
-    label: Request a Priority Review
+  - label: Board of Veterans' Appeals Hearing
+    destination: disability/file-an-appeal/board-of-veterans-appeals
+  - label: Request a Priority Review
+    destination: disability/file-an-appeal/request-priority-review

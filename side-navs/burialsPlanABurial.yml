@@ -5,5 +5,5 @@ backLink:
   label: Plan a Burial
   destination: burials-memorials/plan-a-burial
 links:
-  - destination: 'https://www.cem.va.gov/CEM/military_funeral_honors.asp'
-    label: Military Funeral Honors
+  - label: Military Funeral Honors
+    destination: 'https://www.cem.va.gov/CEM/military_funeral_honors.asp'

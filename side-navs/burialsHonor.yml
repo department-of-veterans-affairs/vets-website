@@ -7,8 +7,8 @@ backLink:
   label: Memorial Items
   destination: burials-memorials/memorial-items
 links:
-  - destination: burials-memorials/memorial-items/headstones-markers-medallions
-    label: 'Headstones, Markers or Medallions'
+  - label: 'Headstones, Markers or Medallions'
+    destination: burials-memorials/memorial-items/headstones-markers-medallions
     children:
       - destination: 'https://www.cem.va.gov/cem/hmm/types.asp'
         label: Types
@@ -22,7 +22,7 @@ links:
         label: Available Emblems of Belief
       - destination: 'https://www.cem.va.gov/cem/hmm/discharge_documents.asp'
         label: Discharge Documents Needed
-  - destination: burials-memorials/memorial-items/burial-flags
-    label: Burial Flags
-  - destination: burials-memorials/memorial-items/presidential-memorial-certificates
-    label: Presidential Memorial Certificates
+  - label: Burial Flags
+    destination: burials-memorials/memorial-items/burial-flags
+  - label: Presidential Memorial Certificates
+    destination: burials-memorials/memorial-items/presidential-memorial-certificates

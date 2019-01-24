@@ -7,9 +7,9 @@ backLink:
   label: Mental Health
   destination: health-care/health-needs-conditions/mental-health
 links:
-  - destination: health-care/health-needs-conditions/mental-health/ptsd
-    label: PTSD
-  - destination: health-care/health-needs-conditions/mental-health/depression
-    label: Depression
-  - destination: health-care/health-needs-conditions/mental-health/suicide-prevention
-    label: Suicide Prevention
+  - label: PTSD
+    destination: health-care/health-needs-conditions/mental-health/ptsd
+  - label: Depression
+    destination: health-care/health-needs-conditions/mental-health/depression
+  - label: Suicide Prevention
+    destination: health-care/health-needs-conditions/mental-health/suicide-prevention

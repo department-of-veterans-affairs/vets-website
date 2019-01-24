@@ -5,8 +5,8 @@ appliesTo:
 spokes:
   - spoke: Get Benefits
     links:
-      - destination: /burials-memorials/dependency-indemnity-compensation/
-        label: Survivor and Dependent Compensation (DIC)
+      - label: Survivor and Dependent Compensation (DIC)
+        destination: /burials-memorials/dependency-indemnity-compensation/
   - spoke: Manage Benefits
     links: []
   - spoke: More Resources

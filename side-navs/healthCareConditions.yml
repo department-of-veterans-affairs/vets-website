@@ -1,44 +1,37 @@
 name: Health Care
 appliesTo:
-  - health-care/health-needs-conditions/health-issues-related-to-service-era
-  - health-care/health-needs-conditions/health-topics-a-z
-  - health-care/health-needs-conditions/mental-health
   - health-care/health-needs-conditions/chemical-hazardous-materials-exposure
-  - health-care/health-needs-conditions/womens-health-needs
-  - health-care/health-needs-conditions/military-sexual-trauma
+  - health-care/health-needs-conditions/mental-health
+  - health-care/health-needs-conditions/health-topics-a-z
+  - health-care/health-needs-conditions/health-issues-related-to-service-era
   - health-care/health-needs-conditions/substance-use-problems
+  - health-care/health-needs-conditions/military-sexual-trauma
+  - health-care/health-needs-conditions/womens-health-needs
 backLink:
   label: Health Needs and Conditions
   destination: health-care/health-needs-conditions
 links:
-  - destination: health-care/health-needs-conditions/health-issues-related-to-service-era
-    label: Health Issues Related to Service Era
+  - label: Health Issues Related to Service Era
+    destination: health-care/health-needs-conditions/health-issues-related-to-service-era
     children:
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
         label: Operation Enduring Freedom
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
         label: Iraq War
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
         label: Gulf War
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
         label: Cold War Era
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
         label: Vietnam War
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
         label: Korean War
-      - destination: >-
-          health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
+      - destination: health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
         label: World War II
-  - destination: 'https://www.va.gov/health/topics/index.asp'
-    label: Health Topics A-Z
-  - destination: health-care/health-needs-conditions/mental-health
-    label: Mental Health
+  - label: Health Topics A-Z
+    destination: 'https://www.va.gov/health/topics/index.asp'
+  - label: Mental Health
+    destination: health-care/health-needs-conditions/mental-health
     children:
       - destination: health-care/health-needs-conditions/mental-health/ptsd
         label: PTSD
@@ -46,11 +39,11 @@ links:
         label: Depression
       - destination: health-care/health-needs-conditions/mental-health/suicide-prevention
         label: Suicide Prevention
-  - destination: health-care/health-needs-conditions/military-sexual-trauma
-    label: Military Sexual Trauma
-  - destination: health-care/health-needs-conditions/substance-use-problems
-    label: Substance Use Problems
-  - destination: health-care/health-needs-conditions/chemical-hazardous-materials-exposure
-    label: Exposure to Hazardous Materials
-  - destination: health-care/health-needs-conditions/womens-health-needs
-    label: Women’s Health Care Needs
+  - label: Military Sexual Trauma
+    destination: health-care/health-needs-conditions/military-sexual-trauma
+  - label: Substance Use Problems
+    destination: health-care/health-needs-conditions/substance-use-problems
+  - label: Exposure to Hazardous Materials
+    destination: health-care/health-needs-conditions/chemical-hazardous-materials-exposure
+  - label: Women’s Health Care Needs
+    destination: health-care/health-needs-conditions/womens-health-needs
