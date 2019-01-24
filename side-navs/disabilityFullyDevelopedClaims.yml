@@ -1,0 +1,14 @@
+name: Disability Benefits
+appliesTo:
+  - >-
+    disability/how-to-file-claim/evidence-needed/fully-developed-claims/fdc_checklist
+  - >-
+    disability/how-to-file-claim/evidence-needed/fully-developed-claims/fdc_walkthrough
+backLink:
+  label: Fully Developed Claims
+  destination: disability/how-to-file-claim/evidence-needed/fully-developed-claims
+links:
+  - destination: 'https://www.benefits.va.gov/FDC/walkthrough.asp'
+    label: FDC Walkthrough
+  - destination: 'https://www.benefits.va.gov/FDC/checklist.asp'
+    label: FDC Checklist

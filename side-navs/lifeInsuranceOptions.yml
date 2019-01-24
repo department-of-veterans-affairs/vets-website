@@ -1,0 +1,37 @@
+name: Life Insurance
+appliesTo:
+  - life-insurance/options-eligibility/fsgli
+  - life-insurance/options-eligibility/sgli
+  - life-insurance/options-eligibility/other-va-programs
+  - life-insurance/options-eligibility/s-dvi
+  - life-insurance/options-eligibility/tsgli
+  - life-insurance/options-eligibility/vmli
+  - life-insurance/options-eligibility/vgli
+backLink:
+  label: Options and Eligibility
+  destination: life-insurance/options-eligibility
+links:
+  - destination: life-insurance/options-eligibility/sgli
+    label: Servicemembers’ Group (SGLI)
+  - destination: life-insurance/options-eligibility/fsgli
+    label: Family Servicemembers’ Group (FSGLI)
+  - destination: life-insurance/options-eligibility/tsgli
+    label: Traumatic Injury Protection (TSGLI)
+    children:
+      - destination: 'https://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp'
+        label: TSGLI Loss Standards
+      - destination: 'https://www.benefits.va.gov/INSURANCE/tsgli-claim-questionnaire.asp'
+        label: Retroactive Benefits Questionnaire
+  - destination: life-insurance/options-eligibility/vgli
+    label: Veterans’ Group (VGLI)
+    children:
+      - destination: 'https://www.benefits.va.gov/insurance/vgli_rates_compare_vgli.asp'
+        label: Compare VGLI to Other Insurance
+      - destination: 'https://www.benefits.va.gov/INSURANCE/vgli_rates_new.asp'
+        label: Premium Rates
+  - destination: life-insurance/options-eligibility/s-dvi
+    label: Service-Disabled Veterans (S-DVI)
+  - destination: life-insurance/options-eligibility/vmli
+    label: Veterans’ Mortgage (VMLI)
+  - destination: 'https://www.benefits.va.gov/insurance/select.asp'
+    label: Other VA Programs

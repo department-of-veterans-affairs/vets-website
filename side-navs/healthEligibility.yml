@@ -1,0 +1,12 @@
+name: Health Care
+appliesTo:
+  - health-care/eligibility/returning-servicemembers
+  - health-care/eligibility/active-duty-servicemembers
+backLink:
+  label: Eligibility
+  destination: health-care/eligibility
+links:
+  - destination: 'https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp'
+    label: Active Duty Service Members
+  - destination: 'https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp'
+    label: Returning Service Members

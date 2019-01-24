@@ -1,0 +1,9 @@
+name: Burials and Memorials
+appliesTo:
+  - burials-memorials/eligibility/burial-in-a-private-cemetery
+backLink:
+  label: Eligibility
+  destination: burials-memorials/eligibility
+links:
+  - destination: 'https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp'
+    label: Burial in a Private Cemetery

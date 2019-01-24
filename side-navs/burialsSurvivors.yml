@@ -1,0 +1,13 @@
+__hub__: burials
+name: Burials and Memorials
+appliesTo:
+  - disability/burials
+spokes:
+  - spoke: Get Benefits
+    links:
+      - destination: /burials-memorials/dependency-indemnity-compensation/
+        label: Survivor and Dependent Compensation (DIC)
+  - spoke: Manage Benefits
+    links: []
+  - spoke: More Resources
+    links: []

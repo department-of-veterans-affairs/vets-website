@@ -1,0 +1,12 @@
+name: Health Care
+appliesTo:
+  - health-care/family-caregiver-benefits/champva
+  - health-care/family-caregiver-benefits/comprehensive-assistance
+backLink:
+  label: Family and Caregiver Benefits
+  destination: health-care/family-caregiver-benefits
+links:
+  - destination: health-care/family-caregiver-benefits/champva
+    label: CHAMPVA Benefits
+  - destination: health-care/family-caregiver-benefits/comprehensive-assistance
+    label: Comprehensive Assistance to Family Caregivers

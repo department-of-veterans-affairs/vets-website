@@ -1,0 +1,23 @@
+name: Careers and Employment
+appliesTo:
+  - careers-employment/vocational-rehabilitation/programs/independent-living
+  - careers-employment/vocational-rehabilitation/programs/long-term-services
+  - >-
+    careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment
+  - careers-employment/vocational-rehabilitation/programs/self-employment
+  - careers-employment/vocational-rehabilitation/programs/reemployment
+backLink:
+  label: Programs
+  destination: careers-employment/vocational-rehabilitation/programs
+links:
+  - destination: careers-employment/vocational-rehabilitation/programs/reemployment
+    label: Reemployment
+  - destination: >-
+      careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment
+    label: Rapid Access to Employment
+  - destination: careers-employment/vocational-rehabilitation/programs/self-employment
+    label: Self-Employment
+  - destination: careers-employment/vocational-rehabilitation/programs/long-term-services
+    label: Long-Term Services
+  - destination: careers-employment/vocational-rehabilitation/programs/independent-living
+    label: Independent Living

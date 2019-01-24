@@ -1,0 +1,12 @@
+name: Disability Benefits
+appliesTo:
+  - disability/about-disability-ratings/effective-date
+  - disability/about-disability-ratings/after-you-get-a-rating
+backLink:
+  label: About Disability Ratings
+  destination: disability/about-disability-ratings
+links:
+  - destination: disability/about-disability-ratings/effective-date
+    label: Effective Dates
+  - destination: disability/about-disability-ratings/after-you-get-a-rating
+    label: After You Get a Rating

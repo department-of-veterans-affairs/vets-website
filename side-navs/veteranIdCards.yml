@@ -1,0 +1,8 @@
+name: Records
+appliesTo:
+  - records/get-veteran-id-cards/apply
+  - records/get-veteran-id-cards/vic
+backLink:
+  label: Types of Veteran ID Cards
+  destination: records/get-veteran-id-cards
+links: []

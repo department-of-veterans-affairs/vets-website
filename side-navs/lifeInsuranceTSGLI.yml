@@ -1,0 +1,12 @@
+name: Life Insurance
+appliesTo:
+  - life-insurance/options-eligibility/tsgli/retroactive-benefits
+  - life-insurance/options-eligibility/tsgli/loss-standards
+backLink:
+  label: Traumatic Injury Protection (TSGLI)
+  destination: life-insurance/options-eligibility/tsgli
+links:
+  - destination: 'https://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp'
+    label: TSGLI Loss Standards
+  - destination: 'https://www.benefits.va.gov/INSURANCE/tsgli-claim-questionnaire.asp'
+    label: Retroactive Benefits Questionnaire

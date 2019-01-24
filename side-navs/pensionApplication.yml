@@ -1,0 +1,9 @@
+name: Pension Benefits
+appliesTo:
+  - pension/how-to-apply/fully-developed-claim
+backLink:
+  label: How to Apply
+  destination: pension/how-to-apply
+links:
+  - destination: pension/how-to-apply/fully-developed-claim
+    label: Fully Developed Claim Program

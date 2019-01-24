@@ -1,0 +1,12 @@
+name: Education and Training
+appliesTo:
+  - education/survivor-dependent-benefits/dependents-education-assistance
+  - education/survivor-dependent-benefits/fry-scholarship
+backLink:
+  label: Survivor and Dependent Benefits
+  destination: education/survivor-dependent-benefits
+links:
+  - destination: education/survivor-dependent-benefits/fry-scholarship
+    label: Fry Scholarship
+  - destination: education/survivor-dependent-benefits/dependents-education-assistance
+    label: Dependents Education Assistance (DEA)

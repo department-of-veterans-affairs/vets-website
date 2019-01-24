@@ -1,0 +1,50 @@
+name: Housing Assistance
+appliesTo:
+  - housing-assistance/home-loans/eligibility
+  - housing-assistance/home-loans/find-a-va-regional-loan-center
+  - housing-assistance/home-loans/check-appeal-status
+  - housing-assistance/home-loans/find-va-acquired-properties
+  - housing-assistance/home-loans/how-to-apply
+  - housing-assistance/home-loans/home-buying-process
+  - housing-assistance/home-loans/loan-types
+  - housing-assistance/home-loans/va-loan-funding-fee
+  - housing-assistance/home-loans/warning-about-refinancing-offers
+  - housing-assistance/home-loans/guidance-on-natural-disasters
+  - housing-assistance/home-loans/trouble-making-payments
+backLink:
+  label: VA-Backed Home Loans
+  destination: housing-assistance/home-loans
+links:
+  - destination: housing-assistance/home-loans/loan-types
+    label: Loan Types
+    children:
+      - destination: housing-assistance/home-loans/loan-types/purchase-loan
+        label: Purchase Loan
+      - destination: housing-assistance/home-loans/loan-types/cash-out-loan
+        label: Cash Out Refinance Loan
+      - destination: housing-assistance/home-loans/loan-types/native-american-direct-loan
+        label: Native American Direct Loan
+      - destination: housing-assistance/home-loans/loan-types/interest-rate-reduction-loan
+        label: Interest Rate Reduction Refinance Loan
+  - destination: housing-assistance/home-loans/eligibility
+    label: Eligibility
+  - destination: housing-assistance/home-loans/how-to-apply
+    label: How to Apply
+  - destination: /claim-or-appeal-status/
+    label: Check Appeal Status
+  - destination: housing-assistance/home-loans/trouble-making-payments
+    label: Trouble Making Payments?
+  - destination: >-
+      https://www.blogs.va.gov/VAntage/43234/va-and-the-consumer-financial-protection-bureau-warn-against-home-loan-refinancing-offers-that-sound-too-good-to-be-true/
+    label: Warning about Refinancing Offers
+  - destination: 'https://www.benefits.va.gov/homeloans/resources_veteran.asp'
+    label: Home Buying Process
+  - destination: 'https://www.benefits.va.gov/homeloans/purchaseco_loan_fee.asp'
+    label: VA Loan Funding Fee
+  - destination: 'https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp'
+    label: Find a VA Regional Loan Center
+  - destination: 'https://www.benefits.va.gov/homeloans/realtors_property_mgmt.asp'
+    label: Find VA-Acquired Properties
+  - destination: >-
+      https://www.benefits.va.gov/HOMELOANS/documents/docs/va_policy_regarding_natural_disasters.pdf
+    label: Guidance on Natural Disasters

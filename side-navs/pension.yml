@@ -1,0 +1,56 @@
+__hub__: pension
+name: Pension Benefits
+appliesTo:
+  - pension/change-direct-deposit-and-contact-info
+  - pension/check-claim-or-appeal-status
+  - pension/eligibility
+  - pension
+  - pension/how-to-apply
+  - pension/pension-management-centers
+  - pension/protected-pension-rates
+  - pension/survivors-pension
+  - pension/va-claim-exam
+  - pension/survivors-pension-rates
+  - pension/view-va-payment-history
+  - pension/veterans-pension-rates
+  - pension/aid-attendance-housebound
+  - pension/application/527EZ
+spokes:
+  - spoke: Get Benefits
+    links:
+      - destination: pension/eligibility
+        label: Eligibility
+        children: []
+      - destination: pension/how-to-apply
+        label: How to Apply
+        children:
+          - destination: pension/how-to-apply/fully-developed-claim
+            label: Fully Developed Claim Program
+      - destination: pension/application/527EZ
+        label: Apply Now
+      - destination: pension/aid-attendance-housebound
+        label: Aid and Attendance Benefits and Housebound Allowance
+      - destination: pension/survivors-pension
+        label: Survivors Pension
+        children: []
+  - spoke: Manage Benefits
+    links:
+      - destination: /claim-or-appeal-status/
+        label: Check Claim or Appeal Status
+      - destination: /va-payment-history/
+        label: View VA Payment History
+      - destination: /change-direct-deposit-and-contact-information/
+        label: Change Direct Deposit and Contact Information
+  - spoke: More Resources
+    links:
+      - destination: pension/veterans-pension-rates
+        label: Veterans Pension Rates
+      - destination: pension/survivors-pension-rates
+        label: Survivors Pension Rates
+      - destination: >-
+          https://www.benefits.va.gov/PENSION/current_protected_pension_rate_tables.asp
+        label: Protected Pension Rates
+      - destination: /disability/va-claim-exam/
+        label: VA Claim Exam (C&P Exam)
+      - destination: pension/pension-management-centers
+        label: Pension Management Centers

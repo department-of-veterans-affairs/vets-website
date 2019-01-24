@@ -156,6 +156,8 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use((files, smith) => {
 
+    const yaml = require('js-yaml');
+
     const {
       collections: COLLECTIONS
     } = smith.metadata();
@@ -260,16 +262,20 @@ function defaultBuild(BUILD_OPTIONS) {
     }
 
     SIDENAV_DATA.forEach(sideNav => {
+      // delete sideNav.id;
+
+      const fileName = `side-navs/${sideNav.id}.yml`;
+
       delete sideNav.id;
+
+      files[fileName] = {
+        path: fileName,
+        contents: yaml.safeDump(sideNav),
+        lineWidth: 1000
+      };
     });
 
-    files['sidenav-configurations.json'] = {
-      path: 'sidenav-configurations.json',
-      contents: JSON.stringify(SIDENAV_DATA, null, 4)
-    };
 
-
-    // console.log(SIDENAV_DATA);
   });
 
   /* eslint-disable no-console */

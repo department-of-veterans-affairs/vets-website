@@ -1,0 +1,13 @@
+name: Disability Benefits
+appliesTo:
+  - disability/how-to-file-claim/when-to-file/pre-discharge-claim
+backLink:
+  label: When to File
+  destination: disability/how-to-file-claim/when-to-file
+links:
+  - destination: disability/how-to-file-claim/when-to-file/pre-discharge-claim
+    label: Pre-discharge Claim
+    children:
+      - destination: >-
+          disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas
+        label: File While Overseas

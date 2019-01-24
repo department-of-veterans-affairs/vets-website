@@ -1,0 +1,36 @@
+__hub__: records
+name: Records
+appliesTo:
+  - va-payment-history
+  - discharge-upgrade-instructions
+  - records/archives
+  - records/download-va-letters
+  - records/apply-for-home-loan
+  - records/get-military-service-records
+  - records/get-medical-records
+  - records/get-veteran-id-cards
+  - records
+spokes:
+  - spoke: Get Records
+    links:
+      - destination: records/get-military-service-records
+        label: Request Military Records
+      - destination: /health-care/get-medical-records/
+        label: Get VA Medical Records
+      - destination: records/get-veteran-id-cards
+        label: Types of Veteran ID Cards
+        children:
+          - destination: records/get-veteran-id-cards/apply
+            label: Veteran ID Card
+          - destination: records/get-veteran-id-cards/vic
+            label: Veteran ID Card
+      - destination: records/download-va-letters
+        label: Download VA Benefit Letters
+      - destination: /housing-assistance/home-loans/how-to-apply/
+        label: Learn How to Apply for a Home Loan COE
+      - destination: discharge-upgrade-instructions
+        label: Discharge Upgrade
+      - destination: va-payment-history
+        label: View VA Payment History
+      - destination: 'https://www.archives.gov/'
+        label: Search Historical Military Records

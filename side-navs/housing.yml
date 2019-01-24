@@ -1,0 +1,45 @@
+__hub__: housing
+name: Housing Assistance
+appliesTo:
+  - housing-assistance/disability-housing-grants
+  - housing-assistance
+  - housing-assistance/home-loans
+spokes:
+  - spoke: VA Home Loans
+    links:
+      - destination: housing-assistance/home-loans
+        label: VA-Backed Home Loans
+        children:
+          - destination: housing-assistance/home-loans/loan-types
+            label: Loan Types
+          - destination: housing-assistance/home-loans/eligibility
+            label: Eligibility
+          - destination: housing-assistance/home-loans/how-to-apply
+            label: How to Apply
+          - destination: /claim-or-appeal-status/
+            label: Check Appeal Status
+          - destination: housing-assistance/home-loans/trouble-making-payments
+            label: Trouble Making Payments?
+          - destination: >-
+              https://www.blogs.va.gov/VAntage/43234/va-and-the-consumer-financial-protection-bureau-warn-against-home-loan-refinancing-offers-that-sound-too-good-to-be-true/
+            label: Warning about Refinancing Offers
+          - destination: 'https://www.benefits.va.gov/homeloans/resources_veteran.asp'
+            label: Home Buying Process
+          - destination: 'https://www.benefits.va.gov/homeloans/purchaseco_loan_fee.asp'
+            label: VA Loan Funding Fee
+          - destination: 'https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp'
+            label: Find a VA Regional Loan Center
+          - destination: 'https://www.benefits.va.gov/homeloans/realtors_property_mgmt.asp'
+            label: Find VA-Acquired Properties
+          - destination: >-
+              https://www.benefits.va.gov/HOMELOANS/documents/docs/va_policy_regarding_natural_disasters.pdf
+            label: Guidance on Natural Disasters
+  - spoke: Disability Housing Grants
+    links:
+      - destination: housing-assistance/disability-housing-grants
+        label: Housing Grants
+        children:
+          - destination: housing-assistance/disability-housing-grants/how-to-apply
+            label: How to Apply
+          - destination: /claim-or-appeal-status/
+            label: Check Appeal Status

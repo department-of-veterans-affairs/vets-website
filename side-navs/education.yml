@@ -1,0 +1,122 @@
+__hub__: education
+name: Education and Training
+appliesTo:
+  - gi-bill-comparison-tool
+  - education/after-you-apply
+  - education/about-gi-bill-benefits
+  - education/apply-restore-benefits
+  - education/change-direct-deposit
+  - education/bak_index
+  - education/benefit-rates
+  - education/change-gi-bill-benefits
+  - education/check-va-appeal-status
+  - education/choosing-a-school
+  - education/compare-education-benefits
+  - education/contact-us
+  - education/eligibility
+  - education/education-and-career-counseling
+  - education/handouts-forms
+  - education/how-to-apply
+  - education/non-va-resources
+  - education
+  - education/opt-out-information-sharing
+  - education/other-va-education-benefits
+  - education/overpayments-and-debts
+  - education/how-others-use-gi-bill
+  - education/submit-school-feedback
+  - education/school-feedback
+  - education/transfer-post-9-11-gi-bill-benefits
+  - education/survivor-dependent-benefits
+  - education/vocational-rehab-and-employment
+  - education/view-payment-history
+  - education/verify-school-enrollment
+  - education/gi-bill/post-9-11/ch-33-benefit
+spokes:
+  - spoke: Get Benefits
+    links:
+      - destination: education/about-gi-bill-benefits
+        label: GI Bill
+        children:
+          - destination: education/about-gi-bill-benefits/post-9-11
+            label: Post-9/11 GI Bill
+          - destination: education/about-gi-bill-benefits/montgomery-active-duty
+            label: Montgomery GI Bill Active Duty
+          - destination: education/about-gi-bill-benefits/montgomery-selected-reserve
+            label: Montgomery GI Bill Selected Reserve
+          - destination: education/about-gi-bill-benefits/how-to-use-benefits
+            label: How to Use Your Benefits
+      - destination: education/eligibility
+        label: Eligibility
+      - destination: education/how-to-apply
+        label: How to Apply
+      - destination: education/after-you-apply
+        label: After You Apply
+      - destination: /careers-employment/vocational-rehabilitation/
+        label: Vocational Rehab and Employment
+      - destination: /careers-employment/education-and-career-counseling/
+        label: Educational and Career Counseling
+      - destination: education/survivor-dependent-benefits
+        label: Survivor and Dependent Benefits
+        children:
+          - destination: education/survivor-dependent-benefits/fry-scholarship
+            label: Fry Scholarship
+          - destination: >-
+              education/survivor-dependent-benefits/dependents-education-assistance
+            label: Dependents Education Assistance (DEA)
+      - destination: education/other-va-education-benefits
+        label: Other Education Benefits
+        children:
+          - destination: education/other-va-education-benefits/reap
+            label: REAP
+          - destination: education/other-va-education-benefits/veap
+            label: VEAP
+          - destination: >-
+              education/other-va-education-benefits/national-call-to-service-program
+            label: National Call to Service Program
+  - spoke: Manage Benefits
+    links:
+      - destination: /va-payment-history/
+        label: View VA Payment History
+      - destination: education/gi-bill/post-9-11/ch-33-benefit
+        label: Check Post-9/11 GI Bill Benefits
+      - destination: education/transfer-post-9-11-gi-bill-benefits
+        label: Transfer Post-9/11 GI Bill Benefits
+      - destination: education/change-gi-bill-benefits
+        label: Change Your GI Bill School or Program
+        children: []
+      - destination: /change-direct-deposit-and-contact-information/
+        label: Change Direct Deposit and Contact Information
+      - destination: /claim-or-appeal-status/
+        label: Check VA Appeal Status
+      - destination: 'https://www.gibill.va.gov/wave/index.do'
+        label: Verify School Enrollment
+      - destination: 'https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp'
+        label: Apply to Restore GI Bill Benefits
+  - spoke: More Resources
+    links:
+      - destination: gi-bill-comparison-tool
+        label: GI Bill School Comparison
+      - destination: education/benefit-rates
+        label: Benefit Rates
+      - destination: education/choosing-a-school
+        label: Choosing a School
+        children:
+          - destination: education/choosing-a-school/principles-of-excellence
+            label: Principles of Excellence Program
+          - destination: 'https://www.benefits.va.gov/gibill/school_locator.asp'
+            label: WEAMS Institution Search
+      - destination: >-
+          https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp
+        label: Overpayments and Debts
+      - destination: 'https://www.benefits.va.gov/gibill/contact_us.asp'
+        label: Contact Us
+      - destination: 'https://www.benefits.va.gov/GIBILL/Feedback.asp'
+        label: GI Bill School Feedback
+      - destination: 'https://www.benefits.va.gov/gibill/handouts_forms.asp'
+        label: Handouts and Forms
+      - destination: 'https://www.benefits.va.gov/gibill/my_story.asp'
+        label: How Others Use the GI Bill
+      - destination: 'https://www.benefits.va.gov/gibill/non_va_resources.asp'
+        label: Non-VA Resources
+      - destination: 'https://www.benefits.va.gov/gibill/comparison_tool.asp'
+        label: Compare Education Benefits

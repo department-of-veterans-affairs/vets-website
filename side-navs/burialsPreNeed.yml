@@ -1,0 +1,15 @@
+name: Burials and Memorials
+appliesTo:
+  - burials-memorials/pre-need-eligibility/apply-now
+  - burials-memorials/pre-need-eligibility/after-you-apply
+  - burials-memorials/pre-need-eligibility/faqs
+backLink:
+  label: Pre-need Burial Eligibility Determination
+  destination: burials-memorials/pre-need-eligibility
+links:
+  - destination: /burials-and-memorials/pre-need/form-10007-apply-for-eligibility/
+    label: Apply Now
+  - destination: 'http://www.cem.va.gov/CEM/pre-need/FAQ/'
+    label: FAQs
+  - destination: burials-memorials/pre-need-eligibility/after-you-apply
+    label: After You Apply

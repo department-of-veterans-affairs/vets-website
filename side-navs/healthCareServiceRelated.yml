@@ -1,0 +1,41 @@
+name: Health Care
+appliesTo:
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
+  - >-
+    health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
+backLink:
+  label: Health Issues Related to Service Era
+  destination: health-care/health-needs-conditions/health-issues-related-to-service-era
+links:
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom
+    label: Operation Enduring Freedom
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/iraq-war
+    label: Iraq War
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/gulf-war
+    label: Gulf War
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/cold-war
+    label: Cold War Era
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/vietnam-war
+    label: Vietnam War
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/korean-war
+    label: Korean War
+  - destination: >-
+      health-care/health-needs-conditions/health-issues-related-to-service-era/world-war-ii
+    label: World War II
