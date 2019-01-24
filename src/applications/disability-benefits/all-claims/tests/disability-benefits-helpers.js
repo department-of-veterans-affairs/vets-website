@@ -109,7 +109,7 @@ function completeEvidenceTypes(client, data) {
   client
     .selectYesNo('root_view:hasEvidence', hasEvidence)
     // .fillCheckbox(
-    //   'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVAMedicalRecords"]',
+    //   'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVaMedicalRecords"]',
     //   evidenceTypes['view:vaMedicalRecords'],
     // )
     .fillCheckbox(

@@ -91,14 +91,14 @@
     "view:hasEvidence": true,
     "view:hasEvidenceFollowUp": {
       "view:selectableEvidenceTypes": {
-        "view:hasVAMedicalRecords": true,
+        "view:hasVaMedicalRecords": true,
         "view:hasPrivateMedicalRecords": true,
         "view:hasOtherEvidence": true
       },
       "view:evidenceTypeHelp": {}
     },
     "view:powStatus": true,
-    "view:isPOW": {
+    "view:isPow": {
       "confinements": [
         {
           "from": "1900-01-01",
