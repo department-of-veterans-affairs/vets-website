@@ -243,7 +243,7 @@
     "reselect": "^2.5.4",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
-    "us-forms-system": "https://github.com/usds/us-forms-system.git#1896964554d5122b236527f88253f2e1dd9d14b4",
+    "us-forms-system": "https://github.com/rianfowler/us-forms-system.git#98ea293af0da80169ebda45af16a6563d3b2df01",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9b5bd9ecc5f1b13fd21743df9356e1ce8aec8520",
