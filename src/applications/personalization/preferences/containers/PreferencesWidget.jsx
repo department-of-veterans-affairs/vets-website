@@ -5,7 +5,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
 import recordEvent from 'platform/monitoring/record-event';
