@@ -157,4 +157,26 @@ describe('Prisoner of war info', () => {
     );
     form.unmount();
   });
+
+  it('should require confinement dates to be within a single service period', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(form, 'root_view:powStatus', 'Y');
+    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_to', '2014-05-05'); // After service period
+
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });
