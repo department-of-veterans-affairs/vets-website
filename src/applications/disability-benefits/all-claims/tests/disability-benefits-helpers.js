@@ -205,7 +205,7 @@ function initInProgressMock(token) {
         },
         disabilities: [
           {
-            name: 'Diabetes mellitus0',
+            name: 'First Condition',
             ratedDisabilityId: '0',
             ratingDecisionId: '63655',
             diagnosticCode: 5238,
@@ -214,7 +214,7 @@ function initInProgressMock(token) {
             ratingPercentage: 100,
           },
           {
-            name: 'Diabetes mellitus1',
+            name: 'Second Condition',
             ratedDisabilityId: '1',
             ratingDecisionId: '63655',
             diagnosticCode: 5238,
@@ -250,7 +250,7 @@ function initInProgressMock(token) {
 
 function initDocumentUploadMock() {
   mock(null, {
-    path: '/v0/claim_attachments',
+    path: '/v0/upload_supporting_evidence',
     verb: 'post',
     value: {
       data: {
