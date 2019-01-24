@@ -45,6 +45,7 @@ const schemaToConfigIds = {
   'FEEDBACK-TOOL': 'FEEDBACK-TOOL',
   VIC: 'VIC',
   definitions: 'N/A',
+  constants: 'N/A',
 };
 
 const excludedForms = new Set([
@@ -99,7 +100,7 @@ describe('profile helpers:', () => {
         sipEnabledConfig => sipEnabledConfig.formId,
       );
       sipEnabledFormIds.push('complaint-tool');
-      expect(allFormIds).to.deep.equal(allMappedIds);
+      expect(new Set(allFormIds)).to.deep.equal(new Set(allMappedIds));
       expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });
   });
