@@ -14,7 +14,7 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transformForSubmit } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
-import { educationHistory } from '../pages';
+import { educationHistory, highTechWorkExp } from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -94,6 +94,12 @@ const formConfig = {
       title: 'High tech work experience',
       pages: {
         // page - yes/no working in high-tech industry
+        highTechWorkExp: {
+          title: 'High tech work experience',
+          path: 'work-experience',
+          uiSchema: highTechWorkExp.uiSchema,
+          schema: highTechWorkExp.schema,
+        },
       },
     },
     // Chapter - Program Selection

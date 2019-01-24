@@ -1,3 +1,4 @@
 import * as educationHistory from './educationHistory';
+import * as highTechWorkExp from './highTechWorkExp';
 
-export { educationHistory };
+export { educationHistory, highTechWorkExp };
