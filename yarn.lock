@@ -23,10 +23,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation-react@^3.0.0-FA-0.0.2":
-  version "3.0.0-FA-0.0.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.0.0-FA-0.0.2.tgz#d66b57c4caf0cf1af467e8b568cd6cc8581b78ec"
-  integrity sha512-Y39EWOGJ60MJ6Yguta9aopzyLCPQZcjOIRCMHdys2TTjWug9EkdDL96kAvxTYxyJvJCkbcPHgbbIR7jsvkSCzg==
+"@department-of-veterans-affairs/formation-react@^3.1.0":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.1.1.tgz#7726839d258538ec6ee059912f73c1acc4323ef2"
+  integrity sha512-pa9nMQWYZWn+Hns0DCV2RL2BLlW1dH7AI2cHuh7dDOtWLfw9w11wtgTKc/GQ8sEPcgzGEn/eF6Cw3yIFqxidyQ==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.11"
@@ -35,11 +35,13 @@
     react-transition-group "1"
     window-or-global "^1.0.1"
 
-"@department-of-veterans-affairs/formation@^3.0.0-FA-0.0.2":
-  version "3.0.0-FA-0.0.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.0.0-FA-0.0.2.tgz#fcdacf73a513a2c155378e943b1a22d59f07430a"
-  integrity sha512-d0gTmAglx3YFTi7f/eJ36vnmSn4y3d6YY9xJnR2/XsOGp1cpyo3W+LSAXZU/ZeQ5yfR9Jzp0GZW0NspdSBQnlQ==
+"@department-of-veterans-affairs/formation@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.2.0.tgz#bb5264d2991669de7336b4ba7c5b92c508b88298"
+  integrity sha512-yplVG9WWA9x/ob9m+tJ3g5qHRRX4TMlXZ8TQ3N3G0yMJqezPWPH2ENu/qpXXNYwSgUgG9DQndFBimYI83IxQxg==
   dependencies:
+    "@fortawesome/fontawesome-free" "^5.6.3"
+    foundation-sites "5"
     moment "^2.23.0"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
@@ -4371,9 +4373,10 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
 
-foundation-sites@^5.5.3:
+foundation-sites@5, foundation-sites@^5.5.3:
   version "5.5.3"
-  resolved "http://registry.npmjs.org/foundation-sites/-/foundation-sites-5.5.3.tgz#6556eb2b31cde3b226630116bd215d95d056c0a7"
+  resolved "https://registry.yarnpkg.com/foundation-sites/-/foundation-sites-5.5.3.tgz#6556eb2b31cde3b226630116bd215d95d056c0a7"
+  integrity sha1-ZVbrKzHN47ImYwEWvSFdldBWwKc=
 
 fragment-cache@^0.2.1:
   version "0.2.1"
