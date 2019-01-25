@@ -452,7 +452,7 @@ $medium-phone-screen: 375px;
     font-family: "Font Awesome 5 Free";
     color: $color-black;
 
-    .far.fa-times-circle{
+    .fas.fa-times-circle{
       font-size: 0.60em;
       color: $color-link-default;
       &:hover {
@@ -521,7 +521,7 @@ $medium-phone-screen: 375px;
 
   .va-modal-close {
     .fa {
-      color: inherit;      
+      color: inherit;
     }
   }
 
