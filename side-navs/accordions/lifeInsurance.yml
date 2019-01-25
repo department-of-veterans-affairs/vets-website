@@ -1,26 +1,31 @@
 __hub__: life-insurance
 name: Life Insurance
 appliesTo:
-  - life-insurance/about-soes
-  - life-insurance/check-appeal
-  - life-insurance/assess-life-insurance-needs
-  - life-insurance/contact-us
-  - life-insurance/enroll-vgli-autopay
-  - life-insurance/file-a-claim
-  - life-insurance/file-appeal-for-tsgli
-  - life-insurance/convert-to-commercial
-  - life-insurance
-  - life-insurance/life-insurance-forms
+  - life-insurance/options-eligibility
+  - life-insurance/options-eligibility/sgli
+  - life-insurance/options-eligibility/fsgli
+  - life-insurance/options-eligibility/tsgli
+  - life-insurance/options-eligibility/vgli
+  - life-insurance/options-eligibility/s-dvi
+  - life-insurance/options-eligibility/vmli
+  - life-insurance/totally-disabled-or-terminally-ill
   - life-insurance/financial-counseling
   - life-insurance/manage-your-policy
-  - life-insurance/mandatory-payments
-  - life-insurance/myths-and-rumors
-  - life-insurance/publications-handbooks
-  - life-insurance/options-eligibility
-  - life-insurance/search-unclaimed-funds
-  - life-insurance/uninsurable-conditions
-  - life-insurance/totally-disabled-or-terminally-ill
   - life-insurance/update-beneficiaries
+  - life-insurance/file-a-claim
+  - life-insurance/check-appeal
+  - life-insurance/convert-to-commercial
+  - life-insurance/file-appeal-for-tsgli
+  - life-insurance/enroll-vgli-autopay
+  - life-insurance/search-unclaimed-funds
+  - life-insurance/assess-life-insurance-needs
+  - life-insurance/myths-and-rumors
+  - life-insurance/about-soes
+  - life-insurance/contact-us
+  - life-insurance/life-insurance-forms
+  - life-insurance/publications-handbooks
+  - life-insurance/mandatory-payments
+  - life-insurance/uninsurable-conditions
 spokes:
   - spoke: Get Benefits
     links:

@@ -1,11 +1,12 @@
 name: Burials and Memorials
 appliesTo:
-  - burials-memorials/memorial-items/headstones-markers-medallions/discharge-documents-needed
+  - burials-memorials/memorial-items/headstones-markers-medallions/types
+  - burials-memorials/memorial-items/headstones-markers-medallions/replacements
+  - burials-memorials/memorial-items/headstones-markers-medallions/pre-world-war-1-era
   - burials-memorials/memorial-items/headstones-markers-medallions/inscription-abbreviations
   - burials-memorials/memorial-items/headstones-markers-medallions/available-emblems-of-belief
-  - burials-memorials/memorial-items/headstones-markers-medallions/pre-world-war-1-era
-  - burials-memorials/memorial-items/headstones-markers-medallions/replacements
-  - burials-memorials/memorial-items/headstones-markers-medallions/types
+  - burials-memorials/memorial-items/headstones-markers-medallions/discharge-documents-needed
+  - burials-memorials/memorial-items/headstones-markers-medallions/available-emblems-of-belief
 backLink:
   label: 'Headstones, Markers or Medallions'
   destination: burials-memorials/memorial-items/headstones-markers-medallions

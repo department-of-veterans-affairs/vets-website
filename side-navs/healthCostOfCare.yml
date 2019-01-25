@@ -1,11 +1,12 @@
 name: Health Care
 appliesTo:
   - health-care/about-va-health-benefits/cost-of-care/cost-overview
-  - health-care/about-va-health-benefits/cost-of-care/financial-assessment
-  - health-care/about-va-health-benefits/cost-of-care/dispute-medical-charges
-  - health-care/about-va-health-benefits/cost-of-care/financial-hardships
   - health-care/about-va-health-benefits/cost-of-care/health-benefit-copay
+  - health-care/about-va-health-benefits/cost-of-care/financial-assessment
   - health-care/about-va-health-benefits/cost-of-care/treasury-debt
+  - health-care/about-va-health-benefits/cost-of-care/financial-hardships
+  - health-care/about-va-health-benefits/cost-of-care/dispute-medical-charges
+  - health-care/about-va-health-benefits/cost-of-care/cost-overview
 backLink:
   label: Cost of Care
   destination: health-care/about-va-health-benefits/cost-of-care

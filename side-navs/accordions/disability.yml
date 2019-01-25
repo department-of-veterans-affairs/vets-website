@@ -1,27 +1,37 @@
 __hub__: disability
 name: Disability Benefits
 appliesTo:
-  - disability/add-remove-dependent
-  - disability/about-disability-ratings
+  - disability/eligibility
+  - disability/eligibility/hazardous-materials-exposure
+  - disability/eligibility/former-pows
+  - disability/eligibility/ptsd
+  - disability/eligibility/illnesses-within-one-year-of-discharge
+  - disability/eligibility/special-claims
+  - disability/how-to-file-claim
+  - disability/how-to-file-claim/when-to-file
+  - disability/how-to-file-claim/evidence-needed
+  - disability/how-to-file-claim/supplemental-forms
   - disability/after-you-file-claim
   - disability/burials
-  - disability/change-direct-deposit-and-contact-information
   - disability/check-claim
-  - disability/dbq_forms
-  - disability/eligibility
-  - disability/file-an-appeal
   - disability/file-for-increased
-  - disability/get-help-filing-claim
-  - disability/download-va-benefit-letters
-  - disability
-  - disability/how-to-file-claim
-  - disability/share-medical-records
-  - disability/supplemental-forms
+  - disability/file-an-appeal
+  - disability/file-an-appeal/board-of-veterans-appeals
+  - disability/file-an-appeal/request-priority-review
+  - disability/add-remove-dependent
   - disability/upload-supporting-evidence
-  - disability/va-benefits-letters
-  - disability/va-claim-exam
+  - disability/supplemental-forms
+  - disability/change-direct-deposit-and-contact-information
+  - disability/share-medical-records
+  - disability/download-va-benefit-letters
   - disability/va-payment-history
+  - disability/about-disability-ratings
+  - disability/about-disability-ratings/effective-date
+  - disability/about-disability-ratings/after-you-get-a-rating
   - disability/rates
+  - disability/va-claim-exam
+  - disability/get-help-filing-claim
+  - disability/dbq_forms
 spokes:
   - spoke: Get Benefits
     links:

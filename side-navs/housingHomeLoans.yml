@@ -1,16 +1,21 @@
 name: Housing Assistance
 appliesTo:
-  - housing-assistance/home-loans/check-appeal-status
-  - housing-assistance/home-loans/eligibility
-  - housing-assistance/home-loans/find-a-va-regional-loan-center
-  - housing-assistance/home-loans/home-buying-process
-  - housing-assistance/home-loans/find-va-acquired-properties
   - housing-assistance/home-loans/loan-types
+  - housing-assistance/home-loans/loan-types/purchase-loan
+  - housing-assistance/home-loans/loan-types/cash-out-loan
+  - housing-assistance/home-loans/loan-types/native-american-direct-loan
+  - housing-assistance/home-loans/loan-types/interest-rate-reduction-loan
+  - housing-assistance/home-loans/eligibility
   - housing-assistance/home-loans/how-to-apply
-  - housing-assistance/home-loans/guidance-on-natural-disasters
+  - housing-assistance/home-loans/check-appeal-status
   - housing-assistance/home-loans/trouble-making-payments
-  - housing-assistance/home-loans/va-loan-funding-fee
   - housing-assistance/home-loans/warning-about-refinancing-offers
+  - housing-assistance/home-loans/home-buying-process
+  - housing-assistance/home-loans/va-loan-funding-fee
+  - housing-assistance/home-loans/find-a-va-regional-loan-center
+  - housing-assistance/home-loans/find-va-acquired-properties
+  - housing-assistance/home-loans/guidance-on-natural-disasters
+  - housing-assistance/home-loans/find-a-va-regional-loan-center
 backLink:
   label: VA-Backed Home Loans
   destination: housing-assistance/home-loans

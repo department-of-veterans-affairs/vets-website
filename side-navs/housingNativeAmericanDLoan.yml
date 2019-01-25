@@ -1,6 +1,7 @@
 name: Housing Assistance
 appliesTo:
   - housing-assistance/home-loans/loan-types/native-american-direct-loan/tribes-with-memorandums-of-understanding
+  - housing-assistance/home-loans/loan-types/native-american-direct-loan/tribes-with-memorandums-of-understanding
 backLink:
   label: Native American Direct Loan
   destination: housing-assistance/home-loans/loan-types/native-american-direct-loan

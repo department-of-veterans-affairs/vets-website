@@ -1,15 +1,15 @@
 __hub__: records
 name: Records
 appliesTo:
-  - va-payment-history
-  - discharge-upgrade-instructions
-  - records/apply-for-home-loan
-  - records/archives
-  - records/download-va-letters
-  - records/get-medical-records
   - records/get-military-service-records
-  - records
+  - records/get-medical-records
   - records/get-veteran-id-cards
+  - records/get-veteran-id-cards/vic
+  - records/download-va-letters
+  - records/apply-for-home-loan
+  - discharge-upgrade-instructions
+  - va-payment-history
+  - records/archives
 spokes:
   - spoke: Get Records
     links:

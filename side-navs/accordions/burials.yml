@@ -1,23 +1,27 @@
 __hub__: burials
 name: Burials and Memorials
 appliesTo:
-  - burials-memorials/burial-benefits-faqs
-  - burials-memorials/daily-burial-schedule
-  - burials-memorials/bereavement-counseling
-  - burials-memorials/dependency-indemnity-compensation
   - burials-memorials/eligibility
-  - burials-memorials/find-a-cemetery
-  - burials-memorials/memorial-items
-  - burials-memorials/parents-dic-rates
-  - burials-memorials/grave-locator
-  - burials-memorials/plan-a-burial
-  - burials-memorials/replace-medals-awards-and-decorations
   - burials-memorials/pre-need-eligibility
-  - burials-memorials/schedule-a-burial
-  - burials-memorials/request-military-records
-  - burials-memorials/survivor-dic-rates
-  - burials-memorials/search-historical-military-records
+  - burials-memorials/pre-need-eligibility/after-you-apply
   - burials-memorials/veterans-burial-allowance
+  - burials-memorials/memorial-items
+  - burials-memorials/memorial-items/headstones-markers-medallions
+  - burials-memorials/memorial-items/burial-flags
+  - burials-memorials/memorial-items/presidential-memorial-certificates
+  - burials-memorials/dependency-indemnity-compensation
+  - burials-memorials/bereavement-counseling
+  - burials-memorials/plan-a-burial
+  - burials-memorials/schedule-a-burial
+  - burials-memorials/find-a-cemetery
+  - burials-memorials/request-military-records
+  - burials-memorials/daily-burial-schedule
+  - burials-memorials/survivor-dic-rates
+  - burials-memorials/parents-dic-rates
+  - burials-memorials/replace-medals-awards-and-decorations
+  - burials-memorials/search-historical-military-records
+  - burials-memorials/grave-locator
+  - burials-memorials/burial-benefits-faqs
   - burials-memorials/what-to-expect-at-military-funeral
 spokes:
   - spoke: Get Benefits

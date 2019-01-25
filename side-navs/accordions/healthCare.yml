@@ -1,34 +1,48 @@
 __hub__: health-care
 name: Health Care
 appliesTo:
-  - health-care/about-affordable-care-act
   - health-care/about-va-health-benefits
-  - health-care/access-and-quality-in-va-health-care
-  - health-care/after-you-apply
-  - health-care/check-appeal-status
-  - health-care/community-care
-  - health-care/chemical-or-hazardous-material-exposures
-  - health-care/cost-of-care
+  - health-care/about-va-health-benefits/your-care-team
+  - health-care/about-va-health-benefits/where-you-go-for-care
+  - health-care/about-va-health-benefits/va-health-care-and-other-insurance
+  - health-care/about-va-health-benefits/long-term-care
+  - health-care/about-va-health-benefits/dental-care
+  - health-care/about-va-health-benefits/vision-care
   - health-care/eligibility
-  - health-care/family-caregiver-benefits
-  - health-care/get-medical-records
-  - health-care/get-travel-pay
-  - health-care/health-benefits-explorer
-  - health-care/health-needs-conditions
   - health-care/how-to-apply
-  - health-care/make-a-payment
-  - health-care/order-hearing-aid-batteries-prosthetic-socks
-  - health-care/request-a-health-id-card
-  - health-care/patient-rights-and-responsibilities
-  - health-care/the-million-veteran-program
-  - health-care/update-health-information
-  - health-care/veterans-choice-program
-  - health-care/view-test-and-lab-results
-  - health-care/wellness-programs
+  - health-care/apply/application
+  - health-care/after-you-apply
+  - health-care/family-caregiver-benefits
+  - health-care/family-caregiver-benefits/champva
+  - health-care/family-caregiver-benefits/comprehensive-assistance
+  - health-care/refill-track-prescriptions
   - health-care/secure-messaging
   - health-care/schedule-view-va-appointments
-  - health-care/apply/application
-  - health-care/refill-track-prescriptions
+  - health-care/view-test-and-lab-results
+  - health-care/order-hearing-aid-batteries-prosthetic-socks
+  - health-care/get-medical-records
+  - health-care/update-health-information
+  - health-care/make-a-payment
+  - health-care/get-travel-pay
+  - health-care/check-appeal-status
+  - health-care/request-a-health-id-card
+  - health-care/cost-of-care
+  - health-care/health-needs-conditions
+  - health-care/health-needs-conditions/health-issues-related-to-service-era
+  - health-care/health-needs-conditions/mental-health
+  - health-care/health-needs-conditions/military-sexual-trauma
+  - health-care/health-needs-conditions/substance-use-problems
+  - health-care/health-needs-conditions/chemical-hazardous-materials-exposure
+  - health-care/health-needs-conditions/womens-health-needs
+  - health-care/health-benefits-explorer
+  - health-care/wellness-programs
+  - health-care/chemical-or-hazardous-material-exposures
+  - health-care/veterans-choice-program
+  - health-care/about-affordable-care-act
+  - health-care/the-million-veteran-program
+  - health-care/access-and-quality-in-va-health-care
+  - health-care/patient-rights-and-responsibilities
+  - health-care/community-care
 spokes:
   - spoke: Get Benefits
     links:
@@ -39,10 +53,10 @@ spokes:
             destination: health-care/about-va-health-benefits/your-care-team
           - label: Where You'll Go for Care
             destination: health-care/about-va-health-benefits/where-you-go-for-care
-          - label: VA Health Care and Other Insurance
-            destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
           - label: Cost of Care
             destination: 'https://www.va.gov/HEALTHBENEFITS/cost/index.asp'
+          - label: VA Health Care and Other Insurance
+            destination: health-care/about-va-health-benefits/va-health-care-and-other-insurance
           - label: Long-Term Care
             destination: health-care/about-va-health-benefits/long-term-care
           - label: Dental Care
@@ -85,14 +99,14 @@ spokes:
         destination: health-care/get-medical-records
       - label: Update Health Benefits Info
         destination: health-care/update-health-information
-      - label: Get Travel Pay
-        destination: 'https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp'
       - label: Make a Payment
         destination: 'https://www.pay.gov/public/form/start/25987221'
-      - label: Request a Health ID Card
-        destination: 'https://www.va.gov/HEALTHBENEFITS/vhic/index.asp'
+      - label: Get Travel Pay
+        destination: 'https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp'
       - label: Check Appeal Status
         destination: /claim-or-appeal-status/
+      - label: Request a Health ID Card
+        destination: 'https://www.va.gov/HEALTHBENEFITS/vhic/index.asp'
   - spoke: More Resources
     links:
       - label: Cost of Care

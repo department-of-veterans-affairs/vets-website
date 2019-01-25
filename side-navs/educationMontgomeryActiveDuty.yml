@@ -1,6 +1,7 @@
 name: GI Bill
 appliesTo:
   - education/about-gi-bill-benefits/montgomery-active-duty/buy-up
+  - education/about-gi-bill-benefits/montgomery-active-duty/buy-up
 backLink:
   label: Montgomery GI Bill Active Duty
   destination: education/about-gi-bill-benefits/montgomery-active-duty

@@ -1,20 +1,20 @@
 __hub__: pension
 name: Pension Benefits
 appliesTo:
-  - pension/aid-attendance-housebound
-  - pension/change-direct-deposit-and-contact-info
-  - pension/check-claim-or-appeal-status
   - pension/eligibility
   - pension/how-to-apply
-  - pension/pension-management-centers
-  - pension
+  - pension/how-to-apply/fully-developed-claim
+  - pension/application/527EZ
+  - pension/aid-attendance-housebound
   - pension/survivors-pension
-  - pension/va-claim-exam
-  - pension/veterans-pension-rates
+  - pension/check-claim-or-appeal-status
   - pension/view-va-payment-history
+  - pension/change-direct-deposit-and-contact-info
+  - pension/veterans-pension-rates
   - pension/survivors-pension-rates
   - pension/protected-pension-rates
-  - pension/application/527EZ
+  - pension/va-claim-exam
+  - pension/pension-management-centers
 spokes:
   - spoke: Get Benefits
     links:

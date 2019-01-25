@@ -1,8 +1,9 @@
 name: Burials and Memorials
 appliesTo:
   - burials-memorials/pre-need-eligibility/apply-now
-  - burials-memorials/pre-need-eligibility/after-you-apply
   - burials-memorials/pre-need-eligibility/faqs
+  - burials-memorials/pre-need-eligibility/after-you-apply
+  - burials-memorials/pre-need-eligibility/apply-now
 backLink:
   label: Pre-need Burial Eligibility Determination
   destination: burials-memorials/pre-need-eligibility

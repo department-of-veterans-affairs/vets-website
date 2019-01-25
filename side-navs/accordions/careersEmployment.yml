@@ -1,23 +1,26 @@
 __hub__: careers
 name: Careers and Employment
 appliesTo:
+  - careers-employment/vocational-rehabilitation
+  - careers-employment/vocational-rehabilitation/programs
+  - careers-employment/vocational-rehabilitation/eligibility
+  - careers-employment/vocational-rehabilitation/how-to-apply
+  - careers-employment/vocational-rehabilitation/ides
   - careers-employment/education-and-career-counseling
-  - careers-employment/family-resources
-  - careers-employment/find-va-careers
+  - careers-employment/veteran-owned-business-support
+  - careers-employment/dependent-benefits
+  - careers-employment/va-transition-assistance
+  - careers-employment/careerscope-skills-assessment
   - careers-employment/find-a-job
-  - careers-employment
+  - careers-employment/find-va-careers
   - careers-employment/print-civil-service-preference-letter
   - careers-employment/get-linkedin-classes
   - careers-employment/subsistence-allowance-rates
-  - careers-employment/success-stories
-  - careers-employment/va-transition-assistance
-  - careers-employment/veteran-owned-business-support
-  - careers-employment/veteran-resources
   - careers-employment/vetsuccess-on-campus
-  - careers-employment/careerscope-skills-assessment
-  - careers-employment/vocational-rehabilitation
-  - careers-employment/dependent-benefits
   - careers-employment/program-definitions
+  - careers-employment/success-stories
+  - careers-employment/veteran-resources
+  - careers-employment/family-resources
 spokes:
   - spoke: Get Benefits
     links:

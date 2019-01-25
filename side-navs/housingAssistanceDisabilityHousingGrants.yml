@@ -2,6 +2,7 @@ name: Housing Assistance
 appliesTo:
   - housing-assistance/disability-housing-grants/how-to-apply
   - housing-assistance/disability-housing-grants/claim-or-appeal-status
+  - housing-assistance/disability-housing-grants/claim-or-appeal-status
 backLink:
   label: Housing Grants
   destination: housing-assistance/disability-housing-grants

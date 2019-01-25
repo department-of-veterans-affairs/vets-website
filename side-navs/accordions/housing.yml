@@ -1,9 +1,13 @@
 __hub__: housing
 name: Housing Assistance
 appliesTo:
-  - housing-assistance/disability-housing-grants
   - housing-assistance/home-loans
-  - housing-assistance
+  - housing-assistance/home-loans/loan-types
+  - housing-assistance/home-loans/eligibility
+  - housing-assistance/home-loans/how-to-apply
+  - housing-assistance/home-loans/trouble-making-payments
+  - housing-assistance/disability-housing-grants
+  - housing-assistance/disability-housing-grants/how-to-apply
 spokes:
   - spoke: VA Home Loans
     links:

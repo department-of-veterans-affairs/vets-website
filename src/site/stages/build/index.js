@@ -162,16 +162,25 @@ function defaultBuild(BUILD_OPTIONS) {
       collections: COLLECTIONS
     } = smith.metadata();
 
-    function getLinkElement(relatedPage) {
+    function getLinkElement(relatedPage, sidebar) {
       const element = {
         label: relatedPage.display_title || relatedPage.title,
         destination: relatedPage.href || relatedPage.path,
       };
 
+      sidebar.appliesTo.push(relatedPage.path);
+      relatedPage.skip = true;
+
       if (relatedPage.children) {
         const children = COLLECTIONS[relatedPage.children];
 
         element.children = children.map(childPage => {
+
+          if (childPage.template || childPage.layout === 'page-react-sidebar.html') {
+            childPage.skip = true;
+            sidebar.appliesTo.push(childPage.path);
+          }
+
           return {
             label: childPage.display_title || childPage.title,
             destination: childPage.href || childPage.path,
@@ -187,7 +196,7 @@ function defaultBuild(BUILD_OPTIONS) {
     for (const fileName of Object.keys(files)) {
       const page = files[fileName];
 
-      if (!page.collection) continue;
+      if (!page.collection || page.skip) continue;
 
       const collectionIds = page.collection;
 
@@ -208,7 +217,6 @@ function defaultBuild(BUILD_OPTIONS) {
         let sideNav = SIDENAV_DATA.find(d => d.id === collectionId);
 
         if (sideNav) {
-          sideNav.appliesTo.push(page.path);
           continue;
         }
 
@@ -217,7 +225,7 @@ function defaultBuild(BUILD_OPTIONS) {
             __hub__: hub,
             id: collectionId,
             name,
-            appliesTo: [page.path]
+            appliesTo: []
           };
 
           accordionSidebar.spokes = SPOKES.map(spoke => {
@@ -225,7 +233,7 @@ function defaultBuild(BUILD_OPTIONS) {
             const links = collection
               .filter(relatedPage => !relatedPage.hideFromSidebar)
               .filter(relatedPage => relatedPage.spoke === spoke)
-              .map(getLinkElement);
+              .map(l => getLinkElement(l, accordionSidebar));
 
             return {
               spoke,
@@ -240,7 +248,7 @@ function defaultBuild(BUILD_OPTIONS) {
           const regularSidebar = {
             id: collectionId,
             name,
-            appliesTo: [page.path]
+            appliesTo: []
           };
 
           if (page.previous) {
@@ -253,7 +261,9 @@ function defaultBuild(BUILD_OPTIONS) {
           regularSidebar.links = collection
             .filter(relatedPage => collection.metadata.name !== relatedPage.display_title && collection.metadata.name !== relatedPage.title)
             .filter(relatedPage => !relatedPage.hideFromSidebar)
-            .map(getLinkElement);
+            .map(l => getLinkElement(l, regularSidebar));
+
+          regularSidebar.appliesTo.push(page.path);
 
           SIDENAV_DATA.push(regularSidebar);
         }
@@ -261,10 +271,91 @@ function defaultBuild(BUILD_OPTIONS) {
 
     }
 
+    // for (const fileName of Object.keys(files)) {
+    //   const page = files[fileName];
+
+    //   if (!page.template && page.layout !== 'page-react-sidebar.html') continue;
+
+    //   const isAccordion = !!page.spoke;
+
+    //   if (isAccordion) {
+
+    //     for (const collectionId of Object.keys(COLLECTIONS)) {
+    //       const collection = COLLECTIONS[collectionId];
+
+    //       if (collection.includes(page)) {
+    //         const sideNav = SIDENAV_DATA.find(s => s.id == collectionId);
+    //         sideNav.appliesTo.push(page.path)
+    //         COLLECTIONS[collectionId] = collection.filter(p => p !== page);
+    //       }
+    //     }
+
+    //   }
+
+    //   // const collectionId = page.spoke ? page.collection : page.children;
+    //   // if (!collectionId) continue;
+
+    //   // // console.log(collectionId)
+
+    //   // const sideNav = SIDENAV_DATA.find(d => d.id === collectionId || (d.spoke && d.collection == collectionId));
+
+    //   // if (sideNav) sideNav.appliesTo.push(page.path);
+    // }
+
+    // for (const collectionId of Object.keys(COLLECTIONS)) {
+    //   const collection = COLLECTIONS[collectionId];
+
+    //   const sideNav = SIDENAV_DATA.find(d => d.id === collectionId);
+
+    //   if (sideNav && sideNav.__hub__) continue;
+
+    //   console.log(collectionId)
+    // }
+
+    // for (const collectionId of Object.keys(COLLECTIONS)) {
+    //   const collection = COLLECTIONS[collectionId];
+
+    //   for (const fileName of Object.keys(files)) {
+    //     const page = files[fileName];
+
+    //     if (page.spoke) {
+    //       if (page.template) {
+    //         const sideNav = SIDENAV_DATA.find(s => s.id === collectionId);
+    //         if (sideNav) {
+    //           sideNav.appliesTo.push(page.path)
+    //         }
+    //       }
+    //     }
+
+    //   }
+
+    //   // if (!sideNav)  {
+    //   //   console.log(collectionId)
+    //   //   continue
+    //   // }
+
+    //   // for (const page of collection) {
+
+    //   //   if (page.spoke) {
+    //   //     const sideNav = SIDENAV_DATA.find(d => d.id === page);
+
+    //   //   }
+
+
+    //   //   if (child.template) sideNav.appliesTo.push(child.path);
+    //   // }
+    // }
+
     SIDENAV_DATA.forEach(sideNav => {
       // delete sideNav.id;
 
-      const fileName = `side-navs/${sideNav.id}.yml`;
+      if (sideNav.appliesTo.length === 0) return;
+
+      let fileName = `side-navs/${sideNav.id}.yml`;
+
+      if (sideNav.__hub__) {
+        fileName = `side-navs/accordions/${sideNav.id}.yml`;
+      }
 
       delete sideNav.id;
 

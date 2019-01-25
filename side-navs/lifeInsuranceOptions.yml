@@ -1,12 +1,13 @@
 name: Life Insurance
 appliesTo:
-  - life-insurance/options-eligibility/fsgli
-  - life-insurance/options-eligibility/other-va-programs
-  - life-insurance/options-eligibility/s-dvi
   - life-insurance/options-eligibility/sgli
+  - life-insurance/options-eligibility/fsgli
   - life-insurance/options-eligibility/tsgli
   - life-insurance/options-eligibility/vgli
+  - life-insurance/options-eligibility/s-dvi
   - life-insurance/options-eligibility/vmli
+  - life-insurance/options-eligibility/other-va-programs
+  - life-insurance/options-eligibility/other-va-programs
 backLink:
   label: Options and Eligibility
   destination: life-insurance/options-eligibility

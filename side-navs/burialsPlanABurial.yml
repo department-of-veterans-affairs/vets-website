@@ -1,6 +1,7 @@
 name: Burials and Memorials
 appliesTo:
   - burials-memorials/plan-a-burial/military-funeral-honors
+  - burials-memorials/plan-a-burial/military-funeral-honors
 backLink:
   label: Plan a Burial
   destination: burials-memorials/plan-a-burial

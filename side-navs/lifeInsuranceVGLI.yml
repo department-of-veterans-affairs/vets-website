@@ -1,5 +1,6 @@
 name: Life Insurance
 appliesTo:
+  - life-insurance/options-eligibility/vgli/compare
   - life-insurance/options-eligibility/vgli/premium
   - life-insurance/options-eligibility/vgli/compare
 backLink:

@@ -1,14 +1,25 @@
 name: Disability Benefits
 appliesTo:
-  - disability/eligibility/hazardous-materials-exposure/agent-orange
-  - disability/eligibility/hazardous-materials-exposure/asbestos
-  - disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan
-  - disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination
-  - disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia
-  - disability/eligibility/hazardous-materials-exposure/ionizing-radiation
   - disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards
-  - disability/eligibility/hazardous-materials-exposure/project-112-shad
+  - disability/eligibility/hazardous-materials-exposure/agent-orange
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/non-hodgkins-lymphoma
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/thailand-military-bases
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/vietnam-waters
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/service-in-vietnam-korea
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/service-outside-vietnam-korea
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/navy-coast-guard-ships-vietnam
+  - disability/eligibility/hazardous-materials-exposure/agent-orange/testing-storage-areas
+  - disability/eligibility/hazardous-materials-exposure/asbestos
   - disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite
+  - disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination
+  - disability/eligibility/hazardous-materials-exposure/ionizing-radiation
+  - disability/eligibility/hazardous-materials-exposure/project-112-shad
+  - disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia
+  - disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan
+  - disability/eligibility/hazardous-materials-exposure/agent-orange
 backLink:
   label: Exposure to Hazardous Materials
   destination: disability/eligibility/hazardous-materials-exposure

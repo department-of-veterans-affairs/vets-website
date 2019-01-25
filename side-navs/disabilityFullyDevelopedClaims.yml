@@ -1,7 +1,8 @@
 name: Disability Benefits
 appliesTo:
-  - disability/how-to-file-claim/evidence-needed/fully-developed-claims/fdc_checklist
   - disability/how-to-file-claim/evidence-needed/fully-developed-claims/fdc_walkthrough
+  - disability/how-to-file-claim/evidence-needed/fully-developed-claims/fdc_checklist
+  - disability/how-to-file-claim/evidence-needed/fully-developed-claims/fdc_checklist
 backLink:
   label: Fully Developed Claims
   destination: disability/how-to-file-claim/evidence-needed/fully-developed-claims

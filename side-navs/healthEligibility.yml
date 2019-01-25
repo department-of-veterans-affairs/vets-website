@@ -2,6 +2,7 @@ name: Health Care
 appliesTo:
   - health-care/eligibility/active-duty-servicemembers
   - health-care/eligibility/returning-servicemembers
+  - health-care/eligibility/active-duty-servicemembers
 backLink:
   label: Eligibility
   destination: health-care/eligibility

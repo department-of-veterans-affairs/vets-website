@@ -2,6 +2,7 @@ name: Education and Training
 appliesTo:
   - education/choosing-a-school/principles-of-excellence
   - education/choosing-a-school/weams-institution-search
+  - education/choosing-a-school/weams-institution-search
 backLink:
   label: Choosing a School
   destination: education/choosing-a-school
