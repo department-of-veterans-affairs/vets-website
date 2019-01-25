@@ -579,8 +579,8 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
     <ul>
       {servicePeriodDateRanges.map((range, index) => (
         <li key={index}>
-          {moment(range.from).format('MM/DD/YY')} —{' '}
-          {moment(range.to).format('MM/DD/YY')}
+          {moment(range.from).format('MMM DD, YYYY')} —{' '}
+          {moment(range.to).format('MMM DD, YYYY')}
         </li>
       ))}
     </ul>

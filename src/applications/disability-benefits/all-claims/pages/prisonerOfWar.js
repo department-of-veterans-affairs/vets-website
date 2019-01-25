@@ -3,6 +3,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 import { addCheckboxPerNewDisability } from '../utils';
 import { isWithinServicePeriod } from '../validations';
+import { confinementDescription } from '../content/prisonerOfWar';
 
 const confinementUI = dateRangeUI(
   'From',
@@ -23,8 +24,7 @@ export const uiSchema = {
     },
     confinements: {
       'ui:title': ' ',
-      'ui:description':
-        'Please tell us your dates of confinement. The dates need to be within a single service period.',
+      'ui:description': confinementDescription,
       'ui:options': {
         viewField: PeriodOfConfinement,
         reviewTitle: 'Periods of confinement',
