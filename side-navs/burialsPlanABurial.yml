@@ -1,9 +1,0 @@
-name: Burials and Memorials
-appliesTo:
-  - burials-memorials/plan-a-burial/military-funeral-honors
-backLink:
-  label: Plan a Burial
-  destination: burials-memorials/plan-a-burial
-links:
-  - label: Military Funeral Honors
-    destination: 'https://www.cem.va.gov/CEM/military_funeral_honors.asp'

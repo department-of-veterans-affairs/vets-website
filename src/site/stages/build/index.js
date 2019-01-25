@@ -198,7 +198,7 @@ function defaultBuild(BUILD_OPTIONS) {
     for (const fileName of Object.keys(files)) {
       const page = files[fileName];
 
-      if (!page.collection || page.skip) continue;
+      if (!page.collection || page.skip || page.href) continue;
 
       const collectionIds = page.collection;
 
