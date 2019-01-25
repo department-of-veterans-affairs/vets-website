@@ -23,10 +23,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation-react@^3.0.0-FA":
-  version "3.0.0-FA"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.0.0-FA.tgz#dc869837bf3cb59ed14ae8c470e11828874326e2"
-  integrity sha512-xMzpRw7/WB774qKU9ELZ5eqh4T79V2TMFv5leIrLVpKh4zINOxsaXfitT0n+/uQcZse22DU1p5e2ap2VLi+s9A==
+"@department-of-veterans-affairs/formation-react@^3.0.0-FA-0.0.2":
+  version "3.0.0-FA-0.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.0.0-FA-0.0.2.tgz#d66b57c4caf0cf1af467e8b568cd6cc8581b78ec"
+  integrity sha512-Y39EWOGJ60MJ6Yguta9aopzyLCPQZcjOIRCMHdys2TTjWug9EkdDL96kAvxTYxyJvJCkbcPHgbbIR7jsvkSCzg==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.11"
