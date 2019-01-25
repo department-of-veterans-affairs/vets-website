@@ -23,10 +23,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation-react@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.0.0.tgz#f5937d5c6c3f74cea993140ad4d4846a947102a0"
-  integrity sha512-tpBrQDgMZTW9V555KRtgSZTQntRIp7SvNr2HTD42qtoHWa59fjLLRzQymhfRV93mLVWQWCL87rbKic4puW6LMA==
+"@department-of-veterans-affairs/formation-react@^3.0.0-FA":
+  version "3.0.0-FA"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.0.0-FA.tgz#dc869837bf3cb59ed14ae8c470e11828874326e2"
+  integrity sha512-xMzpRw7/WB774qKU9ELZ5eqh4T79V2TMFv5leIrLVpKh4zINOxsaXfitT0n+/uQcZse22DU1p5e2ap2VLi+s9A==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.11"
@@ -35,10 +35,10 @@
     react-transition-group "1"
     window-or-global "^1.0.1"
 
-"@department-of-veterans-affairs/formation@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.0.0.tgz#1254f676f0ea40503d21e015770b99444a61132e"
-  integrity sha512-CBaSuPunk/xWfI2ebX03m/qrXMkgWBtHhcXHtgvrwSdrZIecMIrTBSmuHo2KbAeAzsQJr9q/PBl5UHeTdVfduA==
+"@department-of-veterans-affairs/formation@^3.0.0-FA":
+  version "3.0.0-FA"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.0.0-FA.tgz#c52e7bcb39431f7eff98829a17515c0f4e229929"
+  integrity sha512-4hGK1kB+GcA/FJDngHLXZRjDZV8chrTIsxSd08kvsssJg7C6mffgJdKaTzJQ+X1nhzFmX5QTyiid60iAAxGvaA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     foundation-sites "5"
