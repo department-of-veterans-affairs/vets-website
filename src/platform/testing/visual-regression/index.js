@@ -109,9 +109,9 @@ async function setup() {
   try {
     await beginApplication(browser);
   } catch (e) {
-  /* eslint-disable */
+    /* eslint-disable */
     console.error(e, e.stack);
-  /* eslint-enable */
+    /* eslint-enable */
   }
   await browser.close();
 }
@@ -121,5 +121,4 @@ try {
 } catch (e) {
   /* eslint-disable */
   console.log(e);
-
 }

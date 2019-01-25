@@ -141,7 +141,7 @@ export const uiSchema = {
           'ui:validations': [validateLength(350)],
         },
       },
-      'view:VAFollowUp': {
+      'view:vaFollowUp': {
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'VA',
@@ -201,7 +201,7 @@ export const schema = {
               worsenedEffects,
             },
           },
-          'view:VAFollowUp': {
+          'view:vaFollowUp': {
             type: 'object',
             properties: {
               vaMistreatmentDescription,

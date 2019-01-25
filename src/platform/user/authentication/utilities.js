@@ -1,5 +1,6 @@
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import isMobile from 'ismobilejs';
 
 import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
@@ -28,7 +29,7 @@ const loginUrl = policy => {
 };
 
 export function isFullScreenLoginEnabled() {
-  return !!localStorage.getItem('enableFullScreenLogin');
+  return isMobile.any || !!localStorage.getItem('enableFullScreenLogin');
 }
 
 function popup(popupUrl, clickedEvent, openedEvent) {
