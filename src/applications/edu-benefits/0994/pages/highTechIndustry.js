@@ -1,6 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
-import { technologyEmploymentRequired } from '../utils';
 
 const {
   currentEmployment,
@@ -24,7 +23,7 @@ export const uiSchema = {
       expandUnder: 'currentEmployment',
       expandUnderCondition: false,
     },
-    'ui:required': technologyEmploymentRequired,
+    'ui:required': formData => !_.get(formData, 'currentEmployment', false),
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
