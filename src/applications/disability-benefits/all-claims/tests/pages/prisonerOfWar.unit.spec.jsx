@@ -171,8 +171,8 @@ describe('Prisoner of war info', () => {
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_view:isPOW_confinements_0_to', '2014-05-05'); // After service period
+    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPow_confinements_0_to', '2014-05-05'); // After service period
 
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
