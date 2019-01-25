@@ -12,6 +12,7 @@ const houseAssistanceContent = (
       <a
         href="https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf"
         target="_blank"
+        rel="noopener"
       >
         Download VA Form 26-4555
       </a>
@@ -30,6 +31,7 @@ const carAssistanceContent = (
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf"
           target="_blank"
+          rel="noopener"
         >
           Download VA Form 21-4502
         </a>
@@ -43,6 +45,7 @@ const carAssistanceContent = (
         <a
           href="https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf"
           target="_blank"
+          rel="noopener"
         >
           Download VA Form 10-1394.
         </a>
@@ -62,6 +65,7 @@ const aidAndAttendanceContent = (
       <a
         href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
         target="_blank"
+        rel="noopener"
       >
         Download VA Form 21-2680
       </a>
@@ -83,6 +87,7 @@ const individualUnemployabilityContent = (
           <a
             href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf"
             target="_blank"
+            rel="noopener"
           >
             Download VA Form 21-8940
           </a>
@@ -96,6 +101,7 @@ const individualUnemployabilityContent = (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf"
             target="_blank"
+            rel="noopener"
           >
             Download VA Form 21-4192
           </a>
