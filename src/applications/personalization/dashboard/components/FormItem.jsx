@@ -90,7 +90,7 @@ class FormItem extends React.Component {
           onClick={() => this.props.toggleModal(formId)}
           aria-label="Close notification"
         >
-          <i className="far fa-times-circle" aria-label="Close icon" />
+          <i className="fas fa-times-circle" aria-label="Close icon" />
         </button>
         <div className="usa-alert-body">
           <h5 className="form-title">
