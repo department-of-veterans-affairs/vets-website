@@ -1,10 +1,7 @@
-import ApplicantInformation from '../containers/ApplicantInformation';
+import { ApplicantInformation } from '../components/ApplicantInformation';
 
 export const uiSchema = {
-  'ui:reviewWidget': ApplicantInformation,
-  'view:applicantInfo': {
-    'ui:description': ApplicantInformation,
-  },
+  'ui:field': ApplicantInformation,
 };
 
 export const schema = {

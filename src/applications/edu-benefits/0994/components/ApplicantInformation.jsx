@@ -1,31 +1,33 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 import { genderLabels } from '../../../../platform/static-data/labels';
 import { srSubstitute } from '../utils';
-import { EditNote } from '../components/EditNote';
+import { EditNote } from './EditNote';
 
 export class ApplicantInformation extends React.Component {
+  displayName = applicantName => {
+    const { first, middle, last } = applicantName;
+    return (
+      <strong>
+        {first} {middle} {last}
+      </strong>
+    );
+  };
+
   render() {
-    const { formData } = this.props;
     const {
       applicantSocialSecurityNumber,
       dateOfBirth,
       applicantGender,
-    } = formData;
-    const { first, middle, last } = formData.applicantFullName;
+      applicantFullName,
+    } = this.props.formData;
     const mask = srSubstitute('●●●–●●–', 'ending with');
 
     return (
       <div>
         <p>This is your personal information we have on file.</p>
         <div className="blue-bar-block">
-          {first &&
-            last && (
-              <strong>
-                {first} {middle} {last}
-              </strong>
-            )}
+          {applicantFullName && this.displayName(applicantFullName)}
           {dateOfBirth && (
             <p>
               Date of birth:{' '}
@@ -48,11 +50,3 @@ export class ApplicantInformation extends React.Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    formData: state.form.data,
-  };
-}
-
-export default connect(mapStateToProps)(ApplicantInformation);
