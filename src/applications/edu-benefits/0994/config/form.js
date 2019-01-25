@@ -14,7 +14,7 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transformForSubmit } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
-import { educationHistory, highTechWorkExp } from '../pages';
+import { educationCompleted, highTechIndustry } from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -81,11 +81,11 @@ const formConfig = {
       title: 'Education History',
       pages: {
         // page - Highest Level of education completed
-        educationHistory: {
+        educationCompleted: {
           title: 'Education History',
           path: 'education-history',
-          uiSchema: educationHistory.uiSchema,
-          schema: educationHistory.schema,
+          uiSchema: educationCompleted.uiSchema,
+          schema: educationCompleted.schema,
         },
       },
     },
@@ -94,11 +94,11 @@ const formConfig = {
       title: 'High tech work experience',
       pages: {
         // page - yes/no working in high-tech industry
-        highTechWorkExp: {
+        highTechIndustry: {
           title: 'High tech work experience',
           path: 'work-experience',
-          uiSchema: highTechWorkExp.uiSchema,
-          schema: highTechWorkExp.schema,
+          uiSchema: highTechIndustry.uiSchema,
+          schema: highTechIndustry.schema,
         },
       },
     },

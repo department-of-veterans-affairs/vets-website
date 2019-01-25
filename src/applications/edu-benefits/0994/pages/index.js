@@ -1,4 +1,4 @@
-import * as educationHistory from './educationHistory';
-import * as highTechWorkExp from './highTechWorkExp';
+import * as educationCompleted from './educationCompleted';
+import * as highTechIndustry from './highTechIndustry';
 
-export { educationHistory, highTechWorkExp };
+export { educationCompleted, highTechIndustry };
