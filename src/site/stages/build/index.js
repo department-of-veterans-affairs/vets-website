@@ -168,18 +168,20 @@ function defaultBuild(BUILD_OPTIONS) {
         destination: relatedPage.href || relatedPage.path,
       };
 
-      sidebar.appliesTo.push(relatedPage.path);
-      relatedPage.skip = true;
+      if (relatedPage.template || relatedPage.layout === 'page-react-sidebar.html') {
+        relatedPage.skip = true;
+        sidebar && sidebar.appliesTo.push(relatedPage.path);
+      }
 
       if (relatedPage.children) {
         const children = COLLECTIONS[relatedPage.children];
 
         element.children = children.map(childPage => {
 
-          if (childPage.template || childPage.layout === 'page-react-sidebar.html') {
-            childPage.skip = true;
-            sidebar.appliesTo.push(childPage.path);
-          }
+          // if (childPage.template || childPage.layout === 'page-react-sidebar.html') {
+          //   childPage.skip = true;
+          //   sidebar && sidebar.appliesTo.push(childPage.path);
+          // }
 
           return {
             label: childPage.display_title || childPage.title,
@@ -233,7 +235,7 @@ function defaultBuild(BUILD_OPTIONS) {
             const links = collection
               .filter(relatedPage => !relatedPage.hideFromSidebar)
               .filter(relatedPage => relatedPage.spoke === spoke)
-              .map(l => getLinkElement(l, accordionSidebar));
+              .map(l => getLinkElement(l));
 
             return {
               spoke,
@@ -271,26 +273,27 @@ function defaultBuild(BUILD_OPTIONS) {
 
     }
 
-    // for (const fileName of Object.keys(files)) {
-    //   const page = files[fileName];
+    for (const fileName of Object.keys(files)) {
+      const page = files[fileName];
 
-    //   if (!page.template && page.layout !== 'page-react-sidebar.html') continue;
+      if (!page.template && page.layout !== 'page-react-sidebar.html') continue;
 
-    //   const isAccordion = !!page.spoke;
+      const isAccordion = !!page.spoke;
 
-    //   if (isAccordion) {
+      if (isAccordion) {
 
-    //     for (const collectionId of Object.keys(COLLECTIONS)) {
-    //       const collection = COLLECTIONS[collectionId];
+        for (const collectionId of Object.keys(COLLECTIONS)) {
+          const collection = COLLECTIONS[collectionId];
 
-    //       if (collection.includes(page)) {
-    //         const sideNav = SIDENAV_DATA.find(s => s.id == collectionId);
-    //         sideNav.appliesTo.push(page.path)
-    //         COLLECTIONS[collectionId] = collection.filter(p => p !== page);
-    //       }
-    //     }
+          if (collection.includes(page)) {
+            const sideNav = SIDENAV_DATA.find(s => s.id == collectionId);
+            sideNav.appliesTo.push(page.path)
+            COLLECTIONS[collectionId] = collection.filter(p => p !== page);
+          }
+        }
 
-    //   }
+      }
+    }
 
     //   // const collectionId = page.spoke ? page.collection : page.children;
     //   // if (!collectionId) continue;
