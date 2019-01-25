@@ -9,7 +9,7 @@ export const uiSchema = {
     'ui:title': 'Have you ever been a POW?',
     'ui:widget': 'yesNo',
   },
-  'view:isPOW': {
+  'view:isPow': {
     'ui:options': {
       expandUnder: 'view:powStatus',
     },
@@ -46,7 +46,7 @@ export const schema = {
     'view:powStatus': {
       type: 'boolean',
     },
-    'view:isPOW': {
+    'view:isPow': {
       type: 'object',
       properties: {
         confinements: fullSchema.properties.confinements,

@@ -1,7 +1,7 @@
 {
   "data": {
     "standardClaim": true,
-    "view:noFDCWarning": {},
+    "view:noFdcWarning": {},
     "view:hasSeparationPay": false,
     "hasTrainingPay": false,
     "isVaEmployee": false,

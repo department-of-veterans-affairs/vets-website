@@ -1,7 +1,12 @@
 import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
-import { MILITARY_CITIES, MILITARY_STATE_VALUES } from './constants';
+import {
+  MILITARY_CITIES,
+  MILITARY_STATE_VALUES,
+  LOWERED_DISABILITY_DESCRIPTIONS,
+  EVSS_DISABILITY_NAME_REGEX,
+} from './constants';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -203,5 +208,16 @@ export const hasMonthYear = (err, fieldData) => {
 
   if (year === 'XXXX' || month === 'XX') {
     err.addError('Please provide both month and year');
+  }
+};
+
+export const validateDisabilityName = (err, fieldData) => {
+  if (
+    !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
+    !EVSS_DISABILITY_NAME_REGEX.test(fieldData)
+  ) {
+    // technically single quotes (’) are allowed as well but leaving out of
+    // this message to avoid confusing veterans who can't tell the difference
+    err.addError('The only special characters allowed are: , . ( ) / -');
   }
 };
