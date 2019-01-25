@@ -35,12 +35,11 @@
     react-transition-group "1"
     window-or-global "^1.0.1"
 
-"@department-of-veterans-affairs/formation@^3.0.0-FA":
-  version "3.0.0-FA"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.0.0-FA.tgz#c52e7bcb39431f7eff98829a17515c0f4e229929"
-  integrity sha512-4hGK1kB+GcA/FJDngHLXZRjDZV8chrTIsxSd08kvsssJg7C6mffgJdKaTzJQ+X1nhzFmX5QTyiid60iAAxGvaA==
+"@department-of-veterans-affairs/formation@^3.0.0-FA-0.0.1":
+  version "3.0.0-FA-0.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-3.0.0-FA-0.0.1.tgz#e968d1d8587ac638a2b5866e09a587379f5151bb"
+  integrity sha512-3W9w+Ln50K+HcEQiekHu5aRuS/MxnFK/UgH8YUT4cOU8ewO8U1avtmIeHx86t6hB9gsjFpur4padYc6rgNNatw==
   dependencies:
-    "@fortawesome/fontawesome-free" "^5.6.3"
     foundation-sites "5"
     moment "^2.23.0"
 
