@@ -9,7 +9,10 @@ const houseAssistanceContent = (
       Adaptation Grant (VA Form 26-4555).
     </p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf">
+      <a
+        href="https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf"
+        target="_blank"
+      >
         Download VA Form 26-4555
       </a>
       .
@@ -24,7 +27,10 @@ const carAssistanceContent = (
       equipped vehicle, you’ll need to fill out an Application for Automobile or
       Other Conveyance and Adaptive Equipment (VA Form 21-4502).
       <div>
-        <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf">
+        <a
+          href="https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf"
+          target="_blank"
+        >
           Download VA Form 21-4502
         </a>
         .
@@ -34,7 +40,10 @@ const carAssistanceContent = (
       To file a claim for adaptive equipment, you’ll need to fill out an
       Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394).
       <div>
-        <a href="https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf">
+        <a
+          href="https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf"
+          target="_blank"
+        >
           Download VA Form 10-1394.
         </a>
       </div>
@@ -50,7 +59,10 @@ const aidAndAttendanceContent = (
       Attendance (VA Form 21-2680), which your doctor needs to fill out.
     </p>
     <div>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">
+      <a
+        href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+        target="_blank"
+      >
         Download VA Form 21-2680
       </a>
       .
@@ -68,7 +80,10 @@ const individualUnemployabilityContent = (
         A Veteran’s Application for Increased Compensation Based on
         Unemployability (VA Form 21-8940)
         <div>
-          <a href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf">
+          <a
+            href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf"
+            target="_blank"
+          >
             Download VA Form 21-8940
           </a>
           , <strong>and</strong>
@@ -78,7 +93,10 @@ const individualUnemployabilityContent = (
         A Request for Employment Information in Connection with Claim for
         Disability Benefits (VA Form 21-4192)
         <div>
-          <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf">
+          <a
+            href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf"
+            target="_blank"
+          >
             Download VA Form 21-4192
           </a>
           .
