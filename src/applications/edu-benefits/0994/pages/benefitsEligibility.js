@@ -5,8 +5,7 @@ import {
 
 export const uiSchema = {
   'view:vetTecEligibility': {
-    'ui:title': ' ',
-    'ui:description': eligibilityDescription,
+    'ui:title': eligibilityDescription,
     'ui:widget': 'yesNo',
   },
   'view:eligibilityInstructions': {
@@ -21,6 +20,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['view:vetTecEligibility'],
   properties: {
     'view:vetTecEligibility': {
       type: 'boolean',

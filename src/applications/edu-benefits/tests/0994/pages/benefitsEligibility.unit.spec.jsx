@@ -33,6 +33,21 @@ describe('VET TEC benefits eligibility', () => {
     form.unmount();
   });
 
+  it('should be required', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    form.unmount();
+  });
+
   it('should submit without error', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -43,6 +58,7 @@ describe('VET TEC benefits eligibility', () => {
       />,
     );
 
+    selectRadio(form, 'root_view:vetTecEligibility', 'Y');
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
