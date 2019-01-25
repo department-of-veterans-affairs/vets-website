@@ -1,0 +1,19 @@
+name: Burials and Memorials
+appliesTo:
+  - burials-memorials/memorial-items/headstones-markers-medallions/discharge-documents-needed
+backLink:
+  label: 'Headstones, Markers or Medallions'
+  destination: burials-memorials/memorial-items/headstones-markers-medallions
+links:
+  - label: Types
+    destination: 'https://www.cem.va.gov/cem/hmm/types.asp'
+  - label: Replacements
+    destination: 'https://www.cem.va.gov/cem/hmm/replacements.asp'
+  - label: Pre-World War I Era
+    destination: 'https://www.cem.va.gov/cem/hmm/pre_WWI_era.asp'
+  - label: Inscription Abbreviations
+    destination: 'https://www.cem.va.gov/cem/hmm/abbreviations.asp'
+  - label: Available Emblems of Belief
+    destination: 'https://www.cem.va.gov/cem/hmm/emblems.asp'
+  - label: Discharge Documents Needed
+    destination: 'https://www.cem.va.gov/cem/hmm/discharge_documents.asp'

@@ -1,0 +1,9 @@
+name: Housing Assistance
+appliesTo:
+  - housing-assistance/home-loans/loan-types/native-american-direct-loan/tribes-with-memorandums-of-understanding
+backLink:
+  label: Native American Direct Loan
+  destination: housing-assistance/home-loans/loan-types/native-american-direct-loan
+links:
+  - label: Tribes with Memorandums of Understanding
+    destination: 'https://www.benefits.va.gov/homeloans/nadl_mou.asp'

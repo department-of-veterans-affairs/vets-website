@@ -1,0 +1,21 @@
+name: Disability Benefits
+appliesTo:
+  - disability/how-to-file-claim/evidence-needed/decision-ready-claims
+  - disability/how-to-file-claim/evidence-needed/fully-developed-claims
+  - disability/how-to-file-claim/evidence-needed/standard-claims
+  - disability/how-to-file-claim/evidence-needed/fully-developed-claims
+backLink:
+  label: Evidence Needed
+  destination: disability/how-to-file-claim/evidence-needed
+links:
+  - label: Decision Ready Claims
+    destination: disability/how-to-file-claim/evidence-needed/decision-ready-claims
+  - label: Fully Developed Claims
+    destination: disability/how-to-file-claim/evidence-needed/fully-developed-claims
+    children:
+      - label: FDC Walkthrough
+        destination: 'https://www.benefits.va.gov/FDC/walkthrough.asp'
+      - label: FDC Checklist
+        destination: 'https://www.benefits.va.gov/FDC/checklist.asp'
+  - label: Standard Claims
+    destination: disability/how-to-file-claim/evidence-needed/standard-claims

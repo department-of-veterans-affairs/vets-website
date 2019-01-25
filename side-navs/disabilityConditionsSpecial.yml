@@ -1,0 +1,34 @@
+name: Disability Benefits
+appliesTo:
+  - disability/eligibility/special-claims/automobile-allowance-adaptive-equipment
+  - disability/eligibility/special-claims/birth-defects
+  - disability/eligibility/special-claims/clothing-allowance
+  - disability/eligibility/special-claims/dental-care
+  - disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast
+  - disability/eligibility/special-claims/temporary-increase-for-time-in-hospital
+  - disability/eligibility/special-claims/temporary-rating-prestabilization
+  - disability/eligibility/special-claims/1151-claims-title-38
+  - disability/eligibility/special-claims/unemployability
+  - disability/eligibility/special-claims/automobile-allowance-adaptive-equipment
+backLink:
+  label: Special Claims
+  destination: disability/eligibility/special-claims
+links:
+  - label: Auto Allowance and Adaptive Equipment
+    destination: disability/eligibility/special-claims/automobile-allowance-adaptive-equipment
+  - label: Birth Defects
+    destination: disability/eligibility/special-claims/birth-defects
+  - label: Clothing Allowance
+    destination: disability/eligibility/special-claims/clothing-allowance
+  - label: Dental Care
+    destination: disability/eligibility/special-claims/dental-care
+  - label: Increase after Surgery or Cast
+    destination: disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast
+  - label: Increase for Time in Hospital
+    destination: disability/eligibility/special-claims/temporary-increase-for-time-in-hospital
+  - label: Prestabilization Ratings
+    destination: disability/eligibility/special-claims/temporary-rating-prestabilization
+  - label: Title 38 U.S.C. 1151 Claims
+    destination: disability/eligibility/special-claims/1151-claims-title-38
+  - label: Unemployability
+    destination: disability/eligibility/special-claims/unemployability

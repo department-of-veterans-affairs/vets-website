@@ -1,0 +1,60 @@
+name: Disability Benefits
+appliesTo:
+  - disability/eligibility/hazardous-materials-exposure
+  - disability/eligibility/former-pows
+  - disability/eligibility/ptsd
+  - disability/eligibility/illnesses-within-one-year-of-discharge
+  - disability/eligibility/special-claims
+  - disability/eligibility/hazardous-materials-exposure
+backLink:
+  label: Eligibility
+  destination: disability/eligibility
+links:
+  - label: Exposure to Hazardous Materials
+    destination: disability/eligibility/hazardous-materials-exposure
+    children:
+      - label: Specific Environmental Hazards
+        destination: disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards
+      - label: Agent Orange
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange
+      - label: Asbestos
+        destination: disability/eligibility/hazardous-materials-exposure/asbestos
+      - label: Mustard Gas or Lewisite
+        destination: disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite
+      - label: Camp Lejeune Water Contamination
+        destination: disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination
+      - label: Radiation Exposure
+        destination: disability/eligibility/hazardous-materials-exposure/ionizing-radiation
+      - label: Project 112/SHAD
+        destination: disability/eligibility/hazardous-materials-exposure/project-112-shad
+      - label: Gulf War Illness SW Asia
+        destination: disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia
+      - label: Gulf War Illness Afghanistan
+        destination: disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan
+  - label: Former POWs
+    destination: disability/eligibility/former-pows
+  - label: PTSD
+    destination: disability/eligibility/ptsd
+  - label: Illnesses within 1 Year of Discharge
+    destination: disability/eligibility/illnesses-within-one-year-of-discharge
+  - label: Special Claims
+    destination: disability/eligibility/special-claims
+    children:
+      - label: Auto Allowance and Adaptive Equipment
+        destination: disability/eligibility/special-claims/automobile-allowance-adaptive-equipment
+      - label: Birth Defects
+        destination: disability/eligibility/special-claims/birth-defects
+      - label: Clothing Allowance
+        destination: disability/eligibility/special-claims/clothing-allowance
+      - label: Dental Care
+        destination: disability/eligibility/special-claims/dental-care
+      - label: Increase after Surgery or Cast
+        destination: disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast
+      - label: Increase for Time in Hospital
+        destination: disability/eligibility/special-claims/temporary-increase-for-time-in-hospital
+      - label: Prestabilization Ratings
+        destination: disability/eligibility/special-claims/temporary-rating-prestabilization
+      - label: Title 38 U.S.C. 1151 Claims
+        destination: disability/eligibility/special-claims/1151-claims-title-38
+      - label: Unemployability
+        destination: disability/eligibility/special-claims/unemployability
