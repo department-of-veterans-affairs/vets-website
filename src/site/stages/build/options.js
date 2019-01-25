@@ -48,7 +48,7 @@ function applyDefaultOptions(options) {
   const includes = path.join(siteRoot, 'includes');
   const components = path.join(siteRoot, 'components');
   const layouts = path.join(siteRoot, 'layouts');
-  const bundles = path.join(siteRoot, 'bundles');
+  const paragraphs = path.join(siteRoot, 'paragraphs');
 
   Object.assign(options, {
     contentRoot,
@@ -71,7 +71,7 @@ function applyDefaultOptions(options) {
       [`${includes}/**/*`]: '**/*.{md,html}',
       [`${components}/**/*`]: '**/*.{md,html}',
       [`${layouts}/**/*`]: '**/*.{md,html}',
-      [`${bundles}/**/*`]: '**/*.{md,html}',
+      [`${paragraphs}/**/*`]: '**/*.{md,html}',
     },
     cacheDirectory: path.resolve(projectRoot, '.cache'),
   });
