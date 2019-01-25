@@ -129,7 +129,7 @@ const configGenerator = (buildOptions, apps) => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader',
+            loader: 'svg-url-loader?limit=1024',
           },
         },
         {
