@@ -452,7 +452,7 @@ $medium-phone-screen: 375px;
     font-family: "Font Awesome 5 Free";
     color: $color-black;
 
-    .fas.fa-times-circle{
+    .far.fa-times-circle{
       font-size: 0.60em;
       color: $color-link-default;
       &:hover {
@@ -460,7 +460,7 @@ $medium-phone-screen: 375px;
       }
      }
 
-    .fas.fa-times {
+    .far.fa-times {
       font-size: 0.75em;
     }
   }
