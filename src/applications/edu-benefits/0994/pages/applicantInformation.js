@@ -2,7 +2,7 @@ import ApplicantInformation from '../containers/ApplicantInformation';
 
 export const uiSchema = {
   'ui:reviewWidget': ApplicantInformation,
-  'view:test': {
+  'view:applicantInfo': {
     'ui:description': ApplicantInformation,
   },
 };
@@ -10,7 +10,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:test': {
+    'view:applicantInfo': {
       type: 'object',
       properties: {},
     },

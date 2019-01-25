@@ -20,9 +20,12 @@ export class ApplicantInformation extends React.Component {
       <div>
         <p>This is your personal information we have on file.</p>
         <div className="blue-bar-block">
-          <strong>
-            {first} {middle} {last}
-          </strong>
+          {first &&
+            last && (
+              <strong>
+                {first} {middle} {last}
+              </strong>
+            )}
           {dateOfBirth && (
             <p>
               Date of birth:{' '}

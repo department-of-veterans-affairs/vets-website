@@ -48,23 +48,16 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
-    // Chapter - Applicant Information
-    applicantInformation: {
-      title: 'Applicant Information',
+    // Chapter - Benefits eligibility
+    benefitsEligibility: {
+      title: 'Benefits eligibility',
       pages: {
-        // page - Applicant Information
         applicantInformation: {
           title: 'Applicant Information',
           path: 'applicant/information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
-      },
-    },
-    // Chapter - Benefits eligibility
-    benefitsEligibility: {
-      title: 'Benefits eligibility',
-      pages: {
         benefitsEligibility: {
           title: 'Benefits Eligibility',
           path: 'benefits-eligibility',
