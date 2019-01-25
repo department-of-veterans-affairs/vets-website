@@ -401,7 +401,7 @@
       text-decoration: underline;
 
       &:after {
-        font: normal normal normal 1em FontAwesome;
+        font: normal normal normal 1em 'Font Awesome 5 Free';
         content: "\F078";
         text-decoration: none;
         display: inline-block;
@@ -410,11 +410,7 @@
 
       &.expanded {
         &:after {
-          font: normal normal normal 1em FontAwesome;
           content: "\F077";
-          text-decoration: none;
-          display: inline-block;
-          padding: 0 0.5em;
         }
       }
     }
