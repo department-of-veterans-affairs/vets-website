@@ -13,6 +13,8 @@ import {
 
 import { disabilityIsSelected } from './utils';
 
+import disabilityLabels from './content/disabilityLabels';
+
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
@@ -241,6 +243,43 @@ export function transform(formConfig, form) {
         )
       : formData;
 
+  // new disabilities that match a name on our mapped list need their
+  // respective classification code added
+  const addClassificationCodeToNewDisabilities = formData => {
+    const { newDisabilities } = formData;
+    if (!newDisabilities) {
+      return formData;
+    }
+
+    const flippedDisabilityLabels = {};
+    Object.entries(disabilityLabels).forEach(([code, description]) => {
+      flippedDisabilityLabels[description.toLowerCase()] = code;
+    });
+
+    const newDisabilitiesWithClassificationCodes = newDisabilities.map(
+      disability => {
+        const { condition } = disability;
+        if (!condition) {
+          return disability;
+        }
+        const loweredDisabilityName = condition.toLowerCase();
+        return flippedDisabilityLabels[loweredDisabilityName]
+          ? _.set(
+              'classificationCode',
+              flippedDisabilityLabels[loweredDisabilityName],
+              disability,
+            )
+          : disability;
+      },
+    );
+
+    return _.set(
+      'newDisabilities',
+      newDisabilitiesWithClassificationCodes,
+      formData,
+    );
+  };
+
   // newDisabilities -> newPrimaryDisabilities & newSecondaryDisabilities
   const splitNewDisabilities = formData => {
     if (!formData.newDisabilities) {
@@ -413,6 +452,7 @@ export function transform(formConfig, form) {
     filterEmptyObjects,
     addPOWSpecialIssues,
     addPTSDCause,
+    addClassificationCodeToNewDisabilities,
     splitNewDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,

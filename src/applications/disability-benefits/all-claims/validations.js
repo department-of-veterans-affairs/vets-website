@@ -1,7 +1,15 @@
 import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
-import { MILITARY_CITIES, MILITARY_STATE_VALUES } from './constants';
+
+import { isWithinRange, getPOWValidationMessage } from './utils';
+
+import {
+  MILITARY_CITIES,
+  MILITARY_STATE_VALUES,
+  LOWERED_DISABILITY_DESCRIPTIONS,
+  EVSS_DISABILITY_NAME_REGEX,
+} from './constants';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -203,5 +211,38 @@ export const hasMonthYear = (err, fieldData) => {
 
   if (year === 'XXXX' || month === 'XX') {
     err.addError('Please provide both month and year');
+  }
+};
+
+export const isWithinServicePeriod = (errors, fieldData, formData) => {
+  const servicePeriods = _.get(
+    'serviceInformation.servicePeriods',
+    formData,
+    [],
+  );
+  const inServicePeriod = servicePeriods.some(pos =>
+    isWithinRange(fieldData, pos.dateRange),
+  );
+
+  if (!inServicePeriod) {
+    const dateIsComplete = dateString =>
+      dateString && !dateString.includes('X');
+    if (dateIsComplete(fieldData.from) && dateIsComplete(fieldData.to)) {
+      errors.from.addError(
+        getPOWValidationMessage(servicePeriods.map(period => period.dateRange)),
+      );
+      errors.to.addError('');
+    }
+  }
+};
+
+export const validateDisabilityName = (err, fieldData) => {
+  if (
+    !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
+    !EVSS_DISABILITY_NAME_REGEX.test(fieldData)
+  ) {
+    // technically single quotes (’) are allowed as well but leaving out of
+    // this message to avoid confusing veterans who can't tell the difference
+    err.addError('The only special characters allowed are: , . ( ) / -');
   }
 };
