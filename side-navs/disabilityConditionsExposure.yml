@@ -1,0 +1,55 @@
+name: Disability Benefits
+appliesTo:
+  - disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards
+  - disability/eligibility/hazardous-materials-exposure/agent-orange
+  - disability/eligibility/hazardous-materials-exposure/asbestos
+  - disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite
+  - disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination
+  - disability/eligibility/hazardous-materials-exposure/ionizing-radiation
+  - disability/eligibility/hazardous-materials-exposure/project-112-shad
+  - disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia
+  - disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan
+  - disability/eligibility/hazardous-materials-exposure/agent-orange
+backLink:
+  label: Exposure to Hazardous Materials
+  destination: disability/eligibility/hazardous-materials-exposure
+links:
+  - label: Specific Environmental Hazards
+    destination: disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards
+  - label: Agent Orange
+    destination: disability/eligibility/hazardous-materials-exposure/agent-orange
+    children:
+      - label: Registry Health Exam
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam
+      - label: Related Diseases
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases
+      - label: Non-Hodgkin's Lymphoma
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/non-hodgkins-lymphoma
+      - label: C-123 Aircraft
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft
+      - label: Thailand Military Bases
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/thailand-military-bases
+      - label: Vietnam Waters
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/vietnam-waters
+      - label: Service in Vietnam or Korea
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/service-in-vietnam-korea
+      - label: Service outside Vietnam or Korea
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/service-outside-vietnam-korea
+      - label: Navy or Coast Guard Ships in Vietnam
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/navy-coast-guard-ships-vietnam
+      - label: Testing and Storage
+        destination: disability/eligibility/hazardous-materials-exposure/agent-orange/testing-storage-areas
+  - label: Asbestos
+    destination: disability/eligibility/hazardous-materials-exposure/asbestos
+  - label: Mustard Gas or Lewisite
+    destination: disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite
+  - label: Camp Lejeune Water Contamination
+    destination: disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination
+  - label: Radiation Exposure
+    destination: disability/eligibility/hazardous-materials-exposure/ionizing-radiation
+  - label: Project 112/SHAD
+    destination: disability/eligibility/hazardous-materials-exposure/project-112-shad
+  - label: Gulf War Illness SW Asia
+    destination: disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia
+  - label: Gulf War Illness Afghanistan
+    destination: disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan

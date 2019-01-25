@@ -1,0 +1,77 @@
+__hub__: burials
+name: Burials and Memorials
+appliesTo:
+  - burials-memorials/bereavement-counseling
+  - burials-memorials/dependency-indemnity-compensation
+  - burials-memorials/eligibility
+  - burials-memorials/memorial-items
+  - burials-memorials/pre-need-eligibility
+  - burials-memorials/veterans-burial-allowance
+  - burials-memorials/what-to-expect-at-military-funeral
+  - burials-memorials/plan-a-burial
+spokes:
+  - spoke: Get Benefits
+    links:
+      - label: Eligibility
+        destination: burials-memorials/eligibility
+        children:
+          - label: Burial in a Private Cemetery
+            destination: 'https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp'
+      - label: Pre-need Burial Eligibility Determination
+        destination: burials-memorials/pre-need-eligibility
+        children:
+          - label: Apply Now
+            destination: /burials-and-memorials/pre-need/form-10007-apply-for-eligibility/
+          - label: FAQs
+            destination: 'http://www.cem.va.gov/CEM/pre-need/FAQ/'
+          - label: After You Apply
+            destination: burials-memorials/pre-need-eligibility/after-you-apply
+      - label: Burial Allowance
+        destination: burials-memorials/veterans-burial-allowance
+        children:
+          - label: Apply Now
+            destination: burials-and-memorials/application/530
+      - label: Memorial Items
+        destination: burials-memorials/memorial-items
+        children:
+          - label: 'Headstones, Markers or Medallions'
+            destination: burials-memorials/memorial-items/headstones-markers-medallions
+          - label: Burial Flags
+            destination: burials-memorials/memorial-items/burial-flags
+          - label: Presidential Memorial Certificates
+            destination: burials-memorials/memorial-items/presidential-memorial-certificates
+      - label: Survivor and Dependent Compensation (DIC)
+        destination: burials-memorials/dependency-indemnity-compensation
+      - label: Bereavement Counseling
+        destination: burials-memorials/bereavement-counseling
+  - spoke: Plan a Burial
+    links:
+      - label: Plan a Burial
+        destination: burials-memorials/plan-a-burial
+        children:
+          - label: Military Funeral Honors
+            destination: 'https://www.cem.va.gov/CEM/military_funeral_honors.asp'
+      - label: Schedule a Burial
+        destination: 'https://www.cem.va.gov/cem/burial_benefits/need.asp'
+      - label: Find a Cemetery
+        destination: 'https://www.cem.va.gov/cems/listcem.asp'
+      - label: Request Military Records
+        destination: /records/get-military-service-records/
+  - spoke: More Resources
+    links:
+      - label: Daily Burial Schedule
+        destination: 'https://www.cem.va.gov/cem/dailyburialschedule/'
+      - label: Survivor DIC Rates
+        destination: 'https://www.benefits.va.gov/Compensation/current_rates_dic.asp'
+      - label: Parents DIC Rates
+        destination: 'https://www.benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp'
+      - label: 'Replace Medals, Awards, and Decorations'
+        destination: 'https://www.archives.gov/veterans/replace-medals'
+      - label: Search Historical Military Records
+        destination: 'https://www.archives.gov/veterans'
+      - label: Grave Locator
+        destination: 'https://m.va.gov/gravelocator/index.cfm'
+      - label: Burial Benefits FAQs
+        destination: 'https://www.cem.va.gov/cem/faq.asp'
+      - label: What to Expect at a Military Funeral
+        destination: burials-memorials/what-to-expect-at-military-funeral

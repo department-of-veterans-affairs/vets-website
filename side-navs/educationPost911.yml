@@ -1,0 +1,15 @@
+name: Education and Training
+appliesTo:
+  - education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
+  - education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
+backLink:
+  label: Post-9/11 GI Bill
+  destination: education/about-gi-bill-benefits/post-9-11
+links:
+  - label: Yellow Ribbon Program
+    destination: education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program
+    children:
+      - label: Participating Schools
+        destination: '#'
+      - label: L5 Schools By State
+        destination: '#'

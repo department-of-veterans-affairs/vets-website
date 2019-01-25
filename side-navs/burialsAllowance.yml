@@ -1,0 +1,6 @@
+name: Burials and Memorials
+appliesTo:
+  - burials-and-memorials/application/530
+links:
+  - label: Apply Now
+    destination: burials-and-memorials/application/530
