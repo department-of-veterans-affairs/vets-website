@@ -12,6 +12,7 @@
 @mixin make-hub($hub-name,
   $icon,
   $color,
+  $icon-weight: 400,
   $top-small: 6.5px,
   $left-small: 8.47px,
   $top-large: 9.5px,
@@ -19,8 +20,8 @@
   $top-baseline: 7px,
   $left-baseline: 11px) {
 
-  // helper function from _variables.scss to add quotes around unicode  
-  $icon-escaped: fa-content($icon); 
+  // helper function from _variables.scss to add quotes around unicode
+  $icon-escaped: fa-content($icon);
 
   .hub-background-#{$hub-name} {
     background: $color;
@@ -32,13 +33,14 @@
   .hub-icon-#{$hub-name} {
     display: inline-block;
     font: normal normal normal 14px/1 "Font Awesome 5 Free";
+    font-weight: $icon-weight;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     &::before {
-      content: $icon-escaped; 
+      content: $icon-escaped;
     }
 
     position: relative;
@@ -64,6 +66,7 @@
   $hub-name: "health-care",
   $icon: $fa-var-medkit,
   $color: $indigo-cool-60,
+  $icon-weight: 900,
   $top-large: 10.25px,
   $left-large: 10px,
   $top-small: 7px,
@@ -74,6 +77,7 @@
   $hub-name: "education",
   $icon: $fa-var-graduation-cap,
   $color: $mint-cool-50,
+  $icon-weight: 900,
   $top-large: 11px,
   $left-large: 8.2px,
   $top-small: 8px,
@@ -95,6 +99,7 @@
   $hub-name: "careers",
   $icon: $fa-var-briefcase,
   $color: $orange-warm-50,
+  $icon-weight: 900,
   $top-large: 10px,
   $left-large: 10px,
   $left-small: 7.5px,
@@ -126,6 +131,7 @@
   $hub-name: "life-insurance",
   $icon: $fa-var-shield-alt,
   $color: $green-warm-50,
+  $icon-weight: 900,
   $top-small: 8px,
   $left-small: 8px,
   $top-large: 11px,
