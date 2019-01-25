@@ -150,7 +150,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.veteranStatus.veteranStatus).to.equal('NOT_FOUND');
+      expect(mappedData.veteranStatus).to.equal('NOT_FOUND');
     });
 
     it('should handle vet 360 error', () => {
