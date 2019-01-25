@@ -1,26 +1,31 @@
 {% include "src/site/includes/header.html" %}
-<main>
-  <div class="row">
-    {% if !entityPublished %}
-      <div class="usa-alert usa-alert-info" >
-        <div class="usa-alert-body">
-          <p class="usa-alert-text">You are viewing a draft.</p>
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+    <div class="usa-width-three-fourths">
+      {% if !entityPublished %}
+        <div class="usa-alert usa-alert-info" >
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">You are viewing a draft.</p>
+          </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    <article class="usa-content">
-      <h1>{{ title }}</h1>
-      <div class="usa-font-lead">
-        {{ fieldIntroText }}
-      </div>
-      {% for block in fieldContentBlock %}
-        {{ block.entity.entityRendered }}
-      {% endfor %}
-    </article>
+      <article class="usa-content">
+        <h1>{{ title }}</h1>
+        <div class="usa-font-lead">
+          {{ fieldIntroText }}
+        </div>
+        {% for block in fieldContentBlock %}
+          {{ block.entity.entityRendered }}
+        {% endfor %}
+      </article>
 
-    <div class="last-updated usa-content">
-        Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
+      <div class="last-updated usa-content">
+          Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
+      </div>
     </div>
   </div>
 
