@@ -42,6 +42,7 @@ import * as pastEducationTraining from './pastEducationTraining';
 import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
 import * as pastEmploymentFormUpload from './pastEmploymentFormUpload';
 import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
+import * as pathChoice from './pathChoice';
 import * as paymentInformation from './paymentInformation';
 import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
@@ -137,6 +138,7 @@ export {
   pastEmploymentFormIntro,
   pastEmploymentFormDownload,
   pastEmploymentFormUpload,
+  pathChoice,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
