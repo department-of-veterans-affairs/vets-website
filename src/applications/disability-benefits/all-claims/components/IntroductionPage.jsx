@@ -180,7 +180,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-IntroductionPage.PropTypes = {
+IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
