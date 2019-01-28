@@ -78,6 +78,7 @@ def notify = { ->
 
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
+              // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
   def dockerImage, args, ref, imageTag
 
@@ -85,9 +86,11 @@ node('vetsgov-general-purpose') {
 
   stage('Setup') {
     try {
-      buildTypeOverride = DRUPAL_MAPPING.get(cmsENV, null)
-      if(buildTypeOverride) {
-        VAGOV_BUILDTYPES = [buildTypeOverride] 
+      if (binding.hasVariable('cmsEnv')) { // the first time a branch is run, this variable doesn't exist
+        buildTypeOverride = DRUPAL_MAPPING.get(cmsENV, null)
+        if(buildTypeOverride) {
+          VAGOV_BUILDTYPES = [buildTypeOverride] 
+        }
       }
 
       // Jenkins doesn't like it when we checkout the secondary repository first
