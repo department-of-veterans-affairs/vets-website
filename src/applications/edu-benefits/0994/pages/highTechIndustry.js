@@ -5,7 +5,6 @@ const {
   currentEmployment,
   currentHighTechnologyEmployment,
   currentSalary,
-  highTechnologyEmploymentType,
 } = fullSchema.properties;
 
 export const uiSchema = {
@@ -85,7 +84,17 @@ export const schema = {
       type: 'object',
       properties: {
         currentSalary,
-        highTechnologyEmploymentType,
+        highTechnologyEmploymentType: {
+          type: 'object',
+          properties: {
+            hasComputerProgramming: { type: 'boolean' },
+            hasDataProcessing: { type: 'boolean' },
+            hasComputerSoftware: { type: 'boolean' },
+            hasInformationSciences: { type: 'boolean' },
+            hasMediaApplication: { type: 'boolean' },
+            hasNoneApply: { type: 'boolean' },
+          },
+        },
       },
     },
   },
