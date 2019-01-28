@@ -96,7 +96,7 @@
     "react/jsx-indent-props": 0,
     "react/jsx-max-props-per-line": 0,
     "react/jsx-no-bind": [0, { "ignoreRefs": true }], // TODO: Enable after fixing.
-    "react/jsx-no-target-blank": 2,
+    "react/jsx-no-target-blank": [2, { "enforceDynamicLinks": "always" }],
     "react/jsx-sort-props": [
       0,
       { "callbacksLast": true, "shorthandFirst": true }
