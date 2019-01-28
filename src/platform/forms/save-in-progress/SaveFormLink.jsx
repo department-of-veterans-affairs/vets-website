@@ -23,37 +23,10 @@ const scrollToTop = () => {
 };
 
 class SaveFormLink extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modalOpened: false,
-    };
-
-    this.loginAttemptInProgress = false;
-  }
-
   componentDidMount() {
     if (saveErrors.has(this.props.savedStatus)) {
       scrollToTop();
       focusElement('.schemaform-save-error');
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    const loginAttemptCompleted =
-      this.props.showLoginModal === true &&
-      newProps.showLoginModal === false &&
-      this.loginAttemptInProgress;
-
-    if (loginAttemptCompleted && newProps.user.login.currentlyLoggedIn) {
-      this.loginAttemptInProgress = false;
-      this.saveFormAfterLogin();
-    } else if (
-      loginAttemptCompleted &&
-      !newProps.user.login.currentlyLoggedIn
-    ) {
-      this.loginAttemptInProgress = false;
     }
   }
 
@@ -63,32 +36,15 @@ class SaveFormLink extends React.Component {
     this.props.saveAndRedirectToReturnUrl(formId, data, version, returnUrl);
   }
 
-  saveFormAfterLogin = () => {
-    recordEvent({
-      event: `${this.props.form.trackingPrefix}sip-login-before-save`,
-    });
-    this.handleSave();
-  };
-
-  saveForm = () => {
-    if (this.props.user.login.currentlyLoggedIn) {
-      this.handleSave();
-    } else {
-      this.openLoginModal();
-    }
-  };
-
   openLoginModal = () => {
-    this.loginAttemptInProgress = true;
     this.props.toggleLoginModal(true);
   };
 
   render() {
+    if (!this.props.user.login.currentlyLoggedIn) return null;
+
     const { savedStatus } = this.props.form;
 
-    const saveLinkMessage = this.props.user.login.currentlyLoggedIn
-      ? 'Finish this application later'
-      : 'Save and finish this application later';
     return (
       <div style={{ display: this.props.children ? 'inline' : null }}>
         <Element name="saveFormLinkTop" />
@@ -120,9 +76,9 @@ class SaveFormLink extends React.Component {
             <button
               type="button"
               className="va-button-link schemaform-sip-save-link"
-              onClick={this.saveForm}
+              onClick={this.handleSave}
             >
-              {this.props.children || saveLinkMessage}
+              {this.props.children || 'Finish this application later'}
             </button>
             {!this.props.children && '.'}
           </span>
