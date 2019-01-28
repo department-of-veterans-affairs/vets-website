@@ -4,7 +4,7 @@ import {
 } from '../content/benefitsEligibility';
 
 export const uiSchema = {
-  'view:vetTecEligibility': {
+  appliedForVAEducationBenefits: {
     'ui:title': eligibilityDescription,
     'ui:widget': 'yesNo',
   },
@@ -12,7 +12,7 @@ export const uiSchema = {
     'ui:title': '',
     'ui:description': eligibilityInstructions,
     'ui:options': {
-      expandUnder: 'view:vetTecEligibility',
+      expandUnder: 'appliedForVAEducationBenefits',
       expandUnderCondition: false,
     },
   },
@@ -20,9 +20,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:vetTecEligibility'],
+  required: ['appliedForVAEducationBenefits'],
   properties: {
-    'view:vetTecEligibility': {
+    appliedForVAEducationBenefits: {
       type: 'boolean',
     },
     'view:eligibilityInstructions': {
