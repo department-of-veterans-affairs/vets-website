@@ -22,7 +22,7 @@
     </article>
 
     <div class="last-updated usa-content">
-        Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
+        <time>Last updated: <time datetime="{{ changed | unixHumanizeDate }}">{{ changed | unixHumanizeDate }}</time>
     </div>
   </div>
 
