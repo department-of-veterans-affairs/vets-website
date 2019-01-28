@@ -14,6 +14,8 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transformForSubmit } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
+import { trainingProgramsChoice, trainingProgramsInformation } from '../pages';
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
@@ -93,7 +95,20 @@ const formConfig = {
       title: 'Program selection',
       pages: {
         // page - picked like to attend training programs
+        trainingProgramsChoice: {
+          title: 'Program Selection',
+          path: 'training-programs-choice',
+          uiSchema: trainingProgramsChoice.uiSchema,
+          schema: trainingProgramsChoice.schema,
+        },
         // page - interested in training programs
+        trainingProgramsInformation: {
+          title: 'Program Selection',
+          path: 'training-programs-information',
+          depends: form => form['view:trainingProgramsChoice'] === true,
+          uiSchema: trainingProgramsInformation.uiSchema,
+          schema: trainingProgramsInformation.schema,
+        },
       },
     },
     // Chapter - Personal Information
