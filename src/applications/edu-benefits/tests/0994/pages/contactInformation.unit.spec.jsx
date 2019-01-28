@@ -43,7 +43,7 @@ describe('Contact Information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(0);
 
     form.unmount();
   });
