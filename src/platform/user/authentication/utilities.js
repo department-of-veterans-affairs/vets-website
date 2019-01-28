@@ -28,45 +28,7 @@ const loginUrl = policy => {
   }
 };
 
-export function isFullScreenLoginEnabled() {
-  return isMobile.any || !!localStorage.getItem('enableFullScreenLogin');
-}
-
-function popup(popupUrl, clickedEvent, openedEvent) {
-  recordEvent({ event: clickedEvent });
-  const popupWindow = window.open(
-    '',
-    'vets.gov-popup',
-    'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750',
-  );
-  if (popupWindow) {
-    recordEvent({ event: openedEvent });
-    popupWindow.focus();
-
-    return apiRequest(
-      popupUrl,
-      null,
-      ({ url }) => {
-        if (url) popupWindow.location = url;
-      },
-      () => {
-        popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
-      },
-    ).then(() => popupWindow);
-  }
-
-  Raven.captureMessage('Failed to open new window', {
-    extra: { url: popupUrl },
-  });
-
-  return Promise.reject(new Error('Failed to open new window'));
-}
-
 function redirect(redirectUrl, clickedEvent, openedEvent) {
-  if (!isFullScreenLoginEnabled()) {
-    return popup(redirectUrl, clickedEvent, openedEvent);
-  }
-
   // Keep track of the URL to return to after auth operation.
   sessionStorage.setItem('authReturnUrl', window.location);
 
