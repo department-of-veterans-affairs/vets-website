@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -8,7 +9,6 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 import BusyEnrollmentAlert from '../../components/BusyEnrollmentAlert';
-import { survivorBenefitsLabels } from '../../utils/labels';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
@@ -33,7 +33,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.form.data.appliedForVAEducationBenefits) {
+    if (!_.get(this.props.form.data, 'appliedForVAEducationBenefits', true)) {
       window.location.replace(url1990);
     }
     focusElement('.confirmation-page-title');
@@ -51,7 +51,6 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.applicantFullName;
-    const benefit = form.data.benefit;
 
     return (
       <div>
@@ -76,11 +75,6 @@ class ConfirmationPage extends React.Component {
           </span>
 
           <ul className="claim-list">
-            <li>
-              <strong>Selected benefit</strong>
-              <br />
-              {survivorBenefitsLabels[benefit]}
-            </li>
             <li>
               <strong>Confirmation number</strong>
               <br />

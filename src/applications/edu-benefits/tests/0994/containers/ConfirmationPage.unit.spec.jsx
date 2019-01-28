@@ -11,12 +11,9 @@ const form = {
     },
   },
   data: {
-    veteranFullName: {
+    applicantFullName: {
       first: 'Jane',
       last: 'Doe',
-    },
-    'view:selectedBenefits': {
-      chapter33: true,
     },
   },
 };
