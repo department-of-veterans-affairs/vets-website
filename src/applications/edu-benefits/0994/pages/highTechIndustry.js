@@ -5,6 +5,7 @@ const {
   currentEmployment,
   currentHighTechnologyEmployment,
   currentSalary,
+  // highTechnologyEmploymentType, Add this back in once schema is updated
 } = fullSchema.properties;
 
 export const uiSchema = {

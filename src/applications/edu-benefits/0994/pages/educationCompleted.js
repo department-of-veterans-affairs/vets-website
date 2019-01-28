@@ -1,3 +1,8 @@
+// These two must be added back in once schema is updatedß
+// import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+
+// const { highestLevelofEducation } = fullSchema.properties;
+
 export const uiSchema = {
   highestLevelofEducation: {
     'ui:title': 'What’s the highest level of education you’ve completed?',
