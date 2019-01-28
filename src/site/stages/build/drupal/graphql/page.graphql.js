@@ -1,4 +1,6 @@
 const wysiwyg = require('./paragraph-fragments/paragraphWysiwyg.graphql');
+const collapsiblePanel = require('./paragraph-fragments/paragraphCollapsiblePanel.graphql');
+const process = require('./paragraph-fragments/paragraphProcess.graphql');
 
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
@@ -6,6 +8,8 @@ const wysiwyg = require('./paragraph-fragments/paragraphWysiwyg.graphql');
  */
 module.exports = `
   ${wysiwyg}
+  ${collapsiblePanel}
+  ${process}
   
   fragment page on NodePage {
     entityUrl {
@@ -17,6 +21,8 @@ module.exports = `
     fieldContentBlock {
       entity {
         ... wysiwyg
+        ... collapsiblePanel
+        ... process
         entityType
         entityBundle
         entityRendered
