@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import appendQuery from 'append-query';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
@@ -18,6 +19,11 @@ const scrollToTop = () => {
     smooth: true,
   });
 };
+const nextQuery = { next: window.location.pathname };
+const url1990 = appendQuery(
+  '/education/apply-for-education-benefits/application/1990',
+  nextQuery,
+);
 
 class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -27,6 +33,9 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.form.data.appliedForVAEducationBenefits) {
+      window.location.replace(url1990);
+    }
     focusElement('.confirmation-page-title');
     scrollToTop();
   }
@@ -41,7 +50,7 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.data.veteranFullName;
+    const name = form.data.applicantFullName;
     const benefit = form.data.benefit;
 
     return (
@@ -59,10 +68,11 @@ class ConfirmationPage extends React.Component {
         <div className="inset">
           <h4>
             Education Benefit Claim{' '}
-            <span className="additional">(Form 22-5490)</span>
+            <span className="additional">(Form 22-0994)</span>
           </h4>
           <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
+            for {name && name.first} {name && name.middle} {name && name.last}{' '}
+            {name && name.suffix}
           </span>
 
           <ul className="claim-list">
