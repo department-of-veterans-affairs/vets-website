@@ -12,108 +12,75 @@ import {
 
 import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
 
-let windowOpen;
-let oldOpen;
-let oldDataLayer;
+let oldSessionStorage;
+let oldWindow;
 
 const fakeWindow = () => {
-  oldOpen = global.window.open;
-  windowOpen = sinon.stub().returns({
-    focus: f => f,
-    location: '',
-  });
-  global.window.open = windowOpen;
-  global.window.dataLayer = [];
+  oldSessionStorage = global.sessionStorage;
+  oldWindow = window;
+  global.sessionStorage = { setItem: () => {} };
+  window = {
+    dataLayer: [],
+    location: {
+      get: () => window.location,
+      set: value => { window.location = value; },
+    }
+  };
 };
 
 describe('auth URL helpers', () => {
   beforeEach(fakeWindow);
   afterEach(() => {
-    global.window.open = oldOpen;
-    global.window.dataLayer = oldDataLayer;
+    window = oldWindow;
+    global.sessionStorage = oldSessionStorage;
+    resetFetch();
   });
 
-  describe('when able to open a window', () => {
-    afterEach(resetFetch);
-
-    it('should open a window to an error page', done => {
-      mockApiRequest({ error: "Couldn't find url" }, false);
-      login('idme')
-        .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
-          expect(popup.location).to.include('/auth/login/callback');
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should open a window for signup', done => {
-      mockApiRequest({ url: 'signup-url' });
-      signup()
-        .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
-          expect(popup.location).to.eq('signup-url');
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should open a window for login', done => {
-      mockApiRequest({ url: 'login-url' });
-      login('idme')
-        .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
-          expect(popup.location).to.eq('login-url');
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should open a window for logout', done => {
-      mockApiRequest({ url: 'logout-url' });
-      logout()
-        .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
-          expect(popup.location).to.eq('logout-url');
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should open a window for mfa', done => {
-      mockApiRequest({ url: 'mfa-url' });
-      mfa()
-        .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
-          expect(popup.location).to.eq('mfa-url');
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should open a window for verify', done => {
-      mockApiRequest({ url: 'verify-url' });
-      verify()
-        .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
-          expect(popup.location).to.eq('verify-url');
-          done();
-        })
-        .catch(done);
-    });
+  it('should redirect to an error page', () => {
+    mockApiRequest({ error: "Couldn't find url" }, false);
+    login('idme')
+      .then(() => {
+        expect(window.location).to.include('/auth/login/callback');
+      });
   });
 
-  it('should handle failure to open window', done => {
-    global.window.open = sinon.stub().returns(null);
-    const mockRaven = sinon.stub(Raven, 'captureMessage');
-    login('idme').catch(error => {
-      try {
-        expect(error.message).to.eq('Failed to open new window');
-        done();
-      } catch (e) {
-        done(e);
-      }
-    });
-    expect(mockRaven.calledOnce).to.be.true;
+  it('should redirect for signup', () => {
+    mockApiRequest({ url: 'signup-url' });
+    signup()
+      .then(() => {
+        expect(window.location).to.eq('signup-url');
+      });
+  });
+
+  it('should redirect for login', () => {
+    mockApiRequest({ url: 'login-url' });
+    login('idme')
+      .then(() => {
+        expect(window.location).to.eq('login-url');
+      });
+  });
+
+  it('should redirect for logout', () => {
+    mockApiRequest({ url: 'logout-url' });
+    logout()
+      .then(() => {
+        expect(window.location).to.eq('logout-url');
+      });
+  });
+
+  it('should redirect for MFA', () => {
+    mockApiRequest({ url: 'mfa-url' });
+    mfa()
+      .then(() => {
+        expect(window.location).to.eq('mfa-url');
+      });
+  });
+
+  it('should redirect for verify', () => {
+    mockApiRequest({ url: 'verify-url' });
+    verify()
+      .then(() => {
+        expect(window.location).to.eq('verify-url');
+      });
   });
 });
