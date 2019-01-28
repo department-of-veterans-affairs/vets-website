@@ -29,11 +29,11 @@ class SaveFormLink extends React.Component {
     }
   }
 
-  handleSave() {
+  handleSave = () => {
     const { formId, version, data } = this.props.form;
     const returnUrl = this.props.locationPathname;
     this.props.saveAndRedirectToReturnUrl(formId, data, version, returnUrl);
-  }
+  };
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
