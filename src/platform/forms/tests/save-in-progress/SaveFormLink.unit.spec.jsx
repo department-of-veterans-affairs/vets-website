@@ -63,6 +63,18 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.contain('Finish this application later');
   });
+  it('should render expired message with noAuth status', () => {
+    const tree = SkinDeep.shallowRender(
+      <SaveFormLink
+        user={loggedInUser}
+        form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
+        toggleLoginModal={toggleLoginModalSpy}
+      />,
+    );
+
+    expect(tree.text()).to.contain('Sorry, you’re signed out.');
+    expect(tree.subTree('a')).not.to.be.null;
+  });
   it('should show error message', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
