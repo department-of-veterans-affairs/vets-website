@@ -41,7 +41,7 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.data.relativeFullName;
+    const name = form.data.veteranFullName;
     const benefit = form.data.benefit;
 
     return (

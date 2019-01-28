@@ -14,6 +14,8 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transformForSubmit } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
+import { bankInformation } from '../pages/index';
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
@@ -102,6 +104,12 @@ const formConfig = {
       pages: {
         // page - contact information
         // page - banking information
+        bankInformation: {
+          title: 'Bank Information',
+          path: 'bank-information',
+          uiSchema: bankInformation.uiSchema,
+          schema: bankInformation.schema,
+        },
       },
     },
   },
