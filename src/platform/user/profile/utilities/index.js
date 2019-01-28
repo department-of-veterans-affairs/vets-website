@@ -81,7 +81,7 @@ export function setupProfileSession(payload) {
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (sessionStorage.registrationPending) {
+  if (sessionStorage.getItem('registrationPending') === 'true') {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
     sessionStorage.removeItem('registrationPending');
