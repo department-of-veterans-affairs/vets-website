@@ -23,6 +23,8 @@ import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   hasHospitalCare,
+  notNewOnly,
+  notIncreaseOnly,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -729,5 +731,40 @@ describe('all claims utils - isWithinRange', () => {
   it('should return false for a date range that ends after the date range specified', () => {
     expect(isWithinRange({ from: '1991-01-01', to: '1993-01-01' }, dateRange))
       .to.be.false;
+  });
+});
+
+describe('526 v2 depends functions', () => {
+  describe('notNewOnly', () => {
+    it('should return false if only new conditions are claimed', () => {
+      expect(
+        notNewOnly({
+          'view:claimingIncrease': false,
+          'view:claimingNew': true,
+        }),
+      ).to.be.false;
+    });
+    it('should return true if already-rated conditions are claimed', () => {
+      const formData = { 'view:claimingIncrease': true };
+      expect(notNewOnly({ ...formData, 'view:claimingNew': false })).to.be.true;
+      expect(notNewOnly({ ...formData, 'view:claimingNew': true })).to.be.true;
+    });
+  });
+  describe('notIncreaseOnly', () => {
+    it('should return false if only alread-rated conditions are claimed', () => {
+      expect(
+        notIncreaseOnly({
+          'view:claimingIncrease': true,
+          'view:claimingNew': false,
+        }),
+      ).to.be.false;
+    });
+    it('should return true if new conditions are claimed', () => {
+      const formData = { 'view:claimingNew': true };
+      expect(notIncreaseOnly({ ...formData, 'view:claimingIncrease': true })).to
+        .be.true;
+      expect(notIncreaseOnly({ ...formData, 'view:claimingIncrease': false }))
+        .to.be.true;
+    });
   });
 });

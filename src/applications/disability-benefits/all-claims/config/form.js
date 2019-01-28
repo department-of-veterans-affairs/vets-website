@@ -27,6 +27,9 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
+  notIncreaseOnly,
+  notNewOnly,
+  hasNewDisabilities,
 } from '../utils';
 
 import prefillTransformer from '../prefill-transformer';
@@ -152,6 +155,7 @@ const formConfig = {
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
+          depends: notIncreaseOnly,
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
@@ -187,6 +191,7 @@ const formConfig = {
         separationPay: {
           title: 'Separation or Severance Pay',
           path: 'separation-pay',
+          depends: notIncreaseOnly,
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
@@ -216,26 +221,28 @@ const formConfig = {
         ratedDisabilities: {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',
-          depends: hasRatedDisabilities,
+          depends: formData =>
+            hasRatedDisabilities(formData) && notNewOnly(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
+          depends: notIncreaseOnly,
           uiSchema: newDisabilities.uiSchema,
           schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
           path: 'new-disabilities/add',
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -245,7 +252,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: formData => capitalizeEachWord(formData.condition),
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item =>
@@ -421,6 +428,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
+          depends: notIncreaseOnly,
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
@@ -566,14 +574,16 @@ const formConfig = {
         retirementPayWaiver: {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
-          depends: hasMilitaryRetiredPay,
+          depends: formData =>
+            hasMilitaryRetiredPay(formData) && notIncreaseOnly(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
         trainingPayWaiver: {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
-          depends: formData => formData.hasTrainingPay,
+          depends: formData =>
+            formData.hasTrainingPay && notIncreaseOnly(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
