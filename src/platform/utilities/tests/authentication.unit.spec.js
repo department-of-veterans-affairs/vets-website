@@ -16,7 +16,7 @@ let oldWindow;
 const fakeWindow = () => {
   oldSessionStorage = global.sessionStorage;
   oldWindow = global.window;
-  global.sessionStorage = { setItem: () => {} };
+  global.sessionStorage = { setItem: () => {}, removeItem: () => {} };
   global.window = {
     dataLayer: [],
     location: {
