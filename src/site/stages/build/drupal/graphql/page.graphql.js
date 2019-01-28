@@ -1,8 +1,12 @@
+const wysiwyg = require('./paragraph-fragments/paragraphWysiwyg.graphql');
+
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
  * For example, /health-care/apply.
  */
 module.exports = `
+  ${wysiwyg}
+  
   fragment page on NodePage {
     entityUrl {
       path
@@ -12,6 +16,7 @@ module.exports = `
     fieldDescription
     fieldContentBlock {
       entity {
+        ... wysiwyg
         entityType
         entityBundle
         entityRendered
@@ -19,6 +24,7 @@ module.exports = `
     }
     fieldAlert {
       entity {
+        entityBundle
         ... on BlockContentAlert {
           fieldAlertType
           fieldAlertTitle
@@ -42,6 +48,7 @@ module.exports = `
     }
     fieldRelatedLinks {
       entity {
+        entityBundle
         ... on ParagraphListOfLinkTeasers {
          fieldTitle
           fieldVaParagraphs {
