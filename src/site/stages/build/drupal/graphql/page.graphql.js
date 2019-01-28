@@ -7,10 +7,9 @@ module.exports = `
     entityUrl {
       path
     }
-    entityBundle
-    entityPublished
     title
     fieldIntroText
+    fieldDescription
     fieldContentBlock {
       entity {
         entityType
@@ -18,8 +17,48 @@ module.exports = `
         entityRendered
       }
     }
-    fieldLastUpdate {
-      value
+    fieldAlert {
+      entity {
+        ... on BlockContentAlert {
+          fieldAlertType
+          fieldAlertTitle
+          fieldAlertContent {
+            entity {
+              ... on ParagraphExpandableText {
+                fieldWysiwyg {
+                  processed
+                }
+                fieldTextExpander
+              }
+              ... on ParagraphWysiwyg {
+                fieldWysiwyg {
+                  processed
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    fieldRelatedLinks {
+      entity {
+        ... on ParagraphListOfLinkTeasers {
+         fieldTitle
+          fieldVaParagraphs {
+            entity {
+              ... on ParagraphLinkTeaser {
+                fieldLink {
+                  uri
+                  title
+                }
+                fieldLinkSummary
+              }
+            }
+          }
+        }
+      }
+    }
+    fieldPageLastBuilt {
       date
     }
   }
