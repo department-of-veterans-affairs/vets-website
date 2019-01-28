@@ -1,7 +1,3 @@
-import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-
-const { highestLevelofEducation } = fullSchema.properties;
-
 export const uiSchema = {
   highestLevelofEducation: {
     'ui:title': 'What’s the highest level of education you’ve completed?',
@@ -18,7 +14,18 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    highestLevelofEducation,
+    highestLevelofEducation: {
+      type: 'string',
+      enum: [
+        'High school diploma or GED',
+        'Some college',
+        'Associate’s degree',
+        'Bachelor’s degree',
+        'Master’s degree',
+        'Doctoral degree',
+        'Other',
+      ],
+    },
     otherEducation: {
       type: 'string',
     },
