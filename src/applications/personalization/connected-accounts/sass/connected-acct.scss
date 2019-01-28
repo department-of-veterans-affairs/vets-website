@@ -94,6 +94,10 @@
             }
             button {
                float: right;
+
+               @include media-maxwidth($small-screen) {
+                 float: none;
+               }
             }
             ul {
                margin-left: 3em;
