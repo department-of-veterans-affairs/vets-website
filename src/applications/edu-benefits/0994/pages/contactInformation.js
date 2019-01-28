@@ -17,6 +17,14 @@ import {
 
 const { emailAddress, dayTimePhone, nightTimePhone } = fullSchema.properties;
 
+const mailingAddressStartInEdit = formData => {
+  if (formData) {
+    const { street, city, state, postalCode } = formData;
+    return !(street || city || state || postalCode);
+  }
+  return true;
+};
+
 export const uiSchema = {
   'ui:title': 'Contact Information',
   'ui:description': contactInfoDescription,
@@ -60,7 +68,7 @@ export const uiSchema = {
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: AddressViewField,
-      startInEdit: true,
+      startInEdit: mailingAddressStartInEdit,
     },
   },
   'view:contactInfoNote': {

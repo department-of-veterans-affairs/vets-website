@@ -33,9 +33,6 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    if (!_.get(this.props.form.data, 'appliedForVAEducationBenefits', true)) {
-      window.location.replace(url1990);
-    }
     focusElement('.confirmation-page-title');
     scrollToTop();
   }
@@ -96,6 +93,17 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
+        {!_.get(form.data, 'appliedForVAEducationBenefits', true) && (
+          <div className="row form-progress-buttons">
+            <div className="small-6 usa-width-one-half medium-6 columns">
+              <a href={url1990}>
+                <button className="usa-button-primary">
+                  Continue to VA Form 22-1990
+                </button>
+              </a>
+            </div>
+          </div>
+        )}
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">
             What happens after I apply?
