@@ -16,6 +16,7 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
 import {
   applicantInformation,
+  bankInformation,
   benefitsEligibility,
   contactInformation,
   militaryService,
@@ -113,6 +114,12 @@ const formConfig = {
           schema: contactInformation.schema,
         },
         // page - banking information
+        bankInformation: {
+          title: 'Bank Information',
+          path: 'bank-information',
+          uiSchema: bankInformation.uiSchema,
+          schema: bankInformation.schema,
+        },
       },
     },
   },
