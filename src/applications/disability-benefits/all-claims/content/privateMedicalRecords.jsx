@@ -111,7 +111,7 @@ export const patientAcknowledgmentText = (
         <a
           href="https://www.benefits.va.gov/privateproviders/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           https://www.benefits.va.gov/privateproviders/
         </a>
