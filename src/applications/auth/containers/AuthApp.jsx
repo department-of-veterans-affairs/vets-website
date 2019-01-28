@@ -7,7 +7,6 @@ import siteName from '../../../platform/brand-consolidation/site-name';
 import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
 
 import facilityLocator from '../../facility-locator/manifest';
 

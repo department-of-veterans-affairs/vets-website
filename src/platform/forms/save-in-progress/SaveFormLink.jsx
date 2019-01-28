@@ -1,7 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
-import recordEvent from '../../monitoring/record-event';
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 
 import { SAVE_STATUSES, saveErrors } from './actions';

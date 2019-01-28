@@ -1,11 +1,8 @@
-import Raven from 'raven-js';
 import appendQuery from 'append-query';
-import isMobile from 'ismobilejs';
 
 import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
-import localStorage from '../../utilities/storage/localStorage';
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
