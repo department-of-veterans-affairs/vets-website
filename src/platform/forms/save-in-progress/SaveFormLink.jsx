@@ -97,7 +97,6 @@ SaveFormLink.propTypes = {
     savedStatus: PropTypes.string.isRequired,
   }).isRequired,
   user: PropTypes.object.isRequired,
-  showLoginModal: PropTypes.bool.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
 };
 
