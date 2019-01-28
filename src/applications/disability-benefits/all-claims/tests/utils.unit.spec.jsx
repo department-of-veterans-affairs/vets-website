@@ -15,6 +15,7 @@ import {
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
+  isWithinRange,
   needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
@@ -721,5 +722,33 @@ describe('isAnswering781aQuestions', () => {
       };
       expect(hasHospitalCare(formData)).to.be.false;
     });
+  });
+});
+
+describe('all claims utils - isWithinRange', () => {
+  const dateRange = { from: '1990-02-03', to: '1992-03-03' };
+  it('should return true for a date that is within the date range specified', () => {
+    expect(isWithinRange('1991-01-01', dateRange)).to.be.true;
+  });
+
+  it('should return true for a date range that is completely within the date range specified', () => {
+    expect(isWithinRange({ from: '1991-01-01', to: '1992-01-01' }, dateRange))
+      .to.be.true;
+  });
+
+  it('should return false for a date that is before the date range specified', () => {
+    expect(isWithinRange('1989-01-01', dateRange)).to.be.false;
+  });
+
+  it('should return false for a date that is after the date range specified', () => {
+    expect(isWithinRange('1999-01-01', dateRange)).to.be.false;
+  });
+  it('should return false for a date range that starts before the date range specified', () => {
+    expect(isWithinRange({ from: '1990-01-01', to: '1992-01-01' }, dateRange))
+      .to.be.false;
+  });
+  it('should return false for a date range that ends after the date range specified', () => {
+    expect(isWithinRange({ from: '1991-01-01', to: '1993-01-01' }, dateRange))
+      .to.be.false;
   });
 });

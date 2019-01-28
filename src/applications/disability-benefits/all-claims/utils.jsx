@@ -537,3 +537,52 @@ export const getAttachmentsSchema = defaultAttachmentId => {
     attachments,
   );
 };
+
+const isDateRange = ({ from, to }) => !!(from && to);
+
+const parseDate = dateString => moment(dateString, 'YYYY-MM-DD');
+
+// NOTE: Could move this to outside all-claims
+/**
+ * Checks to see if the first parameter is inside the date range (second parameter).
+ * If the first parameter is a date range, it'll return true if both dates are inside the range.
+ * @typedef {Object} DateRange
+ * @property {string} to - A date string YYYY-MM-DD
+ * @property {string} from - A date string YYYY-MM-DD
+ * ---
+ * @param {String|DateRange} inside - The date or date range to check
+ * @param {DateRange} outside - The range `inside` must fit in
+ * @param {String} inclusivity - See https://momentjs.com/docs/#/query/is-between/
+ *                               NOTE: This function defaults to inclusive dates which is different
+ *                               from moment's default
+ */
+export const isWithinRange = (inside, outside, inclusivity = '[]') => {
+  if (isDateRange(inside)) {
+    return (
+      isWithinRange(inside.to, outside, inclusivity) &&
+      isWithinRange(inside.from, outside, inclusivity)
+    );
+  }
+  if (typeof inside !== 'string') return false;
+
+  const insideDate = parseDate(inside);
+  const from = parseDate(outside.from);
+  const to = parseDate(outside.to);
+
+  return insideDate.isBetween(from, to, 'days', inclusivity);
+};
+
+// This is in here instead of validations.js because it returns a jsx element
+export const getPOWValidationMessage = servicePeriodDateRanges => (
+  <span>
+    The dates you enter must be within one of the service periods you entered.
+    <ul>
+      {servicePeriodDateRanges.map((range, index) => (
+        <li key={index}>
+          {moment(range.from).format('MMM DD, YYYY')} —{' '}
+          {moment(range.to).format('MMM DD, YYYY')}
+        </li>
+      ))}
+    </ul>
+  </span>
+);

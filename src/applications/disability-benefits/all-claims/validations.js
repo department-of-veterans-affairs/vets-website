@@ -1,6 +1,9 @@
 import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
+
+import { isWithinRange, getPOWValidationMessage } from './utils';
+
 import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
@@ -208,6 +211,28 @@ export const hasMonthYear = (err, fieldData) => {
 
   if (year === 'XXXX' || month === 'XX') {
     err.addError('Please provide both month and year');
+  }
+};
+
+export const isWithinServicePeriod = (errors, fieldData, formData) => {
+  const servicePeriods = _.get(
+    'serviceInformation.servicePeriods',
+    formData,
+    [],
+  );
+  const inServicePeriod = servicePeriods.some(pos =>
+    isWithinRange(fieldData, pos.dateRange),
+  );
+
+  if (!inServicePeriod) {
+    const dateIsComplete = dateString =>
+      dateString && !dateString.includes('X');
+    if (dateIsComplete(fieldData.from) && dateIsComplete(fieldData.to)) {
+      errors.from.addError(
+        getPOWValidationMessage(servicePeriods.map(period => period.dateRange)),
+      );
+      errors.to.addError('');
+    }
   }
 };
 
