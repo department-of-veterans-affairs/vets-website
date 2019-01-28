@@ -153,11 +153,7 @@ export const burialDateWarning = (
       If filing for a non-service-connected allowance, the Veteran’s burial date
       must be no more than 2 years from the current date. Find out if you still
       qualify.{' '}
-      <a
-        href="/burials-memorials/eligibility/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="/burials-memorials/eligibility/" target="_blank">
         Learn about eligibility.
       </a>
     </span>

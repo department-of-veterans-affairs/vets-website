@@ -36,11 +36,7 @@ class ClaimsDecision extends React.Component {
           If we decided that an issue you claimed wasn’t service connected, and
           you have new evidence that you haven’t submitted yet, you can ask VA
           to reopen your claim.{' '}
-          <a
-            href="/disability/how-to-file-claim/when-to-file/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/disability/how-to-file-claim/when-to-file/" target="_blank">
             Find out how to reopen your claim
           </a>
           .
@@ -56,22 +52,14 @@ class ClaimsDecision extends React.Component {
         <p>
           If you disagree with the decision on your claim, you can file an
           appeal.{' '}
-          <a
-            href="/disability/file-an-appeal/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/disability/file-an-appeal/" target="_blank">
             Learn more about filing an appeal
           </a>
           .
         </p>
         <p>
           Are you enrolled in VA health care? If not, you can apply now.
-          <a
-            href="/health-care/how-to-apply/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/health-care/how-to-apply/" target="_blank">
             Apply for VA health care
           </a>
           .
