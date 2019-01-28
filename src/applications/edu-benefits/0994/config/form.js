@@ -13,9 +13,15 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { prefillTransformer } from '../prefill-transformer';
 import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-
 import { urlMigration } from '../../config/migrations';
-import { bankInformation, contactInformation } from '../pages/index';
+
+import {
+  applicantInformation,
+  bankInformation,
+  benefitsEligibility,
+  contactInformation,
+  militaryService,
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -45,36 +51,34 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
-    // Chapter - Applicant Information
-    applicantInformation: {
-      title: 'Applicant Information',
-      pages: {
-        // page - Applicant Information
-        applicantInformation: {
-          title: 'Applicant Information',
-          path: 'applicant/information',
-          uiSchema: {
-            'ui:title': 'Place holder',
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-    },
     // Chapter - Benefits eligibility
     benefitsEligibility: {
       title: 'Benefits eligibility',
       pages: {
-        // page - Already submitted 1990
+        applicantInformation: {
+          title: 'Applicant Information',
+          path: 'applicant/information',
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
+        },
+        benefitsEligibility: {
+          title: 'Benefits Eligibility',
+          path: 'benefits-eligibility',
+          uiSchema: benefitsEligibility.uiSchema,
+          schema: benefitsEligibility.schema,
+        },
       },
     },
     // Chapter - Military Service
     militaryService: {
       title: 'Military Service',
       pages: {
-        // page - Not on active duty
+        militaryService: {
+          title: 'Military Service',
+          path: 'military-service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
+        },
       },
     },
     // Chapter - Education History
