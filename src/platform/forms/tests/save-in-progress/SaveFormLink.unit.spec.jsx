@@ -86,7 +86,7 @@ describe('Schemaform <SaveFormLink>', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('connect to Vets.gov');
+    expect(tree.text()).to.contain('unable to connect');
     expect(tree.subTree('button').text()).to.contain(
       'Finish this application later',
     );
