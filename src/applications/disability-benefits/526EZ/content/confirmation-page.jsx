@@ -22,6 +22,7 @@ const privateRecordReleaseContent = (
       <a
         href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf"
         target="_blank"
+        rel="noopener noreferrer"
       >
         Download VA Form 21-4142
       </a>

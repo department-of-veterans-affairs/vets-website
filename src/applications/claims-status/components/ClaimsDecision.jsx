@@ -19,7 +19,11 @@ class ClaimsDecision extends React.Component {
           packet to arrive before contacting a VA call center. If you haven’t
           received the packet with the full details of your claim decision yet,
           you can see your rating by going to your disability page in eBenefits.{' '}
-          <a href="https://www.ebenefits.va.gov" target="_blank">
+          <a
+            href="https://www.ebenefits.va.gov"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Check your disability page in eBenefits for your rating
           </a>
           .
@@ -32,7 +36,11 @@ class ClaimsDecision extends React.Component {
           If we decided that an issue you claimed wasn’t service connected, and
           you have new evidence that you haven’t submitted yet, you can ask VA
           to reopen your claim.{' '}
-          <a href="/disability/how-to-file-claim/when-to-file/" target="_blank">
+          <a
+            href="/disability/how-to-file-claim/when-to-file/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Find out how to reopen your claim
           </a>
           .
@@ -48,14 +56,22 @@ class ClaimsDecision extends React.Component {
         <p>
           If you disagree with the decision on your claim, you can file an
           appeal.{' '}
-          <a href="/disability/file-an-appeal/" target="_blank">
+          <a
+            href="/disability/file-an-appeal/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Learn more about filing an appeal
           </a>
           .
         </p>
         <p>
           Are you enrolled in VA health care? If not, you can apply now.
-          <a href="/health-care/how-to-apply/" target="_blank">
+          <a
+            href="/health-care/how-to-apply/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Apply for VA health care
           </a>
           .

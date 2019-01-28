@@ -233,6 +233,7 @@ export function fileHelp({ formData }) {
             A completed Request for Approval of School Attendance (
             <a
               href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+              rel="noopener noreferrer"
               target="_blank"
             >
               VA Form 21-674
@@ -257,6 +258,7 @@ export function fileHelp({ formData }) {
           Regular Aid and Attendance (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+            rel="noopener noreferrer"
             target="_blank"
           >
             VA Form 21-2680
@@ -268,6 +270,7 @@ export function fileHelp({ formData }) {
           Claim for Aid and Attendance (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
+            rel="noopener noreferrer"
             target="_blank"
           >
             VA Form 21-0779
@@ -286,16 +289,20 @@ export const directDepositWarning = (
     electronic funds transfer (EFT), also called direct deposit. If you don’t
     have a bank account, you must get your payment through Direct Express Debit
     MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a href="http://www.usdirectexpress.com" target="_blank">
+    <a
+      href="http://www.usdirectexpress.com"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
       www.usdirectexpress.com
     </a>{' '}
     or by telephone at{' '}
-    <a href="tel:8003331795" target="_blank">
+    <a href="tel:8003331795" rel="noopener noreferrer" target="_blank">
       1-800-333-1795
     </a>
     . If you chose not to enroll, you must contact representatives handling
     waiver requests for the Department of Treasury at{' '}
-    <a href="tel:8882242950" target="_blank">
+    <a href="tel:8882242950" rel="noopener noreferrer" target="_blank">
       1-888-224-2950
     </a>
     . They will address any questions or concerns you may have and encourage
@@ -311,6 +318,7 @@ export const wartimeWarning = (
         an{' '}
         <a
           href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
+          rel="noopener noreferrer"
           target="_blank"
         >
           {' '}
@@ -446,6 +454,7 @@ export const schoolAttendanceWarning = (
         a Request for Approval of School Attendance (
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+          rel="noopener noreferrer"
           target="_blank"
         >
           VA Form 21-674

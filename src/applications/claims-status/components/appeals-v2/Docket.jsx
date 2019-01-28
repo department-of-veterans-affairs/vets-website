@@ -99,6 +99,7 @@ function Docket({
           <a
             target="_blank"
             href="/disability/file-an-appeal/request-priority-review/"
+            rel="noopener noreferrer"
           >
             Learn more about requesting Advanced on Docket status.
           </a>

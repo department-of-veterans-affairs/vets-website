@@ -25,6 +25,7 @@ export default function MailOrFax({ onClose }) {
           Mail or fax them to the{' '}
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
           >
             VA Claims Intake Center.

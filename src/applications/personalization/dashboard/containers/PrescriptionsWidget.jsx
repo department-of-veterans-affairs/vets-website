@@ -81,6 +81,7 @@ class PrescriptionsWidget extends React.Component {
                 href={`${mhvBaseUrl()}/mhv-portal-web/${
                   environment.isProduction() ? 'web/myhealthevet/' : ''
                 }refill-prescriptions`}
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 View all your prescriptions

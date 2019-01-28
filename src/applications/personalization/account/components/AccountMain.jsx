@@ -113,6 +113,7 @@ class AccountMain extends React.Component {
               <h5>DS Logon</h5>
               <a
                 href="https://myaccess.dmdc.osd.mil/identitymanagement"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 Manage your DS Logon account
@@ -120,7 +121,11 @@ class AccountMain extends React.Component {
             </div>
             <div>
               <h5>My HealtheVet</h5>
-              <a href="https://www.myhealth.va.gov" target="_blank">
+              <a
+                href="https://www.myhealth.va.gov"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 Manage your My HealtheVet account
               </a>
             </div>
