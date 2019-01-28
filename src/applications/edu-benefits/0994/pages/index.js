@@ -1,3 +1,4 @@
+import * as bankInformation from './bankInformation';
 import * as contactInformation from './contactInformation';
 
-export { contactInformation };
+export { bankInformation, contactInformation };
