@@ -14,7 +14,7 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transformForSubmit } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
-import { bankInformation } from '../pages/index';
+import { bankInformation, contactInformation } from '../pages/index';
 
 const formConfig = {
   urlPrefix: '/',
@@ -103,6 +103,12 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         // page - contact information
+        contactInformation: {
+          title: 'Contact Information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
         // page - banking information
         bankInformation: {
           title: 'Bank Information',
