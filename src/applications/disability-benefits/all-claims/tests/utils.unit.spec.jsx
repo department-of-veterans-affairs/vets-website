@@ -3,25 +3,26 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import {
-  hasGuardOrReservePeriod,
-  ReservesGuardDescription,
-  isInFuture,
+  addCheckboxPerDisability,
   capitalizeEachWord,
-  queryForFacilities,
-  hasOtherEvidence,
   fieldsHaveInput,
-  servedAfter911,
-  needsToEnter781,
-  needsToEnter781a,
-  isAnswering781Questions,
+  hasGuardOrReservePeriod,
+  hasHospitalCare,
+  hasOtherEvidence,
   isAnswering781aQuestions,
+  isAnswering781Questions,
+  isInFuture,
+  isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
-  isUploading781aForm,
-  viewifyFields,
-  needsToEnterUnemployability,
   needsToAnswerUnemployability,
-  hasHospitalCare,
+  needsToEnter781,
+  needsToEnter781a,
+  needsToEnterUnemployability,
+  queryForFacilities,
+  ReservesGuardDescription,
+  servedAfter911,
+  viewifyFields,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -165,6 +166,26 @@ describe('526 helpers', () => {
     });
     it('should return Unknown Condition when name is not a string', () => {
       expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
+    });
+  });
+
+  describe('addCheckboxPerDisability', () => {
+    it('should return disabilitiesViews with downcased keynames', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+      };
+      expect(addCheckboxPerDisability(formData)).to.eql({
+        properties: {
+          'ptsd personal trauma': {
+            title: 'Ptsd Personal Trauma',
+            type: 'boolean',
+          },
+        },
+      });
     });
   });
 
