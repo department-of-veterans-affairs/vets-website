@@ -28,7 +28,7 @@ export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
         onClick={dismiss}
         className="va-modal-close"
       >
-        <i className="far fa-times-circle" />
+        <i className="fas fa-times-circle" />
       </button>
     </div>
   );
