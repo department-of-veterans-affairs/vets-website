@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import formConfig from '../../0994/config/form';
 
-import { transformForSubmit } from '../../0994/submit-transformer';
+import { transform } from '../../0994/submit-transformer';
 
 import {
   transformedMinimalData,
@@ -14,14 +14,14 @@ import maximalData from './schema/maximal-test.json';
 
 describe('transform', () => {
   it('should transform minimal data correctly', () => {
-    expect(
-      JSON.parse(transformForSubmit(formConfig, minimalData)),
-    ).to.deep.equal(transformedMinimalData);
+    expect(transform(formConfig, minimalData)).to.deep.equal(
+      transformedMinimalData,
+    );
   });
 
   it('should transform maximal data correctly', () => {
-    expect(
-      JSON.parse(transformForSubmit(formConfig, maximalData)),
-    ).to.deep.equal(transformedMaximalData);
+    expect(transform(formConfig, maximalData)).to.deep.equal(
+      transformedMaximalData,
+    );
   });
 });

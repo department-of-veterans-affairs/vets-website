@@ -11,8 +11,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer } from '../prefill-transformer';
-import { transformForSubmit } from '../submit-transformer';
+import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import { urlMigration } from '../../config/migrations';
 
 import {
   applicantInformation,
@@ -28,7 +29,7 @@ const formConfig = {
   trackingPrefix: 'edu-0994-',
   formId: '22-0994',
   version: 1,
-  migrations: [],
+  migrations: [urlMigration('/0994')],
   prefillEnabled: true,
   prefillTransformer,
   verifyRequiredPrefill: true,
@@ -37,7 +38,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  transformForSubmit,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   title: 'Apply for Vet Tec Benefits',

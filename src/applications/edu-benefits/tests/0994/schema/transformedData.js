@@ -1,4 +1,4 @@
-export const transformedMinimalData = {
+const transformedMinimalDataActual = {
   privacyAgreementAccepted: true,
   applicantFullName: {
     first: 'testy',
@@ -11,7 +11,13 @@ export const transformedMinimalData = {
   },
 };
 
-export const transformedMaximalData = {
+export const transformedMinimalData = JSON.stringify({
+  educationBenefitsClaim: {
+    form: JSON.stringify(transformedMinimalDataActual),
+  },
+});
+
+const transformedMaximalDataActual = {
   privacyAgreementAccepted: true,
   applicantFullName: {
     first: 'testy',
@@ -23,3 +29,9 @@ export const transformedMaximalData = {
     accountNumber: '1',
   },
 };
+
+export const transformedMaximalData = JSON.stringify({
+  educationBenefitsClaim: {
+    form: JSON.stringify(transformedMaximalDataActual),
+  },
+});
