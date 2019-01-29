@@ -58,6 +58,7 @@ export const mhvAccessError = (
               about the different account types on the{' '}
               <a
                 href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 My HealtheVet website.

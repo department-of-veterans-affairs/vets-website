@@ -9,6 +9,7 @@ export default function FeaturesWarning() {
         or view your uploaded documents, go to{' '}
         <a
           target="_blank"
+          rel="noopener noreferrer"
           href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
         >
           eBenefits

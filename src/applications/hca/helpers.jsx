@@ -74,6 +74,7 @@ export const facilityHelp = (
     you’ll need to sign up for our Foreign Medical Program.{' '}
     <a
       href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Learn more about the Foreign Medical Program
@@ -83,6 +84,7 @@ export const facilityHelp = (
       You can also visit{' '}
       <a
         href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp"
+        rel="noopener noreferrer"
         target="_blank"
       >
         Veterans Living Abroad
@@ -196,6 +198,7 @@ export const financialDisclosureText = (
     <div className="input-section">
       <a
         target="_blank"
+        rel="noopener noreferrer"
         href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"
       >
         Learn more
