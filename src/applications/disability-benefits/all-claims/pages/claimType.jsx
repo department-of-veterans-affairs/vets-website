@@ -12,6 +12,7 @@ const description = (
     </p>
   </Fragment>
 );
+
 export const uiSchema = {
   'ui:description': description,
   'view:claimingNew': {
