@@ -5,7 +5,6 @@ const {
   currentEmployment,
   currentHighTechnologyEmployment,
   currentSalary,
-  // highTechnologyEmploymentType, Add this back in once schema is updated
 } = fullSchema.properties;
 
 export const uiSchema = {
@@ -48,25 +47,25 @@ export const uiSchema = {
         },
       },
     },
-    highTechnologyEmploymentType: {
+    'view:highTechnologyEmploymentType': {
       'ui:description':
         'Which option(s) best describe your high-tech work experience? Check all that apply.',
-      hasComputerProgramming: {
+      computerProgramming: {
         'ui:title': 'Computer Programming',
       },
-      hasDataProcessing: {
+      dataProcessing: {
         'ui:title': 'Data Processing',
       },
-      hasComputerSoftware: {
+      computerSoftware: {
         'ui:title': 'Computer Software',
       },
-      hasInformationSciences: {
+      informationSciences: {
         'ui:title': 'Information Sciences',
       },
-      hasMediaApplication: {
+      mediaApplication: {
         'ui:title': 'Media Application',
       },
-      hasNoneApply: {
+      noneApply: {
         'ui:title': 'None of these apply',
       },
     },
@@ -83,7 +82,7 @@ export const schema = {
       type: 'object',
       properties: {
         currentSalary,
-        highTechnologyEmploymentType: {
+        'view:highTechnologyEmploymentType': {
           type: 'object',
           properties: {
             computerProgramming: { type: 'boolean' },
