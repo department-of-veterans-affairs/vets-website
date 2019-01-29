@@ -309,12 +309,12 @@ node('vetsgov-general-purpose') {
         }
       }
 
-      if (IS_DEV_BRANCH) {
+      if (IS_DEV_BRANCH && VAGOV_BUILDTYPES.contains('vagovdev')) {
         runDeploy('deploys/vets-website-dev', commit)
         runDeploy('deploys/vets-website-vagovdev', commit)
       }
 
-      if (IS_STAGING_BRANCH) {
+      if (IS_STAGING_BRANCH && VAGOV_BUILDTYPES.contains('vagovstaging')) {
         runDeploy('deploys/vets-website-staging', commit)
         runDeploy('deploys/vets-website-vagovstaging', commit)
       }
