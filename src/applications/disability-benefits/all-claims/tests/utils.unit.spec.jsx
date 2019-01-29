@@ -735,36 +735,40 @@ describe('all claims utils - isWithinRange', () => {
 });
 
 describe('526 v2 depends functions', () => {
+  const increaseOnlyData = {
+    'view:claimingIncrease': true,
+    'view:claimingNew': false,
+  };
+  const newOnlyData = {
+    'view:claimingIncrease': false,
+    'view:claimingNew': true,
+  };
+  const increaseAndNewData = {
+    'view:claimingIncrease': true,
+    'view:claimingNew': true,
+  };
+  const noneSelected = {
+    'view:claimingIncrease': false,
+    'view:claimingNew': false,
+  };
   describe('notNewOnly', () => {
     it('should return false if only new conditions are claimed', () => {
-      expect(
-        notNewOnly({
-          'view:claimingIncrease': false,
-          'view:claimingNew': true,
-        }),
-      ).to.be.false;
+      expect(notNewOnly(newOnlyData)).to.be.false;
     });
     it('should return true if already-rated conditions are claimed', () => {
-      const formData = { 'view:claimingIncrease': true };
-      expect(notNewOnly({ ...formData, 'view:claimingNew': false })).to.be.true;
-      expect(notNewOnly({ ...formData, 'view:claimingNew': true })).to.be.true;
+      expect(notNewOnly(increaseOnlyData)).to.be.true;
+      expect(notNewOnly(increaseAndNewData)).to.be.true;
+      expect(notNewOnly(noneSelected)).to.be.true;
     });
   });
   describe('notIncreaseOnly', () => {
     it('should return false if only alread-rated conditions are claimed', () => {
-      expect(
-        notIncreaseOnly({
-          'view:claimingIncrease': true,
-          'view:claimingNew': false,
-        }),
-      ).to.be.false;
+      expect(notIncreaseOnly(increaseOnlyData)).to.be.false;
     });
     it('should return true if new conditions are claimed', () => {
-      const formData = { 'view:claimingNew': true };
-      expect(notIncreaseOnly({ ...formData, 'view:claimingIncrease': true })).to
-        .be.true;
-      expect(notIncreaseOnly({ ...formData, 'view:claimingIncrease': false }))
-        .to.be.true;
+      expect(notIncreaseOnly(newOnlyData)).to.be.true;
+      expect(notIncreaseOnly(increaseAndNewData)).to.be.true;
+      expect(notIncreaseOnly(noneSelected)).to.be.true;
     });
   });
 });
