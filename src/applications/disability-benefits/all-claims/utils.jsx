@@ -597,6 +597,10 @@ const newOnly = formData =>
 
 export const notNewOnly = formData => !newOnly(formData);
 export const notIncreaseOnly = formData => !increaseOnly(formData);
+export const newAndIncrease = formData =>
+  isClaimingNew(formData) && isClaimingIncrease(formData);
+export const noClaimTypeSelected = formData =>
+  !isClaimingNew(formData) && !isClaimingIncrease(formData);
 
 export const hasNewDisabilities = formData =>
   formData['view:newDisabilities'] === true;

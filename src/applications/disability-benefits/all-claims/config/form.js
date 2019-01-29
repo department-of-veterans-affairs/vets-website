@@ -30,6 +30,8 @@ import {
   notIncreaseOnly,
   notNewOnly,
   hasNewDisabilities,
+  newAndIncrease,
+  noClaimTypeSelected,
 } from '../utils';
 
 import prefillTransformer from '../prefill-transformer';
@@ -215,6 +217,9 @@ const formConfig = {
         disabilitiesOrientation: {
           title: '',
           path: 'disabilities/orientation',
+          // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+          depends: formData =>
+            newAndIncrease(formData) || noClaimTypeSelected(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
