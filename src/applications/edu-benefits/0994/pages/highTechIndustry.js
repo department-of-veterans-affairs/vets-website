@@ -47,7 +47,7 @@ export const uiSchema = {
         },
       },
     },
-    'view:highTechnologyEmploymentType': {
+    highTechnologyEmploymentType: {
       'ui:description':
         'Which option(s) best describe your high-tech work experience? Check all that apply.',
       computerProgramming: {
@@ -82,7 +82,7 @@ export const schema = {
       type: 'object',
       properties: {
         currentSalary,
-        'view:highTechnologyEmploymentType': {
+        highTechnologyEmploymentType: {
           type: 'object',
           properties: {
             computerProgramming: { type: 'boolean' },

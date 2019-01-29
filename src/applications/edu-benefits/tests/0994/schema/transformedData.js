@@ -57,7 +57,7 @@ const transformedMaximalDataActual = {
   currentEmployment: false,
   currentHighTechnologyEmployment: true,
   currentSalary: 'moreThanSeventyFive',
-  highestLevelofEducation: 'high_school_diploma_or_GED',
+  highestLevelofEducation: 'other',
   otherEducation: 'other ed',
   activeDuty: true,
   activeDutyDuringVetTec: true,
