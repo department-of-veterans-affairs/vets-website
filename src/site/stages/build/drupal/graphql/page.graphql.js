@@ -7,6 +7,14 @@ const listOfLinkTeasers = require('./paragraphs/listOfLinkTeasers.paragraph.grap
 const WYSIWYG_FRAGMENT = '...wysiwyg';
 const LISTOFLINKTEASERS_FRAGMENT = '...listOfLinkTeasers';
 
+const RELATED_LINKS = `
+  fieldRelatedLinks {
+      entity {
+      	${LISTOFLINKTEASERS_FRAGMENT}
+      }
+    }
+`;
+
 module.exports = `
   ${wysiwygParagraph}
   ${listOfLinkTeasers}
@@ -28,5 +36,6 @@ module.exports = `
       }
     }
     changed
+    ${RELATED_LINKS}
   }
 `;

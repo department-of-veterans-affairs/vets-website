@@ -9,9 +9,7 @@ module.exports = `
   
   fragment listOfLinkTeasers on ParagraphListOfLinkTeasers {
     fieldTitle
-    fieldVaParagraphs {
-      targetId
-      targetRevisionId
+    fieldVaParagraphs {      
       entity {
         ${LINKTEASER_FRAGMENT}
       }    

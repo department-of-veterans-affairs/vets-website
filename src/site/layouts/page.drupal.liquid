@@ -17,12 +17,14 @@
       {% for block in fieldContentBlock %}
         {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
         {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-        {% include {{ bundleComponentWithExtension }} with block = block %}
+        {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
       {% endfor %}
+
+      {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity  %}
     </article>
 
     <div class="last-updated usa-content">
-        <time>Last updated: <time datetime="{{ changed | unixHumanizeDate }}">{{ changed | unixHumanizeDate }}</time>
+        Last updated: <time datetime="{{ changed | unixHumanizeDate }}">{{ changed | unixHumanizeDate }}</time>
     </div>
   </div>
 
