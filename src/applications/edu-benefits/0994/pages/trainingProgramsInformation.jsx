@@ -19,7 +19,7 @@ export default function VetTecProgramView({ formData }) {
   return (
     <div>
       <h4>{formData.programName}</h4>
-      <p>{formData.plannedStartDate}</p>
+      <p>Start: {formData.plannedStartDate}</p>
     </div>
   );
 }
