@@ -598,6 +598,8 @@ export const newOnly = formData =>
   !isClaimingIncrease(formData) && isClaimingNew(formData);
 export const newAndIncrease = formData =>
   isClaimingNew(formData) && isClaimingIncrease(formData);
+
+// Shouldn't be possible, but just in case this requirement is lifted later...
 export const noClaimTypeSelected = formData =>
   !isClaimingNew(formData) && !isClaimingIncrease(formData);
 

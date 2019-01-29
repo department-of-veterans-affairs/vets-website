@@ -753,6 +753,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingNew': true,
     },
   };
+  // Shouldn't be possible, but worth testing anyhow
   const noneSelected = {
     'view:claimType': {
       'view:claimingIncrease': false,
