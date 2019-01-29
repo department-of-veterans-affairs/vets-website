@@ -148,7 +148,7 @@ const formConfig = {
         },
         pathChoice: {
           title: 'Path Choice', // TODO: Change this
-          path: 'path-choice',
+          path: 'claim-type',
           uiSchema: pathChoice.uiSchema,
           schema: pathChoice.schema,
         },
