@@ -1,5 +1,19 @@
+import React, { Fragment } from 'react';
+
+const description = (
+  <Fragment>
+    <p>
+      Please tell us what type of disability claim you’re filing. (Select all
+      that apply.)
+    </p>
+    <br />
+    <p>
+      <strong>I’m filing a claim:</strong>
+    </p>
+  </Fragment>
+);
 export const uiSchema = {
-  'ui:description': 'I’m filing a claim:',
+  'ui:description': description,
   'view:claimingNew': {
     'ui:title': 'For a new condition',
   },
