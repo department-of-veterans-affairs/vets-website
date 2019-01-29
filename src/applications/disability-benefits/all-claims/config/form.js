@@ -27,9 +27,9 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
-  notIncreaseOnly,
-  notNewOnly,
   hasNewDisabilities,
+  newOnly,
+  increaseOnly,
   newAndIncrease,
   noClaimTypeSelected,
 } from '../utils';
@@ -157,7 +157,7 @@ const formConfig = {
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
-          depends: notIncreaseOnly,
+          depends: formData => !increaseOnly(formData),
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
@@ -193,7 +193,7 @@ const formConfig = {
         separationPay: {
           title: 'Separation or Severance Pay',
           path: 'separation-pay',
-          depends: notIncreaseOnly,
+          depends: formData => !increaseOnly(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
@@ -227,14 +227,14 @@ const formConfig = {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',
           depends: formData =>
-            hasRatedDisabilities(formData) && notNewOnly(formData),
+            hasRatedDisabilities(formData) && !newOnly(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
-          depends: notIncreaseOnly,
+          depends: formData => !increaseOnly(formData),
           uiSchema: newDisabilities.uiSchema,
           schema: newDisabilities.schema,
         },
@@ -433,7 +433,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
-          depends: notIncreaseOnly,
+          depends: formData => !increaseOnly(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
@@ -580,7 +580,7 @@ const formConfig = {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
           depends: formData =>
-            hasMilitaryRetiredPay(formData) && notIncreaseOnly(formData),
+            hasMilitaryRetiredPay(formData) && !increaseOnly(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
@@ -588,7 +588,7 @@ const formConfig = {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
           depends: formData =>
-            formData.hasTrainingPay && notIncreaseOnly(formData),
+            formData.hasTrainingPay && !increaseOnly(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

@@ -23,8 +23,8 @@ import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
   hasHospitalCare,
-  notNewOnly,
-  notIncreaseOnly,
+  newOnly,
+  increaseOnly,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -751,24 +751,28 @@ describe('526 v2 depends functions', () => {
     'view:claimingIncrease': false,
     'view:claimingNew': false,
   };
-  describe('notNewOnly', () => {
-    it('should return false if only new conditions are claimed', () => {
-      expect(notNewOnly(newOnlyData)).to.be.false;
+  describe('newOnly', () => {
+    it('should return true if only new conditions are claimed', () => {
+      expect(newOnly(newOnlyData)).to.be.true;
     });
-    it('should return true if already-rated conditions are claimed', () => {
-      expect(notNewOnly(increaseOnlyData)).to.be.true;
-      expect(notNewOnly(increaseAndNewData)).to.be.true;
-      expect(notNewOnly(noneSelected)).to.be.true;
+    it('should return false if already-rated conditions are claimed', () => {
+      expect(newOnly(increaseOnlyData)).to.be.false;
+      expect(newOnly(increaseAndNewData)).to.be.false;
+    });
+    it('should return false if no claim type is selected', () => {
+      expect(newOnly(noneSelected)).to.be.false;
     });
   });
-  describe('notIncreaseOnly', () => {
-    it('should return false if only alread-rated conditions are claimed', () => {
-      expect(notIncreaseOnly(increaseOnlyData)).to.be.false;
+  describe('increaseOnly', () => {
+    it('should return true if only alread-rated conditions are claimed', () => {
+      expect(increaseOnly(increaseOnlyData)).to.be.true;
     });
-    it('should return true if new conditions are claimed', () => {
-      expect(notIncreaseOnly(newOnlyData)).to.be.true;
-      expect(notIncreaseOnly(increaseAndNewData)).to.be.true;
-      expect(notIncreaseOnly(noneSelected)).to.be.true;
+    it('should return false if new conditions are claimed', () => {
+      expect(increaseOnly(newOnlyData)).to.be.false;
+      expect(increaseOnly(increaseAndNewData)).to.be.false;
+    });
+    it('should return false if no claim type is selected', () => {
+      expect(increaseOnly(noneSelected)).to.be.false;
     });
   });
 });
