@@ -86,12 +86,12 @@ export const schema = {
         highTechnologyEmploymentType: {
           type: 'object',
           properties: {
-            hasComputerProgramming: { type: 'boolean' },
-            hasDataProcessing: { type: 'boolean' },
-            hasComputerSoftware: { type: 'boolean' },
-            hasInformationSciences: { type: 'boolean' },
-            hasMediaApplication: { type: 'boolean' },
-            hasNoneApply: { type: 'boolean' },
+            computerProgramming: { type: 'boolean' },
+            dataProcessing: { type: 'boolean' },
+            computerSoftware: { type: 'boolean' },
+            informationSciences: { type: 'boolean' },
+            mediaApplication: { type: 'boolean' },
+            noneApply: { type: 'boolean' },
           },
         },
       },

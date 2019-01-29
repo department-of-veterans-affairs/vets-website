@@ -24,7 +24,24 @@ export function transform(formConfig, form) {
 
   const transformHighTechnologyEmploymentType = formData => {
     const clonedData = _.cloneDeep(formData);
+    if (form.data['view:salaryEmploymentTypes']) {
+      const { currentSalary, highTechnologyEmploymentType } = form.data[
+        'view:salaryEmploymentTypes'
+      ];
 
+      const highTechnologyEmploymentTypes = Object.keys(
+        highTechnologyEmploymentType,
+      )
+        .filter(key => highTechnologyEmploymentType[key])
+        .map(key => key);
+
+      delete clonedData.highTechnologyEmploymentType;
+      return {
+        ...clonedData,
+        currentSalary,
+        highTechnologyEmploymentTypes,
+      };
+    }
     return clonedData;
   };
 
