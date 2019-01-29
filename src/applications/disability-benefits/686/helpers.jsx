@@ -177,6 +177,7 @@ export const schoolAttendanceWarning = (
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
           target="_blank"
+          rel="noopener noreferrer"
         >
           VA Form 21-674
         </a>

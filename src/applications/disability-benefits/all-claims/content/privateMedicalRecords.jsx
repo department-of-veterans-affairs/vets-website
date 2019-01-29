@@ -108,7 +108,11 @@ export const patientAcknowledgmentText = (
       <p>
         NOTE: For additional information regarding VA Form 21-4142, refer to the
         following website:
-        <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+        <a
+          href="https://www.benefits.va.gov/privateproviders/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           https://www.benefits.va.gov/privateproviders/
         </a>
         .

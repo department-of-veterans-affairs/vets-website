@@ -234,6 +234,7 @@ export default class EducationWizard extends React.Component {
                     </h4>
                     <a
                       target="_blank"
+                      rel="noopener noreferrer"
                       href="https://milconnect.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits"
                     >
                       Instructions for your sponsor to transfer education

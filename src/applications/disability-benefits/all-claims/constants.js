@@ -143,7 +143,13 @@ export const TWENTY_FIVE_MB = 26214400;
 
 export const FIFTY_MB = 52428800;
 
-export const PTSD = 'ptsd';
+export const PTSD_MATCHES = [
+  'ptsd',
+  'post traumatic stress disorder',
+  'post-traumatic stress disorder',
+  'post traumatic stress',
+  'post-traumatic stress',
+];
 
 // Max number of incident iterations a user can go through.
 export const PTSD_INCIDENT_ITERATION = 3;

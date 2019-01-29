@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import constants from 'vets-json-schema/dist/constants.json';
+import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import {
   stringifyFormReplacer,
@@ -12,12 +12,10 @@ import {
   expandArrayPages,
   createFormPageList,
 } from 'us-forms-system/lib/js/helpers';
-import { getInactivePages } from '../../platform/forms/helpers';
-import { isValidDate } from '../../platform/forms/validations';
+import { getInactivePages } from 'platform/forms/helpers';
+import { isValidDate } from 'platform/forms/validations';
 
 import facilityLocator from '../facility-locator/manifest';
-
-const { vaMedicalFacilities } = constants;
 
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
@@ -76,6 +74,7 @@ export const facilityHelp = (
     you’ll need to sign up for our Foreign Medical Program.{' '}
     <a
       href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Learn more about the Foreign Medical Program
@@ -85,6 +84,7 @@ export const facilityHelp = (
       You can also visit{' '}
       <a
         href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp"
+        rel="noopener noreferrer"
         target="_blank"
       >
         Veterans Living Abroad
@@ -198,6 +198,7 @@ export const financialDisclosureText = (
     <div className="input-section">
       <a
         target="_blank"
+        rel="noopener noreferrer"
         href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"
       >
         Learn more

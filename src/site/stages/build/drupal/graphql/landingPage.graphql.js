@@ -5,7 +5,16 @@
 module.exports = `
   fragment landingPage on NodeLandingPage {
     entityUrl {
-      path
+      ... on EntityCanonicalUrl {
+        breadcrumb {
+          url {
+            path
+            routed
+          }
+          text
+        }
+        path
+      }
     }
     entityBundle
     entityPublished
