@@ -28,10 +28,10 @@ export const uiSchema = {
   'ui:description': trainingDescription,
   vetTecProgram: {
     'ui:options': {
+      itemName: 'Program',
       viewField: VetTecProgramView,
     },
     items: {
-      addAnotherLabel: 'Add Another Program',
       providerName: {
         'ui:title':
           'Who is the provider of a program you’d like to attend? (For example: Amazon Web Services)',
@@ -55,22 +55,13 @@ export const uiSchema = {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
           expandUnder: 'courseType',
-          // expandUnderCondition: 'inPerson',
-          hideIf: (formData, index) => {
-            // console.log(_.get(formData, `vetTecProgram[${index}].courseType`, ''));
-            const showIf = _.get(
-              formData,
-              `vetTecProgram[${index}].courseType`,
-              '',
-            );
-            // ||
-            // _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
-            //   'inPerson' ||
-            // _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
-            //   'both';
-            // console.log(showIf);
-            return !showIf;
-          },
+          hideIf: (formData, index) =>
+            !(
+              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+                'inPerson' ||
+              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+                'both'
+            ),
         },
         city: {
           'ui:title': 'City',
@@ -89,7 +80,7 @@ export const schema = {
   properties: {
     vetTecProgram: {
       type: 'array',
-      maxItems: 3,
+      maxLength: 3,
       items: {
         type: 'object',
         properties: {
@@ -103,7 +94,10 @@ export const schema = {
             type: 'string',
             enum: ['inPerson', 'online', 'both'],
           },
-          vetTecProgramLocations,
+          vetTecProgramLocations: {
+            ...vetTecProgramLocations,
+            'ui:collapsed': true,
+          },
           plannedStartDate,
         },
       },
