@@ -42,7 +42,7 @@ const transformedMaximalDataActual = {
     state: 'MI',
     postalCode: '22312',
   },
-  vetTecProgram: [
+  vetTecPrograms: [
     {
       providerName: 'prvoider',
       programName: 'program',
