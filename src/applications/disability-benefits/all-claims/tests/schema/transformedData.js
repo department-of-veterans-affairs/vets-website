@@ -16,7 +16,7 @@ export const transformedMinimalData = {
     },
     ratedDisabilities: [
       {
-        name: 'Aging',
+        name: 'First Condition',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -81,16 +81,16 @@ export const transformedMaximalData = {
       state: 'OH',
       zipCode: '12343',
       effectiveDate: {
-        from: '2019-01-01',
-        to: '2020-01-01',
+        from: '2118-01-01',
+        to: '2119-01-01',
       },
     },
     vaTreatmentFacilities: [
       {
         treatmentCenterName: 'VA Clinic Name',
         treatmentDateRange: {
-          from: '1904-01-01',
-          to: '1905-01-01',
+          from: '1904-01-XX',
+          to: '1905-01-XX',
         },
         treatmentCenterAddress: {
           country: 'USA',
@@ -98,7 +98,7 @@ export const transformedMaximalData = {
           state: 'AL',
         },
         treatedDisabilityNames: [
-          'aging',
+          'first condition',
           'ptsd (post traumatic stress disorder)',
         ],
       },
@@ -115,6 +115,7 @@ export const transformedMaximalData = {
         primaryDescription: 'A thing happened.',
         condition: 'PTSD (post traumatic stress disorder)',
         specialIssues: ['POW'],
+        classificationCode: '5420',
       },
       {
         cause: 'NEW',
@@ -136,7 +137,7 @@ export const transformedMaximalData = {
     ],
     ratedDisabilities: [
       {
-        name: 'Aging',
+        name: 'First Condition',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -357,7 +358,7 @@ export const transformedMaximalData = {
     },
     form8940: {
       unemployability: {
-        disabilityPreventingEmployment: 'aging',
+        disabilityPreventingEmployment: 'first condition',
         underDoctorHopitalCarePast12M: true,
         doctorProvidedCare: [
           {
@@ -462,7 +463,7 @@ export const transformedMaximalData = {
     },
     attachments: [
       {
-        attachmentId: 'L048',
+        attachmentId: 'L107',
         confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
         name: 'Doc.pdf',
       },
@@ -549,7 +550,11 @@ export const transformedMinimalPtsdFormUploadData = {
     emailAddress: 'test2@test1.net',
     privacyAgreementAccepted: true,
     newPrimaryDisabilities: [
-      { condition: 'PTSD personal trauma', cause: 'NEW' },
+      {
+        condition: 'PTSD personal trauma',
+        cause: 'NEW',
+        classificationCode: '7290',
+      },
     ],
     attachments: [
       {

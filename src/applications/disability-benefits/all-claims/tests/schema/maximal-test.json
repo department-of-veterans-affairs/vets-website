@@ -9,10 +9,7 @@
       "separationPayBranch": "Air Force"
     },
     "hasTrainingPay": true,
-    "view:waiveTrainingPay": {
-      "view:waiveTrainingPayDescription": {},
-      "waiveTrainingPay": true
-    },
+    "waiveTrainingPay": true,
     "view:waiveRetirementPayDescription": {},
     "waiveRetirementPay": false,
     "isVaEmployee": true,
@@ -52,8 +49,8 @@
       "state": "OH",
       "zipCode": "12343",
       "effectiveDate": {
-        "from": "2019-01-01",
-        "to": "2020-01-01"
+        "from": "2118-01-01",
+        "to": "2119-01-01"
       }
     },
     "view:contactInfoDescription": {},
@@ -66,7 +63,7 @@
     ],
     "view:uploadPrivateRecordsQualifier": {
       "view:aboutPrivateMedicalRecords": {},
-      "view:hasPrivateRecordsToUpload": false,
+      "view:hasPrivateRecordsToUpload": true,
       "view:privateRecordsChoiceHelp": {}
     },
     "view:vaMedicalRecordsIntro": {},
@@ -74,8 +71,8 @@
       {
         "treatmentCenterName": "VA Clinic Name",
         "treatmentDateRange": {
-          "from": "1904-01-01",
-          "to": "1905-01-01"
+          "from": "1904-01-XX",
+          "to": "1905-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "USA",
@@ -83,22 +80,22 @@
           "state": "AL"
         },
         "treatedDisabilityNames": {
-          "Aging": true,
-          "PTSD (post Traumatic Stress Disorder)": true
+          "First Condition": true,
+          "PTSD (Post Traumatic Stress Disorder)": true
         }
       }
     ],
     "view:hasEvidence": true,
     "view:hasEvidenceFollowUp": {
       "view:selectableEvidenceTypes": {
-        "view:hasVAMedicalRecords": true,
+        "view:hasVaMedicalRecords": true,
         "view:hasPrivateMedicalRecords": true,
         "view:hasOtherEvidence": true
       },
       "view:evidenceTypeHelp": {}
     },
     "view:powStatus": true,
-    "view:isPOW": {
+    "view:isPow": {
       "confinements": [
         {
           "from": "1900-01-01",
@@ -261,7 +258,7 @@
     ],
     "ratedDisabilities": [
       {
-        "name": "Aging",
+        "name": "First Condition",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
@@ -531,33 +528,25 @@
       "otherExplanation": "Other work change"
     },
     "additionalChanges": "Additional changes test",
-    "secondaryUploadSources0": [
-      {
-        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2da24569e94",
-        "attachmentId": "L034",
-        "name": "Doc.pdf"
-      }
-    ],
-    "secondaryUploadSources1": [
-      {
-        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de24569e94",
-        "attachmentId": "L015",
-        "name": "Doc.pdf"
-      }
-    ],
-    "secondaryUploadSources2": [
-      {
-        "confirmationCode": "354c6d40-b6f5-4c6d-9393-3b7de24569e94",
-        "attachmentId": "L048",
-        "name": "Doc.pdf"
-      }
-    ],
-    "privateMedicalRecordAttachments": [
-      {
-        "confirmationCode": "354c6d40-b6f5-8c6d-9393-3b7de24569e94",
-        "attachmentId": "L048",
-        "name": "Doc.pdf"
-      }
-    ]
+    "secondaryUploadSources0": [{
+      "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2da24569e94",
+      "attachmentId": "L034",
+      "name": "Doc.pdf"
+    }],
+    "secondaryUploadSources1": [{
+      "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de24569e94",
+      "attachmentId": "L015",
+      "name": "Doc.pdf"
+    }],
+    "secondaryUploadSources2": [{
+      "confirmationCode": "354c6d40-b6f5-4c6d-9393-3b7de24569e94",
+      "attachmentId": "L048",
+      "name": "Doc.pdf"
+    }],
+    "privateMedicalRecordAttachments": [{
+      "confirmationCode": "354c6d40-b6f5-8c6d-9393-3b7de24569e94",
+      "attachmentId": "L107",
+      "name": "Doc.pdf"
+    }]
   }
 }
