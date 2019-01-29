@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import constants from 'vets-json-schema/dist/constants.json';
+import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import {
   stringifyFormReplacer,
@@ -12,12 +12,10 @@ import {
   expandArrayPages,
   createFormPageList,
 } from 'us-forms-system/lib/js/helpers';
-import { getInactivePages } from '../../platform/forms/helpers';
-import { isValidDate } from '../../platform/forms/validations';
+import { getInactivePages } from 'platform/forms/helpers';
+import { isValidDate } from 'platform/forms/validations';
 
 import facilityLocator from '../facility-locator/manifest';
-
-const { vaMedicalFacilities } = constants;
 
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
