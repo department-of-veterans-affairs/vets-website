@@ -1,7 +1,7 @@
-const wysiwyg = require('./paragraph-fragments/paragraphWysiwyg.graphql');
-const collapsiblePanel = require('./paragraph-fragments/paragraphCollapsiblePanel.graphql');
-const process = require('./paragraph-fragments/paragraphProcess.graphql');
-const qaSection = require('./paragraph-fragments/paragraphQASection.graphql');
+const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
+const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
+const process = require('./paragraph-fragments/process.paragraph.graphql');
+const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
 
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
@@ -19,6 +19,7 @@ module.exports = `
     entityUrl {
       path
     }
+    entityBundle
     title
     fieldIntroText
     fieldDescription
@@ -28,9 +29,6 @@ module.exports = `
         ... collapsiblePanel
         ... process
         ... qaSection
-        entityType
-        entityBundle
-        entityRendered
       }
     }
     fieldAlert {
