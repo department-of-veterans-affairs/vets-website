@@ -14,9 +14,11 @@ export const introExplanationText = (
       will be saved.
     </p>
     <p>
-      Keep in mind, if you’re in crisis, we can support you. Our Veterans Crisis
-      Line is confidential (private), free, and available 24/7. To connect with
-      a Veterans Crisis Line responder anytime, day or night:
+      If you’re in crisis, we can support you. Our Veterans Crisis Line is
+      confidential (private), free, and available 24/7.
+    </p>
+    <p>
+      To connect with a Veterans Crisis Line responder anytime, day or night:
     </p>
     <ul>
       <li>
@@ -25,9 +27,9 @@ export const introExplanationText = (
         <strong>or</strong>
       </li>
       <li>
-        Visit the{' '}
+        Visit{' '}
         <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
-          https://www.veteranscrisisline.net
+          Veterans Crisis Line
         </a>{' '}
         to start a confidential chat online, <strong>or</strong>
       </li>
