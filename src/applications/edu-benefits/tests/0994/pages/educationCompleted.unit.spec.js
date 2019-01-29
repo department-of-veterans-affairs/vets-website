@@ -56,7 +56,7 @@ describe('Education History', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          highestLevelofEducation: 'Other',
+          highestLevelofEducation: 'other',
         }}
         formData={{}}
       />,
