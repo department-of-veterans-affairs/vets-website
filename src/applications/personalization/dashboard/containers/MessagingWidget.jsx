@@ -104,6 +104,7 @@ class MessagingWidget extends React.Component {
           {isBrandConsolidationEnabled() ? (
             <a
               href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+              rel="noopener noreferrer"
               target="_blank"
             >
               View all your secure messages

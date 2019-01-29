@@ -36,7 +36,7 @@ class FacilityDetail extends Component {
         {website &&
           website !== 'NULL' && (
             <span>
-              <a href={website} target="_blank">
+              <a href={website} target="_blank" rel="noopener noreferrer">
                 <i className="fa fa-globe" />
                 Website
               </a>
