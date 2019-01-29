@@ -32,9 +32,19 @@ module.exports = `
   
   fragment page on NodePage {
     entityUrl {
-      path
+      ... on EntityCanonicalUrl {
+        breadcrumb {
+          url {
+            path
+            routed
+          }
+          text
+        }
+        path
+      }
     }
     entityBundle
+    entityPublished
     title
     fieldIntroText
     fieldDescription
@@ -79,7 +89,7 @@ module.exports = `
     fieldPageLastBuilt {
       date
     }
-    changed
     ${RELATED_LINKS}
+    changed    
   }
 `;

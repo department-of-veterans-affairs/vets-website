@@ -55,7 +55,7 @@
     "test:vrt": "jest -c=config/jest-vrt.config.js",
     "test:integration": "jest -c=config/jest-integration.config.js",
     "update:schema": "./script/update-json-schema.sh",
-    "watch": "node script/build.js --watch",
+    "watch": "node --max-old-space-size=4096 script/build.js --watch",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build.js --watch --local-css-sourcemaps",
     "watch:static": "npm run watch -- --entry static-pages"
   },
@@ -122,7 +122,7 @@
     "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-no-unsafe-innerhtml": "^1.0.14",
     "eslint-plugin-prettier": "^2.6.2",
-    "eslint-plugin-react": "^7.2.1",
+    "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-scanjs-rules": "^0.1.4",
     "eslint-plugin-va-enzyme": "./script/custom-eslint/va-enzyme",
     "eslint-stats": "^1.0.0",
@@ -246,7 +246,7 @@
     "us-forms-system": "https://github.com/usds/us-forms-system.git#1896964554d5122b236527f88253f2e1dd9d14b4",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#467ab4c8ec3e3d616b914a9f512bc51f1c6e7f5f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d05c38ce92e3779486d47acfbea62b32a7c736b9",
     "whatwg-fetch": "^2.0.3"
   }
 }

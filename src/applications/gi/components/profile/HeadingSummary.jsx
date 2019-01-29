@@ -42,7 +42,7 @@ class HeadingSummary extends React.Component {
                 Are you enrolled in this school?{' '}
                 <a
                   href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Find out if you qualify to have your benefits restored.
@@ -85,7 +85,7 @@ class HeadingSummary extends React.Component {
                 {it.city}, {it.state || it.country}
               </IconWithInfo>
               <IconWithInfo icon="globe" present={it.website}>
-                <a href={it.website} target="_blank">
+                <a href={it.website} target="_blank" rel="noopener noreferrer">
                   {it.website}
                 </a>
               </IconWithInfo>

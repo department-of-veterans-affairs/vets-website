@@ -46,6 +46,7 @@ const schemaToConfigIds = {
   VIC: 'VIC',
   definitions: 'N/A',
   constants: 'N/A',
+  vaMedicalFacilities: 'N/A',
 };
 
 const excludedForms = new Set([

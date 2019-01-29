@@ -59,6 +59,7 @@ const excludedForms = new Set([
   '22-0994', // TODO: remove this when 0994 is ready
   'definitions',
   'constants',
+  'vaMedicalFacilities',
 ]);
 
 describe('form migrations:', () => {

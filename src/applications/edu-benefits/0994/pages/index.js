@@ -3,6 +3,8 @@ import * as bankInformation from './bankInformation';
 import * as benefitsEligibility from './benefitsEligibility';
 import * as contactInformation from './contactInformation';
 import * as militaryService from './militaryService';
+import * as educationCompleted from './educationCompleted';
+import * as highTechIndustry from './highTechIndustry';
 
 export {
   applicantInformation,
@@ -10,4 +12,6 @@ export {
   benefitsEligibility,
   contactInformation,
   militaryService,
+  educationCompleted,
+  highTechIndustry,
 };

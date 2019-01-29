@@ -29,7 +29,7 @@ export class AdditionalInformation extends React.Component {
       <div>
         <strong>Veterans tuition policy:</strong>
         &nbsp;
-        <a href={it.vetWebsiteLink} target="_blank" rel="noopener">
+        <a href={it.vetWebsiteLink} target="_blank" rel="noopener noreferrer">
           View policy
         </a>
       </div>
@@ -57,7 +57,7 @@ export class AdditionalInformation extends React.Component {
                   it.cross
                 }#accred`}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 See accreditors
               </a>

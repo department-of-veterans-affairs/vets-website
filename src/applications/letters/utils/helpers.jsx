@@ -56,6 +56,7 @@ export const addressModalContent = (
     </p>
     <a
       href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Learn how to update your address for all VA departments
@@ -73,6 +74,7 @@ export const recordsNotFound = (
         <p className="usa-alert-heading">
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.ebenefits.va.gov/ebenefits/download-letters"
           >
             If you’re a dependent, please go to eBenefits to look for your
@@ -132,7 +134,11 @@ const commissaryLetterContent = (
     this letter, a copy of your DD214 or other discharge papers, and your DD2765
     to a local military ID and pass office. You can schedule an appointment to
     get a Retiree Military ID card at the office or use the{' '}
-    <a target="_blank" href="https://rapids-appointments.dmdc.osd.mil/">
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://rapids-appointments.dmdc.osd.mil/"
+    >
       Rapid Appointments Scheduler
     </a>
     . The Retiree Military ID card gives you access to your local base
@@ -146,7 +152,11 @@ export const bslHelpInstructions = (
     <p>
       If your service period or disability status information is incorrect,
       please send us a message through VA’s{' '}
-      <a target="_blank" href="https://iris.custhelp.com/app/ask">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://iris.custhelp.com/app/ask"
+      >
         Inquiry Routing & Information System (IRIS)
       </a>
       . VA will respond within 5 business days.
