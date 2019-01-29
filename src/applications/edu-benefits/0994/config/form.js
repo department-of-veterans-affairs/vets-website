@@ -21,6 +21,8 @@ import {
   benefitsEligibility,
   contactInformation,
   militaryService,
+  educationCompleted,
+  highTechIndustry,
 } from '../pages';
 
 const formConfig = {
@@ -86,6 +88,12 @@ const formConfig = {
       title: 'Education History',
       pages: {
         // page - Highest Level of education completed
+        educationCompleted: {
+          title: 'Education History',
+          path: 'education-history',
+          uiSchema: educationCompleted.uiSchema,
+          schema: educationCompleted.schema,
+        },
       },
     },
     // Chapter - High tech work experience
@@ -93,6 +101,12 @@ const formConfig = {
       title: 'High tech work experience',
       pages: {
         // page - yes/no working in high-tech industry
+        highTechIndustry: {
+          title: 'High tech work experience',
+          path: 'work-experience',
+          uiSchema: highTechIndustry.uiSchema,
+          schema: highTechIndustry.schema,
+        },
       },
     },
     // Chapter - Program Selection
