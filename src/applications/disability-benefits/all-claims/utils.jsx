@@ -587,14 +587,13 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
   </span>
 );
 
-// Bundle of functions to help improve readability
 const isClaimingIncrease = formData => formData['view:claimingIncrease'];
 const isClaimingNew = formData => formData['view:claimingNew'];
+
 export const increaseOnly = formData =>
   isClaimingIncrease(formData) && !isClaimingNew(formData);
 export const newOnly = formData =>
   !isClaimingIncrease(formData) && isClaimingNew(formData);
-
 export const newAndIncrease = formData =>
   isClaimingNew(formData) && isClaimingIncrease(formData);
 export const noClaimTypeSelected = formData =>
