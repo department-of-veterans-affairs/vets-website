@@ -1,6 +1,6 @@
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
-import { uiDescription } from '../content/addDisabilities';
+import { uiDescription, autoSuggestTitle } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import { validateDisabilityName } from '../validations';
 
@@ -19,7 +19,7 @@ export const uiSchema = {
     },
     items: {
       condition: autosuggest.uiSchema(
-        'If you know the name of your condition, you can type it here. You can write whatever you want and we’ll make suggestions for possible disabilities (for example, foot pain, back pain, or hearing loss).',
+        autoSuggestTitle,
         () =>
           Promise.resolve(
             Object.entries(disabilityLabels).map(([key, value]) => ({
