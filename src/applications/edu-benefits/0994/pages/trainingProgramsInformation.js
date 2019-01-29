@@ -62,7 +62,7 @@ export const schema = {
   properties: {
     vetTecProgram: {
       type: 'array',
-      maxLength: 3,
+      maxItems: 3,
       items: {
         type: 'object',
         properties: {
