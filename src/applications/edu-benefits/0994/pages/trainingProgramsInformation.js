@@ -4,11 +4,11 @@ import dateUI from 'us-forms-system/lib/js/definitions/date';
 import { trainingDescription } from '../content/trainingProgramsInformation';
 import VetTecProgramView from '../components/VetTecProgramView';
 
-const { plannedStartDate, vetTecProgramLocations } = fullSchema.properties;
+const { vetTecPrograms } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description': trainingDescription,
-  vetTecProgram: {
+  vetTecPrograms: {
     'ui:options': {
       itemName: 'Program',
       viewField: VetTecProgramView,
@@ -33,15 +33,15 @@ export const uiSchema = {
           },
         },
       },
-      vetTecProgramLocations: {
+      location: {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
           expandUnder: 'courseType',
           hideIf: (formData, index) =>
             !(
-              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
                 'inPerson' ||
-              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
                 'both'
             ),
         },
@@ -60,27 +60,28 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    vetTecProgram: {
-      type: 'array',
-      maxItems: 3,
+    vetTecPrograms: {
+      ...vetTecPrograms,
       items: {
-        type: 'object',
+        ...vetTecPrograms.items,
         properties: {
+          ...vetTecPrograms.items.properties,
           providerName: {
-            type: 'string',
+            ...vetTecPrograms.items.properties.providerName,
           },
           programName: {
-            type: 'string',
+            ...vetTecPrograms.items.properties.programName,
           },
           courseType: {
-            type: 'string',
-            enum: ['inPerson', 'online', 'both'],
+            ...vetTecPrograms.items.properties.courseType,
           },
-          vetTecProgramLocations: {
-            ...vetTecProgramLocations,
+          location: {
+            ...vetTecPrograms.items.properties.location,
             'ui:collapsed': true,
           },
-          plannedStartDate,
+          plannedStartDate: {
+            ...vetTecPrograms.items.properties.plannedStartDate,
+          },
         },
       },
     },
