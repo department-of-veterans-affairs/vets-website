@@ -1,12 +1,15 @@
-const wysiwyg = require('./paragraph-fragments/paragraphWysiwyg.graphql');
-const collapsiblePanel = require('./paragraph-fragments/paragraphCollapsiblePanel.graphql');
-const process = require('./paragraph-fragments/paragraphProcess.graphql');
+const alert = require('./block-fragments/alert.block.graphql');
+const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
 const listOfLinkTeasers = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const process = require('./paragraph-fragments/process.paragraph.graphql');
+const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
+const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
 
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
  * For example, /health-care/apply.
  */
+
 const WYSIWYG_FRAGMENT = '...wysiwyg';
 const LISTOFLINKTEASERS_FRAGMENT = '...listOfLinkTeasers';
 
@@ -19,9 +22,12 @@ const RELATED_LINKS = `
 `;
 
 module.exports = `
+
   ${wysiwyg}
   ${collapsiblePanel}
   ${process}
+  ${qaSection}
+  ${alert}
   ${listOfLinkTeasers}
   
   fragment page on NodePage {
@@ -29,7 +35,6 @@ module.exports = `
       path
     }
     entityBundle
-    entityPublished
     title
     fieldIntroText
     fieldDescription
@@ -41,29 +46,14 @@ module.exports = `
         ${LISTOFLINKTEASERS_FRAGMENT}
         ... collapsiblePanel
         ... process
+        ... qaSection
       }
     }
     fieldAlert {
       entity {
         entityBundle
         ... on BlockContentAlert {
-          fieldAlertType
-          fieldAlertTitle
-          fieldAlertContent {
-            entity {
-              ... on ParagraphExpandableText {
-                fieldWysiwyg {
-                  processed
-                }
-                fieldTextExpander
-              }
-              ... on ParagraphWysiwyg {
-                fieldWysiwyg {
-                  processed
-                }
-              }
-            }
-          }
+          ... alert
         }
       }
     }
