@@ -27,14 +27,12 @@ export const uiSchema = {
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
-      hideIf: formData => {
-        const showIf =
+      hideIf: formData =>
+        !(
           _.get(formData, 'currentEmployment', false) ||
           (!_.get(formData, 'currentEmployment', false) &&
-            _.get(formData, 'currentHighTechnologyEmployment', false));
-
-        return !showIf;
-      },
+            _.get(formData, 'currentHighTechnologyEmployment', false))
+        ),
     },
     currentSalary: {
       'ui:title':

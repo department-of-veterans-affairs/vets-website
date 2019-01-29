@@ -11,7 +11,7 @@ export const uiSchema = {
     'ui:title': 'Other education completed',
     'ui:options': {
       expandUnder: 'highestLevelofEducation',
-      expandUnderCondition: educationChoice => educationChoice === 'Other',
+      expandUnderCondition: educationChoice => educationChoice === 'other',
     },
   },
 };
@@ -22,6 +22,15 @@ export const schema = {
     highestLevelofEducation: {
       type: 'string',
       enum: [
+        'high_school_diploma_or_GED',
+        'some_college',
+        'associates_degree',
+        'bachelors_degree',
+        'masters_degree',
+        'doctoral_degree',
+        'other',
+      ],
+      enumNames: [
         'High school diploma or GED',
         'Some college',
         'Associate’s degree',
