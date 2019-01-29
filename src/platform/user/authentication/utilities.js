@@ -49,7 +49,11 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
 
 export function login(policy) {
   sessionStorage.removeItem('registrationPending');
-  return redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  return redirect(
+    loginUrl(policy),
+    'login-link-clicked-modal',
+    'login-link-opened',
+  );
 }
 
 export function mfa() {
