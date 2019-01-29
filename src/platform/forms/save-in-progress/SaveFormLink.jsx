@@ -1,7 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
-import recordEvent from '../../monitoring/record-event';
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
@@ -23,16 +22,6 @@ const scrollToTop = () => {
 };
 
 class SaveFormLink extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modalOpened: false,
-    };
-
-    this.loginAttemptInProgress = false;
-  }
-
   componentDidMount() {
     if (saveErrors.has(this.props.savedStatus)) {
       scrollToTop();
@@ -40,55 +29,21 @@ class SaveFormLink extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    const loginAttemptCompleted =
-      this.props.showLoginModal === true &&
-      newProps.showLoginModal === false &&
-      this.loginAttemptInProgress;
-
-    if (loginAttemptCompleted && newProps.user.login.currentlyLoggedIn) {
-      this.loginAttemptInProgress = false;
-      this.saveFormAfterLogin();
-    } else if (
-      loginAttemptCompleted &&
-      !newProps.user.login.currentlyLoggedIn
-    ) {
-      this.loginAttemptInProgress = false;
-    }
-  }
-
-  handleSave() {
+  handleSave = () => {
     const { formId, version, data } = this.props.form;
     const returnUrl = this.props.locationPathname;
     this.props.saveAndRedirectToReturnUrl(formId, data, version, returnUrl);
-  }
-
-  saveFormAfterLogin = () => {
-    recordEvent({
-      event: `${this.props.form.trackingPrefix}sip-login-before-save`,
-    });
-    this.handleSave();
-  };
-
-  saveForm = () => {
-    if (this.props.user.login.currentlyLoggedIn) {
-      this.handleSave();
-    } else {
-      this.openLoginModal();
-    }
   };
 
   openLoginModal = () => {
-    this.loginAttemptInProgress = true;
     this.props.toggleLoginModal(true);
   };
 
   render() {
+    if (!this.props.user.login.currentlyLoggedIn) return null;
+
     const { savedStatus } = this.props.form;
 
-    const saveLinkMessage = this.props.user.login.currentlyLoggedIn
-      ? 'Finish this application later'
-      : 'Save and finish this application later';
     return (
       <div style={{ display: this.props.children ? 'inline' : null }}>
         <Element name="saveFormLinkTop" />
@@ -120,9 +75,9 @@ class SaveFormLink extends React.Component {
             <button
               type="button"
               className="va-button-link schemaform-sip-save-link"
-              onClick={this.saveForm}
+              onClick={this.handleSave}
             >
-              {this.props.children || saveLinkMessage}
+              {this.props.children || 'Finish this application later'}
             </button>
             {!this.props.children && '.'}
           </span>
@@ -142,7 +97,6 @@ SaveFormLink.propTypes = {
     savedStatus: PropTypes.string.isRequired,
   }).isRequired,
   user: PropTypes.object.isRequired,
-  showLoginModal: PropTypes.bool.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
 };
 

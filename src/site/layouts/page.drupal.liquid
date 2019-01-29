@@ -19,7 +19,9 @@
           {{ fieldIntroText }}
         </div>
         {% for block in fieldContentBlock %}
-          {{ block.entity.entityRendered }}
+          {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+          {% include {{ bundleComponentWithExtension }} with block = block %}
         {% endfor %}
       </article>
 
