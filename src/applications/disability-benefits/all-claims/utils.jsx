@@ -587,8 +587,10 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
   </span>
 );
 
-const isClaimingIncrease = formData => formData['view:claimingIncrease'];
-const isClaimingNew = formData => formData['view:claimingNew'];
+const isClaimingIncrease = formData =>
+  _.get('view:claimType.view:claimingIncrease', formData, false);
+const isClaimingNew = formData =>
+  _.get('view:claimType.view:claimingNew', formData, false);
 
 export const increaseOnly = formData =>
   isClaimingIncrease(formData) && !isClaimingNew(formData);

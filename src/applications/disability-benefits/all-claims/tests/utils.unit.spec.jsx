@@ -736,20 +736,28 @@ describe('all claims utils - isWithinRange', () => {
 
 describe('526 v2 depends functions', () => {
   const increaseOnlyData = {
-    'view:claimingIncrease': true,
-    'view:claimingNew': false,
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
   };
   const newOnlyData = {
-    'view:claimingIncrease': false,
-    'view:claimingNew': true,
+    'view:claimType': {
+      'view:claimingIncrease': false,
+      'view:claimingNew': true,
+    },
   };
   const increaseAndNewData = {
-    'view:claimingIncrease': true,
-    'view:claimingNew': true,
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': true,
+    },
   };
   const noneSelected = {
-    'view:claimingIncrease': false,
-    'view:claimingNew': false,
+    'view:claimType': {
+      'view:claimingIncrease': false,
+      'view:claimingNew': false,
+    },
   };
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
