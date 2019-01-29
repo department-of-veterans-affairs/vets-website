@@ -104,6 +104,8 @@ import createformConfig8940 from './8940';
 
 import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
+import migrations from '../migrations';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
@@ -114,10 +116,9 @@ const formConfig = {
   }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
-  // formId: '21-526EZ-all-claims',
-  formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
-  version: 1,
-  migrations: [],
+  formId: '21-526EZ',
+  version: migrations.length,
+  migrations,
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
