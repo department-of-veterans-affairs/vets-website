@@ -1,5 +1,8 @@
-const wysiwygParagraph = require('./paragraphs/wysiwyg.paragraph.graphql');
-const listOfLinkTeasers = require('./paragraphs/listOfLinkTeasers.paragraph.graphql');
+const wysiwyg = require('./paragraph-fragments/paragraphWysiwyg.graphql');
+const collapsiblePanel = require('./paragraph-fragments/paragraphCollapsiblePanel.graphql');
+const process = require('./paragraph-fragments/paragraphProcess.graphql');
+const listOfLinkTeasers = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
  * For example, /health-care/apply.
@@ -16,9 +19,11 @@ const RELATED_LINKS = `
 `;
 
 module.exports = `
-  ${wysiwygParagraph}
+  ${wysiwyg}
+  ${collapsiblePanel}
+  ${process}
   ${listOfLinkTeasers}
-
+  
   fragment page on NodePage {
     entityUrl {
       path
@@ -27,13 +32,62 @@ module.exports = `
     entityPublished
     title
     fieldIntroText
+    fieldDescription
     fieldContentBlock {
       entity {
         entityType
         entityBundle
         ${WYSIWYG_FRAGMENT}
         ${LISTOFLINKTEASERS_FRAGMENT}
+        ... collapsiblePanel
+        ... process
       }
+    }
+    fieldAlert {
+      entity {
+        entityBundle
+        ... on BlockContentAlert {
+          fieldAlertType
+          fieldAlertTitle
+          fieldAlertContent {
+            entity {
+              ... on ParagraphExpandableText {
+                fieldWysiwyg {
+                  processed
+                }
+                fieldTextExpander
+              }
+              ... on ParagraphWysiwyg {
+                fieldWysiwyg {
+                  processed
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    fieldRelatedLinks {
+      entity {
+        entityBundle
+        ... on ParagraphListOfLinkTeasers {
+         fieldTitle
+          fieldVaParagraphs {
+            entity {
+              ... on ParagraphLinkTeaser {
+                fieldLink {
+                  uri
+                  title
+                }
+                fieldLinkSummary
+              }
+            }
+          }
+        }
+      }
+    }
+    fieldPageLastBuilt {
+      date
     }
     changed
     ${RELATED_LINKS}
