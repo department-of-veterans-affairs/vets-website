@@ -66,7 +66,7 @@ import {
   newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
-  pathChoice,
+  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -148,11 +148,11 @@ const formConfig = {
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
-        pathChoice: {
-          title: 'Path Choice', // TODO: Change this
+        claimType: {
+          title: 'Claim type',
           path: 'claim-type',
-          uiSchema: pathChoice.uiSchema,
-          schema: pathChoice.schema,
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
         },
         alternateNames: {
           title: 'Service under another name',
