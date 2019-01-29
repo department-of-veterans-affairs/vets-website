@@ -19,7 +19,7 @@ export function prefillTransformer(pages, formData, metadata) {
 
   return {
     metadata,
-    newFormData,
+    formData: newFormData,
     pages,
   };
 }

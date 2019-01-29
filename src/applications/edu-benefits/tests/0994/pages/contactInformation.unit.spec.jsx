@@ -33,7 +33,7 @@ describe('Contact Information', () => {
     uiSchema,
   } = formConfig.chapters.personalInformation.pages.contactInformation;
 
-  it('renders the contact information', () => {
+  it('renders the contact information with prefill data', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -71,13 +71,21 @@ describe('Contact Information', () => {
       />,
     );
 
-    fillData(form, 'input#root_view:phoneAndEmail_dayTimePhone', dayTimePhone);
     fillData(
       form,
-      'input#root_view:phoneAndEmail_nightTimePhone',
+      'input[name*="root_view:phoneAndEmail_dayTimePhone"]',
+      dayTimePhone,
+    );
+    fillData(
+      form,
+      'input[name*="root_view:phoneAndEmail_nightTimePhone"]',
       nightTimePhone,
     );
-    fillData(form, 'input#root_view:phoneAndEmail_emailAddress', emailAddress);
+    fillData(
+      form,
+      'input[name*="root_view:phoneAndEmail_emailAddress"]',
+      emailAddress,
+    );
 
     fillData(form, 'select#root_mailingAddress_country', country);
     fillData(form, 'input#root_mailingAddress_street', street);

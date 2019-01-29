@@ -1,20 +1,24 @@
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function transform(formConfig, form) {
-  let formData = transformForSubmit(formConfig, form);
+  let formData = JSON.parse(transformForSubmit(formConfig, form));
 
-  const phoneAndEmail = form.data['view:phoneAndEmail'];
+  if (form.data['view:phoneAndEmail']) {
+    const { dayTimePhone, nightTimePhone, emailAddress } = form.data[
+      'view:phoneAndEmail'
+    ];
 
-  formData = {
-    ...formData,
-    dayTimePhone: phoneAndEmail.dayTimePhone,
-    nightTimePhone: phoneAndEmail.nightTimePhone,
-    emailAddress: phoneAndEmail.emailAddress,
-  };
+    formData = {
+      ...formData,
+      dayTimePhone,
+      nightTimePhone,
+      emailAddress,
+    };
+  }
 
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: formData,
+      form: JSON.stringify(formData),
     },
   });
 }
