@@ -1,28 +1,10 @@
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
+import { trainingDescription } from '../content/trainingProgramsInformation';
+import VetTecProgramView from '../components/VetTecProgramView';
 
 const { plannedStartDate, vetTecProgramLocations } = fullSchema.properties;
-
-const trainingDescription = (
-  <div>
-    <p>
-      Now we’ll gather information about the training program(s) you’re
-      interested in attending.
-    </p>
-    <p>You can list up to 3 programs.</p>
-  </div>
-);
-
-export default function VetTecProgramView({ formData }) {
-  return (
-    <div>
-      <h4>{formData.programName}</h4>
-      <p>Start: {formData.plannedStartDate}</p>
-    </div>
-  );
-}
 
 export const uiSchema = {
   'ui:description': trainingDescription,
