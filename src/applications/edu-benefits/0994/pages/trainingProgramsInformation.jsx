@@ -1,6 +1,6 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-// import _ from 'lodash';
+import _ from 'lodash';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 
 const { plannedStartDate, vetTecProgramLocations } = fullSchema.properties;
@@ -55,18 +55,22 @@ export const uiSchema = {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
           expandUnder: 'courseType',
-          expandUnderCondition: 'inPerson',
-          // hideIf: (formData, index) => {
-          //   console.log(_.get(formData, `vetTecProgram[${index}].courseType`, ''));
-          //   const showIf =
-          //     _.get(formData, `vetTecProgram[${index}].courseType`, '') ||
-          //     _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
-          //       'inPerson' ||
-          //     _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
-          //       'both';
-          //   console.log(showIf);
-          //   return !showIf;
-          // },
+          // expandUnderCondition: 'inPerson',
+          hideIf: (formData, index) => {
+            // console.log(_.get(formData, `vetTecProgram[${index}].courseType`, ''));
+            const showIf = _.get(
+              formData,
+              `vetTecProgram[${index}].courseType`,
+              '',
+            );
+            // ||
+            // _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+            //   'inPerson' ||
+            // _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+            //   'both';
+            // console.log(showIf);
+            return !showIf;
+          },
         },
         city: {
           'ui:title': 'City',
