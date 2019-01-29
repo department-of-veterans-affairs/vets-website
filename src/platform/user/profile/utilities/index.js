@@ -15,6 +15,14 @@ const commonServices = {
   Vet360: 'Vet360',
 };
 
+function getErrorStatusDesc(code) {
+  if (code === 404) {
+    return 'NOT_FOUND';
+  }
+
+  return 'SERVER_ERROR';
+}
+
 export function mapRawUserDataToState(json) {
   const {
     data: {
@@ -68,7 +76,7 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.EMIS,
     ).status;
-    userState.veteranStatus = errorStatus;
+    userState.veteranStatus = getErrorStatusDesc(errorStatus);
   } else {
     userState.isVeteran = veteranStatus.isVeteran;
     userState.veteranStatus = {
@@ -82,7 +90,7 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.MVI,
     ).status;
-    userState.status = errorStatus;
+    userState.status = getErrorStatusDesc(errorStatus);
   } else {
     userState.status = vaProfile.status;
   }
@@ -93,7 +101,7 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.Vet360,
     ).status;
-    userState.vet360 = { status: errorStatus };
+    userState.vet360 = { status: getErrorStatusDesc(errorStatus) };
   }
 
   return userState;
