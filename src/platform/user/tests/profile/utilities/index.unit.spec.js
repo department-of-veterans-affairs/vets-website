@@ -126,7 +126,7 @@ describe('Profile utilities', () => {
           errors: [
             {
               externalService: 'MVI',
-              status: 'SERVER_ERROR',
+              status: 500,
             },
           ],
         },
@@ -144,7 +144,7 @@ describe('Profile utilities', () => {
           errors: [
             {
               externalService: 'EMIS',
-              status: 'NOT_FOUND',
+              status: 404,
             },
           ],
         },
@@ -162,13 +162,13 @@ describe('Profile utilities', () => {
           errors: [
             {
               externalService: 'Vet360',
-              status: 'NOT_AUTHORIZED',
+              status: 'SERVER_ERROR',
             },
           ],
         },
       });
 
-      expect(mappedData.vet360.status).to.equal('NOT_AUTHORIZED');
+      expect(mappedData.vet360.status).to.equal('SERVER_ERROR');
     });
   });
 });

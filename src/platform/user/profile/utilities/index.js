@@ -20,6 +20,10 @@ function getErrorStatusDesc(code) {
     return 'NOT_FOUND';
   }
 
+  if (code === 401) {
+    return 'NOT_AUTHORIZED';
+  }
+
   return 'SERVER_ERROR';
 }
 
