@@ -12,7 +12,7 @@ import formConfig from '../../../0994/config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../../0994/constants';
 
 const initialData = {
-  phoneAndEmail: {
+  'view:phoneAndEmail': {
     dayTimePhone: '1234567890',
     nightTimePhone: '1234567890',
     emailAddress: 'test@test.com',
@@ -49,11 +49,9 @@ describe('Contact Information', () => {
   });
 
   it('successfully submits ', () => {
-    const {
-      dayTimePhone,
-      nightTimePhone,
-      emailAddress,
-    } = initialData.phoneAndEmail;
+    const { dayTimePhone, nightTimePhone, emailAddress } = initialData[
+      'view:phoneAndEmail'
+    ];
     const {
       street,
       street2,
@@ -73,9 +71,13 @@ describe('Contact Information', () => {
       />,
     );
 
-    fillData(form, 'input#root_phoneAndEmail_dayTimePhone', dayTimePhone);
-    fillData(form, 'input#root_phoneAndEmail_nightTimePhone', nightTimePhone);
-    fillData(form, 'input#root_phoneAndEmail_emailAddress', emailAddress);
+    fillData(form, 'input#root_view:phoneAndEmail_dayTimePhone', dayTimePhone);
+    fillData(
+      form,
+      'input#root_view:phoneAndEmail_nightTimePhone',
+      nightTimePhone,
+    );
+    fillData(form, 'input#root_view:phoneAndEmail_emailAddress', emailAddress);
 
     fillData(form, 'select#root_mailingAddress_country', country);
     fillData(form, 'input#root_mailingAddress_street', street);
