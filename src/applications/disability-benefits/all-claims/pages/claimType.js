@@ -1,6 +1,5 @@
 export const uiSchema = {
-  'ui:description':
-    'Please tell us what type of disability claim you’re filing. (Select all that apply.)',
+  'ui:description': 'I’m filing a claim:',
   'view:claimingNew': {
     'ui:title': 'For a new condition',
   },
