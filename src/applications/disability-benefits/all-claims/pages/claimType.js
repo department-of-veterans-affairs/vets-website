@@ -1,11 +1,11 @@
 export const uiSchema = {
   'ui:description':
-    'Please tell us what you’re claiming. (Select all that apply.)',
+    'Please tell us what type of disability claim you’re filing. (Select all that apply.)',
   'view:claimingNew': {
-    'ui:title': 'I have a new condition to add to my rated disability claim',
+    'ui:title': 'For a new condition',
   },
   'view:claimingIncrease': {
-    'ui:title': 'One or more of my rated disabilities has gotten worse',
+    'ui:title': 'Because one or more of my rated conditions has gotten worse',
   },
 };
 
