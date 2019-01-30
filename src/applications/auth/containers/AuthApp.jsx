@@ -5,7 +5,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import siteName from '../../../platform/brand-consolidation/site-name';
 import { authnSettings } from '../../../platform/user/authentication/utilities';
-import { setupProfileSession } from '../../../platform/user/profile/utilities';
+import {
+  hasSession,
+  setupProfileSession,
+} from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 
 import facilityLocator from '../../facility-locator/manifest';
@@ -17,7 +20,7 @@ export class AuthApp extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.error) this.validateSession();
+    if (!this.state.error || hasSession()) this.validateSession();
   }
 
   handleAuthError = () => {
@@ -26,12 +29,15 @@ export class AuthApp extends React.Component {
 
   handleAuthSuccess = payload => {
     setupProfileSession(payload);
+    this.redirect();
+  };
 
-    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL);
+  redirect = () => {
+    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
-    const redirectUrl = (returnUrl !== window.location && returnUrl) || '/';
-    window.location = redirectUrl;
+    window.location =
+      (!returnUrl.match(window.location.pathname) && returnUrl) || '/';
   };
 
   // Fetch the user to get the login policy and validate the session.
