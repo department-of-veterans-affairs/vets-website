@@ -17,9 +17,9 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         answerQuestions:
-          'I want to continue online with questions about my PTSD.',
+          'I want to continue online and answer questions about my PTSD.',
         upload:
-          'I’ve already filled out a paper form (21-0781) and want to upload it.',
+          ' I’ve already filled out VA Form 21-0781 and want to upload it.',
       },
     },
   },
