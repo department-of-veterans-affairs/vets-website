@@ -23,6 +23,8 @@ import {
   militaryService,
   educationCompleted,
   highTechIndustry,
+  trainingProgramsChoice,
+  trainingProgramsInformation,
 } from '../pages';
 
 const formConfig = {
@@ -114,7 +116,20 @@ const formConfig = {
       title: 'Program selection',
       pages: {
         // page - picked like to attend training programs
+        trainingProgramsChoice: {
+          title: 'Program Selection',
+          path: 'training-programs-choice',
+          uiSchema: trainingProgramsChoice.uiSchema,
+          schema: trainingProgramsChoice.schema,
+        },
         // page - interested in training programs
+        trainingProgramsInformation: {
+          title: 'Program Selection',
+          path: 'training-programs-information',
+          depends: form => form['view:trainingProgramsChoice'] === true,
+          uiSchema: trainingProgramsInformation.uiSchema,
+          schema: trainingProgramsInformation.schema,
+        },
       },
     },
     // Chapter - Personal Information
