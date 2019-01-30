@@ -38,7 +38,7 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
 
   return apiRequest(
     redirectUrl,
-    null,
+    { headers: { Accept: 'application/json' } },
     ({ url }) => {
       if (url) {
         recordEvent({ event: openedEvent });
