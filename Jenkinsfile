@@ -17,7 +17,7 @@ VAGOV_BUILDTYPES = [
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
   'staging': 'vagovstaging',
-  'prod': 'vagovprod',
+  'live': 'vagovprod',
 ]
 
 DEV_BRANCH = 'master'
