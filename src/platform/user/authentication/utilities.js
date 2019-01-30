@@ -32,7 +32,7 @@ const loginUrl = policy => {
 
 function redirect(redirectUrl, clickedEvent, openedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location.pathname);
 
   recordEvent({ event: clickedEvent });
 
