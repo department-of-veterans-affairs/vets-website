@@ -88,6 +88,7 @@ node('vetsgov-general-purpose') {
     try {
       if (binding.hasVariable('cmsEnv')) { // the first time a branch is run, this variable doesn't exist
         buildTypeOverride = DRUPAL_MAPPING.get(cmsENV, null)
+        echo buildTypeOverride
         if(buildTypeOverride) {
           VAGOV_BUILDTYPES = [buildTypeOverride] 
         }
