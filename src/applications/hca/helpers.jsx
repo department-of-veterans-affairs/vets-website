@@ -65,7 +65,11 @@ export const facilityHelp = (
   <div>
     <div>
       OR{' '}
-      <a href={facilityLocator.rootUrl} target="_blank">
+      <a
+        href={facilityLocator.rootUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Find locations with the VA Facility Locator
       </a>
     </div>
