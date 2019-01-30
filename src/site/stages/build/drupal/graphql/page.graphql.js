@@ -1,6 +1,9 @@
-const alert = require('./block-fragments/alert.block.graphql');
+const { alert, FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
-const listOfLinkTeasers = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const {
+  listOfLinkTeasers,
+  FIELD_RELATED_LINKS,
+} = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 const process = require('./paragraph-fragments/process.paragraph.graphql');
 const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
 const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
@@ -10,16 +13,10 @@ const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
  * For example, /health-care/apply.
  */
 
-const WYSIWYG_FRAGMENT = '...wysiwyg';
-const LISTOFLINKTEASERS_FRAGMENT = '...listOfLinkTeasers';
-
-const RELATED_LINKS = `
-  fieldRelatedLinks {
-      entity {
-      	${LISTOFLINKTEASERS_FRAGMENT}
-      }
-    }
-`;
+const WYSIWYG = '...wysiwyg';
+const COLLAPSIBLE_PANEL = '... collapsiblePanel';
+const PROCESS = '... process';
+const QA_SECTION = '... qaSection';
 
 module.exports = `
 
@@ -52,44 +49,17 @@ module.exports = `
       entity {
         entityType
         entityBundle
-        ${WYSIWYG_FRAGMENT}
-        ${LISTOFLINKTEASERS_FRAGMENT}
-        ... collapsiblePanel
-        ... process
-        ... qaSection
+        ${WYSIWYG}
+        ${COLLAPSIBLE_PANEL}
+        ${PROCESS}
+        ${QA_SECTION}        
       }
     }
-    fieldAlert {
-      entity {
-        entityBundle
-        ... on BlockContentAlert {
-          ... alert
-        }
-      }
-    }
-    fieldRelatedLinks {
-      entity {
-        entityBundle
-        ... on ParagraphListOfLinkTeasers {
-         fieldTitle
-          fieldVaParagraphs {
-            entity {
-              ... on ParagraphLinkTeaser {
-                fieldLink {
-                  uri
-                  title
-                }
-                fieldLinkSummary
-              }
-            }
-          }
-        }
-      }
-    }
+    ${FIELD_ALERT} 
+    ${FIELD_RELATED_LINKS}
     fieldPageLastBuilt {
       date
-    }
-    ${RELATED_LINKS}
+    }    
     changed    
   }
 `;

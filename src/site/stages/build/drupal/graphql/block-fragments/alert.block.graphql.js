@@ -2,7 +2,18 @@
  * An alert block in Drupal
  *
  */
-module.exports = `
+const FIELD_ALERT = `
+fieldAlert {
+  entity {
+    entityBundle
+  ... on BlockContentAlert {
+    ... alert
+    }
+  }
+}
+`;
+
+const alert = `
   fragment alert on BlockContentAlert {
   fieldAlertType
   fieldHelpText
@@ -25,3 +36,5 @@ module.exports = `
   }
 }
 `;
+
+module.exports = { alert, FIELD_ALERT };

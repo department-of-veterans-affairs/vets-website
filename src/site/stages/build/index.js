@@ -34,9 +34,6 @@ function defaultBuild(BUILD_OPTIONS) {
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
-  liquid.filters.humanizeTimestamp = dt =>
-    moment.unix(dt).format('MMMM D, YYYY');
-
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
