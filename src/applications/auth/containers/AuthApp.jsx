@@ -26,9 +26,12 @@ export class AuthApp extends React.Component {
 
   handleAuthSuccess = payload => {
     setupProfileSession(payload);
+
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL);
     sessionStorage.removeItem(authnSettings.RETURN_URL);
-    window.location = returnUrl || '/';
+
+    const redirectUrl = (returnUrl !== window.location && returnUrl) || '/';
+    window.location = redirectUrl;
   };
 
   // Fetch the user to get the login policy and validate the session.
