@@ -1,6 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { hasSeparationPay, isValidYear } from '../validations';
-import { separationPayDetailsDescription } from '../content/separationTrainingPay';
+import {
+  separationPayDetailsDescription,
+  hasSeparationPayTitle,
+} from '../content/separationTrainingPay';
 
 const {
   separationPayDate: separationPayDateSchema,
@@ -9,7 +12,7 @@ const {
 
 export const uiSchema = {
   'view:hasSeparationPay': {
-    'ui:title': 'Did you receive separation pay or severance pay?',
+    'ui:title': hasSeparationPayTitle,
     'ui:widget': 'yesNo',
   },
   'view:separationPayDetails': {
