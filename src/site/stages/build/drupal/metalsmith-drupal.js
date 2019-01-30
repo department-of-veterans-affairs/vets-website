@@ -16,6 +16,7 @@ const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.LOCALHOST,
   ENVIRONMENTS.VAGOVDEV,
+  ENVIRONMENTS.VAGOVSTAGING,
 ]);
 
 const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
@@ -67,6 +68,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       layout: `${entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
       debug: JSON.stringify(page, null, 4),
+      // Keep these pages out of the sitemap until we remove
+      // the drupal prefix
+      private: true,
     };
   }
 
