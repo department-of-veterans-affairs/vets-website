@@ -45,7 +45,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
-      taxonomyTermQuery: { entities: taxonomies }
+      taxonomyTermQuery: { entities: taxonomies },
     },
   } = contentData;
 
@@ -76,11 +76,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       log('Skipping null entity...');
       continue;
     }
-
-    const {
-      entityBundle
-    } = tax;
-
   }
 
   writeDrupalIndexPage(files);
