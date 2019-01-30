@@ -451,6 +451,7 @@ function initSaveInProgressMock(url, client) {
           },
         },
       },
+      meta: { errors: null },
     },
   });
 

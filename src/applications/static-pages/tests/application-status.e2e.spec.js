@@ -92,6 +92,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
             },
           },
         },
+        meta: { errors: null },
       },
     },
     token,
