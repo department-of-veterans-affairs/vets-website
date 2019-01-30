@@ -9,9 +9,7 @@
       </div>
     {% endif %}
 
-      {% if fieldSidebarNavItem !== blank %}
-          {% include 'src/site/components/navigation-sidebar-current-item.drupal.liquid' with fieldSidebarNavItem.entity  %}
-      {%  endif %}
+      {% include 'src/site/layouts/sidebar_navigation.drupal.liquid' %}
 
       <div class="usa-width-three-fourths">
           <article class="usa-content">

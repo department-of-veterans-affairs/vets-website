@@ -152,7 +152,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
-  smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  //smith.use(checkBrokenLinks(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
   smith.build(err => {

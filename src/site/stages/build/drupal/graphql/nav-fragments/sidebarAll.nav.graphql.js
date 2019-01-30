@@ -18,7 +18,7 @@ module.exports = `
       reverseParentTaxonomyTerm {
         ... on EntityQueryResult {
           entities {
-            ... on TaxonomyTermSidebarNavigation {
+             ... on TaxonomyTermSidebarNavigation {
               name
               fieldIcon
               fieldNavItemLink {

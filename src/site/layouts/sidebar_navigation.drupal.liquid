@@ -3,7 +3,7 @@
     {
         "tid": 6,
         "name": "Health Care",
-        "fieldIcon": "healthcare",
+        "fieldIcon": "health-care",
         "fieldNavItemLink": null,
         "reverseParentTaxonomyTerm": {
             "entities":
@@ -75,7 +75,27 @@
 {% endcomment %}
 
 <nav class="usa-width-one-fourth va-sidebarnav">
-    <ul class="usa-sidenav-list">
+    {% if buildtype != 'vagovprod' %}
+        <script>
+            console.info('Sidenav template generated from content:', {{ debug }});
+        </script>
+    {% endif %}
 
-    </ul>
+    <div>
+        {% for  %}
+        <div class="left-side-nav-title">
+            <i class="icon-small white hub-icon-{{ sidebar_navigation.fieldIcon }} hub-background-{{ sidebar_navigation.fieldIcon }}"></i>
+            <h4>{{ sidebar_navigation.name }}</h4>
+        </div>
+        <ul class="usa-accordion">
+            {%  for entities in reverseParentTaxonomyTerm %}
+                <li>
+                    <button class="usa-accordion-button" aria-expanded="true" aria-controls="a1"></button>
+                    <div class="usa-accordion-content" aria-hidden="false">
+
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </nav>

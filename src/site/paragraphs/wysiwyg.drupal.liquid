@@ -1,14 +1,14 @@
 {% comment %}
   Example data:
   {
-    block: {
-      entity: {
-        entityBundle: "wysiwyg"
-        entityRendered: "  <div class="paragraph paragraph--type--wysiwyg paragraph--view-mode--full">...</div>"
-        entityType: "paragraph"
+    entity {
+    entityBundle: "wysiwyg"
+      fieldWysiwyg: {
+        processed:
+          "<h3>What if I’m just separating from active duty and don’t know where to start?</h3>"
       }
     }
   }
 {% endcomment %}
 
-{{ block.entity.entityRendered }}
+{{ fieldWysiwyg.processed }}
