@@ -30,32 +30,32 @@ export const getPtsdClassification = (formData, formType) => {
     case isCombat && isNonCombat && is781:
       incidentTitle = 'Combat & Non-combat';
 
-      incidentText = 'Combat and Non-combat';
+      incidentText = 'combat and non-combat';
       break;
 
     case isAssault && isMst && !is781:
       incidentTitle = 'Personal assault & Sexual trauma';
-      incidentText = 'Personal assault and Sexual trauma';
+      incidentText = 'personal assault and sexual trauma';
       break;
 
     case isCombat && is781:
       incidentTitle = 'Combat';
-      incidentText = 'Combat';
+      incidentText = 'combat';
       break;
 
     case isNonCombat && is781:
       incidentTitle = 'Non-combat';
-      incidentText = 'Non-combat';
+      incidentText = 'non-combat';
       break;
 
     case isAssault && !is781:
       incidentTitle = 'Personal assault';
-      incidentText = 'Personal assault';
+      incidentText = 'personal assault';
       break;
 
     case isMst && !is781:
       incidentTitle = 'Sexual trauma';
-      incidentText = 'Sexual trauma';
+      incidentText = 'sexual trauma';
       break;
 
     default:
