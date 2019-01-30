@@ -133,9 +133,9 @@ class IntroductionPage extends React.Component {
               </div>
               <p>
                 We process applications in the order we receive them. The amount
-                of time it takes to process your claim depends how many injuries
-                or disabilities you claim and how long it takes us to gather
-                evidence needed to decide your claim.
+                of time it takes to process your claim depends on how many
+                injuries or disabilities you claim and how long it takes us to
+                gather evidence needed to decide your claim.
               </p>
             </li>
             <li className="process-step list-four">
