@@ -4,7 +4,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 
@@ -118,13 +117,15 @@ export class AuthApp extends React.Component {
             <div>
               <p>We’re sorry. Something went wrong on our end.</p>
               <p>
-                Please{' '}
-                <SubmitSignInForm>
-                  call the {siteName} Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>. We’re open
-                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </SubmitSignInForm>
+                Please read our answers to frequently asked questions about
+                common issues with signing in to VA.gov. These answers offer
+                steps you can take to try to fix the issue and a form to submit
+                a request for more help if needed.
+              </p>
+              <p>
+                <a href="/sign-in-faq/#sign-in-issue">
+                  Go to the sign in FAQs.
+                </a>
               </p>
             </div>
           ),
