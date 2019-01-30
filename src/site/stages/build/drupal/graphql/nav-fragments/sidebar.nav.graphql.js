@@ -3,7 +3,7 @@
  *
  */
 module.exports = `
-  fragment sideNavItem on NodePage {
+  fragment sideNav on NodePage {
   fieldSidebarNavItem {
     entity {
       entityBundle

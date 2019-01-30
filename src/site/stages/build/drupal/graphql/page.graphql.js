@@ -24,10 +24,11 @@ module.exports = `
       path
     }
     entityBundle
+    entityPublished
     title
     fieldIntroText
     fieldDescription
-    fieldContentBlock {
+    fieldContentBlock {                                                                                                                                                                                                                                        
       entity {
         ... wysiwyg
         ... collapsiblePanel

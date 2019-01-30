@@ -1,6 +1,6 @@
 {% include "src/site/includes/header.html" %}
-<main id="content">
-  <div class="row">
+<main id="content" class="va-l-detail-page">
+  <div class="usa-grid usa-grid-full">
     {% if !entityPublished %}
       <div class="usa-alert usa-alert-info" >
         <div class="usa-alert-body">
@@ -9,21 +9,28 @@
       </div>
     {% endif %}
 
-    <article class="usa-content">
-      <h1>{{ title }}</h1>
-      <div class="usa-font-lead">
-        {{ fieldIntroText }}
-      </div>
-      {% for block in fieldContentBlock %}
-        {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
-        {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-        {% include {{ bundleComponentWithExtension }} with block = block %}
-      {% endfor %}
-    </article>
+      {% include 'src/site/components/navigation-sidebar.drupal.liquid'  %}
 
-    <div class="last-updated usa-content">
-        Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
-    </div>
+      <div class="usa-width-three-fourths">
+          <article class="usa-content">
+              <h1>{{ title }}</h1>
+              <div class="usa-font-lead">
+                  {{ fieldIntroText }}
+              </div>
+              <script>console.log(block);</script>
+              {% for block in fieldContentBlock %}
+                  {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+                  {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                  {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+
+              {% endfor %}
+          </article>
+
+          <div class="last-updated usa-content">
+              Last updated: <time datetime="{{ fieldLastUpdate.value }}">{{ fieldLastUpdate.value }}</time>
+          </div>
+      </div>
+
   </div>
 
 </main>
