@@ -3,8 +3,7 @@
  *
  */
 module.exports = `
-  fragment qaSection on ParagraphQASection {
-      entityBundle
+  fragment qaSection on ParagraphQASection {      
       fieldSectionHeader
       fieldQuestions {
         entity {

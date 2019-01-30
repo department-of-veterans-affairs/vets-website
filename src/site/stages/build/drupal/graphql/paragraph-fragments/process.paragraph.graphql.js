@@ -3,8 +3,7 @@
  *
  */
 module.exports = `
-  fragment process on ParagraphProcess {
-      entityBundle
+  fragment process on ParagraphProcess {      
       fieldSteps {
         processed
       }
