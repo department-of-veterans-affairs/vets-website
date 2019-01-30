@@ -4,23 +4,23 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 const eventHelpText = (
   <AdditionalInfo triggerText="What if I can’t remember the date?">
     <p>
-      If you’re having trouble remembering the exact date try remembering the
-      time of year or whether the event happened early or late in your military
-      service.
+      Providing an estimated date within a couple of months of the event will
+      help us research your claim.
     </p>
     <p>
-      Providing a date within 60 days of the event will help us better research
-      your claim.
+      If you’re having trouble remembering the exact date, try remembering the
+      time of year or whether the event happened early or late in your military
+      service.
     </p>
   </AdditionalInfo>
 );
 
 export const ptsdDateDescription = (
   <div>
-    <h5>Approximate event date</h5>
+    <h5>Estimated event date</h5>
     <p>
-      Please tell us when this event happened. If the event happened over a
-      period of time, please tell us around when it started.
+      Please tell us when this event or situation happened. If it happened over
+      a period of time, please tell us when it started.
     </p>
     {eventHelpText}
   </div>
