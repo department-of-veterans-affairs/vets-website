@@ -4,6 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
+import { authnSettings } from '../../../platform/user/authentication/utilities';
 import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 
@@ -25,8 +26,8 @@ export class AuthApp extends React.Component {
 
   handleAuthSuccess = payload => {
     setupProfileSession(payload);
-    const returnUrl = sessionStorage.getItem('authReturnUrl');
-    sessionStorage.removeItem('authReturnUrl');
+    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL);
+    sessionStorage.removeItem(authnSettings.RETURN_URL);
     window.location = returnUrl || '/';
   };
 

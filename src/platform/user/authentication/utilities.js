@@ -4,6 +4,11 @@ import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
+export const authnSettings = {
+  RETURN_URL: 'authReturnUrl',
+  REGISTRATION_PENDING: 'registrationPending',
+};
+
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
 
@@ -27,7 +32,7 @@ const loginUrl = policy => {
 
 function redirect(redirectUrl, clickedEvent, openedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem('authReturnUrl', window.location);
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
 
   recordEvent({ event: clickedEvent });
 
@@ -48,7 +53,7 @@ function redirect(redirectUrl, clickedEvent, openedEvent) {
 }
 
 export function login(policy) {
-  sessionStorage.removeItem('registrationPending');
+  sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
   return redirect(
     loginUrl(policy),
     'login-link-clicked-modal',
@@ -73,7 +78,7 @@ export function logout() {
 }
 
 export function signup() {
-  sessionStorage.setItem('registrationPending', true);
+  sessionStorage.setItem(authnSettings.REGISTRATION_PENDING, true);
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
