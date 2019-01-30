@@ -12,22 +12,22 @@
       {% include 'src/site/layouts/sidebar_navigation.drupal.liquid' %}
 
     <div class="usa-width-three-fourths">
-      <article class="usa-content">
-        <h1>{{ title }}</h1>
-        <div class="va-introtext">
-          <p>{{ fieldIntroText }}</p>
-        </div>
-          {% for block in fieldContentBlock %}
-              {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
-              {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-              {% include {{ bundleComponentWithExtension }} with block.entity %}
-          {% endfor %}
-      </article>
+          <article class="usa-content">
+            <h1>{{ title }}</h1>
+            <div class="va-introtext">
+              <p>{{ fieldIntroText }}</p>
+            </div>
+              {% for block in fieldContentBlock %}
+                  {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+                  {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                  {% include {{ bundleComponentWithExtension }} with block.entity %}
+              {% endfor %}
+          </article>
 
-      <div class="last-updated usa-content">
-        Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          <div class="last-updated usa-content">
+            Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          </div>
       </div>
-    </div>
 
   </div>
 
