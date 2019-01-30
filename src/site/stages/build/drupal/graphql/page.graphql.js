@@ -3,6 +3,7 @@ const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragra
 const process = require('./paragraph-fragments/process.paragraph.graphql');
 const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
 const alert = require('./block-fragments/alert.block.graphql');
+const sideNav = require('./nav-fragments/sidebar.nav.graphql');
 
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
@@ -16,6 +17,7 @@ module.exports = `
   ${process}
   ${qaSection}
   ${alert}
+  ${sideNav}
   
   fragment page on NodePage {
     entityUrl {
@@ -41,6 +43,7 @@ module.exports = `
         }
       }
     }
+    ... sideNav
     fieldRelatedLinks {
       entity {
         entityBundle
