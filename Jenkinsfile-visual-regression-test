@@ -1,20 +1,33 @@
-//@Library('va.gov-devops-jenkins-lib') _
+node('vetsgov-general-purpose') {
+  def dockerImage, args, imageTag
 
-pipeline {
-  agent {
-    dockerfile {
-      filename 'Dockerfile'
-      //args '-v ${PWD}:/application'
-      label 'vetsgov-general-purpose'
+  // Checkout source, create output directories, build container
+
+  stage('Setup') {
+    try {
+      args = "-v ${pwd()}:/application"
+
+      sh "mkdir -p build"
+      sh "mkdir -p logs/selenium"
+      sh "mkdir -p coverage"
+
+      imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+
+      dockerImage = docker.build("vets-website-vrt:${imageTag}")
+      retry(5) {
+        dockerImage.inside(args) {
+          sh "cd /application && yarn install --production=false"
+        }
+      }
+    } catch (error) {
+      notify()
+      throw error
     }
   }
 
-  stages {
-    stage('Visual Test') {
-      steps {
-        sh 'mount'
-        sh 'npm run test:vrt'
-      }
+  stage('Visual Test') {
+    dockerImage.inside(args) {
+      sh "cd /application && npm run test:vrt"
     }
   }
 }
