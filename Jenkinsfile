@@ -92,7 +92,7 @@ node('vetsgov-general-purpose') {
           VAGOV_BUILDTYPES = [buildTypeOverride] 
         }
       }
-      echo VAGOV_BUILDTYPES
+      echo VAGOV_BUILDTYPES.join(',')
       // Jenkins doesn't like it when we checkout the secondary repository first
       // so we checkout 'vets-website' first
       dir("vets-website") {
