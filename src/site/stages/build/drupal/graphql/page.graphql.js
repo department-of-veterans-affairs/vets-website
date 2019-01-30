@@ -5,7 +5,6 @@
 
 const sidebarItem = require('./nav-fragments/sidebarItem.nav.graphql');
 
-
 module.exports = `
 
   ${sidebarItem}
