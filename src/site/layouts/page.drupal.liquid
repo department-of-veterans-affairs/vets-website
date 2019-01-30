@@ -9,20 +9,20 @@
       </div>
     {% endif %}
 
-      {% include 'src/site/components/navigation-sidebar.drupal.liquid'  %}
+      {% if fieldSidebarNavItem !== blank %}
+          {% include 'src/site/components/navigation-sidebar-current-item.drupal.liquid' with fieldSidebarNavItem.entity  %}
+      {%  endif %}
 
       <div class="usa-width-three-fourths">
           <article class="usa-content">
               <h1>{{ title }}</h1>
-              <div class="usa-font-lead">
-                  {{ fieldIntroText }}
+              <div class="va-introtext">
+                  <p>{{ fieldIntroText }}</p>
               </div>
-              <script>console.log(block);</script>
               {% for block in fieldContentBlock %}
                   {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
                   {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-                  {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
-
+                  {% include {{ bundleComponentWithExtension }} with block.entity %}
               {% endfor %}
           </article>
 

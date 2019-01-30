@@ -45,6 +45,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
+      taxonomyTermQuery: { entities: taxonomies }
     },
   } = contentData;
 
@@ -68,6 +69,18 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       contents: Buffer.from('<!-- Drupal-provided data -->'),
       debug: JSON.stringify(page, null, 4),
     };
+  }
+
+  for (const tax of taxonomies) {
+    if (!tax) {
+      log('Skipping null entity...');
+      continue;
+    }
+
+    const {
+      entityBundle
+    } = tax;
+
   }
 
   writeDrupalIndexPage(files);

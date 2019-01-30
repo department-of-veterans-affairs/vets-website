@@ -1,43 +1,24 @@
 /**
- * Sidebar navigation data for basic pages
+ * Current active item in the sidebar from basic page
  *
  */
 module.exports = `
   fragment sideNav on NodePage {
-  fieldSidebarNavItem {
-    entity {
-      entityBundle
-      ... on TaxonomyTermSidebarNavigation {
-        tid
-        name
-        fieldIcon
-        fieldNavItemLink {
-          uri
-          url {
-            path
-          }
-        }
-      }
-      ... on TaxonomyTerm {
-        reverseParentTaxonomyTerm {
-          ... on EntityQueryResult {
-            entities {
-              ... on TaxonomyTermSidebarNavigation {
-                tid
-                name
-                fieldIcon
-                fieldNavItemLink {
-                  uri
-                  url {
-                    path
-                  }
-                }
+      fieldSidebarNavItem {
+        entity {
+          entityBundle
+          ... on TaxonomyTermSidebarNavigation {
+            tid
+            name
+            fieldIcon
+            fieldNavItemLink {
+              uri
+              url {
+                path
               }
             }
           }
         }
       }
-    }
-  }
 }
 `;
