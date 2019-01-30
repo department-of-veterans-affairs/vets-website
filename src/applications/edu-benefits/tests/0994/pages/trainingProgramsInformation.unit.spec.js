@@ -56,7 +56,7 @@ describe('Training program information page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          vetTecPrograms: [{ courseType: 'inPerson' }],
+          vetTecProgram: [{ courseType: 'inPerson' }],
         }}
         formData={{}}
       />,
@@ -74,7 +74,7 @@ describe('Training program information page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          vetTecPrograms: [{ courseType: 'both' }],
+          vetTecProgram: [{ courseType: 'both' }],
         }}
         formData={{}}
       />,
