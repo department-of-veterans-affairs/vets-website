@@ -44,14 +44,14 @@ const transformedMaximalDataActual = {
   },
   vetTecPrograms: [
     {
-      providerName: 'prvoider',
-      programName: 'program',
+      providerName: 'Amazon Web Services',
+      programName: 'AWS Media Services',
       courseType: 'inPerson',
+      plannedStartDate: '2010-01-02',
       location: {
-        city: 'Nowhre',
+        city: 'Nowhere',
         state: 'SC',
       },
-      plannedStartDate: '2019-02-02',
     },
   ],
   currentEmployment: false,

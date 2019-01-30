@@ -45,9 +45,9 @@ export const uiSchema = {
           expandUnder: 'courseType',
           hideIf: (formData, index) =>
             !(
-              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
                 'inPerson' ||
-              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
                 'both'
             ),
         },
