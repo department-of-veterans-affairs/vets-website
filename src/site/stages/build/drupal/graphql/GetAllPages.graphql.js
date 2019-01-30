@@ -1,16 +1,19 @@
-const landingPage = require('./landingPage.graphql');
-const page = require('./page.graphql');
-const taxonomyTermSidebarNavigation = require('./nav-fragments/sidebarAll.nav.graphql');
-
 /**
  * Queries for all of the pages out of Drupal
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
+
+const landingPage = require('./landingPage.graphql');
+const page = require('./page.graphql');
+const taxonomyTermSidebarNavigation = require('./nav-fragments/sidebarAll.nav.graphql');
+
+const SIDE_NAV = `...${taxonomyTermSidebarNavigation}`;
+
+
 module.exports = `
 
   ${landingPage}
   ${page}
-  ${taxonomyTermSidebarNavigation}
   
   query GetAllPages {
     nodeQuery(limit: 100) {
@@ -21,7 +24,7 @@ module.exports = `
     }
     taxonomyTermQuery {
       entities {
-        ... taxonomyTermSidebarNavigation
+        ${SIDE_NAV}
       } 
     }
   }

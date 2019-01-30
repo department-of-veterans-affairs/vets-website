@@ -77,24 +77,20 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     };
   }
 
-    for (const navItem of taxonomies) {
-        const {
-            entityBundle,
-            name
-        } = navItem;
+  for (const navItem of taxonomies) {
+    const { entityBundle, name } = navItem;
 
-        if(name === "Health Care") {
-            navItems[`${entityBundle}`] = navItem;
-        }
-
-        files['drupal/sidebar_navigation/index.html'] = {
-            ...navItems,
-            layout: 'sidebar_navigation.drupal.liquid',
-            contents: Buffer.from('<!-- Drupal-provided data -->'),
-            debug: JSON.stringify(navItems, null, 4),
-        };
-
+    if (name === 'Health Care') {
+      navItems[`${entityBundle}`] = navItem;
     }
+
+    files['drupal/sidebar_navigation/index.html'] = {
+      ...navItems,
+      layout: 'sidebar_navigation.drupal.liquid',
+      contents: Buffer.from('<!-- Drupal-provided data -->'),
+      debug: JSON.stringify(navItems, null, 4),
+    };
+  }
 
   writeDrupalIndexPage(files);
 }
