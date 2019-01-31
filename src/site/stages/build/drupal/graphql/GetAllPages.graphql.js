@@ -9,7 +9,6 @@ const taxonomyTermSidebarNavigation = require('./nav-fragments/sidebarAll.nav.gr
 
 const SIDE_NAV = `...${taxonomyTermSidebarNavigation}`;
 
-
 module.exports = `
 
   ${landingPage}
