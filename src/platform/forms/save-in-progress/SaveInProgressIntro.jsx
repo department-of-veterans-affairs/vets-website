@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -316,11 +315,9 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SaveInProgressIntro),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SaveInProgressIntro);
 
 export { SaveInProgressIntro };
