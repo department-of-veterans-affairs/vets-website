@@ -49,7 +49,6 @@ import {
   choosePtsdType,
   claimExamsInfo,
   conclusionAssault,
-  conclusionCombat,
   contactInformation,
   evidenceTypes,
   federalOrders,
@@ -326,14 +325,6 @@ const formConfig = {
           depends: isAnswering781Questions(0),
           uiSchema: additionalRemarks781.uiSchema,
           schema: additionalRemarks781.schema,
-        },
-        // 781 - 15. PTSD CONCLUSION
-        conclusionCombat: {
-          path: 'ptsd-conclusion-combat',
-          title: 'PTSD combat conclusion',
-          depends: needsToEnter781,
-          uiSchema: conclusionCombat.uiSchema,
-          schema: conclusionCombat.schema,
         },
         // 781a - 2a. SELECT UPLOAD OPTION
         // 781a - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW

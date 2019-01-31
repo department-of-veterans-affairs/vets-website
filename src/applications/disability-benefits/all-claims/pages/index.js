@@ -9,7 +9,6 @@ import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
 import * as conclusionAssault from './conclusionAssault';
-import * as conclusionCombat from './conclusionCombat';
 import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
 import * as evidenceTypes from './evidenceTypes';
@@ -104,7 +103,6 @@ export {
   choosePtsdType,
   claimExamsInfo,
   conclusionAssault,
-  conclusionCombat,
   contactInformation,
   employmentHistory,
   evidenceTypes,
