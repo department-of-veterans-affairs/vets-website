@@ -107,7 +107,7 @@
       }
     },
     "view:unemployabilityUploadChoice": "answerQuestions",
-    "view:unemployable": true,
+    "view:unemployable": false,
     "unemployability": {
       "view:statementsAreTrue": {
         "view:statementsAreTrueAccept": true
