@@ -521,7 +521,7 @@ class VAMap extends Component {
           </div>
           <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
             {otherToolsLink}
-            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5}
+            <Map ref="map" center={position} zoomSnap={1} zoomDelta={1}
               zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }}
               scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
