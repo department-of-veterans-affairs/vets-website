@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { loadPrescriptions } from '../../../rx/actions/prescriptions';
+import { loadPrescriptions } from '../actions/prescriptions';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
@@ -81,6 +81,7 @@ class PrescriptionsWidget extends React.Component {
                 href={`${mhvBaseUrl()}/mhv-portal-web/${
                   environment.isProduction() ? 'web/myhealthevet/' : ''
                 }refill-prescriptions`}
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 View all your prescriptions
@@ -88,7 +89,7 @@ class PrescriptionsWidget extends React.Component {
             ) : (
               <span>
                 <Link
-                  href="/health-care/prescriptions"
+                  href="/health-care/refill-track-prescriptions/"
                   onClick={recordDashboardClick('view-all-prescriptions')}
                 >
                   View all your prescriptions

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
@@ -512,24 +513,24 @@ const mapDispatchToProps = {
   selectInstitution,
 };
 
-SchoolSelectField.PropTypes = {
-  currentPageNumber: React.PropTypes.number,
-  errorMessages: React.PropTypes.array,
-  facilityCodeSelected: React.PropTypes.string,
-  institutionQuery: React.PropTypes.string,
-  institutions: React.PropTypes.array,
-  institutionSelected: React.PropTypes.string,
-  manualSchoolEntryChecked: React.PropTypes.bool,
-  pagesCount: React.PropTypes.number,
-  searchInputValue: React.PropTypes.string,
-  searchResultsCount: React.PropTypes.number,
-  showErrors: React.PropTypes.bool,
-  showInstitutions: React.PropTypes.bool.required,
-  showInstitutionsLoading: React.PropTypes.bool.required,
-  showNoResultsFound: React.PropTypes.bool.required,
-  showPagination: React.PropTypes.bool.required,
-  showPaginationLoading: React.PropTypes.bool.required,
-  showSearchResults: React.PropTypes.bool.required,
+SchoolSelectField.propTypes = {
+  currentPageNumber: PropTypes.number,
+  errorMessages: PropTypes.array,
+  facilityCodeSelected: PropTypes.string,
+  institutionQuery: PropTypes.string,
+  institutions: PropTypes.array,
+  institutionSelected: PropTypes.string,
+  manualSchoolEntryChecked: PropTypes.bool,
+  pagesCount: PropTypes.number,
+  searchInputValue: PropTypes.string,
+  searchResultsCount: PropTypes.number,
+  showErrors: PropTypes.bool,
+  showInstitutions: PropTypes.bool.required,
+  showInstitutionsLoading: PropTypes.bool.required,
+  showNoResultsFound: PropTypes.bool.required,
+  showPagination: PropTypes.bool.required,
+  showPaginationLoading: PropTypes.bool.required,
+  showSearchResults: PropTypes.bool.required,
 };
 
 SchoolSelectField.defaultProps = {

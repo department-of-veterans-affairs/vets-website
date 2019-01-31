@@ -1,4 +1,4 @@
-/* eslint-disable no-continue */
+/* eslint-disable no-continue, no-param-reassign */
 
 /**
  * Files can contain a "fragments" property in the front matter, which can be
@@ -38,29 +38,34 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-function applyFragments(buildOptions) {
-  return (files, smith, done) => {
-    const fragmentsRoot = smith.path(buildOptions.contentFragments);
+function loadFragment(buildOptions, smith, fragmentFileName) {
+  const fragmentsRoot = smith.path(buildOptions.contentFragments);
+  const fileLocation = path.join(fragmentsRoot, `${fragmentFileName}.yml`);
+  const fragmentFile = fs.readFileSync(fileLocation);
+  return yaml.safeLoad(fragmentFile);
+}
 
+function applyFragments(buildOptions, smith, object) {
+  for (const fragmentName of Object.keys(object.fragments)) {
+    const fragmentFileName = object.fragments[fragmentName];
+
+    object[fragmentName] = loadFragment(buildOptions, smith, fragmentFileName);
+  }
+}
+
+function applyFragmentsMiddleware(buildOptions) {
+  return (files, smith, done) => {
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
 
       if (!file.fragments) continue;
 
-      for (const fragmentName of Object.keys(file.fragments)) {
-        const fragmentFileName = file.fragments[fragmentName];
-        const fileLocation = path.join(
-          fragmentsRoot,
-          `${fragmentFileName}.yml`,
-        );
-        const fragmentFile = fs.readFileSync(fileLocation);
-
-        file[fragmentName] = yaml.safeLoad(fragmentFile);
-      }
+      applyFragments(buildOptions, smith, file);
     }
 
     done();
   };
 }
 
-module.exports = applyFragments;
+module.exports = applyFragmentsMiddleware;
+module.exports.applyFragments = applyFragments;

@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -34,7 +34,11 @@ export default function LoginSettings() {
       <h5>ID.me settings</h5>
       <div>
         <p>
-          <a href="https://wallet.id.me/settings" target="_blank">
+          <a
+            href="https://wallet.id.me/settings"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Manage your ID.me account.
           </a>
         </p>

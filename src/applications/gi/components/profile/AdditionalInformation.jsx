@@ -12,9 +12,13 @@ export class AdditionalInformation extends React.Component {
       it.accreditationType && (
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'typeAccredited')}
+            >
               Type of accreditation:
-            </a>
+            </button>
           </strong>
           &nbsp;
           {it.accreditationType.toUpperCase()}
@@ -25,7 +29,7 @@ export class AdditionalInformation extends React.Component {
       <div>
         <strong>Veterans tuition policy:</strong>
         &nbsp;
-        <a href={it.vetWebsiteLink} target="_blank">
+        <a href={it.vetWebsiteLink} target="_blank" rel="noopener noreferrer">
           View policy
         </a>
       </div>
@@ -36,9 +40,13 @@ export class AdditionalInformation extends React.Component {
         <h3>Institution summary</h3>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'accredited')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'accredited')}
+            >
               Accredited:
-            </a>
+            </button>
           </strong>
           &nbsp;
           {it.accredited ? (
@@ -49,6 +57,7 @@ export class AdditionalInformation extends React.Component {
                   it.cross
                 }#accred`}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 See accreditors
               </a>
@@ -62,36 +71,52 @@ export class AdditionalInformation extends React.Component {
         {vetTuitionPolicy}
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'singleContact')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'singleContact')}
+            >
               Single point of contact for veterans:
-            </a>
+            </button>
           </strong>
           &nbsp;
           {it.vetPoc ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'creditTraining')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'creditTraining')}
+            >
               Credit for military training:
-            </a>
+            </button>
           </strong>
           &nbsp;
           {it.creditForMilTraining ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'iStudy')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'iStudy')}
+            >
               Independent study:
-            </a>
+            </button>
           </strong>
           &nbsp;
           {it.independentStudy ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'stemOffered')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'stemOffered')}
+            >
               STEM (Science, Technology, Engineering, and Math):
-            </a>
+            </button>
           </strong>
           &nbsp;
           {it.stemOffered ? 'Yes' : 'No'}
@@ -164,27 +189,39 @@ export class AdditionalInformation extends React.Component {
             <h3>Institution codes</h3>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'facilityCode')}
+                >
                   VA facility code:
-                </a>
+                </button>
                 &nbsp;
               </strong>
               {it.facilityCode || 'N/A'}
             </div>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'ipedsCode')}
+                >
                   ED IPEDS code:
-                </a>
+                </button>
                 &nbsp;
               </strong>
               {it.cross || 'N/A'}
             </div>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'opeCode')}
+                >
                   ED OPE code:
-                </a>
+                </button>
                 &nbsp;
               </strong>
               {it.ope || 'N/A'}

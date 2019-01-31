@@ -28,6 +28,7 @@ describe('0993 claimant information', () => {
     // Check for opt out message
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -43,6 +44,7 @@ describe('0993 claimant information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with no errors with all required fields filled in', () => {
@@ -66,6 +68,7 @@ describe('0993 claimant information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should expand and require VA file number question if no SSN is available', () => {
@@ -103,5 +106,6 @@ describe('0993 claimant information', () => {
     expect(
       form.find('.usa-input-error #root_vaFileNumber-error-message').length,
     ).to.equal(1);
+    form.unmount();
   });
 });

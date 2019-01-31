@@ -8,7 +8,8 @@ import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import isMobile from 'ismobilejs';
-import { map, compact, isEmpty, debounce } from 'lodash';
+import { isEmpty, debounce } from 'lodash';
+import appendQuery from 'append-query';
 import {
   updateSearchQuery,
   genBBoxFromAddress,
@@ -24,7 +25,7 @@ import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
-import { facilityTypes } from '../config';
+import { facilityTypes, ccLocatorEnabled } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
@@ -126,8 +127,8 @@ class VAMap extends Component {
         - revGeocodeInProgress - should be a separate flag as both operations happen
         - searchRequested - To track that the user clicked the search button
           (could have used inProgress but it gets tripped by other Actions)
-        - 
-      
+        -
+
       The boundary checking of the current code below doesn't actually work.
       Array equality isn't something that should be done with the operator,
       and using the new method below causes `searchWithBounds` to never fire.
@@ -265,15 +266,12 @@ class VAMap extends Component {
       ...params,
     };
 
-    /* eslint-disable prettier/prettier */
-    const queryString = compact(
-      map(queryParams, (value, key) => {
-        return (value) ? `${key}=${value}` : null;
-      })
-    ).join('&');
-    /* eslint-enable prettier/prettier */
+    const queryStringObj = appendQuery(
+      `/find-locations${location.pathname}`,
+      queryParams,
+    );
 
-    browserHistory.push(`/find-locations${location.pathname}?${queryString}`);
+    browserHistory.push(queryStringObj);
   };
 
   /**
@@ -309,17 +307,12 @@ class VAMap extends Component {
   };
 
   handleSearch = () => {
-    const { currentQuery, location } = this.props;
-    const { query: prevQuery } = location;
+    const { currentQuery } = this.props;
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+    });
 
-    // Don't recalculate if we didn't change search location
-    if (currentQuery.searchString !== prevQuery.address) {
-      this.updateUrlParams({
-        address: currentQuery.searchString,
-      });
-
-      this.props.genBBoxFromAddress(currentQuery);
-    }
+    this.props.genBBoxFromAddress(currentQuery);
   };
 
   handleBoundsChanged = () => {
@@ -451,6 +444,7 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, results, pagination, selectedResult } = this.props;
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
       /* eslint-disable prettier/prettier */
@@ -481,9 +475,12 @@ class VAMap extends Component {
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                     <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                     Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-                <FeatureGroup ref="facilityMarkers">
-                  {this.renderFacilityMarkers()}
-                </FeatureGroup>
+                {facilityLocatorMarkers.length > 0 &&
+                  <FeatureGroup
+                    ref="facilityMarkers">
+                    {facilityLocatorMarkers}
+                  </FeatureGroup>
+                }
               </Map>
               { selectedResult && (
                 <div className="mobile-search-result">
@@ -503,6 +500,7 @@ class VAMap extends Component {
     const { currentQuery, results, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
       /* eslint-disable prettier/prettier */
@@ -531,9 +529,12 @@ class VAMap extends Component {
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                   <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                   Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-              <FeatureGroup ref="facilityMarkers">
-                {this.renderFacilityMarkers()}
-              </FeatureGroup>
+              {facilityLocatorMarkers.length > 0 &&
+                <FeatureGroup
+                  ref="facilityMarkers">
+                  {facilityLocatorMarkers}
+                </FeatureGroup>
+              }
             </Map>
           </div>
         </div>
@@ -551,7 +552,11 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
-          Find VA locations near you with our facility locator tool. You can search for your nearest VA medical center as well as other health facilities, benefit offices, cemeteries, and Vet Centers. You can also filter your results by service type to find locations that offer the specific service you’re looking for.
+          Find VA locations near you with our facility locator tool. You can search for your nearest 
+          VA medical center as well as other health facilities, benefit offices, cemeteries, 
+          { ccLocatorEnabled() && <span> community care providers, </span> }
+          and Vet Centers. You can also filter your results by service type to find 
+          locations that offer the specific service you’re looking for.
         </div>
         { isMobile.any
           ? this.renderMobileView()

@@ -1,0 +1,15 @@
+{% comment %}
+    Example data:
+    {
+        "fieldTitle":"Related links",
+        "fieldVaParagraphs":[...]
+    }
+{% endcomment %}
+<section class="{{ listOfLinkTeasers.parentFieldName }}">
+    <h3>{{ listOfLinkTeasers.fieldTitle }}</h3>
+    <ul class="va-nav-linkslist-list">
+        {% for linkTeaser in listOfLinkTeasers.fieldVaParagraphs %}
+            {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity %}
+        {% endfor %}
+    </ul>
+</section>

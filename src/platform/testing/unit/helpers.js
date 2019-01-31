@@ -5,8 +5,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import conditionalStorage from '../../utilities/storage/conditionalStorage';
-
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
@@ -122,18 +120,10 @@ const getApiRequestObject = returnVal => ({
  *
  * @param {} returnVal The value to return from the json promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
- * @param {string} [userToken='foo'] The token to set in conditionalStorage(), to simulate
- * an authenticated request
  */
-export function mockApiRequest(
-  returnVal,
-  shouldResolve = true,
-  userToken = 'foo',
-) {
+export function mockApiRequest(returnVal, shouldResolve = true) {
   const returnObj = getApiRequestObject(returnVal);
-
   mockFetch(returnObj, shouldResolve);
-  conditionalStorage().setItem('userToken', userToken);
 }
 
 /**
@@ -142,9 +132,8 @@ export function mockApiRequest(
  * @property {boolean} shouldResolve - Whether the fetch promise should resolve or not
  * ---
  * @param {Response[]} responses - An array of responses which subsequent fetch calls should return
- * @param {string} userToken - The user token
  */
-export function mockMultipleApiRequests(responses, userToken = 'foo') {
+export function mockMultipleApiRequests(responses) {
   global.fetch = sinon.stub();
   responses.forEach((res, index) => {
     const { response, shouldResolve } = res;
@@ -157,7 +146,6 @@ export function mockMultipleApiRequests(responses, userToken = 'foo') {
           : Promise.reject(formattedResponse),
       );
   });
-  conditionalStorage().setItem('userToken', userToken);
 }
 
 export { chai, expect, wrapWithContext, wrapWithRouterContext, fillDate };

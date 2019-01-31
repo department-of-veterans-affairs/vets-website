@@ -43,6 +43,13 @@ const configGenerator = (buildOptions, apps) => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  // enable css sourcemaps for all non-localhost builds
+  // or if build options include local-css-sourcemaps or entry
+  const enableCSSSourcemaps =
+    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildOptions['local-css-sourcemaps'] ||
+    !!buildOptions.entry;
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
@@ -98,9 +105,13 @@ const configGenerator = (buildOptions, apps) => {
                 loader: 'css-loader',
                 options: {
                   minimize: isOptimizedBuild,
+                  sourceMap: enableCSSSourcemaps,
                 },
               },
-              { loader: 'sass-loader' },
+              {
+                loader: 'sass-loader',
+                options: { sourceMap: true },
+              },
             ],
           }),
         },
@@ -118,7 +129,7 @@ const configGenerator = (buildOptions, apps) => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader',
+            loader: 'svg-url-loader?limit=1024',
           },
         },
         {
@@ -180,6 +191,9 @@ const configGenerator = (buildOptions, apps) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
+        __API__: JSON.stringify(buildOptions.api),
+        // eslint-disable-next-line import/no-unresolved
+        __MEGAMENU_CONFIG__: JSON.stringify(require('../.cache/megamenu.json')),
       }),
 
       new ExtractTextPlugin({
@@ -208,6 +222,14 @@ const configGenerator = (buildOptions, apps) => {
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
+
+    // The eval-source-map devtool doesn't seem to work for CSS, so we
+    // add a separate plugin for CSS source maps.
+    baseConfig.plugins.push(
+      new webpack.SourceMapDevToolPlugin({
+        test: /\.css$/,
+      }),
+    );
   }
 
   if (buildOptions.analyzer) {

@@ -82,7 +82,11 @@ export class Programs extends React.Component {
         program.link.href && (
           <span>
             &nbsp;(
-            <a href={program.link.href} target="_blank">
+            <a
+              href={program.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {program.link.text}
             </a>
             )
@@ -91,9 +95,13 @@ export class Programs extends React.Component {
       '';
 
     const label = program.modal ? (
-      <a onClick={this.props.onShowModal.bind(this, program.modal)}>
+      <button
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={this.props.onShowModal.bind(this, program.modal)}
+      >
         {program.text}
-      </a>
+      </button>
     ) : (
       program.text
     );

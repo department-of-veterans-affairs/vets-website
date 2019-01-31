@@ -8,7 +8,7 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -55,7 +55,7 @@ class IntroductionPage extends React.Component {
                 <br />
                 An accredited representative with a Veterans Service
                 Organization (VSO) can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/">
+                <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim
                 </a>
                 .
@@ -67,7 +67,7 @@ class IntroductionPage extends React.Component {
                 </strong>
                 <br />
                 You don’t need to wait for a rating to apply for VR&E benefits.{' '}
-                <a href="/employment/vocational-rehab-and-employment/apply-vre/">
+                <a href="/careers-employment/vocational-rehabilitation/how-to-apply/">
                   Learn how to apply for VR&E services if you haven’t yet
                   received a service-connected disability rating
                 </a>

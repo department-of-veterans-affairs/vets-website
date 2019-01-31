@@ -1,42 +1,30 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import _ from '../../../../platform/utilities/data';
-
-import formConfig from '../config/form';
 
 import {
-  hasGuardOrReservePeriod,
-  ReservesGuardDescription,
-  isInFuture,
-  getDisabilityName,
-  transformDisabilities,
-  queryForFacilities,
-  hasOtherEvidence,
+  addCheckboxPerDisability,
+  capitalizeEachWord,
   fieldsHaveInput,
-  servedAfter911,
+  hasGuardOrReservePeriod,
+  hasHospitalCare,
+  hasOtherEvidence,
+  isAnswering781aQuestions,
+  isAnswering781Questions,
+  isInFuture,
+  isUploading781aForm,
+  isUploading781aSupportingDocuments,
+  isUploading781Form,
+  isWithinRange,
+  needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
-  isAnswering781Questions,
-  isAnswering781aQuestions,
-  isUploading781Form,
-  isUploading781aForm,
-  transformRelatedDisabilities,
-  transformMVPData,
-  transform,
+  needsToEnterUnemployability,
+  queryForFacilities,
+  ReservesGuardDescription,
+  servedAfter911,
+  viewifyFields,
 } from '../utils.jsx';
-
-import {
-  transformedMinimalData,
-  transformedMaximalData,
-} from './schema/transformedData';
-
-import minimalData from './schema/minimal-test.json';
-import maximalData from './schema/maximal-test.json';
-
-import initialData from './initialData';
-
-import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -125,10 +113,9 @@ describe('526 helpers', () => {
         },
       };
 
-      const renderedText = shallow(ReservesGuardDescription(form))
-        .render()
-        .text();
-      expect(renderedText).to.contain('Marine Corps Reserve');
+      const renderedText = shallow(ReservesGuardDescription(form));
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      renderedText.unmount();
     });
 
     it('should return null when no service periods present', () => {
@@ -160,44 +147,46 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('getDisabilityName', () => {
+  describe('capitalizeEachWord', () => {
     it('should return string with each word capitalized when name supplied', () => {
-      expect(getDisabilityName('some disability - some detail')).to.equal(
-        'Some Disability - Some Detail',
-      );
+      [
+        ['some disability - some detail', 'Some Disability - Some Detail'],
+        ['some disability (some detail)', 'Some Disability (Some Detail)'],
+        [
+          'some disability with hyphenated-words',
+          'Some Disability With Hyphenated-Words',
+        ],
+        ['some "quote" disability', 'Some "Quote" Disability'],
+      ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
     it('should return Unknown Condition with undefined name', () => {
-      expect(getDisabilityName()).to.equal('Unknown Condition');
+      expect(capitalizeEachWord()).to.equal('Unknown Condition');
     });
     it('should return Unknown Condition when input is empty string', () => {
-      expect(getDisabilityName('')).to.equal('Unknown Condition');
+      expect(capitalizeEachWord('')).to.equal('Unknown Condition');
     });
     it('should return Unknown Condition when name is not a string', () => {
-      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
+      expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
     });
   });
 
-  describe('transformDisabilities', () => {
-    const rawDisability = initialData.ratedDisabilities[1];
-    const formattedDisability = Object.assign(
-      { disabilityActionType: 'INCREASE' },
-      rawDisability,
-    );
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([rawDisability])).to.deep.equal([
-        formattedDisability,
-      ]);
-    });
-    it('should return an empty array when given undefined input', () => {
-      expect(transformDisabilities(undefined)).to.deep.equal([]);
-    });
-    it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.set(
-        'decisionCode',
-        SERVICE_CONNECTION_TYPES.notServiceConnected,
-        rawDisability,
-      );
-      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+  describe('addCheckboxPerDisability', () => {
+    it('should return disabilitiesViews with downcased keynames', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+      };
+      expect(addCheckboxPerDisability(formData)).to.eql({
+        properties: {
+          'ptsd personal trauma': {
+            title: 'Ptsd Personal Trauma',
+            type: 'boolean',
+          },
+        },
+      });
     });
   });
 
@@ -393,6 +382,12 @@ describe('526 helpers', () => {
   describe('needsToEnter781', () => {
     it('should return true if user has selected Combat PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:combatPtsdType': true,
         },
@@ -402,8 +397,14 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Non-combat PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
-          'view:noncombatPtsdType': true,
+          'view:nonCombatPtsdType': true,
         },
       };
       expect(needsToEnter781(formData)).to.be.true;
@@ -418,6 +419,12 @@ describe('526 helpers', () => {
   describe('needsToEnter781a', () => {
     it('should return true if user has selected MST PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:mstPtsdType': true,
         },
@@ -427,6 +434,12 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Assault PTSD types', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:selectablePtsdTypes': {
           'view:assaultPtsdType': true,
         },
@@ -457,6 +470,12 @@ describe('526 helpers', () => {
   describe('isUploading781aForm', () => {
     it('should return true if user has chosen to upload 781a', () => {
       const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
         'view:upload781aChoice': 'upload',
       };
       expect(isUploading781aForm(formData)).to.be.true;
@@ -468,45 +487,43 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('transformRelatedDisabilities', () => {
-    it('should return an array of strings', () => {
-      const claimedConditions = [
-        'some condition name',
-        'another condition name',
-      ];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name', 'another condition name']);
-    });
-    it('should not add conditions if they are not claimed', () => {
-      const claimedConditions = ['some condition name'];
-      const treatedDisabilityNames = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['some condition name']);
-    });
-  });
-});
+  describe('viewifyFields', () => {
+    const formData = {
+      prop1: {
+        'view:nestedProp': {
+          anotherNestedProp: 'value',
+          'view:doubleView': 'whoa, man--it’s like inception',
+        },
+        siblingProp: 'another value',
+      },
+      'view:prop2': 'this is a string',
+    };
 
-describe('isAnsweringPtsdForm', () => {
-  it('should return false if user has chosen to not answer questions', () => {
-    const formData = {};
-    expect(needsToEnter781(formData)).to.be.false;
+    it('should prefix all the property names with "view:" if needed', () => {
+      const viewifiedFormData = {
+        'view:prop1': {
+          'view:nestedProp': {
+            'view:anotherNestedProp': 'value',
+            'view:doubleView': 'whoa, man--it’s like inception',
+          },
+          'view:siblingProp': 'another value',
+        },
+        'view:prop2': 'this is a string',
+      };
+      expect(viewifyFields(formData)).to.eql(viewifiedFormData);
+    });
   });
 });
 
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -516,6 +533,12 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -536,48 +559,15 @@ describe('isAnswering781Questions', () => {
   });
 });
 
-describe('transformMVPData', () => {
-  it('should omit the veteran property and spread its subproperties', () => {
-    const formData = {
-      veteran: {
-        emailAddress: 'asdf',
-        mailingAddress: { foo: 'bar' },
-        primaryPhone: '1231231234',
-      },
-    };
-    expect(transformMVPData(formData)).to.eql(formData.veteran);
-  });
-  it('should nest service periods and reservesNationalGuardService under serviceInformation', () => {
-    const formData = {
-      servicePeriods: [{ from: 'adf', to: 'asdf' }],
-      reservesNationalGuardService: 'asdf',
-    };
-    expect(transformMVPData(formData)).to.eql({
-      serviceInformation: formData,
-    });
-  });
-  it('should handle no pre-filled information', () => {
-    expect(transformMVPData({})).to.eql({});
-  });
-});
-
-describe('transform', () => {
-  it('should transform minimal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
-      transformedMinimalData,
-    );
-  });
-
-  it('should transform maximal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
-      transformedMaximalData,
-    );
-  });
-});
-
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -587,6 +577,12 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
@@ -610,6 +606,12 @@ describe('isAnswering781Questions', () => {
 describe('isAnswering781aQuestions', () => {
   it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -619,6 +621,12 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -629,6 +637,12 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
+      'view:newDisabilities': true,
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
@@ -636,5 +650,105 @@ describe('isAnswering781aQuestions', () => {
       'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
+  });
+
+  describe('isUploading781aSupportingDocuments', () => {
+    it('should return true when a user selects yes to upload sources', () => {
+      const formData = {
+        'view:newDisabilities': true,
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:upload781aChoice': 'answerQuestions',
+        secondaryIncident0: {
+          'view:uploadSources': true,
+        },
+      };
+      expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
+  });
+
+  describe('needsToEnterUnemployability', () => {
+    it('should return true if user selects yes', () => {
+      const formData = {
+        'view:unemployable': true,
+      };
+      expect(needsToEnterUnemployability(formData)).to.be.true;
+    });
+    it('should return false if user does not select anything', () => {
+      const formData = {};
+      expect(needsToEnterUnemployability(formData)).to.be.false;
+    });
+    it('should return false if user selects no', () => {
+      const formData = {
+        'view:unemployable': false,
+      };
+      expect(needsToEnterUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('needsToAnswerUnemployability', () => {
+    it('should return true if user selects to answer unemployability questions', () => {
+      const formData = {
+        'view:unemployable': true,
+        'view:unemployabilityUploadChoice': 'answerQuestions',
+      };
+      expect(needsToAnswerUnemployability(formData)).to.be.true;
+    });
+    it('should return false if user selects to upload an 8940 form', () => {
+      const formData = {
+        'view:unemployable': true,
+        'view:unemployabilityUploadChoice': 'upload',
+      };
+      expect(needsToAnswerUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('needsToAnswerHospitalCare', () => {
+    it('should be default of false', () => {
+      const formData = {};
+      expect(hasHospitalCare(formData)).to.be.false;
+    });
+    it('should be true', () => {
+      const formData = {
+        'view:medicalCareType': {
+          'view:hospialized': true,
+        },
+      };
+      expect(hasHospitalCare(formData)).to.be.false;
+    });
+  });
+});
+
+describe('all claims utils - isWithinRange', () => {
+  const dateRange = { from: '1990-02-03', to: '1992-03-03' };
+  it('should return true for a date that is within the date range specified', () => {
+    expect(isWithinRange('1991-01-01', dateRange)).to.be.true;
+  });
+
+  it('should return true for a date range that is completely within the date range specified', () => {
+    expect(isWithinRange({ from: '1991-01-01', to: '1992-01-01' }, dateRange))
+      .to.be.true;
+  });
+
+  it('should return false for a date that is before the date range specified', () => {
+    expect(isWithinRange('1989-01-01', dateRange)).to.be.false;
+  });
+
+  it('should return false for a date that is after the date range specified', () => {
+    expect(isWithinRange('1999-01-01', dateRange)).to.be.false;
+  });
+  it('should return false for a date range that starts before the date range specified', () => {
+    expect(isWithinRange({ from: '1990-01-01', to: '1992-01-01' }, dateRange))
+      .to.be.false;
+  });
+  it('should return false for a date range that ends after the date range specified', () => {
+    expect(isWithinRange({ from: '1991-01-01', to: '1993-01-01' }, dateRange))
+      .to.be.false;
   });
 });

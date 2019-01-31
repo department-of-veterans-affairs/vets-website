@@ -2,9 +2,9 @@
   "data": {
     "view:hasSeparationPay": false,
     "hasTrainingPay": false,
-    "isVAEmployee": false,
+    "isVaEmployee": false,
     "homelessOrAtRisk": "no",
-    "phoneEmailCard": {
+    "phoneAndEmail": {
       "primaryPhone": "1231231234",
       "emailAddress": "asdf@as.asdf"
     },
@@ -29,8 +29,9 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE",
-        "view:selected": true
+        "view:selected": true,
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
       }
     ],
     "view:disabilitiesClarification": {},

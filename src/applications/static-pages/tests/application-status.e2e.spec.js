@@ -92,6 +92,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
             },
           },
         },
+        meta: { errors: null },
       },
     },
     token,
@@ -100,7 +101,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   testStatus(
     client,
-    '/health-care/apply',
+    '/health-care/how-to-apply/',
     '/health-care/apply/application/resume',
   );
   testStatus(
@@ -109,7 +110,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
     '/health-care/apply/application/resume',
   );
 
-  testStatus(client, '/pension/apply', '/pension/application/527EZ/resume');
+  testStatus(
+    client,
+    '/pension/how-to-apply/',
+    '/pension/application/527EZ/resume',
+  );
   testStatus(
     client,
     '/pension/eligibility',
@@ -118,13 +123,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   testStatus(
     client,
-    '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs',
+    '/burials-memorials/veterans-burial-allowance/',
     '/burials-and-memorials/application/530/resume',
   );
 
   testStatus(
     client,
-    '/education/apply',
+    '/education/how-to-apply/',
     '/education/apply-for-education-benefits/application/1995/resume',
   );
   testStatus(

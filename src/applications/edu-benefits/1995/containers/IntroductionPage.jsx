@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
@@ -107,7 +107,7 @@ export class IntroductionPage extends React.Component {
                 <p>
                   We offer tools and counseling programs to help you make the
                   most of your educational options.{' '}
-                  <a href="/education/tools-programs/">
+                  <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
                     Learn about career counseling options.
                   </a>
                 </p>

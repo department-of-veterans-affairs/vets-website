@@ -3,9 +3,10 @@
  * style.scss. If you make a change to this file, please
  * verify that you do or do not need to make the same change in the other file
  */
-$font-path: "~uswds/src/fonts";
-$image-path: "~uswds/src/img";
-@import "~@department-of-veterans-affairs/formation/sass/core";
+ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+ $font-path: "~uswds/src/fonts";
+ $image-path: "~uswds/src/img";
+@import "~@department-of-veterans-affairs/formation/sass/core.scss";
 
 @import "modules/m-footer-brand-consolidation";
 

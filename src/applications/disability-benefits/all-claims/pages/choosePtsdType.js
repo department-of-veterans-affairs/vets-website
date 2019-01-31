@@ -1,16 +1,15 @@
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import {
-  ptsdTypeDescription,
   ptsdTypeHelp,
-  nonCombatPtsdType,
+  ptsdTypeEnum,
+  nonCombatPtsdTypeLong,
 } from '../content/ptsdTypeInfo';
 
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
 export const uiSchema = {
   'ui:title': disabilityNameTitle,
-  'ui:description': ptsdTypeDescription,
   'view:selectablePtsdTypes': {
     'ui:title':
       'What type of event contributed to your PTSD? (Choose all that apply.)',
@@ -24,16 +23,16 @@ export const uiSchema = {
       atLeastOne: 'Please select at least one event type',
     },
     'view:combatPtsdType': {
-      'ui:title': 'Combat',
+      'ui:title': ptsdTypeEnum.combatPtsdType,
     },
     'view:mstPtsdType': {
-      'ui:title': 'Military Sexual Trauma',
+      'ui:title': ptsdTypeEnum.mstPtsdType,
     },
     'view:assaultPtsdType': {
-      'ui:title': 'Personal Assault',
+      'ui:title': ptsdTypeEnum.assaultPtsdType,
     },
-    'view:noncombatPtsdType': {
-      'ui:title': nonCombatPtsdType,
+    'view:nonCombatPtsdType': {
+      'ui:title': nonCombatPtsdTypeLong,
     },
   },
   'view:ptsdTypeHelp': {
@@ -57,7 +56,7 @@ export const schema = {
         'view:assaultPtsdType': {
           type: 'boolean',
         },
-        'view:noncombatPtsdType': {
+        'view:nonCombatPtsdType': {
           type: 'boolean',
         },
       },

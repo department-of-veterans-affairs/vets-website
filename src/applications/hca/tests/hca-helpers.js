@@ -451,6 +451,7 @@ function initSaveInProgressMock(url, client) {
           },
         },
       },
+      meta: { errors: null },
     },
   });
 
@@ -507,7 +508,7 @@ function initSaveInProgressMock(url, client) {
 
   client.openUrl(url).waitForElementVisible('body', Timeouts.normal);
 
-  Auth.setUserToken(token, client);
+  Auth.setUserSession(token, client);
 
   return token;
 }

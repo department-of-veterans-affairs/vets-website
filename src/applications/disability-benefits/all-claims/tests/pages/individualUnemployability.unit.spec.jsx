@@ -20,5 +20,6 @@ describe('526 individual unemployability page', () => {
       />,
     );
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 });

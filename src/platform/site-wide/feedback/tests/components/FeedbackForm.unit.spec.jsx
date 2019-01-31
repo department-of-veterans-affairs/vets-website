@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import FeedbackForm from '../../components/FeedbackForm';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const defaultProps = {
   formValues: {},
@@ -22,6 +22,7 @@ describe('<FeedbackForm/>', () => {
     const wrapper = enzyme.shallow(<FeedbackForm {...defaultProps} />);
     const text = wrapper.text();
     expect(text.includes('Tell us what you think')).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render with an error message', () => {
@@ -32,6 +33,7 @@ describe('<FeedbackForm/>', () => {
     const props = { ...defaultProps, errorMessage };
     const wrapper = enzyme.shallow(<FeedbackForm {...props} />);
     expect(wrapper.find(AlertBox)).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 
   it('submits the form information', () => {
@@ -44,5 +46,6 @@ describe('<FeedbackForm/>', () => {
 
     expect(event.preventDefault.calledOnce).to.be.true;
     expect(sendFeedback.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 });

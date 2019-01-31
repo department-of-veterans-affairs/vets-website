@@ -6,7 +6,7 @@ const additionalDescriptionChanges = (
   <div>
     <h5>Changes in Behavior or Activities: Additional Information</h5>
     <p>
-      Please provide any additional information about any behavior changes or
+      Please provide additional information about any behavior changes or
       actions you took as a result of the event(s).
     </p>
   </div>
@@ -18,7 +18,7 @@ export const uiSchema = {
   ),
   'ui:description': additionalDescriptionChanges,
   additionalChanges: {
-    'ui:title': ' ',
+    'ui:title': 'Enter other behavior changes',
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,

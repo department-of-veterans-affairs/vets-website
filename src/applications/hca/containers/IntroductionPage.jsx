@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
 import { focusElement } from '../../../platform/utilities/ui';
@@ -79,7 +79,7 @@ class IntroductionPage extends React.Component {
                   routine eye exams and preventive tests. In some cases, you may
                   get coverage for eyeglasses or services for blind or
                   low-vision rehabilitation.{' '}
-                  <a href="/health-care/about-va-health-care/vision-care/">
+                  <a href="/health-care/about-va-health-benefits/vision-care/">
                     Learn more about vision care through VA
                   </a>
                   .
@@ -87,7 +87,7 @@ class IntroductionPage extends React.Component {
                 <li>
                   <strong>Dental benefits.</strong> In some cases, you may
                   receive dental care as part of your health care benefits.{' '}
-                  <a href="/health-care/about-va-health-care/dental-care/">
+                  <a href="/health-care/about-va-health-benefits/dental-care/">
                     Learn more about VA dental services
                   </a>
                   .

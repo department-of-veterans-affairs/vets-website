@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
@@ -73,7 +73,7 @@ class IntroductionPage extends React.Component {
                 out another form if you’re claiming a dependent or applying for
                 aid and attendance benefits.
                 <br />
-                <a href="/disability-benefits/apply/supplemental-forms/">
+                <a href="/disability/how-to-file-claim/supplemental-forms/">
                   Learn what additional forms you may need to file with your
                   disability claim
                 </a>
@@ -133,9 +133,9 @@ class IntroductionPage extends React.Component {
               </div>
               <p>
                 We process applications in the order we receive them. The amount
-                of time it takes to process your claim depends how many injuries
-                or disabilities you claim and how long it takes us to gather
-                evidence needed to decide your claim.
+                of time it takes to process your claim depends on how many
+                injuries or disabilities you claim and how long it takes us to
+                gather evidence needed to decide your claim.
               </p>
             </li>
             <li className="process-step list-four">

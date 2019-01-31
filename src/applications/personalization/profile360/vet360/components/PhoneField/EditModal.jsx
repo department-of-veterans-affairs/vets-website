@@ -1,25 +1,29 @@
 import React from 'react';
 import { merge } from 'lodash';
 
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Vet360EditModal from '../base/EditModal';
 
 class PhoneTextInput extends ErrorableTextInput {
-  componentDidMount() {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'usa-only-phone-wrapper';
+  // componentDidMount() {
+  //   const wrapper = document.createElement('div');
+  //   wrapper.className = 'usa-only-phone-wrapper';
 
-    const inputField = document.querySelector('input.usa-only-phone');
+  //   const inputField = document.querySelector('input.usa-only-phone');
 
-    inputField.parentNode.insertBefore(wrapper, inputField);
-    wrapper.appendChild(inputField);
+  //   inputField.parentNode.insertBefore(wrapper, inputField);
+  //   wrapper.appendChild(inputField);
 
-    const prefixEl = document.createElement('span');
-    prefixEl.innerText = '+1';
-    prefixEl.className = 'usa-only-phone-prefix';
-    inputField.insertAdjacentElement('beforebegin', prefixEl);
+  //   const prefixEl = document.createElement('span');
+  //   prefixEl.innerText = '+1';
+  //   prefixEl.className = 'usa-only-phone-prefix';
+  //   inputField.insertAdjacentElement('beforebegin', prefixEl);
+  // }
+
+  render() {
+    return <ErrorableTextInput {...this.props} />;
   }
 }
 

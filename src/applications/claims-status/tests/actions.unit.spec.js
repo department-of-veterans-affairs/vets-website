@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
-
 import {
   ADD_FILE,
   addFile,
@@ -49,7 +47,6 @@ let fetchMock;
 let oldFetch;
 
 const mockFetch = () => {
-  conditionalStorage().setItem('userToken', '1234');
   oldFetch = global.fetch;
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
@@ -57,7 +54,6 @@ const mockFetch = () => {
 
 const unMockFetch = () => {
   global.fetch = oldFetch;
-  conditionalStorage().clear();
 };
 
 describe('Actions', () => {
@@ -180,8 +176,8 @@ describe('Actions', () => {
   });
   describe('cancelUpload', () => {
     it('should call cancel on uploader', () => {
-      const oldWindow = global.window;
-      global.window = { dataLayer: [] };
+      const oldDataLayer = global.window.dataLayer;
+      global.window.dataLayer = [];
       const thunk = cancelUpload();
       const uploaderSpy = sinon.spy();
       const dispatchSpy = sinon.spy();
@@ -201,7 +197,7 @@ describe('Actions', () => {
 
       expect(uploaderSpy.called).to.be.true;
       expect(dispatchSpy.firstCall.args[0].type).to.equal(CANCEL_UPLOAD);
-      global.window = oldWindow;
+      global.window.dataLayer = oldDataLayer;
     });
   });
   describe('getAppeals', () => {

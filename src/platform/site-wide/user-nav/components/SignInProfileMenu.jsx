@@ -1,32 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import IconUser from '@department-of-veterans-affairs/formation/IconUser';
+import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+import IconUser from '@department-of-veterans-affairs/formation-react/IconUser';
 
-import LegacyDropdown from './LegacyDropdown';
 import PersonalizationDropdown from './PersonalizationDropdown';
-
-import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
 
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff" role="presentation" />;
 
     return (
-      <DropDownPanel
-        buttonText={this.props.greeting}
-        clickHandler={this.props.clickHandler}
-        id="account-menu"
-        icon={icon}
-        isOpen={this.props.isOpen}
-        disabled={this.props.disabled}
-      >
-        {isPersonalizationEnabled() ? (
+      <div>
+        <DropDownPanel
+          buttonText={this.props.greeting}
+          clickHandler={this.props.clickHandler}
+          id="account-menu"
+          icon={icon}
+          isOpen={this.props.isOpen}
+          disabled={this.props.disabled}
+        >
           <PersonalizationDropdown />
-        ) : (
-          <LegacyDropdown />
-        )}
-      </DropDownPanel>
+        </DropDownPanel>
+      </div>
     );
   }
 }
@@ -34,7 +29,10 @@ class SignInProfileMenu extends React.Component {
 SignInProfileMenu.propTypes = {
   clickHandler: PropTypes.func.isRequired,
   cssClass: PropTypes.string,
-  greeting: PropTypes.node,
+  greeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   isOpen: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
 };

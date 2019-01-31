@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 
-import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation/ErrorableCheckboxGroup';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
+import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation-react/ErrorableCheckboxGroup';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
@@ -136,6 +136,12 @@ class DisabilityWizard extends React.Component {
     this.setState({ currentLayout: nextLayout, errorMessage: '' });
   };
 
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.goToNextPage();
+    }
+  };
+
   goBack = () => {
     let nextLayout = chooseStatus;
     const { atGuidance } = this;
@@ -250,6 +256,7 @@ class DisabilityWizard extends React.Component {
                 goBack={this.goBack}
                 goForward={this.goForward}
                 authenticate={this.authenticate}
+                handleKeyPress={this.handleKeyPress}
               />
             }
           </div>

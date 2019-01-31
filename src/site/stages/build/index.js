@@ -13,6 +13,7 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
+const getDrupalContent = require('./drupal/metalsmith-drupal');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
@@ -24,13 +25,19 @@ const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
+const checkCollections = require('./plugins/check-collections');
+const createMegaMenu = require('./plugins/create-megamenu');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
+
+  liquid.filters.humanizeTimestamp = dt =>
+    moment.unix(dt).format('MMMM D, YYYY');
+
+  liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
@@ -44,6 +51,7 @@ function defaultBuild(BUILD_OPTIONS) {
     hostUrl: BUILD_OPTIONS.hostUrl,
   });
 
+  smith.use(getDrupalContent(BUILD_OPTIONS));
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -52,6 +60,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(filenames());
 
   smith.use(applyFragments(BUILD_OPTIONS));
+  smith.use(checkCollections(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
   smith.use(dateInFilename(true));
@@ -122,6 +131,8 @@ function defaultBuild(BUILD_OPTIONS) {
       pattern: '**/*.{md,html}',
     }),
   );
+
+  smith.use(createMegaMenu(BUILD_OPTIONS));
 
   /*
   Add nonce attribute with substition string to all inline script tags

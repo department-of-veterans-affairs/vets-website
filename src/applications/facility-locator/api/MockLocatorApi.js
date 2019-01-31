@@ -112,6 +112,51 @@ class MockLocatorApi {
 export const facilityData = {
   data: [
     {
+      id: 'nca_s1130',
+      type: 'va_facilities',
+      attributes: {
+        uniqueId: 's1130',
+        name: 'Washington State Veterans Cemetery Medical Lake',
+        facilityType: 'va_cemetery',
+        classification: 'State Cemetery',
+        website: 'http://www.dva.wa.gov/cemetery',
+        lat: 47.5862341059396,
+        long: -117.713961630042,
+        address: {
+          physical: {
+            address1: '21702 W Espanola Rd',
+            address2: null,
+            address3: null,
+            city: 'Medical Lake',
+            state: 'WA',
+            zip: '99022',
+          },
+          mailing: {},
+        },
+        phone: {
+          main: '509-299-6280',
+          fax: '',
+        },
+        hours: {
+          monday: 'Sunrise - Sunset',
+          tuesday: 'Sunrise - Sunset',
+          wednesday: 'Sunrise - Sunset',
+          thursday: 'Sunrise - Sunset',
+          friday: 'Sunrise - Sunset',
+          saturday: 'Sunrise - Sunset',
+          sunday: 'Sunrise - Sunset',
+        },
+        services: {
+          benefits: {
+            other: '',
+            standard: [],
+          },
+        },
+        feedback: {},
+        access: {},
+      },
+    },
+    {
       id: 'vha_691GE',
       type: 'va_facilities',
       attributes: {
@@ -932,6 +977,37 @@ export const facilityData = {
         gender: 'Male',
         distance: 5.15, // in miles
         network: 'TriWest',
+        lat: 38.9857684400001,
+        long: -76.95675965,
+      },
+    },
+    {
+      id: 'ccp_4',
+      type: 'cc_provider',
+      attributes: {
+        uniqueId: '4',
+        name: 'University of Broken Data',
+        specialty: [
+          {
+            name: 'Bad Data',
+            desc: '...b0rk...',
+          },
+          {
+            name: 'Eyyy Lmao',
+            desc: 'LUL  IceCold...',
+          },
+        ],
+        address: {},
+        email: 'b0rkb0rk@br0k.edu',
+        phone: '240-123-0199',
+        schedPhone: '866-606-8198',
+        fax: '240-123-0198',
+        website: 'http://b0rk.org',
+        prefContact: 'phone',
+        accNewPatients: true,
+        gender: 'Male',
+        distance: 3.65, // in miles
+        network: 'LHASNRM',
         lat: 38.9857684400001,
         long: -76.95675965,
       },

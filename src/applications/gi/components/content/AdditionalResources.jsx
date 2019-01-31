@@ -3,7 +3,11 @@ import React from 'react';
 export const AdditionalResourcesLinks = () => (
   <div>
     <p>
-      <a href="https://va.careerscope.net/gibill" target="_blank">
+      <a
+        href="https://va.careerscope.net/gibill"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Get started with CareerScope
       </a>
     </p>
@@ -11,17 +15,22 @@ export const AdditionalResourcesLinks = () => (
       <a
         href="https://www.benefits.va.gov/gibill/choosing_a_school.asp"
         target="_blank"
+        rel="noopener noreferrer"
       >
         Get help choosing a school
       </a>
     </p>
     <p>
-      <a href="/education/submit-school-feedback">
+      <a
+        href="/education/submit-school-feedback"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Submit a complaint through our Feedback System
       </a>
     </p>
     <p>
-      <a href="/education/apply/" target="_blank">
+      <a href="/education/how-to-apply/" target="_blank">
         Apply for education benefits
       </a>
     </p>

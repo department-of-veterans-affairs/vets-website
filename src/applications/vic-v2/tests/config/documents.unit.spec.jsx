@@ -21,6 +21,7 @@ describe('VIC document upload', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -39,6 +40,7 @@ describe('VIC document upload', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('it should reject an invalid file', () => {
@@ -61,6 +63,7 @@ describe('VIC document upload', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -88,6 +91,7 @@ describe('VIC document upload', () => {
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should parse doc response', () => {

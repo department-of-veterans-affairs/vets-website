@@ -1,35 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import moment from 'moment';
+import { isEmpty } from 'lodash';
 
-import environment from 'platform/utilities/environment';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-function AccordionWrapper({ children }) {
-  return (
-    <div className="usa-accordion">
-      <ul className="usa-unstyled-list">{children}</ul>
-    </div>
-  );
-}
+import deduplicate from 'platform/utilities/data/deduplicate';
+import recordEvent from 'platform/monitoring/record-event';
 
-function AccordionItem({ onToggle, expanded, buttonText, name, children }) {
-  return (
-    <li>
-      <button
-        className="usa-button-unstyled usa-accordion-button"
-        aria-controls={name}
-        aria-expanded={!!expanded}
-        onClick={onToggle}
-        name={name}
-      >
-        {buttonText}
-      </button>
-      <div id={name} className="usa-accordion-content" aria-hidden={!expanded}>
-        <div itemProp="text">{children}</div>
-      </div>
-    </li>
-  );
-}
+import PreferenceList from '../components/PreferenceList';
+
+import {
+  setPreference,
+  fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
+  restorePreviousSelections,
+  updatePreferences,
+} from '../actions';
+import {
+  benefitChoices,
+  dismissBenefitAlert,
+  getDismissedBenefitAlerts,
+  didPreferencesChange,
+  didJustSave,
+  didJustFailToSave,
+} from '../helpers';
+import {
+  SaveSucceededMessageComponent,
+  SaveFailedMessageComponent,
+  RetrieveFailedMessageComponent,
+} from '../helperComponents';
+import { LOADING_STATES } from '../constants';
+
+const BenefitAlert = ({ alert: Alert, onClose }) => (
+  <Alert onCloseAlert={onClose} />
+);
+const ALERT_DELAY = 5000;
 
 class PreferencesWidget extends React.Component {
   constructor(props) {
@@ -38,49 +46,211 @@ class PreferencesWidget extends React.Component {
     this.state = {};
   }
 
-  handleAccordionToggle = e => {
-    e.preventDefault();
+  componentWillMount() {
+    this.props.fetchUserSelectedBenefits();
+    if (!isEmpty(this.props.preferences.dashboard)) {
+      this.setSelectedBenefits();
+    }
+    const savedRecently = moment().isBefore(
+      this.props.preferences.savedAt + ALERT_DELAY,
+    );
+    if (savedRecently) {
+      this.setSavedMessage();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (didPreferencesChange(prevProps, this.props)) {
+      this.setSelectedBenefits();
+    }
+    if (didJustSave(prevProps, this.props)) {
+      this.setSavedMessage();
+    }
+    if (didJustFailToSave(prevProps, this.props)) {
+      this.props.restorePreviousSelections();
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.state.savedMessageTimer);
+  }
+
+  setSelectedBenefits = () => {
+    const {
+      preferences: { dashboard },
+    } = this.props;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    this.setState({ selectedBenefits }, this.getDisplayedBenefitAlerts);
+  };
+
+  getDisplayedBenefitAlerts = () => {
+    const dismissedAlerts = getDismissedBenefitAlerts();
+    this.props.setDismissedBenefitAlerts(dismissedAlerts);
+    const { dismissedBenefitAlerts } = this.props.preferences;
+    const selectedBenefitAlerts = this.state.selectedBenefits
+      .filter(item => !!item.alert)
+      .map(item => item.alert);
+    let displayedBenefitAlerts = selectedBenefitAlerts.filter(
+      alert => !dismissedBenefitAlerts.includes(alert.name),
+    );
+    displayedBenefitAlerts = deduplicate(displayedBenefitAlerts);
+    this.setState({ displayedBenefitAlerts });
+  };
+
+  setSavedMessage = () => {
+    // Clear any existing saved message timer
+    if (this.state.savedMessageTimer) {
+      clearTimeout(this.state.savedMessageTimer);
+    }
+
+    // Display preferences saved message
+    this.setState({ showSavedMessage: true });
+
+    // Create new message timer
+    const savedMessageTimer = setTimeout(
+      () => this.setState({ showSavedMessage: false }),
+      ALERT_DELAY,
+    );
+    // Set new message timer to state
+    this.setState({ savedMessageTimer });
+  };
+
+  handleRemoveBenefit = async code => {
+    await this.props.setPreference(code, false);
+    const { dashboard } = this.props.preferences;
+    this.props.updatePreferences(dashboard);
+  };
+
+  handleViewToggle = code => {
     this.setState({
-      [e.target.name]: !this.state[e.target.name],
+      [code]: !this.state[code],
     });
   };
 
-  render() {
-    // do not show in production
-    if (environment.isProduction()) {
-      return null;
+  handleCloseSavedAlert = () => {
+    clearTimeout(this.state.savedMessageTimer);
+    this.setState({ showSavedMessage: false });
+  };
+
+  handleCloseBenefitAlert = name => {
+    dismissBenefitAlert(name);
+    this.getDisplayedBenefitAlerts();
+  };
+
+  renderContent = () => {
+    const {
+      preferences: { userBenefitsLoadingStatus: loadingStatus, saveStatus },
+    } = this.props;
+    const { selectedBenefits, displayedBenefitAlerts } = this.state;
+
+    const hasSelectedBenefits = selectedBenefits && !!selectedBenefits.length;
+
+    if (loadingStatus === LOADING_STATES.pending) {
+      return <LoadingIndicator message={'Loading your selections...'} />;
     }
+    if (loadingStatus === LOADING_STATES.error) {
+      return <RetrieveFailedMessageComponent />;
+    }
+    if (loadingStatus === LOADING_STATES.loaded) {
+      if (!hasSelectedBenefits) {
+        return (
+          <div>
+            <p>You haven’t selected any benefits to learn about.</p>
+            <Link
+              to="find-benefits"
+              onClick={() =>
+                recordEvent({
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link',
+                  'dashboard-product': 'select-benefits-now',
+                })
+              }
+            >
+              Select benefits now.
+            </Link>
+          </div>
+        );
+      }
+      if (hasSelectedBenefits) {
+        const content = [
+          <PreferenceList
+            key="preference-list"
+            benefits={selectedBenefits}
+            view={this.state}
+            handleViewToggle={this.handleViewToggle}
+            handleRemove={this.handleRemoveBenefit}
+          />,
+        ];
+        if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
+          content.unshift(
+            <div key="benefit-alerts">
+              {displayedBenefitAlerts.map(({ component, name }, index) => (
+                <BenefitAlert
+                  alert={component}
+                  key={index}
+                  onClose={() => this.handleCloseBenefitAlert(name)}
+                />
+              ))}
+            </div>,
+          );
+        }
+        if (saveStatus === LOADING_STATES.error) {
+          content.unshift(<SaveFailedMessageComponent />);
+        }
+        return content;
+      }
+    }
+    return null;
+  };
+
+  render() {
+    const {
+      preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
+    } = this.props;
+    const isLoaded = loadingStatus !== LOADING_STATES.pending;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    const hasSelectedBenefits = !!selectedBenefits.length;
+    const { showSavedMessage } = this.state;
 
     return (
-      <div className="row user-profile-row">
-        <div className="small-12 columns">
-          <div className="title-container">
-            <h2>Find VA Benefits</h2>
-            <Link to="preferences">Find VA Benefits Settings</Link>
-          </div>
-          <div>
-            <AccordionWrapper>
-              <AccordionItem
-                onToggle={this.handleAccordionToggle}
-                name="exampleBenefit"
-                buttonText="Example Benefit"
-                expanded={this.state.exampleBenefit}
+      <div>
+        <div className="title-container">
+          <h2>Find VA Benefits</h2>
+          {isLoaded &&
+            hasSelectedBenefits && (
+              <Link
+                className="usa-button usa-button-secondary"
+                to="find-benefits"
+                onClick={() =>
+                  recordEvent({
+                    event: 'dashboard-navigation',
+                    'dashboard-action': 'view-button',
+                    'dashboard-product': 'find-va-benefits',
+                  })
+                }
               >
-                <p>TBD benefit content</p>
-              </AccordionItem>
-            </AccordionWrapper>
-            <AccordionWrapper>
-              <AccordionItem
-                onToggle={this.handleAccordionToggle}
-                name="exampleBenefitTwo"
-                buttonText="Example Benefit Two"
-                expanded={this.state.exampleBenefitTwo}
-              >
-                <p>TBD benefit content</p>
-              </AccordionItem>
-            </AccordionWrapper>
-          </div>
+                Find VA Benefits
+              </Link>
+            )}
         </div>
+        <ReactCSSTransitionGroup
+          transitionName="form-expanding-group-inner"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {showSavedMessage && (
+            <SaveSucceededMessageComponent
+              handleCloseAlert={this.handleCloseSavedAlert}
+            />
+          )}
+        </ReactCSSTransitionGroup>
+        <div ariaLive="polite">{this.renderContent()}</div>
       </div>
     );
   }
@@ -88,9 +258,16 @@ class PreferencesWidget extends React.Component {
 
 const mapStateToProps = state => ({
   ...state,
+  preferences: state.preferences,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setPreference,
+  fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
+  restorePreviousSelections,
+  updatePreferences,
+};
 
 export default connect(
   mapStateToProps,

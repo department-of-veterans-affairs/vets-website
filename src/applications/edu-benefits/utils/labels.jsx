@@ -19,7 +19,7 @@ export const benefitsLabels = {
     <p>
       Post-9/11 GI Bill (Chapter 33)
       <br />
-      <a href="/education/gi-bill/post-9-11/" target="_blank">
+      <a href="/education/about-gi-bill-benefits/post-9-11/" target="_blank">
         Learn more
       </a>
     </p>
@@ -28,7 +28,10 @@ export const benefitsLabels = {
     <p>
       Montgomery GI Bill (MGIB-AD, Chapter 30)
       <br />
-      <a href="/education/gi-bill/montgomery-active-duty/" target="_blank">
+      <a
+        href="/education/about-gi-bill-benefits/montgomery-active-duty/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -37,7 +40,10 @@ export const benefitsLabels = {
     <p>
       Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
       <br />
-      <a href="/education/gi-bill/montgomery-selected-reserve/" target="_blank">
+      <a
+        href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -48,10 +54,7 @@ export const benefitsLabels = {
       <br />
       (VEAP, Chapter 32)
       <br />
-      <a
-        href="/education/other-educational-assistance-programs/veap/"
-        target="_blank"
-      >
+      <a href="/education/other-va-education-benefits/veap/" target="_blank">
         Learn more
       </a>
     </p>
@@ -60,10 +63,7 @@ export const benefitsLabels = {
     <p>
       Reserve Educational Assistance Program (REAP, Chapter 1607)
       <br />
-      <a
-        href="/education/other-educational-assistance-programs/reap/"
-        target="_blank"
-      >
+      <a href="/education/other-va-education-benefits/reap/" target="_blank">
         Learn more
       </a>
     </p>
@@ -72,7 +72,7 @@ export const benefitsLabels = {
     <p>
       Transfer of Entitlement Program (TOE)
       <br />
-      <a href="/education/gi-bill/transfer/" target="_blank">
+      <a href="/education/transfer-post-9-11-gi-bill-benefits/" target="_blank">
         Learn more
       </a>
     </p>
@@ -88,7 +88,7 @@ export const survivorBenefitsLabels = {
       (DEA, Chapter 35)
       <br />
       <a
-        href="/education/gi-bill/survivors-dependent-assistance/dependents-education/"
+        href="/education/survivor-dependent-benefits/dependents-education-assistance/"
         target="_blank"
       >
         Learn more
@@ -100,7 +100,7 @@ export const survivorBenefitsLabels = {
       The Fry Scholarship (Chapter 33)
       <br />
       <a
-        href="/education/gi-bill/survivors-dependent-assistance/fry-scholarship/"
+        href="/education/survivor-dependent-benefits/fry-scholarship/"
         target="_blank"
       >
         Learn more
@@ -144,19 +144,17 @@ export const directDepositWarning = (
     isn’t an option for Chapter 32 (VEAP) recipients). If you don’t have a bank
     account, you must get your payment through Direct Express Debit MasterCard.
     To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a href="http://www.usdirectexpress.com" target="_blank">
+    <a
+      href="http://www.usdirectexpress.com"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at{' '}
-    <a href="tel:8003331795" target="_blank">
-      1-800-333-1795
-    </a>
-    . If you chose not to enroll, you must contact representatives handling
-    waiver requests for the Department of Treasury at{' '}
-    <a href="tel:8882242950" target="_blank">
-      1-888-224-2950
-    </a>
-    . They will address any questions or concerns you may have and encourage
-    your participation in EFT.
+    or by telephone at <a href="tel:8003331795">1-800-333-1795</a>. If you chose
+    not to enroll, you must contact representatives handling waiver requests for
+    the Department of Treasury at <a href="tel:8882242950">1-888-224-2950</a>.
+    They will address any questions or concerns you may have and encourage your
+    participation in EFT.
   </div>
 );

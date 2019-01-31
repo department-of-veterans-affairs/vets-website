@@ -58,6 +58,7 @@ class StatusPage extends React.Component {
           If you've received education benefit payments through this program,{' '}
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
           >
             you can see your payment history on eBenefits

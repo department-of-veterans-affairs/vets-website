@@ -1,82 +1,38 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
-import recordEvent from '../../../platform/monitoring/record-event';
+import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import localStorage from '../../../platform/utilities/storage/localStorage';
 
 import facilityLocator from '../../facility-locator/manifest';
 
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
-    const { auth, token } = props.location.query;
-    this.state = { error: auth === 'fail' || !token };
-    this.authSettings = {
-      headers: {
-        Authorization: `Token token=${token}`,
-      },
-    };
+    this.state = { error: props.location.query.auth === 'fail' };
   }
 
   componentDidMount() {
-    if (!this.state.error) {
-      this.validateToken();
-    }
+    if (!this.state.error) this.validateSession();
   }
-
-  setToken = () => {
-    // Internet Explorer 6-11
-    const isIE = /*@cc_on!@*/ false || !!document.documentMode; // eslint-disable-line spaced-comment
-    // Edge 20+
-    const isEdge = !isIE && !!window.StyleMedia;
-
-    const { token } = this.props.location.query;
-    const parent = window.opener;
-
-    const storageType = localStorage.getItem('storageType');
-    const storage =
-      storageType === 'localStorage' ? localStorage : parent.sessionStorage;
-
-    storage.removeItem('userToken');
-    storage.setItem('userToken', token);
-    storage.removeItem('entryTime');
-    storage.setItem('entryTime', new Date());
-    parent.postMessage(token, environment.BASE_URL);
-
-    // This will trigger a browser reload if the user is using IE or Edge.
-    if (isIE || isEdge) {
-      window.opener.location.reload();
-    }
-    window.close();
-  };
 
   handleAuthError = () => {
     this.setState({ error: true });
   };
 
-  handleAuthSuccess = ({ data }) => {
-    // Upon successful authentication, push analytics event and store the token.
-    const userData = data.attributes.profile;
-    const loginPolicy = userData.authnContext || 'idme';
-    recordEvent({ event: `login-success-${loginPolicy}` });
-    this.setToken();
+  handleAuthSuccess = payload => {
+    setupProfileSession(payload);
+    const returnUrl = sessionStorage.getItem('authReturnUrl');
+    sessionStorage.removeItem('authReturnUrl');
+    window.location = returnUrl || '/';
   };
 
-  // Fetch the user to get the login policy and validate the token against the API.
-  validateToken = () => {
-    apiRequest(
-      '/user',
-      this.authSettings,
-      this.handleAuthSuccess,
-      this.handleAuthError,
-    );
+  // Fetch the user to get the login policy and validate the session.
+  validateSession = () => {
+    apiRequest('/user', null, this.handleAuthSuccess, this.handleAuthError);
   };
 
   renderError = () => {
@@ -161,13 +117,15 @@ export class AuthApp extends React.Component {
             <div>
               <p>We’re sorry. Something went wrong on our end.</p>
               <p>
-                Please{' '}
-                <SubmitSignInForm>
-                  call the {siteName} Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>. We’re open
-                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </SubmitSignInForm>
+                Please read our answers to frequently asked questions about
+                common issues with signing in to VA.gov. These answers offer
+                steps you can take to try to fix the issue and a form to submit
+                a request for more help if needed.
+              </p>
+              <p>
+                <a href="/sign-in-faq/#sign-in-issue">
+                  Go to the sign in FAQs.
+                </a>
               </p>
             </div>
           ),
@@ -199,9 +157,4 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { login, profile } = state;
-  return { login, profile };
-};
-
-export default connect(mapStateToProps)(AuthApp);
+export default AuthApp;

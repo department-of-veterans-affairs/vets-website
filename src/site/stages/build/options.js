@@ -14,6 +14,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: 3001 },
+  { name: 'api', type: String, defaultValue: null },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
@@ -22,6 +23,9 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  { name: 'pull-drupal', type: Boolean, defaultValue: false },
+  { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
+  { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -39,6 +43,13 @@ function applyDefaultOptions(options) {
   const contentPagesRoot = options['content-directory'];
   const contentRoot = path.join(contentPagesRoot, '../');
 
+  const projectRoot = path.resolve(__dirname, '../../../../');
+  const siteRoot = path.join(__dirname, '../../');
+  const includes = path.join(siteRoot, 'includes');
+  const components = path.join(siteRoot, 'components');
+  const layouts = path.join(siteRoot, 'layouts');
+  const paragraphs = path.join(siteRoot, 'paragraphs');
+
   Object.assign(options, {
     contentRoot,
     contentPagesRoot,
@@ -47,18 +58,22 @@ function applyDefaultOptions(options) {
       source: path.join(contentRoot, 'assets'),
       destination: './',
     },
-    destination: path.resolve(
-      __dirname,
-      '../../../../build',
-      options.buildtype,
-    ),
+    destination: path.resolve(projectRoot, 'build', options.buildtype),
     appAssets: {
       source: '../../assets',
       destination: './',
     },
-    layouts: path.join(__dirname, '../../layouts'),
+    layouts,
     collections: require('./data/collections.json'),
     redirects: require('./data/vagovRedirects.json'),
+    watchPaths: {
+      [`${contentRoot}/**/*`]: '**/*.{md,html}',
+      [`${includes}/**/*`]: '**/*.{md,html}',
+      [`${components}/**/*`]: '**/*.{md,html}',
+      [`${layouts}/**/*`]: '**/*.{md,html}',
+      [`${paragraphs}/**/*`]: '**/*.{md,html}',
+    },
+    cacheDirectory: path.resolve(projectRoot, '.cache'),
   });
 }
 
@@ -106,8 +121,8 @@ function deriveHostUrl(options) {
   options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
 }
 
-function getOptions() {
-  const options = gatherFromCommandLine();
+function getOptions(commandLineOptions) {
+  const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);

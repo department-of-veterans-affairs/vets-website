@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -155,7 +155,7 @@ class AppealStatusPage extends React.Component {
                   </strong>
                   {status.description}
                   <p>
-                    <a href="/disability-benefits/claims-appeal/">
+                    <a href="/disability/file-an-appeal/">
                       Learn more about the appeals process
                     </a>
                     .

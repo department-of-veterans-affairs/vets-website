@@ -8,7 +8,10 @@ export const FDCDescription = (
       uploaded all the supporting documents or supplemental forms needed to
       support your claim.
     </p>
-    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+    <a
+      href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+      target="_blank"
+    >
       Learn more about the FDC program
     </a>
     .

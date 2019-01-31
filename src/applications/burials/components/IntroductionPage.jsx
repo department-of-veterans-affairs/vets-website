@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
@@ -41,7 +41,7 @@ class IntroductionPage extends React.Component {
               </div>
               <div>
                 <h6>
-                  <a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">
+                  <a href="/burials-memorials/veterans-burial-allowance/">
                     Find out if you qualify for a burial allowance
                   </a>
                   .
@@ -88,7 +88,7 @@ class IntroductionPage extends React.Component {
                 If you’re the survivor or dependent of a Veteran who died in the
                 line of duty or from a service-related illness, you may be able
                 to get a benefit called{' '}
-                <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">
+                <a href="/burials-memorials/dependency-indemnity-compensation/">
                   Dependency and Indemnity Compensation
                 </a>
                 .

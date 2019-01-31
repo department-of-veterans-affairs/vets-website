@@ -16,17 +16,24 @@ describe('Prisoner of war info', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.prisonerOfWar;
 
+  const formData = {
+    serviceInformation: {
+      servicePeriods: [{ dateRange: { from: '2009-01-01', to: '2013-01-01' } }],
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should render confinement fields', () => {
@@ -35,7 +42,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
@@ -43,6 +50,7 @@ describe('Prisoner of war info', () => {
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should fail to submit when no data is filled out', () => {
@@ -52,7 +60,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
         onSubmit={onSubmit}
       />,
     );
@@ -60,6 +68,7 @@ describe('Prisoner of war info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should add another period', () => {
@@ -68,13 +77,13 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_view:isPOW_confinements_0_to', '2011-05-05');
+    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPow_confinements_0_to', '2011-05-05');
 
     form.find('.va-growable-add-btn').simulate('click');
 
@@ -84,6 +93,7 @@ describe('Prisoner of war info', () => {
         .first()
         .text(),
     ).to.contain('05/05/2011');
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -93,18 +103,19 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
         onSubmit={onSubmit}
       />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_view:isPOW_confinements_0_to', '2011-05-05');
+    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPow_confinements_0_to', '2011-05-05');
 
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should show new disabilities', () => {
@@ -113,10 +124,10 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
+        data={Object.assign({}, formData, {
           newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
           'view:newDisabilities': true,
-        }}
+        })}
       />,
     );
 
@@ -125,6 +136,7 @@ describe('Prisoner of war info', () => {
     const output = form.render().text();
     expect(output).to.contain('ASHD');
     expect(output).to.contain('Scars');
+    form.unmount();
   });
 
   it('should not show new disabilities section when none entered', () => {
@@ -133,7 +145,7 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={formData}
       />,
     );
 
@@ -143,5 +155,28 @@ describe('Prisoner of war info', () => {
     expect(output).to.not.contain(
       'Which of your new conditions was caused or affected by your POW experience?',
     );
+    form.unmount();
+  });
+
+  it('should require confinement dates to be within a single service period', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(form, 'root_view:powStatus', 'Y');
+    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPow_confinements_0_to', '2014-05-05'); // After service period
+
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

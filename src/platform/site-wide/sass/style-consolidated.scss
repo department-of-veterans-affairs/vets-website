@@ -1,6 +1,7 @@
 //===================================
 // asset paths
 //===================================
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 
@@ -30,10 +31,10 @@ $modal-layer: 400;
 $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
 
 @font-face {
-  font-family: "FontAwesome";
-  src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
-    url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
-    url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
+  font-family: "Font Awesome 5 Free";
+  src: url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2") format("woff2"),
+       url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff") format("woff"),
+       url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot") format("eot");
   font-weight: normal;
   font-style: normal;
 }

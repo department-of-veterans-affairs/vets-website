@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 
@@ -72,7 +72,7 @@ export default function IdentityVerification({
         </a>
         <h4>What if I’m having trouble verifying my identity?</h4>
         <p>
-          <a href="/faq/" target="_blank" onClick={faqClick}>
+          <a href="/sign-in-faq/" target="_blank" onClick={faqClick}>
             Get answers to Frequently Asked Questions
           </a>
         </p>

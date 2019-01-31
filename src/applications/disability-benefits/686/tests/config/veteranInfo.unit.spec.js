@@ -25,6 +25,7 @@ describe('686 veteran information', () => {
       />,
     );
     expect(form.find('input').length).to.equal(5);
+    form.unmount();
   });
 
   it('should expand VA file number if noSSN is checked', () => {
@@ -37,6 +38,7 @@ describe('686 veteran information', () => {
     );
     selectCheckbox(form, 'root_view:noSSN', true);
     expect(form.find('input').length).to.equal(6);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -52,6 +54,7 @@ describe('686 veteran information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit completed form', () => {
@@ -72,5 +75,6 @@ describe('686 veteran information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

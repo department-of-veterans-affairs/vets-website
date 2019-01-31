@@ -1,29 +1,28 @@
-import { merge, omit } from 'lodash';
+import { merge } from 'lodash';
 
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import AuthorityField from '../components/AuthorityField';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
-import {
-  uiSchema as addressUI,
-  schema as addressSchema,
-} from '../../../../platform/forms/definitions/address';
+import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import { validateZIP } from '../validations';
+
+const { sources } = fullSchema.definitions.secondaryPtsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': PtsdAssaultAuthoritiesDescription,
   [`secondaryIncident${index}`]: {
-    authorities: {
+    sources: {
       'ui:options': {
         itemName: 'Authority',
         viewField: AuthorityField,
       },
       items: {
         name: {
-          'ui:title': 'Name of authority',
+          'ui:title': 'Name of official or authority',
         },
-        address: merge(addressUI('', false), {
+        address: merge(addressUI(''), {
           'ui:order': [
             'country',
             'addressLine1',
@@ -38,12 +37,13 @@ export const uiSchema = index => ({
           addressLine2: {
             'ui:title': 'Street 2',
           },
-          state: {
-            'ui:title': 'State',
-          },
           zipCode: {
             'ui:title': 'Postal Code',
             'ui:validations': [validateZIP],
+            'ui:errorMessages': {
+              pattern:
+                'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+            },
           },
         }),
       },
@@ -51,37 +51,14 @@ export const uiSchema = index => ({
   },
 });
 
-export const schema = index => {
-  const address = addressSchema(fullSchema);
-
-  return {
-    type: 'object',
-    properties: {
-      [`secondaryIncident${index}`]: {
-        type: 'object',
-        properties: {
-          authorities: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                name: {
-                  type: 'string',
-                },
-                address: {
-                  ...address,
-                  properties: {
-                    ...omit(address.properties, ['addressLine3', 'postalCode']),
-                    zipCode: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+export const schema = index => ({
+  type: 'object',
+  properties: {
+    [`secondaryIncident${index}`]: {
+      type: 'object',
+      properties: {
+        sources,
       },
     },
-  };
-};
+  },
+});

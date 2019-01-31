@@ -20,7 +20,7 @@ export default function Notification({ title, body, onClose, type }) {
           onClick={onClose}
           aria-label="Close notification"
         >
-          <i className="fa fa-close" aria-label="Close icon" />
+          <i className="fas fa-times-circle" aria-label="Close icon" />
         </button>
       )}
       <div className="usa-alert-body">

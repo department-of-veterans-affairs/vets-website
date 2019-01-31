@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
@@ -92,7 +92,7 @@ class IntroductionPage extends React.Component {
                       without asking you for more information.
                     </p>
                     <a
-                      href="/pension/apply/fully-developed-claim/"
+                      href="/pension/how-to-apply/fully-developed-claim/"
                       target="_blank"
                     >
                       Learn more about the FDC Program

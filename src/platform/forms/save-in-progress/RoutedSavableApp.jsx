@@ -11,7 +11,7 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { isInProgress } from '../helpers';
 import { getSaveInProgressState } from './selectors';
@@ -34,6 +34,10 @@ const scrollToTop = () => {
  * Primary component for a schema generated form app.
  */
 class RoutedSavableApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.location = props.location || window.location;
+  }
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
@@ -100,10 +104,10 @@ class RoutedSavableApp extends React.Component {
       status !== LOAD_STATUSES.notAttempted &&
       status !== LOAD_STATUSES.pending &&
       status !== this.props.loadedStatus &&
-      !window.location.pathname.endsWith('/error')
+      !this.location.pathname.endsWith('/error')
     ) {
       let action = 'push';
-      if (window.location.pathname.endsWith('resume')) {
+      if (this.location.pathname.endsWith('resume')) {
         action = 'replace';
       }
       newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);

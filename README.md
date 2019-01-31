@@ -1,4 +1,4 @@
-# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/)
+# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/testing/job/vets-website/job/master/)
 
 ## What is this?
 
@@ -24,7 +24,8 @@ very secret.
 | build the production site (dev features disabled). | `npm run build -- --buildtype vagovprod` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
-| run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of Javascript and sass without css sourcemaps | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. CSS sourcemaps are off by default to avoid an issue that causes the default watch task to crash after rebuilding |
+| run the site for local development with automatic rebuilding of Javascript and sass with css sourcemaps| `npm run watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
@@ -41,7 +42,7 @@ very secret.
 | run automated accessibility tests        | `npm run build && npm run test:accessibility` |
 | run visual regression testing            | Start the site. Generate your baseline image set using `npm run test:visual:baseline`. Make your changes. Then run `npm run test:visual`.  |
 | test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
-| add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
+| add new npm modules                      | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related. |
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
 | run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
@@ -65,7 +66,7 @@ Inside the `src` directory, we have two folders `applications` and `platform`. `
 
 Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
-The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
+The requirements for running this application are Node.js 8.10.0 and yarn 1.12.3
 
 Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
@@ -94,13 +95,13 @@ nvm alias default 8.10.0
 
 Next install Yarn:
 ```bash
-npm i -g yarn@1.5.1
+npm i -g yarn@1.12.3
 ```
 ### Verify your local requirements are set
 
 ```bash
 node --version // 8.10.0
-yarn --version // 1.5.1
+yarn --version // 1.12.3
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
@@ -340,6 +341,5 @@ disabled by the feature flag.
   - [How to Deploy](docs/HowToDeploy.md)
 
 - React JSON Schemaform
-  - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
-  - [Form Config](docs/schemaform/form-config.md)
-
+  - [Building a Form](https://github.com/usds/us-forms-system/blob/master/docs/building-a-form/README.md) - walkthrough for using schemaform and the form config
+ 

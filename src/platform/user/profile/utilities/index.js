@@ -1,11 +1,31 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
-import conditionalStorage from '../../../utilities/storage/conditionalStorage';
+import get from '../../../utilities/data/get';
+import localStorage from '../../../utilities/storage/localStorage';
+
 import {
   isVet360Configured,
   mockContactInformation,
 } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
+
+const commonServices = {
+  EMIS: 'EMIS',
+  MVI: 'MVI',
+  Vet360: 'Vet360',
+};
+
+function getErrorStatusDesc(code) {
+  if (code === 404) {
+    return 'NOT_FOUND';
+  }
+
+  if (code === 401) {
+    return 'NOT_AUTHORIZED';
+  }
+
+  return 'SERVER_ERROR';
+}
 
 export function mapRawUserDataToState(json) {
   const {
@@ -26,26 +46,25 @@ export function mapRawUserDataToState(json) {
           verified,
         },
         services,
-        vaProfile: { status },
+        vaProfile,
         vet360ContactInformation,
-        veteranStatus: { isVeteran, status: veteranStatus, servedInMilitary },
+        veteranStatus,
       },
     },
+    meta,
   } = camelCaseKeysRecursive(json);
 
-  return {
+  const userState = {
     accountType: loa.current,
     authnContext,
     dob,
     email,
     gender,
-    isVeteran,
     loa,
     multifactor,
     prefillsAvailable,
     savedForms,
     services,
-    status,
     userFullName: {
       first,
       middle,
@@ -55,27 +74,80 @@ export function mapRawUserDataToState(json) {
     vet360: isVet360Configured()
       ? vet360ContactInformation
       : mockContactInformation,
-    veteranStatus: {
-      isVeteran,
-      veteranStatus,
-      servedInMilitary,
-    },
   };
+
+  if (meta && veteranStatus === null) {
+    const errorStatus = meta.errors.find(
+      error => error.externalService === commonServices.EMIS,
+    ).status;
+    userState.veteranStatus = getErrorStatusDesc(errorStatus);
+  } else {
+    userState.isVeteran = veteranStatus.isVeteran;
+    userState.veteranStatus = {
+      isVeteran: veteranStatus.isVeteran,
+      veteranStatus,
+      servedInMilitary: veteranStatus.servedInMilitary,
+    };
+  }
+
+  if (meta && vaProfile === null) {
+    const errorStatus = meta.errors.find(
+      error => error.externalService === commonServices.MVI,
+    ).status;
+    userState.status = getErrorStatusDesc(errorStatus);
+  } else {
+    userState.status = vaProfile.status;
+  }
+
+  // This one is checking userState because there's no extra mapping and it's
+  // easier to leave the mocking code the way it is
+  if (meta && userState.vet360 === null) {
+    const errorStatus = meta.errors.find(
+      error => error.externalService === commonServices.Vet360,
+    ).status;
+    userState.vet360 = { status: getErrorStatusDesc(errorStatus) };
+  }
+
+  return userState;
 }
 
+// Flag to indicate an active session for initial page loads.
+// It's distinct from the currentlyLoggedIn state, which
+// serves as confirmation that the user is logged in and
+// as a trigger to properly update any components that subscribe to it.
+export const hasSession = () => localStorage.getItem('hasSession');
+
 export function setupProfileSession(payload) {
-  const userData = payload.data.attributes.profile;
-  // Since sessionStorage/localStorage coerces everything into String,
-  // this conditional avoids setting the first name to the string 'null'.
-  if (userData.first_name) {
-    conditionalStorage().setItem('userFirstName', userData.first_name);
+  localStorage.setItem('hasSession', true);
+  const userData = get('data.attributes.profile', payload, {});
+  const { firstName, authnContext, loa } = userData;
+  const loginPolicy = authnContext || 'idme';
+
+  // Since localStorage coerces everything into String,
+  // this avoids setting the first name to the string 'null'.
+  if (firstName) localStorage.setItem('userFirstName', firstName);
+
+  if (sessionStorage.getItem('registrationPending') === 'true') {
+    // Record GA success event for the register method.
+    recordEvent({ event: `register-success-${loginPolicy}` });
+    sessionStorage.removeItem('registrationPending');
+  } else {
+    // Report GA success event for the login method.
+    recordEvent({ event: `login-success-${loginPolicy}` });
   }
-  // Report out the current level of assurance for the user
-  recordEvent({ event: `login-loa-current-${userData.loa.current}` });
+
+  // Report out the current level of assurance for the user.
+  if (loa && loa.current) {
+    recordEvent({ event: `login-loa-current-${loa.current}` });
+  }
 }
 
 export function teardownProfileSession() {
-  for (const key of ['entryTime', 'userToken', 'userFirstName']) {
-    conditionalStorage().removeItem(key);
+  // Legacy keys (entryTime, userToken) can be removed
+  // after session cookie is fully in place.
+  const sessionKeys = ['hasSession', 'userFirstName', 'entryTime', 'userToken'];
+
+  for (const key of sessionKeys) {
+    localStorage.removeItem(key);
   }
 }

@@ -3,18 +3,20 @@ import { spy } from 'sinon';
 
 import createAnalyticsMiddleware from '../analytics-middleware';
 
-const oldWindow = global.window;
+let oldPush;
+let oldDataLayer;
 
 describe('Analytics Middleware', () => {
   beforeEach(() => {
-    global.window = {
-      push: spy(),
-      dataLayer: [],
-    };
+    oldPush = global.window.push;
+    oldDataLayer = global.window.dataLayer;
+    global.window.push = spy();
+    global.window.dataLayer = [];
   });
 
   afterEach(() => {
-    global.window = oldWindow;
+    global.window.push = oldPush;
+    global.window.dataLayer = oldDataLayer;
   });
 
   const eventList = [

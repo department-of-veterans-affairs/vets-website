@@ -5,10 +5,10 @@ import Scroll from 'react-scroll';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import ErrorableFileInput from '@department-of-veterans-affairs/formation/ErrorableFileInput';
-import ErrorableSelect from '@department-of-veterans-affairs/formation/ErrorableSelect';
+import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
+import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';

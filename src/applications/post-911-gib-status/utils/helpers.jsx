@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
 import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
@@ -143,7 +143,11 @@ export function notQualifiedWarning() {
             If you’re enrolled in education benefits through another chapter
             (Montgomery GI Bill (MGIB) or Reservists Educational Assistance
             Program (REAP)), check our{' '}
-            <a target="_blank" href="https://www.gibill.va.gov/wave/index.do">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.gibill.va.gov/wave/index.do"
+            >
               Web Automated Verification of Enrollment (W.A.V.E)
             </a>
           </li>
@@ -164,6 +168,7 @@ export function noChapter33BenefitsWarning() {
           <p className="usa-alert-heading">
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=post-911-gi-bill-enrollment-status"
             >
               If you’re a dependent, please go to eBenefits to look up your GI
@@ -294,7 +299,7 @@ export const wizardConfig = [
         </li>{' '}
         <span>or </span>
         <li>
-          <a href="/education/apply/">Apply for education benefits.</a>
+          <a href="/education/how-to-apply/">Apply for education benefits.</a>
         </li>
       </ul>
     ),

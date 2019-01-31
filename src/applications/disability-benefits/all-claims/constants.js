@@ -1,3 +1,5 @@
+import disabilityLabels from './content/disabilityLabels';
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -122,7 +124,7 @@ export const SERVICE_CONNECTION_TYPES = {
 
 export const DATA_PATHS = {
   hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords',
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
@@ -134,9 +136,20 @@ export const DATA_PATHS = {
 export const VA_FORM4142_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
+export const VA_FORM4192_URL =
+  'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf';
+
+export const TWENTY_FIVE_MB = 26214400;
+
 export const FIFTY_MB = 52428800;
 
-export const PTSD = 'ptsd';
+export const PTSD_MATCHES = [
+  'ptsd',
+  'post traumatic stress disorder',
+  'post-traumatic stress disorder',
+  'post traumatic stress',
+  'post-traumatic stress',
+];
 
 // Max number of incident iterations a user can go through.
 export const PTSD_INCIDENT_ITERATION = 3;
@@ -162,3 +175,78 @@ export const terminalStatuses = new Set([
   submissionStatuses.retry,
   submissionStatuses.failed,
 ]);
+
+export const accountTitleLabels = {
+  CHECKING: 'Checking Account',
+  SAVINGS: 'Savings Account',
+  NOBANK: 'No Bank Account',
+};
+
+export const disabilityActionTypes = {
+  INCREASE: 'INCREASE',
+  NONE: 'NONE',
+};
+
+export const causeTypes = {
+  NEW: 'NEW',
+  SECONDARY: 'SECONDARY',
+  WORSENED: 'WORSENED',
+  VA: 'VA',
+};
+
+export const specialIssueTypes = {
+  POW: 'POW',
+};
+
+export const PTSD_CHANGE_LABELS = {
+  changeAssignment:
+    'Sudden requests for a change in occupational series or duty assignment',
+  increasedLeave: 'Increased use of leave',
+  withoutLeave: 'AWOL - Absent without leave',
+  performanceChanges: 'Changes in performance and performance evaluations',
+  economicChanges: 'Economic changes',
+  resign: 'Resigning from your job',
+  increasedVisits:
+    'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
+  pregnancyTests: 'Pregnancy tests around the time of the incident',
+  hivTests: 'Tests for HIV or sexually transmitted diseases',
+  weightChanges: 'Extreme weight loss or gain',
+  lethargy: 'Lethargy',
+  breakup: 'Breakup of primary relationship',
+  increasedDisregard: 'Increased disregard for military or civilian authority',
+  withdrawal: 'Withdrawal from friends',
+  unexplained: 'Unexplained social behavior changes',
+  depression:
+    'Episodes of depression, panic attacks, or anxiety without an identifiable cause',
+  obsessive: 'Obsessive behaviors',
+  prescription:
+    'Increased or decreased use of prescription medications or over-the-counter medications',
+  substance: 'Substance abuse such as alcohol or drugs',
+  hypervigilance: 'Hypervigilance, heightened fight or flight response',
+  agoraphobia: 'Staying at home, not wanting to go out, agoraphobia',
+  fear: 'Increased fear of surroundings, inability to go to certain areas',
+};
+
+// KEYS on formData that contain uploaded files that need to be added to attachments
+export const ATTACHMENT_KEYS = [
+  'form781Upload',
+  'form781aUpload',
+  'form8940Upload',
+  'form4192Upload',
+  'privateMedicalRecordAttachments',
+  'additionalDocuments',
+  'unemployabilitySupportingDocuments',
+  'secondaryUploadSources0',
+  'secondaryUploadSources1',
+  'secondaryUploadSources2',
+];
+
+export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
+  disabilityLabels,
+).map(v => v.toLowerCase());
+
+// This comes straight from EVSS but isn't documented in Swagger because
+// it's only used on disabilities that don't exist in the mapped list.
+// Note: the right single quote (’) is intentional - apostrophes are not
+//       allowed.
+export const EVSS_DISABILITY_NAME_REGEX = /^([a-zA-Z0-9\-‘.,/()]([a-zA-Z0-9\-’,. ])?)+$/;

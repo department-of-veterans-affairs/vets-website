@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import BrandConsolidationSummary, {
-  VetsDotGovSummary,
-} from './IntroPageSummary';
-import brandConsolidation from '../../../platform/brand-consolidation';
+import BrandConsolidationSummary from './IntroPageSummary';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
@@ -41,7 +38,7 @@ export class IntroPage extends React.Component {
         break;
       }
       case SERVICE_AVAILABILITY_STATES.up: {
-        content = brandConsolidation.isEnabled() ? (
+        content = (
           <div>
             <AlertBox
               headline={downtimeSoonAlertHeadline}
@@ -63,8 +60,6 @@ export class IntroPage extends React.Component {
             />
             <BrandConsolidationSummary />
           </div>
-        ) : (
-          <VetsDotGovSummary />
         );
         break;
       }
@@ -85,50 +80,12 @@ export class IntroPage extends React.Component {
   }
 
   render() {
-    // TODO: delete this code entirely when we are sure we no longer need to
-    // show the warning to users at all times
-    // eslint-disable-next-line
-    const gibsWarning = (
-      <div className="usa-alert usa-alert-warning intro-warning">
-        <div className="usa-alert-body">
-          We’re sorry. Something’s not working quite right with the GI Bill
-          benefits tool. We’re working to fix the problem. If you encounter any
-          errors, please try again later.
-        </div>
-      </div>
-    );
-
     const content = this.getContent();
 
-    if (brandConsolidation.isEnabled()) {
-      return (
-        <div>
-          <h1>Post-9/11 GI Bill Statement of Benefits</h1>
-          {content}
-        </div>
-      );
-    }
-
     return (
-      <div className="row">
-        <div className="medium-8 columns">
-          <h1>Post-9/11 GI Bill Statement of Benefits</h1>
-          <p>
-            If you were awarded Post-9/11 GI Bill education benefits, your GI
-            Bill Statement of Benefits will show you how much of your benefits
-            you’ve used and how much you have left to use for your education or
-            training. These education benefits can help cover some or all of the
-            costs for school or training.
-          </p>
-          <p>
-            You’ll be able to view this benefit statement only if you were
-            awarded education benefits.
-          </p>
-          {content}
-          <br />
-          <br />
-          <br />
-        </div>
+      <div>
+        <h1>Post-9/11 GI Bill Statement of Benefits</h1>
+        {content}
       </div>
     );
   }

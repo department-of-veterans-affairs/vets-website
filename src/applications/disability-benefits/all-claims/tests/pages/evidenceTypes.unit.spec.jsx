@@ -23,6 +23,7 @@ describe('evidenceTypes', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should submit when no evidence selected', () => {
@@ -43,6 +44,7 @@ describe('evidenceTypes', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+    form.unmount();
   });
 
   it('should require at least one evidence type when evidence selected', () => {
@@ -63,6 +65,7 @@ describe('evidenceTypes', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    form.unmount();
   });
 
   it('should submit with all required info', () => {
@@ -76,7 +79,7 @@ describe('evidenceTypes', () => {
           'view:hasEvidence': true,
           'view:hasEvidenceFollowUp': {
             'view:selectableEvidenceTypes': {
-              'view:hasVAMedicalRecords': true,
+              'view:hasVaMedicalRecords': true,
             },
           },
         }}
@@ -88,5 +91,6 @@ describe('evidenceTypes', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+    form.unmount();
   });
 });

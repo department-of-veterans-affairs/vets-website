@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
@@ -133,7 +133,7 @@ class IntroductionPage extends React.Component {
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
                 <br />
-                <a href="/disability-benefits/apply/help/">
+                <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim.
                 </a>
               </p>

@@ -3,15 +3,15 @@ import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPas
 
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { SecondaryDateDescription } from '../content/incidentDate';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { date } = fullSchema.definitions;
+const {
+  incidentDate,
+} = fullSchema.definitions.secondaryPtsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
-  'ui:description': ({ formData }) => (
-    <SecondaryDateDescription formData={formData} index={index} />
-  ),
+  'ui:description': () => <SecondaryDateDescription index={index} />,
   [`secondaryIncident${index}`]: {
     incidentDate: currentOrPastDateUI(' '),
   },
@@ -22,9 +22,7 @@ export const schema = index => ({
   properties: {
     [`secondaryIncident${index}`]: {
       type: 'object',
-      properties: {
-        incidentDate: date,
-      },
+      properties: { incidentDate },
     },
   },
 });

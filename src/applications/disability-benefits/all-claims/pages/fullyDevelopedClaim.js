@@ -1,4 +1,4 @@
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import get from '../../../../platform/utilities/data/get';
 import {
   FDCDescription,
@@ -27,7 +27,7 @@ export const uiSchema = {
       hideIf: formData => get('standardClaim', formData),
     },
   },
-  'view:noFDCWarning': {
+  'view:noFdcWarning': {
     'ui:description': noFDCWarning,
     'ui:options': {
       hideIf: formData => !get('standardClaim', formData),
@@ -44,7 +44,7 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    'view:noFDCWarning': {
+    'view:noFdcWarning': {
       type: 'object',
       properties: {},
     },

@@ -3,6 +3,7 @@
 // This needs to be imported from lodash/fp because that's what we use in the
 // vets-json-schema repo
 import _ from 'lodash/fp';
+import { countries } from '../../../../platform/forms/address';
 
 const documentTypes526 = [
   { value: 'L015', label: 'Buddy/Lay Statement' },
@@ -520,6 +521,20 @@ const schema = {
       },
       required: ['from', 'to'],
     },
+    fullName: {
+      type: 'object',
+      properties: {
+        first: {
+          type: 'string',
+        },
+        last: {
+          type: 'string',
+        },
+        middle: {
+          type: 'string',
+        },
+      },
+    },
     dateRangeFromRequired: {
       type: 'object',
       properties: {
@@ -567,7 +582,10 @@ const schema = {
                 maxLength: 100,
               },
               treatmentDateRange: {
-                $ref: '#/definitions/dateRangeAllRequired',
+                type: 'array',
+                items: {
+                  $ref: '#/definitions/dateRangeAllRequired',
+                },
               },
               /*
                * Back end expects the following structure:
@@ -579,7 +597,7 @@ const schema = {
                *   "country": "USA",
                *   "postalCode": "21200-1111"
                *  }
-              */
+               */
               providerFacilityAddress: {
                 type: 'object',
                 required: ['street', 'city', 'country', 'state', 'postalCode'],
@@ -620,87 +638,6 @@ const schema = {
         },
       },
     },
-    form0781: {
-      type: 'object',
-      incident: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            personalAssault: {
-              type: 'boolean',
-            },
-            medalsCitations: {
-              type: 'string',
-            },
-            incidentDate: {
-              $ref: '#/definitions/date',
-            },
-            incidentLocation: {
-              type: 'string',
-            },
-            incidentDescription: {
-              type: 'string',
-            },
-            unitAssigned: {
-              type: 'string',
-            },
-            unitAssignedDates: {
-              $ref: '#/definitions/dateRange',
-            },
-            remarks: {
-              type: 'string',
-            },
-            additionalChanges: {
-              type: 'string',
-            },
-            personInvolved: {
-              type: 'array',
-              items: {
-                type: 'object',
-                name: {
-                  $ref: '#/definitions/fullName',
-                },
-                rank: {
-                  type: 'string',
-                },
-                injuryDeath: {
-                  type: 'string',
-                  enum: [
-                    'Killed in Action',
-                    'Killed Non-Battle',
-                    'Wounded in Action',
-                    'Injured Non-Battle',
-                    'Other',
-                  ],
-                },
-                injuryDeathOther: {
-                  type: 'string',
-                },
-                injuryDeathDate: {
-                  $ref: '#/definitions/date',
-                },
-                unitAssigned: {
-                  type: 'string',
-                },
-              },
-            },
-            source: {
-              type: 'array',
-              items: {
-                type: 'object',
-                name: {
-                  $ref: '#/definitions/fullName',
-                },
-                address: {
-                  $ref: '#/definitions/address',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
     specialIssues: {
       type: 'array',
       items: {
@@ -715,6 +652,68 @@ const schema = {
           'PTSD/4',
           'MST',
         ],
+      },
+    },
+    unitAssigned: {
+      type: 'string',
+      maxLength: 100,
+    },
+    unitAssignedDates: {
+      type: 'object',
+      properties: {
+        from: {
+          type: 'string',
+        },
+        to: {
+          type: 'string',
+        },
+      },
+    },
+    ptsdIncident: {
+      type: 'object',
+      properties: {
+        date: { $ref: '#/definitions/date' },
+        description: { type: 'string' },
+        unitAssigned: { $ref: '#/definitions/unitAssigned' },
+        unitAssignedDates: { $ref: '#/definitions/unitAssignedDates' },
+      },
+    },
+    secondaryPtsdIncident: {
+      type: 'object',
+      properties: {
+        sources: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+              },
+              address: {
+                type: 'object',
+                required: [],
+                properties: {
+                  ..._.omit(['addressLine3'], baseAddressDef.properties),
+                  country: {
+                    default: 'USA',
+                    type: 'string',
+                    enum: countries.map(country => country.value),
+                    enumNames: countries.map(country => country.label),
+                  },
+                  state: {
+                    title: 'State',
+                    type: 'string',
+                    maxLength: 51,
+                  },
+                },
+              },
+            },
+          },
+        },
+        date: { $ref: '#/definitions/date' },
+        description: { type: 'string' },
+        unitAssigned: { $ref: '#/definitions/unitAssigned' },
+        unitAssignedDates: { $ref: '#/definitions/unitAssignedDates' },
       },
     },
   },
@@ -845,7 +844,7 @@ const schema = {
     waiveTrainingPay: {
       type: 'boolean',
     },
-    disabilities: {
+    ratedDisabilities: {
       type: 'array',
       minItems: 1,
       maxItems: 100,
@@ -984,11 +983,17 @@ const schema = {
         }),
       ),
     ),
-    emailAddress: {
-      $ref: '#/definitions/email',
-    },
-    primaryPhone: {
-      $ref: '#/definitions/phone',
+    phoneAndEmail: {
+      type: 'object',
+      required: ['primaryPhone', 'emailAddress'],
+      properties: {
+        primaryPhone: {
+          $ref: '#/definitions/phone',
+        },
+        emailAddress: {
+          $ref: '#/definitions/email',
+        },
+      },
     },
     homelessOrAtRisk: {
       type: 'string',
@@ -1098,6 +1103,168 @@ const schema = {
     standardClaim: {
       type: 'boolean',
       default: false,
+    },
+    mentalChanges: {
+      type: 'object',
+      properties: {
+        depression: {
+          type: 'boolean',
+        },
+        obsessive: {
+          type: 'boolean',
+        },
+        prescription: {
+          type: 'boolean',
+        },
+        substance: {
+          type: 'boolean',
+        },
+        hypervigilance: {
+          type: 'boolean',
+        },
+        agoraphobia: {
+          type: 'boolean',
+        },
+        fear: {
+          type: 'boolean',
+        },
+        other: {
+          type: 'boolean',
+        },
+        otherExplanation: {
+          type: 'string',
+        },
+        noneApply: {
+          type: 'boolean',
+        },
+      },
+    },
+    hospitalizationHistory: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          hospitalizationDateRange: {
+            $ref: '#/definitions/dateRange',
+          },
+          hospitalName: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 100,
+          },
+          hospitalAddress: {
+            type: 'object',
+            properties: _.omit(
+              ['addressLine3', 'country'],
+              baseAddressDef.properties,
+            ),
+          },
+        },
+      },
+    },
+    ptsdIncidents: {
+      type: 'array',
+      items: { $ref: '#/definitions/ptsdIncident' },
+    },
+    secondaryPtsdIncidents: {
+      type: 'array',
+      items: { $ref: '#/definitions/secondaryPtsdIncident' },
+    },
+    privateMedicalRecordAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: ['L107', 'L023', 'L023'],
+            enumNames: [
+              'VA 21-4142 Authorization for Release of Information',
+              'Multiple Documents',
+              'Other',
+            ],
+          },
+        },
+      },
+    },
+    completedFormAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    secondaryAttachment: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: [
+              'L228',
+              'L229',
+              'L018',
+              'L034',
+              'L049',
+              'L029',
+              'L023',
+              'L015',
+              'L451',
+              'L048',
+              'L478',
+              'L015',
+              'L827',
+              'L702',
+              'L070',
+              'L023',
+            ],
+            enumNames: [
+              'VA 21-0781, Statement in Support of Claim for PTSD',
+              'VA 21-0781a, Statement in Support of Claim for PTSD Secondary to Personal Assault',
+              'Civilian Police Reports',
+              'Military Personnel Record',
+              'Medical Treatment Record - Non-Government Facility',
+              'Certificate of Release or Discharge From Active Duty (e.g. DD 214, NOAA 56-16, PHS 1867)',
+              'Other',
+              'Personal Journal or Diary',
+              'STR - Medical - Photocopy',
+              'Medical Treatment Record - Government Facility',
+              'Medical Treatment Records - Furnished by SSA',
+              'Buddy/Lay Statement',
+              'VA 21-4142 Authorization for Release of Information',
+              'Disability Benefits Questionnaire (DBQ) - Veteran Provided',
+              'Medical Records',
+              'Multiple Documents',
+            ],
+          },
+        },
+      },
     },
   },
 };

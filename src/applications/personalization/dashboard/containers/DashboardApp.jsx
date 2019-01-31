@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
-import environment from 'platform/utilities/environment';
 
 import { removeSavedForm } from '../actions';
 
@@ -16,18 +15,16 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
-import DowntimeNotification, {
+import {
+  DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
-import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 import lettersManifest from '../../../letters/manifest.js';
 import facilityLocator from '../../../facility-locator/manifest';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
@@ -60,12 +57,6 @@ class DashboardApp extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-
-    if (!environment.isProduction()) {
-      if (!localStorage.getItem('dashboardLastVisitedAt')) {
-        this.props.router.push('preferences');
-      }
-    }
   }
 
   dismissAlertBox = name => () => {
@@ -116,11 +107,7 @@ class DashboardApp extends React.Component {
         <ul className="va-nav-linkslist-list">
           <li>
             <a
-              href={
-                isBrandConsolidationEnabled()
-                  ? '/disability/'
-                  : '/disability-benefits/'
-              }
+              href="/disability/"
               onClick={recordDashboardClick('disability-benefits')}
             >
               <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
@@ -155,7 +142,10 @@ class DashboardApp extends React.Component {
             </a>
           </li>
           <li>
-            <a href="/employment/" onClick={recordDashboardClick('employment')}>
+            <a
+              href="/careers-employment/"
+              onClick={recordDashboardClick('employment')}
+            >
               <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
               <p className="va-nav-linkslist-description">
                 Find out if you're eligible for Vocational Rehabilitation and
@@ -180,13 +170,12 @@ class DashboardApp extends React.Component {
         content={
           <div>
             <h4 className="usa-alert-heading">
-              Verify your identity to access more {propertyName} tools and
-              features
+              Verify your identity to access more VA.gov tools and features
             </h4>
             <p>
-              When you verify your identity, you can use {propertyName} to do
-              things like track your claims, refill your prescriptions, and
-              download your VA benefit letters.
+              When you verify your identity, you can use VA.gov to do things
+              like track your claims, refill your prescriptions, and download
+              your VA benefit letters.
             </p>
             <a
               className="usa-button-primary"
@@ -238,9 +227,9 @@ class DashboardApp extends React.Component {
               your health and benefits.
             </p>
             <p>
-              If you’d like to use these tools on {propertyName}, please contact
-              your nearest VA medical center. Let them know you need to verify
-              the information in your records, and update it as needed. The
+              If you’d like to use these tools on VA.gov, please contact your
+              nearest VA medical center. Let them know you need to verify the
+              information in your records, and update it as needed. The
               operator, or a patient advocate, can connect you with the right
               person who can help.
             </p>
@@ -282,9 +271,7 @@ class DashboardApp extends React.Component {
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1 id="dashboard-title">
-            {isBrandConsolidationEnabled() ? 'My VA' : 'Your Homepage'}
-          </h1>
+          <h1 id="dashboard-title">My VA</h1>
           <div className="va-introtext">
             <p>
               Access the tools and information you’ll need to track and manage
@@ -335,7 +322,7 @@ class DashboardApp extends React.Component {
             <ul className="va-nav-linkslist-list">
               <li>
                 <a
-                  href="/health-care/schedule-an-appointment/"
+                  href="/health-care/schedule-view-va-appointments/"
                   onClick={recordDashboardClick('schedule-appointment')}
                 >
                   <h4 className="va-nav-linkslist-title">

@@ -8,7 +8,7 @@ import {
 /*
  * Creates function that captures/releases Veterans Crisis Line modal focus.
  */
-export function addFocusBehaviorToCrisisLineModal() {
+export default function addFocusBehaviorToCrisisLineModal() {
   const overlay = document.getElementById('modal-crisisline');
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
   const tabbableElements = getTabbableElements(modal);
@@ -60,8 +60,3 @@ export function addFocusBehaviorToCrisisLineModal() {
   closeControl.addEventListener('keydown', captureFocus);
   lastTabbableElement.addEventListener('keydown', captureFocus);
 }
-
-document.addEventListener(
-  'DOMContentLoaded',
-  addFocusBehaviorToCrisisLineModal,
-);

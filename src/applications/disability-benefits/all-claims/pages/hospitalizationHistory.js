@@ -1,57 +1,63 @@
-import { omit } from 'lodash';
-
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import {
+  unemployabilityTitle,
+  unemployabilityPageTitle,
+} from '../content/unemployabilityFormIntro';
+import {
+  recordsDescription,
+  datesDescription,
+} from '../content/hospitalizationHistory';
+import { generateAddressSchemas } from '../utils';
 
-import fullSchema from '../config/schema';
+const {
+  hospitalProvidedCare,
+} = fullSchema.properties.form8940.properties.unemployability.properties;
 
-const { address } = fullSchema.definitions;
+const { addressUI, addressSchema } = generateAddressSchemas(
+  ['addressLine3', 'postalCode'],
+  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
+  {
+    country: 'Country',
+    addressLine1: 'Street address',
+    addressLine2: 'Street address (optional)',
+    city: 'City',
+    state: 'State',
+    zipCode: 'Postal Code',
+  },
+);
 
 export const uiSchema = {
-  hospitalizationHistory: {
-    'ui:title': 'Hospitalization',
-    'ui:description': 'Dates you were hospitalized?',
-    'ui:options': {
-      itemName: 'Hospital',
-      viewField: HospitalizationPeriodView,
-      hideTitle: true,
+  unemployability: {
+    'ui:title': unemployabilityTitle,
+    hospitalProvidedCare: {
+      'ui:title': unemployabilityPageTitle('Hospitalization'),
+      'ui:options': {
+        itemName: 'Hospital',
+        viewField: HospitalizationPeriodView,
+        hideTitle: true,
+      },
+      items: {
+        name: {
+          'ui:title': 'Hospital’s name',
+        },
+        'view:hospitalAddressTitle': {
+          'ui:title': 'Hospital’s address',
+        },
+        address: addressUI,
+        dates: {
+          'ui:title': datesDescription,
+          'ui:widget': 'textarea',
+          'ui:options': {
+            rows: 5,
+            maxLength: 32000,
+          },
+        },
+      },
     },
-    items: {
-      hospitalizationDateRange: dateRangeUI(
-        'From',
-        'To',
-        'End of hospitalization must be after start of treatment',
-      ),
-      hospitalName: {
-        'ui:title': 'Name of hospital',
-      },
-      hospitalAddress: {
-        addressLine1: {
-          'ui:title': 'Street address',
-        },
-        addressLine2: {
-          'ui:title': 'Street address (optional)',
-        },
-        city: {
-          'ui:title': 'City',
-        },
-        state: {
-          'ui:title': 'State',
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
-          },
-        },
-        zipCode: {
-          'ui:title': 'ZIP',
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
-          },
-          'ui:errorMessages': {
-            pattern: 'Please provide valid 5 or 9 digit zip code.',
-          },
-        },
-      },
+    'view:recordsInfo': {
+      'ui:title': ' ',
+      'ui:description': recordsDescription,
     },
   },
 };
@@ -59,24 +65,27 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    hospitalizationHistory: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          hospitalizationDateRange: {
-            $ref: '#/definitions/dateRange',
+    unemployability: {
+      type: 'object',
+      properties: {
+        hospitalProvidedCare: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: hospitalProvidedCare.items.properties.name,
+              'view:hospitalAddressTitle': {
+                type: 'object',
+                properties: {},
+              },
+              address: addressSchema,
+              dates: hospitalProvidedCare.items.properties.dates,
+            },
           },
-          hospitalName: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 100,
-          },
-          hospitalAddress: {
-            ...address,
-            required: [],
-            properties: omit(address.properties, ['addressLine3', 'country']),
-          },
+        },
+        'view:recordsInfo': {
+          type: 'object',
+          properties: {},
         },
       },
     },

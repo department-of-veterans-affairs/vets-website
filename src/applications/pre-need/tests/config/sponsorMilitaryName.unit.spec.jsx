@@ -26,6 +26,7 @@ describe('Pre-need sponsor military name', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -43,6 +44,7 @@ describe('Pre-need sponsor military name', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required fields filled in', () => {
@@ -61,6 +63,7 @@ describe('Pre-need sponsor military name', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should reveal name fields', () => {
@@ -78,6 +81,7 @@ describe('Pre-need sponsor military name', () => {
 
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('should submit with all info filled in', () => {
@@ -101,5 +105,6 @@ describe('Pre-need sponsor military name', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

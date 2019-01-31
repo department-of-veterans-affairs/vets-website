@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
+import { hasSession } from '../../../platform/user/profile/utilities';
 import siteName from '../../../platform/brand-consolidation/site-name';
 import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
   componentDidMount() {
-    if (!conditionalStorage().getItem('userToken')) {
+    if (!hasSession()) {
       return window.location.replace('/');
     }
     return recordEvent({ event: 'verify-prompt-displayed' });
@@ -85,7 +85,7 @@ export class VerifyApp extends React.Component {
               <div className="help-info">
                 <h4>Having trouble verifying your identity?</h4>
                 <p>
-                  <a href="/faq/" target="_blank">
+                  <a href="/sign-in-faq/" target="_blank">
                     Get answers to Frequently Asked Questions
                   </a>
                 </p>

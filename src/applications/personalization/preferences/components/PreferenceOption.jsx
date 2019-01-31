@@ -4,16 +4,21 @@ import Checkbox from '../../../gi/components/Checkbox.jsx';
 
 export default ({ item, onChange, checked }) => {
   const itemContent = (
-    <div className="preference-item" onClick={onChange(item.slug)}>
-      <div className="right">
+    <div
+      className="preference-item"
+      onClick={() => onChange(item.code, !checked)}
+    >
+      <div className="title-container">
+        <h5 className="title-item">{item.shortTitle || item.title}</h5>
         <Checkbox
-          name={item.slug}
+          name={item.code}
           checked={checked}
-          label=""
-          onChange={onChange(item.slug)}
+          label={
+            <span className="usa-sr-only">{item.shortTitle || item.title}</span>
+          }
+          onChange={() => onChange(item.code, !checked)}
         />
       </div>
-      <h5>{item.title}</h5>
       <p>{item.description}</p>
     </div>
   );

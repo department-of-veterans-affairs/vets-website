@@ -2,7 +2,6 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 import environment from '../../platform/utilities/environment';
-import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 function replacer(key, value) {
@@ -32,15 +31,11 @@ function replacer(key, value) {
 }
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
   };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
   return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
     credentials: 'include',
     headers,
@@ -113,15 +108,10 @@ function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
   };
-
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
 
   const body = transform(formConfig, form);
 
@@ -243,6 +233,7 @@ export function fileHelp({ formData }) {
             A completed Request for Approval of School Attendance (
             <a
               href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+              rel="noopener noreferrer"
               target="_blank"
             >
               VA Form 21-674
@@ -267,6 +258,7 @@ export function fileHelp({ formData }) {
           Regular Aid and Attendance (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+            rel="noopener noreferrer"
             target="_blank"
           >
             VA Form 21-2680
@@ -278,6 +270,7 @@ export function fileHelp({ formData }) {
           Claim for Aid and Attendance (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
+            rel="noopener noreferrer"
             target="_blank"
           >
             VA Form 21-0779
@@ -296,20 +289,18 @@ export const directDepositWarning = (
     electronic funds transfer (EFT), also called direct deposit. If you don’t
     have a bank account, you must get your payment through Direct Express Debit
     MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a href="http://www.usdirectexpress.com" target="_blank">
+    <a
+      href="http://www.usdirectexpress.com"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at{' '}
-    <a href="tel:8003331795" target="_blank">
-      1-800-333-1795
-    </a>
-    . If you chose not to enroll, you must contact representatives handling
-    waiver requests for the Department of Treasury at{' '}
-    <a href="tel:8882242950" target="_blank">
-      1-888-224-2950
-    </a>
-    . They will address any questions or concerns you may have and encourage
-    your participation in EFT.
+    or by telephone at <a href="tel:8003331795">1-800-333-1795</a>. If you chose
+    not to enroll, you must contact representatives handling waiver requests for
+    the Department of Treasury at <a href="tel:8882242950">1-888-224-2950</a>.
+    They will address any questions or concerns you may have and encourage your
+    participation in EFT.
   </div>
 );
 
@@ -321,6 +312,7 @@ export const wartimeWarning = (
         an{' '}
         <a
           href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
+          rel="noopener noreferrer"
           target="_blank"
         >
           {' '}
@@ -456,6 +448,7 @@ export const schoolAttendanceWarning = (
         a Request for Approval of School Attendance (
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+          rel="noopener noreferrer"
           target="_blank"
         >
           VA Form 21-674
@@ -517,7 +510,7 @@ export const expeditedProcessDescription = (
       forms for additional benefits, you can apply using the Fully Developed
       Claim (FDC) program.
     </p>
-    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
       Learn more about the FDC program
     </a>
     .

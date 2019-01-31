@@ -7,8 +7,37 @@ import * as pages from '../pages';
 //  objects and should be ignored.
 const ignoreList = {
   // propName: ['list', 'of', 'pages'],
-  newDisabilities: ['addDisabilities', 'newDisabilityFollowUp'],
-  serviceInformation: ['federalOrders', 'reservesNationalGuardService'],
+  newDisabilities: [
+    'addDisabilities',
+    'newDisabilityFollowUp',
+    'unemployabilityDisabilities',
+  ],
+  ratedDisabilities: ['unemployabilityDisabilities', 'ratedDisabilities'],
+  serviceInformation: [
+    'federalOrders',
+    'reservesNationalGuardService',
+    'militaryHistory',
+    'militaryHistory',
+    'reservesNationalGuardService',
+  ],
+  unemployability: [
+    'medicalCare',
+    'hospitalizationHistory',
+    'unemployabilityDoctorCare',
+    'unemployabilityDates',
+    'incomeDetails',
+    'employmentHistory',
+    'recentEarnedIncome',
+    'supplementalBenefits',
+    'militaryDutyImpact',
+    'recentJobApplications',
+    'pastEducationTraining',
+    'recentEducationTraining',
+    'unemployabilityAdditionalInformation',
+    'uploadUnemployabilitySupportingDocumentsChoice',
+    'uploadUnemployabilitySupportingDocuments',
+    'unemployabilityCertification',
+  ],
 };
 
 describe('Root property names', () => {
