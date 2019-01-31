@@ -125,8 +125,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.va-button-link').exists()).to.be.true;
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    expect(tree.find('.va-button-link').text()).to.contain(
+      'Sign in to your account.',
+    );
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -164,10 +166,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'If you’re signed in to your account, your application process can go more smoothly. Here’s why:We can prefill part of your application based on your account details.You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.Sign in to your account.',
+      'Save time—and save your work in progress—by signing in before starting your application',
     );
     expect(tree.find('.va-button-link').exists()).to.be.true;
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    expect(tree.find('#form-start-button').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -374,7 +377,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(renderSpy.called).to.be.true;
     expect(tree.text()).to.contain('Render prop info');
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
 

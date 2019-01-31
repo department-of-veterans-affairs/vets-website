@@ -156,6 +156,7 @@ class SaveInProgressIntro extends React.Component {
                 already filled in.
               </p>
               <button
+                id="form-start-button"
                 className="usa-button-primary"
                 onClick={this.openLoginModal}
               >
