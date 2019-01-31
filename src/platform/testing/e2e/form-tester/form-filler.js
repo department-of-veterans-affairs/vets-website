@@ -133,6 +133,34 @@ const enterData = async (page, field, fieldData, log) => {
 };
 
 /**
+ * Checks for array inputs and hits the add button for all the arrays that still have
+ *  more data.
+ * @param {Page} page - The page from puppeteer.
+ * @param {Object} testData - The test data.
+ */
+const addNewArrayItem = async (page, testData) => {
+  const arrayPaths = await page.$$eval('div[name^="topOfTable_root_"]', divs =>
+    divs.map(d => d.name.replace('topOfTable_', '')),
+  );
+
+  arrayPaths.forEach(async path => {
+    const lastIndex = await page.$eval(
+      `div[name$="${path}"] > div:last-child > div[name^="table_root_"]`,
+      // Grab the number at the very end
+      div => parseInt(div.name.match(/\d+$/g), 10),
+    );
+    // Check the testData to see if it has more data
+    const arrayData = findData(path, testData);
+    if (arrayData.length >= lastIndex) {
+      // If so, poke the appropriate add button
+      await page.click(
+        `div[name="topOfTable_${path}"] + button.va-growable-add-btn`,
+      );
+    }
+  });
+};
+
+/**
  * Returns a function that enters data for each field. When called subsequent times,
  *  it will only enter data into new fields (in the event that some fields have been
  *  expanded);
@@ -195,8 +223,7 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
       await enterData(page, field, findData(field.selector, testData), log);
     }
 
-    // TODO: Check for arrays and click the appropriate add buttons
-    // TODO: Check for multiple add buttons and warn if there are
+    addNewArrayItem(page, testData);
 
     newFieldCount = await page.$$eval(
       FIELD_SELECTOR,
