@@ -5,6 +5,8 @@ import * as contactInformation from './contactInformation';
 import * as militaryService from './militaryService';
 import * as educationCompleted from './educationCompleted';
 import * as highTechIndustry from './highTechIndustry';
+import * as trainingProgramsChoice from './trainingProgramsChoice';
+import * as trainingProgramsInformation from './trainingProgramsInformation';
 
 export {
   applicantInformation,
@@ -14,4 +16,6 @@ export {
   militaryService,
   educationCompleted,
   highTechIndustry,
+  trainingProgramsChoice,
+  trainingProgramsInformation,
 };

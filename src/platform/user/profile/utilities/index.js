@@ -9,6 +9,24 @@ import {
   mockContactInformation,
 } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
 
+const commonServices = {
+  EMIS: 'EMIS',
+  MVI: 'MVI',
+  Vet360: 'Vet360',
+};
+
+function getErrorStatusDesc(code) {
+  if (code === 404) {
+    return 'NOT_FOUND';
+  }
+
+  if (code === 401) {
+    return 'NOT_AUTHORIZED';
+  }
+
+  return 'SERVER_ERROR';
+}
+
 export function mapRawUserDataToState(json) {
   const {
     data: {
@@ -28,26 +46,25 @@ export function mapRawUserDataToState(json) {
           verified,
         },
         services,
-        vaProfile: { status },
+        vaProfile,
         vet360ContactInformation,
-        veteranStatus: { isVeteran, status: veteranStatus, servedInMilitary },
+        veteranStatus,
       },
     },
+    meta,
   } = camelCaseKeysRecursive(json);
 
-  return {
+  const userState = {
     accountType: loa.current,
     authnContext,
     dob,
     email,
     gender,
-    isVeteran,
     loa,
     multifactor,
     prefillsAvailable,
     savedForms,
     services,
-    status,
     userFullName: {
       first,
       middle,
@@ -57,12 +74,41 @@ export function mapRawUserDataToState(json) {
     vet360: isVet360Configured()
       ? vet360ContactInformation
       : mockContactInformation,
-    veteranStatus: {
-      isVeteran,
-      veteranStatus,
-      servedInMilitary,
-    },
   };
+
+  if (meta && veteranStatus === null) {
+    const errorStatus = meta.errors.find(
+      error => error.externalService === commonServices.EMIS,
+    ).status;
+    userState.veteranStatus = getErrorStatusDesc(errorStatus);
+  } else {
+    userState.isVeteran = veteranStatus.isVeteran;
+    userState.veteranStatus = {
+      isVeteran: veteranStatus.isVeteran,
+      veteranStatus,
+      servedInMilitary: veteranStatus.servedInMilitary,
+    };
+  }
+
+  if (meta && vaProfile === null) {
+    const errorStatus = meta.errors.find(
+      error => error.externalService === commonServices.MVI,
+    ).status;
+    userState.status = getErrorStatusDesc(errorStatus);
+  } else {
+    userState.status = vaProfile.status;
+  }
+
+  // This one is checking userState because there's no extra mapping and it's
+  // easier to leave the mocking code the way it is
+  if (meta && userState.vet360 === null) {
+    const errorStatus = meta.errors.find(
+      error => error.externalService === commonServices.Vet360,
+    ).status;
+    userState.vet360 = { status: getErrorStatusDesc(errorStatus) };
+  }
+
+  return userState;
 }
 
 // Flag to indicate an active session for initial page loads.
