@@ -2,6 +2,7 @@ import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
 import { uiDescription, autoSuggestTitle } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
+import ArrayField from '../components/ArrayField';
 import { validateDisabilityName } from '../validations';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -11,6 +12,7 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 export const uiSchema = {
   'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
+    'ui:field': ArrayField,
     'ui:title': 'New condition',
     'ui:options': {
       viewField: NewDisability,
