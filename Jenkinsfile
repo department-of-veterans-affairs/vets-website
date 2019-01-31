@@ -118,10 +118,13 @@ node('vetsgov-general-purpose') {
           }
         }
       }
-    catch (error) {
-      tify()
-      row error
-        stage('Lint|Security|Unit') {
+    } catch (error) {
+      notify()
+      throw error
+    }
+  }
+
+  stage('Lint|Security|Unit') {
     try {
       parallel (
         lint: {
