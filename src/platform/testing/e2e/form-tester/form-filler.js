@@ -116,7 +116,12 @@ const enterData = async (page, field, fieldData, log) => {
           parseInt(date[2], 10).toString(),
         );
       }
-      await page.type(`input[name="${field.selector}Year"]`, date[0]);
+      // Clear the year before typing
+      const yearSelector = `input[name="${field.selector}Year"]`;
+      await page.evaluate(sel => {
+        document.querySelector(sel).value = '';
+      }, yearSelector);
+      await page.type(yearSelector, date[0]);
       break;
     }
     case 'file': {
