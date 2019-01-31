@@ -7,7 +7,9 @@ function createDefaultData() {
   return {
     attributes: {
       profile: {
-        authn_context: 'idme',
+        sign_in: {
+          service_name: 'idme',
+        },
         email: 'fake@fake.com',
         loa: { current: 3 },
         first_name: 'Jane',
