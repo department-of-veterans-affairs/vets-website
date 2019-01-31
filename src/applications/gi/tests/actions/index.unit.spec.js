@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers.js';
+import {
+  mockFetch,
+  resetFetch,
+} from '../../../../platform/testing/unit/helpers.js';
 
 import {
   beneficiaryZIPCodeChanged,
@@ -10,7 +13,7 @@ import {
   fetchProfile,
   FETCH_PROFILE_STARTED,
   FETCH_PROFILE_FAILED,
-  FETCH_PROFILE_SUCCEEDED
+  FETCH_PROFILE_SUCCEEDED,
 } from '../../actions/index';
 
 function setFetchResponse(stub, data) {
@@ -34,19 +37,19 @@ describe('beneficiaryZIPCodeChanged', () => {
 
     const expectedAction = {
       type: 'BENEFICIARY_ZIP_CODE_CHANGED',
-      beneficiaryZIP: '1111'
+      beneficiaryZIP: '1111',
     };
     expect(expectedAction).to.eql(actualAction);
   });
 
-  it('should dispatch started and success actions', (done) => {
+  it('should dispatch started and success actions', done => {
     const payload = {
       data: {
         attributes: {
           mha_rate: 300, // eslint-disable-line camelcase
-          mha_name: 'New York, NY' // eslint-disable-line camelcase
-        }
-      }
+          mha_name: 'New York, NY', // eslint-disable-line camelcase
+        },
+      },
     };
     setFetchResponse(global.fetch.onFirstCall(), payload);
 
@@ -54,26 +57,32 @@ describe('beneficiaryZIPCodeChanged', () => {
 
     beneficiaryZIPCodeChanged('12345')(dispatch);
 
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_BAH_STARTED,
-      beneficiaryZIPFetched: '12345'
-    })).to.be.true;
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_BAH_STARTED,
+        beneficiaryZIPFetched: '12345',
+      }),
+    ).to.be.true;
 
     setTimeout(() => {
-      expect(dispatch.secondCall.calledWith({
-        type: FETCH_BAH_SUCCEEDED,
-        payload,
-        beneficiaryZIPFetched: '12345'
-      })).to.be.true;
+      expect(
+        dispatch.secondCall.calledWith({
+          type: FETCH_BAH_SUCCEEDED,
+          payload,
+          beneficiaryZIPFetched: '12345',
+        }),
+      ).to.be.true;
       done();
     }, 0);
   });
 
-  it('should dispatch started and failed actions', (done) => {
+  it('should dispatch started and failed actions', done => {
     const payload = {
-      errors: [{
-        title: 'error'
-      }]
+      errors: [
+        {
+          title: 'error',
+        },
+      ],
     };
     setFetchFailure(global.fetch.onFirstCall(), payload);
 
@@ -81,16 +90,18 @@ describe('beneficiaryZIPCodeChanged', () => {
 
     beneficiaryZIPCodeChanged('12345')(dispatch);
 
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_BAH_STARTED,
-      beneficiaryZIPFetched: '12345'
-    })).to.be.true;
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_BAH_STARTED,
+        beneficiaryZIPFetched: '12345',
+      }),
+    ).to.be.true;
 
     setTimeout(() => {
       const {
         beneficiaryZIPFetched,
         type,
-        error
+        error,
       } = dispatch.secondCall.args[0];
       expect(type).to.eql(FETCH_BAH_FAILED);
       expect(error instanceof Error).to.be.true;
@@ -104,17 +115,17 @@ describe('beneficiaryZIPCodeChanged', () => {
 
 describe('fetchProfile', () => {
   beforeEach(() => mockFetch());
-  it('should dispatch a started and success action', (done) => {
+  it('should dispatch a started and success action', done => {
     const institutionPayload = {
       meta: {
-        version: 1
+        version: 1,
       },
       data: {
         attributes: {
           mha_rate: 300, // eslint-disable-line camelcase
-          mha_name: 'New York, NY' // eslint-disable-line camelcase
-        }
-      }
+          mha_name: 'New York, NY', // eslint-disable-line camelcase
+        },
+      },
     };
 
     const ZIPPayload = {
@@ -126,9 +137,9 @@ describe('fetchProfile', () => {
           mha_code: 'UT292', // eslint-disable-line camelcase
           mha_name: 'SALT LAKE CITY, UT', // eslint-disable-line camelcase
           mha_rate: 1380, // eslint-disable-line camelcase
-          mha_rate_grandfathered: 1430 // eslint-disable-line camelcase
-        }
-      }
+          mha_rate_grandfathered: 1430, // eslint-disable-line camelcase
+        },
+      },
     };
 
     setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
@@ -138,25 +149,31 @@ describe('fetchProfile', () => {
 
     fetchProfile('12345')(dispatch);
 
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_PROFILE_STARTED,
-    })).to.be.true;
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
+      }),
+    ).to.be.true;
 
     setTimeout(() => {
-      expect(dispatch.secondCall.calledWith({
-        type: FETCH_PROFILE_SUCCEEDED,
-        payload: institutionPayload,
-        zipRatesPayload: ZIPPayload,
-      })).to.be.true;
+      expect(
+        dispatch.secondCall.calledWith({
+          type: FETCH_PROFILE_SUCCEEDED,
+          payload: institutionPayload,
+          zipRatesPayload: ZIPPayload,
+        }),
+      ).to.be.true;
       done();
     }, 0);
   });
 
-  it('should dispatch a started and failed action when the institution call fails', (done) => {
+  it('should dispatch a started and failed action when the institution call fails', done => {
     const payload = {
-      errors: [{
-        title: 'error'
-      }]
+      errors: [
+        {
+          title: 'error',
+        },
+      ],
     };
     setFetchFailure(global.fetch.onFirstCall(), payload);
 
@@ -164,37 +181,38 @@ describe('fetchProfile', () => {
 
     fetchProfile('12345')(dispatch);
 
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_PROFILE_STARTED,
-    })).to.be.true;
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
+      }),
+    ).to.be.true;
 
     setTimeout(() => {
-      const {
-        type,
-        err
-      } = dispatch.secondCall.args[0];
+      const { type, err } = dispatch.secondCall.args[0];
       expect(type).to.eql(FETCH_PROFILE_FAILED);
       expect(err instanceof Error).to.be.true;
       done();
     }, 0);
   });
 
-  it('should dispatch a started and success action when the zip code rates call fails', (done) => {
+  it('should dispatch a started and success action when the zip code rates call fails', done => {
     const institutionPayload = {
       meta: {
-        version: 1
+        version: 1,
       },
       data: {
         attributes: {
           mha_rate: 300, // eslint-disable-line camelcase
-          mha_name: 'New York, NY' // eslint-disable-line camelcase
-        }
-      }
+          mha_name: 'New York, NY', // eslint-disable-line camelcase
+        },
+      },
     };
     const ZIPPayload = {
-      errors: [{
-        title: 'error'
-      }]
+      errors: [
+        {
+          title: 'error',
+        },
+      ],
     };
     setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
     setFetchFailure(global.fetch.onSecondCall(), ZIPPayload);
@@ -203,16 +221,20 @@ describe('fetchProfile', () => {
 
     fetchProfile('12345')(dispatch);
 
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_PROFILE_STARTED,
-    })).to.be.true;
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
+      }),
+    ).to.be.true;
 
     setTimeout(() => {
-      expect(dispatch.secondCall.calledWith({
-        type: FETCH_PROFILE_SUCCEEDED,
-        payload: institutionPayload,
-        zipRatesPayload: ZIPPayload,
-      })).to.be.true;
+      expect(
+        dispatch.secondCall.calledWith({
+          type: FETCH_PROFILE_SUCCEEDED,
+          payload: institutionPayload,
+          zipRatesPayload: ZIPPayload,
+        }),
+      ).to.be.true;
       done();
     }, 0);
   });

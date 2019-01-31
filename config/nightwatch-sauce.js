@@ -13,7 +13,7 @@ module.exports = {
   test_workers: false,
   globals_path: './config/nightwatch-globals-sauce.js',
   test_settings: {
-    'default': {
+    default: {
       launch_url: 'http://ondemand.saucelabs.com:80',
       filter: '**/*.e2e.spec.js',
       selenium_host: 'ondemand.saucelabs.com',
@@ -24,7 +24,7 @@ module.exports = {
       silent: true,
       output: true,
       screenshots: {
-        enabled: false
+        enabled: false,
       },
       desiredCapabilities: {
         recordVideo: true,
@@ -32,46 +32,46 @@ module.exports = {
         recordLogs: true,
         captureHtml: true,
         seleniumVersion: '3.4.0',
-        tunnelIdentifier: process.env.SAUCE_CONNECT_TUNNEL_IDENTIFIER || ''
+        tunnelIdentifier: process.env.SAUCE_CONNECT_TUNNEL_IDENTIFIER || '',
       },
       selenium: {
-        port: process.env.SELENIUM_PORT || 4444
-      }
+        port: process.env.SELENIUM_PORT || 4444,
+      },
     },
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
         platform: 'macOS 10.12',
-        version: '59.0'
-      }
+        version: '59.0',
+      },
     },
     firefox: {
       desiredCapabilities: {
         browserName: 'firefox',
         platform: 'macOS 10.12',
-        version: '54.0'
-      }
+        version: '54.0',
+      },
     },
     ie: {
       desiredCapabilities: {
         browserName: 'internet explorer',
         platform: 'Windows 10',
-        version: '11.103'
-      }
+        version: '11.103',
+      },
     },
     edge: {
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
         platform: 'Windows 10',
-        version: '15.15063'
-      }
+        version: '15.15063',
+      },
     },
     safari: {
       desiredCapabilities: {
         browserName: 'safari',
         platform: 'macOS 10.12',
-        version: '10.0'
-      }
+        version: '10.0',
+      },
     },
     ios: {
       desiredCapabilities: {
@@ -80,8 +80,8 @@ module.exports = {
         deviceOrientation: 'portrait',
         platformVersion: '10.3',
         platformName: 'iOS',
-        browserName: 'Safari'
-      }
+        browserName: 'Safari',
+      },
     },
     android: {
       desiredCapabilities: {
@@ -90,8 +90,8 @@ module.exports = {
         deviceOrientation: 'portrait',
         platformVersion: '6.0',
         platformName: 'Android',
-        browserName: 'Chrome'
-      }
-    }
-  }
+        browserName: 'Chrome',
+      },
+    },
+  },
 };

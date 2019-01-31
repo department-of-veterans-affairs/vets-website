@@ -6,10 +6,10 @@ export default {
   'ui:title': 'ROTC scholarships',
   'ui:options': {
     itemName: 'Scholarship Period',
-    viewField: ScholarshipPeriodField
+    viewField: ScholarshipPeriodField,
   },
   items: {
     year: yearUI,
-    amount: currencyUI('Scholarship amount')
-  }
+    amount: currencyUI('Scholarship amount'),
+  },
 };

@@ -7,7 +7,7 @@ import {
   RESTORE_FROM_PREFILL_SUCCEEDED,
   SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
-  INSTITUTION_SELECTED
+  INSTITUTION_SELECTED,
 } from '../actions/schoolSearch';
 import _ from 'lodash';
 
@@ -25,7 +25,7 @@ const initialState = {
   showNoResultsFound: false,
   showPagination: false,
   showPaginationLoading: false,
-  showSearchResults: true
+  showSearchResults: true,
 };
 
 export default function schoolSearch(state = initialState, action) {
@@ -38,7 +38,7 @@ export default function schoolSearch(state = initialState, action) {
         city,
         facilityCode,
         name,
-        state: institutionState
+        state: institutionState,
       } = action;
 
       return {
@@ -50,8 +50,8 @@ export default function schoolSearch(state = initialState, action) {
           city,
           facilityCode,
           name,
-          state: institutionState
-        }
+          state: institutionState,
+        },
       };
     }
     case RESTORE_FROM_PREFILL_FAILED:
@@ -80,7 +80,7 @@ export default function schoolSearch(state = initialState, action) {
         showInstitutionsLoading,
         showNoResultsFound,
         showPagination,
-        showPaginationLoading
+        showPaginationLoading,
       };
     }
 
@@ -113,7 +113,7 @@ export default function schoolSearch(state = initialState, action) {
         showNoResultsFound,
         showPagination,
         showPaginationLoading,
-        showSearchResults
+        showSearchResults,
       };
     }
     case LOAD_SCHOOLS_STARTED: {
@@ -143,7 +143,7 @@ export default function schoolSearch(state = initialState, action) {
         showNoResultsFound,
         showPagination,
         showPaginationLoading,
-        showSearchResults
+        showSearchResults,
       };
     }
 
@@ -153,33 +153,48 @@ export default function schoolSearch(state = initialState, action) {
         return state;
       }
 
-      const {
-        data = [],
-        meta
-      } = action.payload;
+      const { data = [], meta } = action.payload;
 
       const searchResultsCount = meta.count;
 
       const institutionQuery = action.institutionQuery;
-      const institutions = data.map(({ attributes }) => {
-        // pull only necessary attributes from response
-        const { address1, address2, address3, city, country, facilityCode, name, state: institutionState, zip } = attributes;
-        return {
-          address1,
-          address2,
-          address3,
-          city,
-          country,
-          facilityCode,
-          name,
-          state: institutionState,
-          zip
-        };
-      }).map(institution => _.reduce(institution, (result, value, key) => {
-        // transform null to empty string
-        result[key] = value || ''; // eslint-disable-line no-param-reassign
-        return result;
-      }, {}));
+      const institutions = data
+        .map(({ attributes }) => {
+          // pull only necessary attributes from response
+          const {
+            address1,
+            address2,
+            address3,
+            city,
+            country,
+            facilityCode,
+            name,
+            state: institutionState,
+            zip,
+          } = attributes;
+          return {
+            address1,
+            address2,
+            address3,
+            city,
+            country,
+            facilityCode,
+            name,
+            state: institutionState,
+            zip,
+          };
+        })
+        .map(institution =>
+          _.reduce(
+            institution,
+            (result, value, key) => {
+              // transform null to empty string
+              result[key] = value || ''; // eslint-disable-line no-param-reassign
+              return result;
+            },
+            {},
+          ),
+        );
       const pagesCount = Math.ceil(searchResultsCount / 10);
       const showInstitutions = institutions.length > 0;
       const showInstitutionsLoading = false;
@@ -197,7 +212,7 @@ export default function schoolSearch(state = initialState, action) {
         showInstitutionsLoading,
         showNoResultsFound,
         showPagination,
-        showPaginationLoading
+        showPaginationLoading,
       };
     }
 
@@ -208,7 +223,7 @@ export default function schoolSearch(state = initialState, action) {
     case SEARCH_INPUT_CHANGED: {
       return {
         ...state,
-        searchInputValue: action.searchInputValue
+        searchInputValue: action.searchInputValue,
       };
     }
 

@@ -9,7 +9,7 @@ export default function validateFile(errors, file) {
       __errors: [],
       addError(msg) {
         this.__errors.push(msg);
-      }
+      },
     };
     /* eslint-enable no-param-reassign */
   }

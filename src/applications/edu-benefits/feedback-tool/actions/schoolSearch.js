@@ -15,37 +15,42 @@ export const SEARCH_INPUT_CHANGED = 'SEARCH_INPUT_CHANGED';
 
 export function clearSearch() {
   return {
-    type: SEARCH_CLEARED
+    type: SEARCH_CLEARED,
   };
 }
 
-export function restoreFromPrefill({ institutionQuery, institutionSelected, page, searchInputValue }) {
+export function restoreFromPrefill({
+  institutionQuery,
+  institutionSelected,
+  page,
+  searchInputValue,
+}) {
   return dispatch => {
     dispatch({
       type: RESTORE_FROM_PREFILL_STARTED,
       institutionQuery,
       institutionSelected,
       page,
-      searchInputValue
+      searchInputValue,
     });
 
     fetchInstitutions({
       institutionQuery,
       page,
-      onDone: payload  => {
+      onDone: payload => {
         dispatch({
           type: RESTORE_FROM_PREFILL_SUCCEEDED,
           institutionQuery,
-          payload
+          payload,
         });
       },
       onError: error => {
         dispatch({
           type: RESTORE_FROM_PREFILL_FAILED,
           error,
-          institutionQuery
+          institutionQuery,
         });
-      }
+      },
     });
   };
 }
@@ -53,7 +58,7 @@ export function restoreFromPrefill({ institutionQuery, institutionSelected, page
 export function searchInputChange({ searchInputValue }) {
   return {
     type: SEARCH_INPUT_CHANGED,
-    searchInputValue
+    searchInputValue,
   };
 }
 
@@ -62,17 +67,17 @@ export function searchSchools({ institutionQuery, page }) {
     dispatch({
       type: LOAD_SCHOOLS_STARTED,
       institutionQuery,
-      page
+      page,
     });
 
     fetchInstitutions({
       institutionQuery,
       page,
-      onDone: payload  => {
+      onDone: payload => {
         dispatch({
           type: LOAD_SCHOOLS_SUCCEEDED,
           institutionQuery,
-          payload
+          payload,
         });
       },
       onError: error => {
@@ -80,14 +85,22 @@ export function searchSchools({ institutionQuery, page }) {
         dispatch({
           type: LOAD_SCHOOLS_FAILED,
           error,
-          institutionQuery
+          institutionQuery,
         });
-      }
+      },
     });
   };
 }
 
-export function selectInstitution({ address1, address2, address3, city, facilityCode, name, state }) {
+export function selectInstitution({
+  address1,
+  address2,
+  address3,
+  city,
+  facilityCode,
+  name,
+  state,
+}) {
   return {
     type: INSTITUTION_SELECTED,
     address1,
@@ -96,13 +109,13 @@ export function selectInstitution({ address1, address2, address3, city, facility
     city,
     facilityCode,
     name,
-    state
+    state,
   };
 }
 
 export function toggleManualSchoolEntry(manualSchoolEntryChecked) {
   return {
     type: MANUAL_SCHOOL_ENTRY_TOGGLED,
-    manualSchoolEntryChecked
+    manualSchoolEntryChecked,
   };
 }

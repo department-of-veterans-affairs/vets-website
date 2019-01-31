@@ -8,7 +8,7 @@ import {
   ADDRESS_FORM_VALUES,
   ADDRESS_TYPES,
   ADDRESS_POU,
-  USA
+  USA,
 } from '../../constants';
 
 import Vet360ProfileField from '../../containers/ProfileField';
@@ -27,7 +27,7 @@ export const inferAddressType = (countryName, stateCode) => {
   return addressType;
 };
 
-export const convertNextValueToCleanData = (value) => {
+export const convertNextValueToCleanData = value => {
   const {
     id,
     addressLine1,
@@ -56,49 +56,84 @@ export const convertNextValueToCleanData = (value) => {
     province: addressType === ADDRESS_TYPES.INTERNATIONAL ? province : null,
     stateCode: addressType === ADDRESS_TYPES.INTERNATIONAL ? null : stateCode,
     zipCode: addressType !== ADDRESS_TYPES.INTERNATIONAL ? zipCode : null,
-    internationalPostalCode: addressType === ADDRESS_TYPES.INTERNATIONAL ? internationalPostalCode : null,
+    internationalPostalCode:
+      addressType === ADDRESS_TYPES.INTERNATIONAL
+        ? internationalPostalCode
+        : null,
   };
 };
 
-export const validateCleanData = ({ addressLine1, city, stateCode,  internationalPostalCode, zipCode, countryName }, property) => {
-  const isInternational = inferAddressType(countryName, stateCode) === ADDRESS_TYPES.INTERNATIONAL;
+export const validateCleanData = (
+  {
+    addressLine1,
+    city,
+    stateCode,
+    internationalPostalCode,
+    zipCode,
+    countryName,
+  },
+  property,
+) => {
+  const isInternational =
+    inferAddressType(countryName, stateCode) === ADDRESS_TYPES.INTERNATIONAL;
   const validateAll = !property;
 
   return {
-    addressLine1: (property === 'addressLine1' || validateAll) && !addressLine1 ? 'Street address is required' : '',
-    city: (property === 'city' || validateAll) && !city ? 'City is required' : '',
-    stateCode: (property === 'stateCode' || validateAll) && !isInternational && !stateCode ? 'State is required' : '',
-    zipCode: (property === 'zipCode' || validateAll) && !isInternational && !zipCode ? 'Zip code is required' : '',
-    internationalPostalCode: (property === 'internationalPostalCode' || validateAll) && isInternational && !internationalPostalCode ? 'Postal code is required' : '',
+    addressLine1:
+      (property === 'addressLine1' || validateAll) && !addressLine1
+        ? 'Street address is required'
+        : '',
+    city:
+      (property === 'city' || validateAll) && !city ? 'City is required' : '',
+    stateCode:
+      (property === 'stateCode' || validateAll) &&
+      !isInternational &&
+      !stateCode
+        ? 'State is required'
+        : '',
+    zipCode:
+      (property === 'zipCode' || validateAll) && !isInternational && !zipCode
+        ? 'Zip code is required'
+        : '',
+    internationalPostalCode:
+      (property === 'internationalPostalCode' || validateAll) &&
+      isInternational &&
+      !internationalPostalCode
+        ? 'Postal code is required'
+        : '',
   };
 };
 
-export const convertCleanDataToPayload = (cleanData, fieldName) => {
-  return pickBy({
-    id: cleanData.id,
-    addressLine1: cleanData.addressLine1,
-    addressLine2: cleanData.addressLine2,
-    addressLine3: cleanData.addressLine3,
-    addressType: cleanData.addressType,
-    city: cleanData.city,
-    countryName: cleanData.countryName,
-    stateCode: cleanData.stateCode,
-    internationalPostalCode: cleanData.internationalPostalCode,
-    zipCode: cleanData.zipCode,
-    province: cleanData.province,
-    addressPou: fieldName === FIELD_NAMES.MAILING_ADDRESS ? ADDRESS_POU.CORRESPONDENCE : ADDRESS_POU.RESIDENCE,
-  }, e => !!e);
-};
+export const convertCleanDataToPayload = (cleanData, fieldName) =>
+  pickBy(
+    {
+      id: cleanData.id,
+      addressLine1: cleanData.addressLine1,
+      addressLine2: cleanData.addressLine2,
+      addressLine3: cleanData.addressLine3,
+      addressType: cleanData.addressType,
+      city: cleanData.city,
+      countryName: cleanData.countryName,
+      stateCode: cleanData.stateCode,
+      internationalPostalCode: cleanData.internationalPostalCode,
+      zipCode: cleanData.zipCode,
+      province: cleanData.province,
+      addressPou:
+        fieldName === FIELD_NAMES.MAILING_ADDRESS
+          ? ADDRESS_POU.CORRESPONDENCE
+          : ADDRESS_POU.RESIDENCE,
+    },
+    e => !!e,
+  );
 
 export default class AddressField extends React.Component {
-
   static propTypes = {
     title: PropTypes.string.isRequired,
     deleteDisabled: PropTypes.bool,
     fieldName: PropTypes.oneOf([
       FIELD_NAMES.MAILING_ADDRESS,
-      FIELD_NAMES.RESIDENTIAL_ADDRESS
-    ]).isRequired
+      FIELD_NAMES.RESIDENTIAL_ADDRESS,
+    ]).isRequired,
   };
 
   render() {
@@ -112,7 +147,8 @@ export default class AddressField extends React.Component {
         convertCleanDataToPayload={convertCleanDataToPayload}
         deleteDisabled={this.props.deleteDisabled}
         Content={AddressView}
-        EditModal={AddressEditModal}/>
+        EditModal={AddressEditModal}
+      />
     );
   }
 }

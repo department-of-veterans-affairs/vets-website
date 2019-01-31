@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   flagCurrentPageInTopLevelLinks,
-  getAuthorizedLinkData
+  getAuthorizedLinkData,
 } from '../containers/Main';
 
 describe('mega-menu', () => {
@@ -10,18 +10,22 @@ describe('mega-menu', () => {
     describe('flagCurrentPageIntopLevelLinks', () => {
       it('should return object with currentPage: true when path name matches href', () => {
         const pathName = '/test';
-        const links = [{
-          href: '/test'
-        }, {
-          href: 'not'
-        }
+        const links = [
+          {
+            href: '/test',
+          },
+          {
+            href: 'not',
+          },
         ];
-        const expectedResult = [{
-          href: '/test',
-          currentPage: true
-        }, {
-          href: 'not'
-        }
+        const expectedResult = [
+          {
+            href: '/test',
+            currentPage: true,
+          },
+          {
+            href: 'not',
+          },
         ];
         const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
 
@@ -34,7 +38,11 @@ describe('mega-menu', () => {
         const defaultLinks = ['test0', 'test1'];
         const expectedResults = ['test0', 'test1', 'test2', 'test3'];
 
-        const actualResults = getAuthorizedLinkData(true, AuthorizedLinks, defaultLinks);
+        const actualResults = getAuthorizedLinkData(
+          true,
+          AuthorizedLinks,
+          defaultLinks,
+        );
 
         expect(actualResults).to.eql(expectedResults);
       });
@@ -43,7 +51,11 @@ describe('mega-menu', () => {
         const defaultLinks = ['test0', 'test1'];
         const expectedResults = ['test0', 'test1'];
 
-        const actualResults = getAuthorizedLinkData(false, AuthorizedLinks, defaultLinks);
+        const actualResults = getAuthorizedLinkData(
+          false,
+          AuthorizedLinks,
+          defaultLinks,
+        );
 
         expect(actualResults).to.eql(expectedResults);
       });

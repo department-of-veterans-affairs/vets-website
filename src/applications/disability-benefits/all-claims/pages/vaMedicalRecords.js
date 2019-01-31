@@ -1,15 +1,15 @@
-import _ from '../../../../platform/utilities/data';
+import set from '../../../../platform/utilities/data/set';
 import merge from 'lodash/merge';
-import fullSchema from '../config/schema';
-import {
-  uiSchema as autoSuggestUiSchema
-} from 'us-forms-system/lib/js/definitions/autosuggest';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
   validateMilitaryTreatmentCity,
-  validateMilitaryTreatmentState
+  validateMilitaryTreatmentState,
+  startedAfterServicePeriod,
+  hasMonthYear,
 } from '../validations';
 import { USA } from '../constants';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -21,19 +21,20 @@ export const uiSchema = {
     'First we’ll ask you about your VA medical records for your claimed disability.',
   'view:vaMedicalRecordsIntro': {
     'ui:title': 'VA medical records',
-    'ui:description': 'Please tell us where VA treated you for your disability.'
+    'ui:description':
+      'Please tell us where VA treated you for your disability.',
   },
   vaTreatmentFacilities: {
     'ui:options': {
       itemName: 'Facility',
-      viewField: treatmentView
+      viewField: treatmentView,
     },
     items: {
       'ui:order': [
         'treatmentCenterName',
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         'treatmentDateRange',
-        'treatmentCenterAddress'
+        'treatmentCenterAddress',
       ],
       treatmentCenterName: autoSuggestUiSchema(
         'Name of VA medical facility',
@@ -42,53 +43,65 @@ export const uiSchema = {
           'ui:options': { queryForResults: true, freeInput: true },
           'ui:errorMessages': {
             maxLength: 'Please enter a name with fewer than 100 characters.',
-            pattern: 'Please enter a valid name.'
-          }
-        }
+            pattern: 'Please enter a valid name.',
+          },
+        },
       ),
-      relatedDisabilities: {
+      treatedDisabilityNames: {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
           updateSchema: addCheckboxPerDisability,
-          showFieldLabel: true
+          showFieldLabel: true,
         },
         'ui:validations': [validateBooleanGroup],
         'ui:errorMessages': {
           atLeastOne: 'Please select at least one condition',
-          required: 'Please select at least one condition'
-        }
+          required: 'Please select at least one condition',
+        },
       },
-      treatmentDateRange: dateRangeUI(
-        'First date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
-        'Last date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
-        'Date of last treatment must be after date of first treatment'
+      treatmentDateRange: merge(
+        {},
+        dateRangeUI(
+          'When did you first visit this facility?',
+          'When was your most recent visit?',
+          'Date of last treatment must be after date of first treatment',
+        ),
+        {
+          from: {
+            'ui:validations': dateRangeUI().from['ui:validations'].concat([
+              startedAfterServicePeriod,
+            ]),
+          },
+        },
+        {
+          to: {
+            'ui:validations': dateRangeUI().to['ui:validations'].concat([
+              hasMonthYear,
+            ]),
+          },
+        },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],
         country: {
-          'ui:title': 'Country'
+          'ui:title': 'Country',
         },
         state: {
           'ui:title': 'State',
           'ui:validations': [validateMilitaryTreatmentState],
           'ui:options': {
             expandUnder: 'country',
-            expandUnderCondition: USA
+            expandUnderCondition: USA,
           },
-          'ui:required': (formData, index) =>
-            _.get(
-              `vaTreatmentFacilities.${index}.treatmentCenterAddress.country`,
-              formData
-            ) === USA
         },
         city: {
           'ui:title': 'City',
           'ui:validations': [validateMilitaryTreatmentCity],
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 };
 
 export const schema = {
@@ -96,18 +109,12 @@ export const schema = {
   properties: {
     'view:vaMedicalRecordsIntro': {
       type: 'object',
-      properties: {}
+      properties: {},
     },
-    vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
-      items: {
-        required: ['treatmentCenterName', 'relatedDisabilities'],
-        properties: {
-          relatedDisabilities: {
-            type: 'object',
-            properties: {}
-          }
-        }
-      }
-    })
-  }
+    vaTreatmentFacilities: set(
+      'items.properties.treatedDisabilityNames',
+      { type: 'object', properties: {} },
+      vaTreatmentFacilities,
+    ),
+  },
 };

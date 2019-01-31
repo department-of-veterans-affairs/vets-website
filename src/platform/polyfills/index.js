@@ -18,4 +18,3 @@ if (navigator.userAgent.includes('Edge/14')) {
 // This needs to stay as require because import causes it to be executed before the
 // above code
 require('whatwg-fetch');
-

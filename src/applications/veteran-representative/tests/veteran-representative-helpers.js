@@ -14,21 +14,21 @@ function completeClaimantInformation(client, data) {
     .selectDropdown('root_relationship', data.relationship)
     .selectDropdown(
       'root_claimantAddress_country',
-      data.claimantAddress.country
+      data.claimantAddress.country,
     )
     .fill(
       'input[name="root_claimantAddress_street"]',
-      data.claimantAddress.street
+      data.claimantAddress.street,
     )
     .fill(
       'input[name="root_claimantAddress_street2"]',
-      data.claimantAddress.street2
+      data.claimantAddress.street2,
     )
     .fill('input[name="root_claimantAddress_city"]', data.claimantAddress.city)
     .selectDropdown('root_claimantAddress_state', data.claimantAddress.state)
     .fill(
       'input[name="root_claimantAddress_postalCode"]',
-      data.claimantAddress.postalCode
+      data.claimantAddress.postalCode,
     )
     .fill('input[name="root_claimantEmail"]', data.claimantEmail)
     .fill('input[name="root_claimantDaytimePhone"]', data.claimantDaytimePhone)
@@ -41,11 +41,11 @@ function completeVeteranServiceOrganizationInformation(client, data) {
     .fill('input[name="root_organizationEmail"]', data.organizationEmail)
     .fill(
       'input[name="root_organizationRepresentativeName"]',
-      data.organizationRepresentativeName
+      data.organizationRepresentativeName,
     )
     .fill(
       'input[name="root_organizationRepresentativeTitle"]',
-      data.organizationRepresentativeTitle
+      data.organizationRepresentativeTitle,
     );
 }
 

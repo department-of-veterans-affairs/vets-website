@@ -5,12 +5,11 @@ import { expect } from 'chai';
 import { VetsDotGov, mapStateToProps } from '../../containers/VetsDotGov';
 
 describe('VetsDotGov', () => {
-
   it('renders children when brandConsolidationEnabled is false', () => {
     const state = {
       buildSettings: {
-        brandConsolidationEnabled: false
-      }
+        brandConsolidationEnabled: false,
+      },
     };
 
     const props = mapStateToProps(state);
@@ -19,7 +18,7 @@ describe('VetsDotGov', () => {
     const wrapper = enzyme.render(
       <VetsDotGov {...props}>
         <h1>Vets.Gov Only</h1>
-      </VetsDotGov>
+      </VetsDotGov>,
     );
 
     expect(wrapper.html()).to.contain('Vets.Gov Only');
@@ -28,8 +27,8 @@ describe('VetsDotGov', () => {
   it('does not render children when brandConsolidationEnabled is true', () => {
     const state = {
       buildSettings: {
-        brandConsolidationEnabled: true
-      }
+        brandConsolidationEnabled: true,
+      },
     };
 
     const props = mapStateToProps(state);
@@ -38,9 +37,8 @@ describe('VetsDotGov', () => {
     const wrapper = enzyme.render(
       <VetsDotGov {...props}>
         <h1>Vets.Gov Only</h1>
-      </VetsDotGov>
+      </VetsDotGov>,
     );
     expect(wrapper.html()).to.be.null;
   });
-
 });

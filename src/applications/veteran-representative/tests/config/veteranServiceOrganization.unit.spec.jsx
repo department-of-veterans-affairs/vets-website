@@ -3,21 +3,29 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('veteran service organization information', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranServiceOrganization.pages.veteranServiceOrganization;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranServiceOrganization.pages.veteranServiceOrganization;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -28,13 +36,15 @@ describe('veteran service organization information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should continue with all info filled in', () => {
@@ -45,7 +55,8 @@ describe('veteran service organization information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_organizationName', 'Test Org Name');
@@ -56,5 +67,6 @@ describe('veteran service organization information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

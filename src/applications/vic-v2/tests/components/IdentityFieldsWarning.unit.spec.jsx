@@ -9,36 +9,45 @@ describe('<IdentifyFieldsWarning>', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
-          processAsIdProofed: false
+          processAsIdProofed: false,
         }}
         formContext={{
-          prefilled: true
-        }}/>);
+          prefilled: true,
+        }}
+      />,
+    );
 
     expect(tree.find('PrefillMessage').exists()).to.be.true;
+    tree.unmount();
   });
   it('should render warning', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
-          processAsIdProofed: true
+          processAsIdProofed: true,
         }}
         formContext={{
-          prefilled: true
-        }}/>);
+          prefilled: true,
+        }}
+      />,
+    );
 
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
+    tree.unmount();
   });
   it('should render nothing', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
-          processAsIdProofed: false
+          processAsIdProofed: false,
         }}
         formContext={{
-          prefilled: false
-        }}/>);
+          prefilled: false,
+        }}
+      />,
+    );
 
     expect(tree.html()).to.be.null;
+    tree.unmount();
   });
 });

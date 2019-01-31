@@ -7,7 +7,7 @@ const initialState = {
   previewVersion: null,
   searchTerm: '',
   facilityCode: null,
-  suggestions: []
+  suggestions: [],
 };
 
 describe('autocomplete reducer', () => {
@@ -17,7 +17,7 @@ describe('autocomplete reducer', () => {
       {
         type: 'AUTOCOMPLETE_TERM_CHANGED',
         searchTerm: 'newSearchTerm',
-      }
+      },
     );
 
     expect(state.facilityCode).to.eql(null);
@@ -25,12 +25,9 @@ describe('autocomplete reducer', () => {
   });
 
   it('should start autocomplete correctly', () => {
-    const state = autocompleteReducer(
-      initialState,
-      {
-        type: 'AUTOCOMPLETE_STARTED'
-      }
-    );
+    const state = autocompleteReducer(initialState, {
+      type: 'AUTOCOMPLETE_STARTED',
+    });
 
     expect(state.inProgress).to.eql(true);
     expect(state.suggestions).to.eql([]);
@@ -42,10 +39,10 @@ describe('autocomplete reducer', () => {
       {
         type: 'AUTOCOMPLETE_FAILED',
         err: {
-          errorMessage: 'error'
+          errorMessage: 'error',
         },
-        value: 'searchTerm'
-      }
+        value: 'searchTerm',
+      },
     );
 
     expect(state.inProgress).to.eql(false);
@@ -59,41 +56,40 @@ describe('autocomplete reducer', () => {
       {
         type: 'AUTOCOMPLETE_SUCCEEDED',
         payload: {
-          data: [{
-            id: 1,
-            value: 'autocomplete label',
-            label: 'autocomplete label'
-          }],
+          data: [
+            {
+              id: 1,
+              value: 'autocomplete label',
+              label: 'autocomplete label',
+            },
+          ],
           meta: {
-            version: 1
-          }
-        }
-      }
+            version: 1,
+          },
+        },
+      },
     );
 
     expect(state.suggestions.length).to.eql(2);
     expect(state.suggestions[0]).to.eql({
       id: null,
       value: 'searchTerm',
-      label: 'searchTerm'
+      label: 'searchTerm',
     });
     expect(state.suggestions[1]).to.eql({
       id: 1,
       value: 'autocomplete label',
-      label: 'autocomplete label'
+      label: 'autocomplete label',
     });
     expect(state.previewVersion).to.eql(1);
     expect(state.inProgress).to.eql(false);
   });
 
   it('should handle search starting', () => {
-    const state = autocompleteReducer(
-      initialState,
-      {
-        type: 'SEARCH_STARTED',
-        name: 'newSearchTerm',
-      }
-    );
+    const state = autocompleteReducer(initialState, {
+      type: 'SEARCH_STARTED',
+      name: 'newSearchTerm',
+    });
 
     expect(state.searchTerm).to.eql('newSearchTerm');
   });

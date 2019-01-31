@@ -2,8 +2,7 @@ import VAProfileApp from './containers/VAProfileApp';
 
 const routes = {
   path: '/',
-  component: VAProfileApp
+  component: VAProfileApp,
 };
 
 export default routes;
-

@@ -13,9 +13,10 @@ class SignInLink extends React.Component {
 
   // If the loggedIn status went from false to true, call onLogin()
   componentWillReceiveProps(newProps) {
-    const loginAttemptCompleted = this.props.showLoginModal === true
-      && newProps.showLoginModal === false
-      && this.loginAttemptInProgress;
+    const loginAttemptCompleted =
+      this.props.showLoginModal === true &&
+      newProps.showLoginModal === false &&
+      this.loginAttemptInProgress;
 
     if (loginAttemptCompleted && newProps.isLoggedIn) {
       this.loginAttemptInProgress = false;
@@ -27,22 +28,22 @@ class SignInLink extends React.Component {
     }
   }
 
-  signIn = (e) => {
+  signIn = e => {
     if (this.props.type === 'button') {
       e.preventDefault(); // Don’t try to submit the page
     }
     this.loginAttemptInProgress = true;
     this.props.toggleLoginModal(true);
-  }
+  };
 
   render() {
     return React.createElement(
       this.props.type || 'a',
       {
         className: this.props.className,
-        onClick: this.signIn
+        onClick: this.signIn,
       },
-      this.props.children
+      this.props.children,
     );
   }
 }

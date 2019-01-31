@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import fullSchema1010ez from '../../../applications/hca/config/form';
 import fullSchema0993 from '../../../applications/edu-benefits/0993/config/form';
 import fullSchema1990 from '../../../applications/edu-benefits/1990/config/form';
@@ -31,7 +30,6 @@ const mappedIds = [
   '22-5495',
   '40-10007',
   'FEEDBACK-TOOL',
-  'definitions'
 ];
 
 const configs = [
@@ -47,26 +45,32 @@ const configs = [
   fullSchema5490,
   fullSchema5495,
   fullSchema10007,
-  fullSchemaFeedbackTool
+  fullSchemaFeedbackTool,
 ];
 
 const excludedForms = new Set([
   '28-1900',
   '21-526EZ',
+  '21-526EZ-ALLCLAIMS', // TODO: remove this?
   '28-8832',
   '24-0296',
   '21-4142',
-  'VIC'
+  'VIC',
+  '22-0994', // TODO: remove this when 0994 is ready
+  'definitions',
+  'constants',
+  'vaMedicalFacilities',
 ]);
 
 describe('form migrations:', () => {
   it('should check all forms', () => {
-    const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
+    const allFormIds = Object.keys(schemas).filter(
+      formId => !excludedForms.has(formId),
+    );
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
-    reformattedIds.pop();
     const includedFormIds = configs.map(form => form.formId);
-    expect(allFormIds).to.deep.equal(mappedIds);
+    expect(new Set(allFormIds)).to.deep.equal(new Set(mappedIds));
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
   it('should have a length equal to the version number', () => {
@@ -77,4 +81,3 @@ describe('form migrations:', () => {
     });
   });
 });
-

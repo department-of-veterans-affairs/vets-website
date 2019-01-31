@@ -1,0 +1,14 @@
+{% comment %}
+  Example data:
+  {
+    block: {
+      entity: {
+        entityBundle: "wysiwyg"
+        entityRendered: "  <div class="paragraph paragraph--type--wysiwyg paragraph--view-mode--full">...</div>"
+        entityType: "paragraph"
+      }
+    }
+  }
+{% endcomment %}
+
+{{ block.entity.entityRendered }}

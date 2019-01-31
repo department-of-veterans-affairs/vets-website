@@ -9,7 +9,7 @@ const routes = [
     component: Form526EZApp,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
     childRoutes: createRoutesWithSaveInProgress(formConfig),
-  }
+  },
 ];
 
 export default routes;

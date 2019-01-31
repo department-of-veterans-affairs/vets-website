@@ -1,37 +1,43 @@
 import { expect } from 'chai';
 
 import claimsList from '../../reducers/claims-list';
-import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../actions';
+import {
+  SET_CLAIMS,
+  FILTER_CLAIMS,
+  SORT_CLAIMS,
+  CHANGE_CLAIMS_PAGE,
+  SHOW_CONSOLIDATED_MODAL,
+  HIDE_30_DAY_NOTICE,
+} from '../../actions';
 
 describe('Claims list reducer', () => {
   it('should populate the claims list', () => {
     const claims = Array(12).fill({
       attributes: {
-        phaseChangeDate: '2010-01-01'
-      }
+        phaseChangeDate: '2010-01-01',
+      },
     });
     claims[11] = {
       attributes: {
-        phaseChangeDate: '2011-01-05'
-      }
+        phaseChangeDate: '2011-01-05',
+      },
     };
     claims[10] = {
-      attributes: {
-      }
+      attributes: {},
     };
     const state = claimsList(undefined, {
       type: SET_CLAIMS,
-      claims
+      claims,
     });
     expect(state.claims).to.deep.equal(claims);
   });
   it('should set the sort property', () => {
     const previousState = {
-      sortProperty: 'dateFiled'
+      sortProperty: 'dateFiled',
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
-      sortProperty: 'phaseChangeDate'
+      sortProperty: 'phaseChangeDate',
     });
     expect(state.sortProperty).to.equal('phaseChangeDate');
   });
@@ -40,22 +46,22 @@ describe('Claims list reducer', () => {
       {
         id: 2,
         attributes: {
-          phaseChangeDate: '2010-01-01'
-        }
+          phaseChangeDate: '2010-01-01',
+        },
       },
       {
         id: 1,
         attributes: {
-          phaseChangeDate: '2010-01-01'
-        }
-      }
+          phaseChangeDate: '2010-01-01',
+        },
+      },
     ];
     const previousState = {
-      visibleList: claims
+      visibleList: claims,
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
-      sortProperty: 'phaseChangeDate'
+      sortProperty: 'phaseChangeDate',
     });
 
     expect(state.visibleList[0].id).to.equal(1);
@@ -65,22 +71,22 @@ describe('Claims list reducer', () => {
       {
         id: 2,
         attributes: {
-          phaseChangeDate: '2010-01-01'
-        }
+          phaseChangeDate: '2010-01-01',
+        },
       },
       {
         id: 1,
         attributes: {
-          phaseChangeDate: null
-        }
-      }
+          phaseChangeDate: null,
+        },
+      },
     ];
     const previousState = {
-      visibleList: claims
+      visibleList: claims,
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
-      sortProperty: 'phaseChangeDate'
+      sortProperty: 'phaseChangeDate',
     });
 
     expect(state.visibleList[0].id).to.equal(2);
@@ -90,28 +96,28 @@ describe('Claims list reducer', () => {
       {
         id: 1,
         attributes: {
-          dateFiled: '2010-04-01'
-        }
+          dateFiled: '2010-04-01',
+        },
       },
       {
         id: 2,
         attributes: {
-          dateFiled: null
-        }
+          dateFiled: null,
+        },
       },
       {
         id: 3,
         attributes: {
-          dateFiled: '2010-05-01'
-        }
-      }
+          dateFiled: '2010-05-01',
+        },
+      },
     ];
     const previousState = {
-      visibleList: claims
+      visibleList: claims,
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
-      sortProperty: 'dateFiled'
+      sortProperty: 'dateFiled',
     });
     const sortedClaims = [claims[2], claims[0], claims[1]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
@@ -121,28 +127,28 @@ describe('Claims list reducer', () => {
       {
         id: 1,
         attributes: {
-          claimType: 'Pension'
-        }
+          claimType: 'Pension',
+        },
       },
       {
         id: 2,
         attributes: {
-          claimType: null
-        }
+          claimType: null,
+        },
       },
       {
         id: 3,
         attributes: {
-          claimType: 'Compensation'
-        }
-      }
+          claimType: 'Compensation',
+        },
+      },
     ];
     const previousState = {
-      visibleList: claims
+      visibleList: claims,
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
-      sortProperty: 'claimType'
+      sortProperty: 'claimType',
     });
     const sortedClaims = [claims[2], claims[1], claims[0]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
@@ -152,15 +158,15 @@ describe('Claims list reducer', () => {
       {
         id: 2,
         attributes: {
-          open: true
-        }
+          open: true,
+        },
       },
       {
         id: 1,
         attributes: {
-          open: false
-        }
-      }
+          open: false,
+        },
+      },
     ];
     const previousState = {
       claims,
@@ -168,7 +174,7 @@ describe('Claims list reducer', () => {
     };
     const state = claimsList(previousState, {
       type: FILTER_CLAIMS,
-      filter: 'open'
+      filter: 'open',
     });
     expect(state.visibleList.length).to.equal(1);
     expect(state.visibleList[0].id).to.equal(2);
@@ -179,15 +185,15 @@ describe('Claims list reducer', () => {
       {
         id: 2,
         attributes: {
-          open: true
-        }
+          open: true,
+        },
       },
       {
         id: 1,
         attributes: {
-          open: false
-        }
-      }
+          open: false,
+        },
+      },
     ];
     const previousState = {
       claims,
@@ -195,7 +201,7 @@ describe('Claims list reducer', () => {
     };
     const state = claimsList(previousState, {
       type: FILTER_CLAIMS,
-      filter: 'closed'
+      filter: 'closed',
     });
     expect(state.visibleList.length).to.equal(1);
     expect(state.visibleList[0].id).to.equal(1);
@@ -207,39 +213,39 @@ describe('Claims list reducer', () => {
         id: 1,
         attributes: {
           claimType: 'Pension',
-          open: true
-        }
+          open: true,
+        },
       },
       {
         id: 2,
         attributes: {
           claimType: null,
-          open: true
-        }
+          open: true,
+        },
       },
       {
         id: 3,
         attributes: {
           claimType: 'Compensation',
-          open: true
-        }
+          open: true,
+        },
       },
       {
         id: 4,
         attributes: {
           claimType: null,
-          open: false
-        }
+          open: false,
+        },
       },
     ];
     const previousState = {
       appeals: [],
       claims,
-      sortProperty: 'claimType'
+      sortProperty: 'claimType',
     };
     const state = claimsList(previousState, {
       type: FILTER_CLAIMS,
-      filter: 'open'
+      filter: 'open',
     });
     const sortedClaims = [claims[2], claims[1], claims[0]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
@@ -251,11 +257,11 @@ describe('Claims list reducer', () => {
       visibleList: claims,
       page: 1,
       pages: 2,
-      visibleRows: claims.slice(0, 10)
+      visibleRows: claims.slice(0, 10),
     };
     const state = claimsList(previousState, {
       type: CHANGE_CLAIMS_PAGE,
-      page: 2
+      page: 2,
     });
 
     expect(state.visibleRows).to.deep.equal(claims.slice(10, 12));
@@ -263,19 +269,25 @@ describe('Claims list reducer', () => {
   });
 
   it('should toggle modal flag', () => {
-    const state = claimsList({}, {
-      type: SHOW_CONSOLIDATED_MODAL,
-      visible: true
-    });
+    const state = claimsList(
+      {},
+      {
+        type: SHOW_CONSOLIDATED_MODAL,
+        visible: true,
+      },
+    );
 
     expect(state.consolidatedModal).to.be.true;
   });
   it('should turn off 30 day notice flag', () => {
-    const state = claimsList({
-      show30DayNotice: true
-    }, {
-      type: HIDE_30_DAY_NOTICE
-    });
+    const state = claimsList(
+      {
+        show30DayNotice: true,
+      },
+      {
+        type: HIDE_30_DAY_NOTICE,
+      },
+    );
 
     expect(state.show30DayNotice).to.be.false;
   });

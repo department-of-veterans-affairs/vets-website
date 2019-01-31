@@ -1,17 +1,14 @@
 import set from '../../../utilities/data/set';
 
-import {
-  TOGGLE_LOGIN_MODAL,
-  UPDATE_SEARCH_HELP_USER_MENU,
-} from '../actions';
+import { TOGGLE_LOGIN_MODAL, UPDATE_SEARCH_HELP_USER_MENU } from '../actions';
 
 const initialState = {
   showLoginModal: false,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
-    account: false
-  }
+    account: false,
+  },
 };
 
 function closeAllMenus(menuState) {

@@ -8,12 +8,13 @@ export const treatmentView = ({ formData }) => {
   if (from && to) {
     treatmentPeriod = `${from} — ${to}`;
   } else if (from || to) {
-    treatmentPeriod = `${(from || to)}`;
+    treatmentPeriod = `${from || to}`;
   }
 
   return (
     <div>
-      <strong>{name}</strong><br/>
+      <strong>{name}</strong>
+      <br />
       {treatmentPeriod}
     </div>
   );

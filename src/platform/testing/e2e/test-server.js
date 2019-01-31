@@ -12,9 +12,10 @@ const fallback = require('express-history-api-fallback');
 const path = require('path');
 const morgan = require('morgan');
 const appSettings = require('../../../../config/parse-app-settings');
+const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const optionDefinitions = [
-  { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'buildtype', type: String, defaultValue: ENVIRONMENTS.VAGOVDEV },
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
   { name: 'host', type: String, defaultValue: 'localhost' },
 
@@ -39,7 +40,11 @@ if (!fs.existsSync(root)) {
 appSettings.parseFromBuildDir(root);
 const routes = appSettings.getAllApplicationRoutes();
 
-app.use(morgan('combined', { skip: (req, _res) => { return req.path.match(/(css|js|gif|jpg|png|svg)$/); } }));
+app.use(
+  morgan('combined', {
+    skip: (req, _res) => req.path.match(/(css|js|gif|jpg|png|svg)$/),
+  }),
+);
 app.use(express.static(root));
 routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
@@ -47,5 +52,9 @@ routes.forEach(url => {
 
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
-  console.log(`Test server listening on port ${options.port} for type ${options.buildtype}`);
+  console.log(
+    `Test server listening on port ${options.port} for type ${
+      options.buildtype
+    }`,
+  );
 });

@@ -19,7 +19,11 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
-import { disabilityRatingLabels, dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
+import {
+  disabilityRatingLabels,
+  dischargeTypeLabels,
+  serviceFlagLabels,
+} from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
@@ -39,7 +43,7 @@ const {
   previousPrograms,
   serviceHistory,
   vaRecordsOffice,
-  yearsOfEducation
+  yearsOfEducation,
 } = fullSchema31.properties;
 
 const {
@@ -50,7 +54,7 @@ const {
   requiredServiceHistory,
   ssn,
   vaFileNumber,
-  year
+  year,
 } = fullSchema31.definitions;
 
 const TWENTY_FIVE_MB = 26214400;
@@ -58,13 +62,14 @@ const TWENTY_FIVE_MB = 26214400;
 const expandIfWorking = {
   'ui:options': {
     expandUnder: 'view:isWorking',
-  }
+  },
 };
 
 const formConfig = {
   urlPrefix: '/',
   // submitUrl: `${environment.API_URL}/v0/vre`,
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'vre-chapter-31',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -74,7 +79,7 @@ const formConfig = {
   footerContent: FormFooter,
   savedFormMessages: {
     notFound: '',
-    noAuth: ''
+    noAuth: '',
   },
   title: 'Apply for vocational rehabilitation',
   subTitle: 'Form 28-1900',
@@ -88,14 +93,14 @@ const formConfig = {
     requiredServiceHistory,
     ssn,
     vaFileNumber,
-    year
+    year,
   },
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: createVeteranInfoPage(fullSchema31)
-      }
+        veteranInformation: createVeteranInfoPage(fullSchema31),
+      },
     },
     militaryHistory: {
       title: 'Military History',
@@ -108,68 +113,68 @@ const formConfig = {
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
-                hideTitle: true
+                hideTitle: true,
               },
               items: {
                 serviceBranch: {
-                  'ui:title': 'Branch of service'
+                  'ui:title': 'Branch of service',
                 },
                 dateRange: dateRangeUI(
                   'Service start date',
                   'Service end date',
-                  'End of service must be after start of service'
+                  'End of service must be after start of service',
                 ),
                 dischargeType: {
                   'ui:title': 'Character of discharge',
                   'ui:options': {
-                    labels: dischargeTypeLabels
-                  }
-                }
-              }
+                    labels: dischargeTypeLabels,
+                  },
+                },
+              },
             },
             serviceFlags: {
               'ui:title': 'Did you serve in:',
               'ui:options': {
-                showFieldLabel: true
+                showFieldLabel: true,
               },
               ww2: {
-                'ui:title': serviceFlagLabels.ww2
+                'ui:title': serviceFlagLabels.ww2,
               },
               postWw2: {
-                'ui:title': serviceFlagLabels.postWw2
+                'ui:title': serviceFlagLabels.postWw2,
               },
               korea: {
-                'ui:title': serviceFlagLabels.korea
+                'ui:title': serviceFlagLabels.korea,
               },
               postKorea: {
-                'ui:title': serviceFlagLabels.postKorea
+                'ui:title': serviceFlagLabels.postKorea,
               },
               vietnam: {
-                'ui:title': serviceFlagLabels.vietnam
+                'ui:title': serviceFlagLabels.vietnam,
               },
               postVietnam: {
-                'ui:title': serviceFlagLabels.postVietnam
+                'ui:title': serviceFlagLabels.postVietnam,
               },
               gulf: {
-                'ui:title': serviceFlagLabels.gulf
+                'ui:title': serviceFlagLabels.gulf,
               },
               operationEnduringFreedom: {
-                'ui:title': serviceFlagLabels.operationEnduringFreedom
+                'ui:title': serviceFlagLabels.operationEnduringFreedom,
               },
               operationIraqiFreedom: {
-                'ui:title': serviceFlagLabels.operationIraqiFreedom
-              }
-            }
+                'ui:title': serviceFlagLabels.operationIraqiFreedom,
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
               serviceHistory,
-              serviceFlags
-            }
-          }
-        }
-      }
+              serviceFlags,
+            },
+          },
+        },
+      },
     },
     workInformation: {
       title: 'Work Information',
@@ -180,31 +185,37 @@ const formConfig = {
           uiSchema: {
             'view:isWorking': {
               'ui:title': 'Are you working?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
-            employer: _.merge({
-              'ui:title': 'Employer name',
-              'ui:required': (formData) => formData['view:isWorking'],
-            }, expandIfWorking),
+            employer: _.merge(
+              {
+                'ui:title': 'Employer name',
+                'ui:required': formData => formData['view:isWorking'],
+              },
+              expandIfWorking,
+            ),
             jobDuties: _.merge({ 'ui:title': 'Job duties' }, expandIfWorking),
             monthlyIncome: _.merge(currencyUI('Monthly pay'), expandIfWorking),
-            employerAddress: _.merge(address.uiSchema('Employer address'), expandIfWorking),
+            employerAddress: _.merge(
+              address.uiSchema('Employer address'),
+              expandIfWorking,
+            ),
           },
           schema: {
             type: 'object',
             required: ['view:isWorking'],
             properties: {
               'view:isWorking': {
-                type: 'boolean'
+                type: 'boolean',
               },
               employer,
               jobDuties,
               monthlyIncome,
-              employerAddress: address.schema(fullSchema31)
-            }
-          }
-        }
-      }
+              employerAddress: address.schema(fullSchema31),
+            },
+          },
+        },
+      },
     },
     educationInformation: {
       title: 'Education Information',
@@ -214,41 +225,40 @@ const formConfig = {
           title: 'Education Information',
           uiSchema: {
             yearsOfEducation: {
-              'ui:title': 'Number of years of education including high school'
+              'ui:title': 'Number of years of education including high school',
             },
             previousPrograms: {
               'ui:options': {
                 itemName: 'Program',
                 viewField: EducationPeriodView,
-                hideTitle: true
+                hideTitle: true,
               },
-              'ui:title': 'List any VA or non-VA vocational rehabilitation programs you have been in.',
+              'ui:title':
+                'List any VA or non-VA vocational rehabilitation programs you have been in.',
               items: {
                 program: {
-                  'ui:title': 'Name of program'
+                  'ui:title': 'Name of program',
                 },
                 yearStarted: Object.assign({}, yearUI, {
-                  'ui:title': 'Year you started the program'
+                  'ui:title': 'Year you started the program',
                 }),
                 yearLeft: Object.assign({}, yearUI, {
-                  'ui:title': 'Year you left the program'
+                  'ui:title': 'Year you left the program',
                 }),
-                'ui:validations': [
-                  validateYearRange
-                ]
-              }
-            }
+                'ui:validations': [validateYearRange],
+              },
+            },
           },
           schema: {
             type: 'object',
             required: ['yearsOfEducation'],
             properties: {
               yearsOfEducation,
-              previousPrograms
-            }
-          }
-        }
-      }
+              previousPrograms,
+            },
+          },
+        },
+      },
     },
     disabilityInformation: {
       title: 'Disability Information',
@@ -261,42 +271,49 @@ const formConfig = {
             disabilityRating: {
               'ui:title': 'Disability rating',
               'ui:options': {
-                labels: disabilityRatingLabels
-              }
+                labels: disabilityRatingLabels,
+              },
             },
             disabilities: {
               'ui:title': 'Please describe your disability or disabilities:',
             },
             vaRecordsOffice: {
               'ui:title': 'VA office where your disability records are located',
-              'ui:help': facilityLocatorLink
+              'ui:help': facilityLocatorLink,
             },
             'view:inHospital': {
               'ui:title': 'Are you currently in the hospital?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             'view:hospital': {
               hospitalName: {
                 'ui:title': 'Hospital name',
                 'ui:options': {
-                  'ui:required': (formData) => !!formData['view:inHospital']
-                }
+                  'ui:required': formData => !!formData['view:inHospital'],
+                },
               },
-              hospitalAddress: address.uiSchema('Hospital address', false, form => form['view:inHospital']),
+              hospitalAddress: address.uiSchema(
+                'Hospital address',
+                false,
+                form => form['view:inHospital'],
+              ),
               'ui:options': {
-                expandUnder: 'view:inHospital'
-              }
+                expandUnder: 'view:inHospital',
+              },
             },
             'ui:options': {
               updateSchema: (formData, schema) => {
                 if (formData['view:inHospital']) {
-                  schema.properties['view:hospital'].required = ['hospitalName']; // eslint-disable-line no-param-reassign
+                  // eslint-disable-next-line no-param-reassign
+                  schema.properties['view:hospital'].required = [
+                    'hospitalName',
+                  ];
                 } else {
                   schema.properties['view:hospital'].required = []; // eslint-disable-line no-param-reassign
                 }
                 return schema;
-              }
-            }
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -304,28 +321,28 @@ const formConfig = {
               'disabilityRating',
               'disabilities',
               'vaRecordsOffice',
-              'view:inHospital'
+              'view:inHospital',
             ],
             properties: {
               disabilityRating,
               disabilities,
               vaRecordsOffice,
               'view:inHospital': {
-                type: 'boolean'
+                type: 'boolean',
               },
               'view:hospital': {
                 type: 'object',
                 properties: {
                   hospitalName: {
-                    type: 'string'
+                    type: 'string',
                   },
-                  hospitalAddress: address.schema(fullSchema31)
-                }
-              }
-            }
-          }
-        }
-      }
+                  hospitalAddress: address.schema(fullSchema31),
+                },
+              },
+            },
+          },
+        },
+      },
     },
     contactInformation: {
       title: 'Contact Information',
@@ -337,16 +354,20 @@ const formConfig = {
             veteranAddress: address.uiSchema(''),
             'view:isMoving': {
               'ui:title': 'Are you moving within the next 30 days?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             veteranNewAddress: _.merge(
-              address.uiSchema('New address', false, (formData) => formData['view:isMoving']),
+              address.uiSchema(
+                'New address',
+                false,
+                formData => formData['view:isMoving'],
+              ),
               {
                 'ui:options': {
-                  expandUnder: 'view:isMoving'
-                }
-              }
-            )
+                  expandUnder: 'view:isMoving',
+                },
+              },
+            ),
           },
           schema: {
             type: 'object',
@@ -354,11 +375,11 @@ const formConfig = {
             properties: {
               veteranAddress: address.schema(fullSchema31, true),
               'view:isMoving': {
-                type: 'boolean'
+                type: 'boolean',
               },
-              veteranNewAddress: address.schema(fullSchema31)
-            }
-          }
+              veteranNewAddress: address.schema(fullSchema31),
+            },
+          },
         },
         contactInformation: {
           path: 'contact-information',
@@ -367,17 +388,15 @@ const formConfig = {
             daytimePhone: phoneUI('Daytime phone number'),
             eveningPhone: phoneUI('Evening phone number'),
             email: {
-              'ui:title': 'Email address'
+              'ui:title': 'Email address',
             },
             'view:confirmEmail': {
               'ui:title': 'Re-enter email address',
               'ui:options': {
-                hideOnReview: true
-              }
+                hideOnReview: true,
+              },
             },
-            'ui:validations': [
-              validateMatch('email', 'view:confirmEmail')
-            ]
+            'ui:validations': [validateMatch('email', 'view:confirmEmail')],
           },
           schema: {
             type: 'object',
@@ -386,10 +405,10 @@ const formConfig = {
               eveningPhone,
               email,
               'view:confirmEmail': email,
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     },
     documentUpload: {
       title: 'Document Upload',
@@ -404,38 +423,35 @@ const formConfig = {
             'ui:description': DD214Description,
             dischargeDocuments: fileUploadUI('Upload your discharge document', {
               fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-              fileTypes: [
-                'pdf',
-                'jpeg',
-                'jpg'
-              ],
+              fileTypes: ['pdf', 'jpeg', 'jpg'],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload Your Discharge Document',
-              createPayload: (file) => {
+              createPayload: file => {
                 const payload = new FormData();
-                payload.append('supporting_documentation_attachment[file_data]', file);
+                payload.append(
+                  'supporting_documentation_attachment[file_data]',
+                  file,
+                );
 
                 return payload;
               },
-              parseResponse: (response, file) => {
-                return {
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid
-                };
-              }
-            })
+              parseResponse: (response, file) => ({
+                name: file.name,
+                confirmationCode: response.data.attributes.guid,
+              }),
+            }),
           },
           schema: {
             type: 'object',
             // TODO: this should be required once the endpoint is set up
             properties: {
-              dischargeDocuments
-            }
-          }
-        }
-      }
-    }
-  }
+              dischargeDocuments,
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default formConfig;

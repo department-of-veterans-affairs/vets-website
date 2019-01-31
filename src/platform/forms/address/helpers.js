@@ -5,17 +5,17 @@ const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 const UNITED_STATES = 'USA';
 
 /**
-* @typedef {string} AddressType
-*/
+ * @typedef {string} AddressType
+ */
 
 /**
-* @readonly
-* @enum {AddressType}
-*/
+ * @readonly
+ * @enum {AddressType}
+ */
 export const ADDRESS_TYPES = {
   domestic: 'DOMESTIC',
   international: 'INTERNATIONAL',
-  military: 'MILITARY'
+  military: 'MILITARY',
 };
 
 /**
@@ -43,7 +43,7 @@ export const ADDRESS_TYPES = {
  */
 export function consolidateAddress(address) {
   const consolidated = {
-    ...address
+    ...address,
   };
 
   if (consolidated.type === ADDRESS_TYPES.military) {
@@ -78,7 +78,7 @@ function getInferredAddressType(address) {
 export function expandAddress(address) {
   const expanded = {
     ...address,
-    type: getInferredAddressType(address)
+    type: getInferredAddressType(address),
   };
 
   if (expanded.type === ADDRESS_TYPES.military) {
@@ -118,7 +118,6 @@ export function getStateName(abbreviation = '') {
   return STATE_NAMES[abbreviation.toUpperCase()];
 }
 
-
 /**
  * Accepts any address and returns an object containing the fields formatted for display
  * @param {Address} address
@@ -132,7 +131,8 @@ export function formatAddress(address) {
   if (address.addressTwo) street += address.addressTwo;
   if (address.addressThree) street += ' ' + address.addressThree;
 
-  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
+  const country =
+    address.type === ADDRESS_TYPES.international ? address.countryName : '';
   let cityStateZip = '';
 
   switch (address.type) {
@@ -145,7 +145,8 @@ export function formatAddress(address) {
 
     case ADDRESS_TYPES.military:
       cityStateZip = address.militaryPostOfficeTypeCode || '';
-      if (address.militaryPostOfficeTypeCode && address.militaryStateCode) cityStateZip += ', ';
+      if (address.militaryPostOfficeTypeCode && address.militaryStateCode)
+        cityStateZip += ', ';
       if (address.militaryStateCode) cityStateZip += address.militaryStateCode;
       if (address.zipCode) cityStateZip += ' ' + address.zipCode;
       break;

@@ -4,18 +4,17 @@ import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 
-import {
-  preferredContactMethodLabels
-} from '../utils/labels';
+import { preferredContactMethodLabels } from '../utils/labels';
 
-const {
-  preferredContactMethod
-} = schemaDefinitions;
+const { preferredContactMethod } = schemaDefinitions;
 
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import * as address from '../../../platform/forms/definitions/address';
 
-export default function createContactInformationPage(schema, addressField = 'veteranAddress') {
+export default function createContactInformationPage(
+  schema,
+  addressField = 'veteranAddress',
+) {
   const { homePhone, mobilePhone } = schema.properties;
 
   return {
@@ -24,38 +23,38 @@ export default function createContactInformationPage(schema, addressField = 'vet
     initialData: {},
     uiSchema: {
       preferredContactMethod: {
-        'ui:title': 'How would you like to be contacted if we have questions about your application?',
+        'ui:title':
+          'How would you like to be contacted if we have questions about your application?',
         'ui:widget': 'radio',
         'ui:options': {
-          labels: preferredContactMethodLabels
-        }
+          labels: preferredContactMethodLabels,
+        },
       },
       [addressField]: address.uiSchema(),
       'view:otherContactInfo': {
         'ui:title': 'Other contact information',
-        'ui:description': 'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
-        'ui:validations': [
-          validateMatch('email', 'view:confirmEmail')
-        ],
+        'ui:description':
+          'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
+        'ui:validations': [validateMatch('email', 'view:confirmEmail')],
         email: {
-          'ui:title': 'Email address'
+          'ui:title': 'Email address',
         },
         'view:confirmEmail': {
           'ui:title': 'Re-enter email address',
           'ui:options': {
-            hideOnReview: true
-          }
+            hideOnReview: true,
+          },
         },
         homePhone: _.assign(phoneUI('Primary telephone number'), {
-          'ui:required': (form) => form.preferredContactMethod === 'phone'
+          'ui:required': form => form.preferredContactMethod === 'phone',
         }),
-        mobilePhone: phoneUI('Secondary telephone number')
-      }
+        mobilePhone: phoneUI('Secondary telephone number'),
+      },
     },
     schema: {
       type: 'object',
       definitions: {
-        phone: schema.definitions.phone
+        phone: schema.definitions.phone,
       },
       properties: {
         preferredContactMethod,
@@ -66,17 +65,17 @@ export default function createContactInformationPage(schema, addressField = 'vet
           properties: {
             email: {
               type: 'string',
-              format: 'email'
+              format: 'email',
             },
             'view:confirmEmail': {
               type: 'string',
-              format: 'email'
+              format: 'email',
             },
             homePhone,
-            mobilePhone
-          }
-        }
-      }
-    }
+            mobilePhone,
+          },
+        },
+      },
+    },
   };
 }

@@ -7,10 +7,10 @@ function initApplicationSubmitMock() {
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567'
-        }
-      }
-    }
+          guid: '123fake-submission-id-567',
+        },
+      },
+    },
   });
 }
 
@@ -21,10 +21,10 @@ function initDocumentUploadMock() {
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567'
-        }
-      }
-    }
+          guid: '123fake-submission-id-567',
+        },
+      },
+    },
   });
 }
 
@@ -37,7 +37,6 @@ function completeContactInformation(client, data) {
 }
 
 function completeDisabilityInformation(client, data) {
-
   client
     .selectDropdown('root_disabilityRating', data.disabilityRating)
     .fill('input[name=root_disabilities]', data.disabilities)
@@ -48,18 +47,28 @@ function completeDisabilityInformation(client, data) {
 }
 
 function completeDischargeDocumentUpload(client) {
-  client
-    .setValue('input#root_dischargeDocuments', require('path').resolve(`${__dirname}/VA40-10007.pdf`));
+  client.setValue(
+    'input#root_dischargeDocuments',
+    require('path').resolve(`${__dirname}/VA40-10007.pdf`),
+  );
 }
 
 function completeEducationInformation(client, data) {
   client
     .fill('input[name=root_yearsOfEducation]', data.yearsOfEducation)
-    .fill('input[name=root_previousPrograms_0_program]', data.previousPrograms[0].program)
-    .fill('input[name=root_previousPrograms_0_yearStarted]', data.previousPrograms[0].yearStarted)
-    .fill('input[name=root_previousPrograms_0_yearLeft]', data.previousPrograms[0].yearLeft);
+    .fill(
+      'input[name=root_previousPrograms_0_program]',
+      data.previousPrograms[0].program,
+    )
+    .fill(
+      'input[name=root_previousPrograms_0_yearStarted]',
+      data.previousPrograms[0].yearStarted,
+    )
+    .fill(
+      'input[name=root_previousPrograms_0_yearLeft]',
+      data.previousPrograms[0].yearLeft,
+    );
 }
-
 
 function completeEmployerInformation(client, data) {
   client
@@ -72,10 +81,22 @@ function completeEmployerInformation(client, data) {
 
 function completeMilitaryHistory(client, data) {
   client
-    .fill('input[name=root_serviceHistory_0_serviceBranch]', data.serviceHistory[0].serviceBranch)
-    .fillDate('root_serviceHistory_0_dateRange_from', data.serviceHistory[0].dateRange.from)
-    .fillDate('root_serviceHistory_0_dateRange_to', data.serviceHistory[0].dateRange.to)
-    .selectDropdown('root_serviceHistory_0_dischargeType', data.serviceHistory[0].dischargeType)
+    .fill(
+      'input[name=root_serviceHistory_0_serviceBranch]',
+      data.serviceHistory[0].serviceBranch,
+    )
+    .fillDate(
+      'root_serviceHistory_0_dateRange_from',
+      data.serviceHistory[0].dateRange.from,
+    )
+    .fillDate(
+      'root_serviceHistory_0_dateRange_to',
+      data.serviceHistory[0].dateRange.to,
+    )
+    .selectDropdown(
+      'root_serviceHistory_0_dischargeType',
+      data.serviceHistory[0].dischargeType,
+    )
     .fillCheckbox('input[name=root_serviceFlags_ww2]', data.serviceFlags.ww2);
 }
 
@@ -90,7 +111,10 @@ function completeVeteranInformation(client, data) {
   client
     .fillName('root_veteranFullName', data.veteranFullName)
     .fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth)
-    .fill('input[name=root_veteranSocialSecurityNumber]', data.veteranSocialSecurityNumber)
+    .fill(
+      'input[name=root_veteranSocialSecurityNumber]',
+      data.veteranSocialSecurityNumber,
+    )
     .fill('input[name=root_veteranVaFileNumber]', data.veteranVaFileNumber);
 }
 
@@ -104,5 +128,5 @@ module.exports = {
   completeVeteranAddress,
   completeVeteranInformation,
   initApplicationSubmitMock,
-  initDocumentUploadMock
+  initDocumentUploadMock,
 };

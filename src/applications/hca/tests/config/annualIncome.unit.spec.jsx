@@ -4,11 +4,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Hca annual income', () => {
-  const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.annualIncome;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.householdInformation.pages.annualIncome;
   const marriedWithChildren = {
     maritalStatus: 'Married',
     'view:reportDependents': true,
@@ -16,17 +22,17 @@ describe('Hca annual income', () => {
       {
         fullName: {
           first: 'John',
-          last: 'Doe'
+          last: 'Doe',
         },
-        dependentRelation: 'Son'
+        dependentRelation: 'Son',
       },
       {
         fullName: {
           first: 'Jane',
-          last: 'Doe'
+          last: 'Doe',
         },
-        dependentRelation: 'Daughter'
-      }
+        dependentRelation: 'Daughter',
+      },
     ],
   };
 
@@ -36,12 +42,12 @@ describe('Hca annual income', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
-        data={{}}/>
+        data={{}}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(3);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
   it('should render with spouse information', () => {
@@ -50,12 +56,12 @@ describe('Hca annual income', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
-        data={{ maritalStatus: 'Married' }}/>
+        data={{ maritalStatus: 'Married' }}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(6);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
 
   it('should render with children information', () => {
@@ -64,7 +70,8 @@ describe('Hca annual income', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
-        data={marriedWithChildren}/>
+        data={marriedWithChildren}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -79,7 +86,8 @@ describe('Hca annual income', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
-        data={marriedWithChildren}/>
+        data={marriedWithChildren}
+      />,
     );
     const formDOM = findDOMNode(form);
 

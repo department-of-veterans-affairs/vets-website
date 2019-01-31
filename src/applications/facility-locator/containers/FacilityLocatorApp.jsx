@@ -1,36 +1,81 @@
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
-import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import appendQuery from 'append-query';
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
+import { validateIdString } from '../utils/helpers';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import { ccLocatorEnabled } from '../config';
 
 class FacilityLocatorApp extends React.Component {
-  renderBreadcrumbs(location, selectedFacility) {
+  renderBreadcrumbs(location, selectedResult) {
+    // Map and name props for the search query object
+    const {
+      currentPage: page,
+      context,
+      facilityType,
+      searchString: address,
+      serviceType,
+      zoomLevel,
+    } = this.props.searchQuery;
+
+    // Build the query object in the expected order
+    const searchQueryObj = {
+      zoomLevel,
+      page,
+      address,
+      location: `${location.latitude},${location.longitude}`,
+      context,
+      facilityType,
+      serviceType,
+    };
+
     const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <Link to="/" key="facility-locator">Facility Locator</Link>
+      <a href="/" key="home">
+        Home
+      </a>,
+      <Link to={appendQuery('/', searchQueryObj)} key="facility-locator">
+        Find Facilities & Services
+      </Link>,
     ];
 
-    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
-      crumbs.push(<Link to={`/${selectedFacility.id}`}>Facility Details</Link>);
+    if (validateIdString(location.pathname, '/facility') && selectedResult) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Facility Details
+        </Link>,
+      );
+    } else if (
+      ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
+      validateIdString(location.pathname, '/provider') &&
+      selectedResult
+    ) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Provider Details
+        </Link>,
+      );
     }
 
     return crumbs;
   }
 
   render() {
-    const { location, selectedFacility } = this.props;
+    const { location, selectedResult } = this.props;
 
     return (
       <div>
-        <Breadcrumbs selectedFacility={selectedFacility}>
-          {this.renderBreadcrumbs(location, selectedFacility)}
+        <Breadcrumbs selectedFacility={selectedResult}>
+          {this.renderBreadcrumbs(location, selectedResult)}
         </Breadcrumbs>
         <div className="row">
-          <DowntimeNotification appTitle="facility locator tool" dependencies={[externalServices.arcgis]}>
-            <div className="facility-locator">
-              {this.props.children}
-            </div>
+          <DowntimeNotification
+            appTitle="facility locator tool"
+            dependencies={[externalServices.arcgis]}
+          >
+            <div className="facility-locator">{this.props.children}</div>
           </DowntimeNotification>
         </div>
       </div>
@@ -40,8 +85,12 @@ class FacilityLocatorApp extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    selectedFacility: state.facilities.selectedFacility,
+    selectedResult: state.searchResult.selectedResult,
+    searchQuery: state.searchQuery,
   };
 }
 
-export default connect(mapStateToProps, null)(FacilityLocatorApp);
+export default connect(
+  mapStateToProps,
+  null,
+)(FacilityLocatorApp);

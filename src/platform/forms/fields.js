@@ -16,10 +16,14 @@ export function makeField(value, optionalDirty) {
  * Walks through an object hierarchy of fields and marks everything dirty.
  */
 export function dirtyAllFields(field) {
-  if (_.keys(field).length === 2 && _.has(field, 'value') && _.has(field, 'dirty')) {
+  if (
+    _.keys(field).length === 2 &&
+    _.has(field, 'value') &&
+    _.has(field, 'dirty')
+  ) {
     return makeField(field.value, true);
   } else if (_.isPlainObject(field)) {
-    return _.mapValues(field, (value, _k) => { return dirtyAllFields(value); });
+    return _.mapValues(field, (value, _k) => dirtyAllFields(value));
   } else if (_.isArray(field)) {
     return field.map(dirtyAllFields);
   }

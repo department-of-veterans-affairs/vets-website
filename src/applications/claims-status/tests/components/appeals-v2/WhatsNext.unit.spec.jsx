@@ -18,17 +18,19 @@ describe('<WhatsNext/>', () => {
       description: <p>Some description goes here</p>,
       durationText: '11 months',
       cardDescription: 'Test description contents',
-    }, {
+    },
+    {
       title: 'Appeal certified to the Board',
       description: <p>Another description goes here</p>,
       durationText: '2 months',
-      cardDescription: 'Test description contents'
-    }
+      cardDescription: 'Test description contents',
+    },
   ];
 
   it('renders', () => {
-    const wrapper = shallow(<WhatsNext {...defaultProps}/>);
+    const wrapper = shallow(<WhatsNext {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('renders a header title', () => {
@@ -37,12 +39,16 @@ describe('<WhatsNext/>', () => {
       ...defaultProps,
       nextEvents: {
         ...defaultProps.nextEvents,
-        header: testHeaderText
+        header: testHeaderText,
       },
     };
-    const wrapper = shallow(<WhatsNext {...props}/>);
-    const headerText = wrapper.find('h2 + p').render().text();
+    const wrapper = shallow(<WhatsNext {...props} />);
+    const headerText = wrapper
+      .find('h2 + p')
+      .render()
+      .text();
     expect(headerText).to.equal(testHeaderText);
+    wrapper.unmount();
   });
 
   it('renders a header DurationCard if headerCard property exists', () => {
@@ -57,13 +63,15 @@ describe('<WhatsNext/>', () => {
       },
     };
 
-    const wrapper = shallow(<WhatsNext {...props}/>);
+    const wrapper = shallow(<WhatsNext {...props} />);
     expect(wrapper.find('DurationCard').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('does not render a header DurationCard if no headerCard property exists', () => {
-    const wrapper = shallow(<WhatsNext {...defaultProps}/>);
+    const wrapper = shallow(<WhatsNext {...defaultProps} />);
     expect(wrapper.find('DurationCard').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('renders a list of all next events for a given currentStatus', () => {
@@ -71,12 +79,13 @@ describe('<WhatsNext/>', () => {
       ...defaultProps,
       nextEvents: {
         ...defaultProps.nextEvents,
-        events: eventsList
-      }
+        events: eventsList,
+      },
     };
 
-    const wrapper = shallow(<WhatsNext {...props}/>);
+    const wrapper = shallow(<WhatsNext {...props} />);
     const nextEventList = wrapper.find('NextEvent');
     expect(nextEventList.length).to.equal(eventsList.length);
+    wrapper.unmount();
   });
 });

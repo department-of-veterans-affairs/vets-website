@@ -3,11 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 applicant address', () => {
-  const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.veteranAddress;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.contactInformation.pages.veteranAddress;
   it('renders applicant address form', () => {
     const form = mount(
       <DefinitionTester
@@ -15,10 +22,12 @@ describe('VRE chapter 31 applicant address', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('does not submit without required info', () => {
@@ -30,13 +39,15 @@ describe('VRE chapter 31 applicant address', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(5);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('submits with veteran address', () => {
@@ -48,7 +59,8 @@ describe('VRE chapter 31 applicant address', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'select#root_veteranAddress_country', 'USA');
     fillData(form, 'input#root_veteranAddress_street', '123 test st');
@@ -61,6 +73,7 @@ describe('VRE chapter 31 applicant address', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('submits with veteranAddress and veteranNewAddress', () => {
@@ -72,7 +85,8 @@ describe('VRE chapter 31 applicant address', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'select#root_veteranAddress_country', 'USA');
     fillData(form, 'input#root_veteranAddress_street', '123 test st');
@@ -90,5 +104,6 @@ describe('VRE chapter 31 applicant address', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

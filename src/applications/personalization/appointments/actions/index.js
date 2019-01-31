@@ -13,16 +13,17 @@ export function fetchAppointments() {
     return apiRequest(
       '/appointments',
       null,
-      (res) => dispatch({
-        type: FETCH_APPOINTMENTS_SUCCESS,
-        data: res.data.attributes.appointments,
-      }),
-      (err) => {
+      res =>
+        dispatch({
+          type: FETCH_APPOINTMENTS_SUCCESS,
+          data: res.data.attributes.appointments,
+        }),
+      err => {
         dispatch({
           type: FETCH_APPOINTMENTS_FAILURE,
           err,
         });
-      }
+      },
     );
   };
 }

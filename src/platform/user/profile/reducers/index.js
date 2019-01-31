@@ -31,7 +31,7 @@ const initialState = {
   accountType: null,
   loa: {
     current: null,
-    highest: null
+    highest: null,
   },
   verified: false,
   mhvAccount: {
@@ -39,23 +39,26 @@ const initialState = {
     accountState: null,
     errors: null,
     loading: false,
-    termsAndConditionsAccepted: false
+    termsAndConditionsAccepted: false,
   },
   vet360: {},
   savedForms: [],
   prefillsAvailable: [],
   loading: true,
-  services: []
+  services: [],
 };
 
-const updateMhvAccountState = (state, mhvAccount) => {
-  return set('mhvAccount', {
-    ...state.mhvAccount,
-    ...mhvAccount,
-    errors: null,
-    loading: false
-  }, state);
-};
+const updateMhvAccountState = (state, mhvAccount) =>
+  set(
+    'mhvAccount',
+    {
+      ...state.mhvAccount,
+      ...mhvAccount,
+      errors: null,
+      loading: false,
+    },
+    state,
+  );
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
@@ -74,34 +77,46 @@ function profileInformation(state = initialState, action) {
       return set('mhvAccount.loading', true, state);
 
     case FETCH_MHV_ACCOUNT_FAILURE:
-      return set('mhvAccount', {
-        ...state.mhvAccount,
-        errors: action.errors,
-        loading: false
-      }, state);
+      return set(
+        'mhvAccount',
+        {
+          ...state.mhvAccount,
+          errors: action.errors,
+          loading: false,
+        },
+        state,
+      );
 
     case CREATE_MHV_ACCOUNT_FAILURE:
-      return set('mhvAccount', {
-        ...state.mhvAccount,
-        accountState: 'register_failed',
-        loading: false
-      }, state);
+      return set(
+        'mhvAccount',
+        {
+          ...state.mhvAccount,
+          accountState: 'register_failed',
+          loading: false,
+        },
+        state,
+      );
 
     case UPGRADE_MHV_ACCOUNT_FAILURE:
-      return set('mhvAccount', {
-        ...state.mhvAccount,
-        accountState: 'upgrade_failed',
-        loading: false
-      }, state);
-
+      return set(
+        'mhvAccount',
+        {
+          ...state.mhvAccount,
+          accountState: 'upgrade_failed',
+          loading: false,
+        },
+        state,
+      );
 
     case FETCH_MHV_ACCOUNT_SUCCESS:
     case CREATE_MHV_ACCOUNT_SUCCESS:
       return updateMhvAccountState(state, action.data.attributes);
 
     case UPGRADE_MHV_ACCOUNT_SUCCESS: {
-      const newState = (!action.userProfile) ?
-        state : Object.assign({}, state, mapRawUserDataToState(action.userProfile));
+      const newState = !action.userProfile
+        ? state
+        : Object.assign({}, state, mapRawUserDataToState(action.userProfile));
       return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
     }
 

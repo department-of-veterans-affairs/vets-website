@@ -5,6 +5,7 @@
  */
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@department-of-veterans-affairs/formation/sass/core";
 
 @import "modules/m-footer";
@@ -24,6 +25,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
 @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
+@import "modules/m-layers";
 
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
@@ -35,3 +37,6 @@ $image-path: "~uswds/src/img";
 
 // ----- Medallia ----- //
 @import "modules/m-medallia";
+
+// "Preview the New VA.gov" banner
+@import "modules/m-preview-banner";

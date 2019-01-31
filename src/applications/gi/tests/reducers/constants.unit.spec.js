@@ -4,17 +4,14 @@ import constantsReducer from '../../reducers/constants';
 
 const initialState = {
   inProgress: false,
-  version: {}
+  version: {},
 };
 
 describe('constants reducer', () => {
   it('should handle fetch starting', () => {
-    const state = constantsReducer(
-      initialState,
-      {
-        type: 'FETCH_CONSTANTS_STARTED'
-      }
-    );
+    const state = constantsReducer(initialState, {
+      type: 'FETCH_CONSTANTS_STARTED',
+    });
 
     expect(state.inProgress).to.eql(true);
   });
@@ -25,9 +22,9 @@ describe('constants reducer', () => {
       {
         type: 'FETCH_CONSTANTS_FAILED',
         err: {
-          errorMessage: 'error'
-        }
-      }
+          errorMessage: 'error',
+        },
+      },
     );
 
     expect(state.inProgress).to.eql(false);
@@ -44,15 +41,15 @@ describe('constants reducer', () => {
             {
               attributes: {
                 name: 'constantName',
-                value: 'constantValue'
-              }
-            }
+                value: 'constantValue',
+              },
+            },
           ],
           meta: {
-            version: 1
-          }
-        }
-      }
+            version: 1,
+          },
+        },
+      },
     );
 
     expect(state.inProgress).to.eql(false);

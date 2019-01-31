@@ -8,39 +8,45 @@ const AlertsList = ({ alerts, appealIsActive }) => {
     return null;
   }
 
-  const allAlertsContent = alerts.map((alert) => getAlertContent(alert, appealIsActive));
+  const allAlertsContent = alerts.map(alert =>
+    getAlertContent(alert, appealIsActive),
+  );
 
-  const takeActionAlertsPresent = allAlertsContent.some((alert) => (alert.displayType === 'take_action'));
+  const takeActionAlertsPresent = allAlertsContent.some(
+    alert => alert.displayType === 'take_action',
+  );
 
-  const takeActionHeader = takeActionAlertsPresent
-    ? (<h3>Take Action</h3>)
-    : null;
+  const takeActionHeader = takeActionAlertsPresent ? (
+    <h3>Take Action</h3>
+  ) : null;
 
-  const alertsList = allAlertsContent
-    .map((alert, index) => {
-      const key = `${alert.type}-${index}`;
-      return (<Alert
+  const alertsList = allAlertsContent.map((alert, index) => {
+    const key = `${alert.type}-${index}`;
+    return (
+      <Alert
         key={key}
         title={alert.title}
         description={alert.description}
-        displayType={alert.displayType}/>);
-    });
+        displayType={alert.displayType}
+      />
+    );
+  });
 
   return (
     <div className="alerts-list-container">
       {takeActionHeader}
-      <ul className="alerts-list">
-        {alertsList}
-      </ul>
+      <ul className="alerts-list">{alertsList}</ul>
     </div>
   );
 };
 
 AlertsList.propTypes = {
-  alerts: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    details: PropTypes.object
-  }))
+  alerts: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      details: PropTypes.object,
+    }),
+  ),
 };
 
 export default AlertsList;

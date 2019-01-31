@@ -10,12 +10,9 @@ const initialState = {
 
 describe('profile reducer', () => {
   it('should handle profile fetch started', () => {
-    const state = profileReducer(
-      initialState,
-      {
-        type: 'FETCH_PROFILE_STARTED'
-      }
-    );
+    const state = profileReducer(initialState, {
+      type: 'FETCH_PROFILE_STARTED',
+    });
 
     expect(state.inProgress).to.eql(true);
   });
@@ -26,9 +23,9 @@ describe('profile reducer', () => {
       {
         type: 'FETCH_PROFILE_FAILED',
         err: {
-          errorMessage: 'error'
+          errorMessage: 'error',
         },
-      }
+      },
     );
 
     expect(state.errorMessage).to.eql('error');
@@ -43,15 +40,15 @@ describe('profile reducer', () => {
         payload: {
           data: {
             attributes: {
-              name: 'name'
+              name: 'name',
             },
-            links: {}
+            links: {},
           },
           meta: {
-            version: 1
-          }
-        }
-      }
+            version: 1,
+          },
+        },
+      },
     );
 
     expect(state.inProgress).to.eql(false);

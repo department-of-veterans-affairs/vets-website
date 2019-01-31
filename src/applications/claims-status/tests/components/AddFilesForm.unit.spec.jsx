@@ -25,7 +25,8 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
     expect(tree.everySubTree('ErrorableFileInput')).not.to.be.empty;
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.undefined;
@@ -52,7 +53,8 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.true;
   });
@@ -77,7 +79,8 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
     expect(tree.everySubTree('Modal')[1].props.visible).to.be.true;
   });
@@ -101,7 +104,8 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
     tree.getMountedInstance().submit();
     expect(onSubmit.called).to.be.false;
@@ -109,13 +113,15 @@ describe('<AddFilesForm>', () => {
   });
 
   it('should submit if files are valid', () => {
-    const files = [{
-      file: {
-        size: 20,
-        name: 'something.jpeg'
+    const files = [
+      {
+        file: {
+          size: 20,
+          name: 'something.jpeg',
+        },
+        docType: 'L501',
       },
-      docType: 'L501'
-    }];
+    ];
     const field = { value: '', dirty: false };
     const onSubmit = sinon.spy();
     const onAddFile = sinon.spy();
@@ -133,7 +139,8 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
     tree.getMountedInstance().submit();
     expect(onSubmit.called).to.be.true;
@@ -159,12 +166,15 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
-    tree.getMountedInstance().add([{
-      name: 'something.exe',
-      size: 200
-    }]);
+    tree.getMountedInstance().add([
+      {
+        name: 'something.exe',
+        size: 200,
+      },
+    ]);
     expect(onAddFile.called).to.be.false;
     expect(tree.getMountedInstance().state.errorMessage).not.to.be.empty;
   });
@@ -188,12 +198,15 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
-    tree.getMountedInstance().add([{
-      name: 'something.exe',
-      size: 999999999999
-    }]);
+    tree.getMountedInstance().add([
+      {
+        name: 'something.exe',
+        size: 999999999999,
+      },
+    ]);
     expect(onAddFile.called).to.be.false;
     expect(tree.getMountedInstance().state.errorMessage).not.to.be.empty;
   });
@@ -217,12 +230,15 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
-    tree.getMountedInstance().add([{
-      name: 'something.jpg',
-      size: 9999
-    }]);
+    tree.getMountedInstance().add([
+      {
+        name: 'something.jpg',
+        size: 9999,
+      },
+    ]);
     expect(onAddFile.called).to.be.true;
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
   });
@@ -246,7 +262,8 @@ describe('<AddFilesForm>', () => {
         onRemoveFile={onRemoveFile}
         onFieldChange={onFieldChange}
         onCancel={onCancel}
-        onDirtyFields={onDirtyFields}/>
+        onDirtyFields={onDirtyFields}
+      />,
     );
     let message = tree.getMountedInstance().getErrorMessage();
     expect(message).to.equal('Please select a file first');

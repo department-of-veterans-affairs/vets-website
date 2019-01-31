@@ -14,7 +14,7 @@ describe('<PhotoField>', () => {
     window.removeEventListener = sinon.spy();
     window.URL = {
       revokeObjectURL: sinon.spy(),
-      createObjectURL: sinon.spy()
+      createObjectURL: sinon.spy(),
     };
     oldFileReader = global.FileReader;
     oldImage = global.Image;
@@ -29,34 +29,31 @@ describe('<PhotoField>', () => {
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
-      <PhotoField
-        uiSchema={uiSchema}
-        formContext={formContext}/>
+      <PhotoField uiSchema={uiSchema} formContext={formContext} />,
     );
 
     expect(tree.find('.cropper-container-outer').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.true;
     expect(tree.text()).to.contain('Step 1');
     expect(tree.find('ErrorableFileInput').length).to.equal(2);
+    tree.unmount();
   });
   it('should render cropper', () => {
     const formContext = {};
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
-      <PhotoField
-        uiSchema={uiSchema}
-        formContext={formContext}/>
+      <PhotoField uiSchema={uiSchema} formContext={formContext} />,
     );
 
     tree.setState({ currentLayout: 'crop_photo' });
@@ -65,23 +62,25 @@ describe('<PhotoField>', () => {
     expect(tree.find(CropperController).exists()).to.be.true;
     expect(tree.text()).to.contain('Step 2');
     expect(tree.find('ErrorableFileInput').length).to.equal(1);
+    tree.unmount();
   });
   it('should render uploading', () => {
     const formContext = {};
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
       <PhotoField
         uiSchema={uiSchema}
         formData={{
-          uploading: true
+          uploading: true,
         }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     tree.setState({ progress: 10, currentLayout: 'watch_upload' });
@@ -90,24 +89,26 @@ describe('<PhotoField>', () => {
     expect(tree.text()).not.to.contain('Step');
     expect(tree.find('ErrorableFileInput').exists()).to.be.false;
     expect(tree.find('ProgressBar').props().percent).to.equal(10);
+    tree.unmount();
   });
   it('should render preview while processing', () => {
     const formContext = {};
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
       <PhotoField
         uiSchema={uiSchema}
         formData={{
-          confirmationCode: 'asdfasdf'
+          confirmationCode: 'asdfasdf',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     tree.instance().onPreviewError();
@@ -119,21 +120,22 @@ describe('<PhotoField>', () => {
     expect(text).not.to.contain('Edit your photo');
     expect(text).to.contain('Go back and change');
     expect(text).not.to.contain('Success!');
+    tree.unmount();
   });
   describe('onChange', () => {
-    function FileReader() { }
+    function FileReader() {}
     FileReader.prototype.readAsDataURL = function readAsDataURL(file) {
       this.result = file.data;
       this.onload();
     };
 
-    it('should set error for too small image', (done) => {
+    it('should set error for too small image', done => {
       const formContext = {};
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -142,7 +144,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -156,22 +159,31 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').first().props().onChange([{
-        name: 'examplephoto.jpg',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .first()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.jpg',
+          },
+        ]);
 
       setTimeout(() => {
-        expect(onChange.firstCall.args[0].errorMessage).to.contain('smaller than the');
+        expect(onChange.firstCall.args[0].errorMessage).to.contain(
+          'smaller than the',
+        );
+        tree.unmount();
         done();
       });
     });
-    it('should set error for wrong type', (done) => {
+    it('should set error for wrong type', done => {
       const formContext = {};
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -180,7 +192,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -194,24 +207,33 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').first().props().onChange([{
-        name: 'examplephoto.png',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .first()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.png',
+          },
+        ]);
 
       setTimeout(() => {
-        expect(onChange.firstCall.args[0].errorMessage).to.contain('make sure the file you’re uploading is a jpeg');
+        expect(onChange.firstCall.args[0].errorMessage).to.contain(
+          'make sure the file you’re uploading is a jpeg',
+        );
+        tree.unmount();
         done();
       });
     });
-    it('should set currentLayout state to crop_photo with valid file', (done) => {
+    it('should set currentLayout state to crop_photo with valid file', done => {
       const formContext = {
-        uploadFile: sinon.spy()
+        uploadFile: sinon.spy(),
       };
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -220,7 +242,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -234,30 +257,37 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').first().props().onChange([{
-        name: 'examplephoto.jpg',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .first()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.jpg',
+          },
+        ]);
 
       setTimeout(() => {
         expect(tree.state().currentLayout).to.equal('crop_photo');
+        tree.unmount();
         done();
       });
     });
   });
   describe('screen reader path', () => {
-    function FileReader() { }
+    function FileReader() {}
     FileReader.prototype.readAsDataURL = function readAsDataURL(file) {
       this.result = file.data;
       this.onload();
     };
 
-    it('should set error for square image', (done) => {
+    it('should set error for square image', done => {
       const formContext = {};
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -266,7 +296,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -280,22 +311,29 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').last().props().onChange([{
-        name: 'examplephoto.jpg',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .last()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.jpg',
+          },
+        ]);
 
       setTimeout(() => {
         expect(onChange.firstCall.args[0].errorMessage).to.contain('square');
+        tree.unmount();
         done();
       });
     });
-    it('should set error for too small image', (done) => {
+    it('should set error for too small image', done => {
       const formContext = {};
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -304,7 +342,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -318,22 +357,31 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').last().props().onChange([{
-        name: 'examplephoto.jpg',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .last()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.jpg',
+          },
+        ]);
 
       setTimeout(() => {
-        expect(onChange.firstCall.args[0].errorMessage).to.contain('smaller than the');
+        expect(onChange.firstCall.args[0].errorMessage).to.contain(
+          'smaller than the',
+        );
+        tree.unmount();
         done();
       });
     });
-    it('should set error for wrong type', (done) => {
+    it('should set error for wrong type', done => {
       const formContext = {};
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -342,7 +390,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -356,24 +405,33 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').last().props().onChange([{
-        name: 'examplephoto.png',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .last()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.png',
+          },
+        ]);
 
       setTimeout(() => {
-        expect(onChange.firstCall.args[0].errorMessage).to.contain('make sure the file you’re uploading is a jpeg');
+        expect(onChange.firstCall.args[0].errorMessage).to.contain(
+          'make sure the file you’re uploading is a jpeg',
+        );
+        tree.unmount();
         done();
       });
     });
-    it('should call uploadFile with valid image', (done) => {
+    it('should call uploadFile with valid image', done => {
       const formContext = {
-        uploadFile: sinon.spy()
+        uploadFile: sinon.spy(),
       };
       const uiSchema = {
         'ui:title': 'Title',
         'ui:options': {
-          fileTypes: ['jpg']
-        }
+          fileTypes: ['jpg'],
+        },
       };
       const onChange = sinon.spy();
 
@@ -382,7 +440,8 @@ describe('<PhotoField>', () => {
           uiSchema={uiSchema}
           idSchema={{ $id: 'photo' }}
           onChange={onChange}
-          formContext={formContext}/>
+          formContext={formContext}
+        />,
       );
 
       global.Image = class Image {
@@ -396,12 +455,19 @@ describe('<PhotoField>', () => {
       };
       global.FileReader = FileReader;
 
-      tree.find('ErrorableFileInput').last().props().onChange([{
-        name: 'examplephoto.jpg',
-      }]);
+      tree
+        .find('ErrorableFileInput')
+        .last()
+        .props()
+        .onChange([
+          {
+            name: 'examplephoto.jpg',
+          },
+        ]);
 
       setTimeout(() => {
         expect(formContext.uploadFile.called).to.be.true;
+        tree.unmount();
         done();
       });
     });
@@ -411,70 +477,78 @@ describe('<PhotoField>', () => {
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
       <PhotoField
         uiSchema={uiSchema}
         formData={{
-          errorMessage: 'Some error'
+          errorMessage: 'Some error',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     tree.setState({ currentLayout: 'screen_reader_error' });
 
     expect(tree.find('CropperController').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.false;
-    expect(tree.find('.usa-input-error-message').text()).to.contain('Some error');
-    expect(tree.find('ErrorableFileInput').props().buttonText).to.equal('Upload Photo Again');
+    expect(tree.find('.usa-input-error-message').text()).to.contain(
+      'Some error',
+    );
+    expect(tree.find('ErrorableFileInput').props().buttonText).to.equal(
+      'Upload Photo Again',
+    );
+    tree.unmount();
   });
   it('should render preview in review mode', () => {
     const formContext = {
-      reviewMode: true
+      reviewMode: true,
     };
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
       <PhotoField
         uiSchema={uiSchema}
         formData={{
-          errorMessage: 'Some error'
+          errorMessage: 'Some error',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     expect(tree.find('CropperController').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.false;
     expect(tree.find('ErrorableFileInput').exists()).to.be.false;
     expect(tree.find('PhotoPreview').exists()).to.be.true;
+    tree.unmount();
   });
   it('should upload photo', () => {
     const uploadStub = (file, options, onProgress, onChange) => {
       expect(file.name).to.equal('profile_photo.png');
       expect(file.lastModifiedDate).to.be.a('Date');
       onChange({
-        confirmationCode: 'testing'
+        confirmationCode: 'testing',
       });
     };
     const onChange = sinon.spy();
     const formContext = {
-      uploadFile: uploadStub
+      uploadFile: uploadStub,
     };
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
@@ -482,10 +556,11 @@ describe('<PhotoField>', () => {
         onChange={onChange}
         uiSchema={uiSchema}
         formData={{
-          errorMessage: 'Some error'
+          errorMessage: 'Some error',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     const file = {};
@@ -493,69 +568,74 @@ describe('<PhotoField>', () => {
 
     expect(onChange.firstCall.args[0]).to.deep.equal({
       confirmationCode: 'testing',
-      file
+      file,
     });
+    tree.unmount();
   });
   it('should revoke url on unmount', () => {
     const formContext = {};
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
       <PhotoField
         uiSchema={uiSchema}
         formData={{
-          errorMessage: 'Some error'
+          errorMessage: 'Some error',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
     tree.setState({ previewSrc: 'testing' });
 
     tree.instance().componentWillUnmount();
 
     expect(window.URL.revokeObjectURL.called).to.be.true;
+    tree.unmount();
   });
   it('should recreate object url on blob change', () => {
     const formContext = {};
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
 
     const tree = shallow(
       <PhotoField
         uiSchema={uiSchema}
         formData={{
-          errorMessage: 'Some error'
+          errorMessage: 'Some error',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     tree.setState({ previewSrc: 'testing', formData: {} });
     tree.instance().componentWillReceiveProps({
       formData: {
-        file: new Blob()
-      }
+        file: new Blob(),
+      },
     });
 
     expect(window.URL.revokeObjectURL.called).to.be.true;
     expect(window.URL.createObjectURL.called).to.be.true;
+    tree.unmount();
   });
   it('should reset file on preview view', () => {
     const formContext = {};
     const uiSchema = {
       'ui:title': 'Title',
       'ui:options': {
-        fileTypes: ['jpg']
-      }
+        fileTypes: ['jpg'],
+      },
     };
     const onChange = sinon.spy();
 
@@ -564,16 +644,22 @@ describe('<PhotoField>', () => {
         uiSchema={uiSchema}
         onChange={onChange}
         formData={{
-          confirmationCode: 'asdfasdf'
+          confirmationCode: 'asdfasdf',
         }}
         idSchema={{ $id: 'photo' }}
-        formContext={formContext}/>
+        formContext={formContext}
+      />,
     );
 
     tree.setState({ currentLayout: 'preview_photo' });
-    tree.find('.photo-preview-link').first().props().onClick();
+    tree
+      .find('.photo-preview-link')
+      .first()
+      .props()
+      .onClick();
 
     expect(onChange.called).to.be.true;
     expect(tree.state().currentLayout).to.equal('choose_photo');
+    tree.unmount();
   });
 });

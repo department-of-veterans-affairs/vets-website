@@ -7,5 +7,6 @@ import manifest from './manifest.json';
 
 startApp({
   url: manifest.rootUrl,
-  routes
+  routes,
+  entryName: manifest.entryName,
 });

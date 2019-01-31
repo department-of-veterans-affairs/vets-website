@@ -13,7 +13,8 @@
  * @api assertions
  */
 exports.assertion = function isActiveElement(selector, msg) {
-  this.message = msg || `Testing if element that matches ${selector} is focused.`;
+  this.message =
+    msg || `Testing if element that matches ${selector} is focused.`;
   this.expected = true;
   this.pass = value => value === this.expected;
   this.failure = result => result === false;

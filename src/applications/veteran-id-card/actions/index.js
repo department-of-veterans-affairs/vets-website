@@ -16,23 +16,24 @@ export function initiateIdRequest() {
   return dispatch => {
     dispatch({ type: ATTRS_FETCHING });
 
-    apiRequest('/id_card/attributes',
+    apiRequest(
+      '/id_card/attributes',
       {},
-      (response) => {
+      response => {
         recordEvent({ event: 'vic-submit-success' });
         dispatch({
           type: ATTRS_SUCCESS,
           vicUrl: response.url,
-          traits: response.traits
+          traits: response.traits,
         });
       },
-      (response) => {
+      response => {
         recordEvent({ event: 'vic-submit-failure' });
         dispatch({
           type: ATTRS_FAILURE,
-          errors: response.errors
+          errors: response.errors,
         });
-      }
+      },
     );
   };
 }
@@ -53,15 +54,17 @@ export function submitEmail(email) {
   return dispatch => {
     dispatch({ type: VIC_EMAIL_CAPTURING });
 
-    apiRequest('/id_card/announcement_subscription',
+    apiRequest(
+      '/id_card/announcement_subscription',
       {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
         body: JSON.stringify({
-          id_card_announcement_subscription: {  // eslint-disable-line camelcase
+          // eslint-disable-next-line camelcase
+          id_card_announcement_subscription: {
             email,
-          }
-        })
+          },
+        }),
       },
       () => {
         recordEvent({ event: 'vic-email-success' });
@@ -69,13 +72,13 @@ export function submitEmail(email) {
           type: VIC_EMAIL_CAPTURE_SUCCESS,
         });
       },
-      (response) => {
+      response => {
         recordEvent({ event: 'vic-email-failure' });
         dispatch({
           type: VIC_EMAIL_CAPTURE_FAILURE,
-          errors: response.errors
+          errors: response.errors,
         });
-      }
+      },
     );
   };
 }

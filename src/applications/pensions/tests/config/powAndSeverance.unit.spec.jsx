@@ -4,17 +4,24 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions Reserve and National Guard', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.powAndSeverance;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.powAndSeverance;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -28,7 +35,8 @@ describe('Pensions Reserve and National Guard', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -46,7 +54,8 @@ describe('Pensions Reserve and National Guard', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -54,8 +63,8 @@ describe('Pensions Reserve and National Guard', () => {
 
     ReactTestUtils.Simulate.change(find('#root_view\\:powStatusYes'), {
       target: {
-        value: 'Y'
-      }
+        value: 'Y',
+      },
     });
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
@@ -68,7 +77,8 @@ describe('Pensions Reserve and National Guard', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -76,14 +86,17 @@ describe('Pensions Reserve and National Guard', () => {
 
     ReactTestUtils.Simulate.change(find('#root_view\\:powStatusNo'), {
       target: {
-        value: 'N'
-      }
+        value: 'N',
+      },
     });
-    ReactTestUtils.Simulate.change(find('#root_view\\:receivedSeverancePayNo'), {
-      target: {
-        value: 'N'
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      find('#root_view\\:receivedSeverancePayNo'),
+      {
+        target: {
+          value: 'N',
+        },
+      },
+    );
 
     submitForm(form);
 

@@ -6,11 +6,11 @@ import OptOutWizard from '../../components/OptOutWizard';
 
 describe('<OptOutWizard>', () => {
   it('should show opt out button', () => {
-    const component = mount(
-      <OptOutWizard/>);
+    const component = mount(<OptOutWizard />);
 
     expect(component.find('button').length).to.equal(1);
     expect(component.state('modalOpen')).to.be.false;
+    component.unmount();
   });
   it('should show modal when opt out button is clicked', () => {
     // Modal uses query selector to get focus
@@ -18,8 +18,7 @@ describe('<OptOutWizard>', () => {
     global.document.querySelector = () => global.document;
     global.document.focus = () => true;
 
-    const component = mount(
-      <OptOutWizard/>);
+    const component = mount(<OptOutWizard />);
 
     component.find('button').simulate('click');
     component.update();
@@ -29,6 +28,7 @@ describe('<OptOutWizard>', () => {
 
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
+    component.unmount();
   });
   it('should close modal', () => {
     // Modal uses query selector to get focus
@@ -36,12 +36,14 @@ describe('<OptOutWizard>', () => {
     global.document.querySelector = () => global.document;
     global.document.focus = () => true;
 
-    const component = mount(
-      <OptOutWizard/>);
+    const component = mount(<OptOutWizard />);
 
     component.find('button').simulate('click');
     component.update();
-    component.find('button').last().simulate('click');
+    component
+      .find('button')
+      .last()
+      .simulate('click');
     component.update();
 
     expect(component.find('button').length).to.equal(1);
@@ -49,5 +51,6 @@ describe('<OptOutWizard>', () => {
 
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
+    component.unmount();
   });
 });

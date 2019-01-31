@@ -43,15 +43,22 @@ function baseSet(arrayPath, value, object, level = 0) {
         // Do nothing; this will be assigned on the next iteration
         break;
       default:
-        throw new Error(`Unrecognized path element type: ${typeof nextPathSegment}. Expected string or number. arrayPath[${level + 1}] contains ${nextPathSegment}.`);
+        throw new Error(
+          `Unrecognized path element type: ${typeof nextPathSegment}. Expected string or number. arrayPath[${level +
+            1}] contains ${nextPathSegment}.`,
+        );
     }
   }
 
-  newObj[pathSegment] = baseSet(arrayPath, value, newObj[pathSegment], level + 1);
+  newObj[pathSegment] = baseSet(
+    arrayPath,
+    value,
+    newObj[pathSegment],
+    level + 1,
+  );
 
   return newObj;
 }
-
 
 /**
  * Sets the value at the end of the path, creating the appropriate objects along the way if needed.
@@ -67,4 +74,3 @@ export default function set(path, value, object) {
   checkValidPath(arrayPath);
   return baseSet(arrayPath, value, object, 0);
 }
-

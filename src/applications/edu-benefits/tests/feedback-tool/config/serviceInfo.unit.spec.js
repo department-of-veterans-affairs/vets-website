@@ -7,7 +7,10 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool applicant info', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.serviceInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.serviceInformation;
 
   it('should render', () => {
     const onSubmit = sinon.spy();
@@ -17,14 +20,16 @@ describe('feedback tool applicant info', () => {
         definitions={formConfig.defaultDefinitions}
         data={{
           onBehalfOf: 'Myself',
-          serviceAffiliation: 'Veteran'
+          serviceAffiliation: 'Veteran',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('should submit without any information', () => {
@@ -35,15 +40,16 @@ describe('feedback tool applicant info', () => {
         definitions={formConfig.defaultDefinitions}
         data={{
           onBehalfOf: 'Myself',
-          serviceAffiliation: 'Veteran'
+          serviceAffiliation: 'Veteran',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
-
 });

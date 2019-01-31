@@ -5,13 +5,9 @@ import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 import { validateDependentDate } from '../validation';
 
-const incomeFields = [
-  'grossIncome',
-  'netIncome',
-  'otherIncome'
-];
+const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
-export const createDependentSchema = (hcaSchema) => {
+export const createDependentSchema = hcaSchema => {
   const s = _.merge(hcaSchema.definitions.dependent, {
     required: [
       'dependentRelation',
@@ -20,8 +16,8 @@ export const createDependentSchema = (hcaSchema) => {
       'becameDependent',
       'dependentEducationExpenses',
       'disabledBefore18',
-      'cohabitedLastYear'
-    ]
+      'cohabitedLastYear',
+    ],
   });
 
   s.properties = _.omit(incomeFields, s.properties);
@@ -29,11 +25,11 @@ export const createDependentSchema = (hcaSchema) => {
   return s;
 };
 
-export const createDependentIncomeSchema = (hcaSchema) => {
+export const createDependentIncomeSchema = hcaSchema => {
   const dependent = hcaSchema.definitions.dependent;
   return _.assign(dependent, {
     properties: _.pick(incomeFields, dependent.properties),
-    required: incomeFields
+    required: incomeFields,
   });
 };
 
@@ -49,36 +45,42 @@ export const uiSchema = {
     'attendedSchoolLastYear',
     'dependentEducationExpenses',
     'cohabitedLastYear',
-    'receivedSupportLastYear'
+    'receivedSupportLastYear',
   ],
   fullName: fullNameUI,
   dependentRelation: {
-    'ui:title': 'Dependent’s relationship to you?'
+    'ui:title': 'Dependent’s relationship to you?',
   },
   socialSecurityNumber: _.merge(ssnUI, {
-    'ui:title': 'Dependent’s Social Security number'
+    'ui:title': 'Dependent’s Social Security number',
   }),
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
-  becameDependent: _.assign(currentOrPastDateUI('Date they became your dependent?'), {
-    'ui:validations': [
-      validateDependentDate
-    ]
-  }),
+  becameDependent: _.assign(
+    currentOrPastDateUI('Date they became your dependent?'),
+    {
+      'ui:validations': [validateDependentDate],
+    },
+  ),
   disabledBefore18: {
-    'ui:title': 'Was your dependent permanently and totally disabled before the age of 18?',
-    'ui:widget': 'yesNo'
+    'ui:title':
+      'Was your dependent permanently and totally disabled before the age of 18?',
+    'ui:widget': 'yesNo',
   },
   attendedSchoolLastYear: {
-    'ui:title': 'If your dependent is between 18 and 23 years of age, did they attend school during the last calendar year?',
-    'ui:widget': 'yesNo'
+    'ui:title':
+      'If your dependent is between 18 and 23 years of age, did they attend school during the last calendar year?',
+    'ui:widget': 'yesNo',
   },
-  dependentEducationExpenses: currencyUI('Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)'),
+  dependentEducationExpenses: currencyUI(
+    'Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)',
+  ),
   cohabitedLastYear: {
     'ui:title': 'Did your dependent live with you last year?',
-    'ui:widget': 'yesNo'
+    'ui:widget': 'yesNo',
   },
   receivedSupportLastYear: {
-    'ui:title': 'If your dependent didn’t live with you last year, did you provide support? (Please count all support contributions even if they weren’t paid in regular and set amounts. Support can include tuition or medical bill payments.)',
+    'ui:title':
+      'If your dependent didn’t live with you last year, did you provide support? (Please count all support contributions even if they weren’t paid in regular and set amounts. Support can include tuition or medical bill payments.)',
     'ui:widget': 'yesNo',
     // TODO: Fix this once the bug mentioned below is fixed
     // Hide by default, only showing after hideIf is run and overrides this
@@ -86,8 +88,9 @@ export const uiSchema = {
     'ui:options': {
       // Not being invoked until the data is changed...which means this is open
       //  by default
-      hideIf: (formData, index) => _.get(`dependents[${index}].cohabitedLastYear`, formData) !== false
-    }
+      hideIf: (formData, index) =>
+        _.get(`dependents[${index}].cohabitedLastYear`, formData) !== false,
+    },
   },
 };
 
@@ -100,11 +103,11 @@ export const dependentIncomeUiSchema = {
       const name = _.get(`dependents.[${index}].fullName`, formData);
       if (name) {
         return {
-          title: `${name.first} ${name.last} income`
+          title: `${name.first} ${name.last} income`,
         };
       }
 
       return schema;
-    }
-  }
+    },
+  },
 };

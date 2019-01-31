@@ -10,10 +10,12 @@ export function getLabel(options, value) {
 }
 
 export function showSchoolAddress(educationType) {
-  return educationType === 'college'
-    || educationType === 'flightTraining'
-    || educationType === 'apprenticeship'
-    || educationType === 'correspondence';
+  return (
+    educationType === 'college' ||
+    educationType === 'flightTraining' ||
+    educationType === 'apprenticeship' ||
+    educationType === 'correspondence'
+  );
 }
 
 function formatDayMonth(val) {
@@ -46,7 +48,9 @@ export function formatPartialDate(field) {
 
   const day = field.day ? field.day.value : null;
 
-  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(day)}`;
+  return `${formatYear(field.year.value)}-${formatDayMonth(
+    field.month.value,
+  )}-${formatDayMonth(day)}`;
 }
 
 export function displayDateIfValid(field) {
@@ -54,20 +58,22 @@ export function displayDateIfValid(field) {
     return undefined;
   }
 
-  return `${formatDayMonth(field.month.value)}/${formatDayMonth(field.day.value)}/${formatYear(field.year.value)}`;
+  return `${formatDayMonth(field.month.value)}/${formatDayMonth(
+    field.day.value,
+  )}/${formatYear(field.year.value)}`;
 }
 
 export function displayMonthYearIfValid(dateObject) {
   if (dateObject.year.value || dateObject.month.value) {
-    return `${dateObject.month.value || 'XX'}/${dateObject.year.value || 'XXXX'}`;
+    return `${dateObject.month.value || 'XX'}/${dateObject.year.value ||
+      'XXXX'}`;
   }
 
   return null;
 }
 
 export function showSomeoneElseServiceQuestion(claimType) {
-  return claimType !== ''
-    && claimType !== 'vocationalRehab';
+  return claimType !== '' && claimType !== 'vocationalRehab';
 }
 
 export function hasServiceBefore1978(data) {
@@ -78,10 +84,13 @@ export function hasServiceBefore1978(data) {
 }
 
 export function hasServiceBefore1977(data) {
-  return data.toursOfDuty && data.toursOfDuty.some(tour => {
-    const fromDate = moment(tour.dateRange.from);
-    return fromDate.isValid() && fromDate.isBefore('1977-01-02');
-  });
+  return (
+    data.toursOfDuty &&
+    data.toursOfDuty.some(tour => {
+      const fromDate = moment(tour.dateRange.from);
+      return fromDate.isValid() && fromDate.isBefore('1977-01-02');
+    })
+  );
 }
 
 export function showRelinquishedEffectiveDate(benefitsRelinquished) {
@@ -92,7 +101,9 @@ export function getListOfBenefits(veteran) {
   const benefitList = [];
 
   if (veteran.chapter30) {
-    benefitList.push('Montgomery GI Bill (MGIB or Chapter 30) Education Assistance Program');
+    benefitList.push(
+      'Montgomery GI Bill (MGIB or Chapter 30) Education Assistance Program',
+    );
   }
 
   if (veteran.chapter33) {
@@ -100,11 +111,15 @@ export function getListOfBenefits(veteran) {
   }
 
   if (veteran.chapter1606) {
-    benefitList.push('Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606) Educational Assistance Program');
+    benefitList.push(
+      'Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606) Educational Assistance Program',
+    );
   }
 
   if (veteran.chapter32) {
-    benefitList.push('Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or chapter 32)');
+    benefitList.push(
+      'Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or chapter 32)',
+    );
   }
 
   return benefitList;

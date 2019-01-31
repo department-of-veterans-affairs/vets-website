@@ -10,47 +10,63 @@ import { DOWNLOAD_STATUSES } from '../../utils/constants';
 
 const defaultProps = {
   letterName: 'Commissary Letter',
-  letterType: 'commissary'
+  letterType: 'commissary',
 };
 
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
-    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...defaultProps}/>);
+    const component = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...defaultProps} />,
+    );
     const tree = getFormDOM(component);
     expect(tree.getElement('div')).to.not.be.null;
   });
 
   it('should show download button', () => {
-    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...defaultProps}/>);
+    const component = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...defaultProps} />,
+    );
     const tree = getFormDOM(component);
     expect(tree.getElement('button').textContent).to.equal('Download Letter');
   });
 
   it('should call getLetterPdf when clicked', () => {
-    const oldWindow = global.window;
-    global.window = {
-      dataLayer: [],
-    };
+    const oldDataLayer = global.window.dataLayer;
+    global.window.dataLayer = [];
+
     const getLetterPdf = sinon.spy();
     const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
-    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
-    const button = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
+    const component = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...props} />,
+    );
+    const button = ReactTestUtils.findRenderedDOMComponentWithTag(
+      component,
+      'button',
+    );
 
     ReactTestUtils.Simulate.click(button);
 
-    expect(getLetterPdf.args[0]).to.eql([defaultProps.letterType, defaultProps.letterName, undefined]);
+    expect(getLetterPdf.args[0]).to.eql([
+      defaultProps.letterType,
+      defaultProps.letterName,
+      undefined,
+    ]);
     expect(global.window.dataLayer[0]).to.eql({
       event: 'letter-download',
-      'letter-type': defaultProps.letterType
+      'letter-type': defaultProps.letterType,
     });
 
     // Cleanup on aisle 3
-    global.window = oldWindow;
+    global.window.dataLayer = oldDataLayer;
   });
 
   it('should update button when status is downloading', () => {
-    const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.downloading });
-    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const props = Object.assign({}, defaultProps, {
+      downloadStatus: DOWNLOAD_STATUSES.downloading,
+    });
+    const component = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...props} />,
+    );
     const tree = getFormDOM(component);
     const button = tree.getElement('button');
 
@@ -59,17 +75,27 @@ describe('<DownloadLetterLink>', () => {
   });
 
   it('should show success message', () => {
-    const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.success });
-    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const props = Object.assign({}, defaultProps, {
+      downloadStatus: DOWNLOAD_STATUSES.success,
+    });
+    const component = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...props} />,
+    );
     const tree = getFormDOM(component);
     const heading = tree.getElement('.usa-alert-heading');
 
-    expect(heading.textContent).to.equal('Your letter has successfully downloaded.');
+    expect(heading.textContent).to.equal(
+      'Your letter has successfully downloaded.',
+    );
   });
 
   it('should show failure message', () => {
-    const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.failure });
-    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const props = Object.assign({}, defaultProps, {
+      downloadStatus: DOWNLOAD_STATUSES.failure,
+    });
+    const component = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...props} />,
+    );
     const tree = getFormDOM(component);
     const heading = tree.getElement('.usa-alert-heading');
     const button = tree.getElement('button');

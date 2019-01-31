@@ -89,22 +89,19 @@ const formConfig = {
               },
             }),
             veteranSSN: _.merge(ssnUI, {
-              'ui:title': 'Veteran’s Social Security number'
+              'ui:title': 'Veteran’s Social Security number',
             }),
             vaFileNumber: {
               'ui:title': 'Veteran’s VA file number',
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
-              }
+                pattern: 'Your VA file number must be between 7 to 9 digits',
+              },
             },
             insuranceNumber: { 'ui:title': 'Veteran’s Insurance number' },
           },
           schema: {
             type: 'object',
-            required: [
-              'veteranFullName',
-              'veteranSSN',
-            ],
+            required: ['veteranFullName', 'veteranSSN'],
             properties: {
               veteranFullName,
               veteranSSN,
@@ -144,7 +141,7 @@ const formConfig = {
             claimantDaytimePhone: phoneUI('Daytime phone number'),
             claimantEveningPhone: phoneUI('Evening phone number'),
             appointmentDate: currentOrPastDateUI(
-              'Date of claimaint’s appointment'
+              'Date of claimaint’s appointment',
             ),
           },
           schema: {
@@ -205,13 +202,11 @@ const formConfig = {
       },
     },
     authorizationForRepresentativeAccessToRecords: {
-      title:
-        'Authorization for Representative’s Access to Records',
+      title: 'Authorization for Representative’s Access to Records',
       pages: {
         authorizationForRepresentativeAccessToRecords: {
           path: 'authorization-for-representative-access-to-records',
-          title:
-            'Authorization for representative’s access to records',
+          title: 'Authorization for representative’s access to records',
           uiSchema: {
             authorization: {
               'ui:title': authorizationForRepresentativeAccessToRecordsDescription,

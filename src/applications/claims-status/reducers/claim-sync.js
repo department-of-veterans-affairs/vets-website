@@ -4,13 +4,13 @@ import {
   SET_CLAIM_DETAIL,
   SET_CLAIMS,
   SET_CLAIMS_UNAVAILABLE,
-  SET_UNAUTHORIZED
+  SET_UNAUTHORIZED,
 } from '../actions/index.jsx';
 
 const initialState = {
   synced: true,
   available: true,
-  authorized: true
+  authorized: true,
 };
 
 export default function claimDetailReducer(state = initialState, action) {
@@ -19,13 +19,13 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.assign(state, {
         synced: action.meta.syncStatus === 'SUCCESS',
         available: true,
-        authorized: true
+        authorized: true,
       });
     case SET_CLAIMS:
       return _.assign(state, {
         synced: action.meta.syncStatus === 'SUCCESS',
         available: true,
-        authorized: true
+        authorized: true,
       });
     case SET_CLAIMS_UNAVAILABLE:
       return _.set('available', false, state);

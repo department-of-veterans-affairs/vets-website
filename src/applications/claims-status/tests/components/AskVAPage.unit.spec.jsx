@@ -8,14 +8,15 @@ import { AskVAPage } from '../../containers/AskVAPage';
 describe('<AskVAPage>', () => {
   it('should render disabled button', () => {
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
         decisionRequestError={null}
         params={{ id: 1 }}
-        router={router}/>
+        router={router}
+      />,
     );
     expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
     expect(router.push.called).to.be.false;
@@ -23,7 +24,7 @@ describe('<AskVAPage>', () => {
 
   it('should render enabled button', () => {
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const submitRequest = sinon.spy();
 
@@ -32,7 +33,8 @@ describe('<AskVAPage>', () => {
         decisionRequestError={null}
         params={{ id: 1 }}
         submitRequest={submitRequest}
-        router={router}/>
+        router={router}
+      />,
     );
 
     tree.subTree('ErrorableCheckbox').props.onValueChange(true);
@@ -41,7 +43,7 @@ describe('<AskVAPage>', () => {
 
   it('should render disabled submitting button', () => {
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const submitRequest = sinon.spy();
 
@@ -51,7 +53,8 @@ describe('<AskVAPage>', () => {
         decisionRequestError={null}
         params={{ id: 1 }}
         submitRequest={submitRequest}
-        router={router}/>
+        router={router}
+      />,
     );
 
     expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
@@ -60,7 +63,7 @@ describe('<AskVAPage>', () => {
 
   it('should submit request', () => {
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const submitRequest = sinon.spy();
 
@@ -69,7 +72,8 @@ describe('<AskVAPage>', () => {
         decisionRequestError={null}
         params={{ id: 1 }}
         submitRequest={submitRequest}
-        router={router}/>
+        router={router}
+      />,
     );
 
     tree.subTree('ErrorableCheckbox').props.onValueChange(true);
@@ -78,7 +82,7 @@ describe('<AskVAPage>', () => {
   });
   it('should update claims and redirect after success', () => {
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const submitRequest = sinon.spy();
     const getClaimDetail = sinon.spy();
@@ -87,11 +91,12 @@ describe('<AskVAPage>', () => {
       <AskVAPage
         params={{ id: 1 }}
         submitRequest={submitRequest}
-        router={router}/>
+        router={router}
+      />,
     );
     tree.getMountedInstance().componentWillReceiveProps({
       decisionRequested: true,
-      getClaimDetail
+      getClaimDetail,
     });
     expect(getClaimDetail.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1')).to.be.true;

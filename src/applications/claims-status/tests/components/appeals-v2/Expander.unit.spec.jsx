@@ -10,58 +10,74 @@ describe('<Expander/>', () => {
     onToggle: () => {},
     cssClass: 'section-unexpanded',
     expanded: false,
-    missingEvents: false
+    missingEvents: false,
   };
 
   it('should render as an <li/>', () => {
-    const wrapper = shallow(<Expander {...defaultProps}/>);
+    const wrapper = shallow(<Expander {...defaultProps} />);
     expect(wrapper.type()).to.equal('li');
+    wrapper.unmount();
   });
 
   it('should render a button that calls onToggle prop when clicked', () => {
     const toggleSpy = sinon.spy();
     const props = {
       ...defaultProps,
-      onToggle: toggleSpy
+      onToggle: toggleSpy,
     };
-    const wrapper = shallow(<Expander {...props}/>);
+    const wrapper = shallow(<Expander {...props} />);
     const toggleButton = wrapper.find('button');
     toggleButton.simulate('click');
     expect(toggleSpy.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render the correct expanded attributes', () => {
     const props = {
       ...defaultProps,
-      expanded: true
+      expanded: true,
     };
-    const wrapper = shallow(<Expander {...props}/>);
-    expect(wrapper.find('h3').first().text()).to.equal('Hide past events');
+    const wrapper = shallow(<Expander {...props} />);
+    expect(
+      wrapper
+        .find('h3')
+        .first()
+        .text(),
+    ).to.equal('Hide past events');
     expect(wrapper.find('.section-expanded').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render the correct unexpanded attributes', () => {
-    const wrapper = shallow(<Expander {...defaultProps}/>);
-    expect(wrapper.find('h3').first().text()).to.equal('See past events');
+    const wrapper = shallow(<Expander {...defaultProps} />);
+    expect(
+      wrapper
+        .find('h3')
+        .first()
+        .text(),
+    ).to.equal('See past events');
     expect(wrapper.find('.section-unexpanded').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render the missing events alert', () => {
     const props = {
       ...defaultProps,
       missingEvents: true,
-      expanded: true
+      expanded: true,
     };
-    const wrapper = shallow(<Expander {...props}/>);
+    const wrapper = shallow(<Expander {...props} />);
     expect(wrapper.find('.usa-alert').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should not render the missing events alert when there are no missing events', () => {
     const props = {
       ...defaultProps,
-      expanded: true
+      expanded: true,
     };
-    const wrapper = shallow(<Expander {...props}/>);
+    const wrapper = shallow(<Expander {...props} />);
     expect(wrapper.find('.usa-alert').exists()).to.be.false;
+    wrapper.unmount();
   });
 });

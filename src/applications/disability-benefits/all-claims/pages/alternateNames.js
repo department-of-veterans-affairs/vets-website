@@ -1,12 +1,16 @@
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import get from '../../../../platform/utilities/data/get';
 
 const { alternateNames: alternateNamesSchema } = fullSchema.properties;
+
+const hasAlternateName = formData =>
+  get('view:hasAlternateName', formData, true);
 
 export const uiSchema = {
   'view:hasAlternateName': {
     'ui:title': 'Have you served under a different name?',
-    'ui:widget': 'yesNo'
+    'ui:widget': 'yesNo',
   },
   alternateNames: {
     'ui:description': 'What name did you serve under?',
@@ -14,20 +18,22 @@ export const uiSchema = {
       viewField: FullNameField,
       reviewTitle: 'Other names',
       expandUnder: 'view:hasAlternateName',
-      itemName: 'Name'
+      itemName: 'Name',
     },
     items: {
       first: {
         'ui:title': 'First name',
+        'ui:required': hasAlternateName,
       },
       middle: {
         'ui:title': 'Middle name',
       },
       last: {
         'ui:title': 'Last name',
-      }
-    }
-  }
+        'ui:required': hasAlternateName,
+      },
+    },
+  },
 };
 
 export const schema = {
@@ -35,8 +41,8 @@ export const schema = {
   properties: {
     'view:hasAlternateName': {
       type: 'boolean',
-      properties: {}
+      properties: {},
     },
-    alternateNames: alternateNamesSchema
-  }
+    alternateNames: alternateNamesSchema,
+  },
 };

@@ -30,14 +30,16 @@ function emailForm(state = initialState, action) {
       return {
         ...state,
         email: action.email,
-        errors: validEmail(action.email) ? null : [{ title: 'Email is invalid' }],
+        errors: validEmail(action.email)
+          ? null
+          : [{ title: 'Email is invalid' }],
       };
     case VIC_EMAIL_CAPTURING:
       return {
         ...state,
         submitting: true,
         errors: null,
-        success: false
+        success: false,
       };
     case VIC_EMAIL_CAPTURE_SUCCESS:
       return {

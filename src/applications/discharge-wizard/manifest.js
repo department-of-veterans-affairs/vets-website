@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'discharge-upgrade-instructions',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

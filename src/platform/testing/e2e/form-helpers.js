@@ -5,8 +5,8 @@ function overrideSmoothFormsScrolling(client) {
       scroll: {
         duration: 0,
         delay: 0,
-        smooth: false
-      }
+        smooth: false,
+      },
     });
 
     const currentVetsGovScroll = window.VetsGov || {};
@@ -14,8 +14,8 @@ function overrideSmoothFormsScrolling(client) {
       scroll: {
         duration: 0,
         delay: 0,
-        smooth: false
-      }
+        smooth: false,
+      },
     });
 
     return window.VetsGov;
@@ -31,5 +31,5 @@ function overrideFormsScrolling(client) {
 
 module.exports = {
   overrideFormsScrolling,
-  overrideSmoothFormsScrolling
+  overrideSmoothFormsScrolling,
 };

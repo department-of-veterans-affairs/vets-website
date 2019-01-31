@@ -3,22 +3,31 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need sponsor information', () => {
-  const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(19);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -28,13 +37,15 @@ describe('Pre-need sponsor information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -44,7 +55,8 @@ describe('Pre-need sponsor information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_application_veteran_currentName_first', 'test');
@@ -61,6 +73,7 @@ describe('Pre-need sponsor information', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should reveal date of death question', () => {
@@ -70,7 +83,8 @@ describe('Pre-need sponsor information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(19);
@@ -79,5 +93,6 @@ describe('Pre-need sponsor information', () => {
     selectRadio(form, 'root_application_veteran_isDeceased', 'yes');
     expect(form.find('input').length).to.equal(20);
     expect(form.find('select').length).to.equal(6);
+    form.unmount();
   });
 });

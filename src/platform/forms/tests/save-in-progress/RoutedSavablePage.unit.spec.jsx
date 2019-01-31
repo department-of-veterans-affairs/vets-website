@@ -7,7 +7,7 @@ import { RoutedSavablePage } from '../../save-in-progress/RoutedSavablePage';
 
 describe('Schemaform <RoutedSavablePage>', () => {
   const location = {
-    pathname: '/testing/0'
+    pathname: '/testing/0',
   };
 
   it('should include SaveLink and SaveStatus', () => {
@@ -17,13 +17,13 @@ describe('Schemaform <RoutedSavablePage>', () => {
         schema: {},
         uiSchema: {},
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'testing'
-        }
-      ]
+          path: 'testing',
+        },
+      ],
     };
     const form = {
       disableSave: false,
@@ -31,25 +31,33 @@ describe('Schemaform <RoutedSavablePage>', () => {
         testPage: {
           schema: {},
           uiSchema: {},
-        }
+        },
       },
-      data: {}
+      data: {},
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: true
-      }
+        currentlyLoggedIn: true,
+      },
     };
 
     const tree = shallow(
-      <RoutedSavablePage form={form} route={route} user={user} location={location}/>
-    ).find('FormPage').dive();
+      <RoutedSavablePage
+        form={form}
+        route={route}
+        user={user}
+        location={location}
+      />,
+    )
+      .find('FormPage')
+      .dive();
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
     expect(tree.find('SaveFormLink').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should auto save on change', () => {
@@ -59,13 +67,13 @@ describe('Schemaform <RoutedSavablePage>', () => {
         schema: {},
         uiSchema: {},
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'testing'
-        }
-      ]
+          path: 'testing',
+        },
+      ],
     };
     const form = {
       disableSave: false,
@@ -73,28 +81,36 @@ describe('Schemaform <RoutedSavablePage>', () => {
         testPage: {
           schema: {},
           uiSchema: {},
-        }
+        },
       },
-      data: {}
+      data: {},
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: true
-      }
+        currentlyLoggedIn: true,
+      },
     };
     const autosave = sinon.spy();
     const setData = sinon.spy();
 
     const tree = shallow(
-      <RoutedSavablePage setData={setData} form={form} route={route} user={user} location={location} autoSave={autosave}/>
+      <RoutedSavablePage
+        setData={setData}
+        form={form}
+        route={route}
+        user={user}
+        location={location}
+        autoSave={autosave}
+      />,
     );
     tree.instance().debouncedAutoSave = autosave;
 
     tree.instance().onChange({ tests: 1 });
     expect(autosave.called).to.be.true;
     expect(setData.called).to.be.true;
+    tree.unmount();
   });
 });

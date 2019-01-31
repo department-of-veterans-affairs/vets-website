@@ -8,78 +8,118 @@ export class AdditionalInformation extends React.Component {
 
     if (isOJT) return null;
 
-    const typeOfAccreditation =
-      it.accredited &&
+    const typeOfAccreditation = it.accredited &&
       it.accreditationType && (
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'typeAccredited')}
+            >
               Type of accreditation:
-            </a>
+            </button>
           </strong>
-          &nbsp;{it.accreditationType.toUpperCase()}
+          &nbsp;
+          {it.accreditationType.toUpperCase()}
         </div>
       );
 
-    const vetTuitionPolicy =
-      it.vetWebsiteLink && (
-        <div>
-          <strong>
-            Veterans tuition policy:
-          </strong>
-          &nbsp;<a href={it.vetWebsiteLink} target="_blank">
-            View policy
-          </a>
-        </div>
-      );
+    const vetTuitionPolicy = it.vetWebsiteLink && (
+      <div>
+        <strong>Veterans tuition policy:</strong>
+        &nbsp;
+        <a href={it.vetWebsiteLink} target="_blank" rel="noopener noreferrer">
+          View policy
+        </a>
+      </div>
+    );
 
     return (
       <div className="institution-summary">
         <h3>Institution summary</h3>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'accredited')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'accredited')}
+            >
               Accredited:
-            </a>
+            </button>
           </strong>
-          &nbsp;{it.accredited ?
-            <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
-              See accreditors
-            </a>)</span> : 'No'}
+          &nbsp;
+          {it.accredited ? (
+            <span>
+              Yes (
+              <a
+                href={`http://nces.ed.gov/collegenavigator/?id=${
+                  it.cross
+                }#accred`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                See accreditors
+              </a>
+              )
+            </span>
+          ) : (
+            'No'
+          )}
         </div>
         {typeOfAccreditation}
         {vetTuitionPolicy}
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'singleContact')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'singleContact')}
+            >
               Single point of contact for veterans:
-            </a>
+            </button>
           </strong>
-          &nbsp;{it.vetPoc ? 'Yes' : 'No'}
+          &nbsp;
+          {it.vetPoc ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'creditTraining')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'creditTraining')}
+            >
               Credit for military training:
-            </a>
+            </button>
           </strong>
-          &nbsp;{it.creditForMilTraining ? 'Yes' : 'No'}
+          &nbsp;
+          {it.creditForMilTraining ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'iStudy')}>
-               Independent study:
-            </a>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'iStudy')}
+            >
+              Independent study:
+            </button>
           </strong>
-          &nbsp;{it.independentStudy ? 'Yes' : 'No'}
+          &nbsp;
+          {it.independentStudy ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'stemOffered')}>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'stemOffered')}
+            >
               STEM (Science, Technology, Engineering, and Math):
-            </a>
+            </button>
           </strong>
-          &nbsp;{it.stemOffered ? 'Yes' : 'No'}
+          &nbsp;
+          {it.stemOffered ? 'Yes' : 'No'}
         </div>
       </div>
     );
@@ -89,18 +129,20 @@ export class AdditionalInformation extends React.Component {
     const it = this.props.institution;
 
     // Formats positive and negative currency values in USD
-    const formatCurrency = (num) => {
-      const str = Number(num).toFixed(2).toString().split('.');
+    const formatCurrency = num => {
+      const str = Number(num)
+        .toFixed(2)
+        .toString()
+        .split('.');
       // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
       const regex = /\d(?=(\d{3})+$)/g;
-      return [
-        '$',
-        [str[0].replace(regex, '$&,'), str[1]].join('.')
-      ].join('').replace('$-', '-$');
+      return ['$', [str[0].replace(regex, '$&,'), str[1]].join('.')]
+        .join('')
+        .replace('$-', '-$');
     };
 
-    const formatNumber = (num) => {
+    const formatNumber = num => {
       const str = Math.round(Number(num)).toString();
       // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
@@ -147,21 +189,39 @@ export class AdditionalInformation extends React.Component {
             <h3>Institution codes</h3>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>VA facility code:</a>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'facilityCode')}
+                >
+                  VA facility code:
+                </button>
                 &nbsp;
               </strong>
               {it.facilityCode || 'N/A'}
             </div>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'ipedsCode')}
+                >
+                  ED IPEDS code:
+                </button>
                 &nbsp;
               </strong>
               {it.cross || 'N/A'}
             </div>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>ED OPE code:</a>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'opeCode')}
+                >
+                  ED OPE code:
+                </button>
                 &nbsp;
               </strong>
               {it.ope || 'N/A'}
@@ -201,7 +261,7 @@ export class AdditionalInformation extends React.Component {
 
 AdditionalInformation.propTypes = {
   institution: PropTypes.object,
-  onShowModal: PropTypes.func
+  onShowModal: PropTypes.func,
 };
 
 export default AdditionalInformation;

@@ -8,7 +8,10 @@ import formConfig from '../../../5490/config/form';
 import educationTypeUi from '../../../definitions/educationType';
 
 describe('Edu 5490 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.schoolSelection;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.schoolSelection.pages.schoolSelection;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -19,18 +22,21 @@ describe('Edu 5490 schoolSelection', () => {
           schoolSelection: {
             uiSchema: {
               educationProgram: {
-                educationType: educationTypeUi
-              }
-            }
-          }
+                educationType: educationTypeUi,
+              },
+            },
+          },
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
 
-    const inputs = Array.from(formDOM.querySelectorAll('input, select, textarea'));
+    const inputs = Array.from(
+      formDOM.querySelectorAll('input, select, textarea'),
+    );
 
     expect(inputs.length).to.equal(13);
   });

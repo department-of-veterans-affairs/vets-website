@@ -12,7 +12,8 @@ export default function ServicePeriodView({ formData }) {
 
   return (
     <div>
-      <strong>{serviceLabels[formData.serviceBranch]}</strong><br/>
+      <strong>{serviceLabels[formData.serviceBranch]}</strong>
+      <br />
       {from} &mdash; {to}
     </div>
   );

@@ -16,14 +16,13 @@
     margin-bottom: 3em !important;
   }
 
-  &:first-child {
-    background-color: $color-primary-lightest;
-    padding: 1em;
+  &.hub-promo {
+    background-color: $mm-gray;
     border: none;
 
-    img {
-      margin-bottom: 1em;
-    }
+  }
+  .hub-promo-text {
+    padding: 1em;
   }
 
   a {
@@ -31,7 +30,7 @@
   }
 
   h4 {
-    margin-top:0;
+    margin-top: 0;
     a{
       text-decoration: underline;
     }

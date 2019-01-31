@@ -3,18 +3,26 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions marriage info', () => {
-  const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.marriageInfo;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.householdInformation.pages.marriageInfo;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -28,7 +36,8 @@ describe('Pensions marriage info', () => {
         schema={schema}
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -48,7 +57,8 @@ describe('Pensions marriage info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -66,7 +76,8 @@ describe('Pensions marriage info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

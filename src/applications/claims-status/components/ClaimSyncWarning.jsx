@@ -3,7 +3,8 @@ import React from 'react';
 export default function ClaimSyncWarning({ olderVersion }) {
   let additionalText;
   if (olderVersion) {
-    additionalText = ' This is an older version of your claim and may be outdated.';
+    additionalText =
+      ' This is an older version of your claim and may be outdated.';
   }
 
   function handleClick(e) {
@@ -16,7 +17,11 @@ export default function ClaimSyncWarning({ olderVersion }) {
       <div className="usa-alert-body">
         <h4 className="usa-alert-heading">Claim status is temporarily down</h4>
         <p className="usa-alert-text">
-          Please <a href="#" onClick={handleClick}>refresh the page</a> or try again later.
+          Please{' '}
+          <a href="#" onClick={handleClick}>
+            refresh the page
+          </a>{' '}
+          or try again later.
           {additionalText}
         </p>
       </div>

@@ -7,26 +7,19 @@ import * as personId from '../definitions/personId';
 
 import { relationshipLabels, genderLabels } from '../../static-data/labels';
 
-const defaults = (prefix) => {
-  return {
-    fields: [
-      `${prefix}FullName`,
-      `${prefix}SocialSecurityNumber`,
-      'view:noSSN',
-      `${prefix}DateOfBirth`,
-      'gender',
-      'relationship'
-    ],
-    required: [
-      `${prefix}FullName`,
-      `${prefix}DateOfBirth`,
-      'relationship'
-    ],
-    labels: {},
-    isVeteran: false
-  };
-};
-
+const defaults = prefix => ({
+  fields: [
+    `${prefix}FullName`,
+    `${prefix}SocialSecurityNumber`,
+    'view:noSSN',
+    `${prefix}DateOfBirth`,
+    'gender',
+    'relationship',
+  ],
+  required: [`${prefix}FullName`, `${prefix}DateOfBirth`, 'relationship'],
+  labels: {},
+  isVeteran: false,
+});
 
 /**
  * Returns an applicantInformation page based on the options passed.
@@ -36,47 +29,54 @@ const defaults = (prefix) => {
  */
 export default function applicantInformation(schema, options) {
   // Use the defaults as necessary, but override with the options given
-  const prefix = (options && options.isVeteran) ? 'veteran' : 'relative';
+  const prefix = options && options.isVeteran ? 'veteran' : 'relative';
   const mergedOptions = Object.assign({}, defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
 
   const possibleProperties = Object.assign({}, schema.properties, {
     'view:noSSN': {
-      type: 'boolean'
-    }
+      type: 'boolean',
+    },
   });
 
   return {
     path: 'applicant/information',
     title: 'Applicant information',
     initialData: {},
-    uiSchema: Object.assign({}, {
-      'ui:order': fields,
-      'ui:description': applicantDescription,
-      [`${prefix}FullName`]: fullNameUI,
-      [`${prefix}DateOfBirth`]: Object.assign({}, currentOrPastDateUI('Date of birth'),
-        {
-          'ui:errorMessages': {
-            pattern: 'Please provide a valid date',
-            futureDate: 'Please provide a valid date'
-          }
-        }
-      ),
-      gender: {
-        'ui:widget': 'radio',
-        'ui:title': 'Gender',
-        'ui:options': {
-          labels: labels.gender || genderLabels
-        }
+    uiSchema: Object.assign(
+      {},
+      {
+        'ui:order': fields,
+        'ui:description': applicantDescription,
+        [`${prefix}FullName`]: fullNameUI,
+        [`${prefix}DateOfBirth`]: Object.assign(
+          {},
+          currentOrPastDateUI('Date of birth'),
+          {
+            'ui:errorMessages': {
+              pattern: 'Please provide a valid date',
+              futureDate: 'Please provide a valid date',
+            },
+          },
+        ),
+        gender: {
+          'ui:widget': 'radio',
+          'ui:title': 'Gender',
+          'ui:options': {
+            labels: labels.gender || genderLabels,
+          },
+        },
+        relationship: {
+          'ui:widget': 'radio',
+          'ui:title':
+            'What’s your relationship to the Servicemember whose benefit is being transferred to you?',
+          'ui:options': {
+            labels: labels.relationship || relationshipLabels,
+          },
+        },
       },
-      relationship: {
-        'ui:widget': 'radio',
-        'ui:title': 'What’s your relationship to the Servicemember whose benefit is being transferred to you?',
-        'ui:options': {
-          labels: labels.relationship || relationshipLabels
-        }
-      }
-    }, personId.uiSchema(prefix, 'view:noSSN')),
+      personId.uiSchema(prefix, 'view:noSSN'),
+    ),
     schema: {
       type: 'object',
       definitions: pick(schema.definitions, [
@@ -85,10 +85,10 @@ export default function applicantInformation(schema, options) {
         'ssn',
         'gender',
         'date',
-        'vaFileNumber'
+        'vaFileNumber',
       ]),
       required,
-      properties: pick(possibleProperties, fields)
-    }
+      properties: pick(possibleProperties, fields),
+    },
   };
 }

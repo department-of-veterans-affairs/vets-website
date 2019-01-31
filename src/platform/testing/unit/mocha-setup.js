@@ -8,11 +8,13 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
+import ENVIRONMENTS from '../../../site/constants/environments';
+
 // import sinon from 'sinon'
 
-
-global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
-global.__ALL_CLAIMS_ENABLED__ = (global.__BUILDTYPE__ === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true');
+global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
+global.__API__ = null;
+global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 
@@ -38,22 +40,25 @@ export default function setupJSDom() {
     scroll: {
       duration: 0,
       delay: 0,
-      smooth: false
-    }
+      smooth: false,
+    },
   };
 
   win.Forms = {
     scroll: {
       duration: 0,
       delay: 0,
-      smooth: false
-    }
+      smooth: false,
+    },
   };
 
   win.dataLayer = [];
   win.scrollTo = () => {};
   win.sessionStorage = {};
-  win.requestAnimationFrame = (func) => func();
+  win.requestAnimationFrame = func => func();
+  win.matchMedia = () => ({
+    matches: false,
+  });
 
   global.Blob = window.Blob;
 
@@ -71,7 +76,6 @@ export default function setupJSDom() {
     // Mock fetch
     // This was causing some tests to fail, so we'll have to loop back around to it later
     // global.fetch = sinon.stub();
-
   }
 
   propagateToGlobal(win);

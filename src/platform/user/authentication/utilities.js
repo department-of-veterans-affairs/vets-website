@@ -1,77 +1,82 @@
-import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
-import brandConsolidation from '../../brand-consolidation';
-
-let successRelay = 'vetsgov';
-if (brandConsolidation.isEnabled()) {
-  if (brandConsolidation.isPreview()) {
-    successRelay = 'preview_vagov';
-  } else {
-    successRelay = 'vagov';
-  }
-}
-
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const redirectUrl = (type) => `${SESSIONS_URI}/${type}/new?success_relay=${successRelay}`;
+const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
 
-const MHV_URL = redirectUrl('mhv');
-const DSLOGON_URL = redirectUrl('dslogon');
-const IDME_URL = redirectUrl('idme');
-const MFA_URL = redirectUrl('mfa');
-const VERIFY_URL = redirectUrl('verify');
-const LOGOUT_URL = redirectUrl('slo');
+const MHV_URL = sessionTypeUrl('mhv');
+const DSLOGON_URL = sessionTypeUrl('dslogon');
+const IDME_URL = sessionTypeUrl('idme');
+const MFA_URL = sessionTypeUrl('mfa');
+const VERIFY_URL = sessionTypeUrl('verify');
+const LOGOUT_URL = sessionTypeUrl('slo');
 
-const loginUrl = (policy) => {
+const loginUrl = policy => {
   switch (policy) {
-    case 'mhv': return MHV_URL;
-    case 'dslogon': return DSLOGON_URL;
-    default: return IDME_URL;
+    case 'mhv':
+      return MHV_URL;
+    case 'dslogon':
+      return DSLOGON_URL;
+    default:
+      return IDME_URL;
   }
 };
 
-function popup(popupUrl, clickedEvent, openedEvent) {
+function redirect(redirectUrl, clickedEvent, openedEvent) {
+  // Keep track of the URL to return to after auth operation.
+  sessionStorage.setItem('authReturnUrl', window.location);
+
   recordEvent({ event: clickedEvent });
-  const popupWindow = window.open('', 'vets.gov-popup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-  if (popupWindow) {
-    recordEvent({ event: openedEvent });
-    popupWindow.focus();
 
-    return apiRequest(
-      popupUrl,
-      null,
-      ({ url }) => { popupWindow.location = url; },
-      () => { popupWindow.location = `${environment.BASE_URL}/auth/login/callback`; }
-    ).then(() => popupWindow);
-  }
-
-  Raven.captureMessage('Failed to open new window', {
-    extra: { url: popupUrl }
-  });
-
-  return Promise.reject(new Error('Failed to open new window'));
+  return apiRequest(
+    redirectUrl,
+    null,
+    ({ url }) => {
+      if (url) {
+        recordEvent({ event: openedEvent });
+        window.location = url;
+      }
+    },
+    () => {
+      // TODO: Create a separate page or modal when failed to get the URL.
+      window.location = `${environment.BASE_URL}/auth/login/callback`;
+    },
+  );
 }
 
 export function login(policy) {
-  return popup(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  sessionStorage.removeItem('registrationPending');
+  return redirect(
+    loginUrl(policy),
+    'login-link-clicked-modal',
+    'login-link-opened',
+  );
 }
 
 export function mfa() {
-  return popup(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
+  return redirect(
+    MFA_URL,
+    'multifactor-link-clicked',
+    'multifactor-link-opened',
+  );
 }
 
 export function verify() {
-  return popup(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
 }
 
 export function logout() {
-  return popup(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  return redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
 }
 
 export function signup() {
-  return popup(appendQuery(IDME_URL, { signup: true }), 'register-link-clicked', 'register-link-opened');
+  sessionStorage.setItem('registrationPending', true);
+  return redirect(
+    appendQuery(IDME_URL, { signup: true }),
+    'register-link-clicked',
+    'register-link-opened',
+  );
 }

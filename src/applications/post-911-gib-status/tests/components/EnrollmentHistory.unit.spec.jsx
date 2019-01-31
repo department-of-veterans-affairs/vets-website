@@ -28,23 +28,29 @@ const defaultProps = {
         onlineHours: 6,
         onCampusHours: 6,
         trainingType: 'UnderGrad',
-        yellowRibbonAmount: 0
-      }
-    ]
-  }
+        yellowRibbonAmount: 0,
+      },
+    ],
+  },
 };
 
 describe('<EnrollmentHistory>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(
+      <EnrollmentHistory {...defaultProps} />,
+    );
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should show enrollments if veteran is eligible', () => {
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(
+      <EnrollmentHistory {...defaultProps} />,
+    );
     expect(tree.subTree('EnrollmentPeriod')).to.exist;
-    expect(tree.dive(['.section-header']).text()).to.equal('Enrollment History');
+    expect(tree.dive(['.section-header']).text()).to.equal(
+      'Enrollment History',
+    );
   });
 
   it('should not show enrollments if veteran is not eligible', () => {
@@ -55,18 +61,22 @@ describe('<EnrollmentHistory>', () => {
         originalEntitlement: { months: 36, days: 0 },
         usedEntitlement: { months: 36, days: 0 },
         remainingEntitlement: { months: 0, days: 0 },
-        enrollments: []
-      }
+        enrollments: [],
+      },
     };
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
+    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props} />);
     expect(tree.subTree('EnrollmentPeriod')).to.be.false;
     expect(tree.subTree('.section-header')).to.be.false;
   });
 
   it('should show history may be incorrect warning', () => {
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(
+      <EnrollmentHistory {...defaultProps} />,
+    );
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
+    expect(featureBoxes[0].text()).to.equal(
+      'Does something look wrong in your enrollment history?',
+    );
   });
 
   it('should show no enrollment history warning', () => {
@@ -76,11 +86,13 @@ describe('<EnrollmentHistory>', () => {
         originalEntitlement: { months: 3, days: 0 },
         usedEntitlement: { months: 0, days: 0 },
         remainingEntitlement: { months: 3, days: 0 },
-        enrollments: []
-      }
+        enrollments: [],
+      },
     };
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
+    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props} />);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('You don’t have any enrollment history');
+    expect(featureBoxes[0].text()).to.equal(
+      'You don’t have any enrollment history',
+    );
   });
 });

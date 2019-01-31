@@ -13,7 +13,7 @@ export function prefillTransformer(pages, formData, metadata) {
   return {
     metadata,
     formData,
-    pages
+    pages,
   };
 }
 
@@ -21,8 +21,8 @@ export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: formData
-    }
+      form: formData,
+    },
   });
 }
 

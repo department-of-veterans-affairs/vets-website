@@ -6,7 +6,7 @@ module.exports = {
 
     const saucelabs = new SauceLabs({
       username: process.env.SAUCE_USERNAME,
-      password: process.env.SAUCE_ACCESS_KEY
+      password: process.env.SAUCE_ACCESS_KEY,
     });
 
     const sessionid = browser.capabilities['webdriver.remote.sessionid'];
@@ -16,15 +16,19 @@ module.exports = {
       return item.failed === 0 && item.errors === 0;
     }
 
-    const testCaseData = Object.keys(browser.currentTest.results.testcases).map((key) => {
-      return browser.currentTest.results.testcases[key];
-    });
+    const testCaseData = Object.keys(browser.currentTest.results.testcases).map(
+      key => browser.currentTest.results.testcases[key],
+    );
 
     const passed = testCaseData.every(noFailures);
 
-    saucelabs.updateJob(sessionid, {
-      passed,
-      name: jobName,
-    }, done);
+    saucelabs.updateJob(
+      sessionid,
+      {
+        passed,
+        name: jobName,
+      },
+      done,
+    );
   },
 };

@@ -3,20 +3,27 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 const definitions = formConfig.defaultDefinitions;
 
 describe('Pensions aidAttendance', () => {
-  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.aidAttendance;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.aidAttendance;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{}}
         definitions={definitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -32,7 +39,8 @@ describe('Pensions aidAttendance', () => {
         definitions={definitions}
         onSubmit={onSubmit}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 

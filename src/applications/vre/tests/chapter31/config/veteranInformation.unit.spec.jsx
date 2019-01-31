@@ -3,25 +3,33 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 veteran information', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
   it('renders veteran information fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': true
+          'view:isVeteran': true,
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(3);
+    form.unmount();
   });
 
   it('does not submit without required veteran information', () => {
@@ -31,16 +39,18 @@ describe('VRE chapter 31 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': false
+          'view:isVeteran': false,
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(5);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('submits with only required information with ssn', () => {
@@ -50,11 +60,12 @@ describe('VRE chapter 31 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': false
+          'view:isVeteran': false,
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test2');
@@ -67,6 +78,7 @@ describe('VRE chapter 31 veteran information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('submits with only required information with va file number', () => {
@@ -76,11 +88,12 @@ describe('VRE chapter 31 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': false
+          'view:isVeteran': false,
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test2');
@@ -93,5 +106,6 @@ describe('VRE chapter 31 veteran information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

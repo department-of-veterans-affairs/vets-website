@@ -6,8 +6,8 @@ import { addStatusToIssues } from '../utils/appeals-v2-helpers';
 const AppealsV2DetailPage = ({ appeal }) => {
   const issues = addStatusToIssues(appeal.attributes.issues);
   return (
-    <div>
-      <Issues issues={issues}/>
+    <div aria-labelledby="tabv2detail" id="tabPanelv2detail" role="tabpanel">
+      <Issues issues={issues} />
     </div>
   );
 };
@@ -20,9 +20,9 @@ AppealsV2DetailPage.propTypes = {
       status: PropTypes.shape({
         type: PropTypes.string,
         details: PropTypes.object,
-      }).isRequired
+      }).isRequired,
     }).isRequired,
-  })
+  }),
 };
 
 export default AppealsV2DetailPage;

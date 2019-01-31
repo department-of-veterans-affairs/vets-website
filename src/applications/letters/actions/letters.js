@@ -2,7 +2,12 @@ import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest, stripEmpties, toGenericAddress, getStatus } from '../utils/helpers.jsx';
+import {
+  apiRequest,
+  stripEmpties,
+  toGenericAddress,
+  getStatus,
+} from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -28,15 +33,15 @@ import {
   SAVE_ADDRESS_SUCCESS,
   INVALID_ADDRESS_PROPERTY,
   START_EDITING_ADDRESS,
-  CANCEL_EDITING_ADDRESS
+  CANCEL_EDITING_ADDRESS,
 } from '../utils/constants';
 
 export function editAddress() {
-  return (dispatch) => dispatch({ type: START_EDITING_ADDRESS });
+  return dispatch => dispatch({ type: START_EDITING_ADDRESS });
 }
 
 export function cancelEditingAddress() {
-  return (dispatch) => dispatch({ type: CANCEL_EDITING_ADDRESS });
+  return dispatch => dispatch({ type: CANCEL_EDITING_ADDRESS });
 }
 
 export function getLetterList(dispatch) {
@@ -50,7 +55,7 @@ export function getLetterList(dispatch) {
         data: response,
       });
     },
-    (response) => {
+    response => {
       recordEvent({ event: 'letter-list-failure' });
       const status = getStatus(response);
       if (status === '403') {
@@ -70,7 +75,7 @@ export function getLetterList(dispatch) {
         dispatch({ type: GET_LETTERS_FAILURE });
       }
       throw new Error(`vets_letters_error_getLetterList: ${status}`);
-    }
+    },
   );
 }
 
@@ -78,29 +83,28 @@ export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
     '/v0/letters/beneficiary',
     null,
-    (response) => {
+    response => {
       recordEvent({ event: 'letter-get-bsl-success' });
       return dispatch({
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
       });
     },
-    (response) => {
+    response => {
       recordEvent({ event: 'letter-get-bsl-failure' });
       dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
       const status = getStatus(response);
       throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
-    }
+    },
   );
 }
 
 // Call getLetterList then getBenefitSummaryOptions
 export function getLetterListAndBSLOptions() {
-  return (dispatch) => {
-    return getLetterList(dispatch)
+  return dispatch =>
+    getLetterList(dispatch)
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch((error) => Raven.captureException(error));
-  };
+      .catch(error => Raven.captureException(error));
 }
 
 export function getAddressFailure() {
@@ -109,33 +113,36 @@ export function getAddressFailure() {
 }
 
 export function getMailingAddress() {
-  return (dispatch) => {
-    return apiRequest(
+  return dispatch =>
+    apiRequest(
       '/v0/address',
       null,
-      (response) => {
+      response => {
         recordEvent({ event: 'letter-get-address-success' });
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
-        responseCopy.data.attributes.address = toGenericAddress(response.data.attributes.address);
+        responseCopy.data.attributes.address = toGenericAddress(
+          response.data.attributes.address,
+        );
         return dispatch({
           type: GET_ADDRESS_SUCCESS,
-          data: responseCopy
+          data: responseCopy,
         });
       },
-      (response) => {
+      response => {
         const status = getStatus(response);
-        Raven.captureException(new Error(`vets_letters_error_getMailingAddress: ${status}`));
+        Raven.captureException(
+          new Error(`vets_letters_error_getMailingAddress: ${status}`),
+        );
         return dispatch(getAddressFailure());
-      }
+      },
     );
-  };
 }
 
 export function getLetterPdfFailure(letterType) {
   recordEvent({
     event: 'letter-pdf-failure',
-    'letter-type': letterType
+    'letter-type': letterType,
   });
   return { type: GET_LETTER_PDF_FAILURE, data: letterType };
 }
@@ -146,18 +153,18 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
     settings = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(letterOptions)
+      body: JSON.stringify(letterOptions),
     };
   } else {
     settings = {
-      method: 'POST'
+      method: 'POST',
     };
   }
 
-  return (dispatch) => {
+  return dispatch => {
     recordEvent({
       event: 'letter-pdf-pending',
-      'letter-type': letterType
+      'letter-type': letterType,
     });
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
 
@@ -205,15 +212,17 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
         window.URL.revokeObjectURL(downloadUrl);
         recordEvent({
           event: 'letter-pdf-success',
-          'letter-type': letterType
+          'letter-type': letterType,
         });
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      (response) => {
+      response => {
         const status = getStatus(response);
-        Raven.captureException(new Error(`vets_letters_error_getLetterPdf_${letterType}: ${status}`));
+        Raven.captureException(
+          new Error(`vets_letters_error_getLetterPdf_${letterType}: ${status}`),
+        );
         return dispatch(getLetterPdfFailure(letterType));
-      }
+      },
     );
   };
 }
@@ -222,13 +231,13 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   return {
     type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
     propertyPath,
-    value
+    value,
   };
 }
 
 export function saveAddressPending() {
   return {
-    type: SAVE_ADDRESS_PENDING
+    type: SAVE_ADDRESS_PENDING,
   };
 }
 
@@ -236,7 +245,7 @@ export function saveAddressSuccess(address) {
   recordEvent({ event: 'letter-update-address-success' });
   return {
     type: SAVE_ADDRESS_SUCCESS,
-    address
+    address,
   };
 }
 
@@ -258,73 +267,80 @@ export function saveAddress(address) {
   const settings = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(transformedAddress)
+    body: JSON.stringify(transformedAddress),
   };
   recordEvent({ event: 'letter-update-address-submit' });
-  return (dispatch) => {
+  return dispatch => {
     dispatch(saveAddressPending());
     return apiRequest(
       '/v0/address',
       settings,
-      (response) => {
+      response => {
         // translate military address properties back to front end address
-        const responseAddress = toGenericAddress(response.data.attributes.address);
+        const responseAddress = toGenericAddress(
+          response.data.attributes.address,
+        );
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
-          const mismatchError = new Error('letters-address-update addresses don\'t match');
+          const mismatchError = new Error(
+            "letters-address-update addresses don't match",
+          );
           Raven.captureException(mismatchError);
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
-      (response) => {
+      response => {
         const status = getStatus(response);
-        Raven.captureException(new Error(`vets_letters_error_saveAddress: ${status}`));
+        Raven.captureException(
+          new Error(`vets_letters_error_saveAddress: ${status}`),
+        );
         return dispatch(saveAddressFailure());
-      }
+      },
     );
   };
 }
 
 export function getAddressCountries() {
-  return (dispatch) => {
-    return apiRequest(
+  return dispatch =>
+    apiRequest(
       '/v0/address/countries',
       null,
-      (response) => {
+      response => {
         recordEvent({ event: 'letter-get-address-countries-success' });
         return dispatch({
           type: GET_ADDRESS_COUNTRIES_SUCCESS,
           countries: response,
         });
       },
-      (response) => {
+      response => {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-countries-failure' });
-        Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
+        Raven.captureException(
+          new Error(`vets_letters_error_getAddressCountries: ${status}`),
+        );
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
-      }
+      },
     );
-  };
 }
 
 export function getAddressStates() {
-  return (dispatch) => {
-    return apiRequest(
+  return dispatch =>
+    apiRequest(
       '/v0/address/states',
       null,
-      (response) => {
+      response => {
         recordEvent({ event: 'letter-get-address-states-success' });
         return dispatch({
           type: GET_ADDRESS_STATES_SUCCESS,
           states: response,
         });
       },
-      (response) => {
+      response => {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-states-success' });
-        Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
+        Raven.captureException(
+          new Error(`vets_letters_error_getAddressStates: ${status}`),
+        );
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
-      }
+      },
     );
-  };
 }
-

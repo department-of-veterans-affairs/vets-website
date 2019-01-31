@@ -9,6 +9,7 @@ import {
 
 import fullSchema1010ez from '../../../hca/config/form';
 import fullSchema0993 from '../../../edu-benefits/0993/config/form';
+import fullSchema0994 from '../../../edu-benefits/0994/config/form';
 import fullSchema1990 from '../../../edu-benefits/1990/config/form';
 import fullSchema1990e from '../../../edu-benefits/1990e/config/form';
 import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
@@ -33,6 +34,7 @@ const schemaToConfigIds = {
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
   '22-0993': '0993',
+  '22-0994': '0994',
   '22-1990': '1990',
   '22-1990E': '1990e',
   '22-1990N': '1990n',
@@ -42,14 +44,17 @@ const schemaToConfigIds = {
   '40-10007': '40-10007',
   'FEEDBACK-TOOL': 'FEEDBACK-TOOL',
   VIC: 'VIC',
-  definitions: 'N/A'
+  definitions: 'N/A',
+  constants: 'N/A',
+  vaMedicalFacilities: 'N/A',
 };
 
 const excludedForms = new Set([
   '28-1900',
   '28-8832',
   '24-0296',
-  '21-4142'
+  '21-4142',
+  '21-526EZ-ALLCLAIMS', // TODO: remove this when we can?
 ]);
 
 describe('profile helpers:', () => {
@@ -73,6 +78,7 @@ describe('profile helpers:', () => {
         fullSchema1010ez,
         fullSchema686,
         fullSchema0993,
+        fullSchema0994,
         fullSchema1990,
         fullSchema1990e,
         fullSchema1990n,
@@ -84,13 +90,18 @@ describe('profile helpers:', () => {
         fullSchema527EZ,
         fullSchema530,
         fullSchema10007,
-        fullSchemaVIC
+        fullSchemaVIC,
       ];
-      const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
+      const allFormIds = Object.keys(schemas).filter(
+        formId => !excludedForms.has(formId),
+      );
       const allMappedIds = Object.keys(schemaToConfigIds);
       const sipEnabledConfigs = configs.filter(config => !config.disableSave);
-      const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
-      expect(allFormIds).to.deep.equal(allMappedIds);
+      const sipEnabledFormIds = sipEnabledConfigs.map(
+        sipEnabledConfig => sipEnabledConfig.formId,
+      );
+      sipEnabledFormIds.push('complaint-tool');
+      expect(new Set(allFormIds)).to.deep.equal(new Set(allMappedIds));
       expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });
   });
@@ -100,4 +111,3 @@ describe('profile helpers:', () => {
     });
   });
 });
-

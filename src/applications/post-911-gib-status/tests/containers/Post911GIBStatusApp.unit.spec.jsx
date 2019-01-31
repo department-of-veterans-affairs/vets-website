@@ -10,10 +10,8 @@ const store = createCommonStore(reducer);
 
 describe('<Post911GIBStatusApp>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
-      <Post911GIBStatusApp store={store}/>);
+    const tree = SkinDeep.shallowRender(<Post911GIBStatusApp store={store} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 });
-

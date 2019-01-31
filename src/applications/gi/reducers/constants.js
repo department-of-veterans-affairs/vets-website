@@ -1,24 +1,28 @@
 /* eslint-disable no-case-declarations */
-import { FETCH_CONSTANTS_STARTED, FETCH_CONSTANTS_FAILED, FETCH_CONSTANTS_SUCCEEDED } from '../actions';
+import {
+  FETCH_CONSTANTS_STARTED,
+  FETCH_CONSTANTS_FAILED,
+  FETCH_CONSTANTS_SUCCEEDED,
+} from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
-  version: {}
+  version: {},
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_CONSTANTS_STARTED:
       return {
         ...state,
-        inProgress: true
+        inProgress: true,
       };
     case FETCH_CONSTANTS_FAILED:
       return {
         ...state,
         ...action.err,
-        inProgress: false
+        inProgress: false,
       };
     case FETCH_CONSTANTS_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);

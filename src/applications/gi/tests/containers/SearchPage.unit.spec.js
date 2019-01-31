@@ -11,7 +11,7 @@ const defaultProps = createCommonStore(reducer).getState();
 
 describe('<SearchPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<SearchPage {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<SearchPage {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -24,7 +24,7 @@ describe('<SearchPage>', () => {
         inProgress: true,
       },
     };
-    const tree = SkinDeep.shallowRender(<SearchPage {...props}/>);
+    const tree = SkinDeep.shallowRender(<SearchPage {...props} />);
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
@@ -36,7 +36,7 @@ describe('<SearchPage>', () => {
       institutionFilterChange: sinon.spy(),
       location: {},
     };
-    const tree = SkinDeep.shallowRender(<SearchPage {...props}/>);
+    const tree = SkinDeep.shallowRender(<SearchPage {...props} />);
     tree.getMountedInstance().componentDidMount();
     expect(props.fetchSearchResults.called).to.be.true;
     expect(props.setPageTitle.called).to.be.true;

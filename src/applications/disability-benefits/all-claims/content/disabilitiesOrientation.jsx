@@ -3,12 +3,14 @@ import React from 'react';
 export const disabilitiesOrientation = (
   <div>
     <p>
-      On the next few screens, we’ll ask you about the disabilities you’re claiming in two parts.
+      On the next few screens, we’ll ask you about the disabilities you’re
+      claiming in two parts.
     </p>
     <ul>
       <li>
-        Your rated service-connected disabilities, if you have any. (Please note,
-        if you don’t have any rated disabilities, you won’t see this screen.)
+        Your rated service-connected disabilities, if you have any. (Please
+        note, if you don’t have any rated disabilities, you won’t see this
+        screen.)
       </li>
       <li>Your new service-connected disabilities or conditions</li>
     </ul>

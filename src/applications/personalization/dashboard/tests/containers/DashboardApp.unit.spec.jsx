@@ -10,9 +10,9 @@ const defaultProps = {
   profile: {
     verified: false,
     loa: {
-      current: 1
-    }
-  }
+      current: 1,
+    },
+  },
 };
 
 describe('<DashboardApp>', () => {
@@ -25,35 +25,45 @@ describe('<DashboardApp>', () => {
   });
 
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<DashboardApp {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<DashboardApp {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
   it('should render verification state if LOA != 3', () => {
-    const tree = SkinDeep.shallowRender(<DashboardApp profile={{ loa: { current: 1 } }}/>);
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 1 } }} />,
+    );
     expect(tree.toString()).to.contain('Verify your identity to access more');
     expect(tree.toString()).to.contain('tools and features');
   });
 
   it('should render MVI warning state if status not OK', () => {
-    const tree = SkinDeep.shallowRender(<DashboardApp profile={{ loa: { current: 3 }, status: 'ERROR' }}/>);
-    expect(tree.toString()).to.contain('We’re having trouble matching your information to our Veteran records');
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 3 }, status: 'ERROR' }} />,
+    );
+    expect(tree.toString()).to.contain(
+      'We’re having trouble matching your information to our Veteran records',
+    );
   });
 
   it('should not render warnings if information available', () => {
     const props = {
       profile: {
         loa: {
-          current: 3
+          current: 3,
         },
         status: 'OK',
-        verified: true
-      }
+        verified: true,
+      },
     };
 
-    const tree = SkinDeep.shallowRender(<DashboardApp {...props}/>);
-    expect(tree.toString()).to.not.contain('We’re having trouble matching your information to our Veteran records');
-    expect(tree.toString()).to.not.contain('Verify your identity to access more Vets.gov tools and features');
+    const tree = SkinDeep.shallowRender(<DashboardApp {...props} />);
+    expect(tree.toString()).to.not.contain(
+      'We’re having trouble matching your information to our Veteran records',
+    );
+    expect(tree.toString()).to.not.contain(
+      'Verify your identity to access more Vets.gov tools and features',
+    );
   });
 });

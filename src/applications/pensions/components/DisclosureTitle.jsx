@@ -8,17 +8,24 @@ export default function createDisclosureTitle(path, title) {
     // A little hackish
     if (path === 'spouse') {
       const marriages = formData.marriages || [];
-      fullName = _.get(['marriages', marriages.length - 1, 'spouseFullName'], formData) || {};
+      fullName =
+        _.get(
+          ['marriages', marriages.length - 1, 'spouseFullName'],
+          formData,
+        ) || {};
     } else {
       fullName = _.get(path, formData) || {};
     }
 
     return (
       <div>
-        <h4 className="pensions-disclosure-name">{fullName.first} {fullName.last}</h4>
+        <h4 className="pensions-disclosure-name">
+          {fullName.first} {fullName.last}
+        </h4>
         <legend
           className="schemaform-block-title pensions-disclosure-title"
-          id={id}>
+          id={id}
+        >
           {title}
         </legend>
       </div>

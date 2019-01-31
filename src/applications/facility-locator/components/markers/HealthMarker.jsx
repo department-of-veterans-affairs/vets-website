@@ -7,9 +7,12 @@ class HealthMarker extends Component {
     const { position, children, style, onClick } = this.props;
 
     return (
-      <DivMarker position={position} popupContent={<div>{children}</div>} onClick={onClick}>
-        <div className="health-icon map-marker" style={style}>
-        </div>
+      <DivMarker
+        position={position}
+        popupContent={<div>{children}</div>}
+        onClick={onClick}
+      >
+        <div className="health-icon map-marker" style={style} />
       </DivMarker>
     );
   }

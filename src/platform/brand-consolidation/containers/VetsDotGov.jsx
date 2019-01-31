@@ -10,7 +10,7 @@ function VetsDotGov({ vetsDotGovEnabled, children }) {
 
 export function mapStateToProps(state) {
   return {
-    vetsDotGovEnabled: !state.buildSettings.brandConsolidationEnabled
+    vetsDotGovEnabled: !state.buildSettings.brandConsolidationEnabled,
   };
 }
 
@@ -18,7 +18,10 @@ export function mapStateToProps(state) {
  * A component that renders its children only during regular/non-brand-consolidation builds.
  * @property {object|array} children The React nodes that should be visible for regular/non-brand-consolidation builds.
  */
-const VetsDotGovContainer = connect(mapStateToProps, null)(VetsDotGov);
+const VetsDotGovContainer = connect(
+  mapStateToProps,
+  null,
+)(VetsDotGov);
 export { VetsDotGov };
 
 export default VetsDotGovContainer;

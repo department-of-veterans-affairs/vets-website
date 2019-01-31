@@ -1,6 +1,10 @@
 import _config from './config';
 
-export function selectAnnouncement(state, config = _config, path = document.location.pathname) {
+export function selectAnnouncement(
+  state,
+  config = _config,
+  path = document.location.pathname,
+) {
   const announcements = state.announcements;
   let announcement;
 

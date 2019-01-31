@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  selectCheckbox,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../0993/config/form';
 
 describe('0993 claimant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.claimantInformation.pages.claimantInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.claimantInformation.pages.claimantInformation;
 
   it('should render', () => {
     const form = mount(
@@ -15,12 +21,14 @@ describe('0993 claimant information', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // Check for opt out message
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -30,11 +38,13 @@ describe('0993 claimant information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with no errors with all required fields filled in', () => {
@@ -46,17 +56,19 @@ describe('0993 claimant information', () => {
         data={{
           claimantFullName: {
             first: 'test',
-            last: 'test'
+            last: 'test',
           },
-          claimantSocialSecurityNumber: '987987987'
+          claimantSocialSecurityNumber: '987987987',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should expand and require VA file number question if no SSN is available', () => {
@@ -67,21 +79,33 @@ describe('0993 claimant information', () => {
         data={{
           claimantFullName: {
             first: 'test',
-            last: 'test'
-          }
+            last: 'test',
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
 
     // VA file number input is not visible; error is shown for empty SSN input
-    expect(form.find('.usa-input-error #root_claimantSocialSecurityNumber-error-message').length).to.equal(1);
+    expect(
+      form.find(
+        '.usa-input-error #root_claimantSocialSecurityNumber-error-message',
+      ).length,
+    ).to.equal(1);
     expect(form.find('#root_vaFileNumber').length).to.equal(0);
 
     // Check no-SSN box
     selectCheckbox(form, 'root_view:noSSN', true);
-    expect(form.find('.usa-input-error #root_claimantSocialSecurityNumber-error-message').length).to.equal(0);
-    expect(form.find('.usa-input-error #root_vaFileNumber-error-message').length).to.equal(1);
+    expect(
+      form.find(
+        '.usa-input-error #root_claimantSocialSecurityNumber-error-message',
+      ).length,
+    ).to.equal(0);
+    expect(
+      form.find('.usa-input-error #root_vaFileNumber-error-message').length,
+    ).to.equal(1);
+    form.unmount();
   });
 });

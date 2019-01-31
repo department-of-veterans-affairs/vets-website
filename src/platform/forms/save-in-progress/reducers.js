@@ -13,11 +13,14 @@ import {
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES,
-  saveErrors
+  saveErrors,
 } from './actions';
 
 import createSchemaFormReducer from 'us-forms-system/lib/js/state';
-import { createInitialState, recalculateSchemaAndData } from 'us-forms-system/lib/js/state/helpers';
+import {
+  createInitialState,
+  recalculateSchemaAndData,
+} from 'us-forms-system/lib/js/state/helpers';
 import reducers from 'us-forms-system/lib/js/state/reducers';
 
 export const saveInProgressReducers = {
@@ -53,9 +56,8 @@ export const saveInProgressReducers = {
 
     return newState;
   },
-  [SET_FETCH_FORM_STATUS]: (state, action) => {
-    return set('loadedStatus', action.status, state);
-  },
+  [SET_FETCH_FORM_STATUS]: (state, action) =>
+    set('loadedStatus', action.status, state),
   [SET_FETCH_FORM_PENDING]: (state, action) => {
     const newState = set('loadedStatus', LOAD_STATUSES.pending, state);
 
@@ -76,7 +78,10 @@ export const saveInProgressReducers = {
 
       // We get an empty object back when we attempt to prefill and there's
       // no information
-      if (action.data.formData && Object.keys(action.data.formData).length > 0) {
+      if (
+        action.data.formData &&
+        Object.keys(action.data.formData).length > 0
+      ) {
         newState.prefillStatus = PREFILL_STATUSES.success;
       } else {
         newState.prefillStatus = PREFILL_STATUSES.unfilled;
@@ -92,20 +97,18 @@ export const saveInProgressReducers = {
 
     return recalculateSchemaAndData(newState);
   },
-  [SET_START_OVER]: (state) => {
-    return Object.assign({}, state, {
+  [SET_START_OVER]: state =>
+    Object.assign({}, state, {
       isStartingOver: true,
       data: state.initialData,
-      loadedStatus: LOAD_STATUSES.pending
-    });
-  },
-  [SET_PREFILL_UNFILLED]: (state) => {
-    return Object.assign({}, state, {
+      loadedStatus: LOAD_STATUSES.pending,
+    }),
+  [SET_PREFILL_UNFILLED]: state =>
+    Object.assign({}, state, {
       prefillStatus: PREFILL_STATUSES.unfilled,
       data: state.initialData,
-      loadedStatus: LOAD_STATUSES.notAttempted
-    });
-  }
+      loadedStatus: LOAD_STATUSES.notAttempted,
+    }),
 };
 
 export function createSaveInProgressInitialState(formConfig, initialState) {
@@ -121,13 +124,13 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     disableSave: formConfig.disableSave,
     loadedData: {
       formData: {},
-      metadata: {}
+      metadata: {},
     },
     prefillStatus: PREFILL_STATUSES.notAttempted,
     isStartingOver: false,
     migrations: formConfig.migrations,
     prefillTransformer: formConfig.prefillTransformer,
-    trackingPrefix: formConfig.trackingPrefix
+    trackingPrefix: formConfig.trackingPrefix,
   });
 }
 

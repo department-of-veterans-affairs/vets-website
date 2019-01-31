@@ -23,7 +23,8 @@ function nextQuestion(currentQuestion, answer, state) {
   const noGeneralCourtMartial = ['2', '3'].includes(state['7_courtMartial']);
   const dischargeYear = state['2_dischargeYear'];
   const dischargeMonth = state['3_dischargeMonth'] || 1;
-  const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
+  const oldDischarge =
+    moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
   const commonChanges = state['6_intention'] === '2';
   const transgender = state['4_reason'] === '5';
   const honorableDischarge = state['5_dischargeType'] === '1';
@@ -33,7 +34,7 @@ function nextQuestion(currentQuestion, answer, state) {
       next = '2_dischargeYear';
       break;
     case '2_dischargeYear':
-      if (answer === `${(new Date()).getFullYear() - 15}`) {
+      if (answer === `${new Date().getFullYear() - 15}`) {
         next = '3_dischargeMonth';
       } else {
         next = '4_reason';
@@ -69,29 +70,36 @@ function nextQuestion(currentQuestion, answer, state) {
         } else {
           next = '10_prevApplicationType';
         }
+      } else if (
+        state['4_reason'] !== '5' &&
+        state['5_dischargeType'] !== '1'
+      ) {
+        next = '12_priorService';
       } else {
-        if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
-          next = '12_priorService';
-        } else {
-          next = 'END';
-        }
+        next = 'END';
       }
       break;
     case '9_prevApplicationYear':
       if (answer === '2') {
         next = '10_prevApplicationType';
+      } else if (
+        state['4_reason'] !== '5' &&
+        state['5_dischargeType'] !== '1'
+      ) {
+        next = '12_priorService';
       } else {
-        if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
-          next = '12_priorService';
-        } else {
-          next = 'END';
-        }
+        next = 'END';
       }
       break;
     case '10_prevApplicationType':
       if (state['4_reason'] === '8') {
         next = 'END';
-      } else if (answer === '3' && noGeneralCourtMartial && !oldDischarge && commonChanges) {
+      } else if (
+        answer === '3' &&
+        noGeneralCourtMartial &&
+        !oldDischarge &&
+        commonChanges
+      ) {
         next = '11_failureToExhaust';
       } else if (!transgender && !honorableDischarge) {
         next = '12_priorService';
@@ -113,7 +121,7 @@ function nextQuestion(currentQuestion, answer, state) {
 }
 
 function form(state = initialState, action) {
-  const isPastOrCurrentStep = (e) => {
+  const isPastOrCurrentStep = e => {
     const num = e.split('_')[0];
     const nextNum = action.key.split('_')[0];
     return parseInt(num, 10) <= parseInt(nextNum, 10);
@@ -130,7 +138,9 @@ function form(state = initialState, action) {
         return {
           ...state,
           [action.key]: action.value,
-          questions: state.questions.filter(isPastOrCurrentStep).concat([nextQuestion(action.key, action.value, state)]),
+          questions: state.questions
+            .filter(isPastOrCurrentStep)
+            .concat([nextQuestion(action.key, action.value, state)]),
         };
       }
       return {
@@ -145,7 +155,9 @@ function form(state = initialState, action) {
           return a;
         }, {}),
         [action.key]: action.value,
-        questions: state.questions.filter(isPastOrCurrentStep).concat([nextQuestion(action.key, action.value, state)]),
+        questions: state.questions
+          .filter(isPastOrCurrentStep)
+          .concat([nextQuestion(action.key, action.value, state)]),
       };
     default:
       return state;

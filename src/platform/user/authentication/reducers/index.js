@@ -1,12 +1,9 @@
 import set from '../../../utilities/data/set';
 
-import {
-  LOG_OUT,
-  UPDATE_LOGGEDIN_STATUS,
-} from '../actions';
+import { LOG_OUT, UPDATE_LOGGEDIN_STATUS } from '../actions';
 
 const initialState = {
-  currentlyLoggedIn: false
+  currentlyLoggedIn: false,
 };
 
 function loginStuff(state = initialState, action) {

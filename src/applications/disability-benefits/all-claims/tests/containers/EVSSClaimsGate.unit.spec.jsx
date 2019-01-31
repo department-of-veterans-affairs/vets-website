@@ -10,36 +10,40 @@ describe('EVSSClaimsGate', () => {
   const disallowedUser = {
     login: { currentlyLoggedIn: true },
     profile: {
-      services: []
-    }
+      services: [],
+    },
   };
 
   const allowedUser = {
     login: { currentlyLoggedIn: true },
     profile: {
-      services: [backendServices.EVSS_CLAIMS]
-    }
+      services: [backendServices.EVSS_CLAIMS],
+    },
   };
 
   it('should not gate the form on the intro page', () => {
     const tree = mount(
       <EVSSClaimsGate
         user={disallowedUser}
-        location={{ pathname: '/introduction' }}>
+        location={{ pathname: '/introduction' }}
+      >
         <p>It worked!</p>
-      </EVSSClaimsGate>
+      </EVSSClaimsGate>,
     );
     expect(tree.text()).to.equal('It worked!');
+    tree.unmount();
   });
 
   it('should render a RequiredLoginView', () => {
     const tree = shallow(
       <EVSSClaimsGate
         user={allowedUser}
-        location={{ pathname: '/middle-of-the-form' }}>
+        location={{ pathname: '/middle-of-the-form' }}
+      >
         <p>It worked!</p>
-      </EVSSClaimsGate>
+      </EVSSClaimsGate>,
     );
     expect(tree.find('RequiredLoginView').length).to.equal(1);
+    tree.unmount();
   });
 });

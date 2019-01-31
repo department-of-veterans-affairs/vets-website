@@ -1,4 +1,4 @@
-import { isValidDateRange } from '../../../platform/forms/validations';
+import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'us-forms-system/lib/js/validation';
 
 export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
@@ -9,4 +9,3 @@ export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
     errors.addError('Date marriage ended must be after date of marriage');
   }
 }
-

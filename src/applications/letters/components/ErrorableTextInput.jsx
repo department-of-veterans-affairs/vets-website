@@ -24,9 +24,9 @@ class ErrorableTextInput extends React.Component {
     this.inputId = _.uniqueId('errorable-text-input-');
   }
 
-  handleChange = (domEvent) => {
+  handleChange = domEvent => {
     this.props.onValueChange(domEvent.target.value);
-  }
+  };
 
   render() {
     // Calculate error state.
@@ -49,7 +49,7 @@ class ErrorableTextInput extends React.Component {
     // Calculate max characters and display '(Max. XX characters)' when max is hit.
     if (this.props.value) {
       if (this.props.charMax === this.props.value.length) {
-        maxCharacters = (<small>(Max. {this.props.charMax} characters)</small>);
+        maxCharacters = <small>(Max. {this.props.charMax} characters)</small>;
       }
     }
 
@@ -61,9 +61,7 @@ class ErrorableTextInput extends React.Component {
 
     return (
       <div className={inputErrorClass}>
-        <label
-          className={labelErrorClass}
-          htmlFor={this.inputId}>
+        <label className={labelErrorClass} htmlFor={this.inputId}>
           {this.props.label}
           {requiredSpan}
         </label>
@@ -80,7 +78,8 @@ class ErrorableTextInput extends React.Component {
           maxLength={this.props.charMax}
           value={this.props.value || ''}
           onChange={this.handleChange}
-          onBlur={this.props.onBlur}/>
+          onBlur={this.props.onBlur}
+        />
         {maxCharacters}
       </div>
     );
@@ -98,11 +97,11 @@ ErrorableTextInput.propTypes = {
   additionalClass: PropTypes.string,
   charMax: PropTypes.number,
   onValueChange: PropTypes.func.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
 };
 
 ErrorableTextInput.defaultProps = {
-  type: 'text'
+  type: 'text',
 };
 
 export default ErrorableTextInput;

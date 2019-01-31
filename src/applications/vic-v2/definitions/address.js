@@ -18,10 +18,12 @@ function validatePostalCodes(errors, address) {
 
   // Checks if postal code is valid
   if (address.country === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+    isValidPostalCode =
+      isValidPostalCode && isValidUSZipCode(address.postalCode);
   }
   if (address.country === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+    isValidPostalCode =
+      isValidPostalCode && isValidCanPostalCode(address.postalCode);
   }
 
   // Add error message for postal code if it is invalid
@@ -41,21 +43,21 @@ export function schema(currentSchema) {
     required: requiredFields,
     properties: _.assign(currentSchema.definitions.address.properties, {
       country: {
-        'default': 'USA',
+        default: 'USA',
         type: 'string',
-        'enum': countryValues,
-        enumNames: countryLabels
+        enum: countryValues,
+        enumNames: countryLabels,
       },
       state: {
         title: 'State',
         type: 'string',
-        maxLength: 51
+        maxLength: 51,
       },
       postalCode: {
         type: 'string',
-        maxLength: 10
-      }
-    })
+        maxLength: 10,
+      },
+    }),
   };
 }
 
@@ -66,25 +68,35 @@ export function schema(currentSchema) {
  * @param {string} label - Block label for the address
  */
 export function uiSchema(currentSchema, label = 'Address') {
-  const fieldOrder = ['country', 'street', 'street2', 'city', 'state', 'postalCode'];
-  const stateSchemas = currentSchema.definitions.address.oneOf.reduce((schemas, state) => {
-    if (state.properties.country.enum.length === 1) {
-      const country = state.properties.country.enum[0];
-      return Object.assign(schemas, {
-        [country]: _.merge(state.properties.state, {
-          enumNames: states[country],
-          title: 'State',
-          type: 'string'
-        })
-      });
-    }
+  const fieldOrder = [
+    'country',
+    'street',
+    'street2',
+    'city',
+    'state',
+    'postalCode',
+  ];
+  const stateSchemas = currentSchema.definitions.address.oneOf.reduce(
+    (schemas, state) => {
+      if (state.properties.country.enum.length === 1) {
+        const country = state.properties.country.enum[0];
+        return Object.assign(schemas, {
+          [country]: _.merge(state.properties.state, {
+            enumNames: states[country],
+            title: 'State',
+            type: 'string',
+          }),
+        });
+      }
 
-    return schemas;
-  }, {});
+      return schemas;
+    },
+    {},
+  );
 
   const hiddenState = {
     type: 'string',
-    'ui:hidden': true
+    'ui:hidden': true,
   };
 
   const addressChangeSelector = createSelector(
@@ -93,68 +105,92 @@ export function uiSchema(currentSchema, label = 'Address') {
     (currentCountry, addressSchema) => {
       const schemaUpdate = {
         properties: addressSchema.properties,
-        required: addressSchema.required
+        required: addressSchema.required,
       };
-      const country = currentCountry || addressSchema.properties.country.default;
+      const country =
+        currentCountry || addressSchema.properties.country.default;
 
       if (stateSchemas[country]) {
         // We have a list and it’s different, so we need to make schema updates
-        if (addressSchema.properties.state.enum !== stateSchemas[country].enum) {
-          schemaUpdate.properties = _.set('state', stateSchemas[country], schemaUpdate.properties);
+        if (
+          addressSchema.properties.state.enum !== stateSchemas[country].enum
+        ) {
+          schemaUpdate.properties = _.set(
+            'state',
+            stateSchemas[country],
+            schemaUpdate.properties,
+          );
 
           // all the countries with state lists require the state field, so add that if necessary
           if (!addressSchema.required.some(field => field === 'state')) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
           // Canada has a different title than others, so set that when necessary
-          if (country === 'CAN' && addressSchema.properties.state.title !== 'Province') {
-            schemaUpdate.properties = _.set('state.title', 'Province', schemaUpdate.properties);
-          } else if (country !== 'CAN' && addressSchema.properties.state.title !== 'State') {
-            schemaUpdate.properties = _.set('state.title', 'State', schemaUpdate.properties);
+          if (
+            country === 'CAN' &&
+            addressSchema.properties.state.title !== 'Province'
+          ) {
+            schemaUpdate.properties = _.set(
+              'state.title',
+              'Province',
+              schemaUpdate.properties,
+            );
+          } else if (
+            country !== 'CAN' &&
+            addressSchema.properties.state.title !== 'State'
+          ) {
+            schemaUpdate.properties = _.set(
+              'state.title',
+              'State',
+              schemaUpdate.properties,
+            );
           }
         }
       } else if (addressSchema.properties.state.enum) {
-        schemaUpdate.properties = _.set('state', hiddenState, schemaUpdate.properties);
-        schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
+        schemaUpdate.properties = _.set(
+          'state',
+          hiddenState,
+          schemaUpdate.properties,
+        );
+        schemaUpdate.required = addressSchema.required.filter(
+          field => field !== 'state',
+        );
       }
 
       return schemaUpdate;
-    }
+    },
   );
 
   return {
     'ui:title': label,
-    'ui:validations': [
-      validatePostalCodes
-    ],
+    'ui:validations': [validatePostalCodes],
     'ui:options': {
-      updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
-        return addressChangeSelector({
+      updateSchema: (formData, addressSchema, addressUiSchema, index, path) =>
+        addressChangeSelector({
           formData,
           addressSchema,
-          path
-        });
-      }
+          path,
+        }),
     },
     'ui:order': fieldOrder,
     country: {
-      'ui:title': 'Country'
+      'ui:title': 'Country',
     },
     street: {
-      'ui:title': 'Street'
+      'ui:title': 'Street',
     },
     street2: {
-      'ui:title': 'Line 2'
+      'ui:title': 'Line 2',
     },
     city: {
-      'ui:title': 'City'
+      'ui:title': 'City',
     },
     state: {},
     postalCode: {
       'ui:title': 'Postal code',
       'ui:options': {
-        widgetClassNames: 'usa-input-medium'
-      }
-    }
+        widgetClassNames: 'usa-input-medium',
+      },
+    },
   };
 }

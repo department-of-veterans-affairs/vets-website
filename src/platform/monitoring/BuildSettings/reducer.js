@@ -1,5 +1,5 @@
 const initialState = {
-  ...window.settings
+  ...window.settings,
 };
 
 export default function buildSettingsReducer(state = initialState) {

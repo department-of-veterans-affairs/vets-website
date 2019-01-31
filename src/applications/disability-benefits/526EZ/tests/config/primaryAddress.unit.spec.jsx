@@ -3,16 +3,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-
-import { DefinitionTester, // selectCheckbox
+import {
+  DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../../all-claims/constants';
+import {
+  STATE_VALUES,
+  MILITARY_STATE_VALUES,
+} from '../../../all-claims/constants';
 
 describe('Disability benefits 526EZ primary address', () => {
   const {
     schema,
-    uiSchema
+    uiSchema,
   } = formConfig.chapters.veteranDetails.pages.primaryAddress;
 
   it('renders primary address form', () => {
@@ -22,17 +25,19 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            mailingAddress: {}
-          }
+            mailingAddress: {},
+          },
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // country
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('shows state and zip when country is USA', () => {
@@ -43,18 +48,20 @@ describe('Disability benefits 526EZ primary address', () => {
         data={{
           veteran: {
             mailingAddress: {
-              country: 'USA'
-            }
-          }
+              country: 'USA',
+            },
+          },
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // country, state
     expect(form.find('select').length).to.equal(2);
     // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(8);
+    form.unmount();
   });
 
   it('hides state and zip when country is not USA', () => {
@@ -64,17 +71,19 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           mailingAddress: {
-            country: 'Afghanistan'
-          }
+            country: 'Afghanistan',
+          },
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // country
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('restricts state options to military state codes when city is a military city code', () => {
@@ -86,17 +95,23 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             mailingAddress: {
               country: 'USA',
-              city: 'APO'
-            }
-          }
+              city: 'APO',
+            },
+          },
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const stateDropdownOptions = form.find('#root_veteran_mailingAddress_state > option');
+    const stateDropdownOptions = form.find(
+      '#root_veteran_mailingAddress_state > option',
+    );
     // The `+1` is for the empty option in the dropdown
-    expect(stateDropdownOptions.length).to.equal(MILITARY_STATE_VALUES.length + 1);
+    expect(stateDropdownOptions.length).to.equal(
+      MILITARY_STATE_VALUES.length + 1,
+    );
+    form.unmount();
   });
 
   it('does not restrict state options  when city is not a military city code', () => {
@@ -108,17 +123,21 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             mailingAddress: {
               country: 'USA',
-              city: 'Detroit'
-            }
-          }
+              city: 'Detroit',
+            },
+          },
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const stateDropdownOptions = form.find('#root_veteran_mailingAddress_state > option');
+    const stateDropdownOptions = form.find(
+      '#root_veteran_mailingAddress_state > option',
+    );
     // The `+1` is for the empty option in the dropdown
     expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
+    form.unmount();
   });
 
   it('validates that state is military type if city is military type', () => {
@@ -131,25 +150,27 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.co'
+              emailAddress: 'a@b.co',
             },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
               city: 'APO',
               state: 'TX',
-              zipCode: '12345'
-            }
-          }
+              zipCode: '12345',
+            },
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('validates that city is military type if state is military type', () => {
@@ -162,25 +183,27 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.co'
+              emailAddress: 'a@b.co',
             },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
               city: 'Anytown',
               state: 'AA',
-              zipCode: '12345'
-            }
-          }
+              zipCode: '12345',
+            },
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('expands forwarding address fields when forwarding address checked', () => {
@@ -193,22 +216,24 @@ describe('Disability benefits 526EZ primary address', () => {
             'view:hasForwardingAddress': true,
             mailingAddress: {
               country: '',
-              addressLine1: ''
+              addressLine1: '',
             },
             forwardingAddress: {
               country: '',
-              addressLine1: ''
-            }
-          }
+              addressLine1: '',
+            },
+          },
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // (2 x country), date month, date day, country
     expect(form.find('select').length).to.equal(4);
     // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, date year
     expect(form.find('input').length).to.equal(12);
+    form.unmount();
   });
 
   it('validates that forwarding state is military type if forwarding city is military type', () => {
@@ -221,14 +246,14 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.co'
+              emailAddress: 'a@b.co',
             },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
               city: 'Anytown',
               state: 'MI',
-              zipCode: '12345'
+              zipCode: '12345',
             },
             'view:hasForwardingAddress': true,
             forwardingAddress: {
@@ -237,18 +262,20 @@ describe('Disability benefits 526EZ primary address', () => {
               addressLine1: '123 Any Street',
               city: 'APO',
               state: 'TX',
-              zipCode: '12345'
-            }
-          }
+              zipCode: '12345',
+            },
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('validates that forwarding city is military type if forwarding state is military type', () => {
@@ -261,14 +288,14 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.co'
+              emailAddress: 'a@b.co',
             },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
               city: 'Anytown',
               state: 'MI',
-              zipCode: '12345'
+              zipCode: '12345',
             },
             'view:hasForwardingAddress': true,
             forwardingAddress: {
@@ -277,18 +304,20 @@ describe('Disability benefits 526EZ primary address', () => {
               addressLine1: '123 Any Street',
               city: 'Anytown',
               state: 'AA',
-              zipCode: '12345'
-            }
-          }
+              zipCode: '12345',
+            },
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('does not submit without required info', () => {
@@ -301,30 +330,32 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '',
-              emailAddress: ''
+              emailAddress: '',
             },
             mailingAddress: {
               country: '',
               addressLine1: '',
-              city: ''
+              city: '',
             },
             'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '',
               country: '',
               addressLine1: '',
-              city: ''
-            }
-          }
+              city: '',
+            },
+          },
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('does submit with required info', () => {
@@ -337,14 +368,14 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.co'
+              emailAddress: 'a@b.co',
             },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
               city: 'Anytown',
               state: 'MI',
-              zipCode: '12345'
+              zipCode: '12345',
             },
             'view:hasForwardingAddress': true,
             forwardingAddress: {
@@ -354,16 +385,18 @@ describe('Disability benefits 526EZ primary address', () => {
               city: 'Detroit',
               state: 'MI',
               zipCode: '234563453',
-            }
-          }
+            },
+          },
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

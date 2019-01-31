@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import _ from 'lodash';
+import _ from '../../../../platform/utilities/data';
 
 import {
   validateDisability,
@@ -7,18 +7,24 @@ import {
   prefillTransformer,
   get4142Selection,
   transform,
+  transformDisabilities,
   transformObligationDates,
-  getReservesGuardData
+  getReservesGuardData,
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
 
+import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
+
 describe('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
   const invalidDisability = prefilledData.disabilities[1];
-  const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
+  const validDisability = Object.assign(
+    { disabilityActionType: 'INCREASE' },
+    invalidDisability,
+  );
   describe('transform', () => {
-    const formData = maximalData;
+    const formData = _.cloneDeep(maximalData);
     const transformedData = {
       form526: {
         disabilities: [
@@ -27,23 +33,23 @@ describe('526 helpers', () => {
             disabilityActionType: 'INCREASE',
             ratedDisabilityId: '0',
             ratingDecisionId: '63655',
-            diagnosticCode: 5238
+            diagnosticCode: 5238,
           },
           {
             name: 'Diabetes mellitus1',
             disabilityActionType: 'INCREASE',
             ratedDisabilityId: '1',
             ratingDecisionId: '63655',
-            diagnosticCode: 5238
-          }
+            diagnosticCode: 5238,
+          },
         ],
         veteran: {
           homelessness: {
             isHomeless: true,
             pointOfContact: {
               pointOfContactName: 'John',
-              primaryPhone: '1231231231'
-            }
+              primaryPhone: '1231231231',
+            },
           },
           mailingAddress: {
             country: 'USA',
@@ -51,7 +57,7 @@ describe('526 helpers', () => {
             addressLine2: 'BEN FRANKLIN VILLAGE',
             city: 'APO',
             state: 'AE',
-            zipCode: '09028'
+            zipCode: '09028',
           },
           forwardingAddress: {
             country: 'USA',
@@ -61,33 +67,11 @@ describe('526 helpers', () => {
             city: 'Anyville',
             state: 'AK',
             zipCode: '33492',
-            effectiveDate: '2019-04-04'
+            effectiveDate: '2019-04-04',
           },
           primaryPhone: '4445551212',
-          emailAddress: 'test2@test1.net'
+          emailAddress: 'test2@test1.net',
         },
-        attachments: [
-          {
-            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
-            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
-            attachmentId: 'L105'
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
-            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
-            attachmentId: 'L105'
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
-            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
-            attachmentId: 'L105'
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
-            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
-            attachmentId: 'L105'
-          }
-        ],
         privacyAgreementAccepted: true,
         serviceInformation: {
           servicePeriods: [
@@ -95,29 +79,29 @@ describe('526 helpers', () => {
               serviceBranch: 'Air National Guard',
               dateRange: {
                 from: '1980-03-06',
-                to: '1990-02-04'
-              }
+                to: '1990-02-04',
+              },
             },
             {
               serviceBranch: 'Army Reserve',
               dateRange: {
                 from: '1990-07-05',
-                to: '2000-02-04'
-              }
-            }
+                to: '2000-02-04',
+              },
+            },
           ],
           reservesNationalGuardService: {
             unitName: 'Alpha Bravo Charlie',
             obligationTermOfServiceDateRange: {
               from: '2015-05-12',
-              to: '2017-05-12'
+              to: '2017-05-12',
             },
             title10Activation: {
               title10ActivationDate: '2014-054-12',
-              anticipatedSeparationDate: '2019-09-02'
+              anticipatedSeparationDate: '2019-09-02',
             },
-            waiveVABenefitsToRetainTrainingPay: true
-          }
+            waiveVABenefitsToRetainTrainingPay: true,
+          },
         },
         standardClaim: false,
         treatments: [
@@ -125,23 +109,111 @@ describe('526 helpers', () => {
             treatmentCenterName: 'Somerset VA Clinic',
             treatmentDateRange: {
               from: '2000-06-06',
-              to: '2004-02-06'
-            }
+              to: '2004-02-06',
+            },
           },
           {
             treatmentCenterName: 'DC VA Regional Medical Center',
             treatmentDateRange: {
               from: '2000-07-04',
-              to: '2010-01-03'
-            }
-          }
+              to: '2010-01-03',
+            },
+          },
         ],
-      }
+        attachments: [
+          {
+            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
+            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
+            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
+            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
+            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
+            attachmentId: 'L105',
+          },
+        ],
+      },
     };
+
     it('should return stringified, transformed data for submit', () => {
-      expect(transform(null, formData)).to.deep.equal(JSON.stringify(transformedData));
+      expect(transform(null, formData)).to.deep.equal(
+        JSON.stringify(transformedData),
+      );
+    });
+
+    it('should not submit uploads when corresponding evidence type not selected', () => {
+      const noUploadsSelected = _.set(
+        'data.disabilities[0].view:selectableEvidenceTypes',
+        {
+          'view:privateMedicalRecords': false,
+          'view:otherEvidence': false,
+        },
+        formData,
+      );
+
+      expect(JSON.parse(transform(null, noUploadsSelected)).form526.attachments)
+        .to.be.undefined;
+    });
+
+    it('should submit uploads when parent disability is selected', () => {
+      expect(
+        JSON.parse(transform(null, formData)).form526.attachments.length,
+      ).to.equal(transformedData.form526.attachments.length);
+    });
+
+    it('should not submit uploads when parent disability not selected', () => {
+      const noAttachments = _.set(
+        'data.disabilities[0]',
+        {
+          'view:selected': false,
+          'view:selectableEvidenceTypes': {
+            'view:privateMedicalRecords': true,
+            'view:otherEvidence': true,
+          },
+        },
+        maximalData,
+      );
+
+      const transformedNoAttachments = transform(null, noAttachments);
+      expect(JSON.parse(transformedNoAttachments).form526.attachments).to.be
+        .undefined;
     });
   });
+
+  describe('transformDisabilities', () => {
+    const rawDisability = initialData.disabilities[1];
+    const formattedDisability = Object.assign(
+      { disabilityActionType: 'INCREASE' },
+      rawDisability,
+    );
+    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
+      expect(transformDisabilities([rawDisability])).to.deep.equal([
+        formattedDisability,
+      ]);
+    });
+    it('should return an empty array when given undefined input', () => {
+      expect(transformDisabilities(undefined)).to.deep.equal([]);
+    });
+    it('should remove ineligible disabilities', () => {
+      const ineligibleDisability = _.set(
+        'decisionCode',
+        SERVICE_CONNECTION_TYPES.notServiceConnected,
+        rawDisability,
+      );
+      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+    });
+  });
+
   describe('validateDisability', () => {
     it('should reject invalid disability data', () => {
       expect(validateDisability(invalidDisability)).to.equal(false);
@@ -157,7 +229,10 @@ describe('526 helpers', () => {
       expect(newFormData).to.equal(formData);
     });
     it('should return a new object with correctly-modified formData', () => {
-      const formData = { disabilities: {}, veteran: { primaryPhone: '1234567890', emailAddress: 'a@b.c' } };
+      const formData = {
+        disabilities: {},
+        veteran: { primaryPhone: '1234567890', emailAddress: 'a@b.c' },
+      };
       const newFormData = addPhoneEmailToCard(formData);
       expect(newFormData).to.not.equal(formData);
       expect(newFormData.veteran.primaryPhone).to.be.undefined;
@@ -172,24 +247,24 @@ describe('526 helpers', () => {
   describe('transformObligationDates', () => {
     const dateRange = {
       from: '2012-04-01',
-      to: '2015-04-01'
+      to: '2015-04-01',
     };
 
     const formData = {
       reservesNationalGuardService: {
         obligationTermOfServiceDateRange: {
           from: dateRange.from,
-          to: dateRange.to
-        }
-      }
+          to: dateRange.to,
+        },
+      },
     };
 
     it('adds obligation dates to the top level formData', () => {
       expect(transformObligationDates(formData)).to.deep.equal({
         obligationTermOfServiceDateRange: {
           from: dateRange.from,
-          to: dateRange.to
-        }
+          to: dateRange.to,
+        },
       });
     });
     it('returns original form data if reserves data is missing', () => {
@@ -199,8 +274,13 @@ describe('526 helpers', () => {
   });
   describe('prefillTransformer', () => {
     it('should transform prefilled disabilities', () => {
-      const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
-      expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
+      const { formData: transformedPrefill } = prefillTransformer(
+        [],
+        prefilledData,
+      );
+      expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal(
+        'INCREASE',
+      );
     });
     it('should add phone and email to phoneEmailCard', () => {
       const pages = [];
@@ -208,49 +288,74 @@ describe('526 helpers', () => {
       const metadata = {};
       const transformedPhoneEmail = {
         primaryPhone: initialData.veteran.primaryPhone,
-        emailAddress: initialData.veteran.emailAddress
+        emailAddress: initialData.veteran.emailAddress,
       };
       const newForm = prefillTransformer(pages, formData, metadata);
-      expect(newForm.formData.veteran.phoneEmailCard).to.deep.equal(transformedPhoneEmail);
+      expect(newForm.formData.veteran.phoneEmailCard).to.deep.equal(
+        transformedPhoneEmail,
+      );
     });
     it('should return original data when no disabilities returned', () => {
       const pages = [];
-      const formData = _.omit(initialData, 'disabilities');
+      const formData = _.omit('disabilities', initialData);
       const metadata = {};
 
-      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
+        pages,
+        formData,
+        metadata,
+      });
     });
     it('should return original data if disabilities is not an array', () => {
       const clonedData = _.cloneDeep(initialData);
       const pages = [];
-      const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
+      const formData = _.set(
+        'disabilities',
+        { someProperty: 'value' },
+        clonedData,
+      );
       const metadata = {};
 
-      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
+        pages,
+        formData,
+        metadata,
+      });
     });
     it('should transform prefilled data when disability name has special chars', () => {
       const newName = '//()';
-      const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
+      const dataClone = _.set(
+        'disabilities[0].name',
+        newName,
+        _.cloneDeep(initialData),
+      );
+
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
     });
     it('should put obligation dates into the parent level', () => {
       const dateRange = {
         from: '2015-05-07',
-        to: '2018-05-07'
+        to: '2018-05-07',
       };
 
       const pages = [];
       const metadata = {};
-      const formData = _.set(_.cloneDeep(initialData), 'reservesNationalGuardService', {
-        obligationTermOfServiceDateRange: {
-          from: dateRange.from,
-          to: dateRange.to
-        }
-      });
+      const formData = _.set(
+        'reservesNationalGuardService',
+        {
+          obligationTermOfServiceDateRange: {
+            from: dateRange.from,
+            to: dateRange.to,
+          },
+        },
+        _.cloneDeep(initialData),
+      );
 
       const newData = prefillTransformer(pages, formData, metadata);
-      expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(dateRange);
+      expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(
+        dateRange,
+      );
     });
   });
 
@@ -259,20 +364,20 @@ describe('526 helpers', () => {
       {
         tag: 'shouldReturnTrue',
         'view:selected': true,
-        'view:uploadPrivateRecords': 'no'
+        'view:uploadPrivateRecords': 'no',
       },
       {
-        tag: 'shouldReturnFalse'
+        tag: 'shouldReturnFalse',
       },
       {
         tag: 'shouldReturnFalse',
         'view:selected': true,
-        'view:uploadPrivateRecords': 'yes'
+        'view:uploadPrivateRecords': 'yes',
       },
       {
         tag: 'shouldReturnFalse',
-        'view:selected': true
-      }
+        'view:selected': true,
+      },
     ];
 
     it('should return true when at least one disability has 4142 selected', () => {
@@ -306,9 +411,9 @@ describe('526 helpers', () => {
         unitName: 'Alpha Bravo',
         obligationTermOfServiceDateRange: {
           from: '2012-02-02',
-          to: '2018-02-02'
+          to: '2018-02-02',
         },
-        waiveVABenefitsToRetainTrainingPay: false
+        waiveVABenefitsToRetainTrainingPay: false,
       };
 
       expect(getReservesGuardData(formData)).to.deep.equal(formData);
@@ -318,25 +423,27 @@ describe('526 helpers', () => {
         unitName: 'Alpha Bravo',
         obligationTermOfServiceDateRange: {
           from: '2012-02-02',
-          to: '2018-02-02'
+          to: '2018-02-02',
         },
         waiveVABenefitsToRetainTrainingPay: false,
         'view:isTitle10Activated': true,
         title10Activation: {
           title10ActivationDate: '2016-05-04',
-          anticipatedSeparationDate: '2099-05-03'
-        }
+          anticipatedSeparationDate: '2099-05-03',
+        },
       };
 
-      expect(getReservesGuardData(formData)).to.deep.equal(_.omit(formData, 'view:isTitle10Activated'));
+      expect(getReservesGuardData(formData)).to.deep.equal(
+        _.omit('view:isTitle10Activated', formData),
+      );
     });
     it('returns null when some required data is missing', () => {
       const formData = {
         obligationTermOfServiceDateRange: {
           from: '2012-02-02',
-          to: '2018-02-02'
+          to: '2018-02-02',
         },
-        waiveVABenefitsToRetainTrainingPay: false
+        waiveVABenefitsToRetainTrainingPay: false,
       };
 
       expect(getReservesGuardData(formData)).to.equal(null);

@@ -3,17 +3,20 @@ const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
-function setUserToken(token, client) {
-  client.execute((inToken) => {
-    window.sessionStorage.setItem('userToken', inToken);
-  },
-  [token],
-  (val) => {
-    if (val.state !== 'success') {
-      // eslint-disable-next-line no-console
-      console.log(`Result of setting user token: ${JSON.stringify(val)}`);
-    }
-  });
+function setUserSession(token, client) {
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
+  client.execute(
+    () => {
+      window.localStorage.setItem('hasSession', true);
+    },
+    [],
+    val => {
+      if (val.state !== 'success') {
+        // eslint-disable-next-line no-console
+        console.log(`Result of setting user token: ${JSON.stringify(val)}`);
+      }
+    },
+  );
 }
 
 function getLogoutUrl() {
@@ -37,18 +40,20 @@ function initUserMock(token, level) {
             last_name: 'Doe',
             gender: 'F',
             birth_date: '1985-01-01',
-            verified: level === 3
+            verified: level === 3,
           },
           veteran_status: {
             status: 'OK',
             is_veteran: true,
             served_in_military: true,
           },
-          in_progress_forms: [{
-            form: '1010ez',
-            metadata: {}
-          }],
-          prefills_available: [],
+          in_progress_forms: [
+            {
+              form: '1010ez',
+              metadata: {},
+            },
+          ],
+          prefills_available: ['21-526EZ'],
           services: [
             'facilities',
             'hca',
@@ -57,7 +62,9 @@ function initUserMock(token, level) {
             'user-profile',
             'health-records',
             'rx',
-            'messaging'
+            'messaging',
+            'form-save-in-progress',
+            'form-prefill',
           ],
           va_profile: {
             status: 'OK',
@@ -65,11 +72,11 @@ function initUserMock(token, level) {
             family_name: 'Hunter',
             gender: 'M',
             given_names: ['Julio', 'E'],
-            active_status: 'active'
-          }
-        }
-      }
-    }
+            active_status: 'active',
+          },
+        },
+      },
+    },
   });
 }
 /* eslint-enable camelcase */
@@ -79,8 +86,8 @@ function initLogoutMock(token) {
     path: '/sessions/slo/new',
     verb: 'get',
     value: {
-      url: getLogoutUrl()
-    }
+      url: getLogoutUrl(),
+    },
   });
 }
 
@@ -95,14 +102,14 @@ function logIn(token, client, url, level) {
   initLogoutMock(token);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.disableAnnouncements(client);
-  setUserToken(token, client);
+  setUserSession(token, client);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideSmoothScrolling(client);
@@ -116,13 +123,12 @@ function testUnauthedUserFlow(client, path) {
 
   initLogoutMock(token);
 
-  client
-    .url(appURL)
-    .waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(appURL).waitForElementVisible('body', Timeouts.normal);
 
   client
     .waitForElementVisible('.login', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Sign in to Vets.gov');
+    .expect.element('h1')
+    .text.to.equal('Sign in to VA.gov');
 }
 
 module.exports = {
@@ -132,5 +138,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
-  setUserToken
+  setUserSession,
 };

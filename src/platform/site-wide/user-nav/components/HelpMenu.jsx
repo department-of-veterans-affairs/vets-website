@@ -1,35 +1,52 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+import IconHelp from '@department-of-veterans-affairs/formation-react/IconHelp';
 
-import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
+
+import facilityLocatorManifest from '../../../../applications/facility-locator/manifest';
 
 const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 
 class HelpMenu extends React.Component {
   render() {
+    const facilityLocatorUrl = isVATeamSiteSubdomain()
+      ? `https://www.va.gov${FACILITY_LOCATOR_URL}`
+      : FACILITY_LOCATOR_URL;
     const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
-    const icon = <IconHelp color="#fff" role="presentation"/>;
+    const icon = <IconHelp color="#fff" role="presentation" />;
     let dropDownContents;
 
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
-        <div>
-          <p><a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a></p>
-          <p><a href="https://iris.custhelp.va.gov/app/ask ">Submit a Help Request</a></p>
-          <p><a href="https://iris.custhelp.va.gov ">Go to VA Help Center</a></p>
-          <p><a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ">Call Us </a></p>
+        <div className="va-helpmenu-contents">
+          <p>
+            <a href={`${facilityLocatorUrl}`}>Find a VA Location</a>
+          </p>
+          <p>
+            <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
+          </p>
+          <p>
+            <a href="tel:18446982311">Call MyVA311: 1-844-698-2311</a>
+          </p>
+          <p>TTY: 711</p>
         </div>
       );
     } else {
       dropDownContents = (
         <div>
-          <p><b>Call the Vets.gov Help Desk</b></p>
-          <p><a href="tel:18555747286">1-855-574-7286</a></p>
-          <p>TTY: <a href="tel:+18008778339">1-800-877-8339</a></p>
+          <p>
+            <b>Call the Vets.gov Help Desk</b>
+          </p>
+          <p>
+            <a href="tel:18555747286">1-855-574-7286</a>
+          </p>
+          <p>
+            TTY: <a href="tel:+18008778339">1-800-877-8339</a>
+          </p>
           <p>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. (ET)</p>
         </div>
       );
@@ -42,7 +59,8 @@ class HelpMenu extends React.Component {
         cssClass={this.props.cssClass}
         id="helpmenu"
         icon={icon}
-        isOpen={this.props.isOpen}>
+        isOpen={this.props.isOpen}
+      >
         {dropDownContents}
       </DropDownPanel>
     );
@@ -52,7 +70,7 @@ class HelpMenu extends React.Component {
 HelpMenu.propTypes = {
   cssClass: PropTypes.string,
   clickHandler: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default HelpMenu;

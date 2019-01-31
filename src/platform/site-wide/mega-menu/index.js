@@ -17,9 +17,10 @@ import Main from './containers/Main';
  * @param {Redux.Store} store The common store used on the site
  */
 export default function startMegaMenuWidget(store) {
-  startReactApp((
+  startReactApp(
     <Provider store={store}>
-      <Main/>
-    </Provider>
-  ), document.getElementById('mega-menu'));
+      <Main />
+    </Provider>,
+    document.getElementById('mega-menu'),
+  );
 }

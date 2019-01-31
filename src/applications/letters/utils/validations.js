@@ -15,14 +15,13 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
   return true;
 };
 
-const specialCharacterValidator = (input) => {
+const specialCharacterValidator = input => {
   if (/[^A-Za-z0-9 #%&'()+,./:@]/.test(input)) {
     return "Please only use letters, numbers, and the special characters #%&'()+,./:@";
   }
 
   return true;
 };
-
 
 /**
  * The signature of all validation functions is always the following
@@ -35,8 +34,9 @@ const specialCharacterValidator = (input) => {
  *                               if an error message is returned)
  */
 export const addressOneValidations = [
-  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a street address'),
-  specialCharacterValidator
+  (input, fullAddress) =>
+    requiredValidator(input, fullAddress, 'Please enter a street address'),
+  specialCharacterValidator,
 ];
 
 export const postalCodeValidations = [
@@ -55,7 +55,7 @@ export const postalCodeValidations = [
     }
 
     return true;
-  }
+  },
 ];
 
 export const stateValidations = [
@@ -66,7 +66,7 @@ export const stateValidations = [
     }
 
     return true;
-  }
+  },
 ];
 
 export const countryValidations = [
@@ -77,17 +77,20 @@ export const countryValidations = [
     }
 
     return true;
-  }
+  },
 ];
 
 export const cityValidations = [
-  (city, fullAddress) => requiredValidator(city, fullAddress, 'Please enter a city'),
+  (city, fullAddress) =>
+    requiredValidator(city, fullAddress, 'Please enter a city'),
   (city, fullAddress) => {
-    if (fullAddress.type === ADDRESS_TYPES.military && !MILITARY_CITIES.has(city)) {
+    if (
+      fullAddress.type === ADDRESS_TYPES.military &&
+      !MILITARY_CITIES.has(city)
+    ) {
       return 'Please enter APO, FPO, or DPO';
     }
 
     return true;
-  }
+  },
 ];
-

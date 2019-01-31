@@ -4,24 +4,31 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-
 describe('Hca spouse information', () => {
-  const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.spouseInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.householdInformation.pages.spouseInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelector('#root_spouseFullName_middle').maxLength).to.equal(30);
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(15);
+    expect(
+      formDOM.querySelector('#root_spouseFullName_middle').maxLength,
+    ).to.equal(30);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(15);
   });
 
   it('should not submit empty form', () => {
@@ -31,7 +38,8 @@ describe('Hca spouse information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -48,27 +56,32 @@ describe('Hca spouse information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     // Expand spouse address and phone number
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_sameAddressNo'), {
-      target: {
-        value: 'N'
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('#root_sameAddressNo'),
+      {
+        target: {
+          value: 'N',
+        },
+      },
+    );
 
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(23);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(23);
 
     // Expand spouse financial support
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_cohabitedLastYearNo'), {
-      target: {
-        value: 'N'
-      }
-    });
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(25);
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('#root_cohabitedLastYearNo'),
+      {
+        target: {
+          value: 'N',
+        },
+      },
+    );
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(25);
   });
 });

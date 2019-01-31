@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('VA Medical Records', () => {
-  const { schema, uiSchema } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
 
   it('should render ', () => {
     const form = mount(
@@ -18,19 +21,20 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
         }}
-        formData={{}}/>
+      />,
     );
 
     expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit without all required info', () => {
@@ -44,22 +48,128 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
-          vaTreatmentFacilities: []
+          vaTreatmentFacilities: [],
         }}
-        formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(6);
+    // Required fields: Facility name, related disability, and treatment start date
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not submit when treatment start date precedes service start date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities: [
+            {
+              name: 'Post traumatic stress disorder',
+              'view:selected': true,
+            },
+            {
+              name: 'Intervertebral disc syndrome',
+              'view:selected': true,
+            },
+          ],
+          vaTreatmentFacilities: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                'Diabetes Melitus': true,
+              },
+              treatmentDateRange: {
+                from: '2001-05-XX',
+                to: '2015-09-XX',
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'Sommerset',
+                state: 'VA',
+              },
+            },
+          ],
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2012-01-12' } },
+              { dateRange: { from: '2001-06-30' } },
+            ],
+          },
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should submit when treatment start date equals service start date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities: [
+            {
+              name: 'Post traumatic stress disorder',
+              'view:selected': true,
+            },
+            {
+              name: 'Intervertebral disc syndrome',
+              'view:selected': true,
+            },
+          ],
+          vaTreatmentFacilities: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                'Diabetes Melitus': true,
+              },
+              treatmentDateRange: {
+                from: '2001-05-XX',
+                to: '2015-09-XX',
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'Sommerset',
+                state: 'VA',
+              },
+            },
+          ],
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2012-01-12' } },
+              { dateRange: { from: '2001-05-30' } },
+            ],
+          },
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 
   it('should submit with all required info', () => {
@@ -73,38 +183,39 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true
+              treatedDisabilityNames: {
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09'
+                from: '2010-04-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
-                state: 'VA'
-              }
-            }
-          ]
+                state: 'VA',
+              },
+            },
+          ],
         }}
-        formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 
   it('should require military city when military state selected', () => {
@@ -118,38 +229,39 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true
+              treatedDisabilityNames: {
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09'
+                from: '2010-04-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
-                state: 'AA'
-              }
-            }
-          ]
+                state: 'AA',
+              },
+            },
+          ],
         }}
-        formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should require military state when military city entered', () => {
@@ -163,125 +275,38 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true
+              treatedDisabilityNames: {
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09'
+                from: '2010-04-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'APO',
-                state: 'VA'
-              }
-            }
-          ]
+                state: 'VA',
+              },
+            },
+          ],
         }}
-        formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-  });
-
-  it('should not require state when country is not USA', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
-          ],
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true
-              },
-              treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09'
-              },
-              treatmentCenterAddress: {
-                country: 'Ukraine',
-                city: 'Kiev'
-              }
-            }
-          ]
-        }}
-        formData={{}}
-        onSubmit={onSubmit}/>
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-  });
-
-  it('should require state when country is USA', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
-          ],
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true
-              },
-              treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09'
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-              }
-            }
-          ]
-        }}
-        formData={{}}
-        onSubmit={onSubmit}/>
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

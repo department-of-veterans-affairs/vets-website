@@ -1,13 +1,17 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
+const fs = require('fs-extra');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
 require('babel-register');
 require('babel-polyfill');
 
+const selenium_logs = './logs/selenium';
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
+
+fs.ensureDirSync(selenium_logs);
 
 module.exports = {
   src_folders: ['./src'],
@@ -19,7 +23,7 @@ module.exports = {
   disable_colors: process.env.BUILDTYPE === 'production',
   test_workers: false,
   test_settings: {
-    'default': {
+    default: {
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
       selenium_host: 'localhost',
@@ -30,7 +34,7 @@ module.exports = {
       screenshots: {
         enabled: true,
         on_failure: true,
-        path: 'logs/screenshots'
+        path: 'logs/screenshots',
       },
       desiredCapabilities: {
         browserName: 'chrome',
@@ -38,38 +42,38 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          args: ['--window-size=1024,768']
-        }
+          args: ['--window-size=1024,768'],
+        },
       },
       selenium: {
         cli_args: {
-          'webdriver.chrome.driver': chromedriver.path
+          'webdriver.chrome.driver': chromedriver.path,
         },
         start_process: true,
         server_path: seleniumServer.path,
-        log_path: './logs/selenium',
+        log_path: selenium_logs,
         host: '127.0.0.1',
         port: selenium_server_port,
       },
       test_workers: {
         enabled: false,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10)
+        workers: parseInt(process.env.CONCURRENCY || 1, 10),
       },
     },
     accessibility: {
-      filter: './src/platform/site-wide/tests/sitemap/*.spec.js'
+      filter: './src/platform/site-wide/tests/sitemap/*.spec.js',
     },
     headless: {
       desiredCapabilities: {
         chromeOptions: {
-          args: ['--headless', '--window-size=1024,768']
-        }
+          args: ['--headless', '--window-size=1024,768'],
+        },
       },
     },
     bestpractice: {
       globals: {
-        rules: ['section508', 'wcag2a', 'wcag2aa', 'best-practice']
-      }
-    }
-  }
+        rules: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+      },
+    },
+  },
 };

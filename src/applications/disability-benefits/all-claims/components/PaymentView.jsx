@@ -1,56 +1,85 @@
 import React from 'react';
-import { srSubstitute } from '../utils';
-import { NOBANK, accountTitleLabels } from '../constants';
-import { PaymentDescription, editNote } from '../content/paymentInformation';
+import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
 
-const PaymentView = (response) => {
-  const {
-    accountType = '',
-    accountNumber = '',
-    financialInstitutionRoutingNumber: routingNumber = '',
-    financialInstitutionName: bankName = '',
-  } = response;
-  let accountNumberString;
-  let routingNumberString;
-  let bankNameString;
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-  const mask = (string, unmaskedLength) => {
-    // If no string is given, tell the screen reader users the account or routing number is blank
-    if (!string) {
-      return srSubstitute('', 'is blank');
-    }
-    const repeatCount = string.length > unmaskedLength ? string.length - unmaskedLength : 0;
-    const maskedString = srSubstitute(`${'●'.repeat(repeatCount)}`, 'ending with');
-    return <span>{maskedString}{string.slice(-unmaskedLength)}</span>;
-  };
+import { accountTitleLabels } from '../constants';
+import { srSubstitute, viewifyFields } from '../utils';
 
-  if (accountType !== NOBANK) {
-    accountNumberString = (
-      <p>
-        Account number: {mask(accountNumber, 4)}
-      </p>
-    );
-    routingNumberString = (
-      <p>
-        Bank routing number: {mask(routingNumber, 4)}
-      </p>
-    );
-    bankNameString = <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>;
+const mask = (string, unmaskedLength) => {
+  // If no string is given, tell the screen reader users the account or routing number is blank
+  if (!string) {
+    return srSubstitute('', 'is blank');
   }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedString = srSubstitute(
+    `${'●'.repeat(repeatCount)}`,
+    'ending with',
+  );
+  return (
+    <span>
+      {maskedString}
+      {string.slice(-unmaskedLength)}
+    </span>
+  );
+};
+
+const accountsDifferContent = (
+  <p>
+    We’ll add this new bank account to your disability application.{' '}
+    <strong>
+      This new account won’t be updated in all VA systems right away.
+    </strong>{' '}
+    Your current payments will continue to be deposited into the previous
+    account we showed.
+  </p>
+);
+
+export const PaymentView = ({ formData = {}, originalData = {} }) => {
+  const bankAccountType =
+    formData.bankAccountType || originalData['view:bankAccountType'];
+  const bankAccountNumber =
+    formData.bankAccountNumber || originalData['view:bankAccountNumber'];
+  const bankRoutingNumber =
+    formData.bankRoutingNumber || originalData['view:bankRoutingNumber'];
+  const bankName = formData.bankName || originalData['view:bankName'];
+
+  const dataChanged = !isEqual(
+    viewifyFields({
+      bankAccountType,
+      bankAccountNumber,
+      bankRoutingNumber,
+      bankName,
+    }),
+    originalData,
+  );
+
   return (
     <div>
-      <PaymentDescription/>
+      {!dataChanged && (
+        <p>We’re currently paying your compensation to this account</p>
+      )}
       <div className="blue-bar-block">
         <p>
-          <strong>{accountTitleLabels[accountType.toUpperCase()]}</strong>
+          <strong>
+            {accountTitleLabels[(bankAccountType || '').toUpperCase()]}
+          </strong>
         </p>
-        {accountNumberString}
-        {routingNumberString}
-        {bankNameString}
+        <p>Account number: {mask(bankAccountNumber, 4)}</p>
+        <p>Bank routing number: {mask(bankRoutingNumber, 4)}</p>
+        <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
       </div>
-      {editNote('bank information')}
+      {dataChanged && (
+        <AlertBox isVisible status="warning" content={accountsDifferContent} />
+      )}
     </div>
   );
 };
 
-export default PaymentView;
+const mapStateToProps = state => ({
+  originalData: state.form.data['view:originalBankAccount'],
+});
+
+export default connect(mapStateToProps)(PaymentView);

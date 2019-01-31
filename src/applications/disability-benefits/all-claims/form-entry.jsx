@@ -6,9 +6,12 @@ import startApp from '../../../platform/startup';
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest';
+import analyticsEvents from './analytics-events';
 
 startApp({
   url: manifest.rootUrl,
   reducer,
-  routes
+  routes,
+  analyticsEvents,
+  entryName: manifest.entryName,
 });

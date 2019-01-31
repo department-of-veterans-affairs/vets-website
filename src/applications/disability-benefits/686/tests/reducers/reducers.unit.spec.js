@@ -33,6 +33,7 @@ describe('authorization686 reducer', () => {
     expectedState = {
       isLoading: false,
       isAuthorized: true,
+      loadedStatus: true,
     };
     const newState = authorization686(initialState, {
       type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
@@ -46,6 +47,7 @@ describe('authorization686 reducer', () => {
     expectedState = {
       isLoading: false,
       isAuthorized: false,
+      loadedStatus: true,
     };
     const newState = authorization686(initialState, {
       type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
@@ -57,12 +59,13 @@ describe('authorization686 reducer', () => {
 
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_FAILED', () => {
     const payload = {
-      error: true
+      error: true,
     };
 
     expectedState = {
       isLoading: false,
       isAuthorized: false,
+      loadedStatus: true,
       payload,
     };
     const newState = authorization686(initialState, {

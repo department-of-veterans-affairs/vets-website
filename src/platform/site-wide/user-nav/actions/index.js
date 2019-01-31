@@ -5,7 +5,7 @@ export function toggleSearchHelpUserMenu(menu, isOpen) {
   return {
     type: UPDATE_SEARCH_HELP_USER_MENU,
     menu,
-    isOpen
+    isOpen,
   };
 }
 

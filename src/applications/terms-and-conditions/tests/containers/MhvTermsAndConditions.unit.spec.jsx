@@ -8,22 +8,25 @@ import { MhvTermsAndConditions } from '../../containers/MhvTermsAndConditions';
 
 describe('<MhvTermsAndConditions>', () => {
   const props = {
-    location: { pathname: '/health-care/medical-information-terms-conditions', query: {} },
+    location: {
+      pathname: '/health-care/medical-information-terms-conditions',
+      query: {},
+    },
     accepted: false,
     attributes: {
       title: 'T&C',
       headerContent: 'header',
       termsContent: 'terms and conditions',
-      yesContent: 'agree'
+      yesContent: 'agree',
     },
     user: {
       loggedIn: true,
-      verified: true
+      verified: true,
     },
     loading: { tc: false, acceptance: false },
     acceptTerms: sinon.spy(),
     fetchLatestTerms: sinon.spy(),
-    fetchTermsAcceptance: sinon.spy()
+    fetchTermsAcceptance: sinon.spy(),
   };
 
   const setup = () => {
@@ -37,81 +40,96 @@ describe('<MhvTermsAndConditions>', () => {
 
   it('should show an error when there are errors', () => {
     const newProps = set('errors', { code: 404 }, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     const alertBox = wrapper.find('AlertBox');
     expect(alertBox.exists()).to.be.true;
     expect(alertBox.prop('status')).to.eq('error');
+    wrapper.unmount();
   });
 
   it('should show a loading indicator when fetching terms and conditions', () => {
     const newProps = set('loading.tc', true, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.exists()).to.be.true;
     expect(loader.prop('message')).to.eq('Loading terms and conditions...');
+    wrapper.unmount();
   });
 
   it('should show a loading indicator when fetching previous acceptance', () => {
     const newProps = set('loading.acceptance', true, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.exists()).to.be.true;
     expect(loader.prop('message')).to.eq('Loading terms and conditions...');
+    wrapper.unmount();
   });
 
   it('should show a loading indicator when accepting terms and conditions', () => {
     const newProps = set('loading.acceptance', true, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     wrapper.setState({ isSubmitted: true });
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.exists()).to.be.true;
     expect(loader.prop('message')).to.eq('Accepting terms and conditions...');
+    wrapper.unmount();
   });
 
   it('should show a success message after acceptance', () => {
-    const wrapper = shallow(<MhvTermsAndConditions {...props}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...props} />);
     wrapper.setState({ isSubmitted: true }, () => {
       wrapper.setProps({ accepted: true });
     });
     expect(wrapper.state('showAcceptedMessage')).to.be.true;
     const alertBox = wrapper.find('AlertBox').first();
     expect(alertBox.prop('status')).to.eq('success');
-    expect(alertBox.prop('headline')).to.eq('You’ve accepted the Terms and Conditions for using Vets.gov health tools');
+    expect(alertBox.prop('headline')).to.eq(
+      'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
+    );
+    wrapper.unmount();
   });
 
   it('should show a success message after acceptance', () => {
-    const wrapper = shallow(<MhvTermsAndConditions {...props}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...props} />);
     wrapper.setState({ showCanceledMessage: true });
     const alertBox = wrapper.find('AlertBox').first();
     expect(alertBox.prop('status')).to.eq('warning');
     expect(alertBox.prop('headline')).to.eq('Using Vets.gov Health Tools');
+    wrapper.unmount();
   });
 
   it('should redirect after acceptance if there is a redirect URL', () => {
-    const newProps = set('location.query.tc_redirect', '/health-care/prescriptions', props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const newProps = set(
+      'location.query.tc_redirect',
+      '/health-care/prescriptions',
+      props,
+    );
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     wrapper.setState({ isSubmitted: true });
     wrapper.setProps({ accepted: true });
     expect(wrapper.state('showAcceptedMessage')).to.be.true;
     expect(global.window.location.replace.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should not allow the user to agree if they are not logged in', () => {
     const newProps = set('user.loggedIn', false, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should not allow the user to agree if they are not verified', () => {
     const newProps = set('user.verified', false, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should not allow the user to agree if they have already accepted', () => {
     const newProps = set('accepted', true, props);
-    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+    wrapper.unmount();
   });
 });
-

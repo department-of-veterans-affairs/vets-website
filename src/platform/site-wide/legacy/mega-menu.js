@@ -3,7 +3,7 @@ import {
   isEscape,
   isReverseTab,
   isTab,
-  getTabbableElements
+  getTabbableElements,
 } from '../../utilities/accessibility';
 
 class MegaMenu {
@@ -13,8 +13,12 @@ class MegaMenu {
     this.openControl = openMenuElement;
     this.tabbableMenuElements = getTabbableElements(this.menu);
     this.firstTabbableMenuElement = this.tabbableMenuElements[0];
-    this.lastTabbableMenuElement = this.tabbableMenuElements[this.tabbableMenuElements.length - 1];
-    this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]');
+    this.lastTabbableMenuElement = this.tabbableMenuElements[
+      this.tabbableMenuElements.length - 1
+    ];
+    this.lastTabbableElement = document.querySelector(
+      '[href="http://usa.gov"]',
+    );
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
     this.showMegaMenu = this.showMegaMenu.bind(this);
@@ -30,8 +34,14 @@ class MegaMenu {
     this.closeControl.addEventListener('click', this.hideMegaMenu);
     this.closeControl.addEventListener('keydown', this.enterSmallMegaMenu);
     this.openControl.addEventListener('click', this.showMegaMenu);
-    this.firstTabbableMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
-    this.lastTabbableMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
+    this.firstTabbableMenuElement.addEventListener(
+      'keydown',
+      this.exitSmallMegaMenu,
+    );
+    this.lastTabbableMenuElement.addEventListener(
+      'keydown',
+      this.exitSmallMegaMenu,
+    );
     this.menu.addEventListener('keydown', this.toggleSmallMegaMenu);
     window.addEventListener('resize', this.resetMenu);
   }

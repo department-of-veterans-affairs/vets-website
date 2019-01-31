@@ -3,6 +3,7 @@
  * @module platform/startup
  */
 import React from 'react';
+import Raven from 'raven-js';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
@@ -24,34 +25,49 @@ import startReactApp from './react';
  * @param {object} appInfo.reducer An object containing reducer functions. Will have
  * combineReducers run on it after being merged with the common, cross-site reducer.
  * @param {string} appInfo.url The base url for the React application
+ * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
+ * when the respective actions are fired.
  */
-export default function startApp({ routes, component, reducer, url }) {
-  const store = createCommonStore(reducer);
+export default function startApp({
+  routes,
+  component,
+  reducer,
+  url,
+  analyticsEvents,
+  entryName = 'unknown',
+}) {
+  // Set further errors to have the appropriate source tag
+  Raven.setTagsContext({
+    source: entryName,
+  });
+
+  const store = createCommonStore(reducer, analyticsEvents);
 
   let history = browserHistory;
   if (url) {
     if (url.endsWith('/')) {
-      throw new Error('Root urls should not end with a slash. Check your manifest.json file and application entry file.');
+      throw new Error(
+        'Root urls should not end with a slash. Check your manifest.json file and application entry file.',
+      );
     }
     history = useRouterHistory(createHistory)({
-      basename: url
+      basename: url,
     });
   }
 
-  startSitewideComponents(store);
+  Raven.context(
+    {
+      tags: { source: 'site-wide' },
+    },
+    () => {
+      startSitewideComponents(store);
+    },
+  );
 
   let content = component;
   if (routes) {
-    content = (
-      <Router history={history}>
-        {routes}
-      </Router>
-    );
+    content = <Router history={history}>{routes}</Router>;
   }
 
-  startReactApp(
-    <Provider store={store}>
-      {content}
-    </Provider>
-  );
+  startReactApp(<Provider store={store}>{content}</Provider>);
 }

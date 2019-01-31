@@ -20,6 +20,6 @@ if (!HTMLCanvasElement.prototype.toBlob) {
 
         callback(new Blob([arr], { type: type || 'image/png' }));
       });
-    }
+    },
   });
 }

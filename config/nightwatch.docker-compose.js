@@ -1,9 +1,14 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
+const fs = require('fs-extra');
+
 require('babel-core/register');
 
+const selenium_logs = './logs/selenium';
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
+
+fs.ensureDirSync(selenium_logs);
 
 module.exports = {
   src_folders: ['./src'],
@@ -15,7 +20,7 @@ module.exports = {
   disable_colors: process.env.BUILDTYPE === 'production',
   test_workers: false,
   test_settings: {
-    'default': {
+    default: {
       launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
       selenium_host: 'selenium-chrome',
@@ -26,7 +31,7 @@ module.exports = {
       screenshots: {
         enabled: true,
         on_failure: true,
-        path: 'logs/screenshots'
+        path: 'logs/screenshots',
       },
       desiredCapabilities: {
         browserName: 'chrome',
@@ -34,23 +39,28 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          args: ['--headless', '--no-sandbox', '--disable-gpu', '--window-size=1024,768']
-        }
+          args: [
+            '--headless',
+            '--no-sandbox',
+            '--disable-gpu',
+            '--window-size=1024,768',
+          ],
+        },
       },
       selenium: {
         start_process: false,
-        log_path: './logs/selenium',
+        log_path: selenium_logs,
         host: 'selenium-chrome',
-        port: selenium_server_port
-      }
+        port: selenium_server_port,
+      },
     },
     accessibility: {
-      filter: './src/platform/site-wide/tests/sitemap/*.spec.js'
+      filter: './src/platform/site-wide/tests/sitemap/*.spec.js',
     },
     wcag2a: {
       globals: {
-        rules: ['section508', 'wcag2a']
-      }
-    }
-  }
+        rules: ['section508', 'wcag2a'],
+      },
+    },
+  },
 };

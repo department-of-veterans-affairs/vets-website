@@ -4,17 +4,20 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../5495/config/form.js';
 
 describe('Edu 5495 applicantInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
     const formDOM = findDOMNode(form);
 
@@ -27,11 +30,14 @@ describe('Edu 5495 applicantInformation', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(4);
+    expect(
+      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+    ).to.equal(4);
     expect(onSubmit.called).not.to.be.true;
   });
   it('should conditionally show file number', () => {
@@ -41,16 +47,19 @@ describe('Edu 5495 applicantInformation', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-      .find(input => input.id === 'root_view:noSSN');
+    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).find(input => input.id === 'root_view:noSSN');
 
     ReactTestUtils.Simulate.change(noSSNBox, {
       target: {
-        checked: true
-      }
+        checked: true,
+      },
     });
 
     const formDOM = findDOMNode(form);

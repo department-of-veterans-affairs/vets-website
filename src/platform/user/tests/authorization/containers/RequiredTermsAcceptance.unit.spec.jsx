@@ -14,11 +14,10 @@ const defaultProps = {
   termsNeeded: true,
   terms: {
     acceptance: false,
-  }
+  },
 };
 
 describe('<RequiredTermsAcceptanceView>', () => {
-
   before(() => {
     window.dataLayer = [];
   });
@@ -26,7 +25,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
   it('should call initial actions properly', () => {
     window.scrollTo = () => {};
     const tree = SkinDeep.shallowRender(
-      <RequiredTermsAcceptanceView {...defaultProps}/>
+      <RequiredTermsAcceptanceView {...defaultProps} />,
     );
     tree.getMountedInstance().componentDidMount();
 
@@ -38,10 +37,10 @@ describe('<RequiredTermsAcceptanceView>', () => {
       ...defaultProps,
       terms: {
         loading: true,
-      }
+      },
     };
     const tree = SkinDeep.shallowRender(
-      <RequiredTermsAcceptanceView {...props}/>
+      <RequiredTermsAcceptanceView {...props} />,
     );
 
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
@@ -53,10 +52,10 @@ describe('<RequiredTermsAcceptanceView>', () => {
       termsNeeded: false,
       terms: {
         acceptance: true,
-      }
+      },
     };
     const tree = SkinDeep.shallowRender(
-      <RequiredTermsAcceptanceView {...props}/>
+      <RequiredTermsAcceptanceView {...props} />,
     );
 
     expect(tree.toString()).to.eq('<div>\n\n</div>');
@@ -64,7 +63,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
 
   it('should properly render prompt if terms not accepted', () => {
     const tree = SkinDeep.shallowRender(
-      <RequiredTermsAcceptanceView {...defaultProps}/>
+      <RequiredTermsAcceptanceView {...defaultProps} />,
     );
 
     expect(tree.subTree('AcceptTermsPrompt')).to.be.ok;

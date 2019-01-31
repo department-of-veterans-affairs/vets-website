@@ -6,15 +6,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import SignInLink from '../../components/SignInLink';
 
-
 let oldWindow;
 let oldFetch;
 const response = {
-  json: () => {
-    return {
-      authenticate_via_get: true // eslint-disable-line camelcase
-    };
-  }
+  json: () => ({
+    authenticate_via_get: true, // eslint-disable-line camelcase
+  }),
 };
 let fetchPromise;
 
@@ -23,16 +20,13 @@ const setup = () => {
   oldWindow = global.window;
   fetchPromise = Promise.resolve(response); // Reset it every time.
 
-  global.fetch = sinon.spy(() => {
-    return fetchPromise;
-  });
-  global.window = {
+  global.fetch = sinon.spy(() => fetchPromise);
+  global.window = Object.create(global.window);
+  Object.assign(global.window, {
     dataLayer: [],
-    open: sinon.spy(() => {
-      return { focus: sinon.stub() };
-    }),
+    open: sinon.spy(() => ({ focus: sinon.stub() })),
     addEventListener: () => {},
-  };
+  });
 };
 const teardown = () => {
   global.window = oldWindow;
@@ -48,10 +42,10 @@ describe('<SignInLink>', () => {
   it('should render', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
-        <SignInLink
-          isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}>Sign in</SignInLink>
-      </div>
+        <SignInLink isLoggedIn={false} toggleLoginModal={toggleLoginModal}>
+          Sign in
+        </SignInLink>
+      </div>,
     );
     const findDOM = findDOMNode(tree);
 
@@ -65,8 +59,11 @@ describe('<SignInLink>', () => {
         <SignInLink
           type="button"
           isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}>Sign in</SignInLink>
-      </div>
+          toggleLoginModal={toggleLoginModal}
+        >
+          Sign in
+        </SignInLink>
+      </div>,
     );
     const findDOM = findDOMNode(tree);
 
@@ -79,8 +76,11 @@ describe('<SignInLink>', () => {
         <SignInLink
           loginUrl="login/url"
           isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}>Sign in</SignInLink>
-      </div>
+          toggleLoginModal={toggleLoginModal}
+        >
+          Sign in
+        </SignInLink>
+      </div>,
     );
     const findDOM = findDOMNode(tree);
 
@@ -109,8 +109,11 @@ describe('<SignInLink>', () => {
           loginUrl="login/url"
           isLoggedIn={false}
           toggleLoginModal={toggleLoginModal}
-          onLogin={loginSpy}>Sign in</SignInLink>
-      </div>
+          onLogin={loginSpy}
+        >
+          Sign in
+        </SignInLink>
+      </div>,
     );
     const findDOM = findDOMNode(tree);
 

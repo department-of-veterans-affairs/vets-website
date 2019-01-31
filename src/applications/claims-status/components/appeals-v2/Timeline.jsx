@@ -23,37 +23,42 @@ class Timeline extends React.Component {
     return `${first} - ${last}`;
   };
 
-  toggleExpanded = (e) => {
+  toggleExpanded = e => {
     e.stopPropagation();
-    this.setState((prevState) => ({ expanded: !prevState.expanded }));
-  }
+    this.setState(prevState => ({ expanded: !prevState.expanded }));
+  };
 
   render() {
     const { events, missingEvents } = this.props;
     let pastEventsList = [];
     if (events.length) {
-      pastEventsList = events.map((event, index) => {
-        const content = getEventContent(event);
-        if (!content) {
-          return null;
-        }
+      pastEventsList = events
+        .map((event, index) => {
+          const content = getEventContent(event);
+          if (!content) {
+            return null;
+          }
 
-        const { title, description, liClass } = content;
-        const date = formatDate(event.date);
-        const hideSeparator = (index === events.length - 1);
-        return (
-          <PastEvent
-            key={`past-event-${index}`}
-            title={title}
-            date={date}
-            description={description}
-            liClass={liClass}
-            hideSeparator={hideSeparator}/>
-        );
-      }).filter(e => !!e); // Filter out the nulls
+          const { title, description, liClass } = content;
+          const date = formatDate(event.date);
+          const hideSeparator = index === events.length - 1;
+          return (
+            <PastEvent
+              key={`past-event-${index}`}
+              title={title}
+              date={date}
+              description={description}
+              liClass={liClass}
+              hideSeparator={hideSeparator}
+            />
+          );
+        })
+        .filter(e => !!e); // Filter out the nulls
     }
 
-    const downArrow = this.state.expanded ? <div className="down-arrow"/> : null;
+    const downArrow = this.state.expanded ? (
+      <div className="down-arrow" />
+    ) : null;
     const displayedEvents = this.state.expanded ? pastEventsList : [];
 
     return (
@@ -64,7 +69,8 @@ class Timeline extends React.Component {
             key="expander"
             dateRange={this.formatDateRange()}
             onToggle={this.toggleExpanded}
-            missingEvents={missingEvents}/>
+            missingEvents={missingEvents}
+          />
           {displayedEvents}
         </ol>
         {downArrow}
@@ -74,12 +80,14 @@ class Timeline extends React.Component {
 }
 
 Timeline.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    details: PropTypes.object
-  })).isRequired,
-  missingEvents: PropTypes.bool.isRequired
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      details: PropTypes.object,
+    }),
+  ).isRequired,
+  missingEvents: PropTypes.bool.isRequired,
 };
 
 export default Timeline;

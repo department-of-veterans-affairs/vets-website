@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Add new disabilities', () => {
-  const { schema, uiSchema } = formConfig.chapters.disabilities.pages.addDisabilities;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.disabilities.pages.addDisabilities;
 
   it('should render', () => {
     const form = mount(
@@ -15,25 +18,12 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-  });
-
-  it('should render autosuggest', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:newDisabilities': true
-        }}
-        formData={{}}/>
-    );
-
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should add another disability', () => {
@@ -44,18 +34,26 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:newDisabilities': true,
-          newDisabilities: [{
-            condition: 'Abnormal Heart'
-          }]
+          newDisabilities: [
+            {
+              condition: 'Abnormal Heart',
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('.va-growable-add-btn').simulate('click');
 
-    expect(form.find('.va-growable-background').first().text()).to.contain('Abnormal Heart');
+    expect(
+      form
+        .find('.va-growable-background')
+        .first()
+        .text(),
+    ).to.contain('Abnormal Heart');
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -66,17 +64,20 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:newDisabilities': true,
-          newDisabilities: [{
-            condition: 'Test'
-          }]
+          newDisabilities: [
+            {
+              condition: 'Test',
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
