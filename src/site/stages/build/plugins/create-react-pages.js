@@ -22,6 +22,7 @@ function createTemporaryReactPages(options) {
             title: appName,
             entryname: entryName,
             layout: 'page-react.html',
+            path: trimmedUrl,
             contents: new Buffer(`
             <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
               <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
