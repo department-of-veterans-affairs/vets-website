@@ -16,14 +16,13 @@ export const uiSchema = {
     items: {
       providerName: {
         'ui:title':
-          'Who is the provider of a program you’d like to attend? (For example: Amazon Web Services)',
+          'What’s the name of the provider of the program you’d like to attend?',
       },
       programName: {
-        'ui:title':
-          'What’s the name of the program? (For example, AWS Media Services',
+        'ui:title': 'What’s the name of the program?',
       },
       courseType: {
-        'ui:title': 'Is this an in-person or online course?',
+        'ui:title': 'Is the training in-person or online?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {

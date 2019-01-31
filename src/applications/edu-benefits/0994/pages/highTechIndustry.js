@@ -10,14 +10,13 @@ const {
 
 export const uiSchema = {
   'ui:description':
-    'To give us an idea of your experience in the high-tech market, please tell us about your work and training.',
+    'To give us an idea of your experience in the high-tech industry, please tell us about your work history',
   currentEmployment: {
     'ui:title': 'Are you working in a high-tech industry now?',
     'ui:widget': 'yesNo',
   },
   currentHighTechnologyEmployment: {
-    'ui:title':
-      'Have you worked in a high-tech industry in the past couple years?',
+    'ui:title': 'Have you worked in a high-tech industry in the past?',
     'ui:widget': 'yesNo',
     'ui:options': {
       expandUnder: 'currentEmployment',

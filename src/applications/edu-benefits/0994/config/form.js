@@ -55,9 +55,9 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
-    // Chapter - Benefits eligibility
-    benefitsEligibility: {
-      title: 'Benefits eligibility',
+    // Chapter - Application Information
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
         applicantInformation: {
           title: 'Applicant Information',
@@ -65,6 +65,12 @@ const formConfig = {
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
+      },
+    },
+    // Chapter - Benefits eligibility
+    benefitsEligibility: {
+      title: 'Benefits eligibility',
+      pages: {
         benefitsEligibility: {
           title: 'Benefits Eligibility',
           path: 'benefits-eligibility',
@@ -100,7 +106,7 @@ const formConfig = {
     },
     // Chapter - High tech work experience
     highTechWorkExp: {
-      title: 'High tech work experience',
+      title: 'Work Experience',
       pages: {
         // page - yes/no working in high-tech industry
         highTechIndustry: {
@@ -113,7 +119,7 @@ const formConfig = {
     },
     // Chapter - Program Selection
     programSelection: {
-      title: 'Program selection',
+      title: 'Program Selection',
       pages: {
         // page - picked like to attend training programs
         trainingProgramsChoice: {

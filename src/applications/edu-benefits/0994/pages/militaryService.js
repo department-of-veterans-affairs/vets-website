@@ -1,10 +1,16 @@
-import { serviceDescription, benefitNotice } from '../content/militaryService';
+import { activeDutyNotice, benefitNotice } from '../content/militaryService';
 
 export const uiSchema = {
-  'ui:description': serviceDescription,
   activeDuty: {
     'ui:title': 'Are you currently on active duty?',
     'ui:widget': 'yesNo',
+  },
+  'view:activeDutyNotice': {
+    'ui:description': activeDutyNotice,
+    'ui:options': {
+      expandUnder: 'activeDuty',
+      expandUnderCondition: true,
+    },
   },
   activeDutyDuringVetTec: {
     'ui:title':
@@ -27,6 +33,10 @@ export const schema = {
   properties: {
     activeDuty: {
       type: 'boolean',
+    },
+    'view:activeDutyNotice': {
+      type: 'object',
+      properties: {},
     },
     activeDutyDuringVetTec: {
       type: 'boolean',
