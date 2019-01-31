@@ -1,4 +1,7 @@
+import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import { serviceDescription, benefitNotice } from '../content/militaryService';
+
+const { activeDuty, activeDutyDuringVetTec } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description': serviceDescription,
@@ -25,12 +28,8 @@ export const schema = {
   type: 'object',
   required: ['activeDuty'],
   properties: {
-    activeDuty: {
-      type: 'boolean',
-    },
-    activeDutyDuringVetTec: {
-      type: 'boolean',
-    },
+    activeDuty,
+    activeDutyDuringVetTec,
     'view:benefitNotice': {
       type: 'object',
       properties: {},
