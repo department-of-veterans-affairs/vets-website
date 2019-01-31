@@ -4,11 +4,6 @@ const transformedMinimalDataActual = {
     first: 'testy',
     last: 'mcTestFace',
   },
-  bankAccount: {
-    accountType: 'checking',
-    routingNumber: '021000021',
-    accountNumber: '1',
-  },
   appliedForVAEducationBenefits: false,
   activeDuty: true,
   dayTimePhone: '4445551212',
