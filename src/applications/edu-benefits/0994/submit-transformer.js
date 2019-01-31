@@ -6,8 +6,8 @@ export function transform(formConfig, form) {
     JSON.parse(transformForSubmit(formConfig, form));
 
   const addPhoneAndEmail = formData => {
-    const clonedData = _.cloneDeep(formData);
     if (form.data['view:phoneAndEmail']) {
+      const clonedData = _.cloneDeep(formData);
       const { dayTimePhone, nightTimePhone, emailAddress } = form.data[
         'view:phoneAndEmail'
       ];
@@ -19,21 +19,19 @@ export function transform(formConfig, form) {
         emailAddress,
       };
     }
-    return clonedData;
+    return formData;
   };
 
   const transformHighTechnologyEmploymentType = formData => {
-    const clonedData = _.cloneDeep(formData);
     if (form.data['view:salaryEmploymentTypes']) {
+      const clonedData = _.cloneDeep(formData);
       const { currentSalary, highTechnologyEmploymentType } = form.data[
         'view:salaryEmploymentTypes'
       ];
 
       const highTechnologyEmploymentTypes = Object.keys(
         highTechnologyEmploymentType,
-      )
-        .filter(key => highTechnologyEmploymentType[key])
-        .map(key => key);
+      ).filter(key => highTechnologyEmploymentType[key]);
 
       delete clonedData.highTechnologyEmploymentType;
 
@@ -43,7 +41,7 @@ export function transform(formConfig, form) {
         highTechnologyEmploymentTypes,
       };
     }
-    return clonedData;
+    return formData;
   };
 
   const tranformedData = [
