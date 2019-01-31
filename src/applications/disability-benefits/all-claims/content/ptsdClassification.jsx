@@ -54,7 +54,7 @@ export const getPtsdClassification = (formData, formType) => {
       break;
 
     case isMst && !is781:
-      incidentTitle = 'Sexual trauma';
+      incidentTitle = 'sexual trauma';
       incidentText = 'sexual trauma';
       break;
 
