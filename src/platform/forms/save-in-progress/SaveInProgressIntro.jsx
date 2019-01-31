@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -187,11 +188,7 @@ class SaveInProgressIntro extends React.Component {
   }
 
   getStartPage = () => {
-    const {
-      pageList,
-      pathname,
-      saveInProgress: { formData },
-    } = this.props;
+    const { pageList, pathname, formData } = this.props;
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
@@ -290,13 +287,9 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
-  saveInProgress: PropTypes.object.isRequired,
-  fetchInProgressForm: PropTypes.func.isRequired,
-  removeInProgressForm: PropTypes.func.isRequired,
   retentionPeriod: PropTypes.string,
   startText: PropTypes.string,
   pathname: PropTypes.string,
-  toggleLoginModal: PropTypes.func.isRequired,
   renderSignInMessage: PropTypes.func,
   verifyRequiredPrefill: PropTypes.bool,
   verifiedPrefillAlert: PropTypes.element,
@@ -313,16 +306,21 @@ export const introSelector = getIntroState;
 
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state),
+    ...introSelector(state),
   };
 }
 
-export default connect(mapStateToProps)(SaveInProgressIntro);
-
-export { SaveInProgressIntro };
-
-export const introActions = {
+const mapDispatchToProps = {
   fetchInProgressForm,
   removeInProgressForm,
   toggleLoginModal,
 };
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SaveInProgressIntro),
+);
+
+export { SaveInProgressIntro };
