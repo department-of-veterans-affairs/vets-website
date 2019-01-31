@@ -176,7 +176,7 @@ export const transformedMaximalData = {
         },
         title10Activation: {
           title10ActivationDate: '1902-01-01',
-          anticipatedSeparationDate: '2019-01-01',
+          anticipatedSeparationDate: '2119-01-01',
         },
         unitName: 'RNG Unit 1',
         unitAddress: {
