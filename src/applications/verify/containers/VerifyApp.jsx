@@ -35,11 +35,15 @@ export class VerifyApp extends React.Component {
   }
 
   render() {
-    if (this.props.profile.loading) {
+    const profile = this.props.profile;
+
+    if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
 
-    const signinMethod = {
+    const signInMethod = (profile.signIn || {}).serviceName;
+
+    const signinMethodLabel = {
       dslogon: 'DS Logon',
       myhealthevet: 'My HealtheVet',
     };
@@ -52,8 +56,8 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${signinMethod[
-                    this.props.profile.authnContext
+                  content={`You signed in with ${signinMethodLabel[
+                    signInMethod
                   ] || 'ID.me'}`}
                   isVisible
                   status="success"
