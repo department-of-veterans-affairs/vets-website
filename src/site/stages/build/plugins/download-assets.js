@@ -67,7 +67,7 @@ async function downloadFromLiveBucket(files, buildOptions) {
 async function downloadFromArchive(files, assetSource, buildtype) {
   const archiveUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/${assetSource}/${buildtype}.tar.bz2`;
 
-  const localPath = path.join(__dirname, '../../../../../temp/assets.tar.bz2');
+  const localPath = path.join(__dirname, '../../../../../temp/site.tar.bz2');
   const assetsPath = path.dirname(localPath);
 
   fs.emptyDirSync(assetsPath);
@@ -86,7 +86,7 @@ function downloadAssets(buildOptions) {
   return async (files, smith, done) => {
     const assetSource = buildOptions['asset-source'];
 
-    if (assetSource === 'bucket') {
+    if (assetSource === 'deployed') {
       await downloadFromLiveBucket(files, buildOptions);
     } else {
       await downloadFromArchive(files, assetSource, buildOptions.buildtype);
