@@ -247,12 +247,18 @@
       },
       {
         "cause": "WORSENED",
-        "primaryDescription": "A thing happened.",
+        "view:worsenedFollowUp": {
+          "worsenedDescription": "A thing happened.",
+          "worsenedEffects": "Bad stuff"
+        },
         "condition": "Some fourth condition"
       },
       {
         "cause": "SECONDARY",
-        "primaryDescription": "A thing happened.",
+        "view:secondaryFollowUp": {
+          "causedByDisability": "PTSD (Post Traumatic Stress Disorder)",
+          "causedByDisabilityDescription": "A thing happened."
+        },
         "condition": "Some other condition"
       }
     ],

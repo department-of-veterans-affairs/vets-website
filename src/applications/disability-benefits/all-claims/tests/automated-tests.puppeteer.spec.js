@@ -4,29 +4,6 @@ const PageHelpers = require('./disability-benefits-helpers');
 // TODO: Replace this with all the test data sets
 const testData = require('./schema/maximal-test.json');
 
-// TODO: Remove this in favor of pulling in the formConfig to generate arrayPages
-// This currently isn't working because it gets angry with __BUILDTYPE__ in
-// platform/utiities/environment/index.js
-const PTSD_MATCHES = [
-  'ptsd',
-  'post traumatic stress disorder',
-  'post-traumatic stress disorder',
-  'post traumatic stress',
-  'post-traumatic stress',
-];
-const isDisabilityPtsd = disability => {
-  if (!disability || typeof disability !== 'string') {
-    return false;
-  }
-
-  const loweredDisability = disability.toLowerCase();
-  return PTSD_MATCHES.some(
-    ptsdString =>
-      ptsdString.includes(loweredDisability) ||
-      loweredDisability.includes(ptsdString),
-  );
-};
-
 const testConfig = {
   debug: true,
   setup: userToken => {
@@ -56,7 +33,6 @@ const testConfig = {
     {
       path: 'new-disabilities/follow-up/:index',
       arrayPath: 'newDisabilities',
-      itemFilter: item => !isDisabilityPtsd(item.condition),
     },
   ],
 };
