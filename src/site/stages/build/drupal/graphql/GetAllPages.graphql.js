@@ -11,7 +11,6 @@ const LANDING_PAGE = '... landingPage';
 const BASIC_PAGE = '... page';
 const SIDE_NAV = '... sideNav';
 
-
 module.exports = `
 
   ${landingPage}
