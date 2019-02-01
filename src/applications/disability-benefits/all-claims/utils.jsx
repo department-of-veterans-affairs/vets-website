@@ -184,8 +184,12 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
-export const addCheckboxPerDisability = (form, pageSchema) => {
-  const { ratedDisabilities, newDisabilities } = form;
+/**
+ * An updateSchema callback that adds boolean properties to the schema.
+ * The property names are lowercased, while the title is title cased.
+ */
+export const addCheckboxPerDisability = (formData, pageSchema) => {
+  const { ratedDisabilities, newDisabilities } = formData;
   // This shouldn't happen, but could happen if someone directly
   // opens the right page in the form with no SiP
   if (!ratedDisabilities && !newDisabilities) {
@@ -199,7 +203,6 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     ? newDisabilities
     : [];
 
-  // TODO: We might be able to clean this up once we know how EVSS
   // We expect to get an array with conditions in it or no property
   // at all.
   const disabilitiesViews = selectedRatedDisabilities

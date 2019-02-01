@@ -45,7 +45,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Apply for Vet Tec Benefits',
+  title: 'Apply for VET TEC Benefits',
   subTitle: 'Form 22-0994',
   preSubmitInfo,
   footerContent: FormFooter,
@@ -57,7 +57,7 @@ const formConfig = {
   chapters: {
     // Chapter - Application Information
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Benefits eligibility',
       pages: {
         applicantInformation: {
           title: 'Applicant Information',

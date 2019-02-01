@@ -4,11 +4,17 @@ import dateUI from 'us-forms-system/lib/js/definitions/date';
 import { trainingDescription } from '../content/trainingProgramsInformation';
 import VetTecProgramView from '../components/VetTecProgramView';
 
-const { plannedStartDate, vetTecProgramLocations } = fullSchema.properties;
+const {
+  providerName,
+  programName,
+  courseType,
+  location,
+  plannedStartDate,
+} = fullSchema.properties.vetTecPrograms.items.properties;
 
 export const uiSchema = {
   'ui:description': trainingDescription,
-  vetTecProgram: {
+  vetTecPrograms: {
     'ui:options': {
       itemName: 'Program',
       viewField: VetTecProgramView,
@@ -32,15 +38,15 @@ export const uiSchema = {
           },
         },
       },
-      vetTecProgramLocations: {
+      location: {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
           expandUnder: 'courseType',
           hideIf: (formData, index) =>
             !(
-              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
                 'inPerson' ||
-              _.get(formData, `vetTecProgram[${index}].courseType`, '') ===
+              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
                 'both'
             ),
         },
@@ -59,24 +65,17 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    vetTecProgram: {
+    vetTecPrograms: {
       type: 'array',
       maxItems: 3,
       items: {
         type: 'object',
         properties: {
-          providerName: {
-            type: 'string',
-          },
-          programName: {
-            type: 'string',
-          },
-          courseType: {
-            type: 'string',
-            enum: ['inPerson', 'online', 'both'],
-          },
-          vetTecProgramLocations: {
-            ...vetTecProgramLocations,
+          providerName,
+          programName,
+          courseType,
+          location: {
+            ...location,
             'ui:collapsed': true,
           },
           plannedStartDate,

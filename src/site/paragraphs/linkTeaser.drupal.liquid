@@ -1,0 +1,25 @@
+{% comment %}
+    Example data:
+    {
+        fieldLink: {
+            options: null,
+            title: "Content Page",
+            uri: "http://dev.va.agile6.com/admin/content",
+            url: {
+                path: "http://dev.va.agile6.com/admin/content"
+            }
+        },
+        fieldLinkSummary: "This is some plain text to describe the link."
+    }
+{% endcomment %}
+<li>
+    <a href="{{linkTeaser.fieldLink.uri}}" {% if linkTeaser.options["target"] %} target="{{ linkTeaser.options["target"] }}" {% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+        {% if linkTeaser.fieldLink.title != empty %}
+            <h4 class="va-nav-linkslist-title">{{ linkTeaser.fieldLink.title }}</h4>
+        {% endif %}
+
+        {% if linkTeaser.fieldLinkSummary != empty %}
+            <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
+        {% endif %}
+    </a>
+</li>

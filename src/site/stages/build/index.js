@@ -27,6 +27,7 @@ const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
 const createMegaMenu = require('./plugins/create-megamenu');
+const createTemporaryReactPages = require('./plugins/create-react-pages');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -52,6 +53,7 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
+
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -110,6 +112,8 @@ function defaultBuild(BUILD_OPTIONS) {
       ],
     }),
   );
+
+  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
   smith.use(
     navigation({
