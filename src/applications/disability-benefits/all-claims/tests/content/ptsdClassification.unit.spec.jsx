@@ -82,7 +82,7 @@ describe('781a getPtsdClassification', () => {
       'sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Sexual trauma',
+      'sexual trauma',
     );
   });
 
