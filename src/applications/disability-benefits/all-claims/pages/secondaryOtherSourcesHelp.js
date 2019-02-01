@@ -18,11 +18,11 @@ export const uiSchema = index => ({
     otherSourcesHelp: {
       'view:helpPrivateMedicalTreatment': {
         'ui:title':
-          'I’d like your help getting my private medical treatment or counseling records.',
+          'I’d like help getting my private medical treatment or counseling records.',
       },
       'view:helpRequestingStatements': {
         'ui:title':
-          'I’d like your help requesting statements I made to military or civilian authorities.',
+          'I’d like help requesting statements I made to military or civilian authorities.',
       },
     },
   },
