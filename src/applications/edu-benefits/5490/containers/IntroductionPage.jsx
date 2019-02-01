@@ -1,14 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -27,8 +22,6 @@ export class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
@@ -114,8 +107,6 @@ export class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018" />
@@ -125,19 +116,4 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
