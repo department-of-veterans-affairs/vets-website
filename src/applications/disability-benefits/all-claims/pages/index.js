@@ -45,6 +45,7 @@ import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
 import * as privateMedicalRecords from './privateMedicalRecords';
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
+import * as ptsd781aChangesIntro from './ptsd781aChangesIntro';
 import * as ptsdAdditionalEvents from './ptsdAdditionalEvents';
 import * as ptsdSecondaryAdditionalEvents from './ptsdSecondaryAdditionalEvents';
 import * as ptsdWalkthroughChoice781 from './ptsdWalkthroughChoice781';
@@ -138,6 +139,7 @@ export {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsRelease,
+  ptsd781aChangesIntro,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
   ptsdWalkthroughChoice781,

@@ -48,7 +48,6 @@ import {
   ancillaryFormsWizardSummary,
   choosePtsdType,
   claimExamsInfo,
-  conclusionAssault,
   contactInformation,
   evidenceTypes,
   federalOrders,
@@ -66,6 +65,7 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsRelease,
+  ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
   ptsdWalkthroughChoice781a,
   ratedDisabilities,
@@ -353,6 +353,13 @@ const formConfig = {
           depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
+        },
+        ptsd781ChangesIntro: {
+          title: 'Additional changes in behavior - physical',
+          path: 'new-disabilities/ptsd-781a-physical-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: ptsd781aChangesIntro.uiSchema,
+          schema: ptsd781aChangesIntro.schema,
         },
         // 781a - 12. BEHAVIOR CHANGES: PHYSICAL
         physicalHealthChanges: {
