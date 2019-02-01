@@ -10,7 +10,7 @@ import {
   bankInfoHelpText,
 } from '../content/bankInformation';
 
-const { bankAccount } = fullSchema.definitions;
+const { bankAccount } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': bankInfoTitle,
