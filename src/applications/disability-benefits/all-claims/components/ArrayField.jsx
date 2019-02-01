@@ -263,16 +263,10 @@ export default class ArrayField extends React.Component {
             );
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows = !isLast || items.length > 1;
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
-                <div
-                  key={index}
-                  className={
-                    notLastOrMultipleRows ? 'va-growable-background' : null
-                  }
-                >
+                <div key={index} className="va-growable-background">
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
@@ -299,38 +293,36 @@ export default class ArrayField extends React.Component {
                           readonly={readonly}
                         />
                       </div>
-                      {notLastOrMultipleRows && (
-                        <div className="row small-collapse">
-                          <div className="small-6 left columns">
-                            {!isLast && (
-                              <button
-                                className="float-left"
-                                onClick={() => this.handleUpdate(index)}
-                              >
-                                Update
-                              </button>
-                            )}
-                            {isLast && (
-                              <button
-                                className="float-left"
-                                disabled={!this.props.formData}
-                                onClick={this.handleAdd}
-                              >
-                                Save
-                              </button>
-                            )}
-                          </div>
-                          <div className="small-6 right columns">
+                      <div className="row small-collapse">
+                        <div className="small-6 left columns">
+                          {!isLast && (
                             <button
-                              className="usa-button-secondary float-right"
-                              type="button"
-                              onClick={() => this.handleRemove(index)}
+                              className="float-left"
+                              onClick={() => this.handleUpdate(index)}
                             >
-                              Remove
+                              Update
                             </button>
-                          </div>
+                          )}
+                          {isLast && (
+                            <button
+                              className="float-left"
+                              disabled={!this.props.formData}
+                              onClick={this.handleAdd}
+                            >
+                              Save
+                            </button>
+                          )}
                         </div>
-                      )}
+                        <div className="small-6 right columns">
+                          <button
+                            className="usa-button-secondary float-right"
+                            type="button"
+                            onClick={() => this.handleRemove(index)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
