@@ -1,17 +1,18 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
-const FIELD_SELECTOR = 'input, select';
+const FIELD_SELECTOR = 'input, select, textarea';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 
 /**
  * Finds the data in testData for a single field.
+ * If arrayPath is passed, `root_` is instead the path to the array
  */
-const findData = (fieldSelector, testData) => {
+const findData = (fieldSelector, testData, arrayPath, arrayIndex) => {
   const dataPath = fieldSelector
-    .replace(/^root_/, '')
+    .replace(/^root_/, arrayPath ? `${arrayPath}[${arrayIndex}]_` : '')
     .replace(/_/g, '.')
     .replace(/\.(\d+)\./g, (match, number) => `[${number}]`);
   const result = _.get(dataPath, testData);
@@ -25,8 +26,8 @@ const getElementSelector = (field, fieldData) => {
     checkbox: `input[id="${field.selector}"]${
       fieldData ? ':not(checked)' : ':checked'
     }`,
+    textarea: `textarea[id="${field.selector}"]`,
     tel: inputSelector,
-    textarea: inputSelector,
     text: inputSelector,
     email: inputSelector,
     number: inputSelector,
@@ -144,8 +145,11 @@ const enterData = async (page, field, fieldData, log) => {
  *  more data.
  * @param {Page} page - The page from puppeteer.
  * @param {Object} testData - The test data.
+ * @param {String} arrayPath - The arrayPath for array pages. This is only applicable
+ *                             on array pages, so it will usually be undefined.
+ * @param {String} arrayIndex - The index in the url for the array page, if applicable.
  */
-const addNewArrayItem = async (page, testData) => {
+const addNewArrayItem = async (page, testData, arrayPath, arrayIndex) => {
   const arrayPaths = await page.$$eval('div[name^="topOfTable_root_"]', divs =>
     divs.map(d => d.getAttribute('name').replace('topOfTable_', '')),
   );
@@ -158,7 +162,7 @@ const addNewArrayItem = async (page, testData) => {
         div => parseInt(div.getAttribute('name').match(/\d+$/g), 10),
       );
       // Check the testData to see if it has more data
-      const arrayData = findData(path, testData);
+      const arrayData = findData(path, testData, arrayPath, arrayIndex);
       if (arrayData.length - 1 > lastIndex) {
         // If so, poke the appropriate add button
         await page.click(
@@ -200,14 +204,33 @@ const snapshotsAreEqual = (original, newSnapshot) =>
   Object.keys(original).every(key => original[key] === newSnapshot[key]);
 
 /**
+ * Returns the arrayPath and index for the current URL
+ */
+const getArrayInfo = (url, arrayPages = []) => {
+  const arrayPathObject = arrayPages.find(arrayPage =>
+    url.replace(/\d+$/, '').endsWith(arrayPage.path.replace(':index', '')),
+  );
+  return arrayPathObject
+    ? {
+        arrayPath: arrayPathObject.arrayPath,
+        arrayIndex: url.match(/\d+/g).pop(), // Naively assumes the last number in the url is the index
+      }
+    : {};
+};
+
+/**
  * Returns a function that enters data for each field. When called subsequent times,
  *  it will only enter data into new fields (in the event that some fields have been
  *  expanded);
  */
 const fillPage = async (page, testData, testConfig, log = () => {}) => {
   // TODO: Make make log use getLogger
-  // TODO: Remove testConfig from params
   const touchedFields = new Set();
+  const { arrayPath, arrayIndex } = getArrayInfo(
+    page.url(),
+    testConfig.arrayPages,
+  );
+  if (arrayPath) log('Found arrayPath', arrayPath);
 
   // Continue to fill out the fields until there are new fields shown
   let originalSnapshot;
@@ -258,13 +281,18 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
 
     for (const field of fields) {
       touchedFields.add(field.selector);
-      await enterData(page, field, findData(field.selector, testData), log);
+      await enterData(
+        page,
+        field,
+        findData(field.selector, testData, arrayPath, arrayIndex),
+        log,
+      );
     }
 
     // If we have newly-expanded fields, they may be array fields.
     // Add a new array item as needed only after we have no more expanded fields.
     if (snapshotsAreEqual(originalSnapshot, await getSnapshot(page))) {
-      await addNewArrayItem(page, testData);
+      await addNewArrayItem(page, testData, arrayPath);
     }
   } while (!snapshotsAreEqual(originalSnapshot, await getSnapshot(page)));
   /* eslint-enable no-await-in-loop */
