@@ -1,14 +1,12 @@
 {% comment %}
   Example data:
-  {
-    block: {
-      entity: {
-        entityBundle: "wysiwyg"
-        entityRendered: "  <div class="paragraph paragraph--type--wysiwyg paragraph--view-mode--full">...</div>"
-        entityType: "paragraph"
+  entity: {
+      fieldWysiwyg: {
+          entityBundle: "wysiwyg",
+          entityType: "paragraph",
+          processed: 'Test'
       }
-    }
   }
 {% endcomment %}
 
-{{ block.entity.entityRendered }}
+{{ entity.fieldWysiwyg.processed }}
