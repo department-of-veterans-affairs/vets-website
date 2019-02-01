@@ -7,6 +7,7 @@ const {
 const process = require('./paragraph-fragments/process.paragraph.graphql');
 const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
 const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
+const sidebarItem = require('./nav-fragments/sidebarItem.nav.graphql');
 
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
@@ -17,6 +18,7 @@ const WYSIWYG = '...wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
 const PROCESS = '... process';
 const QA_SECTION = '... qaSection';
+const SIDEBAR_ITEM = '... sidebarItem';
 
 module.exports = `
 
@@ -26,6 +28,7 @@ module.exports = `
   ${qaSection}
   ${alert}
   ${listOfLinkTeasers}
+  ${sidebarItem}
   
   fragment page on NodePage {
     entityUrl {
@@ -57,6 +60,7 @@ module.exports = `
     }
     ${FIELD_ALERT} 
     ${FIELD_RELATED_LINKS}
+    ${SIDEBAR_ITEM}
     fieldPageLastBuilt {
       date
     }    

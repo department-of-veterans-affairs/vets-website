@@ -1,0 +1,19 @@
+{% comment %}
+    Example data:
+    {
+    "entityBundle": "sidebar_navigation",
+    "tid": 8,
+    "name": "About VA Health Benefits",
+    "fieldIcon": null,
+    "fieldNavItemLink": {
+    "uri": "entity:node/29",
+    "url": {
+    "path": "/about-va-health-benefits"
+    }
+    }
+    }
+{% endcomment %}
+
+<a href="{{ fieldNavItemLink.url.path }}" class="usa-current">
+    {{ name }}
+</a>

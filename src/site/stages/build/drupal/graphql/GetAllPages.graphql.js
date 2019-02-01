@@ -1,22 +1,34 @@
-const landingPage = require('./landingPage.graphql');
-const page = require('./page.graphql');
-
 /**
  * Queries for all of the pages out of Drupal
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
-module.exports = `
 
+const landingPage = require('./landingPage.graphql');
+const page = require('./page.graphql');
+const sideNav = require('./nav-fragments/sidebarAll.nav.graphql');
+
+const LANDING_PAGE = '... landingPage';
+const BASIC_PAGE = '... page';
+const SIDE_NAV = '... sideNav';
+
+module.exports = `
   ${landingPage}
   ${page}
-
+  ${sideNav}
+  
   query GetAllPages {
-    nodeQuery(limit: 50) {
+    nodeQuery(limit: 100) {
       entities {
-        ... landingPage
-        ... page
+        ${LANDING_PAGE}
+        ${BASIC_PAGE}
       }
     }
+    taxonomyTermQuery {
+      entities {
+        ... on TaxonomyTermSidebarNavigation {
+            ${SIDE_NAV}
+        }
+      } 
+    }
   }
-
 `;
