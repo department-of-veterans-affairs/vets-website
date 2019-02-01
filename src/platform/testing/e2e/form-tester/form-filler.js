@@ -195,9 +195,10 @@ const getSnapshot = async page => ({
  * Performs a shallow comparison of two snapshots.
  * @param {Snapshot} original - The original snapshot before data was entered
  * @param {Snapshot} newSnapshot - The new snapshot after data was entered
+ * @returns {Boolean} True if the snapshots don't match
  */
-const snapshotsAreEqual = (original, newSnapshot) =>
-  Object.keys(original).every(key => original[key] === newSnapshot[key]);
+const fieldsNeedInput = (original, newSnapshot) =>
+  !Object.keys(original).every(key => original[key] === newSnapshot[key]);
 
 /**
  * Returns a function that enters data for each field. When called subsequent times,
@@ -263,10 +264,10 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
 
     // If we have newly-expanded fields, they may be array fields.
     // Add a new array item as needed only after we have no more expanded fields.
-    if (snapshotsAreEqual(originalSnapshot, await getSnapshot(page))) {
+    if (!fieldsNeedInput(originalSnapshot, await getSnapshot(page))) {
       await addNewArrayItem(page, testData);
     }
-  } while (!snapshotsAreEqual(originalSnapshot, await getSnapshot(page)));
+  } while (fieldsNeedInput(originalSnapshot, await getSnapshot(page)));
   /* eslint-enable no-await-in-loop */
 };
 
