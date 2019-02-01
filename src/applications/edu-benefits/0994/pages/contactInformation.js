@@ -25,6 +25,8 @@ const mailingAddressStartInEdit = formData => {
   return true;
 };
 
+const addressUiSchema = addressUISchema();
+
 export const uiSchema = {
   'ui:title': 'Contact Information',
   'ui:description': contactInfoDescription,
@@ -64,9 +66,10 @@ export const uiSchema = {
     },
   },
   mailingAddress: {
-    ...addressUISchema(),
+    ...addressUiSchema,
     'ui:field': ReviewCardField,
     'ui:options': {
+      ...addressUiSchema['ui:options'],
       viewComponent: AddressViewField,
       startInEdit: mailingAddressStartInEdit,
     },
