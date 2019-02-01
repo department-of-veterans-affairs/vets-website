@@ -1,5 +1,6 @@
 import React from 'react';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
+import environment from '../../../../platform/utilities/environment';
 
 const houseAssistanceContent = (
   <CollapsiblePanel panelName="Adapted housing assistance">
@@ -57,9 +58,10 @@ const carAssistanceContent = (
 const aidAndAttendanceContent = (
   <CollapsiblePanel panelName="Aid and Attendance">
     <p>
-      To apply for Aid and Attendance benefits, you’ll need to turn in an
+      To apply for Aid and Attendance benefits, your doctor needs to fill out an
       Examination for Housebound Status or Permanent Need for Regular Aid and
-      Attendance (VA Form 21-2680), which your doctor needs to fill out.
+      Attendance (VA Form 21-2680). You can submit this form once it's
+      completed.
     </p>
     <div>
       <a
@@ -113,9 +115,10 @@ const individualUnemployabilityContent = (
 );
 
 export default function summaryDescription({ formData }) {
-  const showUnemployableContent =
-    formData['view:unemployable'] &&
-    !formData['view:unemployabilityUploadChoice'];
+  const showUnemployableContent = environment.isProduction()
+    ? formData['view:unemployable']
+    : false;
+
   return (
     <div>
       <p>
