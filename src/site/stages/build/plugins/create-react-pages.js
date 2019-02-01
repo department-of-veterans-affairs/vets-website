@@ -3,7 +3,7 @@ const path = require('path');
 const manifestHelpers = require('../webpack/manifest-helpers');
 const BUILD_TYPE = require('../../../constants/environments');
 
-const prodEnvironments = new Set([BUILD_TYPE.vagovprod]);
+const prodEnvironments = new Set([BUILD_TYPE.VAGOVPROD]);
 
 function createTemporaryReactPages(options) {
   return (files, metalsmith, done) => {
