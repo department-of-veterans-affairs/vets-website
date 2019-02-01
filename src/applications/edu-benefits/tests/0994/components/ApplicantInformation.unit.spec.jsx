@@ -21,7 +21,7 @@ describe('<ApplicantInformation>', () => {
 
     const text = component.text();
     expect(text).to.contain(
-      'This is your personal information we have on file.',
+      'This is the personal information we have on file for you.',
     );
     expect(text).to.contain('Jane Q Doe');
     expect(text).to.contain('Female');
