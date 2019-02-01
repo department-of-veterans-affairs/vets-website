@@ -3,7 +3,7 @@
  *
  */
 module.exports = `
-  fragment process on ParagraphProcess {      
+  fragment process on ParagraphProcess {
       fieldSteps {
         processed
       }
