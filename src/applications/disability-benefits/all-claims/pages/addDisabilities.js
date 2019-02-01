@@ -12,8 +12,8 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 export const uiSchema = {
   'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
-    'ui:field': ArrayField,
     'ui:title': 'New condition',
+    'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',

@@ -250,7 +250,7 @@ export default class ArrayField extends React.Component {
           </div>
         )}
 
-        <div className="usfs-growable">
+        <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
@@ -270,12 +270,12 @@ export default class ArrayField extends React.Component {
                 <div
                   key={index}
                   className={
-                    notLastOrMultipleRows ? 'usfs-growable-background' : null
+                    notLastOrMultipleRows ? 'va-growable-background' : null
                   }
                 >
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
-                    <div className="small-12 columns usfs-growable-expanded">
+                    <div className="small-12 columns va-growable-expanded">
                       {isLast &&
                       items.length > 1 &&
                       uiSchema['ui:options'].itemName ? (
@@ -310,6 +310,14 @@ export default class ArrayField extends React.Component {
                                 Update
                               </button>
                             )}
+                            {isLast && (
+                              <button
+                                className="float-left"
+                                onClick={this.handleAdd}
+                              >
+                                Save
+                              </button>
+                            )}
                           </div>
                           <div className="small-6 right columns">
                             <button
@@ -328,7 +336,7 @@ export default class ArrayField extends React.Component {
               );
             }
             return (
-              <div key={index} className="usfs-growable-background">
+              <div key={index} className="va-growable-background">
                 <div className="row small-collapse">
                   <div className="small-9 columns">
                     <ViewField
@@ -352,7 +360,7 @@ export default class ArrayField extends React.Component {
             type="button"
             className={classNames(
               'usa-button-secondary',
-              'usfs-growable-add-btn',
+              'va-growable-add-btn',
               {
                 'usa-button-disabled': !this.props.formData,
               },
