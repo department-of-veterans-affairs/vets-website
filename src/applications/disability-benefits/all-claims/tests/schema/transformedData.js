@@ -98,8 +98,8 @@ export const transformedMaximalData = {
           state: 'AL',
         },
         treatedDisabilityNames: [
-          'first condition',
-          'ptsd (post traumatic stress disorder)',
+          'First Condition',
+          'PTSD (post traumatic stress disorder)',
         ],
       },
     ],
@@ -358,7 +358,7 @@ export const transformedMaximalData = {
     },
     form8940: {
       unemployability: {
-        disabilityPreventingEmployment: 'first condition',
+        disabilityPreventingEmployment: 'First Condition',
         underDoctorHopitalCarePast12M: true,
         doctorProvidedCare: [
           {

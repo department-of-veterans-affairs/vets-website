@@ -1,5 +1,13 @@
 const ENVIRONMENTS = require('./environments');
 
+const DRUPAL_DEV = {
+  address: 'http://dev.va.agile6.com',
+  credentials: {
+    username: 'api',
+    password: 'drupal8',
+  },
+};
+
 const DRUPAL_STAGING = {
   address: 'http://staging.va.agile6.com',
   credentials: {
@@ -8,7 +16,7 @@ const DRUPAL_STAGING = {
   },
 };
 
-const DRUPAL_PROD = {
+const DRUPAL_LIVE = {
   address: 'http://vagovcms.lndo.site',
   credentials: {},
 };
@@ -20,10 +28,10 @@ const DRUPAL_PROD = {
  * @module site/constants/drupals
  */
 const DRUPALS = {
-  [ENVIRONMENTS.LOCALHOST]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVDEV]: DRUPAL_STAGING,
+  [ENVIRONMENTS.LOCALHOST]: DRUPAL_DEV,
+  [ENVIRONMENTS.VAGOVDEV]: DRUPAL_DEV,
   [ENVIRONMENTS.VAGOVSTAGING]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVPROD]: DRUPAL_PROD,
+  [ENVIRONMENTS.VAGOVPROD]: DRUPAL_LIVE,
 };
 
 module.exports = DRUPALS;
