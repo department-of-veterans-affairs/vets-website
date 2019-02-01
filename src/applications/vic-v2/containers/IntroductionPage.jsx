@@ -1,15 +1,12 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
+import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { focusElement } from '../../../platform/utilities/ui';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
@@ -22,10 +19,9 @@ class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { savedForms } = this.props.saveInProgress.user.profile;
-    const { formId } = this.props.saveInProgress;
-    const notPreviouslyLoggedIn = !prevProps.saveInProgress.user.login
-      .currentlyLoggedIn;
+    const { savedForms } = this.props.user.profile;
+    const { formId } = this.props.form;
+    const notPreviouslyLoggedIn = !prevProps.user.login.currentlyLoggedIn;
     if (notPreviouslyLoggedIn && hasSavedForm(savedForms, formId)) {
       focusElement('[id="2-continueButton"]', { preventScroll: true });
       scroll.scrollToTop(
@@ -43,7 +39,7 @@ class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { user } = this.props.saveInProgress;
+    const { user } = this.props;
     const idProofed =
       user.profile.services &&
       user.profile.services.some(
@@ -88,8 +84,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
           resumeOnly
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         >
           Please complete the Veteran ID Card form to apply for a card.
         </SaveInProgressIntro>
@@ -326,9 +320,7 @@ class IntroductionPage extends React.Component {
               </strong>
               <button
                 className="usa-button usa-button-primary"
-                onClick={() =>
-                  this.props.saveInProgressActions.toggleLoginModal(true)
-                }
+                onClick={() => this.props.toggleLoginModal(true)}
               >
                 Sign In or Create an Account
               </button>
@@ -342,8 +334,6 @@ class IntroductionPage extends React.Component {
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Veteran ID Card Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         {(!signedIn || !idProofed) && (
           <p>
@@ -360,16 +350,13 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
+  const { form, user } = state;
+  return { form, user };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
+const mapDispatchToProps = {
+  toggleLoginModal,
+};
 
 export default connect(
   mapStateToProps,
