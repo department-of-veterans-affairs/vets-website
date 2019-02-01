@@ -6,9 +6,20 @@ export function prefillTransformer(pages, formData, metadata) {
 
   // const newFormData = _.set('view:isVerified', !!verified, formData);
 
+  const phoneAndEmail = {
+    dayTimePhone: formData.dayTimePhone,
+    nightTimePhone: formData.nightTimePhone,
+    emailAddress: formData.emailAddress,
+  };
+
+  const newFormData = {
+    ...formData,
+    'view:phoneAndEmail': phoneAndEmail,
+  };
+
   return {
     metadata,
-    formData,
+    formData: newFormData,
     pages,
   };
 }
