@@ -64,7 +64,7 @@ export const uiSchema = {
         {},
         dateRangeUI(
           'When did you first visit this facility?',
-          'When was your most recent visit?',
+          'When was your most recent visit? (Optional)',
           'Date of last treatment must be after date of first treatment',
         ),
         {
