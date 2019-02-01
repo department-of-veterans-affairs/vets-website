@@ -7,7 +7,7 @@ const additionalDescriptionChanges = (
     <h5>Changes in Behavior or Activities: Additional Information</h5>
     <p>
       Please provide additional information about any behavior changes or
-      actions you took as a result of the event(s).
+      actions you took as a result of the event.
     </p>
   </div>
 );
