@@ -599,3 +599,31 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
     </ul>
   </span>
 );
+
+/**
+ * The base urls for each form
+ * @readonly
+ * @enum {String}
+ */
+const urls = {
+  v1: '/disability-benefits/apply/form-526-disability-claim',
+  v2: '/disability-benefits/apply/form-526-all-claims',
+};
+
+/**
+ * Returns whether the formData is v1 or not.
+ * This assumes that the `veteran` property of the formData will be present
+ *  only in v1 after the form is saved. The prefillTransformer should
+ *  remove this property from the v2 formData for this to work properly.
+ */
+const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
+
+/**
+ * Returns the base url of whichever form the user needs to go to.
+ *
+ * @param {Object} formData - The saved form data
+ * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
+ * @return {String} - The base url of the right form to return to
+ */
+export const getBaseUrl = (formData, isPrefill) =>
+  isV1App(formData, isPrefill) ? urls.v1 : urls.v2;

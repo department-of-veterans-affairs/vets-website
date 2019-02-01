@@ -28,6 +28,7 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   isDisabilityPtsd,
+  getBaseUrl,
 } from '../utils';
 
 import prefillTransformer from '../prefill-transformer';
@@ -111,6 +112,7 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
   formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
+  getBaseUrl,
   version: 1,
   migrations: [],
   prefillTransformer,
