@@ -313,6 +313,7 @@ export default class ArrayField extends React.Component {
                             {isLast && (
                               <button
                                 className="float-left"
+                                disabled={!this.props.formData}
                                 onClick={this.handleAdd}
                               >
                                 Save
