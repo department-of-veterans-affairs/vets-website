@@ -13,28 +13,24 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 
   // Determine if bank information page should start in edit mode
-  const prefillBankInformation = data => {
-    const {
-      bankAccountType,
-      bankAccountNumber,
-      bankRoutingNumber,
-      bankName,
-    } = data;
+  const {
+    bankAccountType,
+    bankAccountNumber,
+    bankRoutingNumber,
+    bankName,
+  } = formData;
 
-    let hasBankInformation = false;
+  let hasBankInformation = false;
 
-    if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
-      hasBankInformation = true;
-    }
-
-    return hasBankInformation;
-  };
+  if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
+    hasBankInformation = true;
+  }
 
   const newFormData = {
     ...formData,
     'view:phoneAndEmail': phoneAndEmail,
     'view:bankAccount': {
-      'view:hasBankInformation': prefillBankInformation,
+      'view:hasBankInformation': hasBankInformation,
     },
   };
 

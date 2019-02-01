@@ -55,4 +55,7 @@ export const transformedPrefillData = {
     nightTimePhone: '4445551212',
     emailAddress: 'test2@test1.net',
   },
+  'view:bankAccount': {
+    'view:hasBankInformation': false,
+  },
 };

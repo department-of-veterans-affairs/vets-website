@@ -68,21 +68,4 @@ describe('Bank Information', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-
-  it('should not allow submission without bank info', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
 });
