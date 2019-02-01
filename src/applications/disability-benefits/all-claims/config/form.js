@@ -394,14 +394,6 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
-        // 781a - 17. PTSD CONCLUSION
-        conclusionAssault: {
-          path: 'ptsd-conclusion-assault',
-          title: 'PTSD assault conclusion',
-          depends: needsToEnter781a,
-          uiSchema: conclusionAssault.uiSchema,
-          schema: conclusionAssault.schema,
-        },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
