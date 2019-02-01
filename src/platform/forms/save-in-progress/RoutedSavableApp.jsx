@@ -104,7 +104,7 @@ class RoutedSavableApp extends React.Component {
         );
         if (!window.location.pathname.includes(baseUrl)) {
           // Redirect to the other app
-          window.location.assign(`${baseUrl}${newProps.returnUrl}`);
+          window.location.assign(`${baseUrl}/resume`);
         } else {
           // NOTE: This is the only part that should be kept after 526 v1 is depreciated
           // Go to the page within this app
