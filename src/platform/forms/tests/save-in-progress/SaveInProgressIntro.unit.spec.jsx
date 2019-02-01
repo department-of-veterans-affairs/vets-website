@@ -170,7 +170,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     expect(tree.find('.va-button-link').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
-    expect(tree.find('#form-start-button').exists()).to.be.true;
+    expect(tree.find('.schemaform-start-button').exists()).to.be.true;
     tree.unmount();
   });
 

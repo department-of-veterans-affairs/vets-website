@@ -156,8 +156,7 @@ class SaveInProgressIntro extends React.Component {
                 already filled in.
               </p>
               <button
-                id="form-start-button"
-                className="usa-button-primary"
+                className="usa-button-primary schemaform-start-button"
                 onClick={this.openLoginModal}
               >
                 Sign in to Start Your Application
