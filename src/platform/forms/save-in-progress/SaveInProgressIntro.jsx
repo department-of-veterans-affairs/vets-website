@@ -256,7 +256,7 @@ class SaveInProgressIntro extends React.Component {
     const content = (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
-        {(this.props.user.login.currentlyLoggedIn || this.props.buttonOnly) && (
+        {this.props.user.login.currentlyLoggedIn && (
           <FormStartControls
             resumeOnly={this.props.resumeOnly}
             isExpired={isExpired}
