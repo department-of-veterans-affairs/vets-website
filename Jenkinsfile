@@ -126,36 +126,38 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Lint|Security|Unit') {
-    try {
-      parallel (
-        lint: {
-          dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run lint"
-          }
-        },
-
-        // Check package.json for known vulnerabilities
-        security: {
-          retry(3) {
+  if (cmsEnv == 'none') {
+    stage('Lint|Security|Unit') {
+      try {
+        parallel (
+          lint: {
             dockerImage.inside(args) {
-              sh "cd /application && npm run security-check"
+              sh "cd /application && npm --no-color run lint"
+            }
+          },
+
+          // Check package.json for known vulnerabilities
+          security: {
+            retry(3) {
+              dockerImage.inside(args) {
+                sh "cd /application && npm run security-check"
+              }
+            }
+          },
+
+          unit: {
+            dockerImage.inside(args) {
+              sh "cd /application && npm --no-color run test:coverage"
             }
           }
-        },
-
-        unit: {
-          dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run test:coverage"
-          }
+        )
+      } catch (error) {
+        notify()
+        throw error
+      } finally {
+        dir("vets-website") {
+          step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
         }
-      )
-    } catch (error) {
-      notify()
-      throw error
-    } finally {
-      dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
       }
     }
   }
