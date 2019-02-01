@@ -219,12 +219,11 @@ const getArrayInfo = (url, arrayPages = []) => {
 };
 
 /**
- * Returns a function that enters data for each field. When called subsequent times,
- *  it will only enter data into new fields (in the event that some fields have been
- *  expanded);
+ * Enters data for each field, looping until no more fields have been expanded and
+ *  no more array items are available in the test data.
  */
 const fillPage = async (page, testData, testConfig, log = () => {}) => {
-  // TODO: Make make log use getLogger
+  // TODO: Make log use getLogger
   const touchedFields = new Set();
   const { arrayPath, arrayIndex } = getArrayInfo(
     page.url(),
