@@ -194,11 +194,7 @@ class SaveInProgressIntro extends React.Component {
   };
 
   getStartPage = () => {
-    const {
-      pageList,
-      pathname,
-      saveInProgress: { formData },
-    } = this.props;
+    const { pageList, pathname, formData } = this.props;
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
@@ -307,7 +303,6 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
-  saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
   retentionPeriod: PropTypes.string,
@@ -326,20 +321,23 @@ SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
 };
 
-export const introSelector = getIntroState;
-
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state),
+    ...getIntroState(state),
   };
 }
 
-export default withRouter(connect(mapStateToProps)(SaveInProgressIntro));
-
-export { SaveInProgressIntro };
-
-export const introActions = {
+const mapDispatchToProps = {
   fetchInProgressForm,
   removeInProgressForm,
   toggleLoginModal,
 };
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SaveInProgressIntro),
+);
+
+export { SaveInProgressIntro };

@@ -86,11 +86,9 @@ node('vetsgov-general-purpose') {
 
   stage('Setup') {
     try {
-      if (binding.hasVariable('cmsEnv')) { // the first time a branch is run, this variable doesn't exist
-        buildTypeOverride = DRUPAL_MAPPING.get(cmsENV, null)
-        if(buildTypeOverride) {
-          VAGOV_BUILDTYPES = [buildTypeOverride] 
-        }
+      buildTypeOverride = DRUPAL_MAPPING.get(params.get('cmsEnv', 'none'), null)
+      if(buildTypeOverride) {
+        VAGOV_BUILDTYPES = [buildTypeOverride]
       }
 
       // Jenkins doesn't like it when we checkout the secondary repository first

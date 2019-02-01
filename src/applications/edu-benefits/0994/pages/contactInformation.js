@@ -25,10 +25,12 @@ const mailingAddressStartInEdit = formData => {
   return true;
 };
 
+const addressUiSchema = addressUISchema();
+
 export const uiSchema = {
   'ui:title': 'Contact Information',
   'ui:description': contactInfoDescription,
-  phoneAndEmail: {
+  'view:phoneAndEmail': {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
     'ui:options': {
@@ -64,9 +66,10 @@ export const uiSchema = {
     },
   },
   mailingAddress: {
-    ...addressUISchema(),
+    ...addressUiSchema,
     'ui:field': ReviewCardField,
     'ui:options': {
+      ...addressUiSchema['ui:options'],
       viewComponent: AddressViewField,
       startInEdit: mailingAddressStartInEdit,
     },
@@ -80,7 +83,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    phoneAndEmail: {
+    'view:phoneAndEmail': {
       type: 'object',
       required: ['dayTimePhone', 'emailAddress'],
       properties: {

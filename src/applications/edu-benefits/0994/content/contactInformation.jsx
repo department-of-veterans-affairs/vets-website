@@ -52,8 +52,9 @@ export const phoneEmailViewField = ({ formData }) => {
 
 export const contactInfoNote = () => (
   <span>
-    <i>Note: </i>
-    Changes you make to this information ... (content to come)
+    <strong>Note: </strong>
+    Changes you make to your contact information on this page will be updated
+    throughout your VA records.
   </span>
 );
 
