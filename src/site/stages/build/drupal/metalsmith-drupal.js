@@ -83,14 +83,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (name === 'Health Care') {
       navItems[`${entityBundle}`] = navItem;
     }
-
-    files['drupal/sidebar_navigation/index.html'] = {
-      ...navItems,
-      layout: 'sidebar_navigation.drupal.liquid',
-      contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(navItems, null, 4),
-    };
   }
+
+  files['drupal/sidebar_navigation/index.html'] = {
+    ...navItems,
+    layout: 'sidebar_navigation.drupal.liquid',
+    contents: Buffer.from('<!-- Drupal-provided data -->'),
+    debug: JSON.stringify(navItems, null, 4),
+  };
 
   writeDrupalIndexPage(files);
 }

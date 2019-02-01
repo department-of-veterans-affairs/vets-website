@@ -4,7 +4,7 @@
  */
 
 module.exports = `
-  fragment taxonomyTermSidebarNavigation on TaxonomyTermSidebarNavigation {
+  fragment sideNav on TaxonomyTermSidebarNavigation {
       entityBundle
       tid
       name
