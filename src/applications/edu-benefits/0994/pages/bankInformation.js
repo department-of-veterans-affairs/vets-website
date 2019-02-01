@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import bankAccountUI from '../../../../platform/forms/definitions/bankAccount';
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from '../../components/ReviewCardField';
 import PaymentView from '../components/PaymentView';
 
 import {
@@ -10,11 +10,7 @@ import {
   bankInfoHelpText,
 } from '../content/bankInformation';
 
-const {
-  accountType,
-  routingNumber,
-  accountNumber,
-} = fullSchema.definitions.bankAccount.properties;
+const { bankAccount } = fullSchema.definitions;
 
 export const uiSchema = {
   'ui:title': bankInfoTitle,
@@ -26,7 +22,7 @@ export const uiSchema = {
       reviewTitle: 'Payment information',
       editTitle: 'Add new bank account',
       itemName: 'account',
-      startInEdit: formData => !formData['view:hasBankInformation'],
+      startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
     bankAccount: bankAccountUI,
@@ -47,14 +43,7 @@ export const schema = {
     'view:bankAccount': {
       type: 'object',
       properties: {
-        bankAccount: {
-          type: 'object',
-          properties: {
-            accountType,
-            routingNumber,
-            accountNumber,
-          },
-        },
+        bankAccount,
       },
     },
     'view:bankInfoNote': {
