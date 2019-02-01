@@ -7,7 +7,7 @@ const downloadAssets = require('./download-assets');
 const addAssetHashes = require('./add-asset-hashes');
 
 function configureAssets(smith, buildOptions) {
-  const isContentDeployment = buildOptions['content-deployment'];
+  const assetSource = buildOptions['asset-source'];
   const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
     buildOptions.buildtype,
   );
@@ -21,7 +21,7 @@ function configureAssets(smith, buildOptions) {
     smith.use(watchMetalSmith);
     smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));
   } else {
-    if (isContentDeployment) {
+    if (assetSource !== null) {
       smith.use(downloadAssets(buildOptions));
     } else {
       smith.use(webpackMetalsmithConnect.compileAssets(buildOptions));
