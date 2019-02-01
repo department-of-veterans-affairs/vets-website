@@ -38,7 +38,7 @@ export const uiSchema = index => ({
             'ui:title': 'Street 2',
           },
           zipCode: {
-            'ui:title': 'Postal Code',
+            'ui:title': 'Postal code',
             'ui:validations': [validateZIP],
             'ui:errorMessages': {
               pattern:
