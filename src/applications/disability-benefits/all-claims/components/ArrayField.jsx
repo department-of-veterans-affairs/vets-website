@@ -39,13 +39,14 @@ export default class ArrayField extends React.Component {
       editing: props.formData ? props.formData.map(() => false) : [true],
     };
 
-    this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.onItemChange = this.onItemChange.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   // This fills in an empty item in the array if it has minItems set
@@ -140,6 +141,30 @@ export default class ArrayField extends React.Component {
   }
 
   /*
+   * Clicking Save
+   */
+  handleSave() {
+    const lastIndex = this.props.formData.length - 1;
+    if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
+      // When we add another, we want to change the editing state of the currently
+      // last item, but not ones above it
+      const newEditing = this.state.editing.map(
+        (val, index) => (index + 1 === this.state.editing.length ? false : val),
+      );
+      const newState = _.assign(this.state, {
+        editing: newEditing,
+      });
+
+      this.setState(newState);
+    } else {
+      const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
+      this.props.formContext.setTouched(touched, () => {
+        scrollToFirstError();
+      });
+    }
+  }
+
+  /*
    * Clicking Add Another
    */
   handleAdd() {
@@ -150,9 +175,8 @@ export default class ArrayField extends React.Component {
       const newEditing = this.state.editing.map(
         (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
-      const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(!!editingState),
+        editing: newEditing.concat(true),
       });
 
       this.setState(newState, () => {
@@ -264,7 +288,7 @@ export default class ArrayField extends React.Component {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
 
-            if (isReviewMode ? isEditing : isLast || isEditing) {
+            if (isReviewMode ? isEditing : isEditing) {
               return (
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${itemIdPrefix}`} />
@@ -307,7 +331,7 @@ export default class ArrayField extends React.Component {
                             <button
                               className="float-left"
                               disabled={!this.props.formData}
-                              onClick={this.handleAdd}
+                              onClick={this.handleSave}
                             >
                               Save
                             </button>
