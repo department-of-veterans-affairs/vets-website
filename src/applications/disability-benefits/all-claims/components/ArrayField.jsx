@@ -202,14 +202,27 @@ export default class ArrayField extends React.Component {
    * Clicking Remove on an item in edit mode
    */
   handleRemove(indexToRemove) {
-    const newItems = this.props.formData.filter(
+    let newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    const newState = _.assign(this.state, {
+    let newState = _.assign(this.state, {
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
     });
+    // Ensure that there is always a blank item in editing mode
+    if (newItems.length === 0) {
+      newItems = [
+        getDefaultFormState(
+          this.props.schema.additionalItems,
+          undefined,
+          this.props.registry.definitions,
+        ) || {},
+      ];
+      newState = _.assign(newState, {
+        editing: [true],
+      });
+    }
     this.props.onChange(newItems);
     this.setState(newState, () => {
       this.scrollToTop();
@@ -241,7 +254,6 @@ export default class ArrayField extends React.Component {
       typeof description === 'string' ? description : null;
     const DescriptionField =
       typeof description === 'function' ? uiSchema['ui:description'] : null;
-    const isReviewMode = uiSchema['ui:options'].reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
@@ -288,7 +300,7 @@ export default class ArrayField extends React.Component {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
 
-            if (isReviewMode ? isEditing : isEditing) {
+            if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${itemIdPrefix}`} />
