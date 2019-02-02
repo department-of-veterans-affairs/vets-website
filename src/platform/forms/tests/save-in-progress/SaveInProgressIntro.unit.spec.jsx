@@ -168,9 +168,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('.usa-alert').text()).to.contain(
       'Save time—and save your work in progress—by signing in before starting your application',
     );
-    expect(tree.find('.va-button-link').exists()).to.be.true;
+    expect(tree.find('.usa-button-primary').text()).to.contain(
+      'Sign in to Start Your Application',
+    );
+    expect(tree.find('.va-button-link').text()).to.contain(
+      'Start your application without signing in.',
+    );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
-    expect(tree.find('.schemaform-start-button').exists()).to.be.true;
     tree.unmount();
   });
 
