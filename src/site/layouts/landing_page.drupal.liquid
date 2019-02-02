@@ -8,9 +8,10 @@
         <div class="usa-font-lead">{{ fieldIntroText }}</div>
       </article>
       <div class="usa-width-one-third" id="hub-rail">
+        {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
       </div>
     </div>
   </main>
-<div>
+</div>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
