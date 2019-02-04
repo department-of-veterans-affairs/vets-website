@@ -1,6 +1,6 @@
 {
   "data": {
-    "view:prefillBankAccount": {
+    "bankAccount": {
       "accountType": "checking",
       "routingNumber": "021000021",
       "accountNumber": "12",
@@ -8,10 +8,6 @@
       "bankAccountNumber": "*********1234",
       "bankRoutingNumber": "*****2115",
       "bankName": "Comerica"
-    },
-    "view:bankAccount": {
-      "view:hasBankInformation": true,
-      "bankAccount": {}
     },
     "view:bankInfoNote": {},
     "view:bankInfoHelpText": {},
