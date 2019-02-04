@@ -1,5 +1,7 @@
-const administration = require('./taxonomy-fragments/administration.taxonomy.graphql');
 const { FIELD_PROMO } = require('./block-fragments/promo.block.graphql');
+const administration = require('./taxonomy-fragments/administration.taxonomy.graphql');
+
+
 /**
  * The top-level page for a section of the website.
  * Examples include /health-care/, /disability/, etc.
@@ -7,8 +9,7 @@ const { FIELD_PROMO } = require('./block-fragments/promo.block.graphql');
 const ADMIN = '...administration';
 
 module.exports = `
-
-  ${administration}
+  ${administration};
   
   fragment landingPage on NodeLandingPage {
     entityUrl {
@@ -27,7 +28,7 @@ module.exports = `
     entityPublished
     title
     fieldIntroText
-    ${ADMIN}
     ${FIELD_PROMO}
+    ${ADMIN}
   }
 `;
