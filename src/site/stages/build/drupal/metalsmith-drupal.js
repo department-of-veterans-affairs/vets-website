@@ -87,10 +87,10 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   }
 
   files['drupal/sidebar_navigation/index.html'] = {
-    ...navItems['sidebar_navigation'],
+    ...navItems.sidebar_navigation,
     layout: 'sidebar_navigation.drupal.liquid',
     contents: Buffer.from('<!-- Drupal-provided data -->'),
-    debug: JSON.stringify(navItems['sidebar_navigation'], null, 4),
+    debug: JSON.stringify(navItems.sidebar_navigation, null, 4),
   };
 
   writeDrupalIndexPage(files);
