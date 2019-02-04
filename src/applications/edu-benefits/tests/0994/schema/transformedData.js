@@ -28,7 +28,7 @@ const transformedMaximalDataActual = {
   mailingAddress: {
     street: 'MILITARY ADDY 3',
     street2: 'teasdf',
-    city: 'DPO',
+    city: 'Nowhere',
     country: 'USA',
     state: 'MI',
     postalCode: '22312',
