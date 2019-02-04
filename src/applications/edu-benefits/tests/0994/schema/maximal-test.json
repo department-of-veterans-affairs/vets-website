@@ -1,13 +1,15 @@
 {
   "data": {
-    "bankAccount": {
-      "accountType": "checking",
-      "routingNumber": "021000021",
-      "accountNumber": "12",
-      "bankAccountType": "Checking",
-      "bankAccountNumber": "*********1234",
-      "bankRoutingNumber": "*****2115",
-      "bankName": "Comerica"
+    "view:bankAccount": {
+      "bankAccount": {
+        "accountType": "checking",
+        "routingNumber": "021000021",
+        "accountNumber": "12",
+        "bankAccountType": "Checking",
+        "bankAccountNumber": "*********1234",
+        "bankRoutingNumber": "*****2115",
+        "bankName": "Comerica"
+      }
     },
     "view:bankInfoNote": {},
     "view:bankInfoHelpText": {},
