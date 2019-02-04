@@ -40,7 +40,7 @@ export const noFDCWarning = (
           standard claim process, you have up to 1 year from the date we receive
           your claim to turn in any information and evidence.
         </p>
-        <p>You can turn in your evidence 1 of 3 ways:</p>
+        <p>You can turn in your evidence in 1 of 3 ways:</p>
         <ul>
           <li>
             Visit the Claim Status tool and upload your documents under the File
