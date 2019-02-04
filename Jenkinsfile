@@ -110,6 +110,7 @@ node('vetsgov-general-purpose') {
         sh "mkdir -p build"
         sh "mkdir -p logs/selenium"
         sh "mkdir -p coverage"
+        sh "mkdir -p temp"
 
         imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
@@ -192,6 +193,7 @@ node('vetsgov-general-purpose') {
 
     try {
       def builds = [:]
+      ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
       def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? '--asset-source=${ref}' : ''
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
