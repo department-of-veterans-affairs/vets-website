@@ -5,22 +5,32 @@
     </script>
 {% endif %}
 
-<ul class="usa-sidenav-list">
-    <li>
-        {{ name }}
-        {% for entity in reverseParentTaxonomyTerm.entities %}
-            <ul>
-                <li>
-                    <a href="" class="">{{ entity.name }}</a>
-                    <ul>
-                        {% for entity in entity.reverseParentTaxonomyTerm.entities %}
-                            <li>
-                                <a href="" class="">{{ entity.name }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            </ul>
-        {% endfor %}
-    </li>
-</ul>
+<nav id="va-detailpage-sidebar" class="usa-width-one-fourth va-sidebarnav">
+    <div>
+        <button class="va-btn-close-icon va-sidebarnav-close" type="button" aria-label="Close this menu"></button>
+    </div>
+
+    <div class="left-side-nav-title">
+        <i class="icon-small white hub-icon-{{ fieldIcon }} hub-background-{{ fieldIcon }}"></i>
+        <h4>{{ name }}</h4>
+    </div>
+
+    <ul class="usa-accordion">
+        <li>
+            {% for entity in reverseParentTaxonomyTerm.entities %}
+                <ul>
+                    <li>
+                        <a href="" class="">{{ entity.name }}</a>
+                        <ul>
+                            {% for entity in entity.reverseParentTaxonomyTerm.entities %}
+                                <li>
+                                    <a href="" class="">{{ entity.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            {% endfor %}
+        </li>
+    </ul>
+</nav>
