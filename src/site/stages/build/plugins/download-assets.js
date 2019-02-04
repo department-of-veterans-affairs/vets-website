@@ -7,20 +7,27 @@ const fs = require('fs-extra');
 const path = require('path');
 const decompress = require('decompress');
 const buckets = require('../../../constants/buckets');
+const assetSources = require('../../../constants/assetSources');
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest);
     https
       .get(url, response => {
-        response.pipe(file);
-        file.on('finish', () => {
-          file.close(resolve);
-        });
+        if (response.statusCode >= 300) {
+          reject(
+            new Error(`HTTP error fetching archive: ${response.statusCode}`),
+          );
+        } else {
+          response.pipe(file);
+          file.on('finish', () => {
+            file.close(resolve);
+          });
+        }
       })
       .on('error', err => {
         fs.unlink(dest);
-        reject(err.message);
+        reject(new Error(err.message));
       });
   });
 }
@@ -71,6 +78,7 @@ async function downloadFromArchive(files, assetSource, buildtype) {
   const assetsPath = path.dirname(localPath);
 
   fs.emptyDirSync(assetsPath);
+
   await downloadFile(archiveUrl, localPath);
   await decompress(localPath, assetsPath);
 
@@ -86,7 +94,7 @@ function downloadAssets(buildOptions) {
   return async (files, smith, done) => {
     const assetSource = buildOptions['asset-source'];
 
-    if (assetSource === 'deployed') {
+    if (assetSource === assetSources.DEPLOYED) {
       await downloadFromLiveBucket(files, buildOptions);
     } else {
       await downloadFromArchive(files, assetSource, buildOptions.buildtype);

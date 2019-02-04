@@ -5,6 +5,7 @@ const commandLineArgs = require('command-line-args');
 
 const ENVIRONMENTS = require('../../constants/environments');
 const HOSTNAMES = require('../../constants/hostnames');
+const assetSources = require('../../constants/assetSources');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
@@ -21,7 +22,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
-  { name: 'asset-source', type: String, defaultValue: 'local' },
+  { name: 'asset-source', type: String, defaultValue: assetSources.LOCAL },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'pull-drupal', type: Boolean, defaultValue: false },
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },

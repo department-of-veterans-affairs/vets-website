@@ -2,6 +2,7 @@
 
 const watch = require('metalsmith-watch');
 const environments = require('../../../constants/environments');
+const assetSources = require('../../../constants/assetSources');
 const webpackMetalsmithConnect = require('../webpack');
 const downloadAssets = require('./download-assets');
 const addAssetHashes = require('./add-asset-hashes');
@@ -21,7 +22,7 @@ function configureAssets(smith, buildOptions) {
     smith.use(watchMetalSmith);
     smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));
   } else {
-    if (assetSource !== 'local') {
+    if (assetSource !== assetSources.LOCAL) {
       smith.use(downloadAssets(buildOptions));
     } else {
       smith.use(webpackMetalsmithConnect.compileAssets(buildOptions));
