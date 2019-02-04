@@ -21,14 +21,16 @@
                 <div class="usa-accordion-content" aria-hidden="false">
                     <ul class="usa-sidenav-list">
                         <li>
-                            <a href="{{ entity.fieldNavItemLink.url.path }}" class="">{{ entity.name }}</a>
-                            <ul>
-                                {% for entity in entity.reverseParentTaxonomyTerm.entities %}
-                                    <li>
-                                        <a href="{{ entity.fieldNavItemLink.url.path }}" class="">{{ entity.name }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
+                            <button class="usa-accordion-button">{{ entity.name }}</button>
+                            <div class="usa-accordion-content" aria-hidden="false">
+                                <ul class="usa-sidenav-list">
+                                    {% for entity in entity.reverseParentTaxonomyTerm.entities %}
+                                        <li>
+                                            <a href="{{ entity.fieldNavItemLink.url.path }}" class="">{{ entity.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>
