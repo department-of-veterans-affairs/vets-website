@@ -39,8 +39,9 @@ export default function LoginSettings() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Manage your ID.me account.
+            Manage your ID.me account
           </a>
+          .<span className="external-link-icon-black">&nbsp;</span>
         </p>
         <AdditionalInfo triggerText="What is ID.me?">
           {idMeAnswer}
