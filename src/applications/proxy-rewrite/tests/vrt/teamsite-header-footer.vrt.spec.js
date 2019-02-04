@@ -30,7 +30,19 @@ describe.each(TEAMSITES)('%s', (sitename, url) => {
   };
 
   beforeAll(async () => {
-    browser = await puppeteer.launch();
+    const options = {
+      uri: ``,
+      json: true,
+      resolveWithFullResponse: true,
+    };
+
+    const response = fetch('http://chrome:9222/json/version');
+    const websocket = response.body.webSocketDebuggerUrl;
+    console.log(`WebsocketUrl: ${websocket}`);
+
+    //    browser = await puppeteer.launch();
+    browser = await puppeteer.connect({ browserWSEndpoint: websocket });
+
     page = await browser.newPage();
     await page.goto(url);
     await page.waitForSelector(FOOTER);
