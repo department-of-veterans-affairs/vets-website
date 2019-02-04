@@ -138,7 +138,7 @@ export const completeContactInformation = (client, data) => {
       .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
   }
 
-  client.fillAddress('root_mailingAddress', data.mailingAddress);
+  client.fillAddress('root_mailingAddress', data.mailingAddress).pause(30000);
 };
 
 export const completeBankInformation = (client, data) => {
