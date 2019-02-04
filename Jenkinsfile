@@ -127,38 +127,38 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  if (cmsEnv == 'none') {
-    stage('Lint|Security|Unit') {
-      try {
-        parallel (
-          lint: {
-            dockerImage.inside(args) {
-              sh "cd /application && npm --no-color run lint"
-            }
-          },
+  stage('Lint|Security|Unit') {
+    if (cmsEnv == 'none') { return }
 
-          // Check package.json for known vulnerabilities
-          security: {
-            retry(3) {
-              dockerImage.inside(args) {
-                sh "cd /application && npm run security-check"
-              }
-            }
-          },
+    try {
+      parallel (
+        lint: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run lint"
+          }
+        },
 
-          unit: {
+        // Check package.json for known vulnerabilities
+        security: {
+          retry(3) {
             dockerImage.inside(args) {
-              sh "cd /application && npm --no-color run test:coverage"
+              sh "cd /application && npm run security-check"
             }
           }
-        )
-      } catch (error) {
-        notify()
-        throw error
-      } finally {
-        dir("vets-website") {
-          step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+        },
+
+        unit: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run test:coverage"
+          }
         }
+      )
+    } catch (error) {
+      notify()
+      throw error
+    } finally {
+      dir("vets-website") {
+        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
       }
     }
   }
@@ -193,7 +193,7 @@ node('vetsgov-general-purpose') {
 
     try {
       def builds = [:]
-      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? '3d4cbd45dd2ecf29e10593bab641b80972b3ef11' : 'local'
+      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
