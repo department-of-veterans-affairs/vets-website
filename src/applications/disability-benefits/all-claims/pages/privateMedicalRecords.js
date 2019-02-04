@@ -98,6 +98,9 @@ export const schema = {
       },
     },
     privateMedicalRecordAttachments,
+    // Note: this property is misspelled. Should be
+    // `view:patientAcknowledgment` but isn't worth writing a migration for at
+    // this time since it's only used on this page.
     'view:patientAcknowledgement': {
       type: 'object',
       required: ['view:acknowledgement'],
