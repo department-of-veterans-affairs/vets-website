@@ -142,7 +142,7 @@ export default function() {
       },
       // 8940 - Education & Training
       pastEducationTraining: {
-        title: 'Education $ Training',
+        title: 'Education & Training',
         path: 'past-education-training',
         depends: needsToAnswerUnemployability,
         uiSchema: pastEducationTraining.uiSchema,
