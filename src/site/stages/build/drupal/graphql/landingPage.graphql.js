@@ -7,7 +7,8 @@ const administration = require('./taxonomy-fragments/administration.taxonomy.gra
 const ADMIN = '...administration';
 
 module.exports = `
-  ${administration};
+
+  ${administration}
   
   fragment landingPage on NodeLandingPage {
     entityUrl {
