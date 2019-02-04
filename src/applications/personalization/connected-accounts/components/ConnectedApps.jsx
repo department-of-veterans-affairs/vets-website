@@ -7,11 +7,13 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
   return (
     <div className="row va-connected-acct">
       <div className="usa-width-two-thirds medium-8 small-12 columns">
-        <h1>Your Connected Accounts</h1>
+        <h1>Connected Accounts</h1>
         <p className="va-introtext">
           {/* eslint-disable prettier/prettier */}
-          You gave these sites and applications read only access to some of
-          your {propertyName} account data.
+          You gave the sites and applications listed below permissions to
+          access some of your {propertyName} profile data. These sites and
+          applications can only view your information. They can't change
+          anything.
           {/* eslint-enable prettier/prettier */}
         </p>
 
@@ -30,13 +32,11 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
         </table>
 
         <div className="feature">
-          <h3>Have questions about signing in to {propertyName}?</h3>
+          <h3>Have questions about connected accounts?</h3>
           <p>
-            Get answers to frequently asked questions about how to sign in,
-            common issues with verifying your identity, and your privacy and
-            security on {propertyName}.
+            Get answers to frequently asked questions about connected accounts
+            and how they work with your {propertyName} account.
           </p>
-
           <a
             href="/sign-in-faq/"
             onClick={() =>
@@ -47,8 +47,9 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
               })
             }
           >
-            Go to {propertyName} FAQs
+            Go to connect account FAQs
           </a>
+          .
         </div>
       </div>
     </div>

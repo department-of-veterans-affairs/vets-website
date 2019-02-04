@@ -48,7 +48,9 @@ class ConnectedApp extends React.Component {
                   <img src={logo} alt={`${title} logo`} width="100" />
                 </a>
               </th>
-              <th>Connected on {moment(created).format('MMMM Do, YYYY')}</th>
+              <th>
+                Connected on {moment(created).format('MMMM D, YYYY h:mm A')}
+              </th>
               <th className={`${cssPrefix}-row-details `}>
                 <a className={`${cssPrefix}-row-details-toggle`} href="#">
                   Details
@@ -74,7 +76,7 @@ class ConnectedApp extends React.Component {
                     <div className={`${cssPrefix}-row-details-block-content`}>
                       <p>
                         <a href={href}>{title}</a>
-                        &nbsp;has access to the following information:
+                        &nbsp;can view your:
                         <button
                           className="usa-button-primary"
                           onClick={this.openModal}
