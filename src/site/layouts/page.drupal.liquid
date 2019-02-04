@@ -4,7 +4,9 @@
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+
+    {% include 'src/site/layouts/sidebar_navigation.drupal.liquid' %}
+
     <div class="usa-width-three-fourths">
       {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
@@ -16,8 +18,10 @@
 
       <article class="usa-content">
         <h1>{{ title }}</h1>
-        <div class="usa-font-lead">
-          {{ fieldIntroText }}
+        <div class="va-introtext">
+          <p>
+              {{ fieldIntroText }}
+          </p>
         </div>
 
         {% if fieldAlert %}

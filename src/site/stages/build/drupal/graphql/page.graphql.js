@@ -14,9 +14,18 @@ const PROCESS = '... process';
 const QA_SECTION = '... qaSection';
 const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
+const SIDEBAR_ITEM = '... sidebarItem';
 
 module.exports = `
 
+  ${wysiwyg}
+  ${collapsiblePanel}
+  ${process}
+  ${qaSection}
+  ${alert}
+  ${listOfLinkTeasers}
+  ${sidebarItem}
+  
   fragment page on NodePage {
     entityUrl {
       ... on EntityCanonicalUrl {
@@ -58,6 +67,7 @@ module.exports = `
     }
     ${FIELD_ALERT} 
     ${FIELD_RELATED_LINKS}
+    ${SIDEBAR_ITEM}
     fieldPageLastBuilt {
       date
     }    

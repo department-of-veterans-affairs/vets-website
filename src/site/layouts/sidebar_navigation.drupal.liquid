@@ -1,0 +1,26 @@
+
+{% if buildtype != 'vagovprod' %}
+    <script>
+        console.info('Metalsmithdebar sidebar template generated from content:', {{ debug }});
+    </script>
+{% endif %}
+
+<ul class="usa-sidenav-list">
+    <li>
+        {{ name }}
+        {% for entity in reverseParentTaxonomyTerm.entities %}
+            <ul>
+                <li>
+                    <a href="" class="">{{ entity.name }}</a>
+                    <ul>
+                        {% for entity in entity.reverseParentTaxonomyTerm.entities %}
+                            <li>
+                                <a href="" class="">{{ entity.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        {% endfor %}
+    </li>
+</ul>

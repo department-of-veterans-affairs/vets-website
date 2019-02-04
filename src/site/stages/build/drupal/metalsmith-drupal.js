@@ -46,8 +46,11 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
+      taxonomyTermQuery: { entities: taxonomies },
     },
   } = contentData;
+
+  const navItems = [];
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -78,6 +81,22 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       private: true,
     };
   }
+
+  // Collect sidebar items
+  for (const navItem of taxonomies) {
+    const { entityBundle, name } = navItem;
+
+    if (name === 'Health Care') {
+      navItems[`${entityBundle}`] = navItem;
+    }
+  }
+
+  files['drupal/sidebar_navigation/index.html'] = {
+    ...navItems.sidebar_navigation,
+    layout: 'sidebar_navigation.drupal.liquid',
+    contents: Buffer.from('<!-- Drupal-provided data -->'),
+    debug: JSON.stringify(navItems.sidebar_navigation, null, 4),
+  };
 
   writeDrupalIndexPage(files);
 }
