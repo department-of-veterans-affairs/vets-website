@@ -7,11 +7,9 @@ export const bankInfoDescription =
   'This is your bank account information we have on file. We’ll pay your education benefit to this account.';
 export const bankInfoNote = (
   <p>
-    <i>Note: </i>
-    Changes you make to this information will only apply to this specific form.
-    If you need to update your bank account information on all VA systems,
-    please call Veterans Benefits Assistance at 1-800-827-1000, Monday through
-    Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    <strong>Note: </strong>
+    Changes you make to your bank account information on this page will be
+    updated throughout your VA records.
   </p>
 );
 

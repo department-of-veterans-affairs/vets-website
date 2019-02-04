@@ -1,14 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -27,8 +22,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
           startText="Start the Pension Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
@@ -162,8 +155,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Pension Application"
           downtime={this.props.route.formConfig.downtime}
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         >
           Please complete the 21-527EZ form to apply for pension benefits.
         </SaveInProgressIntro>
@@ -175,21 +166,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };
