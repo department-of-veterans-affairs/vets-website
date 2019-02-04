@@ -65,7 +65,7 @@ export const uiSchema = {
       showFieldLabel: true,
     },
     'view:acknowledgement': {
-      'ui:title': 'Patient Acknowledgement',
+      'ui:title': 'Patient Acknowledgment',
     },
     'ui:validations': [
       (errors, item) => {

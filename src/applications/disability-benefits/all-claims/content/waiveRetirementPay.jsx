@@ -9,8 +9,8 @@ export const waiveRetirementPayDescription = (
       rate.
     </p>
     <p>
-      VA compensation pay isn’t taxable. Military retirement pay is taxable.
-      Dollar for dollar VA compensation pay is always the greater benefit.
+      VA compensation pay isn’t taxable. Military retirement pay is taxable. VA
+      compensation pay is always the greater benefit.
     </p>
     <p>
       Below is an example showing that{' '}
