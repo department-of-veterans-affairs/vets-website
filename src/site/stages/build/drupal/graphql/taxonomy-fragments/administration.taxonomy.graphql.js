@@ -9,6 +9,7 @@ module.exports = `
         ... on FieldNodeFieldAdministration {
           entity {
             ... on TaxonomyTermAdministration {
+              name
               fieldIntroText
               fieldDescription
               fieldAcronym

@@ -5,10 +5,13 @@
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
         <h1>{{ title }}</h1>
-        <div class="usa-font-lead">{{ fieldIntroText }}</div>
+        <div class="va-introtext">
+          <p>{{ fieldIntroText }}</p>
+        </div>
       </article>
-      <div class="usa-width-one-third" id="hub-rail">
-      </div>
+
+      {% include "src/site/components/hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+
     </div>
   </main>
 <div>
