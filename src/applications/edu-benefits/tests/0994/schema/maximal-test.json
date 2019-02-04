@@ -49,7 +49,7 @@
         "computerSoftware": true,
         "informationSciences": true,
         "mediaApplication": true,
-        "noneApply": false
+        "noneApply": true
       }
     },
     "highestLevelofEducation": "other",
