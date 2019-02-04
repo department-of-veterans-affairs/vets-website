@@ -21,7 +21,7 @@ function configureAssets(smith, buildOptions) {
     smith.use(watchMetalSmith);
     smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));
   } else {
-    if (assetSource !== null) {
+    if (assetSource !== 'local') {
       smith.use(downloadAssets(buildOptions));
     } else {
       smith.use(webpackMetalsmithConnect.compileAssets(buildOptions));

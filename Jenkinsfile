@@ -193,14 +193,13 @@ node('vetsgov-general-purpose') {
 
     try {
       def builds = [:]
-      ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? '--asset-source=${ref}' : ''
+      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName} ${assetSource}"
+            sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
             sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
