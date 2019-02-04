@@ -11,12 +11,10 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {},
-            profile: {
-              services: [],
-            },
+        user={{
+          login: {},
+          profile: {
+            services: [],
           },
         }}
       />,
@@ -37,14 +35,12 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              services: [],
-            },
+        user={{
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [],
           },
         }}
       />,
@@ -64,14 +60,12 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              services: ['identity-proofed'],
-            },
+        user={{
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: ['identity-proofed'],
           },
         }}
       />,

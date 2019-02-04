@@ -7,14 +7,14 @@ const LISTOFLINKTEASERS_FRAGMENT = '...listOfLinkTeasers';
 
 const listOfLinkTeasers = `
   ${linkTeaser}
-  
+
   fragment listOfLinkTeasers on ParagraphListOfLinkTeasers {
   	parentFieldName
     fieldTitle
-    fieldVaParagraphs {      
+    fieldVaParagraphs {
       entity {
         ${LINKTEASER_FRAGMENT}
-      }    
+      }
     }
   }
 `;

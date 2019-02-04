@@ -58,6 +58,11 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       continue;
     }
 
+    if (!Object.keys(page).length) {
+      log('Skipping empty entity...');
+      continue;
+    }
+
     const {
       entityUrl: { path: drupalPagePath },
       entityBundle,

@@ -10,6 +10,7 @@ const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
 const navigation = require('metalsmith-navigation');
+const converter = require('number-to-words');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
@@ -39,6 +40,8 @@ function defaultBuild(BUILD_OPTIONS) {
     moment.unix(dt).format('MMMM D, YYYY');
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
+
+  liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
