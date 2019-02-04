@@ -13,7 +13,8 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.click('.usa-button-primary');
+  client.click('body');
+  client.click('button[id="2-continueButton"]');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
@@ -138,7 +139,7 @@ export const completeContactInformation = (client, data) => {
       .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
   }
 
-  client.fillAddress('root_mailingAddress', data.mailingAddress).pause(30000);
+  client.fillAddress('root_mailingAddress', data.mailingAddress);
 };
 
 export const completeBankInformation = (client, data) => {
@@ -167,8 +168,12 @@ export const completeBankInformation = (client, data) => {
 };
 
 export const completeReviewAndSubmit = (client, data) => {
+  E2eHelpers.expectLocation(client, '/review-and-submit');
+  client.axeCheck('.main');
   client.fillCheckbox(
-    'privacyAgreementAccepted',
+    'input[name="privacyAgreementAccepted"]',
     _.get(data, 'privacyAgreementAccepted', false),
   );
+  client.click('body');
+  client.click('button[id="11-continueButton"]');
 };

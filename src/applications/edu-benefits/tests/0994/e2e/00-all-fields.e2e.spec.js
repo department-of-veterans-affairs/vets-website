@@ -113,12 +113,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     );
 
     // Review and Submit
-    completeFormPage(
-      '/review-and-submit',
-      client,
-      formData,
-      completeReviewAndSubmit,
-    );
+    completeReviewAndSubmit(client, formData);
 
     client.axeCheck('.main');
     client.end();
