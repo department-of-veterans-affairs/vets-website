@@ -193,7 +193,7 @@ node('vetsgov-general-purpose') {
 
     try {
       def builds = [:]
-      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
+      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? '3d4cbd45dd2ecf29e10593bab641b80972b3ef11' : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
