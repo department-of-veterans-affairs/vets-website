@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-const Timeouts = require('../../../../../platform/testing/e2e/timeouts.js');
-
 const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
 
 export const clickAddAnother = (client, i, list) => {
@@ -15,7 +13,7 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.waitFor('', Timeouts.normal).click('.usa-button-primary');
+  client.click('.usa-button-primary');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
@@ -144,14 +142,28 @@ export const completeContactInformation = (client, data) => {
 };
 
 export const completeBankInformation = (client, data) => {
-  const bankAccount = _.get(data, 'bankAccount', undefined);
+  const viewBankAccount = _.get(data, 'view:bankAccount', undefined);
+  if (viewBankAccount) {
+    const bankAccount = _.get(viewBankAccount, 'bankAccount', undefined);
 
-  const { accountType, routingNumber, accountNumber } = bankAccount;
+    if (bankAccount) {
+      const { accountType, routingNumber, accountNumber } = bankAccount;
 
-  client
-    .selectRadio('root_bankAccount_accountType', accountType)
-    .fill('input[name="root_bankAccount_accountNumber"]', accountNumber)
-    .fill('input[name="root_bankAccount_routingNumber"]', routingNumber);
+      client
+        .selectRadio(
+          'root_view:bankAccount_bankAccount_accountType',
+          accountType,
+        )
+        .fill(
+          'input[name="root_view:bankAccount_bankAccount_accountNumber"]',
+          accountNumber,
+        )
+        .fill(
+          'input[name="root_view:bankAccount_bankAccount_routingNumber"]',
+          routingNumber,
+        );
+    }
+  }
 };
 
 export const completeReviewAndSubmit = (client, data) => {
