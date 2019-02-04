@@ -55,8 +55,8 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
-    // Chapter - Application Information
-    applicantInformation: {
+    // Chapter - Benefits eligibility
+    benefitsEligibility: {
       title: 'Benefits eligibility',
       pages: {
         applicantInformation: {
@@ -65,12 +65,6 @@ const formConfig = {
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
-      },
-    },
-    // Chapter - Benefits eligibility
-    benefitsEligibility: {
-      title: 'Benefits eligibility',
-      pages: {
         benefitsEligibility: {
           title: 'Benefits Eligibility',
           path: 'benefits-eligibility',
