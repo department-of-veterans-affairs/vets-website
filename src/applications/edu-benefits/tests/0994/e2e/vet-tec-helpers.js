@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+const Timeouts = require('../../../../../platform/testing/e2e/timeouts.js');
+
 const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
 
 export const clickAddAnother = (client, i, list) => {
@@ -13,7 +15,7 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.click('.usa-button-primary');
+  client.waitFor('', Timeouts.normal).click('.usa-button-primary');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
