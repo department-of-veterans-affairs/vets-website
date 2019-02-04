@@ -1,101 +1,26 @@
-{% comment %}
-    Example data:
-    {
-    "tid": 6,
-    "name": "Health Care",
-    "fieldIcon": "health-care",
-    "fieldNavItemLink": null,
-    "reverseParentTaxonomyTerm": {
-    "entities":
-    [
-    {
-    "name": "Get Benefits",
-    "fieldIcon": null,
-    "fieldNavItemLink": null,
-    "reverseParentTaxonomyTerm": {
-    "entities": [
-    {
-    "name": "Eligibility",
-    "fieldIcon": null,
-    "fieldNavItemLink": null
-    },
-    {
-    "name": "How to Apply",
-    "fieldIcon": null,
-    "fieldNavItemLink": null
-    },
-    {
-    "name": "Apply Now",
-    "fieldIcon": null,
-    "fieldNavItemLink": null
-    },
-    {
-    "name": "After You Apply",
-    "fieldIcon": null,
-    "fieldNavItemLink": null
-    },
-    {
-    "name": "Family and Caregiver Benefits",
-    "fieldIcon": null,
-    "fieldNavItemLink": null
-    }
-    ]
-    }
-    },
-    {
-    "name": "About VA Health Benefits",
-    "fieldIcon": null,
-    "fieldNavItemLink": {
-    "uri": "entity:node/29",
-    "url": {
-    "path": "/about-va-health-benefits"
-    }
-    },
-    "reverseParentTaxonomyTerm": {
-    "entities": []
-    }
-    },
-    {
-    "name": "Manage Benefits",
-    "fieldIcon": null,
-    "fieldNavItemLink": null,
-    "reverseParentTaxonomyTerm": {
-    "entities": [
-    {
-    "name": "Refill and Track Prescriptions",
-    "fieldIcon": null,
-    "fieldNavItemLink": null
-    }
-    ]
-    }
-    }
-    ]
-    }
-    }
-{% endcomment %}
 
-<nav class="usa-width-one-fourth va-sidebarnav">
-    {% if buildtype != 'vagovprod' %}
-        <script>
-            console.info('Sidenav template generated from content:', {{ debug }});
-        </script>
-    {% endif %}
+{% if buildtype != 'vagovprod' %}
+    <script>
+        console.info('Metalsmithdebar sidebar template generated from content:', {{ debug }});
+    </script>
+{% endif %}
 
-    <div>
-        {% for  %}
-        <div class="left-side-nav-title">
-            <i class="icon-small white hub-icon-{{ sidebar_navigation.fieldIcon }} hub-background-{{ sidebar_navigation.fieldIcon }}"></i>
-            <h4>{{ sidebar_navigation.name }}</h4>
-        </div>
-        <ul class="usa-accordion">
-            {%  for entities in reverseParentTaxonomyTerm %}
+<ul class="usa-sidenav-list">
+    <li>
+        {{ name }}
+        {% for entity in reverseParentTaxonomyTerm.entities %}
+            <ul>
                 <li>
-                    <button class="usa-accordion-button" aria-expanded="true" aria-controls="a1"></button>
-                    <div class="usa-accordion-content" aria-hidden="false">
-
-                    </div>
+                    <a href="" class="">{{ entity.name }}</a>
+                    <ul>
+                        {% for entity in entity.reverseParentTaxonomyTerm.entities %}
+                            <li>
+                                <a href="" class="">{{ entity.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </li>
-            {% endfor %}
-        </ul>
-    </div>
-</nav>
+            </ul>
+        {% endfor %}
+    </li>
+</ul>

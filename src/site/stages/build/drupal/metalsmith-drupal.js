@@ -77,6 +77,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     };
   }
 
+  // Collect sidebar items
   for (const navItem of taxonomies) {
     const { entityBundle, name } = navItem;
 
@@ -86,10 +87,10 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   }
 
   files['drupal/sidebar_navigation/index.html'] = {
-    ...navItems,
+    ...navItems['sidebar_navigation'],
     layout: 'sidebar_navigation.drupal.liquid',
     contents: Buffer.from('<!-- Drupal-provided data -->'),
-    debug: JSON.stringify(navItems, null, 4),
+    debug: JSON.stringify(navItems['sidebar_navigation'], null, 4),
   };
 
   writeDrupalIndexPage(files);
