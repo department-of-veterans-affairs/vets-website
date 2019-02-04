@@ -52,6 +52,22 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
   const navItems = [];
 
+  // Collect sidebar items
+  for (const navItem of taxonomies) {
+    const { entityBundle, name } = navItem;
+
+    if (name === 'Health Care') {
+      navItems[`${entityBundle}`] = navItem;
+    }
+  }
+
+  files['drupal/sidebar_navigation/index.html'] = {
+    ...navItems.sidebar_navigation,
+    layout: 'sidebar_navigation.drupal.liquid',
+    contents: Buffer.from('<!-- Drupal-provided data -->'),
+    debug: JSON.stringify(navItems.sidebar_navigation, null, 4),
+  };
+
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
     // Once the Content-Preview server is up and running, then unpublished pages should
@@ -72,31 +88,15 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     } = page;
 
     files[`drupal${drupalPagePath}/index.html`] = {
-      ...page,
+      ...Object.assign(page, navItems),
       layout: `${entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(page, null, 4),
+      debug: JSON.stringify(Object.assign(page, navItems), null, 4),
       // Keep these pages out of the sitemap until we remove
       // the drupal prefix
       private: true,
     };
   }
-
-  // Collect sidebar items
-  for (const navItem of taxonomies) {
-    const { entityBundle, name } = navItem;
-
-    if (name === 'Health Care') {
-      navItems[`${entityBundle}`] = navItem;
-    }
-  }
-
-  files['drupal/sidebar_navigation/index.html'] = {
-    ...navItems.sidebar_navigation,
-    layout: 'sidebar_navigation.drupal.liquid',
-    contents: Buffer.from('<!-- Drupal-provided data -->'),
-    debug: JSON.stringify(navItems.sidebar_navigation, null, 4),
-  };
 
   writeDrupalIndexPage(files);
 }
