@@ -28,12 +28,10 @@
 {% assign image = entity.fieldImage.entity.image %}
 <div class="merger-r-rail hub-promo" id="promo">
     <img src="{{ image.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.width }}" height="{{ image.height }}">
+  {% if entity.fieldPromoLink != empty %}
     <section class="hub-promo-text">
         <h4 class="heading"><a href="{{ entity.fieldPromoLink.entity.fieldLink.uri }}">{{ entity.fieldPromoLink.entity.fieldLink.title }}</a></h4>
-
         <p>{{ entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
-
-
-
     </section>
+  {% endif %}
 </div>
