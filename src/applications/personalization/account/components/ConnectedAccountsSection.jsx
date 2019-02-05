@@ -6,7 +6,7 @@ export default function ConnectedAccountsSection() {
       <h3>Connected accounts</h3>
       <div>
         <p>
-          Manage the settings for the sites and applications you've given
+          Manage the settings for the sites and applications you’ve given
           permission to access your VA.gov profile data.
         </p>
         <p>

@@ -18,8 +18,8 @@ export function AccountModal({
       visible={modalOpen}
     >
       <p>
-        {appName} won't be able to access your profile data once you disconnect.
-        You can't undo this action.
+        {appName} won’t be able to access your profile data once you disconnect.
+        You can’t undo this action.
       </p>
       <button className="usa-button-primary" onClick={onConfirmDelete}>
         Confirm

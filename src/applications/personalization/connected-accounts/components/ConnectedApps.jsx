@@ -12,7 +12,7 @@ export function ConnectedApps({ confirmDelete, accounts }) {
           {/* eslint-disable prettier/prettier */}
           You gave the sites and applications listed below permissions to
           access some of your VA.gov profile data. These sites and
-          applications can only view your information. They can't change
+          applications can only view your information. They can’t change
           anything.
           {/* eslint-enable prettier/prettier */}
         </p>
