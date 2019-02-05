@@ -83,7 +83,7 @@ class ConnectedApp extends React.Component {
                           Disconnect
                         </button>
                       </p>
-                      <ul className="usa-list">
+                      <ul>
                         {grants.map((a, idx) => (
                           <li key={idx}>{a.title}</li>
                         ))}
