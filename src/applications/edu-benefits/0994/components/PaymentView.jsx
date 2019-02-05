@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { srSubstitute } from '../utils';
@@ -28,12 +29,24 @@ const mask = (string, unmaskedLength) => {
 };
 
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
-  const bankAccountType =
-    formData.bankAccount.accountType || originalData.bankAccountType;
-  const bankAccountNumber =
-    formData.bankAccount.accountNumber || originalData.bankAccountNumber;
-  const bankRoutingNumber =
-    formData.bankAccount.routingNumber || originalData.bankRoutingNumber;
+  const {
+    accountType: newAccountType,
+    accountNumber: newAccountNumber,
+    routingNumber: newRoutingNumber,
+  } = _.get(formData, 'bankAccount', {});
+
+  const hasNewBankAccountInfo =
+    newAccountType || newAccountNumber || newRoutingNumber;
+
+  const bankAccountType = hasNewBankAccountInfo
+    ? newAccountType
+    : originalData.bankAccountType;
+  const bankAccountNumber = hasNewBankAccountInfo
+    ? newAccountNumber
+    : originalData.bankAccountNumber;
+  const bankRoutingNumber = hasNewBankAccountInfo
+    ? newRoutingNumber
+    : originalData.bankRoutingNumber;
 
   return (
     <div>
