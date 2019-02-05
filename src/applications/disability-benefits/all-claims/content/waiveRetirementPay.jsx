@@ -24,7 +24,7 @@ export const waiveRetirementPayDescription = (
         <tr>
           <th />
           <th>Monthly benefit</th>
-          <th>Take-home</th>
+          <th>Take-home pay</th>
         </tr>
       </thead>
       <tbody>
