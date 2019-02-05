@@ -50,7 +50,7 @@ describe('781 getPtsdClassification', () => {
       'combat and non-combat',
     );
     expect(getPtsdClassification(formData, '781').incidentTitle).to.equal(
-      'Combat & Non-combat',
+      'Combat & non-combat',
     );
   });
 });
@@ -82,7 +82,7 @@ describe('781a getPtsdClassification', () => {
       'sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'sexual trauma',
+      'Sexual trauma',
     );
   });
 
@@ -98,7 +98,7 @@ describe('781a getPtsdClassification', () => {
       'personal assault and sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Personal assault & Sexual trauma',
+      'Personal assault & sexual trauma',
     );
   });
 });
