@@ -18,6 +18,8 @@ const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 /* Non-review growable table (array) field */
+// Mostly copied from USFS with a few additions/modifications:
+// Addition of 'Save' button, handleSave action, modifications to handleRemove
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
@@ -289,7 +291,6 @@ export default class ArrayField extends React.Component {
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
-            // This is largely copied from the default ArrayField
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(
