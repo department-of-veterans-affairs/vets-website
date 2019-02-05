@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getNextPagePath } from 'us-forms-system/lib/js/routing';
+import _ from '../../../platform/utilities/data';
 
 import {
   formDescriptions,
@@ -37,9 +38,11 @@ class SaveInProgressIntro extends React.Component {
     );
     if (login.currentlyLoggedIn) {
       if (savedForm) {
+        const lastUpdated =
+          savedForm.lastUpdated || _.get('metadata.lastUpdated', savedForm);
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
-          : moment.unix(savedForm.lastUpdated);
+          : moment.unix(lastUpdated);
         const expiresAt = moment.unix(savedForm.metadata.expiresAt);
         const expirationDate = expiresAt.format('MMM D, YYYY');
         const isExpired = expiresAt.isBefore();
