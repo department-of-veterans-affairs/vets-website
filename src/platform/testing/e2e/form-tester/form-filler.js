@@ -198,7 +198,7 @@ const getSnapshot = async page => ({
  * @returns {Boolean} True if the snapshots don't match
  */
 const fieldsNeedInput = (original, newSnapshot) =>
-  Object.keys(original).every(key => original[key] === newSnapshot[key]);
+  !Object.keys(original).every(key => original[key] === newSnapshot[key]);
 
 /**
  * Returns the arrayPath and index for the current URL.
