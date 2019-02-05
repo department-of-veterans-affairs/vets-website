@@ -1,7 +1,7 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
-const FIELD_SELECTOR = 'input, select';
+const FIELD_SELECTOR = 'input, select, textarea';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
@@ -13,7 +13,7 @@ const findData = (fieldSelector, testData) => {
   const dataPath = fieldSelector
     .replace(/^root_/, '')
     .replace(/_/g, '.')
-    .replace(/\.(\d+)\./g, (match, number) => `[${number}]`);
+    .replace(/\._(\d+)\./g, (match, number) => `[${number}]`);
   const result = _.get(dataPath, testData);
   return result;
 };
@@ -25,8 +25,8 @@ const getElementSelector = (field, fieldData) => {
     checkbox: `input[id="${field.selector}"]${
       fieldData ? ':not(checked)' : ':checked'
     }`,
+    textarea: `textarea[id="${field.selector}"]`,
     tel: inputSelector,
-    textarea: inputSelector,
     text: inputSelector,
     email: inputSelector,
     number: inputSelector,
@@ -201,14 +201,37 @@ const fieldsNeedInput = (original, newSnapshot) =>
   !Object.keys(original).every(key => original[key] === newSnapshot[key]);
 
 /**
- * Returns a function that enters data for each field. When called subsequent times,
- *  it will only enter data into new fields (in the event that some fields have been
- *  expanded);
+ * Returns the arrayPath and index for the current URL.
+ * If we have multiple levels of nested array pages, this will probably fail.
+ */
+const getArrayInfo = (url, arrayPages = []) => {
+  const arrayPathObject = arrayPages.find(arrayPage =>
+    url.replace(/\d+$/, '').endsWith(arrayPage.path.replace(':index', '')),
+  );
+  return arrayPathObject
+    ? {
+        arrayPath: arrayPathObject.arrayPath,
+        index: parseInt(url.match(/\d+/g).pop(), 10), // Naively assumes the last number in the url is the index
+      }
+    : {};
+};
+
+const getArrayData = (testData, arrayPageConfig) =>
+  findData(`${arrayPageConfig.arrayPath}`, testData)[arrayPageConfig.index];
+
+/**
+ * Enters data for each field, looping until no more fields have been expanded and
+ *  no more array items are available in the test data.
  */
 const fillPage = async (page, testData, testConfig, log = () => {}) => {
-  // TODO: Make make log use getLogger
-  // TODO: Remove testConfig from params
+  // TODO: Make log use getLogger
   const touchedFields = new Set();
+  let pageData = testData;
+  const arrayPageConfig = getArrayInfo(page.url(), testConfig.arrayPages);
+  if (arrayPageConfig.arrayPath) {
+    log('Found arrayPath', arrayPageConfig.arrayPath);
+    pageData = getArrayData(testData, arrayPageConfig);
+  }
 
   // Continue to fill out the fields until there are new fields shown
   let originalSnapshot;
@@ -233,7 +256,7 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
           sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
         if (isDateField(selector)) {
           type = 'date';
-          // We only have one date field in the test data, so we fill two or three
+          // We only have one date field in the test data, but we fill two or three
           //  fields with one enterData call
           selector = selector.replace(/(Year|Month|Day)$/, '');
         }
@@ -259,7 +282,7 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
 
     for (const field of fields) {
       touchedFields.add(field.selector);
-      await enterData(page, field, findData(field.selector, testData), log);
+      await enterData(page, field, findData(field.selector, pageData), log);
     }
 
     // If we have newly-expanded fields, they may be array fields.
