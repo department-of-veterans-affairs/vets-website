@@ -1,7 +1,4 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export default function ConnectedAccountsSection() {
   return (
@@ -10,7 +7,7 @@ export default function ConnectedAccountsSection() {
       <div>
         <p>
           Manage the settings for the sites and applications you've given
-          permission to access your {propertyName} profile data.
+          permission to access your VA.gov profile data.
         </p>
         <p>
           <a

@@ -47,7 +47,7 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
               })
             }
           >
-            Go to connect account FAQs
+            Go to connected account FAQs
           </a>
           .
         </div>
