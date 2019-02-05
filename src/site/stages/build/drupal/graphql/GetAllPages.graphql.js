@@ -11,7 +11,7 @@ module.exports = `
   ${page}
 
   query GetAllPages {
-    nodeQuery {
+    nodeQuery(limit: 100) {
       entities {
         ... landingPage
         ... page

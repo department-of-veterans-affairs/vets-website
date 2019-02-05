@@ -9,8 +9,8 @@ export const eligibilityDescription = (
 
 export const eligibilityInstructions = (
   <p>
-    You’ll need to complete VA Form 22-1990 and file it with us to finish the
-    VET TEC application. Since you haven’t submitted that yet, we’ll route you
-    to it after you complete this one.
+    You’ll need to complete a VA Form 22-1990 and file it with us so we can
+    determine your eligibility for education benefits. We’ll take you to that
+    form after you complete this one.
   </p>
 );
