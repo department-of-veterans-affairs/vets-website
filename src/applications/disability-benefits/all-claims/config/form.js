@@ -356,7 +356,7 @@ const formConfig = {
         },
         ptsd781ChangesIntro: {
           title: 'Additional changes in behavior - physical',
-          path: 'new-disabilities/ptsd-781a-physical-changes',
+          path: 'new-disabilities/ptsd-781a-changes-intoduction',
           depends: isAnswering781aQuestions(0),
           uiSchema: ptsd781aChangesIntro.uiSchema,
           schema: ptsd781aChangesIntro.schema,

@@ -28,13 +28,13 @@ export const getPtsdClassification = (formData, formType) => {
 
   switch (true) {
     case isCombat && isNonCombat && is781:
-      incidentTitle = 'Combat & Non-combat';
+      incidentTitle = 'Combat & non-combat';
 
       incidentText = 'combat and non-combat';
       break;
 
     case isAssault && isMst && !is781:
-      incidentTitle = 'Personal assault & Sexual trauma';
+      incidentTitle = 'Personal assault & sexual trauma';
       incidentText = 'personal assault and sexual trauma';
       break;
 
@@ -54,7 +54,7 @@ export const getPtsdClassification = (formData, formType) => {
       break;
 
     case isMst && !is781:
-      incidentTitle = 'sexual trauma';
+      incidentTitle = 'Sexual trauma';
       incidentText = 'sexual trauma';
       break;
 
