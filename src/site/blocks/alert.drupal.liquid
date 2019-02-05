@@ -1,0 +1,45 @@
+{% comment %}
+    Example data:
+    {
+        "entityBundle": "alert",
+        "fieldAlertType": "warning",
+        "fieldHelpText": null,
+        "fieldAlertTitle": "How do I talk to someone right now?",
+        "fieldReusability": "reusable",
+        "fieldAlertContent": {
+            "entity": {
+                "fieldWysiwyg": {
+                "processed": "..."
+                },
+                "fieldTextExpander": "Find out how to get support anytime day or night."
+            }
+        }
+    }
+{% endcomment %}
+{% if alert.fieldAlertContent %}
+    {% assign expander = alert.fieldAlertContent.entity %}
+{% endif %}
+
+<div class="usa-alert usa-alert-{{ alert.fieldAlertType }}" role="alert">
+    <div class="usa-alert-body">
+        <h3 class="usa-alert-heading">
+            {{ alert.fieldAlertTitle }}
+            {% if expander.fieldTextExpander %}
+                <br><a id="crisis-expander-link">{{ expander.fieldTextExpander }}</a>
+            {% endif %}
+        </h3>
+        {% if alert.fieldHelpText %}<p>{{ alert.fieldHelpText }}</p>{% endif %}
+        {% if expander.fieldTextExpander %}<div id="crisis-expander-content" class="expander-content expander-content-closed">
+            <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
+        </div>{% endif %}
+    </div>
+</div>
+
+{% if expander.fieldTextExpander %}
+    <script type="text/javascript">
+      // Toggle the expander crisis info
+      document.getElementById('crisis-expander-link').addEventListener('click', function() {
+        document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+      });
+    </script>
+{% endif %}
