@@ -44,8 +44,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
 /**
  * Runs through the form one time for each item in testDataSets.
  *
- * @typedef {TestConfig}
- * @type {object}
+ * @typedef {object} TestConfig
  * @property {function} setup - Function called before the browser navigates to the initial URL.
  *                              Useful for setting up api mocks.
  * @property {string} url - The url where the form can be found.
@@ -59,6 +58,11 @@ const runTest = async (page, testData, testConfig, userToken) => {
  *                                         testDataPathPrefix should be set to 'data'.
  * @property {boolean} debug - If true, the test won't run in headless mode, will do some extra
  *                             logging, and won't close the browser on a failed test.
+ * @property {array<ArrayPage>} arrayPaths
+ * ---
+ * @typedef {object} ArrayPage
+ * @property {string} url - The url for the array page
+ * @property {string} arrayPath - The arrayPath as it is in the formConfig
  * ---
  * @typedef {TestDataSets}
  * @type {object}
