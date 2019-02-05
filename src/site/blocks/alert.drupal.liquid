@@ -26,11 +26,11 @@
     <div class="usa-alert-body">
         <h3 class="usa-alert-heading">
             {{ alert.fieldAlertTitle }}
-            {% if expander.fieldTextExpander %}
-                <br><button id="{{ expander.entityBundle }}-{{ expander.entityId }}" class="va-button-link" aria-expanded="false">{{ expander.fieldTextExpander }}</button>
-            {% endif %}
         </h3>
         {% if alert.fieldHelpText %}<p>{{ alert.fieldHelpText }}</p>{% endif %}
+        {% if expander.fieldTextExpander %}
+            <button id="{{ expander.entityBundle }}-{{ expander.entityId }}" class="va-button-link" aria-expanded="false">{{ expander.fieldTextExpander }}</button>
+        {% endif %}
         {% if expander.fieldTextExpander %}<div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
             <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
         </div>{% endif %}
