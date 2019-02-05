@@ -32,39 +32,22 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 const drupalClient = getDrupalClient(options);
 
-app.use(
-  '/generated',
-  express.static(path.join(__dirname, '..', options.buildpath, 'generated')),
-);
-app.use(
-  '/img',
-  express.static(path.join(__dirname, '..', options.buildpath, 'img')),
-);
-app.use(
-  '/js',
-  express.static(path.join(__dirname, '..', options.buildpath, 'js')),
-);
-app.use(
-  '/fonts',
-  express.static(path.join(__dirname, '..', options.buildpath, 'fonts')),
-);
+app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
-app.use(async (req, res, next) => {
+app.get('/preview', async (req, res) => {
   const smith = createPipieline({
     ...options,
     port: process.env.PORT,
   });
 
-  const drupalData = await drupalClient.getPageById(req.path).data;
+  const drupalData = await drupalClient.getLatestPageById(req.query.nodeId);
 
-  if (!drupalData || !drupalData.route) {
-    // Once we have Metalsmith templating in place for Drupal data, we should
-    // use that instead of the GH data.
-    next();
+  if (!drupalData.data.nodes.entities.length) {
+    res.sendStatus(404);
     return;
   }
 
-  const drupalPage = drupalData.route.entity;
+  const drupalPage = drupalData.data.nodes.entities[0];
 
   const files = {
     [`${req.path.substring(1)}/index.html`]: {
@@ -86,8 +69,6 @@ app.use(async (req, res, next) => {
     res.send(Object.entries(newFiles)[0][1].contents);
   });
 });
-
-app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
 app.listen(options.port, () => {
   // eslint-disable-next-line no-console
