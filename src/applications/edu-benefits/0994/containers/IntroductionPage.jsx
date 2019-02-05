@@ -21,9 +21,9 @@ export class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Education Application"
+          startText="Start the VET TEC Application"
         />
-        <h4>Follow the steps below to apply for education benefits.</h4>
+        <h4>Follow the steps below to apply for VET TEC.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -34,50 +34,57 @@ export class IntroductionPage extends React.Component {
                 <h6>To fill out this application, you’ll need your:</h6>
               </div>
               <ul>
-                <li>Social Security number (required)</li>
-                <li>Sponsor’s Social Security number (required)</li>
+                <li>Direct deposit information</li>
+                <li>Highest level of education</li>
+                <li>Previous high-tech industry experience, if applicable</li>
                 <li>
-                  Basic information about the school or training facility you
-                  want to attend
+                  (Optional) Information about the school or training facility
+                  you want to attend
                 </li>
-                <li>Bank account direct deposit information</li>
-                <li>Education history</li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong>{' '}
-                An accredited representative, like a Veterans Service Officer
-                (VSO), can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/index.html">
-                  Get help filing your claim
+                You can complete the application to see if you are eligible,
+                even if you have not yet selected the specific program you’d
+                like to attend.{' '}
+                <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
+                  Learn more about the types of programs that are covered by VET
+                  TEC
                 </a>
                 .
               </p>
-              <h6>Learn about educational programs</h6>
               <p>
-                See what benefits you’ll get at the school you want to attend.{' '}
-                <a href="/gi-bill-comparison-tool/">
-                  Use the GI Bill Comparison Tool
+                <strong>What if I need help filling out my application?</strong>{' '}
+                An accredited representative, like a Veterans Service Officer
+                (VSO), can help you fill out your application.{' '}
+                <a href="/disability/get-help-filing-claim/">
+                  Find an accredited representative.
                 </a>
-                .
               </p>
             </li>
             <li className="process-step list-two">
               <div>
                 <h5>Apply</h5>
               </div>
-              <p>Complete this education benefits form.</p>
-              <p>
-                After submitting the form, you’ll get a confirmation message.
-                You can print this for your records.
-              </p>
+              <ul>
+                <li>Complete this application form.</li>
+                <li>
+                  Complete VA Form 22-1990, if you haven’t already. You can
+                  access it from the confirmation page that appears once you
+                  submit this form (VA Form 22-0994).
+                </li>
+                <li>
+                  After submitting the form, you’ll get a confirmation message.
+                  You can print this for your records.
+                </li>
+              </ul>
             </li>
             <li className="process-step list-three">
               <div>
                 <h5>VA Review</h5>
               </div>
               <p>
-                We usually process claims within 30 days. We’ll let you know by
-                mail if we need more information.
+                We usually process applications within 30 days. We’ll let you
+                know by mail if we need more information.
               </p>
               <p>
                 We offer tools and counseling programs to help you make the most
@@ -106,7 +113,7 @@ export class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Education Application"
+          startText="Start the VET TEC Application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo
