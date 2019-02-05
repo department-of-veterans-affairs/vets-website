@@ -1,3 +1,5 @@
+import _ from '../../../platform/utilities/data';
+
 export function prefillTransformer(pages, formData, metadata) {
   // TODO: enable this to implement the review card UI for verified users
   // TODO: add 'state' to arguments
@@ -12,9 +14,27 @@ export function prefillTransformer(pages, formData, metadata) {
     emailAddress: formData.emailAddress,
   };
 
+  const newData = _.omit(['bankAccount'], formData);
+
+  const {
+    bankAccountType,
+    bankAccountNumber,
+    bankRoutingNumber,
+  } = formData.bankAccount;
+
+  let hasBankInformation = false;
+
+  if (bankAccountType && bankAccountNumber && bankRoutingNumber) {
+    hasBankInformation = true;
+  }
+
   const newFormData = {
-    ...formData,
+    ...newData,
     'view:phoneAndEmail': phoneAndEmail,
+    'view:prefillBankAccount': formData.bankAccount,
+    'view:bankAccount': {
+      'view:hasBankInformation': hasBankInformation,
+    },
   };
 
   return {
