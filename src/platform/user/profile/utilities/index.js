@@ -1,6 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
+import { authnSettings } from '../../authentication/utilities';
 import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
 
@@ -127,7 +128,7 @@ export function setupProfileSession(payload) {
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (sessionStorage.getItem('registrationPending') === 'true') {
+  if (sessionStorage.getItem(authnSettings.REGISTRATION_PENDING)) {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
     sessionStorage.removeItem('registrationPending');
