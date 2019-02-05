@@ -34,7 +34,7 @@ function getDrupalClient(buildOptions) {
         return response.json();
       }
 
-      throw new Error(`HTTP error: ${response.statusCode}`);
+      throw new Error(`HTTP error: ${response.status}`);
     },
 
     getAllPages() {
