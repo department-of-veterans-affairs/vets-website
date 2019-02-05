@@ -63,10 +63,10 @@ app.get('/preview', async (req, res) => {
       // eslint-disable-next-line no-console
       console.log(err);
       res.sendStatus(500);
+    } else {
+      res.set('Content-Type', 'text/html');
+      res.send(Object.entries(newFiles)[0][1].contents);
     }
-    res.set('Content-Type', 'text/html');
-    // This will actually need to convert a md path to an html path, probably
-    res.send(Object.entries(newFiles)[0][1].contents);
   });
 });
 
