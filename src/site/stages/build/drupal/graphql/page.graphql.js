@@ -1,12 +1,7 @@
-const { alert, FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
-const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
+const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const {
-  listOfLinkTeasers,
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
-const process = require('./paragraph-fragments/process.paragraph.graphql');
-const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
-const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
 
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
@@ -20,13 +15,6 @@ const QA_SECTION = '... qaSection';
 
 module.exports = `
 
-  ${wysiwyg}
-  ${collapsiblePanel}
-  ${process}
-  ${qaSection}
-  ${alert}
-  ${listOfLinkTeasers}
-  
   fragment page on NodePage {
     entityUrl {
       ... on EntityCanonicalUrl {

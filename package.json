@@ -109,6 +109,7 @@
     "command-line-args": "^3.0.1",
     "cors": "^2.7.1",
     "css-loader": "^0.28.10",
+    "decompress": "^4.2.0",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.7.1",
