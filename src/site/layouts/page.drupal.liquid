@@ -18,11 +18,18 @@
         <div class="usa-font-lead">
           {{ fieldIntroText }}
         </div>
+
+        {% if fieldAlert %}
+            {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+        {% endif %}
+
         {% for block in fieldContentBlock %}
           {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
           {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-          {% include {{ bundleComponentWithExtension }} with block = block %}
+          {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
+
+        {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity  %}
       </article>
 
       <div class="last-updated usa-content">

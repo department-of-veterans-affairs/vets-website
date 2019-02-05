@@ -10,6 +10,7 @@ const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
 const navigation = require('metalsmith-navigation');
+const converter = require('number-to-words');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
@@ -27,6 +28,7 @@ const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
 const createMegaMenu = require('./plugins/create-megamenu');
+const createTemporaryReactPages = require('./plugins/create-react-pages');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -38,6 +40,8 @@ function defaultBuild(BUILD_OPTIONS) {
     moment.unix(dt).format('MMMM D, YYYY');
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
+
+  liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
@@ -52,6 +56,7 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
+
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -110,6 +115,8 @@ function defaultBuild(BUILD_OPTIONS) {
       ],
     }),
   );
+
+  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
   smith.use(
     navigation({
