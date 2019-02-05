@@ -82,6 +82,8 @@ node('vetsgov-general-purpose') {
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
   def dockerImage, args, ref, imageTag
 
+  def cmsEnv = params.get('cmsEnv', 'none')
+
   // Checkout source, create output directories, build container
 
   stage('Setup') {
@@ -108,6 +110,7 @@ node('vetsgov-general-purpose') {
         sh "mkdir -p build"
         sh "mkdir -p logs/selenium"
         sh "mkdir -p coverage"
+        sh "mkdir -p temp"
 
         imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
@@ -125,6 +128,8 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Lint|Security|Unit') {
+    if (cmsEnv == 'none') { return }
+
     try {
       parallel (
         lint: {
@@ -188,12 +193,13 @@ node('vetsgov-general-purpose') {
 
     try {
       def builds = [:]
+      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
+            sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
             sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
