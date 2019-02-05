@@ -115,9 +115,14 @@ const individualUnemployabilityContent = (
 );
 
 export default function summaryDescription({ formData }) {
+  // In production, users should see the unemployable content if they indicate
+  // that they're unemployable. In other environments, they should see the
+  // unemployable content only when no selection has been made for
+  // `view:unemployabilityUploadChoice` (selecting any option for that question
+  // will evaluate to true because all the answers are strings)
   const showUnemployableContent = environment.isProduction()
     ? formData['view:unemployable']
-    : false;
+    : !formData['view:unemployabilityUploadChoice'];
 
   return (
     <div>
