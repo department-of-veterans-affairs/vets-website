@@ -56,7 +56,7 @@ class ConnectedApp extends React.Component {
                   Details
                   <i
                     className={`fa fa-chevron-${
-                      this.state.detailsOpen ? 'down' : 'right'
+                      this.state.detailsOpen ? 'up' : 'down'
                     }`}
                   />
                 </a>
@@ -83,7 +83,7 @@ class ConnectedApp extends React.Component {
                           Disconnect
                         </button>
                       </p>
-                      <ul>
+                      <ul className="usa-list">
                         {grants.map((a, idx) => (
                           <li key={idx}>{a.title}</li>
                         ))}
