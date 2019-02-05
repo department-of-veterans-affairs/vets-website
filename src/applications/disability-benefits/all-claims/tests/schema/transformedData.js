@@ -1,22 +1,21 @@
 export const transformedMinimalData = {
   form526: {
-    hasTrainingPay: false,
     isVaEmployee: false,
     homelessOrAtRisk: 'no',
     phoneAndEmail: {
-      primaryPhone: '1231231234',
-      emailAddress: 'asdf@as.asdf',
+      primaryPhone: '4445551212',
+      emailAddress: 'test2@test1.net',
     },
     mailingAddress: {
       country: 'USA',
-      addressLine1: 'asdf',
-      city: 'asdf',
-      state: 'AL',
-      zipCode: '19234',
+      addressLine1: '123 Main',
+      city: 'Bigcity',
+      state: 'AK',
+      zipCode: '12345',
     },
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Diabetes mellitus0',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -24,20 +23,35 @@ export const transformedMinimalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
-        unemployabilityDisability: true,
+      },
+      {
+        name: 'Diabetes mellitus1',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
       },
     ],
+    hasTrainingPay: false,
     serviceInformation: {
+      reservesNationalGuardService: {
+        obligationTermOfServiceDateRange: {
+          from: '2007-05-22',
+          to: '2008-06-05',
+        },
+        unitName: 'Unit name here',
+      },
       servicePeriods: [
         {
-          serviceBranch: 'Air Force',
-          dateRange: {
-            from: '1900-01-01',
-            to: '1901-01-01',
-          },
+          serviceBranch: 'Air Force Reserve',
+          dateRange: { from: '2001-03-21', to: '2014-07-21' },
         },
       ],
     },
+    servedInCombatZonePost911: false,
     standardClaim: false,
   },
 };
