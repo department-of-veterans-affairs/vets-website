@@ -43,6 +43,8 @@ function defaultBuild(BUILD_OPTIONS) {
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
+  liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
+
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
   //

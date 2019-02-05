@@ -10,6 +10,8 @@ module.exports = `
           entity {
             ... on TaxonomyTermAdministration {
               name
+              entityId
+              entityBundle
               fieldIntroText
               fieldDescription
               fieldAcronym
