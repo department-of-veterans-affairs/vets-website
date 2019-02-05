@@ -8,7 +8,6 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
-  EVSS_DISABILITY_NAME_REGEX,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -239,10 +238,8 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
 export const validateDisabilityName = (err, fieldData) => {
   if (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
-    !EVSS_DISABILITY_NAME_REGEX.test(fieldData)
+    fieldData.length > 255
   ) {
-    // technically single quotes (’) are allowed as well but leaving out of
-    // this message to avoid confusing veterans who can't tell the difference
-    err.addError('The only special characters allowed are: , . ( ) / -');
+    err.addError('Condition names should be less than 255 characters');
   }
 };
