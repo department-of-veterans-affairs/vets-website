@@ -240,6 +240,6 @@ export const validateDisabilityName = (err, fieldData) => {
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
   ) {
-    err.addError('Condition names should be less than 255 characters');
+    err.addError('Condition names should be less than 256 characters');
   }
 };
