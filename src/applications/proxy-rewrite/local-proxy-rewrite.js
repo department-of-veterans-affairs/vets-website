@@ -26,7 +26,11 @@ function injectLocalBundle() {
       const vaPageResponse = await fetch(vaGovUrl);
       const vaPageHtml = await vaPageResponse.text();
 
-      vaGovCache[vaGovUrl] = vaPageHtml.replace(prodBucketRegex, '');
+      const test = vaPageHtml.replace(
+        'proxy-rewrite.entry.js',
+        'header-footer-loader.entry.js',
+      );
+      vaGovCache[vaGovUrl] = test.replace(prodBucketRegex, '');
     }
 
     res.send(vaGovCache[vaGovUrl]);
@@ -41,6 +45,13 @@ function fallbackToTeamSiteServer(buildOptions) {
     // files by checking the local file system. Instead, we just assume
     // all Webpack-generated files will be served locally.
     if (req.path.startsWith('/generated/')) {
+      /*
+      if (!loaded && req.path.endsWith('proxy-rewrite.entry.js')) {
+        loaded = !loaded;
+        res.redirect(`/generated/header-footer-loader.entry.js`);
+        return;
+      }
+      */
       next();
       return;
     }

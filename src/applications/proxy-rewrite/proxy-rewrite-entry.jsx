@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import cookie from 'cookie';
+// import cookie from 'cookie';
 import createCommonStore from '../../platform/startup/store';
 
 import headerPartial from './partials/header';
@@ -16,10 +16,12 @@ import startFeedbackWidget from '../../platform/site-wide/feedback';
 import startVAFooter, {
   footerElemementId,
 } from '../../platform/site-wide/va-footer';
-import redirectIfNecessary from './redirects';
+// import redirectIfNecessary from './redirects';
 import addFocusBehaviorToCrisisLineModal from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
-import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
+// import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
+
+console.log('loaded!');
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -65,7 +67,7 @@ function activateHeaderFooter(observer) {
   footerContainer.innerHTML = footerPartial;
   footerContainer.classList.add('consolidated');
 
-  observer.disconnect();
+  // observer.disconnect();
   document.body.insertBefore(headerContainer, document.body.firstChild);
   document.body.appendChild(footerContainer);
 }
@@ -127,20 +129,26 @@ function mountReactComponents(commonStore) {
   renderFooter();
 }
 
-function activateInjectedAssets() {
-  const observer = new MutationObserver(createMutationObserverCallback());
-  observer.observe(document, {
-    attributes: true,
-    childList: true,
-    subtree: true,
-  });
+activateHeaderFooter();
+mountReactComponents(createCommonStore());
 
-  document.addEventListener('DOMContentLoaded', _e => {
-    activateHeaderFooter(observer);
-    mountReactComponents(createCommonStore());
-  });
-}
+// function activateInjectedAssets() {
+/*
+const observer = new MutationObserver(createMutationObserverCallback());
+observer.observe(document, {
+  attributes: true,
+  childList: true,
+  subtree: true,
+});
 
+document.addEventListener('DOMContentLoaded', _e => {
+  activateHeaderFooter(observer);
+  mountReactComponents(createCommonStore());
+});
+*/
+// }
+
+/*
 function getProxyRewriteCookieValue(
   cookies = document.cookie,
   parseCookie = cookie.parse,
@@ -169,7 +177,9 @@ function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
 
   return true;
 }
+*/
 
+/*
 if (
   shouldActivateInjectedAssets(
     getMatchedWhitelistItem(),
@@ -179,3 +189,4 @@ if (
   redirectIfNecessary(window);
   activateInjectedAssets();
 }
+*/
