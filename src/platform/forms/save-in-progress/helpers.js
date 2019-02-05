@@ -13,11 +13,14 @@ export function createRoutesWithSaveInProgress(formConfig) {
     'introduction',
     'review-and-submit',
     'confirmation',
+    'id-form',
     '*',
   ]);
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
   const newRoutes = createRoutes(formConfig);
+  // eslint-disable-next-line no-debugger
+  // debugger;
 
   newRoutes.forEach((route, index) => {
     let newRoute;
