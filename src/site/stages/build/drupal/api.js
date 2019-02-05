@@ -29,7 +29,12 @@ function getDrupalClient(buildOptions) {
         mode: 'cors',
         body: JSON.stringify(args),
       });
-      return response.json();
+
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error(`HTTP error: ${response.statusCode}`);
     },
 
     getAllPages() {
