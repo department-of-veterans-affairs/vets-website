@@ -3,6 +3,8 @@ const _ = require('lodash/fp');
 
 const FIELD_SELECTOR = 'input, select';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
+const ARRAY_ITEM_SELECTOR =
+  'div[name^="topOfTable_"] ~ div.va-growable-background';
 
 /**
  * Finds the data in testData for a single field.
@@ -114,7 +116,12 @@ const enterData = async (page, field, fieldData, log) => {
           parseInt(date[2], 10).toString(),
         );
       }
-      await page.type(`input[name="${field.selector}Year"]`, date[0]);
+      // Clear the year before typing
+      const yearSelector = `input[name="${field.selector}Year"]`;
+      await page.evaluate(sel => {
+        document.querySelector(sel).value = '';
+      }, yearSelector);
+      await page.type(yearSelector, date[0]);
       break;
     }
     case 'file': {
@@ -133,6 +140,67 @@ const enterData = async (page, field, fieldData, log) => {
 };
 
 /**
+ * Checks for array inputs and hits the add button for all the arrays that still have
+ *  more data.
+ * @param {Page} page - The page from puppeteer.
+ * @param {Object} testData - The test data.
+ */
+const addNewArrayItem = async (page, testData) => {
+  const arrayPaths = await page.$$eval('div[name^="topOfTable_root_"]', divs =>
+    divs.map(d => d.getAttribute('name').replace('topOfTable_', '')),
+  );
+
+  await Promise.all(
+    arrayPaths.map(async path => {
+      const lastIndex = await page.$eval(
+        `div[name$="${path}"] ~ div:last-of-type > div[name^="table_root_"]`,
+        // Grab the number at the very end
+        div => parseInt(div.getAttribute('name').match(/\d+$/g), 10),
+      );
+      // Check the testData to see if it has more data
+      const arrayData = findData(path, testData);
+      if (arrayData.length - 1 > lastIndex) {
+        // If so, poke the appropriate add button
+        await page.click(
+          `div[name="topOfTable_${path}"] ~ button.va-growable-add-btn`,
+        );
+      }
+    }),
+  );
+};
+
+const getFieldCount = async page =>
+  page.$$eval(FIELD_SELECTOR, elements => elements.length);
+
+const getArrayItemCount = async page =>
+  page.$$eval(ARRAY_ITEM_SELECTOR, elements => elements.length);
+
+/**
+ * Gets a snapshot of all the relevant pieces of the page.
+ * Used to determine whether the form app tester should continue entering data.
+ *
+ * @typedef {Object} Snapshot
+ * @property {Number} fieldCount - The number of fields on the page
+ * @property {Number} arrayItemCount - The number of array items on the page
+ *
+ * @param {Page} page - The page from puppeteer
+ * @returns {Snapshot}
+ */
+const getSnapshot = async page => ({
+  fieldCount: await getFieldCount(page),
+  arrayItemCount: await getArrayItemCount(page),
+});
+
+/**
+ * Performs a shallow comparison of two snapshots.
+ * @param {Snapshot} original - The original snapshot before data was entered
+ * @param {Snapshot} newSnapshot - The new snapshot after data was entered
+ * @returns {Boolean} True if the snapshots don't match
+ */
+const fieldsNeedInput = (original, newSnapshot) =>
+  !Object.keys(original).every(key => original[key] === newSnapshot[key]);
+
+/**
  * Returns a function that enters data for each field. When called subsequent times,
  *  it will only enter data into new fields (in the event that some fields have been
  *  expanded);
@@ -143,11 +211,10 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   const touchedFields = new Set();
 
   // Continue to fill out the fields until there are new fields shown
-  let fieldCount;
-  let newFieldCount;
+  let originalSnapshot;
   /* eslint-disable no-await-in-loop */
   do {
-    fieldCount = await page.$$eval(FIELD_SELECTOR, elements => elements.length);
+    originalSnapshot = await getSnapshot(page);
     log(
       'Field list:',
       await page.$$eval(FIELD_SELECTOR, elements =>
@@ -195,14 +262,12 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
       await enterData(page, field, findData(field.selector, testData), log);
     }
 
-    // TODO: Check for arrays and click the appropriate add buttons
-    // TODO: Check for multiple add buttons and warn if there are
-
-    newFieldCount = await page.$$eval(
-      FIELD_SELECTOR,
-      elements => elements.length,
-    );
-  } while (fieldCount !== newFieldCount);
+    // If we have newly-expanded fields, they may be array fields.
+    // Add a new array item as needed only after we have no more expanded fields.
+    if (!fieldsNeedInput(originalSnapshot, await getSnapshot(page))) {
+      await addNewArrayItem(page, testData);
+    }
+  } while (fieldsNeedInput(originalSnapshot, await getSnapshot(page)));
   /* eslint-enable no-await-in-loop */
 };
 
@@ -236,6 +301,7 @@ const fillForm = async (page, testData, testConfig, log) => {
       await fillPage(page, testData, testConfig, log);
 
       // Hit the continue button
+      log('Clicking continue');
       await page.click(CONTINUE_BUTTON);
 
       // If we're still on the page, it may be because an element was expanded
