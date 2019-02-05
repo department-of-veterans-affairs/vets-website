@@ -45,9 +45,7 @@ class SaveInProgressIntro extends React.Component {
         const isExpired = expiresAt.isBefore();
 
         if (!isExpired) {
-          const lastSavedDateTime = moment
-            .unix(savedAt)
-            .format('M/D/YYYY [at] h:mm a');
+          const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
           alert = (
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
