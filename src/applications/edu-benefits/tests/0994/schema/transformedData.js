@@ -4,7 +4,7 @@ const transformedMinimalDataActual = {
     first: 'testy',
     last: 'mcTestFace',
   },
-  appliedForVAEducationBenefits: false,
+  appliedForVaEducationBenefits: false,
   activeDuty: true,
   dayTimePhone: '4445551212',
   emailAddress: 'test2@test1.net',
@@ -56,7 +56,7 @@ const transformedMaximalDataActual = {
   otherEducation: 'other ed',
   activeDuty: true,
   activeDutyDuringVetTec: true,
-  appliedForVAEducationBenefits: false,
+  appliedForVaEducationBenefits: false,
   applicantFullName: {
     first: 'Greg',
     middle: 'A',
