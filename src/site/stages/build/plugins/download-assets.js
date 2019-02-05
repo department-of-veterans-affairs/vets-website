@@ -88,6 +88,8 @@ async function downloadFromArchive(files, assetSource, buildtype) {
       contents: fs.readFileSync(path.join(assetsPath, 'generated', file)),
     };
   });
+
+  fs.emptyDirSync(assetsPath);
 }
 
 function downloadAssets(buildOptions) {
