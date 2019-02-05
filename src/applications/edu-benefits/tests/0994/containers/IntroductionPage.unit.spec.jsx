@@ -24,7 +24,8 @@ describe('Edu 0994 <IntroductionPage>', () => {
     expect(tree.find('FormTitle').props().title).to.contain(
       'Apply for the Veteran Employment Through Technology Education Courses (VET TEC) Pilot Program',
     );
-    expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
+    expect(tree.find('withRouter(Connect(SaveInProgressIntro))').exists()).to.be
+      .true;
     expect(tree.find('.process-step').length).to.equal(4);
     tree.unmount();
   });
