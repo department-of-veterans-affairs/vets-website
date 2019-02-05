@@ -128,7 +128,7 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Lint|Security|Unit') {
-    if (cmsEnv == 'none') { return }
+    if (cmsEnv != 'none') { return }
 
     try {
       parallel (
