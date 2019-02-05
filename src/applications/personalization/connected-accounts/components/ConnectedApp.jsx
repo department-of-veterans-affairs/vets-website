@@ -65,7 +65,6 @@ class ConnectedApp extends React.Component {
                   modalOpen={this.state.modalOpen}
                   onCloseModal={this.closeModal}
                   onConfirmDelete={this.confirmDelete}
-                  propertyName={this.props.propertyName}
                 />
               </th>
             </tr>
@@ -106,7 +105,6 @@ ConnectedApp.propTypes = {
   type: PropTypes.string.isRequired,
   attribtues: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
-  propertyName: PropTypes.string.isRequired,
   isLast: PropTypes.bool,
 };
 
