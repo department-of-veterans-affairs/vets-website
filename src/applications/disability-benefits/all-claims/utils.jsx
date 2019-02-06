@@ -625,5 +625,28 @@ const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
  * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
  * @return {String} - The base url of the right form to return to
  */
-export const getBaseUrl = (formData, isPrefill) =>
+export const getFormUrl = (formData, isPrefill) =>
   isV1App(formData, isPrefill) ? urls.v1 : urls.v2;
+
+/**
+ * Navigates to the appropriate form (v1 or v2) based on the saved data.
+ */
+export const directToCorrectForm = ({
+  formData,
+  savedForms,
+  returnUrl,
+  formConfig,
+  router,
+}) => {
+  // If we can find the form in the savedForms array, it's not pre-filled
+  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
+  const baseUrl = getFormUrl(formData, isPrefill);
+  if (!window.location.pathname.includes(baseUrl)) {
+    // Redirect to the other app
+    window.location.assign(`${baseUrl}/resume`);
+  } else {
+    // NOTE: This is the only part that should be kept after 526 v1 is depreciated
+    // Go to the page within this app
+    router.push(returnUrl);
+  }
+};

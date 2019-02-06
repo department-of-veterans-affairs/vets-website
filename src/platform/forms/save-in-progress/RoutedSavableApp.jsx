@@ -90,26 +90,9 @@ class RoutedSavableApp extends React.Component {
     ) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
-      // TODO: Remove this when 526 v1 is depreciated
-      // 526 v1 and v2 have the same formId, so we need a way to direct
-      //   the user to the proper form after loading their form.
-      if (newProps.formConfig.getBaseUrl) {
-        // If we can find the form in the savedForms array, it's not pre-filled
-        const isPrefill = !newProps.savedForms.find(
-          form => form.form === newProps.formConfig.formId,
-        );
-        const baseUrl = newProps.formConfig.getBaseUrl(
-          newProps.formData,
-          isPrefill,
-        );
-        if (!window.location.pathname.includes(baseUrl)) {
-          // Redirect to the other app
-          window.location.assign(`${baseUrl}/resume`);
-        } else {
-          // NOTE: This is the only part that should be kept after 526 v1 is depreciated
-          // Go to the page within this app
-          newProps.router.push(newProps.returnUrl);
-        }
+      if (newProps.formConfig.onFormLoaded) {
+        // The onFormLoaded callback should handle navigating to the start of the form
+        newProps.formConfig.onFormLoaded(newProps);
       } else {
         newProps.router.push(newProps.returnUrl);
       }
