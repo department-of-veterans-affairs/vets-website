@@ -641,12 +641,10 @@ export const directToCorrectForm = ({
   // If we can find the form in the savedForms array, it's not pre-filled
   const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
   const baseUrl = getFormUrl(formData, isPrefill);
-  if (!window.location.pathname.includes(baseUrl)) {
+  if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
     // Redirect to the other app
     window.location.assign(`${baseUrl}/resume`);
   } else {
-    // NOTE: This is the only part that should be kept after 526 v1 is depreciated
-    // Go to the page within this app
     router.push(returnUrl);
   }
 };
