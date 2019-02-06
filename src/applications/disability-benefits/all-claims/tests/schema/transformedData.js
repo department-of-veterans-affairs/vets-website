@@ -220,7 +220,7 @@ export const transformedMaximalData = {
     newSecondaryDisabilities: [
       {
         cause: 'SECONDARY',
-        causedByDisability: 'Diabetes Mellitus0',
+        causedByDisability: 'Asthma',
         causedByDisabilityDescription: "Again, this doesn't really make sense.",
         condition: 'phlebitis',
         classificationCode: '5300',
