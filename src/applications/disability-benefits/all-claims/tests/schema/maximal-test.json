@@ -247,12 +247,18 @@
       },
       {
         "cause": "WORSENED",
-        "primaryDescription": "A thing happened.",
+        "view:worsenedFollowUp": {
+          "worsenedDescription": "A thing happened.",
+          "worsenedEffects": "Bad stuff"
+        },
         "condition": "Some fourth condition"
       },
       {
         "cause": "SECONDARY",
-        "primaryDescription": "A thing happened.",
+        "view:secondaryFollowUp": {
+          "causedByDisability": "PTSD (Post Traumatic Stress Disorder)",
+          "causedByDisabilityDescription": "A thing happened."
+        },
         "condition": "Some other condition"
       }
     ],
@@ -297,7 +303,7 @@
         "view:isTitle10Activated": true,
         "title10Activation": {
           "title10ActivationDate": "1902-01-01",
-          "anticipatedSeparationDate": "2019-01-01"
+          "anticipatedSeparationDate": "2119-01-01"
         },
         "obligationTermOfServiceDateRange": {
           "from": "1902-01-01",
