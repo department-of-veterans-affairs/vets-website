@@ -1,7 +1,7 @@
 import React from 'react';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-const filingClaimContent = <strong>I’m filing a claim:</strong>;
+const filingClaimContent = <strong>I’m filing a claim for:</strong>;
 
 export const uiSchema = {
   'ui:description':
@@ -17,10 +17,10 @@ export const uiSchema = {
       required: 'Please select at least one',
     },
     'view:claimingNew': {
-      'ui:title': 'For a new condition',
+      'ui:title': 'A new condition',
     },
     'view:claimingIncrease': {
-      'ui:title': 'Because one or more of my rated conditions has gotten worse',
+      'ui:title': 'One or more of my rated conditions that have gotten worse',
     },
   },
 };
