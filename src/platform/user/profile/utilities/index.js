@@ -35,7 +35,7 @@ export function mapRawUserDataToState(json) {
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
-          authnContext,
+          signIn,
           birthDate: dob,
           email,
           firstName: first,
@@ -57,7 +57,7 @@ export function mapRawUserDataToState(json) {
 
   const userState = {
     accountType: loa.current,
-    authnContext,
+    signIn,
     dob,
     email,
     gender,
@@ -121,8 +121,9 @@ export const hasSession = () => localStorage.getItem('hasSession');
 export function setupProfileSession(payload) {
   localStorage.setItem('hasSession', true);
   const userData = get('data.attributes.profile', payload, {});
-  const { firstName, authnContext, loa } = userData;
-  const loginPolicy = authnContext || 'idme';
+  const { firstName, signIn, loa } = userData;
+
+  const loginPolicy = get('serviceName', signIn, 'idme');
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.

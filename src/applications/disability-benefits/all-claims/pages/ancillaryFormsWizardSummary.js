@@ -15,10 +15,5 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  properties: {
-    'view:ancillaryFormsWizardIntro': {
-      type: 'object',
-      properties: {},
-    },
-  },
+  properties: {},
 };
