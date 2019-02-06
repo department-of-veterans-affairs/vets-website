@@ -92,7 +92,13 @@ export const schema = {
         emailAddress,
       },
     },
-    mailingAddress: addressSchema(fullSchema, true),
+    mailingAddress: {
+      ...addressSchema(fullSchema, true),
+      street3: {
+        type: 'string',
+        properties: {},
+      },
+    },
     'view:contactInfoNote': {
       type: 'object',
       properties: {},
