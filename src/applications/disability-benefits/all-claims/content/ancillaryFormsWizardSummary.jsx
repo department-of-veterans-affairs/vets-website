@@ -1,6 +1,5 @@
 import React from 'react';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
-import environment from '../../../../platform/utilities/environment';
 
 const houseAssistanceContent = (
   <CollapsiblePanel panelName="Adapted housing assistance">

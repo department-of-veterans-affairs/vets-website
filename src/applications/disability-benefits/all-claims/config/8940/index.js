@@ -35,8 +35,6 @@ import createFormConfig4192 from '../4192';
 export default function() {
   let configObj = {};
   if (!environment.isProduction()) {
-    // NOTE: When removing this production check, also necessary to remove the
-    // build-based logic in `content/ancillaryFormsWizardSummary.jsx#L123`
     configObj = {
       // 8940 - Introduction
       unemployabilityFormIntro: {
