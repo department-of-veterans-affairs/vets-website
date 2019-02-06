@@ -45,7 +45,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Apply for Vet Tec Benefits',
+  title: 'Apply for VET TEC Benefits',
   subTitle: 'Form 22-0994',
   preSubmitInfo,
   footerContent: FormFooter,
@@ -100,7 +100,7 @@ const formConfig = {
     },
     // Chapter - High tech work experience
     highTechWorkExp: {
-      title: 'High tech work experience',
+      title: 'Work Experience',
       pages: {
         // page - yes/no working in high-tech industry
         highTechIndustry: {
@@ -113,7 +113,7 @@ const formConfig = {
     },
     // Chapter - Program Selection
     programSelection: {
-      title: 'Program selection',
+      title: 'Program Selection',
       pages: {
         // page - picked like to attend training programs
         trainingProgramsChoice: {

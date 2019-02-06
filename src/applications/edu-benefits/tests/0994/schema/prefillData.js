@@ -33,7 +33,7 @@ export const transformedPrefillData = {
     state: 'MI',
     postalCode: '22312',
   },
-  bankAccount: {
+  'view:prefillBankAccount': {
     bankAccountType: 'Checking',
     bankAccountNumber: '*********1234',
     bankRoutingNumber: '*****2115',
@@ -54,5 +54,8 @@ export const transformedPrefillData = {
     dayTimePhone: '4445551212',
     nightTimePhone: '4445551212',
     emailAddress: 'test2@test1.net',
+  },
+  'view:bankAccount': {
+    'view:hasBankInformation': true,
   },
 };

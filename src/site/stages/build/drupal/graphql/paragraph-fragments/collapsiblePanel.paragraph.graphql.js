@@ -10,6 +10,8 @@ module.exports = `
       fieldVaParagraphs {
         entity {
           ... on ParagraphCollapsiblePanelItem {
+            entityId
+            entityBundle
             fieldTitle
             fieldWysiwyg {
               processed

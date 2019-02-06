@@ -6,10 +6,7 @@ module.exports = `
     fieldLink {
       uri
       title
-      options
-      url {
-        path
-      }
+      options      
     }
     fieldLinkSummary
   }

@@ -27,6 +27,8 @@ fragment alert on BlockContentAlert {
         }
       }
       ... on ParagraphExpandableText {
+        entityId
+        entityBundle
         fieldWysiwyg {
           processed
         }
