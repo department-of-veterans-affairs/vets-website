@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getNextPagePath } from 'us-forms-system/lib/js/routing';
-import _ from '../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 import {
   formDescriptions,
