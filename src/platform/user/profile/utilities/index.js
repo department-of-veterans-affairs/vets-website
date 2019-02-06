@@ -1,6 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
+import { authnSettings } from '../../authentication/utilities';
 import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
 
@@ -34,7 +35,7 @@ export function mapRawUserDataToState(json) {
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
-          authnContext,
+          signIn,
           birthDate: dob,
           email,
           firstName: first,
@@ -56,7 +57,7 @@ export function mapRawUserDataToState(json) {
 
   const userState = {
     accountType: loa.current,
-    authnContext,
+    signIn,
     dob,
     email,
     gender,
@@ -120,14 +121,15 @@ export const hasSession = () => localStorage.getItem('hasSession');
 export function setupProfileSession(payload) {
   localStorage.setItem('hasSession', true);
   const userData = get('data.attributes.profile', payload, {});
-  const { firstName, authnContext, loa } = userData;
-  const loginPolicy = authnContext || 'idme';
+  const { firstName, signIn, loa } = userData;
+
+  const loginPolicy = get('serviceName', signIn, 'idme');
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (sessionStorage.getItem('registrationPending') === 'true') {
+  if (sessionStorage.getItem(authnSettings.REGISTRATION_PENDING)) {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
     sessionStorage.removeItem('registrationPending');

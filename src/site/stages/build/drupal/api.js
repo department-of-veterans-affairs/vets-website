@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 
 const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
 const GET_PAGE_BY_ID = require('./graphql/GetPageById.graphql');
+const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
 
 const DRUPALS = require('../../../constants/drupals');
 
@@ -28,17 +29,29 @@ function getDrupalClient(buildOptions) {
         mode: 'cors',
         body: JSON.stringify(args),
       });
-      return response.json();
+
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error(`HTTP error: ${response.status}: ${response.statusText}`);
     },
 
     getAllPages() {
       return this.query({ query: GET_ALL_PAGES });
     },
 
-    getPageById(contentId) {
+    getPageById(url) {
       return this.query({
         query: GET_PAGE_BY_ID,
-        variables: { path: contentId },
+        variables: { path: url },
+      });
+    },
+
+    getLatestPageById(nodeId) {
+      return this.query({
+        query: GET_LATEST_PAGE_BY_ID,
+        variables: { id: nodeId },
       });
     },
   };

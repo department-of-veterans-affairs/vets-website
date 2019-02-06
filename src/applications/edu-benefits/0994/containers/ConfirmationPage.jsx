@@ -93,7 +93,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        {!_.get(form.data, 'appliedForVAEducationBenefits', true) && (
+        {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
           <div className="row form-progress-buttons">
             <div className="small-6 usa-width-one-half medium-6 columns">
               <a href={url1990}>
