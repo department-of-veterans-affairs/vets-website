@@ -82,6 +82,8 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
+  prefillEnabled: true,
+  verifyRequiredPrefill: false,
   version: 0,
   savedFormMessages: {
     notFound: 'Please start over to apply for pre-need eligibility.',

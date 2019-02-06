@@ -6,14 +6,12 @@ const dateInFilename = require('metalsmith-date-in-filename');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
-const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
-const moment = require('moment');
 const navigation = require('metalsmith-navigation');
-const converter = require('number-to-words');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
+const registerLiquidFilters = require('../../filters/liquid');
 const getDrupalContent = require('./drupal/metalsmith-drupal');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
@@ -32,16 +30,7 @@ const createTemporaryReactPages = require('./plugins/create-react-pages');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-  // Custom liquid filter(s)
-  liquid.filters.humanizeDate = dt =>
-    moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
-
-  liquid.filters.humanizeTimestamp = dt =>
-    moment.unix(dt).format('MMMM D, YYYY');
-
-  liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
-
-  liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
+  registerLiquidFilters();
 
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
 

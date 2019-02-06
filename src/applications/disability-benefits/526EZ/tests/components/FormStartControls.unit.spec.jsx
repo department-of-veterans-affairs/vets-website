@@ -75,7 +75,8 @@ describe('526 <FormStartControls>', () => {
       { context: { store: {} } },
     );
 
-    expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
+    expect(tree.find('withRouter(Connect(SaveInProgressIntro))').exists()).to.be
+      .true;
     tree.unmount();
   });
 });

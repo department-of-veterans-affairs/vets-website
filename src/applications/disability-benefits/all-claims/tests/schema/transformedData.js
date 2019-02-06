@@ -124,14 +124,16 @@ export const transformedMaximalData = {
       },
       {
         cause: 'WORSENED',
-        primaryDescription: 'A thing happened.',
         condition: 'Some fourth condition',
+        worsenedDescription: 'A thing happened.',
+        worsenedEffects: 'Bad stuff',
       },
     ],
     newSecondaryDisabilities: [
       {
         cause: 'SECONDARY',
-        primaryDescription: 'A thing happened.',
+        causedByDisability: 'PTSD (Post Traumatic Stress Disorder)',
+        causedByDisabilityDescription: 'A thing happened.',
         condition: 'Some other condition',
       },
     ],
@@ -176,7 +178,7 @@ export const transformedMaximalData = {
         },
         title10Activation: {
           title10ActivationDate: '1902-01-01',
-          anticipatedSeparationDate: '2019-01-01',
+          anticipatedSeparationDate: '2119-01-01',
         },
         unitName: 'RNG Unit 1',
         unitAddress: {
