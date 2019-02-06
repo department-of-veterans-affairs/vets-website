@@ -1,6 +1,8 @@
 <div class="usa-width-one-third" id="hub-rail">
 
-    <div id="promo" class="merger-r-rail hub-promo"></div>
+    {% if fieldPromo != empty %}
+        {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
+    {% endif %}
 
     <ul class="usa-accordion-bordered social">
         <li>
