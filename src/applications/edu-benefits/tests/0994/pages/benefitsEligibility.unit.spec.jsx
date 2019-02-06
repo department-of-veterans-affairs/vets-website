@@ -11,7 +11,7 @@ import formConfig from '../../../0994/config/form';
 
 describe('VET TEC benefits eligibility', () => {
   const page =
-    formConfig.chapters.benefitsEligibility.pages.benefitsEligibility;
+    formConfig.chapters.applicantInformation.pages.benefitsEligibility;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
