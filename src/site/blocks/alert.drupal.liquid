@@ -1,0 +1,59 @@
+{% comment %}
+    Example data:
+    {
+        "entityBundle": "alert",
+        "fieldAlertType": "warning",
+        "fieldHelpText": null,
+        "fieldAlertTitle": "How do I talk to someone right now?",
+        "fieldReusability": "reusable",
+        "fieldAlertContent": {
+            "entity": {
+                "entityId": "932",
+                "entityBundle": "expandable_text"
+                "fieldWysiwyg": {
+                    "processed": "..."
+                },
+                "fieldTextExpander": "Find out how to get support anytime day or night."
+            }
+        }
+    }
+{% endcomment %}
+{% if alert.fieldAlertContent %}
+    {% assign expander = alert.fieldAlertContent.entity %}
+{% endif %}
+
+<div class="usa-alert usa-alert-{{ alert.fieldAlertType }}" role="alert">
+    <div class="usa-alert-body">
+        <h3 class="usa-alert-heading">
+            {{ alert.fieldAlertTitle }}
+        </h3>
+        {% if alert.fieldHelpText %}<p>{{ alert.fieldHelpText }}</p>{% endif %}
+        {% if expander.fieldTextExpander %}
+            <button id="{{ expander.entityBundle }}-{{ expander.entityId }}" class="va-button-link" aria-expanded="false">{{ expander.fieldTextExpander }}</button>
+        {% endif %}
+        {% if expander.fieldTextExpander %}<div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
+            <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
+        </div>{% endif %}
+    </div>
+</div>
+
+{% if expander.fieldTextExpander %}
+    <script type="text/javascript">
+      const element = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
+
+      // Toggle the expander info
+      element.addEventListener('click', function() {
+        // Toggle aria-expanded for the button
+        const ariaExpanded = element.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
+        element.setAttribute('aria-expanded', ariaExpanded);
+
+        const content = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}-content');
+        // Toggle the expander class for the content
+        content.classList.toggle('expander-content-closed');
+
+        // Toggle aria-hidden for the content
+        const ariaHidden = content.getAttribute('aria-hidden') === 'true' ? 'false' : 'true';
+        content.setAttribute('aria-hidden', ariaHidden);
+      });
+    </script>
+{% endif %}
