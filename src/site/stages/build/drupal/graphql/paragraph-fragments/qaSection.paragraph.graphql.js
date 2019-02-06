@@ -1,47 +1,16 @@
 /**
- * A Drupal paragraph questions in answers. Answers come in the format of WYSIWYG, collapsible panel, and process.
+ * A Drupal paragraph for sets of questions and answers.
  *
  */
 module.exports = `
-  fragment qaSection on ParagraphQASection {      
-      fieldSectionHeader
-      fieldQuestions {
-        entity {
-          ... on ParagraphQA {
-            fieldQuestion
-            fieldAnswer {
-              entity {
-                ... on ParagraphWysiwyg {
-                  fieldWysiwyg {
-                    processed
-                  }
-                }
-          ... on ParagraphCollapsiblePanel {
-              entityBundle
-              fieldCollapsiblePanelMulti
-              fieldCollapsiblePanelExpand
-              fieldCollapsiblePanelBordered
-              fieldVaParagraphs {
-                entity {
-                  ... on ParagraphCollapsiblePanelItem {
-                    fieldTitle
-                    fieldWysiwyg {
-                      processed
-                    }
-                  }
-                }
-              }
-                }
-          ... on ParagraphProcess {
-              entityBundle
-              fieldSteps {
-                processed
-              }
-                }
-              }
-            }
-          }
-        }
+  fragment qaSection on ParagraphQASection {
+    fieldSectionHeader
+    fieldSectionIntro
+    fieldAccordionDisplay
+    fieldQuestions {
+      entity {
+        ... qa
       }
+    }
   }
 `;
