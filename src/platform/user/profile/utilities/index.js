@@ -122,9 +122,7 @@ export function setupProfileSession(payload) {
   const userData = get('data.attributes.profile', payload, {});
   const { firstName, signIn, loa } = userData;
 
-  const serviceName = (signIn || {}).serviceName;
-
-  const loginPolicy = serviceName || 'idme';
+  const loginPolicy = get('serviceName', signIn, 'idme');
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.

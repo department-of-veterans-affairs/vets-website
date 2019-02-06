@@ -11,6 +11,18 @@ import siteName from '../../../platform/brand-consolidation/site-name';
 import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    const { profile } = this.props;
+    const serviceName = (profile.signIn || {}).serviceName;
+
+    const signinMethodLabels = {
+      dslogon: 'DS Logon',
+      myhealthevet: 'My HealtheVet',
+    };
+
+    this.signInMethod = signinMethodLabels[serviceName];
+  }
   componentDidMount() {
     if (!hasSession()) {
       return window.location.replace('/');
@@ -35,18 +47,11 @@ export class VerifyApp extends React.Component {
   }
 
   render() {
-    const profile = this.props.profile;
+    const { profile } = this.props;
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-
-    const signInMethod = (profile.signIn || {}).serviceName;
-
-    const signinMethodLabel = {
-      dslogon: 'DS Logon',
-      myhealthevet: 'My HealtheVet',
-    };
 
     return (
       <main className="verify">
@@ -56,9 +61,7 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${signinMethodLabel[
-                    signInMethod
-                  ] || 'ID.me'}`}
+                  content={`You signed in with ${this.signInMethod || 'ID.me'}`}
                   isVisible
                   status="success"
                 />
