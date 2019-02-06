@@ -3,14 +3,13 @@
  *
  */
 module.exports = `
-	fragment qa on ParagraphQA {
+  fragment qa on ParagraphQA {
     parentFieldName
     entityId
     entityBundle
     fieldQuestion
     fieldAnswer {
       entity {
-        entityId
         entityBundle
         ... wysiwyg
         ... process

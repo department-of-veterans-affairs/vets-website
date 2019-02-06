@@ -4,7 +4,7 @@
  */
 module.exports = `
   fragment qaSection on ParagraphQASection {
-  	fieldSectionHeader
+    fieldSectionHeader
     fieldSectionIntro
     fieldAccordionDisplay
     fieldQuestions {

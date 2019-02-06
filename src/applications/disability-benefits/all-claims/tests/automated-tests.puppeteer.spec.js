@@ -28,6 +28,13 @@ const testConfig = {
     // TODO: Add a hook for the rated disabilities page
     // TODO: Add a hook for the bank info page
   },
+  // TODO: Remove this in favor of importing the formConfig and finding them all
+  arrayPages: [
+    {
+      path: 'new-disabilities/follow-up/:index',
+      arrayPath: 'newDisabilities',
+    },
+  ],
 };
 
 describe('526 all-claims e2e tests', async () => {
