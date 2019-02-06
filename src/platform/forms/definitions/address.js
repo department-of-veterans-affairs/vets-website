@@ -95,7 +95,7 @@ export function schema(
   addressProperty = 'address',
 ) {
   const addressSchema = currentSchema.definitions[addressProperty];
-  const as = {
+  return {
     type: 'object',
     required: isRequired ? requiredFields : [],
     properties: Object.assign({}, addressSchema.properties, {
@@ -116,9 +116,6 @@ export function schema(
       },
     }),
   };
-
-  // console.log(as);
-  return as;
 }
 
 /*
