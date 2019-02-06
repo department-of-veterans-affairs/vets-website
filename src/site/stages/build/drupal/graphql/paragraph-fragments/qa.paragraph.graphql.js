@@ -3,7 +3,7 @@
  *
  */
 module.exports = `
-	fragment qa on ParagraphQA {
+  fragment qa on ParagraphQA {
     parentFieldName
     fieldQuestion
     fieldAnswer {
