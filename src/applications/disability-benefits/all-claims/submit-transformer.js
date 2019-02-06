@@ -13,6 +13,8 @@ import {
 
 import { disabilityIsSelected } from './utils';
 
+import disabilityLabels from './content/disabilityLabels';
+
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
@@ -90,7 +92,7 @@ function getDisabilities(formData) {
 
 function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name ? name.toLowerCase() : '';
+  return name;
 }
 
 function getClaimedConditionNames(formData) {
@@ -131,18 +133,32 @@ export const setActionTypes = formData => {
  *  name only gets added to the list if the property value is truthy and is in the list
  *  of conditions claimed on the application.
  *
- * @param {Object} object - The object with dynamically generated property names
- * @param {Object} formData - The whole form data; used to get claimed condition names
- * @return {Array} - An array of the property names with truthy values
- *                   NOTE: This will return all lower-cased names
+ * @param {Object} conditionContainer - The object with dynamically generated property names
+ *                                      For example, treatedDisabilityNames.
+ * @param {Array} claimedConditions - An array containing the names of conditions claimed,
+ *                                     both rated or new.
+ * @return {Array} - An array of the originally-cased property names with truthy values.
+ *                   "Originally-cased" = the case of the name in the disabilities list.
  */
-export function transformRelatedDisabilities(object, claimedConditions) {
-  return Object.keys(object)
-    .filter(
-      // The property name will be normal-cased in the object, but lower-cased in claimedConditions
-      key => object[key] && claimedConditions.includes(key.toLowerCase()),
-    )
-    .map(key => key.toLowerCase());
+export function transformRelatedDisabilities(
+  conditionContainer,
+  claimedConditions,
+) {
+  const findCondition = (list, name) =>
+    list.find(
+      // name should already be lower-case, but just in case...no pun intended
+      claimedName => claimedName.toLowerCase() === name.toLowerCase(),
+    );
+
+  return (
+    Object.keys(conditionContainer)
+      // The check box is checked
+      .filter(name => conditionContainer[name])
+      // It's in the list of claimed conditions
+      .filter(name => findCondition(claimedConditions, name))
+      // Return the name of the actual claimed condition (with the original casing)
+      .map(name => findCondition(claimedConditions, name))
+  );
 }
 
 /**
@@ -240,6 +256,43 @@ export function transform(formConfig, form) {
           formData,
         )
       : formData;
+
+  // new disabilities that match a name on our mapped list need their
+  // respective classification code added
+  const addClassificationCodeToNewDisabilities = formData => {
+    const { newDisabilities } = formData;
+    if (!newDisabilities) {
+      return formData;
+    }
+
+    const flippedDisabilityLabels = {};
+    Object.entries(disabilityLabels).forEach(([code, description]) => {
+      flippedDisabilityLabels[description.toLowerCase()] = code;
+    });
+
+    const newDisabilitiesWithClassificationCodes = newDisabilities.map(
+      disability => {
+        const { condition } = disability;
+        if (!condition) {
+          return disability;
+        }
+        const loweredDisabilityName = condition.toLowerCase();
+        return flippedDisabilityLabels[loweredDisabilityName]
+          ? _.set(
+              'classificationCode',
+              flippedDisabilityLabels[loweredDisabilityName],
+              disability,
+            )
+          : disability;
+      },
+    );
+
+    return _.set(
+      'newDisabilities',
+      newDisabilitiesWithClassificationCodes,
+      formData,
+    );
+  };
 
   // newDisabilities -> newPrimaryDisabilities & newSecondaryDisabilities
   const splitNewDisabilities = formData => {
@@ -413,6 +466,7 @@ export function transform(formConfig, form) {
     filterEmptyObjects,
     addPOWSpecialIssues,
     addPTSDCause,
+    addClassificationCodeToNewDisabilities,
     splitNewDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,

@@ -6,7 +6,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
-  APPEAL_V2_TYPE,
+  APPEAL_TYPES,
   claimsAvailability,
   appealsAvailability,
 } from 'applications/claims-status/utils/appeals-v2-helpers';
@@ -54,7 +54,7 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_V2_TYPE) {
+    if (claim.type === APPEAL_TYPES.current) {
       return (
         <AppealListItem
           key={claim.id}

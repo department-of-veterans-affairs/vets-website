@@ -72,7 +72,7 @@ describe('Hca VA facility', () => {
 
     expect(
       formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
-    ).to.equal(23);
+    ).to.equal(24);
   });
 
   it('should submit with valid data', () => {

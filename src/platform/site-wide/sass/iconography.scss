@@ -19,8 +19,8 @@
   $top-baseline: 7px,
   $left-baseline: 11px) {
 
-  // helper function from _variables.scss to add quotes around unicode  
-  $icon-escaped: fa-content($icon); 
+  // helper function from _variables.scss to add quotes around unicode
+  $icon-escaped: fa-content($icon);
 
   .hub-background-#{$hub-name} {
     background: $color;
@@ -36,9 +36,10 @@
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-weight: 900;
 
     &::before {
-      content: $icon-escaped; 
+      content: $icon-escaped;
     }
 
     position: relative;
@@ -62,7 +63,7 @@
 
 @include make-hub(
   $hub-name: "health-care",
-  $icon: $fa-var-medkit,
+  $icon: $fa-var-briefcase-medical,
   $color: $indigo-cool-60,
   $top-large: 10.25px,
   $left-large: 10px,

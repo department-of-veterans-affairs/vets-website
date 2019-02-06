@@ -5,7 +5,7 @@ import { claimsIntakeAddress } from './itfWrapper';
 export const download4192Notice = (
   <div>
     <p>
-      <a href={VA_FORM4192_URL} target="_blank" rel="noopener">
+      <a href={VA_FORM4192_URL} target="_blank" rel="noopener noreferrer">
         Download VA Form 21-4192
       </a>
     </p>

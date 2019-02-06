@@ -60,6 +60,7 @@ import {
 import {
   hasGuardOrReservePeriod,
   queryForFacilities,
+  directToCorrectForm,
 } from '../../all-claims/utils';
 
 import {
@@ -117,6 +118,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
+  onFormLoaded: directToCorrectForm,
   version: 1,
   migrations: [],
   prefillTransformer,
@@ -869,7 +871,7 @@ const formConfig = {
                 hideIf: formData => _.get('standardClaim', formData),
               },
             },
-            'view:noFDCWarning': {
+            'view:noFdcWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
                 hideIf: formData => !_.get('standardClaim', formData),
@@ -884,7 +886,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:noFDCWarning': {
+              'view:noFdcWarning': {
                 type: 'object',
                 properties: {},
               },

@@ -23,6 +23,7 @@ const Disclaimer = () => (
       help.{' '}
       <a
         target="_blank"
+        rel="noopener noreferrer"
         href="https://www.va.gov/ogc/apps/accreditation/index.asp"
       >
         Search Accredited Attorneys, Claims Agents, or Veterans Service

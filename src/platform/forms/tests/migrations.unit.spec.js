@@ -30,7 +30,6 @@ const mappedIds = [
   '22-5495',
   '40-10007',
   'FEEDBACK-TOOL',
-  'definitions',
 ];
 
 const configs = [
@@ -58,6 +57,9 @@ const excludedForms = new Set([
   '21-4142',
   'VIC',
   '22-0994', // TODO: remove this when 0994 is ready
+  'definitions',
+  'constants',
+  'vaMedicalFacilities',
 ]);
 
 describe('form migrations:', () => {
@@ -67,9 +69,8 @@ describe('form migrations:', () => {
     );
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
-    reformattedIds.pop();
     const includedFormIds = configs.map(form => form.formId);
-    expect(allFormIds).to.deep.equal(mappedIds);
+    expect(new Set(allFormIds)).to.deep.equal(new Set(mappedIds));
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
   it('should have a length equal to the version number', () => {

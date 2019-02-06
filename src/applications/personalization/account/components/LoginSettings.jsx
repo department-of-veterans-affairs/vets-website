@@ -34,7 +34,11 @@ export default function LoginSettings() {
       <h5>ID.me settings</h5>
       <div>
         <p>
-          <a href="https://wallet.id.me/settings" target="_blank">
+          <a
+            href="https://wallet.id.me/settings"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Manage your ID.me account.
           </a>
         </p>

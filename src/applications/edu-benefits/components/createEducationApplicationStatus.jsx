@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 const eduForms = new Set([
+  '22-0994',
   '22-1990',
   '22-1995',
   '22-5490',

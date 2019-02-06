@@ -32,7 +32,9 @@ function initUserMock(token, level) {
       data: {
         attributes: {
           profile: {
-            authn_context: 'idme',
+            sign_in: {
+              service_name: 'idme',
+            },
             email: 'fake@fake.com',
             loa: { current: level },
             first_name: 'Jane',
