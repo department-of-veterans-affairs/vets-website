@@ -37,7 +37,7 @@ const drupalClient = getDrupalClient(options);
 app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
 app.use('/health', async(req, res) => {
-	res.send(200);
+  res.send(200);
 });
 
 app.use('/preview', async (req, res) => {
