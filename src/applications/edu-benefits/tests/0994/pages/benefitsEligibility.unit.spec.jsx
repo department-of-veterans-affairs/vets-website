@@ -28,7 +28,7 @@ describe('VET TEC benefits eligibility', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
 
-    selectRadio(form, 'root_appliedForVAEducationBenefits', 'N');
+    selectRadio(form, 'root_appliedForVaEducationBenefits', 'N');
     expect(form.find('.form-expanding-group-open').length).to.equal(1);
     form.unmount();
   });
@@ -58,7 +58,7 @@ describe('VET TEC benefits eligibility', () => {
       />,
     );
 
-    selectRadio(form, 'root_appliedForVAEducationBenefits', 'Y');
+    selectRadio(form, 'root_appliedForVaEducationBenefits', 'Y');
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
