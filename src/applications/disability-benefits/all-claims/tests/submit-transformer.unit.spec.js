@@ -35,7 +35,6 @@ describe('transform', () => {
       transformedMinimalData,
     );
   });
-
   it('should transform maximal data correctly', () => {
     expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
       transformedMaximalData,
@@ -186,9 +185,12 @@ describe('setActionTypes', () => {
       disabilityActionTypes.INCREASE,
     );
     expect(formattedDisabilities[1].disabilityActionType).to.equal(
-      disabilityActionTypes.NONE,
+      disabilityActionTypes.INCREASE,
     );
     expect(formattedDisabilities[2].disabilityActionType).to.equal(
+      disabilityActionTypes.NONE,
+    );
+    expect(formattedDisabilities[3].disabilityActionType).to.equal(
       disabilityActionTypes.NONE,
     );
   });
