@@ -8,6 +8,7 @@ import {
   ALERT_TYPES,
   APPEAL_STATUSES,
   EVENT_TYPES,
+  STATUS_TYPES,
 } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
@@ -45,12 +46,20 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
   const form9Date = form9Event && form9Event.date;
 
   // Gates the What's Next and Docket chunks
+  const hideDocketStatusTypes = [
+    STATUS_TYPES.pendingSoc,
+    STATUS_TYPES.pendingForm9,
+    STATUS_TYPES.decisionInProgress,
+    STATUS_TYPES.bvaDevelopment,
+  ];
   const hideDocketAppealTypes = [
     APPEAL_STATUSES.reconsideration,
     APPEAL_STATUSES.cue,
   ];
   const shouldShowDocket =
-    appealIsActive && docket && !hideDocketAppealTypes.includes(appealType);
+    appealIsActive &&
+    !hideDocketStatusTypes.includes(status.type) &&
+    !hideDocketAppealTypes.includes(appealType);
 
   const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
   const afterNextAlerts = (
