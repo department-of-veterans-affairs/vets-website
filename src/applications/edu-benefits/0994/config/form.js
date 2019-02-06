@@ -56,8 +56,8 @@ const formConfig = {
   },
   chapters: {
     // Chapter - Benefits eligibility
-    benefitsEligibility: {
-      title: 'Benefits eligibility',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
         applicantInformation: {
           title: 'Applicant Information',

@@ -25,7 +25,7 @@ const mailingAddressStartInEdit = formData => {
   return true;
 };
 
-const addressUiSchema = addressUISchema();
+const addressUiSchema = addressUISchema('Address', true);
 
 export const uiSchema = {
   'ui:title': 'Contact Information',
