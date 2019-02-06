@@ -52,6 +52,8 @@ app.get('/preview', async (req, res) => {
   const files = {
     [`${req.path.substring(1)}/index.html`]: {
       ...drupalPage,
+      isPreview: true,
+      drupalSite: drupalClient.getSiteUri(),
       layout: `${drupalPage.entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
       debug: JSON.stringify(drupalPage, null, 4),
