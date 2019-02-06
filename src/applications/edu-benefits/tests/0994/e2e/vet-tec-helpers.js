@@ -19,8 +19,8 @@ export const completeFormPage = (url, client, data, func) => {
 
 export const completeAlreadySubmitted = (client, data) => {
   client.selectRadio(
-    `root_appliedForVAEducationBenefits`,
-    _.get(data, 'appliedForVAEducationBenefits', false) ? 'Y' : 'N',
+    `root_appliedForVaEducationBenefits`,
+    _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
   );
 };
 
@@ -46,17 +46,25 @@ export const completeEducationHistory = (client, data) => {
 };
 
 export const completeHighTechWorkExp = (client, data) => {
-  const currentEmployment = _.get(data, 'currentEmployment', false);
   const currentHighTechnologyEmployment = _.get(
     data,
     'currentHighTechnologyEmployment',
     false,
   );
-  client.selectRadio(`root_currentEmployment`, currentEmployment ? 'Y' : 'N');
-  if (!currentEmployment) {
+  const pastHighTechnologyEmployment = _.get(
+    data,
+    'pastHighTechnologyEmployment',
+    false,
+  );
+
+  client.selectRadio(
+    `root_currentHighTechnologyEmployment`,
+    currentHighTechnologyEmployment ? 'Y' : 'N',
+  );
+  if (!currentHighTechnologyEmployment) {
     client.selectRadio(
-      `root_currentHighTechnologyEmployment`,
-      currentHighTechnologyEmployment ? 'Y' : 'N',
+      `root_pastHighTechnologyEmployment`,
+      pastHighTechnologyEmployment ? 'Y' : 'N',
     );
   }
 
@@ -67,8 +75,8 @@ export const completeHighTechWorkExp = (client, data) => {
   );
 
   if (
-    (currentEmployment ||
-      (!currentEmployment && currentHighTechnologyEmployment)) &&
+    (currentHighTechnologyEmployment ||
+      (!currentHighTechnologyEmployment && pastHighTechnologyEmployment)) &&
     salaryEmploymentTypes
   ) {
     const {

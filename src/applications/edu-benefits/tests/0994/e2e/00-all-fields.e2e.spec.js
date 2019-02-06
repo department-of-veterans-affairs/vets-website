@@ -34,7 +34,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Ensure introduction page renders.
     client.assert
       .title('Apply for education benefits: VA.gov')
-      .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
+      .waitForElementVisible('.schemaform-start-button', Timeouts.verySlow)
       .axeCheck('.main')
       .click('.schemaform-start-button');
 
