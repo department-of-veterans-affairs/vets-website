@@ -21,7 +21,7 @@ export class VerifyApp extends React.Component {
       myhealthevet: 'My HealtheVet',
     };
 
-    this.signInMethod = signinMethodLabels[serviceName];
+    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
   }
   componentDidMount() {
     if (!hasSession()) {
@@ -61,7 +61,7 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${this.signInMethod || 'ID.me'}`}
+                  content={`You signed in with ${this.signInMethod}`}
                   isVisible
                   status="success"
                 />
