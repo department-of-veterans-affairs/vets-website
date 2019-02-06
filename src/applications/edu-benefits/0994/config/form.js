@@ -45,7 +45,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Apply for VET TEC Benefits',
+  title: 'Apply for VET TEC',
   subTitle: 'Form 22-0994',
   preSubmitInfo,
   footerContent: FormFooter,
