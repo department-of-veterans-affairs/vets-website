@@ -55,7 +55,7 @@ describe('High tech industry page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          currentEmployment: true,
+          currentHighTechnologyEmployment: true,
         }}
         formData={{}}
       />,
@@ -72,7 +72,7 @@ describe('High tech industry page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          currentEmployment: false,
+          currentHighTechnologyEmployment: false,
         }}
         formData={{}}
       />,
@@ -90,7 +90,7 @@ describe('High tech industry page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          currentEmployment: false,
+          currentHighTechnologyEmployment: false,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -110,8 +110,8 @@ describe('High tech industry page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          currentEmployment: false,
-          currentHighTechnologyEmployment: true,
+          currentHighTechnologyEmployment: false,
+          pastHighTechnologyEmployment: true,
         }}
         formData={{}}
       />,
@@ -129,8 +129,8 @@ describe('High tech industry page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          currentEmployment: false,
           currentHighTechnologyEmployment: false,
+          pastHighTechnologyEmployment: false,
         }}
         formData={{}}
         onSubmit={onSubmit}
