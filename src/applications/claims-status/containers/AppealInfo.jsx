@@ -95,7 +95,7 @@ export class AppealInfo extends React.Component {
       // do nothing
     }
     const requestEvent = this.props.appeal.attributes.events.find(
-      a => a.type === requestEventType,
+      event => event.type === requestEventType,
     );
 
     let appealTitle = getTypeName(this.props.appeal);

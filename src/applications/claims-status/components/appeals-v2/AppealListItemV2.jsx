@@ -10,7 +10,7 @@ import {
   getStatusContents,
 } from '../../utils/appeals-v2-helpers';
 
-const appealTypeMap = {
+const programAreaMap = {
   compensation: 'Disability Compensation',
   pension: 'Pension',
   insurance: 'Insurance',
@@ -26,41 +26,55 @@ export default function AppealListItem({ appeal, name }) {
   const { status } = appeal.attributes;
 
   let requestEventType;
+  let isAppeal;
+
   switch (appeal.type) {
     case APPEAL_TYPES.legacy:
       requestEventType = EVENT_TYPES.nod;
+      isAppeal = true;
       break;
     case APPEAL_TYPES.supplementalClaim:
       requestEventType = EVENT_TYPES.scRequest;
+      isAppeal = false;
       break;
     case APPEAL_TYPES.higherLevelReview:
       requestEventType = EVENT_TYPES.hlrRequest;
+      isAppeal = false;
       break;
     case APPEAL_TYPES.appeal:
       requestEventType = EVENT_TYPES.amaNod;
+      isAppeal = true;
       break;
     default:
     // do nothing
   }
 
   const requestEvent = appeal.attributes.events.find(
-    a => a.type === requestEventType,
+    event => event.type === requestEventType,
   );
-  const appealType = appealTypeMap[appeal.attributes.programArea];
-  const isAppeal =
-    appeal.type === APPEAL_TYPES.appeal || appeal.type === APPEAL_TYPES.legacy;
+  const programArea = programAreaMap[appeal.attributes.programArea];
+
+  // appealTitle is in the format:
+  // "Supplemental Claim for Disability Compensation Receieved March 6, 2019"
+  //
+  // If it's an appeal:
+  // "Disability Compensation Appeal Receieved March 6, 2019"
+  //
+  // programArea or requestEvent might be missing:
+  // "Appeal Received March 6, 2019"
+  // "Disability Compensation Appeal"
 
   let appealTitle = '';
 
   if (isAppeal) {
-    if (appealType) {
-      appealTitle = `${appealType} `;
+    if (programArea) {
+      appealTitle = `${programArea} `;
     }
     appealTitle += getTypeName(appeal);
   } else {
     appealTitle = getTypeName(appeal);
-    if (appealType) {
-      appealTitle += ` for ${appealType}`;
+    if (programArea) {
+      appealTitle += ` for ${programArea}`;
     }
   }
 
