@@ -45,7 +45,7 @@ const authentication = client => {
 const e2eTests = (client, formData) => {
   // Benefits eligibility
   // Personal Information
-  completeFormPage('/applicant/information', client, formData);
+  completeFormPage('/applicant/information', client);
 
   // Already submitted
   completeFormPage(
