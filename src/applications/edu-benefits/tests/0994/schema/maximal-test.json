@@ -1,6 +1,6 @@
 {
   "data": {
-    "view:prefillBankAccount": {
+    "prefillBankAccount": {
       "bankAccountType": "Checking",
       "bankAccountNumber": "*********1234",
       "bankRoutingNumber": "*****2115",
