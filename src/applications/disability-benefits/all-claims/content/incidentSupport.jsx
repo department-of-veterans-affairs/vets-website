@@ -3,13 +3,15 @@ import React from 'react';
 export const incidentSupportText = (
   <div>
     <p>
-      If you need to take a break from this process, your responses are being
-      saved in this application and will be saved.
+      If you need to take a break from the process, your responses are being
+      saved and will be here when you return to your online application.
     </p>
     <p>
-      Keep in mind, if you're in crisis, we can support you. Our Veterans Crisis
-      Line is confidential (private), free, and available 24/7. To connect with
-      a Veterans Crisis Line responder anytime, day or night:
+      If you’re in crisis, we can support you. Our Veterans Crisis Line is
+      confidential (private), free, and available 24/7.
+    </p>
+    <p>
+      To connect with a Veterans Crisis Line responder anytime, day or night:
     </p>
     <ul>
       <li>
@@ -18,7 +20,7 @@ export const incidentSupportText = (
         <strong>or</strong>
       </li>
       <li>
-        Visit the{' '}
+        Visit{' '}
         <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
           Veterans Crisis Line
         </a>{' '}
