@@ -4,19 +4,18 @@ export const disabilitiesOrientation = (
   <div>
     <p>
       On the next few screens, we’ll ask you about the disabilities you’re
-      claiming in two parts.
+      claiming, in two parts.
     </p>
-    <strong>Your:</strong>
     <ol>
       <li>
-        Rated service-connected disability. We’ll ask you which rated disability
-        you’re claiming for increased compensation.
+        Rated service-connected disabilities. We’ll ask you to select all the
+        disabilities you’re claiming for increase compensation.
       </li>
-      <li>New service-connected disability or condition.</li>
+      <li>New conditions connected to your service.</li>
     </ol>
     <p>
-      Once we have your list of service-connected disabilities, we’ll ask you
-      more specific questions about each of them.
+      Once you’ve listed all the conditions you are claiming, we’ll ask more
+      specific questions about each of them.
     </p>
   </div>
 );
