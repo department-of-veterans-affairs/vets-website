@@ -32,8 +32,6 @@ function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
   registerLiquidFilters();
 
-  liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
-
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
   //
