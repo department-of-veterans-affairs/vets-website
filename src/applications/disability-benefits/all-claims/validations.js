@@ -236,6 +236,12 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
 };
 
 export const validateDisabilityName = (err, fieldData) => {
+  // We're using a validator for length instead of adding a maxLength schema
+  // property because the validator is only applied conditionally - when a user
+  // chooses a disability from the list supplied to autosuggest, we don't care
+  // about the length - we only care about the length of unique user-entered
+  // disability names. We could've done this with `updateSchema` but this seems
+  // lighter-touch.
   if (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
