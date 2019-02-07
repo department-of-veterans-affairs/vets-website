@@ -28,7 +28,7 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   hasNewDisabilities,
-  newOnly,
+  newConditionsOnly,
   increaseOnly,
   newAndIncrease,
   noClaimTypeSelected,
@@ -230,7 +230,7 @@ const formConfig = {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',
           depends: formData =>
-            hasRatedDisabilities(formData) && !newOnly(formData),
+            hasRatedDisabilities(formData) && !newConditionsOnly(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },

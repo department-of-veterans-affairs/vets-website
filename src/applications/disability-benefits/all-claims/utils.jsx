@@ -607,7 +607,7 @@ const isClaimingNew = formData =>
 
 export const increaseOnly = formData =>
   isClaimingIncrease(formData) && !isClaimingNew(formData);
-export const newOnly = formData =>
+export const newConditionsOnly = formData =>
   !isClaimingIncrease(formData) && isClaimingNew(formData);
 export const newAndIncrease = formData =>
   isClaimingNew(formData) && isClaimingIncrease(formData);
