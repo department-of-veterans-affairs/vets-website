@@ -27,6 +27,8 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
+  isDisabilityPtsd,
+  directToCorrectForm,
 } from '../utils';
 
 import prefillTransformer from '../prefill-transformer';
@@ -96,7 +98,7 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
+import { PTSD_INCIDENT_ITERATION } from '../constants';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
@@ -110,6 +112,7 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
   formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
+  onFormLoaded: directToCorrectForm,
   version: 1,
   migrations: [],
   prefillTransformer,
@@ -241,8 +244,7 @@ const formConfig = {
           depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item =>
-            item.condition && !item.condition.toLowerCase().includes(PTSD),
+          itemFilter: item => !isDisabilityPtsd(item.condition),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,

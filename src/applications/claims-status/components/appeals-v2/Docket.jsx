@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import DocketCard from './DocketCard';
-import { APPEAL_TYPES } from '../../utils/appeals-v2-helpers';
+import { APPEAL_STATUSES } from '../../utils/appeals-v2-helpers';
 
 /**
  * @param {Number} ahead - The number of appeals ahead of this one
@@ -49,7 +49,7 @@ function Docket({
         </p>
       </div>
     );
-  } else if (appealType === APPEAL_TYPES.postCavcRemand) {
+  } else if (appealType === APPEAL_STATUSES.postCavcRemand) {
     // Post-CAVC remand should over-ride default content but not AoD
     content = (
       <p>

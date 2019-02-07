@@ -3,7 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit, some, lowerCase } from 'lodash';
+import { omit } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -23,7 +23,7 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
-  PTSD,
+  PTSD_MATCHES,
 } from './constants';
 
 /**
@@ -184,8 +184,12 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
-export const addCheckboxPerDisability = (form, pageSchema) => {
-  const { ratedDisabilities, newDisabilities } = form;
+/**
+ * An updateSchema callback that adds boolean properties to the schema.
+ * The property names are lowercased, while the title is title cased.
+ */
+export const addCheckboxPerDisability = (formData, pageSchema) => {
+  const { ratedDisabilities, newDisabilities } = formData;
   // This shouldn't happen, but could happen if someone directly
   // opens the right page in the form with no SiP
   if (!ratedDisabilities && !newDisabilities) {
@@ -199,7 +203,6 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     ? newDisabilities
     : [];
 
-  // TODO: We might be able to clean this up once we know how EVSS
   // We expect to get an array with conditions in it or no property
   // at all.
   const disabilitiesViews = selectedRatedDisabilities
@@ -381,13 +384,23 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
-export const isDisabilityPtsd = disability =>
-  lowerCase(disability).includes(PTSD);
+export const isDisabilityPtsd = disability => {
+  if (!disability || typeof disability !== 'string') {
+    return false;
+  }
+
+  const loweredDisability = disability.toLowerCase();
+  return PTSD_MATCHES.some(
+    ptsdString =>
+      ptsdString.includes(loweredDisability) ||
+      loweredDisability.includes(ptsdString),
+  );
+};
 
 export const hasNewPtsdDisability = formData =>
   _.get('view:newDisabilities', formData, false) &&
-  some(_.get('newDisabilities', formData, []), item =>
-    isDisabilityPtsd(item.condition),
+  _.get('newDisabilities', formData, []).some(disability =>
+    isDisabilityPtsd(disability.condition),
   );
 
 export const needsToEnter781 = formData =>
@@ -536,4 +549,102 @@ export const getAttachmentsSchema = defaultAttachmentId => {
     defaultAttachmentId,
     attachments,
   );
+};
+
+const isDateRange = ({ from, to }) => !!(from && to);
+
+const parseDate = dateString => moment(dateString, 'YYYY-MM-DD');
+
+// NOTE: Could move this to outside all-claims
+/**
+ * Checks to see if the first parameter is inside the date range (second parameter).
+ * If the first parameter is a date range, it'll return true if both dates are inside the range.
+ * @typedef {Object} DateRange
+ * @property {string} to - A date string YYYY-MM-DD
+ * @property {string} from - A date string YYYY-MM-DD
+ * ---
+ * @param {String|DateRange} inside - The date or date range to check
+ * @param {DateRange} outside - The range `inside` must fit in
+ * @param {String} inclusivity - See https://momentjs.com/docs/#/query/is-between/
+ *                               NOTE: This function defaults to inclusive dates which is different
+ *                               from moment's default
+ */
+export const isWithinRange = (inside, outside, inclusivity = '[]') => {
+  if (isDateRange(inside)) {
+    return (
+      isWithinRange(inside.to, outside, inclusivity) &&
+      isWithinRange(inside.from, outside, inclusivity)
+    );
+  }
+  if (typeof inside !== 'string') return false;
+
+  const insideDate = parseDate(inside);
+  const from = parseDate(outside.from);
+  const to = parseDate(outside.to);
+
+  return insideDate.isBetween(from, to, 'days', inclusivity);
+};
+
+// This is in here instead of validations.js because it returns a jsx element
+export const getPOWValidationMessage = servicePeriodDateRanges => (
+  <span>
+    The dates you enter must be within one of the service periods you entered.
+    <ul>
+      {servicePeriodDateRanges.map((range, index) => (
+        <li key={index}>
+          {moment(range.from).format('MMM DD, YYYY')} —{' '}
+          {moment(range.to).format('MMM DD, YYYY')}
+        </li>
+      ))}
+    </ul>
+  </span>
+);
+
+/**
+ * The base urls for each form
+ * @readonly
+ * @enum {String}
+ */
+const urls = {
+  v1: '/disability-benefits/apply/form-526-disability-claim',
+  v2: '/disability-benefits/apply/form-526-all-claims',
+};
+
+/**
+ * Returns whether the formData is v1 or not.
+ * This assumes that the `veteran` property of the formData will be present
+ *  only in v1 after the form is saved. The prefillTransformer should
+ *  remove this property from the v2 formData for this to work properly.
+ */
+const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
+
+/**
+ * Returns the base url of whichever form the user needs to go to.
+ *
+ * @param {Object} formData - The saved form data
+ * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
+ * @return {String} - The base url of the right form to return to
+ */
+export const getFormUrl = (formData, isPrefill) =>
+  isV1App(formData, isPrefill) ? urls.v1 : urls.v2;
+
+/**
+ * Navigates to the appropriate form (v1 or v2) based on the saved data.
+ */
+export const directToCorrectForm = ({
+  formData,
+  savedForms,
+  returnUrl,
+  formConfig,
+  router,
+}) => {
+  // If we can find the form in the savedForms array, it's not pre-filled
+  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
+  const baseUrl = getFormUrl(formData, isPrefill);
+  if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
+    // Redirect to the other app
+    window.location.assign(`${baseUrl}/resume`);
+  } else {
+    router.push(returnUrl);
+  }
 };
