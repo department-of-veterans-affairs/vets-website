@@ -8,6 +8,7 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = getTestDataSets(join(__dirname, 'schema'), {
   extension: 'json',
   ignore: ['minimal-ptsd-form-upload-test.json'],
+  // only: ['minimal-test.json'],
 });
 
 const testConfig = {
