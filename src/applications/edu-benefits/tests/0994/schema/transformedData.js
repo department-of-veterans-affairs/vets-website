@@ -6,8 +6,15 @@ const transformedMinimalDataActual = {
   },
   appliedForVaEducationBenefits: false,
   activeDuty: true,
-  dayTimePhone: '4445551212',
+  dayTimePhone: '1234567890',
   emailAddress: 'test2@test1.net',
+  mailingAddress: {
+    street: 'MILITARY ADDY 3',
+    city: 'Nowhere',
+    country: 'USA',
+    state: 'MI',
+    postalCode: '22312',
+  },
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -29,7 +36,7 @@ const transformedMaximalDataActual = {
     street: 'MILITARY ADDY 3',
     street2: 'teasdf',
     street3: 'teasdf',
-    city: 'DPO',
+    city: 'Nowhere',
     country: 'USA',
     state: 'MI',
     postalCode: '22312',
