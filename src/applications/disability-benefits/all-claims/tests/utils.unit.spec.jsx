@@ -21,7 +21,7 @@ import {
   needsToEnter781,
   needsToEnter781a,
   needsToEnterUnemployability,
-  newOnly,
+  newConditionsOnly,
   queryForFacilities,
   ReservesGuardDescription,
   servedAfter911,
@@ -783,14 +783,14 @@ describe('526 v2 depends functions', () => {
   };
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
-      expect(newOnly(newOnlyData)).to.be.true;
+      expect(newConditionsOnly(newOnlyData)).to.be.true;
     });
     it('should return false if already-rated conditions are claimed', () => {
-      expect(newOnly(increaseOnlyData)).to.be.false;
-      expect(newOnly(increaseAndNewData)).to.be.false;
+      expect(newConditionsOnly(increaseOnlyData)).to.be.false;
+      expect(newConditionsOnly(increaseAndNewData)).to.be.false;
     });
     it('should return false if no claim type is selected', () => {
-      expect(newOnly(noneSelected)).to.be.false;
+      expect(newConditionsOnly(noneSelected)).to.be.false;
     });
   });
   describe('increaseOnly', () => {
