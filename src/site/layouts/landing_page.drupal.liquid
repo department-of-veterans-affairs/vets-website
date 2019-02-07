@@ -9,8 +9,16 @@
           <p>{{ fieldIntroText }}</p>
         </div>
       </article>
-      
-      {% include "src/site/components/hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+
+      <div class="usa-width-one-third" id="hub-rail">
+          {% if fieldPromo != empty %}
+              {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
+          {% endif %}
+
+          {% if fieldAdministration != empty %}
+            {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+          {% endif %}
+      </div>
     </div>
     
   </main>
