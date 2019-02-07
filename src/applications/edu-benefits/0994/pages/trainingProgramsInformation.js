@@ -54,6 +54,9 @@ export const uiSchema = {
         city: {
           'ui:title': 'City',
           'ui:required': (formData, index) => showLocation(formData, index),
+          'ui:errorMessages': {
+            pattern: 'Please fill in a valid city',
+          },
         },
         state: {
           'ui:title': 'State',
