@@ -48,8 +48,8 @@ export const uiSchema = {
       location: {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
-          expandUnder: 'courseType',
-          hideIf: (formData, index) => !showLocation(formData, index),
+          expandUnderCondition: field =>
+            field === 'inPerson' || field === 'both',
         },
         city: {
           'ui:title': 'City',
