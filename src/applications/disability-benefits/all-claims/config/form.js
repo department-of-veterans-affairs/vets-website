@@ -203,12 +203,14 @@ const formConfig = {
         retirementPay: {
           title: 'Retirement Pay',
           path: 'retirement-pay',
+          depends: formData => !increaseOnly(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training Pay',
           path: 'training-pay',
+          depends: formData => !increaseOnly(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
