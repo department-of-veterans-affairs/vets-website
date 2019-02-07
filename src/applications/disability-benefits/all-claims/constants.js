@@ -250,3 +250,23 @@ export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
 // Note: the right single quote (’) is intentional - apostrophes are not
 //       allowed.
 export const EVSS_DISABILITY_NAME_REGEX = /^([a-zA-Z0-9\-‘.,/()]([a-zA-Z0-9\-’,. ])?)+$/;
+
+export const ANALYTICS_EVENTS = {
+  openedPrivateRecordsAcknowledgment: {
+    event: 'form-help-text-clicked',
+    'help-text-label':
+      'Disability - Form 4142 - Private Medical Records: Read the full text',
+  },
+  openedPrivateChoiceHelp: {
+    event: 'form-help-text-clicked',
+    'help-text-label':
+      'Disability - Form 4142 - Private Medical Records: Which should I choose',
+  },
+  openedLimitedConsentHelp: {
+    event: 'form-help-text-clicked',
+    'help-text-label':
+      'Disability - Form 4142 - Private Medical Records Release: What does this mean',
+  },
+};
+
+export const EVENT_COMPARISON_KEY = 'help-text-label';

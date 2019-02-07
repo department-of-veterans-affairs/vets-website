@@ -4,6 +4,7 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -646,5 +647,22 @@ export const directToCorrectForm = ({
     window.location.assign(`${baseUrl}/resume`);
   } else {
     router.push(returnUrl);
+  }
+};
+
+/**
+ * Pushes an event to the Analytics dataLayer if the event doesn't already
+ * exist there.
+ * @param {object} event this will get pushed to `dataLayer`
+ * @param {string} key the property in the event object to use when looking for
+ *                     existing matches in the dataLayer
+ */
+export const recordEventOnce = (event, key) => {
+  const alreadyRecorded =
+    window.dataLayer &&
+    !!window.dataLayer.find(item => item[key] === event[key]);
+
+  if (!alreadyRecorded) {
+    recordEvent(event);
   }
 };
