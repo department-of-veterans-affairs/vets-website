@@ -150,14 +150,12 @@ export default class ArrayField extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map(
-        (val, index) => (index + 1 === this.state.editing.length ? false : val),
-      );
-      const newState = _.assign(this.state, {
-        editing: newEditing,
+      this.setState(state => {
+        const newEditing = this.state.editing.map(
+          (val, index) => (index + 1 === state.editing.length ? false : val),
+        );
+        return { editing: newEditing };
       });
-
-      this.setState(newState);
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
       this.props.formContext.setTouched(touched, () => {
@@ -204,27 +202,14 @@ export default class ArrayField extends React.Component {
    * Clicking Remove on an item in edit mode
    */
   handleRemove(indexToRemove) {
-    let newItems = this.props.formData.filter(
+    const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    let newState = _.assign(this.state, {
+    const newState = _.assign(this.state, {
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
     });
-    // Ensure that there is always a blank item in editing mode
-    if (newItems.length === 0) {
-      newItems = [
-        getDefaultFormState(
-          this.props.schema.additionalItems,
-          undefined,
-          this.props.registry.definitions,
-        ) || {},
-      ];
-      newState = _.assign(newState, {
-        editing: [true],
-      });
-    }
     this.props.onChange(newItems);
     this.setState(newState, () => {
       this.scrollToTop();
@@ -268,6 +253,8 @@ export default class ArrayField extends React.Component {
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
     });
+
+    const isOnlyItem = items.length > 2;
 
     return (
       <div className={containerClassNames}>
@@ -351,13 +338,15 @@ export default class ArrayField extends React.Component {
                           )}
                         </div>
                         <div className="small-6 right columns">
-                          <button
-                            className="usa-button-secondary float-right"
-                            type="button"
-                            onClick={() => this.handleRemove(index)}
-                          >
-                            Remove
-                          </button>
+                          {!isOnlyItem && (
+                            <button
+                              className="usa-button-secondary float-right"
+                              type="button"
+                              onClick={() => this.handleRemove(index)}
+                            >
+                              Remove
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
