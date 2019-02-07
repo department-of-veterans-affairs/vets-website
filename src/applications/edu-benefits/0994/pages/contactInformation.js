@@ -25,7 +25,8 @@ const mailingAddressStartInEdit = formData => {
   return true;
 };
 
-const addressUiSchema = addressUISchema();
+const addressUiSchema = addressUISchema('Address', true);
+const address = addressSchema(fullSchema, true);
 
 export const uiSchema = {
   'ui:title': 'Contact Information',
@@ -73,6 +74,18 @@ export const uiSchema = {
       viewComponent: AddressViewField,
       startInEdit: mailingAddressStartInEdit,
     },
+    street: {
+      ...addressUiSchema.street,
+      'ui:title': 'Street address',
+    },
+    street2: {
+      ...addressUiSchema.street2,
+      'ui:title': 'Street address (line 2)',
+    },
+    street3: {
+      ...addressUiSchema.street3,
+      'ui:title': 'Street address (line 3)',
+    },
   },
   'view:contactInfoNote': {
     'ui:title': ' ',
@@ -92,7 +105,13 @@ export const schema = {
         emailAddress,
       },
     },
-    mailingAddress: addressSchema(fullSchema, true),
+    mailingAddress: {
+      ...address,
+      properties: {
+        ...address.properties,
+        street3: address.properties.street2,
+      },
+    },
     'view:contactInfoNote': {
       type: 'object',
       properties: {},

@@ -336,13 +336,7 @@ export const mockData = {
             socTimeliness: [2, 16],
           },
         },
-        docket: {
-          front: false,
-          total: 206900,
-          ahead: 109203,
-          ready: 22109,
-          eta: '2019-08-31',
-        },
+        docket: null,
         issues: [
           {
             active: true,

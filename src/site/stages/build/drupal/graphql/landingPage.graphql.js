@@ -17,6 +17,7 @@ module.exports = `
         path
       }
     }
+    entityId
     entityBundle
     entityPublished
     title

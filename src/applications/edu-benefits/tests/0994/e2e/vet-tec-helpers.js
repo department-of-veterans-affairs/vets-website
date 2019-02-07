@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
+const Timeouts = require('../../../../../platform/testing/e2e/timeouts');
 
 export const clickAddAnother = (client, i, list) => {
   if (i < list.length - 1) client.click('.va-growable-add-btn');
@@ -18,6 +19,7 @@ export const completeFormPage = (url, client, data, func) => {
 };
 
 export const completeAlreadySubmitted = (client, data) => {
+  client.pause(1000);
   client.selectRadio(
     `root_appliedForVaEducationBenefits`,
     _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
@@ -62,6 +64,7 @@ export const completeHighTechWorkExp = (client, data) => {
     currentHighTechnologyEmployment ? 'Y' : 'N',
   );
   if (!currentHighTechnologyEmployment) {
+    client.pause(1000);
     client.selectRadio(
       `root_pastHighTechnologyEmployment`,
       pastHighTechnologyEmployment ? 'Y' : 'N',
@@ -147,7 +150,7 @@ export const completeContactInformation = (client, data) => {
       .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
   }
 
-  client.fillAddress('root_mailingAddress', data.mailingAddress);
+  client.fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}));
 };
 
 export const completeBankInformation = (client, data) => {
@@ -184,4 +187,13 @@ export const completeReviewAndSubmit = (client, data) => {
   );
   client.click('body');
   client.click('button[id="11-continueButton"]');
+};
+
+export const returnToBeginning = (client, url) => {
+  client
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
+    .acceptAlert()
+    .waitForElementVisible('body', Timeouts.normal);
+
+  client.click('button[id="2-continueButton"]');
 };

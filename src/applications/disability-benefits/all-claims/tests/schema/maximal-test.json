@@ -2,63 +2,65 @@
   "data": {
     "standardClaim": false,
     "view:fdcWarning": {},
-    "view:hasSeparationPay": true,
-    "view:separationPayDetails": {
-      "view:separationPayDetailsDescription": {},
-      "separationPayDate": "2019",
-      "separationPayBranch": "Air Force"
-    },
-    "hasTrainingPay": true,
     "waiveTrainingPay": true,
     "view:waiveRetirementPayDescription": {},
-    "waiveRetirementPay": false,
+    "waiveRetirementPay": true,
     "isVaEmployee": true,
-    "homelessOrAtRisk": "atRisk",
-    "view:isAtRisk": {
-      "atRiskHousingSituation": "other",
-      "otherAtRiskHousing": "Situation description"
+    "homelessOrAtRisk": "homeless",
+    "view:isHomeless": {
+      "homelessHousingSituation": "other",
+      "otherHomelessHousing": "Under a bridge",
+      "needToLeaveHousing": true
     },
     "homelessnessContact": {
-      "name": "Name",
+      "name": "Name Here",
       "phoneNumber": "1231231234"
     },
-    "bankAccountType": "Checking",
-    "bankAccountNumber": "1233",
-    "bankRoutingNumber": "123412345",
-    "bankName": "BigBank Name",
+    "view:bankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "1233",
+      "bankRoutingNumber": "123123123",
+      "bankName": "Bigbank Co."
+    },
     "phoneAndEmail": {
-      "primaryPhone": "1231231234",
-      "emailAddress": "asdf@adsf.asdf"
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
     },
     "mailingAddress": {
       "country": "USA",
-      "addressLine1": "asdf",
-      "addressLine2": "line 2",
-      "addressLine3": "line 3",
-      "city": "asdf",
-      "state": "AL",
-      "zipCode": "19234"
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
     },
     "view:hasForwardingAddress": true,
     "forwardingAddress": {
       "country": "USA",
-      "addressLine1": "adsf",
-      "addressLine2": "line 2",
-      "addressLine3": "line 3",
-      "city": "asdf",
-      "state": "OH",
-      "zipCode": "12343",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
       "effectiveDate": {
-        "from": "2118-01-01",
-        "to": "2119-01-01"
+        "from": "2099-12-01",
+        "to": "2100-01-01"
       }
     },
     "view:contactInfoDescription": {},
     "additionalDocuments": [
       {
-        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de6969e94",
-        "attachmentId": "L015",
-        "name": "Document Name"
+        "name": "lolwut.png",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      },
+      {
+        "name": "image (1).png",
+        "confirmationCode": "0496e5c2-0675-4a43-83d6-e1eeabd4ea0e",
+        "attachmentId": "L070"
+      },
+      {
+        "name": "Success.jpg",
+        "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
+        "attachmentId": "L023"
       }
     ],
     "view:uploadPrivateRecordsQualifier": {
@@ -66,22 +68,51 @@
       "view:hasPrivateRecordsToUpload": true,
       "view:privateRecordsChoiceHelp": {}
     },
+    "privateMedicalRecordAttachments": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
+        "attachmentId": "L107"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
+        "attachmentId": "L023"
+      }
+    ],
     "view:vaMedicalRecordsIntro": {},
     "vaTreatmentFacilities": [
       {
-        "treatmentCenterName": "VA Clinic Name",
+        "treatmentCenterName": "Treatment Center the First",
         "treatmentDateRange": {
-          "from": "1904-01-XX",
-          "to": "1905-01-XX"
+          "from": "2008-01-XX",
+          "to": "2010-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "USA",
-          "city": "asdf",
-          "state": "AL"
+          "city": "Bigcity",
+          "state": "AK"
         },
         "treatedDisabilityNames": {
-          "First Condition": true,
-          "PTSD (Post Traumatic Stress Disorder)": true
+          "diabetes mellitus0": true,
+          "diabetes mellitus1": true,
+          "myocardial infarction (mi)": true
+        }
+      },
+      {
+        "treatmentCenterName": "Treatment Center the Second",
+        "treatmentDateRange": {
+          "from": "2010-01-XX",
+          "to": "2018-02-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "Uganda",
+          "city": "Ugandan City"
+        },
+        "treatedDisabilityNames": {
+          "asthma": true,
+          "phlebitis": true,
+          "knee replacement": true
         }
       }
     ],
@@ -94,200 +125,103 @@
       },
       "view:evidenceTypeHelp": {}
     },
+    "view:unemployable": false,
+    "view:aidAndAttendance": true,
+    "view:modifyingHome": true,
+    "view:modifyingCar": true,
+    "view:needsCarHelp": {
+      "view:alreadyClaimedVehicleAllowance": false
+    },
     "view:powStatus": true,
     "view:isPow": {
       "confinements": [
         {
-          "from": "1900-01-01",
-          "to": "1901-01-01"
+          "from": "2016-01-01",
+          "to": "2017-01-01"
+        },
+        {
+          "from": "2017-01-06",
+          "to": "2017-04-01"
         }
       ],
       "powDisabilities": {
-        "PTSD (post Traumatic Stress Disorder)": true
+        "knee replacement": true,
+        "myocardial infarction (mi)": true
       }
     },
-    "view:unemployabilityUploadChoice": "answerQuestions",
-    "view:unemployable": true,
-    "unemployability": {
-      "view:statementsAreTrue": {
-        "view:statementsAreTrueAccept": true
-      },
-      "view:informOfReturnToWork": {
-        "view:informOfReturnToWorkAccept": true
-      },
-      "remarks": "Remarks",
-      "receivedOtherEducationTrainingPostUnemployability": true,
-      "otherEducationTrainingPostUnemployability": [
-        {
-          "name": "Education",
-          "dates": {
-            "from": "2010-01-01",
-            "to": "2010-01-03"
-          }
-        }
-      ],
-      "education": "Some elementary school",
-      "receivedOtherEducationTrainingPreUnemployability": true,
-      "otherEducationTrainingPreUnemployability": [
-        {
-          "name": "Test",
-          "dates": {
-            "from": "2010-01-02",
-            "to": "2010-01-03"
-          }
-        }
-      ],
-      "attemptedToObtainEmploymentSinceUnemployability": true,
-      "appliedEmployers": [
-        {
-          "name": "Recent Company",
-          "address": {
-            "country": "USA",
-            "addressLine1": "123 Main St",
-            "addressLine2": "0100",
-            "city": "Somewhere",
-            "state": "SC",
-            "zipCode": "12345"
-          },
-          "workType": "Work",
-          "date": "2010-01-01"
-        }
-      ],
-      "view:substantiallyGainfulEmploymentInfo": {},
-      "disabilityPreventMilitaryDuties": "yes",
-      "receiveExpectDisabilityRetirement": true,
-      "receiveExpectWorkersCompensation": true,
-      "view:supplementalBenefitsHelp": {},
-      "past12MonthsEarnedIncome": 10,
-      "view:grossIncomeAdditionalInfo": {},
-      "view:isEmployed": true,
-      "currentMonthlyEarnedIncome": 50,
-      "previousEmployers": [
-        {
-          "name": "Authortay",
-          "employerAddress": {
-            "country": "USA",
-            "addressLine1": "123 Main St",
-            "addressLine2": "Apt 321",
-            "city": "Abcd",
-            "state": "SC",
-            "zipCode": "12345"
-          },
-          "phone": "1234561234",
-          "typeOfWork": "Work",
-          "hoursPerWeek": 20,
-          "dates": {
-            "from": "2010-01-02",
-            "to": "2010-01-03"
-          },
-          "timeLostFromIllness": "Some",
-          "mostEarningsInAMonth": 100,
-          "inBusiness": false
-        }
-      ],
-      "mostEarningsInAYear": 120,
-      "yearOfMostEarnings": "2010",
-      "occupationDuringMostEarnings": "a",
-      "underDoctorsCare": true,
-      "hospitalized": true,
-      "doctorProvidedCare": [
-        {
-          "name": "Dr Authortay",
-          "address": {
-            "country": "USA",
-            "addressLine1": "123 Main St",
-            "addressLine2": "Apt 321",
-            "city": "Abcd",
-            "state": "SC",
-            "zipCode": "12345"
-          },
-          "dates": "asdfasdf"
-        }
-      ],
-      "hospitalProvidedCare": [
-        {
-          "name": "Authortay",
-          "address": {
-            "country": "USA",
-            "addressLine1": "123 Main St",
-            "addressLine2": "Apt 321",
-            "city": "Abcd",
-            "zipCode": "12345"
-          },
-          "dates": "asdfasd"
-        }
-      ],
-      "disabilityAffectedEmploymentFullTimeDate": "2010-01-01",
-      "lastWorkedFullTimeDate": "2010-01-01",
-      "becameTooDisabledToWorkDate": "2010-01-01",
-      "view:recordsInfo": {}
-    },
-    "view:upload781Choice": "answerQuestions",
-    "view:upload781ChoiceHelp": {},
-    "view:upload781aChoice": "answerQuestions",
-    "view:upload781aChoiceHelp": {},
-    "view:selectablePtsdTypes": {
-      "view:combatPtsdType": true,
-      "view:mstPtsdType": true,
-      "view:assaultPtsdType": true,
-      "view:nonCombatPtsdType": true
-    },
-    "view:ptsdTypeHelp": {},
-    "view:newDisabilities": true,
     "newDisabilities": [
       {
         "cause": "NEW",
-        "primaryDescription": "A thing happened.",
-        "condition": "PTSD (post traumatic stress disorder)"
-      },
-      {
-        "cause": "NEW",
-        "primaryDescription": "A thing happened.",
-        "condition": "Some condition"
-      },
-      {
-        "cause": "WORSENED",
-        "view:worsenedFollowUp": {
-          "worsenedDescription": "A thing happened.",
-          "worsenedEffects": "Bad stuff"
-        },
-        "condition": "Some fourth condition"
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
       },
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "PTSD (Post Traumatic Stress Disorder)",
-          "causedByDisabilityDescription": "A thing happened."
+          "causedByDisability": "Asthma",
+          "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
-        "condition": "Some other condition"
+        "condition": "phlebitis",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "WORSENED",
+        "view:worsenedFollowUp": {
+          "worsenedDescription": "My knee was strained in the service",
+          "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?"
+        },
+        "condition": "knee replacement",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "VA",
+        "view:vaFollowUp": {
+          "vaMistreatmentDescription": "A thing happened.",
+          "vaMistreatmentLocation": "Somewhereville",
+          "vaMistreatmentDate": "A while ago"
+        },
+        "condition": "myocardial infarction (MI)",
+        "view:descriptionInfo": {}
       }
     ],
+    "view:newDisabilities": true,
     "ratedDisabilities": [
       {
-        "name": "First Condition",
+        "name": "Diabetes mellitus0",
         "ratedDisabilityId": "0",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "view:selected": true,
         "disabilityActionType": "NONE",
-        "unemployabilityDisability": true
+        "view:selected": true
       },
       {
-        "name": "Second Condition",
+        "name": "Diabetes mellitus1",
         "ratedDisabilityId": "1",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
-        "ratingPercentage": 0,
-        "view:selected": false,
-        "disabilityActionType": "NONE"
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": true
       },
       {
-        "name": "Third Condition",
+        "name": "De-selected",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      },
+      {
+        "name": "Not selected",
         "ratedDisabilityId": "1",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
@@ -298,261 +232,128 @@
       }
     ],
     "view:disabilitiesClarification": {},
+    "hasTrainingPay": true,
+    "view:hasMilitaryRetiredPay": true,
+    "militaryRetiredPayBranch": "Air Force",
+    "view:hasSeparationPay": true,
+    "view:separationPayDetails": {
+      "view:separationPayDetailsDescription": {},
+      "separationPayDate": "2018",
+      "separationPayBranch": "Air Force"
+    },
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": true,
         "title10Activation": {
-          "title10ActivationDate": "1902-01-01",
-          "anticipatedSeparationDate": "2119-01-01"
+          "title10ActivationDate": "2015-01-01",
+          "anticipatedSeparationDate": "2120-01-01"
         },
         "obligationTermOfServiceDateRange": {
-          "from": "1902-01-01",
-          "to": "1903-01-01"
+          "from": "2007-05-22",
+          "to": "2008-06-05"
         },
-        "unitName": "RNG Unit 1",
-        "unitAddress": {
-          "country": "USA",
-          "addressLine1": "asdf",
-          "addressLine2": "second line",
-          "addressLine3": "third line",
-          "city": "asdf",
-          "state": "AL",
-          "zipCode": "19234"
-        },
-        "unitPhone": "1231231234"
+        "unitName": "Seal Team Six"
       },
       "servicePeriods": [
         {
-          "serviceBranch": "Air Force",
+          "serviceBranch": "Air Force Reserve",
           "dateRange": {
-            "from": "1900-01-01",
-            "to": "1901-01-01"
+            "from": "2001-03-21",
+            "to": "2014-07-21"
           }
         },
         {
           "serviceBranch": "Air National Guard",
           "dateRange": {
-            "from": "1902-01-01",
-            "to": "1903-01-01"
+            "from": "2015-01-01",
+            "to": "2017-05-13"
           }
         }
       ],
       "view:militaryHistoryNote": {}
     },
-    "view:hasMilitaryRetiredPay": true,
-    "militaryRetiredPayBranch": "Air Force",
+    "servedInCombatZonePost911": true,
     "view:hasAlternateName": true,
     "alternateNames": [
       {
-        "first": "Old",
-        "last": "Name"
+        "first": "William",
+        "middle": "Schwenk",
+        "last": "Gilbert"
       },
       {
-        "first": "Another",
-        "middle": "Old",
-        "last": "Name"
+        "first": "Arthur",
+        "last": "Sullivan"
       }
     ],
-    "view:faqAccordion": {},
-    "privacyAgreementAccepted": true,
-    "view:enterAdditionalEvents0": true,
-    "view:enterAdditionalEvents1": true,
-    "view:enterAdditionalEvents2": true,
-    "view:enterAdditionalSecondaryEvents0": true,
-    "view:enterAdditionalSecondaryEvents1": true,
-    "view:enterAdditionalSecondaryEvents2": true,
-    "view:individualsInvolved0": true,
-    "view:individualsInvolved2": true,
+    "view:selectablePtsdTypes": {},
+    "view:ptsdTypeHelp": {},
+    "view:upload781ChoiceHelp": {},
     "incident0": {
-      "incidentDescription": "First PTSD event description",
-      "personsInvolved": [
-        {
-          "name": {
-            "first": "John"
-          },
-          "description": "John H Doe description",
-          "view:serviceMember": true,
-          "rank": "Sgt",
-          "unitAssigned": "Unit B",
-          "injuryDeathDate": "1992-07-03",
-          "injuryDeath": "injuredNonBattle",
-          "view:individualAddMsg": {}
-        }
-      ],
+      "unitAssignedDates": {},
       "incidentLocation": {
-        "country": "USA",
-        "city": "Test",
-        "state": "MS",
-        "additionalDetails": "Additional first incident location details"
-      },
-      "unitAssigned": "Division 1",
-      "unitAssignedDates": {
-        "from": "1991-03-03",
-        "to": "1996-03-06"
-      },
-      "incidentDate": "1992-03-04",
-      "medalsCitations": "Medal A and Medal B"
+        "country": "USA"
+      }
     },
     "incident1": {
-      "medalsCitations": "Medal B",
-      "incidentDate": "1992-01-01",
+      "unitAssignedDates": {},
       "incidentLocation": {
-        "city": "Test",
-        "state": "TN",
-        "country": "USA",
-        "additionalDetails": "Other"
-      },
-      "incidentDescription": "Incident description",
-      "unitAssigned": "Unit A",
-      "unitAssignedDates": {
-        "from": "1990-01-01",
-        "to": "1999-01-01"
-      },
-      "personsInvolved": []
+        "country": "USA"
+      }
     },
     "incident2": {
-      "medalsCitations": "Medal C",
-      "incidentDate": "1992-01-01",
+      "unitAssignedDates": {},
       "incidentLocation": {
-        "city": "Test",
-        "state": "TN",
-        "country": "USA",
-        "additionalDetails": "Other"
-      },
-      "incidentDescription": "Incident description",
-      "unitAssigned": "Unit A",
-      "unitAssignedDates": {
-        "from": "1990-01-01",
-        "to": "1999-01-01"
-      },
-      "personsInvolved": [
-        {
-          "name": {
-            "first": "John",
-            "last": "Doe"
-          },
-          "rank": "Private",
-          "injuryDeath": "other",
-          "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-01-01",
-          "unitAssigned": "Unit A"
-        },
-        {
-          "name": {
-            "first": "Jane",
-            "last": "Doe"
-          }
-        }
-      ]
+        "country": "USA"
+      }
     },
+    "view:upload781aChoiceHelp": {},
     "secondaryIncident0": {
-      "sources": [
-        {
-          "name": "Police",
-          "address": {
-            "country": "USA",
-            "addressLine1": "123 Test St",
-            "city": "Test",
-            "state": "PA",
-            "zipCode": "12345"
-          }
-        }
-      ],
-      "incidentDescription": "First 781a PTSD incident description",
+      "unitAssignedDates": {},
       "incidentLocation": {
-        "country": "USA",
-        "city": "City Name",
-        "state": "AZ",
-        "additionalDetails": "First 781a PTSD incident location additional details"
+        "country": "USA"
       },
-      "unitAssigned": "Unit Name",
-      "unitAssignedDates": {
-        "from": "1992-02-16",
-        "to": "1995-04-04"
-      },
-      "incidentDate": "1994-04-03",
-      "view:uploadSources": true
+      "otherSourcesHelp": {}
     },
+    "view:otherSourcesHelp": {},
     "secondaryIncident1": {
-      "incidentDate": "1992-01-01",
+      "unitAssignedDates": {},
       "incidentLocation": {
-        "city": "Test",
-        "state": "TN",
-        "country": "USA",
-        "additionalDetails": "Other"
+        "country": "USA"
       },
-      "incidentDescription": "Second 781a PTSD incident description",
-      "unitAssigned": "Unit A",
-      "unitAssignedDates": {
-        "from": "1990-01-01",
-        "to": "1999-01-01"
-      },
-      "view:uploadSources": true
+      "otherSourcesHelp": {}
     },
     "secondaryIncident2": {
-      "incidentDate": "1992-01-01",
+      "unitAssignedDates": {},
       "incidentLocation": {
-        "city": "Test",
-        "state": "TN",
-        "country": "USA",
-        "additionalDetails": "Other"
+        "country": "USA"
       },
-      "incidentDescription": "Third 781a PTSD incident description",
-      "unitAssigned": "Unit A",
-      "unitAssignedDates": {
-        "from": "1990-01-01",
-        "to": "1999-01-01"
-      },
-      "view:uploadSources": true
+      "otherSourcesHelp": {}
     },
-    "additionalRemarks781": "781 Remarks",
-    "additionalIncidentText": "Additional incident text",
-    "additionalSecondaryIncidentText": "Additional secondary incident text",
-    "physicalChanges": {
-      "increasedVisits": true,
-      "other": true,
-      "otherExplanation": "Other physical change"
+    "physicalChanges": {},
+    "mentalChanges": {},
+    "workBehaviorChanges": {},
+    "socialBehaviorChanges": {},
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
     },
-    "socialBehaviorChanges": {
-      "withdrawal": true,
-      "unexplained": true,
-      "other": true,
-      "otherExplanation": "Other social change"
-    },
-    "mentalChanges": {
-      "depression": true,
-      "fear": true,
-      "hypervigilance": true,
-      "other": true,
-      "otherExplanation": "Other mental change",
-      "noneApply": true
-    },
-    "workBehaviorChanges": {
-      "performanceChanges": true,
-      "resign": true,
-      "other": true,
-      "otherExplanation": "Other work change"
-    },
-    "additionalChanges": "Additional changes test",
-    "secondaryUploadSources0": [{
-      "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2da24569e94",
-      "attachmentId": "L034",
-      "name": "Doc.pdf"
-    }],
-    "secondaryUploadSources1": [{
-      "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de24569e94",
-      "attachmentId": "L015",
-      "name": "Doc.pdf"
-    }],
-    "secondaryUploadSources2": [{
-      "confirmationCode": "354c6d40-b6f5-4c6d-9393-3b7de24569e94",
-      "attachmentId": "L048",
-      "name": "Doc.pdf"
-    }],
-    "privateMedicalRecordAttachments": [{
-      "confirmationCode": "354c6d40-b6f5-8c6d-9393-3b7de24569e94",
-      "attachmentId": "L107",
-      "name": "Doc.pdf"
-    }]
+    "view:privateMedicalFacility": {},
+    "view:upload4192Choice": {},
+    "view:downloadInfo": {},
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
   }
 }
