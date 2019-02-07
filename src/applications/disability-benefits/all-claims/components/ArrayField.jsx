@@ -254,7 +254,7 @@ export default class ArrayField extends React.Component {
       'schemaform-block': hasTitleOrDescription,
     });
 
-    const isOnlyItem = items.length > 2;
+    const isOnlyItem = items.length < 2;
 
     return (
       <div className={containerClassNames}>
