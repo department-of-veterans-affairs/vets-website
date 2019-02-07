@@ -1,4 +1,4 @@
-import _ from '../../../platform/utilities/data';
+import _ from 'lodash';
 
 export function prefillTransformer(pages, formData, metadata) {
   // TODO: enable this to implement the review card UI for verified users
@@ -14,13 +14,13 @@ export function prefillTransformer(pages, formData, metadata) {
     emailAddress: formData.emailAddress,
   };
 
-  const newData = _.omit(['bankAccount'], formData);
+  const newData = _.omit(formData, ['bankAccount']);
 
-  const {
-    bankAccountType,
-    bankAccountNumber,
-    bankRoutingNumber,
-  } = formData.bankAccount;
+  const { bankAccountType, bankAccountNumber, bankRoutingNumber } = _.get(
+    formData,
+    'bankAccount',
+    {},
+  );
 
   let hasBankInformation = false;
 
