@@ -27,12 +27,6 @@ module.exports = `
                 value
                 platform
               }
-              fieldSupportServices {
-                entity {
-                  nid
-                  title
-                }
-              }
             }
           }
         }
