@@ -121,7 +121,7 @@ class Outcomes extends React.Component {
             <a
               title="Veteran Outcome Measures"
               href={download.link}
-              rel="noopener"
+              rel="noopener noreferrer"
               target="_blank"
             >
               Veteran Outcome Measures ({download.info})

@@ -16,6 +16,7 @@ const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.LOCALHOST,
   ENVIRONMENTS.VAGOVDEV,
+  ENVIRONMENTS.VAGOVSTAGING,
 ]);
 
 const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
@@ -57,6 +58,11 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       continue;
     }
 
+    if (!Object.keys(page).length) {
+      log('Skipping empty entity...');
+      continue;
+    }
+
     const {
       entityUrl: { path: drupalPagePath },
       entityBundle,
@@ -67,6 +73,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       layout: `${entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
       debug: JSON.stringify(page, null, 4),
+      // Keep these pages out of the sitemap until we remove
+      // the drupal prefix
+      private: true,
     };
   }
 
@@ -131,6 +140,7 @@ function getDrupalContent(buildOptions) {
       log('Successfully piped Drupal content into Metalsmith!');
       done();
     } catch (err) {
+      log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
       log('Continuing with build anyway...');
       // done(err);

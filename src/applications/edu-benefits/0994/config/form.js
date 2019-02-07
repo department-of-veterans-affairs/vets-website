@@ -11,8 +11,21 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer } from '../prefill-transformer';
-import { transformForSubmit } from '../submit-transformer';
+import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import { urlMigration } from '../../config/migrations';
+
+import {
+  applicantInformation,
+  bankInformation,
+  benefitsEligibility,
+  contactInformation,
+  militaryService,
+  educationCompleted,
+  highTechIndustry,
+  trainingProgramsChoice,
+  trainingProgramsInformation,
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -20,7 +33,7 @@ const formConfig = {
   trackingPrefix: 'edu-0994-',
   formId: '22-0994',
   version: 1,
-  migrations: [],
+  migrations: [urlMigration('/0994')],
   prefillEnabled: true,
   prefillTransformer,
   verifyRequiredPrefill: true,
@@ -29,10 +42,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  transformForSubmit,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Apply for Vet Tec Benefits',
+  title: 'Apply for VET TEC',
   subTitle: 'Form 22-0994',
   preSubmitInfo,
   footerContent: FormFooter,
@@ -42,36 +55,34 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
-    // Chapter - Applicant Information
+    // Chapter - Benefits eligibility
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        // page - Applicant Information
         applicantInformation: {
           title: 'Applicant Information',
           path: 'applicant/information',
-          uiSchema: {
-            'ui:title': 'Place holder',
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
         },
-      },
-    },
-    // Chapter - Benefits eligibility
-    benefitsEligibility: {
-      title: 'Benefits eligibility',
-      pages: {
-        // page - Already submitted 1990
+        benefitsEligibility: {
+          title: 'Applicant Information',
+          path: 'benefits-eligibility',
+          uiSchema: benefitsEligibility.uiSchema,
+          schema: benefitsEligibility.schema,
+        },
       },
     },
     // Chapter - Military Service
     militaryService: {
       title: 'Military Service',
       pages: {
-        // page - Not on active duty
+        militaryService: {
+          title: 'Military Service',
+          path: 'military-service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
+        },
       },
     },
     // Chapter - Education History
@@ -79,21 +90,46 @@ const formConfig = {
       title: 'Education History',
       pages: {
         // page - Highest Level of education completed
+        educationCompleted: {
+          title: 'Education History',
+          path: 'education-history',
+          uiSchema: educationCompleted.uiSchema,
+          schema: educationCompleted.schema,
+        },
       },
     },
     // Chapter - High tech work experience
     highTechWorkExp: {
-      title: 'High tech work experience',
+      title: 'Work Experience',
       pages: {
         // page - yes/no working in high-tech industry
+        highTechIndustry: {
+          title: 'High tech work experience',
+          path: 'work-experience',
+          uiSchema: highTechIndustry.uiSchema,
+          schema: highTechIndustry.schema,
+        },
       },
     },
     // Chapter - Program Selection
     programSelection: {
-      title: 'Program selection',
+      title: 'Program Selection',
       pages: {
         // page - picked like to attend training programs
+        trainingProgramsChoice: {
+          title: 'Program Selection',
+          path: 'training-programs-choice',
+          uiSchema: trainingProgramsChoice.uiSchema,
+          schema: trainingProgramsChoice.schema,
+        },
         // page - interested in training programs
+        trainingProgramsInformation: {
+          title: 'Program Selection',
+          path: 'training-programs-information',
+          depends: form => form['view:trainingProgramsChoice'] === true,
+          uiSchema: trainingProgramsInformation.uiSchema,
+          schema: trainingProgramsInformation.schema,
+        },
       },
     },
     // Chapter - Personal Information
@@ -101,7 +137,19 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         // page - contact information
+        contactInformation: {
+          title: 'Contact Information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
         // page - banking information
+        bankInformation: {
+          title: 'Bank Information',
+          path: 'bank-information',
+          uiSchema: bankInformation.uiSchema,
+          schema: bankInformation.schema,
+        },
       },
     },
   },

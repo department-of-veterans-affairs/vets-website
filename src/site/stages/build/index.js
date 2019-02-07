@@ -6,13 +6,12 @@ const dateInFilename = require('metalsmith-date-in-filename');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
-const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
-const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
+const registerLiquidFilters = require('../../filters/liquid');
 const getDrupalContent = require('./drupal/metalsmith-drupal');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
@@ -27,12 +26,11 @@ const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
 const createMegaMenu = require('./plugins/create-megamenu');
+const createTemporaryReactPages = require('./plugins/create-react-pages');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-  // Custom liquid filter(s)
-  liquid.filters.humanizeDate = dt =>
-    moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
+  registerLiquidFilters();
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
@@ -47,6 +45,7 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
+
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -105,6 +104,8 @@ function defaultBuild(BUILD_OPTIONS) {
       ],
     }),
   );
+
+  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
   smith.use(
     navigation({

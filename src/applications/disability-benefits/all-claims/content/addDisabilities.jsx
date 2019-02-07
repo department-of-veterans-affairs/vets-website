@@ -1,6 +1,15 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
+export const autoSuggestTitle = (
+  <p>
+    If you know the name of your condition, you can type it here. You can write
+    whatever you want and we’ll make suggestions for possible disabilities.
+    (Shorter descriptions are better. For example, foot pain, back pain, or
+    hearing loss.)
+  </p>
+);
+
 export const uiDescription = (
   <div>
     <AdditionalInfo triggerText="What if I don’t know the name of my condition?">

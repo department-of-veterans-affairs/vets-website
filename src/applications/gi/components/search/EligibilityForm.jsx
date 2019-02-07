@@ -97,6 +97,7 @@ export class EligibilityForm extends React.Component {
                 href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
                 id="anch_378"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Post 9/11 GI Bill
               </a>{' '}
@@ -113,6 +114,7 @@ export class EligibilityForm extends React.Component {
             <a
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
               target="_blank"
+              rel="noopener noreferrer"
             >
               visit this site
             </a>

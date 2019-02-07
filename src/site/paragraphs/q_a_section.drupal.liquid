@@ -1,14 +1,22 @@
 {% comment %}
   Example data:
-  {
-    block: {
-      entity: {
-        entityBundle: "q_a_section"
-        entityRendered: "  <div class="paragraph paragraph--type--q-a-section paragraph--view-mode--full"></div>"
-        entityType: "paragraph
-      }
-    }
+  "entity": {
+    "entityType": "paragraph",
+    "entityBundle": "q_a_section",
+    "fieldSectionHeader": "More Information about VA Mental Health Services",
+    "fieldSectionIntro": "Get answers to other questions you may have about our services.",
+    "fieldAccordionDisplay": true,
+    "fieldQuestions": [
+        QA PARAGRAPHS GO HERE
+    ]
   }
 {% endcomment %}
-
-{{ block.entity.entityRendered }}
+{% if entity.fieldSectionHeader != empty %}
+  <h2>{{ entity.fieldSectionHeader }}</h2>
+{% endif %}
+{% if entity.fieldSectionIntro != empty %}
+  <p>{{ entity.fieldSectionIntro }}</p>
+{% endif %}
+{% for question in entity.fieldQuestions %}
+  {% include "src/site/paragraphs/q_a.drupal.liquid" paragraph = question.entity sectionHeader = entity.fieldSectionHeader %}
+{% endfor %}

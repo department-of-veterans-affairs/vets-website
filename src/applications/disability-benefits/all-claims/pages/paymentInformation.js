@@ -13,6 +13,7 @@ const {
 export const uiSchema = {
   'view:bankAccount': {
     'ui:title': 'Payment Information',
+    'ui:description': 'We’ll pay your disability benefit to the account below.',
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PaymentView,

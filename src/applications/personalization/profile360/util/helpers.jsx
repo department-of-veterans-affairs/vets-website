@@ -4,7 +4,7 @@ export const formBenefits = {
   '21P-530': 'burial benefits',
   '1010ez': 'health care benefits',
   '22-0993': 'opt out',
-  '22-0994': 'vet tec',
+  '22-0994': 'VET TEC',
   '22-1990': 'education benefits',
   '22-1990E': 'education benefits',
   '22-1990N': 'education benefits',

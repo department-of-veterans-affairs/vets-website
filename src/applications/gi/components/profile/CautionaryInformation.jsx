@@ -45,7 +45,7 @@ export class CautionaryInformation extends React.Component {
       <a
         href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA"
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
       >
         More information on Ashford University
       </a>
@@ -72,7 +72,7 @@ export class CautionaryInformation extends React.Component {
       <a
         href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses"
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
       >
         All campuses
       </a>
@@ -139,7 +139,7 @@ export class CautionaryInformation extends React.Component {
               <a
                 href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 student complaints
               </a>
@@ -149,7 +149,7 @@ export class CautionaryInformation extends React.Component {
               <a
                 href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 Source
               </a>

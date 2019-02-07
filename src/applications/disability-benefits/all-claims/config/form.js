@@ -32,6 +32,8 @@ import {
   increaseOnly,
   newAndIncrease,
   noClaimTypeSelected,
+  isDisabilityPtsd,
+  directToCorrectForm,
 } from '../utils';
 
 import prefillTransformer from '../prefill-transformer';
@@ -52,8 +54,6 @@ import {
   ancillaryFormsWizardSummary,
   choosePtsdType,
   claimExamsInfo,
-  conclusionAssault,
-  conclusionCombat,
   contactInformation,
   evidenceTypes,
   federalOrders,
@@ -72,6 +72,7 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsRelease,
+  ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
   ptsdWalkthroughChoice781a,
   ratedDisabilities,
@@ -102,7 +103,7 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
+import { PTSD_INCIDENT_ITERATION } from '../constants';
 
 import migrations from '../migrations';
 
@@ -117,6 +118,7 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
+  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -261,8 +263,7 @@ const formConfig = {
           depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item =>
-            item.condition && !item.condition.toLowerCase().includes(PTSD),
+          itemFilter: item => !isDisabilityPtsd(item.condition),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
@@ -347,14 +348,6 @@ const formConfig = {
           uiSchema: additionalRemarks781.uiSchema,
           schema: additionalRemarks781.schema,
         },
-        // 781 - 15. PTSD CONCLUSION
-        conclusionCombat: {
-          path: 'ptsd-conclusion-combat',
-          title: 'PTSD combat conclusion',
-          depends: needsToEnter781,
-          uiSchema: conclusionCombat.uiSchema,
-          schema: conclusionCombat.schema,
-        },
         // 781a - 2a. SELECT UPLOAD OPTION
         // 781a - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
         ptsdWalkthroughChoice781a: {
@@ -382,6 +375,13 @@ const formConfig = {
           depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
+        },
+        ptsd781ChangesIntro: {
+          title: 'Additional changes in behavior - physical',
+          path: 'new-disabilities/ptsd-781a-changes-intoduction',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: ptsd781aChangesIntro.uiSchema,
+          schema: ptsd781aChangesIntro.schema,
         },
         // 781a - 12. BEHAVIOR CHANGES: PHYSICAL
         physicalHealthChanges: {
@@ -422,14 +422,6 @@ const formConfig = {
           depends: isAnswering781aQuestions(0),
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
-        },
-        // 781a - 17. PTSD CONCLUSION
-        conclusionAssault: {
-          path: 'ptsd-conclusion-assault',
-          title: 'PTSD assault conclusion',
-          depends: needsToEnter781a,
-          uiSchema: conclusionAssault.uiSchema,
-          schema: conclusionAssault.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',

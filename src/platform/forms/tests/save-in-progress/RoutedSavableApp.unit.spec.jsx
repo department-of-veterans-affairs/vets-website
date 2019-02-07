@@ -161,6 +161,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
+      formConfig,
       router,
       returnUrl,
       loadedStatus: LOAD_STATUSES.success,
