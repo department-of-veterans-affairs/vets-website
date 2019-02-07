@@ -11,7 +11,7 @@ const testData = getTestDataSets(join(__dirname, 'schema'), {
 });
 
 const testConfig = {
-  debug: true,
+  // debug: true,
   setup: userToken => {
     PageHelpers.initInProgressMock(userToken);
     PageHelpers.initDocumentUploadMock();

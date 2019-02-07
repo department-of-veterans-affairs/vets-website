@@ -6,6 +6,7 @@ const join = require('path').join;
  * @typedef {Object} Rules
  * @property {Stirng} extension - The file extension to look for
  * @property {Array<String>} ignore - Specific filenames to ignore
+ * @property {Array<String>} only - Run tests on only these files
  * ---
  * @typedef {Object} DataSet
  * @property {String} fileName - The file name
@@ -19,6 +20,10 @@ function getTestDataSets(path, rules = { extension: 'json' }) {
   return fs
     .readdirSync(path)
     .filter(fileName => fileName.endsWith(rules.extension))
+    .filter(
+      fileName =>
+        Array.isArray(rules.only) ? rules.only.includes(fileName) : true,
+    )
     .filter(
       fileName =>
         Array.isArray(rules.ignore) ? !rules.ignore.includes(fileName) : true,
