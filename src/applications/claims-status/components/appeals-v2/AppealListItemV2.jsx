@@ -17,7 +17,7 @@ const programAreaMap = {
   loan_guaranty: 'Loan Guaranty', // eslint-disable-line
   education: 'Education',
   vre: 'Vocational Rehabilitation and Employment',
-  medical: 'Medical Benefits',
+  medical: 'Health Care',
   burial: 'Burial Benefits',
   fiduciary: 'Fiduciary',
 };
