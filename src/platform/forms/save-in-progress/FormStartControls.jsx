@@ -107,6 +107,8 @@ class FormStartControls extends React.Component {
           </Modal>
         </div>
       );
+    } else if (this.props.startMessageOnly) {
+      return null;
     }
 
     return (
@@ -137,6 +139,7 @@ FormStartControls.propTypes = {
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
+  startMessageOnly: PropTypes.bool,
 };
 
 export default withRouter(FormStartControls);
