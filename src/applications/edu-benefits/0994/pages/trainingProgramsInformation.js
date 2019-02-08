@@ -12,6 +12,13 @@ const {
   plannedStartDate,
 } = fullSchema.properties.vetTecPrograms.items.properties;
 
+const getCourseType = (formData, index) =>
+  _.get(formData, `vetTecPrograms[${index}].courseType`, '');
+
+const showLocation = (formData, index) =>
+  getCourseType(formData, index) === 'inPerson' ||
+  getCourseType(formData, index) === 'both';
+
 export const uiSchema = {
   'ui:description': trainingDescription,
   vetTecPrograms: {
@@ -42,19 +49,15 @@ export const uiSchema = {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
           expandUnder: 'courseType',
-          hideIf: (formData, index) =>
-            !(
-              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
-                'inPerson' ||
-              _.get(formData, `vetTecPrograms[${index}].courseType`, '') ===
-                'both'
-            ),
+          hideIf: (formData, index) => !showLocation(formData, index),
         },
         city: {
           'ui:title': 'City',
+          'ui:required': (formData, index) => showLocation(formData, index),
         },
         state: {
           'ui:title': 'State',
+          'ui:required': (formData, index) => showLocation(formData, index),
         },
       },
       plannedStartDate: dateUI('What is your estimated start date?'),
@@ -70,6 +73,7 @@ export const schema = {
       maxItems: 3,
       items: {
         type: 'object',
+        required: ['plannedStartDate'],
         properties: {
           providerName,
           programName,

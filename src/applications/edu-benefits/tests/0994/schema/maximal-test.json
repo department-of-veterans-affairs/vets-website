@@ -1,5 +1,11 @@
 {
   "data": {
+    "view:prefillBankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "*********1234",
+      "bankRoutingNumber": "*****2115",
+      "bankName": "Comerica"
+    },
     "view:bankAccount": {
       "bankAccount": {
         "accountType": "checking",
@@ -17,7 +23,8 @@
     "mailingAddress": {
       "street": "MILITARY ADDY 3",
       "street2": "teasdf",
-      "city": "DPO",
+      "street3": "teasdf",
+      "city": "Nowhere",
       "country": "USA",
       "state": "MI",
       "postalCode": "22312"
