@@ -49,6 +49,30 @@ export function getTypeName(appeal) {
   }
 }
 
+export const DOCKET_TYPES = {
+  directReview: 'direct_review',
+  evidenceSubmission: 'new_evidence',
+  hearingRequest: 'hearing',
+};
+
+/**
+ * Returns a string with the formatted name of the AMA docket.
+ * @param {string} docket
+ * @returns {string}
+ */
+export function getDocketName(docket) {
+  switch (docket) {
+    case DOCKET_TYPES.directReview:
+      return 'Direct Review';
+    case DOCKET_TYPES.evidenceSubmission:
+      return 'Evidence Submission';
+    case DOCKET_TYPES.hearingRequest:
+      return 'Hearing Request';
+    default:
+      return docket;
+  }
+}
+
 // TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:

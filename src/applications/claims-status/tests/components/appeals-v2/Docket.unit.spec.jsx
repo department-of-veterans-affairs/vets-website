@@ -34,7 +34,7 @@ describe('Appeals V2 Docket', () => {
   it('should display non-frontOfDocket text', () => {
     const wrapper = shallow(<Docket {...defaultProps} />);
     expect(wrapper.text()).to.contain(
-      'appeals on the docket, not including Advanced on Docket',
+      'appeals on the docket, not including Advanced on the Docket',
     );
     wrapper.unmount();
   });
@@ -70,7 +70,7 @@ describe('Appeals V2 Docket', () => {
     };
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.render().text()).to.contain(
-      'Your appeal is Advanced on Docket.',
+      'Your appeal is Advanced on the Docket.',
     );
     wrapper.unmount();
   });
@@ -78,7 +78,7 @@ describe('Appeals V2 Docket', () => {
   it('should display aod text', () => {
     const props = { ...defaultProps, aod: true };
     const wrapper = shallow(<Docket {...props} />);
-    expect(wrapper.text()).to.contain('Your appeal is Advanced on Docket.');
+    expect(wrapper.text()).to.contain('Your appeal is Advanced on the Docket.');
     wrapper.unmount();
   });
 
@@ -89,7 +89,7 @@ describe('Appeals V2 Docket', () => {
     };
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.text()).to.contain(
-      'Your appeal was remanded by the Court of Appeals for Veterans’ Claims.',
+      'Your appeal was remanded by the U.S. Court of Appeals for Veterans Claims.',
     );
     wrapper.unmount();
   });
