@@ -8,7 +8,7 @@ import siteName from '../../../platform/brand-consolidation/site-name';
 // This literally determines how many rows are displayed per page on the v2 index page
 export const ROWS_PER_PAGE = 10;
 
-export const APPEAL_STATUSES = {
+export const APPEAL_ACTIONS = {
   original: 'original',
   postRemand: 'post_remand',
   postCavcRemand: 'post_cavc_remand',
@@ -22,6 +22,8 @@ export const APPEAL_TYPES = {
   higherLevelReview: 'higherLevelReview',
   appeal: 'appeal',
 };
+
+const appealTypes = Object.values(APPEAL_TYPES);
 
 /**
  * Returns a string with the formatted name of the type of appeal.
@@ -1562,7 +1564,7 @@ const getDate = item => {
     return '0';
   }
 
-  return item.type === APPEAL_STATUSES.current
+  return appealTypes.includes(item.type)
     ? getAppealDate(item)
     : getClaimDate(item);
 };

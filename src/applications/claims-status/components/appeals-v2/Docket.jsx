@@ -3,31 +3,29 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import DocketCard from './DocketCard';
-import { APPEAL_STATUSES } from '../../utils/appeals-v2-helpers';
+import { APPEAL_ACTIONS } from '../../utils/appeals-v2-helpers';
 
 /**
  * @param {Number} ahead - The number of appeals ahead of this one
  * @param {Number} total - The total number of appeals in the docket line
- * @param {String} form9Date - The date the form 9 was sent in (or something)
+ * @param {String} month - The date the form 9 was sent in
  * @param {String} docketMonth- The month that the board is looking at (or older)
- * @param {String} appealType - The type of appeal
+ * @param {String} appealAction - The type of appeal
  * @param {Bool}   aod - Whether the appeal is Advanced on Docket
  * @param {Bool}   front - Whether the appeal is at the front of the docket
  */
 function Docket({
   ahead,
   total,
-  form9Date,
+  month,
   docketMonth,
-  appealType,
+  appealAction,
   aod,
   front: frontOfDocket,
 }) {
   // TODO: Assess how accessible this is
 
-  const form9DateFormatted = moment(form9Date, 'YYYY-MM-DD').format(
-    'MMMM YYYY',
-  );
+  const form9DateFormatted = moment(month, 'YYYY-MM-DD').format('MMMM YYYY');
   const docketMonthFormatted = moment(docketMonth, 'YYYY-MM-DD').format(
     'MMMM YYYY',
   );
@@ -49,7 +47,7 @@ function Docket({
         </p>
       </div>
     );
-  } else if (appealType === APPEAL_STATUSES.postCavcRemand) {
+  } else if (appealAction === APPEAL_ACTIONS.postCavcRemand) {
     // Post-CAVC remand should over-ride default content but not AoD
     content = (
       <p>
@@ -118,9 +116,9 @@ function Docket({
 Docket.propTypes = {
   ahead: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  form9Date: PropTypes.string.isRequired,
+  month: PropTypes.string.isRequired,
   docketMonth: PropTypes.string,
-  appealType: PropTypes.string,
+  appealAction: PropTypes.string,
   aod: PropTypes.bool,
   front: PropTypes.bool,
 };
