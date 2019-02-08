@@ -9,9 +9,8 @@ const { ratedDisabilities } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': 'Rated Disabilities',
-  'ui:description': `Below are your rated disabilities. If you’ll be filing for increased 
-    compensation because one of them has gotten worse, please choose the 
-    disability here.`,
+  'ui:description':
+    'Below are your rated disabilities. Please choose the disability you’re filing for increased compensation because it has gotten worse.',
   ratedDisabilities: {
     'ui:title': ' ',
     'ui:field': 'StringField',
