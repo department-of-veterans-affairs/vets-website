@@ -21,8 +21,6 @@ import addFocusBehaviorToCrisisLineModal from '../../platform/site-wide/accessib
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
 // import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 
-console.log('loaded!');
-
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
   const DEPRECATED_SELECTOR_CONFIG = [

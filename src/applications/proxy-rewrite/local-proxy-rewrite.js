@@ -26,11 +26,18 @@ function injectLocalBundle() {
       const vaPageResponse = await fetch(vaGovUrl);
       const vaPageHtml = await vaPageResponse.text();
 
-      const test = vaPageHtml.replace(
-        'proxy-rewrite.entry.js',
-        'header-footer-loader.entry.js',
-      );
-      vaGovCache[vaGovUrl] = test.replace(prodBucketRegex, '');
+      vaGovCache[vaGovUrl] = vaPageHtml
+        .replace(prodBucketRegex, '')
+        .replace('proxy-rewrite.entry.js', 'header-footer-loader.entry.js')
+        .replace('styleConsolidated.css', '')
+        .replace('/js/settings.js', '')
+        .replace('/generated/polyfills.entry.js', '')
+        .replace('/generated/vendor.entry.js', '')
+        .replace('', '')
+        .replace(
+          '.brand-consolidation-deprecated { display: none !important; }',
+          '',
+        );
     }
 
     res.send(vaGovCache[vaGovUrl]);

@@ -1,4 +1,5 @@
 import cookie from 'cookie';
+import _ from 'lodash';
 
 import redirectIfNecessary from '../redirects';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
@@ -67,7 +68,7 @@ function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
   return true;
 }
 
-funciton startHeaderMutationObserver() {
+function startHeaderMutationObserver() {
   const observer = new MutationObserver(createMutationObserverCallback());
   observer.observe(document, {
     attributes: true,
@@ -79,38 +80,86 @@ funciton startHeaderMutationObserver() {
     observer.disconnect();
   });
 }
+
 function getHostname() {
+  // default to vagovprod
   const environment =
     new URLSearchParams(window.location.search).get('hfbuild') || 'vagovprod';
+
+  // localhost is not available in the buckets
   if (environment === 'localhost') {
     return 'http://localhost:3001';
   }
+
+  // if the bucket is not found, an empty string will use relative paths
   return BUCKETS[environment] || '';
 }
 
-function injectHeaderFooterJS(hostname) {
-  const headerFooterJS = document.createElement('script');
-  headerFooterJS.setAttribute('type', 'text/javascript');
-  headerFooterJS.setAttribute(
-    'src',
-    `${hostname}/generated/proxy-rewrite.entry.js`,
+const jsFilePaths = [
+  '/js/settings.js',
+  '/generated/polyfills.entry.js',
+  '/generated/vendor.entry.js',
+  '/generated/proxy-rewrite.entry.js',
+];
+
+function createHeaderFooterJSNodes(hostname, filePaths = jsFilePaths) {
+  return filePaths.map(path => {
+    const scriptNode = document.createElement('script');
+    scriptNode.setAttribute('type', 'text/javascript');
+    scriptNode.setAttribute('src', `${hostname}${path}`);
+
+    return scriptNode;
+  });
+}
+
+function createHeaderFooterCSSNodes(hostname) {
+  const styles = [];
+  const hideDeprecatedStyle = document.createElement('style');
+  hideDeprecatedStyle.setAttribute('type', 'text/css');
+  hideDeprecatedStyle.appendChild(
+    document.createTextNode(
+      '.brand-consolidation-deprecated { display: none !important; } ',
+    ),
   );
-  document.head.appendChild(headerFooterJS);
+  styles.push(hideDeprecatedStyle);
+
+  const headerFooterCSS = document.createElement('link');
+  headerFooterCSS.setAttribute('rel', 'stylesheet');
+  headerFooterCSS.setAttribute(
+    'href',
+    `${hostname}/generated/styleConsolidated.css`,
+  );
+
+  styles.push(headerFooterCSS);
+
+  return styles;
 }
 
-if (
-  shouldActivateInjectedAssets(
-    getMatchedWhitelistItem(),
-    getProxyRewriteCookieValue(),
-  )
-) {
-  redirectIfNecessary(window);
-
-  const hostname = getHostname();
-  injectHeaderFooterJS(hostname);
-
-
-  // activateInjectedAssets();
+function docFragmentFromArray(nodes) {
+  const docFragment = document.createDocumentFragment();
+  nodes.forEach(node => docFragment.appendChild(node));
+  return docFragment;
 }
 
-// window.onload = () => document.body.appendChild(fileref);
+function main() {
+  if (
+    shouldActivateInjectedAssets(
+      getMatchedWhitelistItem(),
+      getProxyRewriteCookieValue(),
+    )
+  ) {
+    redirectIfNecessary(window);
+
+    // removes the old header
+    startHeaderMutationObserver();
+
+    const hostname = getHostname();
+    const docFragment = docFragmentFromArray([
+      ...createHeaderFooterCSSNodes(hostname),
+      ...createHeaderFooterJSNodes(hostname),
+    ]);
+
+    document.head.appendChild(docFragment);
+  }
+}
+main();
