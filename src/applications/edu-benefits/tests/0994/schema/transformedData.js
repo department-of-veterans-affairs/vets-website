@@ -25,7 +25,7 @@ export const transformedMinimalData = JSON.stringify({
 
 const transformedMaximalDataActual = {
   prefillBankAccount: {
-    bankAccountType: 'Checking',
+    bankAccountType: 'checking',
     bankAccountNumber: '*********1234',
     bankRoutingNumber: '*****2115',
     bankName: 'Comerica',
