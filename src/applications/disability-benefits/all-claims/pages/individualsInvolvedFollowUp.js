@@ -20,8 +20,9 @@ export const uiSchema = index => ({
     personsInvolved: {
       'ui:title': ' ',
       'ui:options': {
-        itemName: 'Individual',
         viewField: IndividualsInvolvedCard,
+        itemName: 'Person',
+        title: 'New Person',
       },
       items: {
         'ui:order': [

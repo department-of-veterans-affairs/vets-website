@@ -22,6 +22,10 @@ function getDrupalClient(buildOptions) {
   };
 
   return {
+    getSiteUri() {
+      return address;
+    },
+
     async query(args) {
       const response = await fetch(drupalUri, {
         headers,

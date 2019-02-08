@@ -4,10 +4,17 @@ const transformedMinimalDataActual = {
     first: 'testy',
     last: 'mcTestFace',
   },
-  appliedForVAEducationBenefits: false,
+  appliedForVaEducationBenefits: false,
   activeDuty: true,
-  dayTimePhone: '4445551212',
+  dayTimePhone: '1234567890',
   emailAddress: 'test2@test1.net',
+  mailingAddress: {
+    street: 'MILITARY ADDY 3',
+    city: 'Nowhere',
+    country: 'USA',
+    state: 'MI',
+    postalCode: '22312',
+  },
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -28,7 +35,8 @@ const transformedMaximalDataActual = {
   mailingAddress: {
     street: 'MILITARY ADDY 3',
     street2: 'teasdf',
-    city: 'DPO',
+    street3: 'teasdf',
+    city: 'Nowhere',
     country: 'USA',
     state: 'MI',
     postalCode: '22312',
@@ -45,14 +53,14 @@ const transformedMaximalDataActual = {
       },
     },
   ],
-  currentEmployment: false,
-  currentHighTechnologyEmployment: true,
+  currentHighTechnologyEmployment: false,
+  pastHighTechnologyEmployment: true,
   currentSalary: 'moreThanSeventyFive',
   highestLevelofEducation: 'other',
   otherEducation: 'other ed',
   activeDuty: true,
   activeDutyDuringVetTec: true,
-  appliedForVAEducationBenefits: false,
+  appliedForVaEducationBenefits: false,
   applicantFullName: {
     first: 'Greg',
     middle: 'A',

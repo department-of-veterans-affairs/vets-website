@@ -49,8 +49,8 @@ export const uiSchema = {
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
-        'Approximate date of first treatment',
-        'Approximate date of last treatment',
+        'First treatment date (You can provide an estimated date.)',
+        'Last treatment date (You can provide an estimated date.)',
         'End of treatment must be after start of treatment',
       ),
       providerFacilityAddress: {
@@ -78,7 +78,7 @@ export const uiSchema = {
           'ui:title': 'State',
         },
         postalCode: {
-          'ui:title': 'Postal Code',
+          'ui:title': 'Postal code',
           'ui:validations': [validateZIP],
           'ui:errorMessages': {
             pattern:

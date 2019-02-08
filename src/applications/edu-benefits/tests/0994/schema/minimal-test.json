@@ -5,9 +5,18 @@
       "first": "testy",
       "last": "mcTestFace"
     },
-    "appliedForVAEducationBenefits": false,
+    "appliedForVaEducationBenefits": false,
     "activeDuty": true,
-    "dayTimePhone": "4445551212",
-    "emailAddress": "test2@test1.net"
+    "view:phoneAndEmail": {
+      "dayTimePhone": "1234567890",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Nowhere",
+      "country": "USA",
+      "state": "MI",
+      "postalCode": "22312"
+    }
   }
 }
