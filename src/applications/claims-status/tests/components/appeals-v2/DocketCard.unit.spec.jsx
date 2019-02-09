@@ -12,7 +12,7 @@ describe('Appeals V2 DocketCard', () => {
   const amaProps = {
     ahead: 109238,
     total: 283941,
-    docket: 'direct_review',
+    docket: 'directReview',
   };
 
   it('should render', () => {

@@ -50,9 +50,9 @@ export function getTypeName(appeal) {
 }
 
 export const DOCKET_TYPES = {
-  directReview: 'direct_review',
-  evidenceSubmission: 'new_evidence',
-  hearingRequest: 'hearing',
+  directReview: 'directReview',
+  evidenceSubmission: 'evidenceSubmission',
+  hearingRequest: 'hearingRequest',
 };
 
 /**

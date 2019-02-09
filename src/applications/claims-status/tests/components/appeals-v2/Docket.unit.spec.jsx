@@ -9,11 +9,27 @@ describe('Appeals V2 Docket', () => {
   const defaultProps = {
     total: 123456,
     ahead: 23456,
-    form9Date: '2006-10-24',
+    month: '2006-10-24',
     docketMonth: '2004-04-15',
     appealAction: APPEAL_ACTIONS.original,
     aod: false,
     frontOfDocket: false,
+  };
+  const amaProps = {
+    total: 123456,
+    totalAllDockets: 654321,
+    ahead: 23456,
+    month: '2019-02-01',
+    appealAction: APPEAL_ACTIONS.original,
+    aod: false,
+    type: 'directReview',
+    eta: {
+      directReview: '2020-01-01',
+      hearingRequest: '2025-01-01',
+      evidenceSubmission: '2024-01-01',
+    },
+    eligibleToSwitch: true,
+    switchDueDate: '2020-02-19',
   };
 
   it('should render', () => {
@@ -90,6 +106,53 @@ describe('Appeals V2 Docket', () => {
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.text()).to.contain(
       'Your appeal was remanded by the U.S. Court of Appeals for Veterans Claims.',
+    );
+    wrapper.unmount();
+  });
+
+  it('should describe the chosen docket', () => {
+    const wrapper = shallow(<Docket {...amaProps} />);
+    expect(wrapper.text()).to.contain(
+      'When you requested a Direct Review appeal',
+    );
+    wrapper.unmount();
+  });
+
+  it('should display the total number of appeals across all dockets', () => {
+    const wrapper = shallow(<Docket {...amaProps} />);
+    expect(wrapper.text()).to.contain(
+      'there are 654,321 appeals waiting at the Board',
+    );
+    wrapper.unmount();
+  });
+
+  it('should render a time estimate', () => {
+    const wrapper = shallow(<Docket {...amaProps} />);
+    expect(wrapper.find('DurationCard').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should include docket switch instructions if eligible', () => {
+    const wrapper = shallow(<Docket {...amaProps} />);
+    expect(wrapper.text()).to.contain(
+      'Can I add new evidence or request a hearing?',
+    );
+    wrapper.unmount();
+  });
+
+  it('should hide docket switch instructions if not eligible', () => {
+    const props = { ...defaultProps, eligibleToSwitch: true };
+    const wrapper = shallow(<Docket {...props} />);
+    expect(wrapper.text()).to.not.contain(
+      'Can I add new evidence or request a hearing?',
+    );
+    wrapper.unmount();
+  });
+
+  it('should include time estimates for other dockets, ordered by date', () => {
+    const wrapper = shallow(<Docket {...amaProps} />);
+    expect(wrapper.text()).to.contain(
+      'January 2024 — Evidence Submission estimateJanuary 2025 — Hearing Request estimate',
     );
     wrapper.unmount();
   });
