@@ -688,6 +688,7 @@ export const EVENT_TYPES = {
   hlrDecision: 'hlr_decision',
   hlrDtaError: 'hlr_dta_error',
   hlrOtherClose: 'hlr_other_close',
+  statutoryOptIn: 'statutory_opt_in',
 };
 
 /**
@@ -749,7 +750,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.cavcDecision:
       return {
-        title: 'Court of Appeals for Veterans Claims made a decision',
+        title: 'U.S. Court of Appeals for Veterans Claims made a decision',
         description: '',
       };
     case EVENT_TYPES.remandReturn:
@@ -806,6 +807,68 @@ export function getEventContent(event) {
     case EVENT_TYPES.otherClose:
       return {
         title: 'Your appeal was closed',
+        description: '',
+      };
+    case EVENT_TYPES.amaNod:
+      return {
+        title: 'Board of Veterans’ Appeals received your appeal',
+        description: '',
+      };
+    case EVENT_TYPES.docketChange:
+      return {
+        title: 'You switched appeal options',
+        description: '',
+      };
+    case EVENT_TYPES.distributedToVlj:
+      return {
+        title: 'Your appeal was distributed to a Veterans Law Judge',
+        description: '',
+      };
+    case EVENT_TYPES.bvaDecisionEffectuation:
+      return {
+        title: 'VA updated your benefits to reflect the Board’s decision',
+        description: '',
+      };
+    case EVENT_TYPES.dtaDecision:
+      return {
+        title: 'VA corrected an error and made a new decision',
+        description: '',
+      };
+    case EVENT_TYPES.scRequest:
+      return {
+        title: 'VA received your Supplemental Claim request',
+        description: '',
+      };
+    case EVENT_TYPES.scDecision:
+    case EVENT_TYPES.hlrDecision:
+      return {
+        title: 'VA made a new decision',
+        description: '',
+      };
+    case EVENT_TYPES.scOtherClose:
+      return {
+        title: 'Your Supplemental Claim was closed',
+        description: '',
+      };
+    case EVENT_TYPES.hlrRequest:
+      return {
+        title: 'VA received your Higher-Level Review request',
+        description: '',
+      };
+    case EVENT_TYPES.hlrDtaError:
+      return {
+        title: 'VA identified an error that must be corrected',
+        description: '',
+      };
+    case EVENT_TYPES.hlrOtherClose:
+      return {
+        title: 'Your Higher-Level Review was closed',
+        description: '',
+      };
+    case EVENT_TYPES.statutoryOptIn:
+      return {
+        title:
+          'You requested a decision review under the Appeals Modernization Act',
         description: '',
       };
     default:
