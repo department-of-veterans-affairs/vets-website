@@ -141,7 +141,7 @@ describe('Appeals V2 Docket', () => {
   });
 
   it('should hide docket switch instructions if not eligible', () => {
-    const props = { ...defaultProps, eligibleToSwitch: true };
+    const props = { ...amaProps, eligibleToSwitch: false };
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.text()).to.not.contain(
       'Can I add new evidence or request a hearing?',
@@ -153,6 +153,21 @@ describe('Appeals V2 Docket', () => {
     const wrapper = shallow(<Docket {...amaProps} />);
     expect(wrapper.text()).to.contain(
       'January 2024 — Evidence Submission estimateJanuary 2025 — Hearing Request estimate',
+    );
+    wrapper.unmount();
+  });
+
+  it('should diplay information for the appropriate docket', () => {
+    const props = { ...amaProps, type: 'hearingRequest' };
+    const wrapper = shallow(<Docket {...props} />);
+    expect(wrapper.text()).to.contain(
+      'When you requested a Hearing Request appeal',
+    );
+    expect(wrapper.text()).to.contain(
+      'What if I no longer want to request a hearing?',
+    );
+    expect(wrapper.text()).to.contain(
+      'January 2020 — Direct Review estimateJanuary 2024 — Evidence Submission estimate',
     );
     wrapper.unmount();
   });
