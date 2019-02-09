@@ -36,7 +36,7 @@ const getElementSelector = (field, fieldData) => {
       typeof fieldData === 'boolean' ? (fieldData ? 'Y' : 'N') : fieldData
     }"]`,
     // Date has two or three elements, but should always have a year
-    // Return a valid selector so it doesn't get skippeG
+    // Return a valid selector so it doesn't get skipped
     date: `input[name="${field.selector}Year"]`,
     file: inputSelector,
   };

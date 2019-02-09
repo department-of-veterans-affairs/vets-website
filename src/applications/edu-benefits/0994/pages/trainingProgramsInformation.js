@@ -48,12 +48,15 @@ export const uiSchema = {
       location: {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
-          expandUnder: 'courseType',
-          hideIf: (formData, index) => !showLocation(formData, index),
+          expandUnderCondition: field =>
+            field === 'inPerson' || field === 'both',
         },
         city: {
           'ui:title': 'City',
           'ui:required': (formData, index) => showLocation(formData, index),
+          'ui:errorMessages': {
+            pattern: 'Please fill in a valid city',
+          },
         },
         state: {
           'ui:title': 'State',

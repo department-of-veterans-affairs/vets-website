@@ -8,6 +8,7 @@ import * as alternateNames from './alternateNames';
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
+import * as claimType from './claimType';
 import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
 import * as evidenceTypes from './evidenceTypes';
@@ -134,6 +135,7 @@ export {
   pastEmploymentFormIntro,
   pastEmploymentFormDownload,
   pastEmploymentFormUpload,
+  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,

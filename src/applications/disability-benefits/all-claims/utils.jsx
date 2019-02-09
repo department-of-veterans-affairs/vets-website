@@ -600,6 +600,25 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
   </span>
 );
 
+const isClaimingIncrease = formData =>
+  _.get('view:claimType.view:claimingIncrease', formData, false);
+const isClaimingNew = formData =>
+  _.get('view:claimType.view:claimingNew', formData, false);
+
+export const increaseOnly = formData =>
+  isClaimingIncrease(formData) && !isClaimingNew(formData);
+export const newConditionsOnly = formData =>
+  !isClaimingIncrease(formData) && isClaimingNew(formData);
+export const newAndIncrease = formData =>
+  isClaimingNew(formData) && isClaimingIncrease(formData);
+
+// Shouldn't be possible, but just in case this requirement is lifted later...
+export const noClaimTypeSelected = formData =>
+  !isClaimingNew(formData) && !isClaimingIncrease(formData);
+
+export const hasNewDisabilities = formData =>
+  formData['view:newDisabilities'] === true;
+
 /**
  * The base urls for each form
  * @readonly
