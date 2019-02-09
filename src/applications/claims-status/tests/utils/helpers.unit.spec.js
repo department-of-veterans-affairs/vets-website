@@ -30,6 +30,7 @@ import {
   makeDecisionReviewContent,
   addStatusToIssues,
   isolateAppeal,
+  APPEAL_TYPES,
   STATUS_TYPES,
 } from '../../utils/appeals-v2-helpers';
 
@@ -463,9 +464,10 @@ describe('Disability benefits helpers: ', () => {
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
       const type = STATUS_TYPES.scheduledHearing;
+      const appealType = APPEAL_TYPES.legacy;
       const details = { date: '2018-04-01' };
-      const expectedDescSnippet = 'hearing is scheduled for April 1st, 2018';
-      const contents = getStatusContents(type, details);
+      const expectedDescSnippet = 'hearing is scheduled for April 1, 2018';
+      const contents = getStatusContents(type, appealType, details);
       expect(contents.title).to.equal('Your hearing has been scheduled');
       // TO-DO: Update with real content
       const descText = shallow(contents.description);
@@ -488,10 +490,11 @@ describe('Disability benefits helpers: ', () => {
     // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
     // so we should test them specifically to ensure we're getting the desired output
     it('returns the right number of allowed / denied / remand items for remand status', () => {
+      const appealType = APPEAL_TYPES.legacy;
       const details = {
         issues: mockData.data[2].attributes.status.details.issues,
       };
-      const contents = getStatusContents('remand', details);
+      const contents = getStatusContents('remand', appealType, details);
       expect(contents.title).to.equal(
         'The Board made a decision on your appeal',
       );
@@ -518,10 +521,11 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('returns the right number of allowed / denied items for bva_decision status', () => {
+      const appealType = APPEAL_TYPES.legacy;
       const details = {
         issues: mockData.data[2].attributes.status.details.issues,
       };
-      const contents = getStatusContents('bva_decision', details);
+      const contents = getStatusContents('bva_decision', appealType, details);
       expect(contents.title).to.equal(
         'The Board made a decision on your appeal',
       );

@@ -40,7 +40,10 @@ export default function AppealListItem({ appeal, name }) {
       <div className="card-status">
         <p>
           <strong>Status</strong>:{' '}
-          {getStatusContents(status.type, status.details, name).title}
+          {
+            getStatusContents(status.type, appeal.type, status.details, name)
+              .title
+          }
         </p>
       </div>
       <p>
