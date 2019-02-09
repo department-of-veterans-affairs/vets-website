@@ -54,9 +54,6 @@ describe('transform', () => {
           JSON.parse(transformedData),
         );
       });
-      // Test that the output from the transformer = the recorded transformed data
-      // If it doesn't, error
-      // If the transformed data doesn't exist, error (and log the expected data so we can record it easily)
     });
 });
 
