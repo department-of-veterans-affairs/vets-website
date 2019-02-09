@@ -116,13 +116,27 @@ export default class ArrayField extends React.Component {
     }, 100);
   }
 
+  // restore data in event of cancellation
+  handleCancelEdit = index => {
+    this.props.onChange(this.state.oldData);
+    this.setState(_.set(['editing', index], false, this.state));
+  };
+
   /*
    * Clicking edit on an item that’s not last and so is in view mode
+   * also cache the original data in case of cancellation
    */
   handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state), () => {
-      this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
-    });
+    this.setState(
+      _.set(
+        ['editing', index],
+        status,
+        _.assign(this.state, { oldData: this.props.formData }),
+      ),
+      () => {
+        this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+      },
+    );
   }
 
   /*
@@ -329,6 +343,7 @@ export default class ArrayField extends React.Component {
                           )}
                           {isLast && (
                             <button
+                              type="button"
                               className="float-left"
                               disabled={!this.props.formData}
                               onClick={this.handleSave}
@@ -336,6 +351,17 @@ export default class ArrayField extends React.Component {
                               Save
                             </button>
                           )}
+                          <div className="float-left row columns">
+                            {!isLast && (
+                              <button
+                                className="usa-button-secondary float-left"
+                                type="button"
+                                onClick={() => this.handleCancelEdit(index)}
+                              >
+                                Cancel
+                              </button>
+                            )}
+                          </div>
                         </div>
                         <div className="small-6 right columns">
                           {!isOnlyItem && (
