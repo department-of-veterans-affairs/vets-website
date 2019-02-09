@@ -30,7 +30,9 @@
           {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
 
-        {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity  %}
+        {% if fieldRelatedLinks != empty %}
+            {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity %}
+        {%  endif %}
       </article>
 
       <div class="last-updated usa-content">
