@@ -22,7 +22,6 @@ const appealTypeMap = {
 };
 
 export default function AppealListItem({ appeal, name }) {
-  const { status } = appeal.attributes;
   // always show merged event on top
   const events = _.orderBy(
     appeal.attributes.events,
@@ -39,11 +38,7 @@ export default function AppealListItem({ appeal, name }) {
       </h3>
       <div className="card-status">
         <p>
-          <strong>Status</strong>:{' '}
-          {
-            getStatusContents(status.type, appeal.type, status.details, name)
-              .title
-          }
+          <strong>Status</strong>: {getStatusContents(appeal, name).title}
         </p>
       </div>
       <p>

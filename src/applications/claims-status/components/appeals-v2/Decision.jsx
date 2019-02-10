@@ -68,18 +68,16 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
 
   return (
     <div>
-      <p>
-        The {boardDecision ? 'Board of Veterans’ Appeals' : aojDescription} sent
-        you a decision. Here’s an overview:
-      </p>
       <div className="decision-items">
         {allowedBlock}
-        {allowedBlock && (
-          <p>
-            If this decision changes your disability rating or your eligibility
-            for VA benefits, you should see this change made in 1 to 2 months.
-          </p>
-        )}
+        {allowedBlock &&
+          boardDecision && (
+            <p>
+              If this decision changes your disability rating or your
+              eligibility for VA benefits, you should see this change made in 1
+              to 2 months.
+            </p>
+          )}
         {deniedBlock}
         {remandBlock}
         {remandBlock &&

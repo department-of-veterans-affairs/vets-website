@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import get from 'lodash/fp/get';
-
 import {
   getAlertContent,
   getStatusContents,
@@ -30,22 +28,11 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     docket,
     incompleteHistory,
     location,
-    aoj,
-    programArea,
     aod,
     active: appealIsActive,
     type: appealAction,
   } = appeal.attributes;
-  const amaDocket = get('attributes.docket.type', appeal);
-  const currentStatus = getStatusContents(
-    status.type,
-    appeal.type,
-    status.details,
-    fullName,
-    aoj,
-    programArea,
-    amaDocket,
-  );
+  const currentStatus = getStatusContents(appeal, fullName);
   const nextEvents = getNextEvents(status.type, status.details);
 
   // Gates the What's Next and Docket chunks
@@ -100,7 +87,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         isClosed={!appealIsActive}
       />
       <AlertsList alerts={filteredAlerts} appealIsActive />
-      {appealIsActive && <WhatsNext nextEvents={nextEvents} />}
+      {nextEvents.events.length > 0 && <WhatsNext nextEvents={nextEvents} />}
       {shouldShowDocket && (
         <Docket {...docket} aod={aod} appealAction={appealAction} />
       )}

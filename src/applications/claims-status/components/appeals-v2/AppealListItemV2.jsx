@@ -23,8 +23,6 @@ const programAreaMap = {
 };
 
 export default function AppealListItem({ appeal, name }) {
-  const { status, aoj } = appeal.attributes;
-
   let requestEventType;
   let isAppeal;
 
@@ -94,16 +92,7 @@ export default function AppealListItem({ appeal, name }) {
           }`}
         />
         <p>
-          <strong>Status:</strong>{' '}
-          {
-            getStatusContents(
-              status.type,
-              appeal.type,
-              status.details,
-              name,
-              aoj,
-            ).title
-          }
+          <strong>Status:</strong> {getStatusContents(appeal, name).title}
         </p>
       </div>
       {appeal.attributes.description && (

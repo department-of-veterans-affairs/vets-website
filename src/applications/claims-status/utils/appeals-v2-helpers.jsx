@@ -273,25 +273,18 @@ function getHearingType(type) {
  * @property {string} [first] first name
  * @property {string} [middle] middle name
  * @property {string} [last] last
- * @param {string} statusType the status type of a claim appeal as returned by the api
- * @param {string} appealType the type of decision review requested
- * @param {Object} [details] optional, properties vary depending on the status type
+ * @param {Object} appeal
  * @param {Name} [name] used for death status type, includes first/middle/last properties
- * @param {string} [aoj] the Agency of Original Jurisdiction
- * @param {string} [programArea] the claim type of the appeal
- * @param {string} [amaDocket] used for some AMA appeal status types, the docket of the appeal
  * @returns {Contents}
  */
-export function getStatusContents(
-  statusType,
-  appealType,
-  details = {},
-  name = {},
-  aoj = AOJS.other,
-  programArea = '',
-  amaDocket = '',
-) {
+export function getStatusContents(appeal, name = {}) {
+  const { status, aoj, programArea } = appeal.attributes;
+  const appealType = appeal.type;
+  const statusType = status.type;
+  const details = status.details || {};
+  const amaDocket = _.get(appeal, 'attributes.docket.type');
   const aojDescription = getAojDescription(aoj);
+
   const contents = {};
   switch (statusType) {
     case STATUS_TYPES.pendingSoc:
@@ -487,12 +480,18 @@ export function getStatusContents(
     case STATUS_TYPES.bvaDecision:
       contents.title = 'The Board made a decision on your appeal';
       contents.description = (
-        <Decision
-          issues={details.issues}
-          aoj={aoj}
-          ama={appealType === APPEAL_TYPES.appeal}
-          boardDecision
-        />
+        <div>
+          <p>
+            The Board of Veterans’ Appeals sent you a decision on your appeal.
+            Here’s an overview:
+          </p>
+          <Decision
+            issues={details.issues}
+            aoj={aoj}
+            ama={appealType === APPEAL_TYPES.appeal}
+            boardDecision
+          />
+        </div>
       );
       break;
     case STATUS_TYPES.fieldGrant:
@@ -647,10 +646,12 @@ export function getStatusContents(
         <div>
           <p>
             In the {formattedBvaDecisionDate} decision, a judge at the Board of
-            Veterans’ Appeals identified an error that needed to be corrected.
-            The {aojDescription} completed the judge’s instructions and sent you
-            a new decision on {formattedAojDecisionDate}.
+            Veterans’ Appeals identified an error that needed to be corrected. A
+            reviewer at the {aojDescription} completed the judge’s instructions
+            and sent you a new decision on {formattedAojDecisionDate}. Here's an
+            overview:
           </p>
+          <Decision issues={details.issues} aoj={aoj} />
           <p>
             If you disagree with either the Board decision or the{' '}
             {aojDescription} decision, you can request another review. The
@@ -760,9 +761,28 @@ export function getStatusContents(
       );
       break;
     case STATUS_TYPES.scDecision:
+      contents.title = `The ${aojDescription} made a decision`;
+      contents.description = (
+        <div>
+          <p>
+            The {aojDescription} sent you a decision on your Supplemental Claim.
+            Here’s an overview:
+          </p>
+          <Decision issues={details.issues} aoj={aoj} />
+        </div>
+      );
+      break;
     case STATUS_TYPES.hlrDecision:
       contents.title = `The ${aojDescription} made a decision`;
-      contents.description = <Decision issues={details.issues} aoj={aoj} />;
+      contents.description = (
+        <div>
+          <p>
+            The {aojDescription} sent you a decision on your Higher-Level
+            Review. Here’s an overview:
+          </p>
+          <Decision issues={details.issues} aoj={aoj} />
+        </div>
+      );
       break;
     case STATUS_TYPES.hlrDtaError:
       contents.title = `The ${aojDescription} is correcting an error`;
@@ -1429,7 +1449,7 @@ export function getNextEvents(currentStatus, details) {
           {
             title: 'The Board will make a decision',
             description: makeDecisionReviewContent(
-              'Once your representative has completed their review, your case will be returned to the Board. ',
+              'Once your representative has completed their review, your case will be returned to the Board.',
             ),
             durationText: '',
             cardDescription: '',
@@ -1505,14 +1525,7 @@ export function getNextEvents(currentStatus, details) {
     default:
       return {
         header: '', // intentionally empty
-        events: [
-          {
-            title: 'Unknown event',
-            description: <p>We couldn’t find the next event in your appeal.</p>,
-            durationText: '',
-            cardDescription: '',
-          },
-        ],
+        events: [],
       };
   }
 }

@@ -30,7 +30,6 @@ import {
   makeDecisionReviewContent,
   addStatusToIssues,
   isolateAppeal,
-  APPEAL_TYPES,
   STATUS_TYPES,
 } from '../../utils/appeals-v2-helpers';
 
@@ -463,21 +462,20 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
-      const type = STATUS_TYPES.scheduledHearing;
-      const appealType = APPEAL_TYPES.legacy;
-      const details = { date: '2018-04-01' };
-      const expectedDescSnippet = 'hearing is scheduled for April 1, 2018';
-      const contents = getStatusContents(type, appealType, details);
-      expect(contents.title).to.equal('Your hearing has been scheduled');
-      // TO-DO: Update with real content
+      const expectedTitle = 'The Board made a decision on your appeal';
+      const expectedDescSnippet =
+        'The judge granted the following issue:Reasonableness of attorney fees';
+      const contents = getStatusContents(mockData.data[6]);
+      expect(contents.title).to.equal(expectedTitle);
       const descText = shallow(contents.description);
       expect(descText.render().text()).to.contain(expectedDescSnippet);
       descText.unmount();
     });
 
     it('returns sane object when given unknown type', () => {
-      const type = 123;
-      const contents = getStatusContents(type);
+      const contents = getStatusContents({
+        attributes: { status: { type: 'fake_type' } },
+      });
       expect(contents.title).to.equal('We don’t know your status');
       expect(contents.description.props.children).to.eql([
         // React splits it up into separate nodes when variables are inserted
@@ -485,65 +483,6 @@ describe('Disability benefits helpers: ', () => {
         siteName,
         ' will soon be updated to show your status.',
       ]);
-    });
-
-    // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
-    // so we should test them specifically to ensure we're getting the desired output
-    it('returns the right number of allowed / denied / remand items for remand status', () => {
-      const appealType = APPEAL_TYPES.legacy;
-      const details = {
-        issues: mockData.data[2].attributes.status.details.issues,
-      };
-      const contents = getStatusContents('remand', appealType, details);
-      expect(contents.title).to.equal(
-        'The Board made a decision on your appeal',
-      );
-
-      const wrapper = shallow(contents.description);
-      const allowedList = wrapper.find('.allowed-items ~ ul');
-      const deniedList = wrapper.find('.denied-items ~ ul');
-      const remandList = wrapper.find('.remand-items ~ ul');
-
-      const allowedDisposition = details.issues.filter(
-        i => i.disposition === 'allowed',
-      );
-      const deniedDisposition = details.issues.filter(
-        i => i.disposition === 'denied',
-      );
-      const remandDisposition = details.issues.filter(
-        i => i.disposition === 'remand',
-      );
-
-      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
-      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
-      expect(remandList.find('li').length).to.equal(remandDisposition.length);
-      wrapper.unmount();
-    });
-
-    it('returns the right number of allowed / denied items for bva_decision status', () => {
-      const appealType = APPEAL_TYPES.legacy;
-      const details = {
-        issues: mockData.data[2].attributes.status.details.issues,
-      };
-      const contents = getStatusContents('bva_decision', appealType, details);
-      expect(contents.title).to.equal(
-        'The Board made a decision on your appeal',
-      );
-
-      const wrapper = shallow(contents.description);
-      const allowedList = wrapper.find('.allowed-items ~ ul');
-      const deniedList = wrapper.find('.denied-items ~ ul');
-
-      const allowedDisposition = details.issues.filter(
-        i => i.disposition === 'allowed',
-      );
-      const deniedDisposition = details.issues.filter(
-        i => i.disposition === 'denied',
-      );
-
-      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
-      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
-      wrapper.unmount();
     });
   });
 
