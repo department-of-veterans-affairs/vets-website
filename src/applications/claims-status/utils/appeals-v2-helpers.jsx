@@ -1053,15 +1053,22 @@ export function getEventContent(event) {
 
 /**
  * Creates content reused throughout getNextEvents
- * @param {string} prop Additional text to include at beginning of first paragraph
+ * @param {string} [isAma] Whether it is an AMA appeal
+ * @param {string} [aoj] The agency of original jurisdiction
+ * @param {string} [prop] Additional text to include at beginning of first paragraph
  * @returns {object} Decision review content
  */
-export const makeDecisionReviewContent = prop => (
+export const makeDecisionReviewContent = ({
+  isAma = false,
+  aoj = AOJS.vba,
+  prop = '',
+} = {}) => (
   <div>
     <p>
-      {prop}A Veterans Law Judge, working with their team of attorneys, will
-      review all of the available evidence and write a decision. For each issue
-      you’re appealing, they can decide to:
+      {prop}
+      {prop ? ' The judge' : 'A Veterans Law Judge'} will review all of the
+      available evidence and write a decision. For each issue you’re appealing,
+      they can decide to:
     </p>
     <ul className="decision-review-list">
       <li>
@@ -1072,15 +1079,20 @@ export const makeDecisionReviewContent = prop => (
         <strong>Deny:</strong> The judge agrees with the original decision.
       </li>
       <li>
-        <strong>Remand:</strong> The judge sends the issue back to the Veterans
-        Benefits Administration to gather more evidence or to fix a mistake
-        before deciding whether to grant or deny.
+        <strong>Remand:</strong> The judge sends the issue back to the{' '}
+        {getAojDescription(aoj)} to{' '}
+        {isAma
+          ? 'correct an error'
+          : 'gather more evidence or to fix a mistake before deciding whether to grant or deny'}
+        .
       </li>
     </ul>
-    <p>
-      <strong>Note:</strong> About 60% of all cases have at least 1 issue
-      remanded.
-    </p>
+    {!isAma && (
+      <p>
+        <strong>Note:</strong> About 60% of all cases have at least 1 issue
+        remanded.
+      </p>
+    )}
   </div>
 );
 
@@ -1141,12 +1153,13 @@ export const makeDurationText = timeliness => {
  * @property {headerCard} [headerCard] containing info for top-level duration cards
  * @property {nextEvent[]} events each contain text content for a NextEvent component
  * ----------------------------------------------------------------------------------------------
- * @param {string} currentStatus an appeal's current status, one of STATUS_TYPES
- * @param {Object} details can contain dynamic info to fill in for certain NextEvent descriptions
+ * @param {Object} appeal
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
-export function getNextEvents(currentStatus, details) {
+export function getNextEvents(appeal) {
+  const { type: currentStatus, details } = appeal.attributes.status;
+
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
       const socDuration = makeDurationText(details.socTimeliness);
@@ -1380,30 +1393,52 @@ export function getNextEvents(currentStatus, details) {
         ],
       };
     }
-    case STATUS_TYPES.pendingHearingScheduling:
+    case STATUS_TYPES.pendingHearingScheduling: {
+      const eligibleToSwitch = _.get(
+        appeal,
+        'attributes.docket.eligibleToSwitch',
+      );
+
+      const eligibleDescription =
+        'However, note that this won’t speed up your appeal unless you also switch to the Direct Review appeal option, which can only be done at certain times. See below for more information.';
+      const ineligibleDescription =
+        'However, note that this won’t speed up your appeal because your appeal will remain on the Hearing Request docket line and the deadline has passed for switching to a different docket.';
+
       return {
         header: '', // intentionally empty
         events: [
           {
             title: `You’ll have your ${getHearingType(details.type)} hearing`,
             description: (
-              <p>
-                At your hearing, a Veterans Law Judge will ask you questions
-                about your appeal. A transcript of your hearing will be made and
-                added to your appeal file. The judge won’t make a decision about
-                your appeal at the hearing.{' '}
-                <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
-                  Learn more about hearings
-                </a>
-                , including how to request a different type of hearing or
-                withdraw your hearing request.
-              </p>
+              <div>
+                <p>
+                  At your hearing, you and a Veterans Law Judge will have a
+                  conversation, and they’ll ask you questions about your appeal.
+                  Your hearing will be transcribed and added to your appeal
+                  file. The judge won’t make a decision about your appeal at the
+                  hearing.{' '}
+                  <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
+                    Learn more about hearings.
+                  </a>
+                </p>
+                {appeal.type === APPEAL_TYPES.appeal && (
+                  <p>
+                    If you’ve changed your mind about having a hearing, you can
+                    write to the Board of Veterans‘ Appeals to withdraw your
+                    hearing request.{' '}
+                    {eligibleToSwitch
+                      ? eligibleDescription
+                      : ineligibleDescription}
+                  </p>
+                )}
+              </div>
             ),
             durationText: '',
             cardDescription: '',
           },
         ],
       };
+    }
     case STATUS_TYPES.scheduledHearing: {
       return {
         header: '', // intentionally empty
@@ -1412,10 +1447,11 @@ export function getNextEvents(currentStatus, details) {
             title: `You’ll have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
-                At your hearing, a Veterans Law Judge will ask you questions
-                about your appeal. A transcript of your hearing will be made and
-                added to your appeal file. The judge won’t make a decision about
-                your appeal at the hearing.{' '}
+                At your hearing, you and a Veterans Law Judge will have a
+                conversation, and they’ll ask you questions about your appeal.
+                Your hearing will be transcribed and added to your appeal file.
+                The judge won’t make a decision about your appeal at the
+                hearing.{' '}
                 <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
                   Learn more about hearings
                 </a>
@@ -1435,7 +1471,28 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: makeDecisionReviewContent(),
+            description: makeDecisionReviewContent({
+              isAma: appeal.type === APPEAL_TYPES.appeal,
+              aoj: appeal.attributes.aoj,
+            }),
+            durationText: '',
+            cardDescription: '',
+          },
+        ],
+      };
+    }
+    case STATUS_TYPES.evidentiaryPeriod: {
+      return {
+        header: '', // intentionally empty
+        events: [
+          {
+            title: 'The Board will make a decision',
+            description: makeDecisionReviewContent({
+              isAma: appeal.type === APPEAL_TYPES.appeal,
+              aoj: appeal.attributes.aoj,
+              prop:
+                'Once the 90 day time period for submitting new evidence is closed, your case will be ready to go to a Veterans Law Judge. Before it’s reviewed by a judge, some Veterans Service Organizations will ask for time to make additional arguments in support of your case.',
+            }),
             durationText: '',
             cardDescription: '',
           },
@@ -1448,9 +1505,12 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: makeDecisionReviewContent(
-              'Once your representative has completed their review, your case will be returned to the Board.',
-            ),
+            description: makeDecisionReviewContent({
+              isAma: appeal.type === APPEAL_TYPES.appeal,
+              aoj: appeal.attributes.aoj,
+              prop:
+                'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
+            }),
             durationText: '',
             cardDescription: '',
           },
@@ -1458,13 +1518,17 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.decisionInProgress: {
-      const decisionDuration = makeDurationText(details.decisionTimeliness);
+      const decisionTimeliness = details.decisionTimeliness || [1, 2];
+      const decisionDuration = makeDurationText(decisionTimeliness);
       return {
         header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
-            description: makeDecisionReviewContent(),
+            description: makeDecisionReviewContent({
+              isAma: appeal.type === APPEAL_TYPES.appeal,
+              aoj: appeal.attributes.aoj,
+            }),
             durationText: decisionDuration.header,
             cardDescription: `The Board of Veterans’ Appeals usually takes ${
               decisionDuration.description
@@ -1522,6 +1586,87 @@ export function getNextEvents(currentStatus, details) {
         ],
       };
     }
+    case STATUS_TYPES.amaRemand:
+      return {
+        header: '', // intentionally empty
+        events: [
+          {
+            title: 'A reviewer will correct the error',
+            description: (
+              <p>
+                Because the judge identified an error, a reviewer at the{' '}
+                {getAojDescription(appeal.attributes.aoj)} will correct the
+                error based on the judge’s instructions. You’ll receive a new
+                decision in the mail. If needed, the reviewer may contact you to
+                ask for more evidence or to schedule a new medical exam.
+              </p>
+            ),
+            durationText: '',
+            cardDescription: '',
+          },
+        ],
+      };
+    case STATUS_TYPES.scReceived: {
+      const duration = makeDurationText([4, 5]);
+      return {
+        header: '', // intentionally empty
+        events: [
+          {
+            title: 'The reviewer will make a new decision',
+            description: (
+              <p>
+                The {getAojDescription(appeal.attributes.aoj)} will send you a
+                new decision in the mail.
+              </p>
+            ),
+            durationText: duration.header,
+            cardDescription:
+              'VA’s goal for completing Supplemental Claims is 125 days.',
+          },
+        ],
+      };
+    }
+    case STATUS_TYPES.hlrReceived: {
+      const duration = makeDurationText([4, 5]);
+      return {
+        header: '', // intentionally empty
+        events: [
+          {
+            title: 'The senior reviewer will make a new decision',
+            description: (
+              <p>
+                The {getAojDescription(appeal.attributes.aoj)} will send you a
+                new decision in the mail. Your review may take longer if VA
+                needs to obtain records or schedule a new exam to correct an
+                error.
+              </p>
+            ),
+            durationText: duration.header,
+            cardDescription:
+              'VA’s goal for completing Higher-Level Reviews is 125 days.',
+          },
+        ],
+      };
+    }
+    case STATUS_TYPES.hlrDtaError:
+      return {
+        header: '', // intentionally empty
+        events: [
+          {
+            title: 'A reviewer will make a new decision',
+            description: (
+              <p>
+                The {getAojDescription(appeal.attributes.aoj)} will send you a
+                new decision in the mail. Your review may take longer than the
+                expected 4–5 months because the reviewer needs to correct an
+                error before completing their review.
+              </p>
+            ),
+            durationText: '',
+            cardDescription: '',
+          },
+        ],
+      };
     default:
       return {
         header: '', // intentionally empty

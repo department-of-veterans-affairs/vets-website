@@ -33,7 +33,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     type: appealAction,
   } = appeal.attributes;
   const currentStatus = getStatusContents(appeal, fullName);
-  const nextEvents = getNextEvents(status.type, status.details);
+  const nextEvents = getNextEvents(appeal);
 
   // Gates the What's Next and Docket chunks
   const hideDocketStatusTypes = [
@@ -57,7 +57,10 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         !hideDocketAppealActions.includes(appealAction);
       break;
     case APPEAL_TYPES.appeal:
-      shouldShowDocket = appealIsActive && location === 'bva';
+      shouldShowDocket =
+        appealIsActive &&
+        location === 'bva' &&
+        status.type !== STATUS_TYPES.decisionInProgress;
       break;
     default:
       shouldShowDocket = false;

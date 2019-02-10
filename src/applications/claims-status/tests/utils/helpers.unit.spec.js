@@ -31,6 +31,7 @@ import {
   addStatusToIssues,
   isolateAppeal,
   STATUS_TYPES,
+  AOJS,
 } from '../../utils/appeals-v2-helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -544,7 +545,9 @@ describe('Disability benefits helpers: ', () => {
         certificationTimeliness: [1, 2],
         ssocTimeliness: [1, 1],
       };
-      const nextEvents = getNextEvents(type, details);
+      const nextEvents = getNextEvents({
+        attributes: { status: { type, details } },
+      });
       expect(nextEvents.header).to.equal(
         'What happens next depends on whether you submit new evidence.',
       );
@@ -557,7 +560,9 @@ describe('Disability benefits helpers: ', () => {
         returnTimeliness: [1, 2],
         remandSsocTimeliness: [1, 1],
       };
-      const nextEvents = getNextEvents(type, details);
+      const nextEvents = getNextEvents({
+        attributes: { status: { type, details } },
+      });
       const { events } = nextEvents;
       expect(events.length).to.equal(2);
       const firstEvent = events[0];
@@ -604,18 +609,39 @@ describe('Disability benefits helpers: ', () => {
       const decisionReviewContent = makeDecisionReviewContent();
       const descText = shallow(decisionReviewContent);
       expect(descText.render().text()).to.equal(
-        'A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+        'A Veterans Law Judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
       descText.unmount();
     });
 
     it('returns additional content when provided', () => {
-      const decisionReviewContent = makeDecisionReviewContent(
-        'Once your representative has completed their review, your case will be returned to the Board. ',
-      );
+      const decisionReviewContent = makeDecisionReviewContent({
+        prop:
+          'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
+      });
       const descText = shallow(decisionReviewContent);
       expect(descText.render().text()).to.equal(
-        'Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+        'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge. The judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+      );
+      descText.unmount();
+    });
+
+    it('uses the name of the aoj', () => {
+      const decisionReviewContent = makeDecisionReviewContent({
+        aoj: AOJS.nca,
+      });
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.contain(
+        'National Cemetery Administration',
+      );
+      descText.unmount();
+    });
+
+    it('adjusts language for ama appeals', () => {
+      const decisionReviewContent = makeDecisionReviewContent({ isAma: true });
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.not.contain(
+        '60% of all cases have at least 1 issue remanded.',
       );
       descText.unmount();
     });
