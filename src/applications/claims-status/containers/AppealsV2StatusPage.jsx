@@ -48,6 +48,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
   ];
 
   let shouldShowDocket;
+  let isAppeal;
 
   switch (appeal.type) {
     case APPEAL_TYPES.legacy:
@@ -55,15 +56,18 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         appealIsActive &&
         !hideDocketStatusTypes.includes(status.type) &&
         !hideDocketAppealActions.includes(appealAction);
+      isAppeal = true;
       break;
     case APPEAL_TYPES.appeal:
       shouldShowDocket =
         appealIsActive &&
         location === 'bva' &&
         status.type !== STATUS_TYPES.decisionInProgress;
+      isAppeal = true;
       break;
     default:
       shouldShowDocket = false;
+      isAppeal = false;
   }
 
   const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
@@ -95,7 +99,9 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         <Docket {...docket} aod={aod} appealAction={appealAction} />
       )}
       {!appealIsActive && (
-        <div className="closed-appeal-notice">This appeal is now closed</div>
+        <div className="closed-appeal-notice">
+          This {isAppeal ? 'appeal' : 'review'} is now closed
+        </div>
       )}
       {afterNextAlerts}
     </div>

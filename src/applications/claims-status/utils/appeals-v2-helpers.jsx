@@ -256,7 +256,7 @@ export function formatDate(date) {
 function getHearingType(type) {
   const typeMaps = {
     video: 'videoconference',
-    travel: 'travel board',
+    travel_board: 'travel board', // eslint-disable-line
     central_office: 'Washington, DC central office', // eslint-disable-line
   };
 
@@ -447,8 +447,9 @@ export function getStatusContents(appeal, name = {}) {
       contents.description = (
         <p>
           Your appeal is at the Board of Veterans’ Appeals being reviewed by a
-          Veterans Law Judge and their team of attorneys. If you submit evidence
-          that isn’t already included in your case, it may delay your appeal.
+          Veterans Law Judge.{' '}
+          {appealType === APPEAL_TYPES.legacy &&
+            'If you submit evidence that isn’t already included in your case, it may delay your appeal.'}
         </p>
       );
       break;
