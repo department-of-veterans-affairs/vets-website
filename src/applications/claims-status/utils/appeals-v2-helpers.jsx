@@ -183,6 +183,8 @@ export const ALERT_TYPES = {
   rampIneligible: 'ramp_ineligible',
   decisionSoon: 'decision_soon',
   blockedByVso: 'blocked_by_vso',
+  evidentiaryPeriod: 'evidentiary_period',
+  amaPostDecision: 'ama_post_decision',
 };
 
 /**
@@ -1676,6 +1678,13 @@ export function getNextEvents(appeal) {
   }
 }
 
+const DECISION_REVIEW_OPTIONS = {
+  supplementalClaim: 'supplemental_claim',
+  higherLevelReview: 'higher_level_review',
+  appeal: 'appeal',
+  cavc: 'cavc',
+};
+
 /**
  * Takes an alert type and returns its display content and related CSS classes
  * @typedef {object} alertInput
@@ -1783,6 +1792,21 @@ export function getAlertContent(alert, appealIsActive) {
               Fax: 1-844-678-8979
             </p>
           </div>
+        ),
+        displayType: 'take_action',
+        type,
+      };
+    }
+    case ALERT_TYPES.evidentiaryPeriod: {
+      const formattedDueDate = formatDate(details.dueDate);
+      return {
+        title: `Submit new evidence before ${formattedDueDate}`,
+        description: (
+          <p>
+            If you have new evidence to submit, you must send it to the Board of
+            Veterans’ Appeals by {formattedDueDate}. Evidence received after
+            this date can’t be considered by the Veterans Law Judge.
+          </p>
         ),
         displayType: 'take_action',
         type,
@@ -1897,6 +1921,111 @@ export function getAlertContent(alert, appealIsActive) {
                 Contact your Veterans Service Organization or representative.
               </li>
             </ul>
+          </div>
+        ),
+        // displayType is blank because it doesn't apply; this gets pulled out and displayed as a
+        //  non-alert after "What happens next?"
+        displayType: '',
+        type,
+      };
+    }
+    case ALERT_TYPES.amaPostDecision: {
+      const formattedDecisionDate = formatDate(details.decisionDate);
+      const formattedDueDate = formatDate(details.dueDate);
+      const formattedCavcDueDate = formatDate(details.cavcDueDate);
+      return {
+        title: `What if I disagree with the ${formattedDecisionDate} decision?`,
+        description: (
+          <div>
+            <p>
+              If you disagree with VA’s decision, you can choose one of the
+              following review options to continue your case:
+            </p>
+            <ul className="appeals-next-list appeals-next-list-no-separator">
+              {details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.supplementalClaim,
+              ) && (
+                <li className="next-event">
+                  <h3>Add new and relevant evidence</h3>
+                  <p>
+                    A reviewer will determine whether the new evidence changes
+                    the decision. This option is called a Supplemental Claim.{' '}
+                    <strong>Available until {formattedDueDate}.</strong>
+                  </p>
+                </li>
+              )}
+              {details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.higherLevelReview,
+              ) && (
+                <li className="next-event">
+                  <h3>Ask for a new look from a senior reviewer</h3>
+                  <p>
+                    A senior reviewer will look at your case and determine
+                    whether the decision can be changed based on a difference of
+                    opinion or because VA made an error. This option is called a
+                    Higher-Level Review.{' '}
+                    <strong>Available until {formattedDueDate}.</strong>
+                  </p>
+                </li>
+              )}
+              {details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.appeal,
+              ) && (
+                <li className="next-event">
+                  <h3>Appeal to a Veterans Law Judge</h3>
+                  <p>
+                    Appeal to a Veterans Law Judge. A judge at the Board of
+                    Veterans’ Appeals in Washington, D.C. will review your case.
+                    This option is called a Board Appeal.{' '}
+                    <strong>Available until {formattedDueDate}.</strong>
+                  </p>
+                </li>
+              )}
+              {details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.cavc,
+              ) && (
+                <li className="next-event">
+                  <h3>
+                    Appeal to the U.S. Court of Appeals for Veterans Claims
+                  </h3>
+                  <p>
+                    The court will review the Board’s decision. You can hire an
+                    attorney to represent you, or you may represent yourself.{' '}
+                    <strong>Available until {formattedCavcDueDate}.</strong>
+                  </p>
+                </li>
+              )}
+            </ul>
+            <h4>Not available for this decision</h4>
+            <ul>
+              {!details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.supplementalClaim,
+              ) && <li>Add new and relevant evidence (Supplemental Claim)</li>}
+              {!details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.higherLevelReview,
+              ) && (
+                <li>
+                  Ask for a new look from a senior reviewer (Higher-Level
+                  Review)
+                </li>
+              )}
+              {!details.availableOptions.includes(
+                DECISION_REVIEW_OPTIONS.appeal,
+              ) && <li>Appeal to a Veterans Law Judge (Board Appeal)</li>}
+            </ul>
+            {details.availableOptions.includes(
+              DECISION_REVIEW_OPTIONS.cavc,
+            ) && (
+              <p>
+                Your decision has information on additional ways you and/or your
+                representative can address errors.
+              </p>
+            )}
+            <p>
+              <a href="/decision-reviews">
+                Learn more about your decision review options.
+              </a>
+            </p>
           </div>
         ),
         // displayType is blank because it doesn't apply; this gets pulled out and displayed as a
