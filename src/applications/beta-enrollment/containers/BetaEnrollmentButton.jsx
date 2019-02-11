@@ -10,6 +10,7 @@ class BetaEnrollmentButton extends React.Component {
   static propTypes = {
     feature: PropTypes.string.isRequired,
     returnUrl: PropTypes.string.isRequired,
+    buttonText: PropTypes.string,
   };
 
   constructor(props) {
@@ -70,7 +71,7 @@ class BetaEnrollmentButton extends React.Component {
       );
     }
 
-    let buttonText = 'Turn On Beta Tools';
+    let buttonText = this.props.buttonText || 'Turn On Beta Tools';
 
     if (this.props.user.profile.loading) buttonText = 'Loading Profile...';
     else if (this.state.isEnrolling) buttonText = 'Turning On Beta Tools';
