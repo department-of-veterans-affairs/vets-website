@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { formattedDate } from '../utils/helpers';
 
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
@@ -104,6 +104,7 @@ class MessagingWidget extends React.Component {
           {isBrandConsolidationEnabled() ? (
             <a
               href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+              rel="noopener noreferrer"
               target="_blank"
             >
               View all your secure messages

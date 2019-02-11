@@ -3,10 +3,10 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
-  APPEAL_V2_TYPE,
+  APPEAL_TYPES,
   claimsAvailability,
   appealsAvailability,
 } from 'applications/claims-status/utils/appeals-v2-helpers';
@@ -25,10 +25,12 @@ import ClaimsAppealsUnavailable from 'applications/claims-status/components/Clai
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItemV2';
+
+const appealTypes = Object.values(APPEAL_TYPES);
 
 function recordDashboardClick(product) {
   return () => {
@@ -54,7 +56,7 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_V2_TYPE) {
+    if (appealTypes.includes(claim.type)) {
       return (
         <AppealListItem
           key={claim.id}

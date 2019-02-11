@@ -1,7 +1,9 @@
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
-import { uiDescription } from '../content/addDisabilities';
+import { uiDescription, autoSuggestTitle } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
+import ArrayField from '../components/ArrayField';
+import { validateDisabilityName } from '../validations';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
@@ -11,6 +13,7 @@ export const uiSchema = {
   'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
     'ui:title': 'New condition',
+    'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
@@ -18,7 +21,7 @@ export const uiSchema = {
     },
     items: {
       condition: autosuggest.uiSchema(
-        'If you know the name of your condition, you can type it here. You can write whatever you want and we’ll make suggestions for possible disabilities (for example, foot pain, back pain, or hearing loss).',
+        autoSuggestTitle,
         () =>
           Promise.resolve(
             Object.entries(disabilityLabels).map(([key, value]) => ({
@@ -30,6 +33,8 @@ export const uiSchema = {
           'ui:options': {
             freeInput: true,
           },
+          // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+          'ui:validations': [validateDisabilityName],
         },
       ),
       'view:descriptionInfo': {

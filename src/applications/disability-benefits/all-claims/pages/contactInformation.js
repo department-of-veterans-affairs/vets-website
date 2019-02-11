@@ -204,7 +204,7 @@ export const uiSchema = {
       effectiveDate: merge(
         dateRangeUI(
           'Start date',
-          'End date',
+          'End date (optional)',
           'End date must be after start date',
         ),
         {

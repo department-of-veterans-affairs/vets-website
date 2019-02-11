@@ -1,14 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -29,8 +24,6 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VR&E Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="process schemaform-process schemaform-process-sip">
           <h4>
@@ -107,8 +100,6 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VR&E Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019" />
@@ -118,21 +109,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };

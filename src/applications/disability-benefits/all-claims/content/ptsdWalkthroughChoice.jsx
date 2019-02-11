@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { getPtsdClassification } from './ptsdClassification';
 
 export const PtsdUploadChoiceDescription = ({ formType }) => (
@@ -9,9 +9,9 @@ export const PtsdUploadChoiceDescription = ({ formType }) => (
     <p>
       If you choose this option, we’ll ask you several questions about the
       events related to your PTSD. If you have evidence or documents to include,
-      you will be able to upload that.
+      you’ll be able to upload them later in the application.
     </p>
-    <h5>Upload a form</h5>
+    <h5>Upload your completed form</h5>
     <p>
       If you choose to upload a completed VA Form {`21-0${formType}`}, you’ll
       move to the next section of the disability application.

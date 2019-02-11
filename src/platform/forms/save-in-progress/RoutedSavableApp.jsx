@@ -11,7 +11,7 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { isInProgress } from '../helpers';
 import { getSaveInProgressState } from './selectors';
@@ -90,7 +90,12 @@ class RoutedSavableApp extends React.Component {
     ) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
-      newProps.router.push(newProps.returnUrl);
+      if (newProps.formConfig.onFormLoaded) {
+        // The onFormLoaded callback should handle navigating to the start of the form
+        newProps.formConfig.onFormLoaded(newProps);
+      } else {
+        newProps.router.push(newProps.returnUrl);
+      }
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (

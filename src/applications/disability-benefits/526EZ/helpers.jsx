@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import Raven from 'raven-js';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
@@ -414,7 +414,7 @@ export const download4142Notice = (
       doctor.
     </p>
     <p>
-      <a href={VA_FORM4142_URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank" rel="noopener noreferrer">
         Download VA Form 21-4142
       </a>
       .<p>Please print the form, fill it out, and send it to:</p>
@@ -882,7 +882,11 @@ export const patientAcknowledgmentText = (
     <p>
       NOTE: For additional information regarding VA Form 21-4142, refer to the
       following website:
-      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+      <a
+        href="https://www.benefits.va.gov/privateproviders/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         https://www.benefits.va.gov/privateproviders/
       </a>
       .

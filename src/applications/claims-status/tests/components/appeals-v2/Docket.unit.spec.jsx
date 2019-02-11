@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import Docket from '../../../components/appeals-v2/Docket';
-import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
+import { APPEAL_STATUSES } from '../../../utils/appeals-v2-helpers';
 
 describe('Appeals V2 Docket', () => {
   const defaultProps = {
@@ -11,7 +11,7 @@ describe('Appeals V2 Docket', () => {
     ahead: 23456,
     form9Date: '2006-10-24',
     docketMonth: '2004-04-15',
-    appealType: APPEAL_TYPES.original,
+    appealType: APPEAL_STATUSES.original,
     aod: false,
     frontOfDocket: false,
   };
@@ -53,7 +53,10 @@ describe('Appeals V2 Docket', () => {
   });
 
   it('should not render DocketCard for postCavcRemand', () => {
-    const props = { ...defaultProps, appealType: APPEAL_TYPES.postCavcRemand };
+    const props = {
+      ...defaultProps,
+      appealType: APPEAL_STATUSES.postCavcRemand,
+    };
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.find('DocketCard').length).to.equal(0);
     wrapper.unmount();
@@ -62,7 +65,7 @@ describe('Appeals V2 Docket', () => {
   it('should render aod when both aod and appeal type postCavcRemand', () => {
     const props = {
       ...defaultProps,
-      appealType: APPEAL_TYPES.postCavcRemand,
+      appealType: APPEAL_STATUSES.postCavcRemand,
       aod: true,
     };
     const wrapper = shallow(<Docket {...props} />);
@@ -80,7 +83,10 @@ describe('Appeals V2 Docket', () => {
   });
 
   it('should display postCavcRemand text', () => {
-    const props = { ...defaultProps, appealType: APPEAL_TYPES.postCavcRemand };
+    const props = {
+      ...defaultProps,
+      appealType: APPEAL_STATUSES.postCavcRemand,
+    };
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.text()).to.contain(
       'Your appeal was remanded by the Court of Appeals for Veterans’ Claims.',

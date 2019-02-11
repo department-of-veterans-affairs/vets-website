@@ -1,15 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -27,8 +22,6 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
           pageList={this.props.route.pageList}
           startText="Start the Health Care Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <h4>Follow the steps below to apply for health care benefits.</h4>
         <div className="process schemaform-process">
@@ -149,8 +142,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Health Care Application"
           downtime={this.props.route.formConfig.downtime}
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
@@ -160,21 +151,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };

@@ -51,8 +51,19 @@ function checkBrokenLinks() {
       allowRegex: ignoreLinks,
     });
 
-    brokenLinkChecker(files);
-    removeLazySrcAttribute(files);
+    // Filter out drupal pages
+    const filteredFiles = Object.keys(files)
+      .filter(
+        fileName =>
+          !files[fileName].path || !files[fileName].path.includes('drupal'),
+      )
+      .reduce((acc, fileName) => {
+        acc[fileName] = files[fileName];
+        return acc;
+      }, {});
+
+    brokenLinkChecker(filteredFiles);
+    removeLazySrcAttribute(filteredFiles);
     done();
   };
 }

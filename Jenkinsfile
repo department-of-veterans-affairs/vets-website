@@ -14,6 +14,12 @@ VAGOV_BUILDTYPES = [
   'vagovprod'
 ]
 
+DRUPAL_MAPPING = [
+  'dev': 'vagovdev',
+  'staging': 'vagovstaging',
+  'live': 'vagovprod',
+]
+
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
 PROD_BRANCH = 'master'
@@ -71,13 +77,22 @@ def notify = { ->
 }
 
 node('vetsgov-general-purpose') {
-  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
+              // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
+              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
   def dockerImage, args, ref, imageTag
+
+  def cmsEnv = params.get('cmsEnv', 'none')
 
   // Checkout source, create output directories, build container
 
   stage('Setup') {
     try {
+      buildTypeOverride = DRUPAL_MAPPING.get(params.get('cmsEnv', 'none'), null)
+      if(buildTypeOverride) {
+        VAGOV_BUILDTYPES = [buildTypeOverride]
+      }
+
       // Jenkins doesn't like it when we checkout the secondary repository first
       // so we checkout 'vets-website' first
       dir("vets-website") {
@@ -95,6 +110,7 @@ node('vetsgov-general-purpose') {
         sh "mkdir -p build"
         sh "mkdir -p logs/selenium"
         sh "mkdir -p coverage"
+        sh "mkdir -p temp"
 
         imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
@@ -112,6 +128,8 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Lint|Security|Unit') {
+    if (cmsEnv != 'none') { return }
+
     try {
       parallel (
         lint: {
@@ -175,12 +193,13 @@ node('vetsgov-general-purpose') {
 
     try {
       def builds = [:]
+      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
+            sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
             sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
@@ -195,7 +214,7 @@ node('vetsgov-general-purpose') {
 
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (shouldBail()) { return }
+    if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       try {
         parallel (
@@ -294,12 +313,12 @@ node('vetsgov-general-purpose') {
         }
       }
 
-      if (IS_DEV_BRANCH) {
+      if (IS_DEV_BRANCH && VAGOV_BUILDTYPES.contains('vagovdev')) {
         runDeploy('deploys/vets-website-dev', commit)
         runDeploy('deploys/vets-website-vagovdev', commit)
       }
 
-      if (IS_STAGING_BRANCH) {
+      if (IS_STAGING_BRANCH && VAGOV_BUILDTYPES.contains('vagovstaging')) {
         runDeploy('deploys/vets-website-staging', commit)
         runDeploy('deploys/vets-website-vagovstaging', commit)
       }

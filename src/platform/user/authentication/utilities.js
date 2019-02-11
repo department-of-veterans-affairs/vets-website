@@ -1,10 +1,13 @@
-import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
-import localStorage from '../../utilities/storage/localStorage';
+
+export const authnSettings = {
+  RETURN_URL: 'authReturnUrl',
+  REGISTRATION_PENDING: 'registrationPending',
+};
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
@@ -27,58 +30,20 @@ const loginUrl = policy => {
   }
 };
 
-export function isFullScreenLoginEnabled() {
-  return !!localStorage.getItem('enableFullScreenLogin');
-}
-
-function popup(popupUrl, clickedEvent, openedEvent) {
-  recordEvent({ event: clickedEvent });
-  const popupWindow = window.open(
-    '',
-    'vets.gov-popup',
-    'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750',
-  );
-  if (popupWindow) {
-    recordEvent({ event: openedEvent });
-    popupWindow.focus();
-
-    return apiRequest(
-      popupUrl,
-      {
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-      ({ url }) => {
-        if (url) popupWindow.location = url;
-      },
-      () => {
-        popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
-      },
-    ).then(() => popupWindow);
-  }
-
-  Raven.captureMessage('Failed to open new window', {
-    extra: { url: popupUrl },
-  });
-
-  return Promise.reject(new Error('Failed to open new window'));
-}
-
 function redirect(redirectUrl, clickedEvent, openedEvent) {
-  if (!isFullScreenLoginEnabled()) {
-    return popup(redirectUrl, clickedEvent, openedEvent);
-  }
-
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem('authReturnUrl', window.location);
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location.pathname);
   recordEvent({ event: clickedEvent });
   window.location = redirectUrl;
-  return redirectUrl;
 }
 
 export function login(policy) {
-  return redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
+  return redirect(
+    loginUrl(policy),
+    'login-link-clicked-modal',
+    'login-link-opened',
+  );
 }
 
 export function mfa() {
@@ -98,6 +63,7 @@ export function logout() {
 }
 
 export function signup() {
+  sessionStorage.setItem(authnSettings.REGISTRATION_PENDING, true);
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',

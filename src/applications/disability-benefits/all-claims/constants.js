@@ -1,3 +1,5 @@
+import disabilityLabels from './content/disabilityLabels';
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -122,7 +124,7 @@ export const SERVICE_CONNECTION_TYPES = {
 
 export const DATA_PATHS = {
   hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords',
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
@@ -141,7 +143,13 @@ export const TWENTY_FIVE_MB = 26214400;
 
 export const FIFTY_MB = 52428800;
 
-export const PTSD = 'ptsd';
+export const PTSD_MATCHES = [
+  'ptsd',
+  'post traumatic stress disorder',
+  'post-traumatic stress disorder',
+  'post traumatic stress',
+  'post-traumatic stress',
+];
 
 // Max number of incident iterations a user can go through.
 export const PTSD_INCIDENT_ITERATION = 3;
@@ -232,3 +240,13 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources1',
   'secondaryUploadSources2',
 ];
+
+export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
+  disabilityLabels,
+).map(v => v.toLowerCase());
+
+// This comes straight from EVSS but isn't documented in Swagger because
+// it's only used on disabilities that don't exist in the mapped list.
+// Note: the right single quote (’) is intentional - apostrophes are not
+//       allowed.
+export const EVSS_DISABILITY_NAME_REGEX = /^([a-zA-Z0-9\-‘.,/()]([a-zA-Z0-9\-’,. ])?)+$/;

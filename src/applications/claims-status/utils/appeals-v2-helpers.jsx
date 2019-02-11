@@ -8,7 +8,7 @@ import siteName from '../../../platform/brand-consolidation/site-name';
 // This literally determines how many rows are displayed per page on the v2 index page
 export const ROWS_PER_PAGE = 10;
 
-export const APPEAL_TYPES = {
+export const APPEAL_STATUSES = {
   original: 'original',
   postRemand: 'post_remand',
   postCavcRemand: 'post_cavc_remand',
@@ -16,7 +16,36 @@ export const APPEAL_TYPES = {
   cue: 'cue',
 };
 
-export const APPEAL_V2_TYPE = 'appealSeries';
+export const APPEAL_TYPES = {
+  legacy: 'legacyAppeal',
+  supplementalClaim: 'supplementalClaim',
+  higherLevelReview: 'higherLevelReview',
+  appeal: 'appeal',
+};
+
+/**
+ * Returns a string with the formatted name of the type of appeal.
+ * @param {Object} appeal
+ * @returns {string}
+ */
+export function getTypeName(appeal) {
+  switch (appeal.type) {
+    case APPEAL_TYPES.supplementalClaim:
+      return 'Supplemental Claim';
+    case APPEAL_TYPES.higherLevelReview:
+      return 'Higher-Level Review';
+    case APPEAL_TYPES.legacy:
+    case APPEAL_TYPES.appeal:
+      return 'Appeal';
+    default:
+      Raven.captureMessage('appeals-unknown-type', {
+        extra: {
+          type: appeal.type,
+        },
+      });
+      return null;
+  }
+}
 
 // TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
@@ -573,7 +602,6 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.merged:
       contents.title = 'Your appeal was merged';
-      // TODO: When we change the url to remove -v2, change it here too
       contents.description = (
         <div>
           <p>
@@ -583,14 +611,14 @@ export function getStatusContents(statusType, details = {}, name = {}) {
             older appeal that was closest to receiving a Board decision.
           </p>
           <p>
-            Check <Link to="/your-claims-v2">Your Claims and Appeals</Link> for
-            the appeal that contains the issues merged from this appeal.
+            Check <Link to="/your-claims">Your Claims and Appeals</Link> for the
+            appeal that contains the issues merged from this appeal.
           </p>
         </div>
       );
       break;
     default:
-      contents.title = 'We don’t know your appeal status';
+      contents.title = 'We don’t know your status';
       contents.description = (
         <p>We’re sorry, {siteName} will soon be updated to show your status.</p>
       );
@@ -622,6 +650,18 @@ export const EVENT_TYPES = {
   reconsideration: 'reconsideration',
   vacated: 'vacated',
   otherClose: 'other_close',
+  amaNod: 'ama_nod',
+  docketChange: 'docket_change',
+  distributedToVlj: 'distributed_to_vlj',
+  bvaDecisionEffectuation: 'bva_decision_effectuation',
+  dtaDecision: 'dta_decision',
+  scRequest: 'sc_request',
+  scDecision: 'sc_decision',
+  scOtherClose: 'sc_other_close',
+  hlrRequest: 'hlr_request',
+  hlrDecision: 'hlr_decision',
+  hlrDtaError: 'hlr_dta_error',
+  hlrOtherClose: 'hlr_other_close',
 };
 
 /**
@@ -1522,7 +1562,7 @@ const getDate = item => {
     return '0';
   }
 
-  return item.type === APPEAL_V2_TYPE
+  return item.type === APPEAL_STATUSES.current
     ? getAppealDate(item)
     : getClaimDate(item);
 };

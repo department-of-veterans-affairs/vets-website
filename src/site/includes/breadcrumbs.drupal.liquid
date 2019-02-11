@@ -1,0 +1,20 @@
+<nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+  <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
+    {% for crumb in entityUrl.breadcrumb %}
+    <li>
+      <a href="{{crumb.url.path}}"
+        {% if crumb.url.path == "/" %}
+        onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });"
+        {% endif %}
+        >
+        {{crumb.text}}
+      </a>
+    </li>
+    {% endfor %}
+    <li>
+      <a aria-current="page" href="{{path}}">
+        {{title}}
+      </a>
+    </li>
+  </ul>
+</nav>

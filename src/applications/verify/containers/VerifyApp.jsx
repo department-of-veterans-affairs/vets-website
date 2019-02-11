@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
 import { hasSession } from '../../../platform/user/profile/utilities';
@@ -11,6 +11,18 @@ import siteName from '../../../platform/brand-consolidation/site-name';
 import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    const { profile } = this.props;
+    const serviceName = (profile.signIn || {}).serviceName;
+
+    const signinMethodLabels = {
+      dslogon: 'DS Logon',
+      myhealthevet: 'My HealtheVet',
+    };
+
+    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
+  }
   componentDidMount() {
     if (!hasSession()) {
       window.location.replace('/');
@@ -36,14 +48,11 @@ export class VerifyApp extends React.Component {
   }
 
   render() {
-    if (this.props.profile.loading) {
+    const { profile } = this.props;
+
+    if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-
-    const signinMethod = {
-      dslogon: 'DS Logon',
-      myhealthevet: 'My HealtheVet',
-    };
 
     return (
       <main className="verify">
@@ -53,9 +62,7 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${signinMethod[
-                    this.props.profile.authnContext
-                  ] || 'ID.me'}`}
+                  content={`You signed in with ${this.signInMethod}`}
                   isVisible
                   status="success"
                 />

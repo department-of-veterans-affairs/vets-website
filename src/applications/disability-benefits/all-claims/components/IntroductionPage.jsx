@@ -1,15 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { itfNotice } from '../content/introductionPage';
 
 class IntroductionPage extends React.Component {
@@ -31,8 +27,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
           retentionPeriod="1 year"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         {itfNotice}
         <h4>
@@ -133,9 +127,9 @@ class IntroductionPage extends React.Component {
               </div>
               <p>
                 We process applications in the order we receive them. The amount
-                of time it takes to process your claim depends how many injuries
-                or disabilities you claim and how long it takes us to gather
-                evidence needed to decide your claim.
+                of time it takes to process your claim depends on how many
+                injuries or disabilities you claim and how long it takes us to
+                gather evidence needed to decide your claim.
               </p>
             </li>
             <li className="process-step list-four">
@@ -155,8 +149,6 @@ class IntroductionPage extends React.Component {
           formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         {itfNotice}
         <div className="omb-info--container">
@@ -168,19 +160,10 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    formId: state.form.formId,
-    saveInProgress: introSelector(state),
-  };
+  return { formId: state.form.formId };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-IntroductionPage.PropTypes = {
+IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
@@ -188,17 +171,8 @@ IntroductionPage.PropTypes = {
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
-  saveInProgress: PropTypes.object.isRequired,
-  saveInProgressActions: PropTypes.shape({
-    fetchInProgressForm: PropTypes.func.isRequired,
-    removeInProgressForm: PropTypes.func.isRequired,
-    toggleLoginModal: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPage);
 
 export { IntroductionPage };

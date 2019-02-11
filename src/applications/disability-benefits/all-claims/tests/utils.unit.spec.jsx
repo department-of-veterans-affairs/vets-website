@@ -3,25 +3,29 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import {
-  hasGuardOrReservePeriod,
-  ReservesGuardDescription,
-  isInFuture,
+  addCheckboxPerDisability,
   capitalizeEachWord,
-  queryForFacilities,
-  hasOtherEvidence,
   fieldsHaveInput,
-  servedAfter911,
-  needsToEnter781,
-  needsToEnter781a,
-  isAnswering781Questions,
+  hasGuardOrReservePeriod,
+  hasHospitalCare,
+  hasOtherEvidence,
+  increaseOnly,
   isAnswering781aQuestions,
+  isAnswering781Questions,
+  isInFuture,
+  isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
-  isUploading781aForm,
-  viewifyFields,
-  needsToEnterUnemployability,
+  isWithinRange,
   needsToAnswerUnemployability,
-  hasHospitalCare,
+  needsToEnter781,
+  needsToEnter781a,
+  needsToEnterUnemployability,
+  newConditionsOnly,
+  queryForFacilities,
+  ReservesGuardDescription,
+  servedAfter911,
+  viewifyFields,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -165,6 +169,26 @@ describe('526 helpers', () => {
     });
     it('should return Unknown Condition when name is not a string', () => {
       expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
+    });
+  });
+
+  describe('addCheckboxPerDisability', () => {
+    it('should return disabilitiesViews with downcased keynames', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+      };
+      expect(addCheckboxPerDisability(formData)).to.eql({
+        properties: {
+          'ptsd personal trauma': {
+            title: 'Ptsd Personal Trauma',
+            type: 'boolean',
+          },
+        },
+      });
     });
   });
 
@@ -699,6 +723,86 @@ describe('isAnswering781aQuestions', () => {
         },
       };
       expect(hasHospitalCare(formData)).to.be.false;
+    });
+  });
+});
+
+describe('all claims utils - isWithinRange', () => {
+  const dateRange = { from: '1990-02-03', to: '1992-03-03' };
+  it('should return true for a date that is within the date range specified', () => {
+    expect(isWithinRange('1991-01-01', dateRange)).to.be.true;
+  });
+
+  it('should return true for a date range that is completely within the date range specified', () => {
+    expect(isWithinRange({ from: '1991-01-01', to: '1992-01-01' }, dateRange))
+      .to.be.true;
+  });
+
+  it('should return false for a date that is before the date range specified', () => {
+    expect(isWithinRange('1989-01-01', dateRange)).to.be.false;
+  });
+
+  it('should return false for a date that is after the date range specified', () => {
+    expect(isWithinRange('1999-01-01', dateRange)).to.be.false;
+  });
+  it('should return false for a date range that starts before the date range specified', () => {
+    expect(isWithinRange({ from: '1990-01-01', to: '1992-01-01' }, dateRange))
+      .to.be.false;
+  });
+  it('should return false for a date range that ends after the date range specified', () => {
+    expect(isWithinRange({ from: '1991-01-01', to: '1993-01-01' }, dateRange))
+      .to.be.false;
+  });
+});
+
+describe('526 v2 depends functions', () => {
+  const increaseOnlyData = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+  };
+  const newOnlyData = {
+    'view:claimType': {
+      'view:claimingIncrease': false,
+      'view:claimingNew': true,
+    },
+  };
+  const increaseAndNewData = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': true,
+    },
+  };
+  // Shouldn't be possible, but worth testing anyhow
+  const noneSelected = {
+    'view:claimType': {
+      'view:claimingIncrease': false,
+      'view:claimingNew': false,
+    },
+  };
+  describe('newOnly', () => {
+    it('should return true if only new conditions are claimed', () => {
+      expect(newConditionsOnly(newOnlyData)).to.be.true;
+    });
+    it('should return false if already-rated conditions are claimed', () => {
+      expect(newConditionsOnly(increaseOnlyData)).to.be.false;
+      expect(newConditionsOnly(increaseAndNewData)).to.be.false;
+    });
+    it('should return false if no claim type is selected', () => {
+      expect(newConditionsOnly(noneSelected)).to.be.false;
+    });
+  });
+  describe('increaseOnly', () => {
+    it('should return true if only alread-rated conditions are claimed', () => {
+      expect(increaseOnly(increaseOnlyData)).to.be.true;
+    });
+    it('should return false if new conditions are claimed', () => {
+      expect(increaseOnly(newOnlyData)).to.be.false;
+      expect(increaseOnly(increaseAndNewData)).to.be.false;
+    });
+    it('should return false if no claim type is selected', () => {
+      expect(increaseOnly(noneSelected)).to.be.false;
     });
   });
 });

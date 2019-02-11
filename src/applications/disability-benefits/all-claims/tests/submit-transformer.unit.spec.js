@@ -35,7 +35,6 @@ describe('transform', () => {
       transformedMinimalData,
     );
   });
-
   it('should transform maximal data correctly', () => {
     expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
       transformedMaximalData,
@@ -50,26 +49,26 @@ describe('transform', () => {
 
 describe('transformRelatedDisabilities', () => {
   it('should return an array of strings', () => {
-    const claimedConditions = ['some condition name', 'another condition name'];
+    const claimedConditions = ['Some Condition Name', 'Another Condition Name'];
     const treatedDisabilityNames = {
-      'Some condition name': true,
-      'Another condition name': true,
-      'This condition is falsey!': false,
+      'some condition name': true,
+      'another condition name': true,
+      'this condition is falsey!': false,
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-    ).to.eql(['some condition name', 'another condition name']);
+    ).to.eql(['Some Condition Name', 'Another Condition Name']);
   });
   it('should not add conditions if they are not claimed', () => {
-    const claimedConditions = ['some condition name'];
+    const claimedConditions = ['Some Condition Name'];
     const treatedDisabilityNames = {
-      'Some condition name': true,
-      'Another condition name': true,
-      'This condition is falsey!': false,
+      'some condition name': true,
+      'another condition name': true,
+      'this condition is falsey!': false,
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-    ).to.eql(['some condition name']);
+    ).to.eql(['Some Condition Name']);
   });
 });
 
@@ -186,9 +185,12 @@ describe('setActionTypes', () => {
       disabilityActionTypes.INCREASE,
     );
     expect(formattedDisabilities[1].disabilityActionType).to.equal(
-      disabilityActionTypes.NONE,
+      disabilityActionTypes.INCREASE,
     );
     expect(formattedDisabilities[2].disabilityActionType).to.equal(
+      disabilityActionTypes.NONE,
+    );
+    expect(formattedDisabilities[3].disabilityActionType).to.equal(
       disabilityActionTypes.NONE,
     );
   });

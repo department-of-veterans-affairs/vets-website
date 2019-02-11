@@ -72,7 +72,7 @@ export const uiSchema = {
       },
       primaryDescription: {
         'ui:title':
-          'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the Army, and this caused me to lose my hearing. (400 characters maximum)',
+          'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing. (400 characters maximum)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
           formData.newDisabilities[index].cause === 'NEW',
@@ -141,7 +141,7 @@ export const uiSchema = {
           'ui:validations': [validateLength(350)],
         },
       },
-      'view:VAFollowUp': {
+      'view:vaFollowUp': {
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'VA',
@@ -201,7 +201,7 @@ export const schema = {
               worsenedEffects,
             },
           },
-          'view:VAFollowUp': {
+          'view:vaFollowUp': {
             type: 'object',
             properties: {
               vaMistreatmentDescription,

@@ -13,7 +13,7 @@ import SignInProfileMenu from './SignInProfileMenu';
 class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
-    recordEvent({ event: 'login-link-clicked' });
+    recordEvent({ event: 'login-link-clicked-header' });
     this.props.toggleLoginModal(true);
   };
 
