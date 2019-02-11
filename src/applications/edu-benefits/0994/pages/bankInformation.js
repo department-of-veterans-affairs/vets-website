@@ -2,6 +2,7 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import bankAccountUI from '../../../../platform/forms/definitions/bankAccount';
 import ReviewCardField from '../../components/ReviewCardField';
 import PaymentView from '../components/PaymentView';
+import PaymentReviewView from '../components/PaymentReviewView';
 
 import {
   bankInfoTitle,
@@ -25,7 +26,10 @@ export const uiSchema = {
       startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
-    bankAccount: bankAccountUI,
+    bankAccount: {
+      ...bankAccountUI,
+      'ui:reviewWidget': PaymentReviewView,
+    },
   },
   'view:bankInfoNote': {
     'ui:title': ' ',
