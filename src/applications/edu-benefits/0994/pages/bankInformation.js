@@ -16,6 +16,7 @@ const { bankAccount } = fullSchema.properties;
 export const uiSchema = {
   'ui:title': bankInfoTitle,
   'ui:description': bankInfoDescription,
+  'ui:reviewWidget': PaymentReviewView,
   'view:bankAccount': {
     'ui:field': ReviewCardField,
     'ui:options': {
@@ -26,10 +27,7 @@ export const uiSchema = {
       startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
-    bankAccount: {
-      ...bankAccountUI,
-      'ui:reviewWidget': PaymentReviewView,
-    },
+    bankAccount: bankAccountUI,
   },
   'view:bankInfoNote': {
     'ui:title': ' ',
