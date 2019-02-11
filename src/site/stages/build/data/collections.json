@@ -359,6 +359,14 @@
       "hub": "health-care"
     }
   },
+  "healthCarePay" : {
+    "pattern": "health-care/pay-copay-bill/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Health Care",
+      "hub": "health-care" 
+    }
+  },
   "healthEligibility": {
     "pattern": "health-care/eligibility/*.md",
     "sortBy": "order",
