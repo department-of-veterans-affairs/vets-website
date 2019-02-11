@@ -6,7 +6,7 @@ import { isEqual } from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import get from 'platform/utilities/data/get';
-import LoadingButton from '../../profile360/vet360/components/base/LoadingButton';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import PreferenceOption from '../components/PreferenceOption';
 import { benefitChoices, didJustSave } from '../helpers';
