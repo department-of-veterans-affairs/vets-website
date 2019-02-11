@@ -6,7 +6,7 @@ import {
   verify,
   logout,
   signup,
-} from '../../user/authentication/utilities';
+} from '../../authentication/utilities';
 
 let oldSessionStorage;
 let oldWindow;
