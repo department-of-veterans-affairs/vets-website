@@ -32,12 +32,8 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     active: appealIsActive,
     type: appealAction,
   } = appeal.attributes;
-  const currentStatus = getStatusContents(
-    status.type,
-    status.details,
-    fullName,
-  );
-  const nextEvents = getNextEvents(status.type, status.details);
+  const currentStatus = getStatusContents(appeal, fullName);
+  const nextEvents = getNextEvents(appeal);
 
   // Gates the What's Next and Docket chunks
   const hideDocketStatusTypes = [
@@ -52,6 +48,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
   ];
 
   let shouldShowDocket;
+  let isAppeal;
 
   switch (appeal.type) {
     case APPEAL_TYPES.legacy:
@@ -59,18 +56,31 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         appealIsActive &&
         !hideDocketStatusTypes.includes(status.type) &&
         !hideDocketAppealActions.includes(appealAction);
+      isAppeal = true;
       break;
     case APPEAL_TYPES.appeal:
-      shouldShowDocket = appealIsActive && location === 'bva';
+      shouldShowDocket =
+        appealIsActive &&
+        location === 'bva' &&
+        status.type !== STATUS_TYPES.decisionInProgress;
+      isAppeal = true;
       break;
     default:
       shouldShowDocket = false;
+      isAppeal = false;
   }
 
-  const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
+  const afterNextAlertTypes = [
+    ALERT_TYPES.cavcOption,
+    ALERT_TYPES.amaPostDecision,
+  ];
+
+  const filteredAlerts = alerts.filter(
+    a => !afterNextAlertTypes.includes(a.type),
+  );
   const afterNextAlerts = (
     <div>
-      {alerts.filter(a => a.type === ALERT_TYPES.cavcOption).map((a, i) => {
+      {alerts.filter(a => afterNextAlertTypes.includes(a.type)).map((a, i) => {
         const alert = getAlertContent(a, appealIsActive);
         return (
           <div key={`after-next-alert-${i}`}>
@@ -91,12 +101,14 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         isClosed={!appealIsActive}
       />
       <AlertsList alerts={filteredAlerts} appealIsActive />
-      {appealIsActive && <WhatsNext nextEvents={nextEvents} />}
+      {nextEvents.events.length > 0 && <WhatsNext nextEvents={nextEvents} />}
       {shouldShowDocket && (
         <Docket {...docket} aod={aod} appealAction={appealAction} />
       )}
       {!appealIsActive && (
-        <div className="closed-appeal-notice">This appeal is now closed</div>
+        <div className="closed-appeal-notice">
+          This {isAppeal ? 'appeal' : 'review'} is now closed
+        </div>
       )}
       {afterNextAlerts}
     </div>
