@@ -1,8 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default function PaymentReviewView({ value }) {
-  const formatted = value;
-  // console.log(formatted);
+export class PaymentReviewView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      formData: props.formData,
+      name: props.name,
+    };
+  }
 
-  return <span>{formatted}</span>;
+  render() {
+    return <span>SHOQW</span>;
+  }
 }
+
+const mapStateToProps = store => ({
+  user: store.user,
+});
+
+export default connect(mapStateToProps)(PaymentReviewView);
