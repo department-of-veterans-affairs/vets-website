@@ -6,10 +6,10 @@ services:
     cap_add:
       - SYS_ADMIN
     ports:
-      - '9222:9222'
+      - '9222'
   vrt:
     build: ./vrt
     volumes:
       - .:/application
     links:
-    - chrome
+      - chrome

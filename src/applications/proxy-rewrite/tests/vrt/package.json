@@ -1,0 +1,14 @@
+{
+  "name": "vrt",
+    "dependencies": {
+      "babel-core": "^6.26.3",
+      "babel-jest": "^23.6.0",
+      "jest": "^23.6.0",
+      "jest-image-snapshot": "^2.7.0",
+      "node-fetch": "^2.0.0",
+      "puppeteer": "^1.9.0"
+    },
+    "scripts": {
+      "test:vrt": "jest -c=jest-vrt.config.js"
+    }
+}

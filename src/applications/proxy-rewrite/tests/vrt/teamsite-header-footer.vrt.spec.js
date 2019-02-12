@@ -1,10 +1,12 @@
 const puppeteer = require('puppeteer');
+const fetch = require('node-fetch');
+const http = require('http');
 
 const SCREEN_SIZES = [
   ['full screen', { width: 1024, height: 800 }],
-  ['tablet screen', { width: 768, height: 1024 }],
-  ['mobile screen', { width: 375, height: 667 }],
-  ['small mobile screen', { width: 318, height: 500 }],
+  //  ['tablet screen', { width: 768, height: 1024 }],
+  //  ['mobile screen', { width: 375, height: 667 }],
+  //  ['small mobile screen', { width: 318, height: 500 }],
 ];
 
 const HEADER = 'header';
@@ -12,9 +14,9 @@ const FOOTER = '#footerNav';
 
 const TEAMSITES = [
   ['Benefits', 'https://benefits.va.gov'],
-  ['Benefitswww', 'https://www.benefits.va.gov'],
-  ['CEM', 'https://www.cem.va.gov'],
-  ['Choose', 'https://www.choose.va.gov'],
+  //  ['Benefitswww', 'https://www.benefits.va.gov'],
+  //  ['CEM', 'https://www.cem.va.gov'],
+  //  ['Choose', 'https://www.choose.va.gov'],
 ];
 
 describe.each(TEAMSITES)('%s', (sitename, url) => {
@@ -36,7 +38,13 @@ describe.each(TEAMSITES)('%s', (sitename, url) => {
       resolveWithFullResponse: true,
     };
 
-    const response = fetch('http://chrome:9222/json/version');
+    const test = await http.get({
+      host: 'http://chrome:9222',
+    });
+
+    const response = await fetch('http://chrome:9222');
+    const json = await response.json();
+    console.log(json);
     const websocket = response.body.webSocketDebuggerUrl;
     console.log(`WebsocketUrl: ${websocket}`);
 

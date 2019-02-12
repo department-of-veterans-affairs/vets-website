@@ -13,10 +13,23 @@ RUN apt-get update && apt-get install -y netcat \
   && npm install -g yarn@$YARN_VERSION \
   && chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
 
-RUN mkdir -p /application
+RUN mkdir -p /application \
+  && mkdir -p /application/node_modules \
+  && chmod +x /application \
+  && chmod +x /application/node_modules
+
+RUN ls -a /usr/local/bin
 
 WORKDIR /application
 
-USER jenkins
+ADD . .
 
-RUN yarn run test:vrt
+RUN yarn install
+
+# RUN yarn run test:vrt
+
+RUN ls -a
+
+CMD ["wait"]
+
+# USER jenkins
