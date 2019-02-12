@@ -4,6 +4,8 @@ const Timeouts = require('../e2e/timeouts');
 const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
 
+const logoutRequestUrl = '/sessions/slo/new';
+
 async function setUserSession(token, client) {
   client.setCookie({ name: 'token', value: token, httpOnly: true });
   client.evaluate(
@@ -122,6 +124,7 @@ module.exports = {
   getUserToken,
   initUserMock,
   logIn,
+  logoutRequestUrl,
   testUnauthedUserFlow,
   setUserSession,
 };
