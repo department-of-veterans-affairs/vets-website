@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
@@ -12,6 +13,7 @@ import {
 import { apiRequest } from '../../../platform/utilities/api';
 
 import facilityLocator from '../../facility-locator/manifest';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -23,7 +25,13 @@ export class AuthApp extends React.Component {
     if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  handleAuthError = () => {
+  handleAuthError = e => {
+    Raven.captureException(e);
+
+    recordEvent({
+      event: `login-error-user-fetch`,
+    });
+
     this.setState({ error: true });
   };
 
@@ -46,10 +54,17 @@ export class AuthApp extends React.Component {
   };
 
   renderError = () => {
-    const { code } = this.props.location.query;
+    const { code, auth } = this.props.location.query;
     let alertProps;
 
+    if (auth === 'fail') {
+      recordEvent({
+        event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      });
+    }
+
     switch (code) {
+      // User selected Deny on share info prompt
       case '001':
         alertProps = {
           headline: 'We couldn’t complete the sign-in process',
@@ -72,6 +87,7 @@ export class AuthApp extends React.Component {
         };
         break;
 
+      // User time too early/late
       case '002':
       case '003':
         alertProps = {
@@ -87,6 +103,7 @@ export class AuthApp extends React.Component {
         };
         break;
 
+      // User/Session Validation Failed
       case '004':
         alertProps = {
           headline: 'We can’t match your information to our Veteran records',
@@ -119,7 +136,8 @@ export class AuthApp extends React.Component {
         };
         break;
 
-      case '005':
+      // Unknown SAML Login Error
+      case '007':
       default:
         alertProps = {
           headline: 'We couldn’t sign you in',
