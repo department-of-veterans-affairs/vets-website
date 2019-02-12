@@ -20,10 +20,6 @@ async function setUserSession(token, client) {
   );
 }
 
-function getLogoutUrl() {
-  return 'http://example.com/logout_url';
-}
-
 /* eslint-disable camelcase */
 function initUserMock(token, level) {
   mock(token, {
@@ -83,16 +79,6 @@ function initUserMock(token, level) {
 }
 /* eslint-enable camelcase */
 
-function initLogoutMock(token) {
-  mock(token, {
-    path: '/sessions/slo/new',
-    verb: 'get',
-    value: {
-      url: getLogoutUrl(),
-    },
-  });
-}
-
 let tokenCounter = 0;
 
 function getUserToken() {
@@ -101,8 +87,6 @@ function getUserToken() {
 
 async function logIn(token, client, url, level) {
   initUserMock(token, level);
-  initLogoutMock(token);
-
   const newUrl = `${E2eHelpers.baseUrl}${url}`;
   await client.waitForSelector('body', { timeout: Timeouts.normal });
   await client.goto(newUrl);
@@ -123,10 +107,7 @@ async function logIn(token, client, url, level) {
 }
 
 async function testUnauthedUserFlow(client, path) {
-  const token = getUserToken();
   const appURL = `${E2eHelpers.baseUrl}${path}`;
-
-  initLogoutMock(token);
 
   await client.goto(appURL);
   await client.waitForSelector('body', { timeout: Timeouts.normal });
@@ -138,9 +119,7 @@ async function testUnauthedUserFlow(client, path) {
 }
 
 module.exports = {
-  getLogoutUrl,
   getUserToken,
-  initLogoutMock,
   initUserMock,
   logIn,
   testUnauthedUserFlow,
