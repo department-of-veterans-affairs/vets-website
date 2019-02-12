@@ -6,7 +6,9 @@
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
         <h1>{{ title }}</h1>
-        <div class="usa-font-lead">{{ fieldIntroText }}</div>
+        <div class="va-introtext">
+          <p>{{ fieldIntroText }}</p>
+        </div>
           {% if fieldSpokes != empty %}
             <h3>On This Page:</h3>
             <ul>
@@ -40,6 +42,7 @@
           Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
       </article>
+
       <div class="usa-width-one-third" id="hub-rail">
         {% if fieldPromo != empty %}
           {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
@@ -84,8 +87,13 @@
               </div>
             </li>
           </ul>
+
+          {% if fieldAdministration != empty %}
+            {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+          {% endif %}
       </div>
     </div>
+
   </main>
 </div>
 {% include "src/site/includes/veteran-banner.html" %}

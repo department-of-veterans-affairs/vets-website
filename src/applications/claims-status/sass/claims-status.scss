@@ -805,7 +805,7 @@ h1:focus {
 }
 
 .va-appeals-content {
-  padding-top: 1em;
+  padding: 1em 0 2em;
 
   .usa-alert-text {
     margin-top: 1em;
@@ -1021,6 +1021,10 @@ h1:focus {
       margin-left: 0.5em;
     }
   }
+}
+
+.appeals-next-list-no-separator li.next-event {
+  margin: 1.5em 0 2em;
 }
 
 .alerts-list-container {

@@ -3,11 +3,15 @@ const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
+
 /**
  * The top-level page for a section of the website.
  * Examples include /health-care/, /disability/, etc.
  */
+const ADMIN = '...administration';
+
 module.exports = `
+  
   fragment landingPage on NodeLandingPage {
     entityUrl {
       ... on EntityCanonicalUrl {
@@ -61,5 +65,6 @@ module.exports = `
       date
     }
     changed
+    ${ADMIN}
   }
 `;

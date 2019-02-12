@@ -48,6 +48,7 @@ export const uiSchema = {
       location: {
         'ui:description': 'Where will you take this training?',
         'ui:options': {
+          expandUnder: 'courseType',
           expandUnderCondition: field =>
             field === 'inPerson' || field === 'both',
         },

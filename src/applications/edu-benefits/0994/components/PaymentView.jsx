@@ -64,7 +64,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
 };
 
 const mapStateToProps = state => ({
-  originalData: state.form.data['view:prefillBankAccount'],
+  originalData: state.form.data.prefillBankAccount,
 });
 
 export default connect(mapStateToProps)(PaymentView);
