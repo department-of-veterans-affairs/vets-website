@@ -1,0 +1,52 @@
+<ul class="usa-accordion-bordered social">
+    <li>
+        {% assign accordionId = administration.entityBundle | append: administration.entityId  %}
+        <button class="usa-accordion-button usa-accordion-button-dark rail-heading" aria-expanded="true" aria-controls="{{ accordionId }}">Connect with Us</button>
+        <div id="{{ accordionId }}" class="usa-accordion-content" aria-hidden="false">
+            <h4 class="va-nav-linkslist-list">
+                <a href="{{ administration.fieldLink.url.path }}">{{ administration.name }}</a>
+            </h4>
+
+            <section>
+                <h4>Get Updates</h4>
+                <ul class="va-nav-linkslist-list social">
+                    <li>
+                        <a href="{{ administration.fieldEmailUpdatesUrl }}">
+                            <i class="fas fa-envelope"></i>
+                            {{ administration.fieldEmailUpdatesLinkText }}
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>Follow Us</h4>
+                <ul class="va-nav-linkslist-list social">
+                    {% assign socialLinks =  administration.fieldSocialMediaLinks.platformValues | jsonToObj %}
+                    {% assign socialPlatforms = socialLinks | keys %}
+                    {% for socialPlatform in socialPlatforms %}
+                        {% assign socialLink = socialLinks | get: socialPlatform  %}
+                        {%  if socialLink.value %}
+                            {% if socialPlatform = "youtube_channel" %}
+                                <li>
+                                    <a href="http://youtube.com/channel/{{ socialLink.value }}">
+                                        <i class="fab fa-youtube"></i>
+                                         Youtube
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}">
+                                        <i class="fab fa-{{ socialPlatform }}"></i>
+                                         {{ socialPlatform }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {%  endif %}
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+    </li>
+</ul>
+
