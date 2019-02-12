@@ -1949,8 +1949,11 @@ export function getAlertContent(alert, appealIsActive) {
                   <h3>Add new and relevant evidence</h3>
                   <p>
                     A reviewer will determine whether the new evidence changes
-                    the decision. This option is called a Supplemental Claim.{' '}
-                    <strong>Available until {formattedDueDate}.</strong>
+                    the decision. This option is called a{' '}
+                    <a href="/decision-reviews/supplemental-claim">
+                      Supplemental Claim
+                    </a>
+                    . <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
               )}
@@ -1963,8 +1966,10 @@ export function getAlertContent(alert, appealIsActive) {
                     A senior reviewer will look at your case and determine
                     whether the decision can be changed based on a difference of
                     opinion or because VA made an error. This option is called a
-                    Higher-Level Review.{' '}
-                    <strong>Available until {formattedDueDate}.</strong>
+                    <a href="/decision-reviews/higher-level-review">
+                      Higher-Level Review
+                    </a>
+                    . <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
               )}
@@ -1976,7 +1981,8 @@ export function getAlertContent(alert, appealIsActive) {
                   <p>
                     Appeal to a Veterans Law Judge. A judge at the Board of
                     Veterans’ Appeals in Washington, D.C. will review your case.
-                    This option is called a Board Appeal.{' '}
+                    This option is called a{' '}
+                    <a href="/decision-reviews/board-appeal">Board Appeal</a>.{' '}
                     <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
