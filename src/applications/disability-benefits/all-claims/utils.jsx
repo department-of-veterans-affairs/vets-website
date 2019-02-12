@@ -9,7 +9,12 @@ import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import { validateZIP } from './validations';
+import {
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from './validations';
+import ReviewCardField from './components/ReviewCardField';
 
 import {
   schema as addressSchema,
@@ -17,13 +22,18 @@ import {
 } from '../../../platform/forms/definitions/address';
 
 import {
-  RESERVE_GUARD_TYPES,
-  USA,
   DATA_PATHS,
-  NINE_ELEVEN,
   HOMELESSNESS_TYPES,
-  TWENTY_FIVE_MB,
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  NINE_ELEVEN,
   PTSD_MATCHES,
+  RESERVE_GUARD_TYPES,
+  STATE_LABELS,
+  STATE_VALUES,
+  TWENTY_FIVE_MB,
+  USA,
 } from './constants';
 
 /**
@@ -263,6 +273,147 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
+export const AddressViewField = ({ formData }) => {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    country,
+    state,
+    zipCode,
+  } = formData;
+  let zipString;
+  if (zipCode) {
+    const firstFive = zipCode.slice(0, 5);
+    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
+    zipString = `${firstFive}${lastChunk}`;
+  }
+
+  let lastLine;
+  if (country === USA) {
+    lastLine = `${city}, ${state} ${zipString}`;
+  } else {
+    lastLine = `${city}, ${country}`;
+  }
+  return (
+    <p className="blue-bar-block">
+      {addressLine1 && addressLine1}
+      <br />
+      {addressLine2 && addressLine2}
+      {addressLine2 && <br />}
+      {addressLine3 && addressLine3}
+      {addressLine3 && <br />}
+      {lastLine}
+    </p>
+  );
+};
+
+/**
+ *
+ * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
+ * @param {string} [title] Displayed as the card title in the card's header
+ * @returns {object} UI schema for an address card's content
+ */
+export const addressUISchema = (addressPath, title) => {
+  const updateStates = form => {
+    const currentCity = _.get(`${addressPath}.city`, form, '')
+      .trim()
+      .toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        enum: MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS,
+      };
+    }
+
+    return {
+      enum: STATE_VALUES,
+      enumNames: STATE_LABELS,
+    };
+  };
+
+  return {
+    'ui:order': [
+      'country',
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode',
+    ],
+    'ui:title': title,
+    'ui:field': ReviewCardField,
+    'ui:options': {
+      viewComponent: AddressViewField,
+    },
+    country: {
+      'ui:title': 'Country',
+    },
+    addressLine1: {
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine2: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine3: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:validations': [
+        {
+          options: { addressPath },
+          validator: validateMilitaryCity,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid city',
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': formData =>
+        _.get(`${addressPath}.country`, formData, '') === USA,
+      'ui:options': {
+        hideIf: formData =>
+          _.get(`${addressPath}.country`, formData, '') !== USA,
+        updateSchema: updateStates,
+      },
+      'ui:validations': [
+        {
+          options: { addressPath },
+          validator: validateMilitaryState,
+        },
+      ],
+    },
+    zipCode: {
+      'ui:title': 'Postal code',
+      'ui:validations': [validateZIP],
+      'ui:required': formData =>
+        _.get(`${addressPath}.country`, formData, '') === USA,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: formData =>
+          _.get(`${addressPath}.country`, formData, '') !== USA,
+      },
+    },
+  };
+};
+
 /**
  * Creates uiSchema and schema for address widget based on params
  * @param {array} addressOmitions
@@ -270,9 +421,11 @@ export const bankFieldsHaveInput = formData =>
  * @param {object} fieldLabels
  */
 export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
+  // Get the base schema
   const addressSchemaConfig = addressSchema(fullSchema);
   const addressUIConfig = omit(addressUI(' '), addressOmitions);
 
+  // Set up the object to return
   const locationSchema = {
     addressUI: {
       ...addressUIConfig,
@@ -286,6 +439,7 @@ export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
     },
   };
 
+  // Add ui:titles
   if (!addressOmitions.includes('country')) {
     locationSchema.addressUI.country = {
       'ui:title': fieldLabels.country,
@@ -316,6 +470,7 @@ export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
     };
   }
 
+  // Add the zip code validation
   if (!addressOmitions.includes('zipCode')) {
     locationSchema.addressUI.zipCode = {
       'ui:title': fieldLabels.zipCode,
