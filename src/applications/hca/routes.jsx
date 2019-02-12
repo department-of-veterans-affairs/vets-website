@@ -16,18 +16,16 @@ const idFormRoute = {
   key: 'id-introduction',
 };
 
-// do not allow the idFormRoute in production
-if (environment.isProduction()) {
-  idFormRoute.onEnter = (nextState, replace) => replace('/');
-}
-
 const routes = {
   path: '/',
   component: HealthCareApp,
   indexRoute: {
     onEnter: (nextState, replace) => replace('/introduction'),
   },
-  childRoutes: [idFormRoute, ...formRoutes],
+  // do not allow the idFormRoute in production
+  childRoutes: environment.isProduction()
+    ? formRoutes
+    : [idFormRoute, ...formRoutes],
 };
 
 export default routes;
