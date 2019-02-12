@@ -24,8 +24,8 @@ describe('Training program information page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(2);
 
     form.unmount();
   });
@@ -62,8 +62,8 @@ describe('Training program information page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 
@@ -80,8 +80,8 @@ describe('Training program information page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 });
