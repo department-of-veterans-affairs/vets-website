@@ -29,7 +29,7 @@ export const uiSchema = {
     bankAccount: {
       ...bankAccountUI,
       accountType: {
-        ...bankAccount.accountType,
+        ...bankAccountUI.accountType,
         'ui:reviewWidget': PaymentReviewView,
       },
       accountNumber: {
