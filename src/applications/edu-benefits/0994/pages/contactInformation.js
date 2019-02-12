@@ -115,13 +115,7 @@ export const schema = {
         emailAddress,
       },
     },
-    mailingAddress: {
-      ...address,
-      properties: {
-        ...address.properties,
-        street3: address.properties.street2,
-      },
-    },
+    mailingAddress: address,
     'view:contactInfoNote': {
       type: 'object',
       properties: {},

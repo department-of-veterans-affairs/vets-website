@@ -10,11 +10,7 @@ export default function ConnectedAccountsSection() {
           permission to access your VA.gov profile data.
         </p>
         <p>
-          <a
-            href="/account/connected-accounts"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/account/connected-accounts" rel="noopener noreferrer">
             Manage your connected accounts
           </a>
           .

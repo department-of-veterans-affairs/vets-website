@@ -6,14 +6,22 @@
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
         <h1>{{ title }}</h1>
-        <div class="usa-font-lead">{{ fieldIntroText }}</div>
+        <div class="va-introtext">
+          <p>{{ fieldIntroText }}</p>
+        </div>
       </article>
+
       <div class="usa-width-one-third" id="hub-rail">
-        {% if fieldPromo != empty %}
-          {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
-        {% endif %}
+          {% if fieldPromo != empty %}
+              {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
+          {% endif %}
+
+          {% if fieldAdministration != empty %}
+            {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+          {% endif %}
       </div>
     </div>
+    
   </main>
 </div>
 {% include "src/site/includes/footer.html" %}

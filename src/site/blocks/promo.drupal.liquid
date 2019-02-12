@@ -7,6 +7,11 @@
           "url": "http://vagovcms.lndo.site/sites/default/files/hub_promos/health-care.png",
           "alt": null,
           "title": null
+          "derivative": {
+            "url": "http://vagovcms.lndo.site/sites/default/files/styles/crop_freeform/public/hub_promos/health-care.png?itok=27DMOlAy",
+            "width": 456,
+            "height": 304
+          }
         }
       }
     },
@@ -27,7 +32,7 @@
 {% endcomment %}
 {% assign image = entity.fieldImage.entity.image %}
 <div class="merger-r-rail hub-promo" id="promo">
-    <img src="{{ image.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.width }}" height="{{ image.height }}">
+    <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
   {% if entity.fieldPromoLink != empty %}
     <section class="hub-promo-text">
         <h4 class="heading"><a href="{{ entity.fieldPromoLink.entity.fieldLink.uri }}">{{ entity.fieldPromoLink.entity.fieldLink.title }}</a></h4>

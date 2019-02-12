@@ -12,7 +12,11 @@ const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
+  {
+    name: 'buildtype',
+    type: String,
+    defaultValue: process.env.PREVIEW_BUILD_TYPE || defaultBuildtype,
+  },
   { name: 'buildpath', type: String, defaultValue: 'build/localhost' },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: process.env.PORT || 3001 },
@@ -33,6 +37,10 @@ const app = express();
 const drupalClient = getDrupalClient(options);
 
 app.use(express.static(path.join(__dirname, '..', options.buildpath)));
+
+app.get('/health', (req, res) => {
+  res.send(200);
+});
 
 app.get('/preview', async (req, res) => {
   const smith = createPipieline({
