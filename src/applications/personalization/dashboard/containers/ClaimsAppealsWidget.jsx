@@ -28,7 +28,7 @@ import DowntimeNotification, {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
-import AppealListItem from '../components/AppealsListItemV2';
+import AppealListItem from '../../../claims-status/components/appeals-v2/AppealListItemV2';
 
 const appealTypes = Object.values(APPEAL_TYPES);
 
@@ -62,6 +62,7 @@ class ClaimsAppealsWidget extends React.Component {
           key={claim.id}
           appeal={claim}
           name={this.props.fullName}
+          external
         />
       );
     }

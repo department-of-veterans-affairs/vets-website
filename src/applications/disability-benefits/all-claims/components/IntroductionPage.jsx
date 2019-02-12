@@ -163,7 +163,7 @@ function mapStateToProps(state) {
   return { formId: state.form.formId };
 }
 
-IntroductionPage.PropTypes = {
+IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({

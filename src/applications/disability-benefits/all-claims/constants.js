@@ -245,12 +245,6 @@ export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
   disabilityLabels,
 ).map(v => v.toLowerCase());
 
-// This comes straight from EVSS but isn't documented in Swagger because
-// it's only used on disabilities that don't exist in the mapped list.
-// Note: the right single quote (’) is intentional - apostrophes are not
-//       allowed.
-export const EVSS_DISABILITY_NAME_REGEX = /^([a-zA-Z0-9\-‘.,/()]([a-zA-Z0-9\-’,. ])?)+$/;
-
 export const ANALYTICS_EVENTS = {
   openedPrivateRecordsAcknowledgment: {
     event: 'form-help-text-clicked',

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from '../../components/ReviewCardField';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -25,7 +26,16 @@ const mailingAddressStartInEdit = formData => {
   return true;
 };
 
-const addressUiSchema = addressUISchema('Address', true);
+const isRequiredForAddressUi = formData => {
+  const { country } = _.get(formData, 'mailingAddress', {});
+  return country && country === 'USA';
+};
+
+const addressUiSchema = addressUISchema(
+  'Address',
+  true,
+  isRequiredForAddressUi,
+);
 const address = addressSchema(fullSchema, true);
 
 export const uiSchema = {
@@ -105,13 +115,7 @@ export const schema = {
         emailAddress,
       },
     },
-    mailingAddress: {
-      ...address,
-      properties: {
-        ...address.properties,
-        street3: address.properties.street2,
-      },
-    },
+    mailingAddress: address,
     'view:contactInfoNote': {
       type: 'object',
       properties: {},
