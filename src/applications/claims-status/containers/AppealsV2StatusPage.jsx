@@ -70,10 +70,17 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
       isAppeal = false;
   }
 
-  const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
+  const afterNextAlertTypes = [
+    ALERT_TYPES.cavcOption,
+    ALERT_TYPES.amaPostDecision,
+  ];
+
+  const filteredAlerts = alerts.filter(
+    a => !afterNextAlertTypes.includes(a.type),
+  );
   const afterNextAlerts = (
     <div>
-      {alerts.filter(a => a.type === ALERT_TYPES.cavcOption).map((a, i) => {
+      {alerts.filter(a => afterNextAlertTypes.includes(a.type)).map((a, i) => {
         const alert = getAlertContent(a, appealIsActive);
         return (
           <div key={`after-next-alert-${i}`}>
