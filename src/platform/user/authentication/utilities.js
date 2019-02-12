@@ -1,7 +1,6 @@
 import appendQuery from 'append-query';
 
 import recordEvent from '../../monitoring/record-event';
-import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
 export const authnSettings = {
@@ -30,51 +29,28 @@ const loginUrl = policy => {
   }
 };
 
-function redirect(redirectUrl, clickedEvent, openedEvent) {
+function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   sessionStorage.setItem(authnSettings.RETURN_URL, window.location.pathname);
-
   recordEvent({ event: clickedEvent });
-
-  return apiRequest(
-    redirectUrl,
-    { headers: { Accept: 'application/json' } },
-    ({ url }) => {
-      if (url) {
-        recordEvent({ event: openedEvent });
-        window.location = url;
-      }
-    },
-    () => {
-      // TODO: Create a separate page or modal when failed to get the URL.
-      window.location = `${environment.BASE_URL}/auth/login/callback`;
-    },
-  );
+  window.location = redirectUrl;
 }
 
 export function login(policy) {
   sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
-  return redirect(
-    loginUrl(policy),
-    'login-link-clicked-modal',
-    'login-link-opened',
-  );
+  return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
 export function mfa() {
-  return redirect(
-    MFA_URL,
-    'multifactor-link-clicked',
-    'multifactor-link-opened',
-  );
+  return redirect(MFA_URL, 'multifactor-link-clicked');
 }
 
 export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked');
 }
 
 export function logout() {
-  return redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 
 export function signup() {
@@ -82,6 +58,5 @@ export function signup() {
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
-    'register-link-opened',
   );
 }
