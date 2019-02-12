@@ -12,7 +12,7 @@ import formConfig from '../../../0994/config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../../0994/constants';
 
 const initialData = {
-  phoneAndEmail: {
+  'view:phoneAndEmail': {
     dayTimePhone: '1234567890',
     nightTimePhone: '1234567890',
     emailAddress: 'test@test.com',
@@ -22,7 +22,7 @@ const initialData = {
     street2: 'Apt 321',
     city: 'Abcd',
     country: 'USA',
-    state: 'South Carolina',
+    state: 'SC',
     postalCode: '12345',
   },
 };
@@ -33,7 +33,7 @@ describe('Contact Information', () => {
     uiSchema,
   } = formConfig.chapters.personalInformation.pages.contactInformation;
 
-  it('renders the contact information', () => {
+  it('renders the contact information with prefill data', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -49,11 +49,9 @@ describe('Contact Information', () => {
   });
 
   it('successfully submits ', () => {
-    const {
-      dayTimePhone,
-      nightTimePhone,
-      emailAddress,
-    } = initialData.phoneAndEmail;
+    const { dayTimePhone, nightTimePhone, emailAddress } = initialData[
+      'view:phoneAndEmail'
+    ];
     const {
       street,
       street2,
@@ -73,15 +71,27 @@ describe('Contact Information', () => {
       />,
     );
 
-    fillData(form, 'input#root_phoneAndEmail_dayTimePhone', dayTimePhone);
-    fillData(form, 'input#root_phoneAndEmail_nightTimePhone', nightTimePhone);
-    fillData(form, 'input#root_phoneAndEmail_emailAddress', emailAddress);
+    fillData(
+      form,
+      'input[name*="root_view:phoneAndEmail_dayTimePhone"]',
+      dayTimePhone,
+    );
+    fillData(
+      form,
+      'input[name*="root_view:phoneAndEmail_nightTimePhone"]',
+      nightTimePhone,
+    );
+    fillData(
+      form,
+      'input[name*="root_view:phoneAndEmail_emailAddress"]',
+      emailAddress,
+    );
 
     fillData(form, 'select#root_mailingAddress_country', country);
     fillData(form, 'input#root_mailingAddress_street', street);
     fillData(form, 'input#root_mailingAddress_street2', street2);
     fillData(form, 'input#root_mailingAddress_city', city);
-    fillData(form, 'input#root_mailingAddress_state', state);
+    fillData(form, 'select#root_mailingAddress_state', state);
     fillData(form, 'input#root_mailingAddress_postalCode', postalCode);
 
     form.find('form').simulate('submit');
@@ -91,7 +101,7 @@ describe('Contact Information', () => {
     form.unmount();
   });
 
-  it('should not allow submission without bank info', () => {
+  it('should not allow submission without required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -103,7 +113,7 @@ describe('Contact Information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(6);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

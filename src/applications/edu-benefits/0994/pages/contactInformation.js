@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from '../../components/ReviewCardField';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -25,10 +26,22 @@ const mailingAddressStartInEdit = formData => {
   return true;
 };
 
+const isRequiredForAddressUi = formData => {
+  const { country } = _.get(formData, 'mailingAddress', {});
+  return country && country === 'USA';
+};
+
+const addressUiSchema = addressUISchema(
+  'Address',
+  true,
+  isRequiredForAddressUi,
+);
+const address = addressSchema(fullSchema, true);
+
 export const uiSchema = {
   'ui:title': 'Contact Information',
   'ui:description': contactInfoDescription,
-  phoneAndEmail: {
+  'view:phoneAndEmail': {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
     'ui:options': {
@@ -64,11 +77,24 @@ export const uiSchema = {
     },
   },
   mailingAddress: {
-    ...addressUISchema(),
+    ...addressUiSchema,
     'ui:field': ReviewCardField,
     'ui:options': {
+      ...addressUiSchema['ui:options'],
       viewComponent: AddressViewField,
       startInEdit: mailingAddressStartInEdit,
+    },
+    street: {
+      ...addressUiSchema.street,
+      'ui:title': 'Street address',
+    },
+    street2: {
+      ...addressUiSchema.street2,
+      'ui:title': 'Street address (line 2)',
+    },
+    street3: {
+      ...addressUiSchema.street3,
+      'ui:title': 'Street address (line 3)',
     },
   },
   'view:contactInfoNote': {
@@ -80,7 +106,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    phoneAndEmail: {
+    'view:phoneAndEmail': {
       type: 'object',
       required: ['dayTimePhone', 'emailAddress'],
       properties: {
@@ -89,7 +115,7 @@ export const schema = {
         emailAddress,
       },
     },
-    mailingAddress: addressSchema(fullSchema, true),
+    mailingAddress: address,
     'view:contactInfoNote': {
       type: 'object',
       properties: {},

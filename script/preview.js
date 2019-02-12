@@ -1,8 +1,6 @@
 const commandLineArgs = require('command-line-args');
 const path = require('path');
-const matter = require('gray-matter');
 const express = require('express');
-const octokit = require('@octokit/rest')();
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
@@ -14,7 +12,11 @@ const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
+  {
+    name: 'buildtype',
+    type: String,
+    defaultValue: process.env.PREVIEW_BUILD_TYPE || defaultBuildtype,
+  },
   { name: 'buildpath', type: String, defaultValue: 'build/localhost' },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: process.env.PORT || 3001 },
@@ -36,52 +38,46 @@ const drupalClient = getDrupalClient(options);
 
 app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
-app.use('/preview', async (req, res) => {
+app.get('/health', (req, res) => {
+  res.send(200);
+});
+
+app.get('/preview', async (req, res) => {
   const smith = createPipieline({
     ...options,
     port: process.env.PORT,
   });
 
-  const contentId = req.query.contentId;
-  const drupalPage = await drupalClient.getPageById(contentId);
+  const drupalData = await drupalClient.getLatestPageById(req.query.nodeId);
 
-  const wasFoundInDrupal = !!drupalPage.data.route;
-
-  if (wasFoundInDrupal) {
-    // Once we have Metalsmith templating in place for Drupal data, we should
-    // use that instead of the GH data.
-    res.json(drupalPage);
+  if (!drupalData.data.nodes.entities.length) {
+    res.sendStatus(404);
     return;
   }
 
-  octokit.repos
-    .getContents({
-      owner: 'department-of-veterans-affairs',
-      repo: 'vagov-content',
-      path: `/pages/${contentId}`,
-    })
-    .then(result => Buffer.from(result.data.content, result.data.encoding))
-    .then(matter)
-    .then(parsedContent => {
-      const files = {
-        [contentId]: Object.assign(parsedContent.data, {
-          path: contentId,
-          contents: new Buffer(parsedContent.content),
-        }),
-      };
+  const drupalPage = drupalData.data.nodes.entities[0];
 
-      smith.run(files, (err, newFiles) => {
-        if (err) throw err;
-        res.set('Content-Type', 'text/html');
-        // This will actually need to convert a md path to an html path, probably
-        res.send(Object.entries(newFiles)[0][1].contents);
-      });
-    })
-    .catch(err => {
+  const files = {
+    [`${req.path.substring(1)}/index.html`]: {
+      ...drupalPage,
+      isPreview: true,
+      drupalSite: drupalClient.getSiteUri(),
+      layout: `${drupalPage.entityBundle}.drupal.liquid`,
+      contents: Buffer.from('<!-- Drupal-provided data -->'),
+      debug: JSON.stringify(drupalPage, null, 4),
+    },
+  };
+
+  smith.run(files, (err, newFiles) => {
+    if (err) {
       // eslint-disable-next-line no-console
       console.log(err);
       res.sendStatus(500);
-    });
+    } else {
+      res.set('Content-Type', 'text/html');
+      res.send(Object.entries(newFiles)[0][1].contents);
+    }
+  });
 });
 
 app.listen(options.port, () => {

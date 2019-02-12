@@ -37,6 +37,8 @@ import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
 
+const appealTypes = Object.values(APPEAL_TYPES);
+
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
@@ -74,7 +76,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_TYPES.current) {
+    if (appealTypes.includes(claim.type)) {
       return (
         <AppealListItem
           key={claim.id}

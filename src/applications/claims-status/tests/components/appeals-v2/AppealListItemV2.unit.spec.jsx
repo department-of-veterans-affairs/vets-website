@@ -10,6 +10,7 @@ describe('<AppealListItemV2/>', () => {
   const defaultProps = {
     appeal: {
       id: 1234,
+      type: 'legacyAppeal',
       attributes: {
         status: {
           type: STATUS_TYPES.pendingForm9,
@@ -17,18 +18,37 @@ describe('<AppealListItemV2/>', () => {
         },
         events: [
           {
-            type: EVENT_TYPES.claimDecision,
+            type: EVENT_TYPES.nod,
             date: '2016-05-01',
-          },
-          {
-            type: EVENT_TYPES.merged,
-            date: '2015-06-04',
           },
         ],
         // These should really be objects, but AppealListItemV2 doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'compensation',
+        active: true,
+      },
+    },
+  };
+  const vhaScProps = {
+    appeal: {
+      id: 1234,
+      type: 'supplementalClaim',
+      attributes: {
+        status: {
+          type: STATUS_TYPES.scReceived,
+          details: {},
+        },
+        events: [
+          {
+            type: EVENT_TYPES.scRequest,
+            date: '2016-05-01',
+          },
+        ],
+        // These should really be objects, but AppealListItemV2 doesn't really care
+        issues: ["I'm an issue!", 'So am I!'],
+        description: 'Description here.',
+        programArea: 'medical',
         active: true,
       },
     },
@@ -66,6 +86,17 @@ describe('<AppealListItemV2/>', () => {
     wrapper.unmount();
   });
 
+  it('should correctly title a VHA Supplemental Claim', () => {
+    const wrapper = shallow(<AppealListItemV2 {...vhaScProps} />);
+    expect(
+      wrapper
+        .find('h3.claim-list-item-header-v2')
+        .render()
+        .text(),
+    ).to.equal('Supplemental Claim for Health Care Received May 1, 2016');
+    wrapper.unmount();
+  });
+
   it('should say "issue" if there is only one issue on appeal', () => {
     const props = _.set(
       'appeal.attributes.issues',
@@ -89,6 +120,16 @@ describe('<AppealListItemV2/>', () => {
       .first()
       .text();
     expect(issuesText).to.contain('Issues');
+    wrapper.unmount();
+  });
+
+  it('should say "review" if the appeal is a Supplemental Claim', () => {
+    const wrapper = shallow(<AppealListItemV2 {...vhaScProps} />);
+    const issuesText = wrapper
+      .find('.card-status + p')
+      .first()
+      .text();
+    expect(issuesText).to.contain('review');
     wrapper.unmount();
   });
 

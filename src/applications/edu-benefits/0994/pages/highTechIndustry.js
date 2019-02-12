@@ -2,36 +2,35 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
 
 const {
-  currentEmployment,
   currentHighTechnologyEmployment,
+  pastHighTechnologyEmployment,
   currentSalary,
-  // highTechnologyEmploymentType, Add this back in once schema is updated
 } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description':
-    'To give us an idea of your experience in the high-tech market, please tell us about your work and training.',
-  currentEmployment: {
+    'To give us an idea of your experience in the high-tech industry, please tell us about your work history',
+  currentHighTechnologyEmployment: {
     'ui:title': 'Are you working in a high-tech industry now?',
     'ui:widget': 'yesNo',
   },
-  currentHighTechnologyEmployment: {
-    'ui:title':
-      'Have you worked in a high-tech industry in the past couple years?',
+  pastHighTechnologyEmployment: {
+    'ui:title': 'Have you worked in a high-tech industry in the past?',
     'ui:widget': 'yesNo',
     'ui:options': {
-      expandUnder: 'currentEmployment',
+      expandUnder: 'currentHighTechnologyEmployment',
       expandUnderCondition: false,
     },
-    'ui:required': formData => !_.get(formData, 'currentEmployment', false),
+    'ui:required': formData =>
+      !_.get(formData, 'currentHighTechnologyEmployment', false),
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
       hideIf: formData =>
         !(
-          _.get(formData, 'currentEmployment', false) ||
-          (!_.get(formData, 'currentEmployment', false) &&
-            _.get(formData, 'currentHighTechnologyEmployment', false))
+          _.get(formData, 'currentHighTechnologyEmployment', false) ||
+          (!_.get(formData, 'currentHighTechnologyEmployment', false) &&
+            _.get(formData, 'pastHighTechnologyEmployment', false))
         ),
     },
     currentSalary: {
@@ -51,22 +50,22 @@ export const uiSchema = {
     highTechnologyEmploymentType: {
       'ui:description':
         'Which option(s) best describe your high-tech work experience? Check all that apply.',
-      hasComputerProgramming: {
+      computerProgramming: {
         'ui:title': 'Computer Programming',
       },
-      hasDataProcessing: {
+      dataProcessing: {
         'ui:title': 'Data Processing',
       },
-      hasComputerSoftware: {
+      computerSoftware: {
         'ui:title': 'Computer Software',
       },
-      hasInformationSciences: {
+      informationSciences: {
         'ui:title': 'Information Sciences',
       },
-      hasMediaApplication: {
+      mediaApplication: {
         'ui:title': 'Media Application',
       },
-      hasNoneApply: {
+      noneApply: {
         'ui:title': 'None of these apply',
       },
     },
@@ -75,10 +74,10 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['currentEmployment', 'currentHighTechnologyEmployment'],
+  required: ['currentHighTechnologyEmployment', 'pastHighTechnologyEmployment'],
   properties: {
-    currentEmployment,
     currentHighTechnologyEmployment,
+    pastHighTechnologyEmployment,
     'view:salaryEmploymentTypes': {
       type: 'object',
       properties: {
@@ -86,12 +85,12 @@ export const schema = {
         highTechnologyEmploymentType: {
           type: 'object',
           properties: {
-            hasComputerProgramming: { type: 'boolean' },
-            hasDataProcessing: { type: 'boolean' },
-            hasComputerSoftware: { type: 'boolean' },
-            hasInformationSciences: { type: 'boolean' },
-            hasMediaApplication: { type: 'boolean' },
-            hasNoneApply: { type: 'boolean' },
+            computerProgramming: { type: 'boolean' },
+            dataProcessing: { type: 'boolean' },
+            computerSoftware: { type: 'boolean' },
+            informationSciences: { type: 'boolean' },
+            mediaApplication: { type: 'boolean' },
+            noneApply: { type: 'boolean' },
           },
         },
       },

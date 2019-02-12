@@ -5,10 +5,18 @@
       "first": "testy",
       "last": "mcTestFace"
     },
-    "bankAccount": {
-      "accountType": "checking",
-      "routingNumber": "021000021",
-      "accountNumber": "1"
+    "appliedForVaEducationBenefits": false,
+    "activeDuty": true,
+    "view:phoneAndEmail": {
+      "dayTimePhone": "1234567890",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Nowhere",
+      "country": "USA",
+      "state": "MI",
+      "postalCode": "22312"
     }
   }
 }

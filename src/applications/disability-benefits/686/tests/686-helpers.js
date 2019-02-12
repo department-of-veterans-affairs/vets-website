@@ -111,7 +111,7 @@ function completeDependentsInformation(client, data) {
 
 function completeDependentInfo(client, data, index) {
   client
-    .fillCheckboxIf(
+    .fillCheckbox(
       'input[name="root_view:noSSN"]',
       data.dependents[index]['view:noSSN'],
     )

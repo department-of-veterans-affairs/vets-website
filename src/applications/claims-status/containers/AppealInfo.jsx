@@ -15,10 +15,12 @@ import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import { setUpPage, scrollToTop } from '../utils/page';
 
 import {
+  APPEAL_TYPES,
   EVENT_TYPES,
   isolateAppeal,
   RECORD_NOT_FOUND_ERROR,
   AVAILABLE,
+  getTypeName,
 } from '../utils/appeals-v2-helpers';
 import siteName from '../../../platform/brand-consolidation/site-name';
 import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
@@ -75,13 +77,36 @@ export class AppealInfo extends React.Component {
   }
 
   createHeading = () => {
-    const firstClaim = this.props.appeal.attributes.events.find(
-      a => a.type === EVENT_TYPES.claimDecision,
+    let requestEventType;
+    switch (this.props.appeal.type) {
+      case APPEAL_TYPES.legacy:
+        requestEventType = EVENT_TYPES.nod;
+        break;
+      case APPEAL_TYPES.supplementalClaim:
+        requestEventType = EVENT_TYPES.scRequest;
+        break;
+      case APPEAL_TYPES.higherLevelReview:
+        requestEventType = EVENT_TYPES.hlrRequest;
+        break;
+      case APPEAL_TYPES.appeal:
+        requestEventType = EVENT_TYPES.amaNod;
+        break;
+      default:
+      // do nothing
+    }
+    const requestEvent = this.props.appeal.attributes.events.find(
+      event => event.type === requestEventType,
     );
-    const appealDate = firstClaim
-      ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY')
-      : '';
-    return `Appeal of ${appealDate} Claim Decision`;
+
+    let appealTitle = getTypeName(this.props.appeal);
+
+    if (requestEvent) {
+      appealTitle += ` Received ${moment(requestEvent.date).format(
+        'MMMM YYYY',
+      )}`;
+    }
+
+    return appealTitle;
   };
 
   render() {

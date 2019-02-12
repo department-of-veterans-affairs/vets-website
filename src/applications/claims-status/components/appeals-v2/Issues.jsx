@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
 
-const Issues = ({ issues }) => {
+const Issues = ({ issues, isAppeal }) => {
   const open = issues.filter(i => i.status === 'open');
   const remand = issues.filter(i => i.status === 'remand');
   const granted = issues.filter(i => i.status === 'granted');
@@ -65,7 +65,10 @@ const Issues = ({ issues }) => {
   if (openListItems.length || remandListItems.length) {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
-      <CollapsiblePanel panelName={'Currently on appeal'} startOpen>
+      <CollapsiblePanel
+        panelName={`Currently on ${isAppeal ? 'appeal' : 'review'}`}
+        startOpen
+      >
         {openSection}
         {remandSection}
       </CollapsiblePanel>
@@ -110,6 +113,7 @@ Issues.propTypes = {
       description: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  isAppeal: PropTypes.bool.isRequired,
 };
 
 export default Issues;

@@ -9,6 +9,7 @@ import {
   hasGuardOrReservePeriod,
   hasHospitalCare,
   hasOtherEvidence,
+  increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
   isInFuture,
@@ -20,6 +21,7 @@ import {
   needsToEnter781,
   needsToEnter781a,
   needsToEnterUnemployability,
+  newConditionsOnly,
   queryForFacilities,
   ReservesGuardDescription,
   servedAfter911,
@@ -750,5 +752,57 @@ describe('all claims utils - isWithinRange', () => {
   it('should return false for a date range that ends after the date range specified', () => {
     expect(isWithinRange({ from: '1991-01-01', to: '1993-01-01' }, dateRange))
       .to.be.false;
+  });
+});
+
+describe('526 v2 depends functions', () => {
+  const increaseOnlyData = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+  };
+  const newOnlyData = {
+    'view:claimType': {
+      'view:claimingIncrease': false,
+      'view:claimingNew': true,
+    },
+  };
+  const increaseAndNewData = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': true,
+    },
+  };
+  // Shouldn't be possible, but worth testing anyhow
+  const noneSelected = {
+    'view:claimType': {
+      'view:claimingIncrease': false,
+      'view:claimingNew': false,
+    },
+  };
+  describe('newOnly', () => {
+    it('should return true if only new conditions are claimed', () => {
+      expect(newConditionsOnly(newOnlyData)).to.be.true;
+    });
+    it('should return false if already-rated conditions are claimed', () => {
+      expect(newConditionsOnly(increaseOnlyData)).to.be.false;
+      expect(newConditionsOnly(increaseAndNewData)).to.be.false;
+    });
+    it('should return false if no claim type is selected', () => {
+      expect(newConditionsOnly(noneSelected)).to.be.false;
+    });
+  });
+  describe('increaseOnly', () => {
+    it('should return true if only alread-rated conditions are claimed', () => {
+      expect(increaseOnly(increaseOnlyData)).to.be.true;
+    });
+    it('should return false if new conditions are claimed', () => {
+      expect(increaseOnly(newOnlyData)).to.be.false;
+      expect(increaseOnly(increaseAndNewData)).to.be.false;
+    });
+    it('should return false if no claim type is selected', () => {
+      expect(increaseOnly(noneSelected)).to.be.false;
+    });
   });
 });

@@ -6,8 +6,8 @@ const FIELD_ALERT = `
 fieldAlert {
   entity {
     entityBundle
-  ... on BlockContentAlert {
-    ... alert
+    ... on BlockContentAlert {
+      ... alert
     }
   }
 }
@@ -27,6 +27,8 @@ fragment alert on BlockContentAlert {
         }
       }
       ... on ParagraphExpandableText {
+        entityId
+        entityBundle
         fieldWysiwyg {
           processed
         }
