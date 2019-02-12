@@ -57,9 +57,10 @@ const carAssistanceContent = (
 const aidAndAttendanceContent = (
   <CollapsiblePanel panelName="Aid and Attendance">
     <p>
-      To apply for Aid and Attendance benefits, you’ll need to turn in an
+      To apply for Aid and Attendance benefits, your doctor needs to fill out an
       Examination for Housebound Status or Permanent Need for Regular Aid and
-      Attendance (VA Form 21-2680), which your doctor needs to fill out.
+      Attendance (VA Form 21-2680). You can submit this form once it's
+      completed.
     </p>
     <div>
       <a
@@ -113,9 +114,17 @@ const individualUnemployabilityContent = (
 );
 
 export default function summaryDescription({ formData }) {
+  // In production, users should see the unemployable content if they indicate
+  // that they're unemployable. In other environments, they should see the
+  // unemployable content only when indicate unemployability and no selection
+  // has been made for `view:unemployabilityUploadChoice` (selecting any
+  // option for that question will evaluate to true because all the answers
+  // are strings). Since `view:unemployabilityUploadChoice` is only a question
+  // in non-prod environments, it will always be `falsey` on prod
   const showUnemployableContent =
     formData['view:unemployable'] &&
     !formData['view:unemployabilityUploadChoice'];
+
   return (
     <div>
       <p>

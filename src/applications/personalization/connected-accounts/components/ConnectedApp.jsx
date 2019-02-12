@@ -48,13 +48,15 @@ class ConnectedApp extends React.Component {
                   <img src={logo} alt={`${title} logo`} width="100" />
                 </a>
               </th>
-              <th>Connected on {moment(created).format('MMMM Do, YYYY')}</th>
+              <th>
+                Connected on {moment(created).format('MMMM D, YYYY h:mm A')}
+              </th>
               <th className={`${cssPrefix}-row-details `}>
                 <a className={`${cssPrefix}-row-details-toggle`} href="#">
                   Details
                   <i
                     className={`fa fa-chevron-${
-                      this.state.detailsOpen ? 'down' : 'right'
+                      this.state.detailsOpen ? 'up' : 'down'
                     }`}
                   />
                 </a>
@@ -63,7 +65,6 @@ class ConnectedApp extends React.Component {
                   modalOpen={this.state.modalOpen}
                   onCloseModal={this.closeModal}
                   onConfirmDelete={this.confirmDelete}
-                  propertyName={this.props.propertyName}
                 />
               </th>
             </tr>
@@ -74,7 +75,7 @@ class ConnectedApp extends React.Component {
                     <div className={`${cssPrefix}-row-details-block-content`}>
                       <p>
                         <a href={href}>{title}</a>
-                        &nbsp;has access to the following information:
+                        &nbsp;can view your:
                         <button
                           className="usa-button-primary"
                           onClick={this.openModal}
@@ -104,7 +105,6 @@ ConnectedApp.propTypes = {
   type: PropTypes.string.isRequired,
   attribtues: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
-  propertyName: PropTypes.string.isRequired,
   isLast: PropTypes.bool,
 };
 

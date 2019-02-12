@@ -15,7 +15,7 @@ export const uiSchema = index => ({
   [`incident${index}`]: {
     incidentDescription: {
       'ui:title':
-        'Please tell us what happened during the event or situation. Provide the level of detail that you‘re comfortable sharing. You don‘t have to repeat any information that you‘ve already shared.',
+        'Please tell us what happened during the event. You don’t have to repeat any information that you’ve already shared in this form. You only need to provide the level of detail that you’re comfortable sharing.',
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,

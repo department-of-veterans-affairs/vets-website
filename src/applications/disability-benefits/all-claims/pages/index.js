@@ -8,8 +8,7 @@ import * as alternateNames from './alternateNames';
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
-import * as conclusionAssault from './conclusionAssault';
-import * as conclusionCombat from './conclusionCombat';
+import * as claimType from './claimType';
 import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
 import * as evidenceTypes from './evidenceTypes';
@@ -47,6 +46,7 @@ import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
 import * as privateMedicalRecords from './privateMedicalRecords';
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
+import * as ptsd781aChangesIntro from './ptsd781aChangesIntro';
 import * as ptsdAdditionalEvents from './ptsdAdditionalEvents';
 import * as ptsdSecondaryAdditionalEvents from './ptsdSecondaryAdditionalEvents';
 import * as ptsdWalkthroughChoice781 from './ptsdWalkthroughChoice781';
@@ -103,8 +103,6 @@ export {
   ancillaryFormsWizardSummary,
   choosePtsdType,
   claimExamsInfo,
-  conclusionAssault,
-  conclusionCombat,
   contactInformation,
   employmentHistory,
   evidenceTypes,
@@ -137,11 +135,13 @@ export {
   pastEmploymentFormIntro,
   pastEmploymentFormDownload,
   pastEmploymentFormUpload,
+  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsRelease,
+  ptsd781aChangesIntro,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
   ptsdWalkthroughChoice781,

@@ -476,7 +476,7 @@ describe('Disability benefits helpers: ', () => {
     it('returns sane object when given unknown type', () => {
       const type = 123;
       const contents = getStatusContents(type);
-      expect(contents.title).to.equal('We don’t know your appeal status');
+      expect(contents.title).to.equal('We don’t know your status');
       expect(contents.description.props.children).to.eql([
         // React splits it up into separate nodes when variables are inserted
         'We’re sorry, ',

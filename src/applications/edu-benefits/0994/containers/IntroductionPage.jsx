@@ -19,6 +19,9 @@ export class IntroductionPage extends React.Component {
         </p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          verifyRequiredPrefill={
+            this.props.route.formConfig.verifyRequiredPrefill
+          }
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the VET TEC Application"

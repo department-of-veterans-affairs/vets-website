@@ -9,46 +9,42 @@ export const waiveRetirementPayDescription = (
       rate.
     </p>
     <p>
-      VA compensation pay isn’t taxable. Military retirement pay is taxable.
-      Dollar for dollar VA compensation pay is always the greater benefit.
+      VA compensation pay isn’t taxable. Military retirement pay is taxable. VA
+      compensation pay is always the greater benefit.
+    </p>
+    <p>
+      Below is an example showing that{' '}
+      <strong>
+        dollar for dollar VA compensation pay is always the greater benefit.
+      </strong>{' '}
+      Tax rates will vary depending on income.
     </p>
     <table>
       <thead>
         <tr>
-          <th>Compensation</th>
-          <th>Retirement</th>
-          <th>Take home pay</th>
+          <th />
+          <th>Monthly benefit</th>
+          <th>Take-home pay</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>
-            <del>$700/month</del>
-          </td>
-          <td>$700/month (minus taxes)</td>
-          <td>$630/month</td>
+          <td>Retirement</td>
+          <td>$700 (minus taxes)</td>
+          <td>$630</td>
         </tr>
         <tr>
           <td>
-            <strong>$700/month (tax-free)</strong>
+            <strong>Compensation</strong>
           </td>
           <td>
-            <strong>
-              <del>$700/month</del>
-            </strong>
+            <strong>$700 (tax-free)</strong>
           </td>
           <td>
-            <strong>$700/month</strong>
+            <strong>$700</strong>
           </td>
         </tr>
       </tbody>
     </table>
-    <p>
-      <em>
-        This is an example showing that dollar for dollar VA compensation pay
-        gives you more spending power than retirement pay. Tax rates will vary
-        depending on income.
-      </em>
-    </p>
   </div>
 );
