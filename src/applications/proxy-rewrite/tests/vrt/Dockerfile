@@ -18,18 +18,12 @@ RUN mkdir -p /application \
   && chmod +x /application \
   && chmod +x /application/node_modules
 
-RUN ls -a /usr/local/bin
-
 WORKDIR /application
 
 ADD . .
 
 RUN yarn install
 
-# RUN yarn run test:vrt
-
-RUN ls -a
-
-CMD ["wait"]
+ENTRYPOINT ["./vrt-entrypoint.sh"]
 
 # USER jenkins
