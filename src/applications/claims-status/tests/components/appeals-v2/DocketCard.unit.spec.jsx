@@ -9,6 +9,11 @@ describe('Appeals V2 DocketCard', () => {
     ahead: 109238,
     total: 283941,
   };
+  const amaProps = {
+    ahead: 109238,
+    total: 283941,
+    docket: 'directReview',
+  };
 
   it('should render', () => {
     const wrapper = shallow(<DocketCard {...defaultProps} />);
@@ -43,6 +48,18 @@ describe('Appeals V2 DocketCard', () => {
         .first()
         .prop('style').width,
     ).to.equal(`${computedWidth}%`);
+    wrapper.unmount();
+  });
+
+  it('should correctly label the AMA docket', () => {
+    const wrapper = shallow(<DocketCard {...amaProps} />);
+    expect(wrapper.text()).to.contain('the Direct Review docket');
+    wrapper.unmount();
+  });
+
+  it('should leave a legacy docket alone', () => {
+    const wrapper = shallow(<DocketCard {...defaultProps} />);
+    expect(wrapper.text()).to.contain('the  docket');
     wrapper.unmount();
   });
 });

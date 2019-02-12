@@ -13,4 +13,6 @@ module.exports = function registerFilters() {
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
+
+  liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
 };
