@@ -310,14 +310,30 @@ export const AddressViewField = ({ formData }) => {
 };
 
 /**
- *
- * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
- * @param {string} [title] Displayed as the card title in the card's header
- * @returns {object} UI schema for an address card's content
+ * Returns the path with any ':index' substituted with the actual index.
+ * @param {string} path - The path with or without ':index'
+ * @param {number} index - The index to put in the string
+ * @return {string}
  */
-export const addressUISchema = (addressPath, title) => {
-  const updateStates = form => {
-    const currentCity = _.get(`${addressPath}.city`, form, '')
+export const pathWithIndex = (path, index) => path.replace(':index', index);
+
+/**
+ * Returns the uiSchema for addresses that use the non-common address schema as found
+ *  in the 526EZ-all-claims schema.
+ * @param {string} addressPath - The path to the address in the formData
+ * @param {string} [title] - Displayed as the card title in the card's header
+ * @param {boolean} reviewCard - Whether to display the information in a ReviewCardField or not
+ * @returns {object} - UI schema for an address card's content
+ */
+export const addressUISchema = (addressPath, title, reviewCard) => {
+  const updateStates = (formData, currentSchema, uiSchema, index) => {
+    // Could use path (updateSchema callback param after index), but it points to `state`,
+    //  so using `addressPath` is easier
+    const currentCity = _.get(
+      `${pathWithIndex(addressPath, index)}.city`,
+      formData,
+      '',
+    )
       .trim()
       .toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
@@ -344,7 +360,7 @@ export const addressUISchema = (addressPath, title) => {
       'zipCode',
     ],
     'ui:title': title,
-    'ui:field': ReviewCardField,
+    'ui:field': reviewCard && ReviewCardField,
     'ui:options': {
       viewComponent: AddressViewField,
     },
@@ -374,6 +390,7 @@ export const addressUISchema = (addressPath, title) => {
       'ui:validations': [
         {
           options: { addressPath },
+          // pathWithIndex is called in validateMilitaryCity
           validator: validateMilitaryCity,
         },
       ],
@@ -383,16 +400,22 @@ export const addressUISchema = (addressPath, title) => {
     },
     state: {
       'ui:title': 'State',
-      'ui:required': formData =>
-        _.get(`${addressPath}.country`, formData, '') === USA,
+      'ui:required': (formData, index) =>
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+        USA,
       'ui:options': {
-        hideIf: formData =>
-          _.get(`${addressPath}.country`, formData, '') !== USA,
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
         updateSchema: updateStates,
       },
       'ui:validations': [
         {
           options: { addressPath },
+          // pathWithIndex is called in validateMilitaryState
           validator: validateMilitaryState,
         },
       ],
@@ -400,21 +423,27 @@ export const addressUISchema = (addressPath, title) => {
     zipCode: {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
-      'ui:required': formData =>
-        _.get(`${addressPath}.country`, formData, '') === USA,
+      'ui:required': (formData, index) =>
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+        USA,
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: formData =>
-          _.get(`${addressPath}.country`, formData, '') !== USA,
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
       },
     },
   };
 };
 
 /**
+ * DEPRECIATED
  * Creates uiSchema and schema for address widget based on params
  * @param {array} addressOmitions
  * @param {array} order
