@@ -41,8 +41,8 @@ export class IntroductionPage extends React.Component {
                 <li>Highest level of education</li>
                 <li>Previous high-tech industry experience, if applicable</li>
                 <li>
-                  (Optional) Information about the provider/program you want to
-                  attend
+                  (Optional) Information about the provider or training program
+                  you want to attend
                 </li>
               </ul>
               <p>
