@@ -33,7 +33,7 @@
   {% if entity.fieldCtaWidget %}
       <div class="cta-widget" data-app-id="{{ entity.fieldWidgetType }}"></div>
   {% else %}
-      <div id="{{ reactRoot }}" class="static-page-widget" widget-type={{ entity.fieldWidgetType }}>
+      <div id="{{ reactRoot }}" class="static-page-widget" data-widget-type={{ entity.fieldWidgetType }}>
         {% if entity.fieldDefaultLink != empty %}
           {% if entity.fieldButtonFormat %}
             {% assign classes = 'class="usa-button-primary va-button-primary"' %}
