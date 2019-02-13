@@ -18,6 +18,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = { error: props.location.query.auth === 'fail' };
   }
 
@@ -26,7 +27,15 @@ export class AuthApp extends React.Component {
   }
 
   handleAuthError = e => {
-    Raven.captureException(e);
+    const loginType = sessionStorage.getItem(authnSettings.PENDING_LOGIN_TYPE);
+
+    Raven.captureException(e, {
+      tags: {
+        loginType,
+      },
+    });
+
+    sessionStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
 
     recordEvent({
       event: `login-error-user-fetch`,

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
@@ -14,7 +13,6 @@ import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification
 import siteName from '../../../brand-consolidation/site-name';
 
 const loginHandler = loginType => () => {
-  Raven.setTagsContext({ loginType });
   recordEvent({ event: `login-attempted-${loginType}` });
   login(loginType);
 };
