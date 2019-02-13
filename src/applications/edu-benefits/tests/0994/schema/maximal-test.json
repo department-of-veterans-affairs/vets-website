@@ -1,7 +1,7 @@
 {
   "data": {
-    "view:prefillBankAccount": {
-      "bankAccountType": "Checking",
+    "prefillBankAccount": {
+      "bankAccountType": "checking",
       "bankAccountNumber": "*********1234",
       "bankRoutingNumber": "*****2115",
       "bankName": "Comerica"

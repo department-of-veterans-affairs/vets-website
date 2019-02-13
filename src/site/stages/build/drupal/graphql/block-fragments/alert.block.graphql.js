@@ -6,8 +6,8 @@ const FIELD_ALERT = `
 fieldAlert {
   entity {
     entityBundle
-  ... on BlockContentAlert {
-    ... alert
+    ... on BlockContentAlert {
+      ... alert
     }
   }
 }
