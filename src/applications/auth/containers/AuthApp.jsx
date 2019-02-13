@@ -18,7 +18,6 @@ import recordEvent from '../../../platform/monitoring/record-event';
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { error: props.location.query.auth === 'fail' };
   }
 
