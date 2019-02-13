@@ -15,4 +15,10 @@ module.exports = function registerFilters() {
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
+
+  liquid.filters.hashReference = str =>
+    str
+      .toLowerCase()
+      .split(' ')
+      .join('-');
 };

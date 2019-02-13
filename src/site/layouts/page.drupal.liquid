@@ -24,13 +24,21 @@
             {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
         {% endif %}
 
+        {% for block in fieldFeaturedContent %}
+            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+        {% endfor %}
+
         {% for block in fieldContentBlock %}
           {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
           {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
           {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
 
-        {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity  %}
+        {% if fieldRelatedLinks != empty %}
+            {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity %}
+        {%  endif %}
       </article>
 
       <div class="last-updated usa-content">
