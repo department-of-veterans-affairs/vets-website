@@ -62,6 +62,7 @@ export const uiSchema = {
   mailingAddress: addressUISchema(
     ADDRESS_TYPES.mailingAddress,
     'Mailing address',
+    true,
   ),
   'view:hasForwardingAddress': {
     'ui:title': 'My address will be changing soon.',
