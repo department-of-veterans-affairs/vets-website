@@ -1,31 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { srSubstitute } from '../utils';
+import { maskBankInformation } from '../utils';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',
   SAVINGS: 'Savings Account',
   NOBANK: 'No Bank Account',
-};
-
-const mask = (string, unmaskedLength) => {
-  // If no string is given, tell the screen reader users the account or routing number is blank
-  if (!string) {
-    return srSubstitute('', 'is blank');
-  }
-  const repeatCount =
-    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
-  const maskedString = srSubstitute(
-    `${'●'.repeat(repeatCount)}`,
-    'ending with',
-  );
-  return (
-    <span>
-      {maskedString}
-      {string.slice(-unmaskedLength)}
-    </span>
-  );
 };
 
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
@@ -56,8 +37,8 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
             {accountTitleLabels[(bankAccountType || '').toUpperCase()]}
           </strong>
         </p>
-        <p>Account number: {mask(bankAccountNumber, 4)}</p>
-        <p>Bank routing number: {mask(bankRoutingNumber, 4)}</p>
+        <p>Account number: {maskBankInformation(bankAccountNumber, 4)}</p>
+        <p>Bank routing number: {maskBankInformation(bankRoutingNumber, 4)}</p>
       </div>
     </div>
   );
