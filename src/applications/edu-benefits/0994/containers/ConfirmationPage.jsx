@@ -94,13 +94,20 @@ class ConfirmationPage extends React.Component {
           </ul>
         </div>
         {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
-          <div className="row form-progress-buttons">
-            <div className="small-6 usa-width-one-half medium-6 columns">
-              <a href={url1990}>
-                <button className="usa-button-primary">
-                  Continue to VA Form 22-1990
-                </button>
-              </a>
+          <div>
+            <p>
+              We’ll also need you to complete the Application for VA Education
+              Benefits (VA Form 22-1990) to determine your eligibility for VET
+              TEC. We recommend you do that now.
+            </p>
+            <div className="row form-progress-buttons">
+              <div className="small-6 usa-width-one-half medium-6 columns">
+                <a href={url1990}>
+                  <button className="usa-button-primary">
+                    Continue to VA Form 22-1990
+                  </button>
+                </a>
+              </div>
             </div>
           </div>
         )}
