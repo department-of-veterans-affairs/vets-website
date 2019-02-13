@@ -17,11 +17,6 @@ import {
 import ReviewCardField from './components/ReviewCardField';
 
 import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from '../../../platform/forms/definitions/address';
-
-import {
   DATA_PATHS,
   HOMELESSNESS_TYPES,
   MILITARY_CITIES,
@@ -442,113 +437,34 @@ export const addressUISchema = (addressPath, title, reviewCard) => {
   };
 };
 
+const ptsdAddressOmitions = [
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'postalCode',
+  'zipCode',
+];
+
 /**
- * DEPRECIATED
- * Creates uiSchema and schema for address widget based on params
- * @param {array} addressOmitions
- * @param {array} order
- * @param {object} fieldLabels
+ * @param {string} addressPath - The path to the address in the formData
  */
-export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
-  // Get the base schema
-  const addressSchemaConfig = addressSchema(fullSchema);
-  const addressUIConfig = omit(addressUI(' '), addressOmitions);
-
-  // Set up the object to return
-  const locationSchema = {
-    addressUI: {
-      ...addressUIConfig,
-      'ui:order': order,
-    },
-    addressSchema: {
-      ...addressSchemaConfig,
-      properties: {
-        ...omit(addressSchemaConfig.properties, addressOmitions),
-      },
-    },
-  };
-
-  // Add ui:titles
-  if (!addressOmitions.includes('country')) {
-    locationSchema.addressUI.country = {
-      'ui:title': fieldLabels.country,
-    };
-  }
-
-  if (!addressOmitions.includes('addressLine1')) {
-    locationSchema.addressUI.addressLine1 = {
-      'ui:title': fieldLabels.addressLine1,
-    };
-  }
-
-  if (!addressOmitions.includes('addressLine2')) {
-    locationSchema.addressUI.addressLine2 = {
-      'ui:title': fieldLabels.addressLine2,
-    };
-  }
-
-  if (!addressOmitions.includes('city')) {
-    locationSchema.addressUI.city = {
-      'ui:title': fieldLabels.city,
-    };
-  }
-
-  if (!addressOmitions.includes('state')) {
-    locationSchema.addressUI.state = {
-      'ui:title': fieldLabels.state,
-    };
-  }
-
-  // Add the zip code validation
-  if (!addressOmitions.includes('zipCode')) {
-    locationSchema.addressUI.zipCode = {
-      'ui:title': fieldLabels.zipCode,
-      'ui:validations': [validateZIP],
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
-      },
-    };
-  }
-
-  return locationSchema;
-}
-
-// Could be changed to use generateLocationSchemas
-export function incidentLocationSchemas() {
-  const addressOmitions = [
-    'addressLine1',
-    'addressLine2',
-    'addressLine3',
-    'postalCode',
-    'zipCode',
-  ];
-
-  const addressSchemaConfig = addressSchema(fullSchema);
-  const addressUIConfig = omit(addressUI(' '), addressOmitions);
-
+export function incidentLocationUISchema(addressPath) {
+  const addressUIConfig = omit(
+    addressUISchema(addressPath),
+    ptsdAddressOmitions,
+  );
   return {
-    addressUI: {
-      ...addressUIConfig,
-      state: {
-        ...addressUIConfig.state,
-        'ui:title': 'State/Province',
-      },
-      additionalDetails: {
-        'ui:title':
-          'Additional details (This could include an address, landmark, military installation, or other location.)',
-        'ui:widget': 'textarea',
-      },
-      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    ...addressUIConfig,
+    state: {
+      ...addressUIConfig.state,
+      'ui:title': 'State/Province',
     },
-    addressSchema: {
-      ...addressSchemaConfig,
-      properties: {
-        ...omit(addressSchemaConfig.properties, addressOmitions),
-        additionalDetails: {
-          type: 'string',
-        },
-      },
+    additionalDetails: {
+      'ui:title':
+        'Additional details (This could include an address, landmark, military installation, or other location.)',
+      'ui:widget': 'textarea',
     },
+    'ui:order': ['country', 'state', 'city', 'additionalDetails'],
   };
 }
 
