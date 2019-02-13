@@ -251,24 +251,4 @@ describe('Schemaform <FormStartControls>', () => {
       },
     ]);
   });
-
-  it('should not render a button when logged in with no saved form', () => {
-    const routerSpy = {
-      push: sinon.spy(),
-    };
-    const fetchSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <FormStartControls
-        formId="1010ez"
-        migrations={[]}
-        formSaved={false}
-        startPage={startPage}
-        router={routerSpy}
-        fetchInProgressForm={fetchSpy}
-        startMessageOnly
-      />,
-    );
-
-    expect(tree.everySubTree('.schemaform-start-button').length).to.equal(0);
-  });
 });
