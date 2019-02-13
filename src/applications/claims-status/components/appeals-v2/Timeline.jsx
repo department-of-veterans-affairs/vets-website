@@ -19,8 +19,11 @@ class Timeline extends React.Component {
       return '';
     }
     const first = formatDate(events[0].date);
+    if (events.length === 1) {
+      return first;
+    }
     const last = formatDate(events[events.length - 1].date);
-    return `${first} - ${last}`;
+    return `${first} – ${last}`;
   };
 
   toggleExpanded = e => {

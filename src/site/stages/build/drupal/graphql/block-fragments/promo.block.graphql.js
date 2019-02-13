@@ -13,6 +13,11 @@ const promo = `
             title
             width
             height
+            derivative(style: CROP_FREEFORM) {
+                url
+                width
+                height
+            }
           }
         }
       }
