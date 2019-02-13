@@ -34,6 +34,14 @@ module.exports = `
     title
     fieldIntroText
     fieldDescription
+    fieldFeaturedContent {
+      entity {
+        entityType
+        entityBundle
+        ${WYSIWYG}
+        ${QA_SECTION}        
+      }
+    }
     fieldContentBlock {
       entity {
         entityType

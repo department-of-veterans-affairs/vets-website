@@ -22,7 +22,7 @@ export const AdditionalResourcesLinks = () => (
     </p>
     <p>
       <a
-        href="https://www.benefits.va.gov/GIBILL/Feedback.asp"
+        href="/education/submit-school-feedback"
         target="_blank"
         rel="noopener noreferrer"
       >

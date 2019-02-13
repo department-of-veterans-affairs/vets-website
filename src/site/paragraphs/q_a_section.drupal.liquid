@@ -17,6 +17,10 @@
 {% if entity.fieldSectionIntro != empty %}
   <p>{{ entity.fieldSectionIntro }}</p>
 {% endif %}
-{% for question in entity.fieldQuestions %}
-  {% include "src/site/paragraphs/q_a.drupal.liquid" paragraph = question.entity sectionHeader = entity.fieldSectionHeader %}
-{% endfor %}
+{% if entity.fieldAccordionDisplay %}
+    {% include "src/site/paragraphs/q_a.collapsible_panel.drupal.liquid" questions = entity.fieldQuestions %}
+{% else %}
+    {% for question in entity.fieldQuestions %}
+      {% include "src/site/paragraphs/q_a.drupal.liquid" paragraph = question.entity sectionHeader = entity.fieldSectionHeader %}
+    {% endfor %}
+{%  endif %}

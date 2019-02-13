@@ -5,11 +5,24 @@
         "fieldVaParagraphs":[...]
     }
 {% endcomment %}
+{% if parentFieldName === "field_spokes" %}
+    {% assign header = "h2" %}
+    {% assign headerClass = "hub-page-link-list__title" %}
+    {% assign ulClass = "hub-page-link-list" %}
+{% else %}
+    {% assign header = "h3" %}
+    {% assign headerClass = "va-nav-linkslist-heading" %}
+    {% assign ulClass = "va-nav-linkslist-list" %}
+{% endif %}
 <section class="{{ listOfLinkTeasers.parentFieldName }}">
-    <h3 class="va-nav-linkslist-heading">{{ listOfLinkTeasers.fieldTitle }}</h3>
-    <ul class="va-nav-linkslist-list">
+    <{{ header }}
+        {% if listOfLinkTeasers.fieldTitle != empty %}id="{{ listOfLinkTeasers.fieldTitle | hashReference }}"{% endif %}
+        class="{{ headerClass }}">
+        {{ listOfLinkTeasers.fieldTitle }}
+    </{{ header }}>
+    <ul class="{{ ulClass }}">
         {% for linkTeaser in listOfLinkTeasers.fieldVaParagraphs %}
-            {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity %}
+            {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity parentFieldName = parentFieldName boldTitle = boldTitle %}
         {% endfor %}
     </ul>
 </section>
