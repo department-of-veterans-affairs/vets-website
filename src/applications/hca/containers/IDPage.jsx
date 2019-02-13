@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { focusElement } from 'platform/utilities/ui';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 
 import IDForm from '../components/IDForm';
 
@@ -16,10 +19,19 @@ class IDPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  render() {
+  componentDidUpdate(prevProps) {
+    // there's no need for logged-in users to see this page
+    if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
+      this.props.router.push('/');
+    }
+  }
+
+  getContent = () => {
+    if (this.props.isProfileLoading) {
+      return <LoadingIndicator />;
+    }
     return (
-      <div className="schemaform-intro">
-        <FormTitle title="Apply for health care benefits" />
+      <React.Fragment>
         <AlertBox
           isVisible
           status="info"
@@ -35,12 +47,16 @@ class IDPage extends React.Component {
               <p>
                 <strong>Want to skip this step?</strong>
               </p>
-              <button className="va-button-link" onClick={this.goToLogin}>
+              <button
+                className="va-button-link"
+                onClick={() => this.props.toggleLoginModal(true)}
+              >
                 Sign in to start your application.
               </button>
             </React.Fragment>
           }
         />
+        <br />
         <IDForm
           isLoading={this.props.isLoading}
           handleSubmit={this.props.submitForm}
@@ -65,6 +81,15 @@ class IDPage extends React.Component {
             }
           />
         )}
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    return (
+      <div className="schemaform-intro">
+        <FormTitle title="Apply for health care benefits" />
+        {this.getContent()}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
         </div>
@@ -75,11 +100,14 @@ class IDPage extends React.Component {
 
 const mapDispatchToProps = {
   submitForm: submitIDForm,
+  toggleLoginModal,
 };
 
 const mapStateToProps = state => ({
   isLoading: state.hcaIDForm.isLoading,
   error: state.hcaIDForm.error,
+  isProfileLoading: isProfileLoading(state),
+  isLoggedIn: isLoggedIn(state),
 });
 
 export default connect(
