@@ -32,7 +32,7 @@
 
         {% assign widgetDelta = 1 %}
         {% for block in fieldContentBlock %}
-          {% if 'react_widget' == block.entity.entityBundle and block.entity.fieldCtaWidget == false %}
+          {% if block.entity.entityBundle == 'react_widget' and block.entity.fieldCtaWidget == false %}
             {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
             {% assign block.entity.reactRoot = reactRoot %}
             {% assign widgetDelta = widgetDelta | plus: 1 %}
@@ -55,5 +55,5 @@
   </div>
 
 </main>
-{% include "src/site/includes/footer.html" with with widgets = fieldContentBlock | paragraphsToWidgets %}
+{% include "src/site/includes/footer.html" with widgets = fieldContentBlock | paragraphsToWidgets %}
 {% include "src/site/includes/debug.drupal.liquid" %}
