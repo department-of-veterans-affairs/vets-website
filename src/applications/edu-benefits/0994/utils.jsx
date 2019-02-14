@@ -7,7 +7,7 @@ import React from 'react';
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => (
+export const srSubstitute = (srIgnored, substitutionText) => (
   <span>
     <span aria-hidden>{srIgnored}</span>
     <span className="sr-only">{substitutionText}</span>
