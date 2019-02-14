@@ -53,8 +53,9 @@ export const phoneEmailViewField = ({ formData }) => {
 export const contactInfoNote = () => (
   <span>
     <strong>Note: </strong>
-    Changes you make to your contact information on this page will be updated
-    throughout your VA records.
+    Changes you make to the information on this page will update your contact
+    information for all benefits you receive from VA, including Compensation,
+    Pension and Education.
   </span>
 );
 

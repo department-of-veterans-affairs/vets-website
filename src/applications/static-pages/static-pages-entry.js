@@ -89,13 +89,17 @@ if (pensionPages.has(location.pathname)) {
   });
 }
 
-if (healthcarePages.has(location.pathname)) {
+if (
+  healthcarePages.has(location.pathname) ||
+  document.querySelector('[data-widget-type="health-care-app-status"]') !== null
+) {
   createApplicationStatus(store, {
     formId: '1010ez',
     applyHeading: 'How do I apply?',
     additionalText: 'You can apply online right now.',
     applyLink: '/health-care/how-to-apply/',
     applyText: 'Apply for Health Care Benefits',
+    widgetType: 'health-care-app-status',
   });
 }
 
