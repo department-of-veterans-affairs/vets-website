@@ -12,6 +12,8 @@ const WYSIWYG = '...wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
 const PROCESS = '... process';
 const QA_SECTION = '... qaSection';
+const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
+const REACT_WIDGET = '... reactWidget';
 
 module.exports = `
 
@@ -49,7 +51,9 @@ module.exports = `
         ${WYSIWYG}
         ${COLLAPSIBLE_PANEL}
         ${PROCESS}
-        ${QA_SECTION}        
+        ${QA_SECTION}
+        ${LIST_OF_LINK_TEASERS}
+        ${REACT_WIDGET} 
       }
     }
     ${FIELD_ALERT} 
