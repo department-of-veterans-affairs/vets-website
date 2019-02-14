@@ -12,7 +12,7 @@ export const ROWS_PER_PAGE = 10;
 export const APPEAL_ACTIONS = {
   original: 'original',
   postRemand: 'post_remand',
-  postCavcRemand: 'post_cavc_remand',
+  postCavcRemand: 'cavc_remand',
   reconsideration: 'reconsideration',
   cue: 'cue',
 };
