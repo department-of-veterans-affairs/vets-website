@@ -47,8 +47,8 @@ export default function convertCountryCode(savedData) {
         newData = _.set(path, match.label, newData);
       }
     } else if (!earliestReturnUrl) {
-      // If we can't match, clear the country and set the returnUrl to the earliest page
-      newData = _.set(path, '', newData);
+      // If we can't match, default to USA and set the returnUrl to the earliest page
+      newData = _.set(path, 'USA', newData);
       earliestReturnUrl = returnUrl;
     }
   });
