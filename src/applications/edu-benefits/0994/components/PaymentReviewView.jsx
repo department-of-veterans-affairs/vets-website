@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { maskBankInformation } from '../utils';
 
-class PaymentReviewView extends React.Component {
+export class PaymentReviewView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
