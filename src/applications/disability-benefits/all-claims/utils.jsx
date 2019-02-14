@@ -318,9 +318,15 @@ export const pathWithIndex = (path, index) => path.replace(':index', index);
  * @param {string} addressPath - The path to the address in the formData
  * @param {string} [title] - Displayed as the card title in the card's header
  * @param {boolean} reviewCard - Whether to display the information in a ReviewCardField or not
+ * @param {boolean} fieldsAreRequired - Whether the typical fields should be required or not
  * @returns {object} - UI schema for an address card's content
  */
-export const addressUISchema = (addressPath, title, reviewCard) => {
+export const addressUISchema = (
+  addressPath,
+  title,
+  reviewCard,
+  fieldsAreRequired = true,
+) => {
   const updateStates = (formData, currentSchema, uiSchema, index) => {
     // Could use path (updateSchema callback param after index), but it points to `state`,
     //  so using `addressPath` is easier
@@ -396,10 +402,12 @@ export const addressUISchema = (addressPath, title, reviewCard) => {
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
+        fieldsAreRequired &&
         _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
-        USA,
+          USA,
       'ui:options': {
         hideIf: (formData, index) =>
+          fieldsAreRequired &&
           _.get(
             `${pathWithIndex(addressPath, index)}.country`,
             formData,
@@ -419,8 +427,9 @@ export const addressUISchema = (addressPath, title, reviewCard) => {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
       'ui:required': (formData, index) =>
+        fieldsAreRequired &&
         _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
-        USA,
+          USA,
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
       },
@@ -450,7 +459,7 @@ const ptsdAddressOmitions = [
  */
 export function incidentLocationUISchema(addressPath) {
   const addressUIConfig = omit(
-    addressUISchema(addressPath),
+    addressUISchema(addressPath, null, false, false),
     ptsdAddressOmitions,
   );
   return {
