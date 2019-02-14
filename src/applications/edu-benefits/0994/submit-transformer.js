@@ -1,16 +1,30 @@
-import _ from '../../../platform/utilities/data';
+import _ from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function transform(formConfig, form) {
   const usFormTransform = () =>
     JSON.parse(transformForSubmit(formConfig, form));
 
-  const removePrefillBankAccount = formData => {
-    const clonedData = _.cloneDeep(formData);
+  const prefillTransforms = formData => {
+    let clonedData = _.cloneDeep(formData);
+
     delete clonedData.bankAccountType;
     delete clonedData.bankAccountNumber;
     delete clonedData.bankRoutingNumber;
     delete clonedData.bankName;
+
+    const prefillBankAccount = _.get(clonedData, 'prefillBankAccount', {});
+    const { bankAccountType } = prefillBankAccount;
+    if (bankAccountType && bankAccountType.length > 0) {
+      clonedData = {
+        ...clonedData,
+        prefillBankAccount: {
+          ...prefillBankAccount,
+          bankAccountType: bankAccountType.toLowerCase(),
+        },
+      };
+    }
+
     return clonedData;
   };
 
@@ -84,7 +98,7 @@ export function transform(formConfig, form) {
   };
   const tranformedData = [
     usFormTransform,
-    removePrefillBankAccount,
+    prefillTransforms,
     addPhoneAndEmail,
     transformHighTechnologyEmploymentType,
     transformProgramSelection,
