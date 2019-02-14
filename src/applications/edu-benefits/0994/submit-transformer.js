@@ -67,11 +67,41 @@ export function transform(formConfig, form) {
     return formData;
   };
 
+  const transformProgramSelection = formData => {
+    if (formData.vetTecPrograms) {
+      const clonedData = _.cloneDeep(formData);
+      const vetTecPrograms = clonedData.vetTecPrograms.map(program => {
+        let location = undefined;
+
+        if (program.locationCity && program.locationState) {
+          location = {
+            city: program.locationCity,
+            state: program.locationState,
+          };
+        }
+
+        return {
+          providerName: program.providerName,
+          programName: program.programName,
+          courseType: program.courseType,
+          plannedStartDate: program.plannedStartDate,
+          location,
+        };
+      });
+
+      return {
+        ...clonedData,
+        vetTecPrograms,
+      };
+    }
+    return formData;
+  };
   const tranformedData = [
     usFormTransform,
     prefillTransforms,
     addPhoneAndEmail,
     transformHighTechnologyEmploymentType,
+    transformProgramSelection,
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
   return JSON.stringify({
