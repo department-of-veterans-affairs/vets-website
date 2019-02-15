@@ -24,7 +24,7 @@ import {
   addressUISchema,
 } from '../utils';
 
-import { ADDRESS_TYPES } from '../constants';
+import { ADDRESS_PATHS } from '../constants';
 
 const {
   mailingAddress,
@@ -60,7 +60,7 @@ export const uiSchema = {
     },
   },
   mailingAddress: addressUISchema(
-    ADDRESS_TYPES.mailingAddress,
+    ADDRESS_PATHS.mailingAddress,
     'Mailing address',
     true,
   ),
@@ -68,7 +68,7 @@ export const uiSchema = {
     'ui:title': 'My address will be changing soon.',
   },
   forwardingAddress: merge(
-    addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
+    addressUISchema(ADDRESS_PATHS.forwardingAddress, 'Forwarding address'),
     {
       'ui:field': ReviewCardField,
       'ui:subtitle': forwardingAddressDescription,
