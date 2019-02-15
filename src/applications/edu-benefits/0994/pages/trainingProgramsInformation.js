@@ -15,9 +15,10 @@ const {
 const getCourseType = (formData, index) =>
   _.get(formData, `vetTecPrograms[${index}].courseType`, '');
 
+const checkLocation = field => field === 'inPerson' || field === 'both';
+
 const showLocation = (formData, index) =>
-  getCourseType(formData, index) === 'inPerson' ||
-  getCourseType(formData, index) === 'both';
+  checkLocation(getCourseType(formData, index));
 
 export const uiSchema = {
   'ui:description': trainingDescription,
@@ -45,22 +46,34 @@ export const uiSchema = {
           },
         },
       },
-      location: {
+      'view:location': {
+        'ui:title': ' ',
         'ui:description': 'Where will you take this training?',
         'ui:options': {
-          expandUnderCondition: field =>
-            field === 'inPerson' || field === 'both',
+          expandUnder: 'courseType',
+          expandUnderCondition: checkLocation,
         },
-        city: {
-          'ui:title': 'City',
-          'ui:required': (formData, index) => showLocation(formData, index),
-          'ui:errorMessages': {
-            pattern: 'Please fill in a valid city',
-          },
+      },
+      locationCity: {
+        'ui:title': 'City',
+        'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:errorMessages': {
+          pattern: 'Please fill in a valid city',
         },
-        state: {
-          'ui:title': 'State',
-          'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:options': {
+          expandUnder: 'courseType',
+          expandUnderCondition: checkLocation,
+        },
+      },
+      locationState: {
+        'ui:title': 'State',
+        'ui:errorMessages': {
+          pattern: 'Please select a valid state',
+        },
+        'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:options': {
+          expandUnder: 'courseType',
+          expandUnderCondition: checkLocation,
         },
       },
       plannedStartDate: dateUI('What is your estimated start date?'),
@@ -81,8 +94,17 @@ export const schema = {
           providerName,
           programName,
           courseType,
-          location: {
-            ...location,
+          'view:location': {
+            type: 'object',
+            properties: {},
+            'ui:collapsed': true,
+          },
+          locationCity: {
+            ...location.properties.city,
+            'ui:collapsed': true,
+          },
+          locationState: {
+            ...location.properties.state,
             'ui:collapsed': true,
           },
           plannedStartDate,

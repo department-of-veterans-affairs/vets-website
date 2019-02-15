@@ -24,13 +24,28 @@
             {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
         {% endif %}
 
-        {% for block in fieldContentBlock %}
+        {% for block in fieldFeaturedContent %}
           {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
           {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
           {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
 
-        {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity  %}
+        {% assign widgetDelta = 1 %}
+        {% for block in fieldContentBlock %}
+          {% if block.entity.entityBundle == 'react_widget' and block.entity.fieldCtaWidget == false %}
+            {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
+            {% assign block.entity.reactRoot = reactRoot %}
+            {% assign widgetDelta = widgetDelta | plus: 1 %}
+          {% endif %}
+
+          {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+          {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+        {% endfor %}
+
+        {% if fieldRelatedLinks != empty %}
+            {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity %}
+        {%  endif %}
       </article>
 
       <div class="last-updated usa-content">
@@ -40,5 +55,5 @@
   </div>
 
 </main>
-{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/footer.html" with widgets = fieldContentBlock | paragraphsToWidgets %}
 {% include "src/site/includes/debug.drupal.liquid" %}

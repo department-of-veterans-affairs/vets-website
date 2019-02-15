@@ -25,9 +25,10 @@ export class VerifyApp extends React.Component {
   }
   componentDidMount() {
     if (!hasSession()) {
-      return window.location.replace('/');
+      window.location.replace('/');
+    } else {
+      recordEvent({ event: 'verify-prompt-displayed' });
     }
-    return recordEvent({ event: 'verify-prompt-displayed' });
   }
 
   componentDidUpdate(prevProps) {

@@ -11,6 +11,7 @@ const packageJSON = require('../package.json');
 const exceptionSet = new Set([
   'https://npmjs.com/advisories/577',
   'https://npmjs.com/advisories/157',
+  'https://npmjs.com/advisories/782',
 ]);
 
 const severitySet = new Set(['high', 'critical', 'moderate']);

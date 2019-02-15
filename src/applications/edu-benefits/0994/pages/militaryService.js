@@ -17,7 +17,7 @@ export const uiSchema = {
   },
   activeDutyDuringVetTec: {
     'ui:title':
-      'Do you anticipate you will go on active duty during the VET TEC program?',
+      'Do you anticipate you’ll be called to active duty during the VET TEC program?',
     'ui:widget': 'yesNo',
   },
   'view:benefitNotice': {

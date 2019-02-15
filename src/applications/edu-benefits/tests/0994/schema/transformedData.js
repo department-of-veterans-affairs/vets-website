@@ -24,6 +24,12 @@ export const transformedMinimalData = JSON.stringify({
 });
 
 const transformedMaximalDataActual = {
+  prefillBankAccount: {
+    bankAccountType: 'checking',
+    bankAccountNumber: '*********1234',
+    bankRoutingNumber: '*****2115',
+    bankName: 'Comerica',
+  },
   bankAccount: {
     accountType: 'checking',
     routingNumber: '021000021',
@@ -51,6 +57,12 @@ const transformedMaximalDataActual = {
         city: 'Nowhere',
         state: 'SC',
       },
+    },
+    {
+      providerName: 'Amazon Web Services',
+      programName: 'AWS Media Services',
+      courseType: 'online',
+      plannedStartDate: '2010-01-02',
     },
   ],
   currentHighTechnologyEmployment: false,
