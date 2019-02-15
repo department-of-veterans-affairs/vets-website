@@ -151,18 +151,6 @@ span.sidelines {
     border-color: $color-gray-lighter;
   }
 
-  @include media-maxwidth($small-screen) {
-    .hide-for-small {
-      display: none;
-    }
-  }
-
-  @include media($small-screen) {
-    .hide-for-medium-up {
-      display: none;
-    }
-  }
-
   .mobile-explanation {
     padding: 1em 0;
 

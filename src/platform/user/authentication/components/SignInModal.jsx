@@ -48,7 +48,7 @@ class SignInModal extends React.Component {
             <h1>Sign in to {siteName}</h1>
           </div>
         </div>
-        <div className="row hide-for-medium-up mobile-explanation">
+        <div className="row xsmall-screen:vads-u-display--block small-screen:vads-u-display--none mobile-explanation">
           <div className="columns small-12">
             <h2>
               One site. A lifetime of benefits and services at your fingertips.
@@ -140,7 +140,7 @@ class SignInModal extends React.Component {
           </div>
           <div className="columns usa-width-one-half medium-6">
             <div className="explanation-content">
-              <div className="hide-for-small usa-font-lead">
+              <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
                 One site. A lifetime of benefits and services at your
                 fingertips.
               </div>
