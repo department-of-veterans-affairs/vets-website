@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../../0994/containers/ConfirmationPage';
+import { EducationGate } from '../../../0994/containers/EducationGate';
 
 const form = {
   submission: {
@@ -20,7 +20,7 @@ const form = {
 
 describe('Edu 0994 <ConfirmationPage>', () => {
   it('should render', () => {
-    const tree = shallow(<ConfirmationPage form={form} />);
+    const tree = shallow(<EducationGate form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
       'Claim received',
