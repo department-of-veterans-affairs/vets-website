@@ -31,7 +31,7 @@
 {% endcomment %}
 
   {% if entity.fieldCtaWidget %}
-      <div class="cta-widget" data-app-id="{{ entity.fieldWidgetType }}"></div>
+      <div class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
   {% else %}
       <div id="{{ reactRoot }}" class="static-page-widget" data-widget-type={{ entity.fieldWidgetType }}>
         {% if entity.fieldDefaultLink != empty %}
