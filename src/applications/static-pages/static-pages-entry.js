@@ -66,7 +66,7 @@ createApplicationStatus(store, {
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyText: 'Apply for Burial Benefits',
-  widgetType: widgetTypes.BURIAL_APP_STATUS,
+  widgetType: widgetTypes.BURIALS_APP_STATUS,
 });
 
 createDisabilityIncreaseApplicationStatus(
