@@ -37,80 +37,42 @@ Raven.context(
 
 createAdditionalInfoWidget();
 
-if (
-  document.querySelector(
-    `[data-widget-type="${widgetTypes.PENSION_APP_STATUS}"]`,
-  )
-) {
-  createApplicationStatus(store, {
-    formId: '21P-527EZ',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyLink: '/pension/how-to-apply/',
-    applyText: 'Apply for Veterans Pension Benefits',
-    widgetType: widgetTypes.PENSION_APP_STATUS,
-  });
-}
+createApplicationStatus(store, {
+  formId: '21P-527EZ',
+  applyHeading: 'How do I apply?',
+  additionalText: 'You can apply online right now.',
+  applyLink: '/pension/how-to-apply/',
+  applyText: 'Apply for Veterans Pension Benefits',
+  widgetType: widgetTypes.PENSION_APP_STATUS,
+});
 
-if (
-  document.querySelector(
-    `[data-widget-type="${widgetTypes.HEALTH_CARE_APP_STATUS}"]`,
-  )
-) {
-  createApplicationStatus(store, {
-    formId: '1010ez',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyLink: '/health-care/how-to-apply/',
-    applyText: 'Apply for Health Care Benefits',
-    widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
-  });
-}
+createApplicationStatus(store, {
+  formId: '1010ez',
+  applyHeading: 'How do I apply?',
+  additionalText: 'You can apply online right now.',
+  applyLink: '/health-care/how-to-apply/',
+  applyText: 'Apply for Health Care Benefits',
+  widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
+});
 
-if (document.querySelector(`[data-widget-type="${widgetTypes.CTA}"]`)) {
-  createCallToActionWidget(store, widgetTypes.CTA);
-}
+createCallToActionWidget(store, widgetTypes.CTA);
 
-if (
-  document.querySelector(
-    `[data-widget-type="${widgetTypes.EDUCATION_APP_STATUS}"]`,
-  )
-) {
-  createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
-}
+createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 
-if (
-  document.querySelector(
-    `[data-widget-type="${widgetTypes.OPT_OUT_APP_STATUS}"]`,
-  )
-) {
-  createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
-}
+createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 
-if (
-  document.querySelector(
-    `[data-widget-type="${widgetTypes.BURIAL_APP_STATUS}"]`,
-  )
-) {
-  createApplicationStatus(store, {
-    formId: '21P-530',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyText: 'Apply for Burial Benefits',
-    widgetType: widgetTypes.BURIAL_APP_STATUS,
-  });
-}
+createApplicationStatus(store, {
+  formId: '21P-530',
+  applyHeading: 'How do I apply?',
+  additionalText: 'You can apply online right now.',
+  applyText: 'Apply for Burial Benefits',
+  widgetType: widgetTypes.BURIAL_APP_STATUS,
+});
 
-if (
-  document.querySelector(
-    `[data-widget-type="${widgetTypes.DISABILITY_APP_STATUS}"]`,
-  )
-) {
-  createDisabilityIncreaseApplicationStatus(
-    store,
-    widgetTypes.DISABILITY_APP_STATUS,
-  );
-}
+createDisabilityIncreaseApplicationStatus(
+  store,
+  widgetTypes.DISABILITY_APP_STATUS,
+);
 
 // homepage widgets
 if (location.pathname === '/') {
