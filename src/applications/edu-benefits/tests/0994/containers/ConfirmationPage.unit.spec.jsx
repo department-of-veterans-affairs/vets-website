@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 
 import { ConfirmationPage } from '../../../0994/containers/ConfirmationPage';
 
@@ -20,7 +20,7 @@ const form = {
 
 describe('Edu 0994 <ConfirmationPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
+    const tree = shallow(<ConfirmationPage form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
       'Claim received',
@@ -40,5 +40,7 @@ describe('Edu 0994 <ConfirmationPage>', () => {
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
     ).to.contain('Find out what happens after you apply.');
+
+    tree.unmount();
   });
 });

@@ -24,4 +24,13 @@ describe('0994 utils', () => {
       maskedBankInfo.unmount();
     });
   });
+  describe('maskBankInformation string is blank', () => {
+    it('should mask all but last 4 characters', () => {
+      const maskedBankInfo = shallow(maskBankInformation(undefined, 4));
+
+      expect(maskedBankInfo.text()).to.contain('is blank');
+
+      maskedBankInfo.unmount();
+    });
+  });
 });
