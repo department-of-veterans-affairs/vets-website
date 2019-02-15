@@ -37,6 +37,9 @@ export const uiSchema = {
         },
         address: addressUISchema(
           'unemployability.appliedEmployers[:index].address',
+          null,
+          false,
+          false,
         ),
         workType: {
           'ui:title': 'Type of work',

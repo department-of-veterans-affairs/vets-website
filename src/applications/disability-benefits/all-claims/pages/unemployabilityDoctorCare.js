@@ -32,6 +32,9 @@ export const uiSchema = {
         },
         address: addressUISchema(
           'unemployability.doctorProvidedCare[:index].address',
+          null,
+          false,
+          false,
         ),
         dates: {
           'ui:title': ' ',
