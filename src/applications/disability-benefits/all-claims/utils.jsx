@@ -407,7 +407,6 @@ export const addressUISchema = (
           USA,
       'ui:options': {
         hideIf: (formData, index) =>
-          fieldsAreRequired &&
           _.get(
             `${pathWithIndex(addressPath, index)}.country`,
             formData,
