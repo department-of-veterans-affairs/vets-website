@@ -94,8 +94,8 @@ export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 export const USA = 'USA';
 
 export const ADDRESS_PATHS = {
-  mailingAddress: 'veteran.mailingAddress',
-  forwardingAddress: 'veteran.forwardingAddress',
+  mailingAddress: 'mailingAddress',
+  forwardingAddress: 'forwardingAddress',
 };
 
 export const HOMELESSNESS_TYPES = {

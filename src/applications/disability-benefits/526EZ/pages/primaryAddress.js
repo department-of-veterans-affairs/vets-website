@@ -15,7 +15,7 @@ import {
   contactInfoUpdateHelp,
   phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
-import { ADDRESS_PATHS, USA } from '../../all-claims/constants';
+import { USA } from '../../all-claims/constants';
 import { addressUISchema } from '../../all-claims/utils';
 
 const hasForwardingAddress = formData =>
@@ -58,7 +58,7 @@ export const uiSchema = {
       },
     },
     mailingAddress: addressUISchema(
-      ADDRESS_PATHS.mailingAddress,
+      'veteran.mailingAddress',
       'Mailing address',
       true,
     ),
@@ -67,7 +67,7 @@ export const uiSchema = {
         'I want to provide a forwarding address since my address will be changing soon.',
     },
     forwardingAddress: _.merge(
-      addressUISchema(ADDRESS_PATHS.forwardingAddress, 'Forwarding address'),
+      addressUISchema('veteran.forwardingAddress', 'Forwarding address'),
       {
         'ui:order': [
           'effectiveDate',
