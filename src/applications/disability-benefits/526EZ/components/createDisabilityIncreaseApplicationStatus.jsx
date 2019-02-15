@@ -4,8 +4,11 @@ import { Provider } from 'react-redux';
 
 const disabilityForms = new Set(['21-526EZ']);
 
-export default function createDisabilityIncreaseApplicationStatus(store) {
-  const root = document.getElementById('react-applicationStatus');
+export default function createDisabilityIncreaseApplicationStatus(
+  store,
+  widgetType,
+) {
+  const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "disability-application-status" */
     '../disabilityIncreaseEntry').then(module => {
