@@ -14,8 +14,39 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
 import { isValidDate } from 'platform/forms/validations';
+import { isInMVI } from 'platform/user/selectors';
 
 import facilityLocator from '../facility-locator/manifest';
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newData = formData;
+
+  if (isInMVI(state) || state.hcaIDForm.isUserInMVI) {
+    newData = { ...newData, 'view:isUserInMVI': true };
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+  };
+}
+
+export function transformAttachments(data) {
+  if (!data.attachments || !(data.attachments instanceof Array)) {
+    return data;
+  }
+  const transformedAttachments = data.attachments.map(attachment => {
+    const { name, size, confirmationCode, attachmentId } = attachment;
+    return {
+      name,
+      size,
+      confirmationCode,
+      dd214: attachmentId === '1',
+    };
+  });
+  return { ...data, attachments: transformedAttachments };
+}
 
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
@@ -34,6 +65,11 @@ export function transform(formConfig, form) {
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
     withoutViewFields = _.set('dependents', [], withoutViewFields);
+  }
+
+  // convert `attachmentId` values to a `dd214` boolean
+  if (withoutViewFields.attachments) {
+    withoutViewFields = transformAttachments(withoutViewFields);
   }
 
   const formData =

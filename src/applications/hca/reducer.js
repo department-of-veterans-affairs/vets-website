@@ -7,7 +7,7 @@ import {
 } from './actions';
 
 const initialState = {
-  hasOptionalDD214Upload: false,
+  isUserInMVI: false,
   isSubmitting: false,
   errors: null,
   enrollmentStatus: null,
@@ -20,14 +20,17 @@ function hcaIDForm(state = initialState, action) {
 
     case SUBMIT_ID_FORM_SUCCEEDED: {
       const { parsedStatus: enrollmentStatus } = action.data;
-      return { ...state, isSubmitting: false, enrollmentStatus };
+      return {
+        ...state,
+        isSubmitting: false,
+        isUserInMVI: true,
+        enrollmentStatus,
+      };
     }
 
     case SUBMIT_ID_FORM_FAILED: {
       const { errors } = action;
-      const hasOptionalDD214Upload =
-        errors && errors.some(error => error.code === '404');
-      return { ...state, errors, hasOptionalDD214Upload, isSubmitting: false };
+      return { ...state, errors, isSubmitting: false };
     }
 
     default:
