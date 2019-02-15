@@ -203,6 +203,10 @@ label {
 
 .schemaform-array-row {
   outline: none;
+  h5:focus {
+    @include focus-gold-light-outline;
+    display: inline-block;
+  }
 }
 
 .schemaform-block-header {
