@@ -3,43 +3,57 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { EducationGate } from '../../../0994/containers/EducationGate';
+import backendServices from '../../../../../platform/user/profile/constants/backendServices';
 
-const form = {
-  submission: {
-    response: {
-      attributes: {},
-    },
+const user = {
+  login: {
+    currentlyLoggedIn: true,
   },
-  data: {
-    applicantFullName: {
-      first: 'Jane',
-      last: 'Doe',
-    },
+  profile: {
+    services: [backendServices.EDUCATION_BENEFITS],
   },
 };
 
-describe('Edu 0994 <ConfirmationPage>', () => {
-  it('should render', () => {
-    const tree = shallow(<EducationGate form={form} />);
+const location = {
+  pathname: '/notIntroduction',
+};
 
-    expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      'Claim received',
+describe('Edu 0994 <ConfirmationPage>', () => {
+  it('should render RequiredLoginView', () => {
+    const tree = shallow(<EducationGate user={user} location={location} />);
+
+    expect(tree.text()).to.contain('RequiredLoginView');
+
+    tree.unmount();
+  });
+
+  it('should render AlertBox', () => {
+    const missingInfoUser = {
+      ...user,
+      profile: {
+        ...user.profile,
+        services: [],
+      },
+    };
+    const tree = shallow(
+      <EducationGate user={missingInfoUser} location={location} />,
     );
-    expect(
-      tree
-        .everySubTree('span')[1]
-        .text()
-        .trim(),
-    ).to.equal('for Jane Doe');
-    expect(tree.everySubTree('p')[0].text()).to.contain(
-      'We usually process claims within 30 days.',
+
+    expect(tree.text()).to.contain('AlertBox');
+
+    tree.unmount();
+  });
+
+  it('should render Children', () => {
+    const introLocation = {
+      pathname: '/introduction',
+    };
+    const tree = shallow(
+      <EducationGate user={user} location={introLocation} />,
     );
-    expect(tree.everySubTree('p')[1].text()).to.contain(
-      'We may contact you for more information or documents.Please print this page for your records',
-    );
-    expect(
-      tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply.');
+
+    expect(tree.text()).to.not.contain('AlertBox');
+    expect(tree.text()).to.not.contain('RequiredLoginView');
 
     tree.unmount();
   });
