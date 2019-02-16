@@ -1,5 +1,5 @@
 /**
- * A Drupal paragraph containing rich text.
+ * The 'Spanish summary' bundle of the 'Paragraph' entity type.
  *
  */
 module.exports = `
