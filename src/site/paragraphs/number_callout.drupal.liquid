@@ -1,0 +1,18 @@
+{% comment %}
+  Example data:
+    "entity": {
+        "entityBundle": "number_callout",
+        "entityId": "938",
+        "fieldShortPhraseWithANumber": "Less than 1 week",
+        "fieldWysiwyg": {
+            "processed": "..."
+        }
+    }
+{% endcomment %}
+
+<div itemprop="itemListElement">
+    <div class="card information" markdown="0">
+        <span class="number">{{ entity.fieldShortPhraseWithANumber }}</span>
+        <span class="description">{{ entity.fieldWysiwyg.processed }}</span>
+    </div>
+</div>
