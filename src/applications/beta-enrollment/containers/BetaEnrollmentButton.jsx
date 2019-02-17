@@ -13,6 +13,10 @@ class BetaEnrollmentButton extends React.Component {
     buttonText: PropTypes.string,
   };
 
+  static defaultProps = {
+    buttonText: 'Turn On Beta Tools',
+  };
+
   constructor(props) {
     // Using state instead of props for error handling, because there isn't a place to store errors
     // in the Redux user/profile store, and I chose not to clutter that up with something that is unlikely to be used.
@@ -71,7 +75,7 @@ class BetaEnrollmentButton extends React.Component {
       );
     }
 
-    let buttonText = this.props.buttonText || 'Turn On Beta Tools';
+    let buttonText = this.props.buttonText;
 
     if (this.props.user.profile.loading) buttonText = 'Loading Profile...';
     else if (this.state.isEnrolling) buttonText = 'Turning On Beta Tools';
