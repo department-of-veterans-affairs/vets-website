@@ -11,10 +11,7 @@ export default function AllClaimsBetaBanner({ dismiss }) {
   return (
     <div className="personalization-announcement">
       <span className="usa-label va-label-primary">New</span>{' '}
-      <a
-        onClick={dismiss}
-        href="/disability-benefits/apply/form-526-all-claims/"
-      >
+      <a onClick={dismiss} href="/beta-enrollment/all-claims/">
         Check out our new tool for filing a claim for disability compensation
         online.
       </a>
