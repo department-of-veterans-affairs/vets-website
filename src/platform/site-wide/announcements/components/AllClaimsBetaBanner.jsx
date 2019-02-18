@@ -1,12 +1,16 @@
 import React from 'react';
+import environment from '../../../utilities/environment';
 
 export default function AllClaimsBetaBanner({ dismiss }) {
+  // staging only. Remove before launch
+  if (environment.isProduction()) return null;
+
   // only allow a small percentage of users to see the banner
   // if user was selected, persist in localStorage
-  if (!localStorage.getItem('all-claims-beta')) {
-    if (Math.random() > 0.01) return null;
-    localStorage.setItem('all-claims-beta', true);
-  }
+  // if (!localStorage.getItem('all-claims-beta')) {
+  //   if (Math.random() > 0.02) return null;
+  //   localStorage.setItem('all-claims-beta', true);
+  // }
 
   return (
     <div className="personalization-announcement">
