@@ -134,7 +134,9 @@ function downloadDrupalAssets(options) {
 
       await Promise.all(downloads);
       log(`Downloaded ${downloadCount} asset(s) from Drupal`);
-      log(`${errorCount} error(s) downloading assets`);
+      if (errorCount) {
+        log(`${errorCount} error(s) downloading assets from Drupal`);
+      }
     }
 
     done();
