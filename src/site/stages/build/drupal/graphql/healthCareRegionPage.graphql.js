@@ -21,13 +21,28 @@ module.exports = `
     entityBundle
     entityPublished
     title
+    fieldMedia {
+      entity {
+        ... on MediaImage {
+            image {
+              alt
+              title
+              derivative(style: CROP_7_2) {
+                  url
+                  width
+                  height
+              }
+            }
+          }
+      }
+    }
     fieldIntroText
 	  fieldRelatedLinks {
       entity {
       	... listOfLinkTeasers
       }
     }
-    localFacilities: reverseFieldRegionPageNode(filter: {
+    mainLocalFacilities: reverseFieldRegionPageNode(filter: {
       conditions: [
         { field: "type", value: "health_care_local_facility"}
         { field: "field_main_location", value: "1"}
@@ -41,11 +56,11 @@ module.exports = `
         }
       }
     }
-    newsStories: reverseFieldOfficeNode(filter: {
+    newsStoryTeasers: reverseFieldOfficeNode(filter: {
       conditions: [
         { field: "type", value: "news_story"}
         { field: "status", value: "1"}
-      ]}, limit: 2) 
+      ]} sort: {field: "changed", direction: DESC } limit: 2)
       {
       entities {
         ... on NodeNewsStory {
@@ -57,7 +72,7 @@ module.exports = `
                 image {
                   alt
                   title
-                  derivative(style: CROP_2_1) {
+                  derivative(style: CROP_3_2) {
                       url
                       width
                       height
@@ -71,6 +86,29 @@ module.exports = `
           }
         }
       }
+    }
+    eventTeasers: reverseFieldOfficeNode (filter: {
+      conditions: [
+        { field: "type", value: "event"}
+        { field: "status", value: "1"}
+        { field: "field_event_date", value: "2018-02-18", operator: GREATER_THAN}
+      ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
+      {
+        entities {
+          ... on NodeEvent {
+            title
+            fieldEventDate {
+              value
+            }
+            fieldEventDateEnd {
+              value
+            }
+            fieldDescription
+          }
+          entityUrl {
+            path
+          }
+        }      
     }
   }
 `;
