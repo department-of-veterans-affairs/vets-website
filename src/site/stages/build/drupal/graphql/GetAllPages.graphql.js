@@ -1,5 +1,6 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
+const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const fragments = require('./fragments.graphql');
 /**
  * Queries for all of the pages out of Drupal
@@ -10,14 +11,18 @@ module.exports = `
   ${fragments}
   ${landingPage}
   ${page}
+  ${healthCareRegionPage}
 
   query GetAllPages {
     nodeQuery(limit: 500) {
       entities {
         ... landingPage
         ... page
+        ... healthCareRegionPage
       }
     }
   }
 
 `;
+
+console.log(module.exports);

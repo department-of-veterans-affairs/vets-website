@@ -35,4 +35,7 @@ module.exports = function registerFilters() {
         loadingMessage: paragraph.entity.fieldLoadingMessage,
         errorMessage: paragraph.entity.errorMessage,
       }));
+
+  liquid.filters.facilityIds = facilities =>
+    facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
 };

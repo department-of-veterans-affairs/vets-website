@@ -19,6 +19,7 @@ import './sass/static-pages.scss';
 
 // New sidebar menu
 import './sidebar-navigation.js';
+import createFacilityListWidget from './facilities/facilityList';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -73,6 +74,8 @@ createDisabilityIncreaseApplicationStatus(
   store,
   widgetTypes.DISABILITY_APP_STATUS,
 );
+
+createFacilityListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {

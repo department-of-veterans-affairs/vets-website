@@ -77,6 +77,21 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       // the drupal prefix
       private: true,
     };
+
+    // Create the top-level locations page for Health Care Regions
+    if (page.entityBundle === 'health_care_region_page') {
+      console.log(page);
+
+      files[`drupal${drupalPagePath}/locations/index.html`] = {
+        ...page,
+        layout: `health_care_region_locations_page.drupal.liquid`,
+        contents: Buffer.from('<!-- Drupal-provided data -->'),
+        debug: JSON.stringify(page, null, 4),
+        // Keep these pages out of the sitemap until we remove
+        // the drupal prefix
+        private: true,
+      };
+    }
   }
 
   writeDrupalIndexPage(files);
