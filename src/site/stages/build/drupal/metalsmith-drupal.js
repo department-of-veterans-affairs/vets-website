@@ -17,7 +17,7 @@ const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.LOCALHOST,
   ENVIRONMENTS.VAGOVDEV,
   ENVIRONMENTS.VAGOVSTAGING,
-]);
+]);git
 
 const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 
@@ -63,6 +63,39 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     page,
     'health_care_region_locations_page.drupal.liquid',
   );
+
+  const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
+
+  // Create the detail page for healthcare local facilities
+  if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
+    for (const facility of page.mainFacilities.entities) {
+      if (facility.entityBundle === 'health_care_local_facility') {
+        const facilityCompiled = Object.assign(facility, relatedLinks);
+        files[
+          `drupal${drupalPagePath}/locations/${
+            facility.fieldFacilityLocatorApiId
+          }/index.html`
+        ] = createFileObj(
+          facilityCompiled,
+          'health_care_local_facility_page.drupal.liquid',
+        );
+      }
+    }
+
+    for (const facility of page.otherFacilities.entities) {
+      if (facility.entityBundle === 'health_care_local_facility') {
+        const facilityCompiled = Object.assign(facility, relatedLinks);
+        files[
+          `drupal${drupalPagePath}/locations/${
+            facility.fieldFacilityLocatorApiId
+          }/index.html`
+        ] = createFileObj(
+          facilityCompiled,
+          'health_care_local_facility_page.drupal.liquid',
+        );
+      }
+    }
+  }
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

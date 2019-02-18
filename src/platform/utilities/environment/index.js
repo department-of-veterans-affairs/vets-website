@@ -35,7 +35,7 @@ const ENVIRONMENT_CONFIGURATIONS = {
     BASE_URL: `http://${location.hostname}${
       location.port ? `:${location.port}` : ''
     }`,
-    API_URL: `http://${location.hostname}:3000`,
+    API_URL: 'https://dev-api.va.gov',
   },
 };
 
