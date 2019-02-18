@@ -8,6 +8,7 @@ const FACILITIES_RESULTS = `
       entityUrl {
         path
       }
+      entityId
       entityBundle
       title
       changed
@@ -38,10 +39,12 @@ const FACILITIES_RESULTS = `
                   width
                   height
               }
+              entityBundle
+              entityId
             }
           }
         }
-      }        
+      }
     }
   }
 `;
