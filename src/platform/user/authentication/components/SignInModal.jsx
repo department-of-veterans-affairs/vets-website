@@ -228,7 +228,6 @@ class SignInModal extends React.Component {
         focusSelector="button"
         onClose={this.props.onClose}
         id="signin-signup-modal"
-        title={`Sign in to ${siteName}`}
       >
         {this.renderModalContent()}
       </Modal>

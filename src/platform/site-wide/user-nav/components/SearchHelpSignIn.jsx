@@ -14,7 +14,7 @@ class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
     recordEvent({ event: 'login-link-clicked-header' });
-    this.props.toggleLoginModal(true);
+    this.props.onSignInSignUp();
   };
 
   handleMenuClick = menu => () => {
@@ -106,13 +106,13 @@ SearchHelpSignIn.propTypes = {
   isLoggedIn: PropTypes.bool,
   isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
   isProfileLoading: PropTypes.bool.isRequired,
+  onSignInSignUp: PropTypes.func.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+  userEmail: PropTypes.string,
   userGreeting: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
-  userEmail: PropTypes.string,
-  toggleLoginModal: PropTypes.func.isRequired,
-  toggleMenu: PropTypes.func.isRequired,
 };
 
 export default SearchHelpSignIn;

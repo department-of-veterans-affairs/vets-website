@@ -5,13 +5,17 @@ import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../../monitoring/record-event';
 
+import { isInProgress } from '../../../forms/helpers';
+import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
+import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
 import SignInModal from '../../../user/authentication/components/SignInModal';
-import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
 import { initializeProfile } from '../../../user/profile/actions';
 import { hasSession } from '../../../user/profile/utilities';
+import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
 
 import {
+  toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from '../../../site-wide/user-nav/actions';
@@ -94,8 +98,7 @@ export class Main extends React.Component {
     const triggers = Array.from(
       document.querySelectorAll('.signin-signup-modal-trigger'),
     );
-    const openLoginModal = () => this.props.toggleLoginModal(true);
-    triggers.forEach(t => t.addEventListener('click', openLoginModal));
+    triggers.forEach(t => t.addEventListener('click', this.openLoginModal));
   };
 
   bindNavbarLinks = () => {
@@ -118,9 +121,32 @@ export class Main extends React.Component {
     });
   };
 
-  handleCloseModal = () => {
+  closeFormSignInModal = () => {
+    this.props.toggleFormSignInModal(false);
+  };
+
+  closeLoginModal = () => {
     this.props.toggleLoginModal(false);
     recordEvent({ event: 'login-modal-closed' });
+  };
+
+  openLoginModal = () => {
+    this.props.toggleLoginModal(true);
+  };
+
+  signInSignUp = () => {
+    const { formAutoSavedStatus } = this.props;
+
+    const shouldConfirmLeavingForm =
+      typeof formAutoSavedStatus !== 'undefined' &&
+      formAutoSavedStatus !== SAVE_STATUSES.success &&
+      isInProgress(window.location.pathname);
+
+    if (shouldConfirmLeavingForm) {
+      this.props.toggleFormSignInModal(true);
+    } else {
+      this.openLoginModal();
+    }
   };
 
   render() {
@@ -131,13 +157,17 @@ export class Main extends React.Component {
           isLoggedIn={this.props.currentlyLoggedIn}
           isMenuOpen={this.props.utilitiesMenuIsOpen}
           isProfileLoading={this.props.isProfileLoading}
+          onSignInSignUp={this.signInSignUp}
           userGreeting={this.props.userGreeting}
-          userGreetingMobile={this.props.userGreetingMobile}
-          toggleLoginModal={this.props.toggleLoginModal}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
         />
+        <FormSignInModal
+          onClose={this.closeFormSignInModal}
+          onSignIn={this.openLoginModal}
+          visible={this.props.showFormSignInModal}
+        />
         <SignInModal
-          onClose={this.handleCloseModal}
+          onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
       </div>
@@ -147,6 +177,7 @@ export class Main extends React.Component {
 
 const mapStateToProps = state => ({
   currentlyLoggedIn: isLoggedIn(state),
+  formAutoSavedStatus: state.form && state.form.autoSavedStatus,
   isProfileLoading: isProfileLoading(state),
   isLOA3: isLOA3(state),
   userGreeting: selectUserGreeting(state),
@@ -154,6 +185,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
