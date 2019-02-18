@@ -8,14 +8,12 @@ const {
   address,
 } = fullSchema.properties.form0781.properties.incidents.items.properties.sources.items.properties;
 
-delete address.required;
-
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': ptsdLocationDescription,
   [`secondaryIncident${index}`]: {
     incidentLocation: incidentLocationUISchema(
-      `incident${index}.incidentLocation`,
+      `secondaryIncident${index}.incidentLocation`,
     ),
   },
 });
