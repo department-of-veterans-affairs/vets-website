@@ -2,7 +2,6 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
-
 /**
  * A standard content page, that is ordinarily two-levels deep (a child page of a landingPage)
  * For example, /health-care/apply.
@@ -18,14 +17,6 @@ const SIDEBAR_ITEM = '... sidebarItem';
 
 module.exports = `
 
-  ${wysiwyg}
-  ${collapsiblePanel}
-  ${process}
-  ${qaSection}
-  ${alert}
-  ${listOfLinkTeasers}
-  ${sidebarItem}
-  
   fragment page on NodePage {
     entityUrl {
       ... on EntityCanonicalUrl {
