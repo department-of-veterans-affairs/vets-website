@@ -2,7 +2,6 @@ import React from 'react';
 
 import RoutedSavableApp from '../../../platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
-import environment from '../../../platform/utilities/environment';
 import BetaApp from '../../beta-enrollment/containers/BetaApp';
 import { features } from '../../beta-enrollment/routes';
 
@@ -20,16 +19,13 @@ export default function Form526Entry({ location, children }) {
     </EVSSClaimsGate>
   );
 
-  if (!environment.isProduction()) {
-    return (
-      <BetaApp
-        featureName={features.dashboard}
-        redirect="/disability/how-to-file-claim/"
-      >
-        {content}
-      </BetaApp>
-    );
-  }
-
-  return content;
+  // wraps the app and redirects user if they are not enrolled
+  return (
+    <BetaApp
+      featureName={features.dashboard}
+      redirect="/disability/how-to-file-claim/"
+    >
+      {content}
+    </BetaApp>
+  );
 }
