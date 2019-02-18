@@ -7,13 +7,14 @@ const {
  * For example, /health-care/apply.
  */
 
-const WYSIWYG = '...wysiwyg';
+const WYSIWYG = '... wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
 const PROCESS = '... process';
 const QA_SECTION = '... qaSection';
 const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const SIDEBAR_ITEM = '... sidebarItem';
+const SPANISH_SUMMARY = '... spanishSummary';
 
 module.exports = `
 
@@ -54,6 +55,7 @@ module.exports = `
         ${QA_SECTION}
         ${LIST_OF_LINK_TEASERS}
         ${REACT_WIDGET} 
+        ${SPANISH_SUMMARY}
       }
     }
     ${FIELD_ALERT} 

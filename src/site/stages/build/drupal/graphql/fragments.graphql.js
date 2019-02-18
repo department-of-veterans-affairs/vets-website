@@ -12,6 +12,7 @@ const linkTeaser = require('./paragraph-fragments/linkTeaser.paragraph.graphql')
 const administration = require('./taxonomy-fragments/administration.taxonomy.graphql');
 const reactWidget = require('./paragraph-fragments/reactWidget.paragraph.graphql');
 const sidebarItem = require('./nav-fragments/sidebarItem.nav.graphql');
+const spanishSummary = require('./paragraph-fragments/spanishSummary.paragraph.graphql');
 
 module.exports = `
   ${alert}
@@ -26,4 +27,5 @@ module.exports = `
   ${administration}
   ${reactWidget}
   ${sidebarItem}
+  ${spanishSummary}
 `;
