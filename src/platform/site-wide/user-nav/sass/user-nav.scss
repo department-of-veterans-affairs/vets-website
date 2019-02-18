@@ -32,12 +32,7 @@ span.sidelines {
   }
 }
 
-#login-root {
-  .profile-nav {
-    display: flex;
-    align-items: center;
-  }
-
+#signin-signup-modal {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
@@ -51,6 +46,13 @@ span.sidelines {
   .va-modal-inner {
     max-width: 62.5em;
     width: 95vw;
+  }
+}
+
+#login-root {
+  .profile-nav {
+    display: flex;
+    align-items: center;
   }
 
   .login {
