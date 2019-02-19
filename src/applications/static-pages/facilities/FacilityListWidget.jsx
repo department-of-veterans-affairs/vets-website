@@ -71,9 +71,12 @@ export default class FacilityListWidget extends React.Component {
         address = `${lat},${long}`;
       }
       return (
-        <div key={facility.id} className="usa-grid va-nav-linkslist--related">
+        <div
+          key={facility.id}
+          className="usa-grid vads-u-background-color--gray-lightest vads-u-margin-bottom--2p5 vads-u-padding-y--1p5"
+        >
           <section className="usa-width-one-half">
-            <h3>
+            <h3 className="vads-u-margin-bottom--2p5">
               <a
                 href={facility.attributes.website}
                 target="_blank"
@@ -82,7 +85,7 @@ export default class FacilityListWidget extends React.Component {
                 {facility.attributes.name}
               </a>
             </h3>
-            <address>
+            <address className="vads-u-margin-bottom--1p5">
               <div>{facility.attributes.address.physical.address1}</div>
               <div>
                 {facility.attributes.address.physical.city},{' '}
@@ -90,26 +93,23 @@ export default class FacilityListWidget extends React.Component {
                 {facility.attributes.address.physical.zip}
               </div>
             </address>
-            <div className="directions">
+            <div className="vads-u-margin-bottom--1p5">
               <a
                 href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i className="fa fa-road" />
                 Directions
               </a>
             </div>
-            <div className="facility-phone-numbers">
+            <div className="vads-u-margin-bottom--1p5">
               <div className="main-phone">
-                <i className="fa fa-phone" />
                 <strong>Main phone: </strong>
                 <a href={`tel:${facility.attributes.phone.main}`}>
                   {facility.attributes.phone.main}
                 </a>
               </div>
               <div className="mental-health-clinic-phone">
-                <i className="fa fa-phone" />
                 <strong>Mental health clinic: </strong>
                 <a href={`tel:${facility.attributes.phone.mentalHealthClinic}`}>
                   {facility.attributes.phone.mentalHealthClinic}

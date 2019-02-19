@@ -1,7 +1,8 @@
 {% include "src/site/includes/header.html" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
-<main>
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
         <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
         <div class="usa-width-three-fourths">
@@ -23,9 +24,6 @@
                     <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | facilityIds }}"></div>
                     <h2 id="other-locations">Other locations</h2>
                     <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | facilityIds }}"></div>
-
-                    <!--<div class="cta-widget" data-widget-type="facility-location-detail" data-app-id="{{ entity.fieldWidgetType }}"></div>
-                    <div class="cta-widget" data-widget-type="facility-locations-landing-list" data-app-id="{{ entity.fieldWidgetType }}"></div>-->
                 </section>
             </article>
             <div class="last-updated usa-content">
@@ -33,6 +31,7 @@
             </div>
         </div>
     </div>
-</main>
+  </main>
+</div>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
