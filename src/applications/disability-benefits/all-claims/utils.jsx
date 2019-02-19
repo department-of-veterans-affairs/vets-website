@@ -734,7 +734,7 @@ export const hasNewDisabilities = formData =>
  */
 export const urls = {
   v1: '/disability-benefits/apply/form-526-disability-claim',
-  v2: '/disability-benefits/apply/form-526-all-claims',
+  v2: '/disability/file-disability-claim-form-21-526ez',
 };
 
 /**
