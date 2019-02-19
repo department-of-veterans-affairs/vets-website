@@ -14,7 +14,10 @@
     {% include "src/site/components/navigation-sidebar.html" %}
 
     <div class="usa-width-three-fourths">
-      {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+      {% if hidesidenav === empty %}
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+      {% endif %}  
+      
       <article class="usa-content">
         <h1>{{ heading }}</h1>
         {{ contents }}
