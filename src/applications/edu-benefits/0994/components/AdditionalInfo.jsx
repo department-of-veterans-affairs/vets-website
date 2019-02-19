@@ -30,8 +30,8 @@ export default class AdditionalInfo extends React.Component {
       <button
         type="button"
         className="additional-info-button va-button-link"
-        // aria-expanded={this.state.open ? 'true' : 'false'}
-        // aria-controls={this.expandedContentId}
+        aria-expanded={this.state.open ? 'true' : 'false'}
+        aria-controls={this.expandedContentId}
         onClick={this.toggle}
       >
         <span className="additional-info-title">
