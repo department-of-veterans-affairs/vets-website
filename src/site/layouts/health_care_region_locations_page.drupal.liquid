@@ -19,21 +19,13 @@
                     {{ fieldLocationsIntroBlurb.processed }}
                 </div>
                 <section class="locations">
-                    <section class="main-locations">
-                        <h2>Main locations</h2>
+                    <h2 id="main-locations">Main locations</h2>
+                    <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | facilityIds }}"></div>
+                    <h2 id="other-locations">Other locations</h2>
+                    <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | facilityIds }}"></div>
 
-                            <div class="cta-widget" data-widget-type="facility-locations-list" data-main-facilities="{{ mainFacilities.entities | facilityIds }}" data-other-facilities="{{ otherFacilities.entities | facilityIds }}"></div>
-
-
-
-
-                            <div class="cta-widget" data-widget-type="facility-location-detail" data-app-id="{{ entity.fieldWidgetType }}"></div>
-                            <div class="cta-widget" data-widget-type="facility-locations-landing-list" data-app-id="{{ entity.fieldWidgetType }}"></div>
-                            <div id="location-{{ facility.fieldFacilityLocatorApiId }}" class="location">
-                                <h3>{{ facility.fieldNicknameForThisFacility }}</h3>
-
-                            </div>
-                    </section>
+                    <!--<div class="cta-widget" data-widget-type="facility-location-detail" data-app-id="{{ entity.fieldWidgetType }}"></div>
+                    <div class="cta-widget" data-widget-type="facility-locations-landing-list" data-app-id="{{ entity.fieldWidgetType }}"></div>-->
                 </section>
             </article>
             <div class="last-updated usa-content">
