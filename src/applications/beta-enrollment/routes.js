@@ -20,7 +20,7 @@ const routes = {
       path: 'all-claims',
       component: createBetaEnrollmentButton(
         features.allClaims,
-        '/disability-benefits/apply/form-526-all-claims',
+        '/disability/file-disability-claim-form-21-526ez/',
         'Get Started with the Beta Tool',
       ),
     },
