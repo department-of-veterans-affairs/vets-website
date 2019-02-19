@@ -643,3 +643,8 @@ img[data-srcset] {
     border-top: 1rem solid $color-primary-alt-dark;
   }
 }
+
+.process-accordion > li {
+  list-style: none !important;
+}
+
