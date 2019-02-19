@@ -1,11 +1,18 @@
+const join = require('path').join;
+
 const testForm = require('../../../../platform/testing/e2e/form-tester');
+const getTestDataSets = require('../../../../platform/testing/e2e/form-tester/util')
+  .getTestDataSets;
 const PageHelpers = require('./disability-benefits-helpers');
 
-// TODO: Replace this with all the test data sets
-const testData = require('./schema/maximal-test.json');
+const testData = getTestDataSets(join(__dirname, 'schema'), {
+  extension: 'json',
+  ignore: ['minimal-ptsd-form-upload-test.json'],
+  // only: ['minimal-test.json'],
+});
 
 const testConfig = {
-  debug: true,
+  // debug: true,
   setup: userToken => {
     PageHelpers.initInProgressMock(userToken);
     PageHelpers.initDocumentUploadMock();
@@ -38,5 +45,5 @@ const testConfig = {
 };
 
 describe('526 all-claims e2e tests', async () => {
-  testForm({ 'maximal-test.json': testData }, testConfig);
+  testForm(testData, testConfig);
 });
