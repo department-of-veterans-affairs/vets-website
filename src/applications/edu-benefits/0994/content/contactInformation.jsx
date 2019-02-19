@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const contactInfoNote = () => (
+export const contactInfoNote = (
   <span>
     <strong>Note: </strong>
     Changes you make to the information on this page will update your contact
