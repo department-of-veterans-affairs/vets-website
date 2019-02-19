@@ -247,7 +247,9 @@ function mapStateToProps(state) {
   return {
     form,
     user,
-    signedUpForV2Beta: createIsServiceAvailableSelector(features.allClaims),
+    signedUpForV2Beta: createIsServiceAvailableSelector(features.allClaims)(
+      state,
+    ),
   };
 }
 
