@@ -1,7 +1,6 @@
 // Builds the site using Metalsmith as the top-level build runner.
 const Metalsmith = require('metalsmith');
 const collections = require('metalsmith-collections');
-const dateInFilename = require('metalsmith-date-in-filename');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
@@ -41,7 +40,6 @@ function createPipeline(options) {
   smith.use(applyFragments(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
-  smith.use(dateInFilename(true));
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
