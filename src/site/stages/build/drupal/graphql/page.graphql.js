@@ -41,7 +41,7 @@ module.exports = `
       entity {
         entityType
         entityBundle
-        ${WYSIWYG}
+        ${WYSIWYG}      
         ${QA}        
       }
     }

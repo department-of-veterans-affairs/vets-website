@@ -28,13 +28,9 @@
         {% if featureCount > 0 %}
         <div class="feature">
         {% for block in fieldFeaturedContent %}
-          {% if block.entity.entityBundle == "q_a" %}
-            {% include "src/site/paragraphs/q_a.drupal.liquid" with paragraph = block.entity %}
-          {% else %}
-            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
-            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
-          {% endif %}
+          {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+          {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
         </div>
         {% endif %}

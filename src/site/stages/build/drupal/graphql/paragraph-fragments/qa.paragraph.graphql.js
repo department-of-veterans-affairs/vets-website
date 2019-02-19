@@ -14,6 +14,7 @@ module.exports = `
         ... wysiwyg
         ... process
         ... collapsiblePanel
+        ... numberCallout
       }
     }
   }
