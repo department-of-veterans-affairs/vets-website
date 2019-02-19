@@ -22,7 +22,7 @@ export default function Form526Entry({ location, children }) {
   // wraps the app and redirects user if they are not enrolled
   return (
     <BetaApp
-      featureName={features.dashboard}
+      featureName={features.allClaims}
       redirect="/disability/how-to-file-claim/"
     >
       {content}
