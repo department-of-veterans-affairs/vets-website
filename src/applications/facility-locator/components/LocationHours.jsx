@@ -1,5 +1,6 @@
 import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
+import Raven from 'raven-js';
 
 /**
  * VA Facility Known Operational Hours
@@ -68,12 +69,22 @@ export default class LocationHours extends Component {
       if (hours[k] === '-') {
         mappedHours[k] = 'Closed';
       } else if (hours[k]) {
-        const regex = /(\d+\w\w)-(\d+\w\w)/;
+        const regex = /(([1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|1[01][0-9]{2}|12[0-4][0-9]|125[0-9])+\w\w)-(([1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|1[01][0-9]{2}|12[0-4][0-9]|125[0-9])+\w\w)/;
         const found = hours[k].match(regex);
+
         if (found) {
           mappedHours[k] = `${this.colonizeTime(found[1])}-${this.colonizeTime(
-            found[2],
+            found[3],
           )}`;
+        } else {
+          Raven.captureException('API data malformed', {
+            data: this.props.location,
+            errorData: {
+              hours: { [k]: hours[k] },
+            },
+          });
+
+          mappedHours[k] = '';
         }
       }
     });
