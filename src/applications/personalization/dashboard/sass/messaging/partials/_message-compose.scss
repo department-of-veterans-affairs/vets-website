@@ -322,7 +322,7 @@ button.msg-btn-save {
 }
 
 .msg-attachment-close {
-  color: $color-va-modal-close;
+  color: rgba($color-base, .8);
   background: transparent;
   font-size: 1.25em;
   margin: 0;
