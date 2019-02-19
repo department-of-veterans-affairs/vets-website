@@ -22,7 +22,7 @@ export const uiSchema = index => ({
           'ui:title': 'Name of official or authority',
         },
         address: addressUISchema(
-          `secondaryIncident${index}.sources.items.address`,
+          `secondaryIncident${index}.sources[:index]address`,
           null,
           false,
           false,
