@@ -61,6 +61,7 @@ app.get('/preview', async (req, res) => {
     [`${req.path.substring(1)}/index.html`]: {
       ...drupalPage,
       isPreview: true,
+      isDrupalPage: true,
       drupalSite: drupalClient.getSiteUri(),
       layout: `${drupalPage.entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
