@@ -8,29 +8,38 @@ const {
   sources,
 } = fullSchema.properties.form0781.properties.incidents.items.properties;
 
-export const uiSchema = index => ({
-  'ui:title': ptsd781aNameTitle,
-  'ui:description': PtsdAssaultAuthoritiesDescription,
-  [`secondaryIncident${index}`]: {
-    sources: {
-      'ui:options': {
-        itemName: 'Authority',
-        viewField: AuthorityField,
-      },
-      items: {
-        name: {
-          'ui:title': 'Name of official or authority',
+export const uiSchema = index => {
+  const addressUI = addressUISchema(
+    `secondaryIncident${index}.sources[:index]address`,
+    null,
+    false,
+    false,
+  );
+  // Remove addressLine3 from the ui:order so it doesn't throw an error because it's not in the schema
+  addressUI['ui:order'].splice(
+    addressUI['ui:order'].indexOf('addressLine3'),
+    1,
+  );
+
+  return {
+    'ui:title': ptsd781aNameTitle,
+    'ui:description': PtsdAssaultAuthoritiesDescription,
+    [`secondaryIncident${index}`]: {
+      sources: {
+        'ui:options': {
+          itemName: 'Authority',
+          viewField: AuthorityField,
         },
-        address: addressUISchema(
-          `secondaryIncident${index}.sources[:index]address`,
-          null,
-          false,
-          false,
-        ),
+        items: {
+          name: {
+            'ui:title': 'Name of official or authority',
+          },
+          address: addressUI,
+        },
       },
     },
-  },
-});
+  };
+};
 
 export const schema = index => ({
   type: 'object',
