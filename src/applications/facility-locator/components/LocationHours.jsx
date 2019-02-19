@@ -9,10 +9,6 @@ export default class LocationHours extends Component {
   colonizeTime(time) {
     const found = time.match(/(\d?\d)(\d\d)(\w\w)/);
 
-    if (!found) {
-      return '0:00AM';
-    }
-
     return `${found[1]}:${found[2]}${found[3]}`;
   }
 
