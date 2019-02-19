@@ -5,8 +5,8 @@ import { ptsdLocationDescription } from '../content/incidentLocation';
 import { incidentLocationUISchema } from '../utils';
 
 const {
-  address,
-} = fullSchema.properties.form0781.properties.incidents.items.properties.sources.items.properties;
+  incidentLocation,
+} = fullSchema.properties.form0781.properties.incidents.items.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
@@ -24,7 +24,7 @@ export const schema = index => ({
     [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
-        incidentLocation: address,
+        incidentLocation,
       },
     },
   },
