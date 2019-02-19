@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '../components/AdditionalInfo';
 
 export const bankInfoTitle = <h4>Bank Information</h4>;
 
