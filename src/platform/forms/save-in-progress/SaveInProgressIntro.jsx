@@ -252,6 +252,10 @@ class SaveInProgressIntro extends React.Component {
       return null;
     }
 
+    if (this.props.startMessageOnly && !savedForm) {
+      return <div>{this.getAlert(savedForm)}</div>;
+    }
+
     const content = (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
@@ -318,6 +322,7 @@ SaveInProgressIntro.propTypes = {
   unverifiedPrefillAlert: PropTypes.element,
   downtime: PropTypes.object,
   gaStartEventName: PropTypes.string,
+  startMessageOnly: PropTypes.bool,
 };
 
 SaveInProgressIntro.defaultProps = {

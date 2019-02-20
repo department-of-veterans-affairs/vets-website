@@ -3,10 +3,10 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from '../../components/ReviewCardField';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+import { AddressViewField } from '../components/AddressViewField';
+import { PhoneEmailViewField } from '../components/PhoneEmailViewField';
 
 import {
-  phoneEmailViewField,
-  AddressViewField,
   contactInfoNote,
   contactInfoDescription,
 } from '../content/contactInformation';
@@ -45,7 +45,7 @@ export const uiSchema = {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
     'ui:options': {
-      viewComponent: phoneEmailViewField,
+      viewComponent: PhoneEmailViewField,
     },
     dayTimePhone: {
       'ui:title': 'Phone number',
