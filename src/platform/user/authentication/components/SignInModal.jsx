@@ -138,7 +138,7 @@ class SignInModal extends React.Component {
               </div>
             </div>
           </div>
-          <div className="columns usa-width-one-half medium-6">
+          <div className="usa-width-one-half">
             <div className="explanation-content">
               <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
                 One site. A lifetime of benefits and services at your
