@@ -779,8 +779,10 @@ export const directToCorrectForm = ({
 
 /**
  * Pushes an event to the Analytics dataLayer if the event doesn't already
- * exist there.
- * @param {object} event this will get pushed to `dataLayer`
+ * exist there. If the event contains a `key` property whose value matches an
+ * existing item in the dataLayer with the same key/value pair, the whole event
+ * and all of its properties will be skipped.
+ * @param {object} event this will get pushed to `dataLayer`.
  * @param {string} key the property in the event object to use when looking for
  *                     existing matches in the dataLayer
  */
