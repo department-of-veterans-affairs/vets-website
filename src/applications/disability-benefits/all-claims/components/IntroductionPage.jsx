@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="File for disability compensation" />
+        <FormTitle title="File for disability compensation (Beta)" />
         <p>
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).

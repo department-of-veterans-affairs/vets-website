@@ -624,7 +624,7 @@ export const hasNewDisabilities = formData =>
  * @readonly
  * @enum {String}
  */
-const urls = {
+export const urls = {
   v1: '/disability-benefits/apply/form-526-disability-claim',
   v2: '/disability-benefits/apply/form-526-all-claims',
 };
