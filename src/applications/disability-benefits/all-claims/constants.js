@@ -245,22 +245,22 @@ export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
   disabilityLabels,
 ).map(v => v.toLowerCase());
 
+export const HELP_TEXT_CLICKED_EVENT = 'help-text-label';
+
 export const ANALYTICS_EVENTS = {
   openedPrivateRecordsAcknowledgment: {
     event: 'form-help-text-clicked',
-    'help-text-label':
+    [HELP_TEXT_CLICKED_EVENT]:
       'Disability - Form 4142 - Private Medical Records: Read the full text',
   },
   openedPrivateChoiceHelp: {
     event: 'form-help-text-clicked',
-    'help-text-label':
+    [HELP_TEXT_CLICKED_EVENT]:
       'Disability - Form 4142 - Private Medical Records: Which should I choose',
   },
   openedLimitedConsentHelp: {
     event: 'form-help-text-clicked',
-    'help-text-label':
+    [HELP_TEXT_CLICKED_EVENT]:
       'Disability - Form 4142 - Private Medical Records Release: What does this mean',
   },
 };
-
-export const EVENT_COMPARISON_KEY = 'help-text-label';

@@ -1,6 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { ANALYTICS_EVENTS, EVENT_COMPARISON_KEY } from '../constants';
+import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 import { recordEventOnce } from '../utils';
 
 const {
@@ -13,7 +13,7 @@ export const privateRecordsChoiceHelp = (
     <AdditionalInfo
       triggerText="Which should I choose?"
       onClick={() =>
-        recordEventOnce(openedPrivateChoiceHelp, EVENT_COMPARISON_KEY)
+        recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
       }
     >
       <h4>You upload your medical records</h4>
@@ -41,7 +41,7 @@ export const patientAcknowledgmentText = (
       onClick={() =>
         recordEventOnce(
           openedPrivateRecordsAcknowledgment,
-          EVENT_COMPARISON_KEY,
+          HELP_TEXT_CLICKED_EVENT,
         )
       }
     >
