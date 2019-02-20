@@ -14,8 +14,18 @@ export const bankInfoNote = (
   </p>
 );
 
+const gaBankInfoHelpText = () => {
+  window.dataLayer.push({
+    event: 'form-help-text-clicked',
+    'help-text-label': 'What if I don’t have a bank account?',
+  });
+};
+
 export const bankInfoHelpText = (
-  <AdditionalInfo triggerText="What if I don’t have a bank account?">
+  <AdditionalInfo
+    triggerText="What if I don’t have a bank account?"
+    onClick={gaBankInfoHelpText}
+  >
     The Department of Treasury requires all federal benefit payments be made by
     electronic funds transfer (EFT), also called direct deposit. If you do not
     have a bank account, you must receive your payment through Direct Express
