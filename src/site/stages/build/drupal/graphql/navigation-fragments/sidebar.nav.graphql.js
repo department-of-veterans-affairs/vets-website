@@ -6,7 +6,7 @@
 const MENU_NAME = 'main';
 
 module.exports = `
-  sidebarData: menuByName(name: "${MENU_NAME}") {
+  sidebarQuery: menuByName(name: "${MENU_NAME}") {
     name
     description
     links {
