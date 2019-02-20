@@ -21,6 +21,7 @@
     {% include "src/site/paragraphs/q_a.collapsible_panel.drupal.liquid" questions = entity.fieldQuestions %}
 {% else %}
     {% for question in entity.fieldQuestions %}
-      {% include "src/site/paragraphs/q_a.drupal.liquid" paragraph = question.entity sectionHeader = entity.fieldSectionHeader %}
+      {% assign sectionHeader = entity.fieldSectionHeader %}
+      {% include "src/site/paragraphs/q_a.drupal.liquid" entity = question.entity sectionHeader = sectionHeader %}
     {% endfor %}
-{%  endif %}
+{% endif %}

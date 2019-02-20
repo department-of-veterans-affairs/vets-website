@@ -70,6 +70,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     files[`drupal${drupalPagePath}/index.html`] = {
       ...page,
+      isDrupalPage: true,
       layout: `${entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
       debug: JSON.stringify(page, null, 4),

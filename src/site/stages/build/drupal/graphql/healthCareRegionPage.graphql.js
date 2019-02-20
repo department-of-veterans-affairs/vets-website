@@ -1,136 +1,114 @@
-const {
-  FIELD_RELATED_LINKS,
-} = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
-const facilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 /**
- * The 'Health Care Region page' bundle of the 'Content' entity type.
+ * The top-level page for a health care region.
+ * Example: /pittsburgh_health_care_system
  */
 
 module.exports = `
-fragment healthCareRegionPage on NodeHealthCareRegionPage {
-  entityId
-  entityBundle
-  entityPublished
-  title
-  fieldIntroText
-  changed
-  entityUrl {
-    ... on EntityCanonicalUrl {
-      breadcrumb {
-        url {
-          path
-          routed
+  fragment healthCareRegionPage on NodeHealthCareRegionPage {
+    entityUrl {
+      ... on EntityCanonicalUrl {
+        breadcrumb {
+          url {
+            path
+            routed
+          }
+          text
         }
-        text
+        path
       }
-      path
     }
-  }
-  fieldLocationsIntroBlurb {
-    processed
-  }
-  fieldPatientFamilyServicesIn {
-    processed
-  }
-  ${FIELD_RELATED_LINKS}     
-  fieldPatientFamilyServices {
-    entity {
-      ... on NodeRegionalHealthCareServiceDes {
-        body {                
-          processed
-          summary
-          summaryProcessed                
+    entityId
+    entityBundle
+    entityPublished
+    title
+    fieldMedia {
+      entity {
+        ... on MediaImage {
+            image {
+              alt
+              title
+              derivative(style: CROP_7_2) {
+                  url
+                  width
+                  height
+              }
+            }
+          }
+      }
+    }
+    fieldIntroText
+	  fieldRelatedLinks {
+      entity {
+      	... listOfLinkTeasers
+      }
+    }
+    mainLocalFacilities: reverseFieldRegionPageNode(filter: {
+      conditions: [
+        { field: "type", value: "health_care_local_facility"}
+        { field: "field_main_location", value: "1"}
+        { field: "status", value: "1"}
+      ]
+    }, sort: {field: "title", direction: ASC} ) {
+      entities {
+        ... on NodeHealthCareLocalFacility {
+          title
+          fieldFacilityLocatorApiId
         }
-        fieldServiceLocation {
-          entity {
-            entityBundle
-            entityId
-            ... on NodeHealthCareLocalFacility {
-              entityId
-              entityBundle
-              fieldIntroText
-              fieldFacilityLocatorApiId
-              fieldNicknameForThisFacility
-              fieldMainLocation
-              fieldLocationServices {
-                entity {
-                  ... on ParagraphHealthCareLocalFacilityServi {
-                    fieldTitle
-                    fieldWysiwyg {
-                      processed
-                    }
-                    entityBundle
-                    entityId
+      }
+    }
+    newsStoryTeasers: reverseFieldOfficeNode(filter: {
+      conditions: [
+        { field: "type", value: "news_story"}
+        { field: "status", value: "1"}
+      ]} sort: {field: "changed", direction: DESC } limit: 2)
+      {
+      entities {
+        ... on NodeNewsStory {
+          title
+          fieldIntroText
+          fieldMedia {
+            entity {
+              ... on MediaImage {
+                image {
+                  alt
+                  title
+                  derivative(style: CROP_3_2) {
+                      url
+                      width
+                      height
                   }
                 }
               }
             }
           }
-        }
-        fieldServiceNameAndDescripti {
-          entity {
-            ...on TaxonomyTermHealthCareServiceTaxonomy {
-              fieldServiceTypeClinical
-              fieldServiceTypeNonclinical
-              entityId
-              entityBundle                    
-            }
+          entityUrl {
+            path
           }
-        }              
+        }
       }
     }
-  }
-  fieldClinicalHealthCareServi {
-    processed
-  }
-  fieldClinicalHealthServices {
-    entity {
-      ... on NodeRegionalHealthCareServiceDes {
-        body {                
-          processed
-          summary
-          summaryProcessed                
-        }
-        fieldServiceLocation {
-          entity {
-            entityBundle
-            entityId
-            ... on NodeHealthCareLocalFacility {
-              entityId
-              entityBundle
-              fieldIntroText
-              fieldFacilityLocatorApiId
-              fieldNicknameForThisFacility
-              fieldMainLocation
-              fieldLocationServices {
-                entity {
-                  ... on ParagraphHealthCareLocalFacilityServi {
-                    fieldTitle
-                    fieldWysiwyg {
-                      processed
-                    }
-                    entityBundle
-                    entityId
-                  }
-                }
-              }
+    eventTeasers: reverseFieldOfficeNode (filter: {
+      conditions: [
+        { field: "type", value: "event"}
+        { field: "status", value: "1"}
+        { field: "field_event_date", value: "2018-02-18", operator: GREATER_THAN}
+      ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
+      {
+        entities {
+          ... on NodeEvent {
+            title
+            fieldEventDate {
+              value
             }
-          }
-        }
-        fieldServiceNameAndDescripti {
-          entity {
-            ...on TaxonomyTermHealthCareServiceTaxonomy {
-              fieldServiceTypeClinical
-              fieldServiceTypeNonclinical
-              entityId
-              entityBundle                    
+            fieldEventDateEnd {
+              value
             }
+            fieldDescription
           }
-        }              
-      }
+          entityUrl {
+            path
+          }
+        }      
     }
   }
-  ${facilities}
-}
-
 `;

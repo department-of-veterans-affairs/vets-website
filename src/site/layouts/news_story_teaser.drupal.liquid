@@ -1,0 +1,39 @@
+{% comment %}
+Required variable: node - the news story entity
+Optional variable: header - the header level ('h2','h3', etc.) defaults to h4
+Example data:
+  {
+    "title": "Test Story 2",
+    "fieldIntroText": null,
+    "fieldMedia": {
+      "entity": {
+        "image": {
+          "alt": "U Drive",
+          "title": "",
+          "derivative": {
+            "url": "http://vagovcms.lndo.site/sites/default/files/styles/crop_3_2/public/2019-02/university-drive-consolidation-building2.jpg?h=afdcd683&itok=qK823DFr",
+            "width": 480,
+            "height": 320
+          }
+        }
+      }
+    },
+    "entityUrl": {
+      "path": "/test-story-2"
+    }
+  },
+{% endcomment %}
+{% if header == empty %}
+    {% assign header = "h4" %}
+{% endif %}
+<div class="usa-grid usa-grid-full">
+    <div class="usa-width-two-thirds">
+        <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+        <p>{{ node.fieldIntroText | truncatewords: 60, "..." }}</p>
+    </div>
+    <div class="usa-width-one-third">
+        {% assign image = node.fieldMedia.entity.image %}
+        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+    </div>
+</div>
+

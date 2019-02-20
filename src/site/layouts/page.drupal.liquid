@@ -24,11 +24,16 @@
             {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
         {% endif %}
 
+        {% assign featureCount = fieldFeaturedContent | size  %}
+        {% if featureCount > 0 %}
+        <div class="feature">
         {% for block in fieldFeaturedContent %}
           {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
           {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
           {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
+        </div>
+        {% endif %}
 
         {% assign widgetDelta = 1 %}
         {% for block in fieldContentBlock %}
@@ -42,9 +47,14 @@
           {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
           {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
-
         {% if fieldRelatedLinks != empty %}
-            {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity %}
+        <div class="row">
+          <div class="usa-content columns">
+            <aside class="va-nav-linkslist va-nav-linkslist--related">
+              {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}
+            </aside>
+          </div>
+        </div>
         {%  endif %}
       </article>
 
