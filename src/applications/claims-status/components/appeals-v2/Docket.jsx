@@ -208,8 +208,11 @@ function Docket({
               <p>
                 Provided you haven’t already added new evidence, you can switch
                 to a different appeal option. You have until{' '}
-                {switchDueDateFormatted} to submit a new VA Form 10182 (Board
-                Appeal) with a different appeal option selected.
+                {switchDueDateFormatted} to submit a new{' '}
+                <a href="/decision-reviews/forms/board-appeal-10182.pdf">
+                  VA Form 10182 (Board Appeal)
+                </a>{' '}
+                with a different appeal option selected.
               </p>
             </div>
           )}
@@ -219,8 +222,11 @@ function Docket({
               <p>
                 Provided you haven’t already had a hearing, you can switch to a
                 different appeal option. You have until {switchDueDateFormatted}{' '}
-                to submit a new VA Form 10182 (Board Appeal) with a different
-                appeal option selected.
+                to submit a new{' '}
+                <a href="/decision-reviews/forms/board-appeal-10182.pdf">
+                  VA Form 10182 (Board Appeal)
+                </a>{' '}
+                with a different appeal option selected.
               </p>
             </div>
           )}

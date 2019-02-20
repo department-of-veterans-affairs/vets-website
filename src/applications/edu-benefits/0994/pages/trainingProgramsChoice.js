@@ -1,7 +1,7 @@
 export const uiSchema = {
   'view:trainingProgramsChoice': {
     'ui:title':
-      'Have you picked any programs you’d like to attend using VET TEC benefits?',
+      'Have you picked any programs you’d like to attend using VET TEC?',
     'ui:widget': 'yesNo',
     'ui:options': {
       labels: {

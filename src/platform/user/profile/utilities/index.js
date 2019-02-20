@@ -1,7 +1,11 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
-import { authnSettings } from '../../authentication/utilities';
+import {
+  authnSettings,
+  setRavenLoginType,
+  clearRavenLoginType,
+} from '../../authentication/utilities';
 import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
 
@@ -138,6 +142,11 @@ export function setupProfileSession(payload) {
     recordEvent({ event: `login-success-${loginPolicy}` });
   }
 
+  sessionStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
+
+  // Set Sentry Tag so we can associate errors with the login policy
+  setRavenLoginType(loginPolicy);
+
   // Report out the current level of assurance for the user.
   if (loa && loa.current) {
     recordEvent({ event: `login-loa-current-${loa.current}` });
@@ -152,4 +161,6 @@ export function teardownProfileSession() {
   for (const key of sessionKeys) {
     localStorage.removeItem(key);
   }
+
+  clearRavenLoginType();
 }

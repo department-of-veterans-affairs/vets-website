@@ -18,13 +18,13 @@ export class IntroductionPage extends React.Component {
           Education Courses [VET TEC]).
         </p>
         <SaveInProgressIntro
+          startMessageOnly
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           verifyRequiredPrefill={
             this.props.route.formConfig.verifyRequiredPrefill
           }
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the VET TEC Application"
         />
         <h4>Follow the steps below to apply for VET TEC.</h4>
         <div className="process schemaform-process">
@@ -41,7 +41,7 @@ export class IntroductionPage extends React.Component {
                 <li>Highest level of education</li>
                 <li>Previous high-tech industry experience, if applicable</li>
                 <li>
-                  (Optional) Information about the school or training facility
+                  (Optional) Information about the provider or training program
                   you want to attend
                 </li>
               </ul>
