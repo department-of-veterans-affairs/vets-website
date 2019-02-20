@@ -76,8 +76,7 @@ export const uiSchema = {
           pattern: 'Please select a valid state',
         },
         'ui:required': (formData, index) =>
-          getProgramName(formData, index).trim() &&
-          showLocation(formData, index),
+          getProgramName(formData, index) && showLocation(formData, index),
         'ui:options': {
           expandUnder: 'courseType',
           expandUnderCondition: checkLocation,
