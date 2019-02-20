@@ -40,7 +40,7 @@ export const uiSchema = {
       },
       courseType: {
         'ui:title': 'Is the training in-person or online?',
-        'ui:required': (formData, index) => getProgramName(formData, index),
+        'ui:required': getProgramName,
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
