@@ -42,11 +42,38 @@ export function clearRavenLoginType() {
   Raven.setTagsContext(tags);
 }
 
+function redirectWithGAClientId(redirectUrl) {
+  try {
+    let clientId;
+
+    // eslint-disable-next-line
+    const trackers = ga.getAll();
+
+    for (let i = 0; i < trackers.length; i++) {
+      const trackingId = trackers[i].get('trackingId');
+      if (trackingId === 'UA-50123418-16' || trackingId === 'UA-50123418-17') {
+        clientId = trackers[i].get('clientId');
+        break;
+      }
+    }
+
+    const updatedUrl = `${redirectUrl}?clientId=${clientId}`;
+    window.location = updatedUrl;
+  } catch (e) {
+    window.location = redirectUrl;
+  }
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
-  window.location = redirectUrl;
+
+  if (redirectUrl.indexOf('idme') !== -1) {
+    redirectWithGAClientId(redirectUrl);
+  } else {
+    window.location = redirectUrl;
+  }
 }
 
 export function login(policy) {
