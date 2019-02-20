@@ -12,18 +12,21 @@ export default class LocationHours extends Component {
     return `${found[1]}:${found[2]}${found[3]}`;
   }
 
-  renderNotes(notes) {
-    if (notes) {
-      return (
-        <div className="row">
-          <div className="small-12 columns">
-            <p>Notes: {notes}</p>
-          </div>
-        </div>
-      );
+  isValid(location) {
+    if (!location) {
+      return false;
     }
 
-    return null;
+    const isVetCenter = location.attributes.facilityType === 'vet_center';
+
+    if (
+      every(values(location.attributes.hours), hour => !hour) &&
+      !isVetCenter
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   renderVetCenterContent() {
@@ -43,8 +46,9 @@ export default class LocationHours extends Component {
 
   render() {
     const { location } = this.props;
+    const mappedHours = {};
 
-    if (!location) {
+    if (!this.isValid(location)) {
       return null;
     }
 
@@ -52,20 +56,12 @@ export default class LocationHours extends Component {
       attributes: { hours },
     } = location;
 
-    const isVetCenter = location.attributes.facilityType === 'vet_center';
-
-    if (every(values(hours), h => !h) && !isVetCenter) {
-      return null;
-    }
-
-    const mappedHours = {};
-
     Object.keys(hours).forEach(k => {
       mappedHours[k] = hours[k];
       if (hours[k] === '-') {
         mappedHours[k] = 'Closed';
       } else if (hours[k]) {
-        const regex = /(([1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|1[01][0-9]{2}|12[0-4][0-9]|125[0-9])+\w\w)-(([1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|1[01][0-9]{2}|12[0-4][0-9]|125[0-9])+\w\w)/;
+        const regex = /(([1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|1[0-2][0-9]{2}|1300)+\w\w)-(([1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|1[0-2][0-9]{2}|1300)+\w\w)/;
         const found = hours[k].match(regex);
 
         if (found) {
