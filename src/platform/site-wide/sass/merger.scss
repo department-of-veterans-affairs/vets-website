@@ -448,23 +448,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  button.va-modal-close {
-    font-family: "Font Awesome 5 Free";
-    color: $color-black;
-
-    .fas.fa-times-circle{
-      font-size: 0.60em;
-      color: $color-link-default;
-      &:hover {
-        color: $color-black;
-      }
-     }
-
-    .fas.fa-times {
-      font-size: 0.75em;
-    }
-  }
-
   .usa-accordion-bordered {
 
     &.social {
