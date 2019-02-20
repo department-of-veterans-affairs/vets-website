@@ -9,6 +9,10 @@ const qa = require('./paragraph-fragments/qa.paragraph.graphql');
 const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
 const { promo } = require('./block-fragments/promo.block.graphql');
 const linkTeaser = require('./paragraph-fragments/linkTeaser.paragraph.graphql');
+const administration = require('./taxonomy-fragments/administration.taxonomy.graphql');
+const reactWidget = require('./paragraph-fragments/reactWidget.paragraph.graphql');
+const spanishSummary = require('./paragraph-fragments/spanishSummary.paragraph.graphql');
+const numberCallout = require('./paragraph-fragments/numberCallout.paragraph.graphql');
 
 module.exports = `
   ${alert}
@@ -20,4 +24,8 @@ module.exports = `
   ${qa}
   ${qaSection}
   ${wysiwyg}
+  ${administration}
+  ${reactWidget}
+  ${spanishSummary}
+  ${numberCallout}
 `;

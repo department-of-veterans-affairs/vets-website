@@ -11,7 +11,7 @@ export const uiSchema = {
   'ui:description':
     'To give us an idea of your experience in the high-tech industry, please tell us about your work history',
   currentHighTechnologyEmployment: {
-    'ui:title': 'Are you working in a high-tech industry now?',
+    'ui:title': 'Are you working in a high-tech field now?',
     'ui:widget': 'yesNo',
   },
   pastHighTechnologyEmployment: {

@@ -4,12 +4,13 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 export const bankInfoTitle = <h4>Bank Information</h4>;
 
 export const bankInfoDescription =
-  'This is your bank account information we have on file. We’ll pay your education benefit to this account.';
+  'This is the bank account information we have on file for you and will use to pay you.';
 export const bankInfoNote = (
   <p>
     <strong>Note: </strong>
-    Changes you make to your bank account information on this page will be
-    updated throughout your VA records.
+    Changes you make to the information on this page will update your bank
+    account information for all benefits you receive from VA, including
+    Compensation, Pension and Education.
   </p>
 );
 

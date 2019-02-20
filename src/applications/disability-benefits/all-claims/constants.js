@@ -93,7 +93,7 @@ export const MILITARY_STATE_LABELS = [
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 export const USA = 'USA';
 
-export const ADDRESS_TYPES = {
+export const ADDRESS_PATHS = {
   mailingAddress: 'mailingAddress',
   forwardingAddress: 'forwardingAddress',
 };

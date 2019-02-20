@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 
 const eduForms = new Set(['22-0993']);
 
-export default function createOptOutApplicationStatus(store) {
-  const root = document.getElementById('react-applicationStatus');
+export default function createOptOutApplicationStatus(store, widgetType) {
+  const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "opt-out-application-status" */ '../utils/optOutStatus.js').then(
       module => {
