@@ -3,9 +3,14 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../../0994/config/form.js';
+
+import { ERR_MSG_CSS_CLASS } from '../../../0994/constants';
 
 describe('Training program information page', () => {
   const {
@@ -82,6 +87,50 @@ describe('Training program information page', () => {
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
+  });
+
+  it('does not submit if the program name is entered without location or date information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+      />,
+    );
+
+    fillData(form, 'input[name*="root_vetTecPrograms_0_programName"]', 'AWS');
+
+    form.find('form').simulate('submit');
+
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('does not submit if the program name is entered without city/state or date information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          vetTecProgram: [{ courseType: 'both' }],
+        }}
+        formData={{}}
+      />,
+    );
+
+    fillData(form, 'input[name*="root_vetTecPrograms_0_programName"]', 'AWS');
+
+    form.find('form').simulate('submit');
+
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });
