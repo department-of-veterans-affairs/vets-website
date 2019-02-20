@@ -48,7 +48,8 @@ function addAssetHashes() {
 
     // Create a copy of the proxy-write files without cache-bust hashes
     [
-      'header-footer-loader.entry.js',
+      'loader.entry.js',
+      'rewriter.entry.js',
       'proxy-rewrite.entry.js',
       'styleConsolidated.css',
       'static-pages.css',

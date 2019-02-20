@@ -2,7 +2,7 @@ import cookie from 'cookie';
 import _ from 'lodash';
 
 import redirectIfNecessary from '../redirects';
-import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
+import { proxyRewriteWhitelist } from './loader-whitelist.json';
 import BUCKETS from '../../../site/constants/buckets';
 
 function createMutationObserverCallback() {
@@ -68,7 +68,7 @@ function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
   return true;
 }
 
-function startHeaderMutationObserver() {
+function removeExistingHeader() {
   const observer = new MutationObserver(createMutationObserverCallback());
   observer.observe(document, {
     attributes: true,
@@ -81,10 +81,10 @@ function startHeaderMutationObserver() {
   });
 }
 
-function getHostname() {
+function getHostnameOverride() {
   // default to vagovprod
-  const environment =
-    new URLSearchParams(window.location.search).get('hfbuild') || 'vagovprod';
+  const environment = (window.location.search.match(/\bhfbuild=(\w+)/) ||
+    [])[1];
 
   // localhost is not available in the buckets
   if (environment === 'localhost') {
@@ -99,46 +99,39 @@ const jsFilePaths = [
   '/js/settings.js',
   '/generated/polyfills.entry.js',
   '/generated/vendor.entry.js',
-  '/generated/proxy-rewrite.entry.js',
+  '/generated/rewriter.entry.js',
 ];
 
-function createHeaderFooterJSNodes(hostname, filePaths = jsFilePaths) {
-  return filePaths.map(path => {
+function addOverrideHeaderFooter(
+  hostname,
+  filePaths = jsFilePaths,
+  docHead = document.head,
+) {
+  const docFragment = document.createDocumentFragment();
+  // add <script>s
+  filePaths.forEach(path => {
     const scriptNode = document.createElement('script');
-    scriptNode.setAttribute('type', 'text/javascript');
     scriptNode.setAttribute('src', `${hostname}${path}`);
 
-    return scriptNode;
+    docFragment.appendChild(scriptNode);
   });
-}
 
-function createHeaderFooterCSSNodes(hostname) {
-  const styles = [];
-  const hideDeprecatedStyle = document.createElement('style');
-  hideDeprecatedStyle.setAttribute('type', 'text/css');
-  hideDeprecatedStyle.appendChild(
+  // add inline CSS
+  const styleNode = document.createElement('style');
+  styleNode.appendChild(
     document.createTextNode(
       '.brand-consolidation-deprecated { display: none !important; } ',
     ),
   );
-  styles.push(hideDeprecatedStyle);
+  docFragment.appendChild(styleNode);
 
-  const headerFooterCSS = document.createElement('link');
-  headerFooterCSS.setAttribute('rel', 'stylesheet');
-  headerFooterCSS.setAttribute(
-    'href',
-    `${hostname}/generated/styleConsolidated.css`,
-  );
+  // add <link>
+  const linkNode = document.createElement('link');
+  linkNode.setAttribute('rel', 'stylesheet');
+  linkNode.setAttribute('href', `${hostname}/generated/styleConsolidated.css`);
+  docFragment.appendChild(linkNode);
 
-  styles.push(headerFooterCSS);
-
-  return styles;
-}
-
-function docFragmentFromArray(nodes) {
-  const docFragment = document.createDocumentFragment();
-  nodes.forEach(node => docFragment.appendChild(node));
-  return docFragment;
+  docHead.appendChild(docFragment);
 }
 
 function main() {
@@ -149,17 +142,15 @@ function main() {
     )
   ) {
     redirectIfNecessary(window);
+    removeExistingHeader();
 
-    // removes the old header
-    startHeaderMutationObserver();
+    // if a build type is passed in the url, then the header for the specific build type is used
+    const hostnameOverride = getHostnameOverride();
 
-    const hostname = getHostname();
-    const docFragment = docFragmentFromArray([
-      ...createHeaderFooterCSSNodes(hostname),
-      ...createHeaderFooterJSNodes(hostname),
-    ]);
-
-    document.head.appendChild(docFragment);
+    console.log(hostnameOverride);
+    if (hostnameOverride) {
+      addOverrideHeaderFooter(hostnameOverride);
+    }
   }
 }
 main();
