@@ -20,6 +20,9 @@ const checkLocation = field => field === 'inPerson' || field === 'both';
 const showLocation = (formData, index) =>
   checkLocation(getCourseType(formData, index));
 
+const getProgramName = (formData, index) =>
+  _.get(formData, `vetTecPrograms[${index}].programName`, '').trim();
+
 export const uiSchema = {
   'ui:description': trainingDescription,
   vetTecPrograms: {
@@ -37,6 +40,7 @@ export const uiSchema = {
       },
       courseType: {
         'ui:title': 'Is the training in-person or online?',
+        'ui:required': (formData, index) => getProgramName(formData, index),
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
@@ -56,7 +60,8 @@ export const uiSchema = {
       },
       locationCity: {
         'ui:title': 'City',
-        'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:required': (formData, index) =>
+          getProgramName(formData, index) && showLocation(formData, index),
         'ui:errorMessages': {
           pattern: 'Please fill in a valid city',
         },
@@ -70,13 +75,17 @@ export const uiSchema = {
         'ui:errorMessages': {
           pattern: 'Please select a valid state',
         },
-        'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:required': (formData, index) =>
+          getProgramName(formData, index).trim() &&
+          showLocation(formData, index),
         'ui:options': {
           expandUnder: 'courseType',
           expandUnderCondition: checkLocation,
         },
       },
-      plannedStartDate: dateUI('What is your estimated start date?'),
+      plannedStartDate: _.merge(dateUI('What is your estimated start date?'), {
+        'ui:required': getProgramName,
+      }),
     },
   },
 };
@@ -89,7 +98,6 @@ export const schema = {
       maxItems: 3,
       items: {
         type: 'object',
-        required: ['plannedStartDate'],
         properties: {
           providerName,
           programName,
