@@ -1,6 +1,5 @@
 import appendQuery from 'append-query';
 import Raven from 'raven-js';
-import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
@@ -42,11 +41,7 @@ export function clearRavenLoginType() {
 
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(
-    authnSettings.RETURN_URL,
-    new URLSearchParams(window.location.search).get('next') ||
-      window.location.pathname,
-  );
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
   window.location = redirectUrl;
 }
