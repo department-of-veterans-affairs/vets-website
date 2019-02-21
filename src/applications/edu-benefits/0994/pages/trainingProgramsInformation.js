@@ -14,7 +14,7 @@ const {
 
 const checkLocation = field => field === 'inPerson' || field === 'both';
 
-const requireFields = (formData, index) =>
+const checkProgramRequired = (formData, index) =>
   _.get(formData, `vetTecPrograms[${index}].providerName`, '').trim() !== '';
 
 export const uiSchema = {
@@ -53,7 +53,7 @@ export const uiSchema = {
       },
       locationCity: {
         'ui:title': 'City',
-        'ui:required': requireFields,
+        'ui:required': checkProgramRequired,
         'ui:errorMessages': {
           pattern: 'Please fill in a valid city',
         },
@@ -67,7 +67,7 @@ export const uiSchema = {
         'ui:errorMessages': {
           pattern: 'Please select a valid state',
         },
-        'ui:required': requireFields,
+        'ui:required': checkProgramRequired,
         'ui:options': {
           expandUnder: 'courseType',
           expandUnderCondition: checkLocation,
@@ -75,7 +75,7 @@ export const uiSchema = {
       },
       plannedStartDate: {
         ...dateUI('What is your estimated start date?'),
-        'ui:required': requireFields,
+        'ui:required': checkProgramRequired,
       },
     },
   },
