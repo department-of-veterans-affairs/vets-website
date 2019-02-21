@@ -163,7 +163,7 @@
     "newSecondaryDisabilities": [
       {
         "cause": "SECONDARY",
-        "causedByDisability": "Asthma",
+        "causedByDisability": "Diabetes mellitus0",
         "causedByDisabilityDescription": "Again, this doesn't really make sense.",
         "condition": "phlebitis",
         "classificationCode": "5300"
