@@ -2,6 +2,7 @@ const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const fragments = require('./fragments.graphql');
+const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 
 /**
  * Queries for all of the pages out of Drupal
@@ -22,6 +23,7 @@ module.exports = `
         ... healthCareRegionPage
       }
     }
+    ${sidebarQuery}
   }
 
 `;

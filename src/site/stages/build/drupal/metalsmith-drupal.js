@@ -69,8 +69,11 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
+      sidebarQuery: sidebarNav,
     },
   } = contentData;
+
+  const sidebarNavItems = { sidebar: sidebarNav };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -91,6 +94,24 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityBundle,
     } = page;
 
+    let pageCompiled;
+
+    if (entityBundle === 'page') {
+      pageCompiled = Object.assign(page, sidebarNavItems);
+    } else {
+      pageCompiled = page;
+    }
+
+    files[`drupal${drupalPagePath}/index.html`] = {
+      ...pageCompiled,
+      isDrupalPage: true,
+      layout: `${entityBundle}.drupal.liquid`,
+      contents: Buffer.from('<!-- Drupal-provided data -->'),
+      debug: JSON.stringify(pageCompiled, null, 4),
+      // Keep these pages out of the sitemap until we remove
+      // the drupal prefix
+      private: true,
+    };
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(
       page,
       `${entityBundle}.drupal.liquid`,
