@@ -27,6 +27,11 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
+  hasNewDisabilities,
+  newConditionsOnly,
+  increaseOnly,
+  newAndIncrease,
+  noClaimTypeSelected,
   isDisabilityPtsd,
   directToCorrectForm,
 } from '../utils';
@@ -61,6 +66,7 @@ import {
   newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
+  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -99,6 +105,8 @@ import createformConfig8940 from './8940';
 
 import { PTSD_INCIDENT_ITERATION } from '../constants';
 
+import migrations from '../migrations';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
@@ -109,11 +117,10 @@ const formConfig = {
   }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
-  // formId: '21-526EZ-all-claims',
-  formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
+  formId: '21-526EZ',
   onFormLoaded: directToCorrectForm,
-  version: 1,
-  migrations: [],
+  version: migrations.length,
+  migrations,
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
@@ -144,9 +151,16 @@ const formConfig = {
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
+          depends: formData => !increaseOnly(formData),
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
@@ -182,18 +196,21 @@ const formConfig = {
         separationPay: {
           title: 'Separation or Severance Pay',
           path: 'separation-pay',
+          depends: formData => !increaseOnly(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
         retirementPay: {
           title: 'Retirement Pay',
           path: 'retirement-pay',
+          depends: formData => !increaseOnly(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training Pay',
           path: 'training-pay',
+          depends: formData => !increaseOnly(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
@@ -205,32 +222,37 @@ const formConfig = {
         disabilitiesOrientation: {
           title: '',
           path: 'disabilities/orientation',
+          // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+          depends: formData =>
+            newAndIncrease(formData) || noClaimTypeSelected(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',
-          depends: hasRatedDisabilities,
+          depends: formData =>
+            hasRatedDisabilities(formData) && !newConditionsOnly(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
+          depends: formData => !increaseOnly(formData),
           uiSchema: newDisabilities.uiSchema,
           schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
           path: 'new-disabilities/add',
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -240,7 +262,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: formData => capitalizeEachWord(formData.condition),
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
@@ -406,6 +428,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
+          depends: formData => !increaseOnly(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
@@ -551,14 +574,16 @@ const formConfig = {
         retirementPayWaiver: {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
-          depends: hasMilitaryRetiredPay,
+          depends: formData =>
+            hasMilitaryRetiredPay(formData) && !increaseOnly(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
         trainingPayWaiver: {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
-          depends: formData => formData.hasTrainingPay,
+          depends: formData =>
+            formData.hasTrainingPay && !increaseOnly(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

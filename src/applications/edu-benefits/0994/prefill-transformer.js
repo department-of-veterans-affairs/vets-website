@@ -31,7 +31,7 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = {
     ...newData,
     'view:phoneAndEmail': phoneAndEmail,
-    'view:prefillBankAccount': formData.bankAccount,
+    prefillBankAccount: formData.bankAccount,
     'view:bankAccount': {
       'view:hasBankInformation': hasBankInformation,
     },

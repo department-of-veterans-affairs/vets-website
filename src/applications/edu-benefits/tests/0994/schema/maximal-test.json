@@ -1,6 +1,6 @@
 {
   "data": {
-    "view:prefillBankAccount": {
+    "prefillBankAccount": {
       "bankAccountType": "Checking",
       "bankAccountNumber": "*********1234",
       "bankRoutingNumber": "*****2115",
@@ -35,10 +35,14 @@
         "programName": "AWS Media Services",
         "courseType": "inPerson",
         "plannedStartDate": "2010-01-02",
-        "location": {
-          "city": "Nowhere",
-          "state": "SC"
-        }
+        "locationCity": "Nowhere",
+        "locationState": "SC"
+      },
+      {
+        "providerName": "Amazon Web Services",
+        "programName": "AWS Media Services",
+        "courseType": "online",
+        "plannedStartDate": "2010-01-02"
       }
     ],
     "view:trainingProgramsChoice": true,

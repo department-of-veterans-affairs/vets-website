@@ -27,6 +27,7 @@ const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
 const createMegaMenu = require('./plugins/create-megamenu');
 const createTemporaryReactPages = require('./plugins/create-react-pages');
+const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -148,6 +149,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createBuildSettings(BUILD_OPTIONS));
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
+  smith.use(downloadDrupalAssets(BUILD_OPTIONS));
 
   configureAssets(smith, BUILD_OPTIONS);
 

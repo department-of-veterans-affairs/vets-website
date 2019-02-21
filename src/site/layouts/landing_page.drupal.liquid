@@ -6,15 +6,96 @@
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
         <h1>{{ title }}</h1>
-        <div class="usa-font-lead">{{ fieldIntroText }}</div>
+        <div class="va-introtext">
+          <p>{{ fieldIntroText }}</p>
+        </div>
+          {% if fieldSpokes != empty %}
+            <h3>On This Page:</h3>
+            <ul>
+              {% for spoke in fieldSpokes %}
+                <li>
+                    <a href="#{% if spoke.entity.fieldTitle != empty %}{{ spoke.entity.fieldTitle | hashReference: title }}{% endif %}">
+                        {{ spoke.entity.fieldTitle }}
+                    </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% if fieldAlert != empty %}
+            {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+        {% endif %}
+        {% if fieldSpokes != empty %}
+            {% for spoke in fieldSpokes %}
+              <section class="usa-grid">
+                <div class="va-h-ruled--stars"></div>
+              </section>
+              {% include "src/site/paragraphs/list_of_link_teasers.drupal.liquid" with entity = spoke.entity parentFieldName = 'field_spokes' %}
+            {% endfor %}
+        {%  endif %}
+        {% if fieldRelatedLinks != empty %}
+          <section class="merger-majorlinks va-nav-linkslist va-nav-linkslist--related">
+            {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity boldTitle = true %}
+          </section>
+        {%  endif %}
+
+        <div class="last-updated usa-content">
+          Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+        </div>
       </article>
+
       <div class="usa-width-one-third" id="hub-rail">
         {% if fieldPromo != empty %}
           {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
         {% endif %}
+
+          <ul class="usa-accordion-bordered social">
+            <li>
+              <button class="usa-accordion-button usa-accordion-button-dark rail-heading" aria-expanded="true" aria-controls="a1">
+                Ask Questions
+              </button>
+              <div id="a1" class="usa-accordion-content" aria-hidden="false">
+                <section>
+                  <h4>Message Us</h4>
+                  <ul class="va-nav-linkslist-list social">
+                    <li>
+                      <a href="https://iris.custhelp.va.gov/app/ask">
+                        Ask a question online
+                      </a>
+                    </li>
+                  </ul>
+                </section>
+                {% if fieldSupportServices != empty %}
+                  <section>
+                    <h4>Call Us</h4>
+                      <ul class="va-nav-linkslist-list social">
+                      {% for supportService in fieldSupportServices %}
+                        {% assign service = supportService.entity %}
+                        <li>
+                          {% if service.fieldPhoneNumber %}
+                            <a href="{{ service.fieldLink.uri }}">
+                              <span>{{ service.title }}</span><br>
+                              <span>{{ service.fieldPhoneNumber }}</span>
+                            </a>
+                          {% else %}
+                            {{ service.title }}
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </section>
+                {% endif %}
+              </div>
+            </li>
+          </ul>
+
+          {% if fieldAdministration != empty %}
+            {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+          {% endif %}
       </div>
     </div>
+
   </main>
 </div>
+{% include "src/site/includes/veteran-banner.html" %}
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

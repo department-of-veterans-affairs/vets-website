@@ -10,6 +10,26 @@
     "view:upload4192Choice": {
       "view:upload4192": true
     },
+    "view:claimType": {
+      "view:claimingNew": true
+    },
+    "standardClaim": true,
+    "view:noFdcWarning": {},
+    "view:hasSeparationPay": false,
+    "hasTrainingPay": false,
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "8035555555",
+      "emailAddress": "bill@gmail.com"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "100 cool ln.",
+      "city": "Charleston",
+      "state": "SC",
+      "zipCode": "29412"
+    },
     "form8940Upload": [
       {
         "name": "image.png",

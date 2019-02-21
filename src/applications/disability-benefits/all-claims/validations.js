@@ -2,13 +2,12 @@ import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
-import { isWithinRange, getPOWValidationMessage } from './utils';
+import { isWithinRange, getPOWValidationMessage, pathWithIndex } from './utils';
 
 import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
-  EVSS_DISABILITY_NAME_REGEX,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -44,9 +43,14 @@ export function validateMilitaryCity(
   schema,
   messages,
   options,
+  arrayIndex,
 ) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    _.get(`${options.addressPath}.state`, formData, ''),
+    _.get(
+      `${pathWithIndex(options.addressPath, arrayIndex)}.state`,
+      formData,
+      '',
+    ),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -63,9 +67,14 @@ export function validateMilitaryState(
   schema,
   messages,
   options,
+  arrayIndex,
 ) {
   const isMilitaryCity = MILITARY_CITIES.includes(
-    _.get(`${options.addressPath}.city`, formData, '')
+    _.get(
+      `${pathWithIndex(options.addressPath, arrayIndex)}.city`,
+      formData,
+      '',
+    )
       .trim()
       .toUpperCase(),
   );
@@ -237,12 +246,16 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
 };
 
 export const validateDisabilityName = (err, fieldData) => {
+  // We're using a validator for length instead of adding a maxLength schema
+  // property because the validator is only applied conditionally - when a user
+  // chooses a disability from the list supplied to autosuggest, we don't care
+  // about the length - we only care about the length of unique user-entered
+  // disability names. We could've done this with `updateSchema` but this seems
+  // lighter-touch.
   if (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
-    !EVSS_DISABILITY_NAME_REGEX.test(fieldData)
+    fieldData.length > 255
   ) {
-    // technically single quotes (’) are allowed as well but leaving out of
-    // this message to avoid confusing veterans who can't tell the difference
-    err.addError('The only special characters allowed are: , . ( ) / -');
+    err.addError('Condition names should be less than 256 characters');
   }
 };

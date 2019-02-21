@@ -17,14 +17,14 @@ const programAreaMap = {
   loan_guaranty: 'Loan Guaranty', // eslint-disable-line
   education: 'Education',
   vre: 'Vocational Rehabilitation and Employment',
-  medical: 'Medical Benefits',
+  medical: 'Health Care',
   burial: 'Burial Benefits',
   fiduciary: 'Fiduciary',
 };
 
-export default function AppealListItem({ appeal, name }) {
-  const { status } = appeal.attributes;
+// This component is also used by the personalization application, which will pass the external flag.
 
+export default function AppealListItem({ appeal, name, external = false }) {
   let requestEventType;
   let isAppeal;
 
@@ -88,14 +88,15 @@ export default function AppealListItem({ appeal, name }) {
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">{appealTitle}</h3>
       <div className="card-status">
-        <div
-          className={`status-circle ${
-            appeal.attributes.active ? 'open' : 'closed'
-          }`}
-        />
+        {!external && (
+          <div
+            className={`status-circle ${
+              appeal.attributes.active ? 'open' : 'closed'
+            }`}
+          />
+        )}
         <p>
-          <strong>Status:</strong>{' '}
-          {getStatusContents(status.type, status.details, name).title}
+          <strong>Status:</strong> {getStatusContents(appeal, name).title}
         </p>
       </div>
       {appeal.attributes.description && (
@@ -107,13 +108,24 @@ export default function AppealListItem({ appeal, name }) {
           {appeal.attributes.description}
         </p>
       )}
-      <Link
-        className="usa-button usa-button-primary"
-        to={`appeals/${appeal.id}/status`}
-      >
-        View status
-        <i className="fa fa-chevron-right" />
-      </Link>
+      {!external && (
+        <Link
+          className="usa-button usa-button-primary"
+          to={`appeals/${appeal.id}/status`}
+        >
+          View status
+          <i className="fa fa-chevron-right" />
+        </Link>
+      )}
+      {external && (
+        <Link
+          className="usa-button usa-button-primary"
+          href={`/track-claims/appeals/${appeal.id}/status`}
+        >
+          View status
+          <i className="fa fa-chevron-right" />
+        </Link>
+      )}
     </div>
   );
 }
@@ -142,4 +154,5 @@ AppealListItem.propTypes = {
     middle: PropTypes.string,
     last: PropTypes.string,
   }),
+  external: PropTypes.bool,
 };
