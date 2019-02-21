@@ -48,7 +48,7 @@ class SignInModal extends React.Component {
             <h1>Sign in to {siteName}</h1>
           </div>
         </div>
-        <div className="row hide-for-medium-up mobile-explanation">
+        <div className="row medium-screen:vads-u-display--none mobile-explanation">
           <div className="columns small-12">
             <h2>
               One site. A lifetime of benefits and services at your fingertips.
@@ -76,8 +76,8 @@ class SignInModal extends React.Component {
             </div>
           </div>
         </DowntimeBanner>
-        <div className="row">
-          <div className="columns usa-width-one-half medium-6">
+        <div>
+          <div className="usa-width-one-half">
             <div className="signin-actions-container">
               <div className="top-banner">
                 <div>
@@ -138,9 +138,9 @@ class SignInModal extends React.Component {
               </div>
             </div>
           </div>
-          <div className="columns usa-width-one-half medium-6">
+          <div className="usa-width-one-half">
             <div className="explanation-content">
-              <div className="hide-for-small usa-font-lead">
+              <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
                 One site. A lifetime of benefits and services at your
                 fingertips.
               </div>

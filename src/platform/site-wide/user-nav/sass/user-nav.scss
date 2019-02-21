@@ -57,6 +57,10 @@ span.sidelines {
 
   .login {
     .explanation-content {
+      @include media($medium-large-screen) {
+        margin-left: 2em;
+      }
+
       ul {
         list-style: square;
         padding-left: 1.5em;
@@ -153,18 +157,6 @@ span.sidelines {
     border-color: $color-gray-lighter;
   }
 
-  @include media-maxwidth($small-screen) {
-    .hide-for-small {
-      display: none;
-    }
-  }
-
-  @include media($small-screen) {
-    .hide-for-medium-up {
-      display: none;
-    }
-  }
-
   .mobile-explanation {
     padding: 1em 0;
 
@@ -184,7 +176,6 @@ span.sidelines {
 
   .signin-actions-container {
     text-align: center;
-    margin-right: 2em;
 
     @include media-maxwidth($small-screen) {
       margin-right: 0;
