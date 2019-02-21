@@ -1,7 +1,7 @@
 const ENVIRONMENTS = require('./environments');
 
 const DRUPAL_DEV = {
-  address: 'http://staging.va.agile6.com',
+  address: 'http://dev.va.agile6.com',
   credentials: {
     username: 'api',
     password: 'drupal8',
