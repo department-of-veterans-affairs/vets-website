@@ -134,7 +134,7 @@ const formConfig = {
     },
     // Chapter - Personal Information
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Contact Information',
       pages: {
         // page - contact information
         contactInformation: {
