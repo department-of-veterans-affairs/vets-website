@@ -28,7 +28,11 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
   };
 
   it('should render success status', () => {
+    const findEvent = e =>
+      e.event === 'disability-526EZ--submission-successful';
+    expect(!!window.dataLayer.find(findEvent)).to.be.false;
     testPage(submissionStatuses.succeeded, 'Claim ID number');
+    expect(!!window.dataLayer.find(findEvent)).to.be.true;
   });
 
   it('should render retry status', () => {
