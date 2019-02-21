@@ -2,35 +2,35 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
 
 const {
-  currentEmployment,
   currentHighTechnologyEmployment,
+  pastHighTechnologyEmployment,
   currentSalary,
 } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description':
-    'To give us an idea of your experience in the high-tech market, please tell us about your work and training.',
-  currentEmployment: {
-    'ui:title': 'Are you working in a high-tech industry now?',
+    'To give us an idea of your experience in the high-tech industry, please tell us about your work history',
+  currentHighTechnologyEmployment: {
+    'ui:title': 'Are you working in a high-tech field now?',
     'ui:widget': 'yesNo',
   },
-  currentHighTechnologyEmployment: {
-    'ui:title':
-      'Have you worked in a high-tech industry in the past couple years?',
+  pastHighTechnologyEmployment: {
+    'ui:title': 'Have you worked in a high-tech industry in the past?',
     'ui:widget': 'yesNo',
     'ui:options': {
-      expandUnder: 'currentEmployment',
+      expandUnder: 'currentHighTechnologyEmployment',
       expandUnderCondition: false,
     },
-    'ui:required': formData => !_.get(formData, 'currentEmployment', false),
+    'ui:required': formData =>
+      !_.get(formData, 'currentHighTechnologyEmployment', false),
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
       hideIf: formData =>
         !(
-          _.get(formData, 'currentEmployment', false) ||
-          (!_.get(formData, 'currentEmployment', false) &&
-            _.get(formData, 'currentHighTechnologyEmployment', false))
+          _.get(formData, 'currentHighTechnologyEmployment', false) ||
+          (!_.get(formData, 'currentHighTechnologyEmployment', false) &&
+            _.get(formData, 'pastHighTechnologyEmployment', false))
         ),
     },
     currentSalary: {
@@ -74,10 +74,10 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['currentEmployment', 'currentHighTechnologyEmployment'],
+  required: ['currentHighTechnologyEmployment', 'pastHighTechnologyEmployment'],
   properties: {
-    currentEmployment,
     currentHighTechnologyEmployment,
+    pastHighTechnologyEmployment,
     'view:salaryEmploymentTypes': {
       type: 'object',
       properties: {

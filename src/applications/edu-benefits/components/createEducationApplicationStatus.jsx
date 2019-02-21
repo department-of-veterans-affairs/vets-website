@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 const eduForms = new Set([
+  '22-0994',
   '22-1990',
   '22-1995',
   '22-5490',
@@ -11,8 +12,8 @@ const eduForms = new Set([
   '22-1990N',
 ]);
 
-export default function createEducationApplicationStatus(store) {
-  const root = document.getElementById('react-applicationStatus');
+export default function createEducationApplicationStatus(store, widgetType) {
+  const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "education-application-status" */
     '../utils/educationStatus').then(module => {

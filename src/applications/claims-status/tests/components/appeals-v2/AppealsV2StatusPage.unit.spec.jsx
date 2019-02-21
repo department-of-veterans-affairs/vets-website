@@ -3,12 +3,16 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { mockData } from '../../../utils/helpers';
-import { APPEAL_STATUSES } from '../../../utils/appeals-v2-helpers';
+import { APPEAL_ACTIONS } from '../../../utils/appeals-v2-helpers';
 import AppealsV2StatusPage from '../../../containers/AppealsV2StatusPage';
 
 describe('<AppealsV2StatusPage/>', () => {
   const defaultProps = { appeal: mockData.data[0] };
   const onDocketProps = { appeal: mockData.data[1] };
+  const supplementalClaimProps = { appeal: mockData.data[3] };
+  const higherLevelReviewProps = { appeal: mockData.data[4] };
+  const amaAppealProps = { appeal: mockData.data[5] };
+  const closedAmaAppealProps = { appeal: mockData.data[6] };
 
   it('should render', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
@@ -84,7 +88,7 @@ describe('<AppealsV2StatusPage/>', () => {
       ...defaultProps,
       attributes: {
         ...defaultProps.attributes,
-        type: APPEAL_STATUSES.cue,
+        type: APPEAL_ACTIONS.cue,
       },
     };
     const wrapper = shallow(<AppealsV2StatusPage {...props} />);
@@ -99,6 +103,46 @@ describe('<AppealsV2StatusPage/>', () => {
       attributes: { ...defaultProps, active: false },
     };
     const wrapper = shallow(<AppealsV2StatusPage {...props} />);
+    expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should not render a <Docket/> when appeal is a Supplemental Claim', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const wrapper = shallow(
+      <AppealsV2StatusPage {...supplementalClaimProps} />,
+    );
+    expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should not render a <Docket/> when appeal is a Higher-Level Review', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const wrapper = shallow(
+      <AppealsV2StatusPage {...higherLevelReviewProps} />,
+    );
+    expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should render a <Docket/> when appeal is a Board Appeal', () => {
+    const wrapper = shallow(<AppealsV2StatusPage {...amaAppealProps} />);
+    expect(wrapper.find('Docket').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should not render a <Docket/> when a Board Appeal has left the Board', () => {
+    const props = {
+      ...closedAmaAppealProps,
+      attributes: { ...closedAmaAppealProps, active: true, location: 'aoj' },
+    };
+    const wrapper = shallow(<AppealsV2StatusPage {...props} />);
+    expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should not render a <Docket/> when appeal is a closed Board Appeal', () => {
+    const wrapper = shallow(<AppealsV2StatusPage {...closedAmaAppealProps} />);
     expect(wrapper.find('Docket').length).to.equal(0);
     wrapper.unmount();
   });

@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -8,16 +6,17 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { focusElement } from '../../../../platform/utilities/ui';
 
+import { features } from '../../../beta-enrollment/routes';
+import { createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
+
 import { VerifiedAlert } from '../helpers';
 import FormStartControls from './FormStartControls';
+import { urls } from '../../all-claims/utils';
 
 const gaStartEventName = 'disability-526EZ-start';
 
@@ -26,10 +25,15 @@ class IntroductionPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
+  componentDidUpdate() {
+    // Redirect if necessary
+    if (this.props.signedUpForV2Beta) {
+      window.location.replace(urls.v2);
+    }
+  }
+
   hasSavedForm = () => {
-    const {
-      saveInProgress: { user },
-    } = this.props;
+    const { user } = this.props;
     return (
       user.profile &&
       user.profile.savedForms
@@ -44,9 +48,7 @@ class IntroductionPage extends React.Component {
   };
 
   render() {
-    const {
-      saveInProgress: { user },
-    } = this.props;
+    const { user } = this.props;
 
     const isLoggedIn = user && user.login && user.login.currentlyLoggedIn;
 
@@ -78,8 +80,6 @@ class IntroductionPage extends React.Component {
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
               startText="Start the Disability Compensation Application"
-              {...this.props.saveInProgressActions}
-              {...this.props.saveInProgress}
             />
           </CallToActionWidget>
         ) : (
@@ -220,8 +220,6 @@ class IntroductionPage extends React.Component {
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
               startText="Start the Disability Compensation Application"
-              {...this.props.saveInProgressActions}
-              {...this.props.saveInProgress}
             />
           </CallToActionWidget>
         ) : (
@@ -245,26 +243,18 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const { form, user } = state;
   return {
-    form: state.form,
-    saveInProgress: introSelector(state),
+    form,
+    user,
+    signedUpForV2Beta: createIsServiceAvailableSelector(features.allClaims)(
+      state,
+    ),
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-    toggleLoginModal: update => {
-      dispatch(toggleLoginModal(update));
-    },
-  };
-}
-
-IntroductionPage.PropTypes = {
-  saveInProgress: PropTypes.object.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
-  verifyUrl: PropTypes.string.isRequired,
-  loginUrl: PropTypes.string.isRequired,
+const mapDispatchToProps = {
+  toggleLoginModal,
 };
 
 export default connect(

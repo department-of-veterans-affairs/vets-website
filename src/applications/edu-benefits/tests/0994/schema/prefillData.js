@@ -1,4 +1,4 @@
-export const prefillData = {
+export const maxPrefillData = {
   mailingAddress: {
     street: 'MILITARY ADDY 3',
     city: 'DPO',
@@ -25,7 +25,7 @@ export const prefillData = {
   emailAddress: 'test2@test1.net',
 };
 
-export const transformedPrefillData = {
+export const transformedMaxPrefillData = {
   mailingAddress: {
     street: 'MILITARY ADDY 3',
     city: 'DPO',
@@ -33,7 +33,7 @@ export const transformedPrefillData = {
     state: 'MI',
     postalCode: '22312',
   },
-  bankAccount: {
+  prefillBankAccount: {
     bankAccountType: 'Checking',
     bankAccountNumber: '*********1234',
     bankRoutingNumber: '*****2115',
@@ -54,5 +54,39 @@ export const transformedPrefillData = {
     dayTimePhone: '4445551212',
     nightTimePhone: '4445551212',
     emailAddress: 'test2@test1.net',
+  },
+  'view:bankAccount': {
+    'view:hasBankInformation': true,
+  },
+};
+
+export const minPrefillData = {
+  applicantFullName: {
+    first: 'Greg',
+    middle: 'A',
+    last: 'Anderson',
+  },
+  applicantGender: 'M',
+  dateOfBirth: '1933-04-05',
+  applicantSocialSecurityNumber: '796121200',
+};
+
+export const minTransformedPrefillData = {
+  applicantFullName: {
+    first: 'Greg',
+    middle: 'A',
+    last: 'Anderson',
+  },
+  applicantGender: 'M',
+  dateOfBirth: '1933-04-05',
+  applicantSocialSecurityNumber: '796121200',
+  'view:phoneAndEmail': {
+    dayTimePhone: undefined,
+    nightTimePhone: undefined,
+    emailAddress: undefined,
+  },
+  prefillBankAccount: undefined,
+  'view:bankAccount': {
+    'view:hasBankInformation': false,
   },
 };

@@ -1,8 +1,7 @@
-import React from 'react';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
-import { SecondaryDateDescription } from '../content/incidentDate';
+import { ptsdDateDescription } from '../content/incidentDate';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const {
@@ -11,7 +10,7 @@ const {
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
-  'ui:description': () => <SecondaryDateDescription index={index} />,
+  'ui:description': ptsdDateDescription,
   [`secondaryIncident${index}`]: {
     incidentDate: currentOrPastDateUI(' '),
   },

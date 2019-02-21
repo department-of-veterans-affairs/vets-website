@@ -93,7 +93,7 @@ export const MILITARY_STATE_LABELS = [
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 export const USA = 'USA';
 
-export const ADDRESS_TYPES = {
+export const ADDRESS_PATHS = {
   mailingAddress: 'mailingAddress',
   forwardingAddress: 'forwardingAddress',
 };
@@ -245,8 +245,22 @@ export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
   disabilityLabels,
 ).map(v => v.toLowerCase());
 
-// This comes straight from EVSS but isn't documented in Swagger because
-// it's only used on disabilities that don't exist in the mapped list.
-// Note: the right single quote (’) is intentional - apostrophes are not
-//       allowed.
-export const EVSS_DISABILITY_NAME_REGEX = /^([a-zA-Z0-9\-‘.,/()]([a-zA-Z0-9\-’,. ])?)+$/;
+export const HELP_TEXT_CLICKED_EVENT = 'help-text-label';
+
+export const ANALYTICS_EVENTS = {
+  openedPrivateRecordsAcknowledgment: {
+    event: 'form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 4142 - Private Medical Records: Read the full text',
+  },
+  openedPrivateChoiceHelp: {
+    event: 'form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 4142 - Private Medical Records: Which should I choose',
+  },
+  openedLimitedConsentHelp: {
+    event: 'form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 4142 - Private Medical Records Release: What does this mean',
+  },
+};

@@ -4,19 +4,28 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 export const bankInfoTitle = <h4>Bank Information</h4>;
 
 export const bankInfoDescription =
-  'This is your bank account information we have on file. We’ll pay your education benefit to this account.';
+  'This is the bank account information we have on file for you and will use to pay you.';
 export const bankInfoNote = (
   <p>
-    <i>Note: </i>
-    Changes you make to this information will only apply to this specific form.
-    If you need to update your bank account information on all VA systems,
-    please call Veterans Benefits Assistance at 1-800-827-1000, Monday through
-    Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    <strong>Note: </strong>
+    Changes you make to the information on this page will update your bank
+    account information for all benefits you receive from VA, including
+    Compensation, Pension and Education.
   </p>
 );
 
+const gaBankInfoHelpText = () => {
+  window.dataLayer.push({
+    event: 'edu-0994--form-help-text-clicked',
+    'help-text-label': 'What if I don’t have a bank account?',
+  });
+};
+
 export const bankInfoHelpText = (
-  <AdditionalInfo triggerText="What if I don’t have a bank account?">
+  <AdditionalInfo
+    triggerText="What if I don’t have a bank account?"
+    onClick={gaBankInfoHelpText}
+  >
     The Department of Treasury requires all federal benefit payments be made by
     electronic funds transfer (EFT), also called direct deposit. If you do not
     have a bank account, you must receive your payment through Direct Express

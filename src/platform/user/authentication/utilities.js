@@ -1,8 +1,14 @@
 import appendQuery from 'append-query';
+import Raven from 'raven-js';
 
 import recordEvent from '../../monitoring/record-event';
-import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
+
+export const authnSettings = {
+  RETURN_URL: 'authReturnUrl',
+  REGISTRATION_PENDING: 'registrationPending',
+  PENDING_LOGIN_TYPE: 'pendingLoginType',
+};
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
@@ -25,58 +31,44 @@ const loginUrl = policy => {
   }
 };
 
-function redirect(redirectUrl, clickedEvent, openedEvent) {
+export function setRavenLoginType(loginType) {
+  Raven.setTagsContext({ loginType });
+}
+
+export function clearRavenLoginType() {
+  Raven.setTagsContext({ loginType: undefined });
+}
+
+function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem('authReturnUrl', window.location);
-
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
-
-  return apiRequest(
-    redirectUrl,
-    null,
-    ({ url }) => {
-      if (url) {
-        recordEvent({ event: openedEvent });
-        window.location = url;
-      }
-    },
-    () => {
-      // TODO: Create a separate page or modal when failed to get the URL.
-      window.location = `${environment.BASE_URL}/auth/login/callback`;
-    },
-  );
+  window.location = redirectUrl;
 }
 
 export function login(policy) {
-  sessionStorage.removeItem('registrationPending');
-  return redirect(
-    loginUrl(policy),
-    'login-link-clicked-modal',
-    'login-link-opened',
-  );
+  sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
+  sessionStorage.setItem(authnSettings.PENDING_LOGIN_TYPE, policy);
+  return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
 export function mfa() {
-  return redirect(
-    MFA_URL,
-    'multifactor-link-clicked',
-    'multifactor-link-opened',
-  );
+  return redirect(MFA_URL, 'multifactor-link-clicked');
 }
 
 export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked');
 }
 
 export function logout() {
-  return redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  clearRavenLoginType();
+  return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 
 export function signup() {
-  sessionStorage.setItem('registrationPending', true);
+  sessionStorage.setItem(authnSettings.REGISTRATION_PENDING, true);
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
-    'register-link-opened',
   );
 }

@@ -1,13 +1,17 @@
 {
   "data": {
-    "bankAccount": {
-      "accountType": "checking",
-      "routingNumber": "021000021",
-      "accountNumber": "12",
+    "prefillBankAccount": {
       "bankAccountType": "Checking",
       "bankAccountNumber": "*********1234",
       "bankRoutingNumber": "*****2115",
       "bankName": "Comerica"
+    },
+    "view:bankAccount": {
+      "bankAccount": {
+        "accountType": "checking",
+        "routingNumber": "021000021",
+        "accountNumber": "12"
+      }
     },
     "view:bankInfoNote": {},
     "view:bankInfoHelpText": {},
@@ -19,7 +23,8 @@
     "mailingAddress": {
       "street": "MILITARY ADDY 3",
       "street2": "teasdf",
-      "city": "DPO",
+      "street3": "teasdf",
+      "city": "Nowhere",
       "country": "USA",
       "state": "MI",
       "postalCode": "22312"
@@ -30,17 +35,21 @@
         "programName": "AWS Media Services",
         "courseType": "inPerson",
         "plannedStartDate": "2010-01-02",
-        "location": {
-          "city": "Nowhere",
-          "state": "SC"
-        }
+        "locationCity": "Nowhere",
+        "locationState": "SC"
+      },
+      {
+        "providerName": "Amazon Web Services",
+        "programName": "AWS Media Services",
+        "courseType": "online",
+        "plannedStartDate": "2010-01-02"
       }
     ],
     "view:trainingProgramsChoice": true,
     "view:noProgramsYet": true,
     "view:contactInfoNote": {},
-    "currentEmployment": false,
-    "currentHighTechnologyEmployment": true,
+    "currentHighTechnologyEmployment": false,
+    "pastHighTechnologyEmployment": true,
     "view:salaryEmploymentTypes": {
       "currentSalary": "moreThanSeventyFive",
       "highTechnologyEmploymentType": {
@@ -49,7 +58,7 @@
         "computerSoftware": true,
         "informationSciences": true,
         "mediaApplication": true,
-        "noneApply": false
+        "noneApply": true
       }
     },
     "highestLevelofEducation": "other",
@@ -57,7 +66,7 @@
     "activeDuty": true,
     "activeDutyDuringVetTec": true,
     "view:benefitNotice": {},
-    "appliedForVAEducationBenefits": false,
+    "appliedForVaEducationBenefits": false,
     "view:eligibilityInstructions": {},
     "view:applicantInfo": {},
     "applicantFullName": {

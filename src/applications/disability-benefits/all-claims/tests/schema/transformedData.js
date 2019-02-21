@@ -1,22 +1,21 @@
 export const transformedMinimalData = {
   form526: {
-    hasTrainingPay: false,
     isVaEmployee: false,
     homelessOrAtRisk: 'no',
     phoneAndEmail: {
-      primaryPhone: '1231231234',
-      emailAddress: 'asdf@as.asdf',
+      primaryPhone: '4445551212',
+      emailAddress: 'test2@test1.net',
     },
     mailingAddress: {
       country: 'USA',
-      addressLine1: 'asdf',
-      city: 'asdf',
-      state: 'AL',
-      zipCode: '19234',
+      addressLine1: '123 Main',
+      city: 'Bigcity',
+      state: 'AK',
+      zipCode: '12345',
     },
     ratedDisabilities: [
       {
-        name: 'First Condition',
+        name: 'Diabetes mellitus0',
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -24,141 +23,9 @@ export const transformedMinimalData = {
         decisionText: 'Service Connected',
         ratingPercentage: 100,
         disabilityActionType: 'INCREASE',
-        unemployabilityDisability: true,
-      },
-    ],
-    serviceInformation: {
-      servicePeriods: [
-        {
-          serviceBranch: 'Air Force',
-          dateRange: {
-            from: '1900-01-01',
-            to: '1901-01-01',
-          },
-        },
-      ],
-    },
-    standardClaim: false,
-  },
-};
-
-export const transformedMaximalData = {
-  form526: {
-    hasTrainingPay: true,
-    standardClaim: false,
-    separationPayDate: '2019-XX-XX',
-    separationPayBranch: 'Air Force',
-    waiveTrainingPay: true,
-    waiveRetirementPay: false,
-    isVaEmployee: true,
-    homelessOrAtRisk: 'atRisk',
-    atRiskHousingSituation: 'other',
-    otherAtRiskHousing: 'Situation description',
-    homelessnessContact: { name: 'Name', phoneNumber: '1231231234' },
-    bankAccountType: 'Checking',
-    bankAccountNumber: '1233',
-    bankRoutingNumber: '123412345',
-    bankName: 'BigBank Name',
-    phoneAndEmail: {
-      primaryPhone: '1231231234',
-      emailAddress: 'asdf@adsf.asdf',
-    },
-    mailingAddress: {
-      country: 'USA',
-      addressLine1: 'asdf',
-      addressLine2: 'line 2',
-      addressLine3: 'line 3',
-      city: 'asdf',
-      state: 'AL',
-      zipCode: '19234',
-    },
-    forwardingAddress: {
-      country: 'USA',
-      addressLine1: 'adsf',
-      addressLine2: 'line 2',
-      addressLine3: 'line 3',
-      city: 'asdf',
-      state: 'OH',
-      zipCode: '12343',
-      effectiveDate: {
-        from: '2118-01-01',
-        to: '2119-01-01',
-      },
-    },
-    vaTreatmentFacilities: [
-      {
-        treatmentCenterName: 'VA Clinic Name',
-        treatmentDateRange: {
-          from: '1904-01-XX',
-          to: '1905-01-XX',
-        },
-        treatmentCenterAddress: {
-          country: 'USA',
-          city: 'asdf',
-          state: 'AL',
-        },
-        treatedDisabilityNames: [
-          'First Condition',
-          'PTSD (post traumatic stress disorder)',
-        ],
-      },
-    ],
-    confinements: [
-      {
-        from: '1900-01-01',
-        to: '1901-01-01',
-      },
-    ],
-    newPrimaryDisabilities: [
-      {
-        cause: 'NEW',
-        primaryDescription: 'A thing happened.',
-        condition: 'PTSD (post traumatic stress disorder)',
-        specialIssues: ['POW'],
-        classificationCode: '5420',
       },
       {
-        cause: 'NEW',
-        primaryDescription: 'A thing happened.',
-        condition: 'Some condition',
-      },
-      {
-        cause: 'WORSENED',
-        primaryDescription: 'A thing happened.',
-        condition: 'Some fourth condition',
-      },
-    ],
-    newSecondaryDisabilities: [
-      {
-        cause: 'SECONDARY',
-        primaryDescription: 'A thing happened.',
-        condition: 'Some other condition',
-      },
-    ],
-    ratedDisabilities: [
-      {
-        name: 'First Condition',
-        ratedDisabilityId: '0',
-        ratingDecisionId: '63655',
-        diagnosticCode: 5238,
-        decisionCode: 'SVCCONNCTED',
-        decisionText: 'Service Connected',
-        ratingPercentage: 100,
-        disabilityActionType: 'INCREASE',
-        unemployabilityDisability: true,
-      },
-      {
-        name: 'Second Condition',
-        ratedDisabilityId: '1',
-        ratingDecisionId: '63655',
-        diagnosticCode: 5238,
-        decisionCode: 'SVCCONNCTED',
-        decisionText: 'Service Connected',
-        ratingPercentage: 0,
-        disabilityActionType: 'NONE',
-      },
-      {
-        name: 'Third Condition',
+        name: 'Diabetes mellitus1',
         ratedDisabilityId: '1',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
@@ -171,321 +38,384 @@ export const transformedMaximalData = {
     serviceInformation: {
       reservesNationalGuardService: {
         obligationTermOfServiceDateRange: {
-          from: '1902-01-01',
-          to: '1903-01-01',
+          from: '2007-05-22',
+          to: '2008-06-05',
         },
-        title10Activation: {
-          title10ActivationDate: '1902-01-01',
-          anticipatedSeparationDate: '2019-01-01',
-        },
-        unitName: 'RNG Unit 1',
-        unitAddress: {
-          country: 'USA',
-          addressLine1: 'asdf',
-          addressLine2: 'second line',
-          addressLine3: 'third line',
-          city: 'asdf',
-          state: 'AL',
-          zipCode: '19234',
-        },
-        unitPhone: '1231231234',
+        unitName: 'Unit name here',
       },
       servicePeriods: [
         {
-          serviceBranch: 'Air Force',
-          dateRange: {
-            from: '1900-01-01',
-            to: '1901-01-01',
-          },
+          serviceBranch: 'Air Force Reserve',
+          dateRange: { from: '2001-03-21', to: '2014-07-21' },
+        },
+      ],
+    },
+    servedInCombatZonePost911: false,
+    standardClaim: false,
+  },
+};
+
+export const transformedMaximalData = {
+  form526: {
+    standardClaim: false,
+    waiveTrainingPay: true,
+    waiveRetirementPay: true,
+    isVaEmployee: true,
+    homelessOrAtRisk: 'homeless',
+    homelessHousingSituation: 'other',
+    otherHomelessHousing: 'Under a bridge',
+    needToLeaveHousing: true,
+    homelessnessContact: { name: 'Name Here', phoneNumber: '1231231234' },
+    bankAccountType: 'Checking',
+    bankAccountNumber: '1233',
+    bankRoutingNumber: '123123123',
+    bankName: 'Bigbank Co.',
+    phoneAndEmail: {
+      primaryPhone: '4445551212',
+      emailAddress: 'test2@test1.net',
+    },
+    mailingAddress: {
+      country: 'USA',
+      addressLine1: '123 Main',
+      city: 'Bigcity',
+      state: 'AK',
+      zipCode: '12345',
+    },
+    forwardingAddress: {
+      country: 'USA',
+      addressLine1: '321 Secondary',
+      city: 'Smallcity',
+      state: 'NY',
+      zipCode: '54321',
+      effectiveDate: { from: '2099-12-01', to: '2100-01-01' },
+    },
+    vaTreatmentFacilities: [
+      {
+        treatmentCenterName: 'Treatment Center the First',
+        treatmentDateRange: { from: '2008-01-XX', to: '2010-01-XX' },
+        treatmentCenterAddress: {
+          country: 'USA',
+          city: 'Bigcity',
+          state: 'AK',
+        },
+        treatedDisabilityNames: [
+          'Diabetes mellitus0',
+          'Diabetes mellitus1',
+          'myocardial infarction (MI)',
+        ],
+      },
+      {
+        treatmentCenterName: 'Treatment Center the Second',
+        treatmentDateRange: { from: '2010-01-XX', to: '2018-02-XX' },
+        treatmentCenterAddress: { country: 'Uganda', city: 'Ugandan City' },
+        treatedDisabilityNames: ['asthma', 'phlebitis', 'knee replacement'],
+      },
+    ],
+    confinements: [
+      { from: '2016-01-01', to: '2017-01-01' },
+      { from: '2017-01-06', to: '2017-04-01' },
+    ],
+    ratedDisabilities: [
+      {
+        name: 'Diabetes mellitus0',
+        ratedDisabilityId: '0',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'INCREASE',
+      },
+      {
+        name: 'Diabetes mellitus1',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'INCREASE',
+      },
+      {
+        name: 'De-selected',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Not selected',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+    ],
+    hasTrainingPay: true,
+    militaryRetiredPayBranch: 'Air Force',
+    separationPayDate: '2018-XX-XX',
+    separationPayBranch: 'Air Force',
+    serviceInformation: {
+      reservesNationalGuardService: {
+        title10Activation: {
+          title10ActivationDate: '2015-01-01',
+          anticipatedSeparationDate: '2120-01-01',
+        },
+        obligationTermOfServiceDateRange: {
+          from: '2007-05-22',
+          to: '2008-06-05',
+        },
+        unitName: 'Seal Team Six',
+      },
+      servicePeriods: [
+        {
+          serviceBranch: 'Air Force Reserve',
+          dateRange: { from: '2001-03-21', to: '2014-07-21' },
         },
         {
           serviceBranch: 'Air National Guard',
-          dateRange: {
-            from: '1902-01-01',
-            to: '1903-01-01',
-          },
+          dateRange: { from: '2015-01-01', to: '2017-05-13' },
         },
       ],
     },
-    militaryRetiredPayBranch: 'Air Force',
+    servedInCombatZonePost911: true,
     alternateNames: [
+      { first: 'William', middle: 'Schwenk', last: 'Gilbert' },
+      { first: 'Arthur', last: 'Sullivan' },
+    ],
+    newPrimaryDisabilities: [
       {
-        first: 'Old',
-        last: 'Name',
+        cause: 'NEW',
+        primaryDescription:
+          'It makes no sense for this particular condition, but hey, this is only test data.',
+        condition: 'asthma',
+        classificationCode: '540',
       },
       {
-        first: 'Another',
-        middle: 'Old',
-        last: 'Name',
+        cause: 'WORSENED',
+        worsenedDescription: 'My knee was strained in the service',
+        worsenedEffects:
+          "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
+        condition: 'knee replacement',
+        specialIssues: ['POW'],
+        classificationCode: '8919',
+      },
+      {
+        cause: 'VA',
+        vaMistreatmentDescription: 'A thing happened.',
+        vaMistreatmentLocation: 'Somewhereville',
+        vaMistreatmentDate: 'A while ago',
+        condition: 'myocardial infarction (MI)',
+        specialIssues: ['POW'],
+        classificationCode: '4440',
       },
     ],
-    privacyAgreementAccepted: true,
-    form0781: {
-      remarks: '781 Remarks',
-      additionalIncidentText: 'Additional incident text',
-      additionalSecondaryIncidentText: 'Additional secondary incident text',
-      otherInformation: [
-        'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
-        'Other physical change',
-        'Withdrawal from friends',
-        'Unexplained social behavior changes',
-        'Other social change',
-        'Episodes of depression, panic attacks, or anxiety without an identifiable cause',
-        'Increased fear of surroundings, inability to go to certain areas',
-        'Hypervigilance, heightened fight or flight response',
-        'Other mental change',
-        'Changes in performance and performance evaluations',
-        'Resigning from your job',
-        'Other work change',
-        'Additional changes test',
-      ],
-      incidents: [
-        {
-          personalAssault: false,
-          medalsCitations: 'Medal A and Medal B',
-          incidentDate: '1992-03-04',
-          incidentLocation:
-            'Test, MS, USA, Additional first incident location details',
-          incidentDescription: 'First PTSD event description',
-          unitAssigned: 'Division 1',
-          unitAssignedDates: {
-            from: '1991-03-03',
-            to: '1996-03-06',
-          },
-          personsInvolved: [
-            {
-              name: {
-                first: 'John',
-              },
-              rank: 'Sgt',
-              injuryDeath: 'injuredNonBattle',
-              injuryDeathDate: '1992-07-03',
-              unitAssigned: 'Unit B',
-              description: 'John H Doe description',
-            },
-          ],
-        },
-        {
-          personalAssault: false,
-          medalsCitations: 'Medal B',
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
-          unitAssigned: 'Unit A',
-          unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
-          },
-        },
-        {
-          personalAssault: false,
-          medalsCitations: 'Medal C',
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
-          unitAssigned: 'Unit A',
-          unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
-          },
-          personsInvolved: [
-            {
-              name: {
-                first: 'John',
-                last: 'Doe',
-              },
-              rank: 'Private',
-              injuryDeath: 'other',
-              injuryDeathOther: 'Other text',
-              injuryDeathDate: '1992-01-01',
-              unitAssigned: 'Unit A',
-            },
-            {
-              name: {
-                first: 'Jane',
-                last: 'Doe',
-              },
-            },
-          ],
-        },
-        {
-          personalAssault: true,
-          incidentDate: '1994-04-03',
-          incidentLocation:
-            'City Name, AZ, USA, First 781a PTSD incident location additional details',
-          incidentDescription: 'First 781a PTSD incident description',
-          unitAssigned: 'Unit Name',
-          unitAssignedDates: {
-            from: '1992-02-16',
-            to: '1995-04-04',
-          },
-          sources: [
-            {
-              address: {
-                addressLine1: '123 Test St',
-                city: 'Test',
-                country: 'USA',
-                state: 'PA',
-                zipCode: '12345',
-              },
-              name: 'Police',
-            },
-          ],
-        },
-        {
-          personalAssault: true,
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Second 781a PTSD incident description',
-          unitAssigned: 'Unit A',
-          unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
-          },
-        },
-        {
-          personalAssault: true,
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Third 781a PTSD incident description',
-          unitAssigned: 'Unit A',
-          unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
-          },
-        },
-      ],
-    },
-    form8940: {
-      unemployability: {
-        disabilityPreventingEmployment: 'First Condition',
-        underDoctorHopitalCarePast12M: true,
-        doctorProvidedCare: [
-          {
-            name: 'Dr Authortay',
-            address: {
-              country: 'USA',
-              addressLine1: '123 Main St',
-              addressLine2: 'Apt 321',
-              city: 'Abcd',
-              state: 'SC',
-              zipCode: '12345',
-            },
-            dates: 'asdfasdf',
-          },
-        ],
-        hospitalProvidedCare: [
-          {
-            name: 'Authortay',
-            address: {
-              country: 'USA',
-              addressLine1: '123 Main St',
-              addressLine2: 'Apt 321',
-              city: 'Abcd',
-              zipCode: '12345',
-            },
-            dates: 'asdfasd',
-          },
-        ],
-        disabilityAffectedEmploymentFullTimeDate: '2010-01-01',
-        lastWorkedFullTimeDate: '2010-01-01',
-        becameTooDisabledToWorkDate: '2010-01-01',
-        mostEarningsInAYear: '120', // transform from number to string
-        yearOfMostEarnings: '2010',
-        occupationDuringMostEarnings: 'a',
-        previousEmployers: [
-          {
-            name: 'Authortay',
-            employerAddress: {
-              country: 'USA',
-              addressLine1: '123 Main St',
-              addressLine2: 'Apt 321',
-              city: 'Abcd',
-              state: 'SC',
-              zipCode: '12345',
-            },
-            phone: '1234561234',
-            typeOfWork: 'Work',
-            hoursPerWeek: 20,
-            dates: {
-              from: '2010-01-02',
-              to: '2010-01-03',
-            },
-            timeLostFromIllness: 'Some',
-            mostEarningsInAMonth: 100,
-            inBusiness: false, // transform flip
-          },
-        ],
-        disabilityPreventMilitaryDuties: true,
-        past12MonthsEarnedIncome: 10,
-        currentMonthlyEarnedIncome: 50,
-        receiveExpectDisabilityRetirement: true,
-        receiveExpectWorkersCompensation: true,
-        attemptedToObtainEmploymentSinceUnemployability: true,
-        appliedEmployers: [
-          {
-            name: 'Recent Company',
-            address: {
-              country: 'USA',
-              addressLine1: '123 Main St',
-              addressLine2: '0100',
-              city: 'Somewhere',
-              state: 'SC',
-              zipCode: '12345',
-            },
-            workType: 'Work',
-            date: '2010-01-01',
-          },
-        ],
-        education: 'Some elementary school',
-        receivedOtherEducationTrainingPreUnemployability: true,
-        otherEducationTrainingPreUnemployability: [
-          {
-            name: 'Test',
-            dates: {
-              from: '2010-01-02',
-              to: '2010-01-03',
-            },
-          },
-        ],
-        receivedOtherEducationTrainingPostUnemployability: true,
-        otherEducationTrainingPostUnemployability: [
-          {
-            name: 'Education',
-            dates: {
-              from: '2010-01-01',
-              to: '2010-01-03',
-            },
-          },
-        ],
-        remarks: 'Remarks',
+    newSecondaryDisabilities: [
+      {
+        cause: 'SECONDARY',
+        causedByDisability: 'Diabetes mellitus0',
+        causedByDisabilityDescription: "Again, this doesn't really make sense.",
+        condition: 'phlebitis',
+        classificationCode: '5300',
       },
-    },
+    ],
     attachments: [
       {
+        name: 'AngleSettingJig_9_25_15.pdf',
+        confirmationCode: '544f14cc-4e51-4661-b8f4-d79f71567491',
         attachmentId: 'L107',
-        confirmationCode: '354c6d40-b6f5-8c6d-9393-3b7de24569e94',
-        name: 'Doc.pdf',
       },
       {
+        name: 'image.png',
+        confirmationCode: 'fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7',
+        attachmentId: 'L023',
+      },
+      {
+        name: 'lolwut.png',
+        confirmationCode: '552067b2-9c5d-4bd8-bcd8-bc621b51a145',
         attachmentId: 'L015',
-        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de6969e94',
-        name: 'Document Name',
       },
       {
-        attachmentId: 'L034',
-        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2da24569e94',
-        name: 'Doc.pdf',
+        name: 'image (1).png',
+        confirmationCode: '0496e5c2-0675-4a43-83d6-e1eeabd4ea0e',
+        attachmentId: 'L070',
       },
       {
+        name: 'Success.jpg',
+        confirmationCode: 'de89492d-2d3f-4486-a73d-1fa4868aa49d',
+        attachmentId: 'L023',
+      },
+    ],
+  },
+};
+
+export const transformedNewSecondaryData = {
+  form526: {
+    standardClaim: false,
+    waiveTrainingPay: true,
+    waiveRetirementPay: true,
+    isVaEmployee: true,
+    homelessOrAtRisk: 'homeless',
+    homelessHousingSituation: 'other',
+    otherHomelessHousing: 'Under a bridge',
+    needToLeaveHousing: true,
+    homelessnessContact: { name: 'Name Here', phoneNumber: '1231231234' },
+    bankAccountType: 'Checking',
+    bankAccountNumber: '1233',
+    bankRoutingNumber: '123123123',
+    bankName: 'Bigbank Co.',
+    phoneAndEmail: {
+      primaryPhone: '4445551212',
+      emailAddress: 'test2@test1.net',
+    },
+    mailingAddress: {
+      country: 'USA',
+      addressLine1: '123 Main',
+      city: 'Bigcity',
+      state: 'AK',
+      zipCode: '12345',
+    },
+    forwardingAddress: {
+      country: 'USA',
+      addressLine1: '321 Secondary',
+      city: 'Smallcity',
+      state: 'NY',
+      zipCode: '54321',
+      effectiveDate: { from: '2099-12-01', to: '2100-01-01' },
+    },
+    vaTreatmentFacilities: [
+      {
+        treatmentCenterName: 'Treatment Center the First',
+        treatmentDateRange: { from: '2008-01-XX', to: '2010-01-XX' },
+        treatmentCenterAddress: {
+          country: 'USA',
+          city: 'Bigcity',
+          state: 'AK',
+        },
+        treatedDisabilityNames: ['Diabetes mellitus0', 'De-selected'],
+      },
+    ],
+    ratedDisabilities: [
+      {
+        name: 'Diabetes mellitus0',
+        ratedDisabilityId: '0',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Diabetes mellitus1',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'De-selected',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+      {
+        name: 'Not selected',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 100,
+        disabilityActionType: 'NONE',
+      },
+    ],
+    hasTrainingPay: true,
+    militaryRetiredPayBranch: 'Air Force',
+    separationPayDate: '2018-XX-XX',
+    separationPayBranch: 'Air Force',
+    serviceInformation: {
+      reservesNationalGuardService: {
+        title10Activation: {
+          title10ActivationDate: '2015-01-01',
+          anticipatedSeparationDate: '2120-01-01',
+        },
+        obligationTermOfServiceDateRange: {
+          from: '2007-05-22',
+          to: '2008-06-05',
+        },
+        unitName: 'Seal Team Six',
+      },
+      servicePeriods: [
+        {
+          serviceBranch: 'Air Force Reserve',
+          dateRange: { from: '2001-03-21', to: '2014-07-21' },
+        },
+        {
+          serviceBranch: 'Air National Guard',
+          dateRange: { from: '2015-01-01', to: '2017-05-13' },
+        },
+      ],
+    },
+    servedInCombatZonePost911: true,
+    alternateNames: [
+      { first: 'William', middle: 'Schwenk', last: 'Gilbert' },
+      { first: 'Arthur', last: 'Sullivan' },
+    ],
+    newSecondaryDisabilities: [
+      {
+        cause: 'SECONDARY',
+        causedByDisability: 'Diabetes mellitus0',
+        causedByDisabilityDescription: "Again, this doesn't really make sense.",
+        condition: 'phlebitis',
+        classificationCode: '5300',
+      },
+      {
+        cause: 'SECONDARY',
+        causedByDisability: 'De-selected',
+        causedByDisabilityDescription: "Again, this doesn't really make sense.",
+        condition: 'knee replacement',
+        classificationCode: '8919',
+      },
+    ],
+    attachments: [
+      {
+        name: 'AngleSettingJig_9_25_15.pdf',
+        confirmationCode: '544f14cc-4e51-4661-b8f4-d79f71567491',
+        attachmentId: 'L107',
+      },
+      {
+        name: 'image.png',
+        confirmationCode: 'fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7',
+        attachmentId: 'L023',
+      },
+      {
+        name: 'lolwut.png',
+        confirmationCode: '552067b2-9c5d-4bd8-bcd8-bc621b51a145',
         attachmentId: 'L015',
-        confirmationCode: '354c6d40-b7f5-4c6d-9393-3b2de24569e94',
-        name: 'Doc.pdf',
       },
       {
-        attachmentId: 'L048',
-        confirmationCode: '354c6d40-b6f5-4c6d-9393-3b7de24569e94',
-        name: 'Doc.pdf',
+        name: 'image (1).png',
+        confirmationCode: '0496e5c2-0675-4a43-83d6-e1eeabd4ea0e',
+        attachmentId: 'L070',
+      },
+      {
+        name: 'Success.jpg',
+        confirmationCode: 'de89492d-2d3f-4486-a73d-1fa4868aa49d',
+        attachmentId: 'L023',
       },
     ],
   },

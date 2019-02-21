@@ -1,9 +1,21 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
+import { recordEventOnce } from '../utils';
+
+const {
+  openedPrivateRecordsAcknowledgment,
+  openedPrivateChoiceHelp,
+} = ANALYTICS_EVENTS;
 
 export const privateRecordsChoiceHelp = (
   <div className="private-records-choice-help">
-    <AdditionalInfo triggerText="Which should I choose?">
+    <AdditionalInfo
+      triggerText="Which should I choose?"
+      onClick={() =>
+        recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
+      }
+    >
       <h4>You upload your medical records</h4>
       <p>
         If you upload a digital copy of all your medical records, we can review
@@ -24,8 +36,16 @@ export const privateRecordsChoiceHelp = (
 
 export const patientAcknowledgmentText = (
   <div className="patient-acknowldegment-help">
-    <AdditionalInfo triggerText="Read the full text.">
-      <h4>PATIENT AUTHORIZATION:</h4>
+    <AdditionalInfo
+      triggerText="Read the full text."
+      onClick={() =>
+        recordEventOnce(
+          openedPrivateRecordsAcknowledgment,
+          HELP_TEXT_CLICKED_EVENT,
+        )
+      }
+    >
+      <h4>Patient Authorization:</h4>
       <p>
         I voluntarily authorize and request disclosure (including paper, oral,
         and electronic interchange) of: All my medical records; including
@@ -61,19 +81,19 @@ export const patientAcknowledgmentText = (
         </li>
       </ol>
       <p>
-        YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO OBTAIN
-        PRIVATE TREATMENT RECORDS ON YOUR BEHALF. IF YOU HAVE ALREADY PROVIDED
-        THESE RECORDS OR INTEND TO OBTAIN THEM YOURSELF, THERE IS NO NEED TO
-        FILL OUT THIS FORM. DOING SO WILL LENGTHEN YOUR CLAIM PROCESSING TIME.
+        You should not complete this form unless you want the VA to obtain
+        private treatment records on your behalf. If you have already provided
+        these records or intend to obtain them yourself, there is no need to
+        fill out this form. Doing so will lengthen your claim processing time.
       </p>
-      <h4>IMPORTANT:</h4>
+      <h4>Important:</h4>
       <p>
         In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees
         charged by a custodian to provide records requested."
       </p>
-      <h4>PATIENT ACKNOWLEDGEMENT:</h4>
+      <h4>Patient Acknowledgment:</h4>
       <p>
-        I HEREBY AUTHORIZE the sources listed in Section IV, to release any
+        I hereby authorize the sources listed in Section IV, to release any
         information that may have been obtained in connection with a physical,
         psychological or psychiatric examination or treatment, with the
         understanding that VA will use this information in determining my
@@ -106,7 +126,7 @@ export const patientAcknowledgmentText = (
         to decide my claim.
       </p>
       <p>
-        NOTE: For additional information regarding VA Form 21-4142, refer to the
+        Note: For additional information regarding VA Form 21-4142, refer to the
         following website:
         <a
           href="https://www.benefits.va.gov/privateproviders/"

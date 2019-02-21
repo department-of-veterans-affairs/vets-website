@@ -16,8 +16,7 @@ const fastForwardAnimations = async page => {
   await page._client.send('Animation.setPlaybackRate', { playbackRate: 10000 });
 };
 
-const getTestData = (testDataSets, testName, pathPrefix) =>
-  get(pathPrefix, testDataSets[testName], {});
+const getTestData = (contents, pathPrefix) => get(pathPrefix, contents, {});
 
 const getLogger = debugMode => (...params) => {
   if (debugMode) {
@@ -44,8 +43,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
 /**
  * Runs through the form one time for each item in testDataSets.
  *
- * @typedef {TestConfig}
- * @type {object}
+ * @typedef {object} TestConfig
  * @property {function} setup - Function called before the browser navigates to the initial URL.
  *                              Useful for setting up api mocks.
  * @property {string} url - The url where the form can be found.
@@ -59,15 +57,18 @@ const runTest = async (page, testData, testConfig, userToken) => {
  *                                         testDataPathPrefix should be set to 'data'.
  * @property {boolean} debug - If true, the test won't run in headless mode, will do some extra
  *                             logging, and won't close the browser on a failed test.
+ * @property {array<ArrayPage>} arrayPaths
  * ---
- * @typedef {TestDataSets}
- * @type {object}
- * @description A set of test data pulled from json files. Each property name corresponds to
- *  the file name that the data is pulled from. The values are the parsed JSON objects contained
- *  in the files.
+ * @typedef {object} ArrayPage
+ * @property {string} url - The url for the array page
+ * @property {string} arrayPath - The arrayPath as it is in the formConfig
+ * ---
+ * @typedef {Object} DataSet
+ * @property {String} fileName - The file name
+ * @property {Object} contents - The parsed contents
  * ---
  * @param {TestConfig} testConfig
- * @param {TestData} testDataSets
+ * @param {Array<DataSet>} testDataSets
  */
 const testForm = (testDataSets, testConfig) => {
   let browser;
@@ -93,16 +94,16 @@ const testForm = (testDataSets, testConfig) => {
     }
   });
 
-  Object.keys(testDataSets).forEach(testName =>
+  testDataSets.forEach(({ fileName, contents }) =>
     test(
-      testName,
+      fileName,
       async () => {
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
         await fastForwardAnimations(page);
         await runTest(
           page,
-          getTestData(testDataSets, testName, testConfig.testDataPathPrefix),
+          getTestData(contents, testConfig.testDataPathPrefix),
           testConfig,
           token,
         );

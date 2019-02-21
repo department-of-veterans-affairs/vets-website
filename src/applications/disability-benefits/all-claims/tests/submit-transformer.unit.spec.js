@@ -17,10 +17,12 @@ import {
   transformedMinimalData,
   transformedMaximalData,
   transformedMinimalPtsdFormUploadData,
+  transformedNewSecondaryData,
 } from './schema/transformedData';
 
 import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
+import newSecondaryData from './schema/secondary-new-test.json';
 import minimalPtsdFormUploadData from './schema/minimal-ptsd-form-upload-test.json';
 
 import {
@@ -35,10 +37,14 @@ describe('transform', () => {
       transformedMinimalData,
     );
   });
-
   it('should transform maximal data correctly', () => {
     expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
       transformedMaximalData,
+    );
+  });
+  it('should transform new secondary disability data correctly', () => {
+    expect(JSON.parse(transform(formConfig, newSecondaryData))).to.deep.equal(
+      transformedNewSecondaryData,
     );
   });
   it('should transform ptsd form upload data correctly', () => {
@@ -186,9 +192,12 @@ describe('setActionTypes', () => {
       disabilityActionTypes.INCREASE,
     );
     expect(formattedDisabilities[1].disabilityActionType).to.equal(
-      disabilityActionTypes.NONE,
+      disabilityActionTypes.INCREASE,
     );
     expect(formattedDisabilities[2].disabilityActionType).to.equal(
+      disabilityActionTypes.NONE,
+    );
+    expect(formattedDisabilities[3].disabilityActionType).to.equal(
       disabilityActionTypes.NONE,
     );
   });

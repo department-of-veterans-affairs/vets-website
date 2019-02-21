@@ -28,7 +28,9 @@ import DowntimeNotification, {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
-import AppealListItem from '../components/AppealsListItemV2';
+import AppealListItem from '../../../claims-status/components/appeals-v2/AppealListItemV2';
+
+const appealTypes = Object.values(APPEAL_TYPES);
 
 function recordDashboardClick(product) {
   return () => {
@@ -54,12 +56,13 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_TYPES.current) {
+    if (appealTypes.includes(claim.type)) {
       return (
         <AppealListItem
           key={claim.id}
           appeal={claim}
           name={this.props.fullName}
+          external
         />
       );
     }

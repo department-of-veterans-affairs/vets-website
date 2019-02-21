@@ -4,10 +4,6 @@ export const uploadDescription = () => (
   <div>
     <h3>Supporting documents</h3>
     <p>
-      If you have other documents to support your PTSD claim, you’ll be able to
-      add those next.
-    </p>
-    <p>
       Some examples of other documents that could help support your claim
       include:
     </p>

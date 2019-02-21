@@ -1,13 +1,19 @@
 import React from 'react';
 
+import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
-import { setupProfileSession } from '../../../platform/user/profile/utilities';
+import { authnSettings } from '../../../platform/user/authentication/utilities';
+import {
+  hasSession,
+  setupProfileSession,
+} from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 
 import facilityLocator from '../../facility-locator/manifest';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -16,18 +22,38 @@ export class AuthApp extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.error) this.validateSession();
+    if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  handleAuthError = () => {
+  handleAuthError = e => {
+    const loginType = sessionStorage.getItem(authnSettings.PENDING_LOGIN_TYPE);
+
+    Raven.captureException(e, {
+      tags: {
+        loginType,
+      },
+    });
+
+    sessionStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
+
+    recordEvent({
+      event: `login-error-user-fetch`,
+    });
+
     this.setState({ error: true });
   };
 
   handleAuthSuccess = payload => {
     setupProfileSession(payload);
-    const returnUrl = sessionStorage.getItem('authReturnUrl');
-    sessionStorage.removeItem('authReturnUrl');
-    window.location = returnUrl || '/';
+    this.redirect();
+  };
+
+  redirect = () => {
+    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+    sessionStorage.removeItem(authnSettings.RETURN_URL);
+
+    window.location =
+      (!returnUrl.match(window.location.pathname) && returnUrl) || '/';
   };
 
   // Fetch the user to get the login policy and validate the session.
@@ -36,10 +62,17 @@ export class AuthApp extends React.Component {
   };
 
   renderError = () => {
-    const { code } = this.props.location.query;
+    const { code, auth } = this.props.location.query;
     let alertProps;
 
+    if (auth === 'fail') {
+      recordEvent({
+        event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      });
+    }
+
     switch (code) {
+      // User selected Deny on share info prompt
       case '001':
         alertProps = {
           headline: 'We couldn’t complete the sign-in process',
@@ -62,6 +95,7 @@ export class AuthApp extends React.Component {
         };
         break;
 
+      // User time too early/late
       case '002':
       case '003':
         alertProps = {
@@ -77,6 +111,7 @@ export class AuthApp extends React.Component {
         };
         break;
 
+      // User/Session Validation Failed
       case '004':
         alertProps = {
           headline: 'We can’t match your information to our Veteran records',
@@ -109,7 +144,8 @@ export class AuthApp extends React.Component {
         };
         break;
 
-      case '005':
+      // Unknown SAML Login Error
+      case '007':
       default:
         alertProps = {
           headline: 'We couldn’t sign you in',

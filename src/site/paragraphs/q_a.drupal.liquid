@@ -1,0 +1,37 @@
+{% comment %}
+  Example data:
+  "entity": {
+    "parentFieldName": "field_questions",
+    "fieldQuestion": "How do I schedule my first appointment?",
+    "fieldAnswer": [
+      {
+        "entity": {
+          "entityBundle": "wysiwyg",
+          "fieldWysiwyg": {
+            "processed": "<p><strong>If you’re already using VA medical services,</strong>..."
+          }
+        }
+      }
+    ]
+  }
+{% endcomment %}
+{% if entity.parentFieldName == "field_questions" %}
+  {% if sectionHeader == blank %}
+    {% assign header = "h2" %}
+  {% else %}
+    {% assign header = "h3" %}
+  {% endif %}
+{% else %}
+  {% assign header = "h3" %}
+{% endif %}
+<div itemscope="" itemtype="http://schema.org/Question">
+  <{{ header }} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
+  <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+    <div itemprop="text">
+    {% for answer in entity.fieldAnswer %}
+        {% assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
+        {% include {{ bundleComponent }} with entity = answer.entity %}
+    {% endfor %}
+    </div>
+  </div>
+</div>

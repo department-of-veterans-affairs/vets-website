@@ -22,7 +22,7 @@ const initialData = {
     street2: 'Apt 321',
     city: 'Abcd',
     country: 'USA',
-    state: 'South Carolina',
+    state: 'SC',
     postalCode: '12345',
   },
 };
@@ -91,7 +91,7 @@ describe('Contact Information', () => {
     fillData(form, 'input#root_mailingAddress_street', street);
     fillData(form, 'input#root_mailingAddress_street2', street2);
     fillData(form, 'input#root_mailingAddress_city', city);
-    fillData(form, 'input#root_mailingAddress_state', state);
+    fillData(form, 'select#root_mailingAddress_state', state);
     fillData(form, 'input#root_mailingAddress_postalCode', postalCode);
 
     form.find('form').simulate('submit');
@@ -101,7 +101,7 @@ describe('Contact Information', () => {
     form.unmount();
   });
 
-  it('should not allow submission without bank info', () => {
+  it('should not allow submission without required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -113,7 +113,7 @@ describe('Contact Information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(6);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

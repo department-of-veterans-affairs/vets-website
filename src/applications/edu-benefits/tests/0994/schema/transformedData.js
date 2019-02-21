@@ -4,10 +4,17 @@ const transformedMinimalDataActual = {
     first: 'testy',
     last: 'mcTestFace',
   },
-  appliedForVAEducationBenefits: false,
+  appliedForVaEducationBenefits: false,
   activeDuty: true,
-  dayTimePhone: '4445551212',
+  dayTimePhone: '1234567890',
   emailAddress: 'test2@test1.net',
+  mailingAddress: {
+    street: 'MILITARY ADDY 3',
+    city: 'Nowhere',
+    country: 'USA',
+    state: 'MI',
+    postalCode: '22312',
+  },
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -17,14 +24,16 @@ export const transformedMinimalData = JSON.stringify({
 });
 
 const transformedMaximalDataActual = {
+  prefillBankAccount: {
+    bankAccountType: 'checking',
+    bankAccountNumber: '*********1234',
+    bankRoutingNumber: '*****2115',
+    bankName: 'Comerica',
+  },
   bankAccount: {
     accountType: 'checking',
     routingNumber: '021000021',
     accountNumber: '12',
-    bankAccountType: 'Checking',
-    bankAccountNumber: '*********1234',
-    bankRoutingNumber: '*****2115',
-    bankName: 'Comerica',
   },
   dayTimePhone: '1234567890',
   nightTimePhone: '4445551212',
@@ -32,7 +41,8 @@ const transformedMaximalDataActual = {
   mailingAddress: {
     street: 'MILITARY ADDY 3',
     street2: 'teasdf',
-    city: 'DPO',
+    street3: 'teasdf',
+    city: 'Nowhere',
     country: 'USA',
     state: 'MI',
     postalCode: '22312',
@@ -48,15 +58,21 @@ const transformedMaximalDataActual = {
         state: 'SC',
       },
     },
+    {
+      providerName: 'Amazon Web Services',
+      programName: 'AWS Media Services',
+      courseType: 'online',
+      plannedStartDate: '2010-01-02',
+    },
   ],
-  currentEmployment: false,
-  currentHighTechnologyEmployment: true,
+  currentHighTechnologyEmployment: false,
+  pastHighTechnologyEmployment: true,
   currentSalary: 'moreThanSeventyFive',
   highestLevelofEducation: 'other',
   otherEducation: 'other ed',
   activeDuty: true,
   activeDutyDuringVetTec: true,
-  appliedForVAEducationBenefits: false,
+  appliedForVaEducationBenefits: false,
   applicantFullName: {
     first: 'Greg',
     middle: 'A',

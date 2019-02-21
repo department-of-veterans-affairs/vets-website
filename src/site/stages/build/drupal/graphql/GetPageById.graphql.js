@@ -1,5 +1,7 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
+const fragments = require('./fragments.graphql');
+const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 
 /**
  * Queries for a page by the page path. This will most likely need to be updated once we determine
@@ -8,6 +10,7 @@ const page = require('./page.graphql');
  */
 module.exports = `
 
+  ${fragments}
   ${landingPage}
   ${page}
 
@@ -20,6 +23,7 @@ module.exports = `
         }
       }
     }
+    ${sidebarQuery}
   }
 
 `;

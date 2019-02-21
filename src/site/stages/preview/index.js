@@ -1,14 +1,12 @@
 // Builds the site using Metalsmith as the top-level build runner.
 const Metalsmith = require('metalsmith');
 const collections = require('metalsmith-collections');
-const dateInFilename = require('metalsmith-date-in-filename');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
-const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
-const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
+const registerLiquidFilters = require('../../filters/liquid');
 
 const getOptions = require('../build/options');
 const createBuildSettings = require('../build/plugins/create-build-settings');
@@ -23,9 +21,7 @@ function createPipeline(options) {
   const BUILD_OPTIONS = getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
-  // Custom liquid filter(s)
-  liquid.filters.humanizeDate = dt =>
-    moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
+  registerLiquidFilters();
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
@@ -44,7 +40,6 @@ function createPipeline(options) {
   smith.use(applyFragments(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
-  smith.use(dateInFilename(true));
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
