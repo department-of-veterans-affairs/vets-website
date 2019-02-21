@@ -1,5 +1,8 @@
 {
   "data": {
+    "view:claimType": {
+      "view:claimingIncrease": true
+    },
     "isVaEmployee": false,
     "homelessOrAtRisk": "no",
     "phoneAndEmail": {
@@ -41,9 +44,6 @@
       }
     ],
     "view:disabilitiesClarification": {},
-    "hasTrainingPay": false,
-    "view:hasMilitaryRetiredPay": false,
-    "view:hasSeparationPay": false,
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,
