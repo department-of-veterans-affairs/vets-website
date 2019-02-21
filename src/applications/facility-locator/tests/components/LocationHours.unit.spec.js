@@ -1,8 +1,10 @@
+import React from 'react';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import LocationHours from '../../components/LocationHours';
 
-describe('Locator Helper Method Tests', () => {
-  it('should return true if data is valid', () => {
+describe('LocatorHours Helper Method Tests', () => {
+  it('.isValid should return true if data is valid', () => {
     const location = {
       attributes: {
         facilityType: 'va_health_facility',
@@ -12,8 +14,123 @@ describe('Locator Helper Method Tests', () => {
       },
     };
 
-    LocationHours.isValid(location);
+    const wrapper = shallow(<LocationHours />);
 
-    expect(true).to.eq(true);
+    expect(wrapper.instance().isValid(location)).to.eq(true);
+    wrapper.unmount();
+  });
+
+  it('should return false if location in undefined', () => {
+    const wrapper = shallow(<LocationHours />);
+
+    expect(wrapper.instance().isValid()).to.eq(false);
+    wrapper.unmount();
+  });
+
+  it('.isValid should return false if location has no hours and facilityType is not vet_center', () => {
+    const location = {
+      attributes: {
+        facilityType: 'va_health_facility',
+        hours: {},
+      },
+    };
+
+    const wrapper = shallow(<LocationHours />);
+
+    expect(wrapper.instance().isValid(location)).to.eq(false);
+    wrapper.unmount();
+  });
+
+  it('.isValid should return true if location has hours', () => {
+    const location = {
+      attributes: {
+        facilityType: 'va_center',
+        hours: {
+          monday: '800AM-430PM',
+        },
+      },
+    };
+
+    const wrapper = shallow(<LocationHours />);
+
+    expect(wrapper.instance().isValid(location)).to.eq(true);
+    wrapper.unmount();
+  });
+
+  it('.convertHour should convert API hour to a human readable hour', () => {
+    const hour = '800AM-430PM';
+    const expected = '8:00a.m. - 4:30p.m.';
+
+    const wrapper = shallow(<LocationHours />);
+    const result = wrapper.instance().convertHour(hour);
+
+    expect(result).to.eq(expected);
+    wrapper.unmount();
+  });
+
+  it('.convertHour should return "" is format is not valid', () => {
+    const hour = '00AM-30PM';
+    const expected = '';
+
+    const wrapper = shallow(<LocationHours />);
+    const result = wrapper.instance().convertHour(hour);
+
+    expect(result).to.eq(expected);
+    wrapper.unmount();
+  });
+
+  it('.convertHours should give back a object with converted hours', () => {
+    const hours = {
+      monday: '800AM-430PM',
+      tuesday: '800AM-430PM',
+      wednesday: '800AM-1200PM',
+      thursday: '800AM-430PM',
+      friday: '800AM-430PM',
+      saturday: '-',
+      sunday: '-',
+    };
+
+    const expected = {
+      monday: '8:00a.m. - 4:30p.m.',
+      tuesday: '8:00a.m. - 4:30p.m.',
+      wednesday: '8:00a.m. - 12:00p.m.',
+      thursday: '8:00a.m. - 4:30p.m.',
+      friday: '8:00a.m. - 4:30p.m.',
+      saturday: 'Closed',
+      sunday: 'Closed',
+    };
+
+    const wrapper = shallow(<LocationHours />);
+    const result = wrapper.instance().convertHours(hours);
+
+    expect(JSON.stringify(result)).to.eq(JSON.stringify(expected));
+    wrapper.unmount();
+  });
+
+  it('.convertHours should give back an object without the property of a malformed time', () => {
+    const hours = {
+      monday: '800AM-430PM',
+      tuesday: '800AM-430PM',
+      wednesday: '800AM-1200PM',
+      thursday: '800AM-430PM',
+      friday: '00AM-30PM',
+      saturday: '-',
+      sunday: '-',
+    };
+
+    const expected = {
+      monday: '8:00a.m. - 4:30p.m.',
+      tuesday: '8:00a.m. - 4:30p.m.',
+      wednesday: '8:00a.m. - 12:00p.m.',
+      thursday: '8:00a.m. - 4:30p.m.',
+      saturday: 'Closed',
+      sunday: 'Closed',
+    };
+
+    const wrapper = shallow(<LocationHours />);
+    const result = wrapper.instance().convertHours(hours);
+
+    expect(JSON.stringify(result)).to.eq(JSON.stringify(expected));
+    wrapper.unmount();
   });
 });
