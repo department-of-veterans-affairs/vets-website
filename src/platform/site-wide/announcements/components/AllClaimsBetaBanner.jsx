@@ -1,16 +1,16 @@
 import React from 'react';
-import environment from '../../../utilities/environment';
+import { features } from '../../../../applications/beta-enrollment/routes';
 
-export default function AllClaimsBetaBanner({ dismiss }) {
-  // staging only. Remove before launch
-  if (environment.isProduction()) return null;
-
-  // only allow a small percentage of users to see the banner
-  // if user was selected, persist in localStorage
-  // if (!localStorage.getItem('all-claims-beta')) {
-  //   if (Math.random() > 0.02) return null;
-  //   localStorage.setItem('all-claims-beta', true);
-  // }
+export default function AllClaimsBetaBanner({ dismiss, profile }) {
+  // skip probability logic if user is enrolled
+  if (!profile.services.includes(features.allClaims)) {
+    // only allow a small percentage of users to see the banner
+    // if user was selected, persist in localStorage
+    if (!localStorage.getItem('all-claims-beta')) {
+      if (Math.random() > 0.02) return null;
+      localStorage.setItem('all-claims-beta', true);
+    }
+  }
 
   return (
     <div className="personalization-announcement">

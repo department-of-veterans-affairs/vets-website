@@ -11,6 +11,7 @@ const WYSIWYG = '... wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
 const PROCESS = '... process';
 const QA_SECTION = '... qaSection';
+const QA = '... qa';
 const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const SPANISH_SUMMARY = '... spanishSummary';
@@ -40,8 +41,8 @@ module.exports = `
       entity {
         entityType
         entityBundle
-        ${WYSIWYG}
-        ${QA_SECTION}        
+        ${WYSIWYG}      
+        ${QA}        
       }
     }
     fieldContentBlock {
