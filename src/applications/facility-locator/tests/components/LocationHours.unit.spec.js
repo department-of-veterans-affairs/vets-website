@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import LocationHours from '../../components/LocationHours';
 
 describe('LocatorHours Helper Method Tests', () => {
-  it('.isValid should return true if data is valid', () => {
+  it('.isValidObject should return true if data is valid', () => {
     const location = {
       attributes: {
         facilityType: 'va_health_facility',
@@ -16,18 +16,18 @@ describe('LocatorHours Helper Method Tests', () => {
 
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValid(location)).to.eq(true);
+    expect(wrapper.instance().isValidObject(location)).to.eq(true);
     wrapper.unmount();
   });
 
   it('should return false if location in undefined', () => {
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValid()).to.eq(false);
+    expect(wrapper.instance().isValidObject()).to.eq(false);
     wrapper.unmount();
   });
 
-  it('.isValid should return false if location has no hours and facilityType is not vet_center', () => {
+  it('.isValidObject should return false if location has no hours and facilityType is not vet_center', () => {
     const location = {
       attributes: {
         facilityType: 'va_health_facility',
@@ -37,11 +37,11 @@ describe('LocatorHours Helper Method Tests', () => {
 
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValid(location)).to.eq(false);
+    expect(wrapper.instance().isValidObject(location)).to.eq(false);
     wrapper.unmount();
   });
 
-  it('.isValid should return true if location has hours', () => {
+  it('.isValidObject should return true if location has hours', () => {
     const location = {
       attributes: {
         facilityType: 'va_center',
@@ -53,7 +53,7 @@ describe('LocatorHours Helper Method Tests', () => {
 
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValid(location)).to.eq(true);
+    expect(wrapper.instance().isValidObject(location)).to.eq(true);
     wrapper.unmount();
   });
 
