@@ -192,7 +192,7 @@ export const facilityData = {
           tuesday: '800AM-430PM',
           wednesday: '800AM-1200PM',
           thursday: '800AM-430PM',
-          friday: '00AM-30PM',
+          friday: '800AM-430PM',
           saturday: '-',
           sunday: '-',
         },
