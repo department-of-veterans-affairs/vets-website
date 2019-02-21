@@ -42,6 +42,13 @@ function createMegaMenuData(buildOptions) {
     delete aboutVa.menuSections.fragments;
 
     writeToCache(buildOptions, megaMenuData);
+
+    const serialized = JSON.stringify(megaMenuData, null, 4);
+    Object.keys(files).forEach(file => {
+      // eslint-disable-next-line no-param-reassign
+      files[file].megaMenuData = serialized;
+    });
+
     done();
   };
 }

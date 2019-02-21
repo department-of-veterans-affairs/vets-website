@@ -17,7 +17,8 @@ import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
 // The MegaMenu data is generated out of vagov-content, rather than a static JSON file.
 // During the build, the resultant link data is first written into temporary storage,
 // and then required by Webpack to be made available under __MEGAMENU_CONFIG__.
-const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
+// const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
+const MEGAMENU_CONFIG = window.VetsGov.megaMenuData;
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],

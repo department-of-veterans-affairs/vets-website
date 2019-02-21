@@ -108,6 +108,8 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
+  smith.use(createMegaMenu(BUILD_OPTIONS));
+
   smith.use(
     navigation({
       navConfigs: {
@@ -128,8 +130,6 @@ function defaultBuild(BUILD_OPTIONS) {
       pattern: '**/*.{md,html}',
     }),
   );
-
-  smith.use(createMegaMenu(BUILD_OPTIONS));
 
   /*
   Add nonce attribute with substition string to all inline script tags
