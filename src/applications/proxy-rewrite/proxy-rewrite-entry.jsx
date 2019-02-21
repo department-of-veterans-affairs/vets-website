@@ -119,7 +119,8 @@ function mountReactComponents(commonStore) {
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
+  const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
+  startMegaMenuWidget(commonStore, MEGAMENU_CONFIG);
   startMobileMenuButton(commonStore);
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
