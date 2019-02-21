@@ -12,10 +12,17 @@ const {
   plannedStartDate,
 } = fullSchema.properties.vetTecPrograms.items.properties;
 
+const getCourseType = (formData, index) =>
+  _.get(formData, `vetTecPrograms[${index}].courseType`, '');
+
 const checkLocation = field => field === 'inPerson' || field === 'both';
 
-const checkProgramRequired = (formData, index) =>
-  _.get(formData, `vetTecPrograms[${index}].providerName`, '').trim() !== '';
+const programNameEntered = (formData, index) =>
+  _.get(formData, `vetTecPrograms[${index}].programName`, '').trim() !== '';
+
+const locationRequired = (formData, index) =>
+  programNameEntered(formData, index) &&
+  checkLocation(getCourseType(formData, index));
 
 export const uiSchema = {
   'ui:description': trainingDescription,
@@ -42,6 +49,7 @@ export const uiSchema = {
             both: 'It’s both online and in-person',
           },
         },
+        'ui:required': programNameEntered,
       },
       'view:location': {
         'ui:title': ' ',
@@ -53,7 +61,7 @@ export const uiSchema = {
       },
       locationCity: {
         'ui:title': 'City',
-        'ui:required': checkProgramRequired,
+        'ui:required': locationRequired,
         'ui:errorMessages': {
           pattern: 'Please fill in a valid city',
         },
@@ -67,7 +75,7 @@ export const uiSchema = {
         'ui:errorMessages': {
           pattern: 'Please select a valid state',
         },
-        'ui:required': checkProgramRequired,
+        'ui:required': locationRequired,
         'ui:options': {
           expandUnder: 'courseType',
           expandUnderCondition: checkLocation,
@@ -75,7 +83,7 @@ export const uiSchema = {
       },
       plannedStartDate: {
         ...dateUI('What is your estimated start date?'),
-        'ui:required': checkProgramRequired,
+        'ui:required': programNameEntered,
       },
     },
   },
