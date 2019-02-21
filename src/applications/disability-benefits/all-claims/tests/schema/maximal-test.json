@@ -1,5 +1,9 @@
 {
   "data": {
+    "view:claimType": {
+      "view:claimingIncrease": true,
+      "view:claimingNew": true
+    },
     "standardClaim": false,
     "view:fdcWarning": {},
     "waiveTrainingPay": true,
@@ -159,7 +163,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Asthma",
+          "causedByDisability": "Diabetes mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",

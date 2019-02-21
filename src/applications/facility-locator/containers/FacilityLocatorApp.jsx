@@ -37,7 +37,7 @@ class FacilityLocatorApp extends React.Component {
         Home
       </a>,
       <Link to={appendQuery('/', searchQueryObj)} key="facility-locator">
-        Find Facilities & Services
+        Find Locations
       </Link>,
     ];
 

@@ -2,7 +2,7 @@ import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
-import { isWithinRange, getPOWValidationMessage } from './utils';
+import { isWithinRange, getPOWValidationMessage, pathWithIndex } from './utils';
 
 import {
   MILITARY_CITIES,
@@ -43,9 +43,14 @@ export function validateMilitaryCity(
   schema,
   messages,
   options,
+  arrayIndex,
 ) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    _.get(`${options.addressPath}.state`, formData, ''),
+    _.get(
+      `${pathWithIndex(options.addressPath, arrayIndex)}.state`,
+      formData,
+      '',
+    ),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -62,9 +67,14 @@ export function validateMilitaryState(
   schema,
   messages,
   options,
+  arrayIndex,
 ) {
   const isMilitaryCity = MILITARY_CITIES.includes(
-    _.get(`${options.addressPath}.city`, formData, '')
+    _.get(
+      `${pathWithIndex(options.addressPath, arrayIndex)}.city`,
+      formData,
+      '',
+    )
       .trim()
       .toUpperCase(),
   );

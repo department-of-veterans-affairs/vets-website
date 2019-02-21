@@ -15,7 +15,7 @@
     ]
   }
 {% endcomment %}
-{% if paragraph.parentFieldName == "field_questions" %}
+{% if entity.parentFieldName == "field_questions" %}
   {% if sectionHeader == blank %}
     {% assign header = "h2" %}
   {% else %}
@@ -25,10 +25,10 @@
   {% assign header = "h3" %}
 {% endif %}
 <div itemscope="" itemtype="http://schema.org/Question">
-  <{{ header }} itemprop="name">{{ paragraph.fieldQuestion }}</{{ header }}>
+  <{{ header }} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
   <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
     <div itemprop="text">
-    {% for answer in paragraph.fieldAnswer %}
+    {% for answer in entity.fieldAnswer %}
         {% assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
         {% include {{ bundleComponent }} with entity = answer.entity %}
     {% endfor %}
