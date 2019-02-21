@@ -102,23 +102,13 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       pageCompiled = page;
     }
 
-    files[`drupal${drupalPagePath}/index.html`] = {
-      ...pageCompiled,
-      isDrupalPage: true,
-      layout: `${entityBundle}.drupal.liquid`,
-      contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(pageCompiled, null, 4),
-      // Keep these pages out of the sitemap until we remove
-      // the drupal prefix
-      private: true,
-    };
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(
-      page,
+      pageCompiled,
       `${entityBundle}.drupal.liquid`,
     );
 
     if (page.entityBundle === 'health_care_region_page') {
-      createHealthCareRegionListPages(page, drupalPagePath, files);
+      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
     }
   }
 
