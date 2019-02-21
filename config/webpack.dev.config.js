@@ -1,4 +1,4 @@
-const setupLocalProxyRewrite = require('../src/applications/header-footer-rewrite/local-rewrite');
+const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const appSettings = require('./parse-app-settings');
 
 function generateWebpackDevConfig(buildOptions) {

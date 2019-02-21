@@ -1,7 +1,0 @@
-{
-  "appName": "Header Footer Loader",
-  "entryFile": "./loader-entry.jsx",
-  "entryName": "loader",
-  "noRouting": true,
-  "production": true
-}

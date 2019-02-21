@@ -1,7 +1,0 @@
-{
-  "appName": "Header Footer Rewriter",
-  "entryFile": "./rewriter-entry.jsx",
-  "entryName": "rewriter",
-  "noRouting": true,
-  "production": true
-}
