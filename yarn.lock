@@ -23,10 +23,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation-react@^3.1.0":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-3.1.1.tgz#7726839d258538ec6ee059912f73c1acc4323ef2"
-  integrity sha512-pa9nMQWYZWn+Hns0DCV2RL2BLlW1dH7AI2cHuh7dDOtWLfw9w11wtgTKc/GQ8sEPcgzGEn/eF6Cw3yIFqxidyQ==
+"@department-of-veterans-affairs/formation-react@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.0.0.tgz#aedcc7dafc3e3294a1d3c60cbcc42abb4bb89bd5"
+  integrity sha512-PYdcXQxhCAlV6JGyNT7ZACl2CzRnLyMy7fooX75rsTT1PUVdt9VWpRfZOnmV/AUqTuTviR5EXrT8YK+zi69ZqA==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.11"
@@ -11439,9 +11439,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#811b7c3f23bd49d166c302326b80cce2b3789595":
-  version "3.136.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#811b7c3f23bd49d166c302326b80cce2b3789595"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0387db93d7fad4ac530afe0a5a4e5cd91cde8c99":
+  version "3.136.6"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0387db93d7fad4ac530afe0a5a4e5cd91cde8c99"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"
