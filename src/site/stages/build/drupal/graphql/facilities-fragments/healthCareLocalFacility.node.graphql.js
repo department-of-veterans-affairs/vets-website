@@ -4,12 +4,26 @@
 
 const FACILITIES_RESULTS = `
   entities {
-      ... on NodeHealthCareLocalFacility {
-        fieldFacilityLocatorApiId
-        fieldNicknameForThisFacility
-        fieldMainLocation
-        changed        
-      }
+    ... on NodeHealthCareLocalFacility {
+      fieldFacilityLocatorApiId
+      fieldNicknameForThisFacility
+      fieldMainLocation
+      fieldMedia {
+        entity {
+          ... on MediaImage {
+            image {
+              alt
+              title
+              derivative(style: CROP_3_2) {
+                  url
+                  width
+                  height
+              }
+            }
+          }
+        }
+      }        
+    }
   }
 `;
 
