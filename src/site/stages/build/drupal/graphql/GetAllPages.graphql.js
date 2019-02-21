@@ -2,7 +2,6 @@ const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const fragments = require('./fragments.graphql');
-const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 
 /**
  * Queries for all of the pages out of Drupal

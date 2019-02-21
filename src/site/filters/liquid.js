@@ -36,6 +36,18 @@ module.exports = function registerFilters() {
         errorMessage: paragraph.entity.errorMessage,
       }));
 
-  liquid.filters.facilityIds = facilities =>
-    facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
+  // Used for the react widget "Facilities List" - includes the facility locator api id and the image object from drupal
+  liquid.filters.widgetFacilitiesList = facilities => {
+    const facilityList = {};
+    facilities.forEach(f => {
+      // Facility Locator ids - the ids NEED to match what is returned from the facility locator api
+      const facilityLocatorApiId = f.fieldFacilityLocatorApiId
+        .split('_')[1]
+        .toUpperCase();
+      const id = `vha_`.concat(facilityLocatorApiId);
+
+      facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : null;
+    });
+    return JSON.stringify(facilityList);
+  };
 };

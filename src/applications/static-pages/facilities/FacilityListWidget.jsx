@@ -8,11 +8,12 @@ export default class FacilityListWidget extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      parsedFacilities: JSON.parse(this.props.facilities),
     };
   }
 
   componentDidMount() {
-    const facilityIds = this.formatFacilityIds(this.props.facilities);
+    const facilityIds = Object.keys(this.state.parsedFacilities);
     apiRequest(
       `/facilities/va?ids=${facilityIds}`,
       null,
@@ -20,16 +21,6 @@ export default class FacilityListWidget extends React.Component {
       this.handleFacilitiesError,
     );
   }
-
-  // Make sure the ending facilityId is upper case
-  formatFacilityIds = facilityIds =>
-    facilityIds
-      .split(',')
-      .map(id => {
-        const vhaId = id.split('_')[1].toUpperCase();
-        return `vha_`.concat(vhaId);
-      })
-      .join(',');
 
   handleFacilitiesSuccess = facilities => {
     this.setState({
@@ -105,14 +96,27 @@ export default class FacilityListWidget extends React.Component {
             <div className="vads-u-margin-bottom--1p5">
               <div className="main-phone">
                 <strong>Main phone: </strong>
-                <a href={`tel:${facility.attributes.phone.main}`}>
-                  {facility.attributes.phone.main}
+                <a
+                  href={`tel:${facility.attributes.phone.main.replace(
+                    /[ ]?x/,
+                    '',
+                  )}`}
+                >
+                  {facility.attributes.phone.main.replace(/[ ]?x/, '')}
                 </a>
               </div>
               <div className="mental-health-clinic-phone">
                 <strong>Mental health clinic: </strong>
-                <a href={`tel:${facility.attributes.phone.mentalHealthClinic}`}>
-                  {facility.attributes.phone.mentalHealthClinic}
+                <a
+                  href={`tel:${facility.attributes.phone.mentalHealthClinic.replace(
+                    /[ ]?x/,
+                    '',
+                  )}`}
+                >
+                  {facility.attributes.phone.mentalHealthClinic.replace(
+                    /[ ]?x/,
+                    '',
+                  )}
                 </a>
               </div>
             </div>
@@ -121,6 +125,20 @@ export default class FacilityListWidget extends React.Component {
                 Location details <i className="fa fa-chevron-right" />
               </a>
             </div>
+          </section>
+          <section className="usa-width-one-half">
+            <img
+              src={
+                this.state.parsedFacilities[facility.id]
+                  ? this.state.parsedFacilities[facility.id].derivative.url
+                  : ''
+              }
+              alt={
+                this.state.parsedFacilities[facility.id]
+                  ? this.state.parsedFacilities[facility.id].alt
+                  : ''
+              }
+            />
           </section>
         </div>
       );
