@@ -16,7 +16,7 @@ export const bankInfoNote = (
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
-    event: 'form-help-text-clicked',
+    event: 'edu-0994--form-help-text-clicked',
     'help-text-label': 'What if I don’t have a bank account?',
   });
 };
