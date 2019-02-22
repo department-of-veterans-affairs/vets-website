@@ -15,7 +15,7 @@ export class IntroductionPage extends React.Component {
         <FormTitle title="Apply for the Veteran Employment Through Technology Education Courses (VET TEC) Pilot Program" />
         <p>
           VA Form 22-0994 (Application for Veteran Employment Through Technology
-          Education Courses [VET TEC]).
+          Education Courses [VET TEC] Pilot Program)
         </p>
         <SaveInProgressIntro
           startMessageOnly
@@ -46,9 +46,10 @@ export class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                You can complete the application to see if you are eligible,
-                even if you have not yet selected the specific program you’d
-                like to attend.{' '}
+                To be eligible for VET TEC, you must be a Veteran with at least
+                one day of unexpired education benefits remaining. You can
+                complete the application to see if you’re eligible for VET TEC,
+                even if you haven’t selected the program you'd like to attend.
                 <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
                   Learn more about the types of programs that are covered by VET
                   TEC
@@ -69,15 +70,22 @@ export class IntroductionPage extends React.Component {
                 <h5>Apply</h5>
               </div>
               <ul>
-                <li>Complete this application form.</li>
-                <li>
-                  Complete VA Form 22-1990, if you haven’t already. You can
-                  access it from the confirmation page that appears once you
-                  submit this form (VA Form 22-0994).
-                </li>
+                <li>Complete this VET TEC application (VA Form 22-0994). </li>
                 <li>
                   After submitting the form, you’ll get a confirmation message.
                   You can print this for your records.
+                </li>
+                <li>
+                  Then, complete an Application for VA Education Benefits (VA
+                  Form 22-1990), if you haven’t already.
+                </li>
+                <li>
+                  <strong>Note:</strong>
+                  If you're already receiving VA education benefits, you’ve
+                  already completed that application and don’t need to submit it
+                  again. If you haven’t applied for VA education benefits yet,
+                  you’ll be able to do that from the confirmation page that
+                  appears after you submit your VET TEC application.
                 </li>
               </ul>
             </li>
