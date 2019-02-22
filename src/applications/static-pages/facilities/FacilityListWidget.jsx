@@ -13,7 +13,7 @@ export default class FacilityListWidget extends React.Component {
 
   componentDidMount() {
     const facilityIds = Object.keys(this.props.facilities);
-    apiRequest(
+    this.request = apiRequest(
       `/facilities/va?ids=${facilityIds}`,
       null,
       this.handleFacilitiesSuccess,

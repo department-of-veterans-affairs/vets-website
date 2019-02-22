@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import {
   mockWidgetFacilitiesList,
   mockFacilityLocatorApiResponse,
@@ -25,7 +25,7 @@ describe('facilities <FacilityListWidget>', () => {
     const tree = shallow(
       <FacilityListWidget facilities={mockWidgetFacilitiesList} />,
     );
-    setTimeout(() => {
+    tree.instance().request.then(() => {
       tree.update();
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
@@ -47,7 +47,8 @@ describe('facilities <FacilityListWidget>', () => {
         'Mental health clinic: 412-360-6600',
       );
       tree.unmount();
+      resetFetch();
       done();
-    }, 0);
+    });
   });
 });
