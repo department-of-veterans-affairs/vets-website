@@ -13,6 +13,9 @@ describe('facilities <FacilityListWidget>', () => {
   it('should render loading', () => {
     const tree = shallow(
       <FacilityListWidget facilities={mockWidgetFacilitiesList} />,
+      {
+        disableLifecycleMethods: true,
+      },
     );
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
