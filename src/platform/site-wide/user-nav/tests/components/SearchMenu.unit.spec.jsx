@@ -1,7 +1,7 @@
 import React from 'react';
+import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
-import { expect } from 'chai';
 
 import SearchMenu from '../../components/SearchMenu.jsx';
 
@@ -20,7 +20,7 @@ describe('<SearchMenu>', () => {
   it('should show and focus the search bar when opened', () => {
     const wrapper = mount(<SearchMenu {...props} />);
     const searchField = wrapper.ref('searchField');
-    searchField.focus = sinon.spy();
+    sinon.spy(searchField, 'focus');
     wrapper.setProps({ isOpen: true });
     expect(searchField.focus.calledOnce).to.be.true;
     expect(wrapper.find('.va-dropdown-panel').prop('hidden')).to.be.false;
