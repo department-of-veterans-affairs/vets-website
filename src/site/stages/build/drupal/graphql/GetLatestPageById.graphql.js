@@ -1,6 +1,7 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const fragments = require('./fragments.graphql');
+const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 
 /**
@@ -12,6 +13,7 @@ module.exports = `
   ${fragments}
   ${landingPage}
   ${page}
+  ${healthCareRegionPage}
 
   query GetLatestPageById($id: String!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -22,6 +24,7 @@ module.exports = `
       entities {
         ... landingPage
         ... page
+        ... healthCareRegionPage
       }
     }
     ${sidebarQuery}
