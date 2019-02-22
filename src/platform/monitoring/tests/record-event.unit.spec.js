@@ -17,7 +17,7 @@ describe('recordEvent', () => {
 
   it('should record events to the data layer', () => {
     const e = { event: 'foo-bar', contextualData: 'text' };
-    expect(recordEvent(e)).to.equal(1);
+    recordEvent(e);
     expect(global.window.dataLayer.includes(e)).to.be.true;
   });
 });
