@@ -51,13 +51,15 @@ class ErrorableCheckbox extends React.Component {
           id={this.inputId}
           name={this.props.name}
           type="checkbox"
-          onChange={this.handleChange}/>
+          onChange={this.handleChange}
+        />
         <label
           className={
             this.props.errorMessage ? 'usa-input-error-label' : undefined
           }
           name={`${this.props.name}-label`}
-          htmlFor={this.inputId}>
+          htmlFor={this.inputId}
+        >
           {this.props.label}
           {requiredSpan}
         </label>
@@ -91,7 +93,7 @@ ErrorableCheckbox.propTypes = {
   /**
    * If the checkbox is required or not
    */
-  required: PropTypes.bool
+  required: PropTypes.bool,
 };
 
 export default ErrorableCheckbox;

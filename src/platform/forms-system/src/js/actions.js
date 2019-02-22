@@ -16,21 +16,21 @@ export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
     type: CLOSE_REVIEW_CHAPTER,
     closedChapter,
-    pageKeys
+    pageKeys,
   };
 }
 
 export function openReviewChapter(openedChapter) {
   return {
     type: OPEN_REVIEW_CHAPTER,
-    openedChapter
+    openedChapter,
   };
 }
 
 export function setData(data) {
   return {
     type: SET_DATA,
-    data
+    data,
   };
 }
 
@@ -39,7 +39,7 @@ export function setEditMode(page, edit, index = null) {
     type: SET_EDIT_MODE,
     edit,
     page,
-    index
+    index,
   };
 }
 
@@ -50,7 +50,7 @@ export function setSubmission(field, value, extra = null) {
     type: SET_SUBMISSION,
     field,
     value,
-    extra
+    extra,
   };
 }
 
@@ -58,22 +58,21 @@ export function setPreSubmit(preSubmitField, preSubmitAccepted) {
   return {
     type: SET_PRE_SUBMIT,
     preSubmitField,
-    preSubmitAccepted
+    preSubmitAccepted,
   };
 }
 
 export function setSubmitted(response) {
   return {
     type: SET_SUBMITTED,
-    response: typeof response.data !== 'undefined' ? response.data : response
+    response: typeof response.data !== 'undefined' ? response.data : response,
   };
 }
-
 
 export function setViewedPages(pageKeys) {
   return {
     type: SET_VIEWED_PAGES,
-    pageKeys
+    pageKeys,
   };
 }
 
@@ -87,14 +86,18 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
           event: `${trackingPrefix}-submission-successful`,
         });
         // got this from the fetch polyfill, keeping it to be safe
-        const responseBody = 'response' in req ? req.response : req.responseText;
+        const responseBody =
+          'response' in req ? req.response : req.responseText;
         const results = JSON.parse(responseBody);
         resolve(results);
       } else {
         let error;
         if (req.status === 429) {
           error = new Error(`vets_throttled_error: ${req.statusText}`);
-          error.extra = parseInt(req.getResponseHeader('x-ratelimit-reset'), 10);
+          error.extra = parseInt(
+            req.getResponseHeader('x-ratelimit-reset'),
+            10,
+          );
         } else {
           error = new Error(`vets_server_error: ${req.statusText}`);
         }
@@ -135,11 +138,13 @@ export function submitForm(formConfig, form) {
       fingerprint: [formConfig.trackingPrefix, error.message],
       extra: {
         errorType,
-        statusText: error.statusText
-      }
+        statusText: error.statusText,
+      },
     });
     recordEvent({
-      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
+      event: `${formConfig.trackingPrefix}-submission-failed${
+        errorType.startsWith('client') ? '-client' : ''
+      }`,
     });
   };
 
@@ -157,14 +162,21 @@ export function submitForm(formConfig, form) {
         ? formConfig.transformForSubmit(formConfig, form)
         : transformForSubmit(formConfig, form);
 
-      promise = submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix);
+      promise = submitToUrl(
+        body,
+        formConfig.submitUrl,
+        formConfig.trackingPrefix,
+      );
     }
 
     return promise
       .then(resp => dispatch(setSubmitted(resp)))
       .catch(errorReceived => {
         // overly cautious
-        const error = errorReceived instanceof Error ? errorReceived : new Error(errorReceived);
+        const error =
+          errorReceived instanceof Error
+            ? errorReceived
+            : new Error(errorReceived);
         const errorMessage = String(error.message);
         let errorType = 'clientError';
         if (errorMessage.startsWith('vets_throttled_error')) {
@@ -183,7 +195,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
     if (file.size > uiOptions.maxSize) {
       onChange({
         name: file.name,
-        errorMessage: 'File is too large to be uploaded'
+        errorMessage: 'File is too large to be uploaded',
       });
 
       onError();
@@ -193,7 +205,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
     if (file.size < uiOptions.minSize) {
       onChange({
         name: file.name,
-        errorMessage: 'File is too small to be uploaded'
+        errorMessage: 'File is too small to be uploaded',
       });
 
       onError();
@@ -202,10 +214,14 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
 
     // we limit file types, but it’s not respected on mobile and desktop
     // users can bypass it without much effort
-    if (!uiOptions.fileTypes.some(fileType => file.name.toLowerCase().endsWith(fileType.toLowerCase()))) {
+    if (
+      !uiOptions.fileTypes.some(fileType =>
+        file.name.toLowerCase().endsWith(fileType.toLowerCase()),
+      )
+    ) {
       onChange({
         name: file.name,
-        errorMessage: 'File is not one of the allowed types'
+        errorMessage: 'File is not one of the allowed types',
       });
 
       onError();
@@ -214,7 +230,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
 
     onChange({
       name: file.name,
-      uploading: true
+      uploading: true,
     });
 
     const payload = uiOptions.createPayload(file, getState().form.formId);
@@ -230,12 +246,16 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
       } else {
         let errorMessage = req.statusText;
         if (req.status === 429) {
-          errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
+          errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
+            moment.unix(
+              parseInt(req.getResponseHeader('x-ratelimit-reset'), 10),
+            ),
+          )}.`;
         }
 
         onChange({
           name: file.name,
-          errorMessage
+          errorMessage,
         });
         Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
         onError();
@@ -246,17 +266,17 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
       const errorMessage = 'Network request failed';
       onChange({
         name: file.name,
-        errorMessage
+        errorMessage,
       });
       Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
         extra: {
-          statusText: req.statusText
-        }
+          statusText: req.statusText,
+        },
       });
       onError();
     });
 
-    req.upload.addEventListener('progress', (evt) => {
+    req.upload.addEventListener('progress', evt => {
       if (evt.lengthComputable && onProgress) {
         // setting this at 80, because there's some time after we get to 100%
         // where the backend is uploading to s3

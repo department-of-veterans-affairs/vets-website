@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import { Validator } from 'jsonschema';
 
 import { isActivePage, parseISODate } from './helpers';
@@ -11,7 +11,7 @@ import {
   isValidDateRange,
   isValidRoutingNumber,
   isValidPartialMonthYear,
-  isValidPartialMonthYearInPast
+  isValidPartialMonthYearInPast,
 } from './utilities/validations';
 
 /*
@@ -23,16 +23,16 @@ import {
  */
 const defaultMessages = {
   required: 'Please provide a response',
-  'enum': 'Please select a valid option',
-  maxLength: (max) => `This field should be less than ${max} characters`,
-  minLength: (min) => `This field should be at least ${min} character(s)`,
-  format: (type) => {
+  enum: 'Please select a valid option',
+  maxLength: max => `This field should be less than ${max} characters`,
+  minLength: min => `This field should be at least ${min} character(s)`,
+  format: type => {
     if (type === 'email') {
       return 'Please enter a valid email address';
     }
 
     return 'Please enter a valid value';
-  }
+  },
 };
 
 function getMessage(path, name, uiSchema, errorArgument) {
@@ -40,8 +40,13 @@ function getMessage(path, name, uiSchema, errorArgument) {
   if (path === 'instance') {
     pathSpecificMessage = _.get(['ui:errorMessages', name], uiSchema);
   } else {
-    const cleanPath = path.replace('instance.', '').replace(/\[\d+\]/g, '.items');
-    pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
+    const cleanPath = path
+      .replace('instance.', '')
+      .replace(/\[\d+\]/g, '.items');
+    pathSpecificMessage = _.get(
+      `${cleanPath}['ui:errorMessages'].${name}`,
+      uiSchema,
+    );
   }
 
   if (pathSpecificMessage) {
@@ -66,11 +71,16 @@ export function transformErrors(errors, uiSchema) {
       const path = `${error.property}.${error.argument}`;
       return _.assign(error, {
         property: path,
-        message: getMessage(path, error.name, uiSchema, error.argument)
+        message: getMessage(path, error.name, uiSchema, error.argument),
       });
     }
 
-    const newMessage = getMessage(error.property, error.name, uiSchema, error.argument);
+    const newMessage = getMessage(
+      error.property,
+      error.name,
+      uiSchema,
+      error.argument,
+    );
     if (newMessage) {
       return _.set('message', newMessage, error);
     }
@@ -118,44 +128,64 @@ export function transformErrors(errors, uiSchema) {
  * @param {number} [currentIndex] Used to select the correct field data to validate against
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '', currentIndex = null) {
+export function uiSchemaValidate(
+  errors,
+  uiSchema,
+  schema,
+  formData,
+  path = '',
+  currentIndex = null,
+) {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
-        const currentSchema = index < schema.items.length
-          ? schema.items[index]
-          : schema.additionalItems;
+        const currentSchema =
+          index < schema.items.length
+            ? schema.items[index]
+            : schema.additionalItems;
         if (!_.get(newPath, errors)) {
           const currentErrors = path ? _.get(path, errors) : errors;
           currentErrors[index] = {
             __errors: [],
             addError(error) {
               this.__errors.push(error);
-            }
+            },
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, currentSchema, formData, newPath, index);
+        uiSchemaValidate(
+          errors,
+          uiSchema.items,
+          currentSchema,
+          formData,
+          newPath,
+          index,
+        );
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
         .filter(prop => !prop.startsWith('ui:'))
-        .forEach((item) => {
+        .forEach(item => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
           if (!_.get(nextPath, errors)) {
-            const currentErrors = path === ''
-              ? errors
-              : _.get(path, errors);
+            const currentErrors = path === '' ? errors : _.get(path, errors);
 
             currentErrors[item] = {
               __errors: [],
               addError(error) {
                 this.__errors.push(error);
-              }
+              },
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath, currentIndex);
+          uiSchemaValidate(
+            errors,
+            uiSchema[item],
+            schema.properties[item],
+            formData,
+            nextPath,
+            currentIndex,
+          );
         });
     }
 
@@ -164,9 +194,24 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '', 
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], currentIndex);
+          validation(
+            pathErrors,
+            currentData,
+            formData,
+            schema,
+            uiSchema['ui:errorMessages'],
+            currentIndex,
+          );
         } else {
-          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options, currentIndex);
+          validation.validator(
+            pathErrors,
+            currentData,
+            formData,
+            schema,
+            uiSchema['ui:errorMessages'],
+            validation.options,
+            currentIndex,
+          );
         }
       });
     }
@@ -184,47 +229,57 @@ export function errorSchemaIsValid(errorSchema) {
 
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
-  const validPages = Object.keys(form.pages)
-    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form.data));
+  const validPages = Object.keys(form.pages).filter(pageKey =>
+    isActivePage(_.find({ pageKey }, pageConfigs), form.data),
+  );
 
   const v = new Validator();
 
-  return validPages.reduce(({ isValid, errors }, page) => {
-    const { uiSchema, schema, showPagePerItem, itemFilter, arrayPath } = form.pages[page];
-    let formData = form.data;
+  return validPages.reduce(
+    ({ isValid, errors }, page) => {
+      const {
+        uiSchema,
+        schema,
+        showPagePerItem,
+        itemFilter,
+        arrayPath,
+      } = form.pages[page];
+      let formData = form.data;
 
-    if (showPagePerItem) {
-      const arrayData = formData[arrayPath];
-      if (arrayData) {
-        formData = _.set(arrayPath, itemFilter ? arrayData.filter(itemFilter) : arrayData, formData);
-      } else {
-        formData = _.unset(arrayPath, formData);
+      if (showPagePerItem) {
+        const arrayData = formData[arrayPath];
+        if (arrayData) {
+          formData = _.set(
+            arrayPath,
+            itemFilter ? arrayData.filter(itemFilter) : arrayData,
+            formData,
+          );
+        } else {
+          formData = _.unset(arrayPath, formData);
+        }
       }
-    }
 
-    const result = v.validate(
-      formData,
-      schema
-    );
+      const result = v.validate(formData, schema);
 
-    if (result.valid) {
-      const customErrors = {};
-      uiSchemaValidate(customErrors, uiSchema, schema, formData);
+      if (result.valid) {
+        const customErrors = {};
+        uiSchemaValidate(customErrors, uiSchema, schema, formData);
+
+        return {
+          isValid: isValid && errorSchemaIsValid(customErrors),
+          errors: errors.concat(customErrors),
+        };
+      }
 
       return {
-        isValid: isValid && errorSchemaIsValid(customErrors),
-        errors: errors.concat(customErrors)
+        isValid: false,
+        // removes PII
+        errors: errors.concat(result.errors.map(_.unset('instance'))),
       };
-    }
-
-    return {
-      isValid: false,
-      // removes PII
-      errors: errors.concat(result.errors.map(_.unset('instance')))
-    };
-  }, { isValid: true, errors: [] });
+    },
+    { isValid: true, errors: [] },
+  );
 }
-
 
 export function validateSSN(errors, ssn) {
   if (ssn && !isValidSSN(ssn)) {
@@ -251,8 +306,16 @@ export function validateMonthYear(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages = {}) {
-  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
+export function validateCurrentOrPastDate(
+  errors,
+  dateString,
+  formData,
+  schema,
+  errorMessages = {},
+) {
+  const {
+    futureDate = 'Please provide a valid current or past date',
+  } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
@@ -260,8 +323,16 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
   }
 }
 
-export function validateCurrentOrPastMonthYear(errors, dateString, formData, schema, errorMessages = {}) {
-  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
+export function validateCurrentOrPastMonthYear(
+  errors,
+  dateString,
+  formData,
+  schema,
+  errorMessages = {},
+) {
+  const {
+    futureDate = 'Please provide a valid current or past date',
+  } = errorMessages;
   validateMonthYear(errors, dateString);
   const { month, year } = parseISODate(dateString);
   if (!isValidPartialMonthYearInPast(month, year)) {
@@ -275,7 +346,10 @@ export function validateCurrentOrPastMonthYear(errors, dateString, formData, sch
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   validateDate(errors, dateString);
   const { month, year } = parseISODate(dateString);
-  if (formData.highSchool.status === 'graduationExpected' && !isValidCurrentOrFutureMonthYear(month, year)) {
+  if (
+    formData.highSchool.status === 'graduationExpected' &&
+    !isValidCurrentOrFutureMonthYear(month, year)
+  ) {
     errors.addError('Please provide a valid future date');
   }
 }
@@ -297,7 +371,13 @@ export function validateMatch(field1, field2) {
   };
 }
 
-export function validateRoutingNumber(errors, routingNumber, formData, schema, errorMessages) {
+export function validateRoutingNumber(
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) {
   if (!isValidRoutingNumber(routingNumber)) {
     errors.addError(errorMessages.pattern);
   }
@@ -308,18 +388,26 @@ export function convertToDateField(dateStr) {
   return Object.keys(date).reduce((dateField, part) => {
     const datePart = {};
     datePart[part] = {
-      value: date[part]
+      value: date[part],
     };
     return _.assign(dateField, datePart);
   }, date);
 }
 
-export function validateDateRange(errors, dateRange, formData, schema, errorMessages) {
+export function validateDateRange(
+  errors,
+  dateRange,
+  formData,
+  schema,
+  errorMessages,
+) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.to.addError(errorMessages.pattern || 'To date must be after from date');
+    errors.to.addError(
+      errorMessages.pattern || 'To date must be after from date',
+    );
   }
 }
 
@@ -345,7 +433,7 @@ export function validateFileField(errors, fileList) {
         __errors: [],
         addError(msg) {
           this.__errors.push(msg);
-        }
+        },
       };
       /* eslint-enable no-param-reassign */
     }
@@ -356,7 +444,13 @@ export function validateFileField(errors, fileList) {
   });
 }
 
-export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
+export function validateBooleanGroup(
+  errors,
+  userGroup,
+  form,
+  schema,
+  errorMessages = {},
+) {
   const { atLeastOne = 'Please choose at least one option' } = errorMessages;
   const group = userGroup || {};
   if (!Object.keys(group).filter(item => group[item] === true).length) {
@@ -365,10 +459,12 @@ export function validateBooleanGroup(errors, userGroup, form, schema, errorMessa
 }
 
 export function validateAutosuggestOption(errors, formData) {
-  if (formData &&
+  if (
+    formData &&
     formData.widget === 'autosuggest' &&
     !formData.id &&
-    formData.label) {
+    formData.label
+  ) {
     errors.addError('Please select an option from the suggestions');
   }
 }

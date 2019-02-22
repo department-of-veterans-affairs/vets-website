@@ -10,7 +10,7 @@ export default class PhoneNumberWidget extends React.Component {
     super(props);
     this.state = { val: props.value };
   }
-  handleChange = (val) => {
+  handleChange = val => {
     let stripped;
     if (val) {
       stripped = val.replace(/[ \-()x+]/g, '');
@@ -19,8 +19,14 @@ export default class PhoneNumberWidget extends React.Component {
     this.setState({ val }, () => {
       this.props.onChange(stripped);
     });
-  }
+  };
   render() {
-    return <TextWidget {...this.props} value={this.state.val} onChange={this.handleChange}/>;
+    return (
+      <TextWidget
+        {...this.props}
+        value={this.state.val}
+        onChange={this.handleChange}
+      />
+    );
   }
 }

@@ -1,19 +1,18 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import {
-  checkValidSchema,
-  createFormPageList
-} from '../helpers';
+import { checkValidSchema, createFormPageList } from '../helpers';
 
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
 
 function get(path, data) {
-  return path.reduce((current, next) => {
-    return typeof current === 'undefined' ? current : current[next];
-  }, data);
+  return path.reduce(
+    (current, next) =>
+      typeof current === 'undefined' ? current : current[next],
+    data,
+  );
 }
 
 /*
@@ -29,36 +28,50 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   }
 
   if (schema.type === 'object') {
-    const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
-      const field = uiSchema[nextProp];
-      if (field && field['ui:required']) {
-        const isRequired = field['ui:required'](formData, index);
-        const arrayHasField = requiredArray.some(prop => prop === nextProp);
+    const newRequired = Object.keys(schema.properties).reduce(
+      (requiredArray, nextProp) => {
+        const field = uiSchema[nextProp];
+        if (field && field['ui:required']) {
+          const isRequired = field['ui:required'](formData, index);
+          const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
-        if (arrayHasField && !isRequired) {
-          return requiredArray.filter(prop => prop !== nextProp);
-        } else if (!arrayHasField && isRequired) {
-          return requiredArray.concat(nextProp);
+          if (arrayHasField && !isRequired) {
+            return requiredArray.filter(prop => prop !== nextProp);
+          } else if (!arrayHasField && isRequired) {
+            return requiredArray.concat(nextProp);
+          }
+
+          return requiredArray;
         }
 
         return requiredArray;
-      }
+      },
+      schema.required || [],
+    );
 
-      return requiredArray;
-    }, schema.required || []);
-
-    const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
-      if (uiSchema) {
-        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData, index);
-        if (nextSchema !== currentSchema.properties[nextProp]) {
-          return _.set(['properties', nextProp], nextSchema, currentSchema);
+    const newSchema = Object.keys(schema.properties).reduce(
+      (currentSchema, nextProp) => {
+        if (uiSchema) {
+          const nextSchema = updateRequiredFields(
+            currentSchema.properties[nextProp],
+            uiSchema[nextProp],
+            formData,
+            index,
+          );
+          if (nextSchema !== currentSchema.properties[nextProp]) {
+            return _.set(['properties', nextProp], nextSchema, currentSchema);
+          }
         }
-      }
 
-      return currentSchema;
-    }, schema);
+        return currentSchema;
+      },
+      schema,
+    );
 
-    if (newSchema.required !== newRequired && (newSchema.required || newRequired.length > 0)) {
+    if (
+      newSchema.required !== newRequired &&
+      (newSchema.required || newRequired.length > 0)
+    ) {
       return _.set('required', newRequired, newSchema);
     }
 
@@ -68,7 +81,9 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   if (schema.type === 'array') {
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
-    const newItemSchemas = schema.items.map((item, idx) => updateRequiredFields(item, uiSchema.items, formData, idx));
+    const newItemSchemas = schema.items.map((item, idx) =>
+      updateRequiredFields(item, uiSchema.items, formData, idx),
+    );
     if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
       return _.set('items', newItemSchemas, schema);
     }
@@ -106,9 +121,10 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
 
   let updatedSchema = schema;
   const hideIf = get(['ui:options', 'hideIf'], uiSchema);
-  const index = path.reduce((current, next) => {
-    return typeof next === 'number' ? next : current;
-  }, null);
+  const index = path.reduce(
+    (current, next) => (typeof next === 'number' ? next : current),
+    null,
+  );
 
   if (hideIf && hideIf(formData, index)) {
     if (!updatedSchema['ui:hidden']) {
@@ -119,8 +135,14 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   }
 
   const expandUnder = get(['ui:options', 'expandUnder'], uiSchema);
-  const expandUnderCondition = get(['ui:options', 'expandUnderCondition'], uiSchema);
-  if (expandUnder && !isContentExpanded(containingObject[expandUnder], expandUnderCondition)) {
+  const expandUnderCondition = get(
+    ['ui:options', 'expandUnderCondition'],
+    uiSchema,
+  );
+  if (
+    expandUnder &&
+    !isContentExpanded(containingObject[expandUnder], expandUnderCondition)
+  ) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
@@ -129,15 +151,23 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   }
 
   if (updatedSchema.type === 'object') {
-    const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData, path.concat(next));
+    const newProperties = Object.keys(updatedSchema.properties).reduce(
+      (current, next) => {
+        const newSchema = setHiddenFields(
+          updatedSchema.properties[next],
+          uiSchema[next],
+          formData,
+          path.concat(next),
+        );
 
-      if (newSchema !== updatedSchema.properties[next]) {
-        return _.set(next, newSchema, current);
-      }
+        if (newSchema !== updatedSchema.properties[next]) {
+          return _.set(next, newSchema, current);
+        }
 
-      return current;
-    }, updatedSchema.properties);
+        return current;
+      },
+      updatedSchema.properties,
+    );
 
     if (newProperties !== updatedSchema.properties) {
       return _.set('properties', newProperties, updatedSchema);
@@ -148,10 +178,14 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = updatedSchema.items.map((item, idx) =>
-      setHiddenFields(item, uiSchema.items, formData, path.concat(idx))
+      setHiddenFields(item, uiSchema.items, formData, path.concat(idx)),
     );
 
-    if (newItemSchemas.some((newItem, idx) => newItem !== updatedSchema.items[idx])) {
+    if (
+      newItemSchemas.some(
+        (newItem, idx) => newItem !== updatedSchema.items[idx],
+      )
+    ) {
       return _.set('items', newItemSchemas, updatedSchema);
     }
   }
@@ -192,9 +226,9 @@ export function removeHiddenData(schema, data) {
   }
 
   if (schema.type === 'array') {
-    const newItems = data.map((item, index) => {
-      return removeHiddenData(schema.items[index], item);
-    });
+    const newItems = data.map((item, index) =>
+      removeHiddenData(schema.items[index], item),
+    );
 
     if (newItems.some((newItem, idx) => newItem !== data[idx])) {
       return newItems;
@@ -212,7 +246,13 @@ export function removeHiddenData(schema, data) {
  * function in uiSchema. This means the schema can be re-calculated based on data
  * a user has entered.
  */
-export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = null, path = []) {
+export function updateSchemaFromUiSchema(
+  schema,
+  uiSchema,
+  formData,
+  index = null,
+  path = [],
+) {
   if (!uiSchema) {
     return schema;
   }
@@ -220,15 +260,24 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
   let currentSchema = schema;
 
   if (currentSchema.type === 'object') {
-    const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], formData, index, path.concat(next));
+    const newSchema = Object.keys(currentSchema.properties).reduce(
+      (current, next) => {
+        const nextProp = updateSchemaFromUiSchema(
+          current.properties[next],
+          uiSchema[next],
+          formData,
+          index,
+          path.concat(next),
+        );
 
-      if (current.properties[next] !== nextProp) {
-        return _.set(['properties', next], nextProp, current);
-      }
+        if (current.properties[next] !== nextProp) {
+          return _.set(['properties', next], nextProp, current);
+        }
 
-      return current;
-    }, currentSchema);
+        return current;
+      },
+      currentSchema,
+    );
 
     if (newSchema !== schema) {
       currentSchema = newSchema;
@@ -239,10 +288,20 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = currentSchema.items.map((item, idx) =>
-      updateSchemaFromUiSchema(item, uiSchema.items, formData, idx, path.concat(idx))
+      updateSchemaFromUiSchema(
+        item,
+        uiSchema.items,
+        formData,
+        idx,
+        path.concat(idx),
+      ),
     );
 
-    if (newItemSchemas.some((newItem, idx) => newItem !== currentSchema.items[idx])) {
+    if (
+      newItemSchemas.some(
+        (newItem, idx) => newItem !== currentSchema.items[idx],
+      )
+    ) {
       currentSchema = _.set('items', newItemSchemas, currentSchema);
     }
   }
@@ -250,7 +309,13 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
   const updateSchema = get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index, path);
+    const newSchemaProps = updateSchema(
+      formData,
+      currentSchema,
+      uiSchema,
+      index,
+      path,
+    );
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
@@ -279,7 +344,11 @@ export function replaceRefSchemas(schema, definitions, path = '') {
     const refPath = schema.$ref.replace('#/definitions/', '').split('/');
     const definition = get(refPath, definitions);
     if (!definition) {
-      throw new Error(`Missing definition for ${schema.$ref} at ${path}. You probably need to add it to defaultDefinitions`);
+      throw new Error(
+        `Missing definition for ${
+          schema.$ref
+        } at ${path}. You probably need to add it to defaultDefinitions`,
+      );
     }
 
     return replaceRefSchemas(definition, definitions, path);
@@ -287,7 +356,11 @@ export function replaceRefSchemas(schema, definitions, path = '') {
 
   if (schema.type === 'object') {
     const newSchema = Object.keys(schema.properties).reduce((current, next) => {
-      const nextProp = replaceRefSchemas(schema.properties[next], definitions, `${path}.${next}`);
+      const nextProp = replaceRefSchemas(
+        schema.properties[next],
+        definitions,
+        `${path}.${next}`,
+      );
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -300,7 +373,11 @@ export function replaceRefSchemas(schema, definitions, path = '') {
   }
 
   if (schema.type === 'array') {
-    const newItems = replaceRefSchemas(schema.items, definitions, `${path}.items`);
+    const newItems = replaceRefSchemas(
+      schema.items,
+      definitions,
+      `${path}.items`,
+    );
 
     if (newItems !== schema.items) {
       return _.set('items', newItems, schema);
@@ -331,7 +408,7 @@ export function updateItemsSchema(schema, fieldData = null) {
     if (!Array.isArray(schema.items)) {
       newSchema = _.assign(schema, {
         items: [],
-        additionalItems: schema.items
+        additionalItems: schema.items,
       });
     }
 
@@ -342,8 +419,9 @@ export function updateItemsSchema(schema, fieldData = null) {
       // Here we’re filling in the items array to make it the same
       // length as the array of form data. This happens when you add
       // another record on the form, mainly.
-      const fillIn = Array(fieldData.length - newSchema.items.length)
-        .fill(newSchema.additionalItems);
+      const fillIn = Array(fieldData.length - newSchema.items.length).fill(
+        newSchema.additionalItems,
+      );
       newSchema = _.set('items', newSchema.items.concat(fillIn), newSchema);
     } else if (fieldData.length < newSchema.items.length) {
       // If someone removed a record we’re removing the last schema item
@@ -352,8 +430,8 @@ export function updateItemsSchema(schema, fieldData = null) {
       newSchema = _.set('items', _.dropRight(1, newSchema.items), newSchema);
     }
 
-    const updatedItems = newSchema.items.map(
-      (item, index) => updateItemsSchema(item, fieldData[index])
+    const updatedItems = newSchema.items.map((item, index) =>
+      updateItemsSchema(item, fieldData[index]),
     );
     if (newSchema.items.some((item, index) => item !== updatedItems[index])) {
       return _.set('items', updatedItems, newSchema);
@@ -364,7 +442,10 @@ export function updateItemsSchema(schema, fieldData = null) {
 
   if (schema.type === 'object') {
     const newSchema = Object.keys(schema.properties).reduce((current, next) => {
-      const nextProp = updateItemsSchema(schema.properties[next], fieldData ? fieldData[next] : null);
+      const nextProp = updateItemsSchema(
+        schema.properties[next],
+        fieldData ? fieldData[next] : null,
+      );
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -408,42 +489,49 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
 
   return {
     data: newData,
-    schema: newSchema
+    schema: newSchema,
   };
 }
 
 export function recalculateSchemaAndData(initialState) {
-  return Object.keys(initialState.pages)
-    .reduce((state, pageKey) => {
-      // on each data change, we need to do the following steps
-      // Recalculate any required fields, based on the new data
-      const page = state.pages[pageKey];
-      const formData = initialState.data;
+  return Object.keys(initialState.pages).reduce((state, pageKey) => {
+    // on each data change, we need to do the following steps
+    // Recalculate any required fields, based on the new data
+    const page = state.pages[pageKey];
+    const formData = initialState.data;
 
-      const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData);
+    const { data, schema } = updateSchemaAndData(
+      page.schema,
+      page.uiSchema,
+      formData,
+    );
 
-      let newState = state;
+    let newState = state;
 
-      if (formData !== data) {
-        newState = _.set('data', data, state);
+    if (formData !== data) {
+      newState = _.set('data', data, state);
+    }
+
+    if (page.schema !== schema) {
+      newState = _.set(['pages', pageKey, 'schema'], schema, newState);
+    }
+
+    if (page.showPagePerItem) {
+      const arrayData = _.get(page.arrayPath, newState.data) || [];
+      // If an item was added or removed for the data used by a showPagePerItem page,
+      // we have to reset everything because we can’t match the edit states to rows directly
+      // This will rarely ever be noticeable
+      if (page.editMode.length !== arrayData.length) {
+        newState = _.set(
+          ['pages', pageKey, 'editMode'],
+          arrayData.map(() => false),
+          newState,
+        );
       }
+    }
 
-      if (page.schema !== schema) {
-        newState = _.set(['pages', pageKey, 'schema'], schema, newState);
-      }
-
-      if (page.showPagePerItem) {
-        const arrayData = _.get(page.arrayPath, newState.data) || [];
-        // If an item was added or removed for the data used by a showPagePerItem page,
-        // we have to reset everything because we can’t match the edit states to rows directly
-        // This will rarely ever be noticeable
-        if (page.editMode.length !== arrayData.length) {
-          newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
-        }
-      }
-
-      return newState;
-    }, initialState);
+    return newState;
+  }, initialState);
 }
 
 export function createInitialState(formConfig) {
@@ -453,29 +541,36 @@ export function createInitialState(formConfig) {
       errorMessage: false,
       id: false,
       timestamp: false,
-      hasAttemptedSubmit: false
+      hasAttemptedSubmit: false,
     },
     formId: formConfig.formId,
     loadedData: {
       formData: {},
-      metadata: {}
+      metadata: {},
     },
     reviewPageView: {
       openChapters: [],
-      viewedPages: new Set()
+      viewedPages: new Set(),
     },
-    trackingPrefix: formConfig.trackingPrefix
+    trackingPrefix: formConfig.trackingPrefix,
   };
 
-  const pageAndDataState = createFormPageList(formConfig)
-    .reduce((state, page) => {
-      const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
+  const pageAndDataState = createFormPageList(formConfig).reduce(
+    (state, page) => {
+      const definitions = _.assign(
+        formConfig.defaultDefinitions || {},
+        page.schema.definitions,
+      );
       let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
       schema = updateItemsSchema(schema);
       const isArrayPage = page.showPagePerItem;
-      const data = getDefaultFormState(schema, page.initialData, schema.definitions);
+      const data = getDefaultFormState(
+        schema,
+        page.initialData,
+        schema.definitions,
+      );
 
       /* eslint-disable no-param-reassign */
       state.pages[page.pageKey] = {
@@ -484,17 +579,19 @@ export function createInitialState(formConfig) {
         editMode: isArrayPage ? [] : false,
         showPagePerItem: page.showPagePerItem,
         arrayPath: page.arrayPath,
-        itemFilter: page.itemFilter
+        itemFilter: page.itemFilter,
       };
 
       state.data = _.merge(state.data, data);
       /* eslint-enable no-param-reassign */
 
       return state;
-    }, {
+    },
+    {
       data: {},
       pages: {},
-    });
+    },
+  );
 
   initialState = _.assign(initialState, pageAndDataState);
   // Take another pass and recalculate the schema and data based on the default data

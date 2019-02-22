@@ -26,7 +26,7 @@ function SelectWidget({
   multiple,
   onChange,
   onBlur,
-  placeholder
+  placeholder,
 }) {
   const { enumOptions, labels = {} } = options;
   return (
@@ -39,24 +39,24 @@ function SelectWidget({
       required={required}
       disabled={disabled}
       readOnly={readonly}
-      onBlur={(event) => {
+      onBlur={event => {
         const newValue = getValue(event, multiple);
         onBlur(id, processValue(schema, newValue));
       }}
-      onChange={(event) => {
+      onChange={event => {
         const newValue = getValue(event, multiple);
         onChange(processValue(schema, newValue));
-      }}>
+      }}
+    >
       {!schema.default && <option value="">{placeholder}</option>}
-      {enumOptions.map((option, i) => {
-        return <option key={i} value={option.value}>{labels[option.value] || option.label}</option>;
-      })
-      }</select>
+      {enumOptions.map((option, i) => (
+        <option key={i} value={option.value}>
+          {labels[option.value] || option.label}
+        </option>
+      ))}
+      )}
+    </select>
   );
 }
 
-export default onlyUpdateForKeys([
-  'id',
-  'value',
-  'schema',
-])(SelectWidget);
+export default onlyUpdateForKeys(['id', 'value', 'schema'])(SelectWidget);

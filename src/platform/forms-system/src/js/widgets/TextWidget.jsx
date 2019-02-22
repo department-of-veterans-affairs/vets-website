@@ -19,7 +19,10 @@ export default function TextWidget(props) {
       className={props.options.widgetClassNames}
       value={typeof props.value === 'undefined' ? '' : props.value}
       onBlur={() => props.onBlur(props.id)}
-      onChange={(event) => props.onChange(event.target.value ? event.target.value : undefined)}/>
+      onChange={event =>
+        props.onChange(event.target.value ? event.target.value : undefined)
+      }
+    />
   );
 }
 TextWidget.propTypes = {
@@ -30,11 +33,11 @@ TextWidget.propTypes = {
     /*
     * input's autocomplete attribute value
     */
-    autocomplete: PropTypes.string
+    autocomplete: PropTypes.string,
   }),
 };
 
 TextWidget.defaultProps = {
   options: {},
-  type: 'text'
+  type: 'text',
 };

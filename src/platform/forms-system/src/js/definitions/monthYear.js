@@ -5,13 +5,11 @@ export default function uiSchema(title = 'Date') {
     'ui:title': title,
     'ui:widget': 'date',
     'ui:options': {
-      monthYear: true
+      monthYear: true,
     },
-    'ui:validations': [
-      validateMonthYear
-    ],
+    'ui:validations': [validateMonthYear],
     'ui:errorMessages': {
-      pattern: 'Please provide a valid date'
-    }
+      pattern: 'Please provide a valid date',
+    },
   };
 }

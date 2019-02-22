@@ -7,10 +7,10 @@ export default function uiSchema(title) {
     'ui:reviewWidget': CurrencyReviewWidget,
     'ui:title': title,
     'ui:options': {
-      classNames: 'schemaform-currency-input'
+      classNames: 'schemaform-currency-input',
     },
     'ui:errorMessages': {
-      type: 'Please enter a valid dollar amount'
-    }
+      type: 'Please enter a valid dollar amount',
+    },
   };
 }

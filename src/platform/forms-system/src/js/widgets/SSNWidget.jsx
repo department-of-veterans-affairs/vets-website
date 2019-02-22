@@ -10,7 +10,7 @@ export default class SSNWidget extends React.Component {
     super(props);
     this.state = { val: props.value };
   }
-  handleChange = (val) => {
+  handleChange = val => {
     // If val is blank or undefined, pass undefined to onChange
     let strippedSSN;
     if (val) {
@@ -20,8 +20,14 @@ export default class SSNWidget extends React.Component {
     this.setState({ val }, () => {
       this.props.onChange(strippedSSN);
     });
-  }
+  };
   render() {
-    return <TextWidget {...this.props} value={this.state.val} onChange={this.handleChange}/>;
+    return (
+      <TextWidget
+        {...this.props}
+        value={this.state.val}
+        onChange={this.handleChange}
+      />
+    );
   }
 }

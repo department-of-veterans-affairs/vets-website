@@ -13,23 +13,32 @@ import classnames from 'classnames';
  * showPlus - Boolean to display a "+" or "-" icon based on open status
  */
 export default function ExpandingGroup({
-  children, open, showPlus, additionalClass, expandedContentId
+  children,
+  open,
+  showPlus,
+  additionalClass,
+  expandedContentId,
 }) {
   const classNames = classnames(
     'form-expanding-group',
     { 'form-expanding-group-open': open },
-    { 'form-expanding-group-plus': showPlus }
+    { 'form-expanding-group-plus': showPlus },
   );
 
   return (
     <div className={classNames}>
       {children[0]}
-      <ReactCSSTransitionGroup id={expandedContentId} transitionName="form-expanding-group-inner" transitionEnterTimeout={700} transitionLeave={false}>
-        {open
-          ? <div key="removable-group" className={additionalClass}>
+      <ReactCSSTransitionGroup
+        id={expandedContentId}
+        transitionName="form-expanding-group-inner"
+        transitionEnterTimeout={700}
+        transitionLeave={false}
+      >
+        {open ? (
+          <div key="removable-group" className={additionalClass}>
             {children[1]}
           </div>
-          : null}
+        ) : null}
       </ReactCSSTransitionGroup>
     </div>
   );
@@ -51,5 +60,5 @@ ExpandingGroup.propTypes = {
   /**
    * id for ReactCSSTransitionGroup
    */
-  expandedContentId: PropTypes.string
+  expandedContentId: PropTypes.string,
 };

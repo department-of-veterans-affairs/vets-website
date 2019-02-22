@@ -4,7 +4,9 @@ import React from 'react';
 export default function PhoneNumberWidget({ value }) {
   let formatted = value;
   if (value && value.length === 10) {
-    formatted = `(${value.substr(0, 3)}) ${value.substr(3, 3)}-${value.substr(6)}`;
+    formatted = `(${value.substr(0, 3)}) ${value.substr(3, 3)}-${value.substr(
+      6,
+    )}`;
   }
 
   return <span>{formatted}</span>;

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
@@ -18,11 +18,14 @@ function focusForm() {
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.Forms.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo(
+    'topScrollElement',
+    window.Forms.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
 };
 
 class FormPage extends React.Component {
@@ -34,22 +37,29 @@ class FormPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)) {
+    if (
+      prevProps.route.pageConfig.pageKey !==
+        this.props.route.pageConfig.pageKey ||
+      _.get('params.index', prevProps) !== _.get('params.index', this.props)
+    ) {
       scrollToTop();
       focusForm();
     }
   }
 
-  onChange = (formData) => {
+  onChange = formData => {
     let newData = formData;
     if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
+      newData = _.set(
+        [this.props.route.pageConfig.arrayPath, this.props.params.index],
+        formData,
+        this.props.form.data,
+      );
     }
     this.props.setData(newData);
-  }
+  };
 
   onSubmit = ({ formData }) => {
     const { form, params, route, location } = this.props;
@@ -57,21 +67,29 @@ class FormPage extends React.Component {
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (route.pageConfig.showPagePerItem) {
-      const newData = _.set([route.pageConfig.arrayPath, params.index], formData, form.data);
+      const newData = _.set(
+        [route.pageConfig.arrayPath, params.index],
+        formData,
+        form.data,
+      );
       this.props.setData(newData);
     }
 
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
     this.props.router.push(path);
-  }
+  };
 
   goBack = () => {
-    const { form, route: { pageList }, location } = this.props;
+    const {
+      form,
+      route: { pageList },
+      location,
+    } = this.props;
     const path = getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
-  }
+  };
 
   render() {
     const {
@@ -79,13 +97,10 @@ class FormPage extends React.Component {
       params,
       form,
       contentAfterButtons,
-      formContext
+      formContext,
     } = this.props;
 
-    let {
-      schema,
-      uiSchema
-    } = form.pages[route.pageConfig.pageKey];
+    let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     let data = form.data;
@@ -93,7 +108,8 @@ class FormPage extends React.Component {
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
-      schema = schema.properties[route.pageConfig.arrayPath].items[params.index];
+      schema =
+        schema.properties[route.pageConfig.arrayPath].items[params.index];
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
       // And the data should be for just the item in the array
@@ -101,7 +117,8 @@ class FormPage extends React.Component {
     }
     // It should be "safe" to check that this is the first page because it is
     // always eligible and enabled, no need to call getPreviousPagePath.
-    const isFirstRoutePage = route.pageList[0].path === this.props.location.pathname;
+    const isFirstRoutePage =
+      route.pageList[0].path === this.props.location.pathname;
 
     return (
       <div className={pageClasses}>
@@ -115,22 +132,26 @@ class FormPage extends React.Component {
           formContext={formContext}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
-          onSubmit={this.onSubmit}>
+          onSubmit={this.onSubmit}
+        >
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 medium-5 columns">
-              { !isFirstRoutePage &&
+              {!isFirstRoutePage && (
                 <ProgressButton
                   onButtonClick={this.goBack}
                   buttonText="Back"
                   buttonClass="usa-button-secondary"
-                  beforeText="«"/> }
+                  beforeText="«"
+                />
+              )}
             </div>
             <div className="small-6 medium-5 end columns">
               <ProgressButton
                 submitButton
                 buttonText="Continue"
                 buttonClass="usa-button-primary"
-                afterText="»"/>
+                afterText="»"
+              />
             </div>
           </div>
           {contentAfterButtons}
@@ -143,13 +164,13 @@ class FormPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    user: state.user
+    user: state.user,
   };
 }
 
 const mapDispatchToProps = {
   setData,
-  uploadFile
+  uploadFile,
 };
 
 FormPage.propTypes = {
@@ -158,16 +179,23 @@ FormPage.propTypes = {
     pageConfig: PropTypes.shape({
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
-      uiSchema: PropTypes.object.isRequired
+      uiSchema: PropTypes.object.isRequired,
     }),
-    pageList: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string.isRequired
-    }))
+    pageList: PropTypes.arrayOf(
+      PropTypes.shape({
+        path: PropTypes.string.isRequired,
+      }),
+    ),
   }),
   contentAfterButtons: PropTypes.element,
-  setData: PropTypes.func
+  setData: PropTypes.func,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FormPage),
+);
 
 export { FormPage };

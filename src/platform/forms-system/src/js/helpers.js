@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
@@ -39,33 +39,29 @@ export function getInactivePages(pages, data) {
 }
 
 export function createFormPageList(formConfig) {
-  return Object.keys(formConfig.chapters)
-    .reduce((pageList, chapter) => {
-      const chapterTitle = formConfig.chapters[chapter].title;
-      const pages = Object.keys(formConfig.chapters[chapter].pages)
-        .map(page => {
-          return _.assign(formConfig.chapters[chapter].pages[page], {
-            chapterTitle,
-            chapterKey: chapter,
-            pageKey: page
-          });
-        });
-      return pageList.concat(pages);
-    }, []);
+  return Object.keys(formConfig.chapters).reduce((pageList, chapter) => {
+    const chapterTitle = formConfig.chapters[chapter].title;
+    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page =>
+      _.assign(formConfig.chapters[chapter].pages[page], {
+        chapterTitle,
+        chapterKey: chapter,
+        pageKey: page,
+      }),
+    );
+    return pageList.concat(pages);
+  }, []);
 }
 
 export function createPageListByChapter(formConfig) {
-  return Object.keys(formConfig.chapters)
-    .reduce((chapters, chapter) => {
-      const pages = Object.keys(formConfig.chapters[chapter].pages)
-        .map(page => {
-          return _.assign(formConfig.chapters[chapter].pages[page], {
-            pageKey: page,
-            chapterKey: chapter
-          });
-        });
-      return _.set(chapter, pages, chapters);
-    }, {});
+  return Object.keys(formConfig.chapters).reduce((chapters, chapter) => {
+    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page =>
+      _.assign(formConfig.chapters[chapter].pages[page], {
+        pageKey: page,
+        chapterKey: chapter,
+      }),
+    );
+    return _.set(chapter, pages, chapters);
+  }, {});
 }
 
 export function createPageList(formConfig, formPages) {
@@ -74,8 +70,8 @@ export function createPageList(formConfig, formPages) {
     pageList = [
       {
         pageKey: 'introduction',
-        path: 'introduction'
-      }
+        path: 'introduction',
+      },
     ].concat(pageList);
   }
 
@@ -84,12 +80,12 @@ export function createPageList(formConfig, formPages) {
       {
         pageKey: 'review-and-submit',
         path: 'review-and-submit',
-        chapterKey: 'review'
-      }
+        chapterKey: 'review',
+      },
     ])
-    .map(page => {
-      return _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page);
-    });
+    .map(page =>
+      _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
+    );
 }
 
 /*
@@ -100,24 +96,21 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
-  let routes = formPages
-    .map(page => {
-      return {
-        path: page.path,
-        component: page.component || FormPage,
-        pageConfig: page,
-        pageList,
-        urlPrefix: formConfig.urlPrefix
-      };
-    });
+  let routes = formPages.map(page => ({
+    path: page.path,
+    component: page.component || FormPage,
+    pageConfig: page,
+    pageList,
+    urlPrefix: formConfig.urlPrefix,
+  }));
   if (formConfig.introduction) {
     routes = [
       {
         path: 'introduction',
         component: formConfig.introduction,
         formConfig,
-        pageList
-      }
+        pageList,
+      },
     ].concat(routes);
   }
 
@@ -126,16 +119,16 @@ export function createRoutes(formConfig) {
       path: 'review-and-submit',
       formConfig,
       component: ReviewPage,
-      pageList
+      pageList,
     },
     {
       path: 'confirmation',
-      component: formConfig.confirmation
+      component: formConfig.confirmation,
     },
     {
       path: '*',
-      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/')
-    }
+      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/'),
+    },
   ]);
 }
 
@@ -162,7 +155,9 @@ function formatYear(val) {
 
 export function formatISOPartialDate({ month, day, year }) {
   if (month || day || year) {
-    return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(day)}`;
+    return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(
+      day,
+    )}`;
   }
 
   return undefined;
@@ -186,14 +181,14 @@ export function parseISODate(dateString) {
     return {
       month: month === 'XX' ? '' : Number(month).toString(),
       day: day === 'XX' ? '' : Number(day).toString(),
-      year: year === 'XXXX' ? '' : year
+      year: year === 'XXXX' ? '' : year,
     };
   }
 
   return {
     month: '',
     day: '',
-    year: ''
+    year: '',
   };
 }
 
@@ -205,7 +200,7 @@ export function filterViewFields(data) {
     const field = data[nextProp];
 
     if (Array.isArray(field)) {
-      const newArray = field.map((item) => filterViewFields(item));
+      const newArray = field.map(item => filterViewFields(item));
 
       return _.set(nextProp, newArray, newData);
     }
@@ -229,29 +224,36 @@ export function filterInactivePageData(inactivePages, activePages, form) {
   const activeProperties = getActiveProperties(activePages);
   let newData;
 
-  return inactivePages.reduce((formData, page) => {
-    return Object.keys(page.schema.properties)
-      .reduce((currentData, prop) => {
+  return inactivePages.reduce(
+    (formData, page) =>
+      Object.keys(page.schema.properties).reduce((currentData, prop) => {
         newData = currentData;
         if (!activeProperties.includes(prop)) {
           delete newData[prop];
         }
         return newData;
-      }, formData);
-  }, form.data);
+      }, formData),
+    form.data,
+  );
 }
 
 export function stringifyFormReplacer(key, value) {
   // an object with country is an address
-  if (value && typeof value.country !== 'undefined' &&
-    (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
+  if (
+    value &&
+    typeof value.country !== 'undefined' &&
+    (!value.street || !value.city || (!value.postalCode && !value.zipcode))
+  ) {
     return undefined;
   }
 
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
-    if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+    if (
+      fields.length === 0 ||
+      fields.every(field => value[field] === undefined)
+    ) {
       return undefined;
     }
 
@@ -279,10 +281,10 @@ export function stringifyFormReplacer(key, value) {
 export function isInProgress(pathName) {
   const trimmedPathname = pathName.replace(/\/$/, '');
   return !(
-    trimmedPathname.endsWith('introduction')
-    || trimmedPathname.endsWith('confirmation')
-    || trimmedPathname.endsWith('form-saved')
-    || trimmedPathname.endsWith('error')
+    trimmedPathname.endsWith('introduction') ||
+    trimmedPathname.endsWith('confirmation') ||
+    trimmedPathname.endsWith('form-saved') ||
+    trimmedPathname.endsWith('error')
   );
 }
 
@@ -297,11 +299,15 @@ function isHiddenField(schema) {
 export function getArrayFields(data) {
   const fields = [];
   const findArrays = (obj, ui, path = []) => {
-    if (obj.type === 'array' && !isHiddenField(obj) && !_.get('ui:options.keepInPageOnReview', ui)) {
+    if (
+      obj.type === 'array' &&
+      !isHiddenField(obj) &&
+      !_.get('ui:options.keepInPageOnReview', ui)
+    ) {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
-        uiSchema: _.get(path, data.uiSchema) || data.uiSchema
+        uiSchema: _.get(path, data.uiSchema) || data.uiSchema,
       });
     }
 
@@ -328,9 +334,9 @@ export function hasFieldsOtherThanArray(schema) {
   }
 
   if (schema.type === 'object') {
-    return Object.keys(schema.properties).some(nextProp => {
-      return hasFieldsOtherThanArray(schema.properties[nextProp]);
-    });
+    return Object.keys(schema.properties).some(nextProp =>
+      hasFieldsOtherThanArray(schema.properties[nextProp]),
+    );
   }
 
   return false;
@@ -342,24 +348,33 @@ export function hasFieldsOtherThanArray(schema) {
  * no properties)
  */
 export function getNonArraySchema(schema, uiSchema = {}) {
-  if (schema.type === 'array' && !_.get('ui:options.keepInPageOnReview', uiSchema)) {
+  if (
+    schema.type === 'array' &&
+    !_.get('ui:options.keepInPageOnReview', uiSchema)
+  ) {
     return undefined;
   }
 
   if (schema.type === 'object') {
-    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
-      const newSchema = getNonArraySchema(schema.properties[next], uiSchema[next]);
+    const newProperties = Object.keys(schema.properties).reduce(
+      (current, next) => {
+        const newSchema = getNonArraySchema(
+          schema.properties[next],
+          uiSchema[next],
+        );
 
-      if (typeof newSchema === 'undefined') {
-        return _.unset(next, current);
-      }
+        if (typeof newSchema === 'undefined') {
+          return _.unset(next, current);
+        }
 
-      if (newSchema !== schema.properties[next]) {
-        return _.set(next, newSchema, current);
-      }
+        if (newSchema !== schema.properties[next]) {
+          return _.set(next, newSchema, current);
+        }
 
-      return current;
-    }, schema.properties);
+        return current;
+      },
+      schema.properties,
+    );
 
     if (Object.keys(newProperties).length === 0) {
       return undefined;
@@ -368,7 +383,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     if (newProperties !== schema.properties) {
       let newSchema = _.set('properties', newProperties, schema);
       if (newSchema.required) {
-        const newRequired = _.intersection(Object.keys(newSchema.properties), newSchema.required);
+        const newRequired = _.intersection(
+          Object.keys(newSchema.properties),
+          newSchema.required,
+        );
         if (newRequired.length !== newSchema.required.length) {
           newSchema = _.set('required', newRequired, newSchema);
         }
@@ -381,10 +399,9 @@ export function getNonArraySchema(schema, uiSchema = {}) {
   return schema;
 }
 
-
-export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
-  return !deepEquals(props, nextProps);
-});
+export const pureWithDeepEquals = shouldUpdate(
+  (props, nextProps) => !deepEquals(props, nextProps),
+);
 
 /**
  * Recursively checks to see if the schema is valid.
@@ -405,8 +422,11 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
     if (typeof schema.properties !== 'object') {
       errors.push(`Missing object properties in ${path.join('.')} schema.`);
     } else {
-      Object.keys(schema.properties).forEach((propName) => {
-        checkValidSchema(schema.properties[propName], errors, [...path, propName]);
+      Object.keys(schema.properties).forEach(propName => {
+        checkValidSchema(schema.properties[propName], errors, [
+          ...path,
+          propName,
+        ]);
       });
     }
   }
@@ -416,14 +436,22 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
     //  so we need to account for it being both an object and an array.
     if (Array.isArray(schema.items)) {
       if (!schema.additionalItems) {
-        errors.push(`${path.join('.')} should contain additionalItems when items is an array.`);
+        errors.push(
+          `${path.join(
+            '.',
+          )} should contain additionalItems when items is an array.`,
+        );
       }
       schema.items.forEach((item, index) => {
         checkValidSchema(item, errors, [...path, 'items', index]);
       });
     } else if (typeof schema.items === 'object') {
       if (schema.additionalItems) {
-        errors.push(`${path.join('.')} should not contain additionalItems when items is an object.`);
+        errors.push(
+          `${path.join(
+            '.',
+          )} should not contain additionalItems when items is an object.`,
+        );
       }
       checkValidSchema(schema.items, errors, [...path, 'items']);
     } else {
@@ -432,7 +460,10 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
 
     // Check additionalItems
     if (schema.additionalItems) {
-      checkValidSchema(schema.additionalItems, errors, [...path, 'additionalItems']);
+      checkValidSchema(schema.additionalItems, errors, [
+        ...path,
+        'additionalItems',
+      ]);
     }
   }
 
@@ -440,7 +471,11 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
   //  all the error messages.
   if (path.length === 1 && errors.length > 0) {
     // console.log(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')} -- ${path.join('.')}`);
-    throw new Error(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')}`);
+    throw new Error(
+      `Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(
+        ' ',
+      )}`,
+    );
   } else {
     return true;
   }
@@ -451,9 +486,10 @@ export function setArrayRecordTouched(prefix, index) {
 }
 
 export function createUSAStateLabels(states) {
-  return states.USA.reduce((current, { label, value }) => {
-    return _.merge(current, { [value]: label });
-  }, {});
+  return states.USA.reduce(
+    (current, { label, value }) => _.merge(current, { [value]: label }),
+    {},
+  );
 }
 
 /*
@@ -462,18 +498,23 @@ export function createUSAStateLabels(states) {
  */
 function generateArrayPages(arrayPages, data) {
   const items = _.get(arrayPages[0].arrayPath, data) || [];
-  return items
-    .reduce((pages, item, index) =>
-      pages.concat(arrayPages.map(page =>
-        _.assign(page, {
-          path: page.path.replace(':index', index),
-          index
-        })
-      )),
-    []
-    )
-    // doing this after the map so that we don’t change indexes
-    .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));
+  return (
+    items
+      .reduce(
+        (pages, item, index) =>
+          pages.concat(
+            arrayPages.map(page =>
+              _.assign(page, {
+                path: page.path.replace(':index', index),
+                index,
+              }),
+            ),
+          ),
+        [],
+      )
+      // doing this after the map so that we don’t change indexes
+      .filter(page => !page.itemFilter || page.itemFilter(items[page.index]))
+  );
 }
 
 /*
@@ -483,29 +524,40 @@ function generateArrayPages(arrayPages, data) {
  * the right number of pages based on the items in the array
  */
 export function expandArrayPages(pageList, data) {
-  const result = pageList.reduce((acc, nextPage) => {
-    const { lastArrayPath, arrayPages, currentList } = acc;
-    // If we see an array page and we’re starting a section or in the middle of one, just add it
-    // to the temporary array
-    if (nextPage.showPagePerItem && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
-      arrayPages.push(nextPage);
-      return acc;
-    // Now we’ve hit the end of a section of array pages using the same array, so
-    // actually generate the pages now
-    } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
-      const newList = currentList.concat(generateArrayPages(arrayPages, data), nextPage);
-      return _.assign(acc, {
-        lastArrayPath: null,
-        arrayPages: [],
-        currentList: newList
-      });
-    }
+  const result = pageList.reduce(
+    (acc, nextPage) => {
+      const { lastArrayPath, arrayPages, currentList } = acc;
+      // If we see an array page and we’re starting a section or in the middle of one, just add it
+      // to the temporary array
+      if (
+        nextPage.showPagePerItem &&
+        (!lastArrayPath || nextPage.arrayPath === lastArrayPath)
+      ) {
+        arrayPages.push(nextPage);
+        return acc;
+        // Now we’ve hit the end of a section of array pages using the same array, so
+        // actually generate the pages now
+      } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
+        const newList = currentList.concat(
+          generateArrayPages(arrayPages, data),
+          nextPage,
+        );
+        return _.assign(acc, {
+          lastArrayPath: null,
+          arrayPages: [],
+          currentList: newList,
+        });
+      }
 
-    return _.set('currentList', currentList.concat(nextPage), acc);
-  }, { lastArrayPath: null, arrayPages: [], currentList: [] });
+      return _.set('currentList', currentList.concat(nextPage), acc);
+    },
+    { lastArrayPath: null, arrayPages: [], currentList: [] },
+  );
 
   if (result.arrayPages.length > 0) {
-    return result.currentList.concat(generateArrayPages(result.arrayPages, data));
+    return result.currentList.concat(
+      generateArrayPages(result.arrayPages, data),
+    );
   }
 
   return result.currentList;
@@ -559,7 +611,11 @@ export function getActiveChapters(formConfig, formData) {
   const pageList = createPageList(formConfig, formPages);
   const expandedPageList = getActiveExpandedPages(pageList, formData);
 
-  return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
+  return _.uniq(
+    expandedPageList
+      .map(p => p.chapterKey)
+      .filter(key => !!key && key !== 'review'),
+  );
 }
 
 /**
@@ -594,11 +650,22 @@ export function recordEvent(data) {
 /*
  * Normal transform for schemaform data
  */
-export function transformForSubmit(formConfig, form, replacer = stringifyFormReplacer) {
-  const expandedPages = expandArrayPages(createFormPageList(formConfig), form.data);
+export function transformForSubmit(
+  formConfig,
+  form,
+  replacer = stringifyFormReplacer,
+) {
+  const expandedPages = expandArrayPages(
+    createFormPageList(formConfig),
+    form.data,
+  );
   const activePages = getActivePages(expandedPages, form.data);
   const inactivePages = getInactivePages(expandedPages, form.data);
-  const withoutInactivePages = filterInactivePageData(inactivePages, activePages, form);
+  const withoutInactivePages = filterInactivePageData(
+    inactivePages,
+    activePages,
+    form,
+  );
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import AutosuggestField from '../fields/AutosuggestField';
 import { validateAutosuggestOption } from '../validation';

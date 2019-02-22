@@ -9,30 +9,22 @@ import {
   createPageListByChapter,
   getActiveExpandedPages,
   getActiveChapters,
-  getPageKeys
+  getPageKeys,
 } from '../helpers';
-import {
-  getReviewPageOpenChapters,
-  getViewedPages
-} from '../state/selectors';
+import { getReviewPageOpenChapters, getViewedPages } from '../state/selectors';
 import {
   closeReviewChapter,
   openReviewChapter,
   setData,
   setEditMode,
   setViewedPages,
-  uploadFile
+  uploadFile,
 } from '../actions';
-
 
 const scroller = Scroll.scroller;
 class ReviewChapters extends React.Component {
-
   componentDidMount() {
-    const {
-      formData,
-      pageList
-    } = this.props;
+    const { formData, pageList } = this.props;
     const viewedPages = new Set(getPageKeys(pageList, formData));
     this.props.setViewedPages(viewedPages);
   }
@@ -46,13 +38,16 @@ class ReviewChapters extends React.Component {
     }
   }
 
-  scrollToChapter = (chapterKey) => {
-    scroller.scrollTo(`chapter${chapterKey}ScrollElement`, window.Forms.scroll || {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
-  }
+  scrollToChapter = chapterKey => {
+    scroller.scrollTo(
+      `chapter${chapterKey}ScrollElement`,
+      window.Forms.scroll || {
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      },
+    );
+  };
 
   handleEdit = (pageKey, editing, index = null) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
@@ -60,23 +55,17 @@ class ReviewChapters extends React.Component {
       this.props.setViewedPages([fullPageKey]);
     }
     this.props.setEditMode(pageKey, editing, index);
-  }
+  };
 
   handleSetData = (...args) => {
     this.props.setData(...args);
     if (this.props.onSetData) {
       this.props.onSetData();
     }
-  }
+  };
 
   render() {
-    const {
-      chapters,
-      form,
-      formContext,
-      setValid,
-      viewedPages
-    } = this.props;
+    const { chapters, form, formContext, setValid, viewedPages } = this.props;
 
     return (
       <div className="input-section">
@@ -97,7 +86,8 @@ class ReviewChapters extends React.Component {
               showUnviewedPageWarning={chapter.showUnviewedPageWarning}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
               uploadFile={this.props.uploadFile}
-              viewedPages={viewedPages}/>
+              viewedPages={viewedPages}
+            />
           ))}
         </div>
       </div>
@@ -107,11 +97,7 @@ class ReviewChapters extends React.Component {
 
 export function mapStateToProps(state, ownProps) {
   // from ownprops
-  const {
-    formConfig,
-    formContext,
-    pageList
-  } = ownProps;
+  const { formConfig, formContext, pageList } = ownProps;
 
   // from redux state
   const form = state.form;
@@ -136,7 +122,7 @@ export function mapStateToProps(state, ownProps) {
       name: chapterName,
       open,
       pageKeys,
-      showUnviewedPageWarning
+      showUnviewedPageWarning,
     };
   });
 
@@ -147,7 +133,7 @@ export function mapStateToProps(state, ownProps) {
     formConfig,
     formContext,
     pageList,
-    viewedPages
+    viewedPages,
   };
 }
 
@@ -157,7 +143,7 @@ const mapDispatchToProps = {
   setData,
   setEditMode,
   setViewedPages,
-  uploadFile
+  uploadFile,
 };
 
 ReviewChapters.propTypes = {
@@ -174,10 +160,15 @@ ReviewChapters.propTypes = {
   setEditMode: PropTypes.func.isRequired,
   setViewedPages: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
-  viewedPages: PropTypes.object.isRequired
+  viewedPages: PropTypes.object.isRequired,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewChapters));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ReviewChapters),
+);
 
 // for tests
 export { ReviewChapters };

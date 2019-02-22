@@ -1,9 +1,11 @@
-import {
-  createInitialState,
-} from '../state/helpers';
+import { createInitialState } from '../state/helpers';
 import reducers from '../state/reducers';
 
-export default function createSchemaFormReducer(formConfig, initialState = createInitialState(formConfig), formReducers = reducers) {
+export default function createSchemaFormReducer(
+  formConfig,
+  initialState = createInitialState(formConfig),
+  formReducers = reducers,
+) {
   return (state = initialState, action) => {
     const reducer = formReducers[action.type];
 

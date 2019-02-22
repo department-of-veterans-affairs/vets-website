@@ -8,22 +8,20 @@ const uiSchema = {
     'ui:options': {
       labels: {
         checking: 'Checking',
-        savings: 'Savings'
-      }
-    }
+        savings: 'Savings',
+      },
+    },
   },
   accountNumber: {
-    'ui:title': 'Account number'
+    'ui:title': 'Account number',
   },
   routingNumber: {
     'ui:title': 'Routing number',
-    'ui:validations': [
-      validateRoutingNumber
-    ],
+    'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
-      pattern: 'Please enter a valid nine digit routing number'
-    }
-  }
+      pattern: 'Please enter a valid nine digit routing number',
+    },
+  },
 };
 
 export default uiSchema;

@@ -39,6 +39,6 @@ export const yesNo = ({ value, options = {} }) => {
   return <span>{displayValue}</span>;
 };
 
-export const CheckboxWidget = ({ value }) => {
-  return <span>{value === true ? 'True' : ''}</span>;
-};
+export const CheckboxWidget = ({ value }) => (
+  <span>{value === true ? 'True' : ''}</span>
+);

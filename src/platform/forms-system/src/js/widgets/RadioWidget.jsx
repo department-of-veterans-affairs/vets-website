@@ -7,7 +7,7 @@ export default function RadioWidget({
   value,
   disabled,
   onChange,
-  id
+  id,
 }) {
   const { enumOptions, labels = {}, nestedContent = {} } = options;
 
@@ -15,22 +15,24 @@ export default function RadioWidget({
   let content = nestedContent[value];
   if (typeof content === 'function') {
     const NestedContent = content;
-    content = <NestedContent/>;
+    content = <NestedContent />;
   }
 
   return (
-    <div>{
-      enumOptions.map((option, i) => {
+    <div>
+      {enumOptions.map((option, i) => {
         const checked = option.value === value;
         const radioButton = (
           <div className="form-radio-buttons" key={option.value}>
-            <input type="radio"
+            <input
+              type="radio"
               checked={checked}
               id={`${id}_${i}`}
               name={`${id}`}
               value={option.value}
               disabled={disabled}
-              onChange={_ => onChange(option.value)}/>
+              onChange={_ => onChange(option.value)}
+            />
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}
             </label>
@@ -41,15 +43,13 @@ export default function RadioWidget({
           return (
             <ExpandingGroup open={checked} key={option.value}>
               {radioButton}
-              <div className="schemaform-radio-indent">
-                {content}
-              </div>
+              <div className="schemaform-radio-indent">{content}</div>
             </ExpandingGroup>
           );
         }
 
         return radioButton;
-      })
-    }</div>
+      })}
+    </div>
   );
 }

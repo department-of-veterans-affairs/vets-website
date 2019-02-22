@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import Scroll from 'react-scroll';
 
-import {
-  getDefaultFormState
-} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
@@ -28,7 +26,7 @@ class ArrayField extends React.Component {
     const arrayData = Array.isArray(props.arrayData) ? props.arrayData : null;
     this.state = {
       items: arrayData || [],
-      editing: (this.props.arrayData || []).map(() => false)
+      editing: (this.props.arrayData || []).map(() => false),
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -40,9 +38,11 @@ class ArrayField extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.arrayData !== this.props.arrayData) {
-      const arrayData = Array.isArray(newProps.arrayData) ? newProps.arrayData : [];
+      const arrayData = Array.isArray(newProps.arrayData)
+        ? newProps.arrayData
+        : [];
       const newState = {
-        items: arrayData
+        items: arrayData,
       };
       if (arrayData.length !== this.state.items.length) {
         newState.editing = arrayData.map(() => false);
@@ -65,23 +65,31 @@ class ArrayField extends React.Component {
     setTimeout(() => {
       // Hacky; won’t work if the array field is used in two pages and one isn’t
       //  a BasicArrayField nor if the array field is used in three pages.
-      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}${this.isLocked() ? '_locked' : ''}`, window.Forms.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: -60
-      });
+      scroller.scrollTo(
+        `topOfTable_${this.props.path[this.props.path.length - 1]}${
+          this.isLocked() ? '_locked' : ''
+        }`,
+        window.Forms.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: -60,
+        },
+      );
     }, 100);
   }
 
   scrollToRow(id) {
     setTimeout(() => {
-      scroller.scrollTo(`table_${id}`, window.Forms.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: 0
-      });
+      scroller.scrollTo(
+        `table_${id}`,
+        window.Forms.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: 0,
+        },
+      );
     }, 100);
   }
 
@@ -101,11 +109,20 @@ class ArrayField extends React.Component {
    */
   handleAdd() {
     const newState = {
-      items: this.state.items.concat(getDefaultFormState(this.getItemSchema(this.state.items.length), undefined, this.props.schema.definitions) || {}),
-      editing: this.state.editing.concat(true)
+      items: this.state.items.concat(
+        getDefaultFormState(
+          this.getItemSchema(this.state.items.length),
+          undefined,
+          this.props.schema.definitions,
+        ) || {},
+      ),
+      editing: this.state.editing.concat(true),
     };
     this.setState(newState, () => {
-      this.scrollToRow(`${this.props.path[this.props.path.length - 1]}_${this.state.items.length - 1}`);
+      this.scrollToRow(
+        `${this.props.path[this.props.path.length - 1]}_${this.state.items
+          .length - 1}`,
+      );
     });
   }
 
@@ -113,7 +130,7 @@ class ArrayField extends React.Component {
     if (element) {
       element.focus();
     }
-  }
+  };
 
   /*
    * Clicking Remove when editing an item
@@ -122,7 +139,9 @@ class ArrayField extends React.Component {
     const { path, formData } = this.props;
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
-      editing: this.state.editing.filter((val, index) => index !== indexToRemove),
+      editing: this.state.editing.filter(
+        (val, index) => index !== indexToRemove,
+      ),
     });
     this.setState(newState, () => {
       this.props.setData(_.set(path, this.state.items, formData));
@@ -163,56 +182,65 @@ class ArrayField extends React.Component {
   }
 
   render() {
-    const {
-      schema,
-      uiSchema,
-      path,
-      pageTitle,
-      formContext
-    } = this.props;
+    const { schema, uiSchema, path, pageTitle, formContext } = this.props;
 
     const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
-    const title = _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
+    const title =
+      _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
     const arrayPageConfig = {
       uiSchema: uiSchema.items,
-      pageKey: fieldName
+      pageKey: fieldName,
     };
 
     // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
     // Make sure we default to an empty array if the item count is locked and no
     //  arrayData is passed (mysteriously)
-    const items = itemCountLocked ? (this.props.arrayData || []) : this.state.items;
+    const items = itemCountLocked
+      ? this.props.arrayData || []
+      : this.state.items;
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
     return (
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
-        {title &&
+        {title && (
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
-            {itemsNeeded && <span className="schemaform-review-array-warning-icon"/>}
-          </div>}
+            {itemsNeeded && (
+              <span className="schemaform-review-array-warning-icon" />
+            )}
+          </div>
+        )}
         <div className="va-growable va-growable-review">
-          <Element name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}/>
+          <Element
+            name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}
+          />
           {items.map((item, index) => {
-            const isLast = items.length === (index + 1);
+            const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
-            const showReviewButton = !itemCountLocked && (!schema.minItems || items.length > schema.minItems);
+            const showReviewButton =
+              !itemCountLocked &&
+              (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
 
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
-                  <Element name={`table_${fieldName}_${index}`}/>
-                  <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
+                  <Element name={`table_${fieldName}_${index}`} />
+                  <div
+                    className="row small-collapse schemaform-array-row"
+                    id={`table_${fieldName}_${index}`}
+                  >
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast
+                      {isLast ? (
                         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                        ? <h5 tabIndex="0" ref={this.handleNewItemTitleMounted}>New {uiOptions.itemName || 'Item'}</h5>
-                        : null}
+                        <h5 tabIndex="0" ref={this.handleNewItemTitleMounted}>
+                          New {uiOptions.itemName || 'Item'}
+                        </h5>
+                      ) : null}
                       <SchemaForm
                         data={item}
                         schema={itemSchema}
@@ -222,15 +250,24 @@ class ArrayField extends React.Component {
                         name={fieldName}
                         formContext={formContext}
                         onBlur={this.props.onBlur}
-                        onChange={(data) => this.handleSetData(index, data)}
+                        onChange={data => this.handleSetData(index, data)}
                         onEdit={() => this.handleEdit(index, !isEditing)}
-                        onSubmit={() => this.handleSave(index)}>
+                        onSubmit={() => this.handleSave(index)}
+                      >
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            {showReviewButton && <button type="button" className="usa-button-secondary float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
+                            {showReviewButton && (
+                              <button
+                                type="button"
+                                className="usa-button-secondary float-right"
+                                onClick={() => this.handleRemove(index)}
+                              >
+                                Remove
+                              </button>
+                            )}
                           </div>
                         </div>
                       </SchemaForm>
@@ -249,29 +286,37 @@ class ArrayField extends React.Component {
                     uiSchema={arrayPageConfig.uiSchema}
                     title={itemTitle}
                     name={fieldName}
-                    onChange={(data) => this.handleSetData(index, data)}
+                    onChange={data => this.handleSetData(index, data)}
                     onEdit={() => this.handleEdit(index, !isEditing)}
-                    onSubmit={() => this.handleSave(index)}>
-                    <div/>
+                    onSubmit={() => this.handleSave(index)}
+                  >
+                    <div />
                   </SchemaForm>
                 </div>
               </div>
             );
           })}
-          {itemsNeeded &&
+          {itemsNeeded && (
             <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
               <div className="usa-alert-body">
-                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item.'}
+                {_.get('ui:errorMessages.minItems', uiSchema) ||
+                  'You need to add at least one item.'}
               </div>
-            </div>}
-          {title && !itemCountLocked &&
-            <button type="button"
-              disabled={addAnotherDisabled}
-              className="edit-btn primary-outline"
-              onClick={() => this.handleAdd()}>
-              {uiOptions.itemName ? `Add Another ${uiOptions.itemName}` : 'Add Another'}
-            </button>
-          }
+            </div>
+          )}
+          {title &&
+            !itemCountLocked && (
+              <button
+                type="button"
+                disabled={addAnotherDisabled}
+                className="edit-btn primary-outline"
+                onClick={() => this.handleAdd()}
+              >
+                {uiOptions.itemName
+                  ? `Add Another ${uiOptions.itemName}`
+                  : 'Add Another'}
+              </button>
+            )}
         </div>
       </div>
     );
@@ -287,5 +332,5 @@ ArrayField.propTypes = {
   path: PropTypes.array.isRequired,
   formData: PropTypes.object,
   arrayData: PropTypes.array,
-  pageTitle: PropTypes.string
+  pageTitle: PropTypes.string,
 };

@@ -2,9 +2,10 @@ import _ from 'lodash';
 import Scroll from 'react-scroll';
 
 export function focusElement(selectorOrElement, options) {
-  const el = typeof selectorOrElement === 'string'
-    ? document.querySelector(selectorOrElement)
-    : selectorOrElement;
+  const el =
+    typeof selectorOrElement === 'string'
+      ? document.querySelector(selectorOrElement)
+      : selectorOrElement;
 
   if (el) {
     if (el.tabIndex <= 0) {
@@ -19,8 +20,8 @@ export function setGlobalScroll() {
     scroll: {
       duration: 500,
       delay: 0,
-      smooth: true
-    }
+      smooth: true,
+    },
   };
 }
 
@@ -30,7 +31,7 @@ export function getScrollOptions(additionalOptions) {
   const defaults = {
     duration: 500,
     delay: 0,
-    smooth: true
+    smooth: true,
   };
   return _.merge({}, defaults, globals.scroll, additionalOptions);
 }
@@ -39,7 +40,11 @@ export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
-    const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const currentPosition =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
     Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
     focusElement(errorEl);

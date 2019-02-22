@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import { months, days } from '../utilities/date';
 import { formatISOPartialDate, parseISODate } from '../helpers';
@@ -11,8 +11,8 @@ function getEmptyState(value) {
     touched: {
       month: false,
       day: false,
-      year: false
-    }
+      year: false,
+    },
   };
 }
 
@@ -25,7 +25,10 @@ export default class DateWidget extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.formContext.pagePerItemIndex !== this.props.formContext.pagePerItemIndex) {
+    if (
+      newProps.formContext.pagePerItemIndex !==
+      this.props.formContext.pagePerItemIndex
+    ) {
       this.setState(getEmptyState(newProps.value));
     }
   }
@@ -36,7 +39,7 @@ export default class DateWidget extends React.Component {
     }
 
     return year && day && month;
-  }
+  };
 
   isIncomplete = ({ month, year, day }) => {
     if (_.get('options.monthYear', this.props)) {
@@ -44,7 +47,7 @@ export default class DateWidget extends React.Component {
     }
 
     return !year || !month || !day;
-  }
+  };
 
   handleBlur(field) {
     const newState = _.set(['touched', field], true, this.state);
@@ -60,7 +63,7 @@ export default class DateWidget extends React.Component {
     newState = _.set(['touched', field], true, newState);
 
     this.setState(newState, () => {
-      if (this.props.required && (this.isIncomplete(newState.value))) {
+      if (this.props.required && this.isIncomplete(newState.value)) {
         this.props.onChange();
       } else {
         this.props.onChange(formatISOPartialDate(newState.value));
@@ -80,30 +83,50 @@ export default class DateWidget extends React.Component {
     return (
       <div className="usa-date-of-birth row">
         <div className="form-datefield-month">
-          <label className="input-date-label" htmlFor={`${id}Month`}>Month</label>
+          <label className="input-date-label" htmlFor={`${id}Month`}>
+            Month
+          </label>
           <select
             name={`${id}Month`}
             id={`${id}Month`}
             value={month}
-            onChange={(event) => this.handleChange('month', event.target.value)}>
-            <option value=""/>
-            {months.map(mnth => <option key={mnth.value} value={mnth.value}>{mnth.label}</option>)}
+            onChange={event => this.handleChange('month', event.target.value)}
+          >
+            <option value="" />
+            {months.map(mnth => (
+              <option key={mnth.value} value={mnth.value}>
+                {mnth.label}
+              </option>
+            ))}
           </select>
         </div>
-        {!monthYear && <div className="form-datefield-day">
-          <label className="input-date-label" htmlFor={`${id}Day`}>Day</label>
-          <select
-            name={`${id}Day`}
-            id={`${id}Day`}
-            value={day}
-            onChange={(event) => this.handleChange('day', event.target.value)}>
-            <option value=""/>
-            {daysForSelectedMonth && daysForSelectedMonth.map(dayOpt => <option key={dayOpt} value={dayOpt}>{dayOpt}</option>)}
-          </select>
-        </div>}
+        {!monthYear && (
+          <div className="form-datefield-day">
+            <label className="input-date-label" htmlFor={`${id}Day`}>
+              Day
+            </label>
+            <select
+              name={`${id}Day`}
+              id={`${id}Day`}
+              value={day}
+              onChange={event => this.handleChange('day', event.target.value)}
+            >
+              <option value="" />
+              {daysForSelectedMonth &&
+                daysForSelectedMonth.map(dayOpt => (
+                  <option key={dayOpt} value={dayOpt}>
+                    {dayOpt}
+                  </option>
+                ))}
+            </select>
+          </div>
+        )}
         <div className="usa-datefield usa-form-group usa-form-group-year">
-          <label className="input-date-label" htmlFor={`${id}Year`}>Year</label>
-          <input type="number"
+          <label className="input-date-label" htmlFor={`${id}Year`}>
+            Year
+          </label>
+          <input
+            type="number"
             autoComplete={options.autocomplete}
             name={`${id}Year`}
             id={`${id}Year`}
@@ -112,7 +135,8 @@ export default class DateWidget extends React.Component {
             pattern="[0-9]{4}"
             value={year}
             onBlur={() => this.handleBlur('year')}
-            onChange={(event) => this.handleChange('year', event.target.value)}/>
+            onChange={event => this.handleChange('year', event.target.value)}
+          />
         </div>
       </div>
     );
@@ -125,16 +149,16 @@ DateWidget.propTypes = {
   onBlur: PropTypes.func.isRequired,
   /**
    * ui:options from uiSchema
-  */
+   */
   options: PropTypes.shape({
     /*
     * input's autocomplete attribute value
     */
-    autocomplete: PropTypes.string
+    autocomplete: PropTypes.string,
   }),
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 DateWidget.defaultProps = {
-  options: {}
+  options: {},
 };

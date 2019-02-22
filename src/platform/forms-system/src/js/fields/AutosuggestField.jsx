@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 
@@ -47,22 +47,21 @@ export default class AutosuggestField extends React.Component {
 
     if (!uiOptions.getOptions) {
       this.useEnum = true;
-      options = schema.enum.map((id, index) => {
-        return {
-          id,
-          label: uiOptions.labels[id] || schema.enumNames[index]
-        };
-      });
+      options = schema.enum.map((id, index) => ({
+        id,
+        label: uiOptions.labels[id] || schema.enumNames[index],
+      }));
       suggestions = this.getSuggestions(options, input);
     }
 
-    const debounceRate = uiOptions.debounceRate === undefined ? 1000 : uiOptions.debounceRate;
+    const debounceRate =
+      uiOptions.debounceRate === undefined ? 1000 : uiOptions.debounceRate;
     this.debouncedGetOptions = debounce(debounceRate, this.getOptions);
 
     this.state = {
       options,
       input,
-      suggestions
+      suggestions,
     };
   }
 
@@ -77,29 +76,35 @@ export default class AutosuggestField extends React.Component {
     this.debouncedGetOptions.cancel();
   }
 
-  getOptions = (inputValue) => {
+  getOptions = inputValue => {
     const getOptions = this.props.uiSchema['ui:options'].getOptions;
     if (getOptions) {
       getOptions(inputValue).then(this.setOptions);
     }
-  }
+  };
 
-  setOptions = (options) => {
+  setOptions = options => {
     if (!this.unmounted) {
-      this.setState({ options, suggestions: this.getSuggestions(options, this.state.input) });
+      this.setState({
+        options,
+        suggestions: this.getSuggestions(options, this.state.input),
+      });
     }
-  }
+  };
 
   getSuggestions = (options, value) => {
     if (value) {
       const uiOptions = this.props.uiSchema['ui:options'];
-      return sortListByFuzzyMatch(value, options).slice(0, uiOptions.maxOptions);
+      return sortListByFuzzyMatch(value, options).slice(
+        0,
+        uiOptions.maxOptions,
+      );
     }
 
     return options;
-  }
+  };
 
-  getFormData = (suggestion) => {
+  getFormData = suggestion => {
     if (this.useEnum) {
       return suggestion.id;
     }
@@ -110,9 +115,9 @@ export default class AutosuggestField extends React.Component {
     }
 
     return _.set('widget', 'autosuggest', suggestion);
-  }
+  };
 
-  handleInputValueChange = (inputValue) => {
+  handleInputValueChange = inputValue => {
     if (inputValue !== this.state.input) {
       const uiOptions = this.props.uiSchema['ui:options'];
       if (uiOptions.queryForResults) {
@@ -123,27 +128,33 @@ export default class AutosuggestField extends React.Component {
       // once the input is long enough, check for exactly matching strings so that we don't
       // force a user to click on an item when they've typed an exact match of a label
       if (inputValue && inputValue.length > 3) {
-        const matchingItem = this.state.suggestions.find(suggestion => suggestion.label === inputValue);
+        const matchingItem = this.state.suggestions.find(
+          suggestion => suggestion.label === inputValue,
+        );
         if (matchingItem) {
           item = this.getFormData(matchingItem);
         }
       }
 
-      this.props.onChange((this.props.uiSchema['ui:options'].freeInput || this.useEnum) ? inputValue : item);
+      this.props.onChange(
+        this.props.uiSchema['ui:options'].freeInput || this.useEnum
+          ? inputValue
+          : item,
+      );
       this.setState({
         input: inputValue,
-        suggestions: this.getSuggestions(this.state.options, inputValue)
+        suggestions: this.getSuggestions(this.state.options, inputValue),
       });
     } else if (inputValue === '') {
       this.props.onChange();
       this.setState({
         input: inputValue,
-        suggestions: this.getSuggestions(this.state.options, inputValue)
+        suggestions: this.getSuggestions(this.state.options, inputValue),
       });
     }
-  }
+  };
 
-  handleChange = (selectedItem) => {
+  handleChange = selectedItem => {
     const value = this.getFormData(selectedItem);
     this.props.onChange(value);
     if (this.state.input !== selectedItem.label) {
@@ -151,17 +162,17 @@ export default class AutosuggestField extends React.Component {
         input: selectedItem.label,
       });
     }
-  }
+  };
 
-  handleKeyDown = (event) => {
+  handleKeyDown = event => {
     if (event.keyCode === ESCAPE_KEY) {
       this.setState({ input: '' });
     }
-  }
+  };
 
   handleBlur = () => {
     this.props.onBlur(this.props.idSchema.$id);
-  }
+  };
 
   render() {
     const { idSchema, formContext, formData, uiSchema, schema } = this.props;
@@ -203,7 +214,7 @@ export default class AutosuggestField extends React.Component {
           getItemProps,
           isOpen,
           selectedItem,
-          highlightedIndex
+          highlightedIndex,
         }) => (
           <div className="autosuggest-container">
             <input
@@ -213,29 +224,33 @@ export default class AutosuggestField extends React.Component {
                 name: id,
                 className: 'autosuggest-input',
                 onBlur: isOpen ? undefined : this.handleBlur,
-                onKeyDown: this.handleKeyDown
-              })}/>
+                onKeyDown: this.handleKeyDown,
+              })}
+            />
             {isOpen && (
               <div className="autosuggest-list" role="listbox">
-                {this.state.suggestions
-                  .map((item, index) => (
-                    <div
-                      {...getItemProps({ item })}
-                      role="option"
-                      aria-selected={selectedItem === item.label ? 'true' : 'false'}
-                      className={classNames('autosuggest-item', {
-                        'autosuggest-item-highlighted': highlightedIndex === index,
-                        'autosuggest-item-selected': selectedItem === item.label
-                      })}
-                      key={item.id}>
-                      {item.label}
-                    </div>
-                  ))}
+                {this.state.suggestions.map((item, index) => (
+                  <div
+                    {...getItemProps({ item })}
+                    role="option"
+                    aria-selected={
+                      selectedItem === item.label ? 'true' : 'false'
+                    }
+                    className={classNames('autosuggest-item', {
+                      'autosuggest-item-highlighted':
+                        highlightedIndex === index,
+                      'autosuggest-item-selected': selectedItem === item.label,
+                    })}
+                    key={item.id}
+                  >
+                    {item.label}
+                  </div>
+                ))}
               </div>
             )}
           </div>
-        )}>
-      </Downshift>
+        )}
+      />
     );
   }
 }

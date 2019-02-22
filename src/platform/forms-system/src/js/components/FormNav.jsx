@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import shallowEqual from 'recompose/shallowEqual';
 
 import SegmentedProgressBar from './SegmentedProgressBar';
@@ -7,7 +7,7 @@ import SegmentedProgressBar from './SegmentedProgressBar';
 import {
   createFormPageList,
   createPageList,
-  getActiveExpandedPages
+  getActiveExpandedPages,
 } from '../helpers';
 
 export default class FormNav extends React.Component {
@@ -25,9 +25,8 @@ export default class FormNav extends React.Component {
 
     const eligiblePageList = getActiveExpandedPages(pageList, formData);
 
-    const chapters = _.uniq(eligiblePageList
-      .map(p => p.chapterKey)
-      .filter(key => !!key)
+    const chapters = _.uniq(
+      eligiblePageList.map(p => p.chapterKey).filter(key => !!key),
     );
 
     let page = eligiblePageList.filter(p => p.path === currentPath)[0];
@@ -35,7 +34,9 @@ export default class FormNav extends React.Component {
     // This is a fallback to still find the chapter name if you open the page directly
     // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
     if (!page) {
-      page = formPages.find(p => `${formConfig.urlPrefix}${p.path}` === currentPath);
+      page = formPages.find(
+        p => `${formConfig.urlPrefix}${p.path}` === currentPath,
+      );
     }
 
     let current;
@@ -43,9 +44,10 @@ export default class FormNav extends React.Component {
     if (page) {
       current = chapters.indexOf(page.chapterKey) + 1;
       // The review page is always part of our forms, but isn’t listed in chapter list
-      chapterName = page.chapterKey === 'review'
-        ? 'Review Application'
-        : formConfig.chapters[page.chapterKey].title;
+      chapterName =
+        page.chapterKey === 'review'
+          ? 'Review Application'
+          : formConfig.chapters[page.chapterKey].title;
       if (typeof chapterName === 'function') {
         chapterName = chapterName();
       }
@@ -53,16 +55,23 @@ export default class FormNav extends React.Component {
 
     return (
       <div>
-        <SegmentedProgressBar total={chapters.length} current={current}/>
+        <SegmentedProgressBar total={chapters.length} current={current} />
         <div className="schemaform-chapter-progress">
           <div
             role="progressbar"
             aria-valuenow={current}
             aria-valuemin="1"
-            aria-valuetext={`Step ${current} of ${chapters.length}: ${chapterName}`}
+            aria-valuetext={`Step ${current} of ${
+              chapters.length
+            }: ${chapterName}`}
             aria-valuemax={chapters.length}
-            className="nav-header nav-header-schemaform">
-            <h4><span className="form-process-step current">{current}</span> <span className="form-process-total">of {chapters.length}</span> {chapterName}</h4>
+            className="nav-header nav-header-schemaform"
+          >
+            <h4>
+              <span className="form-process-step current">{current}</span>{' '}
+              <span className="form-process-total">of {chapters.length}</span>{' '}
+              {chapterName}
+            </h4>
           </div>
         </div>
       </div>

@@ -3,17 +3,13 @@ import React from 'react';
 
 import {
   toIdSchema,
-  deepEquals
+  deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 class ReadOnlyArrayField extends React.Component {
-  shouldComponentUpdate = (nextProps) => {
-    return !deepEquals(this.props, nextProps);
-  }
+  shouldComponentUpdate = nextProps => !deepEquals(this.props, nextProps);
 
-  getItemSchema = (index) => {
-    return this.props.schema.items[index];
-  }
+  getItemSchema = index => this.props.schema.items[index];
 
   render() {
     const {
@@ -23,7 +19,7 @@ class ReadOnlyArrayField extends React.Component {
       formData,
       disabled,
       readonly,
-      registry
+      registry,
     } = this.props;
     const definitions = registry.definitions;
     const { SchemaField } = registry.fields;
@@ -37,14 +33,21 @@ class ReadOnlyArrayField extends React.Component {
           {items.map((item, index) => {
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(
+              itemSchema,
+              itemIdPrefix,
+              definitions,
+            );
 
             return (
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse">
                   <div className="small-12 columns">
-                    <h5 className="schemaform-array-readonly-header">{uiOptions.itemName}</h5>
-                    <SchemaField key={index}
+                    <h5 className="schemaform-array-readonly-header">
+                      {uiOptions.itemName}
+                    </h5>
+                    <SchemaField
+                      key={index}
                       schema={itemSchema}
                       uiSchema={uiSchema.items}
                       errorSchema={errorSchema ? errorSchema[index] : undefined}
@@ -55,7 +58,8 @@ class ReadOnlyArrayField extends React.Component {
                       registry={this.props.registry}
                       required={false}
                       disabled={disabled}
-                      readonly={readonly}/>
+                      readonly={readonly}
+                    />
                   </div>
                 </div>
               </div>
@@ -76,14 +80,13 @@ ReadOnlyArrayField.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
-    widgets: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ])).isRequired,
+    widgets: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
-  })
+  }),
 };
 
 export default ReadOnlyArrayField;

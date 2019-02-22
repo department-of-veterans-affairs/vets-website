@@ -19,11 +19,10 @@ export function isValidSSN(value) {
     return false;
   }
 
-  const noBadSameDigitNumber = _.range(0, 10)
-    .every(i => {
-      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-      return !sameDigitRegex.test(value);
-    });
+  const noBadSameDigitNumber = _.range(0, 10).every(i => {
+    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+    return !sameDigitRegex.test(value);
+  });
 
   if (!noBadSameDigitNumber) {
     return false;
@@ -33,7 +32,13 @@ export function isValidSSN(value) {
 }
 
 export function isValidYear(value) {
-  return Number(value) >= 1900 && Number(value) <= moment().add(100, 'year').year();
+  return (
+    Number(value) >= 1900 &&
+    Number(value) <=
+      moment()
+        .add(100, 'year')
+        .year()
+  );
 }
 
 export function isValidPartialDate(day, month, year) {
@@ -63,14 +68,18 @@ function isBlank(value) {
 }
 
 function isBlankDateField(field) {
-  return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
+  return (
+    isBlank(field.day.value) &&
+    isBlank(field.month.value) &&
+    isBlank(field.year.value)
+  );
 }
 
 export function dateToMoment(dateField) {
   return moment({
     year: dateField.year.value,
     month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day ? dateField.day.value : null
+    day: dateField.day ? dateField.day.value : null,
   });
 }
 
@@ -93,7 +102,7 @@ export function isValidRoutingNumber(value) {
       7 * (digits[1] + digits[4] + digits[7]) +
       (digits[2] + digits[5] + digits[8]);
 
-    return (weighted % 10) === 0;
+    return weighted % 10 === 0;
   }
   return false;
 }
@@ -113,6 +122,14 @@ export function isValidPartialMonthYearInPast(month, year) {
   if (typeof month === 'object') {
     throw new Error('Pass a month and a year to function');
   }
-  const momentDate = moment({ year, month: month ? parseInt(month, 10) - 1 : null });
-  return !year || isValidPartialMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
+  const momentDate = moment({
+    year,
+    month: month ? parseInt(month, 10) - 1 : null,
+  });
+  return (
+    !year ||
+    (isValidPartialMonthYear(month, year) &&
+      momentDate.isValid() &&
+      momentDate.isSameOrBefore(moment().startOf('month')))
+  );
 }

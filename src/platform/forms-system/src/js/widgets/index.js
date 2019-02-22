@@ -13,7 +13,7 @@ const widgets = {
   EmailWidget,
   RadioWidget,
   CheckboxWidget,
-  yesNo: YesNoWidget
+  yesNo: YesNoWidget,
 };
 
 export default widgets;

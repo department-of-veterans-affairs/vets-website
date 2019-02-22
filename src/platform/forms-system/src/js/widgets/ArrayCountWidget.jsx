@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 export default class ArrayCountWidget extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { userCount: props.value
-      ? props.value.length - (this.props.options.countOffset || 0)
-      : undefined };
+    this.state = {
+      userCount: props.value
+        ? props.value.length - (this.props.options.countOffset || 0)
+        : undefined,
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,12 +46,14 @@ export default class ArrayCountWidget extends React.Component {
       return value.slice(0, intCount);
     }
 
-    return Array(intCount - value.length).fill({}).concat(value);
-  }
+    return Array(intCount - value.length)
+      .fill({})
+      .concat(value);
+  };
 
-  updateArrayLength = (event) => {
+  updateArrayLength = event => {
     this.setState({ userCount: event.target.value });
-  }
+  };
 
   render() {
     const props = this.props;
@@ -57,7 +61,8 @@ export default class ArrayCountWidget extends React.Component {
     if (props.formContext.reviewMode) {
       return (
         <div className="review-row">
-          <dt>{props.uiSchema['ui:title']}</dt><dd>{this.state.userCount}</dd>
+          <dt>{props.uiSchema['ui:title']}</dt>
+          <dd>{this.state.userCount}</dd>
         </div>
       );
     }
@@ -72,9 +77,14 @@ export default class ArrayCountWidget extends React.Component {
         name={props.id}
         disabled={props.disabled}
         className={props.options.widgetClassNames}
-        value={typeof this.state.userCount === 'undefined' ? '' : this.state.userCount}
+        value={
+          typeof this.state.userCount === 'undefined'
+            ? ''
+            : this.state.userCount
+        }
         onBlur={() => props.onBlur(props.id)}
-        onChange={this.updateArrayLength}/>
+        onChange={this.updateArrayLength}
+      />
     );
   }
 }
@@ -87,10 +97,10 @@ ArrayCountWidget.propTypes = {
     /*
     * input's autocomplete attribute value
     */
-    autocomplete: PropTypes.string
+    autocomplete: PropTypes.string,
   }),
 };
 
 ArrayCountWidget.defaultProps = {
-  options: {}
+  options: {},
 };

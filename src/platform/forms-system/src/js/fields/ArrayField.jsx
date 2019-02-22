@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
 import {
   toIdSchema,
   getDefaultFormState,
-  deepEquals
+  deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { scrollToFirstError } from '../utilities/ui';
@@ -24,7 +24,11 @@ export default class ArrayField extends React.Component {
 
     // Throw an error if there’s no viewField (should be React component)
     if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
-      throw new Error(`No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`);
+      throw new Error(
+        `No viewField found in uiSchema for ArrayField ${
+          this.props.idSchema.$id
+        }.`,
+      );
     }
 
     /*
@@ -34,8 +38,10 @@ export default class ArrayField extends React.Component {
 
     this.state = {
       editing: props.formData
-        ? props.formData.map((item, index) => !errorSchemaIsValid(props.errorSchema[index]))
-        : [true]
+        ? props.formData.map(
+            (item, index) => !errorSchemaIsValid(props.errorSchema[index]),
+          )
+        : [true],
     };
 
     this.onItemChange = this.onItemChange.bind(this);
@@ -54,9 +60,15 @@ export default class ArrayField extends React.Component {
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;
     if (schema.minItems > 0 && formData.length === 0) {
-      this.props.onChange(Array(schema.minItems).fill(
-        getDefaultFormState(schema.additionalItems, undefined, registry.definitions)
-      ));
+      this.props.onChange(
+        Array(schema.minItems).fill(
+          getDefaultFormState(
+            schema.additionalItems,
+            undefined,
+            registry.definitions,
+          ),
+        ),
+      );
     }
   }
 
@@ -80,23 +92,29 @@ export default class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(`topOfTable_${this.props.idSchema.$id}`, window.Forms.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: -60
-      });
+      scroller.scrollTo(
+        `topOfTable_${this.props.idSchema.$id}`,
+        window.Forms.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: -60,
+        },
+      );
     }, 100);
   }
 
   scrollToRow(id) {
     setTimeout(() => {
-      scroller.scrollTo(`table_${id}`, window.Forms.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: 0
-      });
+      scroller.scrollTo(
+        `table_${id}`,
+        window.Forms.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: 0,
+        },
+      );
     }, 100);
   }
 
@@ -134,17 +152,21 @@ export default class ArrayField extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map((val, index) => {
-        return (index + 1) === this.state.editing.length
-          ? false
-          : val;
-      });
+      const newEditing = this.state.editing.map(
+        (val, index) => (index + 1 === this.state.editing.length ? false : val),
+      );
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(!!editingState)
+        editing: newEditing.concat(!!editingState),
       });
       this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
+        const newFormData = this.props.formData.concat(
+          getDefaultFormState(
+            this.props.schema.additionalItems,
+            undefined,
+            this.props.registry.definitions,
+          ) || {},
+        );
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       });
@@ -160,9 +182,13 @@ export default class ArrayField extends React.Component {
    * Clicking Remove on an item in edit mode
    */
   handleRemove(indexToRemove) {
-    const newItems = this.props.formData.filter((val, index) => index !== indexToRemove);
+    const newItems = this.props.formData.filter(
+      (val, index) => index !== indexToRemove,
+    );
     const newState = _.assign(this.state, {
-      editing: this.state.editing.filter((val, index) => index !== indexToRemove),
+      editing: this.state.editing.filter(
+        (val, index) => index !== indexToRemove,
+      ),
     });
     this.props.onChange(newItems);
     this.setState(newState, () => {
@@ -181,7 +207,7 @@ export default class ArrayField extends React.Component {
       registry,
       formContext,
       onBlur,
-      schema
+      schema,
     } = this.props;
     const definitions = registry.definitions;
     const { TitleField, SchemaField } = registry.fields;
@@ -191,79 +217,115 @@ export default class ArrayField extends React.Component {
     const title = uiSchema['ui:title'] || schema.title;
     const hideTitle = !!uiOptions.title;
     const description = uiSchema['ui:description'];
-    const textDescription = typeof description === 'string' ? description : null;
-    const DescriptionField = typeof description === 'function'
-      ? uiSchema['ui:description']
-      : null;
+    const textDescription =
+      typeof description === 'string' ? description : null;
+    const DescriptionField =
+      typeof description === 'function' ? uiSchema['ui:description'] : null;
     const isReviewMode = uiSchema['ui:options'].reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
-    const items = (formData && formData.length)
-      ? formData
-      : [getDefaultFormState(schema, undefined, registry.definitions)];
+    const items =
+      formData && formData.length
+        ? formData
+        : [getDefaultFormState(schema, undefined, registry.definitions)];
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
     const containerClassNames = classNames({
       'schemaform-field-container': true,
-      'schemaform-block': hasTitleOrDescription
+      'schemaform-block': hasTitleOrDescription,
     });
 
     return (
       <div className={containerClassNames}>
-        {hasTitleOrDescription && <div className="schemaform-block-header">
-          {title && !hideTitle
-            ? <TitleField
-              id={`${idSchema.$id}__title`}
-              title={title}
-              formContext={formContext}/> : null}
-          {textDescription && <p>{textDescription}</p>}
-          {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
-          {!textDescription && !DescriptionField && description}
-        </div>}
+        {hasTitleOrDescription && (
+          <div className="schemaform-block-header">
+            {title && !hideTitle ? (
+              <TitleField
+                id={`${idSchema.$id}__title`}
+                title={title}
+                formContext={formContext}
+              />
+            ) : null}
+            {textDescription && <p>{textDescription}</p>}
+            {DescriptionField && (
+              <DescriptionField options={uiSchema['ui:options']} />
+            )}
+            {!textDescription && !DescriptionField && description}
+          </div>
+        )}
         <div className="va-growable">
-          <Element name={`topOfTable_${idSchema.$id}`}/>
+          <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
-            const isLast = items.length === (index + 1);
+            const itemIdSchema = toIdSchema(
+              itemSchema,
+              itemIdPrefix,
+              definitions,
+            );
+            const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
-                <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
-                  <Element name={`table_${itemIdPrefix}`}/>
+                <div
+                  key={index}
+                  className={
+                    notLastOrMultipleRows ? 'va-growable-background' : null
+                  }
+                >
+                  <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && items.length > 1 && uiSchema['ui:options'].itemName
-                        ? <h5>New {uiSchema['ui:options'].itemName}</h5>
-                        : null}
+                      {isLast &&
+                      items.length > 1 &&
+                      uiSchema['ui:options'].itemName ? (
+                        <h5>New {uiSchema['ui:options'].itemName}</h5>
+                      ) : null}
                       <div className="input-section">
-                        <SchemaField key={index}
+                        <SchemaField
+                          key={index}
                           schema={itemSchema}
                           uiSchema={uiSchema.items}
-                          errorSchema={errorSchema ? errorSchema[index] : undefined}
+                          errorSchema={
+                            errorSchema ? errorSchema[index] : undefined
+                          }
                           idSchema={itemIdSchema}
                           formData={item}
-                          onChange={(value) => this.onItemChange(index, value)}
+                          onChange={value => this.onItemChange(index, value)}
                           onBlur={onBlur}
                           registry={this.props.registry}
                           required={false}
                           disabled={disabled}
-                          readonly={readonly}/>
+                          readonly={readonly}
+                        />
                       </div>
-                      {notLastOrMultipleRows &&
+                      {notLastOrMultipleRows && (
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
+                            {!isLast && (
+                              <button
+                                className="float-left"
+                                onClick={() => this.handleUpdate(index)}
+                              >
+                                Update
+                              </button>
+                            )}
                           </div>
                           <div className="small-6 right columns">
-                            <button className="usa-button-secondary float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
+                            <button
+                              className="usa-button-secondary float-right"
+                              type="button"
+                              onClick={() => this.handleRemove(index)}
+                            >
+                              Remove
+                            </button>
                           </div>
-                        </div>}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -275,10 +337,16 @@ export default class ArrayField extends React.Component {
                   <div className="small-9 columns">
                     <ViewField
                       formData={item}
-                      onEdit={() => this.handleEdit(index)}/>
+                      onEdit={() => this.handleEdit(index)}
+                    />
                   </div>
                   <div className="small-3 columns">
-                    <button className="usa-button-secondary float-right" onClick={() => this.handleEdit(index)}>Edit</button>
+                    <button
+                      className="usa-button-secondary float-right"
+                      onClick={() => this.handleEdit(index)}
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
               </div>
@@ -290,11 +358,13 @@ export default class ArrayField extends React.Component {
               'usa-button-secondary',
               'va-growable-add-btn',
               {
-                'usa-button-disabled': !this.props.formData || addAnotherDisabled
-              }
+                'usa-button-disabled':
+                  !this.props.formData || addAnotherDisabled,
+              },
             )}
             disabled={!this.props.formData || addAnotherDisabled}
-            onClick={this.handleAdd}>
+            onClick={this.handleAdd}
+          >
             Add Another {uiOptions.itemName}
           </button>
         </div>
@@ -315,12 +385,11 @@ ArrayField.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
-    widgets: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ])).isRequired,
+    widgets: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
-  })
+  }),
 };

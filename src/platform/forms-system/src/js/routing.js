@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import { getActiveExpandedPages } from './helpers';
 
 /*
@@ -7,7 +7,10 @@ import { getActiveExpandedPages } from './helpers';
  */
 function getEligiblePages(pageList, data, pathname) {
   const eligiblePageList = getActiveExpandedPages(pageList, data);
-  const pageIndex = _.findIndex(item => item.path === pathname, eligiblePageList);
+  const pageIndex = _.findIndex(
+    item => item.path === pathname,
+    eligiblePageList,
+  );
   return { pages: eligiblePageList, pageIndex };
 }
 

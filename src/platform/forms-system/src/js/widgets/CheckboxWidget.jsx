@@ -9,9 +9,11 @@ export default function CheckboxWidget({
   disabled,
   label,
   onChange,
-  options
+  options,
 }) {
-  const requiredSpan = required ? <span className="form-required-span">(*Required)</span> : null;
+  const requiredSpan = required ? (
+    <span className="form-required-span">(*Required)</span>
+  ) : null;
   const widgetClasses = classNames('form-checkbox', options.widgetClassNames);
   return (
     <div className={widgetClasses}>
@@ -22,9 +24,11 @@ export default function CheckboxWidget({
         checked={typeof value === 'undefined' ? false : value}
         required={required}
         disabled={disabled}
-        onChange={(event) => onChange(event.target.checked)}/>
+        onChange={event => onChange(event.target.checked)}
+      />
       <label className="schemaform-label" htmlFor={id}>
-        {options.title || label}{requiredSpan}
+        {options.title || label}
+        {requiredSpan}
       </label>
     </div>
   );
@@ -41,8 +45,5 @@ CheckboxWidget.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   options: PropTypes.object,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ])
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };

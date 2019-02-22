@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
-  getDefaultRegistry
+  getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../components/ExpandingGroup';
@@ -25,10 +25,12 @@ import { pureWithDeepEquals } from '../helpers';
 function setFirstFields(id) {
   if (id === 'root') {
     const containers = [document].concat(
-      Array.from(document.querySelectorAll('.schemaform-block'))
+      Array.from(document.querySelectorAll('.schemaform-block')),
     );
     containers.forEach(block => {
-      const fields = Array.from(block.querySelectorAll('.form-checkbox,.schemaform-field-template'));
+      const fields = Array.from(
+        block.querySelectorAll('.form-checkbox,.schemaform-field-template'),
+      );
       if (fields.length) {
         fields[0].classList.add('schemaform-first-field');
       }
@@ -45,7 +47,7 @@ class ObjectField extends React.Component {
     required: false,
     disabled: false,
     readonly: false,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -53,8 +55,13 @@ class ObjectField extends React.Component {
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
-    this.SchemaField = pureWithDeepEquals(this.props.registry.fields.SchemaField);
-    this.orderedProperties = this.orderAndFilterProperties(props.schema, props.uiSchema);
+    this.SchemaField = pureWithDeepEquals(
+      this.props.registry.fields.SchemaField,
+    );
+    this.orderedProperties = this.orderAndFilterProperties(
+      props.schema,
+      props.uiSchema,
+    );
   }
 
   componentDidMount() {
@@ -62,8 +69,14 @@ class ObjectField extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.schema !== nextProps.schema || this.props.uiSchema !== nextProps.uiSchema) {
-      this.orderedProperties = this.orderAndFilterProperties(nextProps.schema, nextProps.uiSchema);
+    if (
+      this.props.schema !== nextProps.schema ||
+      this.props.uiSchema !== nextProps.uiSchema
+    ) {
+      this.orderedProperties = this.orderAndFilterProperties(
+        nextProps.schema,
+        nextProps.uiSchema,
+      );
     }
   }
 
@@ -82,10 +95,14 @@ class ObjectField extends React.Component {
   }
 
   onPropertyChange(name) {
-    return (value) => {
+    return value => {
       const formData = Object.keys(this.props.formData || {}).length
         ? this.props.formData
-        : getDefaultFormState(this.props.schema, undefined, this.props.registry.definitions);
+        : getDefaultFormState(
+            this.props.schema,
+            undefined,
+            this.props.registry.definitions,
+          );
       this.props.onChange(_.set(name, value, formData));
     };
   }
@@ -106,10 +123,18 @@ class ObjectField extends React.Component {
   // will be an array of single item arrays
   orderAndFilterProperties(schema, uiSchema) {
     const properties = Object.keys(schema.properties);
-    const orderedProperties = orderProperties(properties, _.get('ui:order', uiSchema));
-    const filteredProperties = orderedProperties.filter(prop => !schema.properties[prop]['ui:hidden']);
-    const groupedProperties = _.groupBy((item) => {
-      const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], uiSchema);
+    const orderedProperties = orderProperties(
+      properties,
+      _.get('ui:order', uiSchema),
+    );
+    const filteredProperties = orderedProperties.filter(
+      prop => !schema.properties[prop]['ui:hidden'],
+    );
+    const groupedProperties = _.groupBy(item => {
+      const expandUnderField = _.get(
+        [item, 'ui:options', 'expandUnder'],
+        uiSchema,
+      );
       return expandUnderField || item;
     }, filteredProperties);
 
@@ -118,8 +143,8 @@ class ObjectField extends React.Component {
 
   isRequired(name) {
     const { schema } = this.props;
-    const schemaRequired = Array.isArray(schema.required) &&
-      schema.required.indexOf(name) !== -1;
+    const schemaRequired =
+      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1;
 
     if (schemaRequired) {
       return schemaRequired;
@@ -137,7 +162,7 @@ class ObjectField extends React.Component {
       required,
       disabled,
       readonly,
-      onBlur
+      onBlur,
     } = this.props;
     const { definitions, fields, formContext } = this.props.registry;
     const { TitleField } = fields;
@@ -151,15 +176,13 @@ class ObjectField extends React.Component {
     const showFieldLabel = uiOptions.showFieldLabel;
     const fieldsetClassNames = uiOptions.classNames;
     const title = uiSchema['ui:title'] || schema.title;
-    const CustomTitleField = typeof title === 'function'
-      ? title
-      : null;
+    const CustomTitleField = typeof title === 'function' ? title : null;
 
     const description = uiSchema['ui:description'];
-    const textDescription = typeof description === 'string' ? description : null;
-    const DescriptionField = typeof description === 'function'
-      ? uiSchema['ui:description']
-      : null;
+    const textDescription =
+      typeof description === 'string' ? description : null;
+    const DescriptionField =
+      typeof description === 'function' ? uiSchema['ui:description'] : null;
 
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
@@ -167,56 +190,74 @@ class ObjectField extends React.Component {
     const containerClassNames = classNames({
       'input-section': isRoot,
       'schemaform-field-container': true,
-      'schemaform-block': title && !isRoot
+      'schemaform-block': title && !isRoot,
     });
 
-    const renderProp = (propName) => {
-      return (
-        <div key={propName}>
-          <SchemaField
-            name={propName}
-            required={this.isRequired(propName)}
-            schema={schema.properties[propName]}
-            uiSchema={uiSchema[propName]}
-            errorSchema={errorSchema[propName]}
-            idSchema={idSchema[propName]}
-            formData={formData[propName]}
-            onChange={this.onPropertyChange(propName)}
-            onBlur={onBlur}
-            registry={this.props.registry}
-            disabled={disabled}
-            readonly={readonly}/>
-        </div>
-      );
-    };
+    const renderProp = propName => (
+      <div key={propName}>
+        <SchemaField
+          name={propName}
+          required={this.isRequired(propName)}
+          schema={schema.properties[propName]}
+          uiSchema={uiSchema[propName]}
+          errorSchema={errorSchema[propName]}
+          idSchema={idSchema[propName]}
+          formData={formData[propName]}
+          onChange={this.onPropertyChange(propName)}
+          onBlur={onBlur}
+          registry={this.props.registry}
+          disabled={disabled}
+          readonly={readonly}
+        />
+      </div>
+    );
 
     const fieldContent = (
       <div className={containerClassNames}>
-        {hasTitleOrDescription && <div className="schemaform-block-header">
-          {CustomTitleField && !showFieldLabel
-            ? <CustomTitleField
-              id={`${idSchema.$id}__title`}
-              formData={formData}
-              formContext={formContext}
-              required={required}/> : null}
-          {!CustomTitleField && title && !showFieldLabel
-            ? <TitleField
-              id={`${idSchema.$id}__title`}
-              title={title}
-              required={required}
-              formContext={formContext}/> : null}
-          {textDescription && <p>{textDescription}</p>}
-          {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
-          {!textDescription && !DescriptionField && description}
-        </div>}
+        {hasTitleOrDescription && (
+          <div className="schemaform-block-header">
+            {CustomTitleField && !showFieldLabel ? (
+              <CustomTitleField
+                id={`${idSchema.$id}__title`}
+                formData={formData}
+                formContext={formContext}
+                required={required}
+              />
+            ) : null}
+            {!CustomTitleField && title && !showFieldLabel ? (
+              <TitleField
+                id={`${idSchema.$id}__title`}
+                title={title}
+                required={required}
+                formContext={formContext}
+              />
+            ) : null}
+            {textDescription && <p>{textDescription}</p>}
+            {DescriptionField && (
+              <DescriptionField
+                formData={formData}
+                formContext={formContext}
+                options={uiSchema['ui:options']}
+              />
+            )}
+            {!textDescription && !DescriptionField && description}
+          </div>
+        )}
         {this.orderedProperties.map((objectFields, index) => {
           if (objectFields.length > 1) {
             const [first, ...rest] = objectFields;
-            const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
+            const visible = rest.filter(
+              prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
+            );
             return (
               <ExpandingGroup open={visible.length > 0} key={index}>
                 {renderProp(first)}
-                <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
+                <div
+                  className={_.get(
+                    [first, 'ui:options', 'expandUnderClassNames'],
+                    uiSchema,
+                  )}
+                >
                   {visible.map(renderProp)}
                 </div>
               </ExpandingGroup>
@@ -225,27 +266,21 @@ class ObjectField extends React.Component {
 
           // if fields have expandUnder, but are the only item, that means the
           // field they’re expanding under is hidden, and they should be hidden, too
-          return !_.get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
+          return !_.get(
+            [objectFields[0], 'ui:options', 'expandUnder'],
+            uiSchema,
+          )
             ? renderProp(objectFields[0], index)
             : undefined;
-        })
-        }
+        })}
       </div>
     );
 
     if (title) {
-      return (
-        <fieldset className={fieldsetClassNames}>
-          {fieldContent}
-        </fieldset>
-      );
+      return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
     }
 
-    return (
-      <div className={fieldsetClassNames}>
-        {fieldContent}
-      </div>
-    );
+    return <div className={fieldsetClassNames}>{fieldContent}</div>;
   }
 }
 
@@ -260,14 +295,13 @@ ObjectField.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
-    widgets: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ])).isRequired,
+    widgets: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
-  })
+  }),
 };
 
 export default ObjectField;

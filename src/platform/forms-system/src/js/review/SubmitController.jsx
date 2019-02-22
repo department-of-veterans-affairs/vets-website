@@ -10,41 +10,33 @@ import { isValidForm } from '../validation';
 import {
   createPageListByChapter,
   getActiveExpandedPages,
-  recordEvent
+  recordEvent,
 } from '../helpers';
-import {
-  setPreSubmit,
-  setSubmission,
-  submitForm
-} from '../actions';
+import { setPreSubmit, setSubmission, submitForm } from '../actions';
 
 class SubmitController extends React.Component {
-
   componentWillReceiveProps(nextProps) {
     const nextStatus = nextProps.form.submission.status;
     const previousStatus = this.props.form.submission.status;
-    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
+    if (
+      nextStatus !== previousStatus &&
+      nextStatus === 'applicationSubmitted'
+    ) {
       const newRoute = `${nextProps.formConfig.urlPrefix}confirmation`;
       this.props.router.push(newRoute);
     }
   }
 
-  getPreSubmit = formConfig => {
-    return {
-      required: false,
-      field: 'AGREED',
-      label: 'I agree to the terms and conditions.',
-      error: 'You must accept the agreement before submitting.',
-      ...formConfig.preSubmitInfo
-    };
-  }
+  getPreSubmit = formConfig => ({
+    required: false,
+    field: 'AGREED',
+    label: 'I agree to the terms and conditions.',
+    error: 'You must accept the agreement before submitting.',
+    ...formConfig.preSubmitInfo,
+  });
 
   goBack = () => {
-    const {
-      form,
-      pageList,
-      router
-    } = this.props;
+    const { form, pageList, router } = this.props;
 
     const expandedPageList = getActiveExpandedPages(pageList, form.data);
 
@@ -52,15 +44,10 @@ class SubmitController extends React.Component {
     // Actually, it assumes the app also doesn't add routes at the end!
     // A component at this level should not need to know these things!
     router.push(expandedPageList[expandedPageList.length - 2].path);
-  }
+  };
 
   handleSubmit = () => {
-    const {
-      form,
-      formConfig,
-      pagesByChapter,
-      trackingPrefix
-    } = this.props;
+    const { form, formConfig, pagesByChapter, trackingPrefix } = this.props;
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
@@ -80,8 +67,8 @@ class SubmitController extends React.Component {
       Raven.captureMessage('Validation issue not displayed', {
         extra: {
           errors,
-          prefix: trackingPrefix
-        }
+          prefix: trackingPrefix,
+        },
       });
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
@@ -90,14 +77,14 @@ class SubmitController extends React.Component {
 
     // User accepted if required, and no errors, so submit
     this.props.submitForm(formConfig, form);
-  }
+  };
 
   render() {
     const {
       form,
       formConfig,
       showPreSubmitError,
-      renderErrorMessage
+      renderErrorMessage,
     } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
 
@@ -107,23 +94,21 @@ class SubmitController extends React.Component {
           preSubmitInfo={preSubmit}
           onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
           checked={form.data[preSubmit.field] || false}
-          showError={showPreSubmitError}/>
+          showError={showPreSubmitError}
+        />
         <SubmitButtons
           onBack={this.goBack}
           onSubmit={this.handleSubmit}
           submission={form.submission}
-          renderErrorMessage={renderErrorMessage}/>
+          renderErrorMessage={renderErrorMessage}
+        />
       </div>
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const {
-    formConfig,
-    pageList,
-    renderErrorMessage
-  } = ownProps;
+  const { formConfig, pageList, renderErrorMessage } = ownProps;
   const router = ownProps.router;
 
   const form = state.form;
@@ -141,14 +126,14 @@ function mapStateToProps(state, ownProps) {
     router,
     submission,
     showPreSubmitError,
-    trackingPrefix
+    trackingPrefix,
   };
 }
 
 const mapDispatchToProps = {
   setPreSubmit,
   setSubmission,
-  submitForm
+  submitForm,
 };
 
 SubmitController.propTypes = {
@@ -162,10 +147,15 @@ SubmitController.propTypes = {
   setSubmission: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
   submission: PropTypes.object.isRequired,
-  trackingPrefix: PropTypes.string.isRequired
+  trackingPrefix: PropTypes.string.isRequired,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubmitController));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SubmitController),
+);
 
 // for tests
 export { SubmitController };

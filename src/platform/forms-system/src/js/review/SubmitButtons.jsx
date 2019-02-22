@@ -4,12 +4,7 @@ import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
 
 export default function SubmitButtons(props) {
-  const {
-    onBack,
-    onSubmit,
-    submission,
-    renderErrorMessage
-  } = props;
+  const { onBack, onSubmit, submission, renderErrorMessage } = props;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
@@ -17,7 +12,8 @@ export default function SubmitButtons(props) {
       <ProgressButton
         onButtonClick={onSubmit}
         buttonText="Submit Application"
-        buttonClass="usa-button-primary"/>
+        buttonClass="usa-button-primary"
+      />
     );
   } else if (submission.status === 'submitPending') {
     submitButton = (
@@ -25,7 +21,8 @@ export default function SubmitButtons(props) {
         onButtonClick={onSubmit}
         buttonText="Sending..."
         disabled
-        buttonClass="usa-button-disabled"/>
+        buttonClass="usa-button-disabled"
+      />
     );
   } else if (submission.status === 'applicationSubmitted') {
     submitButton = (
@@ -34,20 +31,29 @@ export default function SubmitButtons(props) {
         buttonText="Submitted"
         disabled
         buttonClass="form-button-green"
-        beforeText="&#10003;"/>
+        beforeText="&#10003;"
+      />
     );
   } else if (submission.status === 'clientError') {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
         buttonText="Submit Application"
-        buttonClass="usa-button-primary"/>
+        buttonClass="usa-button-primary"
+      />
     );
     submitMessage = (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We’re sorry, there was an error connecting to Vets.gov.</strong></p>
-          <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov Help Desk.</p>
+          <p className="schemaform-warning-header">
+            <strong>
+              We’re sorry, there was an error connecting to Vets.gov.
+            </strong>
+          </p>
+          <p>
+            Please check your Internet connection and try again. If the problem
+            persists, please contact the Vets.gov Help Desk.
+          </p>
         </div>
       </div>
     );
@@ -56,13 +62,21 @@ export default function SubmitButtons(props) {
       <ProgressButton
         onButtonClick={onSubmit}
         buttonText="Submit Application"
-        buttonClass="usa-button-primary"/>
+        buttonClass="usa-button-primary"
+      />
     );
     submitMessage = (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We’ve run into a problem</strong></p>
-          <p>We’re sorry. Your submission didn’t go through because we received too many requests from you. Please wait {timeFromNow(moment.unix(submission.extra))} and submit your request again.</p>
+          <p className="schemaform-warning-header">
+            <strong>We’ve run into a problem</strong>
+          </p>
+          <p>
+            We’re sorry. Your submission didn’t go through because we received
+            too many requests from you. Please wait{' '}
+            {timeFromNow(moment.unix(submission.extra))} and submit your request
+            again.
+          </p>
         </div>
       </div>
     );
@@ -71,13 +85,22 @@ export default function SubmitButtons(props) {
       <ProgressButton
         onButtonClick={onSubmit}
         buttonText="Submit Application"
-        buttonClass="usa-button-primary"/>
+        buttonClass="usa-button-primary"
+      />
     );
     submitMessage = (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We’re sorry. Some information in your application is missing or not valid.</strong></p>
-          <p>Please check each section of your application to make sure you’ve filled out all the information that is required.</p>
+          <p className="schemaform-warning-header">
+            <strong>
+              We’re sorry. Some information in your application is missing or
+              not valid.
+            </strong>
+          </p>
+          <p>
+            Please check each section of your application to make sure you’ve
+            filled out all the information that is required.
+          </p>
         </div>
       </div>
     );
@@ -88,8 +111,13 @@ export default function SubmitButtons(props) {
       submitMessage = (
         <div className="usa-alert usa-alert-error schemaform-failure-alert">
           <div className="usa-alert-body">
-            <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
-            <p>You’ll have to start over. We suggest you wait 1 day while we fix this problem.</p>
+            <p className="schemaform-warning-header">
+              <strong>We’re sorry, the application didn’t go through.</strong>
+            </p>
+            <p>
+              You’ll have to start over. We suggest you wait 1 day while we fix
+              this problem.
+            </p>
           </div>
         </div>
       );
@@ -106,9 +134,7 @@ export default function SubmitButtons(props) {
     return (
       <div>
         <div className="row">
-          <div className="small-12 medium-12 columns">
-            {submitMessage}
-          </div>
+          <div className="small-12 medium-12 columns">{submitMessage}</div>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
@@ -129,19 +155,16 @@ export default function SubmitButtons(props) {
             onButtonClick={onBack}
             buttonText="Back"
             buttonClass="usa-button-secondary"
-            beforeText="«"/>
+            beforeText="«"
+          />
         </div>
-        <div className="small-6 medium-5 columns">
-          {submitButton}
-        </div>
+        <div className="small-6 medium-5 columns">{submitButton}</div>
         <div className="small-1 medium-1 end columns">
           <div className="hidden">&nbsp;</div>
         </div>
       </div>
       <div className="row">
-        <div className="columns">
-          {submitMessage}
-        </div>
+        <div className="columns">{submitMessage}</div>
       </div>
     </div>
   );

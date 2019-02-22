@@ -1,10 +1,10 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import {
   getUiOptions,
   getWidget,
-  optionsList
+  optionsList,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 /*
@@ -21,13 +21,18 @@ export default function StringField(props) {
   let Widget = _.get('ui:reviewWidget', uiSchema);
   if (!Widget) {
     const defaultWidget = schema.format || (enumOptions ? 'select' : 'text');
-    Widget = getWidget(schema, uiOptions.widget || defaultWidget, registry.widgets);
+    Widget = getWidget(
+      schema,
+      uiOptions.widget || defaultWidget,
+      registry.widgets,
+    );
   }
 
   return (
     <Widget
       options={_.assign(uiOptions, { enumOptions, labels })}
       value={formData}
-      {...props}/>
+      {...props}
+    />
   );
 }

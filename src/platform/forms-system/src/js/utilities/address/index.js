@@ -226,7 +226,7 @@ export const countries = [
   { value: 'ESH', label: 'Western Sahara' },
   { value: 'YEM', label: 'Yemen' },
   { value: 'ZMB', label: 'Zambia' },
-  { value: 'ZWE', label: 'Zimbabwe' }
+  { value: 'ZWE', label: 'Zimbabwe' },
 ];
 
 export const states = {
@@ -243,7 +243,7 @@ export const states = {
     { label: 'Prince Edward Island', value: 'PE' },
     { label: 'Quebec', value: 'QC' },
     { label: 'Saskatchewan', value: 'SK' },
-    { label: 'Yukon Territory', value: 'YT' }
+    { label: 'Yukon Territory', value: 'YT' },
   ],
   MEX: [
     { label: 'Aguascalientes', value: 'aguascalientes' },
@@ -277,7 +277,7 @@ export const states = {
     { label: 'Tlaxcala', value: 'tlaxcala' },
     { label: 'Veracruz', value: 'veracruz' },
     { label: 'Yucatán', value: 'yucatan' },
-    { label: 'Zacatecas', value: 'zacatecas' }
+    { label: 'Zacatecas', value: 'zacatecas' },
   ],
   USA: [
     { label: 'Alabama', value: 'AL' },
@@ -341,13 +341,13 @@ export const states = {
     { label: 'Washington', value: 'WA' },
     { label: 'West Virginia', value: 'WV' },
     { label: 'Wisconsin', value: 'WI' },
-    { label: 'Wyoming', value: 'WY' }
-  ]
+    { label: 'Wyoming', value: 'WY' },
+  ],
 };
 
-states.USA_OTHER = states.USA
-  .concat([{ label: 'Other', value: 'Other' }])
-  .sort((a, b) => a.label.localeCompare(b.label));
+states.USA_OTHER = states.USA.concat([{ label: 'Other', value: 'Other' }]).sort(
+  (a, b) => a.label.localeCompare(b.label),
+);
 
 export function isValidUSZipCode(value) {
   return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);
