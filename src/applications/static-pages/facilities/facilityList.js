@@ -14,7 +14,7 @@ export default async function createFacilityListWidget() {
     // since these widgets are on content pages, we don't want to focus on them
     widgets.forEach(el => {
       ReactDOM.render(
-        <FacilityListWidget facilities={el.dataset.facilities} />,
+        <FacilityListWidget facilities={JSON.parse(el.dataset.facilities)} />,
         el,
       );
     });
