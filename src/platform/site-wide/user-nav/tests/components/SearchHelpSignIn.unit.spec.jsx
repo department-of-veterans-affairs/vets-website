@@ -5,21 +5,23 @@ import sinon from 'sinon';
 
 import SearchHelpSignIn from '../../components/SearchHelpSignIn.jsx';
 
-const defaultProps = {
-  isLOA3: false,
-  isLoggedIn: false,
-  isMenuOpen: {
-    account: false,
-    help: false,
-    search: false,
-  },
-  isProfileLoading: false,
-  userGreeting: 'test@vets.gov',
-  toggleLoginModal: sinon.spy(),
-  toggleMenu: sinon.spy(),
-};
-
 describe('<SearchHelpSignIn>', () => {
+  const defaultProps = {
+    isLOA3: false,
+    isLoggedIn: false,
+    isMenuOpen: {
+      account: false,
+      help: false,
+      search: false,
+    },
+    isProfileLoading: false,
+    userGreeting: 'test@vets.gov',
+    toggleLoginModal: sinon.spy(),
+    toggleMenu: sinon.spy(),
+  };
+
+  const oldWindow = global.window;
+
   beforeEach(() => {
     global.window = {
       location: {
@@ -31,6 +33,10 @@ describe('<SearchHelpSignIn>', () => {
         brandConsolidationEnabled: true,
       },
     };
+  });
+
+  afterEach(() => {
+    global.window = oldWindow;
   });
 
   it('should present login links when not logged in', () => {
