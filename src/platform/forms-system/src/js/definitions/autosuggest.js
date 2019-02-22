@@ -9,12 +9,12 @@ export const schema = {
   type: 'object',
   properties: {
     id: {
-      type: 'any'
+      type: 'any',
     },
     label: {
-      type: 'string'
-    }
-  }
+      type: 'string',
+    },
+  },
 };
 
 /*
@@ -30,17 +30,20 @@ export function uiSchema(label, getOptions, options = {}) {
     validations.push(validateAutosuggestOption);
   }
 
-  return _.merge({
-    'ui:title': label,
-    'ui:field': AutosuggestField,
-    'ui:validations': validations,
-    'ui:errorMessages': {
-      type: 'Please select an option from the suggestions'
+  return _.merge(
+    {
+      'ui:title': label,
+      'ui:field': AutosuggestField,
+      'ui:validations': validations,
+      'ui:errorMessages': {
+        type: 'Please select an option from the suggestions',
+      },
+      'ui:options': {
+        showFieldLabel: 'label',
+        maxOptions: 20,
+        getOptions,
+      },
     },
-    'ui:options': {
-      showFieldLabel: 'label',
-      maxOptions: 20,
-      getOptions
-    }
-  }, options);
+    options,
+  );
 }
