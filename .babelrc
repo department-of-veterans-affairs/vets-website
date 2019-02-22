@@ -1,9 +1,9 @@
 {
   // Javascript settings.
   "presets": [
-    ["env", {
+    ["@babel/env", {
+      "forceAllTransforms": true,
       "targets": {
-        "uglify": true,
         /* This is the full list of browsers we support, but we are not using it because we want babel-polyfill
          * to include only polyfills for more modern browsers.
          * Older browser polyfills are in preESModulesPolyfills.js
@@ -15,15 +15,24 @@
          */
         "browsers": ["Chrome 61", "Firefox 60", "iOS 11", "Edge 16", "ChromeAndroid 67", "Safari 11"]
       },
-      "useBuiltIns": true,
+      "useBuiltIns": "entry",
       "modules": false,
       "debug": false
     }],
-    "react",
-    "stage-2",
+    "@babel/react",
   ],
   "plugins": [
     "lodash",
+    // Stage 2
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions",
+    // Stage 3
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
+    "@babel/plugin-proposal-json-strings",
     ["module-resolver", {
       "root": "./src"
     }]
@@ -31,11 +40,21 @@
   // Share polyfills between files.
   "env": {
     "test": {
-      "presets": ["env", "stage-2"],
+      "presets": ["@babel/env"],
       "plugins": [
         "istanbul",
         "dynamic-import-node",
-        "transform-react-remove-prop-types"
+        "transform-react-remove-prop-types",
+        // Stage 2
+        "@babel/plugin-proposal-function-sent",
+        "@babel/plugin-proposal-export-namespace-from",
+        "@babel/plugin-proposal-numeric-separator",
+        "@babel/plugin-proposal-throw-expressions",
+        // Stage 3
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-syntax-import-meta",
+        ["@babel/plugin-proposal-class-properties", { "loose": false }],
+        "@babel/plugin-proposal-json-strings"
       ]
     },
     "production": {
