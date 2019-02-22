@@ -43,7 +43,7 @@ export function createRoutesWithSaveInProgress(formConfig) {
   if (!formConfig.disableSave) {
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'form-saved',
-      component: FormSaved,
+      component: formConfig.formSavedPage || FormSaved,
       pageList,
       formConfig,
     });
