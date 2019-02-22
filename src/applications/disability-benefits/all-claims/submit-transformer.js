@@ -1,5 +1,8 @@
 import _ from '../../../platform/utilities/data';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import {
+  transformForSubmit,
+  filterViewFields,
+} from 'us-forms-system/lib/js/helpers';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
@@ -206,6 +209,11 @@ export function getPtsdChangeText(changeFields = {}) {
 }
 
 export function transform(formConfig, form) {
+  // Grab ratedDisabilities before they're deleted in case the page is inactive
+  // We need to send all of these to vets-api even if the veteran doesn't apply
+  // for an increase on any of them
+  const savedRatedDisabilities = _.cloneDeep(form.data.ratedDisabilities);
+
   // Define the transformations
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
@@ -217,6 +225,13 @@ export function transform(formConfig, form) {
         ),
       ),
     );
+
+  const addBackRatedDisabilities = formData =>
+    savedRatedDisabilities
+      ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
+      : formData;
+
+  const filterRatedViewFields = formData => filterViewFields(formData);
 
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
@@ -462,8 +477,10 @@ export function transform(formConfig, form) {
 
   // Apply the transformations
   const transformedData = [
-    setActionTypes,
     filterEmptyObjects,
+    addBackRatedDisabilities, // Must run after filterEmptyObjects
+    setActionTypes, // Must run after addBackRatedDisabilities
+    filterRatedViewFields, // Must be run after setActionTypes
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,
