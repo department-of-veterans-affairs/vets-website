@@ -20,11 +20,11 @@ const testConfig = {
     PageHelpers.initItfMock(userToken);
     PageHelpers.initPaymentInformationMock(userToken);
   },
-  url: '/disability-benefits/apply/form-526-all-claims/introduction',
+  url: '/disability/file-disability-claim-form-21-526ez/introduction',
   logIn: true,
   testDataPathPrefix: 'data',
   pageHooks: {
-    '/disability-benefits/apply/form-526-all-claims/introduction': async page => {
+    '/disability/file-disability-claim-form-21-526ez/introduction': async page => {
       // Hit the start button
       await page.click('.usa-button-primary.schemaform-start-button');
 

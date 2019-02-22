@@ -1,6 +1,6 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
 
 import HelpMenu from '../../components/HelpMenu.jsx';
 
@@ -10,10 +10,34 @@ describe('<HelpMenu>', () => {
     clickHandler: f => f,
   };
 
-  const tree = SkinDeep.shallowRender(<HelpMenu {...props} />);
+  const oldWindow = global.window;
 
-  it('should render', () => {
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+  beforeEach(() => {
+    global.window = {
+      location: {
+        hostname: 'www.va.gov',
+        replace: () => {},
+        pathname: '/',
+      },
+      settings: {
+        brandConsolidationEnabled: true,
+      },
+    };
+  });
+
+  afterEach(() => {
+    global.window = oldWindow;
+  });
+
+  it('should hide the help menu contents', () => {
+    const wrapper = shallow(<HelpMenu {...props} />);
+    expect(wrapper.find('#help-menu').prop('isOpen')).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('should show the help menu contents', () => {
+    const wrapper = shallow(<HelpMenu {...props} isOpen />);
+    expect(wrapper.find('.va-helpmenu-contents')).to.exist;
+    wrapper.unmount();
   });
 });

@@ -1,0 +1,210 @@
+{% comment %}
+Example data:
+"entityUrl": {
+  "breadcrumb": [
+    {
+      "url": {
+        "path": "/",
+        "routed": true
+      },
+      "text": "Home"
+    }
+  ],
+  "path": "/pittsburgh-health-care"
+},
+"entityId": "83",
+"entityBundle": "health_care_region_page",
+"entityPublished": true,
+"title": "Pittsburgh Health Care System",
+"fieldMedia": {
+  "entity": {
+    "image": {
+      "alt": "U Drive",
+      "title": "",
+      "derivative": {
+        "url": "http://vagovcms.lndo.site/sites/default/files/styles/crop_2_1/public/2019-02/university-drive-consolidation-building2.jpg?itok=Gb4BrUjw",
+        "width": 480,
+        "height": 330
+      }
+    }
+  }
+},
+"fieldIntroText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit....
+"fieldRelatedLinks": {
+  "entity": {
+    "parentFieldName": "field_related_links",
+    "fieldTitle": "Popular in Pittsburgh",
+    "fieldVaParagraphs": [
+      {
+        "entity": {
+          "fieldLink": {
+            "uri": "internal:#",
+            "title": "Phone Directory",
+            "options": null
+          },
+          "fieldLinkSummary": null
+        }
+      },
+      {
+        "entity": {
+          "fieldLink": {
+            "uri": "internal:#",
+            "title": "Billing and insurance",
+            "options": null
+          },
+          "fieldLinkSummary": null
+        }
+      },
+      {
+        "entity": {
+          "fieldLink": {
+            "uri": "internal:#",
+            "title": "Patient advocates",
+            "options": null
+          },
+          "fieldLinkSummary": null
+        }
+      },
+      {
+        "entity": {
+          "fieldLink": {
+            "uri": "internal:#",
+            "title": "Library",
+            "options": null
+          },
+          "fieldLinkSummary": null
+        }
+      }
+    ]
+  }
+},
+"localFacilities": {
+  "entities": [
+    {
+      "title": "Fayette County VA Clinic",
+      "fieldFacilityLocatorApiId": "vha_646ge"
+    },
+    {
+      "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+      "fieldFacilityLocatorApiId": "vha_646A4"
+    },
+    {
+      "title": "Pittsburgh VA Medical Center-University Drive",
+      "fieldFacilityLocatorApiId": "vha_646"
+    },
+    {
+      "title": "Washington County VA Clinic",
+      "fieldFacilityLocatorApiId": "vha_646gd"
+    }
+  ]
+},
+"newsStoryTeasers": {
+  "entities": [
+    {
+      "title": "Test Story",
+      "fieldIntroText": "This is a story",
+      "fieldMedia": null,
+      "entityUrl": {
+        "path": "/test-story"
+      }
+    },
+    {
+      "title": "Test Story 2",
+      "fieldIntroText": null,
+      "fieldMedia": null,
+      "entityUrl": {
+        "path": "/test-story-2"
+      }
+    }
+  ]
+}
+{% endcomment %}
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+    <div class="usa-width-three-fourths">
+      {% if !entityPublished %}
+        <div class="usa-alert usa-alert-info" >
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">You are viewing a draft.</p>
+          </div>
+        </div>
+      {% endif %}
+
+      <article class="usa-content">
+        <h1>{{ title }}</h1>
+        {% assign image = fieldMedia.entity.image %}
+        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+        <div class="usa-grid usa-grid-full">
+          <div class="usa-width-one-third">
+            Make an appointment
+          </div>
+          <div class="usa-width-one-third">
+            View A-Z Health Services
+          </div>
+          <div class="usa-width-one-third">
+            Become a patient
+          </div>
+        </div>
+      </article>
+      <div class="usa-font-lead">
+        {{ fieldIntroText }}
+      </div>
+      <h2>Main Locations</h2>
+
+      <a href="#">See all locations</a>
+
+      <!-- "Manage your health online" section -->
+      <h2>Manage your health online</h2>
+      <div class="usa-grid usa-grid-full">
+        <div class="usa-width-one-half">
+          Refill and track your prescriptions
+        </div>
+        <div class="usa-width-one-half">
+          Get you VA medical records (Blue Button)
+        </div>
+      </div>
+      <div class="usa-grid usa-grid-full">
+        <div class="usa-width-one-half">
+          Send a secure message to your health care team
+        </div>
+        <div class="usa-width-one-half">
+          View your lab and test results
+        </div>
+      </div>
+      <div class="usa-grid usa-grid-full">
+        <div class="usa-width-one-half">
+          Schedule and view your appointments
+        </div>
+        <div class="usa-width-one-half">
+          Order hearing aid batteries and prosthetic socks
+        </div>
+      </div>
+
+      <!-- List of links section -->
+      {% if fieldRelatedLinks != empty %}
+        {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+      {% endif %}
+
+      <h2>Community stories and events</h2>
+      <!-- Stories -->
+      <h3>Community Stories</h3>
+      {% for story in newsStoryTeasers.entities %}
+        {% include "src/site/layouts/news_story_teaser.drupal.liquid" with node = story %}
+      {% endfor %}
+      <a href="#">See all community stories</a>
+      <!-- Events -->
+      <h3>Events</h3>
+      {% for event in eventTeasers.entities %}
+        {% include "src/site/layouts/event_teaser.drupal.liquid" with node = event %}
+      {% endfor %}
+      <a href="#">See all events</a>
+    </div>
+  </div>
+
+</main>
+{% include "src/site/includes/debug.drupal.liquid" %}

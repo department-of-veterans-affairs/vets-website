@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { FormPage } from 'platform/forms-system/src/js/containers/FormPage';
+import { FormPage } from 'us-forms-system/lib/js/containers/FormPage';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
 
 import debounce from '../../utilities/data/debounce';

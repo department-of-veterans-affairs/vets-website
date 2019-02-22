@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
 import { fillDate as oldFillDate } from './helpers';
 
 import {
