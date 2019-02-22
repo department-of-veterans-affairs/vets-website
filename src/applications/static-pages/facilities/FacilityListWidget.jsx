@@ -74,7 +74,7 @@ export default class FacilityListWidget extends React.Component {
             <section className="usa-width-one-half">
               <h3 className="vads-u-margin-bottom--2p5">
                 <a
-                  href={facility.attributes.website}
+                  href={this.props.facilities[facility.id].entityUrl.path}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -84,7 +84,8 @@ export default class FacilityListWidget extends React.Component {
               <address className="vads-u-margin-bottom--1p5">
                 <div>{facility.attributes.address.physical.address1}</div>
                 <div>
-                  {facility.attributes.address.physical.city},{' '}
+                  {facility.attributes.address.physical.city}
+                  {', '}
                   {facility.attributes.address.physical.state}{' '}
                   {facility.attributes.address.physical.zip}
                 </div>
@@ -126,7 +127,10 @@ export default class FacilityListWidget extends React.Component {
                 </div>
               </div>
               <div className="location-details-link">
-                <a href="#" className="usa-button usa-button-secondary">
+                <a
+                  href={this.props.facilities[facility.id].entityUrl.path}
+                  className="usa-button usa-button-secondary"
+                >
                   Location details <i className="fa fa-chevron-right" />
                 </a>
               </div>
@@ -134,12 +138,12 @@ export default class FacilityListWidget extends React.Component {
             <section className="usa-width-one-half">
               <img
                 src={
-                  this.props.facilities[facility.id]
+                  this.props.facilities[facility.id].derivative
                     ? this.props.facilities[facility.id].derivative.url
                     : ''
                 }
                 alt={
-                  this.props.facilities[facility.id]
+                  this.props.facilities[facility.id].alt
                     ? this.props.facilities[facility.id].alt
                     : ''
                 }

@@ -46,7 +46,8 @@ module.exports = function registerFilters() {
         .toUpperCase();
       const id = `vha_`.concat(facilityLocatorApiId);
 
-      facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : null;
+      facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : {};
+      facilityList[id].entityUrl = f.entityUrl;
     });
     return JSON.stringify(facilityList);
   };
