@@ -53,7 +53,7 @@ async function runMochaTests(files) {
   mocha = new Mocha();
   mocha.reporter('nyan');
   // sets up globals
-  mocha.addFile('../src/platform/testing/unit/helper.js');
+  mocha.addFile('./src/platform/testing/unit/helper.js');
 
   files.forEach(file => mocha.addFile(file));
   return new Promise ((fulfill, reject) => {
