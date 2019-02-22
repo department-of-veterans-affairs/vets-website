@@ -7,41 +7,38 @@ import moment from 'moment';
  * VA Facility Known Operational Hours
  */
 export default class LocationHours extends Component {
-  convertHour(hour, day) {
-    const hours = hour.split('-');
-    const isValid = hours.every(time => moment(time, 'hmmA').isValid());
+  formatTimeRange(hour) {
+    const hours = hour.split('-').map(time => moment(time, 'hmmA'));
+    const isValid = hours.every(time => time.isValid());
 
     if (!isValid) {
-      Raven.captureMessage('API data malformed', {
+      Raven.captureMessage('API location hours data is malformed', {
         extra: {
           data: this.props.location,
-          errorData: {
-            hours: { [day]: hour },
-          },
         },
       });
 
       return '';
     }
 
-    return hours.map(time => moment(time, 'hmmA').format('h:mmA')).join(' - ');
+    return hours.map(time => time.format('h:mmA')).join(' - ');
   }
 
-  convertHours(hours) {
+  formatLocationHours(hours) {
     return Object.keys(hours).reduce((accum, key) => {
       if (hours[key] === '-') {
         return { ...accum, [key]: 'Closed' };
       }
 
-      if (!this.convertHour(hours[key], key)) {
+      if (!this.formatTimeRange(hours[key])) {
         return { ...accum };
       }
 
-      return { ...accum, [key]: this.convertHour(hours[key]) };
+      return { ...accum, [key]: this.formatTimeRange(hours[key]) };
     }, {});
   }
 
-  isValidObject(location) {
+  isLocationDataValid(location) {
     if (!location) {
       return false;
     }
@@ -76,7 +73,7 @@ export default class LocationHours extends Component {
   render() {
     const { location } = this.props;
 
-    if (!this.isValidObject(location)) {
+    if (!this.isLocationDataValid(location)) {
       return null;
     }
 
@@ -84,7 +81,7 @@ export default class LocationHours extends Component {
       attributes: { hours },
     } = location;
 
-    const mappedHours = this.convertHours(hours);
+    const mappedHours = this.formatLocationHours(hours);
 
     return (
       <div>

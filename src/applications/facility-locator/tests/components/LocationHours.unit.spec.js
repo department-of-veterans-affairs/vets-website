@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import LocationHours from '../../components/LocationHours';
 
 describe('LocatorHours Helper Method Tests', () => {
-  it('.isValidObject should return true if data is valid', () => {
+  it('.isLocationDataValid should return true if data is valid', () => {
     const location = {
       attributes: {
         facilityType: 'va_health_facility',
@@ -16,18 +16,18 @@ describe('LocatorHours Helper Method Tests', () => {
 
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValidObject(location)).to.eq(true);
+    expect(wrapper.instance().isLocationDataValid(location)).to.eq(true);
     wrapper.unmount();
   });
 
   it('should return false if location in undefined', () => {
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValidObject()).to.eq(false);
+    expect(wrapper.instance().isLocationDataValid()).to.eq(false);
     wrapper.unmount();
   });
 
-  it('.isValidObject should return false if location has no hours and facilityType is not vet_center', () => {
+  it('.isLocationDataValid should return false if location has no hours and facilityType is not vet_center', () => {
     const location = {
       attributes: {
         facilityType: 'va_health_facility',
@@ -37,11 +37,11 @@ describe('LocatorHours Helper Method Tests', () => {
 
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValidObject(location)).to.eq(false);
+    expect(wrapper.instance().isLocationDataValid(location)).to.eq(false);
     wrapper.unmount();
   });
 
-  it('.isValidObject should return true if location has hours', () => {
+  it('.isLocationDataValid should return true if location has hours', () => {
     const location = {
       attributes: {
         facilityType: 'va_center',
@@ -53,33 +53,33 @@ describe('LocatorHours Helper Method Tests', () => {
 
     const wrapper = shallow(<LocationHours />);
 
-    expect(wrapper.instance().isValidObject(location)).to.eq(true);
+    expect(wrapper.instance().isLocationDataValid(location)).to.eq(true);
     wrapper.unmount();
   });
 
-  it('.convertHour should convert API hour to a human readable hour', () => {
+  it('.formatTimeRange should convert API hour to a human readable hour', () => {
     const hour = '800AM-430PM';
     const expected = '8:00a.m. - 4:30p.m.';
 
     const wrapper = shallow(<LocationHours />);
-    const result = wrapper.instance().convertHour(hour);
+    const result = wrapper.instance().formatTimeRange(hour);
 
     expect(result).to.eq(expected);
     wrapper.unmount();
   });
 
-  it('.convertHour should return "" is format is not valid', () => {
+  it('.formatTimeRange should return "" is format is not valid', () => {
     const hour = '00AM-30PM';
     const expected = '';
 
     const wrapper = shallow(<LocationHours />);
-    const result = wrapper.instance().convertHour(hour);
+    const result = wrapper.instance().formatTimeRange(hour);
 
     expect(result).to.eq(expected);
     wrapper.unmount();
   });
 
-  it('.convertHours should give back a object with converted hours', () => {
+  it('.formatLocationHours should give back a object with converted hours', () => {
     const hours = {
       monday: '800AM-430PM',
       tuesday: '800AM-430PM',
@@ -101,13 +101,13 @@ describe('LocatorHours Helper Method Tests', () => {
     };
 
     const wrapper = shallow(<LocationHours />);
-    const result = wrapper.instance().convertHours(hours);
+    const result = wrapper.instance().formatLocationHours(hours);
 
     expect(JSON.stringify(result)).to.eq(JSON.stringify(expected));
     wrapper.unmount();
   });
 
-  it('.convertHours should give back an object without the property of a malformed time', () => {
+  it('.formatLocationHours should give back an object without the property of a malformed time', () => {
     const hours = {
       monday: '800AM-430PM',
       tuesday: '800AM-430PM',
@@ -128,7 +128,7 @@ describe('LocatorHours Helper Method Tests', () => {
     };
 
     const wrapper = shallow(<LocationHours />);
-    const result = wrapper.instance().convertHours(hours);
+    const result = wrapper.instance().formatLocationHours(hours);
 
     expect(JSON.stringify(result)).to.eq(JSON.stringify(expected));
     wrapper.unmount();
