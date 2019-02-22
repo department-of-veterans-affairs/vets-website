@@ -1,0 +1,36 @@
+// Override Foundation row width
+body .row {
+  max-width: 62.5em;
+}
+
+.main-form,
+.progress-box {
+  button {
+    width: 100%;
+  }
+}
+
+.progress-box {
+  margin: 1.5rem 0;
+  padding: 1rem 2rem;
+}
+
+.input-section {
+  margin-bottom: 2em;
+
+  .row {
+    margin: 0;
+  }
+}
+
+// USWDS adds an increased margin for submit buttons, which break out grid display when we have a
+// back button on the left and a submit on the right.
+form {
+  [type="submit"] {
+    @include media($medium-screen) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      width: 100%;
+    }
+  }
+}

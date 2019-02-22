@@ -1,0 +1,42 @@
+@import "node_modules/uswds/src/stylesheets/lib/bourbon";
+@import "node_modules/uswds/src/stylesheets/lib/neat";
+@import "node_modules/uswds/src/stylesheets/lib/normalize"; // Currently 3.0.3
+
+@import "node_modules/foundation-sites/scss/foundation/components/grid";
+@import "node_modules/foundation-sites/scss/foundation/components/block-grid";
+@import "node_modules/foundation-sites/scss/foundation/components/visibility";
+
+@import "node_modules/uswds/src/stylesheets/core/variables";
+
+// A VA partial. Here so that we can override the
+// USWDS breakpoint and grid variables from above before
+// the grid, alerts, etc are loaded.
+@import "base/b-variables";
+@import "base/b-breakpoints";
+
+@import "node_modules/uswds/src/stylesheets/core/fonts";
+@import "node_modules/uswds/src/stylesheets/core/grid";
+@import "node_modules/uswds/src/stylesheets/core/utilities";
+@import "node_modules/uswds/src/stylesheets/core/base";
+
+// ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
+@import "node_modules/uswds/src/stylesheets/elements/buttons";
+@import "node_modules/uswds/src/stylesheets/elements/inputs";
+@import "node_modules/uswds/src/stylesheets/elements/labels";
+@import "node_modules/uswds/src/stylesheets/elements/table";
+@import "node_modules/uswds/src/stylesheets/elements/typography";
+@import "node_modules/uswds/src/stylesheets/components/accordions";
+@import "node_modules/uswds/src/stylesheets/components/alerts";
+@import "node_modules/uswds/src/stylesheets/components/banner";
+@import "node_modules/uswds/src/stylesheets/components/footer";
+@import "node_modules/uswds/src/stylesheets/components/forms";
+@import "node_modules/uswds/src/stylesheets/components/header";
+@import "node_modules/uswds/src/stylesheets/components/navigation";
+@import "node_modules/uswds/src/stylesheets/components/sidenav";
+
+@import "modules/m-form-layout";
+@import "modules/m-form-confirmation";
+@import "modules/m-form-elements";
+@import "modules/m-form-process";
+@import "modules/m-progress-bar";
+@import "modules/m-schemaform";

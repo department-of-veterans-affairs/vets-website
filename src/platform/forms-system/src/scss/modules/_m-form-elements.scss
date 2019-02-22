@@ -1,0 +1,231 @@
+button.form-button-green {
+  background: $color-green;
+}
+
+button.form-button-disabled {
+  pointer-events: none;
+}
+
+.form-alert-body {
+  padding: 0 3.5rem;
+}
+
+.form-field-alert label {
+  margin-top: 0.5em;
+}
+
+.form-error-date {
+  margin-top: 0;
+}
+
+@include media($medium-large-screen) {
+  .form-select-medium {
+    max-width: 12rem;
+  }
+}
+
+.form-expanding-group-active-radio {
+  margin-left: 28px;
+}
+
+.form-expanding-group-active-radio.form-expanding-group-inner-enter,
+  .form-expanding-group-active-radio.form-expanding-group-inner-leave-active {
+  margin-top: -16px;
+}
+
+.form-expanding-group-inner-leave {
+  max-height: 800px;
+  opacity: 1;
+  margin-top: 0;
+}
+
+.form-expanding-group-inner-enter {
+  opacity: 0;
+  max-height: 0;
+}
+
+.form-expanding-group-inner-leave.form-expanding-group-inner-leave-active {
+  -webkit-transition: margin-top 500ms 0ms, max-height 300ms 0ms, opacity 300ms 0ms;
+  transition: margin-top 500ms 0ms, max-height 300ms 0ms, opacity 300ms 0ms;
+  max-height: 0;
+  opacity: 0;
+}
+
+.form-expanding-group-inner-enter.form-expanding-group-inner-enter-active {
+  -webkit-transition: margin-top 300ms 0ms, max-height 700ms 0ms, opacity 500ms 200ms;
+  transition: margin-top 300ms 0ms, max-height 700ms 0ms, opacity 500ms 200ms;
+  max-height: 800px;
+  opacity: 1;
+  margin-top: 0 !important;
+}
+
+.form-expanding-group > span {
+  .usa-input-error {
+    padding-left: calc(1.5rem - 6px);
+    right: calc(1.9rem - 6px);
+  }
+  .schemaform-expandUnder-indent {
+    .usa-input-error {
+      padding-left: 1.5rem;
+      right: 1.9rem;
+    }
+  }
+}
+
+.form-expanding-group {
+  margin-left: -2rem;
+  padding-left: 2rem;
+}
+
+.form-expanding-group-open {
+  padding-left: calc(2rem - 7px);
+  border-left: 7px solid $color-primary-alt-light;
+
+  // Avoid nested expanding group borders
+  .form-expanding-group-open {
+    border-left-color: transparent;
+  }
+}
+
+.form-expanding-group-plus {
+  position: relative;
+  &::after{
+    content: "+";
+    font-size: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.form-expanding-group-open.form-expanding-group-plus::after {
+    content: "-";
+}
+
+.form-errorable-group {
+  > .usa-input-error {
+    label {
+      margin-top: 3rem;
+    }
+    .usa-input-error-label {
+      margin-top: 0;
+    }
+    .usa-input-error-message {
+      margin-bottom: -2rem;
+    }
+  }
+}
+
+// Overriding the accordion button styles that are too broad
+.form-review-panel {
+  button:not(.usa-button-unstyled) {
+    background-image: none;
+    background-color: $color-primary;
+    padding: 1rem 2rem;
+    color: $color-white;
+    width: auto;
+    &:hover {
+      color: $color-white;
+      background-color: $color-primary-darker;
+    }
+    &:active {
+      background-color: $color-primary-darkest;
+    }
+    &:focus {
+      outline: initial;
+    }
+  }
+  button.usa-button-secondary {
+    color: $color-primary;
+    background-color: $color-white;
+    &:hover {
+      background-color: $color-white;
+      color: $color-primary-darker;
+    }
+    &:active {
+      background-color: $color-white;
+      color: $color-primary-darkest;
+    }
+  }
+  .edit-btn {
+    background-color: $color-primary;
+    color: $color-white;
+    &:hover {
+      background-color: $color-primary-darker;
+      color: $color-white;
+    }
+  }
+  .edit-btn {
+    &.primary-outline {
+      background-color: transparent;
+      border: 2px solid $color-primary;
+      color: $color-primary;
+      &:hover {
+        background-color: transparent;
+        border: 2px solid $color-primary-darker;
+        color: $color-primary-darker;
+      }
+    }
+  }
+  .accordion-header > button {
+    min-height: 7rem;
+    padding: 2.5rem 6.5rem 2.5rem 3rem;
+    font-size: 1.15em;
+    line-height: 1.5;
+    font-weight: bold;
+  }
+  .section-label {
+    padding-bottom: 1rem;
+  }
+  legend.hide-for-small-only {
+    display: none !important;
+  }
+  table.review {
+    margin: 1em 0;
+    td {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    td:first-child {
+      padding-right: 1em;
+    }
+  }
+  .usa-accordion-content {
+    padding: 1em;
+  }
+}
+
+// USWDS override so that checkboxes aren't offscreen
+// At some point between 0.10 and 1.4, USWDS modified radio/checkbox style
+// so be position: absolute, and left: -999em. This isn't compatible with our
+// e2e test cases, because Nightwatch can't find the elements on screen.
+input[type="checkbox"],
+input[type="radio"] {
+  // margin-left: -2rem;
+  opacity: 0;
+  position: absolute;
+  left: auto;
+}
+
+// Override USWDS standard date input styling
+// TODO: revisit this decision and determine if we ever want to return to
+// using USWDS standard date input styling
+.form-datefield-month,
+.form-datefield-day {
+  clear: none;
+  float: left;
+  margin-right: 1.5rem;
+
+  & select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+}
+
+.form-datefield-month {
+  width: 10rem;
+}
+
+.form-datefield-day {
+  width: 8rem;
+}
