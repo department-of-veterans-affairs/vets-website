@@ -9,6 +9,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
+import FormSavedPage from '../containers/FormSavedPage';
 
 import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
 
@@ -129,6 +130,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
+  formSavedPage: FormSavedPage,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
