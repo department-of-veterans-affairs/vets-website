@@ -31,7 +31,7 @@ describe('<HelpMenu>', () => {
 
   it('should hide the help menu contents', () => {
     const wrapper = shallow(<HelpMenu {...props} />);
-    expect(wrapper.find('#helpmenu').prop('isOpen')).to.be.false;
+    expect(wrapper.find('#help-menu').prop('isOpen')).to.be.false;
     wrapper.unmount();
   });
 

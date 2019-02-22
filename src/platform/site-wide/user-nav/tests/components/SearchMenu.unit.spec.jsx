@@ -13,7 +13,7 @@ describe('<SearchMenu>', () => {
 
   it('should hide the search bar', () => {
     const wrapper = shallow(<SearchMenu {...props} />);
-    expect(wrapper.find('#searchmenu').prop('isOpen')).to.be.false;
+    expect(wrapper.find('#search-menu').prop('isOpen')).to.be.false;
     wrapper.unmount();
   });
 

@@ -72,7 +72,7 @@ class SearchMenu extends React.Component {
         buttonText="Search"
         clickHandler={this.props.clickHandler}
         cssClass={buttonClasses}
-        id="searchmenu"
+        id="search-menu"
         icon={icon}
         isOpen={this.props.isOpen}
       >
