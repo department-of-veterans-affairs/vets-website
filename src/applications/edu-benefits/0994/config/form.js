@@ -134,11 +134,11 @@ const formConfig = {
     },
     // Chapter - Personal Information
     personalInformation: {
-      title: 'Contact Information',
+      title: 'Personal Information',
       pages: {
         // page - contact information
         contactInformation: {
-          title: 'Contact Information',
+          title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
