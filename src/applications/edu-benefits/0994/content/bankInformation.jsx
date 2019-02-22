@@ -31,7 +31,7 @@ export const bankInfoHelpText = (
       by electronic funds transfer (EFT), also called direct deposit.
     </p>
     <p>
-      If you don't have a bank account, or don't wish to provide your bank
+      If you don’t have a bank account, or don’t wish to provide your bank
       account information, you must receive your payment through Direct Express
       Debit MasterCard. To request a Direct Express Debit MasterCard, apply at{' '}
       <a href="www.usdirectexpress.com">www.usdirectexpress.com</a> or call
