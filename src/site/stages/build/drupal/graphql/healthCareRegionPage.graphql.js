@@ -48,6 +48,7 @@ module.exports = `
       conditions: [
         { field: "type", value: "news_story"}
         { field: "status", value: "1"}
+        { field: "field_featured" value: "1"}
       ]} sort: {field: "changed", direction: DESC } limit: 2)
       {
       entities {
@@ -79,7 +80,7 @@ module.exports = `
       conditions: [
         { field: "type", value: "event"}
         { field: "status", value: "1"}
-        { field: "field_event_date", value: "2018-02-18", operator: GREATER_THAN}
+        { field: "field_event_date", value: [$today], operator: GREATER_THAN}
       ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
       {
         entities {
