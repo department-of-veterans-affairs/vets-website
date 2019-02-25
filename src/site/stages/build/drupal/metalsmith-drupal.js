@@ -140,6 +140,26 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
     }
+
+    if (page.mainFacilities !== undefined) {
+      for (const facility of page.mainFacilities.entities) {
+        if (facility.entityBundle === 'health_care_local_facility') {
+          files[
+            `drupal${drupalPagePath}/locations/${
+              facility.fieldFacilityLocatorApiId
+            }/index.html`
+          ] = {
+            ...facility,
+            layout: `health_care_local_facility_page.drupal.liquid`,
+            contents: Buffer.from('<!-- Drupal-provided data -->'),
+            debug: JSON.stringify(facility, null, 4),
+            // Keep these pages out of the sitemap until we remove
+            // the drupal prefix
+            private: true,
+          };
+        }
+      }
+    }
   }
 
   writeDrupalDebugPage(files);
