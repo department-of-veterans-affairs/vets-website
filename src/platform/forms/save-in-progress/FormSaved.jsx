@@ -76,8 +76,8 @@ class FormSaved extends React.Component {
                 </div>
               )}
             {success}
-            If you’re logged in through a public computer, please sign out of
-            your account before you log off to keep your information secure.
+            If you’re on a public computer, please sign out of your account
+            before you leave so your information stays secure.
           </div>
         </div>
         {!verified && (
