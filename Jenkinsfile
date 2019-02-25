@@ -81,7 +81,7 @@ node('vetsgov-general-purpose') {
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
 
-  def dockerImage, args, ref, imageTag
+  def dockerImage, args, imageTag
   def cmsEnv = params.get('cmsEnv', 'none')
 	def buildUtil = load "Jenkinsfile.build";
 	def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
