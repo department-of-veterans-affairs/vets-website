@@ -9,7 +9,7 @@ const path = require('path');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
 
-require('babel-polyfill');
+require('@babel/polyfill');
 
 const timestamp = new Date().getTime();
 

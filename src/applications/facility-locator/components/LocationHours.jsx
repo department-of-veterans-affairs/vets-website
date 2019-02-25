@@ -1,27 +1,58 @@
 import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
+import Raven from 'raven-js';
+import moment from 'moment';
 
 /**
  * VA Facility Known Operational Hours
  */
 export default class LocationHours extends Component {
-  colonizeTime(time) {
-    const found = time.match(/(\d?\d)(\d\d)(\w\w)/);
-    return `${found[1]}:${found[2]}${found[3]}`;
-  }
+  formatTimeRange(hour) {
+    const hours = hour.split('-').map(time => moment(time, 'hmmA'));
+    const isValid = hours.every(time => time.isValid());
 
-  renderNotes(notes) {
-    if (notes) {
-      return (
-        <div className="row">
-          <div className="small-12 columns">
-            <p>Notes: {notes}</p>
-          </div>
-        </div>
-      );
+    if (!isValid) {
+      Raven.captureMessage('API location hours data is malformed', {
+        extra: {
+          data: this.props.location,
+        },
+      });
+
+      return '';
     }
 
-    return null;
+    return hours.map(time => time.format('h:mmA')).join(' - ');
+  }
+
+  formatLocationHours(hours) {
+    return Object.keys(hours).reduce((accum, key) => {
+      if (hours[key] === '-') {
+        return { ...accum, [key]: 'Closed' };
+      }
+
+      if (!this.formatTimeRange(hours[key])) {
+        return { ...accum };
+      }
+
+      return { ...accum, [key]: this.formatTimeRange(hours[key]) };
+    }, {});
+  }
+
+  isLocationDataValid(location) {
+    if (!location) {
+      return false;
+    }
+
+    const isVetCenter = location.attributes.facilityType === 'vet_center';
+
+    if (
+      every(values(location.attributes.hours), hour => !hour) &&
+      !isVetCenter
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   renderVetCenterContent() {
@@ -42,7 +73,7 @@ export default class LocationHours extends Component {
   render() {
     const { location } = this.props;
 
-    if (!location) {
+    if (!this.isLocationDataValid(location)) {
       return null;
     }
 
@@ -50,45 +81,26 @@ export default class LocationHours extends Component {
       attributes: { hours },
     } = location;
 
-    const isVetCenter = location.attributes.facilityType === 'vet_center';
-
-    if (every(values(hours), h => !h) && !isVetCenter) {
-      return null;
-    }
-
-    const mappedHours = {};
-
-    Object.keys(hours).forEach(k => {
-      mappedHours[k] = hours[k];
-      if (hours[k] === '-') {
-        mappedHours[k] = 'Closed';
-      } else if (hours[k]) {
-        const regex = /(\d+\w\w)-(\d+\w\w)/;
-        const found = hours[k].match(regex);
-        if (found) {
-          mappedHours[k] = `${this.colonizeTime(found[1])}-${this.colonizeTime(
-            found[2],
-          )}`;
-        }
-      }
-    });
-
-    const hourRows = Object.keys(mappedHours).map(h => {
-      if (h !== 'notes' && mappedHours[h] && mappedHours[h] !== '') {
-        return (
-          <div className="row" key={h}>
-            <div className="small-6 columns">{capitalize(h)}:</div>
-            <div className="small-6 columns">{capitalize(mappedHours[h])}</div>
-          </div>
-        );
-      }
-      return null;
-    });
+    const mappedHours = this.formatLocationHours(hours);
 
     return (
       <div>
         <h4 className="highlight">Hours of Operation</h4>
-        <div>{hourRows}</div>
+        <div>
+          {Object.keys(mappedHours).map(h => {
+            if (h !== 'notes' && mappedHours[h] && mappedHours[h] !== '') {
+              return (
+                <div className="row" key={h}>
+                  <div className="small-6 columns">{capitalize(h)}:</div>
+                  <div className="small-6 columns">
+                    {capitalize(mappedHours[h])}
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
         {this.renderVetCenterContent()}
       </div>
     );
