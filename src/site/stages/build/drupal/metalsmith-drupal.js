@@ -67,7 +67,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
 
   // Create the detail page for healthcare local facilities
-  if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
+  if (page.mainFacilities !== undefined) {
     for (const facility of page.mainFacilities.entities) {
       if (facility.entityBundle === 'health_care_local_facility') {
         const facilityCompiled = Object.assign(facility, relatedLinks);
@@ -81,7 +81,9 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
         );
       }
     }
+  }
 
+  if (page.otherFacilities !== undefined) {
     for (const facility of page.otherFacilities.entities) {
       if (facility.entityBundle === 'health_care_local_facility') {
         const facilityCompiled = Object.assign(facility, relatedLinks);
