@@ -8,6 +8,7 @@ const FACILITIES_RESULTS = `
       entityUrl {
         path
       }
+      entityBundle
       title
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
@@ -15,6 +16,8 @@ const FACILITIES_RESULTS = `
       fieldLocationServices {
         entity {
           ... on ParagraphHealthCareLocalFacilityServi {
+            entityId
+            entityBundle
             fieldTitle
             fieldWysiwyg {
               processed
