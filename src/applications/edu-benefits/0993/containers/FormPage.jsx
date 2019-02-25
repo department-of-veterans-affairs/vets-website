@@ -6,11 +6,11 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import ProgressButton from 'us-forms-system/lib/js/components/ProgressButton';
-import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
-import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
-import { getNextPagePath } from 'us-forms-system/lib/js/routing';
-import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
+import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { focusElement } from 'platform/forms-system/src/js/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header');

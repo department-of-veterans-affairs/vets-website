@@ -1,5 +1,5 @@
 import { createStructuredSelector } from 'reselect';
-import { getFormData } from 'us-forms-system/lib/js/state/selectors';
+import { getFormData } from 'platform/forms-system/src/js/state/selectors';
 import { isLoggedIn } from '../../user/selectors';
 import { PREFILL_STATUSES } from './actions';
 

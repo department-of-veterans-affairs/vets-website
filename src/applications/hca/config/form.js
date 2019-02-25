@@ -2,17 +2,17 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { validateMatch } from 'us-forms-system/lib/js/validation';
-import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { maritalStatuses } from 'platform/static-data/options-for-select';
 import { states } from 'platform/forms/address';

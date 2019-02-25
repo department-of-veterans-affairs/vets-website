@@ -1,7 +1,7 @@
 import {
   transformForSubmit,
   recordEvent,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 
 export default function submitForm(form, formConfig) {
   const body = formConfig.transformForSubmit

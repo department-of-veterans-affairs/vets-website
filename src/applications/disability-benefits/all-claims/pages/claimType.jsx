@@ -1,5 +1,5 @@
 import React from 'react';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const filingClaimContent = <strong>I’m filing a claim for:</strong>;
 

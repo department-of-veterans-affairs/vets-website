@@ -1,5 +1,5 @@
 import EducationView from '../components/EducationView';
-import monthYearRange from 'us-forms-system/lib/js/definitions/monthYearRange';
+import monthYearRange from 'platform/forms-system/src/js/definitions/monthYearRange';
 
 import { hoursTypeLabels, stateLabels } from '../utils/labels';
 
