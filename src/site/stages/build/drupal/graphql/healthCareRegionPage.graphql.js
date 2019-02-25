@@ -2,6 +2,7 @@
  * The top-level page for a health care region.
  * Example: /pittsburgh_health_care_system
  */
+const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
@@ -42,20 +43,7 @@ module.exports = `
       	... listOfLinkTeasers
       }
     }
-    mainLocalFacilities: reverseFieldRegionPageNode(filter: {
-      conditions: [
-        { field: "type", value: "health_care_local_facility"}
-        { field: "field_main_location", value: "1"}
-        { field: "status", value: "1"}
-      ]
-    }, sort: {field: "title", direction: ASC} ) {
-      entities {
-        ... on NodeHealthCareLocalFacility {
-          title
-          fieldFacilityLocatorApiId
-        }
-      }
-    }
+    ${healthCareLocalFacilities}
     newsStoryTeasers: reverseFieldOfficeNode(filter: {
       conditions: [
         { field: "type", value: "news_story"}
