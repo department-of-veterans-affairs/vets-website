@@ -36,9 +36,9 @@ def isDeployable = {
     !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
 }
 
-def shouldBail = {
+def shouldBail() {
   // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
-  !IS_DEV_BRANCH &&
+  return !IS_DEV_BRANCH &&
     !IS_STAGING_BRANCH &&
     !IS_PROD_BRANCH &&
     !env.CHANGE_TARGET &&
