@@ -74,7 +74,7 @@ Example data:
                 <article class="usa-content">
                     <h1>{{ title }}</h1>
                     {% assign image = fieldMedia.entity.image %}
-                    <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                    <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
                     <div class="vads-u-font-size--sm vads-u-margin-bottom--2">{{ fieldImageCaption }}</div>
                     {% assign author = fieldAuthor.entity %}
                     <div class="authored-by-line vads-u-margin-bottom--2">By {{ author.title }}{% if author.fieldDescription != empty %}, {{ author.fieldDescription }} {% endif %}</div>
