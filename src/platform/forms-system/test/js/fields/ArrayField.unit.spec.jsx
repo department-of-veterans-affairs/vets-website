@@ -225,7 +225,6 @@ describe('Schemaform <ArrayField>', () => {
       expect(tree.everySubTree('button').pop().props.disabled).to.be.true;
     });
     it('add when invalid', () => {
-      formContext.setTouched.resetHistory();
       errorSchema[1] = { __errors: ['Test error'] };
       tree.getMountedInstance().handleAdd();
 

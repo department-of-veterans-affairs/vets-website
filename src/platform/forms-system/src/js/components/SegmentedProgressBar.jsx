@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import _ from 'lodash';
 
 /**
  * Create a segmented progress bar for multi-page forms.

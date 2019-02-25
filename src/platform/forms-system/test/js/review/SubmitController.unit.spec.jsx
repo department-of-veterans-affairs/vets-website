@@ -319,9 +319,9 @@ describe('Schemaform review: SubmitController', () => {
         router={router}
         submission={submission}
       />,
-    ).instance();
+    );
 
-    tree.goBack();
+    tree.instance().goBack();
 
     // BUG: The code is making a bunch of bogus assumptions about routes
     // and pages since it always adds review and confirmation routes.

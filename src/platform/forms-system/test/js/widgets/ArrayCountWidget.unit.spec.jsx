@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 import ArrayCountWidget from '../../../src/js/widgets/ArrayCountWidget';
@@ -58,7 +59,7 @@ describe('Schemaform <ArrayCountWidget>', () => {
   });
   it('should handle change that adds items', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         schema={{ type: 'string' }}
@@ -69,16 +70,17 @@ describe('Schemaform <ArrayCountWidget>', () => {
         options={{}}
       />,
     );
-    tree.subTree('input').props.onChange({
+    tree.find('input').simulate('change', {
       target: {
         value: '3',
       },
     });
     expect(onChange.firstCall.args[0]).to.eql([{}, {}, {}]);
+    tree.unmount();
   });
   it('should handle change that adds items with offset', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         schema={{ type: 'string' }}
@@ -91,16 +93,17 @@ describe('Schemaform <ArrayCountWidget>', () => {
         }}
       />,
     );
-    tree.subTree('input').props.onChange({
+    tree.find('input').simulate('change', {
       target: {
         value: '3',
       },
     });
     expect(onChange.firstCall.args[0]).to.eql([{}, {}]);
+    tree.unmount();
   });
   it('should handle change that removes items', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         value={[{}, {}]}
@@ -112,16 +115,17 @@ describe('Schemaform <ArrayCountWidget>', () => {
         options={{}}
       />,
     );
-    tree.subTree('input').props.onChange({
+    tree.find('input').simulate('change', {
       target: {
         value: '1',
       },
     });
     expect(onChange.firstCall.args[0]).to.eql([{}]);
+    tree.unmount();
   });
   it('should handle change that removes all items', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         value={[{}, {}]}
@@ -133,16 +137,17 @@ describe('Schemaform <ArrayCountWidget>', () => {
         options={{}}
       />,
     );
-    tree.subTree('input').props.onChange({
+    tree.find('input').simulate('change', {
       target: {
         value: '',
       },
     });
     expect(onChange.firstCall.args[0]).to.equal(undefined);
+    tree.unmount();
   });
   it('should handle change that removes with offset', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         value={[{}, {}]}
@@ -156,16 +161,17 @@ describe('Schemaform <ArrayCountWidget>', () => {
         }}
       />,
     );
-    tree.subTree('input').props.onChange({
+    tree.find('input').simulate('change', {
       target: {
         value: '1',
       },
     });
     expect(onChange.firstCall.args[0]).to.equal(undefined);
+    tree.unmount();
   });
   it('should handle change that removes all offset', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         value={[{}, {}]}
@@ -179,12 +185,13 @@ describe('Schemaform <ArrayCountWidget>', () => {
         }}
       />,
     );
-    tree.subTree('input').props.onChange({
+    tree.find('input').simulate('change', {
       target: {
         value: '1',
       },
     });
     expect(onChange.firstCall.args[0]).to.eql([]);
+    tree.unmount();
   });
   it('should handle blur', () => {
     const onChange = sinon.spy();
@@ -207,7 +214,7 @@ describe('Schemaform <ArrayCountWidget>', () => {
   it('should handle review mode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = shallow(
       <ArrayCountWidget
         id="1"
         value={[{}]}
@@ -221,7 +228,8 @@ describe('Schemaform <ArrayCountWidget>', () => {
         options={{}}
       />,
     );
-    expect(tree.subTree('dd').text()).to.contain('1');
-    expect(tree.subTree('dt').text()).to.contain('Test title');
+    expect(tree.find('dd').text()).to.contain('1');
+    expect(tree.find('dt').text()).to.contain('Test title');
+    tree.unmount();
   });
 });

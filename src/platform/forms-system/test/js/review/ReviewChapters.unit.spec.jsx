@@ -46,9 +46,9 @@ describe('Schemaform review: ReviewChapters', () => {
         setEditMode={setEditMode}
         setViewedPages={setViewedPages}
       />,
-    ).instance();
+    );
 
-    tree.handleEdit('testPage', true);
+    tree.instance().handleEdit('testPage', true);
     expect(setViewedPages.calledWith(['testPage']));
     expect(setEditMode.calledWith('testPage', true, null));
     tree.unmount();
@@ -99,7 +99,7 @@ describe('Schemaform review: ReviewChapters', () => {
     const openReviewChapter = sinon.spy();
     const closeReviewChapter = sinon.spy();
 
-    const instance = mount(
+    const tree = mount(
       <ReviewChapters
         chapters={chapters}
         closeReviewChapter={closeReviewChapter}
@@ -109,13 +109,15 @@ describe('Schemaform review: ReviewChapters', () => {
         viewedPages={['page1', 'page2']}
         setViewedPages={f => f}
       />,
-    ).instance();
+    );
+
+    const instance = tree.instance();
 
     instance.handleToggleChapter({ name: 'chapter1', open: false });
     expect(openReviewChapter.calledWith('chapter1')).to.be.true;
     instance.handleToggleChapter({ name: 'chapter3', open: true, pageKeys: 0 });
     expect(closeReviewChapter.calledWith('chapter3', 0)).to.be.true;
-    instance.unmount();
+    tree.unmount();
   });
 
   it('should pass index to depends for pagePerItem pages', () => {
