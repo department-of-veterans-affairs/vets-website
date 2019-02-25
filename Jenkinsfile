@@ -81,12 +81,12 @@ node('vetsgov-general-purpose') {
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
 
-  def dockerImage, args, imageTag
-  def cmsEnv = params.get('cmsEnv', 'none')
 	def buildUtil = load "Jenkinsfile.build";
 	def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
-	def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+	def dockerTag = "vets-website:" + imageTag
 	def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+  def cmsEnv = params.get('cmsEnv', 'none')
+  def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 	
 	// setupStage
 	buildUtil.setup(ref, dockerTag, dockerArgs)
@@ -97,7 +97,7 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         lint: {
-          dockerImage.inside(args) {
+          docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run lint"
           }
         },
@@ -105,14 +105,14 @@ node('vetsgov-general-purpose') {
         // Check package.json for known vulnerabilities
         security: {
           retry(3) {
-            dockerImage.inside(args) {
+            docker.image(dockerTag).inside(dockerArgs) {
               sh "cd /application && npm run security-check"
             }
           }
         },
 
         unit: {
-          dockerImage.inside(args) {
+          docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run test:coverage"
           }
         }
@@ -136,7 +136,7 @@ node('vetsgov-general-purpose') {
       for (int i=0; i<VETSGOV_BUILDTYPES.size(); i++) {
         def envName = VETSGOV_BUILDTYPES.get(i)
         builds[envName] = {
-          dockerImage.inside(args) {
+          docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run build:redirects -- --buildtype=${envName}"
             sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
@@ -183,7 +183,7 @@ node('vetsgov-general-purpose') {
 
 	buildUtil.prearchive(dockerTag, dockerArgs, envName)
 
-	buildUtil.archive(dockerImage, dockerArgs, ref);
+	buildUtil.archive(dockerTag, dockerArgs, ref);
 
   stage('Review') {
     if (shouldBail()) {

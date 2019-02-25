@@ -39,10 +39,10 @@ def isDeployable = {
 def shouldBail = {
   // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
   !IS_DEV_BRANCH &&
-  !IS_STAGING_BRANCH &&
-  !IS_PROD_BRANCH &&
-  !env.CHANGE_TARGET &&
-  currentBuild.nextBuild
+    !IS_STAGING_BRANCH &&
+    !IS_PROD_BRANCH &&
+    !env.CHANGE_TARGET &&
+    currentBuild.nextBuild
 }
 
 def runDeploy(jobName, ref) {
@@ -68,8 +68,8 @@ def notify = { ->
   if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
     message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
     slackSend message: message,
-    color: 'danger',
-    failOnError: true
+      color: 'danger',
+      failOnError: true
   }
 }
 
@@ -83,27 +83,27 @@ def notify = { ->
 
 
 def setup(String ref, String dockerTag, String dockerArgs) {
-	stage("Setup") {
-		dir("vets-website") {
-			checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
-		}
+  stage("Setup") {
+    dir("vets-website") {
+      checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
+    }
 
-		dir("vagov-content") {
-			checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
-		}
-	}
-	
-	dockerImage = docker.build(dockerTag)
+    dir("vagov-content") {
+      checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
+    }
+  }
+  
+  dockerImage = docker.build(dockerTag)
   retry(5) {
     dockerImage.inside(dockerArgs) {
       sh "cd /application && yarn install --production=false"
     }
-  }	
+  } 
 }
 
 def build(String ref) {
-	stage("Build") {
-		try {
+  stage("Build") {
+    try {
       def builds = [:]
       def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
 
@@ -122,15 +122,15 @@ def build(String ref) {
       notify()
       throw error
     }
-	}
+  }
 }
 
 
 def prearchive(String imageTag, String dockerArgs) {
-	stage("Prearchive Optimizations") {
-		if (shouldBail()) { return }
+  stage("Prearchive Optimizations") {
+    if (shouldBail()) { return }
 
-		try {
+    try {
       def builds = [:]
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
@@ -149,40 +149,40 @@ def prearchive(String imageTag, String dockerArgs) {
 
       throw error
     }
-	}
+  }
 }
 
 def archive(String dockerImage, String dockerArgs, String ref) {
-	stage("Archive") {
-		if (shouldBail()) { return }
+  stage("Archive") {
+    if (shouldBail()) { return }
 
-		def envNames = VETSGOV_BUILDTYPES + VAGOV_BUILDTYPES
-		try {
-			docker.image(dockerImage).inside(dockerArgs) {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-												 usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-					for (int i=0; i<envNames.size(); i++) {
-						sh "tar -C /application/build/${envNames.get(i)} -cf /application/build/${envNames.get(i)}.tar.bz2 ."
-						sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envNames.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envNames.get(i)}.tar.bz2"
-					}
-				}
-			}
-		} catch (error) {
-			notify()
-			throw error
-		}
-	}
+    def envNames = VETSGOV_BUILDTYPES + VAGOV_BUILDTYPES
+    try {
+      docker.image(dockerImage).inside(dockerArgs) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                         usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+          for (int i=0; i<envNames.size(); i++) {
+            sh "tar -C /application/build/${envNames.get(i)} -cf /application/build/${envNames.get(i)}.tar.bz2 ."
+            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envNames.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envNames.get(i)}.tar.bz2"
+          }
+        }
+      }
+    } catch (error) {
+      notify()
+      throw error
+    }
+  }
 }
 
 
 node('vetsgov-general-purpose') {
-	def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
-	def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
-	def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+  def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
+  def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+  def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
-	setup(ref, dockerTag, dockerArgs)
-	build(ref)
-	prearchive(dockerTag, dockerArgs)
+  setup(ref, dockerTag, dockerArgs)
+  build(ref)
+  prearchive(dockerTag, dockerArgs)
 }
 
 
