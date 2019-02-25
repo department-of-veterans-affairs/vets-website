@@ -69,25 +69,25 @@ export class IntroductionPage extends React.Component {
               <div>
                 <h5>Apply</h5>
               </div>
-              <ul>
-                <li>Complete this VET TEC application (VA Form 22-0994). </li>
-                <li>
+              <div>
+                <p>Complete this VET TEC application (VA Form 22-0994). </p>
+                <p>
                   After submitting the form, you'll get a confirmation message.
                   You can print this for your records.
-                </li>
-                <li>
+                </p>
+                <p>
                   Then, complete an Application for VA Education Benefits (VA
                   Form 22-1990), if you haven't already.
-                </li>
-                <li>
-                  <strong>Note:</strong>
-                  If you're already receiving VA education benefits, you've
-                  already completed that application and don't need to submit it
-                  again. If you haven't applied for VA education benefits yet,
-                  you'll be able to do that from the confirmation page that
-                  appears after you submit your VET TEC application.
-                </li>
-              </ul>
+                </p>
+                <p>
+                  <strong>Note:</strong> If you're already receiving VA
+                  education benefits, you've already completed that application
+                  and don't need to submit it again. If you haven't applied for
+                  VA education benefits yet, you'll be able to do that from the
+                  confirmation page that appears after you submit your VET TEC
+                  application.
+                </p>
+              </div>
             </li>
             <li className="process-step list-three">
               <div>
