@@ -8,6 +8,7 @@ const FACILITIES_RESULTS = `
       entityUrl {
         path
       }
+      entityBundle
       title
       entityId
       entityBundle
