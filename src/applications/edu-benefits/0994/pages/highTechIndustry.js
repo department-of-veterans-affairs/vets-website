@@ -68,7 +68,7 @@ export const uiSchema = {
         'ui:title': 'Media application',
       },
       noneApply: {
-        'ui:title': 'None of these apply',
+        'ui:title': 'None of these',
       },
     },
   },
