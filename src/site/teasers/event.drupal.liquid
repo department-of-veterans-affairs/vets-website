@@ -1,0 +1,83 @@
+{% comment %}
+Required variable: node - the news story entity
+Optional variable: header - the header level ('h2','h3', etc.) defaults to h4
+Example data:
+     {
+        "title": "Another Test Event",
+        "fieldEventDate": {
+          "value": "2019-03-15T13:00:00"
+        },
+        "fieldEventDateEnd": {
+          "value": "2019-03-15T18:00:00"
+        },
+        "fieldDescription": "This gives the user an overview of the event in teaser views",
+        "fieldLocationHumanreadable": "Here",
+        "fieldFacilityLocation": {
+          "entity": {
+            "title": "Westmoreland County VA Clinic",
+            "entityUrl": {
+              "path": "/pittsburgh-health-care/locations/westmoreland-county"
+            }
+          }
+        },
+        "entityUrl": {
+          "path": "/node/98"
+        }
+      }
+{% endcomment %}
+{% if node != empty %}
+
+    {% assign start_date_no_time = node.fieldEventDate.value | date: "%a, %b %d" %}
+    {% assign end_date_no_time = node.fieldEventDateEnd.value | date: "%a, %b %d" %}
+
+    {% assign start_time = node.fieldEventDate.value | date: "%I:%M %p" %}
+    {% assign end_time = node.fieldEventDateEnd.value | date: "%I:%M %p" %}
+
+    {% assign start_date_full = node.fieldEventDate.value | date: "%a, %b %d, %I:%M %p" %}
+    {% assign end_date_full = node.fieldEventDateEnd.value | date: "%a, %b %d, %I:%M %p" %}
+
+    {% if node.fieldEventDate.value != empty and node.fieldEventDateEnd.value == empty %}
+        {% assign date_type = "start_date_only" %}
+    {% else %}
+        {% if start_date_no_time == end_date_no_time %}
+            {% assign date_type = "same_day" %}
+        {% else %}
+            {% assign date_type = "all_dates" %}
+        {% endif %}
+    {% endif %}
+
+  {% if header == empty %}
+      {% assign header = "h4" %}
+  {% endif %}
+  <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+  <p>{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
+  <div class="usa-grid usa-grid-full">
+    <div class="usa-width-one-sixth">
+      <strong>When:</strong>
+    </div>
+    <div class="usa-width-five-sixths">
+        {% if date_type == "start_date_only" %}
+            <span>{{ start_date_no_time }}</span><br>
+            <span>{{ start_time }}</span>
+        {% else %}
+            {% if date_type == "same_day" %}
+                <span>{{ start_date_no_time }}</span><br>
+                <span>{{ start_time }} - {{ end_time }}</span>
+            {% else %}
+                <span>{{ start_date_full }} -</span><br>
+                <span>{{ end_date_full }}</span>
+            {% endif %}
+        {% endif %}
+    </div>
+  </div>
+  <div class="usa-grid usa-grid-full">
+    <div class="usa-width-one-sixth">
+      <strong>Where:</strong>
+    </div>
+    <div class="usa-width-five-sixths">
+      <p><a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a> </p>
+      <span>{{ node.fieldLocationHumanreadable }}</span>
+    </div>
+  </div>
+
+{% endif %}

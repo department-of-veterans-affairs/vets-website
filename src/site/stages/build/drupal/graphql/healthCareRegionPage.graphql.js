@@ -93,7 +93,17 @@ module.exports = `
               value
             }
             fieldDescription
+            fieldLocationHumanreadable
+            fieldFacilityLocation {
+              entity {
+                title
+                entityUrl {
+                  path
+                }
+              }
+            }
           }
+          
           entityUrl {
             path
           }

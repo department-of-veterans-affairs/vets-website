@@ -139,72 +139,100 @@ Example data:
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
         <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-        <div class="usa-grid usa-grid-full">
-          <div class="usa-width-one-third">
-            Make an appointment
+        <div class="usa-grid usa-grid-full facility-main-cta">
+          <div class="usa-width-one-third facility-main-cta-item">
+            <a class="" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
           </div>
-          <div class="usa-width-one-third">
-            View A-Z Health Services
+          <div class="usa-width-one-third facility-main-cta-item">
+            <a class="" href="{{ entityUrl.path }}/">View A-Z Health Services</a>
           </div>
-          <div class="usa-width-one-third">
-            Become a patient
+          <div class="usa-width-one-third facility-main-cta-item">
+            <a class="" href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
           </div>
         </div>
-      </article>
-      <div class="usa-font-lead">
-        {{ fieldIntroText }}
-      </div>
-      <h2>Main Locations</h2>
 
-      <a href="#">See all locations</a>
+        <div class="usa-font-lead">
+          <p>{{ fieldIntroText }}</p>
+        </div>
 
-      <!-- "Manage your health online" section -->
-      <h2>Manage your health online</h2>
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-one-half">
-          Refill and track your prescriptions
-        </div>
-        <div class="usa-width-one-half">
-          Get you VA medical records (Blue Button)
-        </div>
-      </div>
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-one-half">
-          Send a secure message to your health care team
-        </div>
-        <div class="usa-width-one-half">
-          View your lab and test results
-        </div>
-      </div>
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-one-half">
-          Schedule and view your appointments
-        </div>
-        <div class="usa-width-one-half">
-          Order hearing aid batteries and prosthetic socks
-        </div>
-      </div>
+        <section>
+          <h3>Main Locations</h3>
+{% comment %}
+          <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
+{% endcomment %}
+          <button class="usa-button-secondary fa-chevron-right">
+            <a href="{{ entityUrl.path }}/locations">
+              See all locations
+            </a>
+          </button>
+        </section>
 
-      <!-- List of links section -->
-      {% if fieldRelatedLinks != empty %}
-        {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
-      {% endif %}
+        <!-- "Manage your health online" section -->
+        <section class="facility-hub-cta">
+          <h3>Manage your health online</h3>
+          <div class="usa-grid usa-grid-full">
+            <a href="#" class="usa-width-one-half hub-section-link">
+              Refill and track your prescriptions
+            </a>
+            <a href="#" class="usa-width-one-half hub-section-link">
+              Get you VA medical records (Blue Button)
+            </a>
+          </div>
+          <div class="usa-grid usa-grid-full">
+            <a href="#" class="usa-width-one-half hub-section-link">
+              Send a secure message to your health care team
+            </a>
+            <a href="#" class="usa-width-one-half hub-section-link">
+              View your lab and test results
+            </a>
+          </div>
+          <div class="usa-grid usa-grid-full">
+            <a href="#" class="usa-width-one-half hub-section-link hub-section-link-last-line">
+              Schedule and view your appointments
+            </a>
+            <a href="#" class="usa-width-one-half hub-section-link hub-section-link-last-line">
+              Order hearing aid batteries and prosthetic socks
+            </a>
+          </div>
+        </section>
 
-      <h2>Community stories and events</h2>
-      <!-- Stories -->
-      <h3>Community Stories</h3>
-      {% for story in newsStoryTeasers.entities %}
-        {% include "src/site/layouts/news_story_teaser.drupal.liquid" with node = story %}
-      {% endfor %}
-      <a href="#">See all community stories</a>
-      <!-- Events -->
-      <h3>Events</h3>
-      {% for event in eventTeasers.entities %}
-        {% include "src/site/layouts/event_teaser.drupal.liquid" with node = event %}
-      {% endfor %}
-      <a href="#">See all events</a>
+
+        <!-- List of links section -->
+        <section>
+          {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+        </section>
+
+          <!-- Stories -->
+        <section>
+          <h3>Community Stories</h3>
+          {% for story in newsStoryTeasers.entities %}
+            {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
+          {% endfor %}
+          <button class="usa-button-secondary fa-chevron-right">
+            <a href="{{ entityUrl.path }}/news">
+              See all community stories
+            </a>
+          </button>
+        </section>
+
+        <!-- Events -->
+        <section>
+          <h3>Events</h3>
+          <div class="usa-grid usa-grid-full">
+          {% for event in eventTeasers.entities %}
+            <div class="usa-width-one-half">
+            {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+            </div>
+          {% endfor %}
+          </div>
+          <button class="usa-button-secondary fa-chevron-right">
+            <a href="{{ entityUrl.path }}/events">
+              See all events
+            </a>
+          </button>
+        </section>
+    </article>
     </div>
-  </div>
-
 </main>
+{% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
