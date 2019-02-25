@@ -1,39 +1,24 @@
 import React from 'react';
 
 import { logout } from 'platform/user/authentication/utilities';
-import dashboardManifest from 'applications/personalization/dashboard/manifest';
 import recordEvent from 'platform/monitoring/record-event';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
-const LEFT_CLICK = 1;
-const dashboardLink = dashboardManifest.rootUrl;
+const recordNavUserEvent = section => () => {
+  recordEvent({ event: 'nav-user', 'nav-user-section': section });
+};
+
+const recordMyVaEvent = recordNavUserEvent('my-va');
+const recordMyHealthEvent = recordNavUserEvent('my-health');
+const recordProfileEvent = recordNavUserEvent('profile');
+const recordAccountEvent = recordNavUserEvent('account');
 
 class PersonalizationDropdown extends React.Component {
-  checkLink = event => {
-    const target = event.target;
-    if (
-      target.tagName.toLowerCase() === 'a' &&
-      target.hostname === document.location.hostname &&
-      target.pathname === '/' &&
-      event.which === LEFT_CLICK
-    ) {
-      target.href = dashboardLink;
-    }
-  };
-
   render() {
     return (
       <ul>
         <li>
-          <a
-            href="/my-va/"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-user',
-                'nav-user-section': 'my-va',
-              });
-            }}
-          >
+          <a href="/my-va/" onClick={recordMyVaEvent}>
             My VA
           </a>
         </li>
@@ -42,33 +27,18 @@ class PersonalizationDropdown extends React.Component {
             href={`${mhvBaseUrl()}/mhv-portal-web/home`}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-user',
-                'nav-user-section': 'my-health',
-              });
-            }}
+            onClick={recordMyHealthEvent}
           >
             My Health
           </a>
         </li>
         <li>
-          <a
-            href="/profile"
-            onClick={() => {
-              recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' });
-            }}
-          >
+          <a href="/profile" onClick={recordProfileEvent}>
             Profile
           </a>
         </li>
         <li>
-          <a
-            href="/account"
-            onClick={() => {
-              recordEvent({ event: 'nav-user', 'nav-user-section': 'account' });
-            }}
-          >
+          <a href="/account" onClick={recordAccountEvent}>
             Account
           </a>
         </li>
