@@ -2,79 +2,6 @@ import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
 
-VETSGOV_BUILDTYPES = [
-  'development',
-  'staging',
-  'production'
-]
-
-VAGOV_BUILDTYPES = [
-  'vagovdev',
-  'vagovstaging',
-  'vagovprod'
-]
-
-DRUPAL_MAPPING = [
-  'dev': 'vagovdev',
-  'staging': 'vagovstaging',
-  'live': 'vagovprod',
-]
-
-DEV_BRANCH = 'master'
-STAGING_BRANCH = 'master'
-PROD_BRANCH = 'master'
-
-IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
-IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
-IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
-
-def isReviewable = {
-  !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
-}
-
-def isDeployable = {
-  (IS_DEV_BRANCH ||
-   IS_STAGING_BRANCH) &&
-    !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
-}
-
-def shouldBail = {
-  // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
-  !IS_DEV_BRANCH &&
-    !IS_STAGING_BRANCH &&
-    !IS_PROD_BRANCH &&
-    !env.CHANGE_TARGET &&
-    currentBuild.nextBuild
-}
-
-def runDeploy(jobName, ref) {
-  build job: jobName, parameters: [
-    booleanParam(name: 'notify_slack', value: true),
-    stringParam(name: 'ref', value: ref),
-  ], wait: false
-}
-
-def buildDetails = { vars ->
-  """
-    BUILDTYPE=${vars['buildtype']}
-    NODE_ENV=production
-    BRANCH_NAME=${env.BRANCH_NAME}
-    CHANGE_TARGET=${env.CHANGE_TARGET}
-    BUILD_ID=${env.BUILD_ID}
-    BUILD_NUMBER=${env.BUILD_NUMBER}
-    REF=${vars['ref']}
-  """.stripIndent()
-}
-
-def notify = { ->
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
-    message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
-    slackSend message: message,
-      color: 'danger',
-      failOnError: true
-  }
-}
 
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
@@ -118,7 +45,7 @@ node('vetsgov-general-purpose') {
         }
       )
     } catch (error) {
-      notify()
+      buildUtil.notify()
       throw error
     } finally {
       dir("vets-website") {
@@ -128,24 +55,24 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Build: Redirects') {
-    if (shouldBail()) { return }
+    if (buildUtil.shouldBail()) { return }
 
     try {
       def builds = [:]
 
-      for (int i=0; i<VETSGOV_BUILDTYPES.size(); i++) {
-        def envName = VETSGOV_BUILDTYPES.get(i)
+      for (int i=0; i<buildUtil.VETSGOV_BUILDTYPES.size(); i++) {
+        def envName = buildUtil.VETSGOV_BUILDTYPES.get(i)
         builds[envName] = {
           docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run build:redirects -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
+            sh "cd /application && echo \"${buildUtil.buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
       }
 
       parallel builds
     } catch (error) {
-      notify()
+      buildUtil.notify()
       throw error
     }
   }
@@ -157,7 +84,7 @@ node('vetsgov-general-purpose') {
   
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
+    if (buildUtil.shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       try {
         parallel (
@@ -170,7 +97,7 @@ node('vetsgov-general-purpose') {
           }
         )
       } catch (error) {
-        notify()
+        buildUtil.notify()
         throw error
       } finally {
         sh "docker-compose -p e2e down --remove-orphans"
@@ -186,13 +113,13 @@ node('vetsgov-general-purpose') {
   buildUtil.archive(dockerTag, dockerArgs, ref);
 
   stage('Review') {
-    if (shouldBail()) {
+    if (buildUtil.shouldBail()) {
       currentBuild.result = 'ABORTED'
       return
     }
 
     try {
-      if (!isReviewable()) {
+      if (!buildUtil.isReviewable()) {
         return
       }
       build job: 'deploys/vets-review-instance-deploy', parameters: [
@@ -202,14 +129,14 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      notify()
+      buildUtil.notify()
       throw error
     }
   }
 
   stage('Deploy dev or staging') {
     try {
-      if (!isDeployable()) { return }
+      if (!buildUtil.isDeployable()) { return }
 
       dir("vets-website") {
         script {
@@ -218,16 +145,16 @@ node('vetsgov-general-purpose') {
       }
 
       if (IS_DEV_BRANCH && VAGOV_BUILDTYPES.contains('vagovdev')) {
-        runDeploy('deploys/vets-website-dev', commit)
-        runDeploy('deploys/vets-website-vagovdev', commit)
+        buildUtil.runDeploy('deploys/vets-website-dev', commit)
+        buildUtil.runDeploy('deploys/vets-website-vagovdev', commit)
       }
 
       if (IS_STAGING_BRANCH && VAGOV_BUILDTYPES.contains('vagovstaging')) {
-        runDeploy('deploys/vets-website-staging', commit)
-        runDeploy('deploys/vets-website-vagovstaging', commit)
+        buildUtil.runDeploy('deploys/vets-website-staging', commit)
+        buildUtil.runDeploy('deploys/vets-website-vagovstaging', commit)
       }
     } catch (error) {
-      notify()
+      buildUtil.notify()
       throw error
     }
   }

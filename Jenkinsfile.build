@@ -73,15 +73,6 @@ def notify = { ->
   }
 }
 
-
-
-
-
-
-
-
-
-
 def setup(String ref, String dockerTag, String dockerArgs) {
   stage("Setup") {
     dir("vets-website") {
