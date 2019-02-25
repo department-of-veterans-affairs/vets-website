@@ -6,6 +6,7 @@ const chalk = require('chalk');
 process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
 require('babel-register');
+require('babel-polyfill');
 // require mocha setup files
 require('../src/platform/testing/unit/mocha-setup.js');
 require('../src/platform/testing/unit/enzyme-setup.js');
@@ -53,7 +54,7 @@ async function runMochaTests(files) {
   mocha = new Mocha();
   mocha.reporter('nyan');
   // sets up globals
-  mocha.addFile('./test/helper.js');
+  mocha.addFile('./src/platform/testing/unit/helper.js');
 
   files.forEach(file => mocha.addFile(file));
   return new Promise ((fulfill, reject) => {

@@ -23,7 +23,8 @@ import {
 } from './vet-tec-helpers';
 
 const dirName = path.join(__dirname, '../schema/');
-const startUrl = '/education/apply-for-education-benefits/application/0994/';
+const startUrl =
+  '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994/';
 
 const authentication = client => {
   const token = Auth.getUserToken();

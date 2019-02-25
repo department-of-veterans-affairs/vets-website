@@ -1,8 +1,7 @@
 import React from 'react';
 
-export const eligibilityDescription = (
-  <p>Have you applied for VA education benefits in the past?</p>
-);
+export const eligibilityDescription =
+  'Have you applied for VA education benefits in the past?';
 
 export const eligibilityInstructions = (
   <p>

@@ -16,7 +16,7 @@ import 'classlist-polyfill'; // DOM element classList support.
  *
  * 1. Switch the list of browsers in babelrc to the full, older list
  * 2. Set debug to true in babelrc
- * 3. Run a build and get the list of polyfills included in babel-polyfill from the terminal output
+ * 3. Run a build and get the list of polyfills included in @babel/polyfill from the terminal output
  * 4. Switch the browsers list back to the newer list and run another build
  * 5. Remove the polyfills listed in the second list from the first
  * 6. Now you have the full list and you can format them into import statements with some
