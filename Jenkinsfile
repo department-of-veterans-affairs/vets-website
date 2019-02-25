@@ -66,10 +66,11 @@ node('vetsgov-general-purpose') {
 
       for (int i=0; i<buildUtil.VETSGOV_BUILDTYPES.size(); i++) {
         def envName = buildUtil.VETSGOV_BUILDTYPES.get(i)
+				def buildDetails = buildUtil.buildDetails(envName, ref)
         builds[envName] = {
           docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run build:redirects -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildUtil.buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
+            sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
         }
       }

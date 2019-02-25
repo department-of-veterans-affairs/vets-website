@@ -52,15 +52,15 @@ def runDeploy(jobName, ref) {
   ], wait: false
 }
 
-def buildDetails() {
+def buildDetails(String buildtype, String ref) {
 	return """\
-BUILDTYPE=${vars['buildtype']}
+BUILDTYPE=${buildtype}
 NODE_ENV=production
 BRANCH_NAME=${env.BRANCH_NAME}
 CHANGE_TARGET=${env.CHANGE_TARGET}
 BUILD_ID=${env.BUILD_ID}
 BUILD_NUMBER=${env.BUILD_NUMBER}
-REF=${vars['ref']}
+REF=${ref}
 """
 }
 
@@ -100,6 +100,7 @@ def build(String ref) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
+				def buildDetails = buildDetails(envName, ref)
         builds[envName] = {
           dockerImage.inside(args) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
