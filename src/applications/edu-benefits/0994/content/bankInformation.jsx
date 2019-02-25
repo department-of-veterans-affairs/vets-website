@@ -34,8 +34,14 @@ export const bankInfoHelpText = (
       If you don’t have a bank account, or don’t wish to provide your bank
       account information, you must receive your payment through Direct Express
       Debit MasterCard. To request a Direct Express Debit MasterCard, apply at{' '}
-      <a href="www.usdirectexpress.com">www.usdirectexpress.com</a> or call
-      1-800-333-1795.
+      <a
+        href="https://www.usdirectexpress.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        www.usdirectexpress.com
+      </a>{' '}
+      or call 1-800-333-1795.
     </p>
     <p>
       If you elect not to enroll, you must contact representatives handling
