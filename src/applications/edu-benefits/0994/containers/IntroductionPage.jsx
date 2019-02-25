@@ -34,7 +34,7 @@ export class IntroductionPage extends React.Component {
                 <h5>Prepare</h5>
               </div>
               <div>
-                <h6>To fill out this application, you’ll need your:</h6>
+                <h6>To fill out this application, you'll need your:</h6>
               </div>
               <ul>
                 <li>Direct deposit information</li>
@@ -48,8 +48,8 @@ export class IntroductionPage extends React.Component {
               <p>
                 To be eligible for VET TEC, you must be a Veteran with at least
                 one day of unexpired education benefits remaining. You can
-                complete the application to see if you’re eligible for VET TEC,
-                even if you haven’t selected the program you'd like to attend.
+                complete the application to see if you're eligible for VET TEC,
+                even if you haven't selected the program you'd like to attend.
                 <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
                   Learn more about the types of programs that are covered by VET
                   TEC
@@ -72,19 +72,19 @@ export class IntroductionPage extends React.Component {
               <ul>
                 <li>Complete this VET TEC application (VA Form 22-0994). </li>
                 <li>
-                  After submitting the form, you’ll get a confirmation message.
+                  After submitting the form, you'll get a confirmation message.
                   You can print this for your records.
                 </li>
                 <li>
                   Then, complete an Application for VA Education Benefits (VA
-                  Form 22-1990), if you haven’t already.
+                  Form 22-1990), if you haven't already.
                 </li>
                 <li>
                   <strong>Note:</strong>
-                  If you're already receiving VA education benefits, you’ve
-                  already completed that application and don’t need to submit it
-                  again. If you haven’t applied for VA education benefits yet,
-                  you’ll be able to do that from the confirmation page that
+                  If you're already receiving VA education benefits, you've
+                  already completed that application and don't need to submit it
+                  again. If you haven't applied for VA education benefits yet,
+                  you'll be able to do that from the confirmation page that
                   appears after you submit your VET TEC application.
                 </li>
               </ul>
@@ -94,7 +94,7 @@ export class IntroductionPage extends React.Component {
                 <h5>VA Review</h5>
               </div>
               <p>
-                We usually process applications within 30 days. We’ll let you
+                We usually process applications within 30 days. We'll let you
                 know by mail if we need more information.
               </p>
               <p>
@@ -110,11 +110,11 @@ export class IntroductionPage extends React.Component {
                 <h5>Decision</h5>
               </div>
               <p>
-                You’ll get a Certificate of Eligibility (COE), or award letter,
-                in the mail if we’ve approved your application.
+                You'll get a Certificate of Eligibility (COE), or award letter,
+                in the mail if we've approved your application.
               </p>
               <p>
-                If your application wasn’t approved, you’ll get a denial letter
+                If your application wasn't approved, you'll get a denial letter
                 in the mail.
               </p>
             </li>
