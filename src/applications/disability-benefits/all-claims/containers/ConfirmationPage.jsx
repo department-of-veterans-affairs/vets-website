@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { submissionStatuses } from '../constants';
 import {
@@ -35,9 +34,6 @@ export default class ConfirmationPage extends React.Component {
   render() {
     switch (this.props.submissionStatus) {
       case submissionStatuses.succeeded:
-        recordEvent({
-          event: 'disability-526EZ--submission-successful',
-        });
         return successfulSubmitContent(this.props);
       case submissionStatuses.retry:
       case submissionStatuses.exhausted:

@@ -3,7 +3,7 @@ import environment from '../../../../platform/utilities/environment';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
-import submitForm from './submitForm';
+import submitFormFor from './submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
@@ -115,7 +115,7 @@ const formConfig = {
   submitUrl: `${
     environment.API_URL
   }/v0/disability_compensation_form/submit_all_claim`,
-  submit: submitForm,
+  submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   onFormLoaded: directToCorrectForm,
