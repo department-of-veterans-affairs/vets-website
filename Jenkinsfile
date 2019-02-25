@@ -12,10 +12,12 @@ node('vetsgov-general-purpose') {
 
   def buildUtil = load "Jenkinsfile.build";
   def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
-  def dockerTag = "vets-website:" + imageTag
   def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   def cmsEnv = params.get('cmsEnv', 'none')
+
   def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+  def dockerTag = "vets-website:" + imageTag
+
   
   // setupStage
   buildUtil.setup(ref, dockerTag, dockerArgs)
