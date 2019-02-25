@@ -18,7 +18,8 @@ function createAnalyticsMiddleware(analyticsEvents) {
     if (e) {
       const event =
         typeof e.event === 'function' ? e.event(store, action) : e.event;
-      window.dataLayer.push({ event });
+      const eventData = typeof event === 'string' ? { event } : event;
+      window.dataLayer.push({ eventData });
     }
 
     return next(action);
