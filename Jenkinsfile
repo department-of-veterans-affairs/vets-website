@@ -113,7 +113,7 @@ node('vetsgov-general-purpose') {
   }
 
 
-  buildUtil.prearchive(dockerTag, dockerArgs, envName)
+  buildUtil.prearchive(dockerTag, dockerArgs)
 
   buildUtil.archive(dockerTag, dockerArgs, ref);
 
