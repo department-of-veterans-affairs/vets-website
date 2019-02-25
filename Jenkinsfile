@@ -80,19 +80,16 @@ node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
+
   def dockerImage, args, ref, imageTag
-
   def cmsEnv = params.get('cmsEnv', 'none')
-
-	def commonUtil = load "Jenkinsfile.content";
-
+	def buildUtil = load "Jenkinsfile.build";
 	def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
 	def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 	def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-
 	
 	// setupStage
-	commonUtil.setup(ref, dockerTag, dockerArgs)
+	buildUtil.setup(ref, dockerTag, dockerArgs)
 
   stage('Lint|Security|Unit') {
     if (cmsEnv != 'none') { return }
@@ -156,7 +153,7 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
 
 	def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
-	commonUtil.build(assetSource, ref)
+	buildUtil.build(assetSource, ref)
 	
   // Run E2E and accessibility tests
   stage('Integration') {
@@ -184,9 +181,9 @@ node('vetsgov-general-purpose') {
   }
 
 
-	commonUtil.prearchive(dockerTag, dockerArgs, envName)
+	buildUtil.prearchive(dockerTag, dockerArgs, envName)
 
-	commonUtil.archive(dockerImage, dockerArgs, ref);
+	buildUtil.archive(dockerImage, dockerArgs, ref);
 
   stage('Review') {
     if (shouldBail()) {
