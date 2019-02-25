@@ -8,8 +8,20 @@ const FACILITIES_RESULTS = `
       entityUrl {
         path
       }
+      title
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
+      fieldIntroText
+      fieldLocationServices {
+        entity {
+          ... on ParagraphHealthCareLocalFacilityServi {
+            fieldTitle
+            fieldWysiwyg {
+              processed
+            }
+          }
+        }
+      }
       fieldMainLocation
       fieldMedia {
         entity {
