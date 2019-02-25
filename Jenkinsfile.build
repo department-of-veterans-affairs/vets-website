@@ -25,12 +25,12 @@ IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
 IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
 IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
 
-def isReviewable = {
-  !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
+def isReviewable() {
+  return !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
 }
 
-def isDeployable = {
-  (IS_DEV_BRANCH ||
+def isDeployable() {
+  return (IS_DEV_BRANCH ||
    IS_STAGING_BRANCH) &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
@@ -52,8 +52,8 @@ def runDeploy(jobName, ref) {
   ], wait: false
 }
 
-def buildDetails = { vars ->
-  """
+def buildDetails() {
+	return """
     BUILDTYPE=${vars['buildtype']}
     NODE_ENV=production
     BRANCH_NAME=${env.BRANCH_NAME}
@@ -64,7 +64,7 @@ def buildDetails = { vars ->
   """.stripIndent()
 }
 
-def notify = { ->
+def notify() {
   if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
     message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
     slackSend message: message,
