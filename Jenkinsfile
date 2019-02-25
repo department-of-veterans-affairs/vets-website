@@ -49,7 +49,7 @@ node('vetsgov-general-purpose') {
         }
       )
     } catch (error) {
-      buildUtil.notify()
+      buildUtil.slackNotify()
       throw error
     } finally {
       dir("vets-website") {
@@ -76,7 +76,7 @@ node('vetsgov-general-purpose') {
 
       parallel builds
     } catch (error) {
-      buildUtil.notify()
+      buildUtil.slackNotify()
       throw error
     }
   }
@@ -101,7 +101,7 @@ node('vetsgov-general-purpose') {
           }
         )
       } catch (error) {
-        buildUtil.notify()
+        buildUtil.slackNotify()
         throw error
       } finally {
         sh "docker-compose -p e2e down --remove-orphans"
@@ -133,7 +133,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      buildUtil.notify()
+      buildUtil.slackNotify()
       throw error
     }
   }
@@ -158,7 +158,7 @@ node('vetsgov-general-purpose') {
         buildUtil.runDeploy('deploys/vets-website-vagovstaging', commit)
       }
     } catch (error) {
-      buildUtil.notify()
+      buildUtil.slackNotify()
       throw error
     }
   }
