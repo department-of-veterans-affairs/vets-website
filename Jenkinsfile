@@ -42,10 +42,10 @@ def isDeployable = {
 def shouldBail = {
   // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
   !IS_DEV_BRANCH &&
-  !IS_STAGING_BRANCH &&
-  !IS_PROD_BRANCH &&
-  !env.CHANGE_TARGET &&
-  currentBuild.nextBuild
+    !IS_STAGING_BRANCH &&
+    !IS_PROD_BRANCH &&
+    !env.CHANGE_TARGET &&
+    currentBuild.nextBuild
 }
 
 def runDeploy(jobName, ref) {
@@ -71,8 +71,8 @@ def notify = { ->
   if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
     message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
     slackSend message: message,
-    color: 'danger',
-    failOnError: true
+      color: 'danger',
+      failOnError: true
   }
 }
 
@@ -81,15 +81,15 @@ node('vetsgov-general-purpose') {
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
 
-	def buildUtil = load "Jenkinsfile.build";
-	def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
-	def dockerTag = "vets-website:" + imageTag
-	def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+  def buildUtil = load "Jenkinsfile.build";
+  def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
+  def dockerTag = "vets-website:" + imageTag
+  def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   def cmsEnv = params.get('cmsEnv', 'none')
   def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
-	
-	// setupStage
-	buildUtil.setup(ref, dockerTag, dockerArgs)
+  
+  // setupStage
+  buildUtil.setup(ref, dockerTag, dockerArgs)
 
   stage('Lint|Security|Unit') {
     if (cmsEnv != 'none') { return }
@@ -152,9 +152,9 @@ node('vetsgov-general-purpose') {
 
   // Perform a build for each build type
 
-	def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
-	buildUtil.build(assetSource, ref)
-	
+  def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
+  buildUtil.build(assetSource, ref)
+  
   // Run E2E and accessibility tests
   stage('Integration') {
     if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
@@ -181,9 +181,9 @@ node('vetsgov-general-purpose') {
   }
 
 
-	buildUtil.prearchive(dockerTag, dockerArgs, envName)
+  buildUtil.prearchive(dockerTag, dockerArgs, envName)
 
-	buildUtil.archive(dockerTag, dockerArgs, ref);
+  buildUtil.archive(dockerTag, dockerArgs, ref);
 
   stage('Review') {
     if (shouldBail()) {
