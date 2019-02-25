@@ -1,6 +1,7 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { mount, shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import SearchMenu from '../../components/SearchMenu.jsx';
 
@@ -10,10 +11,27 @@ describe('<SearchMenu>', () => {
     clickHandler: f => f,
   };
 
-  const tree = SkinDeep.shallowRender(<SearchMenu {...props} />);
+  it('should hide the search bar', () => {
+    const wrapper = shallow(<SearchMenu {...props} />);
+    expect(wrapper.find('#search-menu').prop('isOpen')).to.be.false;
+    wrapper.unmount();
+  });
 
-  it('should render', () => {
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+  it('should show and focus the search bar when opened', () => {
+    const wrapper = mount(<SearchMenu {...props} />);
+    const searchField = wrapper.ref('searchField');
+    sinon.spy(searchField, 'focus');
+    wrapper.setProps({ isOpen: true });
+    expect(searchField.focus.calledOnce).to.be.true;
+    expect(wrapper.find('.va-dropdown-panel').prop('hidden')).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('should update the user input state', () => {
+    const wrapper = mount(<SearchMenu {...props} isOpen />);
+    const changeEvent = { target: { value: 'testing' } };
+    wrapper.find('#query').simulate('change', changeEvent);
+    expect(wrapper.state('userInput')).to.equal('testing');
+    wrapper.unmount();
   });
 });
