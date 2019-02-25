@@ -8,12 +8,13 @@ const FACILITIES_RESULTS = `
       entityUrl {
         path
       }
+      title
       entityId
       entityBundle
-      title
       changed
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
+      fieldIntroText
       fieldIntroText
       fieldLocationServices {
         entity {
