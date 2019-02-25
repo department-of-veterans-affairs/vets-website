@@ -144,6 +144,7 @@
     "jest-image-snapshot": "^2.7.0",
     "jsdom": "^11.1.0",
     "json2csv": "^4.2.1",
+    "jsonschema": "^1.1.1",
     "libxmljs": "^0.19.5",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-broken-link-checker": "^1.0.1",
