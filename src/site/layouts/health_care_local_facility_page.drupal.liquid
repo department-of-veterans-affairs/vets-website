@@ -84,7 +84,9 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+            <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
+                <p>sidebar here</p>
+            </nav>
             <div class="usa-width-three-fourths">
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
@@ -96,9 +98,11 @@
 
                 <article class="usa-content">
                     <h1>{{ title }}</h1>
+
                     <div class="va-introtext">
                         <p>{{ fieldIntroText }}</p>
                     </div>
+
                     <div class="usa-grid usa-grid-full">
                         <div class="usa-width-one-third">
                             Make an appointment
@@ -110,7 +114,22 @@
                             Become a patient
                         </div>
                     </div>
-                    <h2>Our location</h2>
+
+                    <div class="usa-grid usa-grid-full">
+                        <h2>Our location</h2>
+                        <!-- facility details from api -->
+                        <div class="usa-width-one-half">
+
+                        </div>
+
+                        <!-- facility image -->
+                        <div class="usa-width-one-half">
+                            {% assign image = fieldMedia.entity.image %}
+                            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                        </div>
+                    </div>
+
+                    <!-- Location services section -->
                     <h2>Prepare for your visit</h2>
                     <div class="usa-accordion">
                         <ul class="usa-unstyled-list" aria-multiselectable="false">
@@ -131,6 +150,12 @@
                             {% endfor %}
                         </ul>
                     </div>
+
+                    <!-- List of links section -->
+                    {% if fieldRelatedLinks != empty %}
+                        {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+                    {% endif %}
+
 
                 </article>
                 <div class="last-updated usa-content">
