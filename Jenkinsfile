@@ -85,7 +85,7 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
 
   def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
-  buildUtil.build(ref)
+  buildUtil.build(ref, dockerTag, dockerArgs)
   
   // Run E2E and accessibility tests
   stage('Integration') {
