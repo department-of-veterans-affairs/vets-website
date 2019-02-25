@@ -97,11 +97,15 @@
                 {% endif %}
 
                 <article class="usa-content">
-                    <h1>{{ title }}</h1>
+                    {% if title != empty %}
+                        <h1>{{ title }}</h1>
+                    {% endif %}
 
-                    <div class="va-introtext">
-                        <p>{{ fieldIntroText }}</p>
-                    </div>
+                    {% if fieldIntroText != empty %}
+                        <div class="va-introtext">
+                            <p>{{ fieldIntroText }}</p>
+                        </div>
+                    {% endif %}
 
                     <div class="usa-grid usa-grid-full">
                         <div class="usa-width-one-third">
@@ -115,6 +119,7 @@
                         </div>
                     </div>
 
+
                     <div class="usa-grid usa-grid-full">
                         <h2>Our location</h2>
                         <!-- facility details from api -->
@@ -122,34 +127,38 @@
 
                         </div>
 
-                        <!-- facility image -->
-                        <div class="usa-width-one-half">
-                            {% assign image = fieldMedia.entity.image %}
-                            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-                        </div>
+                        {% if fieldMedia.entity.image != empty %}
+                            <!-- facility image -->
+                            <div class="usa-width-one-half">
+                                {% assign image = fieldMedia.entity.image %}
+                                <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                            </div>
+                        {% endif %}
                     </div>
 
                     <!-- Location services section -->
-                    <h2>Prepare for your visit</h2>
-                    <div class="usa-accordion">
-                        <ul class="usa-unstyled-list" aria-multiselectable="false">
-                            {% for accordionItem in fieldLocationServices %}
-                            {% assign item = accordionItem.entity %}
-                            <li>
-                                <button
-                                        class="usa-accordion-button usa-button-unstyled"
-                                        aria-expanded="false"
-                                        aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
-                                >
-                                    {{ item.fieldTitle }}
-                                </button>
-                                <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                                    {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    {% if fieldLocationServices != empty %}
+                        <h2>Prepare for your visit</h2>
+                        <div class="usa-accordion">
+                            <ul class="usa-unstyled-list" aria-multiselectable="false">
+                                {% for accordionItem in fieldLocationServices %}
+                                {% assign item = accordionItem.entity %}
+                                <li>
+                                    <button
+                                            class="usa-accordion-button usa-button-unstyled"
+                                            aria-expanded="false"
+                                            aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
+                                    >
+                                        {{ item.fieldTitle }}
+                                    </button>
+                                    <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                                        {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
 
                     <!-- List of links section -->
                     {% if fieldRelatedLinks != empty %}
