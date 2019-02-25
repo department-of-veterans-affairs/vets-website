@@ -1,0 +1,37 @@
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+        <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+        <div class="usa-width-three-fourths">
+            {% if !entityPublished %}
+                <div class="usa-alert usa-alert-info" >
+                    <div class="usa-alert-body">
+                        <p class="usa-alert-text">You are viewing a draft.</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <article class="usa-content">
+                <h1>Our Locations</h1>
+                <div class="usa-font-lead">
+                    {{ fieldLocationsIntroBlurb.processed }}
+                </div>
+                <section class="locations">
+                    <h2 id="main-locations">Main locations</h2>
+                    <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
+                    <h2 id="other-locations">Other locations</h2>
+                    <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | widgetFacilitiesList | escape }}"></div>
+                </section>
+            </article>
+            <div class="last-updated usa-content">
+                Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+            </div>
+        </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
