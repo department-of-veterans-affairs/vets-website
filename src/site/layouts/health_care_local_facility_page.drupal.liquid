@@ -96,6 +96,13 @@
                     </div>
                 {% endif %}
 
+                <article class="usa-content">
+                    <h1>{{ title }}</h1>
+
+                    <div class="va-introtext">
+                        <p>{{ fieldIntroText }}</p>
+                    </div>
+
                 <article class="usa-content va-l-facility-detail">
                     {% if title != empty %}
                         <h1>{{ title }}</h1>
@@ -160,6 +167,7 @@
                             </ul>
                         </div>
                     {% endunless %}
+
 
                     <!-- List of links section -->
                     {% if fieldRelatedLinks != empty %}
