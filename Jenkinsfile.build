@@ -104,7 +104,7 @@ def build(String ref, String dockerTag, String dockerArgs) {
         builds[envName] = {
           docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
+            sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
         }
       }
