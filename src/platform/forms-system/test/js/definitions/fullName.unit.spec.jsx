@@ -3,16 +3,14 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../config/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/definitions/fullName';
 import { fullName as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition fullName', () => {
   it('should render fullName', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
 
     const formDOM = findDOMNode(form);

@@ -4,32 +4,37 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 
-import { DefinitionTester, getFormDOM } from '../../config/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils.jsx';
 
 import FileField from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 
 const formContext = {
-  setTouched: sinon.spy()
+  setTouched: sinon.spy(),
 };
 const requiredSchema = {};
 
 describe('Schemaform <FileField>', () => {
   it('should render', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -39,32 +44,41 @@ describe('Schemaform <FileField>', () => {
         idSchema={idSchema}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
-    expect(tree.find('label').first().text()).to.contain('Upload');
+    expect(
+      tree
+        .find('label')
+        .first()
+        .text(),
+    ).to.contain('Upload');
+    tree.unmount();
   });
   it('should render files', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name'
-      }
+        name: 'Test file name',
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -75,33 +89,37 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('li').text()).to.contain('Test file name');
+    tree.unmount();
   });
 
   it('should call onChange once when deleting files', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name'
-      }
+        name: 'Test file name',
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const onChange = sinon.spy();
 
@@ -114,35 +132,39 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={onChange}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     tree.instance().removeFile(0);
 
     expect(onChange.calledOnce).to.be.true;
     expect(onChange.firstCall.args.length).to.equal(0);
+    tree.unmount();
   });
 
   it('should render uploading', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        uploading: true
-      }
+        uploading: true,
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -153,33 +175,37 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('ProgressBar').exists()).to.be.true;
     expect(tree.find('button').text()).to.equal('Cancel');
+    tree.unmount();
   });
 
   it('should update progress', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        uploading: true
-      }
+        uploading: true,
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -190,7 +216,8 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('ProgressBar').props().percent).to.equal(0);
@@ -199,34 +226,35 @@ describe('Schemaform <FileField>', () => {
     tree.update();
 
     expect(tree.find('ProgressBar').props().percent).to.equal(20);
+    tree.unmount();
   });
   it('should render error', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        errorMessage: 'asdfas'
-      }
+        errorMessage: 'asdfas',
+      },
     ];
     const errorSchema = {
       0: {
-        __errors: [
-          'Bad error'
-        ]
-      }
+        __errors: ['Bad error'],
+      },
     };
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -238,34 +266,38 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('.va-growable-background').text()).to.contain('Bad error');
+    tree.unmount();
   });
 
   it('should not render upload button if over max items', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       maxItems: 1,
       additionalItems: {},
-      items: [{
-        properties: {}
-      }]
+      items: [
+        {
+          properties: {},
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name'
-      }
+        name: 'Test file name',
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -276,10 +308,12 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('label').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should delete file', () => {
@@ -287,8 +321,8 @@ describe('Schemaform <FileField>', () => {
     const schema = {
       type: 'object',
       properties: {
-        fileField: fileSchema
-      }
+        fileField: fileSchema,
+      },
     };
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -296,13 +330,14 @@ describe('Schemaform <FileField>', () => {
         data={{
           fileField: [
             {
-              confirmationCode: 'asdfasfd'
-            }
-          ]
+              confirmationCode: 'asdfasfd',
+            },
+          ],
         }}
         uiSchema={{
-          fileField: uiSchema
-        }}/>
+          fileField: uiSchema,
+        }}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -318,20 +353,21 @@ describe('Schemaform <FileField>', () => {
     const schema = {
       type: 'object',
       properties: {
-        fileField: fileSchema
-      }
+        fileField: fileSchema,
+      },
     };
     const uploadFile = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{
-          fileField: []
+          fileField: [],
         }}
         uploadFile={uploadFile}
         uiSchema={{
-          fileField: uiSchema
-        }}/>
+          fileField: uiSchema,
+        }}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -345,37 +381,39 @@ describe('Schemaform <FileField>', () => {
   });
   it('should render file with attachment type', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {
         type: 'object',
         properties: {
           attachmentId: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       },
-      items: [{
-        type: 'object',
-        properties: {
-          attachmentId: {
-            type: 'string'
-          }
-        }
-      }]
+      items: [
+        {
+          type: 'object',
+          properties: {
+            attachmentId: {
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name'
-      }
+        name: 'Test file name',
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -386,49 +424,55 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('li').text()).to.contain('Test file name');
-    expect(tree.find('SchemaField').prop('schema')).to.equal(schema.items[0].properties.attachmentId);
+    expect(tree.find('SchemaField').prop('schema')).to.equal(
+      schema.items[0].properties.attachmentId,
+    );
+    tree.unmount();
   });
   it('should render file with attachment name', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       additionalItems: {
         type: 'object',
         properties: {
           attachmentId: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       },
-      items: [{
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string'
-          }
-        }
-      }]
+      items: [
+        {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
     const uiSchema = fileUploadUI('Files', {
       attachmentName: {
-        'ui:title': 'Document name'
-      }
+        'ui:title': 'Document name',
+      },
     });
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name'
-      }
+        name: 'Test file name',
+      },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f
-      }
+        SchemaField: f => f,
+      },
     };
     const tree = shallow(
       <FileField
@@ -439,10 +483,14 @@ describe('Schemaform <FileField>', () => {
         formData={formData}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.find('li').text()).to.contain('Test file name');
-    expect(tree.find('SchemaField').prop('schema')).to.equal(schema.items[0].properties.name);
+    expect(tree.find('SchemaField').prop('schema')).to.equal(
+      schema.items[0].properties.name,
+    );
+    tree.unmount();
   });
 });

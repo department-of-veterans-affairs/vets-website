@@ -6,16 +6,12 @@ import CurrencyWidget from '../../../src/js/review/CurrencyWidget';
 
 describe('Schemaform review <CurrencyWidget>', () => {
   it('should format currency', () => {
-    const tree = SkinDeep.shallowRender(
-      <CurrencyWidget value={10}/>
-    );
+    const tree = SkinDeep.shallowRender(<CurrencyWidget value={10} />);
 
     expect(tree.text()).to.equal('$10.00');
   });
   it('should render empty value', () => {
-    const tree = SkinDeep.shallowRender(
-      <CurrencyWidget/>
-    );
+    const tree = SkinDeep.shallowRender(<CurrencyWidget />);
 
     expect(tree.text()).to.equal('');
   });

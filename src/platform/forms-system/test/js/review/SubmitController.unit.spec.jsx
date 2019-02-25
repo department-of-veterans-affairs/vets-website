@@ -14,34 +14,34 @@ const createFormConfig = options => ({
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
     label: 'I accept the privacy agreement',
-    error: 'You must accept the privacy agreement'
+    error: 'You must accept the privacy agreement',
   },
   chapters: {
     chapter1: {
       pages: {
         page1: {
-          schema: {}
+          schema: {},
         },
         page2: {
-          schema: {}
-        }
-      }
+          schema: {},
+        },
+      },
     },
     chapter2: {
       pages: {
         page3: {
-          schema: {}
-        }
-      }
-    }
+          schema: {},
+        },
+      },
+    },
   },
-  ...options
+  ...options,
 });
 
 const createForm = options => ({
   submission: {
     hasAttemptedSubmit: false,
-    status: false
+    status: false,
   },
   pages: {
     page1: {
@@ -52,44 +52,44 @@ const createForm = options => ({
     },
     page3: {
       schema: {},
-    }
+    },
   },
   data: {},
-  ...options
+  ...options,
 });
 
-const createPageList = () => ([
+const createPageList = () => [
   {
     path: 'page-1',
-    pageKey: 'page1'
+    pageKey: 'page1',
   },
   {
     path: 'page-2',
-    pageKey: 'page2'
+    pageKey: 'page2',
   },
   {
     path: 'page-3',
-    pageKey: 'page3'
-  }
-]);
+    pageKey: 'page3',
+  },
+];
 
 const createPagesByChapter = () => ({
   chapter1: [
     {
       chapterKey: 'chapter1',
-      pageKey: 'page1'
+      pageKey: 'page1',
     },
     {
       chapterKey: 'chapter1',
-      pageKey: 'page2'
-    }
+      pageKey: 'page2',
+    },
   ],
   chapter2: [
     {
       chapterKey: 'chapter2',
-      pageKey: 'page3'
-    }
-  ]
+      pageKey: 'page3',
+    },
+  ],
 });
 
 describe('Schemaform review: SubmitController', () => {
@@ -104,7 +104,8 @@ describe('Schemaform review: SubmitController', () => {
         form={form}
         formConfig={formConfig}
         route={{ formConfig, pageList }}
-        router={router}/>
+        router={router}
+      />,
     );
 
     tree.setProps({
@@ -112,12 +113,13 @@ describe('Schemaform review: SubmitController', () => {
       formConfig,
       form: createForm({
         submission: { status: 'applicationSubmitted' },
-        data: { privacyAgreementAccepted: true }
-      })
+        data: { privacyAgreementAccepted: true },
+      }),
     });
 
     // BUG: this assumes there is always a confirmation page with this route
     expect(router.push.calledWith('/confirmation')).to.be.true;
+    tree.unmount();
   });
   it('should not submit when privacy agreement not accepted', () => {
     const form = createForm();
@@ -132,7 +134,8 @@ describe('Schemaform review: SubmitController', () => {
         submitForm={submitForm}
         formConfig={formConfig}
         form={form}
-        pagesByChapter={pagesByChapter}/>
+        pagesByChapter={pagesByChapter}
+      />,
     );
 
     // SubmitButtons .usa-button-primary is the submit button
@@ -140,6 +143,7 @@ describe('Schemaform review: SubmitController', () => {
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    tree.unmount();
   });
   it('should not submit when invalid', () => {
     // Form with missing rquired field
@@ -153,14 +157,14 @@ describe('Schemaform review: SubmitController', () => {
                 type: 'object',
                 required: ['stuff'],
                 properties: {
-                  stuff: { type: 'string' }
-                }
-              }
-            }
-          }
-        }
+                  stuff: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
       },
-      data: { privacyAgreementAccepted: true }
+      data: { privacyAgreementAccepted: true },
     });
     const pagesByChapter = createPagesByChapter();
     const form = createForm();
@@ -176,19 +180,21 @@ describe('Schemaform review: SubmitController', () => {
         formConfig={formConfig}
         pagesByChapter={pagesByChapter}
         pageList={pageList}
-        route={{ formConfig, pageList }}/>
+        route={{ formConfig, pageList }}
+      />,
     );
 
     tree.find('.usa-button-primary').simulate('click');
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    tree.unmount();
   });
   it('should submit when valid', () => {
     const formConfig = createFormConfig();
     const pagesByChapter = createPagesByChapter();
     const form = createForm({
-      data: { privacyAgreementAccepted: true }
+      data: { privacyAgreementAccepted: true },
     });
     const pageList = createPageList();
     const submitForm = sinon.spy();
@@ -200,16 +206,18 @@ describe('Schemaform review: SubmitController', () => {
         form={form}
         pagesByChapter={pagesByChapter}
         pageList={pageList}
-        route={{ formConfig, pageList }}/>
+        route={{ formConfig, pageList }}
+      />,
     );
 
     tree.find('.usa-button-primary').simulate('click');
 
     expect(submitForm.called).to.be.true;
+    tree.unmount();
   });
   it('should submit when valid and no preSubmit specified', () => {
     const formConfig = createFormConfig({
-      preSubmitInfo: undefined
+      preSubmitInfo: undefined,
     });
     const pagesByChapter = createPagesByChapter();
     const form = createForm();
@@ -223,19 +231,21 @@ describe('Schemaform review: SubmitController', () => {
         form={form}
         pagesByChapter={pagesByChapter}
         pageList={pageList}
-        route={{ formConfig, pageList }}/>
+        route={{ formConfig, pageList }}
+      />,
     );
 
     tree.find('.usa-button-primary').simulate('click');
 
     expect(submitForm.called).to.be.true;
+    tree.unmount();
   });
   it('should submit when valid and only preSubmit.notice specified', () => {
     const formConfig = createFormConfig({
       preSubmitInfo: {
         notice: <p className="presubmit-notice">NOTICE</p>,
-        required: false
-      }
+        required: false,
+      },
     });
     const pagesByChapter = createPagesByChapter();
     const form = createForm();
@@ -249,21 +259,23 @@ describe('Schemaform review: SubmitController', () => {
         form={form}
         pagesByChapter={pagesByChapter}
         pageList={pageList}
-        route={{ formConfig, pageList }}/>
+        route={{ formConfig, pageList }}
+      />,
     );
 
     tree.find('.usa-button-primary').simulate('click');
 
     expect(tree.find('.presubmit-notice').text()).to.equal('NOTICE');
     expect(submitForm.called).to.be.true;
+    tree.unmount();
   });
   it('should change the preSubmit value when the checkbox is clicked', () => {
     const formConfig = createFormConfig({
       preSubmitInfo: {
         required: true,
         field: 'yep',
-        label: 'Count me in!'
-      }
+        label: 'Count me in!',
+      },
     });
     const pagesByChapter = createPagesByChapter();
     const form = createForm();
@@ -278,21 +290,25 @@ describe('Schemaform review: SubmitController', () => {
         form={form}
         pagesByChapter={pagesByChapter}
         pageList={pageList}
-        route={{ formConfig, pageList }}/>
+        route={{ formConfig, pageList }}
+      />,
     );
 
-    tree.find('[type="checkbox"]').simulate('change', { target: { checked: true } });
+    tree
+      .find('[type="checkbox"]')
+      .simulate('change', { target: { checked: true } });
     expect(setPreSubmit.calledWith('yep', true)).to.be.true;
+    tree.unmount();
   });
   it('should go back', () => {
     const formConfig = createFormConfig();
     const pageList = createPageList();
     const form = createForm({
-      data: { privacyAgreementAccepted: true }
+      data: { privacyAgreementAccepted: true },
     });
     const router = { push: sinon.spy() };
     const submission = {
-      hasAttemptedSubmit: false
+      hasAttemptedSubmit: false,
     };
 
     const tree = mount(
@@ -301,7 +317,8 @@ describe('Schemaform review: SubmitController', () => {
         formConfig={formConfig}
         pageList={pageList}
         router={router}
-        submission={submission}/>
+        submission={submission}
+      />,
     ).instance();
 
     tree.goBack();
@@ -309,5 +326,6 @@ describe('Schemaform review: SubmitController', () => {
     // BUG: The code is making a bunch of bogus assumptions about routes
     // and pages since it always adds review and confirmation routes.
     expect(router.push.calledWith('page-2')).to.be.true;
+    tree.unmount();
   });
 });

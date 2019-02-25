@@ -18,7 +18,8 @@ describe('Schemaform <SchemaForm>', () => {
         title={name}
         schema={schema}
         uiSchema={uiSchema}
-        pageData={data}/>
+        pageData={data}
+      />,
     );
 
     expect(tree.everySubTree('Form')).not.to.be.empty;
@@ -35,15 +36,16 @@ describe('Schemaform <SchemaForm>', () => {
         title={name}
         schema={schema}
         uiSchema={uiSchema}
-        pageData={data}/>
+        pageData={data}
+      />,
     );
 
     const errors = tree.getMountedInstance().transformErrors([
       {
         name: 'required',
         property: 'instance',
-        argument: 'test'
-      }
+        argument: 'test',
+      },
     ]);
 
     expect(errors[0].property).to.equal('instance.test');
@@ -52,9 +54,7 @@ describe('Schemaform <SchemaForm>', () => {
     const name = 'testPage';
     const schema = {};
     const uiSchema = {
-      'ui:validations': [
-        (errors) => errors.addError('test error')
-      ]
+      'ui:validations': [errors => errors.addError('test error')],
     };
     const data = {};
 
@@ -64,12 +64,15 @@ describe('Schemaform <SchemaForm>', () => {
         title={name}
         schema={schema}
         uiSchema={uiSchema}
-        pageData={data}/>
+        pageData={data}
+      />,
     );
 
     const errors = tree.getMountedInstance().validate(data, {
       __errors: [],
-      addError: function addError(msg) { this.__errors.push(msg); }
+      addError: function addError(msg) {
+        this.__errors.push(msg);
+      },
     });
 
     expect(errors.__errors[0]).to.equal('test error');
@@ -98,7 +101,8 @@ describe('Schemaform <SchemaForm>', () => {
           uiSchema={uiSchema}
           onChange={onChange}
           onSubmit={onSubmit}
-          pageData={data}/>
+          pageData={data}
+        />,
       );
     });
     it('change', () => {
@@ -130,7 +134,8 @@ describe('Schemaform <SchemaForm>', () => {
         title={name}
         schema={schema}
         uiSchema={uiSchema}
-        pageData={data}/>
+        pageData={data}
+      />,
     );
 
     const instance = tree.getMountedInstance();
@@ -161,7 +166,8 @@ describe('Schemaform <SchemaForm>', () => {
         title={name}
         schema={schema}
         uiSchema={uiSchema}
-        pageData={data}/>
+        pageData={data}
+      />,
     );
 
     const instance = tree.getMountedInstance();

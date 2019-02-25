@@ -6,7 +6,7 @@ import { ReviewPage } from '../../../src/js/review/ReviewPage';
 
 describe('Schemaform review: ReviewPage', () => {
   const location = {
-    pathname: '/testing/0'
+    pathname: '/testing/0',
   };
 
   it('should render chapters', () => {
@@ -14,35 +14,35 @@ describe('Schemaform review: ReviewPage', () => {
       chapters: {
         chapter1: {
           pages: {
-            page1: {}
-          }
+            page1: {},
+          },
         },
         chapter2: {
           pages: {
-            page2: {}
-          }
-        }
-      }
+            page2: {},
+          },
+        },
+      },
     };
 
     const pageList = [
       {
-        path: 'previous-page'
+        path: 'previous-page',
       },
       {
         path: 'testing',
-        pageKey: 'testPage'
+        pageKey: 'testPage',
       },
       {
-        path: 'next-page'
-      }
+        path: 'next-page',
+      },
     ];
 
     const form = {
       submission: {
-        hasAttemptedSubmit: false
+        hasAttemptedSubmit: false,
       },
-      data: {}
+      data: {},
     };
 
     const tree = shallow(
@@ -52,10 +52,14 @@ describe('Schemaform review: ReviewPage', () => {
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPreSubmit={f => f}
-        location={location}/>
+        location={location}
+      />,
     );
 
     expect(tree.find('withRouter(Connect(ReviewChapters))')).to.have.length(1);
-    expect(tree.find('withRouter(Connect(SubmitController))')).to.have.length(1);
+    expect(tree.find('withRouter(Connect(SubmitController))')).to.have.length(
+      1,
+    );
+    tree.unmount();
   });
 });

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import AutosuggestField from '../fields/AutosuggestField';
 import { validateAutosuggestOption } from '../validation';

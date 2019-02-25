@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { checkValidSchema, createFormPageList } from '../helpers';

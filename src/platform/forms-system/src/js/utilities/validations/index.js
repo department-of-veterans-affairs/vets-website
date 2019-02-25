@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import moment from 'moment';
 
 // Conditions for valid SSN from the original 1010ez pdf form:

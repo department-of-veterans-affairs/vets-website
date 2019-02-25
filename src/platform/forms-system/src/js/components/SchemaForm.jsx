@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 

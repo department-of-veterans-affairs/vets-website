@@ -13,7 +13,7 @@ import {
   setSubmitted,
   SET_SUBMITTED,
   submitForm,
-  uploadFile
+  uploadFile,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -79,10 +79,10 @@ describe('Schemaform actions:', () => {
 
     beforeEach(() => {
       global.FormData = sinon.stub().returns({
-        append: sinon.spy()
+        append: sinon.spy(),
       });
       xhr = sinon.useFakeXMLHttpRequest();
-      xhr.onCreate = (req) => {
+      xhr.onCreate = req => {
         requests.push(req);
       };
       window.dataLayer = [];
@@ -98,15 +98,15 @@ describe('Schemaform actions:', () => {
 
     it('should set submitted', () => {
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         pages: {
           testing: {},
         },
         data: {
-          test: 1
-        }
+          test: 1,
+        },
       };
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
@@ -117,11 +117,11 @@ describe('Schemaform actions:', () => {
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
-          extra: null
+          extra: null,
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMITTED,
-          response: {}
+          response: {},
         });
       });
 
@@ -131,15 +131,15 @@ describe('Schemaform actions:', () => {
     });
     it('should set submission error', () => {
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         pages: {
           testing: {},
         },
         data: {
-          test: 1
-        }
+          test: 1,
+        },
       };
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
@@ -150,13 +150,13 @@ describe('Schemaform actions:', () => {
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
-          extra: null
+          extra: null,
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'serverError',
-          extra: null
+          extra: null,
         });
       });
 
@@ -166,15 +166,15 @@ describe('Schemaform actions:', () => {
     });
     it('should set rate limit error', () => {
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         pages: {
           testing: {},
         },
         data: {
-          test: 1
-        }
+          test: 1,
+        },
       };
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
@@ -185,19 +185,23 @@ describe('Schemaform actions:', () => {
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
-          extra: null
+          extra: null,
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'throttledError',
-          extra: 2000
+          extra: 2000,
         });
       });
 
-      requests[0].respond(429, {
-        'x-ratelimit-reset': '2000'
-      }, JSON.stringify(response));
+      requests[0].respond(
+        429,
+        {
+          'x-ratelimit-reset': '2000',
+        },
+        JSON.stringify(response),
+      );
 
       return promise;
     });
@@ -205,15 +209,15 @@ describe('Schemaform actions:', () => {
       const response = { data: {} };
       const formConfig = {
         submit: sinon.stub().resolves(response),
-        chapters: {}
+        chapters: {},
       };
       const form = {
         pages: {
           testing: {},
         },
         data: {
-          test: 1
-        }
+          test: 1,
+        },
       };
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
@@ -223,13 +227,13 @@ describe('Schemaform actions:', () => {
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
-          extra: null
+          extra: null,
         });
         expect(formConfig.submit.called).to.be.true;
         expect(requests).to.be.empty;
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMITTED,
-          response: response.data
+          response: response.data,
         });
       });
 
@@ -242,10 +246,10 @@ describe('Schemaform actions:', () => {
 
     beforeEach(() => {
       global.FormData = sinon.stub().returns({
-        append: sinon.spy()
+        append: sinon.spy(),
       });
       xhr = sinon.useFakeXMLHttpRequest();
-      xhr.onCreate = (req) => {
+      xhr.onCreate = req => {
         requests.push(req);
       };
     });
@@ -257,95 +261,95 @@ describe('Schemaform actions:', () => {
       requests = [];
     });
 
-    it('should reject if file is too big', (done) => {
+    it('should reject if file is too big', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 10
+          size: 10,
         },
         {
           fileTypes: ['jpg'],
-          maxSize: 5
+          maxSize: 5,
         },
         f => f,
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
-            errorMessage: 'File is too large to be uploaded'
+            errorMessage: 'File is too large to be uploaded',
           });
           done();
-        }
+        },
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
     });
 
-    it('should reject if file is too small', (done) => {
+    it('should reject if file is too small', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 1
+          size: 1,
         },
         {
           minSize: 5,
           fileTypes: ['jpg'],
-          maxSize: 8
+          maxSize: 8,
         },
         f => f,
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
-            errorMessage: 'File is too small to be uploaded'
+            errorMessage: 'File is too small to be uploaded',
           });
           done();
-        }
+        },
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
     });
 
-    it('should reject if file is wrong type', (done) => {
+    it('should reject if file is wrong type', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 5
+          size: 5,
         },
         {
           fileTypes: ['jpeg'],
-          maxSize: 5
+          maxSize: 5,
         },
         f => f,
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             errorMessage: 'File is not one of the allowed types',
-            name: 'jpg'
+            name: 'jpg',
           });
           done();
-        }
+        },
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
@@ -356,44 +360,48 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0
+          size: 0,
         },
         {
           endpoint: '/v0/endpoint',
           fileTypes: ['JPG'],
           maxSize: 5,
           createPayload: f => f,
-          parseResponse: f => f.data.attributes
+          parseResponse: f => f.data.attributes,
         },
         f => f,
-        onChange
+        onChange,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
-      requests[0].respond(200, null, JSON.stringify({
-        data: {
-          attributes: {
-            name: 'Test name',
-            size: 1234,
-            confirmationCode: 'Test code'
-          }
-        }
-      }));
+      requests[0].respond(
+        200,
+        null,
+        JSON.stringify({
+          data: {
+            attributes: {
+              name: 'Test name',
+              size: 1234,
+              confirmationCode: 'Test code',
+            },
+          },
+        }),
+      );
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: 'jpg',
-        uploading: true
+        uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'Test name',
         size: 1234,
-        confirmationCode: 'Test code'
+        confirmationCode: 'Test code',
       });
     });
 
@@ -402,23 +410,23 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0
+          size: 0,
         },
         {
           fileTypes: ['jpg'],
           maxSize: 5,
           createPayload: f => f,
-          parseResponse: f => f.data.attributes
+          parseResponse: f => f.data.attributes,
         },
         f => f,
         onChange,
-        f => f
+        f => f,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
@@ -427,11 +435,11 @@ describe('Schemaform actions:', () => {
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: 'jpg',
-        uploading: true
+        uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
-        errorMessage: 'Bad Request'
+        errorMessage: 'Bad Request',
       });
     });
     it('should set error on network issue', () => {
@@ -439,23 +447,23 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0
+          size: 0,
         },
         {
           fileTypes: ['jpg'],
           maxSize: 5,
           createPayload: f => f,
-          parseResponse: f => f.data.attributes
+          parseResponse: f => f.data.attributes,
         },
         f => f,
         onChange,
-        f => f
+        f => f,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
@@ -464,11 +472,11 @@ describe('Schemaform actions:', () => {
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: 'jpg',
-        uploading: true
+        uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
-        errorMessage: 'Network request failed'
+        errorMessage: 'Network request failed',
       });
     });
     it('should set error if error message is bad', () => {
@@ -476,23 +484,23 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0
+          size: 0,
         },
         {
           fileTypes: ['jpg'],
           maxSize: 5,
           createPayload: f => f,
-          parseResponse: f => f.data.attributes
+          parseResponse: f => f.data.attributes,
         },
         f => f,
         onChange,
-        f => f
+        f => f,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
         form: {
-          data: {}
-        }
+          data: {},
+        },
       });
 
       thunk(dispatch, getState);
@@ -501,11 +509,11 @@ describe('Schemaform actions:', () => {
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: 'jpg',
-        uploading: true
+        uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
-        errorMessage: 'Internal Server Error'
+        errorMessage: 'Internal Server Error',
       });
     });
   });

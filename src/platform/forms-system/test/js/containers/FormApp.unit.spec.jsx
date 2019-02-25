@@ -9,19 +9,22 @@ describe('Schemaform <FormApp>', () => {
     const formConfig = {};
     const currentLocation = {
       pathname: 'introduction',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
         formConfig={formConfig}
         routes={routes}
-        currentLocation={currentLocation}>
-        <div className="child"/>
-      </FormApp>
+        currentLocation={currentLocation}
+      >
+        <div className="child" />
+      </FormApp>,
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
@@ -32,19 +35,22 @@ describe('Schemaform <FormApp>', () => {
     const formConfig = {};
     const currentLocation = {
       pathname: '/veteran-information/personal-information',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
         formConfig={formConfig}
         routes={routes}
-        currentLocation={currentLocation}>
-        <div className="child"/>
-      </FormApp>
+        currentLocation={currentLocation}
+      >
+        <div className="child" />
+      </FormApp>,
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;

@@ -20,16 +20,22 @@ export function axeCheck(component) {
         reject(err);
       }
       if (result.violations.length) {
-        reject(new Error(result.violations.map(violation => {
-          const nodeInfo = violation.nodes.reduce((str, node) => {
-            const { html, target } = node;
-            return [str, html, ...target].join('\n');
-          }, '');
+        reject(
+          new Error(
+            result.violations
+              .map(violation => {
+                const nodeInfo = violation.nodes.reduce((str, node) => {
+                  const { html, target } = node;
+                  return [str, html, ...target].join('\n');
+                }, '');
 
-          return `[${violation.impact}] ${violation.help}
+                return `[${violation.impact}] ${violation.help}
             See ${violation.helpUrl}
             ${nodeInfo}`;
-        }).join('\n')));
+              })
+              .join('\n'),
+          ),
+        );
       }
 
       resolve();

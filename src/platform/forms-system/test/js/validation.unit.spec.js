@@ -15,7 +15,7 @@ import {
   validateMonthYear,
   validateCurrentOrPastMonthYear,
   validateAutosuggestOption,
-  isValidForm
+  isValidForm,
 } from '../../src/js/validation';
 
 describe('Schemaform validations', () => {
@@ -26,20 +26,22 @@ describe('Schemaform validations', () => {
           name: 'test',
           property: 'instance.field',
           argument: '',
-          message: 'Old message'
-        }
+          message: 'Old message',
+        },
       ];
       const uiSchema = {
         field: {
           'ui:errorMessages': {
-            test: 'New message'
-          }
-        }
+            test: 'New message',
+          },
+        },
       };
 
       const newErrors = transformErrors(errors, uiSchema);
 
-      expect(newErrors[0].message).to.equal(uiSchema.field['ui:errorMessages'].test);
+      expect(newErrors[0].message).to.equal(
+        uiSchema.field['ui:errorMessages'].test,
+      );
     });
     it('should transform error message into default', () => {
       const errors = [
@@ -47,15 +49,16 @@ describe('Schemaform validations', () => {
           name: 'maxLength',
           property: 'instance.field',
           argument: 5,
-          message: 'Old message'
-        }
+          message: 'Old message',
+        },
       ];
-      const uiSchema = {
-      };
+      const uiSchema = {};
 
       const newErrors = transformErrors(errors, uiSchema);
 
-      expect(newErrors[0].message).to.equal('This field should be less than 5 characters');
+      expect(newErrors[0].message).to.equal(
+        'This field should be less than 5 characters',
+      );
     });
     it('should transform error message into email default', () => {
       const errors = [
@@ -63,15 +66,16 @@ describe('Schemaform validations', () => {
           name: 'format',
           property: 'instance.field',
           argument: 'email',
-          message: 'Old message'
-        }
+          message: 'Old message',
+        },
       ];
-      const uiSchema = {
-      };
+      const uiSchema = {};
 
       const newErrors = transformErrors(errors, uiSchema);
 
-      expect(newErrors[0].message).to.equal('Please enter a valid email address');
+      expect(newErrors[0].message).to.equal(
+        'Please enter a valid email address',
+      );
     });
     it('should transform required message to field level', () => {
       const errors = [
@@ -79,11 +83,10 @@ describe('Schemaform validations', () => {
           name: 'required',
           property: 'instance',
           argument: 'field',
-          message: 'Old message'
-        }
+          message: 'Old message',
+        },
       ];
-      const uiSchema = {
-      };
+      const uiSchema = {};
 
       const newErrors = transformErrors(errors, uiSchema);
 
@@ -97,10 +100,8 @@ describe('Schemaform validations', () => {
       const validator = sinon.spy();
       const schema = {};
       const uiSchema = {
-        'ui:validations': [
-          validator
-        ],
-        'ui:errorMessages': {}
+        'ui:validations': [validator],
+        'ui:errorMessages': {},
       };
       const formData = {};
 
@@ -116,90 +117,99 @@ describe('Schemaform validations', () => {
         'ui:validations': [
           {
             validator,
-            options: {}
-          }
+            options: {},
+          },
         ],
-        'ui:errorMessages': {}
+        'ui:errorMessages': {},
       };
       const formData = {};
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator.calledWith(errors, formData, formData, uiSchema['ui:validations'][0].options)).to.be.true;
+      expect(
+        validator.calledWith(
+          errors,
+          formData,
+          formData,
+          uiSchema['ui:validations'][0].options,
+        ),
+      ).to.be.true;
     });
     it('should use custom validation on fields in object', () => {
       const errors = {
         field1: {},
-        field2: {}
+        field2: {},
       };
       const validator1 = sinon.spy();
       const validator2 = sinon.spy();
       const schema = {
         properties: {
-          field1: {
-
-          },
-          field2: {
-
-          }
-        }
+          field1: {},
+          field2: {},
+        },
       };
       const uiSchema = {
         field1: {
-          'ui:validations': [
-            validator1
-          ]
+          'ui:validations': [validator1],
         },
         field2: {
-          'ui:validations': [
-            validator2
-          ]
-        }
+          'ui:validations': [validator2],
+        },
       };
       const formData = {
         field1: {},
-        field2: {}
+        field2: {},
       };
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
+      expect(
+        validator1.calledWith(
+          errors.field1,
+          formData.field1,
+          formData,
+          schema.properties.field1,
+          undefined,
+        ),
+      ).to.be.true;
     });
     it('should use custom validation on fields in array', () => {
       const errors = {};
       const validator = sinon.spy();
       const schema = {
         type: 'array',
-        items: [{
-          properties: {
-            field: {
-
-            }
-          }
-        }]
+        items: [
+          {
+            properties: {
+              field: {},
+            },
+          },
+        ],
       };
       const uiSchema = {
         items: {
           field: {
-            'ui:validations': [
-              validator
-            ]
-          }
-        }
+            'ui:validations': [validator],
+          },
+        },
       };
       const formData = [
         {
-          field: {}
-        }
+          field: {},
+        },
       ];
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator.calledWith(errors[0].field,
-        formData[0].field,
-        formData,
-        schema.items[0].properties.field,
-        undefined)).to.be.true;
+      expect(
+        validator.calledWith(
+          errors[0].field,
+          formData[0].field,
+          formData,
+          schema.items[0].properties.field,
+          undefined,
+        ),
+      ).to.be.true;
     });
     it('should skip validation when array is undefined', () => {
       const errors = {};
@@ -207,20 +217,16 @@ describe('Schemaform validations', () => {
       const schema = {
         items: {
           properties: {
-            field: {
-
-            }
-          }
-        }
+            field: {},
+          },
+        },
       };
       const uiSchema = {
         items: {
           field: {
-            'ui:validations': [
-              validator
-            ]
-          }
-        }
+            'ui:validations': [validator],
+          },
+        },
       };
 
       uiSchemaValidate(errors, uiSchema, schema, undefined);
@@ -249,16 +255,24 @@ describe('Schemaform validations', () => {
   describe('validateCurrentOrPastDate', () => {
     it('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment().add(2, 'year').format('YYYY-MM-DD');
+      const futureDate = moment()
+        .add(2, 'year')
+        .format('YYYY-MM-DD');
       validateCurrentOrPastDate(errors, futureDate);
 
       expect(errors.addError.callCount).to.equal(1);
-      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid current or past date');
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please provide a valid current or past date',
+      );
     });
     it('should use custom message', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment().add(2, 'year').format('YYYY-MM-DD');
-      validateCurrentOrPastDate(errors, futureDate, null, null, { futureDate: 'Blah blah' });
+      const futureDate = moment()
+        .add(2, 'year')
+        .format('YYYY-MM-DD');
+      validateCurrentOrPastDate(errors, futureDate, null, null, {
+        futureDate: 'Blah blah',
+      });
 
       expect(errors.addError.callCount).to.equal(1);
       expect(errors.addError.firstCall.args[0]).to.equal('Blah blah');
@@ -269,7 +283,7 @@ describe('Schemaform validations', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
       validateMatch('email', 'confirmEmail')(errors, {
         email: 'test@test.com',
-        confirmEmail: 'test3@test.com'
+        confirmEmail: 'test3@test.com',
       });
 
       expect(errors.confirmEmail.addError.called).to.be.true;
@@ -278,7 +292,7 @@ describe('Schemaform validations', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
       validateMatch('email', 'confirmEmail')(errors, {
         email: 'test@test.com',
-        confirmEmail: 'test@test.com'
+        confirmEmail: 'test@test.com',
       });
 
       expect(errors.confirmEmail.addError.called).to.be.false;
@@ -289,26 +303,38 @@ describe('Schemaform validations', () => {
       const errors = { to: { addError: sinon.spy() } };
       validateDateRange(errors, {
         from: '2014-01-04',
-        to: '2015-01-04'
+        to: '2015-01-04',
       });
 
       expect(errors.to.addError.called).to.be.false;
     });
     it('should set message if date range is not valid', () => {
       const errors = { to: { addError: sinon.spy() } };
-      validateDateRange(errors, {
-        from: '2014-01-04',
-        to: '2012-01-04'
-      }, null, null, {});
+      validateDateRange(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        {},
+      );
 
       expect(errors.to.addError.called).to.be.true;
     });
     it('should set custom message from config if date range is not valid', () => {
       const errors = { to: { addError: sinon.spy() } };
-      validateDateRange(errors, {
-        from: '2014-01-04',
-        to: '2012-01-04'
-      }, null, null, { pattern: 'Test message' });
+      validateDateRange(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        { pattern: 'Test message' },
+      );
 
       expect(errors.to.addError.calledWith('Test message')).to.be.true;
     });
@@ -316,27 +342,38 @@ describe('Schemaform validations', () => {
   describe('validateFileField', () => {
     it('should mark uploading files as invalid', () => {
       const errors = {};
-      validateFileField(errors, [{
-        uploading: true,
-        confirmationCode: '23234'
-      }]);
+      validateFileField(errors, [
+        {
+          uploading: true,
+          confirmationCode: '23234',
+        },
+      ]);
 
       expect(errors[0].__errors).not.to.be.empty;
     });
     it('should mark files with error message as invalid', () => {
-      const errors = { __errors: [], addError: function addError(error) { this.__errors.push(error); } };
-      validateFileField(errors, [{
-        uploading: false,
-        errorMessage: 'test'
-      }]);
+      const errors = {
+        __errors: [],
+        addError: function addError(error) {
+          this.__errors.push(error);
+        },
+      };
+      validateFileField(errors, [
+        {
+          uploading: false,
+          errorMessage: 'test',
+        },
+      ]);
 
       expect(errors[0].__errors[0]).to.equal('test');
     });
     it('should mark files without confirmation number as invalid', () => {
       const errors = {};
-      validateFileField(errors, [{
-        uploading: false
-      }]);
+      validateFileField(errors, [
+        {
+          uploading: false,
+        },
+      ]);
 
       expect(errors[0].__errors).not.to.be.empty;
     });
@@ -345,7 +382,7 @@ describe('Schemaform validations', () => {
     it('should add error if no props are true', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(errors, {
-        tests: false
+        tests: false,
       });
 
       expect(errors.addError.called).to.be.true;
@@ -361,7 +398,7 @@ describe('Schemaform validations', () => {
     it('should not add error if at least one prop is true', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(errors, {
-        tests: true
+        tests: true,
       });
 
       expect(errors.addError.called).to.be.false;
@@ -369,9 +406,15 @@ describe('Schemaform validations', () => {
 
     it('should use custom message', () => {
       const errors = { addError: sinon.spy() };
-      validateBooleanGroup(errors, {
-        tests: false
-      }, null, null, { atLeastOne: 'testing' });
+      validateBooleanGroup(
+        errors,
+        {
+          tests: false,
+        },
+        null,
+        null,
+        { atLeastOne: 'testing' },
+      );
 
       expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
@@ -381,7 +424,7 @@ describe('Schemaform validations', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
-          testArray: ['test', 3]
+          testArray: ['test', 3],
         },
         pages: {
           testPage: {
@@ -391,22 +434,24 @@ describe('Schemaform validations', () => {
                 testArray: {
                   type: 'array',
                   items: {
-                    type: 'string'
-                  }
-                }
-              }
+                    type: 'string',
+                  },
+                },
+              },
             },
             uiSchema: {},
             showPagePerItem: true,
-            arrayPath: 'testArray'
-          }
-        }
+            arrayPath: 'testArray',
+          },
+        },
       };
       const pageListByChapters = {
-        testChapter: [{
-          pageKey: 'testPage',
-          chapterKey: 'testChapter'
-        }]
+        testChapter: [
+          {
+            pageKey: 'testPage',
+            chapterKey: 'testChapter',
+          },
+        ],
       };
 
       expect(isValidForm(form, pageListByChapters).isValid).to.be.false;
@@ -415,7 +460,7 @@ describe('Schemaform validations', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
-          testArray: ['test', 3]
+          testArray: ['test', 3],
         },
         pages: {
           testPage: {
@@ -425,23 +470,25 @@ describe('Schemaform validations', () => {
                 testArray: {
                   type: 'array',
                   items: {
-                    type: 'string'
-                  }
-                }
-              }
+                    type: 'string',
+                  },
+                },
+              },
             },
             uiSchema: {},
             itemFilter: (item, index) => index < 1,
             showPagePerItem: true,
-            arrayPath: 'testArray'
-          }
-        }
+            arrayPath: 'testArray',
+          },
+        },
       };
       const pageListByChapters = {
-        testChapter: [{
-          pageKey: 'testPage',
-          chapterKey: 'testChapter'
-        }]
+        testChapter: [
+          {
+            pageKey: 'testPage',
+            chapterKey: 'testChapter',
+          },
+        ],
       };
 
       expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
@@ -450,7 +497,7 @@ describe('Schemaform validations', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
-          testArray: ['test']
+          testArray: ['test'],
         },
         pages: {
           testPage2: {
@@ -459,8 +506,8 @@ describe('Schemaform validations', () => {
               properties: {
                 testArray: {
                   type: 'string',
-                }
-              }
+                },
+              },
             },
             uiSchema: {},
           },
@@ -471,40 +518,50 @@ describe('Schemaform validations', () => {
                 testArray: {
                   type: 'array',
                   items: {
-                    type: 'string'
-                  }
-                }
-              }
+                    type: 'string',
+                  },
+                },
+              },
             },
             uiSchema: {},
-          }
-        }
+          },
+        },
       };
       const pageListByChapters = {
-        testChapter: [{
-          pageKey: 'testPage',
-          chapterKey: 'testChapter'
-        }, {
-          pageKey: 'testPage2',
-          chapterKey: 'testChapter',
-          depends: sinon.stub().returns(false)
-        }]
+        testChapter: [
+          {
+            pageKey: 'testPage',
+            chapterKey: 'testChapter',
+          },
+          {
+            pageKey: 'testPage2',
+            chapterKey: 'testChapter',
+            depends: sinon.stub().returns(false),
+          },
+        ],
       };
 
       expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
-      expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to.be.true;
+      expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to
+        .be.true;
     });
   });
   describe('validateMonthYear', () => {
     it('should validate month and year', () => {
       const errors = { addError: sinon.spy() };
-      validateMonthYear(errors, '20123-43-XX', null, null, { atLeastOne: 'testing' });
+      validateMonthYear(errors, '20123-43-XX', null, null, {
+        atLeastOne: 'testing',
+      });
 
-      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid date');
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please provide a valid date',
+      );
     });
     it('should pass with valid month and year', () => {
       const errors = { addError: sinon.spy() };
-      validateMonthYear(errors, '2012-03-XX', null, null, { atLeastOne: 'testing' });
+      validateMonthYear(errors, '2012-03-XX', null, null, {
+        atLeastOne: 'testing',
+      });
 
       expect(errors.addError.called).to.be.false;
     });
@@ -514,7 +571,9 @@ describe('Schemaform validations', () => {
       const errors = { addError: sinon.spy() };
       validateCurrentOrPastMonthYear(errors, '20123-43-XX');
 
-      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid date');
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please provide a valid date',
+      );
     });
     it('should pass with valid month and year', () => {
       const errors = { addError: sinon.spy() };
@@ -524,9 +583,16 @@ describe('Schemaform validations', () => {
     });
     it('should fail with date in future', () => {
       const errors = { addError: sinon.spy() };
-      validateCurrentOrPastMonthYear(errors, moment().add(1, 'year').format('YYYY-MM-[XX]'));
+      validateCurrentOrPastMonthYear(
+        errors,
+        moment()
+          .add(1, 'year')
+          .format('YYYY-MM-[XX]'),
+      );
 
-      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid current or past date');
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please provide a valid current or past date',
+      );
     });
   });
   describe('validateAutosuggestOption', () => {
@@ -534,17 +600,19 @@ describe('Schemaform validations', () => {
       const errors = { addError: sinon.spy() };
       validateAutosuggestOption(errors, {
         widget: 'autosuggest',
-        label: 'blah'
+        label: 'blah',
       });
 
-      expect(errors.addError.firstCall.args[0]).to.equal('Please select an option from the suggestions');
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select an option from the suggestions',
+      );
     });
     it('should pass if id is included', () => {
       const errors = { addError: sinon.spy() };
       validateAutosuggestOption(errors, {
         widget: 'autosuggest',
         id: '1',
-        label: 'blah'
+        label: 'blah',
       });
 
       expect(errors.addError.called).to.be.false;

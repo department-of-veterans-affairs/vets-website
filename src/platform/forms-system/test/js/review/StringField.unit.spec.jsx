@@ -9,11 +9,11 @@ describe('Schemaform <StringField>', () => {
     const registry = {
       fields: {},
       widgets: {
-        text: () => <div/>
-      }
+        text: () => <div />,
+      },
     };
     const schema = {
-      type: 'string'
+      type: 'string',
     };
     const uiSchema = {};
     const formData = 'test';
@@ -23,7 +23,8 @@ describe('Schemaform <StringField>', () => {
         registry={registry}
         schema={schema}
         uiSchema={uiSchema}
-        formData={formData}/>
+        formData={formData}
+      />,
     );
 
     expect(tree.props.value).to.equal(formData);
@@ -32,19 +33,19 @@ describe('Schemaform <StringField>', () => {
     const registry = {
       fields: {},
       widgets: {
-        select: () => <div/>
-      }
+        select: () => <div />,
+      },
     };
     const schema = {
       type: 'string',
-      'enum': ['test']
+      enum: ['test'],
     };
     const uiSchema = {
       'ui:options': {
         labels: {
-          test: 'Name'
-        }
-      }
+          test: 'Name',
+        },
+      },
     };
     const formData = 'test';
 
@@ -53,22 +54,25 @@ describe('Schemaform <StringField>', () => {
         registry={registry}
         schema={schema}
         uiSchema={uiSchema}
-        formData={formData}/>
+        formData={formData}
+      />,
     );
 
-    expect(tree.props.options.enumOptions).to.have.nested.property('[0].value', 'test');
+    expect(tree.props.options.enumOptions).to.have.nested.property(
+      '[0].value',
+      'test',
+    );
     expect(tree.props.options.labels).to.have.property('test', 'Name');
   });
   it('should render review widget', () => {
     const registry = {
-      widgets: {
-      }
+      widgets: {},
     };
     const schema = {
-      type: 'string'
+      type: 'string',
     };
     const uiSchema = {
-      'ui:reviewWidget': () => <span/>
+      'ui:reviewWidget': () => <span />,
     };
     const formData = 'test';
 
@@ -77,7 +81,8 @@ describe('Schemaform <StringField>', () => {
         registry={registry}
         schema={schema}
         uiSchema={uiSchema}
-        formData={formData}/>
+        formData={formData}
+      />,
     );
 
     expect(tree.props.value).to.equal(formData);

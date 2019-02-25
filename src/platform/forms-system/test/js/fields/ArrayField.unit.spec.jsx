@@ -9,18 +9,18 @@ const registry = {
   definitions: {},
   fields: {
     TitleField: f => f,
-    SchemaField: f => f
-  }
+    SchemaField: f => f,
+  },
 };
 const formContext = {
-  setTouched: sinon.spy()
+  setTouched: sinon.spy(),
 };
 const requiredSchema = {};
 
 describe('Schemaform <ArrayField>', () => {
   it('should render', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       type: 'array',
@@ -29,16 +29,16 @@ describe('Schemaform <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ArrayField
@@ -48,15 +48,18 @@ describe('Schemaform <ArrayField>', () => {
         registry={registry}
         formContext={formContext}
         onChange={f => f}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
-    expect(tree.subTree('TitleField').props.title).to.equal(uiSchema['ui:title']);
+    expect(tree.subTree('TitleField').props.title).to.equal(
+      uiSchema['ui:title'],
+    );
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
   });
   it('should render items', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       type: 'array',
@@ -65,21 +68,18 @@ describe('Schemaform <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
-    const formData = [
-      {},
-      {}
-    ];
+    const formData = [{}, {}];
     const tree = SkinDeep.shallowRender(
       <ArrayField
         schema={schema}
@@ -90,7 +90,8 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         onChange={f => f}
         requiredSchema={requiredSchema}
-        errorSchema={[]}/>
+        errorSchema={[]}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
@@ -98,7 +99,7 @@ describe('Schemaform <ArrayField>', () => {
   });
   it('should render invalid items', () => {
     const idSchema = {
-      $id: 'field'
+      $id: 'field',
     };
     const schema = {
       type: 'array',
@@ -107,24 +108,19 @@ describe('Schemaform <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
-    const formData = [
-      { field: true },
-      {}
-    ];
-    const errorSchema = [
-      { field: { __errors: ['Invalid type'] } }
-    ];
+    const formData = [{ field: true }, {}];
+    const errorSchema = [{ field: { __errors: ['Invalid type'] } }];
     const tree = SkinDeep.shallowRender(
       <ArrayField
         schema={schema}
@@ -135,7 +131,8 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         onChange={f => f}
         requiredSchema={requiredSchema}
-        errorSchema={errorSchema}/>
+        errorSchema={errorSchema}
+      />,
     );
 
     // First SchemaField is the invalid item, second is normally in edit mode
@@ -149,7 +146,7 @@ describe('Schemaform <ArrayField>', () => {
     let onBlur;
     beforeEach(() => {
       const idSchema = {
-        $id: 'root_field'
+        $id: 'root_field',
       };
       const schema = {
         type: 'array',
@@ -159,21 +156,18 @@ describe('Schemaform <ArrayField>', () => {
           type: 'object',
           properties: {
             field: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
       const uiSchema = {
         'ui:title': 'List of things',
         'ui:options': {
-          viewField: f => f
-        }
+          viewField: f => f,
+        },
       };
-      const formData = [
-        {},
-        {}
-      ];
+      const formData = [{}, {}];
       errorSchema = {};
       onChange = sinon.spy();
       onBlur = sinon.spy();
@@ -188,7 +182,8 @@ describe('Schemaform <ArrayField>', () => {
           onChange={onChange}
           onBlur={onBlur}
           formContext={formContext}
-          requiredSchema={requiredSchema}/>
+          requiredSchema={requiredSchema}
+        />,
       );
     });
     it('edit', () => {
@@ -261,16 +256,16 @@ describe('Schemaform <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
     const errorSchema = {};
     const onChange = sinon.spy();
@@ -285,7 +280,8 @@ describe('Schemaform <ArrayField>', () => {
         onChange={onChange}
         onBlur={onBlur}
         formContext={formContext}
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.subTree('button').props.disabled).to.be.true;

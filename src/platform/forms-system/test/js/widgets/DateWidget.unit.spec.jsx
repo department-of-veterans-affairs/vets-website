@@ -10,10 +10,7 @@ describe('Schemaform: DateWidget', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <DateWidget
-        id="test"
-        onChange={onChange}
-        onBlur={onBlur}/>
+      <DateWidget id="test" onChange={onChange} onBlur={onBlur} />,
     );
 
     expect(tree.everySubTree('select').length).to.equal(2);
@@ -27,7 +24,8 @@ describe('Schemaform: DateWidget', () => {
         id="test"
         value="2010-01-03"
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('select')[0].props.value).to.equal('1');
@@ -38,10 +36,7 @@ describe('Schemaform: DateWidget', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <DateWidget
-        id="test"
-        onChange={onChange}
-        onBlur={onBlur}/>
+      <DateWidget id="test" onChange={onChange} onBlur={onBlur} />,
     );
 
     const instance = tree.getMountedInstance();
@@ -53,11 +48,7 @@ describe('Schemaform: DateWidget', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <DateWidget
-        id="test"
-        required
-        onChange={onChange}
-        onBlur={onBlur}/>
+      <DateWidget id="test" required onChange={onChange} onBlur={onBlur} />,
     );
 
     const instance = tree.getMountedInstance();
@@ -73,10 +64,7 @@ describe('Schemaform: DateWidget', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <DateWidget
-        id="test"
-        onChange={onChange}
-        onBlur={onBlur}/>
+      <DateWidget id="test" onChange={onChange} onBlur={onBlur} />,
     );
 
     const instance = tree.getMountedInstance();
@@ -95,7 +83,8 @@ describe('Schemaform: DateWidget', () => {
           options={{ monthYear: true }}
           id="test"
           onChange={onChange}
-          onBlur={onBlur}/>
+          onBlur={onBlur}
+        />,
       );
 
       expect(tree.everySubTree('select').length).to.equal(1);
@@ -110,7 +99,8 @@ describe('Schemaform: DateWidget', () => {
           id="test"
           value="2010-01-XX"
           onChange={onChange}
-          onBlur={onBlur}/>
+          onBlur={onBlur}
+        />,
       );
 
       expect(tree.everySubTree('select')[0].props.value).to.equal('1');
@@ -124,7 +114,8 @@ describe('Schemaform: DateWidget', () => {
           options={{ monthYear: true }}
           id="test"
           onChange={onChange}
-          onBlur={onBlur}/>
+          onBlur={onBlur}
+        />,
       );
 
       const instance = tree.getMountedInstance();
@@ -141,7 +132,8 @@ describe('Schemaform: DateWidget', () => {
           id="test"
           required
           onChange={onChange}
-          onBlur={onBlur}/>
+          onBlur={onBlur}
+        />,
       );
 
       const instance = tree.getMountedInstance();
@@ -159,7 +151,8 @@ describe('Schemaform: DateWidget', () => {
           options={{ monthYear: true }}
           id="test"
           onChange={onChange}
-          onBlur={onBlur}/>
+          onBlur={onBlur}
+        />,
       );
 
       const instance = tree.getMountedInstance();

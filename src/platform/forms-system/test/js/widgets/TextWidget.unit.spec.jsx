@@ -17,7 +17,8 @@ describe('Schemaform <TextWidget>', () => {
         required
         disabled={false}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     expect(tree.subTree('input').props.value).to.equal('testing');
     expect(tree.subTree('input').props.type).to.equal('text');
@@ -33,10 +34,17 @@ describe('Schemaform <TextWidget>', () => {
         disabled={false}
         onChange={onChange}
         options={{
-          autocomplete: 'date'
-        }}/>
+          autocomplete: 'date',
+        }}
+      />,
     );
-    expect(tree.find('input').getDOMNode().getAttribute('autocomplete')).to.equal('date');
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('autocomplete'),
+    ).to.equal('date');
+    tree.unmount();
   });
   it('should render empty string when undefined', () => {
     const onChange = sinon.spy();
@@ -47,7 +55,8 @@ describe('Schemaform <TextWidget>', () => {
         required
         disabled={false}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     expect(tree.subTree('input').props.value).to.equal('');
   });
@@ -61,7 +70,8 @@ describe('Schemaform <TextWidget>', () => {
         required
         disabled={false}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     expect(tree.subTree('input').props.type).to.equal('number');
   });
@@ -75,12 +85,13 @@ describe('Schemaform <TextWidget>', () => {
         required
         disabled={false}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: 'nextvalue'
-      }
+        value: 'nextvalue',
+      },
     });
     expect(onChange.calledWith('nextvalue')).to.be.true;
   });
@@ -96,7 +107,8 @@ describe('Schemaform <TextWidget>', () => {
         disabled={false}
         onChange={onChange}
         onBlur={onBlur}
-        options={{}}/>
+        options={{}}
+      />,
     );
     tree.subTree('input').props.onBlur();
     expect(onBlur.calledWith('1')).to.be.true;

@@ -19,23 +19,23 @@ function queryForOptions(input = '') {
   return Promise.resolve(options.filter(o => o.label.includes(input)));
 }
 
-
 describe('<AutosuggestField>', () => {
   it('should render', () => {
     const uiSchema = {
       'ui:options': {
-        getOptions: () => Promise.resolve([])
-      }
+        getOptions: () => Promise.resolve([]),
+      },
     };
     const formContext = {
-      reviewMode: false
+      reviewMode: false,
     };
     const tree = mount(
       <AutosuggestField
         formData={{ widget: 'autosuggest', label: 'label' }}
         formContext={formContext}
         idSchema={{ $id: 'id' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const input = tree.find('input');
@@ -43,17 +43,17 @@ describe('<AutosuggestField>', () => {
     expect(input.props().name).to.equal('id');
     expect(input.props().value).to.equal('label');
     expect(input.getDOMNode().getAttribute('autocomplete')).to.equal('off');
+    tree.unmount();
   });
-
 
   it('should render in review mode', () => {
     const uiSchema = {
       'ui:options': {
-        getOptions: () => Promise.resolve([])
-      }
+        getOptions: () => Promise.resolve([]),
+      },
     };
     const formContext = {
-      reviewMode: true
+      reviewMode: true,
     };
     const tree = shallow(
       <AutosuggestField
@@ -61,31 +61,33 @@ describe('<AutosuggestField>', () => {
         idSchema={{ $id: 'id' }}
         schema={{ type: 'object' }}
         formData={{ widget: 'autosuggest', label: 'testing' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(tree.find('Downshift').exists()).to.be.false;
     expect(tree.find('dd').text()).to.contain('testing');
+    tree.unmount();
   });
 
-
-  it('should call onChange when suggestion is selected', (done) => {
+  it('should call onChange when suggestion is selected', done => {
     const uiSchema = {
       'ui:options': {
-        getOptions: () => Promise.resolve([
-          {
-            id: '1',
-            label: 'first'
-          },
-          {
-            id: '2',
-            label: 'second'
-          }
-        ])
-      }
+        getOptions: () =>
+          Promise.resolve([
+            {
+              id: '1',
+              label: 'first',
+            },
+            {
+              id: '2',
+              label: 'second',
+            },
+          ]),
+      },
     };
     const formContext = {
-      reviewMode: false
+      reviewMode: false,
     };
     const onChange = sinon.spy();
 
@@ -94,7 +96,8 @@ describe('<AutosuggestField>', () => {
         formContext={formContext}
         onChange={onChange}
         idSchema={{ $id: 'id' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const input = tree.find('input');
@@ -102,18 +105,20 @@ describe('<AutosuggestField>', () => {
     // input.value = 'fir';
     input.simulate('change', {
       target: {
-        value: 'fir'
-      }
+        value: 'fir',
+      },
     });
 
     setTimeout(() => {
       // Not sure why I have to do this, but enzyme can't find the item element
-      const suggestions = tree.getDOMNode().querySelectorAll('.autosuggest-item');
+      const suggestions = tree
+        .getDOMNode()
+        .querySelectorAll('.autosuggest-item');
       ReactTestUtils.Simulate.click(suggestions[0]);
       expect(onChange.secondCall.args[0]).to.eql({
         id: '1',
         label: 'first',
-        widget: 'autosuggest'
+        widget: 'autosuggest',
       });
       const instance = tree.instance();
       tree.unmount();
@@ -122,24 +127,24 @@ describe('<AutosuggestField>', () => {
     }, 0);
   });
 
-
   it('should clear data when input is cleared', () => {
     const uiSchema = {
       'ui:options': {
-        getOptions: () => Promise.resolve([
-          {
-            id: '1',
-            label: 'first'
-          },
-          {
-            id: '2',
-            label: 'second'
-          }
-        ])
-      }
+        getOptions: () =>
+          Promise.resolve([
+            {
+              id: '1',
+              label: 'first',
+            },
+            {
+              id: '2',
+              label: 'second',
+            },
+          ]),
+      },
     };
     const formContext = {
-      reviewMode: false
+      reviewMode: false,
     };
     const onChange = sinon.spy();
 
@@ -149,37 +154,39 @@ describe('<AutosuggestField>', () => {
         formData={{ widget: 'autosuggest', id: '1', label: 'first' }}
         onChange={onChange}
         idSchema={{ $id: 'id' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const input = tree.find('input');
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
     expect(onChange.lastCall.args.length).to.equal(0);
+    tree.unmount();
   });
 
-
-  it('should trigger onBlur', (done) => {
+  it('should trigger onBlur', done => {
     const uiSchema = {
       'ui:options': {
-        getOptions: () => Promise.resolve([
-          {
-            id: '1',
-            label: 'first'
-          },
-          {
-            id: '2',
-            label: 'second'
-          }
-        ])
-      }
+        getOptions: () =>
+          Promise.resolve([
+            {
+              id: '1',
+              label: 'first',
+            },
+            {
+              id: '2',
+              label: 'second',
+            },
+          ]),
+      },
     };
     const formContext = {
-      reviewMode: false
+      reviewMode: false,
     };
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -191,7 +198,8 @@ describe('<AutosuggestField>', () => {
         onChange={onChange}
         onBlur={onBlur}
         idSchema={{ $id: 'id' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const input = tree.find('input');
@@ -200,28 +208,29 @@ describe('<AutosuggestField>', () => {
     setTimeout(() => {
       input.simulate('blur');
       expect(onBlur.called).to.be.true;
+      tree.unmount();
       done();
     });
   });
 
-
-  it('should leave data on blur if partially filled in', (done) => {
+  it('should leave data on blur if partially filled in', done => {
     const uiSchema = {
       'ui:options': {
-        getOptions: () => Promise.resolve([
-          {
-            id: '1',
-            label: 'first'
-          },
-          {
-            id: '2',
-            label: 'second'
-          }
-        ])
-      }
+        getOptions: () =>
+          Promise.resolve([
+            {
+              id: '1',
+              label: 'first',
+            },
+            {
+              id: '2',
+              label: 'second',
+            },
+          ]),
+      },
     };
     const formContext = {
-      reviewMode: false
+      reviewMode: false,
     };
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -233,15 +242,16 @@ describe('<AutosuggestField>', () => {
         onChange={onChange}
         onBlur={onBlur}
         idSchema={{ $id: 'id' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const input = tree.find('input');
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: 'fir'
-      }
+        value: 'fir',
+      },
     });
 
     setTimeout(() => {
@@ -249,29 +259,26 @@ describe('<AutosuggestField>', () => {
       expect(onChange.called).to.be.true;
       input.simulate('blur');
       expect(input.getDOMNode().value).to.equal('fir');
+      tree.unmount();
       done();
     });
   });
 
-
-  it('should use options from enum to get first item', (done) => {
+  it('should use options from enum to get first item', done => {
     const uiSchema = {
       'ui:options': {
         labels: {
           AL: 'Label 1',
-          BC: 'Label 2'
-        }
-      }
+          BC: 'Label 2',
+        },
+      },
     };
     const schema = {
       type: 'string',
-      'enum': [
-        'AL',
-        'BC'
-      ]
+      enum: ['AL', 'BC'],
     };
     const formContext = {
-      reviewMode: false
+      reviewMode: false,
     };
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -283,27 +290,28 @@ describe('<AutosuggestField>', () => {
         onChange={onChange}
         onBlur={onBlur}
         idSchema={{ $id: 'id' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const input = tree.find('input');
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: 'labe'
-      }
+        value: 'labe',
+      },
     });
 
     setTimeout(() => {
       input.simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
       input.simulate('keyDown', { key: 'Enter', keyCode: 13 });
       expect(onChange.lastCall.args[0]).to.eql('AL');
+      tree.unmount();
       done();
     }, 0);
   });
 
-
-  it('should call a function passed in getOptions with formData', (done) => {
+  it('should call a function passed in getOptions with formData', done => {
     // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
     const getOptions = sinon.spy(queryForOptions);
     const props = {
@@ -311,51 +319,51 @@ describe('<AutosuggestField>', () => {
         'ui:options': {
           debounceRate: 0,
           getOptions,
-          queryForResults: true
-        }
+          queryForResults: true,
+        },
       },
       schema: { type: 'string' },
       formContext: { reviewMode: false },
       idSchema: { $id: 'id' },
       onChange: () => {},
-      onBlur: () => {}
+      onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props}/>);
+    const wrapper = mount(<AutosuggestField {...props} />);
 
     // Search for 'ir'
     const input = wrapper.find('input');
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: 'ir'
-      }
+        value: 'ir',
+      },
     });
 
     // Check that getOptions was called with the form data
     setTimeout(() => {
       const args = getOptions.secondCall.args;
       expect(args[0]).to.eql('ir');
+      wrapper.unmount();
       done();
     });
   });
 
-
-  it('should use the results of getOptions as the field\'s enum options', (done) => {
+  it("should use the results of getOptions as the field's enum options", done => {
     const props = {
       uiSchema: {
         'ui:options': {
           debounceRate: 0,
           getOptions: queryForOptions,
-          queryForResults: true
-        }
+          queryForResults: true,
+        },
       },
       schema: { type: 'string' },
       formContext: { reviewMode: false },
       idSchema: { $id: 'id' },
       onChange: () => {},
-      onBlur: () => {}
+      onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props}/>);
+    const wrapper = mount(<AutosuggestField {...props} />);
 
     setTimeout(() => {
       expect(wrapper.state('options')).to.eql(options);
@@ -367,24 +375,24 @@ describe('<AutosuggestField>', () => {
       input.simulate('focus');
       input.simulate('change', {
         target: {
-          value: 'ir'
-        }
+          value: 'ir',
+        },
       });
     }, 110);
 
     setTimeout(() => {
       expect(wrapper.state('options')).to.eql([
         { id: 1, label: 'first' },
-        { id: 3, label: 'third' }
+        { id: 3, label: 'third' },
       ]);
+      wrapper.unmount();
       done();
     }, 210);
   });
 
-
   // The stringifyFormReplacer will send the label to the api instead of the id if freeInput is
   //  true in the formData
-  it('should return a string if freeInput is true in ui:options', (done) => {
+  it('should return a string if freeInput is true in ui:options', done => {
     const onChange = sinon.spy();
     const props = {
       uiSchema: {
@@ -392,35 +400,35 @@ describe('<AutosuggestField>', () => {
           freeInput: true,
           labels: {
             AL: 'Label 1',
-            BC: 'Label 2'
-          }
-        }
+            BC: 'Label 2',
+          },
+        },
       },
       schema: {
         type: 'string',
-        'enum': ['AL', 'BC']
+        enum: ['AL', 'BC'],
       },
       formContext: { reviewMode: false },
       idSchema: { $id: 'id' },
       onChange,
-      onBlur: () => {}
+      onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props}/>);
+    const wrapper = mount(<AutosuggestField {...props} />);
 
     // Input something not in options
     const input = wrapper.find('input');
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: 'konami'
-      }
+        value: 'konami',
+      },
     });
 
     setTimeout(() => {
       const fieldData = onChange.firstCall.args[0];
       expect(fieldData).to.equal('konami');
+      wrapper.unmount();
       done();
     });
   });
-
 });

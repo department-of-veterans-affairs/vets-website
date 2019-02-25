@@ -3,32 +3,37 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { ReviewChapters, mapStateToProps } from '../../../src/js/review/ReviewChapters';
+import {
+  ReviewChapters,
+  mapStateToProps,
+} from '../../../src/js/review/ReviewChapters';
 
 describe('Schemaform review: ReviewChapters', () => {
   it('should handle editing', () => {
-
-    const chapters = [{
-      expandedPages: [],
-      formConfig: {},
-      name: 'chapter1',
-      open: false,
-      pageKeys: ['page1']
-    }, {
-      expandedPages: [],
-      formConfig: {},
-      name: 'chapter2',
-      open: false,
-      pageKeys: ['page2']
-    }];
+    const chapters = [
+      {
+        expandedPages: [],
+        formConfig: {},
+        name: 'chapter1',
+        open: false,
+        pageKeys: ['page1'],
+      },
+      {
+        expandedPages: [],
+        formConfig: {},
+        name: 'chapter2',
+        open: false,
+        pageKeys: ['page2'],
+      },
+    ];
 
     const pageList = [
       {
-        path: 'previous-page'
+        path: 'previous-page',
       },
       {
-        path: 'next-page'
-      }
+        path: 'next-page',
+      },
     ];
 
     const setEditMode = sinon.spy();
@@ -39,12 +44,14 @@ describe('Schemaform review: ReviewChapters', () => {
         chapters={chapters}
         pageList={pageList}
         setEditMode={setEditMode}
-        setViewedPages={setViewedPages}/>
+        setViewedPages={setViewedPages}
+      />,
     ).instance();
 
     tree.handleEdit('testPage', true);
     expect(setViewedPages.calledWith(['testPage']));
     expect(setEditMode.calledWith('testPage', true, null));
+    tree.unmount();
   });
 
   it('should handle toggling', () => {
@@ -52,39 +59,42 @@ describe('Schemaform review: ReviewChapters', () => {
       chapters: {
         chapter1: {
           pages: {
-            page1: {}
-          }
+            page1: {},
+          },
         },
         chapter2: {
           pages: {
-            page2: {}
-          }
-        }
-      }
+            page2: {},
+          },
+        },
+      },
     };
 
     const pageList = [
       {
-        path: 'previous-page'
+        path: 'previous-page',
       },
       {
-        path: 'next-page'
-      }
+        path: 'next-page',
+      },
     ];
 
-    const chapters = [{
-      expandedPages: [],
-      formConfig: {},
-      name: 'chapter1',
-      open: false,
-      pageKeys: ['page1']
-    }, {
-      expandedPages: [],
-      formConfig: {},
-      name: 'chapter2',
-      open: false,
-      pageKeys: ['page2']
-    }];
+    const chapters = [
+      {
+        expandedPages: [],
+        formConfig: {},
+        name: 'chapter1',
+        open: false,
+        pageKeys: ['page1'],
+      },
+      {
+        expandedPages: [],
+        formConfig: {},
+        name: 'chapter2',
+        open: false,
+        pageKeys: ['page2'],
+      },
+    ];
 
     const openReviewChapter = sinon.spy();
     const closeReviewChapter = sinon.spy();
@@ -97,50 +107,55 @@ describe('Schemaform review: ReviewChapters', () => {
         pageList={pageList}
         route={{ formConfig, pageList }}
         viewedPages={['page1', 'page2']}
-        setViewedPages={f => f}/>
+        setViewedPages={f => f}
+      />,
     ).instance();
 
     instance.handleToggleChapter({ name: 'chapter1', open: false });
     expect(openReviewChapter.calledWith('chapter1')).to.be.true;
     instance.handleToggleChapter({ name: 'chapter3', open: true, pageKeys: 0 });
     expect(closeReviewChapter.calledWith('chapter3', 0)).to.be.true;
+    instance.unmount();
   });
 
   it('should pass index to depends for pagePerItem pages', () => {
     const formData = {
-      testArray: [{}]
+      testArray: [{}],
     };
 
     const dependsStub = sinon.stub();
     dependsStub.withArgs(formData, 0).returns(true);
 
-    mapStateToProps({
-      form: {
-        pages: {},
-        submission: {},
-        reviewPageView: {
-          openChapters: [],
-          viewedPages: new Set()
+    mapStateToProps(
+      {
+        form: {
+          pages: {},
+          submission: {},
+          reviewPageView: {
+            openChapters: [],
+            viewedPages: new Set(),
+          },
+          data: formData,
         },
-        data: formData
-      }
-    }, {
-      formConfig: {
-        chapters: {
-          test: {
-            pages: {
-              testPage: {
-                path: '/testing/:index',
-                pagePerItem: true,
-                arrayPath: 'testArray',
-                depends: dependsStub
-              }
-            }
-          }
-        }
       },
-      pageList: [{}]
-    });
+      {
+        formConfig: {
+          chapters: {
+            test: {
+              pages: {
+                testPage: {
+                  path: '/testing/:index',
+                  pagePerItem: true,
+                  arrayPath: 'testArray',
+                  depends: dependsStub,
+                },
+              },
+            },
+          },
+        },
+        pageList: [{}],
+      },
+    );
 
     expect(dependsStub.calledWith(formData, 0));
   });

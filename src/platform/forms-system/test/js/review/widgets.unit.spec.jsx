@@ -7,31 +7,25 @@ import {
   TextWidget,
   DateWidget,
   SelectWidget,
-  yesNo
+  yesNo,
 } from '../../../src/js/review/widgets';
 
 describe('Schemaform review widgets', () => {
   describe('<CheckboxWidget>', () => {
     it('should render', () => {
-      const tree = SkinDeep.shallowRender(
-        <CheckboxWidget value/>
-      );
+      const tree = SkinDeep.shallowRender(<CheckboxWidget value />);
 
       expect(tree.text()).to.equal('True');
     });
     it('should render empty for false', () => {
-      const tree = SkinDeep.shallowRender(
-        <CheckboxWidget/>
-      );
+      const tree = SkinDeep.shallowRender(<CheckboxWidget />);
 
       expect(tree.text()).to.equal('');
     });
   });
   describe('<TextWidget>', () => {
     it('should render', () => {
-      const tree = SkinDeep.shallowRender(
-        <TextWidget value="Testing"/>
-      );
+      const tree = SkinDeep.shallowRender(<TextWidget value="Testing" />);
 
       expect(tree.text()).to.equal('Testing');
     });
@@ -39,14 +33,14 @@ describe('Schemaform review widgets', () => {
   describe('<DateWidget>', () => {
     it('should render', () => {
       const tree = SkinDeep.shallowRender(
-        <DateWidget value="2010-01-02" options={{}}/>
+        <DateWidget value="2010-01-02" options={{}} />,
       );
 
       expect(tree.text()).to.equal('01/02/2010');
     });
     it('should render month year', () => {
       const tree = SkinDeep.shallowRender(
-        <DateWidget value="2010-01-02" options={{ monthYear: true }}/>
+        <DateWidget value="2010-01-02" options={{ monthYear: true }} />,
       );
 
       expect(tree.text()).to.equal('01/2010');
@@ -57,13 +51,11 @@ describe('Schemaform review widgets', () => {
       const enumOptions = [
         {
           value: 'Test',
-          label: 'Label'
-        }
+          label: 'Label',
+        },
       ];
       const tree = SkinDeep.shallowRender(
-        <SelectWidget
-          options={{ enumOptions }}
-          value="Test"/>
+        <SelectWidget options={{ enumOptions }} value="Test" />,
       );
 
       expect(tree.text()).to.equal('Label');
@@ -72,13 +64,11 @@ describe('Schemaform review widgets', () => {
       const enumOptions = [
         {
           value: 'Test',
-          label: 'Label'
-        }
+          label: 'Label',
+        },
       ];
       const tree = SkinDeep.shallowRender(
-        <SelectWidget
-          options={{ enumOptions }}
-          value=""/>
+        <SelectWidget options={{ enumOptions }} value="" />,
       );
 
       expect(tree.text()).to.be.empty;
@@ -87,17 +77,15 @@ describe('Schemaform review widgets', () => {
       const enumOptions = [
         {
           value: 'Test',
-          label: 'Label'
-        }
+          label: 'Label',
+        },
       ];
 
       const labels = {
-        Test: 'Other'
+        Test: 'Other',
       };
       const tree = SkinDeep.shallowRender(
-        <SelectWidget
-          options={{ enumOptions, labels }}
-          value="Test"/>
+        <SelectWidget options={{ enumOptions, labels }} value="Test" />,
       );
 
       expect(tree.text()).to.equal('Other');
@@ -106,25 +94,19 @@ describe('Schemaform review widgets', () => {
   describe('<yesNo>', () => {
     it('should render true', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(
-        <YesNo value/>
-      );
+      const tree = SkinDeep.shallowRender(<YesNo value />);
 
       expect(tree.text()).to.equal('Yes');
     });
     it('should render false', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(
-        <YesNo value={false}/>
-      );
+      const tree = SkinDeep.shallowRender(<YesNo value={false} />);
 
       expect(tree.text()).to.equal('No');
     });
     it('should render undefined', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(
-        <YesNo/>
-      );
+      const tree = SkinDeep.shallowRender(<YesNo />);
 
       expect(tree.text()).to.be.empty;
     });
@@ -135,9 +117,10 @@ describe('Schemaform review widgets', () => {
           value
           options={{
             labels: {
-              Y: 'Whatever'
-            }
-          }}/>
+              Y: 'Whatever',
+            },
+          }}
+        />,
       );
 
       expect(tree.text()).to.equal('Whatever');
@@ -148,8 +131,9 @@ describe('Schemaform review widgets', () => {
         <YesNo
           value={false}
           options={{
-            yesNoReverse: true
-          }}/>
+            yesNoReverse: true,
+          }}
+        />,
       );
 
       expect(tree.text()).to.equal('Yes');

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -10,8 +10,8 @@ const registry = {
   definitions: {},
   fields: {
     TitleField: f => f,
-    SchemaField: f => f
-  }
+    SchemaField: f => f,
+  },
 };
 const formContext = {};
 const requiredSchema = {};
@@ -25,18 +25,17 @@ describe('Schemaform review <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
-      items: {
-      },
+      items: {},
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
     const arrayData = [];
     const tree = SkinDeep.shallowRender(
@@ -50,10 +49,13 @@ describe('Schemaform review <ArrayField>', () => {
         registry={registry}
         formContext={formContext}
         pageTitle=""
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(uiSchema['ui:title']);
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      uiSchema['ui:title'],
+    );
     expect(tree.everySubTree('SchemaForm')).to.be.empty;
   });
   it('should render items', () => {
@@ -64,18 +66,17 @@ describe('Schemaform review <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
-      items: {
-      },
+      items: {},
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
     const arrayData = [{}, {}];
     const tree = SkinDeep.shallowRender(
@@ -89,7 +90,8 @@ describe('Schemaform review <ArrayField>', () => {
         registry={registry}
         formContext={formContext}
         pageTitle=""
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     expect(tree.everySubTree('SchemaForm').length).to.equal(2);
@@ -98,38 +100,40 @@ describe('Schemaform review <ArrayField>', () => {
     const idSchema = {};
     const schema = {
       type: 'array',
-      items: [{
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }, {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }],
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
       additionalItems: {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
-      items: {
-      },
+      items: {},
       'ui:options': {
         viewField: f => f,
-        itemName: 'Item name'
-      }
+        itemName: 'Item name',
+      },
     };
     const arrayData = [{}, {}];
     const tree = SkinDeep.shallowRender(
@@ -143,13 +147,16 @@ describe('Schemaform review <ArrayField>', () => {
         registry={registry}
         formContext={formContext}
         pageTitle=""
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     tree.getMountedInstance().handleAdd();
 
     expect(tree.everySubTree('h5')[1].text()).to.equal('New Item name');
-    expect(tree.everySubTree('button')[2].text()).to.equal('Add Another Item name');
+    expect(tree.everySubTree('button')[2].text()).to.equal(
+      'Add Another Item name',
+    );
   });
   it('should render array warning', () => {
     // If it's a BasicArrayField with a set minItems, make sure it doesn't break
@@ -158,39 +165,41 @@ describe('Schemaform review <ArrayField>', () => {
     const schema = {
       type: 'array',
       minItems: 1,
-      items: [{
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }, {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }],
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
       additionalItems: {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
       'ui:field': 'BasicArrayField',
-      items: {
-      },
+      items: {},
       'ui:options': {
         viewField: f => f,
-        itemName: 'Item name'
-      }
+        itemName: 'Item name',
+      },
     };
     const arrayData = undefined;
     const tree = SkinDeep.shallowRender(
@@ -204,12 +213,14 @@ describe('Schemaform review <ArrayField>', () => {
         registry={registry}
         formContext={formContext}
         pageTitle=""
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     tree.getMountedInstance().handleAdd();
 
-    expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be.empty;
+    expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be
+      .empty;
   });
   describe('should handle', () => {
     let tree;
@@ -218,30 +229,31 @@ describe('Schemaform review <ArrayField>', () => {
       const schema = {
         type: 'array',
         maxItems: 2,
-        items: [{
-          type: 'object',
-          properties: {
-            field: {
-              type: 'string'
-            }
-          }
-        }],
+        items: [
+          {
+            type: 'object',
+            properties: {
+              field: {
+                type: 'string',
+              },
+            },
+          },
+        ],
         additionalItems: {
           type: 'object',
           properties: {
             field: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
       const uiSchema = {
         'ui:title': 'List of things',
-        items: {
-        },
+        items: {},
         'ui:options': {
-          viewField: f => f
-        }
+          viewField: f => f,
+        },
       };
       const arrayData = [{}];
       setData = sinon.spy();
@@ -256,7 +268,8 @@ describe('Schemaform review <ArrayField>', () => {
           registry={registry}
           formContext={formContext}
           pageTitle=""
-          requiredSchema={requiredSchema}/>
+          requiredSchema={requiredSchema}
+        />,
       );
     });
     it('edit', () => {
@@ -308,22 +321,23 @@ describe('Schemaform review <ArrayField>', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     const uiSchema = {
       'ui:title': 'List of things',
-      items: {
-      },
+      items: {},
       'ui:options': {
-        viewField: f => f
-      }
+        viewField: f => f,
+      },
     };
-    const arrayData = [{
-      testing: 1
-    }];
+    const arrayData = [
+      {
+        testing: 1,
+      },
+    ];
     const tree = SkinDeep.shallowRender(
       <ArrayField
         pageKey="page1"
@@ -335,13 +349,14 @@ describe('Schemaform review <ArrayField>', () => {
         registry={registry}
         formContext={formContext}
         pageTitle=""
-        requiredSchema={requiredSchema}/>
+        requiredSchema={requiredSchema}
+      />,
     );
 
     const instance = tree.getMountedInstance();
 
     const newProps = _.assign(instance.props, {
-      arrayData: []
+      arrayData: [],
     });
 
     instance.componentWillReceiveProps(newProps);

@@ -9,33 +9,32 @@ import ErrorableCheckbox from '../../../src/js/components/ErrorableCheckbox.jsx'
 describe('<ErrorableCheckbox/>', () => {
   it('should render', () => {
     const tree = shallow(
-      <ErrorableCheckbox label="test" onValueChange={() => {}}/>
+      <ErrorableCheckbox label="test" onValueChange={() => {}} />,
     );
     expect(tree.text()).to.contain('test');
+    tree.unmount();
   });
 
-  it('should pass aXe check', () => {
-    return axeCheck(
-      <ErrorableCheckbox label="test" onValueChange={() => {}}/>
-    );
-  });
+  it('should pass aXe check', () =>
+    axeCheck(<ErrorableCheckbox label="test" onValueChange={() => {}} />));
   it('ensure checked changes propagate', () => {
     const handleChangeSpy = sinon.spy(
       ErrorableCheckbox.prototype,
-      'handleChange'
+      'handleChange',
     );
     const tree = shallow(
-      <ErrorableCheckbox label="test" onValueChange={() => {}}/>
+      <ErrorableCheckbox label="test" onValueChange={() => {}} />,
     );
     const event = { target: { checked: true } };
 
     const checkBox = () => tree.find('[type="checkbox"]');
     checkBox().simulate('change', event);
     expect(handleChangeSpy.calledOnce).to.be.true;
+    tree.unmount();
   });
   it('no error styles when errorMessage undefined', () => {
     const tree = shallow(
-      <ErrorableCheckbox label="my label" onValueChange={_update => {}}/>
+      <ErrorableCheckbox label="my label" onValueChange={_update => {}} />,
     );
 
     // No error classes.
@@ -48,7 +47,7 @@ describe('<ErrorableCheckbox/>', () => {
     expect(labels).to.have.lengthOf(1);
     expect(labels.prop('className')).to.be.equal(
       undefined,
-      'Unnecessary class names on label without error'
+      'Unnecessary class names on label without error',
     );
 
     // No error means no aria-describedby to not confuse screen readers.
@@ -56,8 +55,9 @@ describe('<ErrorableCheckbox/>', () => {
     expect(inputs).to.have.lengthOf(1);
     expect(inputs.prop('aria-describedby')).to.be.equal(
       undefined,
-      'Unnecessary aria-describedby'
+      'Unnecessary aria-describedby',
     );
+    tree.unmount();
   });
 
   it('has error styles when errorMessage is set', () => {
@@ -65,7 +65,8 @@ describe('<ErrorableCheckbox/>', () => {
       <ErrorableCheckbox
         label="my label"
         errorMessage="error message"
-        onValueChange={_update => {}}/>
+        onValueChange={_update => {}}
+      />,
     );
 
     // Ensure all error classes set.
@@ -83,14 +84,16 @@ describe('<ErrorableCheckbox/>', () => {
     expect(inputs).to.have.lengthOf(1);
     expect(inputs.prop('aria-describedby')).to.not.be.equal(undefined);
     expect(inputs.prop('aria-describedby')).to.equal(errorMessages.prop('id'));
+    tree.unmount();
   });
 
   it('required=false does not have required asterisk', () => {
     const tree = shallow(
-      <ErrorableCheckbox label="my label" onValueChange={_update => {}}/>
+      <ErrorableCheckbox label="my label" onValueChange={_update => {}} />,
     );
 
     expect(tree.find('label').text()).to.equal('my label');
+    tree.unmount();
   });
 
   it('required=true has required asterisk', () => {
@@ -98,16 +101,18 @@ describe('<ErrorableCheckbox/>', () => {
       <ErrorableCheckbox
         label="my label"
         required
-        onValueChange={_update => {}}/>
+        onValueChange={_update => {}}
+      />,
     );
 
     const label = tree.find('label');
     expect(label.text()).to.equal('my label(*Required)');
+    tree.unmount();
   });
 
   it('label attribute propagates', () => {
     const tree = shallow(
-      <ErrorableCheckbox label="my label" onValueChange={_update => {}}/>
+      <ErrorableCheckbox label="my label" onValueChange={_update => {}} />,
     );
 
     // Ensure label text is correct.
@@ -120,5 +125,6 @@ describe('<ErrorableCheckbox/>', () => {
     expect(inputs).to.have.lengthOf(1);
     expect(inputs.prop('id')).to.not.be.equal(undefined);
     expect(inputs.prop('id')).to.equal(labels.prop('htmlFor'));
+    tree.unmount();
   });
 });

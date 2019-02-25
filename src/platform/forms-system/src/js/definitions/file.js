@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import FileField from '../fields/FileField';
 import { validateFileField } from '../validation';

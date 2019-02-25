@@ -15,7 +15,8 @@ describe('Schemaform <CheckboxWidget>', () => {
         required
         disabled={false}
         onChange={onChange}
-        options={{ title: 'Title' }}/>
+        options={{ title: 'Title' }}
+      />,
     );
     expect(tree.text()).to.include('Title');
     expect(tree.subTree('input').props.checked).to.be.true;
@@ -30,12 +31,13 @@ describe('Schemaform <CheckboxWidget>', () => {
         required
         disabled={false}
         onChange={onChange}
-        options={{ title: 'Title' }}/>
+        options={{ title: 'Title' }}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        checked: false
-      }
+        checked: false,
+      },
     });
     expect(onChange.calledWith(false)).to.be.true;
   });

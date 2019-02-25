@@ -4,25 +4,28 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
-import { DefinitionTester } from '../../config/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/definitions/dateRange';
-import { dateRange as schema, date } from 'vets-json-schema/dist/definitions.json';
+import {
+  dateRange as schema,
+  date,
+} from 'vets-json-schema/dist/definitions.json';
 
 function fillDate(find, toFrom, day, month, year) {
   ReactTestUtils.Simulate.change(find(`#root_${toFrom}Day`), {
     target: {
-      value: day
-    }
+      value: day,
+    },
   });
   ReactTestUtils.Simulate.change(find(`#root_${toFrom}Month`), {
     target: {
-      value: month
-    }
+      value: month,
+    },
   });
   ReactTestUtils.Simulate.change(find(`#root_${toFrom}Year`), {
     target: {
-      value: year
-    }
+      value: year,
+    },
   });
 }
 
@@ -32,7 +35,8 @@ describe('Schemaform definition dateRange', () => {
       <DefinitionTester
         schema={schema}
         definitions={{ date }}
-        uiSchema={uiSchema()}/>
+        uiSchema={uiSchema()}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -47,7 +51,8 @@ describe('Schemaform definition dateRange', () => {
       <DefinitionTester
         schema={schema}
         definitions={{ date }}
-        uiSchema={dateRangeUISchema}/>
+        uiSchema={dateRangeUISchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -56,22 +61,29 @@ describe('Schemaform definition dateRange', () => {
     fillDate(find, 'to', 4, 4, 2001);
 
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
+      preventDefault: f => f,
     });
 
-    expect(find('.usa-input-error-message').textContent).to.equal(`Error ${dateRangeUISchema['ui:errorMessages'].pattern}`);
+    expect(find('.usa-input-error-message').textContent).to.equal(
+      `Error ${dateRangeUISchema['ui:errorMessages'].pattern}`,
+    );
   });
   it('should render dateRange title and messages', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={{ date }}
-        uiSchema={uiSchema('My from date', 'My to date', 'My error')}/>
+        uiSchema={uiSchema('My from date', 'My to date', 'My error')}
+      />,
     );
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('legend')[0].textContent).to.equal('My from date');
-    expect(formDOM.querySelectorAll('legend')[1].textContent).to.equal('My to date');
+    expect(formDOM.querySelectorAll('legend')[0].textContent).to.equal(
+      'My from date',
+    );
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.equal(
+      'My to date',
+    );
   });
 });

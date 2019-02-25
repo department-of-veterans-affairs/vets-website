@@ -17,7 +17,8 @@ describe('Schemaform <ArrayCountWidget>', () => {
         disabled={false}
         formContext={{}}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     expect(tree.subTree('input').props.value).to.equal(2);
   });
@@ -33,8 +34,9 @@ describe('Schemaform <ArrayCountWidget>', () => {
         formContext={{}}
         onChange={onChange}
         options={{
-          countOffset: -1
-        }}/>
+          countOffset: -1,
+        }}
+      />,
     );
     expect(tree.subTree('input').props.value).to.equal(3);
   });
@@ -49,7 +51,8 @@ describe('Schemaform <ArrayCountWidget>', () => {
         disabled={false}
         formContext={{}}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     expect(tree.subTree('input').props.value).to.equal(0);
   });
@@ -63,12 +66,13 @@ describe('Schemaform <ArrayCountWidget>', () => {
         disabled={false}
         formContext={{}}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: '3'
-      }
+        value: '3',
+      },
     });
     expect(onChange.firstCall.args[0]).to.eql([{}, {}, {}]);
   });
@@ -83,13 +87,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
         formContext={{}}
         onChange={onChange}
         options={{
-          countOffset: -1
-        }}/>
+          countOffset: -1,
+        }}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: '3'
-      }
+        value: '3',
+      },
     });
     expect(onChange.firstCall.args[0]).to.eql([{}, {}]);
   });
@@ -104,12 +109,13 @@ describe('Schemaform <ArrayCountWidget>', () => {
         disabled={false}
         formContext={{}}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: '1'
-      }
+        value: '1',
+      },
     });
     expect(onChange.firstCall.args[0]).to.eql([{}]);
   });
@@ -124,12 +130,13 @@ describe('Schemaform <ArrayCountWidget>', () => {
         disabled={false}
         formContext={{}}
         onChange={onChange}
-        options={{}}/>
+        options={{}}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
     expect(onChange.firstCall.args[0]).to.equal(undefined);
   });
@@ -145,13 +152,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
         formContext={{}}
         onChange={onChange}
         options={{
-          countOffset: -2
-        }}/>
+          countOffset: -2,
+        }}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: '1'
-      }
+        value: '1',
+      },
     });
     expect(onChange.firstCall.args[0]).to.equal(undefined);
   });
@@ -167,13 +175,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
         formContext={{}}
         onChange={onChange}
         options={{
-          countOffset: -1
-        }}/>
+          countOffset: -1,
+        }}
+      />,
     );
     tree.subTree('input').props.onChange({
       target: {
-        value: '1'
-      }
+        value: '1',
+      },
     });
     expect(onChange.firstCall.args[0]).to.eql([]);
   });
@@ -189,7 +198,8 @@ describe('Schemaform <ArrayCountWidget>', () => {
         formContext={{}}
         onChange={onChange}
         onBlur={onBlur}
-        options={{}}/>
+        options={{}}
+      />,
     );
     tree.subTree('input').props.onBlur();
     expect(onBlur.calledWith('1')).to.be.true;
@@ -208,7 +218,8 @@ describe('Schemaform <ArrayCountWidget>', () => {
         formContext={{ reviewMode: true }}
         onChange={onChange}
         onBlur={onBlur}
-        options={{}}/>
+        options={{}}
+      />,
     );
     expect(tree.subTree('dd').text()).to.contain('1');
     expect(tree.subTree('dt').text()).to.contain('Test title');

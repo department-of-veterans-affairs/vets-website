@@ -7,7 +7,7 @@ describe('Schemaform routing', () => {
     const pageList = [
       {
         pageKey: 'blah',
-        path: 'a-path'
+        path: 'a-path',
       },
       {
         pageKey: 'testPage',
@@ -20,21 +20,21 @@ describe('Schemaform routing', () => {
         path: '/testing/:index/conditional-page',
         showPagePerItem: true,
         arrayPath: 'arrayProp',
-        depends: dependsCallback
+        depends: dependsCallback,
       },
       {
         pageKey: 'testPage',
         path: '/testing/last-page',
-      }
+      },
     ];
     return pageList;
   }
 
-  it('getNextPagePath should get next page when it\'s an array page', () => {
+  it("getNextPagePath should get next page when it's an array page", () => {
     const pageList = getPageList();
     const pathname = 'a-path';
     const data = {
-      arrayProp: [{}]
+      arrayProp: [{}],
     };
 
     const path = getNextPagePath(pageList, data, pathname);
@@ -45,7 +45,7 @@ describe('Schemaform routing', () => {
     const pageList = getPageList();
     const pathname = '/testing/0';
     const data = {
-      arrayProp: [{}]
+      arrayProp: [{}],
     };
 
     const path = getPreviousPagePath(pageList, data, pathname);
@@ -55,9 +55,11 @@ describe('Schemaform routing', () => {
   it('getNextPagePath should skip an array page that depends on unfulfilled information in the array', () => {
     const pathname = '/testing/0';
     const data = {
-      arrayProp: [{ condition: false }]
+      arrayProp: [{ condition: false }],
     };
-    const pageList = getPageList((formData, index) => formData.arrayProp[index].condition);
+    const pageList = getPageList(
+      (formData, index) => formData.arrayProp[index].condition,
+    );
 
     const path = getNextPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/last-page');
@@ -66,9 +68,11 @@ describe('Schemaform routing', () => {
   it('getNextPagePath should not skip an array page that depends on fulfilled information in the array', () => {
     const pathname = '/testing/0';
     const data = {
-      arrayProp: [{ condition: true }]
+      arrayProp: [{ condition: true }],
     };
-    const pageList = getPageList((formData, index) => formData.arrayProp[index].condition);
+    const pageList = getPageList(
+      (formData, index) => formData.arrayProp[index].condition,
+    );
 
     const path = getNextPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0/conditional-page');
@@ -77,9 +81,11 @@ describe('Schemaform routing', () => {
   it('getPreviousPagePath should skip an array page that depends on unfulfilled information in the array', () => {
     const pathname = '/testing/last-page';
     const data = {
-      arrayProp: [{ condition: false }]
+      arrayProp: [{ condition: false }],
     };
-    const pageList = getPageList((formData, index) => formData.arrayProp[index].condition);
+    const pageList = getPageList(
+      (formData, index) => formData.arrayProp[index].condition,
+    );
 
     const path = getPreviousPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0');
@@ -88,9 +94,11 @@ describe('Schemaform routing', () => {
   it('getPreviousPagePath should not skip an array page that depends on fulfilled information in the array', () => {
     const pathname = '/testing/last-page';
     const data = {
-      arrayProp: [{ condition: true }]
+      arrayProp: [{ condition: true }],
     };
-    const pageList = getPageList((formData, index) => formData.arrayProp[index].condition);
+    const pageList = getPageList(
+      (formData, index) => formData.arrayProp[index].condition,
+    );
 
     const path = getPreviousPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0/conditional-page');
@@ -99,9 +107,11 @@ describe('Schemaform routing', () => {
   it('getPreviousPagePath should go back to a previous dependent array page', () => {
     const pathname = '/testing/1';
     const data = {
-      arrayProp: [{ condition: true }, { condition: false }]
+      arrayProp: [{ condition: true }, { condition: false }],
     };
-    const pageList = getPageList((formData, index) => formData.arrayProp[index].condition);
+    const pageList = getPageList(
+      (formData, index) => formData.arrayProp[index].condition,
+    );
 
     const path = getPreviousPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0/conditional-page');

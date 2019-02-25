@@ -6,9 +6,7 @@ import EmailWidget from '../../../src/js/widgets/EmailWidget';
 
 describe('Schemaform <EmailWidget>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
-      <EmailWidget/>
-    );
+    const tree = SkinDeep.shallowRender(<EmailWidget />);
     expect(tree.subTree('TextWidget').props.type).to.equal('email');
   });
 });

@@ -12,9 +12,9 @@ describe('Schemaform review: ObjectField', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -22,7 +22,8 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{}}
         requiredSchema={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
@@ -34,9 +35,9 @@ describe('Schemaform review: ObjectField', () => {
       properties: {
         test: {
           'ui:hidden': true,
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -45,7 +46,8 @@ describe('Schemaform review: ObjectField', () => {
         formData={{}}
         requiredSchema={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
@@ -56,9 +58,9 @@ describe('Schemaform review: ObjectField', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -69,19 +71,23 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{ $id: 'root' }}
         formData={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
-    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal('Blah');
+    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
+      .empty;
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      'Blah',
+    );
   });
   it('should render function title', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -92,11 +98,15 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{ $id: 'root' }}
         formData={{}}
         onChange={f => f}
-        onBlur={f => f}/>
+        onBlur={f => f}
+      />,
     );
 
-    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal('A function title');
+    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
+      .empty;
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      'A function title',
+    );
   });
   it('should hide title', () => {
     const onChange = sinon.spy();
@@ -104,9 +114,9 @@ describe('Schemaform review: ObjectField', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -117,10 +127,12 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{ $id: 'root' }}
         formData={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
-    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
+    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
+      .empty;
     expect(tree.subTree('.form-review-panel-page-header').text()).to.be.empty;
   });
   it('should hide expand under items when collapsed', () => {
@@ -130,23 +142,23 @@ describe('Schemaform review: ObjectField', () => {
       type: 'object',
       properties: {
         test: {
-          type: 'boolean'
+          type: 'boolean',
         },
         test2: {
           type: 'string',
-          'ui:collapsed': true
-        }
-      }
+          'ui:collapsed': true,
+        },
+      },
     };
     const uiSchema = {
       test2: {
         'ui:options': {
-          expandUnder: 'test'
-        }
-      }
+          expandUnder: 'test',
+        },
+      },
     };
     const formData = {
-      test: true
+      test: true,
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -155,7 +167,8 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{}}
         formData={formData}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
@@ -167,19 +180,19 @@ describe('Schemaform review: ObjectField', () => {
       type: 'object',
       properties: {
         test: {
-          type: 'boolean'
-        }
-      }
+          type: 'boolean',
+        },
+      },
     };
     const uiSchema = {
       test: {
         'ui:options': {
-          hideOnReview: true
-        }
-      }
+          hideOnReview: true,
+        },
+      },
     };
     const formData = {
-      test: true
+      test: true,
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -188,7 +201,8 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{}}
         formData={formData}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
@@ -200,19 +214,19 @@ describe('Schemaform review: ObjectField', () => {
       type: 'object',
       properties: {
         test: {
-          type: 'boolean'
-        }
-      }
+          type: 'boolean',
+        },
+      },
     };
     const uiSchema = {
       test: {
         'ui:options': {
-          hideOnReviewIfFalse: true
-        }
-      }
+          hideOnReviewIfFalse: true,
+        },
+      },
     };
     const formData = {
-      test: false
+      test: false,
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -221,7 +235,8 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{}}
         formData={formData}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
@@ -232,19 +247,19 @@ describe('Schemaform review: ObjectField', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
+          type: 'string',
         },
         test2: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const uiSchema = {
       test2: {
         'ui:options': {
-          expandUnder: 'test'
-        }
-      }
+          expandUnder: 'test',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -254,7 +269,8 @@ describe('Schemaform review: ObjectField', () => {
         formData={{ test: 'thing', test2: 'Stuff' }}
         requiredSchema={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(2);
@@ -265,9 +281,9 @@ describe('Schemaform review: ObjectField', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
@@ -278,11 +294,14 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{ $id: 'root' }}
         formData={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
-    expect(tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn').props['aria-label'])
-      .to.equal('Edit Page Title');
+    expect(
+      tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn')
+        .props['aria-label'],
+    ).to.equal('Edit Page Title');
   });
   it('should render aria-label on edit button using value from config', () => {
     const onChange = sinon.spy();
@@ -290,16 +309,16 @@ describe('Schemaform review: ObjectField', () => {
     const schema = {
       properties: {
         test: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
         uiSchema={{
           'ui:options': {
-            ariaLabelForEditButtonOnReview: 'Custom label'
-          }
+            ariaLabelForEditButtonOnReview: 'Custom label',
+          },
         }}
         schema={schema}
         formContext={{ pageTitle: 'Blah' }}
@@ -307,10 +326,13 @@ describe('Schemaform review: ObjectField', () => {
         idSchema={{ $id: 'root' }}
         formData={{}}
         onChange={onChange}
-        onBlur={onBlur}/>
+        onBlur={onBlur}
+      />,
     );
 
-    expect(tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn').props['aria-label'])
-      .to.equal('Custom label');
+    expect(
+      tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn')
+        .props['aria-label'],
+    ).to.equal('Custom label');
   });
 });

@@ -7,25 +7,29 @@ import ReadOnlyArrayField from '../../../src/js/review/ReadOnlyArrayField';
 describe('Schemaform review: ReadOnlyArrayField', () => {
   it('should render', () => {
     const schema = {
-      items: [{
-        type: 'object',
-        properties: {
-          test: {
-            type: 'string'
-          }
-        }
-      }]
+      items: [
+        {
+          type: 'object',
+          properties: {
+            test: {
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
     const uiSchema = {
       'ui:options': {
-        itemName: 'Item'
-      }
+        itemName: 'Item',
+      },
     };
     const registry = {
       definitions: {},
       fields: {
-        SchemaField: function SchemaField() { return null; }
-      }
+        SchemaField: function SchemaField() {
+          return null;
+        },
+      },
     };
     const formData = [{}];
 
@@ -36,10 +40,13 @@ describe('Schemaform review: ReadOnlyArrayField', () => {
         uiSchema={uiSchema}
         idSchema={{}}
         registry={registry}
-        requiredSchema={{}}/>
+        requiredSchema={{}}
+      />,
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
-    expect(tree.subTree('.schemaform-array-readonly-header').text()).to.contain('Item');
+    expect(tree.subTree('.schemaform-array-readonly-header').text()).to.contain(
+      'Item',
+    );
   });
 });

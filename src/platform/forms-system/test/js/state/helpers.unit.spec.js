@@ -6,7 +6,7 @@ import {
   removeHiddenData,
   updateSchemaFromUiSchema,
   updateItemsSchema,
-  replaceRefSchemas
+  replaceRefSchemas,
 } from '../../../src/js/state/helpers';
 
 describe('Schemaform formState:', () => {
@@ -16,16 +16,18 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           test: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
       const uiSchema = {
         test: {
-          'ui:required': () => true
-        }
+          'ui:required': () => true,
+        },
       };
-      expect(updateRequiredFields(schema, uiSchema).required[0]).to.equal('test');
+      expect(updateRequiredFields(schema, uiSchema).required[0]).to.equal(
+        'test',
+      );
     });
     it('should remove field from required array', () => {
       const schema = {
@@ -33,14 +35,14 @@ describe('Schemaform formState:', () => {
         required: ['test'],
         properties: {
           test: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
       const uiSchema = {
         test: {
-          'ui:required': () => false
-        }
+          'ui:required': () => false,
+        },
       };
       expect(updateRequiredFields(schema, uiSchema).required).to.be.empty;
     });
@@ -50,46 +52,50 @@ describe('Schemaform formState:', () => {
         required: ['test'],
         properties: {
           test: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
       const uiSchema = {
         test: {
-          'ui:required': () => true
-        }
+          'ui:required': () => true,
+        },
       };
       expect(updateRequiredFields(schema, uiSchema)).to.equal(schema);
     });
     it('should set required in arrays', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'object',
-          properties: {
-            test: {
-              type: 'string'
-            }
-          }
-        }],
+        items: [
+          {
+            type: 'object',
+            properties: {
+              test: {
+                type: 'string',
+              },
+            },
+          },
+        ],
         additionalItems: {
           type: 'object',
           properties: {
             test: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
       const uiSchema = {
         items: {
           test: {
-            'ui:required': () => true
-          }
-        }
+            'ui:required': () => true,
+          },
+        },
       };
       const data = [{}];
-      expect(updateRequiredFields(schema, uiSchema, data).items[0].required[0]).to.equal('test');
+      expect(
+        updateRequiredFields(schema, uiSchema, data).items[0].required[0],
+      ).to.equal('test');
     });
   });
   describe('setHiddenFields', () => {
@@ -97,8 +103,8 @@ describe('Schemaform formState:', () => {
       const schema = {};
       const uiSchema = {
         'ui:options': {
-          hideIf: () => true
-        }
+          hideIf: () => true,
+        },
       };
       const data = {};
 
@@ -111,8 +117,8 @@ describe('Schemaform formState:', () => {
       const schema = {};
       const uiSchema = {
         'ui:options': {
-          hideIf: () => false
-        }
+          hideIf: () => false,
+        },
       };
       const data = {};
 
@@ -123,12 +129,12 @@ describe('Schemaform formState:', () => {
     });
     it('should remove hidden prop from schema', () => {
       const schema = {
-        'ui:hidden': true
+        'ui:hidden': true,
       };
       const uiSchema = {
         'ui:options': {
-          hideIf: () => false
-        }
+          hideIf: () => false,
+        },
       };
       const data = {};
 
@@ -141,15 +147,15 @@ describe('Schemaform formState:', () => {
       const schema = {
         type: 'object',
         properties: {
-          field: {}
-        }
+          field: {},
+        },
       };
       const uiSchema = {
         field: {
           'ui:options': {
-            hideIf: () => true
-          }
-        }
+            hideIf: () => true,
+          },
+        },
       };
       const data = { field: '' };
 
@@ -163,14 +169,14 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           unhide: { type: 'boolean' },
-          nestedObject: {}
-        }
+          nestedObject: {},
+        },
       };
       const uiSchema = {
         'ui:options': { hideIf: () => false },
         nestedObject: {
-          'ui:options': { hideIf: () => true }
-        }
+          'ui:options': { hideIf: () => true },
+        },
       };
       const data = { unhide: false };
 
@@ -184,15 +190,15 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           field: {},
-          field2: {}
-        }
+          field2: {},
+        },
       };
       const uiSchema = {
         field: {
           'ui:options': {
-            expandUnder: 'field2'
-          }
-        }
+            expandUnder: 'field2',
+          },
+        },
       };
       const data = { field: '', field2: false };
 
@@ -206,16 +212,16 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           field: {},
-          field2: {}
-        }
+          field2: {},
+        },
       };
       const uiSchema = {
         field: {
           'ui:options': {
             expandUnder: 'field2',
-            expandUnderCondition: 'blah'
-          }
-        }
+            expandUnderCondition: 'blah',
+          },
+        },
       };
       const data = { field: '', field2: 'bleh' };
 
@@ -229,16 +235,16 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           field: {},
-          field2: {}
-        }
+          field2: {},
+        },
       };
       const uiSchema = {
         field: {
           'ui:options': {
             expandUnder: 'field2',
-            expandUnderCondition: () => false
-          }
-        }
+            expandUnderCondition: () => false,
+          },
+        },
       };
       const data = { field: '', field2: 'bleh' };
 
@@ -255,51 +261,54 @@ describe('Schemaform formState:', () => {
             type: 'object',
             properties: {
               field: {},
-              field2: {}
-            }
-          }
-        }
+              field2: {},
+            },
+          },
+        },
       };
       const uiSchema = {
         nested: {
           field: {
             'ui:options': {
-              expandUnder: 'field2'
-            }
-          }
-        }
+              expandUnder: 'field2',
+            },
+          },
+        },
       };
       const data = { nested: { field: '', field2: false } };
 
       const newSchema = setHiddenFields(schema, uiSchema, data);
 
-      expect(newSchema.properties.nested.properties.field['ui:collapsed']).to.be.true;
+      expect(newSchema.properties.nested.properties.field['ui:collapsed']).to.be
+        .true;
       expect(newSchema).not.to.equal(schema);
     });
     it('should set hidden on array field', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'object',
-          properties: {
-            field: {}
-          }
-        }],
+        items: [
+          {
+            type: 'object',
+            properties: {
+              field: {},
+            },
+          },
+        ],
         additionalItems: {
           type: 'object',
           properties: {
-            field: {}
-          }
-        }
+            field: {},
+          },
+        },
       };
       const uiSchema = {
         items: {
           field: {
             'ui:options': {
-              hideIf: () => true
-            }
-          }
-        }
+              hideIf: () => true,
+            },
+          },
+        },
       };
       const data = [{}];
 
@@ -312,7 +321,7 @@ describe('Schemaform formState:', () => {
   describe('removeHiddenData', () => {
     it('should remove hidden field', () => {
       const schema = {
-        'ui:hidden': true
+        'ui:hidden': true,
       };
       const data = 'test';
 
@@ -326,9 +335,9 @@ describe('Schemaform formState:', () => {
         properties: {
           field: {},
           field2: {
-            'ui:hidden': true
-          }
-        }
+            'ui:hidden': true,
+          },
+        },
       };
       const data = { field: 'test', field2: 'test2' };
 
@@ -342,9 +351,9 @@ describe('Schemaform formState:', () => {
         properties: {
           field: {},
           field2: {
-            'ui:collapsed': true
-          }
-        }
+            'ui:collapsed': true,
+          },
+        },
       };
       const data = { field: 'test', field2: 'test2' };
 
@@ -361,11 +370,11 @@ describe('Schemaform formState:', () => {
             type: 'object',
             properties: {
               field2: {
-                'ui:collapsed': true
-              }
-            }
-          }
-        }
+                'ui:collapsed': true,
+              },
+            },
+          },
+        },
       };
       const data = { field: 'test', nested: { field2: 'test2' } };
 
@@ -376,22 +385,24 @@ describe('Schemaform formState:', () => {
     it('should remove hidden field in array', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'object',
-          properties: {
-            field: {},
-            field2: {
-              'ui:hidden': true
-            }
-          }
-        }],
+        items: [
+          {
+            type: 'object',
+            properties: {
+              field: {},
+              field2: {
+                'ui:hidden': true,
+              },
+            },
+          },
+        ],
         additionalItems: {
           type: 'object',
           properties: {
             field: {},
-            field2: {}
-          }
-        }
+            field2: {},
+          },
+        },
       };
       const data = [{ field: 'test', field2: 'test2' }];
 
@@ -403,19 +414,22 @@ describe('Schemaform formState:', () => {
   describe('updateSchemaFromUiSchema', () => {
     it('should update schema', () => {
       const schema = {
-        type: 'string'
+        type: 'string',
       };
       const uiSchema = {
         'ui:options': {
-          updateSchema: () => {
-            return { type: 'number' };
-          }
-        }
+          updateSchema: () => ({ type: 'number' }),
+        },
       };
       const data = 'test';
       const formData = {};
 
-      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
+      const newSchema = updateSchemaFromUiSchema(
+        schema,
+        uiSchema,
+        data,
+        formData,
+      );
 
       expect(newSchema).to.eql({ type: 'number' });
       expect(newSchema).not.to.equal(schema);
@@ -425,23 +439,26 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
       const uiSchema = {
         field: {
           'ui:options': {
-            updateSchema: () => {
-              return { type: 'number' };
-            }
-          }
-        }
+            updateSchema: () => ({ type: 'number' }),
+          },
+        },
       };
       const data = {};
       const formData = {};
 
-      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
+      const newSchema = updateSchemaFromUiSchema(
+        schema,
+        uiSchema,
+        data,
+        formData,
+      );
 
       expect(newSchema.properties.field).to.eql({ type: 'number' });
       expect(newSchema).not.to.equal(schema);
@@ -449,38 +466,43 @@ describe('Schemaform formState:', () => {
     it('should update schema in array', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'object',
-          properties: {
-            field: {
-              type: 'string'
-            }
-          }
-        }],
+        items: [
+          {
+            type: 'object',
+            properties: {
+              field: {
+                type: 'string',
+              },
+            },
+          },
+        ],
         additionalItems: {
           type: 'object',
           properties: {
             field: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
       const uiSchema = {
         items: {
           field: {
             'ui:options': {
-              updateSchema: () => {
-                return { type: 'number' };
-              }
-            }
-          }
-        }
+              updateSchema: () => ({ type: 'number' }),
+            },
+          },
+        },
       };
       const data = [{}];
       const formData = {};
 
-      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
+      const newSchema = updateSchemaFromUiSchema(
+        schema,
+        uiSchema,
+        data,
+        formData,
+      );
 
       expect(newSchema.items[0].properties.field).to.eql({ type: 'number' });
       expect(newSchema).not.to.equal(schema);
@@ -489,12 +511,12 @@ describe('Schemaform formState:', () => {
   describe('replaceRefSchemas', () => {
     const definitions = {
       common: {
-        type: 'string'
-      }
+        type: 'string',
+      },
     };
     it('should replace ref', () => {
       const schema = {
-        $ref: '#/definitions/common'
+        $ref: '#/definitions/common',
       };
 
       const newSchema = replaceRefSchemas(schema, definitions);
@@ -505,15 +527,15 @@ describe('Schemaform formState:', () => {
 
     it('should replace nested $ref', () => {
       const schema = {
-        $ref: '#/definitions/common'
+        $ref: '#/definitions/common',
       };
       const nestedDefinitions = {
         common: {
-          $ref: '#/definitions/nested'
+          $ref: '#/definitions/nested',
         },
         nested: {
-          type: 'number'
-        }
+          type: 'number',
+        },
       };
 
       const newSchema = replaceRefSchemas(schema, nestedDefinitions);
@@ -526,9 +548,9 @@ describe('Schemaform formState:', () => {
         type: 'object',
         properties: {
           field: {
-            $ref: '#/definitions/common'
-          }
-        }
+            $ref: '#/definitions/common',
+          },
+        },
       };
 
       const newSchema = replaceRefSchemas(schema, definitions);
@@ -543,10 +565,10 @@ describe('Schemaform formState:', () => {
           type: 'object',
           properties: {
             field: {
-              $ref: '#/definitions/common'
-            }
-          }
-        }
+              $ref: '#/definitions/common',
+            },
+          },
+        },
       };
 
       const newSchema = replaceRefSchemas(schema, definitions);
@@ -556,12 +578,15 @@ describe('Schemaform formState:', () => {
     });
     it('should throw error on missing schema', () => {
       const schema = {
-        $ref: '#/definitions/common2'
+        $ref: '#/definitions/common2',
       };
 
       const replaceCall = () => replaceRefSchemas(schema, definitions);
 
-      expect(replaceCall).to.throw(Error, /Missing definition for #\/definitions\/common2/);
+      expect(replaceCall).to.throw(
+        Error,
+        /Missing definition for #\/definitions\/common2/,
+      );
     });
   });
   describe('updateItemsSchema', () => {
@@ -569,8 +594,8 @@ describe('Schemaform formState:', () => {
       const schema = {
         type: 'array',
         items: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
 
       const newSchema = updateItemsSchema(schema);
@@ -581,9 +606,11 @@ describe('Schemaform formState:', () => {
     it('should remove all item schemas when data is falsy', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'string'
-        }]
+        items: [
+          {
+            type: 'string',
+          },
+        ],
       };
 
       const newSchema = updateItemsSchema(schema);
@@ -593,9 +620,11 @@ describe('Schemaform formState:', () => {
     it('should remove all item schemas when data is empty', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'string'
-        }]
+        items: [
+          {
+            type: 'string',
+          },
+        ],
       };
       const data = [];
 
@@ -606,12 +635,14 @@ describe('Schemaform formState:', () => {
     it('should add item to array when form data has more items', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'string'
-        }],
+        items: [
+          {
+            type: 'string',
+          },
+        ],
         additionalItems: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
       const data = ['test', 'test2', 'test3'];
 
@@ -624,14 +655,17 @@ describe('Schemaform formState:', () => {
     it('should remove item from schema items if fewer items in data array', () => {
       const schema = {
         type: 'array',
-        items: [{
-          type: 'string'
-        }, {
-          type: 'string'
-        }],
+        items: [
+          {
+            type: 'string',
+          },
+          {
+            type: 'string',
+          },
+        ],
         additionalItems: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
       const data = ['test'];
 

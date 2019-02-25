@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
@@ -100,6 +100,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
               viewedPages={viewedPages}
               pageKeys={pageKeys}
               formData={form.data}
+              t
+              push
             />
           )}
           {expandedPages.map(page => {

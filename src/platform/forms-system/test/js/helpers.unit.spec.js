@@ -12,17 +12,29 @@ import {
   checkValidSchema,
   formatReviewDate,
   expandArrayPages,
-  omitRequired
+  omitRequired,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
     it('should parse an ISO date', () => {
-      expect(parseISODate('2001-02-03')).to.eql({ month: '2', day: '3', year: '2001' });
+      expect(parseISODate('2001-02-03')).to.eql({
+        month: '2',
+        day: '3',
+        year: '2001',
+      });
     });
     it('should parse a partial ISO date', () => {
-      expect(parseISODate('XXXX-02-03')).to.eql({ month: '2', day: '3', year: '' });
-      expect(parseISODate('2003-XX-03')).to.eql({ month: '', day: '3', year: '2003' });
+      expect(parseISODate('XXXX-02-03')).to.eql({
+        month: '2',
+        day: '3',
+        year: '',
+      });
+      expect(parseISODate('2003-XX-03')).to.eql({
+        month: '',
+        day: '3',
+        year: '2003',
+      });
     });
   });
   describe('formatISOPartialDate', () => {
@@ -30,7 +42,7 @@ describe('Schemaform helpers:', () => {
       const date = {
         month: '3',
         day: '29',
-        year: '2005'
+        year: '2005',
       };
       expect(formatISOPartialDate(date)).to.equal('2005-03-29');
     });
@@ -38,7 +50,7 @@ describe('Schemaform helpers:', () => {
       const date = {
         month: '2',
         day: '',
-        year: '2005'
+        year: '2005',
       };
       expect(formatISOPartialDate(date)).to.equal('2005-02-XX');
     });
@@ -46,7 +58,7 @@ describe('Schemaform helpers:', () => {
       const date = {
         month: '',
         day: '',
-        year: ''
+        year: '',
       };
       expect(formatISOPartialDate(date)).to.be.undefined;
     });
@@ -59,11 +71,11 @@ describe('Schemaform helpers:', () => {
           firstChapter: {
             pages: {
               testPage: {
-                path: 'test-page'
-              }
-            }
-          }
-        }
+                path: 'test-page',
+              },
+            },
+          },
+        },
       };
 
       const routes = createRoutes(formConfig);
@@ -78,11 +90,11 @@ describe('Schemaform helpers:', () => {
           firstChapter: {
             pages: {
               testPage: {
-                path: 'test-page'
-              }
-            }
-          }
-        }
+                path: 'test-page',
+              },
+            },
+          },
+        },
       };
 
       const routes = createRoutes(formConfig);
@@ -96,12 +108,12 @@ describe('Schemaform helpers:', () => {
         type: 'object',
         properties: {
           test: {
-            type: 'array'
+            type: 'array',
           },
           test2: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
 
       expect(hasFieldsOtherThanArray(schema)).to.be.true;
@@ -111,17 +123,17 @@ describe('Schemaform helpers:', () => {
         type: 'object',
         properties: {
           test: {
-            type: 'array'
+            type: 'array',
           },
           test2: {
             type: 'object',
             properties: {
               test3: {
-                type: 'number'
-              }
-            }
-          }
-        }
+                type: 'number',
+              },
+            },
+          },
+        },
       };
 
       expect(hasFieldsOtherThanArray(schema)).to.be.true;
@@ -136,12 +148,12 @@ describe('Schemaform helpers:', () => {
               type: 'object',
               properties: {
                 test: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       };
 
       expect(hasFieldsOtherThanArray(schema)).to.be.false;
@@ -151,9 +163,9 @@ describe('Schemaform helpers:', () => {
     it('should get array', () => {
       const data = {
         schema: {
-          type: 'array'
+          type: 'array',
         },
-        uiSchema: {}
+        uiSchema: {},
       };
 
       const fields = getArrayFields(data);
@@ -163,13 +175,13 @@ describe('Schemaform helpers:', () => {
     it('should skip array using option', () => {
       const data = {
         schema: {
-          type: 'array'
+          type: 'array',
         },
         uiSchema: {
           'ui:options': {
-            keepInPageOnReview: true
-          }
-        }
+            keepInPageOnReview: true,
+          },
+        },
       };
 
       const fields = getArrayFields(data);
@@ -182,11 +194,11 @@ describe('Schemaform helpers:', () => {
           type: 'object',
           properties: {
             field: {
-              type: 'array'
-            }
-          }
+              type: 'array',
+            },
+          },
         },
-        uiSchema: {}
+        uiSchema: {},
       };
 
       const fields = getArrayFields(data, {});
@@ -198,9 +210,9 @@ describe('Schemaform helpers:', () => {
       const data = {
         schema: {
           type: 'array',
-          'ui:hidden': true
+          'ui:hidden': true,
         },
-        uiSchema: {}
+        uiSchema: {},
       };
 
       const fields = getArrayFields(data, {});
@@ -214,11 +226,11 @@ describe('Schemaform helpers:', () => {
           'ui:collapsed': true,
           properties: {
             field: {
-              type: 'array'
-            }
-          }
+              type: 'array',
+            },
+          },
         },
-        uiSchema: {}
+        uiSchema: {},
       };
 
       const fields = getArrayFields(data, {});
@@ -233,23 +245,23 @@ describe('Schemaform helpers:', () => {
           chapter1: {
             pages: {
               page1: {},
-              page2: {}
-            }
-          }
-        }
+              page2: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
           otherField: 'testing2',
-          field: 'testing'
-        }
+          field: 'testing',
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output).to.eql({
         otherField: 'testing2',
-        field: 'testing'
+        field: 'testing',
       });
     });
     it('should flatten page data across chapters', () => {
@@ -258,27 +270,27 @@ describe('Schemaform helpers:', () => {
           chapter1: {
             pages: {
               page1: {},
-            }
+            },
           },
           chapter2: {
             pages: {
-              page2: {}
-            }
-          }
-        }
+              page2: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
           otherField: 'testing2',
-          field: 'testing'
-        }
+          field: 'testing',
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output).to.eql({
         otherField: 'testing2',
-        field: 'testing'
+        field: 'testing',
       });
     });
     it('should remove view fields', () => {
@@ -286,15 +298,15 @@ describe('Schemaform helpers:', () => {
         chapters: {
           chapter1: {
             pages: {
-              page1: {}
-            }
-          }
-        }
+              page1: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
-          'view:Test': 'thing'
-        }
+          'view:Test': 'thing',
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -306,24 +318,24 @@ describe('Schemaform helpers:', () => {
         chapters: {
           chapter1: {
             pages: {
-              page1: {}
-            }
-          }
-        }
+              page1: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
           'view:Test': {
-            field: 'testing'
-          }
-        }
+            field: 'testing',
+          },
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output['view:Test']).to.be.undefined;
       expect(output).to.eql({
-        field: 'testing'
+        field: 'testing',
       });
     });
     it('should remove inactive pages', () => {
@@ -336,39 +348,39 @@ describe('Schemaform helpers:', () => {
                   type: 'object',
                   properties: {
                     otherField: {
-                      type: 'string'
-                    }
-                  }
+                      type: 'string',
+                    },
+                  },
                 },
                 depends: {
-                  field: 'something'
-                }
+                  field: 'something',
+                },
               },
-            }
+            },
           },
           chapter2: {
             pages: {
               page2: {
                 schema: {
                   type: 'object',
-                  properties: {}
-                }
-              }
-            }
-          }
-        }
+                  properties: {},
+                },
+              },
+            },
+          },
+        },
       };
       const formData = {
         data: {
           otherField: 'testing2',
-          field: 'testing'
-        }
+          field: 'testing',
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output).to.eql({
-        field: 'testing'
+        field: 'testing',
       });
     });
     it('should not remove properties that are on both active and inactive pages', () => {
@@ -381,18 +393,18 @@ describe('Schemaform helpers:', () => {
                   type: 'object',
                   properties: {
                     otherField: {
-                      type: 'string'
+                      type: 'string',
                     },
                     anotherField: {
-                      type: 'string'
-                    }
-                  }
+                      type: 'string',
+                    },
+                  },
                 },
                 depends: {
-                  field: 'something'
-                }
+                  field: 'something',
+                },
               },
-            }
+            },
           },
           chapter2: {
             pages: {
@@ -401,28 +413,28 @@ describe('Schemaform helpers:', () => {
                   type: 'object',
                   properties: {
                     anotherField: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
       const formData = {
         data: {
           otherField: 'testing2',
           anotherField: 'testing3',
-          field: 'testing'
-        }
+          field: 'testing',
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output).to.eql({
         field: 'testing',
-        anotherField: 'testing3'
+        anotherField: 'testing3',
       });
     });
     it('should remove empty addresses', () => {
@@ -430,17 +442,17 @@ describe('Schemaform helpers:', () => {
         chapters: {
           chapter1: {
             pages: {
-              page1: {}
-            }
-          }
-        }
+              page1: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
           address: {
-            country: 'testing'
-          }
-        }
+            country: 'testing',
+          },
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -452,19 +464,18 @@ describe('Schemaform helpers:', () => {
         chapters: {
           chapter1: {
             pages: {
-              page1: {}
-            }
-          }
-        }
+              page1: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
-          someField: {
-          },
+          someField: {},
           someField2: {
-            someData: undefined
-          }
-        }
+            someData: undefined,
+          },
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -477,25 +488,19 @@ describe('Schemaform helpers:', () => {
         chapters: {
           chapter1: {
             pages: {
-              page1: {}
-            }
-          }
-        }
+              page1: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
           someField: {
-            subField: [
-              { foo: 'bar' },
-              {}
-            ]
+            subField: [{ foo: 'bar' }, {}],
           },
-          arrayField: [
-            { foo: 'bar' },
-            {}
-          ],
-          emtpyArray: [{}, {}]
-        }
+          arrayField: [{ foo: 'bar' }, {}],
+          emtpyArray: [{}, {}],
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -509,19 +514,19 @@ describe('Schemaform helpers:', () => {
         chapters: {
           chapter1: {
             pages: {
-              page1: {}
-            }
-          }
-        }
+              page1: {},
+            },
+          },
+        },
       };
       const formData = {
         data: {
           someField2: {
             widget: 'autosuggest',
             id: '1',
-            label: 'test'
-          }
-        }
+            label: 'test',
+          },
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -545,25 +550,22 @@ describe('Schemaform helpers:', () => {
                       items: {
                         type: 'object',
                         properties: {
-                          isActive: { type: 'boolean' }
-                        }
-                      }
-                    }
-                  }
+                          isActive: { type: 'boolean' },
+                        },
+                      },
+                    },
+                  },
                 },
-                depends: (data, index) => data.testArray[index].isActive
-              }
-            }
-          }
-        }
+                depends: (data, index) => data.testArray[index].isActive,
+              },
+            },
+          },
+        },
       };
       const formData = {
         data: {
-          testArray: [
-            { isActive: true },
-            { isActive: false }
-          ]
-        }
+          testArray: [{ isActive: true }, { isActive: false }],
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -587,25 +589,22 @@ describe('Schemaform helpers:', () => {
                       items: {
                         type: 'object',
                         properties: {
-                          isActive: { type: 'boolean' }
-                        }
-                      }
-                    }
-                  }
+                          isActive: { type: 'boolean' },
+                        },
+                      },
+                    },
+                  },
                 },
-                depends: (data, index) => data.testArray[index].isActive
-              }
-            }
-          }
-        }
+                depends: (data, index) => data.testArray[index].isActive,
+              },
+            },
+          },
+        },
       };
       const formData = {
         data: {
-          testArray: [
-            { isActive: false },
-            { isActive: false }
-          ]
-        }
+          testArray: [{ isActive: false }, { isActive: false }],
+        },
       };
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
@@ -619,7 +618,7 @@ describe('Schemaform helpers:', () => {
       const touched = setArrayRecordTouched('root', 0);
 
       expect(touched).to.eql({
-        root_0: true
+        root_0: true,
       });
     });
     /* eslint-enable camelcase */
@@ -631,7 +630,10 @@ describe('Schemaform helpers:', () => {
       expect(result).to.be.undefined;
     });
     it('should skip array fields using option', () => {
-      const result = getNonArraySchema({ type: 'array' }, { 'ui:option': { keepInPageOnReview: true } });
+      const result = getNonArraySchema(
+        { type: 'array' },
+        { 'ui:option': { keepInPageOnReview: true } },
+      );
 
       expect(result).to.be.undefined;
     });
@@ -640,9 +642,9 @@ describe('Schemaform helpers:', () => {
         type: 'object',
         properties: {
           field: {
-            type: 'array'
-          }
-        }
+            type: 'array',
+          },
+        },
       });
 
       expect(result).to.be.undefined;
@@ -653,12 +655,12 @@ describe('Schemaform helpers:', () => {
         required: ['field', 'field2'],
         properties: {
           field: {
-            type: 'string'
+            type: 'string',
           },
           field2: {
-            type: 'array'
-          }
-        }
+            type: 'array',
+          },
+        },
       });
 
       expect(result).to.eql({
@@ -666,9 +668,9 @@ describe('Schemaform helpers:', () => {
         required: ['field'],
         properties: {
           field: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       });
     });
   });
@@ -680,32 +682,32 @@ describe('Schemaform helpers:', () => {
         properties: {
           // Only type
           field1: {
-            type: 'string'
+            type: 'string',
           },
           // Object with blank properties
           field2: {
             type: 'object',
-            properties: {}
+            properties: {},
           },
           // Nested object properties
           field3: {
             type: 'object',
             properties: {
-              nestedField: { type: 'string' } // Missing type
-            }
+              nestedField: { type: 'string' }, // Missing type
+            },
           },
           // Array with items object
           field4: {
             type: 'array',
-            items: { type: 'string' }
+            items: { type: 'string' },
           },
           // Array with items array
           field5: {
             type: 'array',
             additionalItems: { type: 'string' },
             items: [{ type: 'string' }],
-          }
-        }
+          },
+        },
       };
 
       // If this throws an error, the test will fail
@@ -728,8 +730,8 @@ describe('Schemaform helpers:', () => {
           field3: {
             type: 'object',
             properties: {
-              nestedField: {} // Missing type
-            }
+              nestedField: {}, // Missing type
+            },
           },
           // Missing items
           field4: {
@@ -739,41 +741,49 @@ describe('Schemaform helpers:', () => {
           // Invalid additionalItems
           field5: {
             type: 'array',
-            items: [{
-              type: 'object',
-              properties: {
-                nestedField: { type: 'string' }
-              }
-            }],
+            items: [
+              {
+                type: 'object',
+                properties: {
+                  nestedField: { type: 'string' },
+                },
+              },
+            ],
             additionalItems: {
-              type: 'object'
+              type: 'object',
               // properties: {} // Missing properties
-            }
+            },
           },
           // Invalid items array
           field6: {
             type: 'array',
             additionalItems: { type: 'string' },
-            items: [{ /* type: 'string' */ }]
+            items: [
+              {
+                /* type: 'string' */
+              },
+            ],
           },
           // Invalid items object
           field7: {
             type: 'array',
-            items: { /* type: 'string' */ }
+            items: {
+              /* type: 'string' */
+            },
           },
           // Missing additionalItems when items is an array
           field8: {
             type: 'array',
             // additionalItems: { type: 'string' },
-            items: [{ type: 'string' }]
+            items: [{ type: 'string' }],
           },
           // Shouldn't have additionalItems when items is an object
           field9: {
             type: 'array',
             additionalItems: { type: 'string' },
-            items: { type: 'string' }
+            items: { type: 'string' },
           },
-        }
+        },
       };
 
       let isValid;
@@ -783,7 +793,9 @@ describe('Schemaform helpers:', () => {
         // Perhaps this should not be in this test...Seems pretty brittle.
         //  Still, I'd like a way to make sure we get all the right errors and
         //  would prefer to not write 6 different tests.
-        expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema. Missing type in root.field7.items schema. root.field8 should contain additionalItems when items is an array. root.field9 should not contain additionalItems when items is an object.');
+        expect(err.message).to.equal(
+          'Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema. Missing type in root.field7.items schema. root.field8 should contain additionalItems when items is an array. root.field9 should not contain additionalItems when items is an object.',
+        );
       }
       expect(isValid).to.equal(undefined);
     });
@@ -794,11 +806,11 @@ describe('Schemaform helpers:', () => {
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'test/:index'
-        }
+          path: 'test/:index',
+        },
       ];
       const data = {
-        test: [{}]
+        test: [{}],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -812,11 +824,11 @@ describe('Schemaform helpers:', () => {
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'test/:index'
-        }
+          path: 'test/:index',
+        },
       ];
       const data = {
-        test: [{}, {}]
+        test: [{}, {}],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -830,19 +842,19 @@ describe('Schemaform helpers:', () => {
     it('should expand array pages in correct position in list', () => {
       const pageList = [
         {
-          path: 'other-path'
+          path: 'other-path',
         },
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'test/:index'
+          path: 'test/:index',
         },
         {
-          path: 'some-path'
-        }
+          path: 'some-path',
+        },
       ];
       const data = {
-        test: [{}]
+        test: [{}],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -858,16 +870,16 @@ describe('Schemaform helpers:', () => {
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'path/:index'
+          path: 'path/:index',
         },
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'other-path/:index'
-        }
+          path: 'other-path/:index',
+        },
       ];
       const data = {
-        test: [{}, {}]
+        test: [{}, {}],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -884,16 +896,16 @@ describe('Schemaform helpers:', () => {
           showPagePerItem: true,
           arrayPath: 'test',
           path: 'path/:index',
-          itemFilter: (data) => !data.filterOut
+          itemFilter: data => !data.filterOut,
         },
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'other-path/:index'
-        }
+          path: 'other-path/:index',
+        },
       ];
       const data = {
-        test: [{ filterOut: true }, {}]
+        test: [{ filterOut: true }, {}],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -906,11 +918,11 @@ describe('Schemaform helpers:', () => {
     it('should pass through list with no array pages', () => {
       const pageList = [
         {
-          path: 'test'
-        }
+          path: 'test',
+        },
       ];
       const data = {
-        test: [{}]
+        test: [{}],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -923,14 +935,14 @@ describe('Schemaform helpers:', () => {
         {
           showPagePerItem: true,
           arrayPath: 'test',
-          path: 'path/:index'
+          path: 'path/:index',
         },
         {
-          path: 'test'
-        }
+          path: 'test',
+        },
       ];
       const data = {
-        test: []
+        test: [],
       };
 
       const newPageList = expandArrayPages(pageList, data);
@@ -960,13 +972,13 @@ describe('Schemaform helpers:', () => {
             properties: {
               nestedField: {
                 type: 'string',
-                'enum': ['option1', 'option2']
-              }
+                enum: ['option1', 'option2'],
+              },
             },
-            required: ['nestedField']
-          }
+            required: ['nestedField'],
+          },
         },
-        required: ['field1']
+        required: ['field1'],
       };
       const expected = {
         type: 'object',
@@ -976,11 +988,11 @@ describe('Schemaform helpers:', () => {
             properties: {
               nestedField: {
                 type: 'string',
-                'enum': ['option1', 'option2']
-              }
-            }
-          }
-        }
+                enum: ['option1', 'option2'],
+              },
+            },
+          },
+        },
       };
       expect(omitRequired(schema)).to.eql(expected);
     });

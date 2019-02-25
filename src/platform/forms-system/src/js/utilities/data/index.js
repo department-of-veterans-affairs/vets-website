@@ -1,7 +1,7 @@
 /**
- * Lodash replacements is a collection of functions designed to replace common lodash ones.
- * These function will more closely resemble lodash functions in that they should be
- *   non-mutative and support the lodash parameter order. They should _not_ support auto-
+ * lodash/fp replacements is a collection of functions designed to replace common lodash/fp ones.
+ * These function will more closely resemble lodash/fp functions in that they should be
+ *   non-mutative and support the lodash/fp parameter order. They should _not_ support auto-
  *   currying for simplicity.
  */
 
