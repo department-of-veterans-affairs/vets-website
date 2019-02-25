@@ -84,48 +84,15 @@ node('vetsgov-general-purpose') {
 
   def cmsEnv = params.get('cmsEnv', 'none')
 
-  // Checkout source, create output directories, build container
+	def commonUtil = load "Jenkinsfile.content";
 
-  stage('Setup') {
-    try {
-      buildTypeOverride = DRUPAL_MAPPING.get(params.get('cmsEnv', 'none'), null)
-      if(buildTypeOverride) {
-        VAGOV_BUILDTYPES = [buildTypeOverride]
-      }
+	def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
+	def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+	def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
-      // Jenkins doesn't like it when we checkout the secondary repository first
-      // so we checkout 'vets-website' first
-      dir("vets-website") {
-        checkout scm
-      }
-
-      // clone vagov-content
-      checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'vagov-content']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
-
-      args = "-v ${pwd()}/vets-website:/application -v ${pwd()}/vagov-content:/vagov-content"
-
-      dir("vets-website") {
-        ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-
-        sh "mkdir -p build"
-        sh "mkdir -p logs/selenium"
-        sh "mkdir -p coverage"
-        sh "mkdir -p temp"
-
-        imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
-
-        dockerImage = docker.build("vets-website:${imageTag}")
-        retry(5) {
-          dockerImage.inside(args) {
-            sh "cd /application && yarn install --production=false"
-          }
-        }
-      }
-    } catch (error) {
-      notify()
-      throw error
-    }
-  }
+	
+	// setupStage
+	commonUtil.setup(ref, dockerTag, dockerArgs)
 
   stage('Lint|Security|Unit') {
     if (cmsEnv != 'none') { return }
@@ -188,30 +155,9 @@ node('vetsgov-general-purpose') {
 
   // Perform a build for each build type
 
-  stage('Build') {
-    if (shouldBail()) { return }
-
-    try {
-      def builds = [:]
-      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-        builds[envName] = {
-          dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
-          }
-        }
-      }
-
-      parallel builds
-    } catch (error) {
-      notify()
-      throw error
-    }
-  }
-
+	def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
+	commonUtil.build(assetSource, ref)
+	
   // Run E2E and accessibility tests
   stage('Integration') {
     if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
@@ -237,49 +183,10 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Prearchive optimizations') {
-    if (shouldBail()) { return }
 
-    try {
-      def builds = [:]
+	commonUtil.prearchive(dockerTag, dockerArgs, envName)
 
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-
-        builds[envName] = {
-          dockerImage.inside(args) {
-            sh "cd /application && node script/prearchive.js --buildtype=${envName}"
-          }
-        }
-      }
-
-      parallel builds
-    } catch (error) {
-      notify()
-
-      throw error
-    }
-  }
-
-  stage('Archive') {
-    if (shouldBail()) { return }
-
-    def envNames = VETSGOV_BUILDTYPES + VAGOV_BUILDTYPES
-    try {
-      dockerImage.inside(args) {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                          usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          for (int i=0; i<envNames.size(); i++) {
-            sh "tar -C /application/build/${envNames.get(i)} -cf /application/build/${envNames.get(i)}.tar.bz2 ."
-            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envNames.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envNames.get(i)}.tar.bz2"
-          }
-        }
-      }
-    } catch (error) {
-      notify()
-      throw error
-    }
-  }
+	commonUtil.archive(dockerImage, dockerArgs, ref);
 
   stage('Review') {
     if (shouldBail()) {
