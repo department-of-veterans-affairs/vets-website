@@ -7,7 +7,6 @@ import formConfig from '../config/form';
 import {
   transform,
   transformRelatedDisabilities,
-  concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
   setActionTypes,
@@ -82,29 +81,6 @@ describe('transformRelatedDisabilities', () => {
 describe('getFlatIncidentKeys', () => {
   it('should return correct amount of incident keys', () => {
     expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
-  });
-});
-
-describe('concatIncidentLocationString', () => {
-  it('should concat full address', () => {
-    const locationString = concatIncidentLocationString({
-      city: 'Test',
-      state: 'TN',
-      country: 'USA',
-      additionalDetails: 'details',
-    });
-
-    expect(locationString).to.eql('Test, TN, USA, details');
-  });
-
-  it('should handle null and undefined values', () => {
-    const locationString = concatIncidentLocationString({
-      city: 'Test',
-      state: null,
-      additionalDetails: 'details',
-    });
-
-    expect(locationString).to.eql('Test, details');
   });
 });
 
