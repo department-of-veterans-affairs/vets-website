@@ -45,23 +45,23 @@ class ResultsList extends Component {
         </div>
       );
     }
-   
-   const currentLocation = currentQuery.position;
+    const currentLocation = currentQuery.position;
 
-   const sortedResults = results.map(result => {
-     const distance = (currentLocation)
-       ? distBetween(
-         currentLocation.latitude,
-         currentLocation.longitude,
-         result.attributes.lat,
-         result.attributes.long,
-       )
-       : null;
-     return { ...result, distance };
-
-   }).sort((resultA, resultB) => {
-     return resultA.distance - resultB.distance
-   })
+    const sortedResults = results
+      .map(result => {
+        const distance = currentLocation
+          ? distBetween(
+              currentLocation.latitude,
+              currentLocation.longitude,
+              result.attributes.lat,
+              result.attributes.long,
+            )
+          : null;
+        return { ...result, distance };
+      })
+      .sort((resultA, resultB) => {
+        return resultA.distance - resultB.distance;
+      });
 
     return (
       <div>
@@ -73,10 +73,17 @@ class ResultsList extends Component {
             /* eslint-disable prettier/prettier */
             return isMobile ? (
               <div key={r.id} className="mobile-search-result">
-                <SearchResult result={r} currentLocation={currentQuery.position} />
+                <SearchResult
+                  result={r}
+                  currentLocation={currentQuery.position}
+                />
               </div>
             ) : (
-              <SearchResult key={r.id} result={r} currentLocation={currentQuery.position} />
+              <SearchResult
+                key={r.id}
+                result={r}
+                currentLocation={currentQuery.position}
+              />
             );
             /* eslint-enable prettier/prettier */
           })}
@@ -94,7 +101,6 @@ class ResultsList extends Component {
 ResultsList.propTypes = {
   results: PropTypes.array,
   isMobile: PropTypes.bool,
-
 };
 
 function mapDispatchToProps(dispatch) {
