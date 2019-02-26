@@ -12,9 +12,9 @@ export default class FacilityDetailWidget extends React.Component {
   }
 
   componentDidMount() {
-    const facilityId = this.props.facilities;
+    const facilityId = this.props.facility;
     this.request = apiRequest(
-      `/facilities/va?ids=${facilityId}`,
+      `/facilities/va/${facilityId}`,
       null,
       this.handleFacilitySuccess,
       this.handleFacilityError,
@@ -24,7 +24,7 @@ export default class FacilityDetailWidget extends React.Component {
   handleFacilitySuccess = facility => {
     this.setState({
       loading: false,
-      facility: facility.data[0],
+      facility: facility.data,
     });
   };
 
