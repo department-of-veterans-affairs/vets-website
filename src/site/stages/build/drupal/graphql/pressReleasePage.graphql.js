@@ -9,6 +9,18 @@ module.exports = `
     entityBundle
     entityPublished
     title
+    entityUrl {
+      ... on EntityCanonicalUrl {
+        breadcrumb {
+          url {
+            path
+            routed
+          }
+          text
+        }
+        path
+      }
+    }
     fieldReleaseDate {
       value
       date
@@ -47,6 +59,9 @@ module.exports = `
     }
     fieldPressReleaseDownloads {
       entity {
+        entityId
+        entityBundle
+        name
         ...on MediaDocument {
           fieldDocument {
             entity {
@@ -58,10 +73,9 @@ module.exports = `
           }
         }   
         
-        ...on MediaImage {
-          image {
+        ...on MediaImage {        
+          image {          
             alt
-            title
             url
           }
         }

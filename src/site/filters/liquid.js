@@ -10,6 +10,8 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
+  liquid.filters.formatDate = (dt, format) => moment(dt).format(format);
+
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);

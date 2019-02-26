@@ -1,0 +1,150 @@
+{% comment %}
+    Example data:
+    {
+        "entityId": "95",
+        "entityBundle": "press_release",
+        "entityPublished": false,
+        "title": "Fayette County Veterans getting larger, more modern VA outpatient clinic",
+        "entityUrl": {
+            "breadcrumb": [
+                {
+                    "url": {
+                    "path": "/",
+                    "routed": true
+                },
+                    "text": "Home"
+                },
+                {
+                    "url": {
+                    "path": "/pittsburgh-health-care",
+                    "routed": true
+                },
+                    "text": "Pittsburgh Health Care System"
+                }
+            ],
+            "path": "/pittsburgh-health-care/press-releases/fayette-county-veterans-getting-larger-more-modern-va-outpatient-clinic"
+        },
+        "fieldReleaseDate": {
+            "value": "2018-11-26T05:43:34",
+            "date": "2018-11-26 05:43:34 UTC"
+        },
+        "fieldPdfVersion": {
+            "entity": {
+                "fieldDocument": {
+                    "entity": {
+                        "filename": "VAMC-Region-2019-02-21.pdf",
+                        "url": "http://stg.va.agile6.com/sites/default/files/2019-02/VAMC-Region-2019-02-21_0.pdf"
+                    }
+                }
+            }
+        },
+        "fieldAddress": {
+            "locality": "Pittsburgh",
+            "administrativeArea": "PA"
+        },
+        "fieldIntroText": "The Fayette County VA Outpatient Clinic will move to its new, larger space in the Fayette Plaza at 627 Pittsburgh Road, Suite 2, Uniontown, PA, on Dec. 3.",
+        "fieldPressReleaseFulltext": {
+            "processed": "<p>The new location is just three storefronts away from the current clinic but has more than double</p>\n\n<p>the space at 16,000 square feet.</p>"
+        },
+        "fieldPressReleaseContact": [
+            {
+                "entity": {
+                    "title": "Sheila Tunney",
+                    "fieldDescription": "Public Affairs Specialist",
+                    "fieldPhoneNumber": "412-360-1479",
+                    "fieldEmailAddress": "sheila.tunney@va.gov"
+                }
+            }
+        ],
+        "fieldPressReleaseDownloads": [
+            {
+                "entity": {
+                    "entityId": "17",
+                    "entityBundle": "document",
+                    "name": "VAMC-Region-2019-02-21.pdf",
+                    "fieldDocument": {
+                        "entity": {
+                            "filename": "VAMC-Region-2019-02-21.pdf",
+                            "url": "http://stg.va.agile6.com/sites/default/files/2019-02/VAMC-Region-2019-02-21.pdf"
+                        }
+                    }
+                }
+            },
+            {
+                "entity": {
+                    "entityId": "19",
+                    "entityBundle": "image",
+                    "name": "VHA-Region-Press_Releases-Detail.jpg",
+                    "image": {
+                        "alt": "Veteran's Day poster 2019",
+                        "url": "http://stg.va.agile6.com/sites/default/files/2019-02/VHA-Region-Press_Releases-Detail.jpg"
+                    }
+                }
+            }
+        ],
+        "fieldOffice": {
+            "entity": {
+                "fieldPressReleaseBlurb": {
+                    "processed": "<p><strong>About VA Pittsburgh Healthcare System</strong></p>"
+                }
+            }
+        }
+    },
+{% endcomment %}
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+        <div class="usa-grid usa-grid-full">
+            <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+            <article class="usa-content">
+                <section class="vads-u-margin-bottom--5">
+                    <h1>{{ title }}</h1>
+                    <p>PRESS RELEASE</p>
+                    <p>{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
+                    <div>
+                        <button type="button" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</button>
+                        {% if fieldPdfVersion != empty %}
+                            <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download"></i> Download a PDF version</a>
+                        {% endif %}
+                    </div>
+                    <p class="va-introtext">{{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>
+                    <div>{{ fieldPressReleaseFulltext.processed }}</div>
+                </section>
+                <section class="vads-u-margin-bottom--5">
+                    <div class="vads-u-font-weight--bold">Media contacts</div>
+                    {% for contact in fieldPressReleaseContact %}
+                        {% assign c = contact.entity %}
+                        <div>
+                            <p>{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
+                            <p>{{ c.fieldPhoneNumber }}</p>
+                            <p><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
+                        </div>
+                    {% endfor %}
+                </section>
+                <section class="vads-u-margin-bottom--5">
+                    <div class="vads-u-font-weight--bold">Download media assets</div>
+                    {% for asset in fieldPressReleaseDownloads %}
+                        {% assign a = asset.entity %}
+                        <div>
+                            {% if a.entityBundle === 'document' %}
+                                <p><a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a></p>
+                            {% endif %}
+                            {% if a.entityBundle === 'image' %}
+                                <p><a href="{{ a.image.url }}" download>{{ a.name }}</a></p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </section>
+                <section class="vads-u-margin-bottom--5">###</section>
+                <section class="vads-u-margin-bottom--5">
+                    {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
+                </section>
+                <a href="#">See all press releases</a>
+            </article>
+        </div>
+    </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
