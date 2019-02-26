@@ -180,23 +180,6 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-/**
- * Concatenates incident location address object into location string. This will ignore null
- *  or undefined address fields
- * @param {Object} incidentLocation location address with city, state, country, and additional details
- * @returns {String} incident location string
- */
-export function concatIncidentLocationString(incidentLocation) {
-  return [
-    incidentLocation.city,
-    incidentLocation.state,
-    incidentLocation.country,
-    incidentLocation.additionalDetails,
-  ]
-    .filter(locationField => locationField)
-    .join(', ');
-}
-
 export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
@@ -394,9 +377,6 @@ export function transform(formConfig, form) {
       .map(incidentKey => ({
         ...clonedData[incidentKey],
         personalAssault: incidentKey.includes('secondary'),
-        incidentLocation: concatIncidentLocationString(
-          clonedData[incidentKey].incidentLocation,
-        ),
       }));
     incidentKeys.forEach(incidentKey => {
       delete clonedData[incidentKey];

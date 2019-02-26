@@ -11,7 +11,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   Auth.logIn(
     token,
     client,
-    '/disability-benefits/apply/form-526-all-claims/',
+    '/disability/file-disability-claim-form-21-526ez/',
     3,
   );
 

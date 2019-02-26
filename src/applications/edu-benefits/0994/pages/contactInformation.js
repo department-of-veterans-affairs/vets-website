@@ -39,7 +39,7 @@ const addressUiSchema = addressUISchema(
 const address = addressSchema(fullSchema, true);
 
 export const uiSchema = {
-  'ui:title': 'Contact Information',
+  'ui:title': 'Contact information',
   'ui:description': contactInfoDescription,
   'view:phoneAndEmail': {
     'ui:title': 'Phone & email',

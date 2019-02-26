@@ -1,5 +1,5 @@
 export const formBenefits = {
-  '21-526EZ': 'increased disability compensation',
+  '21-526EZ': 'disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
   '21P-530': 'burial benefits',
   '1010ez': 'health care benefits',
@@ -55,7 +55,8 @@ export const formLinks = {
   '21P-530': '/burials-and-memorials/application/530/',
   '1010ez': '/health-care/apply/application/',
   '22-0993': '/education/opt-out-information-sharing/opt-out-form-0993/',
-  '22-0994': '/education/apply-for-education-benefits/application/0994/',
+  '22-0994':
+    '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994/',
   '22-1990': '/education/apply-for-education-benefits/application/1990/',
   '22-1990E': '/education/apply-for-education-benefits/application/1990E/',
   '22-1990N': '/education/apply-for-education-benefits/application/1990N/',
