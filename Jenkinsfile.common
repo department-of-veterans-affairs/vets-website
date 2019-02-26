@@ -86,6 +86,7 @@ def setup(String dockerTag, String dockerArgs) {
       dockerImage = docker.build(dockerTag)
       retry(5) {
         dockerImage.inside(dockerArgs) {
+					sh "ls -la && whoami && pwd"
           sh "cd /application && yarn install --production=false"
         }
       }
