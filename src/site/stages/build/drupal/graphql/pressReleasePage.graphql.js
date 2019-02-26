@@ -4,7 +4,7 @@
  */
 
 module.exports = `
-  fragment pressRelease on NodePressRelease {
+  fragment pressReleasePage on NodePressRelease {
     entityId
     entityBundle
     entityPublished
