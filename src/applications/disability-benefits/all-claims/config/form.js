@@ -3,6 +3,8 @@ import environment from '../../../../platform/utilities/environment';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import services from 'platform/monitoring/DowntimeNotification/config/externalServices';
+
 import submitFormFor from './submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -118,6 +120,9 @@ const formConfig = {
   }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
+  downtime: {
+    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+  },
   formId: '21-526EZ',
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
