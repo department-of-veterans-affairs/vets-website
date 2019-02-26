@@ -4,7 +4,7 @@
  */
 
 module.exports = `
-  fragment newsStory on NodeNewsStory {
+  fragment newsStoryPage on NodeNewsStory {
     entityId
     entityBundle
     entityPublished

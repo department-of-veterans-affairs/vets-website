@@ -27,7 +27,7 @@ module.exports = `
         ... landingPage
         ... page
         ... healthCareRegionPage
-        ... newsStory
+        ... newsStoryPage
       }
     }
     ${sidebarQuery}
