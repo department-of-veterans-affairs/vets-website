@@ -1,5 +1,5 @@
 import React from 'react';
-import PhoneNumberWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+import PhoneNumberWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 export default function PhoneView({ data: phoneData }) {
   const phoneNumber = (

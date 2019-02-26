@@ -1,5 +1,5 @@
 import { isValidYear } from '../validations';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { incomeDescription } from '../content/incomeDetails';

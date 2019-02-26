@@ -2,18 +2,18 @@ import React from 'react';
 import { get, omit, merge } from 'lodash/fp';
 import Raven from 'raven-js';
 
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import TextWidget from 'us-forms-system/lib/js/widgets/TextWidget';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
 import {
   stringifyFormReplacer,
   filterViewFields,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import environment from '../../../platform/utilities/environment';
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -341,6 +341,9 @@ export const serviceRecordsUI = {
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
+    'ui:options': {
+      ariaLabelForEditButtonOnReview: 'Service Period',
+    },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,

@@ -11,7 +11,7 @@ import {
   getActivePages,
   expandArrayPages,
   createFormPageList,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
 import { isValidDate } from 'platform/forms/validations';
 
