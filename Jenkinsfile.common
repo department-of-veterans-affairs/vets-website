@@ -85,7 +85,7 @@ def setup(String dockerTag, String dockerArgs) {
       dockerImage = docker.build(dockerTag)
       retry(5) {
         dockerImage.inside(dockerArgs) {
-					sh "cd /application && ls -la"
+					sh "cd /application && ls -la && chown jenkins:jenkins /application"
           sh "cd /application && yarn install --production=false"
         }
       }
