@@ -2,7 +2,7 @@ import React from 'react';
 
 import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 import facilityLocator from '../../facility-locator/manifest';

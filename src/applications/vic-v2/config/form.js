@@ -15,13 +15,13 @@ import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import * as addressDefinition from '../definitions/address';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { validateMatch } from 'us-forms-system/lib/js/validation';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
 import validateFile from '../validation';
 
 const {

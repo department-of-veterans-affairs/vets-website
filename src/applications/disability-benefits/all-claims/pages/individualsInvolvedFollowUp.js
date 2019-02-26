@@ -7,7 +7,7 @@ import {
 import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 const {
   personsInvolved,

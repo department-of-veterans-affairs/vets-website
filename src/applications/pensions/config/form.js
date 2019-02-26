@@ -44,7 +44,7 @@ import DisabilityField from '../components/DisabilityField';
 import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -55,16 +55,16 @@ import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import createNonRequiredFullName from '../../../platform/forms/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import {
   validateServiceBirthDates,

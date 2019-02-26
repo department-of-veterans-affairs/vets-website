@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';

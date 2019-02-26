@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { focusElement } from '../../../platform/utilities/ui';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 

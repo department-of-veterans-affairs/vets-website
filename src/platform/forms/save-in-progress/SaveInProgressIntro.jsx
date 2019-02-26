@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { getNextPagePath } from 'us-forms-system/lib/js/routing';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import _ from 'platform/utilities/data';
 
 import {
