@@ -15,6 +15,7 @@ export const APPEAL_ACTIONS = {
   postCavcRemand: 'post_cavc_remand',
   reconsideration: 'reconsideration',
   cue: 'cue',
+  other: 'other',
 };
 
 export const APPEAL_TYPES = {
