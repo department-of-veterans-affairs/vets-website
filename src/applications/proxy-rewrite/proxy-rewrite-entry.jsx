@@ -1,6 +1,7 @@
 import '../../platform/polyfills';
 import cookie from 'cookie';
 import createCommonStore from '../../platform/startup/store';
+import environment from '../../platform/utilities/environment';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
@@ -74,7 +75,7 @@ function renderFooter() {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(() => {
+  startVAFooter(null, () => {
     addOverlayTriggers();
     addFocusBehaviorToCrisisLineModal();
 
@@ -118,14 +119,27 @@ function mountReactComponents(commonStore) {
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
-  startUserNavWidget(commonStore);
-  const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
-  startMegaMenuWidget(commonStore, MEGAMENU_CONFIG);
-  startMobileMenuButton(commonStore);
-  // startLRNHealthCarWidget(commonStore);
-  startFeedbackWidget(commonStore);
-  // startAnnouncementWidget(commonStore);
-  renderFooter();
+  fetch(`${environment.BASE_URL}/generated/headerFooter.json`)
+    .then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      }
+
+      throw new Error(
+        `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+          resp.statusText
+        }`,
+      );
+    })
+    .then(data => {
+      startUserNavWidget(commonStore);
+      startMegaMenuWidget(data.megaMenuData, commonStore);
+      startMobileMenuButton(commonStore);
+      // startLRNHealthCarWidget(commonStore);
+      startFeedbackWidget(commonStore);
+      // startAnnouncementWidget(commonStore);
+      renderFooter(data.footerData);
+    });
 }
 
 function activateInjectedAssets() {

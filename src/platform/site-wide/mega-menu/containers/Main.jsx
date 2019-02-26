@@ -118,7 +118,7 @@ const mainSelector = createSelector(
 const mapStateToProps = (state, ownProps) =>
   mainSelector({
     state,
-    megaMenuData: ownProps.megaMenuData || window.VetsGov.megaMenuData,
+    megaMenuData: ownProps.megaMenuData,
   });
 
 const mapDispatchToProps = {

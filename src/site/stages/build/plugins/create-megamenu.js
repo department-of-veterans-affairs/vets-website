@@ -2,10 +2,11 @@ const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
 
+const footerData = require('../../../../platform/static-data/footer-links.json');
+
 const { applyFragments } = require('./apply-fragments');
 
 const MEGAMENU_DATA_SOURCE_FILENAME = 'megamenu/index.yml';
-const MEGAMENU_CACHE_FILENAME = 'megamenu.json';
 
 function replaceWithDrupalLinks(data, files) {
   let current = data;
@@ -38,16 +39,6 @@ function replaceWithDrupalLinks(data, files) {
 
   return current;
 }
-function writeToCache(buildOptions, megaMenuData) {
-  const megamenuDataCacheFileName = path.join(
-    buildOptions.cacheDirectory,
-    MEGAMENU_CACHE_FILENAME,
-  );
-  const serialized = JSON.stringify(megaMenuData, null, 4);
-
-  fs.ensureDirSync(buildOptions.cacheDirectory);
-  fs.writeFileSync(megamenuDataCacheFileName, serialized);
-}
 
 function createMegaMenuData(buildOptions) {
   return (files, metalsmith, done) => {
@@ -72,20 +63,23 @@ function createMegaMenuData(buildOptions) {
     applyFragments(buildOptions, metalsmith, aboutVa.menuSections);
     delete aboutVa.menuSections.fragments;
 
-    writeToCache(buildOptions, megaMenuData);
+    const headerFooter = {
+      footerData,
+      megaMenuData,
+    };
 
-    const serialized = JSON.stringify(megaMenuData, null, 4);
+    const serialized = JSON.stringify(headerFooter, null, 4);
 
-    const drupalMenu = replaceWithDrupalLinks(megaMenuData, files);
+    const drupalMenu = replaceWithDrupalLinks(headerFooter, files);
     const drupalMenuSerialized = JSON.stringify(drupalMenu, null, 4);
 
     Object.keys(files).forEach(file => {
       if (files[file].isDrupalPage) {
         // eslint-disable-next-line no-param-reassign
-        files[file].megaMenuData = drupalMenuSerialized;
+        files[file].headerFooterData = drupalMenuSerialized;
       } else {
         // eslint-disable-next-line no-param-reassign
-        files[file].megaMenuData = serialized;
+        files[file].headerFooterData = serialized;
       }
     });
 
