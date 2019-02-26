@@ -96,7 +96,7 @@
                     </div>
                 {% endif %}
 
-                <article class="usa-content">
+                <article class="usa-content vads-l-facility-detail">
                     {% if title != empty %}
                         <h1>{{ title }}</h1>
                     {% endif %}
@@ -124,7 +124,7 @@
                         <h2>Our location</h2>
                         <!-- facility details from api -->
                         <div class="usa-width-one-half">
-
+                            <div class="cta-widget" data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape  }}"></div>
                         </div>
 
                         {% if fieldMedia.entity.image != empty %}
