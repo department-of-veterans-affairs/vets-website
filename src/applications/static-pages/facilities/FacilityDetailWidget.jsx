@@ -56,8 +56,7 @@ export default class FacilityDetailWidget extends React.Component {
     const hoursKeys = Object.keys(hours);
     const facilityHours = hoursKeys.map((day, index) => (
       <li key={index}>
-        {' '}
-        {day} : {hours[day]}{' '}
+        {day} : {hours[day]}
       </li>
     ));
 
