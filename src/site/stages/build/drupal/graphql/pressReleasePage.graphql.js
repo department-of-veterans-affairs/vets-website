@@ -81,9 +81,7 @@ module.exports = `
         }
         
         ...on MediaVideo {
-          vid
-          fieldMediaVideoEmbedField
-          fieldMediaInLibrary        
+          fieldMediaVideoEmbedField        
         }
         
       }

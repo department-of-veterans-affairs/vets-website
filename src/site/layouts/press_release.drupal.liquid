@@ -104,7 +104,7 @@
                     <p>PRESS RELEASE</p>
                     <p>{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
                     <div>
-                        <button type="button" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</button>
+                        <a href="#" class="vads-u-margin-right--4" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</a>
                         {% if fieldPdfVersion != empty %}
                             <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download"></i> Download a PDF version</a>
                         {% endif %}
@@ -133,6 +133,9 @@
                             {% endif %}
                             {% if a.entityBundle === 'image' %}
                                 <p><a href="{{ a.image.url }}" download>{{ a.name }}</a></p>
+                            {% endif %}
+                            {% if a.entityBundle === 'video' %}
+                                <p><a href="{{ a.fieldMediaVideoEmbedField }}" target="_blank">{{ a.name }}</a></p>
                             {% endif %}
                         </div>
                     {% endfor %}
