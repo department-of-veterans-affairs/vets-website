@@ -53,7 +53,7 @@ def runDeploy(jobName, ref) {
 }
 
 def buildDetails(String buildtype, String ref) {
-	return """\
+  return """\
 BUILDTYPE=${buildtype}
 NODE_ENV=production
 BRANCH_NAME=${env.BRANCH_NAME}
@@ -75,9 +75,6 @@ def slackNotify() {
 
 def setup(String ref, String dockerTag, String dockerArgs) {
   stage("Setup") {
-    dir("vets-website") {
-      checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
-    }
 
     dir("vagov-content") {
       checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
@@ -100,7 +97,7 @@ def build(String ref, String dockerTag, String dockerArgs) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-				def buildDetails = buildDetails(envName, ref)
+        def buildDetails = buildDetails(envName, ref)
         builds[envName] = {
           docker.image(dockerTag).inside(dockerArgs) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
