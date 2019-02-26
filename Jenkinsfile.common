@@ -85,7 +85,7 @@ def setup(String dockerTag, String dockerArgs) {
       dockerImage = docker.build(dockerTag)
       retry(5) {
         dockerImage.inside(dockerArgs) {
-          sh "cd /home/jenkins/application && yarn install --production=false"
+          sh "cd /application && yarn install --production=false"
         }
       }
     }
@@ -103,8 +103,8 @@ def build(String ref, String dockerTag, String dockerArgs) {
         def buildDetails = buildDetails(envName, ref)
         builds[envName] = {
           docker.image(dockerTag).inside(dockerArgs) {
-            sh "cd /home/jenkins/application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
-            sh "cd /home/jenkins/application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+            sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
+            sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
         }
       }
