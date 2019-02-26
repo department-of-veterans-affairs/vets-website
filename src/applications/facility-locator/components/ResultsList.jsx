@@ -7,6 +7,7 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import { distBetween } from '../utils/facilityDistance';
 
 class ResultsList extends Component {
   handlePageSelect = page => {
@@ -44,6 +45,23 @@ class ResultsList extends Component {
         </div>
       );
     }
+   
+   const currentLocation = currentQuery.position;
+
+   const sortedResults = results.map(result => {
+     const distance = (currentLocation)
+       ? distBetween(
+         currentLocation.latitude,
+         currentLocation.longitude,
+         result.attributes.lat,
+         result.attributes.long,
+       )
+       : null;
+     return { ...result, distance };
+
+   }).sort((resultA, resultB) => {
+     return resultA.distance - resultB.distance
+   })
 
     return (
       <div>
@@ -51,7 +69,7 @@ class ResultsList extends Component {
           Search results near <strong>“{currentQuery.context}”</strong>
         </p>
         <div>
-          {results.map(r => {
+          {sortedResults.map(r => {
             /* eslint-disable prettier/prettier */
             return isMobile ? (
               <div key={r.id} className="mobile-search-result">
@@ -76,6 +94,7 @@ class ResultsList extends Component {
 ResultsList.propTypes = {
   results: PropTypes.array,
   isMobile: PropTypes.bool,
+
 };
 
 function mapDispatchToProps(dispatch) {

@@ -6,19 +6,15 @@ import { LocationType } from '../../constants';
 import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
+import SearchResult from '../../components/SearchResult';
+// import { sortedResults } from '../../components/ResultsList';
+
 
 const LocationInfoBlock = ({ location, currentLocation }) => {
   const { name } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   // eslint-disable-next-line prettier/prettier
-  const distance = (currentLocation)
-    ? distBetween(
-        currentLocation.latitude,
-        currentLocation.longitude,
-        location.attributes.lat,
-        location.attributes.long,
-      )
-    : null;
+  const distance = location.distance;
 
   return (
     <div>
@@ -55,5 +51,4 @@ const LocationInfoBlock = ({ location, currentLocation }) => {
 LocationInfoBlock.propTypes = {
   location: PropTypes.object,
 };
-
 export default LocationInfoBlock;
