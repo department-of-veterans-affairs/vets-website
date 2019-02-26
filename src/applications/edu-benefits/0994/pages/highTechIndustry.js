@@ -1,5 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
+import { highTechIndustryDescription } from '../content/highTechIndustry';
 
 const {
   currentHighTechnologyEmployment,
@@ -8,14 +9,15 @@ const {
 } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:description':
-    'To give us an idea of your experience in the high-tech industry, please tell us about your work history',
+  'ui:description': highTechIndustryDescription,
   currentHighTechnologyEmployment: {
-    'ui:title': 'Are you working in a high-tech field now?',
+    'ui:title':
+      'Are you working in one, or more, of these high-tech industries now?',
     'ui:widget': 'yesNo',
   },
   pastHighTechnologyEmployment: {
-    'ui:title': 'Have you worked in a high-tech industry in the past?',
+    'ui:title':
+      'Have you worked in any of these high-tech industries in the past?',
     'ui:widget': 'yesNo',
     'ui:options': {
       expandUnder: 'currentHighTechnologyEmployment',
@@ -40,9 +42,9 @@ export const uiSchema = {
       'ui:options': {
         labels: {
           lessThanTwenty: 'Less than $20,000',
-          twentyToThirtyFive: '$20,000 - $35,000',
-          thirtyFiveToFifty: '$35,000 - $50,000',
-          fiftyToSeventyFive: '$50,000 - $75,000',
+          twentyToThirtyFive: '$20,000-$35,000',
+          thirtyFiveToFifty: '$35,000-$50,000',
+          fiftyToSeventyFive: '$50,000-$75,000',
           moreThanSeventyFive: 'More than $75,000',
         },
       },
@@ -51,22 +53,22 @@ export const uiSchema = {
       'ui:description':
         'Which option(s) best describe your high-tech work experience? Check all that apply.',
       computerProgramming: {
-        'ui:title': 'Computer Programming',
+        'ui:title': 'Computer programming',
       },
       dataProcessing: {
-        'ui:title': 'Data Processing',
+        'ui:title': 'Data processing',
       },
       computerSoftware: {
-        'ui:title': 'Computer Software',
+        'ui:title': 'Computer software',
       },
       informationSciences: {
-        'ui:title': 'Information Sciences',
+        'ui:title': 'Information sciences',
       },
       mediaApplication: {
-        'ui:title': 'Media Application',
+        'ui:title': 'Media application',
       },
       noneApply: {
-        'ui:title': 'None of these apply',
+        'ui:title': 'None of these',
       },
     },
   },

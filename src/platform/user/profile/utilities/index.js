@@ -122,12 +122,28 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
+function compareLoginPolicy(loginPolicy) {
+  let attemptedLoginPolicy = sessionStorage.getItem(
+    authnSettings.PENDING_LOGIN_TYPE,
+  );
+
+  attemptedLoginPolicy =
+    attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
+
+  if (loginPolicy !== attemptedLoginPolicy) {
+    recordEvent({
+      event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
+    });
+  }
+}
+
 export function setupProfileSession(payload) {
   localStorage.setItem('hasSession', true);
   const userData = get('data.attributes.profile', payload, {});
   const { firstName, signIn, loa } = userData;
 
-  const loginPolicy = get('serviceName', signIn, 'idme');
+  const loginPolicy = get('serviceName', signIn, null);
+  compareLoginPolicy(loginPolicy);
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
