@@ -201,12 +201,13 @@ label {
   }
 }
 
+.schemaform-array-row-title:focus {
+  @include focus-gold-light-outline;
+  display: inline-block;
+}
+
 .schemaform-array-row {
   outline: none;
-  schemaform-array-row-title:focus {
-    @include focus-gold-light-outline;
-    display: inline-block;
-  }
 }
 
 .schemaform-block-header {
