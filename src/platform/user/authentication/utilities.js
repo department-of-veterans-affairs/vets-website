@@ -1,4 +1,5 @@
 import appendQuery from 'append-query';
+import Raven from 'raven-js';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
@@ -6,6 +7,7 @@ import environment from '../../utilities/environment';
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
   REGISTRATION_PENDING: 'registrationPending',
+  PENDING_LOGIN_TYPE: 'pendingLoginType',
 };
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
@@ -29,15 +31,24 @@ const loginUrl = policy => {
   }
 };
 
+export function setRavenLoginType(loginType) {
+  Raven.setTagsContext({ loginType });
+}
+
+export function clearRavenLoginType() {
+  Raven.setTagsContext({ loginType: undefined });
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location.pathname);
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
   window.location = redirectUrl;
 }
 
 export function login(policy) {
   sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
+  sessionStorage.setItem(authnSettings.PENDING_LOGIN_TYPE, policy);
   return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
@@ -50,6 +61,7 @@ export function verify() {
 }
 
 export function logout() {
+  clearRavenLoginType();
   return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 

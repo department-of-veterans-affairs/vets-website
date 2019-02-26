@@ -1,9 +1,21 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
+import { recordEventOnce } from '../utils';
+
+const {
+  openedPrivateRecordsAcknowledgment,
+  openedPrivateChoiceHelp,
+} = ANALYTICS_EVENTS;
 
 export const privateRecordsChoiceHelp = (
   <div className="private-records-choice-help">
-    <AdditionalInfo triggerText="Which should I choose?">
+    <AdditionalInfo
+      triggerText="Which should I choose?"
+      onClick={() =>
+        recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
+      }
+    >
       <h4>You upload your medical records</h4>
       <p>
         If you upload a digital copy of all your medical records, we can review
@@ -24,7 +36,15 @@ export const privateRecordsChoiceHelp = (
 
 export const patientAcknowledgmentText = (
   <div className="patient-acknowldegment-help">
-    <AdditionalInfo triggerText="Read the full text.">
+    <AdditionalInfo
+      triggerText="Read the full text."
+      onClick={() =>
+        recordEventOnce(
+          openedPrivateRecordsAcknowledgment,
+          HELP_TEXT_CLICKED_EVENT,
+        )
+      }
+    >
       <h4>Patient Authorization:</h4>
       <p>
         I voluntarily authorize and request disclosure (including paper, oral,

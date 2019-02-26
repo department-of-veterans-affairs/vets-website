@@ -634,3 +634,13 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 0;
   margin-bottom: 1em;
 }
+
+// highlighted outlines for accessibility
+[role=button]:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #f9c642;
+  outline-offset: 2px;
+}

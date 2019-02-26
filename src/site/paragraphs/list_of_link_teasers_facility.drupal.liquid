@@ -1,0 +1,38 @@
+{% comment %}
+    Example data:
+    {
+        "fieldTitle":"Related links",
+        "fieldVaParagraphs":[...]
+    }
+{% endcomment %}
+{% if paragraph != empty %}
+<div>
+    <h2>
+        {{ paragraph.fieldTitle }}
+    </h2>
+    <div>
+    {% assign even = true %}
+    {% for linkTeaser in paragraph.fieldVaParagraphs %}
+        {% if even %}
+        <div class="usa-grid">
+        {% endif %}
+        <div class="usa-width-one-half">
+            <a href="{{linkTeaser.entity.fieldLink.uri}}">
+                {{ linkTeaser.entity.fieldLink.title }}
+            </a>
+        </div>
+        {% if !even %}
+        </div>
+        {% endif %}
+        {% if even %}
+            {% assign even = false %}
+        {% else %}
+            {% assign even = true %}
+        {% endif %}
+    {% endfor %}
+    {% if !even %}
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endif %}

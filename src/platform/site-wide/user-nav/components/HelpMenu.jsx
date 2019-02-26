@@ -57,7 +57,7 @@ class HelpMenu extends React.Component {
         buttonText={buttonText}
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}
-        id="helpmenu"
+        id="help-menu"
         icon={icon}
         isOpen={this.props.isOpen}
       >

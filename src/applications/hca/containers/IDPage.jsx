@@ -8,7 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
+import { isProfileLoading } from 'platform/user/selectors';
 
 import IDForm from '../components/IDForm';
 
@@ -19,9 +19,9 @@ class IDPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     // there's no need for logged-in users to see this page
-    if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
+    if (this.props.shouldHideIDForm) {
       this.props.router.push('/');
     }
   }
@@ -30,8 +30,8 @@ class IDPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for health care benefits" />
-        {this.props.isProfileLoading && <LoadingIndicator />}
-        {!this.props.isProfileLoading && (
+        {this.props.showLoadingIndicator && <LoadingIndicator />}
+        {!this.props.showLoadingIndicator && (
           <React.Fragment>
             <AlertBox
               isVisible
@@ -59,31 +59,34 @@ class IDPage extends React.Component {
             />
             <br />
             <IDForm
-              isLoading={this.props.isLoading}
-              handleSubmit={this.props.submitForm}
+              isLoading={this.props.isSubmittingIDForm}
+              handleSubmit={this.props.submitIDForm}
             />
             {this.props.error && (
-              <AlertBox
-                isVisible
-                status="error"
-                headline="Please sign in to continue your application"
-                content={
-                  <React.Fragment>
-                    <p>
-                      We’re sorry for the interruption, but we need you to
-                      review some information before you continue applying.
-                      Please sign in below to review. If you don’t have an
-                      account, you can create one now.
-                    </p>
-                    <button
-                      className="usa-button-primary"
-                      onClick={this.goToLogin}
-                    >
-                      Sign in to VA.gov
-                    </button>
-                  </React.Fragment>
-                }
-              />
+              <React.Fragment>
+                <AlertBox
+                  isVisible
+                  status="error"
+                  headline="Please sign in to continue your application"
+                  content={
+                    <React.Fragment>
+                      <p>
+                        We’re sorry for the interruption, but we need you to
+                        review some information before you continue applying.
+                        Please sign in below to review. If you don’t have an
+                        account, you can create one now.
+                      </p>
+                      <button
+                        className="usa-button-primary"
+                        onClick={() => this.props.toggleLoginModal(true)}
+                      >
+                        Sign in to VA.gov
+                      </button>
+                    </React.Fragment>
+                  }
+                />
+                <br />
+              </React.Fragment>
             )}
           </React.Fragment>
         )}
@@ -96,15 +99,15 @@ class IDPage extends React.Component {
 }
 
 const mapDispatchToProps = {
-  submitForm: submitIDForm,
+  submitIDForm,
   toggleLoginModal,
 };
 
 const mapStateToProps = state => ({
-  isLoading: state.hcaIDForm.isLoading,
+  shouldHideIDForm: state.hcaIDForm.shouldHideIDForm,
+  showLoadingIndicator: isProfileLoading(state),
+  isSubmittingIDForm: state.hcaIDForm.isSubmitting,
   error: state.hcaIDForm.error,
-  isProfileLoading: isProfileLoading(state),
-  isLoggedIn: isLoggedIn(state),
 });
 
 export default connect(

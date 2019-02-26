@@ -39,6 +39,7 @@ import {
 } from '../pages/reservesNationalGuardService';
 
 import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
+import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   transform,
@@ -129,6 +130,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
+  formSavedPage: FormSavedPage,
   transformForSubmit: transform,
   submit: submitForm,
   introduction: IntroductionPage,

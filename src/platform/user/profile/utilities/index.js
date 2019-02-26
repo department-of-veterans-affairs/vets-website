@@ -1,7 +1,11 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
-import { authnSettings } from '../../authentication/utilities';
+import {
+  authnSettings,
+  setRavenLoginType,
+  clearRavenLoginType,
+} from '../../authentication/utilities';
 import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
 
@@ -118,12 +122,28 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
+function compareLoginPolicy(loginPolicy) {
+  let attemptedLoginPolicy = sessionStorage.getItem(
+    authnSettings.PENDING_LOGIN_TYPE,
+  );
+
+  attemptedLoginPolicy =
+    attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
+
+  if (loginPolicy !== attemptedLoginPolicy) {
+    recordEvent({
+      event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
+    });
+  }
+}
+
 export function setupProfileSession(payload) {
   localStorage.setItem('hasSession', true);
   const userData = get('data.attributes.profile', payload, {});
   const { firstName, signIn, loa } = userData;
 
-  const loginPolicy = get('serviceName', signIn, 'idme');
+  const loginPolicy = get('serviceName', signIn, null);
+  compareLoginPolicy(loginPolicy);
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
@@ -137,6 +157,11 @@ export function setupProfileSession(payload) {
     // Report GA success event for the login method.
     recordEvent({ event: `login-success-${loginPolicy}` });
   }
+
+  sessionStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
+
+  // Set Sentry Tag so we can associate errors with the login policy
+  setRavenLoginType(loginPolicy);
 
   // Report out the current level of assurance for the user.
   if (loa && loa.current) {
@@ -152,4 +177,6 @@ export function teardownProfileSession() {
   for (const key of sessionKeys) {
     localStorage.removeItem(key);
   }
+
+  clearRavenLoginType();
 }

@@ -32,12 +32,7 @@ span.sidelines {
   }
 }
 
-#login-root {
-  .profile-nav {
-    display: flex;
-    align-items: center;
-  }
-
+#signin-signup-modal {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
@@ -52,9 +47,20 @@ span.sidelines {
     max-width: 62.5em;
     width: 95vw;
   }
+}
+
+#login-root {
+  .profile-nav {
+    display: flex;
+    align-items: center;
+  }
 
   .login {
     .explanation-content {
+      @include media($medium-large-screen) {
+        margin-left: 2em;
+      }
+
       ul {
         list-style: square;
         padding-left: 1.5em;
@@ -151,18 +157,6 @@ span.sidelines {
     border-color: $color-gray-lighter;
   }
 
-  @include media-maxwidth($small-screen) {
-    .hide-for-small {
-      display: none;
-    }
-  }
-
-  @include media($small-screen) {
-    .hide-for-medium-up {
-      display: none;
-    }
-  }
-
   .mobile-explanation {
     padding: 1em 0;
 
@@ -182,7 +176,6 @@ span.sidelines {
 
   .signin-actions-container {
     text-align: center;
-    margin-right: 2em;
 
     @include media-maxwidth($small-screen) {
       margin-right: 0;
@@ -273,4 +266,8 @@ span.sidelines {
 .sign-in-spacer {
   color: $color-white;
   margin: 0 0.6em;
+}
+
+#help-menu {
+  width: 21rem;
 }

@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import { expect } from 'chai';
 
 import _ from '../../../../platform/utilities/data';
@@ -7,21 +10,12 @@ import formConfig from '../config/form';
 import {
   transform,
   transformRelatedDisabilities,
-  concatIncidentLocationString,
   getFlatIncidentKeys,
   getPtsdChangeText,
   setActionTypes,
 } from '../submit-transformer';
 
-import {
-  transformedMinimalData,
-  transformedMaximalData,
-  transformedMinimalPtsdFormUploadData,
-} from './schema/transformedData';
-
-import minimalData from './schema/minimal-test.json';
-import maximalData from './schema/maximal-test.json';
-import minimalPtsdFormUploadData from './schema/minimal-ptsd-form-upload-test.json';
+import maximalData from './data/maximal-test.json';
 
 import {
   PTSD_INCIDENT_ITERATION,
@@ -30,21 +24,36 @@ import {
 } from '../constants';
 
 describe('transform', () => {
-  it('should transform minimal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
-      transformedMinimalData,
-    );
-  });
-  it('should transform maximal data correctly', () => {
-    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
-      transformedMaximalData,
-    );
-  });
-  it('should transform ptsd form upload data correctly', () => {
-    expect(
-      JSON.parse(transform(formConfig, minimalPtsdFormUploadData)),
-    ).to.deep.equal(transformedMinimalPtsdFormUploadData);
-  });
+  // Read all the data files
+  const dataDir = path.join(__dirname, './data/');
+  fs.readdirSync(dataDir)
+    .filter(fileName => fileName.endsWith('.json'))
+    .forEach(fileName => {
+      // Loop through them
+      it(`should transform ${fileName} correctly`, () => {
+        const rawData = JSON.parse(
+          fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
+        );
+        let transformedData;
+        try {
+          transformedData = fs.readFileSync(
+            path.join(dataDir, 'transformed-data', fileName),
+            'utf8',
+          );
+        } catch (e) {
+          // Show the contents of the transformed data so we can make a file for it
+          // eslint-disable-next-line no-console
+          console.error(
+            `Transformed ${fileName}:`,
+            transform(formConfig, rawData),
+          );
+          throw new Error(`Could not find transformed data for ${fileName}`);
+        }
+        expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
+          JSON.parse(transformedData),
+        );
+      });
+    });
 });
 
 describe('transformRelatedDisabilities', () => {
@@ -75,29 +84,6 @@ describe('transformRelatedDisabilities', () => {
 describe('getFlatIncidentKeys', () => {
   it('should return correct amount of incident keys', () => {
     expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
-  });
-});
-
-describe('concatIncidentLocationString', () => {
-  it('should concat full address', () => {
-    const locationString = concatIncidentLocationString({
-      city: 'Test',
-      state: 'TN',
-      country: 'USA',
-      additionalDetails: 'details',
-    });
-
-    expect(locationString).to.eql('Test, TN, USA, details');
-  });
-
-  it('should handle null and undefined values', () => {
-    const locationString = concatIncidentLocationString({
-      city: 'Test',
-      state: null,
-      additionalDetails: 'details',
-    });
-
-    expect(locationString).to.eql('Test, details');
   });
 });
 

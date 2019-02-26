@@ -29,12 +29,12 @@
               <section class="usa-grid">
                 <div class="va-h-ruled--stars"></div>
               </section>
-              {% include "src/site/paragraphs/listOfLinkTeasers.drupal.liquid" with listOfLinkTeasers = spoke.entity parentFieldName = 'field_spokes' %}
+              {% include "src/site/paragraphs/list_of_link_teasers.drupal.liquid" with entity = spoke.entity parentFieldName = 'field_spokes' %}
             {% endfor %}
         {%  endif %}
         {% if fieldRelatedLinks != empty %}
           <section class="merger-majorlinks va-nav-linkslist va-nav-linkslist--related">
-            {% include 'src/site/paragraphs/listOfLinkTeasers.drupal.liquid' listOfLinkTeasers = fieldRelatedLinks.entity boldTitle = true %}
+            {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity boldTitle = true %}
           </section>
         {%  endif %}
 
