@@ -46,7 +46,7 @@ function updateAttr(attr, doc, client) {
       dest: newAssetPath,
     });
 
-    item.attr('src', `/${newAssetPath}`);
+    item.attr(attr, `/${newAssetPath}`);
   });
 
   return assetsToDownload;
