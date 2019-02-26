@@ -43,6 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('.facility-result a h5', Timeouts.normal)
     .click('.facility-result a h5')
+    .client.pause(99999)
     .waitForElementVisible('.facility-detail', Timeouts.slow);
 
   client.waitForElementVisible('a[aria-current="page"', Timeouts.normal);
