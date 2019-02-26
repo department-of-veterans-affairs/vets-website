@@ -102,7 +102,7 @@
                 <section class="vads-u-margin-bottom--5">
                     <h1>{{ title }}</h1>
                     <p>PRESS RELEASE</p>
-                    <p>{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
+                    <p class="vads-u-font-weight--bold">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
                     <div>
                         <a href="#" class="vads-u-margin-right--4" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</a>
                         {% if fieldPdfVersion != empty %}
@@ -124,18 +124,18 @@
                     {% endfor %}
                 </section>
                 <section class="vads-u-margin-bottom--5">
-                    <div class="vads-u-font-weight--bold">Download media assets</div>
+                    <div class="vads-u-font-weight--bold vads-u-margin-bottom--1p5">Download media assets</div>
                     {% for asset in fieldPressReleaseDownloads %}
                         {% assign a = asset.entity %}
-                        <div>
+                        <div class="vads-u-margin-bottom--1">
                             {% if a.entityBundle === 'document' %}
-                                <p><a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a></p>
+                                <a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a>
                             {% endif %}
                             {% if a.entityBundle === 'image' %}
-                                <p><a href="{{ a.image.url }}" download>{{ a.name }}</a></p>
+                                <a href="{{ a.image.url }}" download>{{ a.name }}</a>
                             {% endif %}
                             {% if a.entityBundle === 'video' %}
-                                <p><a href="{{ a.fieldMediaVideoEmbedField }}" target="_blank">{{ a.name }}</a></p>
+                                <a href="{{ a.fieldMediaVideoEmbedField }}" target="_blank">{{ a.name }}</a>
                             {% endif %}
                         </div>
                     {% endfor %}
