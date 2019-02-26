@@ -838,7 +838,7 @@ export const EVENT_TYPES = {
   transcript: 'transcript',
   bvaDecision: 'bva_decision',
   cavcDecision: 'cavc_decision',
-  remandReturn: 'remandReturn',
+  remandReturn: 'remand_return',
   rampNotice: 'ramp_notice',
   fieldGrant: 'field_grant',
   withdrawn: 'withdrawn',
