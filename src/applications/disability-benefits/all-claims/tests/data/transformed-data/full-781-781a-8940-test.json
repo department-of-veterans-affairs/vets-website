@@ -83,7 +83,12 @@
               "description": "And description."
             }
           ],
-          "incidentLocation": "asdf, AL, USA, Additional details here.",
+          "incidentLocation": {
+            "additionalDetails": "Additional details here.",
+            "city": "asdf",
+            "country": "USA",
+            "state": "AL"
+          },
           "unitAssigned": "Assignment name here",
           "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
           "incidentDate": "1900-01-01",
@@ -92,7 +97,11 @@
         },
         {
           "incidentDescription": "Another thing happened on the same day.",
-          "incidentLocation": "Bigcity, AK, USA",
+          "incidentLocation": {
+            "city": "Bigcity",
+            "country": "USA",
+            "state": "AK"
+          },
           "unitAssigned": "Unit name here",
           "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
           "incidentDate": "1900-01-01",
@@ -108,7 +117,12 @@
               "injuryDeathDate": "1900-01-01"
             }
           ],
-          "incidentLocation": "Asdf, AS, USA, No additional details to account for.",
+          "incidentLocation": {
+            "additionalDetails": "No additional details to account for.",
+            "city": "Asdf",
+            "country": "USA",
+            "state": "AS"
+          },
           "unitAssigned": "Same unit",
           "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
           "incidentDate": "1900-03-01",
@@ -138,7 +152,12 @@
           ],
           "otherSources": true,
           "incidentDescription": "A thing happened.",
-          "incidentLocation": "asdf, AL, USA, This is some text. Elucidating, right?",
+          "incidentLocation": {
+            "additionalDetails": "This is some text. Elucidating, right?",
+            "city": "asdf",
+            "country": "USA",
+            "state": "AL"
+          },
           "unitAssigned": "Unit name here",
           "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
           "incidentDate": "1900-01-01",
@@ -147,7 +166,12 @@
         {
           "otherSources": false,
           "incidentDescription": "This is a lot of test data.",
-          "incidentLocation": "asdf, OH, USA, Stuff goes here.",
+          "incidentLocation": {
+            "additionalDetails": "Stuff goes here.",
+            "city": "asdf",
+            "country": "USA",
+            "state": "OH"
+          },
           "unitAssigned": "Unit name",
           "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
           "incidentDate": "1900-02-01",
@@ -156,7 +180,12 @@
         {
           "otherSources": false,
           "incidentDescription": "A thing happened.",
-          "incidentLocation": "asdf, AL, USA, I'm surprised you're reading this test data.",
+          "incidentLocation": {
+            "additionalDetails": "I'm surprised you're reading this test data.",
+            "city": "asdf",
+            "country": "USA",
+            "state": "AL"
+          },
           "unitAssigned": "Still the same",
           "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
           "incidentDate": "1900-01-01",
