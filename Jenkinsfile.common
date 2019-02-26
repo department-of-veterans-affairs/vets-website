@@ -81,8 +81,7 @@ def setup(String dockerTag, String dockerArgs) {
     }
     
 
-    dir("vets-website") {
-      
+    dir("vets-website") {     
       dockerImage = docker.build(dockerTag)
       retry(5) {
         dockerImage.inside(dockerArgs) {
