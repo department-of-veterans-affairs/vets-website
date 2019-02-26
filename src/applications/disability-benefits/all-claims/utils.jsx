@@ -9,7 +9,7 @@ import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import {
   validateMilitaryCity,
   validateMilitaryState,

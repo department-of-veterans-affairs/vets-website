@@ -1,8 +1,8 @@
 import set from '../../../../platform/utilities/data/set';
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
@@ -12,7 +12,7 @@ import {
   hasMonthYear,
 } from '../validations';
 import { USA } from '../constants';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const { vaTreatmentFacilities } = fullSchema.properties;
 

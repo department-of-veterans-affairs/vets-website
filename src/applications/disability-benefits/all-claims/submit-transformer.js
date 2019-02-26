@@ -2,7 +2,7 @@ import _ from '../../../platform/utilities/data';
 import {
   transformForSubmit,
   filterViewFields,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {

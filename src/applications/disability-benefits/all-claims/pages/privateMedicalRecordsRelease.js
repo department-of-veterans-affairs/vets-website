@@ -1,6 +1,6 @@
 import _ from '../../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {
   recordReleaseDescription,
   limitedConsentTitle,
@@ -9,7 +9,7 @@ import {
 } from '../content/privateMedicalRecordsRelease';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
-import { validateDate } from 'us-forms-system/lib/js/validation';
+import { validateDate } from 'platform/forms-system/src/js/validation';
 
 import { validateZIP } from '../validations';
 

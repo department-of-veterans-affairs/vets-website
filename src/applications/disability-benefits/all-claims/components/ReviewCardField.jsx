@@ -7,7 +7,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
+import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';

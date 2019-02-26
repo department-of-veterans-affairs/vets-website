@@ -236,8 +236,12 @@ class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast ? (
-                        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                        <h5 tabIndex="0" ref={this.handleNewItemTitleMounted}>
+                        <h5
+                          className="schemaform-array-row-title"
+                          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                          tabIndex="0"
+                          ref={this.handleNewItemTitleMounted}
+                        >
                           New {uiOptions.itemName || 'Item'}
                         </h5>
                       ) : null}

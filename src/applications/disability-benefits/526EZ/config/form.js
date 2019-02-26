@@ -7,10 +7,10 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import submitForm from '../../all-claims/config/submitForm';
 
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -85,9 +85,9 @@ import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 import { requireOneSelected, isInPast } from '../validations';
 import { hasMonthYear } from '../../all-claims/validations';
 
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 const {
   treatments,

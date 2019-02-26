@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import * as address from '../../../platform/forms/definitions/address';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 
 export default function createOldSchoolPage(schema) {
   const { trainingEndDate, reasonForChange } = schema.properties;

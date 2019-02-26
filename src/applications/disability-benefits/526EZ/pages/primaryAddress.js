@@ -3,9 +3,9 @@ import _ from 'lodash';
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
 
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import { ForwardingAddressViewField } from '../helpers';

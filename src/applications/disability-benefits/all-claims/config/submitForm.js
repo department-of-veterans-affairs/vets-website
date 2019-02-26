@@ -1,7 +1,7 @@
 import {
   transformForSubmit,
   recordEvent,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig) {
