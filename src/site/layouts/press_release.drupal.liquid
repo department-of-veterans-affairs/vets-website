@@ -101,8 +101,8 @@
             <article class="usa-content">
                 <section class="vads-u-margin-bottom--5">
                     <h1>{{ title }}</h1>
-                    <p>PRESS RELEASE</p>
-                    <p class="vads-u-font-weight--bold">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
+                    <p class="vads-u-margin-bottom--1">PRESS RELEASE</p>
+                    <p class="vads-u-font-weight--bold vads-u-margin-bottom--4 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
                     <div>
                         <a href="#" class="vads-u-margin-right--4" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</a>
                         {% if fieldPdfVersion != empty %}
