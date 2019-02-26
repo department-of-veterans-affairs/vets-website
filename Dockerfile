@@ -15,9 +15,8 @@ RUN apt-get update && apt-get install -y netcat \
   && npm install -g codeclimate-test-reporter \
   && chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
 
-RUN mkdir -p /application
-RUN chown jenkins:jenkins /application
+RUN mkdir -p /home/jenkins/application
 
-WORKDIR /application
+WORKDIR /home/jenkins/application
 
 USER jenkins
