@@ -1,5 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { recordEventOnce } from '../utils';
+import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 export const otherSourcesDescription = (
   <div>
@@ -18,7 +20,15 @@ export const otherSourcesDescription = (
 );
 
 export const otherSourcesHelpText = (
-  <AdditionalInfo triggerText="Which should I choose">
+  <AdditionalInfo
+    triggerText="Which should I choose"
+    onClick={() =>
+      recordEventOnce(
+        ANALYTICS_EVENTS.openedPtsd781aOtherSourcesHelp,
+        HELP_TEXT_CLICKED_EVENT,
+      )
+    }
+  >
     <h5>
       Choose "Yes" if you’d like help getting private medical treatment records
       or statements from military authorities
