@@ -10,7 +10,7 @@ node('vetsgov-general-purpose') {
 
   checkout scm // shoot
 
-  def buildUtil = load "Jenkinsfile.build";
+  def buildUtil = load "Jenkinsfile.common";
   def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
   def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   def cmsEnv = params.get('cmsEnv', 'none')

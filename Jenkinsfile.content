@@ -2,7 +2,7 @@ node('vetsgov-general-purpose') {
   def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
   def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
   def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-	def buildUtil = load "Jenkinsfile.build"
+	def buildUtil = load "Jenkinsfile.common"
 
   buildUtil.setup(ref, dockerTag, dockerArgs)
   buildUtil.build(ref)
