@@ -1,6 +1,12 @@
 import React from 'react';
 
+import environment from '../../../../platform/utilities/environment';
+
 export default function ConnectedAccountsSection() {
+  if (environment.isProduction()) {
+    return null;
+  }
+
   return (
     <div>
       <h3>Connected accounts</h3>
