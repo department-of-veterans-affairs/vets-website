@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const _ = require('lodash');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
 
@@ -37,6 +38,11 @@ const globalEntryFiles = {
 };
 
 const configGenerator = (buildOptions, apps) => {
+  // const entryFiles = _.pick(Object.assign({}, apps, globalEntryFiles), [
+  //   'proxy-rewrite',
+  //   'vendor',
+  //   'polyfills',
+  // ]);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [
     ENVIRONMENTS.VAGOVSTAGING,

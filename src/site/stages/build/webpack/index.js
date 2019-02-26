@@ -27,13 +27,13 @@ function getEntryPoints(buildOptions) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-function compileAssets(buildOptions, appList = null) {
+function compileAssets(buildOptions) {
   let compileMiddleware = null;
   let convertPathsMiddleware = null;
 
   return (files, metalsmith, done) => {
     if (!compileMiddleware) {
-      const apps = appList || getEntryPoints(buildOptions);
+      const apps = getEntryPoints(buildOptions);
       const webpackConfig = generateWebpackConfig(buildOptions, apps);
       compileMiddleware = webpackPlugin(webpackConfig);
       convertPathsMiddleware = convertPathsToRelative(buildOptions);
