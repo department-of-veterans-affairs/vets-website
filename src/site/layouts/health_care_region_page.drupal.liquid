@@ -125,7 +125,9 @@ Example data:
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
+      <h5>{{ title }}</h5>
+    </nav>
     <div class="usa-width-three-fourths">
       {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
@@ -138,16 +140,16 @@ Example data:
       <article class="usa-content">
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
-        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-        <div class="usa-grid usa-grid-full facility-main-cta">
+        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
+        <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
           <div class="usa-width-one-third facility-main-cta-item">
-            <a class="" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
+            <a href="{{ entityUrl.path }}/appointments">Make an appointment</a>
           </div>
           <div class="usa-width-one-third facility-main-cta-item">
-            <a class="" href="{{ entityUrl.path }}/">View A-Z Health Services</a>
+            <a href="{{ entityUrl.path }}/">View A-Z Health Services</a>
           </div>
           <div class="usa-width-one-third facility-main-cta-item">
-            <a class="" href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
+            <a href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
           </div>
         </div>
 
@@ -156,51 +158,62 @@ Example data:
         </div>
 
         <section>
-          <h3>Main Locations</h3>
-{% comment %}
-          <div class="cta-widget" data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
-{% endcomment %}
-          <button class="usa-button-secondary fa-chevron-right">
-            <a href="{{ entityUrl.path }}/locations">
-              See all locations
-            </a>
-          </button>
+          <h2>Main Locations</h2>
+          <div class="cta-widget" data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
+          <a class="usa-button usa-button-secondary" href="{{ entityUrl.path }}/locations">
+            See all locations <i class="fa fa-chevron-right">&nbsp;</i>
+          </a>
         </section>
 
         <!-- "Manage your health online" section -->
-        <section class="facility-hub-cta">
+        <section>
           <h3>Manage your health online</h3>
           <div class="usa-grid usa-grid-full">
-            <a href="#" class="usa-width-one-half hub-section-link">
-              Refill and track your prescriptions
+            <div class="usa-width-one-half facility-hub-cta-item">
+              <a href="https://www.va.gov/health-care/refill-track-prescriptions/">
+                <i class=" fa fa-prescription-bottle facility-hub-cta-item-circle">&nbsp;</i> <span>Refill and track your prescriptions <i class="fa fa-chevron-right facility-hub-cta-item-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+            <div class="usa-width-one-half facility-hub-cta-item">
+            <a href="https://www.va.gov/health-care/get-medical-records/">
+              <i class="fa fa-file-medical facility-hub-cta-item-circle">&nbsp;</i> <span>Download your VA medical records (Blue Button) <i class="fa fa-chevron-right facility-hub-cta-item-arrow">&nbsp;</i></span>
             </a>
-            <a href="#" class="usa-width-one-half hub-section-link">
-              Get you VA medical records (Blue Button)
-            </a>
+            </div>
           </div>
           <div class="usa-grid usa-grid-full">
-            <a href="#" class="usa-width-one-half hub-section-link">
-              Send a secure message to your health care team
-            </a>
-            <a href="#" class="usa-width-one-half hub-section-link">
-              View your lab and test results
-            </a>
+            <div class="usa-width-one-half facility-hub-cta-item">
+              <a href="https://www.va.gov/health-care/secure-messaging/">
+                <i class="fa fa-comments facility-hub-cta-item-circle">&nbsp;</i> <span>Send a secure message to your health care team <i class="fa fa-chevron-right facility-hub-cta-item-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+            <div class="usa-width-one-half facility-hub-cta-item">
+              
+              <a href="https://www.va.gov/health-care/view-test-and-lab-results/">
+                <i class="fa fa-clipboard-list facility-hub-cta-item-circle">&nbsp;</i> <span>View your lab and test results <i class="fa fa-chevron-right facility-hub-cta-item-arrow">&nbsp;</i></span>
+              </a>
+              
+            </div>
           </div>
           <div class="usa-grid usa-grid-full">
-            <a href="#" class="usa-width-one-half hub-section-link hub-section-link-last-line">
-              Schedule and view your appointments
-            </a>
-            <a href="#" class="usa-width-one-half hub-section-link hub-section-link-last-line">
-              Order hearing aid batteries and prosthetic socks
-            </a>
+            <div class="usa-width-one-half facility-hub-cta-item facility-hub-cta-item-last-line">
+              
+              <a href="https://www.va.gov/health-care/schedule-view-va-appointments/">
+                <i class="fa fa-calendar-check facility-hub-cta-item-circle">&nbsp;</i> <span>Schedule and view your appointments <i class="fa fa-chevron-right facility-hub-cta-item-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+            <div class="usa-width-one-half facility-hub-cta-item facility-hub-cta-item-last-line">
+              <a href="https://www.va.gov/health-care/order-hearing-aid-batteries-prosthetic-socks/">
+                <i class="fa fa-deaf facility-hub-cta-item-circle">&nbsp;</i> <span>Order hearing aid batteries and prosthetic socks <i class="fa fa-chevron-right facility-hub-cta-item-arrow">&nbsp;</i></span>
+              </a>
+            </div>
           </div>
         </section>
 
 
         <!-- List of links section -->
-        <section>
+        <div class="vads-u-margin-top--5">
           {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
-        </section>
+        </div>
 
           <!-- Stories -->
         <section>
@@ -208,11 +221,9 @@ Example data:
           {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
-          <button class="usa-button-secondary fa-chevron-right">
-            <a href="{{ entityUrl.path }}/news">
-              See all community stories
-            </a>
-          </button>
+          <a class="usa-button usa-button-secondary" href="{{ entityUrl.path }}/news">
+            See all community stories <i class="fa fa-chevron-right"></i>
+          </a>
         </section>
 
         <!-- Events -->
@@ -225,11 +236,9 @@ Example data:
             </div>
           {% endfor %}
           </div>
-          <button class="usa-button-secondary fa-chevron-right">
-            <a href="{{ entityUrl.path }}/events">
-              See all events
-            </a>
-          </button>
+          <a class="usa-button usa-button-secondary" href="{{ entityUrl.path }}/events">
+            See all events <i class="fa fa-chevron-right"></i>
+          </a>
         </section>
     </article>
     </div>

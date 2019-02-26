@@ -49,6 +49,7 @@ Example data:
   {% if header == empty %}
       {% assign header = "h4" %}
   {% endif %}
+  <div class="vads-u-margin-bottom--2">
   <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
   <p>{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
   <div class="usa-grid usa-grid-full">
@@ -78,6 +79,7 @@ Example data:
       <p><a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a> </p>
       <span>{{ node.fieldLocationHumanreadable }}</span>
     </div>
+  </div>
   </div>
 
 {% endif %}
