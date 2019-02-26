@@ -73,7 +73,7 @@ def slackNotify() {
   }
 }
 
-def setup(String ref, String dockerTag, String dockerArgs) {
+def setup(String dockerTag, String dockerArgs) {
   stage("Setup") {
 
     dir("vagov-content") {

@@ -22,7 +22,7 @@ node('vetsgov-general-purpose') {
   def dockerTag = "vets-website:" + imageTag
   
   // setupStage
-  buildUtil.setup(ref, dockerTag, dockerArgs)
+  buildUtil.setup(dockerTag, dockerArgs)
 
   stage('Lint|Security|Unit') {
     if (cmsEnv != 'none') { return }

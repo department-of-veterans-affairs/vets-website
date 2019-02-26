@@ -7,10 +7,10 @@ node('vetsgov-general-purpose') {
     buildUtil = load "Jenkinsfile.common"
   }
   
-  def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
+  def dockerArgs = "-v ${PWD}/vets-website:/application -v ${PWD}/vagov-content:/vagov-content"
   def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
-  buildUtil.setup(ref, dockerTag, dockerArgs)
+  buildUtil.setup(dockerTag, dockerArgs)
   buildUtil.build(ref)
   buildUtil.prearchive(dockerTag, dockerArgs)
 }
