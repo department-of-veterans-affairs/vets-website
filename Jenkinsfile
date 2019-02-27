@@ -22,7 +22,7 @@ node('vetsgov-general-purpose') {
   def dockerTag = "vets-website:" + imageTag
   
   // setupStage
-  buildUtil.setup(dockerTag, dockerArgs)
+  dockerImage = buildUtil.setup(dockerTag, dockerArgs)
 
   stage('Lint|Security|Unit') {
     if (cmsEnv != 'none') { return }
@@ -30,7 +30,7 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         lint: {
-          docker.image(dockerTag).inside(dockerArgs) {
+          dockerImage.inside(dockerArgs) {
             sh "cd /application && npm --no-color run lint"
           }
         },
@@ -38,14 +38,14 @@ node('vetsgov-general-purpose') {
         // Check package.json for known vulnerabilities
         security: {
           retry(3) {
-            docker.image(dockerTag).inside(dockerArgs) {
+            dockerImage.inside(dockerArgs) {
               sh "cd /application && npm run security-check"
             }
           }
         },
 
         unit: {
-          docker.image(dockerTag).inside(dockerArgs) {
+          dockerImage.inside(dockerArgs) {
             sh "cd /application && npm --no-color run test:coverage"
           }
         }
@@ -70,7 +70,7 @@ node('vetsgov-general-purpose') {
         def envName = buildUtil.VETSGOV_BUILDTYPES.get(i)
         def buildDetails = buildUtil.buildDetails(envName, ref)
         builds[envName] = {
-          docker.image(dockerTag).inside(dockerArgs) {
+          dockerImage.inside(dockerArgs) {
             sh "cd /application && npm --no-color run build:redirects -- --buildtype=${envName}"
             sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
@@ -85,9 +85,7 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-
-  def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
-  buildUtil.build(ref, dockerTag, dockerArgs)
+  buildUtil.build(ref, dockerImage, dockerArgs, cmsEnv)
   
   // Run E2E and accessibility tests
   stage('Integration') {
@@ -115,9 +113,9 @@ node('vetsgov-general-purpose') {
   }
 
 
-  buildUtil.prearchive(dockerTag, dockerArgs)
+  buildUtil.prearchive(dockerImage, dockerArgs)
 
-  buildUtil.archive(dockerTag, dockerArgs, ref);
+  buildUtil.archive(dockerImage, dockerArgs, ref);
 
   stage('Review') {
     if (buildUtil.shouldBail()) {
