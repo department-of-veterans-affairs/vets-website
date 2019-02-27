@@ -12,7 +12,7 @@ node('vetsgov-general-purpose') {
   def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
   dockerImage = buildUtil.setup(dockerTag, dockerArgs)
-  buildUtil.build(ref, dockerImage, dockerArgs, cmsEnv)
+  buildUtil.build(ref, dockerImage, dockerArgs, true)
   buildUtil.prearchive(dockerImage, dockerArgs)
 	buildUtil.archive(dockerImage, dockerArgs, ref)
 }

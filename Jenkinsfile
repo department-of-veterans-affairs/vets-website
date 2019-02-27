@@ -85,7 +85,8 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  buildUtil.build(ref, dockerImage, dockerArgs, cmsEnv)
+	withCms = (cmsEnv != 'none' && cmsEnv != 'live')
+  buildUtil.build(ref, dockerImage, dockerArgs, withCms)
   
   // Run E2E and accessibility tests
   stage('Integration') {

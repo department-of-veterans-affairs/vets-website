@@ -97,11 +97,11 @@ def setup(String dockerTag, String dockerArgs) {
   }
 }
 
-def build(String ref, dockerImage, String dockerArgs, String cmsEnv) {
+def build(String ref, dockerImage, String dockerArgs, Boolean cmsEnv) {
   stage("Build") {
     try {
       def builds = [:]
-      def assetSource = (cmsEnv != 'none' && cmsEnv != 'live') ? ref : 'local'
+      def assetSource = cmsEnv ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
