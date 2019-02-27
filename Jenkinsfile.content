@@ -1,4 +1,8 @@
 node('vetsgov-general-purpose') {
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
+              // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
+              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
+
   dir("vets-website") {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
   }
@@ -8,6 +12,6 @@ node('vetsgov-general-purpose') {
   def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
   dockerImage = buildUtil.setup(dockerTag, dockerArgs)
-  buildUtil.build(ref, dockerImage, dockerArgs)
+  buildUtil.build(ref, dockerImage, dockerArgs, cmsEnv)
   buildUtil.prearchive(dockerImage, dockerArgs)
 }

@@ -97,7 +97,7 @@ def setup(String dockerTag, String dockerArgs) {
   }
 }
 
-def build(String ref, dockerImage, String dockerArgs) {
+def build(String ref, dockerImage, String dockerArgs, String cmsEnv) {
   stage("Build") {
     try {
       def builds = [:]
