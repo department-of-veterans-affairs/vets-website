@@ -74,7 +74,11 @@ async function downloadFromLiveBucket(files, buildOptions) {
 async function downloadFromArchive(files, assetSource, buildtype) {
   const archiveUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/${assetSource}/${buildtype}.tar.bz2`;
 
-  const localPath = path.join(__dirname, '../../../../../temp/site.tar.bz2');
+  const localPath = path.join(
+    __dirname,
+    `../../../../../temp/${buildtype}-site.tar.bz2`,
+  );
+
   const assetsPath = path.dirname(localPath);
 
   fs.emptyDirSync(assetsPath);
