@@ -114,15 +114,15 @@ def build(String ref, dockerImage, String dockerArgs, Boolean cmsEnv) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def buildDetails = buildDetails(envName, ref)
-        // builds[envName] = {
+        builds[envName] = {
           dockerImage.inside(dockerArgs) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
             sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
         }
-      // }
+      }
 
-      // parallel builds
+      parallel builds
     } catch (error) {
       slackNotify()
       throw error
