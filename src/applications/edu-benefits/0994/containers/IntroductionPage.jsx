@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -9,6 +13,37 @@ export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
+  verifiedPrefillAlert() {
+    return (
+      <div>
+        <div className="usa-alert usa-alert-info schemaform-sip-alert">
+          <div className="usa-alert-body">
+            <strong>Note:</strong> Since you’re signed in to your account, we
+            can prefill part of your application based on your account details.
+            You can also save your form in progress and come back later to
+            finish filling it out.
+          </div>
+        </div>
+        <br />
+      </div>
+    );
+  }
+
+  unverifiedPrefillAlert() {
+    return (
+      <div>
+        <button className="usa-button-primary" onClick={this.openLoginModal}>
+          Sign in to Start Your Application
+        </button>
+      </div>
+    );
+  }
+
+  openLoginModal = () => {
+    this.props.toggleLoginModal(true);
+  };
+
   render() {
     return (
       <div className="schemaform-intro">
@@ -23,6 +58,8 @@ export class IntroductionPage extends React.Component {
           verifyRequiredPrefill={
             this.props.route.formConfig.verifyRequiredPrefill
           }
+          unverifiedPrefillAlert={this.unverifiedPrefillAlert()}
+          verifiedPrefillAlert={this.verifiedPrefillAlert()}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
         />
@@ -138,4 +175,17 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+function mapStateToProps() {
+  return {};
+}
+
+const mapDispatchToProps = {
+  toggleLoginModal,
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(IntroductionPage),
+);
