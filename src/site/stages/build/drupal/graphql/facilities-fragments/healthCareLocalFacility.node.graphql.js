@@ -10,6 +10,7 @@ const FACILITIES_RESULTS = `
       }
       entityBundle
       title
+      changed
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
       fieldIntroText

@@ -137,28 +137,29 @@
                     </div>
 
                     <!-- Location services section -->
-                    {% if fieldLocationServices != empty %}
+                    {% capture difference %} {{ fieldLocationServices | size | minus:1 }} {% endcapture %}
+                    {% unless difference contains '-' %}
                         <h2>Prepare for your visit</h2>
                         <div class="usa-accordion">
                             <ul class="usa-unstyled-list" aria-multiselectable="false">
                                 {% for accordionItem in fieldLocationServices %}
-                                {% assign item = accordionItem.entity %}
-                                <li>
-                                    <button
-                                            class="usa-accordion-button usa-button-unstyled"
-                                            aria-expanded="false"
-                                            aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
-                                    >
-                                        {{ item.fieldTitle }}
-                                    </button>
-                                    <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                                        {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
-                                    </div>
-                                </li>
+                                    {% assign item = accordionItem.entity %}
+                                    <li>
+                                        <button
+                                                class="usa-accordion-button usa-button-unstyled"
+                                                aria-expanded="false"
+                                                aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
+                                        >
+                                            {{ item.fieldTitle }}
+                                        </button>
+                                        <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                                            {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
+                                        </div>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>
-                    {% endif %}
+                    {% endunless %}
 
                     <!-- List of links section -->
                     {% if fieldRelatedLinks != empty %}
