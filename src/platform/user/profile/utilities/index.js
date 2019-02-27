@@ -151,7 +151,7 @@ export function setupProfileSession(payload) {
   if (localStorage.getItem(authnSettings.REGISTRATION_PENDING)) {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
-    sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
+    localStorage.removeItem(authnSettings.REGISTRATION_PENDING);
   } else {
     // Report GA success event for the login method.
     compareLoginPolicy(loginPolicy);
