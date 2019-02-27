@@ -71,11 +71,11 @@ function activateHeaderFooter(observer) {
   document.body.appendChild(footerContainer);
 }
 
-function renderFooter() {
+function renderFooter(data) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(null, () => {
+  startVAFooter(data, () => {
     addOverlayTriggers();
     addFocusBehaviorToCrisisLineModal();
 
@@ -101,7 +101,7 @@ function renderFooter() {
   });
 }
 
-function mountReactComponents(commonStore) {
+function mountReactComponents(headerFooterData, commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
@@ -119,27 +119,13 @@ function mountReactComponents(commonStore) {
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
-  fetch(`${environment.BASE_URL}/generated/headerFooter.json`)
-    .then(resp => {
-      if (resp.ok) {
-        return resp.json();
-      }
-
-      throw new Error(
-        `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
-          resp.statusText
-        }`,
-      );
-    })
-    .then(data => {
-      startUserNavWidget(commonStore);
-      startMegaMenuWidget(data.megaMenuData, commonStore);
-      startMobileMenuButton(commonStore);
-      // startLRNHealthCarWidget(commonStore);
-      startFeedbackWidget(commonStore);
-      // startAnnouncementWidget(commonStore);
-      renderFooter(data.footerData);
-    });
+  startUserNavWidget(commonStore);
+  startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
+  startMobileMenuButton(commonStore);
+  // startLRNHealthCarWidget(commonStore);
+  startFeedbackWidget(commonStore);
+  // startAnnouncementWidget(commonStore);
+  renderFooter(headerFooterData.footerData);
 }
 
 function activateInjectedAssets() {
@@ -152,7 +138,21 @@ function activateInjectedAssets() {
 
   document.addEventListener('DOMContentLoaded', _e => {
     activateHeaderFooter(observer);
-    mountReactComponents(createCommonStore());
+    fetch(`${environment.BASE_URL}/generated/headerFooter.json`)
+      .then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+
+        throw new Error(
+          `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+            resp.statusText
+          }`,
+        );
+      })
+      .then(headerFooterData => {
+        mountReactComponents(headerFooterData, createCommonStore());
+      });
   });
 }
 

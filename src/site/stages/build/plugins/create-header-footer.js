@@ -21,7 +21,9 @@ function replaceWithDrupalLinks(data, files) {
       if (
         key === 'href' &&
         files[
-          `drupal${current[key].replace('https://www.va.gov', '')}/index.html`
+          `drupal${current[key]
+            .replace('https://www.va.gov', '')
+            .replace(/\/$/, '')}/index.html`
         ]
       ) {
         newValue = current[key].replace('www.va.gov/', 'www.va.gov/drupal/');
@@ -40,7 +42,7 @@ function replaceWithDrupalLinks(data, files) {
   return current;
 }
 
-function createMegaMenuData(buildOptions) {
+function createHeaderFooterData(buildOptions) {
   return (files, metalsmith, done) => {
     const fragmentsRoot = metalsmith.path(buildOptions.contentFragments);
     const megaMenuDataSourceFile = path.join(
@@ -87,4 +89,4 @@ function createMegaMenuData(buildOptions) {
   };
 }
 
-module.exports = createMegaMenuData;
+module.exports = createHeaderFooterData;
