@@ -16,7 +16,6 @@ const FACILITIES_RESULTS = `
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
       fieldIntroText
-      fieldIntroText
       fieldLocationServices {
         entity {
           ... on ParagraphHealthCareLocalFacilityServi {
