@@ -11,7 +11,7 @@ node('vetsgov-general-purpose') {
   def ref
   
   dir("vets-website") {
-    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
+		checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
