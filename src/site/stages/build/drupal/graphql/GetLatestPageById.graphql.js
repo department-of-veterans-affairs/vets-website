@@ -3,6 +3,7 @@ const page = require('./page.graphql');
 const fragments = require('./fragments.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
+const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 
 /**
@@ -16,6 +17,7 @@ module.exports = `
   ${page}
   ${healthCareRegionPage}
   ${newsStoryPage}
+  ${pressReleasePage}
 
   query GetLatestPageById($id: String!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -28,6 +30,7 @@ module.exports = `
         ... page
         ... healthCareRegionPage
         ... newsStoryPage
+        ... pressReleasePage
       }
     }
     ${sidebarQuery}
