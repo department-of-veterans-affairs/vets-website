@@ -143,7 +143,6 @@ export function setupProfileSession(payload) {
   const { firstName, signIn, loa } = userData;
 
   const loginPolicy = get('serviceName', signIn, null);
-  compareLoginPolicy(loginPolicy);
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
@@ -155,6 +154,7 @@ export function setupProfileSession(payload) {
     sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
   } else {
     // Report GA success event for the login method.
+    compareLoginPolicy(loginPolicy);
     recordEvent({ event: `login-success-${loginPolicy}` });
   }
 
