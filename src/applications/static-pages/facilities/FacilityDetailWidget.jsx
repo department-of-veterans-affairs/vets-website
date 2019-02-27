@@ -109,9 +109,9 @@ export default class FacilityDetailWidget extends React.Component {
             </div>
           </div>
           <div className="vads-u-margin-bottom--1p5">
-            <div className="clinicalHours">
+            <div className="clinicalhours">
               <h3>Clinical Hours</h3>
-              <ul>{facilityHours}</ul>
+              <ul className="va-c-facility-hours-list">{facilityHours}</ul>
             </div>
           </div>
         </section>
