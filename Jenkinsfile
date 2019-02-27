@@ -60,30 +60,6 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Build: Redirects') {
-    if (buildUtil.shouldBail()) { return }
-
-    try {
-      def builds = [:]
-
-      for (int i=0; i<buildUtil.VETSGOV_BUILDTYPES.size(); i++) {
-        def envName = buildUtil.VETSGOV_BUILDTYPES.get(i)
-        def buildDetails = buildUtil.buildDetails(envName, ref)
-        builds[envName] = {
-          dockerImage.inside(dockerArgs) {
-            sh "cd /application && npm --no-color run build:redirects -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
-          }
-        }
-      }
-
-      parallel builds
-    } catch (error) {
-      buildUtil.slackNotify()
-      throw error
-    }
-  }
-
   // Perform a build for each build type
 	withCms = (cmsEnv != 'none' && cmsEnv != 'live')
   buildUtil.build(ref, dockerImage, dockerArgs, withCms)

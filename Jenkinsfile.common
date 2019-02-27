@@ -129,7 +129,6 @@ def build(String ref, dockerImage, String dockerArgs, Boolean cmsEnv) {
   }
 }
 
-
 def prearchive(dockerImage, String dockerArgs) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
@@ -159,7 +158,7 @@ def archive(dockerImage, String dockerArgs, String ref) {
   stage("Archive") {
     if (shouldBail()) { return }
 
-    def envNames = VETSGOV_BUILDTYPES + VAGOV_BUILDTYPES
+    def envNames = VAGOV_BUILDTYPES
     try {
       dockerImage.inside(dockerArgs) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
