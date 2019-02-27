@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign, no-continue */
 const BUILD_TYPE = require('../../../constants/environments');
 
-const prodEnvironments = new Set([BUILD_TYPE.production]);
+const prodEnvironments = new Set([BUILD_TYPE.vagovprod]);
 
 function rewriteDrupalPages(options) {
   return (files, metalsmith, done) => {

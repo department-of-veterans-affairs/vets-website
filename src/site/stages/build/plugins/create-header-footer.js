@@ -85,6 +85,11 @@ function createHeaderFooterData(buildOptions) {
       }
     });
 
+    // eslint-disable-next-line no-param-reassign
+    files['generated/headerFooter.json'] = {
+      contents: new Buffer(serialized),
+    };
+
     done();
   };
 }
