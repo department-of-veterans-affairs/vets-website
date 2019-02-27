@@ -123,7 +123,7 @@ export function mapRawUserDataToState(json) {
 export const hasSession = () => localStorage.getItem('hasSession');
 
 function compareLoginPolicy(loginPolicy) {
-  let attemptedLoginPolicy = sessionStorage.getItem(
+  let attemptedLoginPolicy = localStorage.getItem(
     authnSettings.PENDING_LOGIN_TYPE,
   );
 
@@ -143,22 +143,22 @@ export function setupProfileSession(payload) {
   const { firstName, signIn, loa } = userData;
 
   const loginPolicy = get('serviceName', signIn, null);
-  compareLoginPolicy(loginPolicy);
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (sessionStorage.getItem(authnSettings.REGISTRATION_PENDING)) {
+  if (localStorage.getItem(authnSettings.REGISTRATION_PENDING)) {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
-    sessionStorage.removeItem('registrationPending');
+    localStorage.removeItem(authnSettings.REGISTRATION_PENDING);
   } else {
     // Report GA success event for the login method.
+    compareLoginPolicy(loginPolicy);
     recordEvent({ event: `login-success-${loginPolicy}` });
   }
 
-  sessionStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
+  localStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
 
   // Set Sentry Tag so we can associate errors with the login policy
   setRavenLoginType(loginPolicy);
