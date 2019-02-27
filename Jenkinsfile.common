@@ -92,11 +92,12 @@ def setup(String dockerTag, String dockerArgs) {
           sh "cd /application && yarn install --production=false"
         }
       }
+			return dockerImage
     }
   }
 }
 
-def build(String ref, String dockerTag, String dockerArgs) {
+def build(String ref, dockerImage, String dockerArgs) {
   stage("Build") {
     try {
       def builds = [:]
@@ -106,7 +107,7 @@ def build(String ref, String dockerTag, String dockerArgs) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def buildDetails = buildDetails(envName, ref)
         builds[envName] = {
-          docker.image(dockerTag).inside(dockerArgs) {
+          dockerImage.inside(dockerArgs) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
             sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
@@ -122,7 +123,7 @@ def build(String ref, String dockerTag, String dockerArgs) {
 }
 
 
-def prearchive(String imageTag, String dockerArgs) {
+def prearchive(dockerImage, String dockerArgs) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
@@ -133,7 +134,7 @@ def prearchive(String imageTag, String dockerArgs) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-          docker.image(imageTag).inside(dockerArgs) {
+          dockerImage.inside(dockerArgs) {
             sh "cd /application && node script/prearchive.js --buildtype=${envName}"
           }
         }
@@ -147,13 +148,13 @@ def prearchive(String imageTag, String dockerArgs) {
   }
 }
 
-def archive(String dockerImage, String dockerArgs, String ref) {
+def archive(dockerImage, String dockerArgs, String ref) {
   stage("Archive") {
     if (shouldBail()) { return }
 
     def envNames = VETSGOV_BUILDTYPES + VAGOV_BUILDTYPES
     try {
-      docker.image(dockerImage).inside(dockerArgs) {
+      dockerImage.inside(dockerArgs) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                          usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
           for (int i=0; i<envNames.size(); i++) {

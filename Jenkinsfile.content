@@ -1,16 +1,13 @@
 node('vetsgov-general-purpose') {
-  def buildUtil
-  
   dir("vets-website") {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
-
-    buildUtil = load "Jenkinsfile.common"
   }
-  
+
+  def buildUtil = load "vets-website/Jenkinsfile.common"
   def dockerArgs = "-v ${PWD}/vets-website:/application -v ${PWD}/vagov-content:/vagov-content"
   def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
-  buildUtil.setup(dockerTag, dockerArgs)
-  buildUtil.build(ref)
-  buildUtil.prearchive(dockerTag, dockerArgs)
+  dockerImage = buildUtil.setup(dockerTag, dockerArgs)
+  buildUtil.build(ref, dockerImage, dockerArgs)
+  buildUtil.prearchive(dockerImage, dockerArgs)
 }

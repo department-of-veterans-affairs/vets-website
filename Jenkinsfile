@@ -8,14 +8,14 @@ node('vetsgov-general-purpose') {
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
               [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
 
-  def buildUtil, ref
+  def ref
   
   dir("vets-website") {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
-    buildUtil = load "Jenkinsfile.common";
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
-  
+
+	def buildUtil = load "vets-website/Jenkinsfile.common"
   def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
   def cmsEnv = params.get('cmsEnv', 'none')
   def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
