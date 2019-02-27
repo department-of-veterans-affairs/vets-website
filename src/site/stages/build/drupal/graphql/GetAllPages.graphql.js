@@ -2,6 +2,7 @@ const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const fragments = require('./fragments.graphql');
+const newsStoryPage = require('./newStoryPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 
 /**
@@ -14,6 +15,7 @@ module.exports = `
   ${landingPage}
   ${page}
   ${healthCareRegionPage}
+  ${newsStoryPage}
 
   query GetAllPages {
     nodeQuery(limit: 500) {
@@ -21,6 +23,7 @@ module.exports = `
         ... landingPage
         ... page
         ... healthCareRegionPage
+        ... newsStoryPage
       }
     }
     ${sidebarQuery}
