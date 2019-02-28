@@ -2,6 +2,7 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
+import { buildHours } from '../../facility-locator/utils/facilityHours';
 
 export default class FacilityDetailWidget extends React.Component {
   constructor(props) {
@@ -53,12 +54,7 @@ export default class FacilityDetailWidget extends React.Component {
 
     // Sort and compile facility hours into a list
     const hours = facilityDetail.attributes.hours;
-    const hoursKeys = Object.keys(hours);
-    const facilityHours = hoursKeys.map((day, index) => (
-      <li key={index}>
-        {day} : {hours[day]}
-      </li>
-    ));
+    const builtHours = buildHours(hours);
 
     return (
       <div key={facilityDetail.id} className="vads-c-facility-detail">
@@ -111,7 +107,11 @@ export default class FacilityDetailWidget extends React.Component {
           <div className="vads-u-margin-bottom--1p5">
             <div className="clinicalhours">
               <h3>Clinical Hours</h3>
-              <ul className="va-c-facility-hours-list">{facilityHours}</ul>
+              <ul className="va-c-facility-hours-list">
+                {builtHours.map((day, index) => (
+                  <li key={index}>{day}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
