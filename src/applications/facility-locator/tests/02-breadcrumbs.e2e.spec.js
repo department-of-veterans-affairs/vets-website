@@ -41,10 +41,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // check detail page with ID pattern letters_, letter, digits
   client
-    .waitForElementVisible('.facility-result a h5', Timeouts.slow)
+    .waitForElementVisible('.facility-result a h5', Timeouts.normal)
     .click('.facility-result a h5')
-    .waitForElementVisible('.facility-detail', Timeouts.slow, false)
-    .waitForElementVisible('.location-detail', Timeouts.slow, false);
+    .waitForElementVisible('.facility-detail', Timeouts.slow, false) ||
+    waitForElementVisible('.location-detail', Timeouts.slow, false);
 
   client.waitForElementVisible('a[aria-current="page"', Timeouts.normal);
 
