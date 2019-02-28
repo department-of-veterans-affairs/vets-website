@@ -181,11 +181,9 @@ export function getClaimsV2(poll = pollRequest) {
 
     poll({
       onError: response => {
-        const responseCode = getStatus(response);
-        if (responseCode && responseCode !== UNKNOWN_STATUS) {
-          Raven.captureException(
-            `vets_claims_v2_err_get_claims ${responseCode}`,
-          );
+        const errorCode = getStatus(response);
+        if (errorCode && errorCode !== UNKNOWN_STATUS) {
+          Raven.captureException(`vets_claims_v2_err_get_claims ${errorCode}`);
         }
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
