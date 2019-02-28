@@ -100,7 +100,7 @@ class ProviderDetail extends Component {
     }
 
     return (
-      <div className="row location-detail detail">
+      <div className="row detail location-detail ">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>{this.renderFacilityInfo()}</div>
           <div>
