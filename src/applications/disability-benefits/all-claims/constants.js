@@ -245,22 +245,57 @@ export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
   disabilityLabels,
 ).map(v => v.toLowerCase());
 
+export const PTSD_TYPES_TO_FORMS = {
+  combatNonCombat: '781',
+  personalAssaultSexualTrauma: '781a',
+};
+
 export const HELP_TEXT_CLICKED_EVENT = 'help-text-label';
 
 export const ANALYTICS_EVENTS = {
   openedPrivateRecordsAcknowledgment: {
-    event: 'form-help-text-clicked',
+    event: 'disability-526EZ-form-help-text-clicked',
     [HELP_TEXT_CLICKED_EVENT]:
       'Disability - Form 4142 - Private Medical Records: Read the full text',
   },
   openedPrivateChoiceHelp: {
-    event: 'form-help-text-clicked',
+    event: 'disability-526EZ-form-help-text-clicked',
     [HELP_TEXT_CLICKED_EVENT]:
       'Disability - Form 4142 - Private Medical Records: Which should I choose',
   },
   openedLimitedConsentHelp: {
-    event: 'form-help-text-clicked',
+    event: 'disability-526EZ-form-help-text-clicked',
     [HELP_TEXT_CLICKED_EVENT]:
       'Disability - Form 4142 - Private Medical Records Release: What does this mean',
+  },
+  openedPtsdTypeHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - PTSD Intro - Which should I choose',
+  },
+  openedPtsd781WalkthroughChoiceHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781 - Walkthrough Choice - Which should I choose',
+  },
+  openedPtsd781aWalkthroughChoiceHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781a - Walkthrough Choice - Which should I choose',
+  },
+  openedPtsd781IncidentDateHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781 - What if I can’t remember the date',
+  },
+  openedPtsd781aIncidentDateHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781a - What if I can’t remember the date',
+  },
+  openedPtsd781aOtherSourcesHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781a - PTSD Secondary Sources - Which should I choose',
   },
 };
