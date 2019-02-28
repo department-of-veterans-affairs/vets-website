@@ -82,17 +82,17 @@ module.exports = `
         { field: "status", value: "1"}
         { field: "field_event_date", value: [$today], operator: GREATER_THAN}
       ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
-      {
-        entities {
-          ... on NodeEvent {
-            title
-            fieldEventDate {
-              value
-            }
-            fieldEventDateEnd {
-              value
-            }
-            fieldDescription
+    {
+      entities {
+        ... on NodeEvent {
+          title
+          fieldEventDate {
+            value
+          }
+          fieldEventDateEnd {
+            value
+          }
+          fieldDescription
             fieldLocationHumanreadable
             fieldFacilityLocation {
               entity {
@@ -104,10 +104,29 @@ module.exports = `
             }
           }
           
+        entityUrl {
+          path
+        }
+      }      
+    }
+    allPressReleaseTeasers: reverseFieldOfficeNode(filter: {
+      conditions: [
+        { field: "type", value: "press_release"}
+        { field: "status", value: "1"}
+      ]} sort: {field: "field_release_date", direction: DESC } limit: 100)
+    {
+      entities {
+        ... on NodePressRelease {
+          title
           entityUrl {
             path
           }
-        }      
+          fieldReleaseDate {
+            value
+          }
+          fieldIntroText
+        }
+      }
     }
   }
 `;

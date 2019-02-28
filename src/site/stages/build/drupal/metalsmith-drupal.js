@@ -64,6 +64,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     page,
     'health_care_region_locations_page.drupal.liquid',
   );
+  files[`drupal${drupalPagePath}/press-releases/index.html`] = createFileObj(
+    page,
+    'press_releases_page.drupal.liquid',
+  );
 
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
 
