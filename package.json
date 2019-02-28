@@ -220,6 +220,7 @@
     "lodash": "^4.5.1",
     "macaddress": "0.2.9",
     "mapbox": "1.0.0-beta7",
+    "merge": "1.2.1",
     "metalsmith": "^2.1.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-filenames": "^1.0.0",
