@@ -17,7 +17,7 @@ node('vetsgov-general-purpose') {
   }
 
 	// load common stages
-  def buildUtil = load "vets-website/jenkins/groovy.common"
+  def buildUtil = load "vets-website/jenkins/common.groovy"
 
   def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
   def cmsEnv = params.get('cmsEnv', 'none')
