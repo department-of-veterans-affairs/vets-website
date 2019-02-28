@@ -76,7 +76,7 @@ async function downloadFromArchive(files, assetSource, buildtype) {
 
   const localPath = path.join(
     __dirname,
-    `../../../../../temp/${buildtype}-site.tar.bz2`,
+    `../../../../../temp/${buildtype}/site.tar.bz2`,
   );
 
   const assetsPath = path.dirname(localPath);
