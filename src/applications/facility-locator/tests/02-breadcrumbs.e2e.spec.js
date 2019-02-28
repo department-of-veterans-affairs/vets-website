@@ -33,7 +33,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .clearValue('input[name="street-city-state-zip"]')
-    .setValue('input[name="street-city-state-zip"]', 'Wagner, SD');
+    .setValue('input[name="street-city-state-zip"]', 'Spokane, WA');
 
   client
     .click('input[type="submit"]')
@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('.facility-result a h5', Timeouts.normal)
     .click('.facility-result a h5')
-    .waitForElementVisible('.facility-detail', Timeouts.slow);
+    .waitForElementVisible('.detail', Timeouts.slow);
 
   client.waitForElementVisible('a[aria-current="page"', Timeouts.normal);
 
