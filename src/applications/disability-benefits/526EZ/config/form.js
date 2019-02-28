@@ -5,7 +5,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
-import submitForm from '../../all-claims/config/submitForm';
+import submitFormFor from '../../all-claims/config/submitForm';
 
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
@@ -132,7 +132,7 @@ const formConfig = {
   },
   formSavedPage: FormSavedPage,
   transformForSubmit: transform,
-  submit: submitForm,
+  submit: submitFormFor('526-v1'),
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
