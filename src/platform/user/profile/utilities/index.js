@@ -1,8 +1,9 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
+import Raven from 'raven-js';
+
 import recordEvent from '../../../monitoring/record-event';
 import {
-  authnSettings,
   setRavenLoginType,
   clearRavenLoginType,
 } from '../../authentication/utilities';
@@ -123,18 +124,24 @@ export function mapRawUserDataToState(json) {
 export const hasSession = () => localStorage.getItem('hasSession');
 
 function compareLoginPolicy(loginPolicy) {
-  let attemptedLoginPolicy = localStorage.getItem(
-    authnSettings.PENDING_LOGIN_TYPE,
-  );
+  const attemptedLoginPolicy =
+    localStorage.getItem('pendingLoginPolicy') === 'mhv'
+      ? 'myhealthevet'
+      : localStorage.getItem('pendingLoginPolicy');
 
-  attemptedLoginPolicy =
-    attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
+  if (attemptedLoginPolicy === null) {
+    Raven.captureMessage(
+      `localStorage error: 'pendingLoginPolicy' was not stored`,
+    );
+  }
 
   if (loginPolicy !== attemptedLoginPolicy) {
     recordEvent({
       event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
     });
   }
+
+  localStorage.removeItem('pendingLoginPolicy');
 }
 
 export function setupProfileSession(payload) {
@@ -148,17 +155,23 @@ export function setupProfileSession(payload) {
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (localStorage.getItem(authnSettings.REGISTRATION_PENDING)) {
+  const pendingAuthAction = localStorage.getItem('pendingAuthAction');
+
+  if (pendingAuthAction === 'register') {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
-    localStorage.removeItem(authnSettings.REGISTRATION_PENDING);
-  } else {
+  } else if (pendingAuthAction === 'login') {
     // Report GA success event for the login method.
     compareLoginPolicy(loginPolicy);
     recordEvent({ event: `login-success-${loginPolicy}` });
+  } else {
+    recordEvent({ event: `login-or-register-success-${loginPolicy}` });
+    Raven.captureMessage(
+      `localStorage error: 'pendingAuthAction' was not stored`,
+    );
   }
 
-  localStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
+  localStorage.removeItem('pendingAuthAction');
 
   // Set Sentry Tag so we can associate errors with the login policy
   setRavenLoginType(loginPolicy);

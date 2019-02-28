@@ -26,7 +26,7 @@ export class AuthApp extends React.Component {
   }
 
   handleAuthError = e => {
-    const loginType = localStorage.getItem(authnSettings.PENDING_LOGIN_TYPE);
+    const loginType = localStorage.getItem('pendingLoginPolicy');
 
     Raven.captureMessage(`User fetch error: ${e.message}`, {
       extra: {
@@ -37,8 +37,8 @@ export class AuthApp extends React.Component {
       },
     });
 
-    localStorage.removeItem(authnSettings.PENDING_LOGIN_TYPE);
-    localStorage.removeItem(authnSettings.REGISTRATION_PENDING);
+    localStorage.removeItem('pendingLoginPolicy');
+    localStorage.removeItem('pendingAuthAction');
 
     recordEvent({
       event: `login-error-user-fetch`,
