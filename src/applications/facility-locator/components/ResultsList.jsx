@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { distBetween } from '../utils/facilityDistance';
 
