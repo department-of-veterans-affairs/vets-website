@@ -131,7 +131,7 @@ function compareLoginPolicy(loginPolicy) {
 
   if (attemptedLoginPolicy === null) {
     Raven.captureMessage(
-      `localStorage error: 'pendingLoginPolicy' was not stored`,
+      "localStorage error: 'pendingLoginPolicy' was not stored",
     );
   }
 
@@ -167,7 +167,7 @@ export function setupProfileSession(payload) {
   } else {
     recordEvent({ event: `login-or-register-success-${loginPolicy}` });
     Raven.captureMessage(
-      `localStorage error: 'pendingAuthAction' was not stored`,
+      "localStorage error: 'pendingAuthAction' was not stored",
     );
   }
 
