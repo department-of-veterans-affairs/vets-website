@@ -1,5 +1,9 @@
 import '../../platform/polyfills';
 import cookie from 'cookie';
+
+import buckets from '../../site/constants/buckets';
+import environments from '../../site/constants/environments';
+
 import createCommonStore from '../../platform/startup/store';
 import environment from '../../platform/utilities/environment';
 
@@ -128,6 +132,14 @@ function mountReactComponents(headerFooterData, commonStore) {
   renderFooter(headerFooterData.footerData);
 }
 
+function getAssetHostName() {
+  if (environment.BUILDTYPE === environments.LOCALHOST) {
+    return environment.BASE_URL;
+  }
+
+  return buckets[environment.BUILDTYPE];
+}
+
 function activateInjectedAssets() {
   const observer = new MutationObserver(createMutationObserverCallback());
   observer.observe(document, {
@@ -138,7 +150,7 @@ function activateInjectedAssets() {
 
   document.addEventListener('DOMContentLoaded', _e => {
     activateHeaderFooter(observer);
-    fetch(`${environment.BASE_URL}/generated/headerFooter.json`)
+    fetch(`${getAssetHostName()}/generated/headerFooter.json`)
       .then(resp => {
         if (resp.ok) {
           return resp.json();
