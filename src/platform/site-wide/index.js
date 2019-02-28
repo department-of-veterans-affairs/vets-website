@@ -50,8 +50,11 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
-  startMegaMenuWidget(commonStore);
+  startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);
-  startVAFooter(addFocusBehaviorToCrisisLineModal);
+  startVAFooter(
+    window.VetsGov.headerFooter.footerData,
+    addFocusBehaviorToCrisisLineModal,
+  );
   startMetrics();
 }

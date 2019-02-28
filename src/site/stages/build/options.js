@@ -121,7 +121,9 @@ function deriveHostUrl(options) {
     options.port && options.port !== 80 ? `:${options.port}` : ''
   }`;
 
-  options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
+  options.domainReplacements = [
+    { from: 'https://www\\.va\\.gov', to: options.hostUrl },
+  ];
 }
 
 function getOptions(commandLineOptions) {
