@@ -1,18 +1,22 @@
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
-              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none'], [$class: 'StringParameterDefinition', name: 'ref', defaultValue: '']]]]);
+              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'ref', defaultValue: '']]]]);
 
   dir("vets-website") {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
   }
 
-  def buildUtil = load "vets-website/Jenkinsfile.common"
+  def buildUtil = load "vets-website/jenkins/common.groovy"
   def dockerArgs = "-v ${pwd()}/vets-website:/application -v ${pwd()}/vagov-content:/vagov-content"
   def dockerTag = "vets-website:" + java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
+	// Setup stage
   dockerImage = buildUtil.setup(dockerTag, dockerArgs)
+	// Build stage
   buildUtil.build(ref, dockerImage, dockerArgs, true)
+	// Prearchive stage
   buildUtil.prearchive(dockerImage, dockerArgs)
+	// Archive stage
   buildUtil.archive(dockerImage, dockerArgs, ref)
 }

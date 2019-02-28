@@ -10,12 +10,15 @@ node('vetsgov-general-purpose') {
 
   def ref
 
+	// Checkout vets-website code
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
-  def buildUtil = load "vets-website/Jenkinsfile.common"
+	// load common stages
+  def buildUtil = load "vets-website/jenkins/groovy.common"
+
   def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
   def cmsEnv = params.get('cmsEnv', 'none')
   def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
