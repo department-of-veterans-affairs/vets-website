@@ -119,6 +119,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       )}
       {external && (
         <Link
+          aria-label={`View status of ${appealTitle} `}
           className="usa-button usa-button-primary"
           href={`/track-claims/appeals/${appeal.id}/status`}
         >
