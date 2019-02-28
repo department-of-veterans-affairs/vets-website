@@ -2051,6 +2051,8 @@ export function getAlertContent(alert, appealIsActive) {
   }
 }
 
+export const UNKNOWN_STATUS = 'unknown';
+
 /**
  * Tests an http error response for an errors array and status property for the
  * first error in the array. Returns the status code or 'unknown'
@@ -2063,7 +2065,7 @@ export const getStatus = response => {
   }
   return response.errors && response.errors.length
     ? response.errors[0].status
-    : 'unknown';
+    : UNKNOWN_STATUS;
 };
 
 // Series of utility functions to sort claims and appeals by last updated date

@@ -18,6 +18,7 @@ import {
   FETCH_CLAIMS_ERROR,
   ROWS_PER_PAGE,
   CHANGE_INDEX_PAGE,
+  UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
 
 // -------------------- v2 and v1 -------------
@@ -181,7 +182,7 @@ export function getClaimsV2(poll = pollRequest) {
     poll({
       onError: response => {
         const responseCode = getStatus(response);
-        if (responseCode && responseCode !== 'unknown') {
+        if (responseCode && responseCode !== UNKNOWN_STATUS) {
           Raven.captureException(
             `vets_claims_v2_err_get_claims ${responseCode}`,
           );
