@@ -26,8 +26,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('.facility-result a h5', Timeouts.slow)
     .click('.facility-result a h5')
-    .waitForElementVisible('.facility-detail', Timeouts.verySlow)
-    .axeCheck('.main');
+    .waitForElementVisible('.location-detail', Timeouts.slow, false) ||
+    waitForElementVisible('.facility-detail', Timeouts.slow, false).axeCheck(
+      '.main',
+    );
 
   client.end();
 });
