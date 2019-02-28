@@ -27,6 +27,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
           retentionPeriod="1 year"
+          downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
         <h4>
@@ -149,6 +150,7 @@ class IntroductionPage extends React.Component {
           formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
+          downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
         <div className="omb-info--container">
