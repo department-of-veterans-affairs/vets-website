@@ -145,8 +145,8 @@ const formConfig = {
         },
         // page - banking information
         bankInformation: {
-          title: 'Bank Information',
-          path: 'bank-information',
+          title: 'Direct deposit information',
+          path: 'direct-deposit-information',
           uiSchema: bankInformation.uiSchema,
           schema: bankInformation.schema,
         },
