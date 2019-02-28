@@ -180,9 +180,12 @@ export function getClaimsV2(poll = pollRequest) {
 
     poll({
       onError: response => {
-        Raven.captureException(
-          `vets_claims_v2_err_get_claims ${getStatus(response)}`,
-        );
+        const responseCode = getStatus(response);
+        if (responseCode && responseCode !== 'unknown') {
+          Raven.captureException(
+            `vets_claims_v2_err_get_claims ${responseCode}`,
+          );
+        }
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
