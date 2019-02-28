@@ -14,5 +14,5 @@ node('vetsgov-general-purpose') {
   dockerImage = buildUtil.setup(dockerTag, dockerArgs)
   buildUtil.build(ref, dockerImage, dockerArgs, true)
   buildUtil.prearchive(dockerImage, dockerArgs)
-	buildUtil.archive(dockerImage, dockerArgs, ref)
+  buildUtil.archive(dockerImage, dockerArgs, ref)
 }

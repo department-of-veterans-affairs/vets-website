@@ -32,7 +32,7 @@ def isReviewable() {
 
 def isDeployable() {
   return (IS_DEV_BRANCH ||
-   IS_STAGING_BRANCH) &&
+          IS_STAGING_BRANCH) &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
 }
@@ -77,7 +77,7 @@ def slackNotify() {
 def setup(String dockerTag, String dockerArgs) {
   stage("Setup") {
 
-		buildTypeOverride = DRUPAL_MAPPING.get(params.get('cmsEnv', 'none'), null)
+    buildTypeOverride = DRUPAL_MAPPING.get(params.get('cmsEnv', 'none'), null)
     if(buildTypeOverride) {
       VAGOV_BUILDTYPES = [buildTypeOverride]
     }
@@ -87,10 +87,10 @@ def setup(String dockerTag, String dockerArgs) {
     }
     
     dir("vets-website") {
-			sh "mkdir -p build"
-			sh "mkdir -p logs/selenium"
-			sh "mkdir -p coverage"
-			sh "mkdir -p temp"
+      sh "mkdir -p build"
+      sh "mkdir -p logs/selenium"
+      sh "mkdir -p coverage"
+      sh "mkdir -p temp"
 
       dockerImage = docker.build(dockerTag)
       retry(5) {
@@ -98,14 +98,14 @@ def setup(String dockerTag, String dockerArgs) {
           sh "cd /application && yarn install --production=false"
         }
       }
-			return dockerImage
+      return dockerImage
     }
   }
 }
 
 def build(String ref, dockerImage, String dockerArgs, Boolean cmsEnv) {
   stage("Build") {
-		if (shouldBail()) { return }
+    if (shouldBail()) { return }
 
     try {
       def builds = [:]
