@@ -77,6 +77,7 @@ class ConnectedApp extends React.Component {
                         <a href={href}>{title}</a>
                         &nbsp;can view your:
                         <button
+                          aria-label="Disconnect this account"
                           className="usa-button-primary"
                           onClick={this.openModal}
                         >
