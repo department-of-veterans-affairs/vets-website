@@ -11,6 +11,10 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { facilityTypes } from '../config';
 
 class ResultsList extends Component {
+  constructor(props) {
+    super(props);
+    this.searchResultTitle = React.createRef();
+  }
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
@@ -19,8 +23,8 @@ class ResultsList extends Component {
   }
 
   componentDidUpdate() {
-    if (this.searchResultTitle) {
-      this.searchResultTitle.focus();
+    if (this.searchResultTitle.current) {
+      this.searchResultTitle.current.focus();
     }
   }
 
@@ -71,12 +75,7 @@ class ResultsList extends Component {
     return (
       <div>
         {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
-        <p
-          tabIndex={0}
-          ref={element => {
-            this.searchResultTitle = element;
-          }}
-        >
+        <p tabIndex={0} ref={this.searchResultTitle}>
           {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
           {`${results.length} results near `}
           <strong>“{context}”</strong>
