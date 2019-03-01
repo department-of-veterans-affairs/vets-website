@@ -14,6 +14,12 @@ const Element = Scroll.Element;
  */
 class FormApp extends React.Component {
   componentWillMount() {
+    const { additionalRoutes } = this.props.formConfig;
+    this.nonFormPages = [];
+    if (additionalRoutes) {
+      this.nonFormPages = additionalRoutes.map(route => route.path);
+    }
+
     setGlobalScroll();
 
     if (window.History) {
@@ -24,15 +30,19 @@ class FormApp extends React.Component {
   render() {
     const { currentLocation, formConfig, children, formData } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const lastPathComponent = currentLocation.pathname.split('/').pop();
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
+    const isNonFormPage = this.nonFormPages.includes(lastPathComponent);
     const Footer = formConfig.footerContent;
 
     let formTitle;
     let formNav;
     let renderedChildren = children;
-    if (!isIntroductionPage) {
-      // Show title only if we're not on the intro page and if there is a title
-      // specified in the form config
+    if (!isIntroductionPage && !isNonFormPage) {
+      // Show title only if:
+      // 1. we're not on the intro page *or* one of the additionalRoutes
+      //    specified in the form config
+      // 2. there is a title specified in the form config
       if (formConfig.title) {
         formTitle = (
           <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
@@ -40,9 +50,10 @@ class FormApp extends React.Component {
       }
     }
 
-    // Show nav only if we're not on the intro, form-saved, error, or confirmation page
+    // Show nav only if we're not on the intro, form-saved, error, confirmation
+    // page or one of the additionalRoutes specified in the form config
     // Also add form classes only if on an actual form page
-    if (isInProgress(trimmedPathname)) {
+    if (!isNonFormPage && isInProgress(trimmedPathname)) {
       formNav = (
         <FormNav
           formData={formData}

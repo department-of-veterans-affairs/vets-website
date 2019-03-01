@@ -13,9 +13,13 @@ export function createRoutesWithSaveInProgress(formConfig) {
     'introduction',
     'review-and-submit',
     'confirmation',
-    'id-form',
     '*',
   ]);
+
+  formConfig.additionalRoutes.forEach(route => {
+    protectedRoutes.add(route.path);
+  });
+
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
   const newRoutes = createRoutes(formConfig);
