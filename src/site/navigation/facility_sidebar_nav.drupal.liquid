@@ -1,0 +1,27 @@
+<nav id="va-detailpage-sidebar" class="usa-width-one-fourth va-sidebarnav">
+    <div>
+        <button class="va-btn-close-icon va-sidebarnav-close" type="button" aria-label="Close this menu"></button>
+        <div class="left-side-nav-title">
+            <h4>{{ facilitySidebar.name }}</h4>
+        </div>
+        <ul class="usa-accordion">
+            {% for link in facilitySidebar.links %}
+                <li>
+                    <button class="usa-accordion-button" aria-expanded="false" aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
+                    <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
+                        {% assign listSize = link.links | size %}
+                        {% if listSize > 1 %}
+                            <ul class="usa-sidenav-list">
+                                {% for link in link.links %}
+                                    <li>
+                                        <a href="{{ link.url.path }}">{{ link.label }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
