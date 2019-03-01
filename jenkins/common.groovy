@@ -30,7 +30,7 @@ IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
 
 DOCKER_ARGS = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
 IMAGE_TAG = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
-DOCKER_TAG = "vets-website:" + imageTag
+DOCKER_TAG = "vets-website:" + IMAGE_TAG
 
 def isReviewable() {
   return !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
