@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { setFocus } from '../utils/helpers';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SearchResult from './SearchResult';
@@ -23,7 +24,7 @@ class ResultsList extends Component {
 
   componentDidUpdate() {
     if (this.searchResultTitle.current) {
-      this.searchResultTitle.current.focus();
+      setFocus(this.searchResultTitle.current);
     }
   }
 
@@ -67,7 +68,6 @@ class ResultsList extends Component {
       return (
         <div
           className="search-result-title facility-result"
-          tabIndex={0}
           ref={this.searchResultTitle}
         >
           No facilities found. Please try entering a different search term
@@ -80,11 +80,7 @@ class ResultsList extends Component {
     return (
       <div>
         {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
-        <p
-          className="search-result-title"
-          tabIndex={0}
-          ref={this.searchResultTitle}
-        >
+        <p className="search-result-title" ref={this.searchResultTitle}>
           {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
           {`${results.length} results for ${facilityTypeName} near `}
           <strong>“{context}”</strong>
