@@ -41,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // check detail page with ID pattern letters_, letter, digits
   client
-    .waitForElementVisible('.facility-result a h5', Timeouts.normal)
+    .waitForElementVisible('.facility-result a h5', Timeouts.slow)
     .click('.facility-result a h5')
     .waitForElementVisible('.all-details', Timeouts.slow);
 
