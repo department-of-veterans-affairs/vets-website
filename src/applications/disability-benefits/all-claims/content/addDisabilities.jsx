@@ -29,8 +29,14 @@ export const descriptionInfo = (
   </div>
 );
 
-export const disabilityRequiredAlert = ({ formContext }) => {
+export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
-  return <div>Alert!</div>;
+  return <div>New-only alert!</div>;
+};
+
+export const increaseAndNewAlert = ({ formContext }) => {
+  // Display only after the user tries to submit with no disabilities
+  if (!formContext.submitted) return null;
+  return <div>Increase and new alert!</div>;
 };

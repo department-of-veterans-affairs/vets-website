@@ -3,12 +3,17 @@ import disabilityLabels from '../content/disabilityLabels';
 import {
   descriptionInfo,
   autoSuggestTitle,
-  disabilityRequiredAlert,
+  newOnlyAlert,
+  increaseAndNewAlert,
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
 import { validateDisabilityName, requireDisability } from '../validations';
-import { hasClaimedConditions } from '../utils';
+import {
+  newConditionsOnly,
+  newAndIncrease,
+  hasClaimedConditions,
+} from '../utils';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
@@ -48,13 +53,23 @@ export const uiSchema = {
     },
   },
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
-  'view:newDisabilityError': {
-    'ui:description': disabilityRequiredAlert,
+  'view:newDisabilityErrors': {
     // Put the validation here instead of on the condition so the user can't continue to the next page but
     //  aren't bombarded with two validation errors.
     'ui:validations': [requireDisability],
-    'ui:options': {
-      hideIf: hasClaimedConditions,
+    'view:newOnlyAlert': {
+      'ui:description': newOnlyAlert,
+      'ui:options': {
+        hideIf: formData =>
+          !newConditionsOnly(formData) || hasClaimedConditions(formData),
+      },
+    },
+    'view:increaseAndNewAlert': {
+      'ui:description': increaseAndNewAlert,
+      'ui:options': {
+        hideIf: formData =>
+          !newAndIncrease(formData) || hasClaimedConditions(formData),
+      },
     },
   },
 };
@@ -73,6 +88,12 @@ export const schema = {
         },
       },
     },
-    'view:newDisabilityError': { type: 'object', properties: {} },
+    'view:newDisabilityErrors': {
+      type: 'object',
+      properties: {
+        'view:newOnlyAlert': { type: 'object', properties: {} },
+        'view:increaseAndNewAlert': { type: 'object', properties: {} },
+      },
+    },
   },
 };
