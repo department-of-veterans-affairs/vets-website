@@ -1,5 +1,6 @@
 /* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -7,8 +8,22 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import { facilityTypes } from '../config';
 
 class ResultsList extends Component {
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.results !== this.props.results ||
+      nextProps.inProgress !== this.props.inProgress
+    );
+  }
+
+  componentDidUpdate() {
+    if (this.searchResultTitle) {
+      this.searchResultTitle.focus();
+    }
+  }
+
   handlePageSelect = page => {
     const { currentQuery } = this.props;
 
@@ -22,19 +37,23 @@ class ResultsList extends Component {
 
   render() {
     const {
+      context,
+      facilityTypeName,
+      inProgress,
+      position,
+      searchString,
       results,
       isMobile,
-      currentQuery,
       pagination: { currentPage, totalPages },
     } = this.props;
-    // console.log(this.props);
 
-    console.log(currentQuery.inProgress);
-    if (currentQuery.inProgress) {
+    if (inProgress) {
       return (
         <div>
           <LoadingIndicator
-            message={`Searching in ${currentQuery.searchString}`}
+            message={`Searching for ${facilityTypeName}}
+            in ${searchString}`}
+            setFocus
           />
         </div>
       );
@@ -51,18 +70,26 @@ class ResultsList extends Component {
 
     return (
       <div>
-        <p>
-          Search results near <strong>“{currentQuery.context}”</strong>
+        {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
+        <p
+          tabIndex={0}
+          ref={element => {
+            this.searchResultTitle = element;
+          }}
+        >
+          {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
+          {`${results.length} results near `}
+          <strong>“{context}”</strong>
         </p>
         <div>
           {results.map(r => {
             /* eslint-disable prettier/prettier */
             return isMobile ? (
               <div key={r.id} className="mobile-search-result">
-                <SearchResult result={r} currentLocation={currentQuery.position} />
+                <SearchResult result={r} currentLocation={position} />
               </div>
             ) : (
-              <SearchResult key={r.id} result={r} currentLocation={currentQuery.position} />
+              <SearchResult key={r.id} result={r} currentLocation={position} />
             );
             /* eslint-enable prettier/prettier */
           })}
@@ -92,7 +119,30 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
+function mapStateToProps(state) {
+  const {
+    context,
+    facilityType,
+    inProgress,
+    position,
+    searchString,
+  } = state.searchQuery;
+
+  const facilityTypeName = facilityTypes[facilityType];
+
+  return {
+    context,
+    facilityTypeName,
+    inProgress,
+    results: state.searchResult.results,
+    pagination: state.searchResult.pagination,
+    position,
+    searchString,
+    selectedResult: state.searchResult.selectedResult,
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ResultsList);
