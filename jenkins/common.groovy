@@ -1,4 +1,8 @@
-
+DRUPAL_MAPPING = [
+  'dev': 'vagovdev',
+  'staging': 'vagovstaging',
+  'live': 'vagovprod',
+]
 
 VETSGOV_BUILDTYPES = [
   'development',
@@ -6,17 +10,15 @@ VETSGOV_BUILDTYPES = [
   'production'
 ]
 
-VAGOV_BUILDTYPES = [
+ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
   'vagovprod'
 ]
 
-DRUPAL_MAPPING = [
-  'dev': 'vagovdev',
-  'staging': 'vagovstaging',
-  'live': 'vagovprod',
-]
+BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
+
+VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
 
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
@@ -25,6 +27,10 @@ PROD_BRANCH = 'master'
 IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
 IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
 IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
+
+DOCKER_ARGS = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
+IMAGE_TAG = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+DOCKER_TAG = "vets-website:" + imageTag
 
 def isReviewable() {
   return !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
@@ -74,13 +80,8 @@ def slackNotify() {
   }
 }
 
-def setup(String dockerTag, String dockerArgs) {
+def setup() {
   stage("Setup") {
-
-    buildTypeOverride = DRUPAL_MAPPING.get(params.get('cmsEnv', 'none'), null)
-    if(buildTypeOverride) {
-      VAGOV_BUILDTYPES = [buildTypeOverride]
-    }
 
     dir("vagov-content") {
       checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
@@ -92,9 +93,9 @@ def setup(String dockerTag, String dockerArgs) {
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
 
-      dockerImage = docker.build(dockerTag)
+      dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
-        dockerImage.inside(dockerArgs) {
+        dockerImage.inside(DOCKER_ARGS) {
           sh "cd /application && yarn install --production=false"
         }
       }
@@ -103,19 +104,19 @@ def setup(String dockerTag, String dockerArgs) {
   }
 }
 
-def build(String ref, dockerImage, String dockerArgs, Boolean cmsEnv) {
+def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
 
     try {
       def builds = [:]
-      def assetSource = cmsEnv ? ref : 'local'
+      def assetSource = contentOnlyBuild ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def buildDetails = buildDetails(envName, ref)
         builds[envName] = {
-          dockerImage.inside(dockerArgs) {
+          dockerContainer.inside(DOCKER_ARGS) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
             sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
           }
@@ -130,7 +131,7 @@ def build(String ref, dockerImage, String dockerArgs, Boolean cmsEnv) {
   }
 }
 
-def prearchive(dockerImage, String dockerArgs) {
+def prearchive(dockerContainer) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
@@ -141,7 +142,7 @@ def prearchive(dockerImage, String dockerArgs) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-          dockerImage.inside(dockerArgs) {
+          dockerContainer.inside(DOCKER_ARGS) {
             sh "cd /application && node script/prearchive.js --buildtype=${envName}"
           }
         }
@@ -155,21 +156,29 @@ def prearchive(dockerImage, String dockerArgs) {
   }
 }
 
-def archive(dockerImage, String dockerArgs, String ref) {
+def archive(dockerContainer, String ref) {
   stage("Archive") {
     if (shouldBail()) { return }
 
-    def envNames = VAGOV_BUILDTYPES
     try {
-      dockerImage.inside(dockerArgs) {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                         usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          for (int i=0; i<envNames.size(); i++) {
-            sh "tar -C /application/build/${envNames.get(i)} -cf /application/build/${envNames.get(i)}.tar.bz2 ."
-            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envNames.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envNames.get(i)}.tar.bz2"
+      def archives = [:]
+
+      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+        def envName = VAGOV_BUILDTYPES.get(i)
+
+        archives[envName] = {
+          dockerContainer.inside(DOCKER_ARGS) {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                             usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+              sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
+              sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2"
+            }
           }
         }
       }
+
+      parallel archives
+
     } catch (error) {
       slackNotify()
       throw error

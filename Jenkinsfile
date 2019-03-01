@@ -6,34 +6,27 @@ env.CONCURRENCY = 10
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
-              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnv', defaultValue: 'none']]]]);
+              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnvBuildOverride', defaultValue: 'none']]]]);
 
-  def ref
-
-	// Checkout vets-website code
+  // Checkout vets-website code
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
-	// load common stages
-  def buildUtil = load "vets-website/jenkins/common.groovy"
-
-  def dockerArgs = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
-  def cmsEnv = params.get('cmsEnv', 'none')
-  def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
-  def dockerTag = "vets-website:" + imageTag
+  // load common stages
+  def stages = load "vets-website/jenkins/common.groovy"
 
   // setupStage
-  dockerImage = buildUtil.setup(dockerTag, dockerArgs)
+  dockerContainer = stages.setup()
 
   stage('Lint|Security|Unit') {
-    if (cmsEnv != 'none') { return }
+    if (params.cmsEnvBuildOverride != 'none') { return }
 
     try {
       parallel (
         lint: {
-          dockerImage.inside(dockerArgs) {
+          dockerContainer.inside(stages.dockerArgs) {
             sh "cd /application && npm --no-color run lint"
           }
         },
@@ -41,20 +34,20 @@ node('vetsgov-general-purpose') {
         // Check package.json for known vulnerabilities
         security: {
           retry(3) {
-            dockerImage.inside(dockerArgs) {
+            dockerContainer.inside(stages.dockerArgs) {
               sh "cd /application && npm run security-check"
             }
           }
         },
 
         unit: {
-          dockerImage.inside(dockerArgs) {
+          dockerContainer.inside(stages.dockerArgs) {
             sh "cd /application && npm --no-color run test:coverage"
           }
         }
       )
     } catch (error) {
-      buildUtil.slackNotify()
+      stages.slackNotify()
       throw error
     } finally {
       dir("vets-website") {
@@ -64,25 +57,24 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  withCms = (cmsEnv != 'none' && cmsEnv != 'live')
-  buildUtil.build(ref, dockerImage, dockerArgs, withCms)
+  stages.build(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (buildUtil.shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
+    if (stages.shouldBail() || !stages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       try {
         parallel (
           e2e: {
-            sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+            sh "export IMAGE_TAG=${stages.imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
           accessibility: {
-            sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+            sh "export IMAGE_TAG=${stages.imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           }
         )
       } catch (error) {
-        buildUtil.slackNotify()
+        stages.slackNotify()
         throw error
       } finally {
         sh "docker-compose -p e2e down --remove-orphans"
@@ -92,19 +84,18 @@ node('vetsgov-general-purpose') {
     }
   }
 
+  stages.prearchive(dockerContainer)
 
-  buildUtil.prearchive(dockerImage, dockerArgs)
-
-  buildUtil.archive(dockerImage, dockerArgs, ref);
+  stages.archive(dockerContainer, ref);
 
   stage('Review') {
-    if (buildUtil.shouldBail()) {
+    if (stages.shouldBail()) {
       currentBuild.result = 'ABORTED'
       return
     }
 
     try {
-      if (!buildUtil.isReviewable()) {
+      if (!stages.isReviewable()) {
         return
       }
       build job: 'deploys/vets-review-instance-deploy', parameters: [
@@ -114,32 +105,26 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      buildUtil.slackNotify()
+      stages.slackNotify()
       throw error
     }
   }
 
   stage('Deploy dev or staging') {
     try {
-      if (!buildUtil.isDeployable()) { return }
+      if (!stages.isDeployable()) { return }
 
-      dir("vets-website") {
-        script {
-          commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
-        }
+      if (stagess.IS_DEV_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovdev')) {
+        stages.runDeploy('deploys/vets-website-dev', ref)
+        stages.runDeploy('deploys/vets-website-vagovdev', ref)
       }
 
-      if (IS_DEV_BRANCH && VAGOV_BUILDTYPES.contains('vagovdev')) {
-        buildUtil.runDeploy('deploys/vets-website-dev', commit)
-        buildUtil.runDeploy('deploys/vets-website-vagovdev', commit)
-      }
-
-      if (IS_STAGING_BRANCH && VAGOV_BUILDTYPES.contains('vagovstaging')) {
-        buildUtil.runDeploy('deploys/vets-website-staging', commit)
-        buildUtil.runDeploy('deploys/vets-website-vagovstaging', commit)
+      if (stagess.IS_STAGING_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovstaging')) {
+        stages.runDeploy('deploys/vets-website-staging', ref)
+        stages.runDeploy('deploys/vets-website-vagovstaging', ref)
       }
     } catch (error) {
-      buildUtil.slackNotify()
+      stages.slackNotify()
       throw error
     }
   }
