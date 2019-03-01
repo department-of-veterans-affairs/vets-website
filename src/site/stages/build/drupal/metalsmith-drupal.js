@@ -146,6 +146,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
+  const sidebar = { sidebar: page.facilitySidebar };
 
   // Create the detail page for healthcare local facilities
   if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
@@ -154,7 +155,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       ...page.otherFacilities.entities,
     ]) {
       if (facility.entityBundle === 'health_care_local_facility') {
-        const facilityCompiled = Object.assign(facility, relatedLinks);
+        const facilityCompiled = Object.assign(facility, relatedLinks, sidebar);
 
         const pagePath = facilityLocationPath(
           drupalPagePath,
@@ -185,9 +186,8 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         },
     } = contentData;
 
-    const sidebarNavItems = {sidebar: sidebarNav};
-    const alertItems = {alert: alertsItem};
-    const facilitySidebarNavItems = {facilitySidebar: facilitySidebarNav};
+  const sidebarNavItems = { sidebar: sidebarNav };
+  const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
 
     for (const page of pages) {
         // At this time, null values are returned for pages that are not yet published.
@@ -212,31 +212,27 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         const pageId = {pid: pageIdRaw};
         let pageCompiled;
 
-        if (entityBundle === 'page') {
-            pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
-        } else {
-            pageCompiled = Object.assign(page, alertItems, pageId);
-            switch (entityBundle) {
-                case 'page':
-                    pageCompiled = Object.assign(page, sidebarNavItems);
-                    break;
-                case 'health_care_region_page':
-                    pageCompiled = Object.assign(page, facilitySidebarNavItems);
-                    break;
-                default:
-                    pageCompiled = page;
-                    break;
-            }
+    switch (entityBundle) {
+      case 'page':
+        pageCompiled = Object.assign(page, sidebarNavItems);
+        break;
+      case 'health_care_region_page':
+        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        break;
+      default:
+        pageCompiled = page;
+        break;
+    }
 
-            files[`drupal${drupalPagePath}/index.html`] = createFileObj(
-                pageCompiled,
-                `${entityBundle}.drupal.liquid`,
-            );
+    files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+      pageCompiled,
+      `${entityBundle}.drupal.liquid`,
+    );
 
-            if (page.entityBundle === 'health_care_region_page') {
-                createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
-            }
-        }
+    if (page.entityBundle === 'health_care_region_page') {
+        createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+    }
+}
 
         writeDrupalDebugPage(files);
         files[`drupal/index.md`] = {
@@ -245,7 +241,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
             isDrupalPage: true,
             private: true,
         };
-    }
+
 }
 
 async function loadDrupal(buildOptions) {
