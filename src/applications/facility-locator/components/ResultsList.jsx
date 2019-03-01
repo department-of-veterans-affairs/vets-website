@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -55,7 +54,7 @@ class ResultsList extends Component {
       return (
         <div>
           <LoadingIndicator
-            message={`Searching for ${facilityTypeName}}
+            message={`Searching for ${facilityTypeName}
             in ${searchString}`}
             setFocus
           />
@@ -64,20 +63,30 @@ class ResultsList extends Component {
     }
 
     if (!results || results.length < 1) {
+      /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
       return (
-        <div className="facility-result">
+        <div
+          className="search-result-title facility-result"
+          tabIndex={0}
+          ref={this.searchResultTitle}
+        >
           No facilities found. Please try entering a different search term
           (Street, City, State or Zip) and click search to find facilities.
         </div>
       );
+      /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     }
 
     return (
       <div>
         {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
-        <p tabIndex={0} ref={this.searchResultTitle}>
+        <p
+          className="search-result-title"
+          tabIndex={0}
+          ref={this.searchResultTitle}
+        >
           {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
-          {`${results.length} results near `}
+          {`${results.length} results for ${facilityTypeName} near `}
           <strong>“{context}”</strong>
         </p>
         <div>
