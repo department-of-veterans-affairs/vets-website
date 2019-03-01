@@ -35,7 +35,7 @@ describe('<PaymentReviewView>', () => {
     component.unmount();
   });
   it('should not render prefill bank info', () => {
-    const moarData = {
+    const moreData = {
       ...data,
       'view:bankAccount': {
         bankAccount: {
@@ -45,7 +45,7 @@ describe('<PaymentReviewView>', () => {
       },
     };
     const component = shallow(
-      <PaymentReviewView name="accountType" data={moarData} />,
+      <PaymentReviewView name="accountType" data={moreData} />,
     );
 
     const text = component.text();
