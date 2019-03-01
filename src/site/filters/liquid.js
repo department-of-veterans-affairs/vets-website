@@ -59,7 +59,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
-    const id = `vha_`.concat(facilityLocatorApiId);
+    const id = `vha_${facilityLocatorApiId}`;
     return JSON.stringify(id);
   };
 };
