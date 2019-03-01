@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { focusElement } from '../../../platform/utilities/ui';
 
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';

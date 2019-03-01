@@ -46,7 +46,7 @@ function updateAttr(attr, doc, client) {
       dest: newAssetPath,
     });
 
-    item.attr('src', `/${newAssetPath}`);
+    item.attr(attr, `/${newAssetPath}`);
   });
 
   return assetsToDownload;
@@ -118,8 +118,9 @@ function downloadDrupalAssets(options) {
 
           if (response.ok) {
             downloadCount++;
-            files[asset.dest] = {
-              path: asset.dest,
+            const decodedFileName = decodeURIComponent(asset.dest);
+            files[decodedFileName] = {
+              path: decodedFileName,
               isDrupalAsset: true,
               contents: await response.buffer(),
             };

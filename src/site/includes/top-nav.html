@@ -25,7 +25,7 @@
 
   <div class="row va-flex usa-grid usa-grid-full" id="va-header-logo-menu">
     <div class="va-header-logo-wrapper">
-      <a href="/" class="va-header-logo">
+      <a href="{% if isDrupalPage == true %}/drupal{% else %}/{% endif %}" class="va-header-logo">
       <img src="/img/header-logo.png" alt="Go to VA.gov"/>
       </a>
     </div>

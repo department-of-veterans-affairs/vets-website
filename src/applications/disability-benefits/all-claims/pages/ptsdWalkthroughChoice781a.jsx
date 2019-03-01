@@ -5,11 +5,16 @@ import {
   PtsdUploadChoiceDescription,
   UploadPtsdDescription,
 } from '../content/ptsdWalkthroughChoice';
+import { PTSD_TYPES_TO_FORMS } from '../constants';
 
+const { personalAssaultSexualTrauma } = PTSD_TYPES_TO_FORMS;
 export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription formData={formData} formType="781a" />
+    <UploadPtsdDescription
+      formData={formData}
+      formType={personalAssaultSexualTrauma}
+    />
   ),
   'view:upload781aChoice': {
     'ui:title': ' ',
@@ -24,7 +29,9 @@ export const uiSchema = {
     },
   },
   'view:upload781aChoiceHelp': {
-    'ui:description': <PtsdUploadChoiceDescription formType="781a" />,
+    'ui:description': (
+      <PtsdUploadChoiceDescription formType={personalAssaultSexualTrauma} />
+    ),
   },
 };
 

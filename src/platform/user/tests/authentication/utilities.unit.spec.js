@@ -9,12 +9,15 @@ import {
 } from '../../authentication/utilities';
 
 let oldSessionStorage;
+let oldLocalStorage;
 let oldWindow;
 
 const fakeWindow = () => {
   oldSessionStorage = global.sessionStorage;
+  oldLocalStorage = global.localStorage;
   oldWindow = global.window;
   global.sessionStorage = { setItem: () => {}, removeItem: () => {} };
+  global.localStorage = { setItem: () => {}, removeItem: () => {} };
   global.window = {
     dataLayer: [],
     location: {
@@ -31,6 +34,7 @@ describe('authentication URL helpers', () => {
   afterEach(() => {
     global.window = oldWindow;
     global.sessionStorage = oldSessionStorage;
+    global.localStorage = oldLocalStorage;
   });
 
   it('should redirect for signup', () => {

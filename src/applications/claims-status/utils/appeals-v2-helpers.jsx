@@ -15,6 +15,7 @@ export const APPEAL_ACTIONS = {
   postCavcRemand: 'post_cavc_remand',
   reconsideration: 'reconsideration',
   cue: 'cue',
+  other: 'other',
 };
 
 export const APPEAL_TYPES = {
@@ -838,7 +839,7 @@ export const EVENT_TYPES = {
   transcript: 'transcript',
   bvaDecision: 'bva_decision',
   cavcDecision: 'cavc_decision',
-  remandReturn: 'remandReturn',
+  remandReturn: 'remand_return',
   rampNotice: 'ramp_notice',
   fieldGrant: 'field_grant',
   withdrawn: 'withdrawn',

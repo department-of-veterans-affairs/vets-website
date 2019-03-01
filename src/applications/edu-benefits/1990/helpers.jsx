@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = {

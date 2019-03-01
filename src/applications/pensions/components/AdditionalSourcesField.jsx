@@ -6,15 +6,15 @@ import {
   scrollToFirstError,
   focusElement,
 } from '../../../platform/utilities/ui';
-import { setArrayRecordTouched } from 'us-forms-system/lib/js/helpers';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import {
   toIdSchema,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
+import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

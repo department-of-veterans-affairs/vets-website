@@ -3,17 +3,17 @@ import _ from 'lodash/fp';
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
 import * as address from '../../../../platform/forms/definitions/address';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import DD214Description from '../components/DD214Description';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EducationPeriodView from '../components/EducationPeriodView';
 
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import yearUI from 'us-forms-system/lib/js/definitions/year';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import yearUI from 'platform/forms-system/src/js/definitions/year';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -26,7 +26,7 @@ import {
 } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
-import { validateMatch } from 'us-forms-system/lib/js/validation';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { validateYearRange } from '../validations';
 
 const {

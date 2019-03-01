@@ -1,6 +1,11 @@
 import 'platform/polyfills';
 import cookie from 'cookie';
-import createCommonStore from 'platform/startup/store';
+
+import buckets from '../../site/constants/buckets';
+import environments from '../../site/constants/environments';
+
+import createCommonStore from '../../platform/startup/store';
+import environment from '../../platform/utilities/environment';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
@@ -20,8 +25,6 @@ import redirectIfNecessary from './redirects';
 import addFocusBehaviorToCrisisLineModal from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
-import currentEnvironment from 'platform/utilities/environment';
-import BUCKETS from '../../site/constants/buckets';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -71,11 +74,11 @@ function activateHeaderFooter() {
   document.body.appendChild(footerContainer);
 }
 
-function renderFooter() {
+function renderFooter(data) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(() => {
+  startVAFooter(data, () => {
     addOverlayTriggers();
     addFocusBehaviorToCrisisLineModal();
 
@@ -101,7 +104,7 @@ function renderFooter() {
   });
 }
 
-function mountReactComponents(commonStore) {
+function mountReactComponents(headerFooterData, commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
@@ -120,12 +123,20 @@ function mountReactComponents(commonStore) {
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
+  startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  renderFooter();
+  renderFooter(headerFooterData.footerData);
+}
+
+function getAssetHostName() {
+  if (environment.BUILDTYPE === environments.LOCALHOST) {
+    return environment.BASE_URL;
+  }
+
+  return buckets[environment.BUILDTYPE];
 }
 
 function removeCurrentHeaderFooter() {
@@ -143,7 +154,21 @@ function removeCurrentHeaderFooter() {
 function activateInjectedAssets() {
   document.addEventListener('DOMContentLoaded', _e => {
     activateHeaderFooter();
-    mountReactComponents(createCommonStore());
+    fetch(`${getAssetHostName()}/generated/headerFooter.json`)
+      .then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+
+        throw new Error(
+          `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+            resp.statusText
+          }`,
+        );
+      })
+      .then(headerFooterData => {
+        mountReactComponents(headerFooterData, createCommonStore());
+      });
   });
 }
 
@@ -193,7 +218,7 @@ function getHostnameOverride() {
   // if the bucket is not found, an empty string will use relative paths
   return {
     targetEnvironment,
-    hostnameOverride: BUCKETS[targetEnvironment] || '',
+    hostnameOverride: buckets[targetEnvironment] || '',
   };
 }
 
@@ -251,7 +276,7 @@ function main() {
   // if a build type is passed in the url, then the header for the specific build type is used
   const { targetEnvironment, hostnameOverride } = getHostnameOverride();
 
-  if (targetEnvironment && targetEnvironment !== currentEnvironment.BUILDTYPE) {
+  if (targetEnvironment && targetEnvironment !== environment.BUILDTYPE) {
     removeCurrentHeaderFooter();
     removeInjectedHeaderFooter();
     addOverrideHeaderFooter(hostnameOverride);

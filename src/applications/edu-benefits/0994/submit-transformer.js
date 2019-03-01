@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
   const usFormTransform = () =>

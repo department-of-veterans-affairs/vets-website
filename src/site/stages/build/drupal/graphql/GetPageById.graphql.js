@@ -1,6 +1,9 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const fragments = require('./fragments.graphql');
+const healthCareRegionPage = require('./healthCareRegionPage.graphql');
+const newsStoryPage = require('./newStoryPage.graphql');
+const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 
 /**
@@ -13,6 +16,9 @@ module.exports = `
   ${fragments}
   ${landingPage}
   ${page}
+  ${healthCareRegionPage}
+  ${newsStoryPage}
+  ${pressReleasePage}
 
   query GetPageById($path: String!) {
     route: route(path: $path) {
@@ -20,6 +26,9 @@ module.exports = `
         entity {
           ... landingPage
           ... page
+          ... healthCareRegionPage
+          ... newsStoryPage
+          ... pressReleasePage
         }
       }
     }

@@ -9,7 +9,7 @@ import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import {
   validateMilitaryCity,
   validateMilitaryState,
@@ -735,7 +735,7 @@ export const hasNewDisabilities = formData =>
  */
 export const urls = {
   v1: '/disability-benefits/apply/form-526-disability-claim',
-  v2: '/disability-benefits/apply/form-526-all-claims',
+  v2: '/disability/file-disability-claim-form-21-526ez',
 };
 
 /**

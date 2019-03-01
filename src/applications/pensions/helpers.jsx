@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 import environment from '../../platform/utilities/environment';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object

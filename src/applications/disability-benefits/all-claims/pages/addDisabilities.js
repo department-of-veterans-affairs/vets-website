@@ -1,4 +1,4 @@
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
 import { uiDescription, autoSuggestTitle } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';

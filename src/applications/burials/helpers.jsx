@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from '../../platform/utilities/api';
 
 function checkStatus(guid) {

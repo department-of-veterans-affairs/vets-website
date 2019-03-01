@@ -14,6 +14,7 @@ const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const nonceTransformer = require('../build/plugins/nonceTransformer');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
+const createHeaderFooter = require('../build/plugins/create-header-footer');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const applyFragments = require('../build/plugins/apply-fragments');
 
@@ -84,6 +85,8 @@ function createPipeline(options) {
       ],
     }),
   );
+
+  smith.use(createHeaderFooter(BUILD_OPTIONS));
 
   smith.use(
     navigation({

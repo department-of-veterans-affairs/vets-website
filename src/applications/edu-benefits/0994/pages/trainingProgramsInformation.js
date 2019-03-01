@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { trainingDescription } from '../content/trainingProgramsInformation';
 import VetTecProgramView from '../components/VetTecProgramView';
 
@@ -17,7 +17,11 @@ const getCourseType = (formData, index) =>
 
 const checkLocation = field => field === 'inPerson' || field === 'both';
 
-const showLocation = (formData, index) =>
+const programNameEntered = (formData, index) =>
+  _.get(formData, `vetTecPrograms[${index}].programName`, '').trim() !== '';
+
+const locationRequired = (formData, index) =>
+  programNameEntered(formData, index) &&
   checkLocation(getCourseType(formData, index));
 
 export const uiSchema = {
@@ -45,6 +49,7 @@ export const uiSchema = {
             both: 'It’s both online and in-person',
           },
         },
+        'ui:required': programNameEntered,
       },
       'view:location': {
         'ui:title': ' ',
@@ -56,7 +61,7 @@ export const uiSchema = {
       },
       locationCity: {
         'ui:title': 'City',
-        'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:required': locationRequired,
         'ui:errorMessages': {
           pattern: 'Please fill in a valid city',
         },
@@ -70,13 +75,16 @@ export const uiSchema = {
         'ui:errorMessages': {
           pattern: 'Please select a valid state',
         },
-        'ui:required': (formData, index) => showLocation(formData, index),
+        'ui:required': locationRequired,
         'ui:options': {
           expandUnder: 'courseType',
           expandUnderCondition: checkLocation,
         },
       },
-      plannedStartDate: dateUI('What is your estimated start date?'),
+      plannedStartDate: {
+        ...dateUI('What is your estimated start date?'),
+        'ui:required': programNameEntered,
+      },
     },
   },
 };
@@ -89,7 +97,6 @@ export const schema = {
       maxItems: 3,
       items: {
         type: 'object',
-        required: ['plannedStartDate'],
         properties: {
           providerName,
           programName,
@@ -107,7 +114,10 @@ export const schema = {
             ...location.properties.state,
             'ui:collapsed': true,
           },
-          plannedStartDate,
+          plannedStartDate: {
+            ...plannedStartDate,
+            'ui:collapsed': true,
+          },
         },
       },
     },

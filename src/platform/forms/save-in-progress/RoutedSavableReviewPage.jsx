@@ -6,8 +6,8 @@ import Scroll from 'react-scroll';
 
 import debounce from '../../utilities/data/debounce';
 
-import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
-import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
+import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
+import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 import CallHRC from '../../brand-consolidation/components/CallHRC';

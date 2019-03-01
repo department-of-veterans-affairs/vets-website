@@ -39,7 +39,7 @@ class FormSaved extends React.Component {
   }
 
   render() {
-    const { formId, lastSavedDate } = this.props;
+    const { formId, lastSavedDate, expirationMessage } = this.props;
     const { profile } = this.props.user;
     const { verified } = profile;
     const prefillAvailable = !!(
@@ -65,17 +65,19 @@ class FormSaved extends React.Component {
                     Last saved on{' '}
                     {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}
                   </span>
-                  <p className="expires-container">
-                    Your saved application{' '}
-                    <span className="expires">
-                      will expire on {expirationDate}.
-                    </span>
-                  </p>
+                  {expirationMessage || (
+                    <p className="expires-container">
+                      Your saved application{' '}
+                      <span className="expires">
+                        will expire on {expirationDate}.
+                      </span>
+                    </p>
+                  )}
                 </div>
               )}
             {success}
-            If you’re logged in through a public computer, please sign out of
-            your account before you log off to keep your information secure.
+            If you’re on a public computer, please sign out of your account
+            before you leave so your information stays secure.
           </div>
         </div>
         {!verified && (
@@ -123,6 +125,7 @@ FormSaved.propTypes = {
   location: PropTypes.object,
   scrollParams: PropTypes.object,
   lastSavedDate: PropTypes.number.isRequired,
+  expirationMessage: PropTypes.node,
 };
 
 function mapStateToProps(state) {
