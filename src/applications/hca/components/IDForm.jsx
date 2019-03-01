@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -82,6 +84,52 @@ export default class IDForm extends React.Component {
       'ui:labels': genderLabels,
     },
   };
+
+  renderContinueButtonOrStatus = () => {
+    const { enrollmentStatus } = this.props;
+    if (enrollmentStatus && enrollmentStatus !== 'none_of_the_above') {
+      return (
+        <React.Fragment>
+          <AlertBox
+            isVisible
+            status="error"
+            headline="Please sign in to continue your application"
+            content={
+              <React.Fragment>
+                <p>
+                  We’re sorry for the interruption, but we need you to review
+                  some information before you continue applying. Please sign in
+                  below to review. If you don’t have an account, you can create
+                  one now.
+                </p>
+                <button
+                  className="usa-button-primary"
+                  onClick={this.props.handleSignIn}
+                >
+                  Sign in to VA.gov
+                </button>
+              </React.Fragment>
+            }
+          />
+          <br />
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <LoadingButton
+        isLoading={this.props.isLoading}
+        disabled={false}
+        type="submit"
+        /* to override the `width: 100%` given to SchemaForm submit buttons */
+        style={{ width: 'auto' }}
+      >
+        Continue to the Application
+        <span className="button-icon">&nbsp;»</span>
+      </LoadingButton>
+    );
+  };
+
   render() {
     return (
       <SchemaForm
@@ -95,16 +143,7 @@ export default class IDForm extends React.Component {
         onChange={this.formChange}
         data={this.state.idFormData}
       >
-        <LoadingButton
-          isLoading={this.props.isLoading}
-          disabled={false}
-          type="submit"
-          /* to override the `width: 100%` given to SchemaForm submit buttons */
-          style={{ width: 'auto' }}
-        >
-          Continue to the Application
-          <span className="button-icon">&nbsp;»</span>
-        </LoadingButton>
+        {this.renderContinueButtonOrStatus()}
       </SchemaForm>
     );
   }
