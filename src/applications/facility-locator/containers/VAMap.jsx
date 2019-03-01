@@ -443,7 +443,7 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, results, pagination, selectedResult } = this.props;
+    const { currentQuery, selectedResult } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
@@ -496,7 +496,7 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, results, pagination } = this.props;
+    const { currentQuery } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
