@@ -3,7 +3,7 @@
  * @TODO: change this to retrieve correct menu once sidebar nav migration is complete
  */
 
-const MENU_NAME = 'main';
+const MENU_NAME = 'health-care-benefits-hub';
 
 module.exports = `
   sidebarQuery: menuByName(name: "${MENU_NAME}") {
@@ -28,7 +28,7 @@ module.exports = `
           expanded
           description
           url {
-          	path
+            path
           }
           links {
             label
@@ -43,6 +43,14 @@ module.exports = `
               description
               url {
                 path
+              }
+              links {
+                label
+                expanded
+                description
+                url {
+                  path
+                }
               }
             }
           }
