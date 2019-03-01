@@ -29,6 +29,8 @@ export const descriptionInfo = (
   </div>
 );
 
-export const disabilityRequiredAlert = props => (
-  <div>{JSON.stringify(props, null, 2)}</div>
-);
+export const disabilityRequiredAlert = ({ formContext }) => {
+  // Display only after the user tries to submit with no disabilities
+  if (!formContext.submitted) return null;
+  return <div>Alert!</div>;
+};

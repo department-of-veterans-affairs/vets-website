@@ -42,19 +42,19 @@ export const uiSchema = {
           'ui:validations': [validateDisabilityName],
         },
       ),
-      // This object only shows up when the user tries to continue without claiming either a rated or new condition
-      'view:newDisabilityError': {
-        'ui:description': disabilityRequiredAlert,
-        // Put the validation here instead of on the condition so the user can't continue to the next page but
-        //  aren't bombarded with two validation errors.
-        'ui:validations': [requireDisability],
-        'ui:options': {
-          hideIf: hasClaimedConditions,
-        },
-      },
       'view:descriptionInfo': {
         'ui:description': descriptionInfo,
       },
+    },
+  },
+  // This object only shows up when the user tries to continue without claiming either a rated or new condition
+  'view:newDisabilityError': {
+    'ui:description': disabilityRequiredAlert,
+    // Put the validation here instead of on the condition so the user can't continue to the next page but
+    //  aren't bombarded with two validation errors.
+    'ui:validations': [requireDisability],
+    'ui:options': {
+      hideIf: hasClaimedConditions,
     },
   },
 };
@@ -67,13 +67,12 @@ export const schema = {
       minItems: 1,
       items: {
         type: 'object',
-        // required: ['condition'],
         properties: {
           condition,
-          'view:newDisabilityError': { type: 'object', properties: {} },
           'view:descriptionInfo': { type: 'object', properties: {} },
         },
       },
     },
+    'view:newDisabilityError': { type: 'object', properties: {} },
   },
 };
