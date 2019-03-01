@@ -1,11 +1,12 @@
 /**
- * The sidebar navigation menu from Drupal for display on basic pages
+ * The sidebar navigation menu from Drupal for display on health care facility pages
+ *
  */
 
-const MENU_NAME = 'health-care-benefits-hub';
+const MENU_NAME = 'pittsburg-healthcare';
 
 module.exports = `
-  sidebarQuery: menuByName(name: "${MENU_NAME}") {
+  facilitySidebarQuery: menuByName(name: "${MENU_NAME}") {
     name
     description
     links {

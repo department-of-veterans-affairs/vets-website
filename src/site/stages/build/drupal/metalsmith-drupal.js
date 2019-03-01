@@ -99,10 +99,12 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     data: {
       nodeQuery: { entities: pages },
       sidebarQuery: sidebarNav,
+      facilitySidebarQuery: facilitySidebarNav,
     },
   } = contentData;
 
   const sidebarNavItems = { sidebar: sidebarNav };
+  const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -125,11 +127,23 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     let pageCompiled;
 
-    if (entityBundle === 'page') {
-      pageCompiled = Object.assign(page, sidebarNavItems);
-    } else {
-      pageCompiled = page;
+    switch (entityBundle) {
+      case 'page':
+        pageCompiled = Object.assign(page, sidebarNavItems);
+        break;
+      case 'health_care_region_page':
+        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        break;
+      default:
+        pageCompiled = page;
+        break;
     }
+
+    // if (entityBundle === 'page') {
+    //   pageCompiled = Object.assign(page, sidebarNavItems);
+    // } else {
+    //   pageCompiled = page;
+    // }
 
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(
       pageCompiled,
