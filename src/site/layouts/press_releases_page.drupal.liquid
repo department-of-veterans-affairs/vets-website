@@ -46,29 +46,31 @@ Example data:
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
-      <h5>{{ title }}</h5>
-    </nav>
-    <div class="usa-width-three-fourths">
-      {% if !entityPublished %}
-        <div class="usa-alert usa-alert-info" >
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">You are viewing a draft.</p>
+      <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
+        <h5>{{ title }}</h5>
+      </nav>
+      <div class="usa-width-three-fourths">
+        {% if !entityPublished %}
+          <div class="usa-alert usa-alert-info" >
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">You are viewing a draft.</p>
+            </div>
           </div>
-        </div>
-      {% endif %}
+        {% endif %}
 
-      <article class="usa-content">
-        <h1>Press Releases</h1>
-        {% for pr in allPressReleaseTeasers.entities %}
-          <section class="vads-u-margin-bottom--3">
-            <h3><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
-            <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
-            <p>{{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
-          </section>
-        {% endfor %}
-    </article>
+        <article class="usa-content">
+          <h1>Press Releases</h1>
+          {% for pr in pagedItems %}
+            <section class="vads-u-margin-bottom--3">
+              <h3><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
+              <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
+              <p>{{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
+            </section>
+          {% endfor %}
+          {% include "src/site/includes/pagination.drupal.liquid" %}
+        </article>
+      </div>
     </div>
-</main>
+  </main>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
