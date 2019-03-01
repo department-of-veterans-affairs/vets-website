@@ -12,7 +12,7 @@ const resultsData = {
         classification: 'Multi-Specialty CBOC',
         website: null,
         lat: 34.05171284,
-        long: -118.23874096,
+        long: -77.52753613,
         address: {
           physical: {
             address1: '351 East Temple Street',
@@ -160,7 +160,7 @@ const resultsData = {
         classification: 'VETSUCCESS ON CAMPUS',
         website: null,
         lat: 34.08751109,
-        long: -118.2917626,
+        long: -77.357505649,
         address: {
           physical: {
             address1: '855 North Vermont',
@@ -225,10 +225,10 @@ function initApplicationMock(token) {
   });
 
   mock(token, {
-    path: '/v0/facilities/va/vha_691GE',
+    path: '/v0/facilities/va/vba_343z',
     verb: 'get',
     value: {
-      data: resultsData.data[0],
+      data: resultsData.data[2],
     },
   });
 }
