@@ -147,7 +147,7 @@ function compareLoginPolicy(loginPolicy) {
   localStorage.removeItem('pendingLoginPolicy');
 }
 
-function recordGAAuthEvent(loginPolicy, firstName, loa) {
+function recordGAAuthEvent(loginPolicy, loa) {
   // The payload we receive from authenticating does not specify whether
   // the user has logged in or if they are a new user. To differentiate, we are
   // retrieving a "pendingAuthAction" stored in localStorage when the user
@@ -187,7 +187,7 @@ export function setupProfileSession(payload) {
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (!hasSession()) recordGAAuthEvent(loginPolicy, firstName, loa);
+  if (!hasSession()) recordGAAuthEvent(loginPolicy, loa);
 
   localStorage.setItem('hasSession', true);
 
