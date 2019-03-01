@@ -176,63 +176,76 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
-  const {
-    data: {
-      nodeQuery: { entities: pages },
-      sidebarQuery: sidebarNav,
-      alerts: alertsItem,
-    },
-  } = contentData;
-
-  const sidebarNavItems = { sidebar: sidebarNav };
-  const alertItems = { alert: alertsItem };
-
-  for (const page of pages) {
-    // At this time, null values are returned for pages that are not yet published.
-    // Once the Content-Preview server is up and running, then unpublished pages should
-    // reliably return like any other page and we can delete this.
-    if (!page) {
-      log('Skipping null entity...');
-      continue;
-    }
-
-    if (!Object.keys(page).length) {
-      log('Skipping empty entity...');
-      continue;
-    }
-
     const {
-      entityUrl: { path: drupalPagePath },
-      entityBundle,
-    } = page;
+        data: {
+            nodeQuery: {entities: pages},
+            sidebarQuery: sidebarNav,
+            alerts: alertsItem,
+            facilitySidebarQuery: facilitySidebarNav,
+        },
+    } = contentData;
 
-    const pageIdRaw = parseInt(page.entityId, 10);
-    const pageId = { pid: pageIdRaw };
-    let pageCompiled;
+    const sidebarNavItems = {sidebar: sidebarNav};
+    const alertItems = {alert: alertsItem};
+    const facilitySidebarNavItems = {facilitySidebar: facilitySidebarNav};
 
-    if (entityBundle === 'page') {
-      pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
-    } else {
-      pageCompiled = Object.assign(page, alertItems, pageId);
+    for (const page of pages) {
+        // At this time, null values are returned for pages that are not yet published.
+        // Once the Content-Preview server is up and running, then unpublished pages should
+        // reliably return like any other page and we can delete this.
+        if (!page) {
+            log('Skipping null entity...');
+            continue;
+        }
+
+        if (!Object.keys(page).length) {
+            log('Skipping empty entity...');
+            continue;
+        }
+
+        const {
+            entityUrl: {path: drupalPagePath},
+            entityBundle,
+        } = page;
+
+        const pageIdRaw = parseInt(page.entityId, 10);
+        const pageId = {pid: pageIdRaw};
+        let pageCompiled;
+
+        if (entityBundle === 'page') {
+            pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
+        } else {
+            pageCompiled = Object.assign(page, alertItems, pageId);
+            switch (entityBundle) {
+                case 'page':
+                    pageCompiled = Object.assign(page, sidebarNavItems);
+                    break;
+                case 'health_care_region_page':
+                    pageCompiled = Object.assign(page, facilitySidebarNavItems);
+                    break;
+                default:
+                    pageCompiled = page;
+                    break;
+            }
+
+            files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+                pageCompiled,
+                `${entityBundle}.drupal.liquid`,
+            );
+
+            if (page.entityBundle === 'health_care_region_page') {
+                createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+            }
+        }
+
+        writeDrupalDebugPage(files);
+        files[`drupal/index.md`] = {
+            ...files['index.md'],
+            path: 'drupal/index.html',
+            isDrupalPage: true,
+            private: true,
+        };
     }
-
-    files[`drupal${drupalPagePath}/index.html`] = createFileObj(
-      pageCompiled,
-      `${entityBundle}.drupal.liquid`,
-    );
-
-    if (page.entityBundle === 'health_care_region_page') {
-      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
-    }
-  }
-
-  writeDrupalDebugPage(files);
-  files[`drupal/index.md`] = {
-    ...files['index.md'],
-    path: 'drupal/index.html',
-    isDrupalPage: true,
-    private: true,
-  };
 }
 
 async function loadDrupal(buildOptions) {
