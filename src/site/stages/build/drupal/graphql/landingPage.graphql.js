@@ -48,7 +48,9 @@ module.exports = `
             entityBundle
             title
             fieldLink {
-              uri
+              url {
+                path
+              }
               title
               options                  
             }
