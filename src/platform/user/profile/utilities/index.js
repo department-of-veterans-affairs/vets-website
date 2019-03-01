@@ -130,9 +130,7 @@ function compareLoginPolicy(loginPolicy) {
   let attemptedLoginPolicy = localStorage.getItem('pendingLoginPolicy');
 
   attemptedLoginPolicy =
-    attemptedLoginPolicy === 'mhv'
-      ? 'myhealthevet'
-      : localStorage.getItem('pendingLoginPolicy');
+    attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
 
   if (attemptedLoginPolicy === null) {
     Raven.captureMessage(
@@ -151,7 +149,7 @@ function compareLoginPolicy(loginPolicy) {
 
 function recordGAAuthEvent(loginPolicy, firstName, loa) {
   // The payload we receive from authenticating does not specify whether
-  // the user has logged in, or is a new user. To differentiate, we are
+  // the user has logged in or if they are a new user. To differentiate, we are
   // retrieving a "pendingAuthAction" stored in localStorage when the user
   // clicks a sign in/register button in the Sign In Modal
 
