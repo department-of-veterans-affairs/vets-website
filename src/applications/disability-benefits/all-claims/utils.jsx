@@ -795,3 +795,11 @@ export const recordEventOnce = (event, key) => {
     recordEvent(event);
   }
 };
+
+export const hasClaimedConditions = formData => {
+  const { newDisabilities, ratedDisabilities } = formData;
+  const claimingNew = newDisabilities && newDisabilities.some(d => d.condition);
+  const claimingRated =
+    ratedDisabilities && ratedDisabilities.some(d => d['view:selected']);
+  return claimingNew || claimingRated;
+};

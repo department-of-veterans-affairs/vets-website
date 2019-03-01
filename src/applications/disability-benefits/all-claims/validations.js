@@ -2,7 +2,12 @@ import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
-import { isWithinRange, getPOWValidationMessage, pathWithIndex } from './utils';
+import {
+  isWithinRange,
+  getPOWValidationMessage,
+  pathWithIndex,
+  hasClaimedConditions,
+} from './utils';
 
 import {
   MILITARY_CITIES,
@@ -257,5 +262,12 @@ export const validateDisabilityName = (err, fieldData) => {
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');
+  }
+};
+
+export const requireDisability = (err, fieldData, formData) => {
+  if (!hasClaimedConditions(formData)) {
+    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
+    err.addError('');
   }
 };

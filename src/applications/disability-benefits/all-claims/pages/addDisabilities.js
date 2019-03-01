@@ -1,9 +1,14 @@
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
-import { uiDescription, autoSuggestTitle } from '../content/addDisabilities';
+import {
+  descriptionInfo,
+  autoSuggestTitle,
+  disabilityRequiredAlert,
+} from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
-import { validateDisabilityName } from '../validations';
+import { validateDisabilityName, requireDisability } from '../validations';
+import { hasClaimedConditions } from '../utils';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
@@ -37,8 +42,18 @@ export const uiSchema = {
           'ui:validations': [validateDisabilityName],
         },
       ),
+      // This object only shows up when the user tries to continue without claiming either a rated or new condition
+      'view:newDisabilityError': {
+        'ui:description': disabilityRequiredAlert,
+        // Put the validation here instead of on the condition so the user can't continue to the next page but
+        //  aren't bombarded with two validation errors.
+        'ui:validations': [requireDisability],
+        'ui:options': {
+          hideIf: hasClaimedConditions,
+        },
+      },
       'view:descriptionInfo': {
-        'ui:description': uiDescription,
+        'ui:description': descriptionInfo,
       },
     },
   },
@@ -52,9 +67,10 @@ export const schema = {
       minItems: 1,
       items: {
         type: 'object',
-        required: ['condition'],
+        // required: ['condition'],
         properties: {
           condition,
+          'view:newDisabilityError': { type: 'object', properties: {} },
           'view:descriptionInfo': { type: 'object', properties: {} },
         },
       },

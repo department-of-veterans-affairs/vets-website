@@ -1,5 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+// import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const autoSuggestTitle = (
   <p>
@@ -10,7 +11,7 @@ export const autoSuggestTitle = (
   </p>
 );
 
-export const uiDescription = (
+export const descriptionInfo = (
   <div>
     <AdditionalInfo triggerText="What if I don’t know the name of my condition?">
       <p>
@@ -26,4 +27,8 @@ export const uiDescription = (
       </ul>
     </AdditionalInfo>
   </div>
+);
+
+export const disabilityRequiredAlert = props => (
+  <div>{JSON.stringify(props, null, 2)}</div>
 );
