@@ -124,8 +124,13 @@ export function mapRawUserDataToState(json) {
 export const hasSession = () => localStorage.getItem('hasSession');
 
 function compareLoginPolicy(loginPolicy) {
-  const attemptedLoginPolicy =
-    localStorage.getItem('pendingLoginPolicy') === 'mhv'
+  // This is experimental code related to GA that will let us determine
+  // if the backend is returning an accurate loginPolicy (service_name)
+
+  let attemptedLoginPolicy = localStorage.getItem('pendingLoginPolicy');
+
+  attemptedLoginPolicy =
+    attemptedLoginPolicy === 'mhv'
       ? 'myhealthevet'
       : localStorage.getItem('pendingLoginPolicy');
 
@@ -144,16 +149,11 @@ function compareLoginPolicy(loginPolicy) {
   localStorage.removeItem('pendingLoginPolicy');
 }
 
-export function setupProfileSession(payload) {
-  localStorage.setItem('hasSession', true);
-  const userData = get('data.attributes.profile', payload, {});
-  const { firstName, signIn, loa } = userData;
-
-  const loginPolicy = get('serviceName', signIn, null);
-
-  // Since localStorage coerces everything into String,
-  // this avoids setting the first name to the string 'null'.
-  if (firstName) localStorage.setItem('userFirstName', firstName);
+function recordGAAuthEvent(loginPolicy, firstName, loa) {
+  // The payload we receive from authenticating does not specify whether
+  // the user has logged in, or is a new user. To differentiate, we are
+  // retrieving a "pendingAuthAction" stored in localStorage when the user
+  // clicks a sign in/register button in the Sign In Modal
 
   const pendingAuthAction = localStorage.getItem('pendingAuthAction');
 
@@ -161,8 +161,8 @@ export function setupProfileSession(payload) {
     // Record GA success event for the register method.
     recordEvent({ event: `register-success-${loginPolicy}` });
   } else if (pendingAuthAction === 'login') {
-    // Report GA success event for the login method.
     compareLoginPolicy(loginPolicy);
+    // Report GA success event for the login method.
     recordEvent({ event: `login-success-${loginPolicy}` });
   } else {
     recordEvent({ event: `login-or-register-success-${loginPolicy}` });
@@ -173,13 +173,28 @@ export function setupProfileSession(payload) {
 
   localStorage.removeItem('pendingAuthAction');
 
-  // Set Sentry Tag so we can associate errors with the login policy
-  setRavenLoginType(loginPolicy);
-
   // Report out the current level of assurance for the user.
   if (loa && loa.current) {
     recordEvent({ event: `login-loa-current-${loa.current}` });
   }
+}
+
+export function setupProfileSession(payload) {
+  const userData = get('data.attributes.profile', payload, {});
+  const { firstName, signIn, loa } = userData;
+
+  const loginPolicy = get('serviceName', signIn, null);
+
+  // Since localStorage coerces everything into String,
+  // this avoids setting the first name to the string 'null'.
+  if (firstName) localStorage.setItem('userFirstName', firstName);
+
+  if (!hasSession()) recordGAAuthEvent(loginPolicy, firstName, loa);
+
+  localStorage.setItem('hasSession', true);
+
+  // Set Sentry Tag so we can associate errors with the login policy
+  setRavenLoginType(loginPolicy);
 }
 
 export function teardownProfileSession() {

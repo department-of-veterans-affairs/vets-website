@@ -64,6 +64,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
           // If the user receives a 401 when trying to log out, it means their session
           // has expired.  Redirect them home.  In all other cases, redirect to login
           if (isLogout) {
+            window.localStorage.removeItem('hasSession');
             window.location.href = '/';
           } else if (!pathname.includes('auth/login/callback')) {
             const loginUrl = appendQuery(environment.BASE_URL, {
