@@ -443,7 +443,7 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, results, pagination, selectedResult } = this.props;
+    const { currentQuery, selectedResult } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
@@ -459,8 +459,7 @@ class VAMap extends Component {
             </TabList>
             <TabPanel>
               <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
-                <ResultsList results={results} pagination={pagination} isMobile
-                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
+                <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
                 {otherToolsLink}
               </div>
             </TabPanel>
@@ -497,7 +496,7 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, results, pagination } = this.props;
+    const { currentQuery } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
@@ -514,8 +513,7 @@ class VAMap extends Component {
             style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
               <div>
-                <ResultsList results={results} pagination={pagination}
-                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
+                <ResultsList updateUrlParams={this.updateUrlParams} />
               </div>
             </div>
           </div>
