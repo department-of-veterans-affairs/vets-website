@@ -25,7 +25,8 @@ function hcaIDForm(state = initialState, action) {
 
     case SUBMIT_ID_FORM_FAILED: {
       const { errors } = action;
-      const hasOptionalDD214Upload = errors.some(error => error.code === '404');
+      const hasOptionalDD214Upload =
+        errors && errors.some(error => error.code === '404');
       return { ...state, errors, hasOptionalDD214Upload, isSubmitting: false };
     }
 

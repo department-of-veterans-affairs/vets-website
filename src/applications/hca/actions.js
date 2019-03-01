@@ -22,7 +22,7 @@ export function submitIDForm(formData) {
     apiRequest(
       url,
       null,
-      ({ data }) => dispatch({ type: SUBMIT_ID_FORM_SUCCEEDED, data }),
+      data => dispatch({ type: SUBMIT_ID_FORM_SUCCEEDED, data }),
       ({ errors }) => dispatch({ type: SUBMIT_ID_FORM_FAILED, errors }),
     );
   };

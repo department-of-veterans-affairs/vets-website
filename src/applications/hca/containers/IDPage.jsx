@@ -89,6 +89,7 @@ class IDPage extends React.Component {
             />
             <br />
             <IDForm
+              enrollmentStatus={this.props.enrollmentStatus}
               isLoading={this.props.isSubmittingIDForm}
               handleSignIn={this.showSignInModal}
               handleSubmit={this.props.submitIDForm}
@@ -111,7 +112,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   enrollmentStatus: state.hcaIDForm.enrollmentStatus,
-  errors: state.hcaIDForm.errors,
   form: state.form,
   hasOptionalDD214Upload: state.hcaIDForm.hasOptionalDD214Upload,
   isSubmittingIDForm: state.hcaIDForm.isSubmitting,
