@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { itfNotice } from '../content/introductionPage';
 
@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="File for disability compensation" />
+        <FormTitle title="File for disability compensation (Beta)" />
         <p>
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).
@@ -27,6 +27,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
           retentionPeriod="1 year"
+          downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
         <h4>
@@ -149,6 +150,7 @@ class IntroductionPage extends React.Component {
           formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
+          downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
         <div className="omb-info--container">

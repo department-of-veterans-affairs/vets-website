@@ -1,7 +1,6 @@
 // Builds the site using Metalsmith as the top-level build runner.
 const Metalsmith = require('metalsmith');
 const collections = require('metalsmith-collections');
-const dateInFilename = require('metalsmith-date-in-filename');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
@@ -15,6 +14,7 @@ const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const nonceTransformer = require('../build/plugins/nonceTransformer');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
+const createHeaderFooter = require('../build/plugins/create-header-footer');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const applyFragments = require('../build/plugins/apply-fragments');
 
@@ -41,7 +41,6 @@ function createPipeline(options) {
   smith.use(applyFragments(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
-  smith.use(dateInFilename(true));
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
@@ -86,6 +85,8 @@ function createPipeline(options) {
       ],
     }),
   );
+
+  smith.use(createHeaderFooter(BUILD_OPTIONS));
 
   smith.use(
     navigation({

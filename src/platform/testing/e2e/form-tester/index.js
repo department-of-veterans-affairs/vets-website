@@ -16,8 +16,7 @@ const fastForwardAnimations = async page => {
   await page._client.send('Animation.setPlaybackRate', { playbackRate: 10000 });
 };
 
-const getTestData = (testDataSets, testName, pathPrefix) =>
-  get(pathPrefix, testDataSets[testName], {});
+const getTestData = (contents, pathPrefix) => get(pathPrefix, contents, {});
 
 const getLogger = debugMode => (...params) => {
   if (debugMode) {
@@ -64,14 +63,12 @@ const runTest = async (page, testData, testConfig, userToken) => {
  * @property {string} url - The url for the array page
  * @property {string} arrayPath - The arrayPath as it is in the formConfig
  * ---
- * @typedef {TestDataSets}
- * @type {object}
- * @description A set of test data pulled from json files. Each property name corresponds to
- *  the file name that the data is pulled from. The values are the parsed JSON objects contained
- *  in the files.
+ * @typedef {Object} DataSet
+ * @property {String} fileName - The file name
+ * @property {Object} contents - The parsed contents
  * ---
  * @param {TestConfig} testConfig
- * @param {TestData} testDataSets
+ * @param {Array<DataSet>} testDataSets
  */
 const testForm = (testDataSets, testConfig) => {
   let browser;
@@ -97,16 +94,16 @@ const testForm = (testDataSets, testConfig) => {
     }
   });
 
-  Object.keys(testDataSets).forEach(testName =>
+  testDataSets.forEach(({ fileName, contents }) =>
     test(
-      testName,
+      fileName,
       async () => {
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
         await fastForwardAnimations(page);
         await runTest(
           page,
-          getTestData(testDataSets, testName, testConfig.testDataPathPrefix),
+          getTestData(contents, testConfig.testDataPathPrefix),
           testConfig,
           token,
         );

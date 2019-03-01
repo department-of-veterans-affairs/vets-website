@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 export default function createApplicationStatus(store, form) {
-  const root = document.getElementById('react-applicationStatus');
+  const root = document.querySelector(
+    `[data-widget-type="${form.widgetType}"]`,
+  );
   if (root) {
     import(/* webpackChunkName: "application-status" */
     '../../platform/forms/save-in-progress/ApplicationStatus').then(module => {

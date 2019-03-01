@@ -2,29 +2,53 @@ import React from 'react';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { getPtsdClassification } from './ptsdClassification';
+import { recordEventOnce } from '../utils';
+import {
+  ANALYTICS_EVENTS,
+  HELP_TEXT_CLICKED_EVENT,
+  PTSD_TYPES_TO_FORMS,
+} from '../constants';
 
-export const PtsdUploadChoiceDescription = ({ formType }) => (
-  <AdditionalInfo triggerText="Which should I choose?">
-    <h5>Answer questions</h5>
-    <p>
-      If you choose this option, we’ll ask you several questions about the
-      events related to your PTSD. If you have evidence or documents to include,
-      you’ll be able to upload them later in the application.
-    </p>
-    <h5>Upload your completed form</h5>
-    <p>
-      If you choose to upload a completed VA Form {`21-0${formType}`}, you’ll
-      move to the next section of the disability application.
-    </p>
-  </AdditionalInfo>
-);
+const { combatNonCombat, personalAssaultSexualTrauma } = PTSD_TYPES_TO_FORMS;
+
+export const PtsdUploadChoiceDescription = ({ formType }) => {
+  let ptsdWalkthroughEvent;
+  if (formType === combatNonCombat) {
+    ptsdWalkthroughEvent = ANALYTICS_EVENTS.openedPtsd781WalkthroughChoiceHelp;
+  } else if (formType === personalAssaultSexualTrauma) {
+    ptsdWalkthroughEvent = ANALYTICS_EVENTS.openedPtsd781aWalkthroughChoiceHelp;
+  }
+
+  return (
+    <AdditionalInfo
+      triggerText="Which should I choose?"
+      onClick={() =>
+        ptsdWalkthroughEvent &&
+        recordEventOnce(ptsdWalkthroughEvent, HELP_TEXT_CLICKED_EVENT)
+      }
+    >
+      <h5>Answer questions</h5>
+      <p>
+        If you choose this option, we’ll ask you several questions about the
+        events related to your PTSD. If you have evidence or documents to
+        include, you’ll be able to upload them later in the application.
+      </p>
+      <h5>Upload your completed form</h5>
+      <p>
+        If you choose to upload a completed VA Form {`21-0${formType}`}, you’ll
+        move to the next section of the disability application.
+      </p>
+    </AdditionalInfo>
+  );
+};
 
 const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       You can either answer the questions online, or if you’ve already completed
       a Claim for Service Connection for Post-Traumatic Stress Disorder{' '}
-      {formType === '781a' && 'Secondary to Personal Assault '}
+      {formType === personalAssaultSexualTrauma &&
+        'Secondary to Personal Assault '}
       (VA Form {`21-0${formType}`}
       ), you can upload the form.
     </p>

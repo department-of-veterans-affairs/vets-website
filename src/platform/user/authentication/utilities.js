@@ -1,11 +1,11 @@
 import appendQuery from 'append-query';
+import Raven from 'raven-js';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
-  REGISTRATION_PENDING: 'registrationPending',
 };
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
@@ -29,15 +29,27 @@ const loginUrl = policy => {
   }
 };
 
+export function setRavenLoginType(loginType) {
+  Raven.setTagsContext({ loginType });
+}
+
+export function clearRavenLoginType() {
+  const context = Raven.getContext(); // Note: Do not mutate context directly.
+  const tags = { ...context.tags };
+  delete tags.loginType;
+  Raven.setTagsContext(tags);
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location.pathname);
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
   window.location = redirectUrl;
 }
 
 export function login(policy) {
-  sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
+  localStorage.setItem('pendingAuthAction', 'login');
+  localStorage.setItem('pendingLoginPolicy', policy);
   return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
@@ -50,11 +62,12 @@ export function verify() {
 }
 
 export function logout() {
+  clearRavenLoginType();
   return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 
 export function signup() {
-  sessionStorage.setItem(authnSettings.REGISTRATION_PENDING, true);
+  localStorage.setItem('pendingAuthAction', 'register');
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',

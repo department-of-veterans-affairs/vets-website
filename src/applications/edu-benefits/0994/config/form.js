@@ -138,15 +138,15 @@ const formConfig = {
       pages: {
         // page - contact information
         contactInformation: {
-          title: 'Contact Information',
+          title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
         },
         // page - banking information
         bankInformation: {
-          title: 'Bank Information',
-          path: 'bank-information',
+          title: 'Direct deposit information',
+          path: 'direct-deposit-information',
           uiSchema: bankInformation.uiSchema,
           schema: bankInformation.schema,
         },

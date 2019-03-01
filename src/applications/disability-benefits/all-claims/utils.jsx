@@ -4,26 +4,32 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import { validateZIP } from './validations';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import {
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from './validations';
+import ReviewCardField from './components/ReviewCardField';
 
 import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from '../../../platform/forms/definitions/address';
-
-import {
-  RESERVE_GUARD_TYPES,
-  USA,
   DATA_PATHS,
-  NINE_ELEVEN,
   HOMELESSNESS_TYPES,
-  TWENTY_FIVE_MB,
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  NINE_ELEVEN,
   PTSD_MATCHES,
+  RESERVE_GUARD_TYPES,
+  STATE_LABELS,
+  STATE_VALUES,
+  TWENTY_FIVE_MB,
+  USA,
 } from './constants';
 
 /**
@@ -263,108 +269,211 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
-/**
- * Creates uiSchema and schema for address widget based on params
- * @param {array} addressOmitions
- * @param {array} order
- * @param {object} fieldLabels
- */
-export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
-  const addressSchemaConfig = addressSchema(fullSchema);
-  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+export const AddressViewField = ({ formData }) => {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    country,
+    state,
+    zipCode,
+  } = formData;
+  let zipString;
+  if (zipCode) {
+    const firstFive = zipCode.slice(0, 5);
+    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
+    zipString = `${firstFive}${lastChunk}`;
+  }
 
-  const locationSchema = {
-    addressUI: {
-      ...addressUIConfig,
-      'ui:order': order,
-    },
-    addressSchema: {
-      ...addressSchemaConfig,
-      properties: {
-        ...omit(addressSchemaConfig.properties, addressOmitions),
-      },
-    },
+  let lastLine;
+  if (country === USA) {
+    lastLine = `${city}, ${state} ${zipString}`;
+  } else {
+    lastLine = `${city}, ${country}`;
+  }
+  return (
+    <p className="blue-bar-block">
+      {addressLine1 && addressLine1}
+      <br />
+      {addressLine2 && addressLine2}
+      {addressLine2 && <br />}
+      {addressLine3 && addressLine3}
+      {addressLine3 && <br />}
+      {lastLine}
+    </p>
+  );
+};
+
+/**
+ * Returns the path with any ':index' substituted with the actual index.
+ * @param {string} path - The path with or without ':index'
+ * @param {number} index - The index to put in the string
+ * @return {string}
+ */
+export const pathWithIndex = (path, index) => path.replace(':index', index);
+
+/**
+ * Returns the uiSchema for addresses that use the non-common address schema as found
+ *  in the 526EZ-all-claims schema.
+ * @param {string} addressPath - The path to the address in the formData
+ * @param {string} [title] - Displayed as the card title in the card's header
+ * @param {boolean} reviewCard - Whether to display the information in a ReviewCardField or not
+ * @param {boolean} fieldsAreRequired - Whether the typical fields should be required or not
+ * @returns {object} - UI schema for an address card's content
+ */
+export const addressUISchema = (
+  addressPath,
+  title,
+  reviewCard,
+  fieldsAreRequired = true,
+) => {
+  const updateStates = (formData, currentSchema, uiSchema, index) => {
+    // Could use path (updateSchema callback param after index), but it points to `state`,
+    //  so using `addressPath` is easier
+    const currentCity = _.get(
+      `${pathWithIndex(addressPath, index)}.city`,
+      formData,
+      '',
+    )
+      .trim()
+      .toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        enum: MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS,
+      };
+    }
+
+    return {
+      enum: STATE_VALUES,
+      enumNames: STATE_LABELS,
+    };
   };
 
-  if (!addressOmitions.includes('country')) {
-    locationSchema.addressUI.country = {
-      'ui:title': fieldLabels.country,
-    };
-  }
-
-  if (!addressOmitions.includes('addressLine1')) {
-    locationSchema.addressUI.addressLine1 = {
-      'ui:title': fieldLabels.addressLine1,
-    };
-  }
-
-  if (!addressOmitions.includes('addressLine2')) {
-    locationSchema.addressUI.addressLine2 = {
-      'ui:title': fieldLabels.addressLine2,
-    };
-  }
-
-  if (!addressOmitions.includes('city')) {
-    locationSchema.addressUI.city = {
-      'ui:title': fieldLabels.city,
-    };
-  }
-
-  if (!addressOmitions.includes('state')) {
-    locationSchema.addressUI.state = {
-      'ui:title': fieldLabels.state,
-    };
-  }
-
-  if (!addressOmitions.includes('zipCode')) {
-    locationSchema.addressUI.zipCode = {
-      'ui:title': fieldLabels.zipCode,
+  return {
+    'ui:order': [
+      'country',
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode',
+    ],
+    'ui:title': title,
+    'ui:field': reviewCard && ReviewCardField,
+    'ui:options': {
+      viewComponent: AddressViewField,
+    },
+    country: {
+      'ui:title': 'Country',
+    },
+    addressLine1: {
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine2: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine3: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:validations': [
+        {
+          options: { addressPath },
+          // pathWithIndex is called in validateMilitaryCity
+          validator: validateMilitaryCity,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid city',
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': (formData, index) =>
+        fieldsAreRequired &&
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+          USA,
+      'ui:options': {
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
+        updateSchema: updateStates,
+      },
+      'ui:validations': [
+        {
+          options: { addressPath },
+          // pathWithIndex is called in validateMilitaryState
+          validator: validateMilitaryState,
+        },
+      ],
+    },
+    zipCode: {
+      'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
+      'ui:required': (formData, index) =>
+        fieldsAreRequired &&
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+          USA,
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
       },
-    };
-  }
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
+      },
+    },
+  };
+};
 
-  return locationSchema;
-}
+const ptsdAddressOmitions = [
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'postalCode',
+  'zipCode',
+];
 
-// Could be changed to use generateLocationSchemas
-export function incidentLocationSchemas() {
-  const addressOmitions = [
-    'addressLine1',
-    'addressLine2',
-    'addressLine3',
-    'postalCode',
-    'zipCode',
-  ];
-
-  const addressSchemaConfig = addressSchema(fullSchema);
-  const addressUIConfig = omit(addressUI(' '), addressOmitions);
-
+/**
+ * @param {string} addressPath - The path to the address in the formData
+ */
+export function incidentLocationUISchema(addressPath) {
+  const addressUIConfig = omit(
+    addressUISchema(addressPath, null, false, false),
+    ptsdAddressOmitions,
+  );
   return {
-    addressUI: {
-      ...addressUIConfig,
-      state: {
-        ...addressUIConfig.state,
-        'ui:title': 'State/Province',
-      },
-      additionalDetails: {
-        'ui:title':
-          'Additional details (This could include an address, landmark, military installation, or other location.)',
-        'ui:widget': 'textarea',
-      },
-      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    ...addressUIConfig,
+    state: {
+      ...addressUIConfig.state,
+      'ui:title': 'State/Province',
     },
-    addressSchema: {
-      ...addressSchemaConfig,
-      properties: {
-        ...omit(addressSchemaConfig.properties, addressOmitions),
-        additionalDetails: {
-          type: 'string',
-        },
-      },
+    additionalDetails: {
+      'ui:title':
+        'Additional details (This could include an address, landmark, military installation, or other location.)',
+      'ui:widget': 'textarea',
     },
+    'ui:order': ['country', 'state', 'city', 'additionalDetails'],
   };
 }
 
@@ -624,9 +733,9 @@ export const hasNewDisabilities = formData =>
  * @readonly
  * @enum {String}
  */
-const urls = {
+export const urls = {
   v1: '/disability-benefits/apply/form-526-disability-claim',
-  v2: '/disability-benefits/apply/form-526-all-claims',
+  v2: '/disability/file-disability-claim-form-21-526ez',
 };
 
 /**
@@ -665,5 +774,24 @@ export const directToCorrectForm = ({
     window.location.assign(`${baseUrl}/resume`);
   } else {
     router.push(returnUrl);
+  }
+};
+
+/**
+ * Pushes an event to the Analytics dataLayer if the event doesn't already
+ * exist there. If the event contains a `key` property whose value matches an
+ * existing item in the dataLayer with the same key/value pair, the whole event
+ * and all of its properties will be skipped.
+ * @param {object} event this will get pushed to `dataLayer`.
+ * @param {string} key the property in the event object to use when looking for
+ *                     existing matches in the dataLayer
+ */
+export const recordEventOnce = (event, key) => {
+  const alreadyRecorded =
+    window.dataLayer &&
+    !!window.dataLayer.find(item => item[key] === event[key]);
+
+  if (!alreadyRecorded) {
+    recordEvent(event);
   }
 };

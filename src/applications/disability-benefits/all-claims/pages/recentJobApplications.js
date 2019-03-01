@@ -9,22 +9,9 @@ import {
   substantiallyGainfulEmployment,
 } from '../content/recentJobApplications';
 
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
-import { generateAddressSchemas } from '../utils';
-
-const { addressUI, addressSchema } = generateAddressSchemas(
-  ['addressLine3', 'postalCode'],
-  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
-  {
-    country: 'Country',
-    addressLine1: 'Street address',
-    addressLine2: 'Street address (line 2)',
-    city: 'City',
-    state: 'State',
-    zipCode: 'Postal code',
-  },
-);
+import { addressUISchema } from '../utils';
 
 const {
   appliedEmployers,
@@ -48,7 +35,12 @@ export const uiSchema = {
         name: {
           'ui:title': "Company's Name",
         },
-        address: addressUI,
+        address: addressUISchema(
+          'unemployability.appliedEmployers[:index].address',
+          null,
+          false,
+          false,
+        ),
         workType: {
           'ui:title': 'Type of work',
         },
@@ -68,19 +60,11 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
+        // Should this be in the shared schema?
         attemptedToObtainEmploymentSinceUnemployability: {
           type: 'boolean',
         },
-        appliedEmployers: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              ...appliedEmployers.items.properties,
-              address: addressSchema,
-            },
-          },
-        },
+        appliedEmployers,
         'view:substantiallyGainfulEmploymentInfo': {
           type: 'object',
           properties: {},

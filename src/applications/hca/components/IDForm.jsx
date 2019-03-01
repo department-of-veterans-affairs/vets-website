@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import constants from 'vets-json-schema/dist/constants.json';
 
 import { genderLabels } from 'platform/static-data/labels';

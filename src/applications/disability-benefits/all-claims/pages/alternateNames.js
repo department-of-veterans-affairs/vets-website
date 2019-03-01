@@ -1,4 +1,4 @@
-import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import get from '../../../../platform/utilities/data/get';
 

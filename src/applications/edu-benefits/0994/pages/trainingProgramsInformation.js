@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { trainingDescription } from '../content/trainingProgramsInformation';
 import VetTecProgramView from '../components/VetTecProgramView';
 
@@ -15,9 +15,14 @@ const {
 const getCourseType = (formData, index) =>
   _.get(formData, `vetTecPrograms[${index}].courseType`, '');
 
-const showLocation = (formData, index) =>
-  getCourseType(formData, index) === 'inPerson' ||
-  getCourseType(formData, index) === 'both';
+const checkLocation = field => field === 'inPerson' || field === 'both';
+
+const programNameEntered = (formData, index) =>
+  _.get(formData, `vetTecPrograms[${index}].programName`, '').trim() !== '';
+
+const locationRequired = (formData, index) =>
+  programNameEntered(formData, index) &&
+  checkLocation(getCourseType(formData, index));
 
 export const uiSchema = {
   'ui:description': trainingDescription,
@@ -44,27 +49,42 @@ export const uiSchema = {
             both: 'It’s both online and in-person',
           },
         },
+        'ui:required': programNameEntered,
       },
-      location: {
+      'view:location': {
+        'ui:title': ' ',
         'ui:description': 'Where will you take this training?',
         'ui:options': {
           expandUnder: 'courseType',
-          expandUnderCondition: field =>
-            field === 'inPerson' || field === 'both',
-        },
-        city: {
-          'ui:title': 'City',
-          'ui:required': (formData, index) => showLocation(formData, index),
-          'ui:errorMessages': {
-            pattern: 'Please fill in a valid city',
-          },
-        },
-        state: {
-          'ui:title': 'State',
-          'ui:required': (formData, index) => showLocation(formData, index),
+          expandUnderCondition: checkLocation,
         },
       },
-      plannedStartDate: dateUI('What is your estimated start date?'),
+      locationCity: {
+        'ui:title': 'City',
+        'ui:required': locationRequired,
+        'ui:errorMessages': {
+          pattern: 'Please fill in a valid city',
+        },
+        'ui:options': {
+          expandUnder: 'courseType',
+          expandUnderCondition: checkLocation,
+        },
+      },
+      locationState: {
+        'ui:title': 'State',
+        'ui:errorMessages': {
+          pattern: 'Please select a valid state',
+        },
+        'ui:required': locationRequired,
+        'ui:options': {
+          expandUnder: 'courseType',
+          expandUnderCondition: checkLocation,
+        },
+      },
+      plannedStartDate: {
+        ...dateUI('What is your estimated start date?'),
+        'ui:required': programNameEntered,
+      },
     },
   },
 };
@@ -77,16 +97,27 @@ export const schema = {
       maxItems: 3,
       items: {
         type: 'object',
-        required: ['plannedStartDate'],
         properties: {
           providerName,
           programName,
           courseType,
-          location: {
-            ...location,
+          'view:location': {
+            type: 'object',
+            properties: {},
             'ui:collapsed': true,
           },
-          plannedStartDate,
+          locationCity: {
+            ...location.properties.city,
+            'ui:collapsed': true,
+          },
+          locationState: {
+            ...location.properties.state,
+            'ui:collapsed': true,
+          },
+          plannedStartDate: {
+            ...plannedStartDate,
+            'ui:collapsed': true,
+          },
         },
       },
     },

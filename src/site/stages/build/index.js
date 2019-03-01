@@ -22,11 +22,13 @@ const nonceTransformer = require('./plugins/nonceTransformer');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
+const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
-const createMegaMenu = require('./plugins/create-megamenu');
+const createHeaderFooter = require('./plugins/create-header-footer');
 const createTemporaryReactPages = require('./plugins/create-react-pages');
+const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -107,6 +109,8 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
+  smith.use(createHeaderFooter(BUILD_OPTIONS));
+
   smith.use(
     navigation({
       navConfigs: {
@@ -128,8 +132,6 @@ function defaultBuild(BUILD_OPTIONS) {
     }),
   );
 
-  smith.use(createMegaMenu(BUILD_OPTIONS));
-
   /*
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
@@ -141,6 +143,7 @@ function defaultBuild(BUILD_OPTIONS) {
   * if it is in the list of domains to replace
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
+  smith.use(rewriteDrupalPages(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
@@ -148,6 +151,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createBuildSettings(BUILD_OPTIONS));
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
+  smith.use(downloadDrupalAssets(BUILD_OPTIONS));
 
   configureAssets(smith, BUILD_OPTIONS);
 

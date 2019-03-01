@@ -1,11 +1,10 @@
 // import _ from '../../../../platform/utilities/data';
-import _ from 'lodash';
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-// import dateUI from 'us-forms-system/lib/js/definitions/date';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+// import dateUI from 'platform/forms-system/src/js/definitions/date';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
@@ -15,132 +14,17 @@ import {
   forwardingAddressDescription,
   ForwardingAddressViewField,
   phoneEmailViewField,
-  PrimaryAddressViewField,
 } from '../content/contactInformation';
 
-import {
-  isInFuture,
-  validateMilitaryCity,
-  validateMilitaryState,
-  validateZIP,
-} from '../validations';
-
-import { hasForwardingAddress, forwardingCountryIsUSA } from '../utils';
+import { isInFuture } from '../validations';
 
 import {
-  ADDRESS_TYPES,
-  MILITARY_CITIES,
-  MILITARY_STATE_LABELS,
-  MILITARY_STATE_VALUES,
-  STATE_LABELS,
-  STATE_VALUES,
-  USA,
-} from '../constants';
+  hasForwardingAddress,
+  forwardingCountryIsUSA,
+  addressUISchema,
+} from '../utils';
 
-/**
- *
- * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
- * @param {string} [title] Displayed as the card title in the card's header
- * @returns {object} UI schema for an address card's content
- */
-const addressUISchema = (addressType, title) => {
-  const updateStates = form => {
-    const currentCity = _.get(form, `${addressType}.city`, '')
-      .trim()
-      .toUpperCase();
-    if (MILITARY_CITIES.includes(currentCity)) {
-      return {
-        enum: MILITARY_STATE_VALUES,
-        enumNames: MILITARY_STATE_LABELS,
-      };
-    }
-
-    return {
-      enum: STATE_VALUES,
-      enumNames: STATE_LABELS,
-    };
-  };
-
-  return {
-    'ui:order': [
-      'country',
-      'addressLine1',
-      'addressLine2',
-      'addressLine3',
-      'city',
-      'state',
-      'zipCode',
-    ],
-    'ui:title': title,
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      viewComponent: PrimaryAddressViewField,
-    },
-    country: {
-      'ui:title': 'Country',
-    },
-    addressLine1: {
-      'ui:title': 'Street address',
-      'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
-      },
-    },
-    addressLine2: {
-      'ui:title': 'Street address (optional)',
-      'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
-      },
-    },
-    addressLine3: {
-      'ui:title': 'Street address (optional)',
-      'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
-      },
-    },
-    city: {
-      'ui:title': 'City',
-      'ui:validations': [
-        {
-          options: { addressPath: addressType },
-          validator: validateMilitaryCity,
-        },
-      ],
-      'ui:errorMessages': {
-        pattern: 'Please fill in a valid city',
-      },
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:required': formData =>
-        _.get(formData, `${addressType}.country`, '') === USA,
-      'ui:options': {
-        hideIf: formData =>
-          _.get(formData, `${addressType}.country`, '') !== USA,
-        updateSchema: updateStates,
-      },
-      'ui:validations': [
-        {
-          options: { addressPath: addressType },
-          validator: validateMilitaryState,
-        },
-      ],
-    },
-    zipCode: {
-      'ui:title': 'Postal code',
-      'ui:validations': [validateZIP],
-      'ui:required': formData =>
-        _.get(formData, `${addressType}.country`, '') === USA,
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
-      },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
-        hideIf: formData =>
-          _.get(formData, `${addressType}.country`, '') !== USA,
-      },
-    },
-  };
-};
+import { ADDRESS_PATHS } from '../constants';
 
 const {
   mailingAddress,
@@ -176,14 +60,15 @@ export const uiSchema = {
     },
   },
   mailingAddress: addressUISchema(
-    ADDRESS_TYPES.mailingAddress,
+    ADDRESS_PATHS.mailingAddress,
     'Mailing address',
+    true,
   ),
   'view:hasForwardingAddress': {
     'ui:title': 'My address will be changing soon.',
   },
   forwardingAddress: merge(
-    addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
+    addressUISchema(ADDRESS_PATHS.forwardingAddress, 'Forwarding address'),
     {
       'ui:field': ReviewCardField,
       'ui:subtitle': forwardingAddressDescription,

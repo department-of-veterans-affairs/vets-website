@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import applicantDescription from '../components/ApplicantDescription';
 
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from '../definitions/fullName';
 import * as personId from '../definitions/personId';
 

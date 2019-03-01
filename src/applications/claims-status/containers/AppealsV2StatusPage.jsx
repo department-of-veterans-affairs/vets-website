@@ -45,6 +45,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
   const hideDocketAppealActions = [
     APPEAL_ACTIONS.reconsideration,
     APPEAL_ACTIONS.cue,
+    APPEAL_ACTIONS.other,
   ];
 
   let shouldShowDocket;

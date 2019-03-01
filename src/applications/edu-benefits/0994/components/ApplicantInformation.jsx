@@ -1,5 +1,5 @@
 import React from 'react';
-import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
+import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
 import { genderLabels } from '../../../../platform/static-data/labels';
 import { srSubstitute } from '../utils';
 

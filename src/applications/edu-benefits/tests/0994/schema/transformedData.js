@@ -58,6 +58,12 @@ const transformedMaximalDataActual = {
         state: 'SC',
       },
     },
+    {
+      providerName: 'Amazon Web Services',
+      programName: 'AWS Media Services',
+      courseType: 'online',
+      plannedStartDate: '2010-01-02',
+    },
   ],
   currentHighTechnologyEmployment: false,
   pastHighTechnologyEmployment: true,

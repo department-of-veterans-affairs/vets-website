@@ -3,12 +3,15 @@ import environment from '../../../../platform/utilities/environment';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
-import submitForm from './submitForm';
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+
+import submitFormFor from './submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
+import FormSavedPage from '../containers/FormSavedPage';
 
 import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
 
@@ -115,8 +118,12 @@ const formConfig = {
   submitUrl: `${
     environment.API_URL
   }/v0/disability_compensation_form/submit_all_claim`,
-  submit: submitForm,
+  submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+  },
   formId: '21-526EZ',
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
@@ -129,6 +136,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
+  formSavedPage: FormSavedPage,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,

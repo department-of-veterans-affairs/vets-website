@@ -157,6 +157,93 @@ export const facilityData = {
       },
     },
     {
+      id: 'vha_438GE',
+      type: 'va_facilities',
+      attributes: {
+        uniqueId: '438GE',
+        name: 'Wagner VA Clinic',
+        facilityType: 'va_health_facility',
+        classification: 'Other Outpatient Services (OOS)',
+        website: 'http://www.siouxfalls.va.gov/locations/wagner.asp',
+        lat: 43.0818390000001,
+        long: -98.297446,
+        address: {
+          mailing: {},
+          physical: {
+            zip: '57380-9369',
+            city: 'Wagner',
+            state: 'SD',
+            address1: '400 West South Dakota Highway 46',
+            address2: null,
+            address3: null,
+          },
+        },
+        phone: {
+          fax: '605-384-2345 x',
+          main: '605-384-2340 x',
+          pharmacy: '800-316-8387 x',
+          afterHours: '605-336-3230 x',
+          patientAdvocate: '605-336-3230 x6688',
+          mentalHealthClinic: '',
+          enrollmentCoordinator: '605-373-4196 x',
+        },
+        hours: {
+          monday: '800AM-430PM',
+          tuesday: '800AM-430PM',
+          wednesday: '800AM-1200PM',
+          thursday: '800AM-430PM',
+          friday: '800AM-430PM',
+          saturday: '-',
+          sunday: '-',
+        },
+        services: {
+          other: ['Online Scheduling'],
+          health: [
+            {
+              sl1: ['PrimaryCare'],
+              sl2: [],
+            },
+            {
+              sl1: ['Audiology'],
+              sl2: [],
+            },
+            {
+              sl1: ['Orthopedics'],
+              sl2: [],
+            },
+          ],
+          lastUpdated: '2019-02-12',
+        },
+        feedback: {
+          health: {
+            effectiveDate: '2018-05-22',
+            primaryCareRoutine: 0.94,
+          },
+        },
+        access: {
+          health: {
+            audiology: {
+              new: null,
+              established: 0,
+            },
+            orthopedics: {
+              new: null,
+              established: 0,
+            },
+            primaryCare: {
+              new: 20,
+              established: 7,
+            },
+            mentalHealth: {
+              new: null,
+              established: 5,
+            },
+            effectiveDate: '2019-02-04',
+          },
+        },
+      },
+    },
+    {
       id: 'vha_691GE',
       type: 'va_facilities',
       attributes: {

@@ -1,5 +1,8 @@
 import _ from '../../../platform/utilities/data';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import {
+  transformForSubmit,
+  filterViewFields,
+} from 'platform/forms-system/src/js/helpers';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
@@ -177,23 +180,6 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-/**
- * Concatenates incident location address object into location string. This will ignore null
- *  or undefined address fields
- * @param {Object} incidentLocation location address with city, state, country, and additional details
- * @returns {String} incident location string
- */
-export function concatIncidentLocationString(incidentLocation) {
-  return [
-    incidentLocation.city,
-    incidentLocation.state,
-    incidentLocation.country,
-    incidentLocation.additionalDetails,
-  ]
-    .filter(locationField => locationField)
-    .join(', ');
-}
-
 export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
@@ -206,6 +192,11 @@ export function getPtsdChangeText(changeFields = {}) {
 }
 
 export function transform(formConfig, form) {
+  // Grab ratedDisabilities before they're deleted in case the page is inactive
+  // We need to send all of these to vets-api even if the veteran doesn't apply
+  // for an increase on any of them
+  const savedRatedDisabilities = _.cloneDeep(form.data.ratedDisabilities);
+
   // Define the transformations
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
@@ -217,6 +208,13 @@ export function transform(formConfig, form) {
         ),
       ),
     );
+
+  const addBackRatedDisabilities = formData =>
+    savedRatedDisabilities
+      ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
+      : formData;
+
+  const filterRatedViewFields = formData => filterViewFields(formData);
 
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
@@ -379,9 +377,6 @@ export function transform(formConfig, form) {
       .map(incidentKey => ({
         ...clonedData[incidentKey],
         personalAssault: incidentKey.includes('secondary'),
-        incidentLocation: concatIncidentLocationString(
-          clonedData[incidentKey].incidentLocation,
-        ),
       }));
     incidentKeys.forEach(incidentKey => {
       delete clonedData[incidentKey];
@@ -462,8 +457,10 @@ export function transform(formConfig, form) {
 
   // Apply the transformations
   const transformedData = [
-    setActionTypes,
     filterEmptyObjects,
+    addBackRatedDisabilities, // Must run after filterEmptyObjects
+    setActionTypes, // Must run after addBackRatedDisabilities
+    filterRatedViewFields, // Must be run after setActionTypes
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,

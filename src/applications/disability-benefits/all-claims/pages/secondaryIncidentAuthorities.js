@@ -1,55 +1,45 @@
-import { merge } from 'lodash';
-
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import AuthorityField from '../components/AuthorityField';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
-import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
-import { validateZIP } from '../validations';
+import { addressUISchema } from '../utils';
 
-const { sources } = fullSchema.definitions.secondaryPtsdIncident.properties;
+const {
+  sources,
+} = fullSchema.properties.form0781.properties.incidents.items.properties;
 
-export const uiSchema = index => ({
-  'ui:title': ptsd781aNameTitle,
-  'ui:description': PtsdAssaultAuthoritiesDescription,
-  [`secondaryIncident${index}`]: {
-    sources: {
-      'ui:options': {
-        itemName: 'Authority',
-        viewField: AuthorityField,
-      },
-      items: {
-        name: {
-          'ui:title': 'Name of official or authority',
+export const uiSchema = index => {
+  const addressUI = addressUISchema(
+    `secondaryIncident${index}.sources[:index]address`,
+    null,
+    false,
+    false,
+  );
+  // Remove addressLine3 from the ui:order so it doesn't throw an error because it's not in the schema
+  addressUI['ui:order'].splice(
+    addressUI['ui:order'].indexOf('addressLine3'),
+    1,
+  );
+
+  return {
+    'ui:title': ptsd781aNameTitle,
+    'ui:description': PtsdAssaultAuthoritiesDescription,
+    [`secondaryIncident${index}`]: {
+      sources: {
+        'ui:options': {
+          itemName: 'Authority',
+          viewField: AuthorityField,
         },
-        address: merge(addressUI(''), {
-          'ui:order': [
-            'country',
-            'addressLine1',
-            'addressLine2',
-            'city',
-            'state',
-            'zipCode',
-          ],
-          addressLine1: {
-            'ui:title': 'Street',
+        items: {
+          name: {
+            'ui:title': 'Name of official or authority',
           },
-          addressLine2: {
-            'ui:title': 'Street 2',
-          },
-          zipCode: {
-            'ui:title': 'Postal code',
-            'ui:validations': [validateZIP],
-            'ui:errorMessages': {
-              pattern:
-                'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
-            },
-          },
-        }),
+          address: addressUI,
+        },
       },
     },
-  },
-});
+  };
+};
 
 export const schema = index => ({
   type: 'object',

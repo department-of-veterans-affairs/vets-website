@@ -1,7 +1,7 @@
 import _ from '../../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import merge from 'lodash/fp/merge';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 const {
   homelessOrAtRisk,

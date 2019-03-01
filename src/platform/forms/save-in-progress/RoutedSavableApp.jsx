@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormApp from 'us-forms-system/lib/js/containers/FormApp';
+import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,

@@ -9,13 +9,13 @@ import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { fillDate as oldFillDate } from './helpers';
 
 import {
   replaceRefSchemas,
   updateSchemaAndData,
-} from 'us-forms-system/lib/js/state/helpers';
+} from 'platform/forms-system/src/js/state/helpers';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {

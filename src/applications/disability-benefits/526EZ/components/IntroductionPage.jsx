@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
@@ -11,14 +11,25 @@ import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { focusElement } from '../../../../platform/utilities/ui';
 
+import { features } from '../../../beta-enrollment/routes';
+import { createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
+
 import { VerifiedAlert } from '../helpers';
 import FormStartControls from './FormStartControls';
+import { urls } from '../../all-claims/utils';
 
 const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+  }
+
+  componentDidUpdate() {
+    // Redirect if necessary
+    if (this.props.signedUpForV2Beta) {
+      window.location.replace(urls.v2);
+    }
   }
 
   hasSavedForm = () => {
@@ -233,7 +244,13 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   const { form, user } = state;
-  return { form, user };
+  return {
+    form,
+    user,
+    signedUpForV2Beta: createIsServiceAvailableSelector(features.allClaims)(
+      state,
+    ),
+  };
 }
 
 const mapDispatchToProps = {
