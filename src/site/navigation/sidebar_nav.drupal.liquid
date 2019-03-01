@@ -14,17 +14,26 @@
                         <li>
                             <button class="usa-accordion-button" aria-expanded="false" aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
                             <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
-                                <ul class="usa-sidenav-list">
-                                    <li>
-                                        <ul class="usa-sidenav-sub_list">
-                                            {% for link in link.links %}
-                                                <li>
-                                                    <a href="{{ link.url.path }}" class="">{{ link.label }}</a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                </ul>
+                                {% assign listSize = link.links | size %}
+                                {% if listSize > 1 %}
+                                    <ul class="usa-sidenav-list">
+                                        {% for link in link.links %}
+                                            <li class="active-level">
+                                                <a href="{{ link.url.path }}" class="">{{ link.label }}</a>
+                                                {% assign subListSize = link.links | size %}
+                                                {% if subListSize > 1 %}
+                                                    <ul class="usa-sidenav-sub_list">
+                                                        {% for link in link.links %}
+                                                            <li>
+                                                                <a href="{{ link.url.path }}" class="">{{ link.label }}</a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </div>
                         </li>
                     {% endfor %}
