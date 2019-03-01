@@ -61,6 +61,7 @@ export const uiSchema = {
       'ui:description': newOnlyAlert,
       'ui:options': {
         hideIf: formData =>
+          // Only show this alert if the veteran is claiming only new conditions
           !newConditionsOnly(formData) || hasClaimedConditions(formData),
       },
     },
@@ -68,6 +69,7 @@ export const uiSchema = {
       'ui:description': increaseAndNewAlert,
       'ui:options': {
         hideIf: formData =>
+          // Only show this alert if the veteran is claiming both rated and new conditions
           !newAndIncrease(formData) || hasClaimedConditions(formData),
       },
     },
