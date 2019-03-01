@@ -84,9 +84,7 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
-                <p>sidebar here</p>
-            </nav>
+            {% include 'src/site/navigation/sidebar_nav.drupal.liquid' %}
             <div class="usa-width-three-fourths">
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
