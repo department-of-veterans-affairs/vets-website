@@ -27,11 +27,15 @@ class ResultsList extends Component {
       currentQuery,
       pagination: { currentPage, totalPages },
     } = this.props;
+    // console.log(this.props);
 
+    console.log(currentQuery.inProgress);
     if (currentQuery.inProgress) {
       return (
         <div>
-          <LoadingIndicator message="Loading results..." />
+          <LoadingIndicator
+            message={`Searching in ${currentQuery.searchString}`}
+          />
         </div>
       );
     }
