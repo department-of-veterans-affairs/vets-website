@@ -13,7 +13,7 @@ export default class FacilityDetailWidget extends React.Component {
   }
 
   componentDidMount() {
-    const facilityId = this.props.facility;
+    const facilityId = this.props.facilityId;
     this.request = apiRequest(
       `/facilities/va/${facilityId}`,
       null,
