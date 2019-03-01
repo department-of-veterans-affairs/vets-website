@@ -26,7 +26,7 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         lint: {
-          dockerContainer.inside(stages.dockerArgs) {
+          dockerContainer.inside(stages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
         },
@@ -34,14 +34,14 @@ node('vetsgov-general-purpose') {
         // Check package.json for known vulnerabilities
         security: {
           retry(3) {
-            dockerContainer.inside(stages.dockerArgs) {
+            dockerContainer.inside(stages.DOCKER_ARGS) {
               sh "cd /application && npm run security-check"
             }
           }
         },
 
         unit: {
-          dockerContainer.inside(stages.dockerArgs) {
+          dockerContainer.inside(stages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run test:coverage"
           }
         }
