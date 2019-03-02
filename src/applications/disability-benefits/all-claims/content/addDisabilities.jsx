@@ -1,6 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-// import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+import { urls } from '../utils';
 
 export const autoSuggestTitle = (
   <p>
@@ -29,14 +32,41 @@ export const descriptionInfo = (
   </div>
 );
 
+const alertContent = newOnly => (
+  <>
+    <p>
+      You’ll need to add a new disability or choose a rated disability to claim.
+      We can’t process your claim without a disability selected. Please add a
+      new disability or choose a rated disability for increased compensation.
+    </p>
+    {!newOnly && (
+      <Link to={`${urls.v2}/disabilities/rated-disabilities`}>
+        Choose a rated disability
+      </Link>
+    )}
+  </>
+);
+
 export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
-  return <div>New-only alert!</div>;
+  return (
+    <AlertBox
+      status="error"
+      headline="We need you to add a disability"
+      content={alertContent(true)}
+    />
+  );
 };
 
 export const increaseAndNewAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
-  return <div>Increase and new alert!</div>;
+  return (
+    <AlertBox
+      status="error"
+      headline="We need you to add a disability"
+      content={alertContent(false)}
+    />
+  );
 };
