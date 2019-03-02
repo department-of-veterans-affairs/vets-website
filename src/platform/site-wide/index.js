@@ -6,6 +6,7 @@ import '../monitoring/sentry.js';
 import './legacy/menu'; // Used in the footer.
 import './moment-setup';
 import './popups';
+import './alerts-dismiss-view';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
