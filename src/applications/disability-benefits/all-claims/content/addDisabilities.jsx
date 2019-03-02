@@ -3,8 +3,6 @@ import { Link } from 'react-router';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { urls } from '../utils';
-
 export const autoSuggestTitle = (
   <p>
     If you know the name of your condition, you can type it here. You can write
@@ -40,7 +38,7 @@ const alertContent = newOnly => (
       new disability or choose a rated disability for increased compensation.
     </p>
     {!newOnly && (
-      <Link to={`${urls.v2}/disabilities/rated-disabilities`}>
+      <Link to={`disabilities/rated-disabilities`}>
         Choose a rated disability
       </Link>
     )}
