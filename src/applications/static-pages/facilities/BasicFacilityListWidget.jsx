@@ -1,7 +1,7 @@
 import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
+import FacilityTextBlock from './FacilityTextBlock';
 
 export default class BasicFacilityListWidget extends React.Component {
   constructor(props) {
@@ -53,78 +53,14 @@ export default class BasicFacilityListWidget extends React.Component {
     }
 
     const facilitiesList = this.facilitiesList(this.state.facilities).map(
-      facility => {
-        const location = {
-          attributes: facility.attributes,
-        };
-        let address = buildAddressArray(location);
-
-        if (address.length !== 0) {
-          address = address.join(', ');
-        } else {
-          // If we don't have an address fallback on coords
-          const { lat, long } = location.attributes;
-          address = `${lat},${long}`;
-        }
-        return (
-          <div className="usa-width-one-half" key={facility.id}>
-            <h3 className="vads-u-margin-bottom--2p5">
-              <a
-                href={this.props.facilities[facility.id].entityUrl.path}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {facility.attributes.name}
-              </a>
-            </h3>
-            <address className="vads-u-margin-bottom--1p5">
-              <div>{facility.attributes.address.physical.address1}</div>
-              <div>
-                {facility.attributes.address.physical.city}
-                {', '}
-                {facility.attributes.address.physical.state}{' '}
-                {facility.attributes.address.physical.zip}
-              </div>
-            </address>
-            <div className="vads-u-margin-bottom--1p5">
-              <a
-                href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Directions
-              </a>
-            </div>
-            <div className="vads-u-margin-bottom--1p5">
-              <div className="main-phone">
-                <strong>Main phone: </strong>
-                <a
-                  href={`tel:${facility.attributes.phone.main.replace(
-                    /[ ]?x/,
-                    '',
-                  )}`}
-                >
-                  {facility.attributes.phone.main.replace(/[ ]?x/, '')}
-                </a>
-              </div>
-              <div className="mental-health-clinic-phone">
-                <strong>Mental health clinic: </strong>
-                <a
-                  href={`tel:${facility.attributes.phone.mentalHealthClinic.replace(
-                    /[ ]?x/,
-                    '',
-                  )}`}
-                >
-                  {facility.attributes.phone.mentalHealthClinic.replace(
-                    /[ ]?x/,
-                    '',
-                  )}
-                </a>
-              </div>
-            </div>
-          </div>
-        );
-      },
+      facility => (
+        <FacilityTextBlock
+          className="usa-width-one-half"
+          key={facility.id}
+          facility={facility}
+          path={this.props.facilities[facility.id].entityUrl.path}
+        />
+      ),
     );
     return <div className="usa-grid usa-grid-full">{facilitiesList}</div>;
   }
