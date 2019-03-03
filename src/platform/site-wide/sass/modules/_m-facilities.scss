@@ -1,40 +1,35 @@
 // Facilities Hub
-.facility-main-cta {
+.va-c-facility-main-cta {
   margin: 8px 0;
 }
 
-.facility-main-cta-item {
+.va-c-facility-main-cta-item {
   border-left: 4px solid $color-link-default;
   background-color: $color-primary-alt-lightest;
-  height: 40px;
-  margin-right: 14px;
-  padding-top: 5px;
-  padding-left: 14px;
-  &:last-child {
-    margin-right: 0;
-  }
+  min-height: 40px;
+  padding: 8px 14px;
   a {
-    color: #3f77b0;
     text-decoration: none;
   }
 }
-.facility-hub-cta-item {
+.va-c-facility-hub-cta-item {
   border-top: 1px solid $color-primary-alt-light;
   height: 73px;
   line-height: 73px;
   position: relative;
 
-  span {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 20px;
-    margin-left: 48px
-  }
-  a {
+  & > a {
     text-decoration: none;
+    display: inline-block;
   }
 }
-.facility-hub-cta-item-circle {
+.va-c-facility-hub-cta-item-label {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 20px;
+  margin-left: 48px
+}
+.va-c-facility-hub-cta-item-circle {
   color: $color-primary-darker;
   height: 32px;
   width: 32px;
@@ -43,15 +38,24 @@
   position: absolute;
   top: 20px;
   padding: 8px 10px;
+
+  &.fa-calendar-check,
+  &.fa-comments {
+    padding: 8px;
+  }
+  &.fa-file-medical {
+    padding: 8px 11px;
+  }
 }
-.facility-hub-cta-item-arrow {
+.va-c-facility-hub-cta-item-arrow {
   font-size: 10px;
   padding-left: 4px;
 }
 
-.facility-hub-cta-item-last-line {
+.va-c-facility-hub-cta-item-last-line {
   border-bottom: 1px solid $color-primary-alt-light;
 }
-.usa-button-secondary>a {
+
+.va-c-facility-hub-button>a {
   text-decoration:  none;
 }
