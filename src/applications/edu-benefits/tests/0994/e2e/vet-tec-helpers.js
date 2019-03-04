@@ -14,7 +14,7 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.click('body').click('.usa-button-primary.null');
+  client.click('body').click('.form-progress-buttons .usa-button-primary');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
@@ -197,7 +197,7 @@ export const completeReviewAndSubmit = (client, data) => {
       _.get(data, 'privacyAgreementAccepted', false),
     )
     .click('body')
-    .click('.usa-button-primary.null');
+    .click('.form-progress-buttons .usa-button-primary');
 };
 
 export const returnToBeginning = (client, url) => {
@@ -205,5 +205,5 @@ export const returnToBeginning = (client, url) => {
     .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .acceptAlert()
     .waitForElementVisible('body', Timeouts.normal)
-    .click('.usa-button-primary.null');
+    .click('.schemaform-start-button');
 };
