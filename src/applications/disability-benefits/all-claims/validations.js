@@ -283,3 +283,14 @@ export const requireRatedDisability = (err, fieldData, formData) => {
     err.addError('');
   }
 };
+
+/**
+ * Require "yes" for "do you want to add new conditions" if no rated conditions
+ *  have been selected.
+ */
+export const requireNewDisability = (err, fieldData, formData) => {
+  if (!claimingRated(formData) && !fieldData) {
+    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
+    err.addError('');
+  }
+};
