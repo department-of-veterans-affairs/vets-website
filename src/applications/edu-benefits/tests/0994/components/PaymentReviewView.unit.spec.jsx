@@ -34,4 +34,23 @@ describe('<PaymentReviewView>', () => {
 
     component.unmount();
   });
+  it('should not render prefill bank info', () => {
+    const moreData = {
+      ...data,
+      'view:bankAccount': {
+        bankAccount: {
+          routingNumber: '021000021',
+          accountNumber: '12',
+        },
+      },
+    };
+    const component = shallow(
+      <PaymentReviewView name="accountType" data={moreData} />,
+    );
+
+    const text = component.text();
+    expect(text).to.not.contain('Checking');
+
+    component.unmount();
+  });
 });

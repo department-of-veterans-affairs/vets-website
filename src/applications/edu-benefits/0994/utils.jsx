@@ -33,6 +33,11 @@ export const maskBankInformation = (string, unmaskedLength) => {
   );
 };
 
+export const hasNewBankInformation = (bankAccount = {}) => {
+  const { accountType, accountNumber, routingNumber } = bankAccount;
+  return accountType || accountNumber || routingNumber;
+};
+
 export const VerifiedAlert = (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
