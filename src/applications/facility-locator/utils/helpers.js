@@ -1,3 +1,12 @@
+export const setFocus = selector => {
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
+  if (el) {
+    el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
+};
+
 /* eslint-disable arrow-body-style */
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
