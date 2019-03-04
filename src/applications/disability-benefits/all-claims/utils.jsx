@@ -796,10 +796,12 @@ export const recordEventOnce = (event, key) => {
   }
 };
 
-export const hasClaimedConditions = formData => {
-  const { newDisabilities, ratedDisabilities } = formData;
-  const claimingNew = newDisabilities && newDisabilities.some(d => d.condition);
-  const claimingRated =
-    ratedDisabilities && ratedDisabilities.some(d => d['view:selected']);
-  return claimingNew || claimingRated;
-};
+export const claimingRated = formData =>
+  formData.ratedDisabilities &&
+  formData.ratedDisabilities.some(d => d['view:selected']);
+
+export const claimingNew = formData =>
+  formData.newDisabilities && formData.newDisabilities.some(d => d.condition);
+
+export const hasClaimedConditions = formData =>
+  claimingNew(formData) || claimingRated(formData);

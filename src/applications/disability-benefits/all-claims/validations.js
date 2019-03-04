@@ -7,6 +7,8 @@ import {
   getPOWValidationMessage,
   pathWithIndex,
   hasClaimedConditions,
+  increaseOnly,
+  claimingRated,
 } from './utils';
 
 import {
@@ -267,6 +269,16 @@ export const validateDisabilityName = (err, fieldData) => {
 
 export const requireDisability = (err, fieldData, formData) => {
   if (!hasClaimedConditions(formData)) {
+    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
+    err.addError('');
+  }
+};
+
+/**
+ * Requires a rated disability to be entered if the increase only path has been selected.
+ */
+export const requireRatedDisability = (err, fieldData, formData) => {
+  if (increaseOnly(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
     err.addError('');
   }
