@@ -32,3 +32,17 @@ export const maskBankInformation = (string, unmaskedLength) => {
     </span>
   );
 };
+
+export const VerifiedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        <strong>Note:</strong> Since you’re signed in to your account and your
+        account is verified, we can prefill part of your application based on
+        your account details. You can also save your form in progress for up to
+        1 year and come back later to finish filling it out.
+      </div>
+    </div>
+    <br />
+  </div>
+);

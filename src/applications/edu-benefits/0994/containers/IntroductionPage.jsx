@@ -4,6 +4,9 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
+import { VerifiedAlert } from '../utils';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -17,15 +20,31 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-0994 Application for Veteran Employment Through
           Technology Education Courses (VET TEC)
         </p>
-        <SaveInProgressIntro
-          startMessageOnly
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          verifyRequiredPrefill={
-            this.props.route.formConfig.verifyRequiredPrefill
-          }
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-        />
+        {isBrandConsolidationEnabled() ? (
+          <CallToActionWidget appId="vet-tec">
+            <SaveInProgressIntro
+              {...this.props}
+              startMessageOnly
+              verifiedPrefillAlert={VerifiedAlert}
+              verifyRequiredPrefill={
+                this.props.route.formConfig.verifyRequiredPrefill
+              }
+              prefillEnabled={this.props.route.formConfig.prefillEnabled}
+              messages={this.props.route.formConfig.savedFormMessages}
+              pageList={this.props.route.pageList}
+            />
+          </CallToActionWidget>
+        ) : (
+          <SaveInProgressIntro
+            startMessageOnly
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            verifyRequiredPrefill={
+              this.props.route.formConfig.verifyRequiredPrefill
+            }
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+          />
+        )}
         <h4>Follow the steps below to apply for VET TEC.</h4>
         <div className="process schemaform-process">
           <ol>
