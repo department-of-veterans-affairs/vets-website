@@ -25,13 +25,13 @@ export const uiSchema = {
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
     },
+    'ui:validations': [requireRatedDisability],
   },
   'view:disabilitiesClarification': {
     'ui:description': disabilitiesClarification,
   },
   'view:ratedDisabilitiesAlert': {
     'ui:description': ratedDisabilitiesAlert,
-    'ui:validations': [requireRatedDisability],
     'ui:options': {
       hideIf: formData => !increaseOnly(formData) || claimingRated(formData),
     },
