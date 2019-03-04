@@ -6,7 +6,7 @@ import environment from '../../../platform/utilities/environment';
 import { apiRequest } from '../../../platform/utilities/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
-  getStatus,
+  getErrorStatus,
   USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
@@ -98,7 +98,7 @@ export function getAppealsV2() {
       null,
       appeals => dispatch(fetchAppealsSuccess(appeals)),
       response => {
-        const status = getStatus(response);
+        const status = getErrorStatus(response);
         const action = { type: '' };
         switch (status) {
           case '403':
@@ -181,7 +181,7 @@ export function getClaimsV2(poll = pollRequest) {
 
     poll({
       onError: response => {
-        const errorCode = getStatus(response);
+        const errorCode = getErrorStatus(response);
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
           Raven.captureException(`vets_claims_v2_err_get_claims ${errorCode}`);
         }

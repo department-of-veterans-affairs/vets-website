@@ -2059,7 +2059,7 @@ export const UNKNOWN_STATUS = 'unknown';
  * @param {Object} response error response object from vets-api
  * @returns {string} status code or 'unknown'
  */
-export const getStatus = response => {
+export const getErrorStatus = response => {
   if (response instanceof Error) {
     Raven.captureException(response, { tags: { location: 'getStatus' } });
   }
