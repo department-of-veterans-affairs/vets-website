@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const fetch = require('node-fetch');
 
 const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
@@ -42,20 +44,23 @@ function getDrupalClient(buildOptions) {
     },
 
     getAllPages() {
-      return this.query({ query: GET_ALL_PAGES });
+      return this.query({
+        query: GET_ALL_PAGES,
+        variables: { today: moment().format('YYYY-MM-DD') },
+      });
     },
 
     getPageById(url) {
       return this.query({
         query: GET_PAGE_BY_ID,
-        variables: { path: url },
+        variables: { path: url, today: moment().format('YYYY-MM-DD') },
       });
     },
 
     getLatestPageById(nodeId) {
       return this.query({
         query: GET_LATEST_PAGE_BY_ID,
-        variables: { id: nodeId },
+        variables: { id: nodeId, today: moment().format('YYYY-MM-DD') },
       });
     },
   };

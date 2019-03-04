@@ -63,6 +63,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     page,
     'health_care_region_locations_page.drupal.liquid',
   );
+
+  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+    page,
+    'health_care_region_health_services_page.drupal.liquid',
+  );
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

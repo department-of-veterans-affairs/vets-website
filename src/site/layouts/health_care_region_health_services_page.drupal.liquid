@@ -1,0 +1,71 @@
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+        <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+        <div class="usa-width-three-fourths">
+            {% if !entityPublished %}
+                <div class="usa-alert usa-alert-info" >
+                    <div class="usa-alert-body">
+                        <p class="usa-alert-text">You are viewing a draft.</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <article class="usa-content">
+                <h1>Health services</h1>
+                <div class="va-introtext">
+                    {{ fieldClinicalHealthCareServi.processed }}
+                </div>
+                <!-- hard coded for now -->
+                <section>
+                    <p>Looking for information about shuttles, the canteen, coordinators, or other kinds of services at
+                        the Pittsburgh health care system?</p>
+                    <ul class="usa-unstyled-list">
+                        <li><a href="#">See our facility services and amenities</a></li>
+                        <li><a href="#">See our patient and family services</a></li>
+                    </ul>
+                </section>
+                <!-- end hard coding -->
+                <section class="primary-health-services">
+                    <h2>Primary care</h2>
+                    {% for healthService in primaryCareHealthServices.entities %}
+                    <div class="usa-accordion">
+                        <ul class="usa-unstyled-list">
+                            {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
+                            <li>
+                                <button
+                                        class="usa-accordion-button usa-button-unstyled"
+                                        aria-expanded="false"
+                                        aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
+                                >
+                                    {{ serviceTaxonomy.name }}
+                                </button>
+                                <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                                      <p>{{ serviceTaxonomy | json }}</p>
+                                      <p>{{ serviceTaxonmy.fieldAlsoKnownAs }}</p>
+                                      <p>{{ serviceTaxonmy.description.processed }}</p>
+                                      <div>
+                                        {{ healthService.fieldBody.processed }}
+                                      </div>
+                                      <p class="vads-u-font-weight--bold">Available at</p>
+                                      <ul class="usa-unstyled-list">
+                                          {% for location in healthService.fieldServiceLocation.entities %}
+                                              <li><a href="/drupal{{ entityUrl.path }}/{{ location | locationUrlConvention }}">{{ location.fieldNicknameForThisFacility }}</a></li>
+                                          {% endfor %}
+                                      </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </section>
+            </article>
+        </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
