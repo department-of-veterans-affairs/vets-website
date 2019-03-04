@@ -73,6 +73,12 @@
     border-bottom: solid thin $color-gray-lightest;
   }
 
+  .search-result-title:focus {
+    @include focus-gold-light-outline(0);
+    outline-offset: 2px;
+    z-index: 3;
+  }
+
   .facility-result {
     padding: 1em;
     border-bottom: none;
