@@ -282,16 +282,26 @@ class SaveInProgressIntro extends React.Component {
       </div>
     );
 
-    if (this.props.downtime && !this.props.isLoggedIn) {
-      return (
-        <DowntimeNotification
-          appTitle={this.props.formId}
-          render={this.renderDowntime}
-          dependencies={this.props.downtime.dependencies}
-        >
-          {content}
-        </DowntimeNotification>
-      );
+    // If the dependencies aren't required for pre-fill (but are required for submit),
+    // only render the downtime notification if the user isn't logged in.
+    //   If the user is logged in, they can at least save their form.
+    // If the dependencies _are_ required for pre-fill, render the downtime notification
+    // _unless_ the user has a form saved (so they don't need pre-fill).
+    if (this.props.downtime) {
+      if (
+        !this.props.isLoggedIn ||
+        (this.props.downtime.requiredForPrefill && !savedForm)
+      ) {
+        return (
+          <DowntimeNotification
+            appTitle={this.props.formId}
+            render={this.renderDowntime}
+            dependencies={this.props.downtime.dependencies}
+          >
+            {content}
+          </DowntimeNotification>
+        );
+      }
     }
 
     return content;

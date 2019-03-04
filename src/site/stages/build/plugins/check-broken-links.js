@@ -63,7 +63,7 @@ function checkBrokenLinks() {
       }, {});
 
     brokenLinkChecker(filteredFiles);
-    removeLazySrcAttribute(filteredFiles);
+    removeLazySrcAttribute(files);
     done();
   };
 }

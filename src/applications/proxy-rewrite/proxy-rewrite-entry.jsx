@@ -1,6 +1,11 @@
 import '../../platform/polyfills';
 import cookie from 'cookie';
+
+import buckets from '../../site/constants/buckets';
+import environments from '../../site/constants/environments';
+
 import createCommonStore from '../../platform/startup/store';
+import environment from '../../platform/utilities/environment';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
@@ -70,11 +75,11 @@ function activateHeaderFooter(observer) {
   document.body.appendChild(footerContainer);
 }
 
-function renderFooter() {
+function renderFooter(data) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(() => {
+  startVAFooter(data, () => {
     addOverlayTriggers();
     addFocusBehaviorToCrisisLineModal();
 
@@ -100,7 +105,7 @@ function renderFooter() {
   });
 }
 
-function mountReactComponents(commonStore) {
+function mountReactComponents(headerFooterData, commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
@@ -119,12 +124,20 @@ function mountReactComponents(commonStore) {
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
+  startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  renderFooter();
+  renderFooter(headerFooterData.footerData);
+}
+
+function getAssetHostName() {
+  if (environment.BUILDTYPE === environments.LOCALHOST) {
+    return environment.BASE_URL;
+  }
+
+  return buckets[environment.BUILDTYPE];
 }
 
 function activateInjectedAssets() {
@@ -137,7 +150,21 @@ function activateInjectedAssets() {
 
   document.addEventListener('DOMContentLoaded', _e => {
     activateHeaderFooter(observer);
-    mountReactComponents(createCommonStore());
+    fetch(`${getAssetHostName()}/generated/headerFooter.json`)
+      .then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+
+        throw new Error(
+          `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+            resp.statusText
+          }`,
+        );
+      })
+      .then(headerFooterData => {
+        mountReactComponents(headerFooterData, createCommonStore());
+      });
   });
 }
 
