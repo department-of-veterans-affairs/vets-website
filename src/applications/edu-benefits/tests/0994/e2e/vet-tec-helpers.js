@@ -14,7 +14,7 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.click('body').click('.usa-button-primary');
+  client.click('body').click('.usa-button-primary.null');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
@@ -153,11 +153,12 @@ export const completeContactInformation = (client, data) => {
       'input[name="root_view:phoneAndEmail_nightTimePhone"]',
       nightTimePhone,
     )
-    .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
-
-  client
+    .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress)
+    .click('body')
+    .click('.usa-button-primary.update-button') // click Done for edit box for above fields
     .fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}))
-    .pause(10000);
+    .click('body')
+    .click('.usa-button-primary.update-button'); // click Done for edit box for above fields
 };
 
 export const completeBankInformation = (client, data) => {
@@ -180,27 +181,29 @@ export const completeBankInformation = (client, data) => {
         .fill(
           'input[name="root_view:bankAccount_bankAccount_routingNumber"]',
           routingNumber,
-        );
+        )
+        .click('body')
+        .click('.usa-button-primary.update-button'); // click Save for edit box for above fields
     }
   }
 };
 
 export const completeReviewAndSubmit = (client, data) => {
   E2eHelpers.expectLocation(client, '/review-and-submit');
-  client.axeCheck('.main');
-  client.fillCheckbox(
-    'input[name="privacyAgreementAccepted"]',
-    _.get(data, 'privacyAgreementAccepted', false),
-  );
-  client.click('body');
-  client.click('button[id="11-continueButton"]');
+  client
+    .axeCheck('.main')
+    .fillCheckbox(
+      'input[name="privacyAgreementAccepted"]',
+      _.get(data, 'privacyAgreementAccepted', false),
+    )
+    .click('body')
+    .click('.usa-button-primary.null');
 };
 
 export const returnToBeginning = (client, url) => {
   client
     .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .acceptAlert()
-    .waitForElementVisible('body', Timeouts.normal);
-
-  client.click('button[id="2-continueButton"]');
+    .waitForElementVisible('body', Timeouts.normal)
+    .click('.usa-button-primary.null');
 };
