@@ -114,12 +114,12 @@ node('vetsgov-general-purpose') {
     try {
       if (!stages.isDeployable()) { return }
 
-      if (stagess.IS_DEV_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovdev')) {
+      if (stages.IS_DEV_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovdev')) {
         stages.runDeploy('deploys/vets-website-dev', ref)
         stages.runDeploy('deploys/vets-website-vagovdev', ref)
       }
 
-      if (stagess.IS_STAGING_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovstaging')) {
+      if (stages.IS_STAGING_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovstaging')) {
         stages.runDeploy('deploys/vets-website-staging', ref)
         stages.runDeploy('deploys/vets-website-vagovstaging', ref)
       }
