@@ -29,6 +29,9 @@ export const uiSchema = {
       reviewTitle: 'New Disabilities',
       itemName: 'Disability',
     },
+    // Ideally, this would show the validation on the array itself (or the name field in an array
+    //  item), but that's not working.
+    'ui:validations': [requireDisability],
     items: {
       condition: autosuggest.uiSchema(
         autoSuggestTitle,
@@ -54,14 +57,10 @@ export const uiSchema = {
   },
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
   'view:newDisabilityErrors': {
-    // Put the validation here instead of on the condition so the user can't continue to the next page but
-    //  aren't bombarded with two validation errors.
-    'ui:validations': [requireDisability],
     'view:newOnlyAlert': {
       'ui:description': newOnlyAlert,
       'ui:options': {
         hideIf: formData =>
-          // Only show this alert if the veteran is claiming only new conditions
           !newConditionsOnly(formData) || hasClaimedConditions(formData),
       },
     },
