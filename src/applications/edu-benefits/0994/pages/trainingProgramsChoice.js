@@ -2,12 +2,6 @@ export const uiSchema = {
   'view:trainingProgramsChoice': {
     'ui:title': 'Have you picked a program you’d like to attend using VET TEC?',
     'ui:widget': 'yesNo',
-    'ui:options': {
-      labels: {
-        Y: 'Yes',
-        N: 'No',
-      },
-    },
   },
   'view:noProgramsYet': {
     'ui:description':
