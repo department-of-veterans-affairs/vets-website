@@ -16,9 +16,11 @@ export class PaymentReviewView extends React.Component {
     const { formData, name } = this.state;
     let value = formData;
     if (formData === undefined) {
-      const viewBankAccount = _.get(this.props.data, 'view:bankAccount', {});
-
-      if (!hasNewBankInformation(_.get(viewBankAccount, 'bankAccount', {}))) {
+      if (
+        !hasNewBankInformation(
+          _.get(this.props.data, 'view:bankAccount.bankAccount', {}),
+        )
+      ) {
         // Use prefill data
         const propName = `bank${name
           .substring(0, 1)
