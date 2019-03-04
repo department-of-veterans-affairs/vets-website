@@ -10,13 +10,13 @@
     <h2>
         {{ paragraph.fieldTitle }}
     </h2>
-    <div>
+    <div class="va-c-list-link-teasers">
     {% assign even = true %}
     {% for linkTeaser in paragraph.fieldVaParagraphs %}
         {% if even %}
-        <div class="usa-grid">
+        <div class="usa-grid-full">
         {% endif %}
-        <div class="usa-width-one-half">
+        <div class="usa-width-one-half vads-u-padding-bottom--2">
             <a href="{{linkTeaser.entity.fieldLink.uri}}">
                 {{ linkTeaser.entity.fieldLink.title }}
             </a>
