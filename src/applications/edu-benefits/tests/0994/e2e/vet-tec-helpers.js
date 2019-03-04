@@ -14,8 +14,7 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.click('body');
-  client.click('button[id="2-continueButton"]');
+  client.click('body').click('.usa-button-primary');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
@@ -119,12 +118,17 @@ export const completeTrainingProgramsInformation = (client, data) => {
       .fill(`input[name="root_vetTecPrograms_${i}_programName"]`, programName)
       .selectRadio(`root_vetTecPrograms_${i}_courseType`, courseType);
 
-    const location = _.get(program, 'location', undefined);
-    if ((courseType === 'inPerson' || courseType === 'both') && location) {
-      const { city, state } = location;
+    if (courseType === 'inPerson' || courseType === 'both') {
+      const { locationCity, locationState } = program;
       client
-        .fill(`input[name="root_vetTecPrograms_${i}_location_city"`, city)
-        .selectDropdown(`root_vetTecPrograms_${i}_location_state`, state);
+        .fill(
+          `input[name="root_vetTecPrograms_${i}_locationCity"`,
+          locationCity,
+        )
+        .selectDropdown(
+          `root_vetTecPrograms_${i}_locationState`,
+          locationState,
+        );
     }
 
     client.fillDate(
@@ -137,20 +141,23 @@ export const completeTrainingProgramsInformation = (client, data) => {
 };
 
 export const completeContactInformation = (client, data) => {
-  const phoneAndEmail = _.get(data, 'view:phoneAndEmail', undefined);
+  const { dayTimePhone, nightTimePhone, emailAddress } = _.get(
+    data,
+    'view:phoneAndEmail',
+    {},
+  );
 
-  if (phoneAndEmail) {
-    const { dayTimePhone, nightTimePhone, emailAddress } = phoneAndEmail;
-    client
-      .fill('input[name="root_view:phoneAndEmail_dayTimePhone"]', dayTimePhone)
-      .fill(
-        'input[name="root_view:phoneAndEmail_nightTimePhone"]',
-        nightTimePhone,
-      )
-      .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
-  }
+  client
+    .fill('input[name="root_view:phoneAndEmail_dayTimePhone"]', dayTimePhone)
+    .fill(
+      'input[name="root_view:phoneAndEmail_nightTimePhone"]',
+      nightTimePhone,
+    )
+    .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
 
-  client.fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}));
+  client
+    .fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}))
+    .pause(10000);
 };
 
 export const completeBankInformation = (client, data) => {
