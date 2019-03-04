@@ -73,6 +73,12 @@ class ServiceTypeAhead extends Component {
         onChange={this.handleOnSelect}
         defaultSelectedItem={defaultSelectedItem}
         itemToString={renderService}
+        onInputValueChange={(inputValue, stateAndHelpers) => {
+          const { selectedItem, clearSelection } = stateAndHelpers;
+          if (selectedItem && inputValue !== selectedItem.name.trim()) {
+            clearSelection();
+          }
+        }}
         key={defaultSelectedItem}
       >
         {({

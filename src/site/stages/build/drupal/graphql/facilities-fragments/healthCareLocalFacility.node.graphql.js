@@ -8,8 +8,24 @@ const FACILITIES_RESULTS = `
       entityUrl {
         path
       }
+      entityBundle
+      title
+      changed
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
+      fieldIntroText
+      fieldLocationServices {
+        entity {
+          ... on ParagraphHealthCareLocalFacilityServi {
+            entityId
+            entityBundle
+            fieldTitle
+            fieldWysiwyg {
+              processed
+            }
+          }
+        }
+      }
       fieldMainLocation
       fieldMedia {
         entity {
