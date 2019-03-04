@@ -1,18 +1,11 @@
 export const uiSchema = {
   'view:trainingProgramsChoice': {
-    'ui:title':
-      'Have you picked any programs you’d like to attend using VET TEC?',
+    'ui:title': 'Have you picked a program you’d like to attend using VET TEC?',
     'ui:widget': 'yesNo',
-    'ui:options': {
-      labels: {
-        Y: 'Yes',
-        N: 'Not yet',
-      },
-    },
   },
   'view:noProgramsYet': {
     'ui:description':
-      'If you haven’t picked a program yet, you can still submit this application. We’ll send a Certificate of Eligibility (COE) if you’re eligible for VET TEC.',
+      'You can still submit this application even if you haven’t picked a program yet. If you’re eligible for VET TEC, we’ll send you a Certificate of Eligibility (COE).',
     'ui:options': {
       expandUnder: 'view:trainingProgramsChoice',
       expandUnderCondition: false,

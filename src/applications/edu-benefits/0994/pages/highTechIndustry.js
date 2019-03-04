@@ -12,7 +12,7 @@ export const uiSchema = {
   'ui:description': highTechIndustryDescription,
   currentHighTechnologyEmployment: {
     'ui:title':
-      'Are you working in one, or more, of these high-tech industries now?',
+      'Are you working in one or more of these high-tech industries now?',
     'ui:widget': 'yesNo',
   },
   pastHighTechnologyEmployment: {
@@ -37,7 +37,7 @@ export const uiSchema = {
     },
     currentSalary: {
       'ui:title':
-        'About how much per year do/did you earn as a high-tech worker?',
+        'About how much per year do you or have you earned as a high-tech worker?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -51,7 +51,7 @@ export const uiSchema = {
     },
     highTechnologyEmploymentType: {
       'ui:description':
-        'Which option(s) best describe your high-tech work experience? Check all that apply.',
+        'Which area best describes your high-tech work experience? (Check all that apply.)',
       computerProgramming: {
         'ui:title': 'Computer programming',
       },
