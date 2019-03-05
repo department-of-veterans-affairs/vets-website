@@ -136,11 +136,21 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      this.props.onChange(
-        this.props.uiSchema['ui:options'].freeInput || this.useEnum
-          ? inputValue
-          : item,
-      );
+      //
+      const { freeInput, inputTransformers } = this.props.uiSchema[
+        'ui:options'
+      ];
+
+      const inputToSave =
+        inputTransformers &&
+        Array.isArray(inputTransformers) &&
+        inputTransformers.length
+          ? inputTransformers.reduce(
+              (userInput, transformer) => transformer(userInput),
+              inputValue,
+            )
+          : inputValue;
+      this.props.onChange(freeInput || this.useEnum ? inputToSave : item);
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue),
