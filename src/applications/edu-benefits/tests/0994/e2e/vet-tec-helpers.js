@@ -14,8 +14,7 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
-  client.click('body');
-  client.click('button[id="2-continueButton"]');
+  client.click('body').click('.form-progress-buttons .usa-button-primary');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
@@ -119,12 +118,17 @@ export const completeTrainingProgramsInformation = (client, data) => {
       .fill(`input[name="root_vetTecPrograms_${i}_programName"]`, programName)
       .selectRadio(`root_vetTecPrograms_${i}_courseType`, courseType);
 
-    const location = _.get(program, 'location', undefined);
-    if ((courseType === 'inPerson' || courseType === 'both') && location) {
-      const { city, state } = location;
+    if (courseType === 'inPerson' || courseType === 'both') {
+      const { locationCity, locationState } = program;
       client
-        .fill(`input[name="root_vetTecPrograms_${i}_location_city"`, city)
-        .selectDropdown(`root_vetTecPrograms_${i}_location_state`, state);
+        .fill(
+          `input[name="root_vetTecPrograms_${i}_locationCity"`,
+          locationCity,
+        )
+        .selectDropdown(
+          `root_vetTecPrograms_${i}_locationState`,
+          locationState,
+        );
     }
 
     client.fillDate(
@@ -137,20 +141,24 @@ export const completeTrainingProgramsInformation = (client, data) => {
 };
 
 export const completeContactInformation = (client, data) => {
-  const phoneAndEmail = _.get(data, 'view:phoneAndEmail', undefined);
+  const { dayTimePhone, nightTimePhone, emailAddress } = _.get(
+    data,
+    'view:phoneAndEmail',
+    {},
+  );
 
-  if (phoneAndEmail) {
-    const { dayTimePhone, nightTimePhone, emailAddress } = phoneAndEmail;
-    client
-      .fill('input[name="root_view:phoneAndEmail_dayTimePhone"]', dayTimePhone)
-      .fill(
-        'input[name="root_view:phoneAndEmail_nightTimePhone"]',
-        nightTimePhone,
-      )
-      .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress);
-  }
-
-  client.fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}));
+  client
+    .fill('input[name="root_view:phoneAndEmail_dayTimePhone"]', dayTimePhone)
+    .fill(
+      'input[name="root_view:phoneAndEmail_nightTimePhone"]',
+      nightTimePhone,
+    )
+    .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress)
+    .click('body')
+    .click('.usa-button-primary.update-button') // click Done for edit box for above fields
+    .fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}))
+    .click('body')
+    .click('.usa-button-primary.update-button'); // click Done for edit box for above fields
 };
 
 export const completeBankInformation = (client, data) => {
@@ -173,27 +181,29 @@ export const completeBankInformation = (client, data) => {
         .fill(
           'input[name="root_view:bankAccount_bankAccount_routingNumber"]',
           routingNumber,
-        );
+        )
+        .click('body')
+        .click('.usa-button-primary.update-button'); // click Save for edit box for above fields
     }
   }
 };
 
 export const completeReviewAndSubmit = (client, data) => {
   E2eHelpers.expectLocation(client, '/review-and-submit');
-  client.axeCheck('.main');
-  client.fillCheckbox(
-    'input[name="privacyAgreementAccepted"]',
-    _.get(data, 'privacyAgreementAccepted', false),
-  );
-  client.click('body');
-  client.click('button[id="11-continueButton"]');
+  client
+    .axeCheck('.main')
+    .fillCheckbox(
+      'input[name="privacyAgreementAccepted"]',
+      _.get(data, 'privacyAgreementAccepted', false),
+    )
+    .click('body')
+    .click('.form-progress-buttons .usa-button-primary');
 };
 
 export const returnToBeginning = (client, url) => {
   client
     .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .acceptAlert()
-    .waitForElementVisible('body', Timeouts.normal);
-
-  client.click('button[id="2-continueButton"]');
+    .waitForElementVisible('body', Timeouts.normal)
+    .click('.schemaform-start-button');
 };

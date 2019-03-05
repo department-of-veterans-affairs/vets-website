@@ -6,6 +6,7 @@ import recordEvent from '../../../monitoring/record-event';
 import {
   setRavenLoginType,
   clearRavenLoginType,
+  authnSettings,
 } from '../../authentication/utilities';
 import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
@@ -127,14 +128,16 @@ function compareLoginPolicy(loginPolicy) {
   // This is experimental code related to GA that will let us determine
   // if the backend is returning an accurate loginPolicy (service_name)
 
-  let attemptedLoginPolicy = localStorage.getItem('pendingLoginPolicy');
+  let attemptedLoginPolicy = sessionStorage.getItem(
+    authnSettings.PENDING_LOGIN_POLICY,
+  );
 
   attemptedLoginPolicy =
     attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
 
   if (attemptedLoginPolicy === null) {
     Raven.captureMessage(
-      "localStorage error: 'pendingLoginPolicy' was not stored",
+      "sessionStorage error: 'pendingLoginPolicy' was not stored",
     );
   }
 
@@ -143,8 +146,6 @@ function compareLoginPolicy(loginPolicy) {
       event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
     });
   }
-
-  localStorage.removeItem('pendingLoginPolicy');
 }
 
 function recordGAAuthEvent(loginPolicy, loa) {
@@ -153,7 +154,9 @@ function recordGAAuthEvent(loginPolicy, loa) {
   // retrieving a "pendingAuthAction" stored in localStorage when the user
   // clicks a sign in/register button in the Sign In Modal
 
-  const pendingAuthAction = localStorage.getItem('pendingAuthAction');
+  const pendingAuthAction = sessionStorage.getItem(
+    authnSettings.PENDING_AUTH_ACTION,
+  );
 
   if (pendingAuthAction === 'register') {
     // Record GA success event for the register method.
@@ -165,11 +168,9 @@ function recordGAAuthEvent(loginPolicy, loa) {
   } else {
     recordEvent({ event: `login-or-register-success-${loginPolicy}` });
     Raven.captureMessage(
-      "localStorage error: 'pendingAuthAction' was not stored",
+      "sessionStorage error: 'pendingAuthAction' was not stored",
     );
   }
-
-  localStorage.removeItem('pendingAuthAction');
 
   // Report out the current level of assurance for the user.
   if (loa && loa.current) {
