@@ -783,7 +783,7 @@
     react-transition-group "1"
     window-or-global "^1.0.1"
 
-"@department-of-veterans-affairs/formation@^5.0.0":
+"@department-of-veterans-affairs/formation@^5.3.1":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-5.3.1.tgz#df760bd104d7e2fc8b26f346092e5eefba7ae540"
   integrity sha512-k/S1HVfcjg1ZQCtF9Ri9jo31G1RXtSaJ6ujYESeuilfPkcR9z7d7sqwlfyK/OFUfAovWGQtcTe1ixbpKr/7Z4A==
