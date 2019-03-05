@@ -1,7 +1,7 @@
 import React from 'react';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 
-export default class FacilityAddressPhone extends React.Component {
+export default class FacilityAddress extends React.Component {
   render() {
     let address = buildAddressArray(this.props.facility);
 
@@ -14,7 +14,7 @@ export default class FacilityAddressPhone extends React.Component {
     }
 
     return (
-      <div className={this.props.className}>
+      <div>
         <address className="vads-u-margin-bottom--1p5">
           <div>{this.props.facility.attributes.address.physical.address1}</div>
           <div>
@@ -32,33 +32,6 @@ export default class FacilityAddressPhone extends React.Component {
           >
             Directions
           </a>
-        </div>
-        <div className="vads-u-margin-bottom--1p5">
-          <div className="main-phone">
-            <strong>Main phone: </strong>
-            <a
-              href={`tel:${this.props.facility.attributes.phone.main.replace(
-                /[ ]?x/,
-                '',
-              )}`}
-            >
-              {this.props.facility.attributes.phone.main.replace(/[ ]?x/, '')}
-            </a>
-          </div>
-          <div className="mental-health-clinic-phone">
-            <strong>Mental health clinic: </strong>
-            <a
-              href={`tel:${this.props.facility.attributes.phone.mentalHealthClinic.replace(
-                /[ ]?x/,
-                '',
-              )}`}
-            >
-              {this.props.facility.attributes.phone.mentalHealthClinic.replace(
-                /[ ]?x/,
-                '',
-              )}
-            </a>
-          </div>
         </div>
       </div>
     );

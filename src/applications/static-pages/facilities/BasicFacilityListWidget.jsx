@@ -2,7 +2,8 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FacilityTitle from './FacilityTitle';
-import FacilityAddressPhone from './FacilityAddressPhone';
+import FacilityAddress from './FacilityAddress';
+import FacilityPhone from './FacilityPhone';
 
 export default class BasicFacilityListWidget extends React.Component {
   constructor(props) {
@@ -61,7 +62,8 @@ export default class BasicFacilityListWidget extends React.Component {
             nickname={this.props.facilities[facility.id].nickname}
             regionPath={this.props.path}
           />
-          <FacilityAddressPhone facility={facility} />
+          <FacilityAddress facility={facility} />
+          <FacilityPhone facility={facility} />
         </div>
       ),
     );
