@@ -31,35 +31,20 @@
                 <!-- end hard coding -->
                 <section class="primary-health-services">
                     <h2>Primary care</h2>
-                    {% for healthService in primaryCareHealthServices.entities %}
-                    <div class="usa-accordion">
-                        <ul class="usa-unstyled-list">
-                            {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
-                            <li>
-                                <button
-                                        class="usa-accordion-button usa-button-unstyled"
-                                        aria-expanded="false"
-                                        aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
-                                >
-                                    {{ serviceTaxonomy.name }}
-                                </button>
-                                <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                                      <p>{{ serviceTaxonomy | json }}</p>
-                                      <p>{{ serviceTaxonmy.fieldAlsoKnownAs }}</p>
-                                      <p>{{ serviceTaxonmy.description.processed }}</p>
-                                      <div>
-                                        {{ healthService.fieldBody.processed }}
-                                      </div>
-                                      <p class="vads-u-font-weight--bold">Available at</p>
-                                      <ul class="usa-unstyled-list">
-                                          {% for location in healthService.fieldServiceLocation.entities %}
-                                              <li><a href="/drupal{{ entityUrl.path }}/{{ location | locationUrlConvention }}">{{ location.fieldNicknameForThisFacility }}</a></li>
-                                          {% endfor %}
-                                      </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    {% for primaryService in primaryCareHealthServices.entities %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = primaryService %}
+                    {% endfor %}
+                </section>
+                <section class="specialty-health-services">
+                    <h2>Specialty care</h2>
+                    {% for specialtyService in specialtyCareHealthServices.entities %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = specialtyService %}
+                    {% endfor %}
+                </section>
+                <section class="mental-health-services">
+                    <h2>Mental health care</h2>
+                    {% for mentalHealthService in mentalHealthServices.entities %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = mentalHealthService %}
                     {% endfor %}
                 </section>
             </article>
