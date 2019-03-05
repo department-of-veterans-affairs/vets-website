@@ -4,7 +4,7 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
