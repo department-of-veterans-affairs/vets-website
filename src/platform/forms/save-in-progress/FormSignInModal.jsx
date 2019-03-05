@@ -17,7 +17,7 @@ class FormSignInModal extends React.Component {
 
     const secondaryButton = {
       action: this.handleSignIn,
-      text: 'Sign in',
+      text: 'Sign in and start over',
     };
 
     return (
@@ -27,13 +27,16 @@ class FormSignInModal extends React.Component {
         secondaryButton={secondaryButton}
         visible={this.props.visible}
         focusSelector="button"
+        hideCloseButton
         onClose={this.props.onClose}
         status="warning"
-        title="We can’t save your in-progress application"
+        title="If you sign in now, you’ll lose any information you’ve filled in"
       >
-        To save your work in progress, you need to be signed in to your VA.gov
-        account before starting an application. If you leave this application to
-        sign in now, you’ll lose any information you’ve already filled in.
+        <p>
+          Since you didn’t sign in before you started, we can’t save your
+          in-progress application.
+        </p>
+        <p>If you sign in now, you’ll need to start over.</p>
       </Modal>
     );
   }
