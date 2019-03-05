@@ -32,20 +32,27 @@ describe('facilities <FacilityListWidget>', () => {
       tree.update();
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
-      const facilityName = tree.find('h3.vads-u-margin-bottom--2p5');
+      const facilityNameComponent = tree.find('FacilityTitle').dive();
+      const facilityName = facilityNameComponent.find(
+        'h3.vads-u-margin-bottom--2p5',
+      );
       expect(facilityName.text()).to.contain(
         'Pittsburgh VA Medical Center-University Drive',
       );
 
-      const address = tree.find('address');
+      const facilityAddressComponent = tree.find('FacilityAddress').dive();
+      const address = facilityAddressComponent.find('address');
       expect(address.text()).to.contain(
         'University Drive CPittsburgh, PA 15240-1003',
       );
 
-      const mainPhone = tree.find('.main-phone');
+      const facilityPhoneComponent = tree.find('FacilityPhone').dive();
+      const mainPhone = facilityPhoneComponent.find('.main-phone');
       expect(mainPhone.text()).to.contain('Main phone: 866-482-7488');
 
-      const mentalHealthClinic = tree.find('.mental-health-clinic-phone');
+      const mentalHealthClinic = facilityPhoneComponent.find(
+        '.mental-health-clinic-phone',
+      );
       expect(mentalHealthClinic.text()).to.contain(
         'Mental health clinic: 412-360-6600',
       );
