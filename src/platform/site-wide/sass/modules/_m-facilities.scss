@@ -1,9 +1,5 @@
 // Facilities Hub
-.va-c-facility-main-cta {
-  margin: 8px 0;
-}
-
-.va-c-facility-main-cta-item {
+.vads-facility-main-cta {
   border-left: 4px solid $color-link-default;
   background-color: $color-primary-alt-lightest;
   min-height: 40px;
@@ -12,7 +8,7 @@
     text-decoration: none;
   }
 }
-.va-c-facility-hub-cta-item {
+.vads-facility-hub-cta {
   border-top: 1px solid $color-primary-alt-light;
   height: 73px;
   line-height: 73px;
@@ -23,13 +19,13 @@
     display: inline-block;
   }
 }
-.va-c-facility-hub-cta-item-label {
+.vads-facility-hub-cta-label {
   display: inline-block;
   vertical-align: middle;
   line-height: 20px;
   margin-left: 48px
 }
-.va-c-facility-hub-cta-item-circle {
+.vads-facility-hub-cta-circle {
   color: $color-primary-darker;
   height: 32px;
   width: 32px;
@@ -47,15 +43,15 @@
     padding: 8px 11px;
   }
 }
-.va-c-facility-hub-cta-item-arrow {
+.vads-facility-hub-cta-arrow {
   font-size: 10px;
   padding-left: 4px;
 }
 
-.va-c-facility-hub-cta-item-last-line {
+.vads-facility-hub-cta-last-line {
   border-bottom: 1px solid $color-primary-alt-light;
 }
 
-.va-c-facility-hub-button>a {
+.vads-facility-hub-button>a {
   text-decoration:  none;
 }

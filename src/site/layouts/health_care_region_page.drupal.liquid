@@ -142,13 +142,13 @@ Example data:
         {% assign image = fieldMedia.entity.image %}
         <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
         <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
-          <div class="usa-width-one-third va-c-facility-main-cta-item">
+          <div class="usa-width-one-third vads-facility-main-cta">
             <a href="{{ entityUrl.path }}/appointments">Make an appointment</a>
           </div>
-          <div class="usa-width-one-third va-c-facility-main-cta-item">
+          <div class="usa-width-one-third vads-facility-main-cta">
             <a href="{{ entityUrl.path }}/">View A-Z Health Services</a>
           </div>
-          <div class="usa-width-one-third va-c-facility-main-cta-item">
+          <div class="usa-width-one-third vads-facility-main-cta">
             <a href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
           </div>
         </div>
@@ -160,7 +160,7 @@ Example data:
         <section>
           <h2>Main Locations</h2>
           <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
-          <a class="usa-button usa-button-secondary va-c-facility-hub-button" href="{{ entityUrl.path }}/locations">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/locations">
             See all locations <i class="fa fa-chevron-right">&nbsp;</i>
           </a>
         </section>
@@ -169,47 +169,47 @@ Example data:
         <section>
           <h3>Manage your health online</h3>
           <div class="usa-grid usa-grid-full">
-            <div class="usa-width-one-half va-c-facility-hub-cta-item">
+            <div class="usa-width-one-half vads-facility-hub-cta">
               <a href="https://www.va.gov/health-care/refill-track-prescriptions/">
-                <i class=" fa fa-prescription-bottle va-c-facility-hub-cta-item-circle">&nbsp;</i>
-                <span class="va-c-facility-hub-cta-item-label">Refill and track your prescriptions <i class="fa fa-chevron-right va-c-facility-hub-cta-item-arrow">&nbsp;</i></span>
+                <i class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Refill and track your prescriptions <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
-            <div class="usa-width-one-half va-c-facility-hub-cta-item">
+            <div class="usa-width-one-half vads-facility-hub-cta">
             <a href="https://www.va.gov/health-care/get-medical-records/">
-              <i class="fa fa-file-medical va-c-facility-hub-cta-item-circle">&nbsp;</i>
-              <span class="va-c-facility-hub-cta-item-label">Download your VA medical records (Blue Button) <i class="fa fa-chevron-right va-c-facility-hub-cta-item-arrow">&nbsp;</i></span>
+              <i class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
+              <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button) <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
             </a>
             </div>
           </div>
           <div class="usa-grid usa-grid-full">
-            <div class="usa-width-one-half va-c-facility-hub-cta-item">
+            <div class="usa-width-one-half vads-facility-hub-cta">
               <a href="https://www.va.gov/health-care/secure-messaging/">
-                <i class="fa fa-comments va-c-facility-hub-cta-item-circle">&nbsp;</i>
-                <span class="va-c-facility-hub-cta-item-label">Send a secure message to your health care team <i class="fa fa-chevron-right va-c-facility-hub-cta-item-arrow">&nbsp;</i></span>
+                <i class="fa fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Send a secure message to your health care team <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
-            <div class="usa-width-one-half va-c-facility-hub-cta-item">
+            <div class="usa-width-one-half vads-facility-hub-cta">
               
               <a href="https://www.va.gov/health-care/view-test-and-lab-results/">
-                <i class="fa fa-clipboard-list va-c-facility-hub-cta-item-circle">&nbsp;</i>
-                <span class="va-c-facility-hub-cta-item-label">View your lab and test results <i class="fa fa-chevron-right va-c-facility-hub-cta-item-arrow">&nbsp;</i></span>
+                <i class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">View your lab and test results <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
               
             </div>
           </div>
           <div class="usa-grid usa-grid-full">
-            <div class="usa-width-one-half va-c-facility-hub-cta-item va-c-facility-hub-cta-item-last-line">
+            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
               
               <a href="https://www.va.gov/health-care/schedule-view-va-appointments/">
-                <i class="fa fa-calendar-check va-c-facility-hub-cta-item-circle">&nbsp;</i>
-                <span class="va-c-facility-hub-cta-item-label">Schedule and view your appointments <i class="fa fa-chevron-right va-c-facility-hub-cta-item-arrow">&nbsp;</i></span>
+                <i class="fa fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Schedule and view your appointments <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
-            <div class="usa-width-one-half va-c-facility-hub-cta-item va-c-facility-hub-cta-item-last-line">
+            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
               <a href="https://www.va.gov/health-care/order-hearing-aid-batteries-prosthetic-socks/">
-                <i class="fa fa-deaf va-c-facility-hub-cta-item-circle">&nbsp;</i>
-                <span class="va-c-facility-hub-cta-item-label">Order hearing aid batteries and prosthetic socks <i class="fa fa-chevron-right va-c-va-c-facility-hub-cta-item-arrow">&nbsp;</i></span>
+                <i class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks <i class="fa fa-chevron-right vads-vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
           </div>
@@ -227,7 +227,7 @@ Example data:
           {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
-          <a class="usa-button usa-button-secondary va-c-facility-hub-button" href="{{ entityUrl.path }}/news">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/news">
             See all community stories <i class="fa fa-chevron-right"></i>
           </a>
         </section>
@@ -242,7 +242,7 @@ Example data:
             </div>
           {% endfor %}
           </div>
-          <a class="usa-button usa-button-secondary va-c-facility-hub-button" href="{{ entityUrl.path }}/events">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/events">
             See all events <i class="fa fa-chevron-right"></i>
           </a>
         </section>
