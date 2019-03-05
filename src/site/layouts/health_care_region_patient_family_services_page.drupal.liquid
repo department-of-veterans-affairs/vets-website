@@ -1,0 +1,63 @@
+{% comment %}
+    Example data:
+    {
+    "entity": {
+    "entityBundle": "regional_health_care_service_des",
+    "entityLabel": "Hearing, speech, and balance",
+    "fieldBody": {
+    "processed": "<p>Test regional description of service</p>"
+    },
+    "fieldServiceNameAndDescripti": {
+    "entity": {
+    "fieldServiceTypeNonclinical": null,
+    "fieldServiceTypeClinical": "specialty_care",
+    "fieldAlsoKnownAs": "Also audiology, balance and Cochlear evaluations, hearing aid evaluation",
+    "entityLabel": "Hearing, speech, and balance"
+    }
+    }
+    }
+    },
+    {
+    "entity": {
+    "entityBundle": "regional_health_care_service_des",
+    "entityLabel": "Geriatrics",
+    "fieldBody": {
+    "processed": "<p>Test</p>"
+    },
+    "fieldServiceNameAndDescripti": {
+    "entity": {
+    "fieldServiceTypeNonclinical": null,
+    "fieldServiceTypeClinical": "specialty_care",
+    "fieldAlsoKnownAs": "the branch of medicine or social science dealing with the health and care of old people.",
+    "entityLabel": "Geriatrics"
+    }
+    }
+    }
+    }
+{% endcomment %}
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+        <div class="usa-grid usa-grid-full">
+            <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+            <div class="usa-width-three-fourths">
+                {% if !entityPublished %}
+                    <div class="usa-alert usa-alert-info" >
+                        <div class="usa-alert-body">
+                            <p class="usa-alert-text">You are viewing a draft.</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <h1>{{ title }}</h1>
+                <div class="va-introtext">
+                    {{ introText }}
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+    {% include "src/site/includes/debug.drupal.liquid" %}
