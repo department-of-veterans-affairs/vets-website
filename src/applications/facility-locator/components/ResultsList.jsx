@@ -9,6 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { distBetween } from '../utils/facilityDistance';
+import { facilityTypes } from '../config';
 
 class ResultsList extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class ResultsList extends Component {
       searchString,
       results,
       isMobile,
+      currentQuery,
       pagination: { currentPage, totalPages },
     } = this.props;
 
@@ -76,8 +78,8 @@ class ResultsList extends Component {
       );
       /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     }
-    const currentLocation = currentQuery.position;
-
+    const currentLocation = position;
+    console.log(currentLocation.latitude);
     const sortedResults = results
       .map(result => {
         const distance = currentLocation
