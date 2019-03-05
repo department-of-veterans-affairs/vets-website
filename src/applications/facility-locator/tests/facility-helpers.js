@@ -159,8 +159,8 @@ const resultsData = {
         facilityType: 'va_benefits_facility',
         classification: 'VETSUCCESS ON CAMPUS',
         website: null,
-        lat: 34.08751109,
-        long: -77.357505649,
+        lat: 40.17887331434698,
+        long: -99.27246093750001,
         address: {
           physical: {
             address1: '855 North Vermont',
