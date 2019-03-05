@@ -136,10 +136,7 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      //
-      const { freeInput, inputTransformers } = this.props.uiSchema[
-        'ui:options'
-      ];
+      const { freeInput, inputTransformers } = uiOptions;
 
       const inputToSave =
         inputTransformers &&
