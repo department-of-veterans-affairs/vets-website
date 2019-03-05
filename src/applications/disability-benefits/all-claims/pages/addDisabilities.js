@@ -34,11 +34,11 @@ export const uiSchema = {
             freeInput: true,
             inputTransformers: [
               input => input.replace(/["”']/g, '’'),
-              input => input.replace(/[;]/g, '--'),
+              input => input.replace(/[;–]/g, ' -- '),
               input => input.replace(/[&]/g, ' and '),
               input => input.replace(/[\\]/g, '/'),
               input => input.replace(/([^a-zA-Z0-9\-’.,/() ]+)/g, ''),
-              input => input.replace(/\s\s+/, ' '),
+              input => input.replace(/\s{2,}/, ' '),
             ],
           },
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
