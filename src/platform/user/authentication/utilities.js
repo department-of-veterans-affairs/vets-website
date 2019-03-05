@@ -6,8 +6,8 @@ import environment from '../../utilities/environment';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
-  REGISTRATION_PENDING: 'registrationPending',
-  PENDING_LOGIN_TYPE: 'pendingLoginType',
+  PENDING_AUTH_ACTION: 'pendingAuthAction',
+  PENDING_LOGIN_POLICY: 'pendingLoginPolicy',
 };
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
@@ -36,7 +36,10 @@ export function setRavenLoginType(loginType) {
 }
 
 export function clearRavenLoginType() {
-  Raven.setTagsContext({ loginType: undefined });
+  const context = Raven.getContext(); // Note: Do not mutate context directly.
+  const tags = { ...context.tags };
+  delete tags.loginType;
+  Raven.setTagsContext(tags);
 }
 
 function redirect(redirectUrl, clickedEvent) {
@@ -47,8 +50,8 @@ function redirect(redirectUrl, clickedEvent) {
 }
 
 export function login(policy) {
-  sessionStorage.removeItem(authnSettings.REGISTRATION_PENDING);
-  sessionStorage.setItem(authnSettings.PENDING_LOGIN_TYPE, policy);
+  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'login');
+  sessionStorage.setItem(authnSettings.PENDING_LOGIN_POLICY, policy);
   return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
@@ -66,7 +69,7 @@ export function logout() {
 }
 
 export function signup() {
-  sessionStorage.setItem(authnSettings.REGISTRATION_PENDING, true);
+  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'register');
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',

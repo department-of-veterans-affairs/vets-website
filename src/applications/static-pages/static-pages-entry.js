@@ -20,6 +20,10 @@ import './sass/static-pages.scss';
 // New sidebar menu
 import './sidebar-navigation.js';
 
+// Health care facility widgets
+import createFacilityListWidget from './facilities/facilityList';
+import createFacilityDetailWidget from './facilities/facilityDetail';
+
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
   source: 'static-pages',
@@ -73,6 +77,9 @@ createDisabilityIncreaseApplicationStatus(
   store,
   widgetTypes.DISABILITY_APP_STATUS,
 );
+
+createFacilityListWidget();
+createFacilityDetailWidget();
 
 // homepage widgets
 if (location.pathname === '/') {

@@ -40,8 +40,8 @@ describe('mega-menu', () => {
 
         const actualResults = getAuthorizedLinkData(
           true,
-          AuthorizedLinks,
           defaultLinks,
+          AuthorizedLinks,
         );
 
         expect(actualResults).to.eql(expectedResults);
@@ -53,8 +53,8 @@ describe('mega-menu', () => {
 
         const actualResults = getAuthorizedLinkData(
           false,
-          AuthorizedLinks,
           defaultLinks,
+          AuthorizedLinks,
         );
 
         expect(actualResults).to.eql(expectedResults);

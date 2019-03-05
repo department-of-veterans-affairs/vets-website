@@ -10,6 +10,8 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
+  liquid.filters.formatDate = (dt, format) => moment(dt).format(format);
+
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
@@ -35,4 +37,29 @@ module.exports = function registerFilters() {
         loadingMessage: paragraph.entity.fieldLoadingMessage,
         errorMessage: paragraph.entity.errorMessage,
       }));
+
+  liquid.filters.facilityIds = facilities =>
+    facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
+
+  // Used for the react widget "Facilities List" - includes the facility locator api id and the image object from drupal
+  liquid.filters.widgetFacilitiesList = facilities => {
+    const facilityList = {};
+    facilities.forEach(f => {
+      // Facility Locator ids - the ids NEED to match what is returned from the facility locator api
+      const facilityLocatorApiId = f.fieldFacilityLocatorApiId
+        .split('_')[1]
+        .toUpperCase();
+      const id = `vha_`.concat(facilityLocatorApiId);
+
+      facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : {};
+      facilityList[id].entityUrl = f.entityUrl;
+    });
+    return JSON.stringify(facilityList);
+  };
+
+  liquid.filters.widgetFacilityDetail = facility => {
+    const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
+    const id = `vha_${facilityLocatorApiId}`;
+    return JSON.stringify(id);
+  };
 };

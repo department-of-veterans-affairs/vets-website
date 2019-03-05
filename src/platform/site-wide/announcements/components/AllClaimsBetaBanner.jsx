@@ -1,13 +1,15 @@
 import React from 'react';
 import { features } from '../../../../applications/beta-enrollment/routes';
+import environment from '../../../../platform/utilities/environment';
 
 export default function AllClaimsBetaBanner({ dismiss, profile }) {
   // skip probability logic if user is enrolled
   if (!profile.services.includes(features.allClaims)) {
-    // only allow a small percentage of users to see the banner
+    // allow 1000-3000 users to see the banner
     // if user was selected, persist in localStorage
+    // always show banner if not in production
     if (!localStorage.getItem('all-claims-beta')) {
-      if (Math.random() > 0.02) return null;
+      if (environment.isProduction() && Math.random() > 0.6) return null;
       localStorage.setItem('all-claims-beta', true);
     }
   }

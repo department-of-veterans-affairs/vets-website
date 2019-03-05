@@ -9,7 +9,7 @@ import {
   substantiallyGainfulEmployment,
 } from '../content/recentJobApplications';
 
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
 import { addressUISchema } from '../utils';
 

@@ -24,8 +24,8 @@ const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 // eslint-disable-next-line no-console
 const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
 
-function writeDrupalIndexPage(files) {
-  log('Drupal index page written to /drupal.');
+function writeDrupalDebugPage(files) {
+  log('Drupal debug page written to /drupal/debug.');
 
   const drupalPages = Object.keys(files)
     .filter(page => page.startsWith('drupal'))
@@ -37,9 +37,61 @@ function writeDrupalIndexPage(files) {
     <ol>${drupalPages}</ol>
   `;
 
-  files['drupal/index.html'] = {
+  files['drupal/debug/index.html'] = {
     contents: Buffer.from(drupalIndex),
   };
+}
+
+// Creates the file object to add to the file list using the page and layout
+function createFileObj(page, layout) {
+  return {
+    ...page,
+    isDrupalPage: true,
+    layout,
+    contents: Buffer.from('<!-- Drupal-provided data -->'),
+    debug: JSON.stringify(page, null, 4),
+    // Keep these pages out of the sitemap until we remove
+    // the drupal prefix
+    private: true,
+  };
+}
+
+// Creates the top-level health care region list pages (Locations, Services, etc.)
+function createHealthCareRegionListPages(page, drupalPagePath, files) {
+  // Create the top-level locations page for Health Care Regions
+  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
+    page,
+    'health_care_region_locations_page.drupal.liquid',
+  );
+
+  const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
+
+  // Create the detail page for healthcare local facilities
+  if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
+    for (const facility of [
+      ...page.mainFacilities.entities,
+      ...page.otherFacilities.entities,
+    ]) {
+      if (facility.entityBundle === 'health_care_local_facility') {
+        const facilityCompiled = Object.assign(facility, relatedLinks);
+
+        let facilityPath;
+        if (facility.fieldNicknameForThisFacility) {
+          const facilityNickname = facility.fieldNicknameForThisFacility;
+          facilityPath = facilityNickname.replace(/\s+/g, '-').toLowerCase();
+        } else {
+          facilityPath = facility.fieldFacilityLocatorApiId;
+        }
+
+        files[
+          `drupal${drupalPagePath}/locations/${facilityPath}/index.html`
+        ] = createFileObj(
+          facilityCompiled,
+          'health_care_local_facility_page.drupal.liquid',
+        );
+      }
+    }
+  }
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
@@ -79,19 +131,23 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       pageCompiled = page;
     }
 
-    files[`drupal${drupalPagePath}/index.html`] = {
-      ...pageCompiled,
-      isDrupalPage: true,
-      layout: `${entityBundle}.drupal.liquid`,
-      contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(pageCompiled, null, 4),
-      // Keep these pages out of the sitemap until we remove
-      // the drupal prefix
-      private: true,
-    };
+    files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+      pageCompiled,
+      `${entityBundle}.drupal.liquid`,
+    );
+
+    if (page.entityBundle === 'health_care_region_page') {
+      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+    }
   }
 
-  writeDrupalIndexPage(files);
+  writeDrupalDebugPage(files);
+  files[`drupal/index.md`] = {
+    ...files['index.md'],
+    path: 'drupal/index.html',
+    isDrupalPage: true,
+    private: true,
+  };
 }
 
 async function loadDrupal(buildOptions) {

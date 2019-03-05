@@ -3,9 +3,9 @@ import _ from 'lodash/fp';
 
 import ErrorText from '../../components/ErrorText';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
-import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import FormFooter from 'platform/forms/components/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';

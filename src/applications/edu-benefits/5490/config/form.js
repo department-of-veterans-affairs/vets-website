@@ -20,15 +20,15 @@ import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
 import {
   validateMonthYear,
   validateFutureDateIfExpectedGrad,
-} from 'us-forms-system/lib/js/validation';
+} from 'platform/forms-system/src/js/validation';
 
 import * as address from '../../../../platform/forms/definitions/address';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as personId from '../../../../platform/forms/definitions/personId';
-import dateRangeUi from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from '../../../../platform/forms/definitions/fullName';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 

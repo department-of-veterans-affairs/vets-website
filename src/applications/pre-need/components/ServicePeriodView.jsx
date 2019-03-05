@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReviewDate } from 'us-forms-system/lib/js/helpers';
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import { serviceLabels } from '../utils/labels';
 
 export default function ServicePeriodView({ formData }) {

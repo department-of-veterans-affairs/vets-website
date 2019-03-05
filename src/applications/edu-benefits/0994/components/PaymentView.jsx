@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { maskBankInformation } from '../utils';
+import { maskBankInformation, hasNewBankInformation } from '../utils';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -10,14 +10,14 @@ export const accountTitleLabels = {
 };
 
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
+  const bankAccount = _.get(formData, 'bankAccount', {});
   const {
     accountType: newAccountType,
     accountNumber: newAccountNumber,
     routingNumber: newRoutingNumber,
-  } = _.get(formData, 'bankAccount', {});
+  } = bankAccount;
 
-  const hasNewBankAccountInfo =
-    newAccountType || newAccountNumber || newRoutingNumber;
+  const hasNewBankAccountInfo = hasNewBankInformation(bankAccount);
 
   const bankAccountType = hasNewBankAccountInfo
     ? newAccountType

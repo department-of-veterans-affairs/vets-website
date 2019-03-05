@@ -201,6 +201,11 @@ label {
   }
 }
 
+.schemaform-array-row-title:focus {
+  @include focus-gold-light-outline;
+  display: inline-block;
+}
+
 .schemaform-array-row {
   outline: none;
 }
@@ -629,4 +634,23 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-downtime-after-steps {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+// highlighted outlines for accessibility
+[role=button]:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #f9c642;
+  outline-offset: 2px;
+}
+
+.form-checkbox>input[type=checkbox]+.schemaform-label {
+  height: 2rem;
+  line-height: 2rem;
+}
+
+.form-checkbox>input[type=checkbox]+label:before {
+  margin-right: 0.6em;
 }

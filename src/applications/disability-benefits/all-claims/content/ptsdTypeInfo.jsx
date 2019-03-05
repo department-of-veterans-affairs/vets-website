@@ -1,5 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { recordEventOnce } from '../utils';
+import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 const combatPtsdType = 'Combat';
 
@@ -24,7 +26,15 @@ export const nonCombatPtsdTypeLong = (
 );
 
 export const ptsdTypeHelp = (
-  <AdditionalInfo triggerText="Which should I choose?">
+  <AdditionalInfo
+    triggerText="Which should I choose?"
+    onClick={() =>
+      recordEventOnce(
+        ANALYTICS_EVENTS.openedPtsdTypeHelp,
+        HELP_TEXT_CLICKED_EVENT,
+      )
+    }
+  >
     <h4>Types of stressful events</h4>
     <h5>Combat</h5>
     <p>

@@ -5,11 +5,13 @@ import {
   PtsdUploadChoiceDescription,
   UploadPtsdDescription,
 } from '../content/ptsdWalkthroughChoice';
+import { PTSD_TYPES_TO_FORMS } from '../constants';
 
+const { combatNonCombat } = PTSD_TYPES_TO_FORMS;
 export const uiSchema = {
   'ui:title': ptsd781NameTitle,
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription formData={formData} formType="781" />
+    <UploadPtsdDescription formData={formData} formType={combatNonCombat} />
   ),
   'view:upload781Choice': {
     'ui:title': ' ',
@@ -24,7 +26,9 @@ export const uiSchema = {
     },
   },
   'view:upload781ChoiceHelp': {
-    'ui:description': <PtsdUploadChoiceDescription formType="781" />,
+    'ui:description': (
+      <PtsdUploadChoiceDescription formType={combatNonCombat} />
+    ),
   },
 };
 

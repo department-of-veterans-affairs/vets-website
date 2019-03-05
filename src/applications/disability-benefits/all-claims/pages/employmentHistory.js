@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { employmentDescription } from '../content/employmentHistory';

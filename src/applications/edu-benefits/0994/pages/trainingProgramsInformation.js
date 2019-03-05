@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { trainingDescription } from '../content/trainingProgramsInformation';
 import VetTecProgramView from '../components/VetTecProgramView';
 
@@ -33,20 +33,19 @@ export const uiSchema = {
     },
     items: {
       providerName: {
-        'ui:title':
-          'What’s the name of the provider of the program you’d like to attend?',
+        'ui:title': 'What’s the name of the program’s provider?',
       },
       programName: {
         'ui:title': 'What’s the name of the program?',
       },
       courseType: {
-        'ui:title': 'Is the training in-person or online?',
+        'ui:title': 'Is it an in-person or online program?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
-            inPerson: 'In-person',
+            inPerson: 'In person',
             online: 'Online',
-            both: 'It’s both online and in-person',
+            both: 'Both online and in person',
           },
         },
         'ui:required': programNameEntered,
@@ -82,7 +81,7 @@ export const uiSchema = {
         },
       },
       plannedStartDate: {
-        ...dateUI('What is your estimated start date?'),
+        ...dateUI('What’s your estimated start date?'),
         'ui:required': programNameEntered,
       },
     },

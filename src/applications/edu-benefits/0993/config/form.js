@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import environment from '../../../../platform/utilities/environment';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';

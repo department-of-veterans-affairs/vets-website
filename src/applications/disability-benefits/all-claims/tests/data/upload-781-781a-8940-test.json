@@ -1,5 +1,15 @@
 {
   "data": {
+    "form4192Upload": [
+      {
+        "name": "image (1).png",
+        "confirmationCode": "dc755749-8a1e-46eb-ad5c-f11f02e59954",
+        "attachmentId": "L115"
+      }
+    ],
+    "view:upload4192Choice": {
+      "view:upload4192": true
+    },
     "view:claimType": {
       "view:claimingNew": true
     },
@@ -20,17 +30,19 @@
       "state": "SC",
       "zipCode": "29412"
     },
-    "view:contactInfoDescription": {},
-    "view:hasEvidence": false,
-    "view:unemployable": false,
-    "view:aidAndAttendance": false,
-    "view:modifyingHome": false,
-    "view:modifyingCar": false,
-    "view:powStatus": false,
+    "form8940Upload": [
+      {
+        "name": "image.png",
+        "confirmationCode": "84037899-8a23-47bb-903a-9971d4071fd8",
+        "attachmentId": "L149"
+      }
+    ],
+    "view:unemployabilityUploadChoice": "upload",
+    "view:unemployable": true,
     "form781aUpload": [
       {
-        "name": "781aForm.pdf",
-        "confirmationCode": "a9915db8-5083-4a68-9372-35404f0c56dc",
+        "name": "VAF-21-526EZ-May-2018.pdf",
+        "confirmationCode": "356bf189-1f54-4545-8129-a39b1a688a21",
         "attachmentId": "L229"
       }
     ],
@@ -38,8 +50,8 @@
     "view:upload781aChoiceHelp": {},
     "form781Upload": [
       {
-        "name": "781Form.pdf",
-        "confirmationCode": "c22924e2-3024-450b-8182-46df6e189060",
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "85b7edad-0f51-41d2-9eab-dffcc8dabb79",
         "attachmentId": "L228"
       }
     ],
@@ -47,16 +59,62 @@
     "view:upload781ChoiceHelp": {},
     "view:selectablePtsdTypes": {
       "view:combatPtsdType": true,
-      "view:mstPtsdType": true
+      "view:mstPtsdType": true,
+      "view:assaultPtsdType": true,
+      "view:nonCombatPtsdType": true
     },
     "view:ptsdTypeHelp": {},
     "newDisabilities": [
       {
-        "condition": "PTSD personal trauma",
+        "condition": "PTSD (post traumatic stress disorder)",
         "view:descriptionInfo": {}
       }
     ],
     "view:newDisabilities": true,
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:contactInfoDescription": {},
+    "view:hasEvidence": false,
+    "view:powStatus": false,
+    "hasTrainingPay": false,
+    "view:hasMilitaryRetiredPay": false,
+    "view:hasSeparationPay": false,
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,
@@ -64,7 +122,7 @@
           "from": "2007-05-22",
           "to": "2008-06-05"
         },
-        "unitName": "billy"
+        "unitName": "Unit name here"
       },
       "servicePeriods": [
         {
@@ -78,31 +136,7 @@
       "view:militaryHistoryNote": {}
     },
     "servedInCombatZonePost911": false,
-    "view:hasMilitaryRetiredPay": false,
     "view:hasAlternateName": false,
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
-      }
-    ],
-    "view:disabilitiesClarification": {},
     "incident0": {
       "unitAssignedDates": {},
       "incidentLocation": {
@@ -150,12 +184,16 @@
     "view:ancillaryFormsWizardIntro": {},
     "view:unemployabilityHelp": {},
     "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
       "view:grossIncomeAdditionalInfo": {},
       "view:supplementalBenefitsHelp": {},
       "view:substantiallyGainfulEmploymentInfo": {},
       "view:statementsAreTrue": {},
       "view:informOfReturnToWork": {}
     },
+    "view:privateMedicalFacility": {},
+    "view:downloadInfo": {},
     "view:vaMedicalRecordsIntro": {},
     "view:uploadPrivateRecordsQualifier": {
       "view:aboutPrivateMedicalRecords": {},
@@ -167,14 +205,13 @@
       "view:hasPrefilledBank": true
     },
     "view:waiveRetirementPayDescription": {},
-    "primaryPhone": "4445551212",
-    "emailAddress": "test2@test1.net",
+    "standardClaim": false,
+    "view:fdcWarning": {},
     "view:originalBankAccount": {
       "view:bankAccountType": "Checking",
       "view:bankAccountNumber": "*********1234",
       "view:bankRoutingNumber": "*****2115",
       "view:bankName": "Comerica"
-    },
-    "privacyAgreementAccepted": true
+    }
   }
 }

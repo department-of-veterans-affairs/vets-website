@@ -108,7 +108,7 @@ const e2eTests = (client, formData) => {
 
   // Bank Information
   completeFormPage(
-    '/bank-information',
+    '/direct-deposit-information',
     client,
     formData,
     completeBankInformation,

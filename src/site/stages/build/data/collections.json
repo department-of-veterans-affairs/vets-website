@@ -84,7 +84,6 @@
     "metadata": {
       "name": "Disability Benefits",
       "hub": "disability"
-
     }
   },
   "disabilityApply": {
@@ -109,11 +108,18 @@
     "metadata": {
       "name": "Disability Benefits",
       "hub": "disability"
-
     }
   },
   "disabilityClaimTypesPredischarge": {
     "pattern": "disability/how-to-file-claim/when-to-file/pre-discharge-claim/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Disability Benefits",
+      "hub": "disability"
+    }
+  },
+  "disabilityCompensationRates": {
+    "pattern": "disability/compensation-rates/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
@@ -359,12 +365,12 @@
       "hub": "health-care"
     }
   },
-  "healthCarePay" : {
+  "healthCarePay": {
     "pattern": "health-care/pay-copay-bill/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Health Care",
-      "hub": "health-care" 
+      "hub": "health-care"
     }
   },
   "healthEligibility": {
@@ -456,7 +462,7 @@
       "hub": "life-insurance"
     }
   },
-   "lifeInsuranceVGLI": {
+  "lifeInsuranceVGLI": {
     "pattern": "life-insurance/options-eligibility/vgli/*.md",
     "sortBy": "order",
     "metadata": {
