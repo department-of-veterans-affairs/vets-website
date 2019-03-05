@@ -1,7 +1,7 @@
 import React from 'react';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 
-export default class FacilityTextBlock extends React.Component {
+export default class FacilityAddressPhone extends React.Component {
   render() {
     let address = buildAddressArray(this.props.facility);
 
@@ -12,13 +12,9 @@ export default class FacilityTextBlock extends React.Component {
       const { lat, long } = this.props.facility.attributes;
       address = `${lat},${long}`;
     }
+
     return (
-      <div className={this.props.className} key={this.props.facility.id}>
-        <h3 className="vads-u-margin-bottom--2p5">
-          <a href={this.props.path} target="_blank" rel="noopener noreferrer">
-            {this.props.facility.attributes.name}
-          </a>
-        </h3>
+      <div className={this.props.className}>
         <address className="vads-u-margin-bottom--1p5">
           <div>{this.props.facility.attributes.address.physical.address1}</div>
           <div>

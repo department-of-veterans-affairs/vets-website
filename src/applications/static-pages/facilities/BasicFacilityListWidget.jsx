@@ -1,7 +1,8 @@
 import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import FacilityTextBlock from './FacilityTextBlock';
+import FacilityTitle from './FacilityTitle';
+import FacilityAddressPhone from './FacilityAddressPhone';
 
 export default class BasicFacilityListWidget extends React.Component {
   constructor(props) {
@@ -54,12 +55,14 @@ export default class BasicFacilityListWidget extends React.Component {
 
     const facilitiesList = this.facilitiesList(this.state.facilities).map(
       facility => (
-        <FacilityTextBlock
-          className="usa-width-one-half"
-          key={facility.id}
-          facility={facility}
-          path={this.props.facilities[facility.id].entityUrl.path}
-        />
+        <div key={facility.id} className="usa-width-one-half">
+          <FacilityTitle
+            facility={facility}
+            nickname={this.props.facilities[facility.id].nickname}
+            regionPath={this.props.path}
+          />
+          <FacilityAddressPhone facility={facility} />
+        </div>
       ),
     );
     return <div className="usa-grid usa-grid-full">{facilitiesList}</div>;

@@ -17,6 +17,7 @@ export default async function createBasicFacilityListWidget() {
       ReactDOM.render(
         <BasicFacilityListWidget
           facilities={JSON.parse(el.dataset.facilities)}
+          path={el.dataset.path}
         />,
         el,
       );

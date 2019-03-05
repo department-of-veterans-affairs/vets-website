@@ -159,7 +159,7 @@ Example data:
 
         <section>
           <h2>Main Locations</h2>
-          <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
+          <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
           <a class="usa-button usa-button-secondary va-c-facility-hub-button" href="{{ entityUrl.path }}/locations">
             See all locations <i class="fa fa-chevron-right">&nbsp;</i>
           </a>
@@ -248,6 +248,7 @@ Example data:
         </section>
     </article>
     </div>
+  </div>
 </main>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

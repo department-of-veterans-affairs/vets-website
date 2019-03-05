@@ -53,6 +53,7 @@ module.exports = function registerFilters() {
 
       facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : {};
       facilityList[id].entityUrl = f.entityUrl;
+      facilityList[id].nickname = f.fieldNicknameForThisFacility;
     });
     return JSON.stringify(facilityList);
   };
