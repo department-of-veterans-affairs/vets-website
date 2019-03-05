@@ -45,7 +45,7 @@ export const uiSchema = {
           labels: {
             inPerson: 'In person',
             online: 'Online',
-            both: 'It’s both online and in person',
+            both: 'Both online and in person',
           },
         },
         'ui:required': programNameEntered,
