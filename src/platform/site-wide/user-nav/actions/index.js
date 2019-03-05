@@ -15,7 +15,7 @@ export function toggleLoginModal(isOpen, context) {
   if (isOpen) {
     const event = context
       ? `login-link-clicked-${context}`
-      : `login-link-clicked-forms`;
+      : `login-link-clicked-cta`;
 
     recordEvent({ event });
   }
