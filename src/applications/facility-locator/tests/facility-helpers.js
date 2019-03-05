@@ -224,9 +224,9 @@ function initApplicationMock(token) {
     value: resultsData,
   });
 
-  resultsData.data.map((cur, i) =>
+  return resultsData.data.map((cur, i) =>
     mock(token, {
-      path: `/v0/facilities/va/${resultsData.data.Id}`,
+      path: `/v0/facilities/va/${resultsData.data[i].id}`,
       verb: 'get',
       value: {
         data: resultsData.data[i],
