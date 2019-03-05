@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
-import recordEvent from '../../../monitoring/record-event';
 import { hasSession } from '../../../user/profile/utilities';
 import HelpMenu from './HelpMenu';
 import SearchMenu from './SearchMenu';
@@ -13,8 +12,7 @@ import SignInProfileMenu from './SignInProfileMenu';
 class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
-    recordEvent({ event: 'login-link-clicked-header' });
-    this.props.toggleLoginModal(true);
+    this.props.toggleLoginModal(true, 'header');
   };
 
   handleMenuClick = menu => () => {
