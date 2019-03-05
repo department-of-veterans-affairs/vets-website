@@ -49,7 +49,6 @@ class ResultsList extends Component {
       searchString,
       results,
       isMobile,
-      currentQuery,
       pagination: { currentPage, totalPages },
     } = this.props;
 
@@ -79,7 +78,6 @@ class ResultsList extends Component {
       /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     }
     const currentLocation = position;
-    console.log(currentLocation.latitude);
     const sortedResults = results
       .map(result => {
         const distance = currentLocation
