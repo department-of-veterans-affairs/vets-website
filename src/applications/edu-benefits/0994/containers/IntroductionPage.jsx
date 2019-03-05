@@ -21,7 +21,6 @@ export class IntroductionPage extends React.Component {
         </p>
         <CallToActionWidget appId="vet-tec">
           <SaveInProgressIntro
-            {...this.props}
             startMessageOnly
             verifyRequiredPrefill={
               this.props.route.formConfig.verifyRequiredPrefill
