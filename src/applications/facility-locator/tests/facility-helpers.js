@@ -224,29 +224,15 @@ function initApplicationMock(token) {
     value: resultsData,
   });
 
-  mock(token, {
-    path: '/v0/facilities/va/vba_343z',
-    verb: 'get',
-    value: {
-      data: resultsData.data[2],
-    },
-  });
-
-  mock(token, {
-    path: '/v0/facilities/va/vha_691GE',
-    verb: 'get',
-    value: {
-      data: resultsData.data[0],
-    },
-  });
-
-  mock(token, {
-    path: '/v0/facilities/va/vba_343o',
-    verb: 'get',
-    value: {
-      data: resultsData.data[1],
-    },
-  });
+  resultsData.data.map((cur, i) =>
+    mock(token, {
+      path: `/v0/facilities/va/${resultsData.data.Id}`,
+      verb: 'get',
+      value: {
+        data: resultsData.data[i],
+      },
+    }),
+  );
 }
 
 /**
