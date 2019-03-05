@@ -14,11 +14,10 @@ node('vetsgov-general-purpose') {
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
-  // load common stages
-  def stages = load "vets-website/jenkins/common.groovy"
+  def commonStages = load "vets-website/jenkins/common.groovy"
 
   // setupStage
-  dockerContainer = stages.setup()
+  dockerContainer = commonStages.setup()
 
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
@@ -26,7 +25,7 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         lint: {
-          dockerContainer.inside(stages.DOCKER_ARGS) {
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
         },
@@ -34,20 +33,20 @@ node('vetsgov-general-purpose') {
         // Check package.json for known vulnerabilities
         security: {
           retry(3) {
-            dockerContainer.inside(stages.DOCKER_ARGS) {
+            dockerContainer.inside(commonStages.DOCKER_ARGS) {
               sh "cd /application && npm run security-check"
             }
           }
         },
 
         unit: {
-          dockerContainer.inside(stages.DOCKER_ARGS) {
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run test:coverage"
           }
         }
       )
     } catch (error) {
-      stages.slackNotify()
+      commonStages.slackNotify()
       throw error
     } finally {
       dir("vets-website") {
@@ -57,24 +56,24 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  stages.build(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  commonStages.build(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (stages.shouldBail() || !stages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
+    if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       try {
         parallel (
           e2e: {
-            sh "export IMAGE_TAG=${stages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
           accessibility: {
-            sh "export IMAGE_TAG=${stages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           }
         )
       } catch (error) {
-        stages.slackNotify()
+        commonStages.slackNotify()
         throw error
       } finally {
         sh "docker-compose -p e2e down --remove-orphans"
@@ -84,18 +83,18 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stages.prearchive(dockerContainer)
+  commonStages.prearchive(dockerContainer)
 
-  stages.archive(dockerContainer, ref);
+  commonStages.archive(dockerContainer, ref);
 
   stage('Review') {
-    if (stages.shouldBail()) {
+    if (commonStages.shouldBail()) {
       currentBuild.result = 'ABORTED'
       return
     }
 
     try {
-      if (!stages.isReviewable()) {
+      if (!commonStages.isReviewable()) {
         return
       }
       build job: 'deploys/vets-review-instance-deploy', parameters: [
@@ -105,26 +104,26 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      stages.slackNotify()
+      commonStages.slackNotify()
       throw error
     }
   }
 
   stage('Deploy dev or staging') {
     try {
-      if (!stages.isDeployable()) { return }
+      if (!commonStages.isDeployable()) { return }
 
-      if (stages.IS_DEV_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovdev')) {
-        stages.runDeploy('deploys/vets-website-dev', ref)
-        stages.runDeploy('deploys/vets-website-vagovdev', ref)
+      if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
+        commonStages.runDeploy('deploys/vets-website-dev', ref)
+        commonStages.runDeploy('deploys/vets-website-vagovdev', ref)
       }
 
-      if (stages.IS_STAGING_BRANCH && stagess.VAGOV_BUILDTYPES.contains('vagovstaging')) {
-        stages.runDeploy('deploys/vets-website-staging', ref)
-        stages.runDeploy('deploys/vets-website-vagovstaging', ref)
+      if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
+        commonStages.runDeploy('deploys/vets-website-staging', ref)
+        commonStages.runDeploy('deploys/vets-website-vagovstaging', ref)
       }
     } catch (error) {
-      stages.slackNotify()
+      commonStages.slackNotify()
       throw error
     }
   }
