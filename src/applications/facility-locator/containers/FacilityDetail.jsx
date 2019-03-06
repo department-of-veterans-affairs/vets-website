@@ -72,7 +72,7 @@ class FacilityDetail extends Component {
     }
 
     return (
-      <div className="row facility-detail">
+      <div className="row facility-detail all-details">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}

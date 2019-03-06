@@ -24,7 +24,13 @@ class MockLocatorApi {
    * @returns {Promise} Promise object
    */
   // eslint-disable-next-line prettier/prettier
-  static searchWithBounds(address = null, bounds, locationType, serviceType, page) {
+  static searchWithBounds(
+    address = null,
+    bounds,
+    locationType,
+    serviceType,
+    page,
+  ) {
     const filterableLocations = ['health', 'benefits', 'cc_provider'];
     const params = compact([
       address ? `address=${address}` : null,
@@ -50,7 +56,7 @@ class MockLocatorApi {
           } else {
             const nonProviders = facilityData.data.filter(
               // eslint-disable-next-line prettier/prettier
-              loc => loc.type !== LocationType.CC_PROVIDER
+              loc => loc.type !== LocationType.CC_PROVIDER,
             );
             locations = { ...facilityData, data: nonProviders };
           }

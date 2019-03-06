@@ -100,7 +100,7 @@ class ProviderDetail extends Component {
     }
 
     return (
-      <div className="row location-detail">
+      <div className="row location-detail all-details">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>{this.renderFacilityInfo()}</div>
           <div>
@@ -138,7 +138,7 @@ ProviderDetail.propTypes = {
 };
 
 // eslint-disable-next-line prettier/prettier
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   location: state.searchResult.selectedResult,
   currentQuery: state.searchQuery,
 });

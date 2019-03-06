@@ -8,6 +8,7 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import { distBetween } from '../utils/facilityDistance';
 import { facilityTypes } from '../config';
 
 class ResultsList extends Component {
@@ -76,6 +77,22 @@ class ResultsList extends Component {
       );
       /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     }
+    const currentLocation = position;
+    const sortedResults = results
+      .map(result => {
+        const distance = currentLocation
+          ? distBetween(
+              currentLocation.latitude,
+              currentLocation.longitude,
+              result.attributes.lat,
+              result.attributes.long,
+            )
+          : null;
+        return { ...result, distance };
+      })
+      .sort((resultA, resultB) => {
+        return resultA.distance - resultB.distance;
+      });
 
     return (
       <div>
@@ -86,14 +103,14 @@ class ResultsList extends Component {
           <strong>“{context}”</strong>
         </p>
         <div>
-          {results.map(r => {
+          {sortedResults.map(r => {
             /* eslint-disable prettier/prettier */
             return isMobile ? (
               <div key={r.id} className="mobile-search-result">
-                <SearchResult result={r} currentLocation={position} />
+                <SearchResult result={r} />
               </div>
             ) : (
-              <SearchResult key={r.id} result={r} currentLocation={position} />
+              <SearchResult key={r.id} result={r} />
             );
             /* eslint-enable prettier/prettier */
           })}

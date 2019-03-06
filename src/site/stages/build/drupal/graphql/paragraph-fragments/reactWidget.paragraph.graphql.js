@@ -8,7 +8,9 @@ module.exports = `
     fieldCtaWidget
     fieldWidgetType
     fieldDefaultLink {
-      uri
+      url {
+        path
+      }
       title
     }
     fieldButtonFormat
