@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import reducer from '../../reducers';
 import {
+  TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
 } from '../../actions';
@@ -29,6 +30,22 @@ describe('User Navigation Reducer', () => {
       isOpen: true,
     });
     expect(state.showLoginModal).to.be.true;
+  });
+
+  it('should hide the form sign-in modal', () => {
+    const state = reducer(undefined, {
+      type: TOGGLE_FORM_SIGN_IN_MODAL,
+      isOpen: false,
+    });
+    expect(state.showFormSignInModal).to.be.false;
+  });
+
+  it('should show the form sign-in modal', () => {
+    const state = reducer(undefined, {
+      type: TOGGLE_FORM_SIGN_IN_MODAL,
+      isOpen: true,
+    });
+    expect(state.showFormSignInModal).to.be.true;
   });
 
   it('should close the search menu', () => {
