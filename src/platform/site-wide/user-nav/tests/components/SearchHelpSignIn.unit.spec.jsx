@@ -15,9 +15,9 @@ describe('<SearchHelpSignIn>', () => {
       search: false,
     },
     isProfileLoading: false,
-    userGreeting: 'test@vets.gov',
-    toggleLoginModal: sinon.spy(),
+    onSignInSignUp: sinon.spy(),
     toggleMenu: sinon.spy(),
+    userGreeting: 'test@vets.gov',
   };
 
   const oldWindow = global.window;
@@ -81,8 +81,7 @@ describe('<SearchHelpSignIn>', () => {
     const clickEvent = { preventDefault: sinon.spy() };
     wrapper.find('.sign-in-link').simulate('click', clickEvent);
     expect(clickEvent.preventDefault.calledOnce).to.be.true;
-    expect(defaultProps.toggleLoginModal.calledOnce).to.be.true;
-    expect(defaultProps.toggleLoginModal.calledWith(true)).to.be.true;
+    expect(defaultProps.onSignInSignUp.calledOnce).to.be.true;
     wrapper.unmount();
   });
 
