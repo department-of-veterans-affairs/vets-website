@@ -3,7 +3,7 @@
  *
  */
 
-const MENU_NAME = 'pittsburg-healthcare';
+const MENU_NAME = 'pittsburgh-health-care';
 
 module.exports = `
   facilitySidebarQuery: menuByName(name: "${MENU_NAME}") {
