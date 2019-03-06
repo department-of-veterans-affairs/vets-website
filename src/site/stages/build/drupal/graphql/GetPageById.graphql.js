@@ -20,7 +20,7 @@ module.exports = `
   ${newsStoryPage}
   ${pressReleasePage}
 
-  query GetPageById($path: String!) {
+  query GetPageById($path: String!, $today: String!) {
     route: route(path: $path) {
       ... on EntityCanonicalUrl {
         entity {

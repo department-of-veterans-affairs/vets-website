@@ -125,7 +125,9 @@ Example data:
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
+      <h5>{{ title }}</h5>
+    </nav>
     <div class="usa-width-three-fourths">
       {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
@@ -138,73 +140,115 @@ Example data:
       <article class="usa-content">
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
-        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-        <div class="usa-grid usa-grid-full">
-          <div class="usa-width-one-third">
-            Make an appointment
+        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
+        <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
+          <div class="usa-width-one-third vads-facility-main-cta">
+            <a href="{{ entityUrl.path }}/appointments">Make an appointment</a>
           </div>
-          <div class="usa-width-one-third">
-            View A-Z Health Services
+          <div class="usa-width-one-third vads-facility-main-cta">
+            <a href="{{ entityUrl.path }}/">View A-Z Health Services</a>
           </div>
-          <div class="usa-width-one-third">
-            Become a patient
+          <div class="usa-width-one-third vads-facility-main-cta">
+            <a href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
           </div>
         </div>
-      </article>
-      <div class="usa-font-lead">
-        {{ fieldIntroText }}
-      </div>
-      <h2>Main Locations</h2>
 
-      <a href="/drupal{{ entityUrl.path }}/locations">See all locations</a>
+        <div class="usa-font-lead">
+          <p>{{ fieldIntroText }}</p>
+        </div>
 
-      <!-- "Manage your health online" section -->
-      <h2>Manage your health online</h2>
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-one-half">
-          Refill and track your prescriptions
-        </div>
-        <div class="usa-width-one-half">
-          Get you VA medical records (Blue Button)
-        </div>
-      </div>
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-one-half">
-          Send a secure message to your health care team
-        </div>
-        <div class="usa-width-one-half">
-          View your lab and test results
-        </div>
-      </div>
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-one-half">
-          Schedule and view your appointments
-        </div>
-        <div class="usa-width-one-half">
-          Order hearing aid batteries and prosthetic socks
-        </div>
-      </div>
+        <section>
+          <h2>Main Locations</h2>
+          <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/locations">
+            See all locations <i class="fa fa-chevron-right">&nbsp;</i>
+          </a>
+        </section>
 
-      <!-- List of links section -->
-      {% if fieldRelatedLinks != empty %}
-        {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
-      {% endif %}
+        <!-- "Manage your health online" section -->
+        <section>
+          <h3>Manage your health online</h3>
+          <div class="usa-grid usa-grid-full">
+            <div class="usa-width-one-half vads-facility-hub-cta">
+              <a href="/health-care/refill-track-prescriptions/">
+                <i class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Refill and track your prescriptions <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+            <div class="usa-width-one-half vads-facility-hub-cta">
+            <a href="/health-care/get-medical-records/">
+              <i class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
+              <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button) <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+            </a>
+            </div>
+          </div>
+          <div class="usa-grid usa-grid-full">
+            <div class="usa-width-one-half vads-facility-hub-cta">
+              <a href="/health-care/secure-messaging/">
+                <i class="fa fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Send a secure message to your health care team <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+            <div class="usa-width-one-half vads-facility-hub-cta">
+              
+              <a href="/health-care/view-test-and-lab-results/">
+                <i class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">View your lab and test results <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              </a>
+              
+            </div>
+          </div>
+          <div class="usa-grid usa-grid-full">
+            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
+              
+              <a href="/health-care/schedule-view-va-appointments/">
+                <i class="fa fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Schedule and view your appointments <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
+              <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/">
+                <i class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks <i class="fa fa-chevron-right vads-vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              </a>
+            </div>
+          </div>
+        </section>
 
-      <h2>Community stories and events</h2>
-      <!-- Stories -->
-      <h3>Community Stories</h3>
-      {% for story in newsStoryTeasers.entities %}
-        {% include "src/site/layouts/news_story_teaser.drupal.liquid" with node = story %}
-      {% endfor %}
-      <a href="#">See all community stories</a>
-      <!-- Events -->
-      <h3>Events</h3>
-      {% for event in eventTeasers.entities %}
-        {% include "src/site/layouts/event_teaser.drupal.liquid" with node = event %}
-      {% endfor %}
-      <a href="#">See all events</a>
+
+        <!-- List of links section -->
+        <div class="vads-u-margin-top--5">
+          {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+        </div>
+
+          <!-- Stories -->
+        <section>
+          <h3>Community Stories</h3>
+          {% for story in newsStoryTeasers.entities %}
+            {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
+          {% endfor %}
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/news">
+            See all community stories <i class="fa fa-chevron-right"></i>
+          </a>
+        </section>
+
+        <!-- Events -->
+        <section>
+          <h3>Events</h3>
+          <div class="usa-grid usa-grid-full">
+          {% for event in eventTeasers.entities %}
+            <div class="usa-width-one-half">
+            {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+            </div>
+          {% endfor %}
+          </div>
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/events">
+            See all events <i class="fa fa-chevron-right"></i>
+          </a>
+        </section>
+    </article>
     </div>
   </div>
-
 </main>
+{% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
