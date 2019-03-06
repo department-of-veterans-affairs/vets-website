@@ -2,10 +2,12 @@
 
 ## What is this?
 
-This is the combined frontend repository for www.va.gov. With this repository, it is possible to
+This is the combined frontend repository for www.va.gov. With this repository; it is possible to
 build all of the client-side (i.e., anything that gets downloaded to the browser) code for
 www.va.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
+
+For backend, see [vets-api repo](https://github.com/department-of-veterans-affairs/vets-api).
 
 As it is client side there are no secrets in this repository since, well, public secrets aren't
 very secret.
