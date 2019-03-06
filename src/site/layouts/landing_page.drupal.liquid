@@ -72,7 +72,7 @@
                         {% assign service = supportService.entity %}
                         <li>
                           {% if service.fieldPhoneNumber %}
-                            <a href="{{ service.fieldLink.uri }}">
+                            <a href="{{ service.fieldLink.url.path }}">
                               <span>{{ service.title }}</span><br>
                               <span>{{ service.fieldPhoneNumber }}</span>
                             </a>

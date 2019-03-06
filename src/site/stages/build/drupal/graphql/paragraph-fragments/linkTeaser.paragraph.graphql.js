@@ -4,7 +4,9 @@
 module.exports = `
   fragment linkTeaser on ParagraphLinkTeaser {
     fieldLink {
-      uri
+      url {
+        path
+      }
       title
       options      
     }
