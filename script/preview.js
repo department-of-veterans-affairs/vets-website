@@ -1,5 +1,6 @@
 const commandLineArgs = require('command-line-args');
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const createPipieline = require('../src/site/stages/preview');
 
@@ -62,6 +63,17 @@ app.get('/preview', async (req, res) => {
       ...drupalPage,
       isPreview: true,
       isDrupalPage: true,
+      headerFooterData: JSON.parse(
+        fs.readFileSync(
+          path.join(
+            __dirname,
+            '..',
+            options.buildpath,
+            'generated/headerFooter.json',
+          ),
+          'utf8',
+        ),
+      ),
       drupalSite: drupalClient.getSiteUri(),
       layout: `${drupalPage.entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),
