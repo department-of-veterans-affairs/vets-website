@@ -75,14 +75,24 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       ...page.otherFacilities.entities,
     ]) {
       if (facility.entityBundle === 'health_care_local_facility') {
-        const facilityCompiled = Object.assign(facility, relatedLinks, sidebar);
 
         const pagePath = facilityLocationPath(
           drupalPagePath,
           facility.fieldFacilityLocatorApiId,
           facility.fieldNicknameForThisFacility,
         );
+
         files[`drupal${pagePath}/index.html`] = createFileObj(
+        const facilityCompiled = Object.assign(
+          facility,
+          relatedLinks,
+          sidebar,
+          { pagePath },
+        );
+
+        files[
+          `drupal${drupalPagePath}/locations/${facilityPath}/index.html`
+        ] = createFileObj(
           facilityCompiled,
           'health_care_local_facility_page.drupal.liquid',
         );
