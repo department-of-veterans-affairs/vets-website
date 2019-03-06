@@ -4,6 +4,7 @@ import Raven from 'raven-js';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
+import './alerts-dismiss-view';
 
 import widgetTypes from './widgetTypes';
 import createAdditionalInfoWidget from './createAdditionalInfoWidget';

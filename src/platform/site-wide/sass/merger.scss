@@ -608,26 +608,20 @@ img[data-srcset] {
 
 .usa-alert-full-width {
   background-color: $color-gray-lightest;
-  display: none;
-  &.show-alert {
-    display: block;
-  }
-  &.dismissed {
+  &.dismissable-option-header {
     display: none;
+    &.show-alert {
+      display: block;
+    }
+    &.dismissed {
+      display: none;
+    }
   }
   .usa-alert-dismiss {
-    background: #112e51;
-    padding: 0px 5px;
-    text-align: center;
-    border-radius: 25px;
     position: absolute;
     right: 0;
     top: 5px;
     cursor: pointer;
-    &:after {
-      color: white;
-      content: "✖";
-    }
   }
   > .usa-alert {
     border-left: none;

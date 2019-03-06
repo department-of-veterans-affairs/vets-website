@@ -78,7 +78,7 @@ export function alertsBuildShow() {
 
   // Show alerts that don't have dismissed class - doing this way
   // prevents flash on page load before styles / js are available.
-  const wrapsShower = document.querySelectorAll('.usa-alert-full-width');
+  const wrapsShower = document.querySelectorAll('.dismissable-option-header');
   let l;
   // Iterate through the wraps, and show.
   for (l = 0; l < wrapsShower.length; l++) {

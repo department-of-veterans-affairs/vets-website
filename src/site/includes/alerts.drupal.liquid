@@ -20,15 +20,21 @@ If we have a hit, show the alert.
 {% endcomment %}
 {% if status == "print" %}
 <div
-  class="usa-alert-full-width usa-alert-full-width-{{ entity.fieldAlertType }}"
+  class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ entity.fieldAlertType }}"
   id="usa-alert-full-width-{{ entity.id }}" role="region"
   aria-labelledby="appeal-heading">
   <div id="usa-alert-{{ entity.id }}"
     class="usa-alert usa-alert-{{ entity.fieldAlertType }}"
     aria-live="assertive" role="alert">
-    <div id="usa-alert-dismiss-{{ entity.id }}" class="usa-alert-dismiss"
+
+    <button id="usa-alert-dismiss-{{ entity.id }}"
+      class="va-alert-close usa-alert-dismiss"
       data-parentWrap="usa-alert-full-width-{{ entity.id }}"
-      data-frequency="{{ entity.fieldAlertFrequency }}"></div>
+      data-frequency="{{ entity.fieldAlertFrequency }}"
+      aria-label="Close notification">
+      <i class="fas fa-times-circle" aria-label="Close icon"></i>
+    </button>
+
     <div class="usa-alert-body" id="usa-alert-body-{{ entity.id }}">
       <h3 class="usa-alert-heading" id="appeal-heading-{{ entity.id }}">
         {{ entity.fieldAlertTitle}}</h3>
