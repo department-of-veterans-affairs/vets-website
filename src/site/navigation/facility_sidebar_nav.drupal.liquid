@@ -15,18 +15,18 @@
                                 {% for link in link.links %}
                                     {% if link.expanded = true %}
                                         <li class="active-level">
-                                            <a href="drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                            <a href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                             <ul class="usa-sidenav-sub_list">
                                                 {% for link in link.links  %}
                                                     <li>
-                                                        <a href="drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                                        <a href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                     </li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
                                     {% else %}
                                         <li>
-                                            <a href="drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                            <a href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
