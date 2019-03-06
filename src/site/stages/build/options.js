@@ -50,6 +50,7 @@ function applyDefaultOptions(options) {
   const components = path.join(siteRoot, 'components');
   const layouts = path.join(siteRoot, 'layouts');
   const paragraphs = path.join(siteRoot, 'paragraphs');
+  const facilities = path.join(siteRoot, 'facilities');
   const blocks = path.join(siteRoot, 'blocks');
   const teasers = path.join(siteRoot, 'teasers');
 
@@ -75,6 +76,7 @@ function applyDefaultOptions(options) {
       [`${components}/**/*`]: '**/*.{md,html}',
       [`${layouts}/**/*`]: '**/*.{md,html}',
       [`${paragraphs}/**/*`]: '**/*.{md,html}',
+      [`${facilities}/**/*`]: '**/*.{md,html}',
       [`${blocks}/**/*`]: '**/*.{md,html}',
       [`${teasers}/**/*`]: '**/*.{md,html}',
     },
