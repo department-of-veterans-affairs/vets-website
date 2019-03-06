@@ -26,6 +26,8 @@ import { selectUserGreeting } from '../selectors';
 export class Main extends React.Component {
   componentDidMount() {
     window.addEventListener('message', this.handleLoginSuccess);
+    // Close any open modals when navigating to different routes within an app.
+    window.addEventListener('popstate', this.closeModals);
     window.addEventListener('storage', this.handleSessionChange);
     this.bindModalTriggers();
     this.bindNavbarLinks();
@@ -125,6 +127,11 @@ export class Main extends React.Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
+  };
+
+  closeModals = () => {
+    if (this.props.showFormSignInModal) this.closeFormSignInModal();
+    if (this.props.showLoginModal) this.closeLoginModal();
   };
 
   openLoginModal = () => {
