@@ -19,7 +19,7 @@ module.exports = `
   ${newsStoryPage}
   ${pressReleasePage}
 
-  query GetLatestPageById($id: String!) {
+  query GetLatestPageById($id: String!, $today: String!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
     conditions: [
       { field: "nid", value: [$id] }

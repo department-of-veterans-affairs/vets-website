@@ -23,6 +23,7 @@ import './sidebar-navigation.js';
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createFacilityDetailWidget from './facilities/facilityDetail';
+import createBasicFacilityListWidget from './facilities/basicFacilityList';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -80,6 +81,7 @@ createDisabilityIncreaseApplicationStatus(
 
 createFacilityListWidget();
 createFacilityDetailWidget();
+createBasicFacilityListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {
