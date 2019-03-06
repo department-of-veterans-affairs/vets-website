@@ -168,6 +168,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
           relatedLinks,
           sidebar,
           { pagePath },
+          { drupalPagePath },
         );
 
         files[
