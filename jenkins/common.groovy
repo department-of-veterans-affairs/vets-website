@@ -4,12 +4,6 @@ DRUPAL_MAPPING = [
   'live': 'vagovprod',
 ]
 
-VETSGOV_BUILDTYPES = [
-  'development',
-  'staging',
-  'production'
-]
-
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
