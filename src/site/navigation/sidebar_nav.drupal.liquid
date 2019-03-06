@@ -19,13 +19,13 @@
                                     <ul class="usa-sidenav-list">
                                         {% for link in link.links %}
                                             <li class="active-level">
-                                                <a href="{{ link.url.path }}" class="">{{ link.label }}</a>
+                                                <a href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                 {% assign subListSize = link.links | size %}
                                                 {% if subListSize > 1 %}
                                                     <ul class="usa-sidenav-sub_list">
                                                         {% for link in link.links %}
                                                             <li>
-                                                                <a href="{{ link.url.path }}" class="">{{ link.label }}</a>
+                                                                <a href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                             </li>
                                                         {% endfor %}
                                                     </ul>
