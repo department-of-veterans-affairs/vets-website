@@ -139,7 +139,7 @@ export class Main extends React.Component {
     if (shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
     } else {
-      this.openLoginModal();
+      this.props.toggleLoginModal(true, 'header');
     }
   };
 

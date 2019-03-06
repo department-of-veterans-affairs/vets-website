@@ -6,10 +6,10 @@ import LocationPhoneLink from './search-results/LocationPhoneLink';
 import LocationDirectionsLink from './search-results/LocationDirectionsLink';
 
 // revert to stateless component given: 19fd5178f
-const SearchResult = ({ result, currentLocation = null }) => {
+const SearchResult = ({ result }) => {
   return (
     <div className="facility-result" id={result.id}>
-      <LocationInfoBlock location={result} currentLocation={currentLocation} />
+      <LocationInfoBlock location={result} />
       <LocationPhoneLink location={result} />
       <LocationDirectionsLink location={result} />
     </div>
