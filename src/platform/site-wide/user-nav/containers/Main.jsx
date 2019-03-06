@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import recordEvent from '../../../monitoring/record-event';
-
 import { isInProgress } from '../../../forms/helpers';
 import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
 import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
@@ -43,7 +41,7 @@ export class Main extends React.Component {
     const { currentlyLoggedIn, showLoginModal } = this.props;
     const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
     if (currentlyLoggedIn) this.executeRedirect();
-    if (shouldCloseLoginModal) this.props.toggleLoginModal(false);
+    if (shouldCloseLoginModal) this.closeLoginModal();
   }
 
   componentWillUnmount() {
@@ -74,7 +72,7 @@ export class Main extends React.Component {
       this.props.initializeProfile();
     } else {
       this.props.updateLoggedInStatus(false);
-      if (this.getNextParameter()) this.props.toggleLoginModal(true);
+      if (this.getNextParameter()) this.openLoginModal();
     }
   };
 
@@ -109,7 +107,7 @@ export class Main extends React.Component {
           const nextQuery = { next: el.getAttribute('href') };
           const nextPath = appendQuery('/', nextQuery);
           history.pushState({}, el.textContent, nextPath);
-          this.props.toggleLoginModal(true);
+          this.openLoginModal();
         }
       });
     });
@@ -127,7 +125,6 @@ export class Main extends React.Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
-    recordEvent({ event: 'login-modal-closed' });
   };
 
   openLoginModal = () => {

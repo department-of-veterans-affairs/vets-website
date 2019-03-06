@@ -28,6 +28,8 @@ class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
+    } else if (prevProps.visible && !this.props.visible) {
+      recordEvent({ event: 'login-modal-closed' });
     }
   }
 
