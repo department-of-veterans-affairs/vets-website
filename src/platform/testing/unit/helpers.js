@@ -148,4 +148,35 @@ export function mockMultipleApiRequests(responses) {
   });
 }
 
-export { chai, expect, wrapWithContext, wrapWithRouterContext, fillDate };
+/**
+ * Mocks event listeners for the target being passed (e.g., a mock window).
+ *
+ * @param {object} target - The object to supplement with event listeners
+ * @returns {object} The target with a mock event listener
+ */
+const mockEventListeners = (target = {}) => {
+  const eventListeners = {};
+  return {
+    ...target,
+    eventListeners,
+    addEventListener: (event, callback) => {
+      if (eventListeners[event]) {
+        eventListeners[event].push(callback);
+      } else {
+        eventListeners[event] = [callback];
+      }
+    },
+    simulate: event => {
+      eventListeners[event].forEach(callback => callback(event));
+    },
+  };
+};
+
+export {
+  chai,
+  expect,
+  fillDate,
+  mockEventListeners,
+  wrapWithContext,
+  wrapWithRouterContext,
+};
