@@ -41,8 +41,8 @@ export const uiSchema = {
               // Strip out everything that's not valid and doesn't need to be replaced
               input => input.replace(/([^a-zA-Z0-9\-’.,/() ]+)/g, ''),
               // Get rid of extra whitespace characters
-              input => input.replace(/\s{2,}/, ' '),
               input => input.trim(),
+              input => input.replace(/\s{2,}/, ' '),
             ],
           },
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
