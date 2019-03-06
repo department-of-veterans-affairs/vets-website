@@ -33,11 +33,15 @@ export const uiSchema = {
           'ui:options': {
             freeInput: true,
             inputTransformers: [
+              // Replace a bunch of things that aren't valid with valid equivalents
               input => input.replace(/["”']/g, '’'),
               input => input.replace(/[;–]/g, ' -- '),
               input => input.replace(/[&]/g, ' and '),
               input => input.replace(/[\\]/g, '/'),
+              // Strip out everything that's not valid and doesn't need to be replaced
               input => input.replace(/([^a-zA-Z0-9\-’.,/() ]+)/g, ''),
+              // Get rid of extra whitespace characters
+              input => input.trim(),
               input => input.replace(/\s{2,}/, ' '),
             ],
           },
