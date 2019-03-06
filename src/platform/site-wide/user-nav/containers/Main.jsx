@@ -21,11 +21,8 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
-
 export class Main extends React.Component {
   componentDidMount() {
-    window.addEventListener('message', this.handleLoginSuccess);
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
     window.addEventListener('storage', this.handleSessionChange);
@@ -75,13 +72,6 @@ export class Main extends React.Component {
     } else {
       this.props.updateLoggedInStatus(false);
       if (this.getNextParameter()) this.openLoginModal();
-    }
-  };
-
-  handleLoginSuccess = event => {
-    if (event.data === 'loggedIn') {
-      this.executeRedirect();
-      this.props.initializeProfile();
     }
   };
 
