@@ -1,0 +1,14 @@
+<link rel="canonical" href="{{ hostUrl }}{{ entityUrl.path }}" />
+{% if changed %}
+<meta name="DC.Date" content="{{changed| dateFromUnix: 'YYYY-MM-DD'}}" property="http://purl.org/dc/terms/date">
+{% endif %}
+<!-- Metatags -->
+{% for tag in entityMetatags %}
+  {% if tag.__typename == "MetaValue" %}
+<meta name="{{ tag.key }}" content="{{ tag.value }}">
+  {% else %}
+    {% if tag.__typename == "MetaProperty" %}
+<meta property="{{ tag.key }}" content="{{ tag.value }}">
+    {% endif %}
+  {% endif %}
+{% endfor %}
