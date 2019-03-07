@@ -231,18 +231,12 @@ const scriptPaths = [
 
 const linkPaths = ['/generated/styleConsolidated.css'];
 
-function removeInjectedHeaderFooter(
-  links = linkPaths,
-  scripts = scriptPaths,
-  docHead = document.head,
-) {
-  Array.from(docHead.getElementsByTagName('script'))
-    .filter(node => scripts.includes(node.getAttribute('src')))
-    .forEach(node => docHead.removeChild(node));
-
-  Array.from(docHead.getElementsByTagName('link'))
-    .filter(node => links.includes(node.getAttribute('href')))
-    .forEach(node => docHead.removeChild(node));
+function removeInjectedHeaderFooter(docHead = document.head) {
+  Array.from(
+    document.querySelectorAll(
+      'script[src*="va-gov-assets"],link[href*="va-gov-assets"',
+    ),
+  ).forEach(node => docHead.removeChild(node));
 }
 
 function addOverrideHeaderFooter(
