@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Downshift from 'downshift';
 import classNames from 'classnames';
@@ -136,11 +137,18 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      this.props.onChange(
-        this.props.uiSchema['ui:options'].freeInput || this.useEnum
-          ? inputValue
-          : item,
-      );
+      const { freeInput, inputTransformers } = uiOptions;
+
+      const inputToSave =
+        inputTransformers &&
+        Array.isArray(inputTransformers) &&
+        inputTransformers.length
+          ? inputTransformers.reduce(
+              (userInput, transformer) => transformer(userInput),
+              inputValue,
+            )
+          : inputValue;
+      this.props.onChange(freeInput || this.useEnum ? inputToSave : item);
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue),
@@ -254,3 +262,28 @@ export default class AutosuggestField extends React.Component {
     );
   }
 }
+
+AutosuggestField.propTypes = {
+  formContext: PropTypes.shape({
+    reviewMode: PropTypes.bool,
+  }),
+  uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      labels: PropTypes.object,
+      getOptions: PropTypes.func,
+      debounceRate: PropTypes.number,
+      maxOptions: PropTypes.number,
+      queryForResults: PropTypes.func,
+      freeInput: PropTypes.bool,
+      inputTransformers: PropTypes.arrayOf(PropTypes.func),
+    }),
+    'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  }),
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  idSchema: PropTypes.shape({
+    $id: PropTypes.string,
+  }),
+  formData: PropTypes.object.isRequired,
+  schema: PropTypes.object.isRequired,
+};

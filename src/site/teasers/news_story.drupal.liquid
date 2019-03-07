@@ -26,7 +26,7 @@ Example data:
 {% if header == empty %}
     {% assign header = "h4" %}
 {% endif %}
-<div class="usa-grid usa-grid-full">
+<div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
     <div class="usa-width-two-thirds">
         <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
         <p>{{ node.fieldIntroText | truncatewords: 60, "..." }}</p>

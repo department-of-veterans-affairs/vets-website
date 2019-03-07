@@ -6,6 +6,7 @@ const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
+const facilityLocationPath = require('./utilities-drupal');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -75,23 +76,23 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       if (facility.entityBundle === 'health_care_local_facility') {
         const facilityCompiled = Object.assign(facility, relatedLinks);
 
-        let facilityPath;
-        if (facility.fieldNicknameForThisFacility) {
-          const facilityNickname = facility.fieldNicknameForThisFacility;
-          facilityPath = facilityNickname.replace(/\s+/g, '-').toLowerCase();
-        } else {
-          facilityPath = facility.fieldFacilityLocatorApiId;
-        }
-
-        files[
-          `drupal${drupalPagePath}/locations/${facilityPath}/index.html`
-        ] = createFileObj(
+        const pagePath = facilityLocationPath(
+          drupalPagePath,
+          facility.fieldFacilityLocatorApiId,
+          facility.fieldNicknameForThisFacility,
+        );
+        files[`drupal${pagePath}/index.html`] = createFileObj(
           facilityCompiled,
           'health_care_local_facility_page.drupal.liquid',
         );
       }
     }
   }
+
+  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+    page,
+    'health_care_region_health_services_page.drupal.liquid',
+  );
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

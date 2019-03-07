@@ -19,7 +19,7 @@ module.exports = `
   ${pressReleasePage}
   ${newsStoryPage}
 
-  query GetAllPages {
+  query GetAllPages($today: String!) {
     nodeQuery(limit: 500) {
       entities {
         ... landingPage

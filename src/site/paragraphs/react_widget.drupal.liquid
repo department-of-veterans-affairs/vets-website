@@ -40,7 +40,7 @@
           {% else %}
             {% assign classes = '' %}
           {% endif %}
-          <a href="{{ entity.fieldDefaultLink.uri }}" {{ classes }}>{{ entity.fieldDefaultLink.title }}</a>
+          <a href="{{ entity.fieldDefaultLink.url.path }}" {{ classes }}>{{ entity.fieldDefaultLink.title }}</a>
         {% endif %}
       </div>
   {% endif %}

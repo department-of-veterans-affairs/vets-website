@@ -25,7 +25,7 @@
     {% endif %}
 {% endif %}
 <li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
-    <a href="{{linkTeaser.fieldLink.uri}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+    <a href="{{linkTeaser.fieldLink.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
         {% if linkTeaser.fieldLink.title != empty %}
             <{{ header }} class="{{ headerClass }}">{{ linkTeaser.fieldLink.title }}</{{ header }}>
             {% if parentFieldName === "field_spokes" %}
