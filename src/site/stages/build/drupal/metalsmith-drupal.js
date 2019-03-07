@@ -81,13 +81,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
           facility.fieldNicknameForThisFacility,
         );
 
-        const facilityCompiled = Object.assign(
-          facility,
-          relatedLinks,
-          sidebar,
-          { pagePath },
-          { drupalPagePath },
-        );
+        const facilityCompiled = Object.assign(facility, relatedLinks, sidebar);
 
         files[`drupal${pagePath}/index.html`] = createFileObj(
           facilityCompiled,

@@ -49,8 +49,6 @@ const FACILITIES_RESULTS = `
                   width
                   height
               }
-              entityBundle
-              entityId
             }
           }
         }
