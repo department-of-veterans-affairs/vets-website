@@ -178,40 +178,40 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
-    const {
-        data: {
-            nodeQuery: {entities: pages},
-            sidebarQuery: sidebarNav,
-            alerts: alertsItem,
-            facilitySidebarQuery: facilitySidebarNav,
-        },
-    } = contentData;
+  const {
+    data: {
+      nodeQuery: { entities: pages },
+      sidebarQuery: sidebarNav = {},
+      alerts: alertsItem = {},
+      facilitySidebarQuery: facilitySidebarNav = {},
+    },
+  } = contentData;
 
   const sidebarNavItems = { sidebar: sidebarNav };
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
 
-    for (const page of pages) {
-        // At this time, null values are returned for pages that are not yet published.
-        // Once the Content-Preview server is up and running, then unpublished pages should
-        // reliably return like any other page and we can delete this.
-        if (!page) {
-            log('Skipping null entity...');
-            continue;
-        }
+  for (const page of pages) {
+    // At this time, null values are returned for pages that are not yet published.
+    // Once the Content-Preview server is up and running, then unpublished pages should
+    // reliably return like any other page and we can delete this.
+    if (!page) {
+      log('Skipping null entity...');
+      continue;
+    }
 
-        if (!Object.keys(page).length) {
-            log('Skipping empty entity...');
-            continue;
-        }
+    if (!Object.keys(page).length) {
+      log('Skipping empty entity...');
+      continue;
+    }
 
-        const {
-            entityUrl: {path: drupalPagePath},
-            entityBundle,
-        } = page;
+    const {
+      entityUrl: { path: drupalPagePath },
+      entityBundle,
+    } = page;
 
-        const pageIdRaw = parseInt(page.entityId, 10);
-        const pageId = {pid: pageIdRaw};
-        let pageCompiled;
+    const pageIdRaw = parseInt(page.entityId, 10);
+    const pageId = { pid: pageIdRaw };
+    let pageCompiled;
 
     switch (entityBundle) {
       case 'page':
@@ -231,18 +231,17 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     );
 
     if (page.entityBundle === 'health_care_region_page') {
-        createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
     }
-}
+  }
 
-        writeDrupalDebugPage(files);
-        files[`drupal/index.md`] = {
-            ...files['index.md'],
-            path: 'drupal/index.html',
-            isDrupalPage: true,
-            private: true,
-        };
-
+  writeDrupalDebugPage(files);
+  files[`drupal/index.md`] = {
+    ...files['index.md'],
+    path: 'drupal/index.html',
+    isDrupalPage: true,
+    private: true,
+  };
 }
 
 async function loadDrupal(buildOptions) {
