@@ -4,10 +4,12 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
+const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
 const facilityLocationPath = require('./utilities-drupal');
+const convertDrupalFilesToLocal = require('./assets');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -260,6 +262,7 @@ async function loadDrupal(buildOptions) {
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
       fs.ensureDirSync(buildOptions.cacheDirectory);
+      fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
       fs.writeFileSync(drupalCache, serialized);
     }
   } else {
@@ -272,6 +275,25 @@ async function loadDrupal(buildOptions) {
 
   log('Drupal successfully loaded!');
   return drupalPages;
+}
+
+async function loadCachedDrupalFiles(buildOptions, files) {
+  if (!buildOptions[PULL_DRUPAL_BUILD_ARG]) {
+    const cachedDrupalFiles = await recursiveRead(
+      path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+    );
+    cachedDrupalFiles.forEach(file => {
+      const relativePath = path.relative(
+        path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+        file,
+      );
+      files[relativePath] = {
+        path: relativePath,
+        isDrupalAsset: true,
+        contents: fs.readFileSync(file),
+      };
+    });
+  }
 }
 
 function getDrupalContent(buildOptions) {
@@ -289,6 +311,8 @@ function getDrupalContent(buildOptions) {
       if (!drupalData) {
         drupalData = await loadDrupal(buildOptions);
       }
+      drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
+      loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       done();
