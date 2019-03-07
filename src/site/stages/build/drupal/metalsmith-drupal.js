@@ -222,6 +222,12 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'health_care_region_page':
         pageCompiled = Object.assign(page, facilitySidebarNavItems);
         break;
+      case 'news_story':
+        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        break;
+      case 'press_release':
+        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        break;
       default:
         pageCompiled = page;
         break;
