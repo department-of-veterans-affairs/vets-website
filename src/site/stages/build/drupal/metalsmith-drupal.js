@@ -191,6 +191,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
   const sidebarNavItems = { sidebar: sidebarNav };
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
+  const alertItems = { alert: alertsItem };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -217,16 +218,16 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     switch (entityBundle) {
       case 'page':
-        pageCompiled = Object.assign(page, sidebarNavItems);
+        pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
         break;
       case 'health_care_region_page':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        pageCompiled = Object.assign(page, facilitySidebarNavItems, pageId);
         break;
       case 'news_story':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        pageCompiled = Object.assign(page, facilitySidebarNavItems, pageId);
         break;
       case 'press_release':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        pageCompiled = Object.assign(page, facilitySidebarNavItems, pageId);
         break;
       default:
         pageCompiled = page;
