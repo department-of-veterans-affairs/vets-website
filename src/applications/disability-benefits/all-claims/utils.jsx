@@ -147,7 +147,7 @@ const capitalizeWord = word => {
  */
 export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name.replace(/\w\S*/g, capitalizeWord);
+    return name.replace(/\w[^\s-]*/g, capitalizeWord);
   }
 
   Raven.captureMessage(
@@ -238,7 +238,7 @@ export const addCheckboxPerNewDisability = createSelector(
   formattedNewDisabilitiesSelector,
   newDisabilities => ({
     properties: newDisabilities.reduce(
-      (accum, disability) => _.set(disability, { type: 'boolean' }, accum),
+      (accum, disability) => _.set([disability], { type: 'boolean' }, accum),
       {},
     ),
   }),

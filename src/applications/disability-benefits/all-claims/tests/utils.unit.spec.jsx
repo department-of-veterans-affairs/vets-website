@@ -160,6 +160,14 @@ describe('526 helpers', () => {
           'some disability with hyphenated-words',
           'Some Disability With Hyphenated-Words',
         ],
+        [
+          "some disability with possessive's stuff",
+          "Some Disability With Possessive's Stuff",
+        ],
+        [
+          "some disability with possessive's-hyphen",
+          "Some Disability With Possessive's-Hyphen",
+        ],
         ['some "quote" disability', 'Some "Quote" Disability'],
       ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
