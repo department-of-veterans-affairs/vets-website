@@ -104,7 +104,7 @@ class ConnectedApp extends React.Component {
 ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  attribtues: PropTypes.object.isRequired,
+  attributes: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
   isLast: PropTypes.bool,
 };
