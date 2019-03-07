@@ -154,6 +154,26 @@
   $left-large: 9px
 );
 
+@include make-hub(
+  $hub-name: "family-member",
+  $icon: $fa-var-users,
+  $color: $color-primary-darker,
+  $top-small: 7px,
+  $left-small: 5.5px,
+  $top-large: 10.25px,
+  $left-large: 8px
+);
+
+@include make-hub(
+  $hub-name: "service-member",
+  $icon: $fa-var-flag-usa,
+  $color: $color-primary-darker,
+  $top-small: 8px,
+  $left-small: 8px,
+  $top-large: 11px,
+  $left-large: 10px
+);
+
 .icon-large {
   font-size: 20px;
   height: 40px;

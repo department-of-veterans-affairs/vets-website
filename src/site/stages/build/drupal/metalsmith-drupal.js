@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const _ = require('lodash');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
@@ -45,16 +46,102 @@ function writeDrupalDebugPage(files) {
 
 // Creates the file object to add to the file list using the page and layout
 function createFileObj(page, layout) {
+  // Exclude some types from sitemap.
+  const privateTypes = ['outreach_asset', 'person_profile', 'support_service'];
+  let privStatus = false;
+  if (privateTypes.indexOf(page.entityBundle) > -1) {
+    privStatus = true;
+  }
+
   return {
     ...page,
     isDrupalPage: true,
     layout,
     contents: Buffer.from('<!-- Drupal-provided data -->'),
     debug: JSON.stringify(page, null, 4),
-    // Keep these pages out of the sitemap until we remove
-    // the drupal prefix
-    private: true,
+    private: privStatus,
   };
+}
+
+function paginationPath(pageNum) {
+  return pageNum === 0 ? '' : `/page-${pageNum + 1}`;
+}
+
+// Turn one big page into a series of paginated pages.
+function paginatePages(page, files, field, layout, ariaLabel, perPage) {
+  perPage = perPage || 10;
+
+  if (typeof ariaLabel === 'undefined') {
+    ariaLabel = '';
+  } else {
+    ariaLabel = ` of ${ariaLabel}`;
+  }
+
+  const pagedEntities = _.chunk(page[field].entities, perPage);
+  for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
+    const pagedPage = Object.assign({}, page);
+    pagedPage.pagedItems = pagedEntities[pageNum];
+    const innerPages = [];
+
+    if (pagedEntities.length > 1) {
+      // add page numbers
+      const numPageLinks = 3;
+      let start;
+      let length;
+      if (pagedEntities.length <= numPageLinks) {
+        start = 0;
+        length = pagedEntities.length;
+      } else {
+        length = numPageLinks;
+
+        if (pageNum + numPageLinks > pagedEntities.length) {
+          start = pagedEntities.length - numPageLinks;
+        } else {
+          start = pageNum;
+        }
+      }
+      for (let num = start; num < start + length; num++) {
+        innerPages.push({
+          href:
+            num === pageNum
+              ? null
+              : `${page.entityUrl.path}${paginationPath(num)}`,
+          label: num + 1,
+          class: num === pageNum ? 'va-pagination-active' : '',
+        });
+      }
+
+      pagedPage.paginator = {
+        ariaLabel,
+        prev:
+          pageNum > 0
+            ? `${page.entityUrl.path}${paginationPath(pageNum - 1)}`
+            : null,
+        inner: innerPages,
+        next:
+          pageNum < pagedEntities.length - 1
+            ? `${page.entityUrl.path}${paginationPath(pageNum + 1)}`
+            : null,
+      };
+    }
+
+    files[
+      `drupal${page.entityUrl.path}${paginationPath(pageNum)}/index.html`
+    ] = createFileObj(pagedPage, layout);
+  }
+}
+
+// Return page object with path, breadcrump and title set.
+function createEntityUrl(page, drupalPagePath, title) {
+  const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
+  const generatedPage = Object.assign({}, page);
+  generatedPage.entityUrl.breadcrumb.push({
+    url: { path: drupalPagePath },
+    text: page.title,
+  });
+  generatedPage.entityUrl.path = `${drupalPagePath}/${pathSuffix}`;
+  generatedPage.title = title;
+  return generatedPage;
 }
 
 // Creates the top-level health care region list pages (Locations, Services, etc.)
@@ -63,6 +150,16 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
     page,
     'health_care_region_locations_page.drupal.liquid',
+  );
+
+  // Press Release listing page
+  const prPage = createEntityUrl(page, drupalPagePath, 'Press Releases');
+  paginatePages(
+    prPage,
+    files,
+    'allPressReleaseTeasers',
+    'press_releases_page.drupal.liquid',
+    'press releases',
   );
 
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
@@ -92,14 +189,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   }
 
-  pagePath = `${drupalPagePath}/locations/`;
-
-  files[`drupal${pagePath}health-services/index.html`] = createFileObj(
+  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
     page,
     'health_care_region_health_services_page.drupal.liquid',
   );
 
-  files[`drupal${pagePath}patient-family-services/index.html`] = createFileObj(
+  files[
+    `drupal${drupalPagePath}patient-family-services/index.html`
+  ] = createFileObj(
     page,
     'health_care_region_patient_family_services_page.drupal.liquid',
   );
@@ -111,11 +208,13 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       nodeQuery: { entities: pages },
       sidebarQuery: sidebarNav = {},
       facilitySidebarQuery: facilitySidebarNav = {},
+      alerts: alertsItem,
     },
   } = contentData;
 
   const sidebarNavItems = { sidebar: sidebarNav };
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
+  const alertItems = { alert: alertsItem };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -136,14 +235,21 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityBundle,
     } = page;
 
+    const pageIdRaw = parseInt(page.entityId, 10);
+    const pageId = { pid: pageIdRaw };
     let pageCompiled;
 
     switch (entityBundle) {
       case 'page':
-        pageCompiled = Object.assign(page, sidebarNavItems);
+        pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
         break;
       case 'health_care_region_page':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems);
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
         break;
       default:
         pageCompiled = page;
