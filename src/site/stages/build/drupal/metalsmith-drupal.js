@@ -221,13 +221,28 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
         break;
       case 'health_care_region_page':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems, pageId);
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
         break;
       case 'news_story':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems, pageId);
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
         break;
       case 'press_release':
-        pageCompiled = Object.assign(page, facilitySidebarNavItems, pageId);
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
         break;
       default:
         pageCompiled = page;
