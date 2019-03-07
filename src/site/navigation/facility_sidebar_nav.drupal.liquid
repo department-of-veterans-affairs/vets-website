@@ -17,7 +17,7 @@
                             {% endif %}
                             aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
                     <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
-                        {% if link.expanded = true %}
+                        {% if link.expanded == true %}
                             <ul class="usa-sidenav-list">
                                 {% for link in link.links %}
                                     {% if link.expanded == true %}
@@ -34,7 +34,8 @@
                                         </li>
                                     {% else %}
                                         <li>
-                                            <a href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                            <a {% if link.url.path == entityUrl.path %} class="usa-current" {% endif %}
+                                               href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
