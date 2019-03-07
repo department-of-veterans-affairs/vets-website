@@ -30,7 +30,7 @@ describe('<ConnectedApp>', () => {
     const row = tree.dive(['table', 'tbody', 'tr']);
     row.props.onClick();
 
-    tree.subTree('button').props.onClick({ target: {} });
+    tree.subTree('.usa-button-primary').props.onClick({ target: {} });
 
     expect(tree.subTree('AccountModal').props.modalOpen).to.be.true;
   });

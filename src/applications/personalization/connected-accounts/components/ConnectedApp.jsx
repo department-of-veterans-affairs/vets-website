@@ -52,14 +52,15 @@ class ConnectedApp extends React.Component {
                 Connected on {moment(created).format('MMMM D, YYYY h:mm A')}
               </th>
               <th className={`${cssPrefix}-row-details `}>
-                <a className={`${cssPrefix}-row-details-toggle`} href="#">
+                <button className={`${cssPrefix}-row-details-toggle`}
+                  aria-expanded={this.state.detailsOpen ? 'true' : 'false'}>
                   Details
                   <i
                     className={`fa fa-chevron-${
                       this.state.detailsOpen ? 'up' : 'down'
                     }`}
                   />
-                </a>
+                </button>
                 <AccountModal
                   appName={title}
                   modalOpen={this.state.modalOpen}
@@ -103,7 +104,7 @@ class ConnectedApp extends React.Component {
 ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  attribtues: PropTypes.object.isRequired,
+  attributes: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
   isLast: PropTypes.bool,
 };
