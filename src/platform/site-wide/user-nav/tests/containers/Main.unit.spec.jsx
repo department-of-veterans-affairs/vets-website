@@ -28,10 +28,9 @@ describe('<Main>', () => {
     initializeProfile: sinon.spy(),
   };
 
-  let oldWindow;
+  const oldWindow = global.window;
 
   beforeEach(() => {
-    oldWindow = global.window;
     global.window = mockEventListeners({
       location: { pathname: '/' },
     });
