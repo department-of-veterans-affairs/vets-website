@@ -132,6 +132,9 @@ function createPipeline(options) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
 
+  // For prod builds, we need to add asset hashes, but since this is a live
+  // request, we're not doing a webpack build. So we need to put the manifest
+  // in the files object so that we can reuse the addAssetHashes plugin
   if (!isDevBuild) {
     smith.use((files, metalsmith, done) => {
       const fileManifestPath = 'generated/file-manifest.json';
