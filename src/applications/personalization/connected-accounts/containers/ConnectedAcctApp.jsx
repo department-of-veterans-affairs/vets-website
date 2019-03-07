@@ -8,7 +8,11 @@ import isBrandConsolidationEnabled from '../../../../platform/brand-consolidatio
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { loadConnectedAccounts, deleteConnectedAccount } from '../actions';
+import {
+  loadConnectedAccounts,
+  deleteConnectedAccount,
+  dismissDeletedAccountAlert,
+} from '../actions';
 import { NoConnectedApps, ConnectedApps } from '../components';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
@@ -27,18 +31,25 @@ class ConnectedAcctApp extends React.Component {
     this.props.deleteConnectedAccount(accountId);
   };
 
+  dismissAlert = accountId => {
+    this.props.dismissDeletedAccountAlert(accountId);
+  };
+
   render() {
     let connectedAccountsView;
     if (this.props.loading) {
       connectedAccountsView = (
         <LoadingIndicator message="Loading your connected accounts..." />
       );
-    } else if (this.props.accounts.length > 0) {
+    } else if (
+      this.props.accounts.filter(account => !account.deleted).length > 0
+    ) {
       connectedAccountsView = (
         <ConnectedApps
           confirmDelete={this.confirmDelete}
           accounts={this.props.accounts}
           propertyName={propertyName}
+          dismissAlert={this.dismissAlert}
         />
       );
     } else {
@@ -75,6 +86,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   loadConnectedAccounts,
   deleteConnectedAccount,
+  dismissDeletedAccountAlert,
 };
 
 export default connect(
