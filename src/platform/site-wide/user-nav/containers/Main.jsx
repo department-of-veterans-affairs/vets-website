@@ -37,10 +37,10 @@ export class Main extends React.Component {
   }
 
   componentDidUpdate() {
-    const { currentlyLoggedIn, showLoginModal } = this.props;
-    const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
-    if (currentlyLoggedIn) this.executeRedirect();
-    if (shouldCloseLoginModal) this.closeLoginModal();
+    if (this.props.currentlyLoggedIn) {
+      this.executeRedirect();
+      this.closeModals();
+    }
   }
 
   componentWillUnmount() {
