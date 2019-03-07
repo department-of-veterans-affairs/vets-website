@@ -1,0 +1,56 @@
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+        <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar"></nav>
+        <div class="usa-width-three-fourths">
+            {% if !entityPublished %}
+                <div class="usa-alert usa-alert-info" >
+                    <div class="usa-alert-body">
+                        <p class="usa-alert-text">You are viewing a draft.</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <article class="usa-content">
+                <h1>Health services</h1>
+                <div class="va-introtext">
+                    {{ fieldClinicalHealthCareServi.processed }}
+                </div>
+                <!-- hard coded for now -->
+                <section>
+                    <p>Looking for information about shuttles, the canteen, coordinators, or other kinds of services at
+                        the Pittsburgh health care system?</p>
+                    <ul class="usa-unstyled-list">
+                        <li><a href="#">See our facility services and amenities</a></li>
+                        <li><a href="#">See our patient and family services</a></li>
+                    </ul>
+                </section>
+                <!-- end hard coding -->
+                <section class="primary-health-services">
+                    <h2>Primary care</h2>
+                    {% for primaryService in primaryCareHealthServices.entities %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = primaryService %}
+                    {% endfor %}
+                </section>
+                <section class="specialty-health-services">
+                    <h2>Specialty care</h2>
+                    {% for specialtyService in specialtyCareHealthServices.entities %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = specialtyService %}
+                    {% endfor %}
+                </section>
+                <section class="mental-health-services">
+                    <h2>Mental health care</h2>
+                    {% for mentalHealthService in mentalHealthServices.entities %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = mentalHealthService %}
+                    {% endfor %}
+                </section>
+            </article>
+        </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

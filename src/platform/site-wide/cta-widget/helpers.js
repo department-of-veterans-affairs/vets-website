@@ -12,6 +12,7 @@ const frontendApps = {
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
   LETTERS: 'letters',
   VETERAN_ID_CARD: 'vic',
+  VET_TEC: 'vet-tec',
 };
 
 const HEALTH_TOOLS = [
@@ -137,6 +138,13 @@ export const toolUrl = (appId, index) => {
         redirect: false,
       };
 
+    case frontendApps.VET_TEC:
+      return {
+        url:
+          '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -172,6 +180,9 @@ export const requiredServices = appId => {
 
     case frontendApps.VETERAN_ID_CARD:
       return backendServices.ID_CARD;
+
+    case frontendApps.VET_TEC:
+      return backendServices.EDUCATION_BENEFITS;
 
     default:
       return null;
@@ -212,6 +223,9 @@ export const serviceDescription = (appId, index) => {
 
     case frontendApps.VETERAN_ID_CARD:
       return 'apply for a Veteran ID Card';
+
+    case frontendApps.VET_TEC:
+      return 'apply for VET TEC';
 
     default:
       return 'use this service';

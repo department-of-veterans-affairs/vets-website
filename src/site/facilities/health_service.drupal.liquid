@@ -1,0 +1,25 @@
+<div class="usa-accordion">
+    <ul class="usa-unstyled-list">
+        {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
+        <li>
+            <button
+                    class="usa-accordion-button usa-button-unstyled"
+                    aria-expanded="false"
+                    aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
+            >
+                {{ serviceTaxonomy.name }}
+            </button>
+            <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                <div>{{ serviceTaxonomy.fieldAlsoKnownAs }}</div>
+                <div>{{ serviceTaxonomy.description.processed }}</div>
+                <div>{{ healthService.fieldBody.processed }}</div>
+                <p class="vads-u-font-weight--bold">Available at</p>
+                <ul class="usa-unstyled-list">
+                    {% for location in healthService.fieldServiceLocation.entities %}
+                        <li class="vads-u-margin-bottom--2"><a href="/drupal{{ entityUrl.path }}/{{ location | locationUrlConvention }}">{{ location.fieldNicknameForThisFacility }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

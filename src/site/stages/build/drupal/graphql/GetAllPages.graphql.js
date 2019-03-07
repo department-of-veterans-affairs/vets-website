@@ -5,6 +5,7 @@ const pressReleasePage = require('./pressReleasePage.graphql');
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
+const alertsQuery = require('./alerts.graphql');
 
 /**
  * Queries for all of the pages out of Drupal
@@ -19,7 +20,7 @@ module.exports = `
   ${pressReleasePage}
   ${newsStoryPage}
 
-  query GetAllPages {
+  query GetAllPages($today: String!) {
     nodeQuery(limit: 500) {
       entities {
         ... landingPage
@@ -30,5 +31,6 @@ module.exports = `
       }
     }
     ${sidebarQuery}
+    ${alertsQuery}
   }
 `;

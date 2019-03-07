@@ -310,16 +310,22 @@ class ArrayField extends React.Component {
           )}
           {title &&
             !itemCountLocked && (
-              <button
-                type="button"
-                disabled={addAnotherDisabled}
-                className="edit-btn primary-outline"
-                onClick={() => this.handleAdd()}
-              >
-                {uiOptions.itemName
-                  ? `Add Another ${uiOptions.itemName}`
-                  : 'Add Another'}
-              </button>
+              <>
+                <button
+                  type="button"
+                  disabled={addAnotherDisabled}
+                  className="edit-btn primary-outline"
+                  onClick={() => this.handleAdd()}
+                >
+                  {uiOptions.itemName
+                    ? `Add Another ${uiOptions.itemName}`
+                    : 'Add Another'}
+                </button>
+                <div>
+                  {addAnotherDisabled &&
+                    `You’ve entered the maximum number of items allowed.`}
+                </div>
+              </>
             )}
         </div>
       </div>

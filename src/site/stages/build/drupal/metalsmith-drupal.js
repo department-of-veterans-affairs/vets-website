@@ -3,9 +3,11 @@
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const _ = require('lodash');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
+const facilityLocationPath = require('./utilities-drupal');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -56,12 +58,91 @@ function createFileObj(page, layout) {
   };
 }
 
+function paginationPath(pageNum) {
+  return pageNum === 0 ? '' : `/page-${pageNum + 1}`;
+}
+
+// Turn one big page into a series of paginated pages.
+function paginatePages(
+  page,
+  pagePath,
+  files,
+  field,
+  layout,
+  ariaLabel,
+  perPage,
+) {
+  perPage = perPage || 10;
+
+  if (typeof ariaLabel === 'undefined') {
+    ariaLabel = '';
+  } else {
+    ariaLabel = ` of ${ariaLabel}`;
+  }
+
+  const pagedEntities = _.chunk(page[field].entities, perPage);
+  for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
+    const pagedPage = Object.assign({}, page);
+    pagedPage.pagedItems = pagedEntities[pageNum];
+    const innerPages = [];
+
+    if (pagedEntities.length > 1) {
+      // add page numbers
+      const numPageLinks = 3;
+      let start;
+      let length;
+      if (pagedEntities.length <= numPageLinks) {
+        start = 0;
+        length = pagedEntities.length;
+      } else {
+        length = numPageLinks;
+
+        if (pageNum + numPageLinks > pagedEntities.length) {
+          start = pagedEntities.length - numPageLinks;
+        } else {
+          start = pageNum;
+        }
+      }
+      for (let num = start; num < start + length; num++) {
+        innerPages.push({
+          href: num === pageNum ? null : `${pagePath}${paginationPath(num)}`,
+          label: num + 1,
+          class: num === pageNum ? 'va-pagination-active' : '',
+        });
+      }
+
+      pagedPage.paginator = {
+        ariaLabel,
+        prev: pageNum > 0 ? `${pagePath}${paginationPath(pageNum - 1)}` : null,
+        inner: innerPages,
+        next:
+          pageNum < pagedEntities.length - 1
+            ? `${pagePath}${paginationPath(pageNum + 1)}`
+            : null,
+      };
+    }
+
+    files[
+      `drupal${pagePath}${paginationPath(pageNum)}/index.html`
+    ] = createFileObj(pagedPage, layout);
+  }
+}
+
 // Creates the top-level health care region list pages (Locations, Services, etc.)
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Create the top-level locations page for Health Care Regions
   files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
     page,
     'health_care_region_locations_page.drupal.liquid',
+  );
+
+  paginatePages(
+    page,
+    `${drupalPagePath}/press-releases`,
+    files,
+    'allPressReleaseTeasers',
+    'press_releases_page.drupal.liquid',
+    'press releases',
   );
 
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
@@ -75,23 +156,23 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       if (facility.entityBundle === 'health_care_local_facility') {
         const facilityCompiled = Object.assign(facility, relatedLinks);
 
-        let facilityPath;
-        if (facility.fieldNicknameForThisFacility) {
-          const facilityNickname = facility.fieldNicknameForThisFacility;
-          facilityPath = facilityNickname.replace(/\s+/g, '-').toLowerCase();
-        } else {
-          facilityPath = facility.fieldFacilityLocatorApiId;
-        }
-
-        files[
-          `drupal${drupalPagePath}/locations/${facilityPath}/index.html`
-        ] = createFileObj(
+        const pagePath = facilityLocationPath(
+          drupalPagePath,
+          facility.fieldFacilityLocatorApiId,
+          facility.fieldNicknameForThisFacility,
+        );
+        files[`drupal${pagePath}/index.html`] = createFileObj(
           facilityCompiled,
           'health_care_local_facility_page.drupal.liquid',
         );
       }
     }
   }
+
+  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+    page,
+    'health_care_region_health_services_page.drupal.liquid',
+  );
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
@@ -99,10 +180,12 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     data: {
       nodeQuery: { entities: pages },
       sidebarQuery: sidebarNav,
+      alerts: alertsItem,
     },
   } = contentData;
 
   const sidebarNavItems = { sidebar: sidebarNav };
+  const alertItems = { alert: alertsItem };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -123,12 +206,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityBundle,
     } = page;
 
+    const pageIdRaw = parseInt(page.entityId, 10);
+    const pageId = { pid: pageIdRaw };
     let pageCompiled;
 
     if (entityBundle === 'page') {
-      pageCompiled = Object.assign(page, sidebarNavItems);
+      pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
     } else {
-      pageCompiled = page;
+      pageCompiled = Object.assign(page, alertItems, pageId);
     }
 
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(

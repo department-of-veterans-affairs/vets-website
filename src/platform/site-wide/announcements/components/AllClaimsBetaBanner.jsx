@@ -9,7 +9,7 @@ export default function AllClaimsBetaBanner({ dismiss, profile }) {
     // if user was selected, persist in localStorage
     // always show banner if not in production
     if (!localStorage.getItem('all-claims-beta')) {
-      if (environment.isProduction() && Math.random() > 0.6) return null;
+      if (environment.isProduction() && Math.random() > 0.85) return null;
       localStorage.setItem('all-claims-beta', true);
     }
   }

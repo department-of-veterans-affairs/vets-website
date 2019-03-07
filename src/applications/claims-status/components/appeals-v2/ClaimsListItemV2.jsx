@@ -15,12 +15,15 @@ function listPhase(phase) {
 
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
+  const formattedReceiptDate = moment(claim.attributes.dateFiled).format(
+    'MMMM D, YYYY',
+  );
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
         Claim for {getClaimType(claim)}
         <br />
-        Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
+        Received {formattedReceiptDate}
       </h3>
       <div className="card-status">
         <div
@@ -53,6 +56,7 @@ export default function ClaimsListItem({ claim }) {
         ) : null}
       </ul>
       <Link
+        aria-label={`View status of claim received ${formattedReceiptDate}`}
         className="usa-button usa-button-primary"
         to={`your-claims/${claim.id}/status`}
       >

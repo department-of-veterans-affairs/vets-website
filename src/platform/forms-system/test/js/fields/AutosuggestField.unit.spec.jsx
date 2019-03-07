@@ -431,4 +431,48 @@ describe('<AutosuggestField>', () => {
       done();
     });
   });
+
+  it('should run input transformers if freeInput is true and if transformers specified in ui:options', done => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          inputTransformers: [
+            inputValue => `${inputValue} first`,
+            inputValue => `${inputValue} second`,
+          ],
+          labels: {
+            AL: 'Label 1',
+            BC: 'Label 2',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const wrapper = mount(<AutosuggestField {...props} />);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'konami',
+      },
+    });
+
+    setTimeout(() => {
+      const fieldData = onChange.firstCall.args[0];
+      expect(fieldData).to.equal('konami first second');
+      wrapper.unmount();
+      done();
+    });
+  });
 });

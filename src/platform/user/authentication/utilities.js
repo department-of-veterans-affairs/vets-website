@@ -6,6 +6,8 @@ import environment from '../../utilities/environment';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
+  PENDING_AUTH_ACTION: 'pendingAuthAction',
+  PENDING_LOGIN_POLICY: 'pendingLoginPolicy',
 };
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
@@ -48,8 +50,8 @@ function redirect(redirectUrl, clickedEvent) {
 }
 
 export function login(policy) {
-  localStorage.setItem('pendingAuthAction', 'login');
-  localStorage.setItem('pendingLoginPolicy', policy);
+  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'login');
+  sessionStorage.setItem(authnSettings.PENDING_LOGIN_POLICY, policy);
   return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
@@ -67,7 +69,7 @@ export function logout() {
 }
 
 export function signup() {
-  localStorage.setItem('pendingAuthAction', 'register');
+  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'register');
   return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
