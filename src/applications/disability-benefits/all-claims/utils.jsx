@@ -147,7 +147,7 @@ const capitalizeWord = word => {
  */
 export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name.replace(/\w+/g, capitalizeWord);
+    return name.replace(/\w\S*/g, capitalizeWord);
   }
 
   Raven.captureMessage(
