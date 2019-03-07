@@ -3,15 +3,23 @@ import React from 'react';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+import recordEvent from '../../monitoring/record-event';
+
 class FormSignInModal extends React.Component {
+  handleClose = () => {
+    this.props.onClose();
+    recordEvent({ event: 'no-login-finish-form' });
+  };
+
   handleSignIn = () => {
     this.props.onClose();
     this.props.onSignIn();
+    recordEvent({ event: 'login-link-restart-form' });
   };
 
   render() {
     const primaryButton = {
-      action: this.props.onClose,
+      action: this.handleClose,
       text: 'Finish applying',
     };
 
