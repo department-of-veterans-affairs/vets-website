@@ -50,7 +50,7 @@ const PATIENT_FAMILY_SERVICES_RESULTS = `
 `;
 
 function queryFilter(type) {
-    return `
+  return `
     filter: {conditions: [{field: "field_service_name_and_descripti.entity.field_service_type_nonclinical", value: "${type}", operator: EQUAL}]}, sort: {field: "field_service_name_and_descripti.entity.name", direction: ASC}
   `;
 }
@@ -58,17 +58,17 @@ function queryFilter(type) {
 module.exports = `
   careCoordinatorPatientFamilyServices: queryFieldPatientFamilyServices(${queryFilter(
     'care_coordinator',
-)}) {
+  )}) {
     ${PATIENT_FAMILY_SERVICES_RESULTS}
   }
   socialProgramsPatientFamilyServices: queryFieldPatientFamilyServices(${queryFilter(
     'social_programs_and_services',
-)}) {
+  )}) {
     ${PATIENT_FAMILY_SERVICES_RESULTS}
   }
   healthWellnessPatientFamilyServices: queryFieldPatientFamilyServices(${queryFilter(
     'health_and_wellness',
-)}) {
+  )}) {
     ${PATIENT_FAMILY_SERVICES_RESULTS}
   }
 `;

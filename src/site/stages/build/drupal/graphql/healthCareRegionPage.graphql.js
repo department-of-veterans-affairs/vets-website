@@ -51,6 +51,71 @@ module.exports = `
     }
     ${healthCarePatientFamilyServices}
     ${healthCareLocalFacilities}
+    newsStoryTeasers: reverseFieldOfficeNode(filter: {
+      conditions: [
+        { field: "type", value: "news_story"}
+        { field: "status", value: "1"}
+        { field: "field_featured" value: "1"}
+      ]} sort: {field: "changed", direction: DESC } limit: 2)
+      {
+      entities {
+        ... on NodeNewsStory {
+          title
+          fieldIntroText
+          fieldMedia {
+            entity {
+              ... on MediaImage {
+                image {
+                  alt
+                  title
+                  derivative(style: CROP_3_2) {
+                      url
+                      width
+                      height
+                  }
+                }
+              }
+            }
+          }
+          entityUrl {
+            path
+          }
+        }
+      }
+    }
+    eventTeasers: reverseFieldOfficeNode (filter: {
+      conditions: [
+        { field: "type", value: "event"}
+        { field: "status", value: "1"}
+        { field: "field_event_date", value: [$today], operator: GREATER_THAN}
+      ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
+      {
+        entities {
+          ... on NodeEvent {
+            title
+            fieldEventDate {
+              value
+            }
+            fieldEventDateEnd {
+              value
+            }
+            fieldDescription
+            fieldLocationHumanreadable
+            fieldFacilityLocation {
+              entity {
+                title
+                entityUrl {
+                  path
+                }
+              }
+            }
+          }
+          
+          entityUrl {
+            path
+          }
+        }      
+    }
     fieldClinicalHealthCareServi {
       processed
     }
