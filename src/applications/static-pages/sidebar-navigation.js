@@ -132,7 +132,26 @@ class SideBarMenu {
   }
 }
 
+export function addActiveState() {
+  // Add active state for Drupal basic page side nav
+  const nav = document.querySelector('#va-detailpage-sidebar');
+  const isFacilitySidebar = nav.classList.contains('va-c-facility-sidebar');
+  if (!isFacilitySidebar) {
+    const current = document.getElementsByClassName('usa-current')[0];
+    const parent = current.closest('.usa-accordion-content')
+      .previousElementSibling;
+    const ariaExpanded =
+      parent.getAttribute('aria-expanded') === 'false' ? 'true' : 'false';
+    parent.setAttribute('aria-expanded', ariaExpanded);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // eslint-disable-next-line no-new
   new SideBarMenu(document.querySelectorAll('.va-btn-sidebarnav-trigger'));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  // eslint-disable-next-line no-new
+  addActiveState();
 });
