@@ -159,15 +159,17 @@ const mockEventListeners = (target = {}) => {
   return {
     ...target,
     eventListeners,
-    addEventListener: (event, callback) => {
-      if (eventListeners[event]) {
-        eventListeners[event].push(callback);
+    addEventListener: (eventType, callback) => {
+      if (eventListeners[eventType]) {
+        eventListeners[eventType].push(callback);
       } else {
-        eventListeners[event] = [callback];
+        eventListeners[eventType] = [callback];
       }
     },
-    simulate: event => {
-      eventListeners[event].forEach(callback => callback(event));
+    simulate: (eventType, eventObject) => {
+      if (eventListeners[eventType]) {
+        eventListeners[eventType].forEach(callback => callback(eventObject));
+      }
     },
   };
 };
