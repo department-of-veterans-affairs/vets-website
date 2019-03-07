@@ -234,7 +234,7 @@ const linkPaths = ['/generated/styleConsolidated.css'];
 function removeInjectedHeaderFooter(docHead = document.head) {
   Array.from(
     document.querySelectorAll(
-      'script[src*="va-gov-assets"],link[href*="va-gov-assets"',
+      'script[src*="va-gov-assets"],link[href*="va-gov-assets]"',
     ),
   ).forEach(node => docHead.removeChild(node));
 }
