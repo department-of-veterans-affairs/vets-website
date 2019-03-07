@@ -8,7 +8,7 @@
             {% for link in facilitySidebar.links %}
                 <li>
                     {% assign pathArray = entityUrl.path | split: '/' %}
-                    {% assign pathRoot = pathArray | get: 2 | capitalize  %}
+                    {% assign pathRoot = pathArray | get: 2 | capitalize %}
                     <button class="usa-accordion-button"
                             {% if link.label contains pathRoot %}
                                 aria-expanded="true"
