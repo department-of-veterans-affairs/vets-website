@@ -1,6 +1,5 @@
 import formConfig from './config/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
-import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 import {
   SUBMIT_ID_FORM_STARTED,
   SUBMIT_ID_FORM_SUCCEEDED,
@@ -8,21 +7,29 @@ import {
 } from './actions';
 
 const initialState = {
+  hasOptionalDD214Upload: false,
   isSubmitting: false,
-  error: null,
-  shouldHideIDForm: false,
+  errors: null,
+  enrollmentStatus: null,
 };
 
 function hcaIDForm(state = initialState, action) {
   switch (action.type) {
     case SUBMIT_ID_FORM_STARTED:
       return { ...state, isSubmitting: true };
-    case SUBMIT_ID_FORM_SUCCEEDED:
-      return { ...state, isSubmitting: false };
-    case SUBMIT_ID_FORM_FAILED:
-      return { ...state, isSubmitting: false, error: action.error };
-    case UPDATE_LOGGEDIN_STATUS:
-      return { ...state, shouldHideIDForm: action.value };
+
+    case SUBMIT_ID_FORM_SUCCEEDED: {
+      const { parsedStatus: enrollmentStatus } = action.data;
+      return { ...state, isSubmitting: false, enrollmentStatus };
+    }
+
+    case SUBMIT_ID_FORM_FAILED: {
+      const { errors } = action;
+      const hasOptionalDD214Upload =
+        errors && errors.some(error => error.code === '404');
+      return { ...state, errors, hasOptionalDD214Upload, isSubmitting: false };
+    }
+
     default:
       return state;
   }

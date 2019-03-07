@@ -12,7 +12,7 @@ import SignInProfileMenu from './SignInProfileMenu';
 class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
-    this.props.toggleLoginModal(true, 'header');
+    this.props.onSignInSignUp();
   };
 
   handleMenuClick = menu => () => {
@@ -104,12 +104,12 @@ SearchHelpSignIn.propTypes = {
   isLoggedIn: PropTypes.bool,
   isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
   isProfileLoading: PropTypes.bool.isRequired,
+  onSignInSignUp: PropTypes.func.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
   userGreeting: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
-  toggleLoginModal: PropTypes.func.isRequired,
-  toggleMenu: PropTypes.func.isRequired,
 };
 
 export default SearchHelpSignIn;

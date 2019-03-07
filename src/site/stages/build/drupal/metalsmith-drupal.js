@@ -46,15 +46,20 @@ function writeDrupalDebugPage(files) {
 
 // Creates the file object to add to the file list using the page and layout
 function createFileObj(page, layout) {
+  // Exclude some types from sitemap.
+  const privateTypes = ['outreach_asset', 'person_profile', 'support_service'];
+  let privStatus = false;
+  if (privateTypes.indexOf(page.entityBundle) > -1) {
+    privStatus = true;
+  }
+
   return {
     ...page,
     isDrupalPage: true,
     layout,
     contents: Buffer.from('<!-- Drupal-provided data -->'),
     debug: JSON.stringify(page, null, 4),
-    // Keep these pages out of the sitemap until we remove
-    // the drupal prefix
-    private: true,
+    private: privStatus,
   };
 }
 
@@ -63,15 +68,7 @@ function paginationPath(pageNum) {
 }
 
 // Turn one big page into a series of paginated pages.
-function paginatePages(
-  page,
-  pagePath,
-  files,
-  field,
-  layout,
-  ariaLabel,
-  perPage,
-) {
+function paginatePages(page, files, field, layout, ariaLabel, perPage) {
   perPage = perPage || 10;
 
   if (typeof ariaLabel === 'undefined') {
@@ -105,7 +102,10 @@ function paginatePages(
       }
       for (let num = start; num < start + length; num++) {
         innerPages.push({
-          href: num === pageNum ? null : `${pagePath}${paginationPath(num)}`,
+          href:
+            num === pageNum
+              ? null
+              : `${page.entityUrl.path}${paginationPath(num)}`,
           label: num + 1,
           class: num === pageNum ? 'va-pagination-active' : '',
         });
@@ -113,19 +113,35 @@ function paginatePages(
 
       pagedPage.paginator = {
         ariaLabel,
-        prev: pageNum > 0 ? `${pagePath}${paginationPath(pageNum - 1)}` : null,
+        prev:
+          pageNum > 0
+            ? `${page.entityUrl.path}${paginationPath(pageNum - 1)}`
+            : null,
         inner: innerPages,
         next:
           pageNum < pagedEntities.length - 1
-            ? `${pagePath}${paginationPath(pageNum + 1)}`
+            ? `${page.entityUrl.path}${paginationPath(pageNum + 1)}`
             : null,
       };
     }
 
     files[
-      `drupal${pagePath}${paginationPath(pageNum)}/index.html`
+      `drupal${page.entityUrl.path}${paginationPath(pageNum)}/index.html`
     ] = createFileObj(pagedPage, layout);
   }
+}
+
+// Return page object with path, breadcrump and title set.
+function createEntityUrl(page, drupalPagePath, title) {
+  const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
+  const generatedPage = Object.assign({}, page);
+  generatedPage.entityUrl.breadcrumb.push({
+    url: { path: drupalPagePath },
+    text: page.title,
+  });
+  generatedPage.entityUrl.path = `${drupalPagePath}/${pathSuffix}`;
+  generatedPage.title = title;
+  return generatedPage;
 }
 
 // Creates the top-level health care region list pages (Locations, Services, etc.)
@@ -136,9 +152,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_region_locations_page.drupal.liquid',
   );
 
+  // Press Release listing page
+  const prPage = createEntityUrl(page, drupalPagePath, 'Press Releases');
   paginatePages(
-    page,
-    `${drupalPagePath}/press-releases`,
+    prPage,
     files,
     'allPressReleaseTeasers',
     'press_releases_page.drupal.liquid',
