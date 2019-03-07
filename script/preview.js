@@ -24,6 +24,17 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  {
+    name: 'drupal-address',
+    type: String,
+    defaultValue: process.env.DRUPAL_ADDRESS,
+  },
+  { name: 'drupal-user', type: String, defaultValue: process.env.DRUPAL_USER },
+  {
+    name: 'drupal-password',
+    type: String,
+    defaultValue: process.env.DRUPAL_PASSWORD,
+  },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 

@@ -1,11 +1,11 @@
 const moment = require('moment');
-
 const fetch = require('node-fetch');
 
 const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
 const GET_PAGE_BY_ID = require('./graphql/GetPageById.graphql');
 const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
 
+const ENVIRONMENTS = require('../../../constants/environments');
 const DRUPALS = require('../../../constants/drupals');
 
 function encodeCredentials({ username, password }) {
@@ -15,7 +15,30 @@ function encodeCredentials({ username, password }) {
 }
 
 function getDrupalClient(buildOptions) {
-  const { address, credentials } = DRUPALS[buildOptions.buildtype];
+  let drupalConfig = {};
+
+  const drupalBuildOptions = {
+    address: buildOptions['drupal-address'],
+    credentials: {
+      user: buildOptions['drupal-user'],
+      password: buildOptions['drupal-password'],
+    },
+  };
+
+  if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
+    // On localhost, build args should take priority.
+    drupalConfig = {
+      ...DRUPALS[ENVIRONMENTS.VAGOVDEV],
+      drupalBuildOptions,
+    };
+  } else {
+    drupalConfig = {
+      drupalBuildOptions,
+      ...DRUPALS[buildOptions.buildtype],
+    };
+  }
+
+  const { address, credentials } = drupalConfig;
   const drupalUri = `${address}/graphql`;
   const encodedCredentials = encodeCredentials(credentials);
   const headers = {

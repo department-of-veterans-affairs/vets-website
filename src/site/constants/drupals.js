@@ -18,7 +18,6 @@ const DRUPAL_STAGING = {
 
 const DRUPAL_LIVE = {
   address: 'http://vagovcms.lndo.site',
-  credentials: {},
 };
 
 /**
