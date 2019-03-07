@@ -77,6 +77,7 @@ function applyDefaultOptions(options) {
       [`${components}/**/*`]: '**/*.{md,html}',
       [`${layouts}/**/*`]: '**/*.{md,html}',
       [`${paragraphs}/**/*`]: '**/*.{md,html}',
+      [`${navigation}/**/*`]: '**/*.{md,html}',
       [`${facilities}/**/*`]: '**/*.{md,html}',
       [`${navigation}/**/*`]: '**/*.{md,html}',
       [`${blocks}/**/*`]: '**/*.{md,html}',
