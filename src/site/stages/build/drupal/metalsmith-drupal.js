@@ -91,48 +91,19 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   }
 
-  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+  files[
+    `drupal${drupalPagePath}/locations/health-services/index.html`
+  ] = createFileObj(
     page,
     'health_care_region_health_services_page.drupal.liquid',
   );
 
-  if (page.fieldPatientFamilyServices !== null) {
-    const services = {
-      title: 'Patient and family services',
-      introText: page.fieldPatientFamilyServicesIn.processed,
-      patientFamilyServices: {},
-    };
-
-    for (const service of page.fieldPatientFamilyServices) {
-      let compiledService;
-      let nonClinical;
-      if (
-        service.entity.fieldServiceNameAndDescripti.entity
-          .fieldServiceTypeNonclinical !== null
-      ) {
-        nonClinical =
-          service.entity.fieldServiceNameAndDescripti.entity
-            .fieldServiceTypeNonclinical;
-        services.patientFamilyServices[`${nonClinical}`] = [];
-
-        compiledService = {
-          title: service.entity.title,
-          description: service.entity.fieldBody
-            ? service.entity.fieldBody.processed
-            : service.entity.fieldServiceNameAndDescripti.entity.description
-                .processed,
-          serviceType: nonClinical,
-          id: service.entity.fieldServiceNameAndDescripti.entity.entityId,
-        };
-        services.patientFamilyServices[`${nonClinical}`].push(compiledService);
-      }
-    }
-
-    files[`drupal${drupalPagePath}/services/index.html`] = createFileObj(
-      services,
-      'health_care_region_patient_family_services_page.drupal.liquid',
-    );
-  }
+  files[
+    `drupal${drupalPagePath}/locations/patient-family-services/index.html`
+  ] = createFileObj(
+    page,
+    'health_care_region_patient_family_services_page.drupal.liquid',
+  );
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

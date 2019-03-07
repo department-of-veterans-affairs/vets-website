@@ -11,8 +11,16 @@
             </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
                 <div>{{ serviceTaxonomy.fieldAlsoKnownAs }}</div>
-                <div>{{ serviceTaxonomy.description.processed }}</div>
-                <div>{{ healthService.fieldBody.processed }}</div>
+
+                {% comment %}
+                    Show the region specific health service description if available. If not, fall back to national.
+                {% endcomment %}
+                {% if healthService.fieldBody.processed %}
+                    <div>{{ healthService.fieldBody.processed }}</div>
+                {% else %}
+                    <div>{{ serviceTaxonomy.description.processed }}</div>
+                {% endif %}
+
                 <p class="vads-u-font-weight--bold">Available at</p>
                 <ul class="usa-unstyled-list">
                     {% for location in healthService.fieldServiceLocation.entities %}
