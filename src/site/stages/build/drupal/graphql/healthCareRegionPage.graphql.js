@@ -3,6 +3,7 @@
  * Example: /pittsburgh_health_care_system
  */
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
+const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
@@ -109,5 +110,9 @@ module.exports = `
           }
         }      
     }
-  }
+    fieldClinicalHealthCareServi {
+      processed
+    }
+    ${healthCareRegionHealthServices}
+  }  
 `;
