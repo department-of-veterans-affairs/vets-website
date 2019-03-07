@@ -22,7 +22,8 @@
                                 {% for link in link.links %}
                                     {% if link.expanded == true %}
                                         <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
-                                            <a href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                            <a {% if link.url.path == entityUrl.path %} class="usa-current" {% endif %}
+                                                    href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                             <ul class="usa-sidenav-sub_list">
                                                 {% for link in link.links  %}
                                                     <li>
