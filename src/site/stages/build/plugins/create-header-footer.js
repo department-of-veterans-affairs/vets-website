@@ -90,6 +90,11 @@ function createHeaderFooterData(buildOptions) {
       contents: new Buffer(serialized),
     };
 
+    // eslint-disable-next-line no-param-reassign
+    files['generated/drupalHeaderFooter.json'] = {
+      contents: new Buffer(drupalMenuSerialized),
+    };
+
     done();
   };
 }
