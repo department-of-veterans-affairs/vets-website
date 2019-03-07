@@ -180,10 +180,12 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     data: {
       nodeQuery: { entities: pages },
       sidebarQuery: sidebarNav,
+      alerts: alertsItem,
     },
   } = contentData;
 
   const sidebarNavItems = { sidebar: sidebarNav };
+  const alertItems = { alert: alertsItem };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -204,12 +206,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityBundle,
     } = page;
 
+    const pageIdRaw = parseInt(page.entityId, 10);
+    const pageId = { pid: pageIdRaw };
     let pageCompiled;
 
     if (entityBundle === 'page') {
-      pageCompiled = Object.assign(page, sidebarNavItems);
+      pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
     } else {
-      pageCompiled = page;
+      pageCompiled = Object.assign(page, alertItems, pageId);
     }
 
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(

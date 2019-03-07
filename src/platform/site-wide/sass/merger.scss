@@ -77,14 +77,13 @@ $medium-phone-screen: 375px;
 
   #menu-rule {
     border-bottom: 1px solid $color-white;
-    margin-left: -.55em;
+    margin-left: -0.55em;
     padding-bottom: 1em;
     padding-right: 1.2em;
   }
 
   /* new pattern? where we use old VA icons with h3 */
   .va-icon-header {
-
     width: 100%;
     height: 40px;
     margin-left: -6px;
@@ -102,7 +101,6 @@ $medium-phone-screen: 375px;
       display: inline;
       width: 87%;
     }
-
   }
 
   .va-icon-cols {
@@ -113,24 +111,25 @@ $medium-phone-screen: 375px;
     padding-bottom: 3em;
   }
 
-  h3, h4 {
+  h3,
+  h4 {
     .fa {
-      padding-right: .35em;
+      padding-right: 0.35em;
     }
   }
 
   .merger-majorlinks {
-     .link {
-       margin-bottom: 1em;
-       p {
+    .link {
+      margin-bottom: 1em;
+      p {
         margin: 0;
       }
-       a {
+      a {
         text-decoration: none;
         padding-bottom: 0;
       }
     }
-   }
+  }
 
   .va-nav-breadcrumbs-list {
     padding-left: 0;
@@ -265,7 +264,7 @@ $medium-phone-screen: 375px;
     }
 
     .vetnav-panel a {
-      padding: 0.8rem 1.0rem;
+      padding: 0.8rem 1rem;
     }
 
     .va-header-logo-wrapper {
@@ -303,7 +302,7 @@ $medium-phone-screen: 375px;
         .sign-in-links {
           background: none;
           margin-left: 0;
-          padding-left: .75em;
+          padding-left: 0.75em;
 
           .va-button-link {
             font-weight: 600;
@@ -337,12 +336,11 @@ $medium-phone-screen: 375px;
     .va-nav-breadcrumbs,
     article,
     #hub-rail {
-      padding-left: .5em;
-      padding-right: .5em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
     }
 
-    .va-nav-breadcrumbs  {
-
+    .va-nav-breadcrumbs {
       padding-top: 0.25em;
       padding-bottom: 0.25em;
 
@@ -358,7 +356,7 @@ $medium-phone-screen: 375px;
       padding-top: 0;
     }
 
-    .va-nav-linkslist--related  {
+    .va-nav-linkslist--related {
       margin-bottom: 0 !important; //hard override; what does this break elsewhere
     }
 
@@ -371,7 +369,6 @@ $medium-phone-screen: 375px;
       padding-right: 0.9375rem;
     }
   }
-
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) {
@@ -390,12 +387,10 @@ $medium-phone-screen: 375px;
       flex-shrink: 0;
 
       .profile-nav {
-
         width: 100%;
         .va-dropdown {
-
           .va-dropdown-trigger {
-            background-position: right .8rem center;
+            background-position: right 0.8rem center;
           }
 
           .sign-in-links {
@@ -403,7 +398,6 @@ $medium-phone-screen: 375px;
             padding-left: 0;
           }
         }
-
       }
     }
 
@@ -421,7 +415,7 @@ $medium-phone-screen: 375px;
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
     & + div {
-      .column-two h3{
+      .column-two h3 {
         visibility: hidden;
       }
     }
@@ -449,7 +443,6 @@ $medium-phone-screen: 375px;
   }
 
   .usa-accordion-bordered {
-
     &.social {
       a {
         text-decoration: underline;
@@ -478,9 +471,9 @@ $medium-phone-screen: 375px;
 
         ul > li {
           margin: 1em auto;
-            &:last-child {
-              margin: unset;
-            }
+          &:last-child {
+            margin: unset;
+          }
         }
       }
 
@@ -536,7 +529,8 @@ $medium-phone-screen: 375px;
     margin: 0;
 
     @include media($medium-large-screen) {
-      &:hover, &:active {
+      &:hover,
+      &:active {
         background-color: $color-primary-darker;
         color: inherit !important;
         text-decoration: none;
@@ -614,20 +608,68 @@ img[data-srcset] {
 
 .usa-alert-full-width {
   background-color: $color-gray-lightest;
+  &.dismissable-option-header {
+    display: none;
+    &.show-alert {
+      display: block;
+    }
+    &.dismissed {
+      display: none;
+    }
+  }
+  .usa-alert-dismiss {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    cursor: pointer;
+  }
   > .usa-alert {
     border-left: none;
     max-width: 1000px;
     margin: 0 auto;
+    .paragraph--type--expandable-text {
+      .field--name-field-text-expander {
+        .field__label {
+          display: none;
+        }
+        .field__item {
+          font-size: 2rem;
+          margin-top: 0;
+          padding-top: 0;
+          font-weight: 700;
+          text-decoration: underline;
+          color: #003e73;
+          cursor: pointer;
+        }
+      }
+      .field--type-text-long {
+        display: none;
+        .field__label {
+          display: none;
+        }
+        &.expander-content-open {
+          display: block;
+        }
+      }
+    }
   }
   &-warning {
     border-top: 1rem solid $color-gold;
   }
-  &-info {
+  &-info,
+  &-information {
     border-top: 1rem solid $color-primary-alt-dark;
+    .usa-alert:before {
+      content: "\F05A";
+      background: none;
+      font-size: 2rem;
+      margin-right: 1.5rem;
+      position: static;
+      font-weight: 900;
+    }
   }
 }
 
 .process-accordion > li {
   list-style: none !important;
 }
-
