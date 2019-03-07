@@ -1,4 +1,4 @@
-function addAssetHashes() {
+function addAssetHashes(isPreview = false) {
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
   // files, so we have to replace the references to those files in HTML and CSS files after the
@@ -46,21 +46,23 @@ function addAssetHashes() {
       }
     });
 
-    // Create a copy of the proxy-write files without cache-bust hashes
-    [
-      'proxy-rewrite.entry.js',
-      'styleConsolidated.css',
-      'static-pages.css',
-      'vendor.entry.js',
-      'polyfills.entry.js',
-    ].forEach(unhashedName => {
-      const hashedName = manifest[unhashedName];
+    if (!isPreview) {
+      // Create a copy of the proxy-write files without cache-bust hashes
+      [
+        'proxy-rewrite.entry.js',
+        'styleConsolidated.css',
+        'static-pages.css',
+        'vendor.entry.js',
+        'polyfills.entry.js',
+      ].forEach(unhashedName => {
+        const hashedName = manifest[unhashedName];
 
-      // When an --entry is specified that isn't proxy-rewrite, these files won't be here
-      if (hashedName) {
-        files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
-      }
-    });
+        // When an --entry is specified that isn't proxy-rewrite, these files won't be here
+        if (hashedName) {
+          files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
+        }
+      });
+    }
 
     done();
   };

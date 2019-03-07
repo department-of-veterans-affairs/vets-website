@@ -29,7 +29,7 @@ function configureAssets(smith, buildOptions) {
     }
 
     if (!isDevBuild) {
-      smith.use(addAssetHashes(buildOptions));
+      smith.use(addAssetHashes());
     }
   }
 }
