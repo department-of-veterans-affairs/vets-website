@@ -30,21 +30,6 @@ export const descriptionInfo = (
   </div>
 );
 
-const alertContent = newOnly => (
-  <>
-    <p>
-      You’ll need to add a new disability or choose a rated disability to claim.
-      We can’t process your claim without a disability selected. Please add a
-      new disability or choose a rated disability for increased compensation.
-    </p>
-    {!newOnly && (
-      <Link to={`disabilities/rated-disabilities`}>
-        Choose a rated disability
-      </Link>
-    )}
-  </>
-);
-
 export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
@@ -52,7 +37,7 @@ export const newOnlyAlert = ({ formContext }) => {
     <AlertBox
       status="error"
       headline="We need you to add a disability"
-      content={alertContent(true)}
+      content="You need to add a new disability to claim. We can’t process your claim without a disability selected."
     />
   );
 };
@@ -60,11 +45,26 @@ export const newOnlyAlert = ({ formContext }) => {
 export const increaseAndNewAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
+
+  const alertContent = (
+    <>
+      <p>
+        You’ll need to add a new disability or choose a rated disability to
+        claim. We can’t process your claim without a disability selected. Please
+        add a new disability or choose a rated disability for increased
+        compensation.
+      </p>
+      <Link to={`disabilities/rated-disabilities`}>
+        Choose a rated disability
+      </Link>
+    </>
+  );
+
   return (
     <AlertBox
       status="error"
       headline="We need you to add a disability"
-      content={alertContent(false)}
+      content={alertContent}
     />
   );
 };
