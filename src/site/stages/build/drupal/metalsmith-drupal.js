@@ -136,6 +136,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_region_locations_page.drupal.liquid',
   );
 
+  // paginate press releases
   paginatePages(
     page,
     `${drupalPagePath}/press-releases`,
@@ -143,6 +144,16 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'allPressReleaseTeasers',
     'press_releases_page.drupal.liquid',
     'press releases',
+  );
+
+  // paginate news stories
+  paginatePages(
+    page,
+    `${drupalPagePath}/stories`,
+    files,
+    'allNewsStoryTeasers',
+    'news_stories_page.drupal.liquid',
+    'news stories',
   );
 
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };

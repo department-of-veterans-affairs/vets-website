@@ -18,26 +18,31 @@ Example data:
 "title": "Pittsburgh Health Care System",
 "allPressReleaseTeasers": {
   "entities": [
-    {
-      "title": "Fayette County Veterans getting larger, more modern VA outpatient clinic",
-      "entityUrl": {
-        "path": "/pittsburgh-health-care/press-releases/fayette-county-veterans-getting-larger-more-modern-va-outpatient-clinic"
-      }
-      "fieldReleaseDate": {
-        "value": "2018-11-26T05:43:34"
+  "allNewsStoryTeasers": {
+    "entities": [
+      {
+        "title": "Abdo Loquor Proprius",
+        "fieldIntroText": "Abico ea euismod. Aliquam causa gravis jumentum neo paratus roto te....",
+        "fieldMedia": {
+          "entity": {
+            "image": {
+            "alt": null,
+            "title": null,
+            "derivative": {
+              "url": "http://stg.va.agile6.com/sites/default/files/styles/crop_3_2/public/hub_promos/education.png?itok=Dq-jwud0",
+              "width": 456,
+              "height": 304
+            }
+          }
+        }
+        },
+        "entityUrl": {
+          "path": "/pittsburgh-health-care/stories/abdo-loquor-proprius"
+        }
       },
-      "fieldIntroText": "The Fayette County VA Outpatient Clinic will move to its new, larger space in the Fayette Plaza at 627 Pittsburgh Road, Suite 2, Uniontown, PA, on Dec. 3."
-    },
-    {
-      "title": "Cogo Duis Magna",
-      "entityUrl": {
-        "path": "/pittsburgh-health-care/press-releases/cogo-duis-magna"
-      }
-      "fieldReleaseDate": {
-        "value": "2018-11-19T03:20:44"
-      },
-      "fieldIntroText": "Eligo iustum mauris nimis ratis roto tego velit. Abluo consectetuer duis. Camur decet exerci pala paulatim vicis volutpat..."
-    },
+      ...
+    ]
+  }
 }
 {% endcomment %}
 {% include "src/site/includes/header.html" %}
@@ -59,13 +64,9 @@ Example data:
         {% endif %}
 
         <article class="usa-content">
-          <h1>Press Releases</h1>
-          {% for pr in pagedItems %}
-            <section class="vads-u-margin-bottom--3">
-              <h3><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
-              <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
-              <p>{{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
-            </section>
+          <h1>Community Stories</h1>
+          {% for story in pagedItems %}
+              {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
           {% include "src/site/includes/pagination.drupal.liquid" %}
         </article>
