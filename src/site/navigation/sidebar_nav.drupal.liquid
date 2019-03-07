@@ -12,8 +12,6 @@
                 <ul class="usa-accordion">
                     {% for link in link.links %}
                         <li>
-                            {% assign pathArray = entityUrl.path | split: '/' %}
-                            {% assign pathRoot = pathArray | get: 2 | capitalize %}
                             <button class="usa-accordion-button" aria-expanded="false" aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
                             <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
                                 {% assign listSize = link.links | size %}
