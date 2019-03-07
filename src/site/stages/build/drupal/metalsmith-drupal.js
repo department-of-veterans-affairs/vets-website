@@ -46,15 +46,20 @@ function writeDrupalDebugPage(files) {
 
 // Creates the file object to add to the file list using the page and layout
 function createFileObj(page, layout) {
+  // Exclude some types from sitemap.
+  const privateTypes = ['outreach_asset', 'person_profile', 'support_service'];
+  let privStatus = false;
+  if (privateTypes.indexOf(page.entityBundle) > -1) {
+    privStatus = true;
+  }
+
   return {
     ...page,
     isDrupalPage: true,
     layout,
     contents: Buffer.from('<!-- Drupal-provided data -->'),
     debug: JSON.stringify(page, null, 4),
-    // Keep these pages out of the sitemap until we remove
-    // the drupal prefix
-    private: true,
+    private: privStatus,
   };
 }
 
