@@ -6,3 +6,11 @@
    -moz-columns: 2;
    list-style-position: inside;
  }
+
+.va-c-facility-sidebar {
+   .usa-sidenav-sub_list {
+      a.usa-current {
+         margin-left: 0 !important;
+      }
+   }
+}
