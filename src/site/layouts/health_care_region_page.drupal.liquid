@@ -152,9 +152,11 @@ Example data:
           </div>
         </div>
 
-        <div class="usa-font-lead">
-          <p>{{ fieldIntroText }}</p>
-        </div>
+        {% if fieldIntroText != empty %}
+          <div class="va-introtext">
+            <p>{{ fieldIntroText }}</p>
+          </div>
+        {% endif %}
 
         <section>
           <h2>Main Locations</h2>
