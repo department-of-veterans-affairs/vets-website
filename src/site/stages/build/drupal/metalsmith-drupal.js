@@ -101,8 +101,8 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
-      sidebarQuery: sidebarNav,
-      facilitySidebarQuery: facilitySidebarNav,
+      sidebarQuery: sidebarNav = {},
+      facilitySidebarQuery: facilitySidebarNav = {},
     },
   } = contentData;
 
