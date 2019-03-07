@@ -12,21 +12,39 @@
                 <ul class="usa-accordion">
                     {% for link in link.links %}
                         <li>
+                            {% assign pathArray = entityUrl.path | split: '/' %}
+                            {% assign pathRoot = pathArray | get: 2 | capitalize %}
                             <button class="usa-accordion-button" aria-expanded="false" aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
                             <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
                                 {% assign listSize = link.links | size %}
-                                {% if listSize > 1 %}
+                                {% if listSize > 0 %}
                                     <ul class="usa-sidenav-list">
                                         {% for link in link.links %}
-                                            <li class="active-level">
+                                            <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
                                                 <a href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                 {% assign subListSize = link.links | size %}
-                                                {% if subListSize > 1 %}
+                                                {% if subListSize > 0 %}
                                                     <ul class="usa-sidenav-sub_list">
                                                         {% for link in link.links %}
-                                                            <li>
+                                                            {% assign subSubListSize = link.links | size %}
+                                                            {% if subSubListSize > 0 %}
                                                                 <a href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                                                <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
+                                                                    <ul class="usa-sidenav-sub_list">
+                                                                        {% for link in link.links %}
+                                                                            <li>
+                                                                                <a {% if entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
+                                                                                        href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </li>
+                                                            {% else %}
+                                                            <li>
+                                                                <a {% if entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
+                                                                   href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                             </li>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </ul>
                                                 {% endif %}
