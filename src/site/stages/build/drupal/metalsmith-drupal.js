@@ -164,7 +164,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
-  let pagePath;
 
   // Create the detail page for healthcare local facilities
   if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
@@ -173,7 +172,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       ...page.otherFacilities.entities,
     ]) {
       if (facility.entityBundle === 'health_care_local_facility') {
-        pagePath = facilityLocationPath(
+        const pagePath = facilityLocationPath(
           drupalPagePath,
           facility.fieldFacilityLocatorApiId,
           facility.fieldNicknameForThisFacility,
@@ -207,8 +206,8 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     data: {
       nodeQuery: { entities: pages },
       sidebarQuery: sidebarNav = {},
+      alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
-      alerts: alertsItem,
     },
   } = contentData;
 
@@ -244,6 +243,22 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
         break;
       case 'health_care_region_page':
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
+      case 'news_story':
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
+      case 'press_release':
         pageCompiled = Object.assign(
           page,
           facilitySidebarNavItems,
