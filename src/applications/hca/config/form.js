@@ -19,6 +19,7 @@ import { states } from 'platform/forms/address';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import { genderLabels } from 'platform/static-data/labels';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { hasSession } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
@@ -29,6 +30,7 @@ import DowntimeMessage from '../components/DowntimeMessage';
 import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
+import IDPage from '../containers/IDPage';
 
 import {
   transform,
@@ -164,6 +166,14 @@ const formConfig = {
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
+  additionalRoutes: !environment.isProduction() && [
+    {
+      path: 'id-form',
+      component: IDPage,
+      pageKey: 'id-form',
+      depends: () => !hasSession(),
+    },
+  ],
   confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',

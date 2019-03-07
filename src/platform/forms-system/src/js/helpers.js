@@ -66,6 +66,11 @@ export function createPageListByChapter(formConfig) {
 
 export function createPageList(formConfig, formPages) {
   let pageList = formPages;
+
+  if (formConfig.additionalRoutes) {
+    pageList = formConfig.additionalRoutes.concat(pageList);
+  }
+
   if (formConfig.introduction) {
     pageList = [
       {
@@ -96,6 +101,7 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
+
   let routes = formPages.map(page => ({
     path: page.path,
     component: page.component || FormPage,
@@ -103,6 +109,17 @@ export function createRoutes(formConfig) {
     pageList,
     urlPrefix: formConfig.urlPrefix,
   }));
+
+  if (formConfig.additionalRoutes) {
+    routes = formConfig.additionalRoutes
+      .map(route => ({
+        ...route,
+        formConfig,
+        pageList,
+      }))
+      .concat(routes);
+  }
+
   if (formConfig.introduction) {
     routes = [
       {
