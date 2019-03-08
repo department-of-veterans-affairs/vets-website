@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
+import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import { authnSettings } from '../../../platform/user/authentication/utilities';
 import {
   hasSession,
@@ -12,7 +14,6 @@ import {
 } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 
-import facilityLocator from '../../facility-locator/manifest';
 import recordEvent from '../../../platform/monitoring/record-event';
 
 export class AuthApp extends React.Component {
@@ -39,9 +40,7 @@ export class AuthApp extends React.Component {
       },
     });
 
-    recordEvent({
-      event: `login-error-user-fetch`,
-    });
+    recordEvent({ event: `login-error-user-fetch` });
 
     this.setState({ error: true });
   };
@@ -66,7 +65,9 @@ export class AuthApp extends React.Component {
 
   renderError = () => {
     const { code, auth } = this.props.location.query;
-    let alertProps;
+    let header = 'We couldn’t sign you in';
+    let alertContent;
+    let troubleshootingContent;
 
     if (auth === 'fail') {
       recordEvent({
@@ -75,109 +76,184 @@ export class AuthApp extends React.Component {
     }
 
     switch (code) {
-      // User selected Deny on share info prompt
+      // Authorization was denied by user
       case '001':
-        alertProps = {
-          headline: 'We couldn’t complete the sign-in process',
-          content: (
-            <div>
-              <p>
-                We’re sorry. It looks like you selected "Deny" on the last page
-                when asked for your permission to share information with
-                {siteName}, so we couldn’t complete the process. To give you
-                full access to the tools on {siteName}, we need to be able to
-                share your information with the site.
-              </p>
-              <p>
-                Please try again and click “Accept” on the final page. Or, you
-                can try signing in with your premium DS Logon or premium My
-                HealtheVet account instead of identity proofing with ID.me.
-              </p>
-            </div>
-          ),
-        };
-        break;
-
-      // User time too early/late
-      case '002':
-      case '003':
-        alertProps = {
-          headline: 'Please update your computer’s time settings',
-          content: (
+        alertContent = (
+          <>
             <p>
-              We’re sorry. It looks like your computer’s clock isn’t showing the
-              right time, and that’s causing a problem in how it communicates
-              with our system. Please update your computer’s settings to the
-              current date and time, and then try again.
+              We’re sorry. We couldn’t complete the identity verification
+              process. It looks like you selected “Deny” when we asked for your
+              permission to share your information with VA.gov. We can’t give
+              you access to all the tools on VA.gov without sharing your
+              information with the site.
             </p>
-          ),
-        };
+          </>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              Please try again, and this time, select “Accept” on the final page
+              of the identity verification process. Or, if you don’t want to
+              verify your identity with ID.me, you can try signing in with your
+              premium DS Logon or premium My HealtheVet username and password.
+            </p>
+            <button>Try signing in again</button>
+          </>
+        );
         break;
 
-      // User/Session Validation Failed
+      // User's clock is incorrect
+      case '002':
+        header = 'Please update your computer’s time settings';
+        alertContent = (
+          <p>
+            We’re sorry. It looks like your computer’s clock isn’t showing the
+            right time, and that’s causing a problem in how it communicates with
+            our system.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              {' '}
+              Please update your computer’s settings to the current date and
+              time, and then try again.
+            </p>
+            <p>
+              <a>Learn how to update the time on a Windows computer</a>
+            </p>
+            <p>
+              <a>Learn how to update the time on a Mac computer</a>
+            </p>
+          </>
+        );
+        break;
+
+      // Server error
+      case '003':
+        alertContent = (
+          <p>
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in. Please try signing in again.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>Please try signing in again.</strong> If you still can’t
+              sign in, please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a>Submit a request to get help signing in</a>
+            </p>
+            <button>Try signing in again</button>
+          </>
+        );
+        break;
+
+      // We're having trouble matching the user with MVI
       case '004':
-        alertProps = {
-          headline: 'We can’t match your information to our Veteran records',
-          content: (
-            <div>
+        header = 'We can’t match your information to our records';
+        alertContent = (
+          <p>
+            We’re sorry. We can’t match the information you provided with what
+            we have in our Veteran records. We take your privacy seriously, and
+            we’re committed to protecting your information.
+          </p>
+        );
+        troubleshootingContent = (
+          <ul>
+            <li>
               <p>
-                We’re sorry. We can’t verify your identity because we can’t
-                match your information to our Veteran records.
+                <strong>
+                  If you feel you’ve entered your information correctly
+                </strong>
+                , please call the VA.gov Help Desk at <a>1-844-698-2311</a>{' '}
+                (TTY: 711). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00
+                p.m. (ET).
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>
+                  Try signing in with your ID.me username and password.
+                </strong>{' '}
+                This may resolve the issue. If you don’t have an ID.me account,
+                you can create one now.
               </p>
               <p>
-                Please check the information you entered and make sure it
-                matches the information in your records. If you feel you’ve
-                entered your information correctly, and it’s still not matching,
-                please contact your nearest VA medical center. Let them know you
-                need to verify the information in your records, and update it as
-                needed. The operator, or a patient advocate, can connect with
-                you with the right person who can help.
+                <a>Sign in or create an account with ID.me</a>
               </p>
-              <p>
-                <a
-                  href={`${
-                    facilityLocator.rootUrl
-                  }/?facilityType=health&page=1&zoomLevel=7`}
-                >
-                  Find your nearest VA medical center.
-                </a>
-              </p>
-            </div>
-          ),
-        };
+            </li>
+          </ul>
+        );
         break;
 
-      // Unknown SAML Login Error
-      case '007':
+      // Catch all generic error
       default:
-        alertProps = {
-          headline: 'We couldn’t sign you in',
-          content: (
-            <div>
-              <p>We’re sorry. Something went wrong on our end.</p>
-              <p>
-                Please read our answers to frequently asked questions about
-                common issues with signing in to VA.gov. These answers offer
-                steps you can take to try to fix the issue and a form to submit
-                a request for more help if needed.
-              </p>
-              <p>
-                <a href="/sign-in-faq/#sign-in-issue">
-                  Go to the sign in FAQs.
-                </a>
-              </p>
-            </div>
-          ),
-        };
+        alertContent = (
+          <p>
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>Try taking these steps to fix the problem:</strong>
+            </p>
+            <ul>
+              <li>
+                Clear your Internet browser’s cookies and cache. Depending on
+                which browser you’re using, you’ll usually find this information
+                referred to as “Browsing Data,”, “Browsing History,” or “Website
+                Data.”
+              </li>
+              <li>
+                Make sure you have cookies enabled in your browser settings.
+                Depending on which browser you’re using, you’ll usually find
+                this information in the “Tools,” “Settings,” or
+                “Preferences” menu.
+              </li>
+              <li>
+                <p>
+                  If you’re using Internet Explorer or Microsoft Edge, and
+                  clearing your cookies and cache doesn’t fix the problem, try
+                  using Google Chrome or Mozilla Firefox as your browser
+                  instead.
+                </p>
+                <p>
+                  <a>Download Google Chrome</a>
+                </p>
+                <p>
+                  <a>Download Mozilla Firefox</a>
+                </p>
+              </li>
+              <li>
+                If you’re using Chrome or Firefox and it’s not working, make
+                sure you’ve updated your browser with the latest updates.
+              </li>
+            </ul>
+            <p>
+              <strong>
+                If you’ve taken the steps above and still can’t sign in,
+              </strong>{' '}
+              please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a>Submit a request to get help signing in</a>
+            </p>
+          </>
+        );
     }
 
     return (
-      <AlertBox
-        {...alertProps}
-        isVisible
-        status="error"
-        onCloseAlert={window.close}
-      />
+      <div className="usa-content columns small-12">
+        <h1>{header}</h1>
+        <AlertBox content={alertContent} isVisible status="error" />
+        <h3>What you can do:</h3>
+        {troubleshootingContent}
+      </div>
     );
   };
 
@@ -188,12 +264,15 @@ export class AuthApp extends React.Component {
       <LoadingIndicator message={`Signing in to ${siteName}...`} />
     );
 
-    return (
-      <div className="row">
-        <div className="small-12 columns">{view}</div>
-      </div>
-    );
+    return <div className="row vads-u-padding-y--5">{view}</div>;
   }
 }
 
-export default AuthApp;
+const mapDispatchToProps = {
+  toggleLoginModal,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(AuthApp);
