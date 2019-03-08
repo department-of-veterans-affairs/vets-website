@@ -132,7 +132,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 }
 
 // Return page object with path, breadcrump and title set.
-function createEntityUrl(page, drupalPagePath, title) {
+function updateEntityUrlObj(page, drupalPagePath, title) {
   const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
   const generatedPage = Object.assign({}, page);
   generatedPage.entityUrl.breadcrumb.push({
@@ -144,29 +144,26 @@ function createEntityUrl(page, drupalPagePath, title) {
   return generatedPage;
 }
 
+// Return a default entityUrl obj to to work from
+function createEntityUrlObj(pagePath) {
+  return {
+    breadcrumb: [
+      {
+        url: { path: '/drupal/', routed: true },
+        text: 'Home',
+      },
+    ],
+    path: pagePath,
+  };
+}
+
 // Creates the top-level health care region list pages (Locations, Services, etc.)
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
-  // Create the top-level locations page for Health Care Regions
-  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
-    page,
-    'health_care_region_locations_page.drupal.liquid',
-  );
-
-  // Press Release listing page
-  const prPage = createEntityUrl(page, drupalPagePath, 'Press Releases');
-  paginatePages(
-    prPage,
-    files,
-    'allPressReleaseTeasers',
-    'press_releases_page.drupal.liquid',
-    'press releases',
-  );
-
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
 
-  // Create the detail page for healthcare local facilities
   if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
+    // Create the detail page for health care local facilities
     for (const facility of [
       ...page.mainFacilities.entities,
       ...page.otherFacilities.entities,
@@ -186,12 +183,64 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
         );
       }
     }
+
+    // Create the top-level locations page for Health Care Regions
+    const locEntityUrl = createEntityUrlObj(drupalPagePath);
+    const locObj = Object.assign(
+      { mainFacilities: page.mainFacilities },
+      { otherFacilities: page.otherFacilities },
+      { fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb },
+      { facilitySidebar: sidebar },
+      { entityUrl: locEntityUrl },
+      { title: page.title },
+    );
+    const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
+    files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
+      locPage,
+      'health_care_region_locations_page.drupal.liquid',
+    );
   }
 
-  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
-    page,
-    'health_care_region_health_services_page.drupal.liquid',
-  );
+  // Create Health Services Page
+  if (
+    page.specialtyCareHealthServices !== undefined ||
+    page.primaryCareHealthServices !== undefined ||
+    page.mentalHealthServices !== undefined
+  ) {
+    const entityUrl = createEntityUrlObj(drupalPagePath);
+    const hsObj = Object.assign(
+      { specialtyCareHealthServices: page.specialtyCareHealthServices },
+      { primaryCareHealthServices: page.primaryCareHealthServices },
+      { mentalHealthServices: page.mentalHealthServices },
+      { fieldClinicalHealthServi: page.fieldClinicalHealthCareServi },
+      { facilitySidebar: sidebar },
+      { entityUrl },
+      { title: page.title },
+    );
+    const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
+    files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+      hsPage,
+      'health_care_region_health_services_page.drupal.liquid',
+    );
+  }
+
+  // Press Release listing page
+  if (page.allPressReleaseTeasers !== undefined) {
+    const prObj = Object.assign(
+      { allPressReleaseTeasers: page.allPressReleaseTeasers },
+      { facilitySidebar: sidebar },
+      { entityUrl: page.entityUrl },
+      { title: page.title },
+    );
+    const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
+    paginatePages(
+      prPage,
+      files,
+      'allPressReleaseTeasers',
+      'press_releases_page.drupal.liquid',
+      'press releases',
+    );
+  }
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
