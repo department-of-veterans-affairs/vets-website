@@ -273,7 +273,7 @@ AutosuggestField.propTypes = {
       getOptions: PropTypes.func,
       debounceRate: PropTypes.number,
       maxOptions: PropTypes.number,
-      queryForResults: PropTypes.func,
+      queryForResults: PropTypes.bool,
       freeInput: PropTypes.bool,
       inputTransformers: PropTypes.arrayOf(PropTypes.func),
     }),
