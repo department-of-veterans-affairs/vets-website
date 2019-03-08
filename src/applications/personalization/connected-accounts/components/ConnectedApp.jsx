@@ -3,6 +3,8 @@ import moment from 'moment';
 
 import PropTypes from 'prop-types';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 import { AccountModal } from './AccountModal';
 
 class ConnectedApp extends React.Component {
@@ -20,6 +22,11 @@ class ConnectedApp extends React.Component {
   };
 
   confirmDelete = () => {
+    recordEvent({
+      event: 'account-navigation',
+      'account-action': 'disconnect-button',
+      'account-section': 'connected-accounts',
+    });
     this.props.confirmDelete(this.props.id);
     this.closeModal();
   };
