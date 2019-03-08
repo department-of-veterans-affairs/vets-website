@@ -35,15 +35,16 @@ class ConnectedAcctApp extends React.Component {
     this.props.dismissDeletedAccountAlert(accountId);
   };
 
+  numActiveAccounts = () =>
+    this.props.accounts.filter(account => !account.deleted).length;
+
   render() {
     let connectedAccountsView;
     if (this.props.loading) {
       connectedAccountsView = (
         <LoadingIndicator message="Loading your connected accounts..." />
       );
-    } else if (
-      this.props.accounts.filter(account => !account.deleted).length > 0
-    ) {
+    } else if (this.numActiveAccounts() > 0) {
       connectedAccountsView = (
         <ConnectedApps
           confirmDelete={this.confirmDelete}
