@@ -212,14 +212,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     page.primaryCareHealthServices !== undefined ||
     page.mentalHealthServices !== undefined
   ) {
-    const entityUrl = createEntityUrlObj(drupalPagePath);
+    const prEntityUrl = createEntityUrlObj(drupalPagePath);
     const hsObj = Object.assign(
       { specialtyCareHealthServices: page.specialtyCareHealthServices },
       { primaryCareHealthServices: page.primaryCareHealthServices },
       { mentalHealthServices: page.mentalHealthServices },
       { fieldClinicalHealthServi: page.fieldClinicalHealthCareServi },
       { facilitySidebar: sidebar },
-      { entityUrl },
+      { entityUrl: prEntityUrl },
       { title: page.title },
     );
     const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
