@@ -229,6 +229,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { facilitySidebar: sidebar },
     { entityUrl: page.entityUrl },
     { title: page.title },
+    { alert: page.alert },
   );
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
   paginatePages(
@@ -237,6 +238,28 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'allPressReleaseTeasers',
     'press_releases_page.drupal.liquid',
     'press releases',
+  );
+
+  // News Story listing page
+  const nsObj = Object.assign(
+    { allNewsStoryTeasers: page.allNewsStoryTeasers },
+    { facilitySidebar: sidebar },
+    { entityUrl: page.entityUrl },
+    { title: page.title },
+    { alert: page.alert },
+  );
+  const nsPage = updateEntityUrlObj(
+    nsObj,
+    drupalPagePath,
+    'Community stories',
+    'stories',
+  );
+  paginatePages(
+    nsPage,
+    files,
+    'allNewsStoryTeasers',
+    'news_stories_page.drupal.liquid',
+    'news stories',
   );
 }
 
