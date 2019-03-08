@@ -98,63 +98,66 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            <article class="usa-content">
-                <section class="vads-u-margin-bottom--5">
-                    <h1>{{ title }}</h1>
-                    <p class="vads-u-margin-bottom--1">PRESS RELEASE</p>
-                    <p class="vads-u-font-weight--bold vads-u-margin-bottom--4 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
-                    <div>
-                        <button type="button" class="vads-u-margin-right--4 va-button-link" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</button>
-                        {% if fieldPdfVersion != empty %}
-                            <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download"></i> Download a PDF version</a>
-                        {% endif %}
-                    </div>
-                    <p class="va-introtext">{{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>
-                    <div>{{ fieldPressReleaseFulltext.processed }}</div>
-                </section>
-
-                {% if fieldPressReleaseContact != empty %}
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+            <div class="usa-width-three-fourths">
+                <article class="usa-content">
                     <section class="vads-u-margin-bottom--5">
-                        <div class="vads-u-font-weight--bold">Media contacts</div>
-                        {% for contact in fieldPressReleaseContact %}
-                            {% assign c = contact.entity %}
-                            <div>
-                                <p>{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
-                                <p>{{ c.fieldPhoneNumber }}</p>
-                                <p><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
-                            </div>
-                        {% endfor %}
+                        <h1>{{ title }}</h1>
+                        <p class="vads-u-margin-bottom--1">PRESS RELEASE</p>
+                        <p class="vads-u-font-weight--bold vads-u-margin-bottom--4 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
+                        <div>
+                            <button type="button" class="vads-u-margin-right--4 va-button-link" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</button>
+                            {% if fieldPdfVersion != empty %}
+                                <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download"></i> Download a PDF version</a>
+                            {% endif %}
+                        </div>
+                        <p class="va-introtext">{{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>
+                        <div>{{ fieldPressReleaseFulltext.processed }}</div>
                     </section>
-                {%  endif %}
 
-                {% if fieldPressReleaseDownloads != empty %}
-                    <section class="vads-u-margin-bottom--5">
-                        <div class="vads-u-font-weight--bold vads-u-margin-bottom--1p5">Download media assets</div>
-                        {% for asset in fieldPressReleaseDownloads %}
-                            {% assign a = asset.entity %}
-                            <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
-                                <li>
-                                    {% case a.entityBundle %}
+                    {% if fieldPressReleaseContact != empty %}
+                        <section class="vads-u-margin-bottom--5">
+                            <div class="vads-u-font-weight--bold">Media contacts</div>
+                            {% for contact in fieldPressReleaseContact %}
+                                {% assign c = contact.entity %}
+                                <div>
+                                    <p>{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
+                                    <p>{{ c.fieldPhoneNumber }}</p>
+                                    <p><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    {%  endif %}
+
+                    {% if fieldPressReleaseDownloads != empty %}
+                        <section class="vads-u-margin-bottom--5">
+                            <div class="vads-u-font-weight--bold vads-u-margin-bottom--1p5">Download media assets</div>
+                            {% for asset in fieldPressReleaseDownloads %}
+                                {% assign a = asset.entity %}
+                                <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
+                                    <li>
+                                        {% case a.entityBundle %}
                                         {% when 'document' %}
                                             <a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a>
                                         {% when a.entityBundle === 'image' %}
                                             <a href="{{ a.image.url }}" download>{{ a.name }}</a>
                                         {% when a.entityBundle === 'video' %}
                                             <a href="{{ a.fieldMediaVideoEmbedField }}">{{ a.name }}</a>
-                                    {%  endcase %}
-                                </li>
-                            </ul>
-                        {% endfor %}
+                                        {%  endcase %}
+                                    </li>
+                                </ul>
+                            {% endfor %}
+                        </section>
+                    {%  endif %}
+
+                    <section class="vads-u-margin-bottom--5">###</section>
+
+                    <section class="vads-u-margin-bottom--5">
+                        {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
                     </section>
-                {%  endif %}
-
-                <section class="vads-u-margin-bottom--5">###</section>
-
-                <section class="vads-u-margin-bottom--5">
-                    {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
-                </section>
-                <a href="#">See all press releases</a>
-            </article>
+                    <a href="#">See all press releases</a>
+                </article>
+            </div>
         </div>
     </main>
 </div>

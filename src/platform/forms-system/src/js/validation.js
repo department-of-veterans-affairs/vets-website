@@ -190,7 +190,7 @@ export function uiSchemaValidate(
     }
 
     const validations = uiSchema['ui:validations'];
-    if (validations && currentData) {
+    if (validations && currentData !== undefined) {
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {

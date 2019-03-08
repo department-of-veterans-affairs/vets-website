@@ -6,6 +6,7 @@ const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
+const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 
 /**
  * Queries for all of the pages out of Drupal
@@ -31,6 +32,7 @@ module.exports = `
       }
     }
     ${sidebarQuery}
+    ${facilitySidebarQuery}
     ${alertsQuery}
   }
 `;
