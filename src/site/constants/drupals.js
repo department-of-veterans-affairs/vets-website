@@ -2,18 +2,14 @@ const ENVIRONMENTS = require('./environments');
 
 // const DRUPAL_DEV = {
 //   address: 'http://dev.va.agile6.com',
-//   credentials: {
-//     username: 'api',
-//     password: 'drupal8',
-//   },
+//   user: 'api',
+//   password: 'drupal8',
 // };
 
 const DRUPAL_STAGING = {
   address: 'http://staging.va.agile6.com',
-  credentials: {
-    username: 'api',
-    password: 'drupal8',
-  },
+  user: 'api',
+  password: 'drupal8',
 };
 
 const DRUPAL_LIVE = {

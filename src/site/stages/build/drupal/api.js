@@ -8,39 +8,37 @@ const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
 const ENVIRONMENTS = require('../../../constants/environments');
 const DRUPALS = require('../../../constants/drupals');
 
-function encodeCredentials({ username, password }) {
-  const credentials = `${username}:${password}`;
+function encodeCredentials({ user, password }) {
+  const credentials = `${user}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
   return credentialsEncoded;
 }
 
 function getDrupalClient(buildOptions) {
-  let drupalConfig = {};
-
-  const drupalBuildOptions = {
+  const buildArgs = {
     address: buildOptions['drupal-address'],
-    credentials: {
-      user: buildOptions['drupal-user'],
-      password: buildOptions['drupal-password'],
-    },
+    user: buildOptions['drupal-user'],
+    password: buildOptions['drupal-password'],
   };
 
+  Object.keys(buildArgs).forEach(key => {
+    if (!buildArgs[key]) delete buildArgs[key];
+  });
+
+  const envConfig = DRUPALS[buildOptions.buildtype];
+  const drupalConfig = {};
+
   if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
-    // On localhost, build args should take priority.
-    drupalConfig = {
-      ...DRUPALS[ENVIRONMENTS.VAGOVDEV],
-      drupalBuildOptions,
-    };
+    // On localhost, build args can override the default environment.
+    Object.assign(drupalConfig, envConfig, buildArgs);
   } else {
-    drupalConfig = {
-      drupalBuildOptions,
-      ...DRUPALS[buildOptions.buildtype],
-    };
+    // Otherwise, properties from the hardcoded env configs should take priority.
+    Object.assign(drupalConfig, buildArgs, envConfig);
   }
 
-  const { address, credentials } = drupalConfig;
+  const { address, user, password } = drupalConfig;
   const drupalUri = `${address}/graphql`;
-  const encodedCredentials = encodeCredentials(credentials);
+  const encodedCredentials = encodeCredentials({ user, password });
   const headers = {
     Authorization: `Basic ${encodedCredentials}`,
     'Content-Type': 'application/json',
