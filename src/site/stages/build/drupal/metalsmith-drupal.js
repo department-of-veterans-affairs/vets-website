@@ -278,10 +278,9 @@ async function loadDrupal(buildOptions) {
 }
 
 async function loadCachedDrupalFiles(buildOptions, files) {
-  if (!buildOptions[PULL_DRUPAL_BUILD_ARG]) {
-    const cachedDrupalFiles = await recursiveRead(
-      path.join(buildOptions.cacheDirectory, 'drupalFiles'),
-    );
+  const cachedFilesPath = path.join(buildOptions.cacheDirectory, 'drupalFiles');
+  if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
+    const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
     cachedDrupalFiles.forEach(file => {
       const relativePath = path.relative(
         path.join(buildOptions.cacheDirectory, 'drupalFiles'),
