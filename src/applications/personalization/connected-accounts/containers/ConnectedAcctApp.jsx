@@ -10,6 +10,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { loadConnectedAccounts, deleteConnectedAccount } from '../actions';
 import { NoConnectedApps, ConnectedApps } from '../components';
+import { setPageFocus } from '../../../claims-status/utils/page';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -20,6 +21,7 @@ class ConnectedAcctApp extends React.Component {
   }
 
   componentDidMount = () => {
+    setPageFocus();
     this.props.loadConnectedAccounts();
   };
 
