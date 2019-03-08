@@ -6,10 +6,21 @@ const FACILITIES_RESULTS = `
   entities {
     ... on NodeHealthCareLocalFacility {
       entityUrl {
+      ... on EntityCanonicalUrl {
+        breadcrumb {
+          url {
+            path
+            routed
+          }
+          text
+        }
         path
       }
+    }
       entityBundle
       title
+      entityId
+      entityBundle
       changed
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
@@ -41,7 +52,7 @@ const FACILITIES_RESULTS = `
             }
           }
         }
-      }        
+      }
     }
   }
 `;

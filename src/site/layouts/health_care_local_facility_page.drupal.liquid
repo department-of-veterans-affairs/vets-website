@@ -84,9 +84,7 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
-                <p>sidebar here</p>
-            </nav>
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
             <div class="usa-width-three-fourths">
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
@@ -107,15 +105,15 @@
                         </div>
                     {% endif %}
 
-                    <div class="usa-grid usa-grid-full">
-                        <div class="usa-width-one-third">
-                            Make an appointment
+                    <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
+                        <div class="usa-width-one-third vads-facility-main-cta">
+                            <a href="{{ entityUrl.path }}/appointments">Make an appointment</a>
                         </div>
-                        <div class="usa-width-one-third">
-                            View A-Z Health Services
+                        <div class="usa-width-one-third vads-facility-main-cta">
+                            <a href="{{ entityUrl.path }}/">View A-Z Health Services</a>
                         </div>
-                        <div class="usa-width-one-third">
-                            Become a patient
+                        <div class="usa-width-one-third vads-facility-main-cta">
+                            <a href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
                         </div>
                     </div>
 
