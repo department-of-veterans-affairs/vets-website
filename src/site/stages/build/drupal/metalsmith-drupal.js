@@ -134,7 +134,10 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
 // Return page object with path, breadcrumb and title set.
 function updateEntityUrlObj(page, drupalPagePath, title) {
-  const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
+  const pathSuffix = title
+    .replace(/&/g, '')
+    .replace(/\s+/g, '-')
+    .toLowerCase();
   let generatedPage = Object.assign({}, page);
   generatedPage.entityUrl.breadcrumb.push({
     url: { path: drupalPagePath },
@@ -145,6 +148,7 @@ function updateEntityUrlObj(page, drupalPagePath, title) {
     `${drupalPagePath}/${pathSuffix}`,
     page,
   );
+
   generatedPage.title = title;
   return generatedPage;
 }
@@ -246,10 +250,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const fsPage = updateEntityUrlObj(
     fsObj,
     drupalPagePath,
-    'Patient and Family Services',
+    'Patient & Family Services',
   );
   files[
-    `drupal${drupalPagePath}/patient-and-family-services/index.html`
+    `drupal${drupalPagePath}/patient-family-services/index.html`
   ] = createFileObj(
     fsPage,
     'health_care_region_patient_family_services_page.drupal.liquid',
