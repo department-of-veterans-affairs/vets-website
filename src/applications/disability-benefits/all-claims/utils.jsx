@@ -795,3 +795,14 @@ export const recordEventOnce = (event, key) => {
     recordEvent(event);
   }
 };
+
+export const claimingRated = formData =>
+  formData.ratedDisabilities &&
+  formData.ratedDisabilities.some(d => d['view:selected']);
+
+// TODO: Rename this to avoid collision with `isClaimingNew` above
+export const claimingNew = formData =>
+  formData.newDisabilities && formData.newDisabilities.some(d => d.condition);
+
+export const hasClaimedConditions = formData =>
+  claimingNew(formData) || claimingRated(formData);
