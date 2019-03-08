@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
+const set = require('lodash/fp/set');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
@@ -131,15 +132,19 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
   }
 }
 
-// Return page object with path, breadcrump and title set.
+// Return page object with path, breadcrumb and title set.
 function updateEntityUrlObj(page, drupalPagePath, title) {
   const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
-  const generatedPage = Object.assign({}, page);
+  let generatedPage = Object.assign({}, page);
   generatedPage.entityUrl.breadcrumb.push({
     url: { path: drupalPagePath },
     text: page.title,
   });
-  generatedPage.entityUrl.path = `${drupalPagePath}/${pathSuffix}`;
+  generatedPage = set(
+    'entityUrl.path',
+    `${drupalPagePath}/${pathSuffix}`,
+    page,
+  );
   generatedPage.title = title;
   return generatedPage;
 }
@@ -157,7 +162,7 @@ function createEntityUrlObj(pagePath) {
   };
 }
 
-// Creates the top-level health care region list pages (Locations, Services, etc.)
+// Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
