@@ -126,9 +126,7 @@ Example data:
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-    <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
-      <h5>{{ title }}</h5>
-    </nav>
+    {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
     <div class="usa-width-three-fourths">
       {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
@@ -154,9 +152,11 @@ Example data:
           </div>
         </div>
 
-        <div class="usa-font-lead">
-          <p>{{ fieldIntroText }}</p>
-        </div>
+        {% if fieldIntroText != empty %}
+          <div class="va-introtext">
+            <p>{{ fieldIntroText }}</p>
+          </div>
+        {% endif %}
 
         <section>
           <h2>Main Locations</h2>
@@ -191,17 +191,17 @@ Example data:
               </a>
             </div>
             <div class="usa-width-one-half vads-facility-hub-cta">
-              
+
               <a href="/health-care/view-test-and-lab-results/">
                 <i class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
                 <span class="vads-facility-hub-cta-label">View your lab and test results <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
-              
+
             </div>
           </div>
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
-              
+
               <a href="/health-care/schedule-view-va-appointments/">
                 <i class="fa fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
                 <span class="vads-facility-hub-cta-label">Schedule and view your appointments <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
