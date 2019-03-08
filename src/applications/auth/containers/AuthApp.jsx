@@ -79,15 +79,13 @@ export class AuthApp extends React.Component {
       // Authorization was denied by user
       case '001':
         alertContent = (
-          <>
-            <p>
-              We’re sorry. We couldn’t complete the identity verification
-              process. It looks like you selected “Deny” when we asked for your
-              permission to share your information with VA.gov. We can’t give
-              you access to all the tools on VA.gov without sharing your
-              information with the site.
-            </p>
-          </>
+          <p>
+            We’re sorry. We couldn’t complete the identity verification process.
+            It looks like you selected “Deny” when we asked for your permission
+            to share your information with VA.gov. We can’t give you access to
+            all the tools on VA.gov without sharing your information with the
+            site.
+          </p>
         );
         troubleshootingContent = (
           <>
@@ -115,7 +113,6 @@ export class AuthApp extends React.Component {
         troubleshootingContent = (
           <>
             <p>
-              {' '}
               Please update your computer’s settings to the current date and
               time, and then try again.
             </p>
