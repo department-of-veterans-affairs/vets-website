@@ -218,7 +218,7 @@ export const addCheckboxPerDisability = (formData, pageSchema) => {
       const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
       return _.set(
         // downcase value for SIP consistency
-        disabilityName.toLowerCase(),
+        [disabilityName.toLowerCase()],
         { title: capitalizedDisabilityName, type: 'boolean' },
         accum,
       );
@@ -238,7 +238,8 @@ export const addCheckboxPerNewDisability = createSelector(
   formattedNewDisabilitiesSelector,
   newDisabilities => ({
     properties: newDisabilities.reduce(
-      (accum, disability) => _.set([disability], { type: 'boolean' }, accum),
+      (accum, disability) =>
+        _.set([`${disability}`], { type: 'boolean' }, accum),
       {},
     ),
   }),
