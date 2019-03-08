@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import { apiRequest } from '../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const SUBMIT_ID_FORM_STARTED = 'SUBMIT_ID_FORM_STARTED';
 export const SUBMIT_ID_FORM_SUCCEEDED = 'SUBMIT_ID_FORM_SUCCEEDED';
@@ -12,7 +12,6 @@ export function submitIDForm(formData) {
     const baseUrl = '/health_care_applications/enrollment_status';
 
     const url = appendQuery(baseUrl, {
-      'userAttributes[gender]': formData.gender,
       'userAttributes[veteranDateOfBirth]': formData.dob,
       'userAttributes[veteranFullName][first]': formData.firstName,
       'userAttributes[veteranFullName][last]': formData.lastName,
