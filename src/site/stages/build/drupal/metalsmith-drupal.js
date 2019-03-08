@@ -305,6 +305,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageId,
         );
         break;
+      case 'event':
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
       default:
         pageCompiled = page;
         break;
