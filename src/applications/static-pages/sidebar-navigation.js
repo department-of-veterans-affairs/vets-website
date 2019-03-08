@@ -133,10 +133,9 @@ class SideBarMenu {
 }
 
 export function addActiveState() {
-  // Add active state for Drupal basic page side nav
-  const nav = document.querySelector('#va-detailpage-sidebar');
-  const isFacilitySidebar = nav.classList.contains('va-c-facility-sidebar');
-  if (!isFacilitySidebar && window.location.href.indexOf('drupal') > -1) {
+  // Add active state for Drupal-based side nav
+  const sideNav = document.querySelector('#va-detailpage-sidebar');
+  if (sideNav && window.location.href.indexOf('drupal') > -1) {
     const current = document.getElementsByClassName('usa-current')[0];
     const parent = current.closest('.usa-accordion-content')
       .previousElementSibling;
