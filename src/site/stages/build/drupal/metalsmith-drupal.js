@@ -170,6 +170,7 @@ function createEntityUrlObj(pagePath) {
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
+  const alerts = { alert: page.alert };
 
   // Create the detail page for health care local facilities
   if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
@@ -184,7 +185,12 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
           facility.fieldNicknameForThisFacility,
         );
 
-        const facilityCompiled = Object.assign(facility, relatedLinks, sidebar);
+        const facilityCompiled = Object.assign(
+          facility,
+          relatedLinks,
+          sidebar,
+          alerts,
+        );
 
         files[`drupal${pagePath}/index.html`] = createFileObj(
           facilityCompiled,
@@ -202,6 +208,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb },
     { facilitySidebar: sidebar },
     { entityUrl: locEntityUrl },
+    { alert: alerts },
     { title: page.title },
   );
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
@@ -219,6 +226,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { fieldClinicalHealthServi: page.fieldClinicalHealthCareServi },
     { facilitySidebar: sidebar },
     { entityUrl: hsEntityUrl },
+    { alert: alerts },
     { title: page.title },
   );
   const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
@@ -245,6 +253,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn },
     { facilitySidebar: sidebar },
     { entityUrl: fsEntityUrl },
+    { alert: alerts },
     { title: page.title },
   );
   const fsPage = updateEntityUrlObj(
@@ -264,6 +273,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { allPressReleaseTeasers: page.allPressReleaseTeasers },
     { facilitySidebar: sidebar },
     { entityUrl: page.entityUrl },
+    { alert: alerts },
     { title: page.title },
   );
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
