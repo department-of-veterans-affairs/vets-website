@@ -208,7 +208,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb },
     { facilitySidebar: sidebar },
     { entityUrl: locEntityUrl },
-    { alert: alerts },
+    { alert: page.alert },
     { title: page.title },
   );
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
@@ -226,7 +226,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { fieldClinicalHealthServi: page.fieldClinicalHealthCareServi },
     { facilitySidebar: sidebar },
     { entityUrl: hsEntityUrl },
-    { alert: alerts },
+    { alert: page.alert },
     { title: page.title },
   );
   const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
@@ -253,7 +253,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn },
     { facilitySidebar: sidebar },
     { entityUrl: fsEntityUrl },
-    { alert: alerts },
+    { alert: page.alert },
     { title: page.title },
   );
   const fsPage = updateEntityUrlObj(
@@ -273,7 +273,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { allPressReleaseTeasers: page.allPressReleaseTeasers },
     { facilitySidebar: sidebar },
     { entityUrl: page.entityUrl },
-    { alert: alerts },
+    { alert: page.alert },
     { title: page.title },
   );
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
