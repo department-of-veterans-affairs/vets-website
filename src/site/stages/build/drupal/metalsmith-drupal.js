@@ -169,7 +169,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'stories',
   );
   paginatePages(
-    page,
+    nsPage,
     files,
     'allNewsStoryTeasers',
     'news_stories_page.drupal.liquid',
