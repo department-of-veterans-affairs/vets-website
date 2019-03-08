@@ -249,7 +249,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'Patient and Family Services',
   );
   files[
-    `drupal${drupalPagePath}/patient-family-services/index.html`
+    `drupal${drupalPagePath}/patient-and-family-services/index.html`
   ] = createFileObj(
     fsPage,
     'health_care_region_patient_family_services_page.drupal.liquid',
