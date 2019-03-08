@@ -70,7 +70,6 @@ function paginationPath(pageNum) {
 // Turn one big page into a series of paginated pages.
 function paginatePages(page, files, field, layout, ariaLabel, perPage) {
   perPage = perPage || 10;
-
   if (typeof ariaLabel === 'undefined') {
     ariaLabel = '';
   } else {
@@ -131,9 +130,9 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
   }
 }
 
-// Return page object with path, breadcrump and title set.
-function createEntityUrl(page, drupalPagePath, title) {
-  const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
+// Return page object with path, breadcrumb and title set.
+function createEntityUrl(page, drupalPagePath, title, pathSuffix) {
+  pathSuffix = pathSuffix || title.replace(/\s+/g, '-').toLowerCase();
   const generatedPage = Object.assign({}, page);
   generatedPage.entityUrl.breadcrumb.push({
     url: { path: drupalPagePath },
@@ -162,10 +161,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'press releases',
   );
 
-  // paginate news stories
+  // News Stories listing page
+  const nsPage = createEntityUrl(
+    page,
+    drupalPagePath,
+    'Community stories',
+    'stories',
+  );
   paginatePages(
     page,
-    `${drupalPagePath}/stories`,
     files,
     'allNewsStoryTeasers',
     'news_stories_page.drupal.liquid',

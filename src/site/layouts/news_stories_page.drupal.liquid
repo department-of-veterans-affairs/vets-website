@@ -65,6 +65,9 @@ Example data:
 
         <article class="usa-content">
           <h1>Community Stories</h1>
+          <div class="va-introtext vads-u-margin-bottom--6">
+            <p>{{ fieldIntroTextNewsStories.processed }}</p>
+          </div>
           {% for story in pagedItems %}
               {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
