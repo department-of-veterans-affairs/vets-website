@@ -266,6 +266,25 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'news_stories_page.drupal.liquid',
     'news stories',
   );
+
+  // Events listing page
+  const eventEntityUrl = createEntityUrlObj(drupalPagePath);
+  const eventObj = Object.assign(
+    { allEventTeasers: page.allEventTeasers },
+    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
+    { facilitySidebar: sidebar },
+    { entityUrl: eventEntityUrl },
+    { title: page.title },
+    { alert: page.alert },
+  );
+  const eventPage = updateEntityUrlObj(eventObj, drupalPagePath, 'Events');
+  paginatePages(
+    eventPage,
+    files,
+    'allEventTeasers',
+    'events_page.drupal.liquid',
+    'events',
+  );
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

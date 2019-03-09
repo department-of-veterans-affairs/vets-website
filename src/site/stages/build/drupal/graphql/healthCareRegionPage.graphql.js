@@ -5,6 +5,7 @@
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
+const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
@@ -68,40 +69,11 @@ module.exports = `
     fieldIntroTextNewsStories {
       processed
     }
-    ${healthCareRegionNewsStories}    
-    eventTeasers: reverseFieldOfficeNode (filter: {
-      conditions: [
-        { field: "type", value: "event"}
-        { field: "status", value: "1"}
-        { field: "field_event_date", value: [$today], operator: GREATER_THAN}
-      ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
-    {
-      entities {
-        ... on NodeEvent {
-          title
-          fieldEventDate {
-            value
-          }
-          fieldEventDateEnd {
-            value
-          }
-          fieldDescription
-            fieldLocationHumanreadable
-            fieldFacilityLocation {
-              entity {
-                title
-                entityUrl {
-                  path
-                }
-              }
-            }
-          }
-          
-        entityUrl {
-          path
-        }
-      }      
-    }    
+    ${healthCareRegionNewsStories}  
+    fieldIntroTextEventsPage {
+      processed
+    }  
+    ${healthCareRegionEvents}        
     fieldClinicalHealthCareServi {
       processed
     }
