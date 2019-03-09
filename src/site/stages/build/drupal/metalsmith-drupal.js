@@ -248,6 +248,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const nsEntityUrl = createEntityUrlObj(drupalPagePath);
   const nsObj = Object.assign(
     { allNewsStoryTeasers: page.allNewsStoryTeasers },
+    { fieldIntroTextNewsStories: page.fieldIntroTextNewsStories },
     { facilitySidebar: sidebar },
     { entityUrl: nsEntityUrl },
     { title: page.title },
