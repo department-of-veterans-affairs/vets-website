@@ -136,10 +136,13 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
   pathSuffix = pathSuffix || title.replace(/\s+/g, '-').toLowerCase();
   let generatedPage = Object.assign({}, page);
-  generatedPage.entityUrl.breadcrumb.push({
-    url: { path: drupalPagePath },
-    text: page.title,
-  });
+  generatedPage.entityUrl.breadcrumb = [
+    ...page.entityUrl.breadcrumb,
+    {
+      url: { path: drupalPagePath },
+      text: page.title,
+    },
+  ];
   generatedPage = set(
     'entityUrl.path',
     `${drupalPagePath}/${pathSuffix}`,
@@ -227,7 +230,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const prObj = Object.assign(
     { allPressReleaseTeasers: page.allPressReleaseTeasers },
     { facilitySidebar: sidebar },
-    { entityUrl: page.entityUrl },
+    { entityUrl: { ...page.entityUrl } },
     { title: page.title },
     { alert: page.alert },
   );
@@ -244,7 +247,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const nsObj = Object.assign(
     { allNewsStoryTeasers: page.allNewsStoryTeasers },
     { facilitySidebar: sidebar },
-    { entityUrl: page.entityUrl },
+    { entityUrl: { ...page.entityUrl } },
     { title: page.title },
     { alert: page.alert },
   );
