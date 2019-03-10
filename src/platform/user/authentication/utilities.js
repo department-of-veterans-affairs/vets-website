@@ -57,8 +57,9 @@ function redirectWithGAClientId(redirectUrl) {
       }
     }
 
-    const updatedUrl = `${redirectUrl}?clientId=${clientId}`;
-    window.location = updatedUrl;
+    window.location = clientId
+      ? appendQuery(redirectUrl, { clientId })
+      : redirectUrl;
   } catch (e) {
     window.location = redirectUrl;
   }
