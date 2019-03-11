@@ -1,0 +1,20 @@
+.va-c-event-info {
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  dt {
+    width: 33%;
+  }
+  dd {
+    margin-left: auto;
+    width: 66%;
+  }
+
+}
+
+.va-c-event-share {
+  i {
+    color: $color-link-default;
+  }
+}
