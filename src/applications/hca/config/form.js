@@ -77,7 +77,6 @@ import {
   validateMarriageDate,
   validateCurrency,
 } from '../validation';
-// import { updateLabel } from 'typescript';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
@@ -202,7 +201,7 @@ function fileHelp({ formContext }) {
       </p>
       <br />
       <p>
-        You don't have to upload these documents. But it can help us verify your
+        You don’t have to upload these documents. But it can help us verify your
         military service and may speed up your application process.
       </p>
       <br />
