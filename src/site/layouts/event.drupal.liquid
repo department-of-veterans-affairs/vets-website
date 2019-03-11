@@ -86,13 +86,13 @@
                             <p>{{ fieldDescription }}</p>
                         </div>
 
-                        <div class="usa-width-one-half va-c-event-info">
+                        <div class="usa-width-one-half">
                             {% assign facility = fieldFacilityLocation.entity %}
-                            <dl>
+                            <dl class="va-c-event-info">
                                 <dt class="vads-u-font-weight--bold">When:</dt>
                                 <dd>
                                     <span class="va-event-day vads-u-display--block">{{ fieldEventDate.value | formatDate: 'ddd, MMM Do' }}</span>
-                                    <span class="va-event-time">{{ fieldEventDate.value | formatDate: 'h:mm:ss a' }} - {{ fieldEventDateEnd.value | formatDate: 'h:mm:ss a' }}</span>
+                                    <span class="va-event-time">{{ fieldEventDate.value | formatDate: 'h:mm a' }} - {{ fieldEventDateEnd.value | formatDate: 'h:mm a' }}</span>
                                 </dd>
                             </dl>
 
@@ -116,10 +116,10 @@
                         <div class="usa-width-one-half va-c-event-share">
                             <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
                                 {% if addToCalendarLink %}
-                                    <li><i class="fas fa-calendar-check"></i>  <a href="{{ addToCalendarLink }}"> Add to Calendar</a></li>
+                                    <li><i class="va-c-social-icon fas fa-calendar-check"></i>  <a href="{{ addToCalendarLink }}"> Add to Calendar</a></li>
                                 {% endif %}
-                                <li><i class="fab fa-facebook"></i>  <a href=""> Share on Facebook</a></li>
-                                <li><i class="fab fa-twitter"></i>  <a href=""> Share on Twitter</a></li>
+                                <li><i class="va-c-social-icon fab fa-facebook"></i>  <a href=""> Share on Facebook</a></li>
+                                <li><i class="va-c-social-icon fab fa-twitter"></i>  <a href=""> Share on Twitter</a></li>
                             </ul>
                         </div>
                     </div>
