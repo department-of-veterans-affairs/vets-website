@@ -237,25 +237,19 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create the patient and family services page
   const fsEntityUrl = createEntityUrlObj(drupalPagePath);
-  const fsObj = Object.assign(
-    {
-      careCoordinatorPatientFamilyServices:
-        page.careCoordinatorPatientFamilyServices,
-    },
-    {
-      socialProgramsPatientFamilyServices:
-        page.socialProgramsPatientFamilyServices,
-    },
-    {
-      healthWellnessPatientFamilyServices:
-        page.healthWellnessPatientFamilyServices,
-    },
-    { fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn },
-    { facilitySidebar: sidebar },
-    { entityUrl: fsEntityUrl },
-    { alert: page.alert },
-    { title: page.title },
-  );
+  const fsObj = {
+    careCoordinatorPatientFamilyServices:
+      page.careCoordinatorPatientFamilyServices,
+    socialProgramsPatientFamilyServices:
+      page.socialProgramsPatientFamilyServices,
+    healthWellnessPatientFamilyServices:
+      page.healthWellnessPatientFamilyServices,
+    fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn,
+    facilitySidebar: sidebar,
+    entityUrl: fsEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
   const fsPage = updateEntityUrlObj(
     fsObj,
     drupalPagePath,
