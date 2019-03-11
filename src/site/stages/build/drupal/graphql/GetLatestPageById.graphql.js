@@ -5,6 +5,7 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
+const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 
 /**
  * Queries for a page by the node id, getting the latest revision
@@ -34,5 +35,6 @@ module.exports = `
       }
     }
     ${sidebarQuery}
+    ${facilitySidebarQuery}
   }
 `;
