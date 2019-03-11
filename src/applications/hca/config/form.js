@@ -602,7 +602,8 @@ const formConfig = {
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'documents',
-          depends: formData => !formData['view:isUserInMVI'],
+          depends: formData =>
+            !formData['view:isUserInMVI'] && !environment.isProduction(),
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:title': 'Upload your discharge papers',
