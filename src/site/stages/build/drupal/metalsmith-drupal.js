@@ -195,14 +195,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
-  const locObj = Object.assign(
-    { mainFacilities: page.mainFacilities },
-    { otherFacilities: page.otherFacilities },
-    { fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb },
-    { facilitySidebar: sidebar },
-    { entityUrl: locEntityUrl },
-    { title: page.title },
-  );
+  const locObj = {
+    mainFacilities: page.mainFacilities,
+    otherFacilities: page.otherFacilities,
+    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
+    facilitySidebar: sidebar,
+    entityUrl: locEntityUrl,
+    title: page.title,
+  };
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
   files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
     locPage,
@@ -211,15 +211,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create Health Services Page
   const hsEntityUrl = createEntityUrlObj(drupalPagePath);
-  const hsObj = Object.assign(
-    { specialtyCareHealthServices: page.specialtyCareHealthServices },
-    { primaryCareHealthServices: page.primaryCareHealthServices },
-    { mentalHealthServices: page.mentalHealthServices },
-    { fieldClinicalHealthServi: page.fieldClinicalHealthCareServi },
-    { facilitySidebar: sidebar },
-    { entityUrl: hsEntityUrl },
-    { title: page.title },
-  );
+  const hsObj = {
+    specialtyCareHealthServices: page.specialtyCareHealthServices,
+    primaryCareHealthServices: page.primaryCareHealthServices,
+    mentalHealthServices: page.mentalHealthServices,
+    fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+    facilitySidebar: sidebar,
+    entityUrl: hsEntityUrl,
+    title: page.title,
+  };
   const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
   files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
@@ -228,13 +228,13 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Press Release listing page
   const prEntityUrl = createEntityUrlObj(drupalPagePath);
-  const prObj = Object.assign(
-    { allPressReleaseTeasers: page.allPressReleaseTeasers },
-    { facilitySidebar: sidebar },
-    { entityUrl: prEntityUrl },
-    { title: page.title },
-    { alert: page.alert },
-  );
+  const prObj = {
+    allPressReleaseTeasers: page.allPressReleaseTeasers,
+    facilitySidebar: sidebar,
+    entityUrl: prEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
   paginatePages(
     prPage,
@@ -246,14 +246,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // News Story listing page
   const nsEntityUrl = createEntityUrlObj(drupalPagePath);
-  const nsObj = Object.assign(
-    { allNewsStoryTeasers: page.allNewsStoryTeasers },
-    { fieldIntroTextNewsStories: page.fieldIntroTextNewsStories },
-    { facilitySidebar: sidebar },
-    { entityUrl: nsEntityUrl },
-    { title: page.title },
-    { alert: page.alert },
-  );
+  const nsObj = {
+    allNewsStoryTeasers: page.allNewsStoryTeasers,
+    fieldIntroTextNewsStories: page.fieldIntroTextNewsStories,
+    facilitySidebar: sidebar,
+    entityUrl: nsEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
   const nsPage = updateEntityUrlObj(
     nsObj,
     drupalPagePath,
