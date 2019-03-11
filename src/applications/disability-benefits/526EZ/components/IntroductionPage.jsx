@@ -13,18 +13,12 @@ import { focusElement } from '../../../../platform/utilities/ui';
 
 import { VerifiedAlert } from '../helpers';
 import FormStartControls from './FormStartControls';
-import { urls } from '../../all-claims/utils';
 
 const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-
-  componentDidUpdate() {
-    // redirect to V2
-    window.location.replace(urls.v2);
   }
 
   hasSavedForm = () => {
