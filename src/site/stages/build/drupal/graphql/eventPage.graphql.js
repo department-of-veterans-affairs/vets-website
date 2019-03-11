@@ -8,6 +8,7 @@ module.exports = `
     entityId
     entityBundle
     entityPublished
+    changed
     title
     entityUrl {
       ... on EntityCanonicalUrl {
@@ -43,6 +44,9 @@ module.exports = `
     fieldEventDateEnd {
       date
       value
+    }
+    fieldAddToCalendar {
+      fileref 
     }
     fieldAddress {
       addressLine1

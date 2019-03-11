@@ -87,24 +87,24 @@
 
                     <div class="usa-grid usa-grid-full">
                         <div class="usa-width-one-half">
-                            <ul>
-                                {% assign facility = fieldFacilityLocation.entity %}
-                                <li>When:
-                                    <p><time datetime="{{ fieldEventDate.value | dateFromUnix: 'YYYY-MM-DD'}}">{{ fieldEventDate.value | humanizeTimestamp }}</time></p>
-                                </li>
-                                <li>
-                                    Where:
+                            {% assign facility = fieldFacilityLocation.entity %}
+                            <dl>
+                                <dt>When:</dt>
+                                <dd><time datetime="{{ fieldEventDate.value }}">{{ fieldEventDate.value | dateFromUnix: 'dddd, MMM D h:MM a'}}</time></dd>
+
+                                <dt>Where:</dt>
+                                <dd>
                                     <p><a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a></p>
                                     <p>{{ fieldLocationHumanreadable }}</p>
-                                </li>
-                            </ul>
+                                </dd>
+                            </dl>
                         </div>
 
                         <div class="usa-width-one-half">
-                            <ul>
-                                <li><a href="">Add to Calendar</a></li>
-                                <li><a href="">Share on Facebook</a></li>
-                                <li><a href="">Share on Twitter</a></li>
+                            <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
+                                <li><i class="fas fa-calendar-check"></i>  <a href="">Add to Calendar</a></li>
+                                <li><i class="fab fa-facebook"></i>  <a href="">Share on Facebook</a></li>
+                                <li><i class="fab fa-twitter"></i>  <a href="">Share on Twitter</a></li>
                             </ul>
                         </div>
                     </div>
@@ -122,6 +122,10 @@
 
                     <a href="#">See all community events</a>
                 </article>
+
+                <div class="last-updated usa-content">
+                    Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+                </div>
             </div>
         </div>
     </main>

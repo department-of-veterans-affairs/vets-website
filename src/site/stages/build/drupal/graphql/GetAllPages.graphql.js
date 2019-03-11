@@ -8,6 +8,7 @@ const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
+const icsFileQuery = require('./file-fragments/ics.file.graphql');
 
 /**
  * Queries for all of the pages out of Drupal
@@ -34,6 +35,7 @@ module.exports = `
         ... eventPage
       }
     }
+    ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}
     ${alertsQuery}
