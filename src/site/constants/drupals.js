@@ -7,7 +7,7 @@ const ENVIRONMENTS = require('./environments');
 // };
 
 const DRUPAL_STAGING = {
-  address: 'http://staging.va.agile6.com',
+  address: 'http://stg.va.agile6.com',
   user: 'api',
   password: 'drupal8',
 };
