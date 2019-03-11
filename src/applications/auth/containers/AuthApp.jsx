@@ -54,8 +54,10 @@ export class AuthApp extends React.Component {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
-    window.location =
+    const redirectUrl =
       (!returnUrl.match(window.location.pathname) && returnUrl) || '/';
+
+    window.location.replace(redirectUrl);
   };
 
   // Fetch the user to get the login policy and validate the session.
