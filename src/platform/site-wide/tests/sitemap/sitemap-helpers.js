@@ -45,6 +45,7 @@ function sitemapURLs() {
         '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/',
         '/disability/how-to-file-claim/evidence-needed/fully-developed-claims/',
         '/disability/how-to-file-claim/evidence-needed/decision-ready-claims/',
+        '/disability/how-to-file-claim/evidence-needed/',
       ];
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please
