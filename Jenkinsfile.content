@@ -1,6 +1,4 @@
 node('vetsgov-general-purpose') {
-  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
-
   dir("vets-website") {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: params.ref]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
   }
