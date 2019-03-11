@@ -80,12 +80,12 @@
                 {% endif %}
 
                 <article class="usa-content">
-                    <h1>{{ title }}</h1>
-                    <div class="va-introtext">
-                        <p>{{ fieldDescription }}</p>
-                    </div>
-
                     <div class="usa-grid usa-grid-full">
+                        <h1>{{ title }}</h1>
+                        <div class="va-introtext">
+                            <p>{{ fieldDescription }}</p>
+                        </div>
+
                         <div class="usa-width-one-half va-c-event-info">
                             {% assign facility = fieldFacilityLocation.entity %}
                             <dl>
@@ -124,10 +124,12 @@
                         </div>
                     </div>
 
-                    <div class="registration">
-                        <p class="vads-u-font-weight--bold">Registration</p>
-                        <p>{{ fieldAdditionalInformationAbo }}</p>
-                    </div>
+                    {% if fieldAdditionalInformationAbo %}
+                        <div class="registration">
+                            <p class="vads-u-font-weight--bold">Registration</p>
+                            <p>{{ fieldAdditionalInformationAbo }}</p>
+                        </div>
+                    {% endif %}
 
                     <div class="usa-grid usa-grid-full">
                         <div class="event-description">
