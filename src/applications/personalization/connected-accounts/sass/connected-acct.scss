@@ -29,7 +29,6 @@
       }
    }
    .va-connected-acct-row {
-      cursor: pointer;
       th {
          padding-top: 0;
          padding-bottom: 0;
@@ -45,10 +44,6 @@
          }
       }
       .va-connected-acct-row-details {
-         .va-connected-acct-row-details-toggle {
-            text-decoration: none;
-            white-space: nowrap;
-         }
          i {
             padding-left: .5em;
          }
@@ -63,6 +58,11 @@
             }
          }
       }
+   }
+
+   .va-connected-acct-row-details-toggle {
+      transition: color 0.3s ease-in-out;
+      text-decoration: none;
    }
 }
 
