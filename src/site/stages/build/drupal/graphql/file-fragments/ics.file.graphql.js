@@ -3,7 +3,7 @@
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
 module.exports = `
-  fileQuery(filter: {
+  icsFiles: fileQuery(filter: {
       conditions: [
         { field: "filemime", value: "text/calendar"}
         { field: "status", value: "1"}
@@ -14,9 +14,7 @@ module.exports = `
         filename
         filemime
         filesize
-        uri {
-          url
-        }
+        url
       }
     }
   }

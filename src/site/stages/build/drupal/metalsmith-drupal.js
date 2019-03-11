@@ -247,6 +247,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       sidebarQuery: sidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
+      icsFiles: { entities: icsFiles },
     },
   } = contentData;
 
@@ -305,14 +306,25 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageId,
         );
         break;
-      case 'event':
+      case 'event': {
+        let addToCalendar;
+        for (const icsFile of icsFiles) {
+          if (
+            page.fieldAddToCalendar !== null &&
+            icsFile.fid === parseInt(page.fieldAddToCalendar.fileref, 10)
+          ) {
+            addToCalendar = icsFile.url;
+          }
+        }
         pageCompiled = Object.assign(
           page,
           facilitySidebarNavItems,
           alertItems,
           pageId,
+          { addToCalendarLink: addToCalendar },
         );
         break;
+      }
       default:
         pageCompiled = page;
         break;

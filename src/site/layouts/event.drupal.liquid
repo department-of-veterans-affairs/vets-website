@@ -102,7 +102,9 @@
 
                         <div class="usa-width-one-half">
                             <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
-                                <li><i class="fas fa-calendar-check"></i>  <a href="">Add to Calendar</a></li>
+                                {% if addToCalendarLink %}
+                                    <li><i class="fas fa-calendar-check"></i>  <a href="{{ addToCalendarLink }}">Add to Calendar</a></li>
+                                {% endif %}
                                 <li><i class="fab fa-facebook"></i>  <a href="">Share on Facebook</a></li>
                                 <li><i class="fab fa-twitter"></i>  <a href="">Share on Twitter</a></li>
                             </ul>
