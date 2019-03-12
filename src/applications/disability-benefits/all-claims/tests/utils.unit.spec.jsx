@@ -32,7 +32,7 @@ import {
   recordEventOnce,
 } from '../utils.jsx';
 
-describe.only('526 helpers', () => {
+describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
