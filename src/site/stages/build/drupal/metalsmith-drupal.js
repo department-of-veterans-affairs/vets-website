@@ -173,6 +173,25 @@ function createEntityUrlObj(pagePath) {
   };
 }
 
+// Generate breadcrumbs from drupal page path
+function generateBreadCrumbs(pathString) {
+  const pathArray = _.split(pathString, '/');
+  const entityUrlObj = createEntityUrlObj(pathString);
+  for (const value of pathArray) {
+    if (value) {
+      entityUrlObj.breadcrumb.push({
+        url: {
+          path: `/${value}`,
+          routed: true,
+        },
+        text: _.startCase(_.trim(value, '-')),
+      });
+    }
+  }
+  entityUrlObj.breadcrumb.pop();
+  return entityUrlObj;
+}
+
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
@@ -388,6 +407,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
             addToCalendar = icsFile.url;
           }
         }
+        page.entityUrl = generateBreadCrumbs(drupalPagePath);
         pageCompiled = Object.assign(
           page,
           facilitySidebarNavItems,
