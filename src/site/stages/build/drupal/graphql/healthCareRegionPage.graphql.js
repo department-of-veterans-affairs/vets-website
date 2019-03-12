@@ -2,30 +2,18 @@
  * The top-level page for a health care region.
  * Example: /pittsburgh_health_care_system
  */
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 const healthCarePatientFamilyServices = require('./facilities-fragments/healthCarePatientFamilyServices.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
+const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
-    entityUrl {
-      ... on EntityCanonicalUrl {
-        breadcrumb {
-          url {
-            path
-            routed
-          }
-          text
-        }
-        path
-      }
-    }
+    ${entityElementsFromPages}
     entityId
-    entityBundle
-    entityPublished
-    title
     fieldMedia {
       entity {
         ... on MediaImage {
@@ -70,40 +58,11 @@ module.exports = `
     fieldIntroTextNewsStories {
       processed
     }
-    ${healthCareRegionNewsStories}    
-    eventTeasers: reverseFieldOfficeNode (filter: {
-      conditions: [
-        { field: "type", value: "event"}
-        { field: "status", value: "1"}
-        { field: "field_event_date", value: [$today], operator: GREATER_THAN}
-      ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
-    {
-      entities {
-        ... on NodeEvent {
-          title
-          fieldEventDate {
-            value
-          }
-          fieldEventDateEnd {
-            value
-          }
-          fieldDescription
-            fieldLocationHumanreadable
-            fieldFacilityLocation {
-              entity {
-                title
-                entityUrl {
-                  path
-                }
-              }
-            }
-          }
-          
-        entityUrl {
-          path
-        }
-      }      
-    }    
+    ${healthCareRegionNewsStories}  
+    fieldIntroTextEventsPage {
+      processed
+    }  
+    ${healthCareRegionEvents}        
     fieldClinicalHealthCareServi {
       processed
     }

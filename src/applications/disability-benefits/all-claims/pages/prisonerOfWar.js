@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
-import { addCheckboxPerNewDisability } from '../utils';
+import { makeSchemaForNewDisabilities } from '../utils';
 import { isWithinServicePeriod } from '../validations';
 import { confinementDescription } from '../content/prisonerOfWar';
 
@@ -38,7 +38,7 @@ export const uiSchema = {
         'Which of your new conditions was caused or affected by your POW experience?',
       'ui:options': {
         hideIf: formData => !formData['view:newDisabilities'],
-        updateSchema: addCheckboxPerNewDisability,
+        updateSchema: makeSchemaForNewDisabilities,
       },
     },
   },

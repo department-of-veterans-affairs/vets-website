@@ -16,36 +16,35 @@ Example data:
 "entityBundle": "health_care_region_page",
 "entityPublished": true,
 "title": "Pittsburgh Health Care System",
-"allPressReleaseTeasers": {
-  "entities": [
-  "allNewsStoryTeasers": {
+  "allEventTeasers": {
     "entities": [
       {
-        "title": "Abdo Loquor Proprius",
-        "fieldIntroText": "Abico ea euismod. Aliquam causa gravis jumentum neo paratus roto te....",
-        "fieldMedia": {
+      "title": "Test Event",
+      "fieldEventDate": {
+        "value": "2019-03-15T08:00:00"
+      },
+      "fieldEventDateEnd": {
+        "value": "2019-03-15T11:00:00"
+      },
+      "fieldDescription": "This is an event to test. ",
+      "fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
+      "fieldFacilityLocation": {
           "entity": {
-            "image": {
-            "alt": null,
-            "title": null,
-            "derivative": {
-              "url": "http://stg.va.agile6.com/sites/default/files/styles/crop_3_2/public/hub_promos/education.png?itok=Dq-jwud0",
-              "width": 456,
-              "height": 304
+            "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+            "entityUrl": {
+              "path": "/pittsburgh-health-care/locations/heinz-medical-center"
             }
           }
-        }
         },
         "entityUrl": {
-          "path": "/pittsburgh-health-care/stories/abdo-loquor-proprius"
-        }
-      },
-      ...
+          "path": "/pittsburgh-health-care/events/test-event"
+          }
+      }
     ]
-  }
+  },
 }
 {% endcomment %}
-{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/header.html" %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -55,12 +54,12 @@ Example data:
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
       <div class="usa-width-three-fourths">
         <article class="usa-content">
-          <h1>Community Stories</h1>
+          <h1>Events</h1>
           <div class="va-introtext vads-u-margin-bottom--6">
-            {{ fieldIntroTextNewsStories.processed }}
+            {{ fieldIntroTextEventsPage.processed }}
           </div>
-          {% for story in pagedItems %}
-              {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
+          {% for event in pagedItems %}
+              {% include "src/site/teasers/event.drupal.liquid" with node = event %}
           {% endfor %}
           {% include "src/site/includes/pagination.drupal.liquid" %}
         </article>

@@ -82,7 +82,16 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
   const pagedEntities = _.chunk(page[field].entities, perPage);
   for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
-    const pagedPage = Object.assign({}, page);
+    let pagedPage = Object.assign({}, page);
+
+    if (pageNum > 0) {
+      pagedPage = set(
+        'entityUrl.path',
+        `${page.entityUrl.path}${paginationPath(pageNum)}`,
+        page,
+      );
+    }
+
     pagedPage.pagedItems = pagedEntities[pageNum];
     const innerPages = [];
 
@@ -128,9 +137,10 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
       };
     }
 
-    files[
-      `drupal${page.entityUrl.path}${paginationPath(pageNum)}/index.html`
-    ] = createFileObj(pagedPage, layout);
+    files[`drupal${pagedPage.entityUrl.path}/index.html`] = createFileObj(
+      pagedPage,
+      layout,
+    );
   }
 }
 
@@ -171,6 +181,25 @@ function createEntityUrlObj(pagePath) {
     ],
     path: pagePath,
   };
+}
+
+// Generate breadcrumbs from drupal page path
+function generateBreadCrumbs(pathString) {
+  const pathArray = _.split(pathString, '/');
+  const entityUrlObj = createEntityUrlObj(pathString);
+  for (const value of pathArray) {
+    if (value) {
+      entityUrlObj.breadcrumb.push({
+        url: {
+          path: `/${value}`,
+          routed: true,
+        },
+        text: _.startCase(_.trim(value, '-')),
+      });
+    }
+  }
+  entityUrlObj.breadcrumb.pop();
+  return entityUrlObj;
 }
 
 // Creates the facility pages
@@ -310,6 +339,25 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'news_stories_page.drupal.liquid',
     'news stories',
   );
+
+  // Events listing page
+  const eventEntityUrl = createEntityUrlObj(drupalPagePath);
+  const eventObj = Object.assign(
+    { allEventTeasers: page.allEventTeasers },
+    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
+    { facilitySidebar: sidebar },
+    { entityUrl: eventEntityUrl },
+    { title: page.title },
+    { alert: page.alert },
+  );
+  const eventPage = updateEntityUrlObj(eventObj, drupalPagePath, 'Events');
+  paginatePages(
+    eventPage,
+    files,
+    'allEventTeasers',
+    'events_page.drupal.liquid',
+    'events',
+  );
 }
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
@@ -319,6 +367,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       sidebarQuery: sidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
+      icsFiles: { entities: icsFiles },
     },
   } = contentData;
 
@@ -377,6 +426,26 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageId,
         );
         break;
+      case 'event': {
+        let addToCalendar;
+        for (const icsFile of icsFiles) {
+          if (
+            page.fieldAddToCalendar !== null &&
+            icsFile.fid === parseInt(page.fieldAddToCalendar.fileref, 10)
+          ) {
+            addToCalendar = icsFile.url;
+          }
+        }
+        page.entityUrl = generateBreadCrumbs(drupalPagePath);
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+          { addToCalendarLink: addToCalendar },
+        );
+        break;
+      }
       default:
         pageCompiled = page;
         break;
