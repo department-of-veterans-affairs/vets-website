@@ -136,7 +136,12 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
 // Return page object with path, breadcrumb and title set.
 function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
-  pathSuffix = pathSuffix || title.replace(/\s+/g, '-').toLowerCase();
+  pathSuffix =
+    pathSuffix ||
+    title
+      .replace(/&/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase();
   let generatedPage = Object.assign({}, page);
   generatedPage.entityUrl.breadcrumb = [
     ...page.entityUrl.breadcrumb,
@@ -150,6 +155,7 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
     `${drupalPagePath}/${pathSuffix}`,
     page,
   );
+
   generatedPage.title = title;
   return generatedPage;
 }
@@ -171,6 +177,7 @@ function createEntityUrlObj(pagePath) {
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
+  const alerts = { alert: page.alert };
 
   // Create the detail page for health care local facilities
   if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
@@ -185,7 +192,12 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
           facility.fieldNicknameForThisFacility,
         );
 
-        const facilityCompiled = Object.assign(facility, relatedLinks, sidebar);
+        const facilityCompiled = Object.assign(
+          facility,
+          relatedLinks,
+          sidebar,
+          alerts,
+        );
 
         files[`drupal${pagePath}/index.html`] = createFileObj(
           facilityCompiled,
@@ -203,6 +215,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
     facilitySidebar: sidebar,
     entityUrl: locEntityUrl,
+    alert: page.alert,
     title: page.title,
   };
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
@@ -220,12 +233,40 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,
+    alert: page.alert,
     title: page.title,
   };
   const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
   files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
     'health_care_region_health_services_page.drupal.liquid',
+  );
+
+  // Create the patient and family services page
+  const fsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const fsObj = {
+    careCoordinatorPatientFamilyServices:
+      page.careCoordinatorPatientFamilyServices,
+    socialProgramsPatientFamilyServices:
+      page.socialProgramsPatientFamilyServices,
+    healthWellnessPatientFamilyServices:
+      page.healthWellnessPatientFamilyServices,
+    fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn,
+    facilitySidebar: sidebar,
+    entityUrl: fsEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+  const fsPage = updateEntityUrlObj(
+    fsObj,
+    drupalPagePath,
+    'Patient & Family Services',
+  );
+  files[
+    `drupal${drupalPagePath}/patient-family-services/index.html`
+  ] = createFileObj(
+    fsPage,
+    'health_care_region_patient_family_services_page.drupal.liquid',
   );
 
   // Press Release listing page
