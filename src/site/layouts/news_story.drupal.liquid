@@ -62,6 +62,7 @@ Example data:
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
             <div class="usa-width-three-fourths">
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
@@ -89,7 +90,7 @@ Example data:
                             {{ fieldFullStory.processed }}
                         </div>
                     </div>
-                    <a href="#">See all community stories</a>
+                    <a href="{{ fieldOffice.entity.entityUrl.path }}/stories">See all community stories</a>
                 </article>
             </div>
         </div>
