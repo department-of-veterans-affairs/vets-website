@@ -1,5 +1,8 @@
 {% comment %}
+    Required variable: node - bio entity
+    Optional variable: header - the header level ('h2','h3', etc.) defaults to h4
     Example data:
+    {
     "entityPublished": true,
     "fieldNameFirst": "Sheila",
     "fieldLastName": "Tunney",
@@ -31,26 +34,18 @@
     "entityUrl": {
     "path": "/pittsburgh-health-care/sheila-tunney"
     }
-    }
+    },
 {% endcomment %}
-{% include "src/site/includes/header.html" with drupalTags = true %}
-{% include "src/site/includes/alerts.drupal.liquid" %}
-{% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
-<div id="content" class="interior">
-    <main class="va-l-detail-page">
-        <div class="usa-grid usa-grid-full">
-
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
-
-            <div class="usa-width-three-fourths">
-                <article class="usa-content">
-                    <h1>VA Leadership</h1>
-                    {% include "src/site/includes/pagination.drupal.liquid" %}
-                </article>
-            </div>
-        </div>
-    </main>
+{% if header == empty %}
+    {% assign header = "h4" %}
+{% endif %}
+<div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
+    <div class="usa-width-one-third">
+        {% assign image = node.fieldMedia.entity.image %}
+        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+    </div>
+    <div class="usa-width-two-thirds">
+        <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.fieldNameFirst }} {{ node.fieldLastName }} {{ node.fieldSuffix }}</a></{{ header }}>
+    <p><strong>{{ node.fieldDescription }}</strong></p>
+    </div>
 </div>
-{% include "src/site/includes/footer.html" %}
-{% include "src/site/includes/debug.drupal.liquid" %}
