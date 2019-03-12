@@ -58,11 +58,6 @@ $connected-acct-border: 1px solid #5b616b;
 
   .va-connected-acct-row-details {
 
-    .va-connected-acct-row-details-toggle {
-        text-decoration: none;
-        white-space: nowrap;
-    }
-
     i {
         padding-left: .5em;
     }
@@ -70,6 +65,11 @@ $connected-acct-border: 1px solid #5b616b;
 
   .va-modal-inner {
     max-width: 60rem;
+  }
+
+  .va-connected-acct-row-details-toggle {
+    transition: color 0.3s ease-in-out;
+    text-decoration: none;
   }
 }
 

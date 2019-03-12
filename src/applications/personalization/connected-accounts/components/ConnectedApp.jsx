@@ -3,6 +3,8 @@ import moment from 'moment';
 
 import PropTypes from 'prop-types';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 import { AccountModal } from './AccountModal';
 
 class ConnectedApp extends React.Component {
@@ -20,6 +22,11 @@ class ConnectedApp extends React.Component {
   };
 
   confirmDelete = () => {
+    recordEvent({
+      event: 'account-navigation',
+      'account-action': 'disconnect-button',
+      'account-section': 'connected-accounts',
+    });
     this.props.confirmDelete(this.props.id);
     this.closeModal();
   };
@@ -36,10 +43,7 @@ class ConnectedApp extends React.Component {
       : '';
     const lastClass = this.props.isLast ? `${cssPrefix}-last-row` : '';
     return (
-      <div
-        className={`${cssPrefix}-row ${toggled} ${lastClass}`}
-        onClick={this.toggleDetails}
-      >
+      <div className={`${cssPrefix}-row ${toggled} ${lastClass}`}>
         <img
           className={`${cssPrefix}-account-logo`}
           src={logo}
@@ -47,14 +51,18 @@ class ConnectedApp extends React.Component {
         />
         <div>Connected on {moment(created).format('MMMM D, YYYY h:mm A')}</div>
         <div className={`${cssPrefix}-row-details `}>
-          <a className={`${cssPrefix}-row-details-toggle`} href="#">
+          <button
+            className={`${cssPrefix}-row-details-toggle va-button-link`}
+            aria-expanded={this.state.detailsOpen ? 'true' : 'false'}
+            onClick={this.toggleDetails}
+          >
             Details
             <i
               className={`fa fa-chevron-${
                 this.state.detailsOpen ? 'up' : 'down'
               }`}
             />
-          </a>
+          </button>
           <AccountModal
             appName={title}
             modalOpen={this.state.modalOpen}
@@ -94,7 +102,7 @@ class ConnectedApp extends React.Component {
 ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  attribtues: PropTypes.object.isRequired,
+  attributes: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
   isLast: PropTypes.bool,
 };

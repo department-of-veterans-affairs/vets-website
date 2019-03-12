@@ -10,6 +10,24 @@ module.exports = `
     entityPublished
     promote
     created
+    fieldOffice {
+      entity {
+        ... on NodeHealthCareRegionPage {
+          entityUrl {
+            ... on EntityCanonicalUrl {
+              breadcrumb {
+                url {
+                  path
+                  routed
+                }
+                text
+              }
+              path
+            }
+          }
+        }
+      }
+    }
     entityUrl {
       ... on EntityCanonicalUrl {
         breadcrumb {
