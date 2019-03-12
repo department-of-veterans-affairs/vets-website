@@ -4,10 +4,13 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
+const recursiveRead = require('recursive-readdir');
+const set = require('lodash/fp/set');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
 const facilityLocationPath = require('./utilities-drupal');
+const convertDrupalFilesToLocal = require('./assets');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -131,53 +134,71 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
   }
 }
 
-// Return page object with path, breadcrump and title set.
-function createEntityUrl(page, drupalPagePath, title) {
-  const pathSuffix = title.replace(/\s+/g, '-').toLowerCase();
-  const generatedPage = Object.assign({}, page);
-  generatedPage.entityUrl.breadcrumb.push({
-    url: { path: drupalPagePath },
-    text: page.title,
-  });
-  generatedPage.entityUrl.path = `${drupalPagePath}/${pathSuffix}`;
+// Return page object with path, breadcrumb and title set.
+function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
+  pathSuffix =
+    pathSuffix ||
+    title
+      .replace(/&/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase();
+  let generatedPage = Object.assign({}, page);
+  generatedPage.entityUrl.breadcrumb = [
+    ...page.entityUrl.breadcrumb,
+    {
+      url: { path: drupalPagePath },
+      text: page.title,
+    },
+  ];
+  generatedPage = set(
+    'entityUrl.path',
+    `${drupalPagePath}/${pathSuffix}`,
+    page,
+  );
+
   generatedPage.title = title;
   return generatedPage;
 }
 
-// Creates the top-level health care region list pages (Locations, Services, etc.)
+// Return a default entityUrl obj to to work from
+function createEntityUrlObj(pagePath) {
+  return {
+    breadcrumb: [
+      {
+        url: { path: '/drupal/', routed: true },
+        text: 'Home',
+      },
+    ],
+    path: pagePath,
+  };
+}
+
+// Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
-  // Create the top-level locations page for Health Care Regions
-  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
-    page,
-    'health_care_region_locations_page.drupal.liquid',
-  );
-
-  // Press Release listing page
-  const prPage = createEntityUrl(page, drupalPagePath, 'Press Releases');
-  paginatePages(
-    prPage,
-    files,
-    'allPressReleaseTeasers',
-    'press_releases_page.drupal.liquid',
-    'press releases',
-  );
-
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
+  const sidebar = { facilitySidebar: page.facilitySidebar };
+  const alerts = { alert: page.alert };
 
-  // Create the detail page for healthcare local facilities
+  // Create the detail page for health care local facilities
   if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
     for (const facility of [
       ...page.mainFacilities.entities,
       ...page.otherFacilities.entities,
     ]) {
       if (facility.entityBundle === 'health_care_local_facility') {
-        const facilityCompiled = Object.assign(facility, relatedLinks);
-
         const pagePath = facilityLocationPath(
           drupalPagePath,
           facility.fieldFacilityLocatorApiId,
           facility.fieldNicknameForThisFacility,
         );
+
+        const facilityCompiled = Object.assign(
+          facility,
+          relatedLinks,
+          sidebar,
+          alerts,
+        );
+
         files[`drupal${pagePath}/index.html`] = createFileObj(
           facilityCompiled,
           'health_care_local_facility_page.drupal.liquid',
@@ -186,9 +207,108 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   }
 
+  // Create the top-level locations page for Health Care Regions
+  const locEntityUrl = createEntityUrlObj(drupalPagePath);
+  const locObj = {
+    mainFacilities: page.mainFacilities,
+    otherFacilities: page.otherFacilities,
+    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
+    facilitySidebar: sidebar,
+    entityUrl: locEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+  const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
+  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
+    locPage,
+    'health_care_region_locations_page.drupal.liquid',
+  );
+
+  // Create Health Services Page
+  const hsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const hsObj = {
+    specialtyCareHealthServices: page.specialtyCareHealthServices,
+    primaryCareHealthServices: page.primaryCareHealthServices,
+    mentalHealthServices: page.mentalHealthServices,
+    fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+    facilitySidebar: sidebar,
+    entityUrl: hsEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+  const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
   files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
-    page,
+    hsPage,
     'health_care_region_health_services_page.drupal.liquid',
+  );
+
+  // Create the patient and family services page
+  const fsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const fsObj = {
+    careCoordinatorPatientFamilyServices:
+      page.careCoordinatorPatientFamilyServices,
+    socialProgramsPatientFamilyServices:
+      page.socialProgramsPatientFamilyServices,
+    healthWellnessPatientFamilyServices:
+      page.healthWellnessPatientFamilyServices,
+    fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn,
+    facilitySidebar: sidebar,
+    entityUrl: fsEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+  const fsPage = updateEntityUrlObj(
+    fsObj,
+    drupalPagePath,
+    'Patient & Family Services',
+  );
+  files[
+    `drupal${drupalPagePath}/patient-family-services/index.html`
+  ] = createFileObj(
+    fsPage,
+    'health_care_region_patient_family_services_page.drupal.liquid',
+  );
+
+  // Press Release listing page
+  const prEntityUrl = createEntityUrlObj(drupalPagePath);
+  const prObj = {
+    allPressReleaseTeasers: page.allPressReleaseTeasers,
+    facilitySidebar: sidebar,
+    entityUrl: prEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
+  const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
+  paginatePages(
+    prPage,
+    files,
+    'allPressReleaseTeasers',
+    'press_releases_page.drupal.liquid',
+    'press releases',
+  );
+
+  // News Story listing page
+  const nsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const nsObj = {
+    allNewsStoryTeasers: page.allNewsStoryTeasers,
+    fieldIntroTextNewsStories: page.fieldIntroTextNewsStories,
+    facilitySidebar: sidebar,
+    entityUrl: nsEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
+  const nsPage = updateEntityUrlObj(
+    nsObj,
+    drupalPagePath,
+    'Community stories',
+    'stories',
+  );
+  paginatePages(
+    nsPage,
+    files,
+    'allNewsStoryTeasers',
+    'news_stories_page.drupal.liquid',
+    'news stories',
   );
 }
 
@@ -196,12 +316,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
-      sidebarQuery: sidebarNav,
-      alerts: alertsItem,
+      sidebarQuery: sidebarNav = {},
+      alerts: alertsItem = {},
+      facilitySidebarQuery: facilitySidebarNav = {},
     },
   } = contentData;
 
   const sidebarNavItems = { sidebar: sidebarNav };
+  const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
   const alertItems = { alert: alertsItem };
 
   for (const page of pages) {
@@ -227,10 +349,37 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     const pageId = { pid: pageIdRaw };
     let pageCompiled;
 
-    if (entityBundle === 'page') {
-      pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
-    } else {
-      pageCompiled = Object.assign(page, alertItems, pageId);
+    switch (entityBundle) {
+      case 'page':
+        pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
+        break;
+      case 'health_care_region_page':
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
+      case 'news_story':
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
+      case 'press_release':
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
+      default:
+        pageCompiled = page;
+        break;
     }
 
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(
@@ -277,6 +426,7 @@ async function loadDrupal(buildOptions) {
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
       fs.ensureDirSync(buildOptions.cacheDirectory);
+      fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
       fs.writeFileSync(drupalCache, serialized);
     }
   } else {
@@ -289,6 +439,24 @@ async function loadDrupal(buildOptions) {
 
   log('Drupal successfully loaded!');
   return drupalPages;
+}
+
+async function loadCachedDrupalFiles(buildOptions, files) {
+  const cachedFilesPath = path.join(buildOptions.cacheDirectory, 'drupalFiles');
+  if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
+    const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
+    cachedDrupalFiles.forEach(file => {
+      const relativePath = path.relative(
+        path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+        file,
+      );
+      files[relativePath] = {
+        path: relativePath,
+        isDrupalAsset: true,
+        contents: fs.readFileSync(file),
+      };
+    });
+  }
 }
 
 function getDrupalContent(buildOptions) {
@@ -306,6 +474,8 @@ function getDrupalContent(buildOptions) {
       if (!drupalData) {
         drupalData = await loadDrupal(buildOptions);
       }
+      drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
+      loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       done();
