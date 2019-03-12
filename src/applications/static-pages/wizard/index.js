@@ -1,5 +1,5 @@
 import React from 'react';
-import set from '../../platform/utilities/data/set';
+import set from 'platform/utilities/data/set';
 
 export default class Wizard extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ export default class Wizard extends React.Component {
         setPageState={this.setPageState}
         state={pageStates[this.currentPage.name]}
         goForward={this.navigateToNext}
-        goBackward={this.navigateToPrevious}
+        goBack={this.navigateToPrevious}
       />
     );
   }
