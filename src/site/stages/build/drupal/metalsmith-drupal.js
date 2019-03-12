@@ -82,7 +82,16 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
   const pagedEntities = _.chunk(page[field].entities, perPage);
   for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
-    const pagedPage = Object.assign({}, page);
+    let pagedPage = Object.assign({}, page);
+
+    if (pageNum > 0) {
+      pagedPage = set(
+        'entityUrl.path',
+        `${page.entityUrl.path}${paginationPath(pageNum)}`,
+        page,
+      );
+    }
+
     pagedPage.pagedItems = pagedEntities[pageNum];
     const innerPages = [];
 
@@ -128,9 +137,10 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
       };
     }
 
-    files[
-      `drupal${page.entityUrl.path}${paginationPath(pageNum)}/index.html`
-    ] = createFileObj(pagedPage, layout);
+    files[`drupal${pagedPage.entityUrl.path}/index.html`] = createFileObj(
+      pagedPage,
+      layout,
+    );
   }
 }
 
