@@ -1,115 +1,115 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .va-connected-acct {
-   margin-bottom: 6em;
+  margin-bottom: 6em;
 }
 
 .va-table-connected-acct {
-   margin-top: 40px;
-   margin-bottom: 100px;
-   width: 100%;
+  margin-top: 40px;
+  margin-bottom: 100px;
+  width: 100%;
 }
 
 .va-connected-acct-null {
-   padding-bottom: 40px;
+  padding-bottom: 40px;
 
-   .feature {
-     margin-top: 100px;
-   }
+  .feature {
+    margin-top: 100px;
+  }
 }
 
 $connected-acct-border: 1px solid #5b616b;
 
 .va-connected-acct-row {
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   justify-content: space-around;
-   border-top: $connected-acct-border;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: $connected-acct-border;
 
-   &.va-connected-acct-details-toggled {
-      flex-wrap: wrap;
-   }
+  &.va-connected-acct-details-toggled {
+    flex-wrap: wrap;
+  }
 
-   &.va-connected-acct-last-row {
-      border-bottom: $connected-acct-border;
-   }
+  &.va-connected-acct-last-row {
+    border-bottom: $connected-acct-border;
+  }
 
-   &:hover {
-      background: $color-gray-lightest;
-   }
+  &:hover {
+    background: $color-gray-lightest;
+  }
 
-   > * {
-      margin: 1em;
+  > * {
+    margin: 1em;
 
-      @include media-maxwidth($medium-screen) {
-         margin: .5em 0;
-      }
-   }
+    @include media-maxwidth($medium-screen) {
+        margin: .5em 0;
+    }
+  }
 
-   .va-connected-acct-account-logo {
-      padding: 1em;
+  .va-connected-acct-account-logo {
+    padding: 1em;
 
-      @include media-maxwidth($small-screen) {
-         padding: 0;
-      }
+    @include media-maxwidth($small-screen) {
+        padding: 0;
+    }
 
-   }
+  }
 
-   .va-connected-acct-row-details {
+  .va-connected-acct-row-details {
 
-      .va-connected-acct-row-details-toggle {
-         text-decoration: none;
-         white-space: nowrap;
-      }
+    .va-connected-acct-row-details-toggle {
+        text-decoration: none;
+        white-space: nowrap;
+    }
 
-      i {
-         padding-left: .5em;
-      }
-   }
+    i {
+        padding-left: .5em;
+    }
+  }
 
-   .va-modal-inner {
-      max-width: 60rem;
-   }
+  .va-modal-inner {
+    max-width: 60rem;
+  }
 }
 
 
 .va-connected-acct-details-toggled {
-   background: $color-gray-lightest;
+  background: $color-gray-lightest;
 }
 
 .va-connected-acct-row-details-block {
-   flex-basis: 100%;
+  flex-basis: 100%;
 
-   @include media-maxwidth($medium-screen) {
-      margin: .5em;
-   }
+  @include media-maxwidth($medium-screen) {
+    margin: .5em;
+  }
 
-   .va-connected-acct-row-details-block-wrapper {
-      background: $color-white;
+  .va-connected-acct-row-details-block-wrapper {
+    background: $color-white;
 
-      .va-connected-acct-row-details-block-content {
-         margin: 0 1em 1em;
+    .va-connected-acct-row-details-block-content {
+        margin: 0 1em 1em;
 
-         p {
-            padding-top: .5em;
-            margin-top: 0;
-            margin-bottom: 0;
-            line-height: 3.5;
-         }
+        p {
+          padding-top: .5em;
+          margin-top: 0;
+          margin-bottom: 0;
+          line-height: 3.5;
+        }
 
-         button {
-            float: right;
+        button {
+          float: right;
 
-            @include media-maxwidth($small-screen) {
-               float: none;
-            }
-         }
+          @include media-maxwidth($small-screen) {
+              float: none;
+          }
+        }
 
-         ul {
-            margin-left: 3em;
-            padding-bottom: 1em;
-         }
-      }
-   }
+        ul {
+          margin-left: 3em;
+          padding-bottom: 1em;
+        }
+    }
+  }
 }
