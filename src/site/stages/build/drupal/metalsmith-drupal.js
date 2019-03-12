@@ -4,11 +4,13 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
+const recursiveRead = require('recursive-readdir');
 const set = require('lodash/fp/set');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
 const facilityLocationPath = require('./utilities-drupal');
+const convertDrupalFilesToLocal = require('./assets');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -133,16 +135,16 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 }
 
 // Return page object with path, breadcrumb and title set.
-function updateEntityUrlObj(page, drupalPagePath, title) {
-  const pathSuffix = title
-    .replace(/&/g, '')
-    .replace(/\s+/g, '-')
-    .toLowerCase();
+function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
+  pathSuffix = pathSuffix || title.replace(/\s+/g, '-').toLowerCase();
   let generatedPage = Object.assign({}, page);
-  generatedPage.entityUrl.breadcrumb.push({
-    url: { path: drupalPagePath },
-    text: page.title,
-  });
+  generatedPage.entityUrl.breadcrumb = [
+    ...page.entityUrl.breadcrumb,
+    {
+      url: { path: drupalPagePath },
+      text: page.title,
+    },
+  ];
   generatedPage = set(
     'entityUrl.path',
     `${drupalPagePath}/${pathSuffix}`,
@@ -263,13 +265,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 
   // Press Release listing page
-  const prObj = Object.assign(
-    { allPressReleaseTeasers: page.allPressReleaseTeasers },
-    { facilitySidebar: sidebar },
-    { entityUrl: page.entityUrl },
-    { alert: page.alert },
-    { title: page.title },
-  );
+  const prEntityUrl = createEntityUrlObj(drupalPagePath);
+  const prObj = {
+    allPressReleaseTeasers: page.allPressReleaseTeasers,
+    facilitySidebar: sidebar,
+    entityUrl: prEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
   paginatePages(
     prPage,
@@ -277,6 +280,30 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'allPressReleaseTeasers',
     'press_releases_page.drupal.liquid',
     'press releases',
+  );
+
+  // News Story listing page
+  const nsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const nsObj = {
+    allNewsStoryTeasers: page.allNewsStoryTeasers,
+    fieldIntroTextNewsStories: page.fieldIntroTextNewsStories,
+    facilitySidebar: sidebar,
+    entityUrl: nsEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
+  const nsPage = updateEntityUrlObj(
+    nsObj,
+    drupalPagePath,
+    'Community stories',
+    'stories',
+  );
+  paginatePages(
+    nsPage,
+    files,
+    'allNewsStoryTeasers',
+    'news_stories_page.drupal.liquid',
+    'news stories',
   );
 }
 
@@ -394,6 +421,7 @@ async function loadDrupal(buildOptions) {
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
       fs.ensureDirSync(buildOptions.cacheDirectory);
+      fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
       fs.writeFileSync(drupalCache, serialized);
     }
   } else {
@@ -406,6 +434,24 @@ async function loadDrupal(buildOptions) {
 
   log('Drupal successfully loaded!');
   return drupalPages;
+}
+
+async function loadCachedDrupalFiles(buildOptions, files) {
+  const cachedFilesPath = path.join(buildOptions.cacheDirectory, 'drupalFiles');
+  if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
+    const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
+    cachedDrupalFiles.forEach(file => {
+      const relativePath = path.relative(
+        path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+        file,
+      );
+      files[relativePath] = {
+        path: relativePath,
+        isDrupalAsset: true,
+        contents: fs.readFileSync(file),
+      };
+    });
+  }
 }
 
 function getDrupalContent(buildOptions) {
@@ -423,6 +469,8 @@ function getDrupalContent(buildOptions) {
       if (!drupalData) {
         drupalData = await loadDrupal(buildOptions);
       }
+      drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
+      loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       done();

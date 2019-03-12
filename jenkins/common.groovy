@@ -1,7 +1,7 @@
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
   'staging': 'vagovstaging',
-  'live': 'vagovprod',
+  'prod': 'vagovprod',
 ]
 
 ALL_VAGOV_BUILDTYPES = [
