@@ -43,7 +43,10 @@ class ConnectedApp extends React.Component {
       : '';
     const lastClass = this.props.isLast ? `${cssPrefix}-last-row` : '';
     return (
-      <div className={`${cssPrefix}-row ${toggled} ${lastClass}`}>
+      <div
+        className={`${cssPrefix}-row ${toggled} ${lastClass}`}
+        onClick={this.toggleDetails}
+      >
         <img
           className={`${cssPrefix}-account-logo`}
           src={logo}
