@@ -34,10 +34,10 @@ export default class Wizard extends React.Component {
 
     // If the next page is new, rewrite the future history
     if (
-      pageHistory[nextPageIndex] &&
+      !pageHistory[nextPageIndex] ||
       pageHistory[nextPageIndex].name !== nextPage.name
     ) {
-      const newHistory = set(nextPageIndex, nextPage, pageHistory).slice(
+      const newHistory = set(`${nextPageIndex}`, nextPage, pageHistory).slice(
         0,
         nextPageIndex + 1,
       );
