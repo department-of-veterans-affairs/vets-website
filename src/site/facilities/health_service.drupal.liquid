@@ -12,12 +12,12 @@
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
                 <div>{{ serviceTaxonomy.fieldAlsoKnownAs }}</div>
 
-                {% comment %}
-                    Show the region specific health service description if available. If not, fall back to national.
-                {% endcomment %}
+
                 {% if healthService.fieldBody.processed %}
                     <div>{{ healthService.fieldBody.processed }}</div>
-                {% else %}
+                {% endif %}
+
+                {% if serviceTaxonomy.description.processed  %}
                     <div>{{ serviceTaxonomy.description.processed }}</div>
                 {% endif %}
 
