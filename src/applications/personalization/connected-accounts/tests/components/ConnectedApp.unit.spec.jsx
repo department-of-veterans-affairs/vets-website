@@ -27,7 +27,7 @@ describe('<ConnectedApp>', () => {
       />,
     );
 
-    const row = tree.dive(['table', 'tbody', 'tr']);
+    const row = tree.dive(['.va-connected-acct-row']);
     row.props.onClick();
 
     tree.subTree('button').props.onClick({ target: {} });
