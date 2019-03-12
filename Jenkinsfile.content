@@ -1,5 +1,9 @@
+def isReleaseBuild() {
+  return params.ref.startsWith('vets-website')
+}
+
 node('vetsgov-general-purpose') {
-  if (params.ref.startsWith('vets-website')) {
+  if (isReleaseBuild()) {
     branchName = "refs/tags/${params.ref}"
   } else {
     branchName = params.ref
