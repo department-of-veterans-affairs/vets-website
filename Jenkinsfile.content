@@ -1,15 +1,7 @@
 node('vetsgov-general-purpose') {
-  // params.ref can either be a git commit ref or a tag
-  // If its a tag, the checkout function requires 'refs/tags/' prepended to the tag to function properly
-  if (params.ref.startsWith('vets-website')) {
-    branchName = "refs/tags/${params.ref}"
-  } else {
-    branchName = params.ref
-  }
 
   dir("vets-website") {
-    checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
-    ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    checkout scm: [$class: 'GitSCM', branches: [[name: params.ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
@@ -17,9 +9,9 @@ node('vetsgov-general-purpose') {
   // Setup stage
   dockerContainer = commonStages.setup()
   // Build stage
-  commonStages.build(ref, dockerContainer, true)
+  commonStages.build(params.ref, dockerContainer, true)
   // Prearchive stage
   commonStages.prearchive(dockerContainer)
   // Archive stage
-  commonStages.archive(dockerContainer, ref)
+  commonStages.archive(dockerContainer, params.ref)
 }
