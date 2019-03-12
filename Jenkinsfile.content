@@ -1,9 +1,6 @@
-def isReleaseBuild() {
-  return params.ref.startsWith('vets-website')
-}
-
 node('vetsgov-general-purpose') {
-  if (isReleaseBuild()) {
+	// params.ref can either be a git commit ref or a tag
+  if (params.ref.startsWith('vets-website')) {
     branchName = "refs/tags/${params.ref}"
   } else {
     branchName = params.ref
