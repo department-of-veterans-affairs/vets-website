@@ -1,5 +1,6 @@
-import Wizard from '../../static-pages/Wizard';
+import Wizard from '../../static-pages/wizard';
 import ApplicationStatus from '../../../platform/forms/save-in-progress/ApplicationStatus';
+import pages from './pages';
 // import '../all-claims/sass/disability-benefits.scss';
 
 // helper module so that we can code split with both of these components
@@ -7,4 +8,5 @@ import ApplicationStatus from '../../../platform/forms/save-in-progress/Applicat
 export default {
   Wizard,
   ApplicationStatus,
+  pages,
 };

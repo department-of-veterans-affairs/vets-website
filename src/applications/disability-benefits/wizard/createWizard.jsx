@@ -12,7 +12,7 @@ export default function createDisabilityIncreaseApplicationStatus(
   if (root) {
     import(/* webpackChunkName: "disability-application-status" */
     './wizard-entry').then(module => {
-      const { ApplicationStatus, Wizard } = module.default;
+      const { ApplicationStatus, Wizard, pages } = module.default;
       ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
@@ -32,7 +32,7 @@ export default function createDisabilityIncreaseApplicationStatus(
                 >
                   <div itemProp="text">
                     <p>You can file online right now.</p>
-                    <Wizard />
+                    <Wizard pages={pages} />
                   </div>
                 </div>
               </div>
