@@ -17,7 +17,7 @@ export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
       <span className="usa-label va-label-primary">New</span>{' '}
       <a
         onClick={dismiss}
-        href="/disability-benefits/apply/form-526-disability-claim/"
+        href="/disability/file-disability-claim-form-21-526ez/"
       >
         Check out our new beta tool for filing a claim for increased disability
         compensation online.
