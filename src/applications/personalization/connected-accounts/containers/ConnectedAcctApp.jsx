@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import { selectUser } from '../../../../platform/user/selectors';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
@@ -24,6 +25,7 @@ class ConnectedAcctApp extends React.Component {
   }
 
   componentDidMount = () => {
+    focusElement('.va-nav-breadcrumbs-list');
     this.props.loadConnectedAccounts();
   };
 
