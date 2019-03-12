@@ -22,6 +22,7 @@ describe('<AddressViewField>', () => {
 
     expect(text).to.contain(formData.street);
     expect(text).to.contain(formData.street2);
+    expect(text).to.contain(formData.street3);
     expect(text).to.contain(formData.city);
     expect(text).to.contain(formData.state);
     expect(text).to.contain(formData.postalCode);
