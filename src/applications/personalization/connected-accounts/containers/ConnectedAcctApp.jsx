@@ -21,7 +21,7 @@ class ConnectedAcctApp extends React.Component {
   }
 
   componentDidMount = () => {
-    focusElement('.va-nav-breadcrumbs');
+    focusElement('.va-nav-breadcrumbs-list');
     this.props.loadConnectedAccounts();
   };
 
