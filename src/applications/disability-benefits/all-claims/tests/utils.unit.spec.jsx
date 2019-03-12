@@ -202,6 +202,24 @@ describe.only('526 helpers', () => {
         },
       });
     });
+
+    it('should return correct schema when periods used', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'period. Period.',
+          },
+        ],
+      };
+      expect(makeSchemaForNewDisabilities(formData)).to.eql({
+        properties: {
+          'period. period.': {
+            title: 'Period. Period.',
+            type: 'boolean',
+          },
+        },
+      });
+    });
   });
 
   describe('makeSchemaForRatedDisabilities', () => {
