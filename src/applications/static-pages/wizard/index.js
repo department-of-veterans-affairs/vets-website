@@ -54,12 +54,14 @@ export default class Wizard extends React.Component {
     const { pageStates } = this.state;
     const Page = this.currentPage.component;
     return (
-      <Page
-        setPageState={this.setPageState}
-        state={pageStates[this.currentPage.name]}
-        goForward={this.navigateToNext}
-        goBack={this.navigateToPrevious}
-      />
+      <div className="form-expanding-group-open va-nav-linkslist--related wizard-content">
+        <Page
+          setPageState={this.setPageState}
+          state={pageStates[this.currentPage.name]}
+          goForward={this.navigateToNext}
+          goBack={this.navigateToPrevious}
+        />
+      </div>
     );
   }
 }

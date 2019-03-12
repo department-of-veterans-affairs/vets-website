@@ -1,30 +1,24 @@
 import React from 'react';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import Navigation from '../../../static-pages/wizard/Navigation';
 
-const getRadio = (group, setPageState, selected) => ({
-  nextPageName,
-  children,
-}) => (
-  <label key={nextPageName} htmlFor={`${group}_${nextPageName}`}>
-    <input
-      type="radio"
-      name={group}
-      id={`${group}_${nextPageName}`}
-      value={nextPageName}
-      onChange={() => setPageState({ selected: nextPageName })}
-      checked={selected === nextPageName}
-    />
-    {children}
-  </label>
-);
+const options = [
+  { value: 'second', label: 'The second page' },
+  { value: 'third', label: 'The third page' },
+];
 
 const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
-  const Choice = getRadio('start-page-choice', setPageState, state.selected);
   const goToNextPage = () => goForward(state.selected);
   return (
     <div>
-      <Choice nextPageName="second">Go to the second page</Choice>
-      <Choice nextPageName="third">Go to the third page</Choice>
+      <ErrorableRadioButtons
+        name="start-page-option"
+        label="What page do you want to go to next?"
+        id="start-page-option"
+        options={options}
+        onValueChange={({ value }) => setPageState({ selected: value })}
+        value={{ value: state.selected }}
+      />
       <Navigation
         goForward={goToNextPage}
         forwardAllowed={state.selected}
