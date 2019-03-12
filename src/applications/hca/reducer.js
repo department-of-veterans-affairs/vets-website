@@ -7,6 +7,7 @@ import {
 } from './actions';
 
 const initialState = {
+  noESRRecordFound: false,
   isUserInMVI: false,
   isSubmitting: false,
   errors: null,
@@ -30,7 +31,9 @@ function hcaIDForm(state = initialState, action) {
 
     case SUBMIT_ID_FORM_FAILED: {
       const { errors } = action;
-      return { ...state, errors, isSubmitting: false };
+      const noESRRecordFound =
+        errors && errors.some(error => error.code === '404');
+      return { ...state, errors, noESRRecordFound, isSubmitting: false };
     }
 
     default:

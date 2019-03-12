@@ -89,13 +89,13 @@ export default class IDForm extends React.Component {
     const { enrollmentStatus } = this.props;
     if (enrollmentStatus && enrollmentStatus !== 'none_of_the_above') {
       return (
-        <React.Fragment>
+        <>
           <AlertBox
             isVisible
             status="error"
             headline="Please sign in to continue your application"
             content={
-              <React.Fragment>
+              <>
                 <p>
                   We’re sorry for the interruption, but we need you to review
                   some information before you continue applying. Please sign in
@@ -108,11 +108,11 @@ export default class IDForm extends React.Component {
                 >
                   Sign in to VA.gov
                 </button>
-              </React.Fragment>
+              </>
             }
           />
           <br />
-        </React.Fragment>
+        </>
       );
     }
 

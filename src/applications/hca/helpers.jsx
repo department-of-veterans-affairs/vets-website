@@ -136,11 +136,11 @@ export const facilityHelp = (
 
 export function fileHelp({ formContext }) {
   if (formContext.reviewMode) {
-    return <p />;
+    return null;
   }
 
   return (
-    <React.Fragment>
+    <>
       <p>
         Please upload a copy of your military discharge papers (like your DD214,
         DD256, DD257, NGB22, or other separation documents). If you have more
@@ -171,7 +171,7 @@ export function fileHelp({ formContext }) {
           photo of it and then upload the image from your computer or phone.
         </li>
       </ul>
-    </React.Fragment>
+    </>
   );
 }
 

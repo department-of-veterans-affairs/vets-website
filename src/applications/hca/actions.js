@@ -1,5 +1,6 @@
 import appendQuery from 'append-query';
-import { apiRequest } from '../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
 
 export const SUBMIT_ID_FORM_STARTED = 'SUBMIT_ID_FORM_STARTED';
 export const SUBMIT_ID_FORM_SUCCEEDED = 'SUBMIT_ID_FORM_SUCCEEDED';
@@ -9,7 +10,13 @@ export function submitIDForm(formData) {
   return dispatch => {
     dispatch({ type: SUBMIT_ID_FORM_STARTED });
 
-    const baseUrl = '/health_care_applications/enrollment_status';
+    // We need bypass the local API when running locally, so hit dev-api
+    // directly. As an aside, if we want to get a 500 server error when testing
+    // locally, reverse this check to make the app hit the local API instead.
+    const urlPrefix = environment.isLocalhost()
+      ? 'https://dev-api.va.gov/v0'
+      : '';
+    const baseUrl = `${urlPrefix}/health_care_applications/enrollment_status`;
 
     const url = appendQuery(baseUrl, {
       'userAttributes[gender]': formData.gender,
