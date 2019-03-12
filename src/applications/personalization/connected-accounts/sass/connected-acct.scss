@@ -41,7 +41,7 @@ $connected-acct-border: 1px solid #5b616b;
   }
 
   > * {
-    margin: 1em;
+    margin: 1rem;
 
     @include media-maxwidth($medium-screen) {
         margin: .5em 0;
