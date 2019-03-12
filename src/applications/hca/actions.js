@@ -19,7 +19,6 @@ export function submitIDForm(formData) {
     const baseUrl = `${urlPrefix}/health_care_applications/enrollment_status`;
 
     const url = appendQuery(baseUrl, {
-      'userAttributes[gender]': formData.gender,
       'userAttributes[veteranDateOfBirth]': formData.dob,
       'userAttributes[veteranFullName][first]': formData.firstName,
       'userAttributes[veteranFullName][last]': formData.lastName,

@@ -5,9 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import constants from 'vets-json-schema/dist/constants.json';
 
-import { genderLabels } from 'platform/static-data/labels';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export default class IDForm extends React.Component {
@@ -38,10 +36,6 @@ export default class IDForm extends React.Component {
       },
       ssn: {
         type: 'string',
-      },
-      gender: {
-        type: 'string',
-        enum: [...constants.genders.map(option => option.value), 'NA'],
       },
     },
     required: ['firstName', 'lastName', 'dob', 'ssn'],
@@ -78,10 +72,6 @@ export default class IDForm extends React.Component {
         pattern:
           'Please enter your Social Security number in this format: XXX-XX-XXXX.',
       },
-    },
-    gender: {
-      'ui:title': 'Gender',
-      'ui:labels': genderLabels,
     },
   };
 

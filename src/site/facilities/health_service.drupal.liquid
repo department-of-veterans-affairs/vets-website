@@ -11,8 +11,16 @@
             </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
                 <div>{{ serviceTaxonomy.fieldAlsoKnownAs }}</div>
-                <div>{{ serviceTaxonomy.description.processed }}</div>
-                <div>{{ healthService.fieldBody.processed }}</div>
+
+
+                {% if healthService.fieldBody.processed %}
+                    <div>{{ healthService.fieldBody.processed }}</div>
+                {% endif %}
+
+                {% if serviceTaxonomy.description.processed  %}
+                    <div>{{ serviceTaxonomy.description.processed }}</div>
+                {% endif %}
+
                 <p class="vads-u-font-weight--bold">Available at</p>
                 <ul class="usa-unstyled-list">
                     {% for location in healthService.fieldServiceLocation.entities %}
