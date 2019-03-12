@@ -1,9 +1,9 @@
 node('vetsgov-general-purpose') {
-	if (params.ref.startsWith('vets-website')) {
-		branchName = "refs/tags/${params.ref}"
-	} else {
-		branchName = params.ref
-	}
+  if (params.ref.startsWith('vets-website')) {
+    branchName = "refs/tags/${params.ref}"
+  } else {
+    branchName = params.ref
+  }
 
   dir("vets-website") {
     checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
