@@ -26,7 +26,6 @@ describe('<AddressViewField>', () => {
     expect(text).to.contain(formData.city);
     expect(text).to.contain(formData.state);
     expect(text).to.contain(formData.postalCode);
-    expect(text).to.not.contain(formData.street3);
     expect(text).to.not.contain(formData.country);
 
     component.unmount();
