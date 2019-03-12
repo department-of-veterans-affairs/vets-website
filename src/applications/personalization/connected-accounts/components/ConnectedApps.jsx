@@ -27,7 +27,7 @@ export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
           />
         ))}
 
-        <div className="va-table-connected-acct">
+        <ul className="va-connected-acct-list">
           {activeAccounts.map((a, idx) => (
             <ConnectedApp
               key={idx}
@@ -36,7 +36,7 @@ export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
               {...a}
             />
           ))}
-        </div>
+        </ul>
 
         <div className="feature">
           <h3>Have questions about connected accounts?</h3>

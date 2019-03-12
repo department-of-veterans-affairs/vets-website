@@ -4,10 +4,11 @@
   margin-bottom: 6em;
 }
 
-.va-table-connected-acct {
+.va-connected-acct-list {
   margin-top: 40px;
   margin-bottom: 100px;
   width: 100%;
+  padding: 0;
 }
 
 .va-connected-acct-null {
@@ -21,11 +22,11 @@
 $connected-acct-border: 1px solid #5b616b;
 
 .va-connected-acct-row {
-  cursor: pointer;
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
   border-top: $connected-acct-border;
+  margin-bottom: 0;
 
   &.va-connected-acct-details-toggled {
     flex-wrap: wrap;
