@@ -277,13 +277,13 @@ AutosuggestField.propTypes = {
       freeInput: PropTypes.bool,
       inputTransformers: PropTypes.arrayOf(PropTypes.func),
     }),
-    'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   idSchema: PropTypes.shape({
     $id: PropTypes.string,
   }),
-  formData: PropTypes.object.isRequired,
+  formData: PropTypes.object,
   schema: PropTypes.object.isRequired,
 };
