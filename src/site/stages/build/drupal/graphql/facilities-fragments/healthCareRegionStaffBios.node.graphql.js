@@ -5,10 +5,17 @@
 const PERSON_PROFILE_RESULTS = `
   entities {
     ... on NodePersonProfile {
+      entityPublished
       fieldNameFirst
       fieldLastName
       fieldSuffix
       fieldDescription
+      fieldOffice {
+        entity {
+          entityLabel
+          entityType
+        }
+      }
       fieldIntroText
       fieldPhotoAllowHiresDownload
       fieldMedia {
@@ -46,7 +53,7 @@ function queryFilter(isAll) {
         { field: "status", value: "1"}
       ]
     } 
-    sort: {field: "changed", direction: DESC } 
+    sort: {field: "field_office", direction: DESC }
     limit:${isAll ? '500' : '10'})
   `;
 }
