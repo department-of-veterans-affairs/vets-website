@@ -136,7 +136,12 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
 // Return page object with path, breadcrumb and title set.
 function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
-  pathSuffix = pathSuffix || title.replace(/\s+/g, '-').toLowerCase();
+  pathSuffix =
+    pathSuffix ||
+    title
+      .replace(/&/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase();
   let generatedPage = Object.assign({}, page);
   generatedPage.entityUrl.breadcrumb = [
     ...page.entityUrl.breadcrumb,
@@ -204,15 +209,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
-  const locObj = Object.assign(
-    { mainFacilities: page.mainFacilities },
-    { otherFacilities: page.otherFacilities },
-    { fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb },
-    { facilitySidebar: sidebar },
-    { entityUrl: locEntityUrl },
-    { alert: page.alert },
-    { title: page.title },
-  );
+  const locObj = {
+    mainFacilities: page.mainFacilities,
+    otherFacilities: page.otherFacilities,
+    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
+    facilitySidebar: sidebar,
+    entityUrl: locEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
   files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
     locPage,
@@ -221,16 +226,16 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create Health Services Page
   const hsEntityUrl = createEntityUrlObj(drupalPagePath);
-  const hsObj = Object.assign(
-    { specialtyCareHealthServices: page.specialtyCareHealthServices },
-    { primaryCareHealthServices: page.primaryCareHealthServices },
-    { mentalHealthServices: page.mentalHealthServices },
-    { fieldClinicalHealthServi: page.fieldClinicalHealthCareServi },
-    { facilitySidebar: sidebar },
-    { entityUrl: hsEntityUrl },
-    { alert: page.alert },
-    { title: page.title },
-  );
+  const hsObj = {
+    specialtyCareHealthServices: page.specialtyCareHealthServices,
+    primaryCareHealthServices: page.primaryCareHealthServices,
+    mentalHealthServices: page.mentalHealthServices,
+    fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+    facilitySidebar: sidebar,
+    entityUrl: hsEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
   const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
   files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
