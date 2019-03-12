@@ -1,5 +1,6 @@
 const commandLineArgs = require('command-line-args');
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const createPipieline = require('../src/site/stages/preview');
 
@@ -17,13 +18,24 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.PREVIEW_BUILD_TYPE || defaultBuildtype,
   },
-  { name: 'buildpath', type: String, defaultValue: 'build/localhost' },
+  { name: 'buildpath', type: String, defaultValue: null },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: process.env.PORT || 3001 },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  {
+    name: 'drupal-address',
+    type: String,
+    defaultValue: process.env.DRUPAL_ADDRESS,
+  },
+  { name: 'drupal-user', type: String, defaultValue: process.env.DRUPAL_USER },
+  {
+    name: 'drupal-password',
+    type: String,
+    defaultValue: process.env.DRUPAL_PASSWORD,
+  },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -31,6 +43,10 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 
 if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
+}
+
+if (options.buildpath === null) {
+  options.buildpath = `build/${options.buildtype}`;
 }
 
 const app = express();
@@ -45,7 +61,7 @@ app.get('/health', (req, res) => {
 app.get('/preview', async (req, res) => {
   const smith = createPipieline({
     ...options,
-    port: process.env.PORT,
+    port: process.env.PORT || 3001,
   });
 
   const drupalData = await drupalClient.getLatestPageById(req.query.nodeId);
@@ -62,6 +78,15 @@ app.get('/preview', async (req, res) => {
       ...drupalPage,
       isPreview: true,
       isDrupalPage: true,
+      headerFooterData: fs.readFileSync(
+        path.join(
+          __dirname,
+          '..',
+          options.buildpath,
+          'generated/drupalHeaderFooter.json',
+        ),
+        'utf8',
+      ),
       drupalSite: drupalClient.getSiteUri(),
       layout: `${drupalPage.entityBundle}.drupal.liquid`,
       contents: Buffer.from('<!-- Drupal-provided data -->'),

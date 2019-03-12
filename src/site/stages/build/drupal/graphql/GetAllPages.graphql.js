@@ -5,6 +5,7 @@ const pressReleasePage = require('./pressReleasePage.graphql');
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
+const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
 
 /**
@@ -31,6 +32,7 @@ module.exports = `
       }
     }
     ${sidebarQuery}
+    ${facilitySidebarQuery}
     ${alertsQuery}
   }
 `;
