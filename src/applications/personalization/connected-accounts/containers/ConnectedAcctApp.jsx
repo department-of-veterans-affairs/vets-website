@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import { selectUser } from '../../../../platform/user/selectors';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
@@ -10,7 +11,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { loadConnectedAccounts, deleteConnectedAccount } from '../actions';
 import { NoConnectedApps, ConnectedApps } from '../components';
-import { setPageFocus } from '../../../claims-status/utils/page';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -21,7 +21,7 @@ class ConnectedAcctApp extends React.Component {
   }
 
   componentDidMount = () => {
-    setPageFocus();
+    focusElement('.va-nav-breadcrumbs');
     this.props.loadConnectedAccounts();
   };
 
