@@ -3,8 +3,8 @@ import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-rea
 import Navigation from '../../../static-pages/wizard/Navigation';
 
 const options = [
-  { value: 'second', label: 'The second page' },
-  { value: 'third', label: 'The third page' },
+  { value: 'appeals', label: 'Yes' },
+  { value: 'bdd', label: 'No' },
 ];
 
 const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
@@ -13,7 +13,7 @@ const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
     <div>
       <ErrorableRadioButtons
         name="start-page-option"
-        label="What page do you want to go to next?"
+        label="Have you separated from your military or uniformed service?"
         id="start-page-option"
         options={options}
         onValueChange={({ value }) => setPageState({ selected: value })}
