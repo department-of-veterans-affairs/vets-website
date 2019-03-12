@@ -36,30 +36,18 @@
   {% endif %}
   {% if fieldDescription %}
     {% assign description = fieldDescription | newline_to_br %}
-  {% else %}
-    {% if fieldIntroText %}
-      {% assign description = fieldIntroText.processed | strip_html %}
-    {% else %}
-      {% if fieldIntroTextNewsStories %}
-        {% assign description = fieldIntroTextNewsStories.processed  | strip_html %}
-      {% else %}
-        {% if fieldIntroTextEventsPage %}
-          {% assign description = fieldIntroTextEventsPage.processed | strip_html %}
-        {% else %}
-          {% if fieldClinicalHealthServi %}
-            {% assign description = fieldClinicalHealthServi.processed | strip_html %}
-          {% else %}
-            {% if fieldLocationsIntroBlurb %}
-              {% assign description = fieldLocationsIntroBlurb.processed | strip_html %}
-            {% else %}
-              {% if fieldPatientFamilyServicesIn %}
-                {% assign description = fieldPatientFamilyServicesIn.processed | strip_html %}
-              {% endif %}
-            {% endif %}
-          {% endif %}
-        {% endif %}
-      {% endif %}
-    {% endif %}
+  {% elsif fieldIntroText %}
+    {% assign description = fieldIntroText.processed | strip_html %}
+  {% elsif fieldIntroTextNewsStories %}
+    {% assign description = fieldIntroTextNewsStories.processed  | strip_html %}
+  {% elsif fieldIntroTextEventsPage %}
+    {% assign description = fieldIntroTextEventsPage.processed | strip_html %}
+  {% elsif fieldClinicalHealthServi %}
+    {% assign description = fieldClinicalHealthServi.processed | strip_html %}
+  {% elsif fieldLocationsIntroBlurb %}
+    {% assign description = fieldLocationsIntroBlurb.processed | strip_html %}
+  {% elsif fieldPatientFamilyServicesIn %}
+    {% assign description = fieldPatientFamilyServicesIn.processed | strip_html %}
   {% endif %}
 
   {% if description %}
