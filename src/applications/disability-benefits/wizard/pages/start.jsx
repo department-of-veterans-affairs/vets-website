@@ -20,6 +20,7 @@ const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
         value={{ value: state.selected }}
       />
       <Navigation
+        noBackButton
         goForward={goToNextPage}
         forwardAllowed={state.selected}
         goBack={goBack}
