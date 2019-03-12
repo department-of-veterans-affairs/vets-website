@@ -6,7 +6,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 export function ConnectedApps({ confirmDelete, accounts }) {
   return (
     <div className="row va-connected-acct">
-      <div className="usa-width-two-thirds medium-8 small-12 columns">
+      <div className="usa-width-two-thirds medium-9 small-12 columns">
         <h1>Connected Accounts</h1>
         <p className="va-introtext">
           {/* eslint-disable prettier/prettier */}
@@ -17,18 +17,16 @@ export function ConnectedApps({ confirmDelete, accounts }) {
           {/* eslint-enable prettier/prettier */}
         </p>
 
-        <table className="va-table-connected-acct usa-table-borderless">
-          <tbody>
-            {accounts.map((a, idx) => (
-              <ConnectedApp
-                key={idx}
-                confirmDelete={confirmDelete}
-                isLast={idx + 1 === accounts.length}
-                {...a}
-              />
-            ))}
-          </tbody>
-        </table>
+        <div className="va-table-connected-acct">
+          {accounts.map((a, idx) => (
+            <ConnectedApp
+              key={idx}
+              confirmDelete={confirmDelete}
+              isLast={idx + 1 === accounts.length}
+              {...a}
+            />
+          ))}
+        </div>
 
         <div className="feature">
           <h3>Have questions about connected accounts?</h3>
