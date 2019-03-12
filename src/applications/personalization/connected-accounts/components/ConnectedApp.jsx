@@ -79,8 +79,6 @@ class ConnectedApp extends React.Component {
           <div className={`${cssPrefix}-row-details-block`}>
             <div className={`${cssPrefix}-row-details-block-content`}>
               <p>
-                <strong>{title}</strong>
-                &nbsp;can view your:
                 <button
                   aria-label={`Disconnect ${title} from your account`}
                   className="usa-button-primary"
@@ -88,6 +86,8 @@ class ConnectedApp extends React.Component {
                 >
                   Disconnect
                 </button>
+                <strong>{title}</strong>
+                &nbsp;can view your:
               </p>
               <ul>
                 {grants.map((a, idx) => (
