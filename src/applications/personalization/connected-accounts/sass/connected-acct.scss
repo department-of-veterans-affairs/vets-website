@@ -60,9 +60,8 @@ $connected-acct-border: 1px solid #5b616b;
   }
 
   .va-connected-acct-row-details {
-
     i {
-        padding-left: .5em;
+      padding-left: .5em;
     }
   }
 
@@ -71,7 +70,7 @@ $connected-acct-border: 1px solid #5b616b;
   }
 
   .va-connected-acct-row-details-toggle {
-    transition: color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
     text-decoration: none;
   }
 }
