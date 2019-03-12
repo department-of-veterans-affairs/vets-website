@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable arrow-body-style */
-import { mapboxClient } from '../components/MapboxClient';
+import { mbxClient } from '../components/MapboxClient';
 
 // eslint-disable-next-line spaced-comment
 /******************************************************
@@ -26,11 +26,16 @@ import { mapboxClient } from '../components/MapboxClient';
  */
 /* eslint-disable prettier/prettier */
 export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
-  const { entity: { features: { 0: { place_name: placeName } } } } =
-    await mapboxClient.geocodeReverse(
-      { longitude: lon, latitude: lat },
-      { types }
-    );
+  const {
+    entity: {
+      features: {
+        0: { place_name: placeName },
+      },
+    },
+  } = await mbxClient.geocodeReverse(
+    { longitude: lon, latitude: lat },
+    { types },
+  );
 
   return placeName;
 };
@@ -69,7 +74,7 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
  * empty {} object otherwise
  */
 // eslint-disable-next-line prettier/prettier
-export const getBoxCenter = (bounds) => {
+export const getBoxCenter = bounds => {
   if (bounds && bounds.length === 4) {
     const lonDiff = (bounds[2] - bounds[0]) / 2;
     const latDiff = (bounds[3] - bounds[1]) / 2;
@@ -78,4 +83,19 @@ export const getBoxCenter = (bounds) => {
   }
 
   return {};
+};
+
+export const forwardGeocode = async (lon, lat, types = 'address,postcode') => {
+  const {
+    entity: {
+      features: {
+        0: { place_name: placeName },
+      },
+    },
+  } = await mbxClient.geocodeReverse(
+    { longitude: lon, latitude: lat },
+    { types },
+  );
+
+  return placeName;
 };

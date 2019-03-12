@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable arrow-body-style */
 import isEmpty from 'lodash/isEmpty';
-import { mapboxClient } from '../components/MapboxClient';
+import { mbxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
@@ -17,6 +17,7 @@ import {
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
+import { Geocoding } from '@mapbox/mapbox-sdk/services/geocoding';
 
 /**
  * Sync form state with Redux state.
@@ -25,7 +26,7 @@ import { ccLocatorEnabled } from '../config';
  * @param {Object} query The current state of the Search form
  */
 // eslint-disable-next-line prettier/prettier
-export const updateSearchQuery = (query) => ({
+export const updateSearchQuery = query => ({
   type: SEARCH_QUERY_UPDATED,
   payload: { ...query },
 });
@@ -51,7 +52,7 @@ export const fetchVAFacility = (id, location = null) => {
   }
 
   // eslint-disable-next-line prettier/prettier
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
@@ -74,9 +75,9 @@ export const fetchVAFacility = (id, location = null) => {
  * @param {string} id The NPI/Tax ID of a specific provider
  */
 // eslint-disable-next-line prettier/prettier
-export const fetchProviderDetail = (id) => {
+export const fetchProviderDetail = id => {
   // eslint-disable-next-line prettier/prettier
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
@@ -101,10 +102,15 @@ export const fetchProviderDetail = (id) => {
  * @param {{bounds: number[], facilityType: string, serviceType: string, page: number}}
  */
 // eslint-disable-next-line prettier/prettier
-export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
+export const searchWithBounds = ({
+  bounds,
+  facilityType,
+  serviceType,
+  page = 1,
+}) => {
   const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
   // eslint-disable-next-line prettier/prettier
-  return (dispatch) => {
+  return dispatch => {
     if (needsAddress.includes(facilityType) && ccLocatorEnabled()) {
       // Remove Feature-flag when going live. ^^^
       reverseGeocodeBox(bounds).then(address => {
@@ -112,13 +118,21 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
           dispatch({
             type: SEARCH_FAILED,
             // eslint-disable-next-line prettier/prettier
-            error: 'Reverse geocoding failed. See previous errors or network log.',
+            error:
+              'Reverse geocoding failed. See previous errors or network log.',
           });
           return;
         }
 
         // eslint-disable-next-line prettier/prettier
-        fetchLocations(address, bounds, facilityType, serviceType, page, dispatch);
+        fetchLocations(
+          address,
+          bounds,
+          facilityType,
+          serviceType,
+          page,
+          dispatch,
+        );
       });
     } else {
       // eslint-disable-next-line prettier/prettier
@@ -139,7 +153,14 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
  * @param {Function} dispatch Redux's dispatch method
  */
 // eslint-disable-next-line prettier/prettier
-const fetchLocations = async (address = null, bounds, locationType, serviceType, page, dispatch) => {
+const fetchLocations = async (
+  address = null,
+  bounds,
+  locationType,
+  serviceType,
+  page,
+  dispatch,
+) => {
   dispatch({
     type: SEARCH_STARTED,
     payload: {
@@ -150,7 +171,13 @@ const fetchLocations = async (address = null, bounds, locationType, serviceType,
 
   try {
     // eslint-disable-next-line prettier/prettier
-    const data = await LocatorApi.searchWithBounds(address, bounds, locationType, serviceType, page);
+    const data = await LocatorApi.searchWithBounds(
+      address,
+      bounds,
+      locationType,
+      serviceType,
+      page,
+    );
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -169,7 +196,7 @@ const fetchLocations = async (address = null, bounds, locationType, serviceType,
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
 // eslint-disable-next-line prettier/prettier
-export const genBBoxFromAddress = (query) => {
+export const genBBoxFromAddress = query => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
@@ -180,7 +207,7 @@ export const genBBoxFromAddress = (query) => {
   }
 
   // eslint-disable-next-line prettier/prettier
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
@@ -189,7 +216,7 @@ export const genBBoxFromAddress = (query) => {
     if (query.searchString.match(/^\s*\d{5}\s*$/)) {
       types = 'postcode';
     }
-    mapboxClient.geocodeForward(
+    mbxClient.forwardGeocode(
       query.searchString,
       { country: 'us,pr,ph,gu,as,mp', types },
       (error, res) => {
@@ -245,7 +272,7 @@ export const genBBoxFromAddress = (query) => {
  */
 /* eslint-disable prettier/prettier */
 export const getProviderSvcs = () => {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({ type: FETCH_SERVICES });
 
     try {
@@ -257,8 +284,7 @@ export const getProviderSvcs = () => {
       // Great Success!
       dispatch({ type: FETCH_SERVICES_DONE });
       return data;
-    }
-    catch (error) {
+    } catch (error) {
       dispatch({ type: FETCH_SERVICES_FAILED, error });
       return ['Services Temporarily Unavailable'];
     }
