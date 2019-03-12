@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { urls } from '../../all-claims/utils';
+
 export default function ButtonContainer(props) {
   const {
     checkGuidanceStatus,
@@ -27,7 +29,7 @@ export default function ButtonContainer(props) {
         !isLoggedIn && (
           <a
             className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href={urls.v2}
             onClick={authenticate}
           >
             Sign In and Verify Your Identity
@@ -37,20 +39,14 @@ export default function ButtonContainer(props) {
       {atIncreaseGuidance &&
         isLoggedIn &&
         !isVerified && (
-          <a
-            className="usa-button-primary"
-            href="/verify?next=/disability-benefits/apply/form-526-disability-claim/introduction/"
-          >
+          <a className="usa-button-primary" href={`/verify?next=${urls.v2}`}>
             Verify Your Identity
             <span className="button-icon"> »</span>
           </a>
         )}
       {atIncreaseGuidance &&
         isVerified && (
-          <a
-            className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
-          >
+          <a className="usa-button-primary" href={urls.v2}>
             Apply for Claim for Increase
             <span className="button-icon"> »</span>
           </a>
