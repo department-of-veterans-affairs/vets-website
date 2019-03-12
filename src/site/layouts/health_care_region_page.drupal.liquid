@@ -119,7 +119,7 @@ Example data:
   ]
 }
 {% endcomment %}
-{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -228,7 +228,7 @@ Example data:
           {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/news">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/stories">
             See all community stories <i class="fa fa-chevron-right"></i>
           </a>
         </section>

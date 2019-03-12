@@ -2,27 +2,17 @@
  * The top-level page for a health care region.
  * Example: /pittsburgh_health_care_system
  */
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
+const healthCarePatientFamilyServices = require('./facilities-fragments/healthCarePatientFamilyServices.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
+const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
+const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
-    entityUrl {
-      ... on EntityCanonicalUrl {
-        breadcrumb {
-          url {
-            path
-            routed
-          }
-          text
-        }
-        path
-      }
-    }
+    ${entityElementsFromPages}
     entityId
-    entityBundle
-    entityPublished
-    title
     fieldMedia {
       entity {
         ... on MediaImage {
@@ -44,72 +34,6 @@ module.exports = `
       	... listOfLinkTeasers
       }
     }
-    ${healthCareLocalFacilities}
-    newsStoryTeasers: reverseFieldOfficeNode(filter: {
-      conditions: [
-        { field: "type", value: "news_story"}
-        { field: "status", value: "1"}
-        { field: "field_featured" value: "1"}
-      ]} sort: {field: "changed", direction: DESC } limit: 2)
-      {
-      entities {
-        ... on NodeNewsStory {
-          title
-          fieldIntroText
-          fieldMedia {
-            entity {
-              ... on MediaImage {
-                image {
-                  alt
-                  title
-                  derivative(style: CROP_3_2) {
-                      url
-                      width
-                      height
-                  }
-                }
-              }
-            }
-          }
-          entityUrl {
-            path
-          }
-        }
-      }
-    }
-    eventTeasers: reverseFieldOfficeNode (filter: {
-      conditions: [
-        { field: "type", value: "event"}
-        { field: "status", value: "1"}
-        { field: "field_event_date", value: [$today], operator: GREATER_THAN}
-      ]} sort: {field: "field_event_date", direction: ASC } limit: 2)
-    {
-      entities {
-        ... on NodeEvent {
-          title
-          fieldEventDate {
-            value
-          }
-          fieldEventDateEnd {
-            value
-          }
-          fieldDescription
-            fieldLocationHumanreadable
-            fieldFacilityLocation {
-              entity {
-                title
-                entityUrl {
-                  path
-                }
-              }
-            }
-          }
-          
-        entityUrl {
-          path
-        }
-      }      
-    }
     allPressReleaseTeasers: reverseFieldOfficeNode(filter: {
       conditions: [
         { field: "type", value: "press_release"}
@@ -129,9 +53,22 @@ module.exports = `
         }
       }
     }
+    ${healthCareLocalFacilities}    
+    fieldIntroTextNewsStories {
+      processed
+    }
+    ${healthCareRegionNewsStories}  
+    fieldIntroTextEventsPage {
+      processed
+    }  
+    ${healthCareRegionEvents}        
     fieldClinicalHealthCareServi {
       processed
     }
     ${healthCareRegionHealthServices}
+    fieldPatientFamilyServicesIn {
+        processed
+    }
+    ${healthCarePatientFamilyServices}
   }  
 `;

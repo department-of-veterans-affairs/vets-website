@@ -55,7 +55,7 @@ Example data:
 {% if header == empty %}
     {% assign header = "h4" %}
 {% endif %}
-{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -90,7 +90,7 @@ Example data:
                             {{ fieldFullStory.processed }}
                         </div>
                     </div>
-                    <a href="#">See all community stories</a>
+                    <a href="{{ fieldOffice.entity.entityUrl.path }}/stories">See all community stories</a>
                 </article>
             </div>
         </div>

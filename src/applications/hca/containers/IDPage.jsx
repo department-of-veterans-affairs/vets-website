@@ -25,19 +25,12 @@ class IDPage extends React.Component {
   }
 
   componentDidUpdate() {
-    const { enrollmentStatus, form, hasOptionalDD214Upload } = this.props;
+    const { enrollmentStatus, noESRRecordFound, shouldRedirect } = this.props;
 
     // Redirect to intro if a logged in user directly accessed this page.
-    if (this.props.shouldRedirect) this.props.router.push('/');
+    if (shouldRedirect) this.props.router.push('/');
 
-    const shouldSetDD214UploadFlag =
-      hasOptionalDD214Upload && !('view:hasOptionalDD214Upload' in form.data);
-
-    if (shouldSetDD214UploadFlag) {
-      this.props.setData({ ...form.data, 'view:hasOptionalDD214Upload': true });
-    }
-
-    if (hasOptionalDD214Upload || enrollmentStatus === 'none_of_the_above') {
+    if (noESRRecordFound || enrollmentStatus === 'none_of_the_above') {
       this.goToNextPage();
     }
   }
@@ -62,13 +55,13 @@ class IDPage extends React.Component {
         <FormTitle title="Apply for health care benefits" />
         {this.props.showLoadingIndicator && <LoadingIndicator />}
         {!this.props.showLoadingIndicator && (
-          <React.Fragment>
+          <>
             <AlertBox
               isVisible
               status="info"
               headline="Help us fit this application to your specific needs"
               content={
-                <React.Fragment>
+                <>
                   <p>
                     Before you start your health care application, please
                     provide the information below. This will help us make sure
@@ -84,7 +77,7 @@ class IDPage extends React.Component {
                   >
                     Sign in to start your application.
                   </button>
-                </React.Fragment>
+                </>
               }
             />
             <br />
@@ -94,7 +87,7 @@ class IDPage extends React.Component {
               handleSignIn={this.showSignInModal}
               handleSubmit={this.props.submitIDForm}
             />
-          </React.Fragment>
+          </>
         )}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
@@ -113,7 +106,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   enrollmentStatus: state.hcaIDForm.enrollmentStatus,
   form: state.form,
-  hasOptionalDD214Upload: state.hcaIDForm.hasOptionalDD214Upload,
+  noESRRecordFound: state.hcaIDForm.noESRRecordFound,
   isSubmittingIDForm: state.hcaIDForm.isSubmitting,
   shouldRedirect: isLoggedIn(state),
   showLoadingIndicator: isProfileLoading(state),

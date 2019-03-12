@@ -20,7 +20,7 @@
                                                     href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                             <ul class="usa-sidenav-sub_list">
                                                 {% for link in link.links  %}
-                                                    <li>
+                                                    <li {% if entityUrl.path contains link.url.path  %} class="active-level" {% endif %}>
                                                         <a {% if link.url.path == entityUrl.path %} class="usa-current" {% endif %}
                                                            href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                     </li>
@@ -29,7 +29,7 @@
                                         </li>
                                     {% else %}
                                         <li>
-                                            <a {% if link.url.path == entityUrl.path %} class="usa-current" {% endif %}
+                                            <a {% if entityUrl.path contains link.url.path  %} class="usa-current" {% endif %}
                                                href="/drupal{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                         </li>
                                     {% endif %}
