@@ -4,7 +4,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
-import { queryForFacilities, addCheckboxPerDisability } from '../utils';
+import { queryForFacilities, makeSchemaForAllDisabilities } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
@@ -51,7 +51,7 @@ export const uiSchema = {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
-          updateSchema: addCheckboxPerDisability,
+          updateSchema: makeSchemaForAllDisabilities,
           showFieldLabel: true,
         },
         'ui:validations': [validateBooleanGroup],
