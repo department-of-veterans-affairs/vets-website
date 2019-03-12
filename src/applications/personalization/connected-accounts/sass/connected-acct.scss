@@ -23,7 +23,7 @@ $connected-acct-border: 1px solid #5b616b;
 .va-connected-acct-row {
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
   border-top: $connected-acct-border;
 
@@ -48,12 +48,14 @@ $connected-acct-border: 1px solid #5b616b;
   }
 
   .va-connected-acct-account-logo {
-    padding: 1em;
-
     @include media-maxwidth($small-screen) {
-        padding: 0;
+      display: none;
     }
+  }
 
+  .va-connected-acct-app-title {
+    margin-top: 0;
+    font-size: 2rem;
   }
 
   .va-connected-acct-row-details {
@@ -84,32 +86,28 @@ $connected-acct-border: 1px solid #5b616b;
   @include media-maxwidth($medium-screen) {
     margin: .5em;
   }
-
-  .va-connected-acct-row-details-block-wrapper {
+  .va-connected-acct-row-details-block-content {
     background: $color-white;
+    padding: 0 1em 1em;
 
-    .va-connected-acct-row-details-block-content {
-        margin: 0 1em 1em;
+      p {
+        padding-top: .5em;
+        margin-top: 0;
+        margin-bottom: 0;
+        line-height: 3.5;
+      }
 
-        p {
-          padding-top: .5em;
-          margin-top: 0;
-          margin-bottom: 0;
-          line-height: 3.5;
+      button {
+        float: right;
+
+        @include media-maxwidth($small-screen) {
+            float: none;
         }
+      }
 
-        button {
-          float: right;
-
-          @include media-maxwidth($small-screen) {
-              float: none;
-          }
-        }
-
-        ul {
-          margin-left: 3em;
-          padding-bottom: 1em;
-        }
-    }
+      ul {
+        margin-left: 3em;
+        padding-bottom: 1em;
+      }
   }
 }

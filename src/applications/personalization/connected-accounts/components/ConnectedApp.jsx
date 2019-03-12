@@ -52,7 +52,12 @@ class ConnectedApp extends React.Component {
           src={logo}
           alt={`${title} logo`}
         />
-        <div>Connected on {moment(created).format('MMMM D, YYYY h:mm A')}</div>
+        <div>
+          <h2 className={`${cssPrefix}-app-title`}>{title}</h2>
+          <div>
+            Connected on {moment(created).format('MMMM D, YYYY h:mm A')}
+          </div>
+        </div>
         <div className={`${cssPrefix}-row-details `}>
           <button
             className={`${cssPrefix}-row-details-toggle va-button-link`}
@@ -75,25 +80,23 @@ class ConnectedApp extends React.Component {
         </div>
         {this.state.detailsOpen && (
           <div className={`${cssPrefix}-row-details-block`}>
-            <div className={`${cssPrefix}-row-details-block-wrapper`}>
-              <div className={`${cssPrefix}-row-details-block-content`}>
-                <p>
-                  <strong>{title}</strong>
-                  &nbsp;can view your:
-                  <button
-                    aria-label={`Disconnect ${title} from your account`}
-                    className="usa-button-primary"
-                    onClick={this.openModal}
-                  >
-                    Disconnect
-                  </button>
-                </p>
-                <ul>
-                  {grants.map((a, idx) => (
-                    <li key={idx}>{a.title}</li>
-                  ))}
-                </ul>
-              </div>
+            <div className={`${cssPrefix}-row-details-block-content`}>
+              <p>
+                <strong>{title}</strong>
+                &nbsp;can view your:
+                <button
+                  aria-label={`Disconnect ${title} from your account`}
+                  className="usa-button-primary"
+                  onClick={this.openModal}
+                >
+                  Disconnect
+                </button>
+              </p>
+              <ul>
+                {grants.map((a, idx) => (
+                  <li key={idx}>{a.title}</li>
+                ))}
+              </ul>
             </div>
           </div>
         )}
