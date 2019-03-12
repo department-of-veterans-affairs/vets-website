@@ -16,13 +16,13 @@ export default class Wizard extends React.Component {
     return pageHistory[currentPageIndex];
   }
 
-  setPageState(pageState) {
+  setPageState = pageState => {
     this.setState({
       pageStates: set(this.currentPage.name, pageState, this.state.pageStates),
     });
-  }
+  };
 
-  navigateToNext(pageName) {
+  navigateToNext = pageName => {
     const { pageHistory, currentPageIndex } = this.state;
     const nextPageIndex = currentPageIndex + 1;
     const nextPage = this.props.pages.find(p => p.name === pageName);
@@ -44,11 +44,11 @@ export default class Wizard extends React.Component {
       this.setState({ pageHistory: newHistory });
     }
     this.setState({ currentPageIndex: nextPageIndex });
-  }
+  };
 
-  navigateToPrevious() {
+  navigateToPrevious = () => {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
-  }
+  };
 
   render() {
     const { pageStates } = this.state;
