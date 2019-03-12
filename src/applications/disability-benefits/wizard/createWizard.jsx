@@ -11,8 +11,8 @@ export default function createDisabilityIncreaseApplicationStatus(
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "disability-application-status" */
-    '../disabilityIncreaseEntry').then(module => {
-      const { ApplicationStatus, DisabilityWizard } = module.default;
+    './wizard-entry').then(module => {
+      const { ApplicationStatus, Wizard } = module.default;
       ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
@@ -32,7 +32,7 @@ export default function createDisabilityIncreaseApplicationStatus(
                 >
                   <div itemProp="text">
                     <p>You can file online right now.</p>
-                    <DisabilityWizard />
+                    <Wizard />
                   </div>
                 </div>
               </div>
