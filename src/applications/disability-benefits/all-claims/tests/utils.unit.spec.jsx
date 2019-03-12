@@ -4,7 +4,9 @@ import { shallow } from 'enzyme';
 import _ from '../../../../platform/utilities/data';
 
 import {
-  addCheckboxPerDisability,
+  makeSchemaForNewDisabilities,
+  makeSchemaForRatedDisabilities,
+  makeSchemaForAllDisabilities,
   capitalizeEachWord,
   fieldsHaveInput,
   hasGuardOrReservePeriod,
@@ -30,7 +32,7 @@ import {
   recordEventOnce,
 } from '../utils.jsx';
 
-describe('526 helpers', () => {
+describe.only('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
     it('should return true when reserve period present', () => {
       const formData = {
@@ -182,8 +184,8 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('addCheckboxPerDisability', () => {
-    it('should return disabilitiesViews with downcased keynames', () => {
+  describe('makeSchemaForNewDisabilities', () => {
+    it('should return schema with downcased keynames', () => {
       const formData = {
         newDisabilities: [
           {
@@ -191,10 +193,69 @@ describe('526 helpers', () => {
           },
         ],
       };
-      expect(addCheckboxPerDisability(formData)).to.eql({
+      expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
           'ptsd personal trauma': {
             title: 'Ptsd Personal Trauma',
+            type: 'boolean',
+          },
+        },
+      });
+    });
+  });
+
+  describe('makeSchemaForRatedDisabilities', () => {
+    it('should return schema for selected disabilities only', () => {
+      const formData = {
+        ratedDisabilities: [
+          {
+            name: 'Ptsd personal trauma',
+            'view:selected': false,
+          },
+          {
+            name: 'Diabetes mellitus',
+            'view:selected': true,
+          },
+        ],
+      };
+      expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+        properties: {
+          'diabetes mellitus': {
+            title: 'Diabetes Mellitus',
+            type: 'boolean',
+          },
+        },
+      });
+    });
+  });
+
+  describe('makeSchemaForAllDisabilities', () => {
+    it('should return schema for all (selected) disabilities', () => {
+      const formData = {
+        ratedDisabilities: [
+          {
+            name: 'Ptsd personal trauma',
+            'view:selected': false,
+          },
+          {
+            name: 'Diabetes mellitus',
+            'view:selected': true,
+          },
+        ],
+        newDisabilities: [
+          {
+            condition: 'A new Condition.',
+          },
+        ],
+      };
+      expect(makeSchemaForAllDisabilities(formData)).to.eql({
+        properties: {
+          'diabetes mellitus': {
+            title: 'Diabetes Mellitus',
+            type: 'boolean',
+          },
+          'a new condition.': {
+            title: 'A New Condition.',
             type: 'boolean',
           },
         },
