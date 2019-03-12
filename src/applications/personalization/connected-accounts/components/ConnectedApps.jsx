@@ -19,21 +19,21 @@ export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
           anything.
           {/* eslint-enable prettier/prettier */}
         </p>
-        {deletedAccounts.map((account, i) => (
+        {deletedAccounts.map(account => (
           <AppDeletedAlert
             account={account}
-            key={i}
+            key={account.id}
             dismissAlert={dismissAlert}
           />
         ))}
 
         <ul className="va-connected-acct-list">
-          {activeAccounts.map((a, idx) => (
+          {activeAccounts.map((account, idx) => (
             <ConnectedApp
-              key={idx}
+              key={account.id}
               confirmDelete={confirmDelete}
               isLast={idx + 1 === accounts.length}
-              {...a}
+              {...account}
             />
           ))}
         </ul>
