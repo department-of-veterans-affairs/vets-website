@@ -2,8 +2,11 @@ import React from 'react';
 
 import { ConnectedApp } from './ConnectedApp';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import { AppDeletedAlert } from './AppDeletedAlert';
 
-export function ConnectedApps({ confirmDelete, accounts }) {
+export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
+  const deletedAccounts = accounts.filter(account => account.deleted);
+  const activeAccounts = accounts.filter(account => !account.deleted);
   return (
     <div className="row va-connected-acct">
       <div className="usa-width-two-thirds medium-9 small-12 columns">
@@ -16,9 +19,16 @@ export function ConnectedApps({ confirmDelete, accounts }) {
           anything.
           {/* eslint-enable prettier/prettier */}
         </p>
+        {deletedAccounts.map((account, i) => (
+          <AppDeletedAlert
+            account={account}
+            key={i}
+            dismissAlert={dismissAlert}
+          />
+        ))}
 
         <div className="va-table-connected-acct">
-          {accounts.map((a, idx) => (
+          {activeAccounts.map((a, idx) => (
             <ConnectedApp
               key={idx}
               confirmDelete={confirmDelete}
