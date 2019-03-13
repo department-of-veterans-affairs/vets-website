@@ -1,4 +1,5 @@
 import React from 'react';
+import { pageNames } from './index';
 
 // NOTE: I still need the link to eBenefits
 // NOTE: We can add in the dates for 180 and 90 days in the future
@@ -27,6 +28,6 @@ const BDDPage = () => (
 );
 
 export default {
-  name: 'bdd',
+  name: pageNames.bdd,
   component: BDDPage,
 };

@@ -1,10 +1,11 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import Navigation from '../../../static-pages/wizard/Navigation';
+import { pageNames } from './index';
 
 const options = [
-  { value: 'appeals', label: 'Yes' },
-  { value: 'bdd', label: 'No' },
+  { value: pageNames.appeals, label: 'Yes' },
+  { value: pageNames.bdd, label: 'No' },
 ];
 
 const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
@@ -30,6 +31,6 @@ const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
 };
 
 export default {
-  name: 'start',
+  name: pageNames.start,
   component: StartPage,
 };

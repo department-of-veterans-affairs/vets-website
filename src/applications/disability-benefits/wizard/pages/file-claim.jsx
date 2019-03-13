@@ -1,4 +1,5 @@
 import React from 'react';
+import { pageNames } from './index';
 
 const FileClaimPage = () => (
   <div>
@@ -14,6 +15,6 @@ const FileClaimPage = () => (
 );
 
 export default {
-  name: 'file-claim',
+  name: pageNames.fileClaim,
   component: FileClaimPage,
 };

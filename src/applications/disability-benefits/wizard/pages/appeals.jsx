@@ -1,15 +1,16 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import Navigation from '../../../static-pages/wizard/Navigation';
+import { pageNames } from './index';
 
 const options = [
   {
-    value: 'file-claim',
+    value: pageNames.fileClaim,
     label:
       'I’m filing a claim for a new condition or for a condition that has gotten worse.',
   },
   {
-    value: 'disagreeing',
+    value: pageNames.disagreeing,
     label: 'I’m disagreeing with a VA decision on my claim.',
   },
 ];
@@ -36,6 +37,6 @@ const AppealsPage = ({ setPageState, goForward, goBack, state = {} }) => {
 };
 
 export default {
-  name: 'appeals',
+  name: pageNames.appeals,
   component: AppealsPage,
 };

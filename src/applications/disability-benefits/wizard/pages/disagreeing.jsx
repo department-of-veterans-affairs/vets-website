@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import Navigation from '../../../static-pages/wizard/Navigation';
+import { pageNames } from './index';
 
 // Figure out which page to go to based on the date entered
 const findNextPage = state => {
@@ -14,12 +15,12 @@ const findNextPage = state => {
   const feb19 = moment('2019-02-19');
 
   if (date.isAfter(feb19, 'day')) {
-    return 'decision-review';
+    return pageNames.decisionReview;
   }
   if (date.isAfter(moment().subtract(1, 'year'), 'day')) {
-    return 'file-appeal';
+    return pageNames.fileAppeal;
   }
-  return 'disagree-file-claim';
+  return pageNames.disagreeFileClaim;
 };
 
 const defaultState = {
@@ -65,6 +66,6 @@ const DisagreeingPage = ({
 };
 
 export default {
-  name: 'disagreeing',
+  name: pageNames.disagreeing,
   component: DisagreeingPage,
 };

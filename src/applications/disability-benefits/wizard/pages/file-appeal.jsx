@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation from '../../../static-pages/wizard/Navigation';
+import { pageNames } from './index';
 
 const FileAppealPage = ({ goBack }) => (
   <div>
@@ -9,6 +10,6 @@ const FileAppealPage = ({ goBack }) => (
 );
 
 export default {
-  name: 'file-appeal',
+  name: pageNames.fileAppeal,
   component: FileAppealPage,
 };

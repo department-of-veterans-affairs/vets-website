@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation from '../../../static-pages/wizard/Navigation';
+import { pageNames } from './index';
 
 const DisagreeFileClaimPage = ({ goBack }) => (
   <div>
@@ -9,6 +10,6 @@ const DisagreeFileClaimPage = ({ goBack }) => (
 );
 
 export default {
-  name: 'disagree-file-claim',
+  name: pageNames.disagreeFileClaim,
   component: DisagreeFileClaimPage,
 };

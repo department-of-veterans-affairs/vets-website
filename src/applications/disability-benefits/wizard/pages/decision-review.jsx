@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation from '../../../static-pages/wizard/Navigation';
+import { pageNames } from './index';
 
 const DecisionReviewPage = ({ goBack }) => (
   <div>
@@ -9,6 +10,6 @@ const DecisionReviewPage = ({ goBack }) => (
 );
 
 export default {
-  name: 'decision-review',
+  name: pageNames.decisionReview,
   component: DecisionReviewPage,
 };
