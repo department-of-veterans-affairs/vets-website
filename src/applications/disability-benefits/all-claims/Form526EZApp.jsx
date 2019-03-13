@@ -7,6 +7,7 @@ import { features } from '../../beta-enrollment/routes';
 
 import ITFWrapper from './containers/ITFWrapper';
 import EVSSClaimsGate from './containers/EVSSClaimsGate';
+import environment from '../../../platform/utilities/environment';
 
 export default function Form526Entry({ location, children }) {
   const content = (
@@ -19,13 +20,17 @@ export default function Form526Entry({ location, children }) {
     </EVSSClaimsGate>
   );
 
-  // wraps the app and redirects user if they are not enrolled
-  return (
-    <BetaApp
-      featureName={features.allClaims}
-      redirect="/disability/how-to-file-claim/"
-    >
-      {content}
-    </BetaApp>
-  );
+  if (environment.isProduction()) {
+    // wraps the app and redirects user if they are not enrolled
+    return (
+      <BetaApp
+        featureName={features.allClaims}
+        redirect="/disability/how-to-file-claim/"
+      >
+        {content}
+      </BetaApp>
+    );
+  }
+
+  return content;
 }
