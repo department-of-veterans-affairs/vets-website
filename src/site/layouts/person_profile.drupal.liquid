@@ -51,25 +51,34 @@
                     </div>
                 {% endif %}
                 <article class="usa-content">
+
                     <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
+
                         <div class="usa-width-one-third">
                             {% assign image = fieldMedia.entity.image %}
                             <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
                         </div>
+
                         <div class="usa-width-two-thirds">
-                            <h1><a href="{{ entityUrl.path }}">{{ title }}</a></h1>
-                            <p><strong>{{ fieldDescription }}</strong></p>
-                            {% if fieldPhotoAllowHighResDownload %}
-                                <span><i class="va-c-social-icon fas fa-download"></i><a href="{{ image.url }}" download>Download full size photo</a></span>
+                            <h1>{{ title }}</h1>
+                            <p class="vads-u-font-weight--bold">{{ fieldDescription }}</p>
+                            {% if fieldPhotoAllowHiresDownload %}
+                                <div class="vads-u-align-content--flex-end">
+                                    <i class="va-c-social-icon fas fa-download"></i><a href="{{ image.url }}" download> Download full size photo</a>
+                                </div>
                             {% endif %}
                         </div>
+
                     </div>
-                    <div class="va-introtext">
+
+                    <div class="va-introtext vads-u-margin-bottom--2">
                         <p>{{ fieldIntroText }}</p>
                     </div>
-                    <div>
+
+                    <div class="vads-u-margin-bottom--2">
                         {{ fieldBody.processed }}
                     </div>
+
                 </article>
 
                 <div class="last-updated usa-content">
