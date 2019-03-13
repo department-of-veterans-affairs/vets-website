@@ -4,24 +4,23 @@ import Navigation from '../../../static-pages/wizard/Navigation';
 import { pageNames } from './pageList';
 
 const options = [
-  { value: pageNames.originalClaim, label: 'Yes' },
-  { value: pageNames.bdd, label: 'No' },
+  { value: pageNames.fileOriginalClaim, label: 'Yes' },
+  { value: pageNames.appeals, label: 'No' },
 ];
 
-const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
+const OriginalClaimPage = ({ setPageState, goForward, goBack, state = {} }) => {
   const goToNextPage = () => goForward(state.selected);
   return (
     <div>
       <ErrorableRadioButtons
         name="start-page-option"
-        label="Have you separated from your military or uniformed service?"
+        label="Is this your first time filing a claim with VA?"
         id="start-page-option"
         options={options}
         onValueChange={({ value }) => setPageState({ selected: value })}
         value={{ value: state.selected }}
       />
       <Navigation
-        noBackButton
         goForward={goToNextPage}
         forwardAllowed={state.selected}
         goBack={goBack}
@@ -31,6 +30,6 @@ const StartPage = ({ setPageState, goForward, goBack, state = {} }) => {
 };
 
 export default {
-  name: pageNames.start,
-  component: StartPage,
+  name: pageNames.originalClaim,
+  component: OriginalClaimPage,
 };
