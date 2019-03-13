@@ -1,6 +1,6 @@
 import React from 'react';
 import Navigation from '../../../static-pages/wizard/Navigation';
-import { pageNames } from './index';
+import { pageNames } from './pageList';
 
 const DecisionReviewPage = ({ goBack }) => (
   <div>

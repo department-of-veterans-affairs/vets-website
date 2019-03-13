@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import Navigation from '../../../static-pages/wizard/Navigation';
-import { pageNames } from './index';
+import { pageNames } from './pageList';
 
 const options = [
   { value: pageNames.appeals, label: 'Yes' },

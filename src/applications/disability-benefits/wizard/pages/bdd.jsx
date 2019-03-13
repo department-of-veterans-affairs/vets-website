@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from './index';
+import { pageNames } from './pageList';
 
 // NOTE: I still need the link to eBenefits
 // NOTE: We can add in the dates for 180 and 90 days in the future

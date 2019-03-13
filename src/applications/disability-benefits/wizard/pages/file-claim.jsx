@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from './index';
+import { pageNames } from './pageList';
 
 const FileClaimPage = () => (
   <div>

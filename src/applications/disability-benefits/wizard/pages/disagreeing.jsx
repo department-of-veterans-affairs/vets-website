@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import Navigation from '../../../static-pages/wizard/Navigation';
-import { pageNames } from './index';
+import { pageNames } from './pageList';
 
 // Figure out which page to go to based on the date entered
 const findNextPage = state => {
