@@ -3,5 +3,17 @@ import appeals from './appeals';
 import bdd from './bdd';
 import fileClaim from './file-claim';
 import disagreeing from './disagreeing';
+import decisionReview from './decision-review';
+import fileAppeal from './file-appeal';
+import disagreeFileClaim from './disagree-file-claim';
 
-export default [start, appeals, bdd, fileClaim, disagreeing];
+export default [
+  start,
+  appeals,
+  bdd,
+  fileClaim,
+  disagreeing,
+  decisionReview,
+  fileAppeal,
+  disagreeFileClaim,
+];
