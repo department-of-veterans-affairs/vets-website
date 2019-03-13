@@ -32,7 +32,7 @@ export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
             <ConnectedApp
               key={account.id}
               confirmDelete={confirmDelete}
-              isLast={idx + 1 === accounts.length}
+              isLast={idx + 1 === activeAccounts.length}
               {...account}
             />
           ))}
