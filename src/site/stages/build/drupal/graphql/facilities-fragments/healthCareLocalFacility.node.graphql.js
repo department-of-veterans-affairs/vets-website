@@ -25,36 +25,6 @@ const FACILITIES_RESULTS = `
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
       fieldIntroText
-      fieldFacebook {
-        url {
-          path
-        }
-        title
-      }
-      fieldTwitter {
-        url {
-          path
-        }
-        title
-      }
-      fieldFlickr {
-        url {
-          path
-        }
-          title
-      }
-      fieldInstagram {
-        url {
-          path
-        }
-        title
-      }
-      fieldEmailSubscription {
-        url {
-          path
-        }
-        title
-      }
       fieldLocationServices {
         entity {
           ... on ParagraphHealthCareLocalFacilityServi {
