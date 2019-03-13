@@ -6,6 +6,7 @@ const PERSON_PROFILE_RESULTS = `
   entities {
     ... on NodePersonProfile {
       entityPublished
+      title
       fieldNameFirst
       fieldLastName
       fieldSuffix
@@ -24,6 +25,7 @@ const PERSON_PROFILE_RESULTS = `
             image {
               alt
               title
+              url
               derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
                 url
                 width

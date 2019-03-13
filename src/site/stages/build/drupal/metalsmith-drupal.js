@@ -468,6 +468,16 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       }
+      case 'person_profile': {
+        page.entityUrl = generateBreadCrumbs(drupalPagePath);
+        pageCompiled = Object.assign(
+          page,
+          facilitySidebarNavItems,
+          alertItems,
+          pageId,
+        );
+        break;
+      }
       default:
         pageCompiled = page;
         break;
