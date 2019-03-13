@@ -71,13 +71,17 @@
 
                     </div>
 
-                    <div class="va-introtext vads-u-margin-bottom--2">
-                        <p>{{ fieldIntroText }}</p>
-                    </div>
+                    {% if fieldIntroText %}
+                        <div class="va-introtext vads-u-margin-bottom--2">
+                            <p>{{ fieldIntroText }}</p>
+                        </div>
+                    {% endif %}
 
+                    {% if fieldBody %}
                     <div class="vads-u-margin-bottom--2">
                         {{ fieldBody.processed }}
                     </div>
+                    {% endif %}
 
                 </article>
 
