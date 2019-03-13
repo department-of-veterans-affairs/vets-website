@@ -29,6 +29,7 @@ const checkCollections = require('./plugins/check-collections');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createTemporaryReactPages = require('./plugins/create-react-pages');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
+const checkForCMSUrls = require('./plugins/check-cms-urls');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -158,6 +159,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  smith.use(checkForCMSUrls(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
   smith.build(err => {
