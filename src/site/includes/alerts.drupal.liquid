@@ -22,7 +22,7 @@ If we have a hit, show the alert.
 <div
   class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ entity.fieldAlertType }}"
   id="usa-alert-full-width-{{ entity.id }}" role="region"
-  aria-labelledby="appeal-heading">
+  aria-labelledby="usa-alert-heading-{{ entity.id }}">
   <div id="usa-alert-{{ entity.id }}"
     class="usa-alert usa-alert-{{ entity.fieldAlertType }}"
     aria-live="assertive" role="alert">
@@ -36,7 +36,7 @@ If we have a hit, show the alert.
     </button>
 
     <div class="usa-alert-body" id="usa-alert-body-{{ entity.id }}">
-      <h3 class="usa-alert-heading" id="appeal-heading-{{ entity.id }}">
+      <h3 class="usa-alert-heading" id="usa-alert-heading-{{ entity.id }}">
         {{ entity.fieldAlertTitle}}</h3>
       <div class="usa-alert-text" id="usa-alert-text-{{ entity.id }}">
         {{ entity.fieldAlertContent.entity.entityRendered }}
