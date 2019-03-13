@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
-import Navigation from '../../../static-pages/wizard/Navigation';
 import { pageNames } from './pageList';
 
 // Figure out which page to go to based on the date entered
@@ -41,27 +40,19 @@ const defaultState = {
 const isDateComplete = date =>
   date.day.value && date.month.value && date.year.value.length === 4;
 
-const DisagreeingPage = ({
-  setPageState,
-  goForward,
-  goBack,
-  state = defaultState,
-}) => {
-  const goToNextPage = () => goForward(findNextPage(state));
+const DisagreeingPage = ({ setPageState, state = defaultState }) => {
+  const onChange = pageState =>
+    setPageState(
+      pageState,
+      isDateComplete(pageState) ? findNextPage(pageState) : undefined,
+    );
   return (
-    <div>
-      <ErrorableDate
-        label="What’s the official date of VA’s decision?"
-        onValueChange={setPageState}
-        name="decision-date"
-        date={state}
-      />
-      <Navigation
-        goForward={goToNextPage}
-        forwardAllowed={isDateComplete(state)}
-        goBack={goBack}
-      />
-    </div>
+    <ErrorableDate
+      label="What’s the official date of VA’s decision?"
+      onValueChange={onChange}
+      name="decision-date"
+      date={state}
+    />
   );
 };
 

@@ -6,7 +6,6 @@ export default class Wizard extends React.Component {
     super(props);
     this.state = {
       pageHistory: [props.pages[0]],
-      pageStates: {},
       currentPageIndex: 0,
     };
   }
@@ -16,51 +15,49 @@ export default class Wizard extends React.Component {
     return pageHistory[currentPageIndex];
   }
 
-  setPageState = pageState => {
-    this.setState({
-      pageStates: set(this.currentPage.name, pageState, this.state.pageStates),
-    });
-  };
-
-  navigateToNext = pageName => {
-    const { pageHistory, currentPageIndex } = this.state;
-    const nextPageIndex = currentPageIndex + 1;
-    const nextPage = this.props.pages.find(p => p.name === pageName);
-    if (!nextPage) {
-      // eslint-disable-next-line no-console
-      console.error(`Page not found: ${pageName}`);
-      return;
-    }
+  setPageState = (index, newState, nextPageName) => {
+    let newHistory = set(`[${index}].state`, newState, this.state.pageHistory);
 
     // If the next page is new, rewrite the future history
-    if (
-      !pageHistory[nextPageIndex] ||
-      pageHistory[nextPageIndex].name !== nextPage.name
-    ) {
-      const newHistory = set(`${nextPageIndex}`, nextPage, pageHistory).slice(
-        0,
-        nextPageIndex + 1,
-      );
-      this.setState({ pageHistory: newHistory });
-    }
-    this.setState({ currentPageIndex: nextPageIndex });
-  };
+    if (nextPageName) {
+      const nextPageIndex = index + 1;
+      const nextPage = this.props.pages.find(p => p.name === nextPageName);
+      const { pageHistory } = this.state;
+      if (!nextPage) {
+        // eslint-disable-next-line no-console
+        console.error(`Page not found: ${nextPageName}`);
+        return;
+      }
 
-  navigateToPrevious = () => {
-    this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
+      if (
+        !pageHistory[nextPageIndex] ||
+        pageHistory[nextPageIndex].name !== nextPage.name
+      ) {
+        newHistory = set(`${nextPageIndex}`, nextPage, newHistory).slice(
+          0,
+          nextPageIndex + 1,
+        );
+      }
+    }
+    this.setState({ pageHistory: newHistory });
   };
 
   render() {
-    const { pageStates } = this.state;
-    const Page = this.currentPage.component;
+    const { pageHistory } = this.state;
     return (
       <div className="form-expanding-group-open va-nav-linkslist--related wizard-content">
-        <Page
-          setPageState={this.setPageState}
-          state={pageStates[this.currentPage.name]}
-          goForward={this.navigateToNext}
-          goBack={this.navigateToPrevious}
-        />
+        {pageHistory.map((page, index) => {
+          const Page = page.component;
+          return (
+            <Page
+              key={`${page.name}_${index}`}
+              setPageState={(newState, nextPageName) =>
+                this.setPageState(index, newState, nextPageName)
+              }
+              state={page.state}
+            />
+          );
+        })}
       </div>
     );
   }
