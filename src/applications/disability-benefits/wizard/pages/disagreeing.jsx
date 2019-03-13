@@ -3,10 +3,11 @@ import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import Navigation from '../../../static-pages/wizard/Navigation';
 
+// Figure out which page to go to based on the date entered
 const findNextPage = state => {
-  // Figure out which page to go to based on the date entered
   const date = moment({
     day: state.day.value,
+    // moment takes 0-indexed months, but the date picker provides 1-indexed months
     month: parseInt(state.month.value, 10) - 1,
     year: state.year.value,
   });
