@@ -1,6 +1,5 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import Navigation from '../../../static-pages/wizard/Navigation';
 import { pageNames } from './pageList';
 
 const options = [
@@ -15,26 +14,16 @@ const options = [
   },
 ];
 
-const AppealsPage = ({ setPageState, goForward, goBack, state = {} }) => {
-  const goToNextPage = () => goForward(state.selected);
-  return (
-    <div>
-      <ErrorableRadioButtons
-        name="appeals-page-option"
-        label="Are you filing a new claim or are you disagreeing with a VA decision on a earlier claim?"
-        id="appeals-page-option"
-        options={options}
-        onValueChange={({ value }) => setPageState({ selected: value })}
-        value={{ value: state.selected }}
-      />
-      <Navigation
-        goForward={goToNextPage}
-        forwardAllowed={state.selected}
-        goBack={goBack}
-      />
-    </div>
-  );
-};
+const AppealsPage = ({ setPageState, state = {} }) => (
+  <ErrorableRadioButtons
+    name="appeals-page-option"
+    label="Are you filing a new claim or are you disagreeing with a VA decision on a earlier claim?"
+    id="appeals-page-option"
+    options={options}
+    onValueChange={({ value }) => setPageState({ selected: value })}
+    value={{ value: state.selected }}
+  />
+);
 
 export default {
   name: pageNames.appeals,
