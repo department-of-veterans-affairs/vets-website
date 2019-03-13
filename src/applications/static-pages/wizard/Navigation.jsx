@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navigation = ({ noBackButton, goForward, goBack, forwardAllowed }) => (
   <div>
-    {!noBackButton && <button onClick={goBack}>Previous</button>}
+    {!noBackButton && <button onClick={goBack}>Back</button>}
     <button disabled={!forwardAllowed} onClick={goForward}>
       Next
     </button>
