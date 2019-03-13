@@ -5,6 +5,7 @@ const express = require('express');
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
+const { compilePage } = require('../src/site/stages/build/drupal/page');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
 
@@ -73,11 +74,12 @@ app.get('/preview', async (req, res) => {
 
   const drupalPage = drupalData.data.nodes.entities[0];
 
+  const compiledPage = compilePage(drupalPage, drupalData);
+
   const files = {
     [`${req.path.substring(1)}/index.html`]: {
-      ...drupalPage,
+      ...compiledPage,
       isPreview: true,
-      isDrupalPage: true,
       headerFooterData: fs.readFileSync(
         path.join(
           __dirname,
