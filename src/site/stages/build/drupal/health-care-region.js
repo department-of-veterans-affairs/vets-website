@@ -110,6 +110,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const prEntityUrl = createEntityUrlObj(drupalPagePath);
   const prObj = {
     allPressReleaseTeasers: page.allPressReleaseTeasers,
+    fieldPressReleaseBlurb: page.fieldPressReleaseBlurb,
     facilitySidebar: sidebar,
     entityUrl: prEntityUrl,
     title: page.title,
