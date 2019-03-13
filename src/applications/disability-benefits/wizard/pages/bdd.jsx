@@ -6,6 +6,7 @@ import { pageNames } from './pageList';
 
 const BDDPage = () => (
   <div>
+    <h4>You’ll need to file a claim on eBenefits</h4>
     <p>
       <strong>If your separation date is in the next 180 to 90 days,</strong>{' '}
       you can file a disability claim through the Benefits Delivery at Discharge
