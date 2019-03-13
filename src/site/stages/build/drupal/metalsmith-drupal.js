@@ -468,7 +468,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       }
-      case 'person_profile': {
+      case 'person_profile':
         page.entityUrl = generateBreadCrumbs(drupalPagePath);
         pageCompiled = Object.assign(
           page,
@@ -477,7 +477,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageId,
         );
         break;
-      }
       default:
         pageCompiled = page;
         break;
