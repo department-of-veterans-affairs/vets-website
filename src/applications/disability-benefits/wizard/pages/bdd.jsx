@@ -1,7 +1,6 @@
 import React from 'react';
 import { pageNames } from './pageList';
 
-// NOTE: I still need the link to eBenefits
 // NOTE: We can add in the dates for 180 and 90 days in the future
 
 const BDDPage = () => (
@@ -17,7 +16,10 @@ const BDDPage = () => (
       can’t file a BDD claim, but you can still begin the process of filing your
       claim on eBenefits.
     </p>
-    <a href="ebenefits.com" className="usa-button-primary">
+    <a
+      href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+      className="usa-button-primary"
+    >
       Go to eBenefits
     </a>
     <p>
