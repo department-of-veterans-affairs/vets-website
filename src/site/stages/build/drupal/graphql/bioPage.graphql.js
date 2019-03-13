@@ -2,26 +2,11 @@
  * A person profile detail page
  *
  */
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 module.exports = `
  fragment bioPage on NodePersonProfile {
-    entityId
-    entityBundle
-    entityPublished
-    changed
-    title
-    entityUrl {
-      ... on EntityCanonicalUrl {
-        breadcrumb {
-          url {
-            path
-            routed
-          }
-          text
-        }
-        path
-      }
-    }
+  ${entityElementsFromPages}
   fieldNameFirst
   fieldLastName
   fieldSuffix
