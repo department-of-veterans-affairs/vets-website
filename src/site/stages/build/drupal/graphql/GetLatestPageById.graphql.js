@@ -21,8 +21,8 @@ module.exports = `
   ${landingPage}
   ${page}
   ${healthCareRegionPage}
-  ${newsStoryPage}
   ${pressReleasePage}
+  ${newsStoryPage}
   ${eventPage}
   ${bioPage}
 
@@ -42,8 +42,6 @@ module.exports = `
         ... bioPage
       }
     }
-    ${sidebarQuery}
-    ${facilitySidebarQuery}
     ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}
