@@ -151,6 +151,14 @@ async function loadCachedDrupalFiles(buildOptions, files) {
   }
 }
 
+function createDrupalUrlPrefix(buildOptions, metalsmith) {
+  log(`Applying URL prefix...`);
+  const drupalUrlPrefix = PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
+    ? '/drupal'
+    : '';
+  metalsmith.metadata({ drupalUrlPrefix });
+}
+
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
@@ -169,12 +177,7 @@ function getDrupalContent(buildOptions) {
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
       loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
-
-      if (PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)) {
-        log(`Applying URL prefix...`);
-        metalsmith.metadata({ drupalUrlPrefix: '/drupal' });
-      }
-
+      createDrupalUrlPrefix(buildOptions, metalsmith);
       log('Successfully piped Drupal content into Metalsmith!');
       done();
     } catch (err) {
