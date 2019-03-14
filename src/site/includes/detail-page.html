@@ -20,7 +20,7 @@
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
       {% endif %}  
       
-    {% if no_article_bottom_padding == true %}
+    {% if no_article_bottom_padding %}
       <article class="usa-content vads-u-padding-bottom--0">
         <h1>{{ heading }}</h1>
         {{ contents }}
