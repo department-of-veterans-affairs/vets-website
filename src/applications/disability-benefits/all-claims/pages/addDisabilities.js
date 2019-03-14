@@ -44,6 +44,7 @@ export const uiSchema = {
           ),
         {
           'ui:options': {
+            debounceRate: 200,
             freeInput: true,
             inputTransformers: [
               // Replace a bunch of things that aren't valid with valid equivalents
