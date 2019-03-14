@@ -232,15 +232,6 @@ function initInProgressMock(token) {
             ratingPercentage: 100,
           },
         ],
-        servicePeriods: [
-          {
-            serviceBranch: 'Air Force Reserve',
-            dateRange: {
-              from: '2001-03-21',
-              to: '2014-07-21',
-            },
-          },
-        ],
         reservesNationalGuardService: {
           obligationTermOfServiceDateRange: {
             from: '2007-05-22',

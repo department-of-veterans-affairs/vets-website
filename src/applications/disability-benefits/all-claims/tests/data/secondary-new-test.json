@@ -97,8 +97,8 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "De-selected": true
+          "phelbitis": true,
+          "knee replacement": true
         }
       }
     ],
@@ -118,11 +118,12 @@
     "view:needsCarHelp": {
       "view:alreadyClaimedVehicleAllowance": false
     },
+    "view:powStatus": false,
     "newDisabilities": [
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Knee Replacement",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
@@ -131,7 +132,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "De-selected",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "knee replacement",
@@ -161,27 +162,6 @@
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
         "view:selected": false
-      },
-      {
-        "name": "De-selected",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": false
-      },
-      {
-        "name": "Not selected",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
       }
     ],
     "view:disabilitiesClarification": {},

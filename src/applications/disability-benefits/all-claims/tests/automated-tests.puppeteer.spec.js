@@ -8,11 +8,11 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = getTestDataSets(join(__dirname, 'data'), {
   extension: 'json',
   ignore: ['minimal-ptsd-form-upload-test.json'],
-  // only: ['minimal-test.json'],
+  // only: ['maximal-test.json'],
 });
 
 const testConfig = {
-  debug: true,
+  // debug: true,
   setup: userToken => {
     PageHelpers.initInProgressMock(userToken);
     PageHelpers.initDocumentUploadMock();
@@ -35,20 +35,8 @@ const testConfig = {
     // TODO: Add a hook for the rated disabilities page
     '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async page => {
       await page.click('input[name="root_ratedDisabilities_0"]');
+      await page.click('.form-progress-buttons .usa-button-primary');
     },
-    // '/disability/file-disability-claim-form-21-526ez/new-disabilities/follow-up': async page => {
-    //   await page.evaluate(() => {
-    //     // ensure a disability is selected
-    //     const selectField = document.querySelector(
-    //       'input[name="root_view:secondaryFollowUp_causedByDisability"]',
-    //     );
-    //     if (selectField && selectField.children) {
-    //       selectField.children[1].selected = true;
-    //       const event = new Event('change', { bubbles: true });
-    //       selectField.dispatchEvent(event);
-    //     }
-    //   });
-    // },
     // TODO: Add a hook for the bank info page
   },
   // TODO: Remove this in favor of importing the formConfig and finding them all
