@@ -1,11 +1,11 @@
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 
-// NOTE: We can add in the dates for 180 and 90 days in the future
+// TODO: Add in the dates for 180 and 90 days in the future
 
-const BDDPage = () => (
-  <div>
-    <h4>You’ll need to file a claim on eBenefits</h4>
+const alertContent = (
+  <>
     <p>
       <strong>If your separation date is in the next 180 to 90 days,</strong>{' '}
       you can file a disability claim through the Benefits Delivery at Discharge
@@ -18,7 +18,7 @@ const BDDPage = () => (
     </p>
     <a
       href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
-      className="usa-button-primary"
+      className="usa-button-primary va-button-primary"
     >
       Go to eBenefits
     </a>
@@ -27,7 +27,15 @@ const BDDPage = () => (
         Learn more about the BDD program
       </a>
     </p>
-  </div>
+  </>
+);
+
+const BDDPage = () => (
+  <AlertBox
+    status="error"
+    headline="You’ll need to file a claim on eBenefits"
+    content={alertContent}
+  />
 );
 
 export default {

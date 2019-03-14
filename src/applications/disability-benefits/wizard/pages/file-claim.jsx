@@ -6,7 +6,7 @@ const FileClaimPage = () => (
     <p>
       <a
         href="/disability/file-disability-claim-form-21-526ez/introduction"
-        className="usa-button-primary"
+        className="usa-button-primary va-button-primary"
       >
         File a Disability Compensation Claim
       </a>
