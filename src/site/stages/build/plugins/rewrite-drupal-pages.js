@@ -1,11 +1,16 @@
 /* eslint-disable no-param-reassign, no-continue */
-const BUILD_TYPE = require('../../../constants/environments');
 
-const prodEnvironments = new Set([BUILD_TYPE.vagovprod]);
+const {
+  ENABLED_ENVIRONMENTS,
+  PREFIXED_ENVIRONMENTS,
+} = require('../../../constants/drupals');
 
 function rewriteDrupalPages(options) {
   return (files, metalsmith, done) => {
-    if (!prodEnvironments.has(options.buildtype)) {
+    if (
+      ENABLED_ENVIRONMENTS.has(options.buildtype) &&
+      PREFIXED_ENVIRONMENTS.has(options.buildtype)
+    ) {
       const replacements = Object.keys(files)
         .filter(fileName => files[`drupal/${fileName}`])
         .map(fileName => ({
