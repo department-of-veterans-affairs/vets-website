@@ -153,7 +153,7 @@ const addNewArrayItem = async (page, testData) => {
   await Promise.all(
     arrayPaths.map(async path => {
       const lastIndex = await page.$eval(
-        `div[name$="${path}"] + div > div[name^="table_root_"]`,
+        `div[name$="${path}"] ~ div:last-of-type > div[name^="table_root_"]`,
         // Grab the number at the very end
         div => parseInt(div.getAttribute('name').match(/\d+$/g), 10),
       );
