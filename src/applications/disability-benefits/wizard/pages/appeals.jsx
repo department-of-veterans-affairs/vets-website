@@ -17,7 +17,7 @@ const options = [
 const AppealsPage = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
     name={`${pageNames.appeals}-option`}
-    label="Are you filing a new claim or are you disagreeing with a VA decision on a earlier claim?"
+    label="Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?"
     id={`${pageNames.appeals}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
