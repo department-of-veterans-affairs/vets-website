@@ -163,6 +163,28 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'events_page.drupal.liquid',
     'events',
   );
+
+  // Staff bio listing page
+  const bioEntityUrl = createEntityUrlObj(drupalPagePath);
+  const bioObj = {
+    allStaffProfiles: page.allStaffProfiles,
+    facilitySidebar: sidebar,
+    entityUrl: bioEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
+  const bioListingPage = updateEntityUrlObj(
+    bioObj,
+    drupalPagePath,
+    'Leadership',
+  );
+  paginatePages(
+    bioListingPage,
+    files,
+    'allStaffProfiles',
+    'bios_page.drupal.liquid',
+    'bio',
+  );
 }
 
 module.exports = createHealthCareRegionListPages;
