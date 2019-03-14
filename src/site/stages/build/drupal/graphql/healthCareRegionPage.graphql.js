@@ -84,6 +84,7 @@ module.exports = `
         }
       }
     }
+    ${healthCareStaffBios}
     ${healthCareLocalFacilities}
     fieldIntroTextNewsStories {
       processed
@@ -102,6 +103,4 @@ module.exports = `
     }
     ${healthCarePatientFamilyServices}
   }
-    ${healthCareStaffBios}
-  }  
 `;
