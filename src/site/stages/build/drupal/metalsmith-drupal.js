@@ -32,7 +32,7 @@ function writeDrupalDebugPage(files) {
   log('Drupal debug page written to /drupal/debug.');
 
   const drupalPages = Object.keys(files)
-    .filter(page => page.startsWith('drupal'))
+    .filter(page => page.isDrupalPage)
     .map(page => `<li><a href="/${page}">/${page}</a></li>`)
     .join('');
 
@@ -43,10 +43,21 @@ function writeDrupalDebugPage(files) {
 
   files['drupal/debug/index.html'] = {
     contents: Buffer.from(drupalIndex),
+    private: true,
   };
 }
 
-function pipeDrupalPagesIntoMetalsmith(contentData, files) {
+function pipeDrupalPagesIntoMetalsmith(
+  buildOptions,
+  contentData,
+  files,
+  metalsmith,
+) {
+  const applyPrefix = PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype);
+  const drupalUrlPrefix = applyPrefix ? '/drupal' : '';
+
+  metalsmith.metadata({ drupalUrlPrefix });
+
   const {
     data: {
       nodeQuery: { entities: pages },
@@ -74,20 +85,25 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     const pageCompiled = compilePage(page, contentData);
 
-    files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+    files[`${drupalUrlPrefix}${drupalPagePath}/index.html`] = createFileObj(
       pageCompiled,
       `${entityBundle}.drupal.liquid`,
     );
 
     if (page.entityBundle === 'health_care_region_page') {
-      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+      createHealthCareRegionListPages(
+        pageCompiled,
+        `${drupalUrlPrefix}${drupalPagePath}`,
+        files,
+      );
     }
   }
 
   writeDrupalDebugPage(files);
-  files[`drupal/index.md`] = {
+
+  files[`${drupalUrlPrefix}/index.md`] = {
     ...files['index.md'],
-    path: 'drupal/index.html',
+    path: `${drupalUrlPrefix}/index.html`,
     isDrupalPage: true,
     private: true,
   };
@@ -151,14 +167,6 @@ async function loadCachedDrupalFiles(buildOptions, files) {
   }
 }
 
-function createDrupalUrlPrefix(buildOptions, metalsmith) {
-  log(`Applying URL prefix...`);
-  const drupalUrlPrefix = PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
-    ? '/drupal'
-    : '';
-  metalsmith.metadata({ drupalUrlPrefix });
-}
-
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
@@ -176,8 +184,12 @@ function getDrupalContent(buildOptions) {
       }
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
       loadCachedDrupalFiles(buildOptions, files);
-      pipeDrupalPagesIntoMetalsmith(drupalData, files);
-      createDrupalUrlPrefix(buildOptions, metalsmith);
+      pipeDrupalPagesIntoMetalsmith(
+        buildOptions,
+        drupalData,
+        files,
+        metalsmith,
+      );
       log('Successfully piped Drupal content into Metalsmith!');
       done();
     } catch (err) {
