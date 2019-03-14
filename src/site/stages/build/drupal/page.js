@@ -23,10 +23,15 @@ function createFileObj(page, layout) {
 
 // Return a default entityUrl obj to to work from
 function createEntityUrlObj(pagePath) {
+  let home = '/';
+  if (pagePath.startsWith('/drupal')) {
+    home = '/drupal/';
+  }
+
   return {
     breadcrumb: [
       {
-        url: { path: '/drupal/', routed: true },
+        url: { path: home, routed: true },
         text: 'Home',
       },
     ],

@@ -54,8 +54,7 @@ function checkBrokenLinks() {
     // Filter out drupal pages
     const filteredFiles = Object.keys(files)
       .filter(
-        fileName =>
-          !files[fileName].path || !files[fileName].path.includes('drupal'),
+        fileName => !files[fileName].path || !files[fileName].isDrupalPage,
       )
       .reduce((acc, fileName) => {
         acc[fileName] = files[fileName];
