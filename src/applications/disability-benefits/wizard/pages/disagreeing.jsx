@@ -11,6 +11,8 @@ const findNextPage = state => {
     month: parseInt(state.month.value, 10) - 1,
     year: state.year.value,
   });
+  // The appeals process changed on this date
+  // https://www.va.gov/opa/pressrel/pressrelease.cfm?id=5183
   const feb19 = moment('2019-02-19');
 
   if (date.isAfter(feb19, 'day')) {
