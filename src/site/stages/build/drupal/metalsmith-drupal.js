@@ -6,7 +6,12 @@ const chalk = require('chalk');
 const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
-const { ENVIRONMENT_GATES } = require('../../../constants/drupals');
+
+const {
+  ENABLED_ENVIRONMENTS,
+  PREFIXED_ENVIRONMENTS,
+} = require('../../../constants/drupals');
+
 const getApiClient = require('./api');
 const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
@@ -17,12 +22,6 @@ const DRUPAL_CACHE_FILENAME = 'drupal.json';
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
-
-const ENABLED_ENVIRONMENTS = new Set(
-  Object.keys(ENVIRONMENT_GATES).filter(
-    envName => ENVIRONMENT_GATES[envName].enabled,
-  ),
-);
 
 const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 
@@ -170,6 +169,12 @@ function getDrupalContent(buildOptions) {
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
       loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+
+      if (PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)) {
+        log(`Applying URL prefix...`);
+        metalsmith.metadata({ drupalUrlPrefix: '/drupal' });
+      }
+
       log('Successfully piped Drupal content into Metalsmith!');
       done();
     } catch (err) {

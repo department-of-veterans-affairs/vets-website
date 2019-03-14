@@ -1,10 +1,16 @@
-const ENVIRONMENTS = require('./environments');
+const {
+  LOCALHOST,
+  VAGOVDEV,
+  VAGOVSTAGING,
+  VAGOVPROD,
+} = require('./environments');
 
-// const DRUPAL_DEV = {
-//   address: 'http://dev.va.agile6.com',
-//   user: 'api',
-//   password: 'drupal8',
-// };
+// eslint-disable-next-line no-unused-vars
+const DRUPAL_DEV = {
+  address: 'http://dev.va.agile6.com',
+  user: 'api',
+  password: 'drupal8',
+};
 
 const DRUPAL_STAGING = {
   address: 'http://stg.va.agile6.com',
@@ -23,29 +29,18 @@ const DRUPAL_LIVE = {
  * @module site/constants/drupals
  */
 const DRUPALS = {
-  [ENVIRONMENTS.LOCALHOST]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVDEV]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVSTAGING]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVPROD]: DRUPAL_LIVE,
+  [LOCALHOST]: DRUPAL_STAGING,
+  [VAGOVDEV]: DRUPAL_STAGING,
+  [VAGOVSTAGING]: DRUPAL_STAGING,
+  [VAGOVPROD]: DRUPAL_LIVE,
 };
 
 module.exports = DRUPALS;
 
-module.exports.ENVIRONMENT_GATES = {
-  [ENVIRONMENTS.LOCALHOST]: {
-    enabled: true,
-    urlPrefix: true,
-  },
-  [ENVIRONMENTS.VAGOVDEV]: {
-    enabled: true,
-    urlPrefix: false,
-  },
-  [ENVIRONMENTS.VAGOVSTAGING]: {
-    enabled: true,
-    urlPrefix: true,
-  },
-  [ENVIRONMENTS.VAGOVPROD]: {
-    enabled: false,
-    urlPrefix: false,
-  },
-};
+module.exports.ENABLED_ENVIRONMENTS = new Set([
+  LOCALHOST,
+  VAGOVDEV,
+  VAGOVSTAGING,
+]);
+
+module.exports.PREFIXED_ENVIRONMENTS = new Set([LOCALHOST, VAGOVSTAGING]);
