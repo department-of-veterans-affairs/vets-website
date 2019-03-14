@@ -9,9 +9,9 @@ const options = [
 
 const StartPage = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
-    name="start-page-option"
+    name={`${pageNames.start}-option`}
     label="Have you separated from your military or uniformed service?"
-    id="start-page-option"
+    id={`${pageNames.start}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
