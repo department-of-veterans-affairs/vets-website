@@ -30,3 +30,22 @@ const DRUPALS = {
 };
 
 module.exports = DRUPALS;
+
+module.exports.ENVIRONMENT_GATES = {
+  [ENVIRONMENTS.LOCALHOST]: {
+    enabled: true,
+    urlPrefix: true,
+  },
+  [ENVIRONMENTS.VAGOVDEV]: {
+    enabled: true,
+    urlPrefix: false,
+  },
+  [ENVIRONMENTS.VAGOVSTAGING]: {
+    enabled: true,
+    urlPrefix: true,
+  },
+  [ENVIRONMENTS.VAGOVPROD]: {
+    enabled: false,
+    urlPrefix: false,
+  },
+};

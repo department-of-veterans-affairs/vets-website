@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
+const { ENVIRONMENT_GATES } = require('../../../constants/drupals');
 const getApiClient = require('./api');
 const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
@@ -17,11 +18,11 @@ const DRUPAL_CACHE_FILENAME = 'drupal.json';
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 
-const ENABLED_ENVIRONMENTS = new Set([
-  ENVIRONMENTS.LOCALHOST,
-  ENVIRONMENTS.VAGOVDEV,
-  ENVIRONMENTS.VAGOVSTAGING,
-]);
+const ENABLED_ENVIRONMENTS = new Set(
+  Object.keys(ENVIRONMENT_GATES).filter(
+    envName => ENVIRONMENT_GATES[envName].enabled,
+  ),
+);
 
 const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
 
