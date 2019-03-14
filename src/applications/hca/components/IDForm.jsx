@@ -75,6 +75,47 @@ export default class IDForm extends React.Component {
     },
   };
 
+  renderServerErrorAlert = () => {
+    const { errors } = this.props;
+    if (errors && errors.some(error => error.code === '500')) {
+      return (
+        <AlertBox
+          isVisible
+          status="error"
+          headline="Server Error"
+          content={
+            <>
+              <p>
+                We’re sorry for the interruption, but we have encountered an
+                error. Please try again later.
+              </p>
+            </>
+          }
+        />
+      );
+    }
+    return null;
+  };
+
+  renderRateLimitErrorAlert = () => {
+    const { errors } = this.props;
+    if (errors && errors.some(error => error.code === '429')) {
+      return (
+        <AlertBox
+          isVisible
+          status="error"
+          headline="Rate Limit Error"
+          content={
+            <>
+              <p>Please try again in an hour!</p>
+            </>
+          }
+        />
+      );
+    }
+    return null;
+  };
+
   renderContinueButtonOrStatus = () => {
     const { enrollmentStatus } = this.props;
     if (enrollmentStatus && enrollmentStatus !== 'none_of_the_above') {
@@ -133,6 +174,8 @@ export default class IDForm extends React.Component {
         onChange={this.formChange}
         data={this.state.idFormData}
       >
+        {this.renderServerErrorAlert()}
+        {this.renderRateLimitErrorAlert()}
         {this.renderContinueButtonOrStatus()}
       </SchemaForm>
     );
