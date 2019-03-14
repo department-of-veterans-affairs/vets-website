@@ -17,7 +17,7 @@ const initialState = {
 function hcaIDForm(state = initialState, action) {
   switch (action.type) {
     case SUBMIT_ID_FORM_STARTED:
-      return { ...state, isSubmitting: true };
+      return { ...state, isSubmitting: true, errors: null };
 
     case SUBMIT_ID_FORM_SUCCEEDED: {
       const { parsedStatus: enrollmentStatus } = action.data;

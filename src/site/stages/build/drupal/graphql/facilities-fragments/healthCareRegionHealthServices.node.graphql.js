@@ -3,7 +3,7 @@
  */
 
 const HEALTH_SERVICES_RESULTS = `
-  entities {      
+  entities {
     ... on NodeRegionalHealthCareServiceDes {
       status
       fieldBody {
