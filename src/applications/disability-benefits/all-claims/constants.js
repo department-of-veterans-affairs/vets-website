@@ -151,6 +151,8 @@ export const PTSD_MATCHES = [
   'post-traumatic stress',
 ];
 
+export const MAX_LEVENSHTEIN_DISTANCE = 0.25;
+
 // Max number of incident iterations a user can go through.
 export const PTSD_INCIDENT_ITERATION = 3;
 
