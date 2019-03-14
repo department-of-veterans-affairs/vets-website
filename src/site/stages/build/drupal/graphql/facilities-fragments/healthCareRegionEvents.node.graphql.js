@@ -6,10 +6,7 @@ const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
         title
-        fieldEventDate {
-          value
-        }
-        fieldEventDateEnd {
+        fieldDate {
           value
         }
         fieldDescription
