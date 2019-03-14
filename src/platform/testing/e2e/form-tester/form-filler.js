@@ -334,6 +334,7 @@ const fillForm = async (page, testData, testConfig, log) => {
         // TODO: Figure out how to remove this arbitrary time
         await page.waitFor(500);
         await fillPage(page, testData, testConfig, log);
+        await page.click(CONTINUE_BUTTON);
       }
     }
 
