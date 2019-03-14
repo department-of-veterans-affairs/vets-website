@@ -332,7 +332,7 @@ const fillForm = async (page, testData, testConfig, log) => {
       // NOTE: This won't trigger if the field we missed isn't required!
       if (page.url() === url) {
         // TODO: Figure out how to remove this arbitrary time
-        await page.waitFor(300);
+        await page.waitFor(500);
         await fillPage(page, testData, testConfig, log);
       }
     }

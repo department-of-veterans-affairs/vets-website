@@ -222,6 +222,15 @@ function initInProgressMock(token) {
             decisionText: 'Service Connected',
             ratingPercentage: 100,
           },
+          {
+            name: 'Diabetes mellitus0',
+            ratedDisabilityId: '3',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238,
+            decisionCode: 'SVCCONNCTED',
+            decisionText: 'Service Connected',
+            ratingPercentage: 100,
+          },
         ],
         servicePeriods: [
           {

@@ -1,5 +1,8 @@
 {
   "data": {
+    "view:claimType": {
+      "view:claimingNew": true
+    },
     "form4192Upload": [
       {
         "name": "image (1).png",
@@ -9,9 +12,6 @@
     ],
     "view:upload4192Choice": {
       "view:upload4192": true
-    },
-    "view:claimType": {
-      "view:claimingNew": true
     },
     "standardClaim": true,
     "view:noFdcWarning": {},
