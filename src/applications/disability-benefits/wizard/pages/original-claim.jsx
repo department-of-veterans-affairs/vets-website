@@ -9,11 +9,11 @@ const options = [
 
 const OriginalClaimPage = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
-    name="start-page-option"
+    name={`${pageNames.originalClaim}-option`}
     label="Is this your first time filing a claim with VA?"
     id="start-page-option"
     options={options}
-    onValueChange={({ value }) => setPageState({ selected: value })}
+    onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
   />
 );

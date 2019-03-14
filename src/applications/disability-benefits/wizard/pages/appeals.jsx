@@ -20,7 +20,7 @@ const AppealsPage = ({ setPageState, state = {} }) => (
     label="Are you filing a new claim or are you disagreeing with a VA decision on a earlier claim?"
     id="appeals-page-option"
     options={options}
-    onValueChange={({ value }) => setPageState({ selected: value })}
+    onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
   />
 );
