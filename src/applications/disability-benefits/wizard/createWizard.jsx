@@ -32,7 +32,11 @@ export default function createDisabilityIncreaseApplicationStatus(
                 >
                   <div itemProp="text">
                     <p>You can file online right now.</p>
-                    <Wizard pages={pages} />
+                    <Wizard
+                      pages={pages}
+                      expander
+                      buttonText="File a Disability Compensation Claim"
+                    />
                   </div>
                 </div>
               </div>
