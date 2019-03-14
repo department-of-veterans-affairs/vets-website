@@ -35,6 +35,36 @@ module.exports = `
       	... listOfLinkTeasers
       }
     }
+    fieldFacebook {
+      url {
+        path
+      }
+      title
+    }
+    fieldTwitter {
+      url {
+        path
+      }
+      title
+    }
+    fieldFlickr {
+      url {
+        path
+      }
+        title
+    }
+    fieldInstagram {
+      url {
+        path
+      }
+      title
+    }
+    fieldEmailSubscription {
+      url {
+        path
+      }
+      title
+    }
     allPressReleaseTeasers: reverseFieldOfficeNode(filter: {
       conditions: [
         { field: "type", value: "press_release"}
@@ -54,15 +84,15 @@ module.exports = `
         }
       }
     }
-    ${healthCareLocalFacilities}    
+    ${healthCareLocalFacilities}
     fieldIntroTextNewsStories {
       processed
     }
-    ${healthCareRegionNewsStories}  
+    ${healthCareRegionNewsStories}
     fieldIntroTextEventsPage {
       processed
-    }  
-    ${healthCareRegionEvents}        
+    }
+    ${healthCareRegionEvents}
     fieldClinicalHealthCareServi {
       processed
     }
@@ -71,6 +101,7 @@ module.exports = `
         processed
     }
     ${healthCarePatientFamilyServices}
+  }
     ${healthCareStaffBios}
   }  
 `;

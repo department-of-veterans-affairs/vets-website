@@ -25,14 +25,14 @@ export class NoConnectedApps extends React.Component {
     return (
       <div className="row va-connected-acct-null">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h3
+          <h2
             tabIndex="-1"
             ref={header => {
               this.header = header;
             }}
           >
             {this.noAccountsMessage()}
-          </h3>
+          </h2>
           <div className="feature">
             <h3>
               Have questions about signing in to {this.props.propertyName}?
