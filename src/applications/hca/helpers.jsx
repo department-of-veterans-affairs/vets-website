@@ -4,6 +4,8 @@ import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -458,6 +460,60 @@ export const medicarePartADescription = (
     </div>
   </div>
 );
+
+export const idFormSchema = {
+  type: 'object',
+  properties: {
+    firstName: {
+      type: 'string',
+    },
+    lastName: {
+      type: 'string',
+    },
+    dob: {
+      type: 'string',
+      format: 'date',
+    },
+    ssn: {
+      type: 'string',
+    },
+  },
+  required: ['firstName', 'lastName', 'dob', 'ssn'],
+};
+
+export const idFormUiSchema = {
+  firstName: {
+    'ui:title': 'First name',
+    'ui:errorMessages': {
+      required: 'Please enter your first name.',
+    },
+  },
+  lastName: {
+    'ui:title': 'Last name',
+    'ui:errorMessages': {
+      required: 'Please enter your last name.',
+    },
+  },
+  dob: {
+    ...currentOrPastDateUI('Date of birth'),
+    'ui:errorMessages': {
+      required:
+        'Please provide your date of birth. Select the month and day, then enter your birth year.',
+    },
+  },
+  ssn: {
+    ...ssnUI,
+    'ui:errorMessages': {
+      required:
+        'Please enter your Social Security number in this format: XXX-XX-XXXX.',
+      // NOTE: this `pattern` message is ignored because the pattern
+      // validation error message is hard coded in the validation function:
+      // https://github.com/usds/us-forms-system/blob/db029cb4f18362870d420e3eee5b71be98004e5e/src/js/validation.js#L231
+      pattern:
+        'Please enter your Social Security number in this format: XXX-XX-XXXX.',
+    },
+  },
+};
 
 /**
  *
