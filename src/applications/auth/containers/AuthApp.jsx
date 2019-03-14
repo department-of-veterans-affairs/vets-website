@@ -97,7 +97,9 @@ export class AuthApp extends React.Component {
               verify your identity with ID.me, you can try signing in with your
               premium DS Logon or premium My HealtheVet username and password.
             </p>
-            <button>Try signing in again</button>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
           </>
         );
         break;
@@ -118,12 +120,6 @@ export class AuthApp extends React.Component {
               Please update your computer’s settings to the current date and
               time, and then try again.
             </p>
-            <p>
-              <a>Learn how to update the time on a Windows computer</a>
-            </p>
-            <p>
-              <a>Learn how to update the time on a Mac computer</a>
-            </p>
           </>
         );
         break;
@@ -143,9 +139,17 @@ export class AuthApp extends React.Component {
               sign in, please use our online form to submit a request for help.
             </p>
             <p>
-              <a>Submit a request to get help signing in</a>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
             </p>
-            <button>Try signing in again</button>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
           </>
         );
         break;
@@ -167,9 +171,9 @@ export class AuthApp extends React.Component {
                 <strong>
                   If you feel you’ve entered your information correctly
                 </strong>
-                , please call the VA.gov Help Desk at <a>1-844-698-2311</a>{' '}
-                (TTY: 711). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00
-                p.m. (ET).
+                , please call the VA.gov Help Desk at{' '}
+                <a href="tel:18446982311">1-844-698-2311</a> (TTY: 711). We’re
+                here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
               </p>
             </li>
             <li>
@@ -181,7 +185,12 @@ export class AuthApp extends React.Component {
                 you can create one now.
               </p>
               <p>
-                <a>Sign in or create an account with ID.me</a>
+                <button
+                  className="va-button-link"
+                  onClick={this.props.openLoginModal}
+                >
+                  Sign in or create an account with ID.me
+                </button>
               </p>
             </li>
           </ul>
@@ -222,10 +231,22 @@ export class AuthApp extends React.Component {
                   instead.
                 </p>
                 <p>
-                  <a>Download Google Chrome</a>
+                  <a
+                    href="https://www.google.com/chrome/?brand=CHBD&gclid=Cj0KCQiAsdHhBRCwARIsAAhRhsk_uwlqzTaYptK2zKbuv-5g5Zk9V_qaKTe1Y5ptlxudmMG_Y7XqyDkaAs0HEALw_wcB&gclsrc=aw.ds"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Google Chrome
+                  </a>
                 </p>
                 <p>
-                  <a>Download Mozilla Firefox</a>
+                  <a
+                    href="https://www.mozilla.org/en-US/firefox/new/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Mozilla Firefox
+                  </a>
                 </p>
               </li>
               <li>
@@ -240,7 +261,13 @@ export class AuthApp extends React.Component {
               please use our online form to submit a request for help.
             </p>
             <p>
-              <a>Submit a request to get help signing in</a>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
             </p>
           </>
         );
@@ -267,9 +294,9 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-};
+const mapDispatchToProps = dispatch => ({
+  openLoginModal: () => dispatch(toggleLoginModal(true)),
+});
 
 export default connect(
   null,
