@@ -38,7 +38,7 @@ module.exports = `
       }
     }
     fieldDate {
-      date
+      endDate
       value
     }
     fieldAddToCalendar {

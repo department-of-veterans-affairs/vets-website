@@ -4,7 +4,6 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
-const healthCarePatientFamilyServices = require('./facilities-fragments/healthCarePatientFamilyServices.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
@@ -97,10 +96,6 @@ module.exports = `
     fieldClinicalHealthCareServi {
       processed
     }
-    ${healthCareRegionHealthServices}
-    fieldPatientFamilyServicesIn {
-        processed
-    }
-    ${healthCarePatientFamilyServices}
+    ${healthCareRegionHealthServices}    
   }
 `;
