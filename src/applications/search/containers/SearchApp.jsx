@@ -160,7 +160,7 @@ class SearchApp extends React.Component {
       return (
         <div>
           <h4>Our Top Recommendations for You</h4>
-          <ul className="results-list">
+          <ul className="results-list" tabIndex="-1">
             {recommendedResults.map(r =>
               this.renderWebResult(r, 'description', true),
             )}
@@ -213,7 +213,7 @@ class SearchApp extends React.Component {
 
     if (results && results.length > 0) {
       return (
-        <ul className="results-list" tabIndex="-1">
+        <ul className="results-list">
           {results.map(r => this.renderWebResult(r))}
         </ul>
       );
