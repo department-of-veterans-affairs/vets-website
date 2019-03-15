@@ -8,7 +8,10 @@ const proxy = require('express-http-proxy');
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
-const { compilePage } = require('../src/site/stages/build/drupal/page');
+const {
+  compilePage,
+  createFileObj,
+} = require('../src/site/stages/build/drupal/page');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
 
@@ -56,7 +59,8 @@ if (options.buildpath === null) {
 const app = express();
 const drupalClient = getDrupalClient(options);
 
-const awsUrls = {
+const urls = {
+  [ENVIRONMENTS.LOCALHOST]: 'http://localhost:3001',
   [ENVIRONMENTS.VAGOVDEV]:
     'http://dev.va.gov.s3-website-us-gov-west-1.amazonaws.com',
   [ENVIRONMENTS.VAGOVSTAGING]:
@@ -78,7 +82,7 @@ app.get('/preview', async (req, res, next) => {
 
     const requests = [
       drupalClient.getLatestPageById(req.query.nodeId),
-      fetch(`${awsUrls[options.buildtype]}/generated/file-manifest.json`).then(
+      fetch(`${urls[options.buildtype]}/generated/file-manifest.json`).then(
         resp => {
           if (resp.ok) {
             return resp.json();
@@ -91,7 +95,7 @@ app.get('/preview', async (req, res, next) => {
         },
       ),
       fetch(
-        `${awsUrls[options.buildtype]}/generated/drupalHeaderFooter.json`,
+        `${urls[options.buildtype]}/generated/drupalHeaderFooter.json`,
       ).then(resp => {
         if (resp.ok) {
           return resp.json();
@@ -123,6 +127,10 @@ app.get('/preview', async (req, res, next) => {
     const drupalPath = `${req.path.substring(1)}/index.html`;
 
     const compiledPage = compilePage(drupalPage, drupalData);
+    const fullPage = createFileObj(
+      compiledPage,
+      `${compiledPage.entityBundle}.drupal.liquid`,
+    );
 
     const files = {
       'generated/file-manifest.json': {
@@ -130,7 +138,7 @@ app.get('/preview', async (req, res, next) => {
         contents: new Buffer(JSON.stringify(fileManifest)),
       },
       [drupalPath]: {
-        ...compiledPage,
+        ...fullPage,
         isPreview: true,
         headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
         drupalSite: drupalClient.getSiteUri(),
@@ -150,8 +158,8 @@ app.get('/preview', async (req, res, next) => {
   }
 });
 
-if (options.buildtype) {
-  app.use(proxy(awsUrls[options.buildtype]));
+if (options.buildtype !== ENVIRONMENTS.LOCALHOST) {
+  app.use(proxy(urls[options.buildtype]));
 } else {
   app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 }
