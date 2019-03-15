@@ -213,7 +213,7 @@ class SearchApp extends React.Component {
 
     if (results && results.length > 0) {
       return (
-        <ul className="results-list">
+        <ul className="results-list" tabIndex="-1">
           {results.map(r => this.renderWebResult(r))}
         </ul>
       );
@@ -237,10 +237,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
+                recordEvent({
+                  event: 'nav-searchresults',
+                  'nav-path': `Recommended Results -> ${strippedTitle}`,
+                })
               : null
           }
         >
