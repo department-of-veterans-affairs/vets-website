@@ -185,6 +185,25 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'bios_page.drupal.liquid',
     'bio',
   );
+
+  // Create Detail Pages
+  const detailEntityUrl = createEntityUrlObj(drupalPagePath);
+  const detailObj = {
+    allHealthcareDetailPages: page.allHealthcareDetailPages,
+    facilitySidebar: sidebar,
+    entityUrl: detailEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+  const detailPage = updateEntityUrlObj(
+    detailObj,
+    drupalPagePath,
+    'Health Services',
+  );
+  files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+    detailPage,
+    'health_care_region_detail_page.drupal.liquid',
+  );
 }
 
 module.exports = createHealthCareRegionListPages;

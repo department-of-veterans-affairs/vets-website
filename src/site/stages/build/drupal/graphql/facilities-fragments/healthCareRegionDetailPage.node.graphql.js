@@ -24,15 +24,21 @@ const DETAIL_PAGE_RESULTS = `
     ${entityElementsFromPages}
     entityBundle
     changed
+    fieldContentBlock {
+      entity {
+        entityType
+        entityBundle
+        ${WYSIWYG}
+        ${COLLAPSIBLE_PANEL}
+        ${PROCESS}
+        ${QA_SECTION}
+        ${QA}
+        ${LIST_OF_LINK_TEASERS}
+        ${REACT_WIDGET}
+        ${NUMBER_CALLOUT}
+      }
+    }
     ${FIELD_RELATED_LINKS}
-    ${WYSIWYG}
-    ${COLLAPSIBLE_PANEL}
-    ${PROCESS}
-    ${QA_SECTION}
-    ${QA}
-    ${LIST_OF_LINK_TEASERS}
-    ${REACT_WIDGET}
-    ${NUMBER_CALLOUT}
     fieldMedia {
       entity {
        entityId
@@ -68,7 +74,7 @@ function queryFilter(isAll) {
     reverseFieldOfficeNode(
     filter: {
       conditions: [
-        { field: "type", value: "health_care_detail_page"}
+        { field: "type", value: "health_care_region_detail_page"}
         { field: "status", value: "1"}
       ]
     } 

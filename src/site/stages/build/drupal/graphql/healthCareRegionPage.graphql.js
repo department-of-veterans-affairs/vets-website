@@ -9,6 +9,7 @@ const healthCareLocalFacilities = require('./facilities-fragments/healthCareLoca
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
+const healthCareRegionDetailPage = require('./facilities-fragments/healthCareRegionDetailPage.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
@@ -94,5 +95,6 @@ module.exports = `
       processed
     }
     ${healthCareRegionEvents}
+    ${healthCareRegionDetailPage}
   }
 `;
