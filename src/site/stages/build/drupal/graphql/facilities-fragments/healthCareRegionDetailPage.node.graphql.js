@@ -24,6 +24,7 @@ const DETAIL_PAGE_RESULTS = `
     ${entityElementsFromPages}
     entityBundle
     changed
+    fieldIntroText
     fieldContentBlock {
       entity {
         entityType
