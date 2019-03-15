@@ -1,0 +1,97 @@
+{% comment %}
+    Example data:
+    {
+    "entityPublished": true,
+    "fieldNameFirst": "Sheila",
+    "fieldLastName": "Tunney",
+    "fieldSuffix": null,
+    "fieldDescription": "Public Affairs Specialist",
+    "fieldOffice": {
+    "entity": {
+    "entityLabel": "Pittsburgh Health Care System",
+    "entityType": "node"
+    }
+    },
+    "fieldIntroText": null,
+    "fieldPhotoAllowHiresDownload": false,
+    "fieldMedia": {
+    "entity": {
+    "image": {
+    "alt": "Robert L Wilkie",
+    "title": "",
+    "derivative": {
+    "url": "http://dev.va.agile6.com/sites/default/files/styles/1_1_square_medium_thumbnail/public/2019-03/Robert_L_Wilkie_8x10.jpg?h=59bf76d8&itok=Q-x_2QaJ",
+    "width": 240,
+    "height": 240
+    }
+    }
+    }
+    },
+    "fieldBody": null,
+    "changed": 1552424311,
+    "entityUrl": {
+    "path": "/pittsburgh-health-care/sheila-tunney"
+    }
+    },
+{% endcomment %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+        <div class="usa-grid usa-grid-full">
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+            <div class="usa-width-three-fourths">
+                {% if !entityPublished %}
+                    <div class="usa-alert usa-alert-info" >
+                        <div class="usa-alert-body">
+                            <p class="usa-alert-text">You are viewing a draft.</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <article class="usa-content">
+
+                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
+
+                        <div class="usa-width-one-third">
+                            {% assign image = fieldMedia.entity.image %}
+                            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                        </div>
+
+                        <div class="usa-width-two-thirds">
+                            <h1>{{ title }}</h1>
+                            <p class="vads-u-font-weight--bold">{{ fieldDescription }}</p>
+                            {% if fieldPhotoAllowHiresDownload %}
+                                <div class="vads-u-align-content--flex-end">
+                                    <i class="va-c-social-icon fas fa-download"></i>  <a href="{{ image.url }}" download>Download full size photo</a>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    {% if fieldIntroText %}
+                        <div class="va-introtext vads-u-margin-bottom--2">
+                            <p>{{ fieldIntroText }}</p>
+                        </div>
+                    {% endif %}
+
+                    {% if fieldBody %}
+                    <div class="vads-u-margin-bottom--2">
+                        {{ fieldBody.processed }}
+                    </div>
+                    {% endif %}
+
+                </article>
+
+                <div class="last-updated usa-content">
+                    Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

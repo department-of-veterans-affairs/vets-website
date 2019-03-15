@@ -37,11 +37,7 @@ module.exports = `
         }
       }
     }
-    fieldEventDate {
-      date
-      value
-    }
-    fieldEventDateEnd {
+    fieldDate {
       date
       value
     }
