@@ -63,98 +63,73 @@ class IDPage extends React.Component {
     this.props.toggleLoginModal(true);
   };
 
-  renderServerErrorAlert = () => {
-    const { errors } = this.props;
-    if (errors && errors.some(error => error.code === '500')) {
-      return (
-        <AlertBox
-          isVisible
-          status="error"
-          headline="Server Error"
-          content={
-            <>
-              <p>
-                We’re sorry for the interruption, but we have encountered an
-                error. Please try again later.
-              </p>
-            </>
-          }
-        />
-      );
-    }
-    return null;
-  };
-
-  renderRateLimitErrorAlert = () => {
-    const { errors } = this.props;
-    if (errors && errors.some(error => error.code === '429')) {
-      return (
-        <AlertBox
-          isVisible
-          status="error"
-          headline="Rate Limit Error"
-          content={
-            <>
-              <p>Please try again in an hour!</p>
-            </>
-          }
-        />
-      );
-    }
-    return null;
-  };
-
-  renderContinueButtonOrStatus = () => {
-    const { enrollmentStatus } = this.props;
-    if (enrollmentStatus && enrollmentStatus !== 'none_of_the_above') {
-      return (
+  renderServerErrorAlert = () => (
+    <AlertBox
+      isVisible
+      status="error"
+      headline="Server Error"
+      content={
         <>
-          <AlertBox
-            isVisible
-            status="error"
-            headline="Please sign in to continue your application"
-            content={
-              <>
-                <p>
-                  We’re sorry for the interruption, but we need you to review
-                  some information before you continue applying. Please sign in
-                  below to review. If you don’t have an account, you can create
-                  one now.
-                </p>
-                <button
-                  className="usa-button-primary"
-                  onClick={this.props.handleSignIn}
-                >
-                  Sign in to VA.gov
-                </button>
-              </>
-            }
-          />
-          <br />
+          <p>
+            We’re sorry for the interruption, but we have encountered an error.
+            Please try again later.
+          </p>
         </>
-      );
-    }
+      }
+    />
+  );
 
-    return (
-      <LoadingButton
-        isLoading={this.props.isSubmittingIDForm}
-        disabled={false}
-        type="submit"
-        /* to override the `width: 100%` given to SchemaForm submit buttons */
-        style={{ width: 'auto' }}
-      >
-        Continue to the Application
-        <span className="button-icon">&nbsp;»</span>
-      </LoadingButton>
-    );
-  };
+  renderContinueButton = () => (
+    <LoadingButton
+      isLoading={this.props.isSubmittingIDForm}
+      disabled={false}
+      type="submit"
+      /* to override the `width: 100%` given to SchemaForm submit buttons */
+      style={{ width: 'auto' }}
+    >
+      Continue to the Application
+      <span className="button-icon">&nbsp;»</span>
+    </LoadingButton>
+  );
+
+  renderLoginRequiredAlert = () => (
+    <>
+      <AlertBox
+        isVisible
+        status="error"
+        headline="Please sign in to continue your application"
+        content={
+          <>
+            <p>
+              We’re sorry for the interruption, but we need you to review some
+              information before you continue applying. Please sign in below to
+              review. If you don’t have an account, you can create one now.
+            </p>
+            <button
+              className="usa-button-primary"
+              onClick={this.props.handleSignIn}
+            >
+              Sign in to VA.gov
+            </button>
+          </>
+        }
+      />
+      <br />
+    </>
+  );
 
   render() {
+    const {
+      loginRequired,
+      showContinueButton,
+      showLoadingIndicator,
+      showServerError,
+    } = this.props;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for health care benefits" />
-        {this.props.showLoadingIndicator && <LoadingIndicator />}
-        {!this.props.showLoadingIndicator && (
+        {showLoadingIndicator && <LoadingIndicator />}
+        {!showLoadingIndicator && (
           <>
             <AlertBox
               isVisible
@@ -195,9 +170,9 @@ class IDPage extends React.Component {
               {/* The only reason these JSX-returning methods are nested in the
               SchemaForm is to prevent the SchemaForm component from rendering
               its default SUBMIT button */}
-              {this.renderServerErrorAlert()}
-              {this.renderRateLimitErrorAlert()}
-              {this.renderContinueButtonOrStatus()}
+              {loginRequired && this.renderLoginRequiredAlert()}
+              {showServerError && this.renderServerErrorAlert()}
+              {showContinueButton && this.renderContinueButton()}
             </SchemaForm>
           </>
         )}
@@ -215,15 +190,26 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-const mapStateToProps = state => ({
-  enrollmentStatus: state.hcaIDForm.enrollmentStatus,
-  errors: state.hcaIDForm.errors,
-  form: state.form,
-  noESRRecordFound: state.hcaIDForm.noESRRecordFound,
-  isSubmittingIDForm: state.hcaIDForm.isSubmitting,
-  shouldRedirect: isLoggedIn(state),
-  showLoadingIndicator: isProfileLoading(state),
-});
+const mapStateToProps = state => {
+  const {
+    enrollmentStatus,
+    hasServerError,
+    isSubmitting,
+    loginRequired,
+    noESRRecordFound,
+  } = state.hcaIDForm;
+  return {
+    enrollmentStatus,
+    form: state.form,
+    isSubmittingIDForm: isSubmitting,
+    loginRequired,
+    noESRRecordFound,
+    shouldRedirect: isLoggedIn(state),
+    showContinueButton: !loginRequired,
+    showLoadingIndicator: isProfileLoading(state),
+    showServerError: hasServerError,
+  };
+};
 
 export default connect(
   mapStateToProps,
