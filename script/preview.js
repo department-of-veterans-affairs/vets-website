@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
+
+require('isomorphic-fetch');
 const commandLineArgs = require('command-line-args');
 const path = require('path');
-const fs = require('fs');
 const express = require('express');
+const proxy = require('express-http-proxy');
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
@@ -53,62 +56,115 @@ if (options.buildpath === null) {
 const app = express();
 const drupalClient = getDrupalClient(options);
 
-app.use(express.static(path.join(__dirname, '..', options.buildpath)));
+const awsUrls = {
+  [ENVIRONMENTS.VAGOVDEV]:
+    'http://dev.va.gov.s3-website-us-gov-west-1.amazonaws.com',
+  [ENVIRONMENTS.VAGOVSTAGING]:
+    'http://staging.va.gov.s3-website-us-gov-west-1.amazonaws.com',
+  [ENVIRONMENTS.VAGOVPROD]:
+    'http://www.va.gov.s3-website-us-gov-west-1.amazonaws.com',
+};
 
 app.get('/health', (req, res) => {
   res.send(200);
 });
 
-app.get('/preview', async (req, res) => {
-  const smith = createPipieline({
-    ...options,
-    port: process.env.PORT || 3001,
-  });
+app.get('/preview', async (req, res, next) => {
+  try {
+    const smith = createPipieline({
+      ...options,
+      port: process.env.PORT || 3001,
+    });
 
-  const drupalData = await drupalClient.getLatestPageById(req.query.nodeId);
-
-  if (!drupalData.data.nodes.entities.length) {
-    res.sendStatus(404);
-    return;
-  }
-
-  const drupalPage = drupalData.data.nodes.entities[0];
-
-  const compiledPage = compilePage(drupalPage, drupalData);
-
-  const files = {
-    [`${req.path.substring(1)}/index.html`]: {
-      ...compiledPage,
-      isPreview: true,
-      headerFooterData: fs.readFileSync(
-        path.join(
-          __dirname,
-          '..',
-          options.buildpath,
-          'generated/drupalHeaderFooter.json',
-        ),
-        'utf8',
+    const requests = [
+      drupalClient.getLatestPageById(req.query.nodeId),
+      fetch(`${awsUrls[options.buildtype]}/generated/file-manifest.json`).then(
+        resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
+          throw new Error(
+            `HTTP error when fetching manifest: ${resp.status} ${
+              resp.statusText
+            }`,
+          );
+        },
       ),
-      drupalSite: drupalClient.getSiteUri(),
-      layout: `${drupalPage.entityBundle}.drupal.liquid`,
-      contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(drupalPage, null, 4),
-    },
-  };
+      fetch(
+        `${awsUrls[options.buildtype]}/generated/drupalHeaderFooter.json`,
+      ).then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+        throw new Error(
+          `HTTP error when fetching header/footer data: ${resp.status} ${
+            resp.statusText
+          }`,
+        );
+      }),
+    ];
 
-  smith.run(files, (err, newFiles) => {
-    if (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-      res.sendStatus(500);
-    } else {
-      res.set('Content-Type', 'text/html');
-      res.send(Object.entries(newFiles)[0][1].contents);
+    const [drupalData, fileManifest, headerFooterData] = await Promise.all(
+      requests,
+    );
+
+    if (drupalData.errors) {
+      throw new Error(
+        `Drupal errors: ${JSON.stringify(drupalData.errors, null, 2)}`,
+      );
     }
-  });
+
+    if (!drupalData.data.nodes.entities.length) {
+      res.sendStatus(404);
+      return;
+    }
+
+    const drupalPage = drupalData.data.nodes.entities[0];
+    const drupalPath = `${req.path.substring(1)}/index.html`;
+
+    const compiledPage = compilePage(drupalPage, drupalData);
+
+    const files = {
+      'generated/file-manifest.json': {
+        path: 'generated/file-manifest.json',
+        contents: new Buffer(JSON.stringify(fileManifest)),
+      },
+      [drupalPath]: {
+        ...compiledPage,
+        isPreview: true,
+        headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
+        drupalSite: drupalClient.getSiteUri(),
+      },
+    };
+
+    smith.run(files, (err, newFiles) => {
+      if (err) {
+        next(err);
+      } else {
+        res.set('Content-Type', 'text/html');
+        res.send(newFiles[drupalPath].contents);
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+if (options.buildtype) {
+  app.use('/*', proxy(awsUrls[options.buildtype]));
+} else {
+  app.use(express.static(path.join(__dirname, '..', options.buildpath)));
+}
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.send(`
+    <p>We're sorry, something went wrong when trying to preview that page.</p>
+    <pre>${options.buildtype !== ENVIRONMENTS.VAGOVPROD ? err : ''}</pre>
+  `);
 });
 
 app.listen(options.port, () => {
-  // eslint-disable-next-line no-console
   console.log(`Content preview server running on port ${options.port}`);
 });
