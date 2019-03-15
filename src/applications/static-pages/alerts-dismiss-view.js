@@ -21,43 +21,33 @@ export function alertsBuildShow() {
     content.setAttribute('aria-hidden', ariaHidden);
   }
 
-  const elements = document.querySelectorAll('.usa-alert-text');
-  let i;
-  for (i = 0; i < elements.length; i++) {
-    if (
-      elements[i].id &&
-      document.querySelectorAll(
-        `#${elements[i].id} .field--name-field-text-expander`,
-      ).length
-    ) {
-      const clicker = document.querySelector(
-        `#${elements[i].id} .field--name-field-text-expander`,
-      );
+  Array.from(document.querySelectorAll('.usa-alert-text'))
+    .filter(el => el.querySelector('.field--name-field-text-expander') !== null)
+    .forEach(el => {
+      const clicker = el.querySelector('.field--name-field-text-expander');
 
       // Toggle the expander info
       clicker.addEventListener('click', expanderFire);
-    }
-  }
+    });
 
-  // This is the cookie dismiss logic.
-  const wrapsClicker = document.querySelectorAll('.usa-alert-dismiss');
-  let j;
-  let k;
   let target;
   let frequency;
   let date;
   let expires;
 
   // Build our array of dismissed alerts.
-  const items = document.cookie
+  const dismissedAlerts = document.cookie
     .split(';')
     .filter(c => c.trim().indexOf('usa') === 0)
     .map(c => c.trim().replace(/=dismissed/g, ''));
 
   // Iterate through the alerts array, and dismiss.
-  for (j = 0; j < items.length; j++) {
-    document.getElementById(items[j]).classList.add('dismissed');
-  }
+  dismissedAlerts.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('dismissed');
+    }
+  });
 
   // Create our cookie and dismiss the alert.
   function cookieLogic() {
@@ -72,9 +62,11 @@ export function alertsBuildShow() {
     document.getElementById(target).classList.add('dismissed');
     document.cookie = `${target}=dismissed;${expires};path=/`;
   }
-  for (k = 0; k < wrapsClicker.length; k++) {
-    wrapsClicker[k].addEventListener('click', cookieLogic);
-  }
+
+  // add click handler to each alert's dismiss button
+  Array.from(document.querySelectorAll('.usa-alert-dismiss')).forEach(el => {
+    el.addEventListener('click', cookieLogic);
+  });
 
   // Show alerts that don't have dismissed class - doing this way
   // prevents flash on page load before styles / js are available.
