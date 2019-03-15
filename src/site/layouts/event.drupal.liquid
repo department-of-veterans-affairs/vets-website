@@ -66,6 +66,26 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+
+{% assign start_date_no_time = fieldDate.value | date: "%a, %b %d" %}
+{% assign end_date_no_time = fieldDate.endValue | date: "%a, %b %d" %}
+
+{% assign start_time = fieldDate.value | date: "%I:%M %p" %}
+{% assign end_time = fieldDate.endValue | date: "%I:%M %p" %}
+
+{% assign start_date_full = fieldDate.value | date: "%a, %b %d, %I:%M %p" %}
+{% assign end_date_full = fieldDate.endValue | date: "%a, %b %d, %I:%M %p" %}
+
+{% if fieldDate.value != empty and fieldDate.endValue == empty %}
+    {% assign date_type = "start_date_only" %}
+{% else %}
+    {% if start_date_no_time == end_date_no_time %}
+        {% assign date_type = "same_day" %}
+    {% else %}
+        {% assign date_type = "all_dates" %}
+    {% endif %}
+{% endif %}
+
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
@@ -91,8 +111,18 @@
                             <dl class="va-c-event-info">
                                 <dt class="vads-u-font-weight--bold">When:</dt>
                                 <dd>
-                                    <span class="va-event-day vads-u-display--block">{{ fieldDate.value | formatDate: 'ddd, MMM Do' }}</span>
-                                    <span class="va-event-time">{{ fieldDate.value | formatDate: 'h:mm a' }} - {{ fieldDate.endValue | formatDate: 'h:mm a' }}</span>
+                                    {% if date_type == "start_date_only" %}
+                                        <span>{{ start_date_no_time }}</span><br>
+                                        <span>{{ start_time }}</span>
+                                    {% else %}
+                                        {% if date_type == "same_day" %}
+                                            <span>{{ start_date_no_time }}</span><br>
+                                            <span>{{ start_time }} - {{ end_time }}</span>
+                                        {% else %}
+                                            <span>{{ start_date_full }} -</span><br>
+                                            <span>{{ end_date_full }}</span>
+                                        {% endif %}
+                                    {% endif %}
                                 </dd>
                             </dl>
 
