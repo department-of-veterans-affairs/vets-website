@@ -237,10 +237,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                recordEvent({
-                  event: 'nav-searchresults',
-                  'nav-path': `Recommended Results -> ${strippedTitle}`,
-                })
+                  recordEvent({
+                    event: 'nav-searchresults',
+                    'nav-path': `Recommended Results -> ${strippedTitle}`,
+                  })
               : null
           }
         >
