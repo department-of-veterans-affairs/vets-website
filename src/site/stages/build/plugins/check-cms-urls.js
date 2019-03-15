@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const ignoredPages = new Set(['drupal/test/index.html']);
 
-function checkForCMSUrls(BUILD_OPTIONS) {
+function checkForCMSUrls() {
   return (files, metalsmith, done) => {
     const filesWithBadUrls = [];
     for (const fileName of Object.keys(files)) {
@@ -23,9 +23,9 @@ function checkForCMSUrls(BUILD_OPTIONS) {
       );
       console.log(filesWithBadUrls.join('\n'));
 
-      if (!BUILD_OPTIONS.watch) {
-        throw new Error('Pages found that reference internal CMS urls');
-      }
+      // if (!BUILD_OPTIONS.watch) {
+      //   throw new Error('Pages found that reference internal CMS urls');
+      // }
     }
 
     done();
