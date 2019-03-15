@@ -41,6 +41,20 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   }
 
+  // Create the detail page for health care static information
+  if (page.allHealthcareDetailPages !== undefined) {
+    for (const detailPage of page.allHealthcareDetailPages.entities) {
+      if (detailPage.entityBundle === 'health_care_region_detail_page') {
+        const pagePath = detailPage.entityUrl.path;
+        const detailPageCompiled = Object.assign(detailPage, sidebar, alerts);
+        files[`drupal${pagePath}/index.html`] = createFileObj(
+          detailPageCompiled,
+          'health_care_region_detail_page.drupal.liquid',
+        );
+      }
+    }
+  }
+
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
