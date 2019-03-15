@@ -23,94 +23,82 @@
                 <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
                     <h3>On this page</h3>
                     <ul>
-                        {% capture difference %} {{ careCoordinatorPatientFamilyServices.entities | size | minus:1 }} {% endcapture %}
-                        {% unless difference contains '-' %}
+                        {% if careCoordinatorPatientFamilyServices.length %}
                           <li><a href="#care-patient-family-services">Care Coordinators</a></li>
-                        {% endunless %}
-                        {% capture difference %} {{ socialProgramsPatientFamilyServices.entities | size | minus:1 }} {% endcapture %}
-                        {% unless difference contains '-' %}
+                        {% endif %}
+                        {% if socialProgramsPatientFamilyServices.entities.length %}
                             <li><a href="#social-patient-family-services">Social Programs and Services</a></li>
-                        {% endunless %}
-                        {% capture difference %} {{ healthWellnessPatientFamilyServices.entities | size | minus:1 }} {% endcapture %}
-                        {% unless difference contains '-' %}
+                        {% endif %}
+                        {% if healthWellnessPatientFamilyServices.entities.length %}
                             <li><a href="#wellness-patient-family-services">Health and wellness</a></li>
-                        {% endunless %}
-                        {% capture difference %} {{ primaryCareHealthServices.entities | size | minus:1 }} {% endcapture %}
-                        {% unless difference contains '-' %}
+                        {% endif %}
+                        {% if primaryCareHealthServices.entities.length %}
                             <li><a href="#primary-health-services">Primary care</a></li>
-                        {% endunless %}
-                        {% capture difference %} {{ specialtyCareHealthServices.entities | size | minus:1 }} {% endcapture %}
-                        {% unless difference contains '-' %}
+                        {% endif %}
+                        {% if specialtyCareHealthServices.entities.length %}
                            <li><a href="#specialty-health-services">Specialty care</a></li>
-                        {% endunless %}
-                        {% capture difference %} {{ mentalHealthServices.entities | size | minus:1 }} {% endcapture %}
-                        {% unless difference contains '-' %}
+                        {% endif %}
+                        {% if mentalHealthServices.entities.length %}
                             <li><a href="#mental-health-services">Mental health care</a></li>
-                        {% endunless %}
+                        {% endif %}
                     </ul>
                 </div>
 
                 <!-- Patient and Family Services -->
-                {% capture difference %} {{ careCoordinatorPatientFamilyServices.entities | size | minus:1 }} {% endcapture %}
-                {% unless difference contains '-' %}
+                {% if careCoordinatorPatientFamilyServices.entities.length %}
                     <section class="care-patient-family-services" id="care-patient-family-services">
                         <h2>Care Coordinators</h2>
                         {% for careService in careCoordinatorPatientFamilyServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = careService %}
                         {% endfor %}
                     </section>
-                {% endunless %}
+                {% endif %}
 
-                {% capture difference %} {{ socialProgramsPatientFamilyServices.entities | size | minus:1 }} {% endcapture %}
-                {% unless difference contains '-' %}
+                {% if socialProgramsPatientFamilyServices.entities.length %}
                     <section class="social-patient-family-services" id="social-patient-family-services">
                         <h2>Social programs and services</h2>
                         {% for socialService in socialProgramsPatientFamilyServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = socialService %}
                         {% endfor %}
                     </section>
-                {% endunless %}
+                {% endif %}
 
-                {% capture difference %} {{ healthWellnessPatientFamilyServices.entities | size | minus:1 }} {% endcapture %}
-                {% unless difference contains '-' %}
+                {% if healthWellnessPatientFamilyServices.entities.length %}
                     <section class="wellness-patient-family-services" id="wellness-patient-family-services">
                         <h2>Health and wellness</h2>
                         {% for wellnessService in healthWellnessPatientFamilyServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = wellnessHealthService %}
                         {% endfor %}
                     </section>
-                {% endunless %}
+                {% endif %}
 
                 <!-- Health Services -->
-                {% capture difference %} {{ primaryCareHealthServices.entities | size | minus:1 }} {% endcapture %}
-                {% unless difference contains '-' %}
-                <section class="primary-health-services" id="primary-health-services">
-                    <h2>Primary care</h2>
-                    {% for primaryService in primaryCareHealthServices.entities %}
-                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = primaryService %}
-                    {% endfor %}
-                </section>
-                {% endunless %}
+                {% if primaryCareHealthServices.entities.length %}
+                    <section class="primary-health-services" id="primary-health-services">
+                        <h2>Primary care</h2>
+                        {% for primaryService in primaryCareHealthServices.entities %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = primaryService %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
 
-                {% capture difference %} {{ specialtyCareHealthServices.entities | size | minus:1 }} {% endcapture %}
-                {% unless difference contains '-' %}
-                <section class="specialty-health-services" id="specialty-health-services">
-                    <h2>Specialty care</h2>
-                    {% for specialtyService in specialtyCareHealthServices.entities %}
-                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = specialtyService %}
-                    {% endfor %}
-                </section>
-                {% endunless %}
+                {% if specialtyCareHealthServices.entities.length %}
+                    <section class="specialty-health-services" id="specialty-health-services">
+                        <h2>Specialty care</h2>
+                        {% for specialtyService in specialtyCareHealthServices.entities %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = specialtyService %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
 
-                {% capture difference %} {{ mentalHealthServices.entities | size | minus:1 }} {% endcapture %}
-                {% unless difference contains '-' %}
-                <section class="mental-health-services" id="mental-health-services">
-                    <h2>Mental health care</h2>
-                    {% for mentalHealthService in mentalHealthServices.entities %}
-                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = mentalHealthService %}
-                    {% endfor %}
-                </section>
-                {% endunless %}
+                {% if mentalHealthServices.entities.length %}
+                    <section class="mental-health-services" id="mental-health-services">
+                        <h2>Mental health care</h2>
+                        {% for mentalHealthService in mentalHealthServices.entities %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = mentalHealthService %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
 
             </article>
         </div>
