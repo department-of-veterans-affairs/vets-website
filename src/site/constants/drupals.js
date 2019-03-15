@@ -43,4 +43,4 @@ module.exports.ENABLED_ENVIRONMENTS = new Set([
   VAGOVSTAGING,
 ]);
 
-module.exports.PREFIXED_ENVIRONMENTS = new Set([LOCALHOST, VAGOVSTAGING]);
+module.exports.PREFIXED_ENVIRONMENTS = new Set([VAGOVSTAGING]);

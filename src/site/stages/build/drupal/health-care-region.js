@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign, no-continue */
+const path = require('path');
 const facilityLocationPath = require('./utilities-drupal');
 const {
   createEntityUrlObj,
@@ -9,6 +10,7 @@ const {
 
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
+  const hcRegionFileDir = path.join('.', drupalPagePath);
   const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
   const alerts = { alert: page.alert };
@@ -33,7 +35,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
           alerts,
         );
 
-        files[`drupal${pagePath}/index.html`] = createFileObj(
+        files[`${hcRegionFileDir}/index.html`] = createFileObj(
           facilityCompiled,
           'health_care_local_facility_page.drupal.liquid',
         );
@@ -53,7 +55,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     title: page.title,
   };
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
-  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
+  files[`${hcRegionFileDir}/locations/index.html`] = createFileObj(
     locPage,
     'health_care_region_locations_page.drupal.liquid',
   );
@@ -71,7 +73,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     title: page.title,
   };
   const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
-  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+  files[`${hcRegionFileDir}/health-services/index.html`] = createFileObj(
     hsPage,
     'health_care_region_health_services_page.drupal.liquid',
   );

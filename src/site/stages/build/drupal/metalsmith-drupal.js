@@ -32,7 +32,7 @@ function writeDrupalDebugPage(files) {
   log('Drupal debug page written to /drupal/debug.');
 
   const drupalPages = Object.keys(files)
-    .filter(page => page.isDrupalPage)
+    .filter(page => files[page].isDrupalPage)
     .map(page => `<li><a href="/${page}">/${page}</a></li>`)
     .join('');
 
@@ -43,6 +43,7 @@ function writeDrupalDebugPage(files) {
 
   files['drupal/debug/index.html'] = {
     contents: Buffer.from(drupalIndex),
+    isDrupalPage: true,
     private: true,
   };
 }
@@ -83,30 +84,50 @@ function pipeDrupalPagesIntoMetalsmith(
       entityBundle,
     } = page;
 
+    const pageFileDir = path.join('.', drupalUrlPrefix, drupalPagePath);
+    const pageFilePath = path.join(pageFileDir, 'index.html');
     const pageCompiled = compilePage(page, contentData);
 
-    files[`${drupalUrlPrefix}${drupalPagePath}/index.html`] = createFileObj(
+    files[pageFilePath] = createFileObj(
       pageCompiled,
       `${entityBundle}.drupal.liquid`,
     );
 
     if (page.entityBundle === 'health_care_region_page') {
+      const urlPath = path.join(drupalUrlPrefix, drupalPagePath);
       createHealthCareRegionListPages(
         pageCompiled,
-        `${drupalUrlPrefix}${drupalPagePath}`,
+        urlPath,
         files,
       );
+    }
+
+    if (!applyPrefix) {
+      let existingMarkdownIndexFile = path.join(pageFileDir, 'index.md');
+      let existingMarkdownFile = path.join(pageFileDir, '../', `${path.dirname(pageFileDir)}.md`);
+
+      if (files[existingMarkdownIndexFile]) {
+        log(`Overriding vagov-content page with Drupal data: ${pageFileDir}`)
+
+        console.log(files[existingMarkdownIndexFile])
+        delete files[existingMarkdownIndexFile];
+      } else if (files[existingMarkdownFile]) {
+        log(`Overriding vagov-content page with Drupal data: ${pageFileDir}`)
+        delete files[existingMarkdownFile];
+      }
     }
   }
 
   writeDrupalDebugPage(files);
 
-  files[`${drupalUrlPrefix}/index.md`] = {
-    ...files['index.md'],
-    path: `${drupalUrlPrefix}/index.html`,
-    isDrupalPage: true,
-    private: true,
-  };
+  if (applyPrefix) {
+    files[`drupal/index.md`] = {
+      ...files['index.md'],
+      path: `/drupal/index.html`,
+      isDrupalPage: true,
+      private: true,
+    };
+  }
 }
 
 async function loadDrupal(buildOptions) {
