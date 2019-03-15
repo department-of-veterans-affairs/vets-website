@@ -86,6 +86,7 @@ function pipeDrupalPagesIntoMetalsmith(
 
     const pageFileDir = path.join('.', drupalUrlPrefix, drupalPagePath);
     const pageFilePath = path.join(pageFileDir, 'index.html');
+
     const pageCompiled = compilePage(page, contentData);
 
     files[pageFilePath] = createFileObj(
@@ -95,25 +96,25 @@ function pipeDrupalPagesIntoMetalsmith(
 
     if (page.entityBundle === 'health_care_region_page') {
       const urlPath = path.join(drupalUrlPrefix, drupalPagePath);
-      createHealthCareRegionListPages(
-        pageCompiled,
-        urlPath,
-        files,
-      );
+      createHealthCareRegionListPages(pageCompiled, urlPath, files);
     }
 
     if (!applyPrefix) {
-      let existingMarkdownIndexFile = path.join(pageFileDir, 'index.md');
-      let existingMarkdownFile = path.join(pageFileDir, '../', `${path.dirname(pageFileDir)}.md`);
+      const existingMarkdownIndexFile = path.join(pageFileDir, 'index.md');
+      const existingMarkdownFile = path.join(
+        pageFileDir,
+        '..',
+        `${path.basename(pageFileDir)}.md`,
+      );
 
-      if (files[existingMarkdownIndexFile]) {
-        log(`Overriding vagov-content page with Drupal data: ${pageFileDir}`)
-
-        console.log(files[existingMarkdownIndexFile])
-        delete files[existingMarkdownIndexFile];
-      } else if (files[existingMarkdownFile]) {
-        log(`Overriding vagov-content page with Drupal data: ${pageFileDir}`)
-        delete files[existingMarkdownFile];
+      for (const vagovContentFile of [
+        existingMarkdownIndexFile,
+        existingMarkdownFile,
+      ]) {
+        if (files[vagovContentFile]) {
+          log(`Overriding conflicting vagov-content file: ${vagovContentFile}`);
+          delete files[vagovContentFile];
+        }
       }
     }
   }
