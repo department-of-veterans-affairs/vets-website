@@ -41,6 +41,19 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   }
 
+  // Create the detail page for health care static information
+  if (page.allHealthcareDetailPages !== undefined) {
+    for (const detailPage of page.allHealthcareDetailPages.entities) {
+      if (detailPage.entityBundle === 'health_care_region_detail_page') {
+        const detailPageCompiled = Object.assign(detailPage, sidebar, alerts);
+        files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+          detailPageCompiled,
+          'health_care_region_detail_page.drupal.liquid',
+        );
+      }
+    }
+  }
+
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
@@ -184,25 +197,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'allStaffProfiles',
     'bios_page.drupal.liquid',
     'bio',
-  );
-
-  // Create Detail Pages
-  const detailEntityUrl = createEntityUrlObj(drupalPagePath);
-  const detailObj = {
-    allHealthcareDetailPages: page.allHealthcareDetailPages,
-    facilitySidebar: sidebar,
-    entityUrl: detailEntityUrl,
-    alert: page.alert,
-    title: page.title,
-  };
-  const detailPage = updateEntityUrlObj(
-    detailObj,
-    drupalPagePath,
-    'Health Services',
-  );
-  files[`drupal${drupalPagePath}/index.html`] = createFileObj(
-    detailPage,
-    'health_care_region_detail_page.drupal.liquid',
   );
 }
 

@@ -8,6 +8,29 @@
             {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
             <div class="usa-width-three-fourths">
                 <article class="usa-content">
+                    <h1>{{ title }}</h1>
+
+                    {% assign widgetDelta = 1 %}
+                    {% for block in fieldContentBlock %}
+                        {% if block.entity.entityBundle == 'react_widget' and block.entity.fieldCtaWidget == false %}
+                            {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
+                            {% assign block.entity.reactRoot = reactRoot %}
+                            {% assign widgetDelta = widgetDelta | plus: 1 %}
+                        {% endif %}
+
+                        {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+                        {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                        {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+                    {% endfor %}
+                    {% if fieldRelatedLinks != empty %}
+                        <div class="row">
+                            <div class="usa-content columns">
+                                <aside class="va-nav-linkslist va-nav-linkslist--related">
+                                    {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}
+                                </aside>
+                            </div>
+                        </div>
+                    {%  endif %}
 
                 </article>
             </div>
