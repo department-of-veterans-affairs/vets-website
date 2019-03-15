@@ -22,6 +22,7 @@
                         {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
                         {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
                     {% endfor %}
+
                     {% if fieldRelatedLinks != empty %}
                         <div class="row">
                             <div class="usa-content columns">
