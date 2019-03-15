@@ -37,13 +37,11 @@ module.exports = `
         }
       }
     }
-    fieldEventDate {
-      date
-      value
-    }
-    fieldEventDateEnd {
-      date
-      value
+    fieldDate {
+        startDate
+        value
+        endDate
+        endValue
     }
     fieldAddToCalendar {
       fileref 

@@ -1,13 +1,14 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
-const healthCareRegionPage = require('./healthCareRegionPage.graphql');
-const pressReleasePage = require('./pressReleasePage.graphql');
 const fragments = require('./fragments.graphql');
+const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
+const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
-const alertsQuery = require('./alerts.graphql');
-const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
+const bioPage = require('./bioPage.graphql');
+const eventPage = require('./eventPage.graphql');
+const alertsQuery = require('./alerts.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 
 /**
@@ -23,6 +24,7 @@ module.exports = `
   ${pressReleasePage}
   ${newsStoryPage}
   ${eventPage}
+  ${bioPage}
 
   query GetLatestPageById($id: String!, $today: String!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -37,6 +39,7 @@ module.exports = `
         ... newsStoryPage
         ... pressReleasePage
         ... eventPage
+        ... bioPage
       }
     }
     ${icsFileQuery}
