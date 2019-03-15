@@ -151,7 +151,7 @@ app.get('/preview', async (req, res, next) => {
 });
 
 if (options.buildtype) {
-  app.use('/*', proxy(awsUrls[options.buildtype]));
+  app.use(proxy(awsUrls[options.buildtype]));
 } else {
   app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 }
