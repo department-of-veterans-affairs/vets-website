@@ -38,8 +38,10 @@ module.exports = `
       }
     }
     fieldDate {
-      endDate
-      value
+        startDate
+        value
+        endDate
+        endValue
     }
     fieldAddToCalendar {
       fileref 
