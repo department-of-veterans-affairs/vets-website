@@ -26,7 +26,7 @@ function createEntityUrlObj(pagePath) {
   return {
     breadcrumb: [
       {
-        url: { path: '/drupal/', routed: true },
+        url: { path: '/', routed: true },
         text: 'Home',
       },
     ],
