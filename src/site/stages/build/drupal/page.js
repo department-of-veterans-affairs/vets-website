@@ -123,17 +123,21 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
       .replace(/&/g, '')
       .replace(/\s+/g, '-')
       .toLowerCase();
+
   let generatedPage = Object.assign({}, page);
+  const absolutePath = path.join('/', drupalPagePath, pathSuffix);
+
   generatedPage.entityUrl.breadcrumb = [
     ...page.entityUrl.breadcrumb,
     {
-      url: { path: drupalPagePath },
+      url: { path: absolutePath },
       text: page.title,
     },
   ];
+
   generatedPage = set(
     'entityUrl.path',
-    `${drupalPagePath}/${pathSuffix}`,
+    absolutePath,
     page,
   );
 
