@@ -46,7 +46,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   if (page.allHealthcareDetailPages !== undefined) {
     for (const detailPage of page.allHealthcareDetailPages.entities) {
       if (detailPage.entityBundle === 'health_care_region_detail_page') {
-        const pagePath = path.join('.', detailPage.entityUrl.path, 'index.html');
+        const pagePath = path.join(
+          '.',
+          detailPage.entityUrl.path,
+          'index.html',
+        );
         const detailPageCompiled = Object.assign(detailPage, sidebar, alerts);
         files[pagePath] = createFileObj(
           detailPageCompiled,

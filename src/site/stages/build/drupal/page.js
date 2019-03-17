@@ -108,10 +108,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
     const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
 
-    files[fileName] = createFileObj(
-      pagedPage,
-      layout,
-    );
+    files[fileName] = createFileObj(pagedPage, layout);
   }
 }
 
@@ -135,11 +132,7 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
     },
   ];
 
-  generatedPage = set(
-    'entityUrl.path',
-    absolutePath,
-    page,
-  );
+  generatedPage = set('entityUrl.path', absolutePath, page);
 
   generatedPage.title = title;
   return generatedPage;

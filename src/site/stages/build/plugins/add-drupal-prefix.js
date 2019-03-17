@@ -1,8 +1,10 @@
+/* eslint-disable no-continue, no-param-reassign */
+
 const path = require('path');
 
 const {
   ENABLED_ENVIRONMENTS,
-  PREFIXED_ENVIRONMENTS
+  PREFIXED_ENVIRONMENTS,
 } = require('../../../constants/drupals');
 
 const { logDrupal: log } = require('../drupal/utilities-drupal');

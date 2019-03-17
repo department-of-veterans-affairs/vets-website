@@ -18,5 +18,5 @@ function facilityLocationPath(regionPath, apiId, nickname) {
 
 module.exports = {
   logDrupal,
-  facilityLocationPath
+  facilityLocationPath,
 };

@@ -70,7 +70,7 @@ function checkBrokenLinks(buildOptions) {
             return acc;
           }, {});
       } else {
-        for (const fileName in filteredFiles) {
+        for (const fileName of filteredFiles) {
           // On Drupal-enabled non-prefixed builds, either filter out the Drupal
           // page; or, if this Drupal page overwrote a Vagov-content page, then
           // validate the overwritten page.

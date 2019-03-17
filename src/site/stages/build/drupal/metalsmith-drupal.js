@@ -6,7 +6,7 @@ const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
-const { logDrupal: log } = require('./utilities-drupal')
+const { logDrupal: log } = require('./utilities-drupal');
 const getApiClient = require('./api');
 const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
