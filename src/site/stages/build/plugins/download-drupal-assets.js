@@ -5,11 +5,7 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
-
-const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
-
-// eslint-disable-next-line no-console
-const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
+const { logDrupal: log } = require('../drupal/utilities-drupal');
 
 function downloadDrupalAssets(options) {
   return async (files, metalsmith, done) => {
