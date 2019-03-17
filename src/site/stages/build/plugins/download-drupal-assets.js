@@ -2,7 +2,6 @@
 require('isomorphic-fetch');
 const path = require('path');
 const fs = require('fs-extra');
-const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const { logDrupal: log } = require('../drupal/utilities-drupal');

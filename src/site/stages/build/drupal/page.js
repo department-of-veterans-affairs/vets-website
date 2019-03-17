@@ -105,7 +105,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
       };
     }
 
-    files[`drupal${pagedPage.entityUrl.path}/index.html`] = createFileObj(
+    files[`.${pagedPage.entityUrl.path}/index.html`] = createFileObj(
       pagedPage,
       layout,
     );

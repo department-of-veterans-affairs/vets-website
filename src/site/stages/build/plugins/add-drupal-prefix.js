@@ -9,7 +9,7 @@ function overwriteConflictingVagovContentFiles(files, smith, done) {
 
     if (!file.isDrupalPage) continue;
 
-    const pageFileDir = path.join(path.dirname(fileName), '../');
+    const pageFileDir = path.join(path.dirname(fileName));
 
     const existingMarkdownIndexFile = path.join(pageFileDir, 'index.md');
     const existingMarkdownFile = path.join(
@@ -28,6 +28,8 @@ function overwriteConflictingVagovContentFiles(files, smith, done) {
       }
     }
   }
+
+  done();
 }
 
 function addDrupalPrefix(buildOptions) {

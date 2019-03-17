@@ -22,8 +22,8 @@ function writeDrupalDebugPage(files) {
   log('Drupal debug page written to /drupal/debug.');
 
   const drupalPages = Object.keys(files)
-    .filter(page => page.startsWith('drupal'))
-    .map(page => `<li><a href="/${page}">/${page}</a></li>`)
+    .filter(fileName => files[fileName].isDrupalPage)
+    .map(fileName => `<li><a href="/${fileName}">${fileName}</a></li>`)
     .join('');
 
   const drupalIndex = `
@@ -64,7 +64,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     const pageCompiled = compilePage(page, contentData);
 
-    files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+    files[`.${drupalPagePath}/index.html`] = createFileObj(
       pageCompiled,
       `${entityBundle}.drupal.liquid`,
     );
