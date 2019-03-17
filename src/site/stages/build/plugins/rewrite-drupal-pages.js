@@ -9,9 +9,14 @@ function rewriteDrupalPages(options) {
       const replacements = Object.keys(files)
         .filter(fileName => files[`drupal/${fileName}`])
         .map(fileName => ({
-          from: `"/${fileName.replace('index.html', '')}"`,
+          from: `"/${fileName.replace('/index.html', '')}"`,
           to: `"/drupal/${fileName.replace('index.html', '')}"`,
         }));
+
+      replacements.push({
+        from: 'href="/"',
+        to: 'href="/drupal/"',
+      });
 
       Object.keys(files)
         .filter(
