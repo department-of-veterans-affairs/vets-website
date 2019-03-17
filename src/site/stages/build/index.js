@@ -24,6 +24,7 @@ const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
+const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
@@ -147,6 +148,7 @@ function defaultBuild(BUILD_OPTIONS) {
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteDrupalPages(BUILD_OPTIONS));
+  smith.use(createDrupalDebugPage(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.

@@ -1,28 +1,11 @@
 const path = require('path');
 
-const { PREFIXED_ENVIRONMENTS } = require('../../../constants/drupals');
+const {
+  ENABLED_ENVIRONMENTS,
+  PREFIXED_ENVIRONMENTS
+} = require('../../../constants/drupals');
+
 const { logDrupal: log } = require('../drupal/utilities-drupal');
-
-function writeDrupalDebugPage(files) {
-  log('Drupal debug page written to /drupal/debug.');
-
-  const drupalPages = Object.keys(files)
-    .filter(fileName => files[fileName].isDrupalPage)
-    .map(fileName => `<li><a href="/${fileName}">${fileName}</a></li>`)
-    .join('');
-
-  const drupalIndex = `
-    <h1>The following pages were provided by Drupal:</h1>
-    <ol>${drupalPages}</ol>
-  `;
-
-  files['drupal/debug/index.html'] = {
-    contents: Buffer.from(drupalIndex),
-    isDrupalPage: true
-  };
-
-  console.log('SDKJFHSDFJKSH FKSJDFHDKSHFS ')
-}
 
 function overwriteConflictingVagovContentFiles(files) {
   for (const fileName of Object.keys(files)) {
@@ -55,40 +38,30 @@ function overwriteConflictingVagovContentFiles(files) {
   }
 }
 
-function rewriteDrupalPages(files) {
-  for (const fileName of files) {
+function applyPrefixToFiles(files) {
+  for (const fileName of Object.keys(files)) {
     const file = files[fileName];
 
     if (file.isDrupalPage) {
       files[`drupal/${fileName}`] = file;
-      delete[fileName];
+      delete files[fileName];
     }
   }
 
-  const replacements = Object.keys(files)
-    .filter(fileName => files[fileName].isDrupalPage)
-    .map(fileName => ({
-      from: `"/${fileName.replace('index.html', '')}"`,
-      to: `"/drupal/${fileName.replace('index.html', '')}"`,
-    }));
-
-  Object.keys(files)
-    .filter(
-      fileName => fileName.endsWith('html') && files[fileName].isDrupalPage,
-    )
-    .forEach(fileName => {
-      const file = files[fileName];
-      let contents = file.contents.toString();
-      replacements.forEach(domain => {
-        const regex = new RegExp(domain.from, 'g');
-        contents = contents.replace(regex, domain.to);
-      });
-
-      file.contents = new Buffer(contents);
-    });
+  files[`drupal/index.md`] = {
+    ...files['index.md'],
+    path: 'drupal/index.html',
+    isDrupalPage: true,
+    private: true,
+  };
 }
 
 function addDrupalPrefix(buildOptions) {
+  if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
+    const noop = () => {};
+    return noop;
+  }
+
   return (files, smith, done) => {
     const applyPrefix = PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype);
 
@@ -96,16 +69,10 @@ function addDrupalPrefix(buildOptions) {
       log('Drupal-generated pages set to overwrite vagov-content.');
       overwriteConflictingVagovContentFiles(files);
     } else {
-      log('Applying "/drupal" prefix to the URLs of Drupal-generated pages.')
-      rewriteDrupalPages(files);
-      files[`drupal/index.md`] = {
-        ...files['index.md'],
-        path: 'drupal/index.html',
-        isDrupalPage: true,
-        private: true,
-      };
+      log('Applying "/drupal" prefix to the URLs of Drupal-generated pages.');
+      applyPrefixToFiles(files);
     }
-    writeDrupalDebugPage(files);
+
     done();
   };
 }
