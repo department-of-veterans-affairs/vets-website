@@ -18,24 +18,6 @@ const DRUPAL_CACHE_FILENAME = 'drupal.json';
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 
-function writeDrupalDebugPage(files) {
-  log('Drupal debug page written to /drupal/debug.');
-
-  const drupalPages = Object.keys(files)
-    .filter(fileName => files[fileName].isDrupalPage)
-    .map(fileName => `<li><a href="/${fileName}">${fileName}</a></li>`)
-    .join('');
-
-  const drupalIndex = `
-    <h1>The following pages were provided by Drupal:</h1>
-    <ol>${drupalPages}</ol>
-  `;
-
-  files['drupal/debug/index.html'] = {
-    contents: Buffer.from(drupalIndex),
-  };
-}
-
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
@@ -75,8 +57,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
   }
-
-  writeDrupalDebugPage(files);
 }
 
 async function loadDrupal(buildOptions) {
