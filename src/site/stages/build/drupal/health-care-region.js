@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign, no-continue */
-const facilityLocationPath = require('./utilities-drupal');
+const { facilityLocationPath } = require('./utilities-drupal');
 const {
   createEntityUrlObj,
   createFileObj,

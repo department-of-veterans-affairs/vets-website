@@ -2,10 +2,11 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const chalk = require('chalk');
 const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
+const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
+const { logDrupal: log } = require('./utilities-drupal')
 const getApiClient = require('./api');
 const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
@@ -16,17 +17,6 @@ const DRUPAL_CACHE_FILENAME = 'drupal.json';
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
-
-const ENABLED_ENVIRONMENTS = new Set([
-  ENVIRONMENTS.LOCALHOST,
-  ENVIRONMENTS.VAGOVDEV,
-  ENVIRONMENTS.VAGOVSTAGING,
-]);
-
-const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
-
-// eslint-disable-next-line no-console
-const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
 
 function writeDrupalDebugPage(files) {
   log('Drupal debug page written to /drupal/debug.');
