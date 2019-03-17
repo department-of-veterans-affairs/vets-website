@@ -58,19 +58,21 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     }
 
     const {
-      entityUrl: { path: drupalPagePath },
+      entityUrl: { path: drupalUrl },
       entityBundle,
     } = page;
 
     const pageCompiled = compilePage(page, contentData);
+    const drupalPageDir = path.join('.', drupalUrl);
+    const drupalFileName = path.join(drupalPageDir, 'index.html');
 
-    files[`.${drupalPagePath}/index.html`] = createFileObj(
+    files[drupalFileName] = createFileObj(
       pageCompiled,
       `${entityBundle}.drupal.liquid`,
     );
 
     if (page.entityBundle === 'health_care_region_page') {
-      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+      createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
   }
 

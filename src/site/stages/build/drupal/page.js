@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign, no-continue */
+const path = require('path');
 const _ = require('lodash');
 const set = require('lodash/fp/set');
 
@@ -105,7 +106,9 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
       };
     }
 
-    files[`.${pagedPage.entityUrl.path}/index.html`] = createFileObj(
+    const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
+
+    files[fileName] = createFileObj(
       pagedPage,
       layout,
     );
