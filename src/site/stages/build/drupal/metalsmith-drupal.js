@@ -75,12 +75,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   }
 
   writeDrupalDebugPage(files);
-  files[`drupal/index.md`] = {
-    ...files['index.md'],
-    path: 'drupal/index.html',
-    isDrupalPage: true,
-    private: true,
-  };
 }
 
 async function loadDrupal(buildOptions) {
