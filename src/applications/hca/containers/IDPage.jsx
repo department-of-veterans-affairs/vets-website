@@ -1,22 +1,79 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import FormTitle from 'forms-system/components/FormTitle';
+import SchemaForm from 'forms-system/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { setData } from 'platform/forms-system/src/js/actions';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { setData } from 'forms-system/actions';
+import { getNextPagePath } from 'forms-system/routing';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
 import { submitIDForm } from '../actions';
 import { idFormSchema as schema, idFormUiSchema as uiSchema } from '../helpers';
+
+function ContinueButton({ isLoading }) {
+  return (
+    <LoadingButton
+      isLoading={isLoading}
+      disabled={false}
+      type="submit"
+      /* to override the `width: 100%` given to SchemaForm submit buttons */
+      style={{ width: 'auto' }}
+    >
+      Continue to the Application
+      <span className="button-icon">&nbsp;»</span>
+    </LoadingButton>
+  );
+}
+
+function LoginRequiredAlert({ handleLogin }) {
+  return (
+    <>
+      <AlertBox
+        isVisible
+        status="error"
+        headline="Please sign in to continue your application"
+        content={
+          <>
+            <p>
+              We’re sorry for the interruption, but we need you to review some
+              information before you continue applying. Please sign in below to
+              review. If you don’t have an account, you can create one now.
+            </p>
+            <button className="usa-button-primary" onClick={handleLogin}>
+              Sign in to VA.gov
+            </button>
+          </>
+        }
+      />
+      <br />
+    </>
+  );
+}
+
+function ServerError() {
+  return (
+    <AlertBox
+      isVisible
+      status="error"
+      headline="Server Error"
+      content={
+        <p>
+          We’re sorry for the interruption, but we have encountered an error.
+          Please try again later.
+        </p>
+      }
+    />
+  );
+}
 
 class IDPage extends React.Component {
   state = {
@@ -37,6 +94,8 @@ class IDPage extends React.Component {
     if (shouldRedirect) this.props.router.push('/');
 
     if (noESRRecordFound || enrollmentStatus === 'none_of_the_above') {
+      // set the HCA form data with whatever the user input...
+      this.prefillHCA();
       this.goToNextPage();
     }
   }
@@ -47,6 +106,25 @@ class IDPage extends React.Component {
 
   formSubmit = ({ formData }) => {
     this.props.submitIDForm(formData);
+  };
+
+  // If there is no record on file, we don't want to make the user re-enter data
+  // in the HCA that they just entered into the ID Form. So mix the ID Form's
+  // data in with the empty HCA Form data.
+  prefillHCA = () => {
+    const { form, setFormData } = this.props;
+    const { idFormData } = this.state;
+    const fullName = {
+      ...form.data.veteranFullName,
+      first: idFormData.firstName,
+      last: idFormData.lastName,
+    };
+    setFormData({
+      ...form.data,
+      veteranFullName: fullName,
+      veteranDateOfBirth: idFormData.dob,
+      veteranSocialSecurityNumber: idFormData.ssn,
+    });
   };
 
   goToNextPage = () => {
@@ -63,63 +141,9 @@ class IDPage extends React.Component {
     this.props.toggleLoginModal(true);
   };
 
-  renderServerErrorAlert = () => (
-    <AlertBox
-      isVisible
-      status="error"
-      headline="Server Error"
-      content={
-        <>
-          <p>
-            We’re sorry for the interruption, but we have encountered an error.
-            Please try again later.
-          </p>
-        </>
-      }
-    />
-  );
-
-  renderContinueButton = () => (
-    <LoadingButton
-      isLoading={this.props.isSubmittingIDForm}
-      disabled={false}
-      type="submit"
-      /* to override the `width: 100%` given to SchemaForm submit buttons */
-      style={{ width: 'auto' }}
-    >
-      Continue to the Application
-      <span className="button-icon">&nbsp;»</span>
-    </LoadingButton>
-  );
-
-  renderLoginRequiredAlert = () => (
-    <>
-      <AlertBox
-        isVisible
-        status="error"
-        headline="Please sign in to continue your application"
-        content={
-          <>
-            <p>
-              We’re sorry for the interruption, but we need you to review some
-              information before you continue applying. Please sign in below to
-              review. If you don’t have an account, you can create one now.
-            </p>
-            <button
-              className="usa-button-primary"
-              onClick={this.props.handleSignIn}
-            >
-              Sign in to VA.gov
-            </button>
-          </>
-        }
-      />
-      <br />
-    </>
-  );
-
   render() {
     const {
+      isSubmittingIDForm,
       loginRequired,
       showContinueButton,
       showLoadingIndicator,
@@ -167,12 +191,16 @@ class IDPage extends React.Component {
               onChange={this.formChange}
               data={this.state.idFormData}
             >
-              {/* The only reason these JSX-returning methods are nested in the
+              {/* The only reason these components are nested in the
               SchemaForm is to prevent the SchemaForm component from rendering
               its default SUBMIT button */}
-              {loginRequired && this.renderLoginRequiredAlert()}
-              {showServerError && this.renderServerErrorAlert()}
-              {showContinueButton && this.renderContinueButton()}
+              {loginRequired && (
+                <LoginRequiredAlert handleLogin={this.showSignInModal} />
+              )}
+              {showServerError && <ServerError />}
+              {showContinueButton && (
+                <ContinueButton isLoading={isSubmittingIDForm} />
+              )}
             </SchemaForm>
           </>
         )}
@@ -184,8 +212,22 @@ class IDPage extends React.Component {
   }
 }
 
+IDPage.propTypes = {
+  enrollmentStatus: PropTypes.string,
+  form: PropTypes.object.isRequired,
+  isSubmittingIDForm: PropTypes.bool.isRequired,
+  loginRequired: PropTypes.bool.isRequired,
+  noESRRecordFound: PropTypes.bool.isRequired,
+  shouldRedirect: PropTypes.bool.isRequired,
+  showContinueButton: PropTypes.bool.isRequired,
+  showLoadingIndicator: PropTypes.bool.isRequired,
+  showServerError: PropTypes.bool.isRequired,
+  submitIDForm: PropTypes.func.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+};
+
 const mapDispatchToProps = {
-  setData,
+  setFormData: setData,
   submitIDForm,
   toggleLoginModal,
 };
