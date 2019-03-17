@@ -3,7 +3,7 @@ const path = require('path');
 const { PREFIXED_ENVIRONMENTS } = require('../../../constants/drupals');
 const { logDrupal: log } = require('../drupal/utilities-drupal');
 
-function overwriteConflictingVagovContentFiles(files, smith, done) {
+function overwriteConflictingVagovContentFiles(files, metalsmith, done) {
   for (const fileName of Object.keys(files)) {
     const file = files[fileName];
 
@@ -18,10 +18,12 @@ function overwriteConflictingVagovContentFiles(files, smith, done) {
       `${path.basename(pageFileDir)}.md`,
     );
 
-    for (const vagovContentFile of [
+    const potentialConflicts = [
       existingMarkdownIndexFile,
       existingMarkdownFile,
-    ]) {
+    ];
+
+    for (const vagovContentFile of potentialConflicts) {
       if (files[vagovContentFile]) {
         log(`Overriding conflicting vagov-content file: ${vagovContentFile}`);
         delete files[vagovContentFile];
@@ -30,6 +32,39 @@ function overwriteConflictingVagovContentFiles(files, smith, done) {
   }
 
   done();
+}
+
+function rewriteDrupalPages(files) {
+  for (const fileName of files) {
+    const file = files[fileName];
+
+    if (file.isDrupalPage) {
+      files[`drupal/${fileName}`] = file;
+      delete[fileName];
+    }
+  }
+
+  const replacements = Object.keys(files)
+    .filter(fileName => files[fileName].isDrupalPage)
+    .map(fileName => ({
+      from: `"/${fileName.replace('index.html', '')}"`,
+      to: `"/drupal/${fileName.replace('index.html', '')}"`,
+    }));
+
+  Object.keys(files)
+    .filter(
+      fileName => fileName.endsWith('html') && files[fileName].isDrupalPage,
+    )
+    .forEach(fileName => {
+      const file = files[fileName];
+      let contents = file.contents.toString();
+      replacements.forEach(domain => {
+        const regex = new RegExp(domain.from, 'g');
+        contents = contents.replace(regex, domain.to);
+      });
+
+      file.contents = new Buffer(contents);
+    });
 }
 
 function addDrupalPrefix(buildOptions) {
@@ -42,6 +77,8 @@ function addDrupalPrefix(buildOptions) {
 
   return (files, smith, done) => {
     log('DO APPLY PREFIX')
+
+    rewriteDrupalPages(files);
 
     files[`drupal/index.md`] = {
       ...files['index.md'],
