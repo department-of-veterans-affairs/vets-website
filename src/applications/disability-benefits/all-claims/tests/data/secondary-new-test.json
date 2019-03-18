@@ -97,7 +97,8 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "phelbitis": true,
+          "Diabetes mellitus0": true,
+          "De-selected": true,
           "knee replacement": true
         }
       }
@@ -162,6 +163,26 @@
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
         "view:selected": false
+      },
+      {
+        "name": "De-selected",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE"
+      },
+      {
+        "name": "Not selected",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE"
       }
     ],
     "view:disabilitiesClarification": {},

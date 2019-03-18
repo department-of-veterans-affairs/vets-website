@@ -8,7 +8,7 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = getTestDataSets(join(__dirname, 'data'), {
   extension: 'json',
   ignore: ['minimal-ptsd-form-upload-test.json'],
-  // only: ['maximal-test.json'],
+  // only: ['secondary-new-test.json'],
 });
 
 const testConfig = {
@@ -32,7 +32,6 @@ const testConfig = {
       await page.waitFor('.usa-button-primary:not(.schemaform-start-button)');
       await page.click('.usa-button-primary');
     },
-    // TODO: Add a hook for the rated disabilities page
     '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async page => {
       await page.click('input[name="root_ratedDisabilities_0"]');
       await page.click('.form-progress-buttons .usa-button-primary');
