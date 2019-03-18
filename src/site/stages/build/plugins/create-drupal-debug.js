@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 
+const ENVIRONMENTS = require('../../../constants/environments');
 const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
 const { logDrupal: log } = require('../drupal/utilities-drupal');
 
@@ -30,7 +31,12 @@ function createIndexPage(files) {
 }
 
 function createDrupalDebugPage(buildOptions) {
-  if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
+  // Disable this page if Drupal is not promoted to this environment, or if we're in production, because
+  // a debug page should never be built there.
+  if (
+    !ENABLED_ENVIRONMENTS.has(buildOptions.buildtype) ||
+    buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD
+  ) {
     const noop = () => {};
     return noop;
   }
