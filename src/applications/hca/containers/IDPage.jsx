@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'forms-system/components/FormTitle';
-import SchemaForm from 'forms-system/components/SchemaForm';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { setData } from 'forms-system/actions';
-import { getNextPagePath } from 'forms-system/routing';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';

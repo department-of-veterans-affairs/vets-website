@@ -35,9 +35,6 @@
     "@babel/plugin-proposal-json-strings",
     ["module-resolver", {
       "root": "./src",
-      "alias": {
-        "forms-system": "./src/platform/forms-system/src/js"
-      }
     }]
   ],
   // Share polyfills between files.
