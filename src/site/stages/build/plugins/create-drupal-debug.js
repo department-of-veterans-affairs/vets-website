@@ -47,8 +47,9 @@ function createDrupalDebugPage(buildOptions) {
     let drupalDebugPage = null;
     const { drupalError } = smith.metadata();
 
-    if (drupalError) drupalDebugPage = createErrorPage(drupalError);
-    else drupalDebugPage = createIndexPage(files);
+    drupalDebugPage = drupalError
+      ? createErrorPage(drupalError)
+      : createIndexPage(files);
 
     files['drupal/debug/index.html'] = {
       contents: Buffer.from(drupalDebugPage),
