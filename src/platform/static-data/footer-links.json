@@ -109,21 +109,21 @@
     "href": "https://www.va.gov/statedva.htm",
     "order": 9,
     "target": null,
-    "title": "State Veterans Affairs Offices"
+    "title": "State Veterans Affairs offices"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/welcome-kit/",
     "order": 10,
     "target": null,
-    "title": "Print Your VA Welcome Kit"
+    "title": "Print your VA Welcome Kit"
   },
   {
     "column": 3,
     "href": "https://www.blogs.va.gov/VAntage/",
     "order": 1,
     "target": "_blank",
-    "title": "VAntage Point Blog"
+    "title": "VAntage Point blog"
   },
   {
     "column": 3,
