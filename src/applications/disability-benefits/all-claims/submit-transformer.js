@@ -367,7 +367,7 @@ export function transform(formConfig, form) {
     // But neither field is required unless the other is present
     const sanitizedHomelessnessContact = {
       name: homelessnessContact.name
-        .replace(/[^a-zA-Z0-9-/' ]/g, '')
+        .replace(/[^a-zA-Z0-9-/' ]/g, ' ')
         .trim()
         .replace(/\s{2,}/g, ' '),
       phoneNumber: homelessnessContact.phoneNumber,
