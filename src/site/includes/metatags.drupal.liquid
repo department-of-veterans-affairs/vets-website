@@ -1,0 +1,59 @@
+<link rel="canonical" href="{{ hostUrl }}{{ entityUrl.path }}" />
+{% if changed %}
+<meta name="DC.Date" content="{{changed| dateFromUnix: 'YYYY-MM-DD'}}" property="http://purl.org/dc/terms/date">
+{% endif %}
+{% assign tagsSize = entityMetatags | size %}
+{% if tagsSize > 0 %}
+  <!-- Metatags -->
+  {% for tag in entityMetatags %}
+    {% if tag.__typename == "MetaValue" %}
+<meta name="{{ tag.key }}" content="{{ tag.value }}">
+    {% else %}
+      {% if tag.__typename == "MetaProperty" %}
+<meta property="{{ tag.key }}" content="{{ tag.value }}">
+      {% else %}
+        {% if tag.__typename == "MetaLink" %}
+<link rel="{{ tag.key }}" href="{{ tag.value }}">
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% else %}
+<meta property="og:site_name" content="VA.gov">
+<meta name="twitter:card" content="Summary">
+<meta name="twitter:site" content="@DeptVetAffairs">
+<meta name="twitter:image" content="{{ hostUrl }}/img/design/logo/va-og-twitter-image.png">
+  {% if title %}
+<meta content="{{ title }} - VA.gov" property="og:title">
+<meta content="{{ title }} - VA.gov" name="twitter:title" >
+  {% else %}
+<meta content="{{ hostUrl }}" property="og:title">
+<meta content="{{ hostUrl }}" name="twitter:title">
+  {% endif %}
+<meta content="website" property="og:type">
+  {% if entityUrl.path %}
+<meta content="{{ hostUrl }}/{{ entityUrl.path }}" property="og:url">
+  {% endif %}
+  {% if fieldDescription %}
+    {% assign description = fieldDescription | newline_to_br %}
+  {% elsif fieldIntroText %}
+    {% assign description = fieldIntroText.processed | strip_html %}
+  {% elsif fieldIntroTextNewsStories %}
+    {% assign description = fieldIntroTextNewsStories.processed  | strip_html %}
+  {% elsif fieldIntroTextEventsPage %}
+    {% assign description = fieldIntroTextEventsPage.processed | strip_html %}
+  {% elsif fieldClinicalHealthServi %}
+    {% assign description = fieldClinicalHealthServi.processed | strip_html %}
+  {% elsif fieldLocationsIntroBlurb %}
+    {% assign description = fieldLocationsIntroBlurb.processed | strip_html %}
+  {% elsif fieldPatientFamilyServicesIn %}
+    {% assign description = fieldPatientFamilyServicesIn.processed | strip_html %}
+  {% endif %}
+
+  {% if description %}
+<meta content="{{ description }}" property="og:description">
+<meta content="{{ description }}" name="twitter:description" >
+<meta content="{{ description }}" name="description">
+  {% endif %}
+<meta content="{{ hostUrl }}/img/design/logo/va-og-image.png" property="og:image">
+{% endif %}

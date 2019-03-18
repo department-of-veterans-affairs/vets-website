@@ -1,3 +1,4 @@
+const moment = require('moment');
 const fetch = require('node-fetch');
 
 const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
@@ -6,16 +7,29 @@ const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
 
 const DRUPALS = require('../../../constants/drupals');
 
-function encodeCredentials({ username, password }) {
-  const credentials = `${username}:${password}`;
+function encodeCredentials({ user, password }) {
+  const credentials = `${user}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
   return credentialsEncoded;
 }
 
 function getDrupalClient(buildOptions) {
-  const { address, credentials } = DRUPALS[buildOptions.buildtype];
+  const buildArgs = {
+    address: buildOptions['drupal-address'],
+    user: buildOptions['drupal-user'],
+    password: buildOptions['drupal-password'],
+  };
+
+  Object.keys(buildArgs).forEach(key => {
+    if (!buildArgs[key]) delete buildArgs[key];
+  });
+
+  const envConfig = DRUPALS[buildOptions.buildtype];
+  const drupalConfig = Object.assign({}, envConfig, buildArgs);
+
+  const { address, user, password } = drupalConfig;
   const drupalUri = `${address}/graphql`;
-  const encodedCredentials = encodeCredentials(credentials);
+  const encodedCredentials = encodeCredentials({ user, password });
   const headers = {
     Authorization: `Basic ${encodedCredentials}`,
     'Content-Type': 'application/json',
@@ -42,20 +56,23 @@ function getDrupalClient(buildOptions) {
     },
 
     getAllPages() {
-      return this.query({ query: GET_ALL_PAGES });
+      return this.query({
+        query: GET_ALL_PAGES,
+        variables: { today: moment().format('YYYY-MM-DD') },
+      });
     },
 
     getPageById(url) {
       return this.query({
         query: GET_PAGE_BY_ID,
-        variables: { path: url },
+        variables: { path: url, today: moment().format('YYYY-MM-DD') },
       });
     },
 
     getLatestPageById(nodeId) {
       return this.query({
         query: GET_LATEST_PAGE_BY_ID,
-        variables: { id: nodeId },
+        variables: { id: nodeId, today: moment().format('YYYY-MM-DD') },
       });
     },
   };

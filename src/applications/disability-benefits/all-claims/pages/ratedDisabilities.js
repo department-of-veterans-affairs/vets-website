@@ -3,7 +3,11 @@ import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 import {
   disabilityOption,
   disabilitiesClarification,
+  ratedDisabilitiesAlert,
 } from '../content/ratedDisabilities';
+
+import { increaseOnly, claimingRated } from '../utils';
+import { requireRatedDisability } from '../validations';
 
 const { ratedDisabilities } = fullSchema.properties;
 
@@ -21,9 +25,16 @@ export const uiSchema = {
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
     },
+    'ui:validations': [requireRatedDisability],
   },
   'view:disabilitiesClarification': {
     'ui:description': disabilitiesClarification,
+  },
+  'view:ratedDisabilitiesAlert': {
+    'ui:description': ratedDisabilitiesAlert,
+    'ui:options': {
+      hideIf: formData => !increaseOnly(formData) || claimingRated(formData),
+    },
   },
 };
 
@@ -32,6 +43,10 @@ export const schema = {
   properties: {
     ratedDisabilities,
     'view:disabilitiesClarification': {
+      type: 'object',
+      properties: {},
+    },
+    'view:ratedDisabilitiesAlert': {
       type: 'object',
       properties: {},
     },

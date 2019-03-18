@@ -5,6 +5,11 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
+const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
+const bioPage = require('./bioPage.graphql');
+const eventPage = require('./eventPage.graphql');
+const alertsQuery = require('./alerts.graphql');
+const icsFileQuery = require('./file-fragments/ics.file.graphql');
 
 /**
  * Queries for a page by the page path. This will most likely need to be updated once we determine
@@ -19,8 +24,10 @@ module.exports = `
   ${healthCareRegionPage}
   ${newsStoryPage}
   ${pressReleasePage}
+  ${eventPage}
+  ${bioPage}
 
-  query GetPageById($path: String!) {
+  query GetPageById($path: String!, $today: String!) {
     route: route(path: $path) {
       ... on EntityCanonicalUrl {
         entity {
@@ -29,10 +36,15 @@ module.exports = `
           ... healthCareRegionPage
           ... newsStoryPage
           ... pressReleasePage
+          ... eventPage
+          ... bioPage
         }
       }
     }
+    ${icsFileQuery}
     ${sidebarQuery}
+    ${facilitySidebarQuery}
+    ${alertsQuery}
   }
 
 `;

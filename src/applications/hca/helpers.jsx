@@ -14,8 +14,39 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
 import { isValidDate } from 'platform/forms/validations';
+import { isInMVI } from 'platform/user/selectors';
 
 import facilityLocator from '../facility-locator/manifest';
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newData = formData;
+
+  if (isInMVI(state) || state.hcaIDForm.isUserInMVI) {
+    newData = { ...newData, 'view:isUserInMVI': true };
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+  };
+}
+
+export function transformAttachments(data) {
+  if (!data.attachments || !(data.attachments instanceof Array)) {
+    return data;
+  }
+  const transformedAttachments = data.attachments.map(attachment => {
+    const { name, size, confirmationCode, attachmentId } = attachment;
+    return {
+      name,
+      size,
+      confirmationCode,
+      dd214: attachmentId === '1',
+    };
+  });
+  return { ...data, attachments: transformedAttachments };
+}
 
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
@@ -34,6 +65,11 @@ export function transform(formConfig, form) {
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
     withoutViewFields = _.set('dependents', [], withoutViewFields);
+  }
+
+  // convert `attachmentId` values to a `dd214` boolean
+  if (withoutViewFields.attachments) {
+    withoutViewFields = transformAttachments(withoutViewFields);
   }
 
   const formData =
@@ -97,6 +133,47 @@ export const facilityHelp = (
     </p>
   </div>
 );
+
+export function fileHelp({ formContext }) {
+  if (formContext.reviewMode) {
+    return null;
+  }
+
+  return (
+    <>
+      <p>
+        Please upload a copy of your military discharge papers (like your DD214,
+        DD256, DD257, NGB22, or other separation documents). If you have more
+        than one discharge document, please upload the one with the highest
+        character of discharge. If you don’t have your discharge papers, you can
+        upload a copy of other official military documents (like proof of
+        military awards or your disability rating letter).
+      </p>
+      <br />
+      <p>
+        You don’t have to upload these documents. But it can help us verify your
+        military service and may speed up your application process.
+      </p>
+      <br />
+      <p>
+        <strong>Tips for uploading:</strong>
+      </p>
+      <ul>
+        <li>
+          Upload documents as one of these file types: .jpg, .png, .pdf, .doc,
+          .rtf
+        </li>
+        <li>
+          Upload one or more files that add up to no more than 10 MB total.
+        </li>
+        <li>
+          If you don’t have a digital copy of a document, you can scan or take a
+          photo of it and then upload the image from your computer or phone.
+        </li>
+      </ul>
+    </>
+  );
+}
 
 // Turns the facility list for each state into an array of strings
 export const medicalCentersByState = _.mapValues(

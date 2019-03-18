@@ -7,6 +7,8 @@ build all of the client-side (i.e., anything that gets downloaded to the browser
 www.va.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
 
+For backend, see [vets-api repo](https://github.com/department-of-veterans-affairs/vets-api).
+
 As it is client side there are no secrets in this repository since, well, public secrets aren't
 very secret.
 

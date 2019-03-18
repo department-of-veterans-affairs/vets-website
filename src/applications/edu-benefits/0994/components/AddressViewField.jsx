@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const AddressViewField = ({ formData }) => {
-  const { street, street2, city, state, postalCode } = formData;
+  const { street, street2, street3, city, state, postalCode } = formData;
   let postalString;
   if (postalCode) {
     const firstFive = postalCode.slice(0, 5);
@@ -15,6 +15,8 @@ export const AddressViewField = ({ formData }) => {
       {street && <br />}
       {street2 && street2}
       {street2 && <br />}
+      {street3 && street3}
+      {street3 && <br />}
       {city && city} {state && state} {postalString && postalString}
     </p>
   );

@@ -7,6 +7,7 @@ import {
   getAdjustedTime,
   isAfterCentralTimeDate,
   isBeforeCentralTimeDate,
+  transformAttachments,
 } from '../helpers.jsx';
 
 describe('HCA helpers', () => {
@@ -124,6 +125,51 @@ describe('HCA helpers', () => {
     });
     it('should return false if the discharge date is not after the Central Time reference date', () => {
       expect(isBeforeCentralTimeDate('2000-12-12')).to.be.true;
+    });
+  });
+  describe('transformAttachments', () => {
+    it('should do nothing if there are no attachments to transform', () => {
+      const inputData = { firstName: 'Pat' };
+      const transformedData = transformAttachments(inputData);
+      expect(transformedData).to.deep.equal(inputData);
+    });
+    it('should transform `attachmentId`s to `dd214` booleans', () => {
+      const inputData = {
+        firstName: 'Pat',
+        attachments: [
+          {
+            name: 'file1',
+            size: 1,
+            confirmationCode: 'uuid123',
+            attachmentId: '1',
+          },
+          {
+            name: 'file2',
+            size: 1,
+            confirmationCode: 'uuid456',
+            attachmentId: '2',
+          },
+        ],
+      };
+      const expectedOutputData = {
+        firstName: 'Pat',
+        attachments: [
+          {
+            name: 'file1',
+            size: 1,
+            confirmationCode: 'uuid123',
+            dd214: true,
+          },
+          {
+            name: 'file2',
+            size: 1,
+            confirmationCode: 'uuid456',
+            dd214: false,
+          },
+        ],
+      };
+      const transformedData = transformAttachments(inputData);
+      expect(transformedData).to.deep.equal(expectedOutputData);
     });
   });
 });

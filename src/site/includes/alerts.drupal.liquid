@@ -1,0 +1,48 @@
+{% for entity in alert.entities %}
+{% comment %}
+If there isn't a ref, that's a sitewide alert.
+{% endcomment %}
+{% if entity.fieldNodeReference.0.targetId == null %}
+{% assign status = "print" %}
+{% endif %}
+
+{% comment %}
+Loop through refs, check for match for page entity.
+{% endcomment %}
+{% for ef in entity.fieldNodeReference %}
+{% if ef.targetId == pid %}
+{% assign status = "print" %}
+{% endif %}
+{% endfor %}
+
+{% comment %}
+If we have a hit, show the alert.
+{% endcomment %}
+{% if status == "print" %}
+<div
+  class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ entity.fieldAlertType }}"
+  id="usa-alert-full-width-{{ entity.id }}" role="region"
+  aria-labelledby="usa-alert-heading-{{ entity.id }}">
+  <div id="usa-alert-{{ entity.id }}"
+    class="usa-alert usa-alert-{{ entity.fieldAlertType }}"
+    aria-live="assertive" role="alert">
+
+    <button id="usa-alert-dismiss-{{ entity.id }}"
+      class="va-alert-close usa-alert-dismiss"
+      data-parentWrap="usa-alert-full-width-{{ entity.id }}"
+      data-frequency="{{ entity.fieldAlertFrequency }}"
+      aria-label="Close notification">
+      <i class="fas fa-times-circle" aria-label="Close icon"></i>
+    </button>
+
+    <div class="usa-alert-body" id="usa-alert-body-{{ entity.id }}">
+      <h3 class="usa-alert-heading" id="usa-alert-heading-{{ entity.id }}">
+        {{ entity.fieldAlertTitle}}</h3>
+      <div class="usa-alert-text" id="usa-alert-text-{{ entity.id }}">
+        {{ entity.fieldAlertContent.entity.entityRendered }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}

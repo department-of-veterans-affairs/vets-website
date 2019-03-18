@@ -2,23 +2,18 @@ const ENVIRONMENTS = require('./environments');
 
 const DRUPAL_DEV = {
   address: 'http://test1.va.agile6.com',
-  credentials: {
-    username: 'api',
-    password: 'drupal8',
-  },
+  user: 'api',
+  password: 'drupal8',
 };
 
 const DRUPAL_STAGING = {
-  address: 'http://staging.va.agile6.com',
-  credentials: {
-    username: 'api',
-    password: 'drupal8',
-  },
+  address: 'http://stg.va.agile6.com',
+  user: 'api',
+  password: 'drupal8',
 };
 
 const DRUPAL_LIVE = {
   address: 'http://vagovcms.lndo.site',
-  credentials: {},
 };
 
 /**

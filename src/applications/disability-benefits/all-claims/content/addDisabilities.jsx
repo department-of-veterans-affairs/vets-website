@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const autoSuggestTitle = (
   <p>
@@ -10,7 +12,7 @@ export const autoSuggestTitle = (
   </p>
 );
 
-export const uiDescription = (
+export const descriptionInfo = (
   <div>
     <AdditionalInfo triggerText="What if I don’t know the name of my condition?">
       <p>
@@ -27,3 +29,42 @@ export const uiDescription = (
     </AdditionalInfo>
   </div>
 );
+
+export const newOnlyAlert = ({ formContext }) => {
+  // Display only after the user tries to submit with no disabilities
+  if (!formContext.submitted) return null;
+  return (
+    <AlertBox
+      status="error"
+      headline="We need you to add a disability"
+      content="You need to add a new disability to claim. We can’t process your claim without a disability selected."
+    />
+  );
+};
+
+export const increaseAndNewAlert = ({ formContext }) => {
+  // Display only after the user tries to submit with no disabilities
+  if (!formContext.submitted) return null;
+
+  const alertContent = (
+    <>
+      <p>
+        You’ll need to add a new disability or choose a rated disability to
+        claim. We can’t process your claim without a disability selected. Please
+        add a new disability or choose a rated disability for increased
+        compensation.
+      </p>
+      <Link to={`disabilities/rated-disabilities`}>
+        Choose a rated disability
+      </Link>
+    </>
+  );
+
+  return (
+    <AlertBox
+      status="error"
+      headline="We need you to add a disability"
+      content={alertContent}
+    />
+  );
+};

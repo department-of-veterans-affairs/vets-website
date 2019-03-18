@@ -3,9 +3,13 @@
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const getApiClient = require('./api');
+const convertDrupalFilesToLocal = require('./assets');
+const { compilePage, createFileObj } = require('./page');
+const createHealthCareRegionListPages = require('./health-care-region');
 
 const DRUPAL_CACHE_FILENAME = 'drupal.json';
 
@@ -42,67 +46,12 @@ function writeDrupalDebugPage(files) {
   };
 }
 
-// Creates the file object to add to the file list using the page and layout
-function createFileObj(page, layout) {
-  return {
-    ...page,
-    isDrupalPage: true,
-    layout,
-    contents: Buffer.from('<!-- Drupal-provided data -->'),
-    debug: JSON.stringify(page, null, 4),
-    // Keep these pages out of the sitemap until we remove
-    // the drupal prefix
-    private: true,
-  };
-}
-
-// Creates the top-level health care region list pages (Locations, Services, etc.)
-function createHealthCareRegionListPages(page, drupalPagePath, files) {
-  // Create the top-level locations page for Health Care Regions
-  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
-    page,
-    'health_care_region_locations_page.drupal.liquid',
-  );
-
-  const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
-
-  // Create the detail page for healthcare local facilities
-  if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
-    for (const facility of [
-      ...page.mainFacilities.entities,
-      ...page.otherFacilities.entities,
-    ]) {
-      if (facility.entityBundle === 'health_care_local_facility') {
-        const facilityCompiled = Object.assign(facility, relatedLinks);
-
-        let facilityPath;
-        if (facility.fieldNicknameForThisFacility) {
-          const facilityNickname = facility.fieldNicknameForThisFacility;
-          facilityPath = facilityNickname.replace(/\s+/g, '-').toLowerCase();
-        } else {
-          facilityPath = facility.fieldFacilityLocatorApiId;
-        }
-
-        files[
-          `drupal${drupalPagePath}/locations/${facilityPath}/index.html`
-        ] = createFileObj(
-          facilityCompiled,
-          'health_care_local_facility_page.drupal.liquid',
-        );
-      }
-    }
-  }
-}
-
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
-      sidebarQuery: sidebarNav,
     },
   } = contentData;
-
-  const sidebarNavItems = { sidebar: sidebarNav };
 
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
@@ -123,13 +72,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityBundle,
     } = page;
 
-    let pageCompiled;
-
-    if (entityBundle === 'page') {
-      pageCompiled = Object.assign(page, sidebarNavItems);
-    } else {
-      pageCompiled = page;
-    }
+    const pageCompiled = compilePage(page, contentData);
 
     files[`drupal${drupalPagePath}/index.html`] = createFileObj(
       pageCompiled,
@@ -175,6 +118,7 @@ async function loadDrupal(buildOptions) {
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
       fs.ensureDirSync(buildOptions.cacheDirectory);
+      fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
       fs.writeFileSync(drupalCache, serialized);
     }
   } else {
@@ -187,6 +131,24 @@ async function loadDrupal(buildOptions) {
 
   log('Drupal successfully loaded!');
   return drupalPages;
+}
+
+async function loadCachedDrupalFiles(buildOptions, files) {
+  const cachedFilesPath = path.join(buildOptions.cacheDirectory, 'drupalFiles');
+  if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
+    const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
+    cachedDrupalFiles.forEach(file => {
+      const relativePath = path.relative(
+        path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+        file,
+      );
+      files[relativePath] = {
+        path: relativePath,
+        isDrupalAsset: true,
+        contents: fs.readFileSync(file),
+      };
+    });
+  }
 }
 
 function getDrupalContent(buildOptions) {
@@ -204,6 +166,8 @@ function getDrupalContent(buildOptions) {
       if (!drupalData) {
         drupalData = await loadDrupal(buildOptions);
       }
+      drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
+      loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       done();

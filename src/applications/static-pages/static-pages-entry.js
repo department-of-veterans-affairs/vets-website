@@ -4,6 +4,7 @@ import Raven from 'raven-js';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
+import './alerts-dismiss-view';
 
 import widgetTypes from './widgetTypes';
 import createAdditionalInfoWidget from './createAdditionalInfoWidget';
@@ -23,6 +24,7 @@ import './sidebar-navigation.js';
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createFacilityDetailWidget from './facilities/facilityDetail';
+import createBasicFacilityListWidget from './facilities/basicFacilityList';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -80,6 +82,7 @@ createDisabilityIncreaseApplicationStatus(
 
 createFacilityListWidget();
 createFacilityDetailWidget();
+createBasicFacilityListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {
