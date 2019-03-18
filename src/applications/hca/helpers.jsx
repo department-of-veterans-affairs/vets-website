@@ -466,9 +466,15 @@ export const idFormSchema = {
   properties: {
     firstName: {
       type: 'string',
+      minLength: 1,
+      maxLength: 30,
+      pattern: '^.*\\S.*',
     },
     lastName: {
       type: 'string',
+      minLength: 2,
+      maxLength: 30,
+      pattern: '^.*\\S.*',
     },
     dob: {
       type: 'string',
@@ -476,6 +482,7 @@ export const idFormSchema = {
     },
     ssn: {
       type: 'string',
+      pattern: '^[0-9]{9}$',
     },
   },
   required: ['firstName', 'lastName', 'dob', 'ssn'],

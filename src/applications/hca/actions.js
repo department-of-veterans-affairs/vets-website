@@ -27,7 +27,6 @@ export function submitIDForm(formData) {
        action that corresponds to th condition you want to test:
        `dispatch({type: SUBMIT_ID_FORM_FAILED, errors: [{ code: '500' }] });`
     */
-
     const baseUrl = `/health_care_applications/enrollment_status`;
 
     const url = appendQuery(baseUrl, {

@@ -94,7 +94,6 @@ class IDPage extends React.Component {
     if (shouldRedirect) this.props.router.push('/');
 
     if (noESRRecordFound || enrollmentStatus === 'none_of_the_above') {
-      // set the HCA form data with whatever the user input...
       this.prefillHCA();
       this.goToNextPage();
     }
