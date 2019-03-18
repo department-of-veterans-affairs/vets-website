@@ -144,6 +144,12 @@ export const schema = {
         otherAtRiskHousing,
       },
     },
-    homelessnessContact,
+    homelessnessContact: {
+      ...homelessnessContact,
+      properties: {
+        ...homelessnessContact.properties,
+        name: _.omit('pattern', homelessnessContact.properties.name),
+      },
+    },
   },
 };
