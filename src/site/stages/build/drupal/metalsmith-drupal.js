@@ -2,10 +2,11 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const chalk = require('chalk');
 const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
+const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
+const { logDrupal: log } = require('./utilities-drupal');
 const getApiClient = require('./api');
 const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
@@ -16,35 +17,6 @@ const DRUPAL_CACHE_FILENAME = 'drupal.json';
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
-
-const ENABLED_ENVIRONMENTS = new Set([
-  ENVIRONMENTS.LOCALHOST,
-  ENVIRONMENTS.VAGOVDEV,
-  ENVIRONMENTS.VAGOVSTAGING,
-]);
-
-const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
-
-// eslint-disable-next-line no-console
-const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
-
-function writeDrupalDebugPage(files) {
-  log('Drupal debug page written to /drupal/debug.');
-
-  const drupalPages = Object.keys(files)
-    .filter(page => page.startsWith('drupal'))
-    .map(page => `<li><a href="/${page}">/${page}</a></li>`)
-    .join('');
-
-  const drupalIndex = `
-    <h1>The following pages were provided by Drupal:</h1>
-    <ol>${drupalPages}</ol>
-  `;
-
-  files['drupal/debug/index.html'] = {
-    contents: Buffer.from(drupalIndex),
-  };
-}
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
@@ -68,29 +40,23 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     }
 
     const {
-      entityUrl: { path: drupalPagePath },
+      entityUrl: { path: drupalUrl },
       entityBundle,
     } = page;
 
     const pageCompiled = compilePage(page, contentData);
+    const drupalPageDir = path.join('.', drupalUrl);
+    const drupalFileName = path.join(drupalPageDir, 'index.html');
 
-    files[`drupal${drupalPagePath}/index.html`] = createFileObj(
+    files[drupalFileName] = createFileObj(
       pageCompiled,
       `${entityBundle}.drupal.liquid`,
     );
 
     if (page.entityBundle === 'health_care_region_page') {
-      createHealthCareRegionListPages(pageCompiled, drupalPagePath, files);
+      createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
   }
-
-  writeDrupalDebugPage(files);
-  files[`drupal/index.md`] = {
-    ...files['index.md'],
-    path: 'drupal/index.html',
-    isDrupalPage: true,
-    private: true,
-  };
 }
 
 async function loadDrupal(buildOptions) {

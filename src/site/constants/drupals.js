@@ -1,10 +1,11 @@
 const ENVIRONMENTS = require('./environments');
 
-// const DRUPAL_DEV = {
-//   address: 'http://dev.va.agile6.com',
-//   user: 'api',
-//   password: 'drupal8',
-// };
+// eslint-disable-next-line no-unused-vars
+const DRUPAL_DEV = {
+  address: 'http://dev.va.agile6.com',
+  user: 'api',
+  password: 'drupal8',
+};
 
 const DRUPAL_STAGING = {
   address: 'http://stg.va.agile6.com',
@@ -29,4 +30,17 @@ const DRUPALS = {
   [ENVIRONMENTS.VAGOVPROD]: DRUPAL_LIVE,
 };
 
+const ENABLED_ENVIRONMENTS = new Set([
+  ENVIRONMENTS.LOCALHOST,
+  ENVIRONMENTS.VAGOVDEV,
+  ENVIRONMENTS.VAGOVSTAGING,
+]);
+
+const PREFIXED_ENVIRONMENTS = new Set([
+  // ENVIRONMENTS.LOCALHOST,
+  ENVIRONMENTS.VAGOVSTAGING,
+]);
+
 module.exports = DRUPALS;
+module.exports.ENABLED_ENVIRONMENTS = ENABLED_ENVIRONMENTS;
+module.exports.PREFIXED_ENVIRONMENTS = PREFIXED_ENVIRONMENTS;
