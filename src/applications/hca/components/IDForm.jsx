@@ -5,9 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import constants from 'vets-json-schema/dist/constants.json';
 
-import { genderLabels } from 'platform/static-data/labels';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export default class IDForm extends React.Component {
@@ -38,10 +36,6 @@ export default class IDForm extends React.Component {
       },
       ssn: {
         type: 'string',
-      },
-      gender: {
-        type: 'string',
-        enum: [...constants.genders.map(option => option.value), 'NA'],
       },
     },
     required: ['firstName', 'lastName', 'dob', 'ssn'],
@@ -79,23 +73,60 @@ export default class IDForm extends React.Component {
           'Please enter your Social Security number in this format: XXX-XX-XXXX.',
       },
     },
-    gender: {
-      'ui:title': 'Gender',
-      'ui:labels': genderLabels,
-    },
+  };
+
+  renderServerErrorAlert = () => {
+    const { errors } = this.props;
+    if (errors && errors.some(error => error.code === '500')) {
+      return (
+        <AlertBox
+          isVisible
+          status="error"
+          headline="Server Error"
+          content={
+            <>
+              <p>
+                We’re sorry for the interruption, but we have encountered an
+                error. Please try again later.
+              </p>
+            </>
+          }
+        />
+      );
+    }
+    return null;
+  };
+
+  renderRateLimitErrorAlert = () => {
+    const { errors } = this.props;
+    if (errors && errors.some(error => error.code === '429')) {
+      return (
+        <AlertBox
+          isVisible
+          status="error"
+          headline="Rate Limit Error"
+          content={
+            <>
+              <p>Please try again in an hour!</p>
+            </>
+          }
+        />
+      );
+    }
+    return null;
   };
 
   renderContinueButtonOrStatus = () => {
     const { enrollmentStatus } = this.props;
     if (enrollmentStatus && enrollmentStatus !== 'none_of_the_above') {
       return (
-        <React.Fragment>
+        <>
           <AlertBox
             isVisible
             status="error"
             headline="Please sign in to continue your application"
             content={
-              <React.Fragment>
+              <>
                 <p>
                   We’re sorry for the interruption, but we need you to review
                   some information before you continue applying. Please sign in
@@ -108,11 +139,11 @@ export default class IDForm extends React.Component {
                 >
                   Sign in to VA.gov
                 </button>
-              </React.Fragment>
+              </>
             }
           />
           <br />
-        </React.Fragment>
+        </>
       );
     }
 
@@ -143,6 +174,8 @@ export default class IDForm extends React.Component {
         onChange={this.formChange}
         data={this.state.idFormData}
       >
+        {this.renderServerErrorAlert()}
+        {this.renderRateLimitErrorAlert()}
         {this.renderContinueButtonOrStatus()}
       </SchemaForm>
     );

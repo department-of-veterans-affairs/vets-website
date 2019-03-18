@@ -4,6 +4,7 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
+import merge from 'lodash/merge';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -147,7 +148,7 @@ const capitalizeWord = word => {
  */
 export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name.replace(/\w+/g, capitalizeWord);
+    return name.replace(/\w[^\s-]*/g, capitalizeWord);
   }
 
   Raven.captureMessage(
@@ -190,58 +191,40 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
-/**
- * An updateSchema callback that adds boolean properties to the schema.
- * The property names are lowercased, while the title is title cased.
- */
-export const addCheckboxPerDisability = (formData, pageSchema) => {
-  const { ratedDisabilities, newDisabilities } = formData;
-  // This shouldn't happen, but could happen if someone directly
-  // opens the right page in the form with no SiP
-  if (!ratedDisabilities && !newDisabilities) {
-    return pageSchema;
-  }
-  const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
-    ? ratedDisabilities.filter(disabilityIsSelected)
-    : [];
-
-  const selectedNewDisabilities = Array.isArray(newDisabilities)
-    ? newDisabilities
-    : [];
-
-  // We expect to get an array with conditions in it or no property
-  // at all.
-  const disabilitiesViews = selectedRatedDisabilities
-    .concat(selectedNewDisabilities)
-    .reduce((accum, curr) => {
-      const disabilityName = curr.name || curr.condition || '';
-      const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
-      return _.set(
-        // downcase value for SIP consistency
-        disabilityName.toLowerCase(),
-        { title: capitalizedDisabilityName, type: 'boolean' },
-        accum,
-      );
-    }, {});
-  return {
-    properties: disabilitiesViews,
-  };
+const createCheckboxSchema = (schema, disabilityName) => {
+  const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
+  return _.set(
+    // downcase value for SIP consistency
+    [`${capitalizedDisabilityName.toLowerCase()}`],
+    { title: capitalizedDisabilityName, type: 'boolean' },
+    schema,
+  );
 };
 
-const formattedNewDisabilitiesSelector = createSelector(
+export const makeSchemaForNewDisabilities = createSelector(
   formData => formData.newDisabilities,
-  (newDisabilities = []) =>
-    newDisabilities.map(disability => capitalizeEachWord(disability.condition)),
+  (newDisabilities = []) => ({
+    properties: newDisabilities
+      .map(disability => capitalizeEachWord(disability.condition))
+      .reduce(createCheckboxSchema, {}),
+  }),
 );
 
-export const addCheckboxPerNewDisability = createSelector(
-  formattedNewDisabilitiesSelector,
-  newDisabilities => ({
-    properties: newDisabilities.reduce(
-      (accum, disability) => _.set(disability, { type: 'boolean' }, accum),
-      {},
-    ),
+export const makeSchemaForRatedDisabilities = createSelector(
+  formData => formData.ratedDisabilities,
+  (ratedDisabilities = []) => ({
+    properties: ratedDisabilities
+      .filter(disabilityIsSelected)
+      .map(disability => capitalizeEachWord(disability.name))
+      .reduce(createCheckboxSchema, {}),
   }),
+);
+
+export const makeSchemaForAllDisabilities = createSelector(
+  makeSchemaForNewDisabilities,
+  makeSchemaForRatedDisabilities,
+  (newDisabilitiesSchema, ratedDisabilitiesSchema) =>
+    merge({}, newDisabilitiesSchema, ratedDisabilitiesSchema),
 );
 
 export const hasVAEvidence = formData =>

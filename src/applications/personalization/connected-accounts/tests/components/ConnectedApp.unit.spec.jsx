@@ -27,10 +27,11 @@ describe('<ConnectedApp>', () => {
       />,
     );
 
-    const row = tree.dive(['table', 'tbody', 'tr']);
-    row.props.onClick();
+    const row = tree.dive(['.va-connected-acct-row']);
+    const toggleButton = row.subTree('.va-connected-acct-row-details-toggle');
+    toggleButton.props.onClick();
 
-    tree.subTree('button').props.onClick({ target: {} });
+    tree.subTree('.usa-button-primary').props.onClick({ target: {} });
 
     expect(tree.subTree('AccountModal').props.modalOpen).to.be.true;
   });

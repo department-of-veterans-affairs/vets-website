@@ -1,0 +1,72 @@
+{% comment %}
+Example data:
+"entityUrl": {
+  "breadcrumb": [
+    {
+      "url": {
+        "path": "/",
+        "routed": true
+      },
+      "text": "Home"
+    }
+  ],
+  "path": "/pittsburgh-health-care"
+},
+"entityId": "83",
+"entityBundle": "health_care_region_page",
+"entityPublished": true,
+"title": "Pittsburgh Health Care System",
+"allPressReleaseTeasers": {
+  "entities": [
+  "allNewsStoryTeasers": {
+    "entities": [
+      {
+        "title": "Abdo Loquor Proprius",
+        "fieldIntroText": "Abico ea euismod. Aliquam causa gravis jumentum neo paratus roto te....",
+        "fieldMedia": {
+          "entity": {
+            "image": {
+            "alt": null,
+            "title": null,
+            "derivative": {
+              "url": "http://stg.va.agile6.com/sites/default/files/styles/crop_3_2/public/hub_promos/education.png?itok=Dq-jwud0",
+              "width": 456,
+              "height": 304
+            }
+          }
+        }
+        },
+        "entityUrl": {
+          "path": "/pittsburgh-health-care/stories/abdo-loquor-proprius"
+        }
+      },
+      ...
+    ]
+  }
+}
+{% endcomment %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+      <div class="usa-width-three-fourths">
+        <article class="usa-content">
+          <h1>Community Stories</h1>
+          <div class="va-introtext vads-u-margin-bottom--6">
+            {{ fieldIntroTextNewsStories.processed }}
+          </div>
+          {% for story in pagedItems %}
+              {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
+          {% endfor %}
+          {% include "src/site/includes/pagination.drupal.liquid" %}
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

@@ -40,24 +40,17 @@ Example data:
     },
 }
 {% endcomment %}
-{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-      <nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
-        <h5>{{ title }}</h5>
-      </nav>
-      <div class="usa-width-three-fourths">
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info" >
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
-          </div>
-        {% endif %}
 
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+
+      <div class="usa-width-three-fourths">
         <article class="usa-content">
           <h1>Press Releases</h1>
           {% for pr in pagedItems %}
@@ -72,5 +65,6 @@ Example data:
       </div>
     </div>
   </main>
+</div>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

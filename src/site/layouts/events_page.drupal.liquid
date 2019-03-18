@@ -1,0 +1,71 @@
+{% comment %}
+Example data:
+"entityUrl": {
+  "breadcrumb": [
+    {
+      "url": {
+        "path": "/",
+        "routed": true
+      },
+      "text": "Home"
+    }
+  ],
+  "path": "/pittsburgh-health-care"
+},
+"entityId": "83",
+"entityBundle": "health_care_region_page",
+"entityPublished": true,
+"title": "Pittsburgh Health Care System",
+  "allEventTeasers": {
+    "entities": [
+      {
+      "title": "Test Event",
+      "fieldEventDate": {
+        "value": "2019-03-15T08:00:00"
+      },
+      "fieldEventDateEnd": {
+        "value": "2019-03-15T11:00:00"
+      },
+      "fieldDescription": "This is an event to test. ",
+      "fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
+      "fieldFacilityLocation": {
+          "entity": {
+            "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+            "entityUrl": {
+              "path": "/pittsburgh-health-care/locations/heinz-medical-center"
+            }
+          }
+        },
+        "entityUrl": {
+          "path": "/pittsburgh-health-care/events/test-event"
+          }
+      }
+    ]
+  },
+}
+{% endcomment %}
+{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+      <div class="usa-width-three-fourths">
+        <article class="usa-content">
+          <h1>Events</h1>
+          <div class="va-introtext vads-u-margin-bottom--6">
+            {{ fieldIntroTextEventsPage.processed }}
+          </div>
+          {% for event in pagedItems %}
+              {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+          {% endfor %}
+          {% include "src/site/includes/pagination.drupal.liquid" %}
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
