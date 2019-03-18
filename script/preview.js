@@ -60,7 +60,7 @@ const app = express();
 const drupalClient = getDrupalClient(options);
 
 const urls = {
-  [ENVIRONMENTS.LOCALHOST]: 'http://localhost:3001',
+  [ENVIRONMENTS.LOCALHOST]: 'https://vetsgov-pr-9681.herokuapp.com',
   [ENVIRONMENTS.VAGOVDEV]:
     'http://dev.va.gov.s3-website-us-gov-west-1.amazonaws.com',
   [ENVIRONMENTS.VAGOVSTAGING]:
