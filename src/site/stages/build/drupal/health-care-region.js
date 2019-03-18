@@ -41,6 +41,20 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   }
 
+  // Create the detail page for health care static information
+  if (page.allHealthcareDetailPages !== undefined) {
+    for (const detailPage of page.allHealthcareDetailPages.entities) {
+      if (detailPage.entityBundle === 'health_care_region_detail_page') {
+        const pagePath = detailPage.entityUrl.path;
+        const detailPageCompiled = Object.assign(detailPage, sidebar, alerts);
+        files[`drupal${pagePath}/index.html`] = createFileObj(
+          detailPageCompiled,
+          'health_care_region_detail_page.drupal.liquid',
+        );
+      }
+    }
+  }
+
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
@@ -58,9 +72,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_region_locations_page.drupal.liquid',
   );
 
-  // Create Health Services Page
+  // Create A-Z Services Page
   const hsEntityUrl = createEntityUrlObj(drupalPagePath);
   const hsObj = {
+    careCoordinatorPatientFamilyServices:
+      page.careCoordinatorPatientFamilyServices,
+    socialProgramsPatientFamilyServices:
+      page.socialProgramsPatientFamilyServices,
+    healthWellnessPatientFamilyServices:
+      page.healthWellnessPatientFamilyServices,
     specialtyCareHealthServices: page.specialtyCareHealthServices,
     primaryCareHealthServices: page.primaryCareHealthServices,
     mentalHealthServices: page.mentalHealthServices,
@@ -70,37 +90,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     alert: page.alert,
     title: page.title,
   };
-  const hsPage = updateEntityUrlObj(hsObj, drupalPagePath, 'Health Services');
+  const hsPage = updateEntityUrlObj(
+    hsObj,
+    drupalPagePath,
+    'Patient and health services',
+  );
   files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
     'health_care_region_health_services_page.drupal.liquid',
-  );
-
-  // Create the patient and family services page
-  const fsEntityUrl = createEntityUrlObj(drupalPagePath);
-  const fsObj = {
-    careCoordinatorPatientFamilyServices:
-      page.careCoordinatorPatientFamilyServices,
-    socialProgramsPatientFamilyServices:
-      page.socialProgramsPatientFamilyServices,
-    healthWellnessPatientFamilyServices:
-      page.healthWellnessPatientFamilyServices,
-    fieldPatientFamilyServicesIn: page.fieldPatientFamilyServicesIn,
-    facilitySidebar: sidebar,
-    entityUrl: fsEntityUrl,
-    alert: page.alert,
-    title: page.title,
-  };
-  const fsPage = updateEntityUrlObj(
-    fsObj,
-    drupalPagePath,
-    'Patient & Family Services',
-  );
-  files[
-    `drupal${drupalPagePath}/patient-family-services/index.html`
-  ] = createFileObj(
-    fsPage,
-    'health_care_region_patient_family_services_page.drupal.liquid',
   );
 
   // Press Release listing page
