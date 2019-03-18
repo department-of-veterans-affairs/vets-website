@@ -13,8 +13,8 @@ import {
   completeMilitaryService,
   completeEducationHistory,
   completeHighTechWorkExp,
-  getTrainingProgramsChoice,
-  completeTrainingProgramChoice,
+  getHasSelectedPrograms,
+  completeHasSelectedPrograms,
   completeTrainingProgramsInformation,
   completeContactInformation,
   completeBankInformation,
@@ -85,11 +85,11 @@ const e2eTests = (client, formData) => {
     '/training-programs-choice',
     client,
     formData,
-    completeTrainingProgramChoice,
+    completeHasSelectedPrograms,
   );
 
   // Training Programs information
-  if (getTrainingProgramsChoice(formData)) {
+  if (getHasSelectedPrograms(formData)) {
     completeFormPage(
       '/training-programs-information',
       client,

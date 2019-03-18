@@ -126,7 +126,7 @@ const formConfig = {
         trainingProgramsInformation: {
           title: 'Program Selection',
           path: 'training-programs-information',
-          depends: form => form['view:trainingProgramsChoice'] === true,
+          depends: form => form.hasSelectedPrograms === true,
           uiSchema: trainingProgramsInformation.uiSchema,
           schema: trainingProgramsInformation.schema,
         },
