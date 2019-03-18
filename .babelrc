@@ -34,7 +34,7 @@
     ["@babel/plugin-proposal-class-properties", { "loose": false }],
     "@babel/plugin-proposal-json-strings",
     ["module-resolver", {
-      "root": "./src",
+      "root": "./src"
     }]
   ],
   // Share polyfills between files.
