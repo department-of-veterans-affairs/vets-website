@@ -18,7 +18,7 @@ const alertContent = (
 const DecisionReviewPage = () => (
   <AlertBox
     status="warning"
-    headline="You’ll need to request a decision review."
+    headline="You’ll need to request a decision review"
     content={alertContent}
   />
 );

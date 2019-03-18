@@ -18,7 +18,7 @@ const alertContent = (
 const FileAppealPage = () => (
   <AlertBox
     status="warning"
-    headline="You'll need to file an appeal"
+    headline="You’ll need to file an appeal"
     content={alertContent}
   />
 );
