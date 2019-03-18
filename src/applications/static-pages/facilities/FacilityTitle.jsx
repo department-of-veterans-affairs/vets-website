@@ -1,6 +1,8 @@
 import React from 'react';
 
-const facilityLocationPath = require('../../../site/stages/build/drupal/utilities-drupal');
+const {
+  facilityLocationPath,
+} = require('../../../site/stages/build/drupal/utilities-drupal');
 
 export default class FacilityTitle extends React.Component {
   render() {

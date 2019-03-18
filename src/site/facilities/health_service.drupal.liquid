@@ -26,7 +26,7 @@
                     <ul class="usa-unstyled-list">
                         {% for location in healthService.fieldHealthServicesLocalInfo %}
                             {% assign facility = location.entity.fieldLocalFacilityOrClinic.entity %}
-                            <li class="vads-u-margin-bottom--2"><a href="/drupal{{ entityUrl.path }}/{{ facility | locationUrlConvention }}">{{ facility.fieldNicknameForThisFacility }}</a></li>
+                            <li class="vads-u-margin-bottom--2"><a href="{{ entityUrl.path }}/{{ facility | locationUrlConvention }}">{{ facility.fieldNicknameForThisFacility }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endif %}
