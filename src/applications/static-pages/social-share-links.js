@@ -28,12 +28,11 @@ export function openShareLink() {
             text: metaDescription,
             url: metaUrl,
           })
-          .then(() => event.preventDefault())
-          .catch((err) => {
-              // eslint-disable-next-line no-console
-              console.error('Share failed', err);
-              document.location.assign(link.href);
-          })
+          .catch(err => {
+            // eslint-disable-next-line no-console
+            console.error('Share failed', err);
+            document.location.assign(link.href);
+          });
       }
     });
   });
