@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { urls } from '../../all-claims/utils';
-
 export default function ButtonContainer(props) {
   const {
     checkGuidanceStatus,
@@ -29,7 +27,7 @@ export default function ButtonContainer(props) {
         !isLoggedIn && (
           <a
             className="usa-button-primary"
-            href={urls.v2}
+            href="/disability/how-to-file-claim"
             onClick={authenticate}
           >
             Sign In and Verify Your Identity
@@ -39,14 +37,20 @@ export default function ButtonContainer(props) {
       {atIncreaseGuidance &&
         isLoggedIn &&
         !isVerified && (
-          <a className="usa-button-primary" href={`/verify?next=${urls.v2}`}>
+          <a
+            className="usa-button-primary"
+            href="/verify?next=/disability/how-to-file-claim"
+          >
             Verify Your Identity
             <span className="button-icon"> »</span>
           </a>
         )}
       {atIncreaseGuidance &&
         isVerified && (
-          <a className="usa-button-primary" href={urls.v2}>
+          <a
+            className="usa-button-primary"
+            href="/disability/how-to-file-claim"
+          >
             Apply for Claim for Increase
             <span className="button-icon"> »</span>
           </a>
