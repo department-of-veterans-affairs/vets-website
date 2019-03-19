@@ -1,6 +1,7 @@
 const join = require('path').join;
 
 const testForm = require('../../../../platform/testing/e2e/form-tester');
+const formFiller = require('../../../../platform/testing/e2e/form-tester/form-filler');
 const getTestDataSets = require('../../../../platform/testing/e2e/form-tester/util')
   .getTestDataSets;
 const PageHelpers = require('./disability-benefits-helpers');
@@ -8,7 +9,7 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = getTestDataSets(join(__dirname, 'data'), {
   extension: 'json',
   ignore: ['minimal-ptsd-form-upload-test.json'],
-  // only: ['secondary-new-test.json'],
+  // only: ['maximal-test.json'],
 });
 
 const testConfig = {
@@ -36,7 +37,21 @@ const testConfig = {
       await page.click('input[name="root_ratedDisabilities_0"]');
       await page.click('.form-progress-buttons .usa-button-primary');
     },
-    // TODO: Add a hook for the bank info page
+    '/disability/file-disability-claim-form-21-526ez/payment-information': async (
+      page,
+      data,
+      config,
+      log,
+    ) => {
+      // click to open edit mode for existing banking info if applicable
+      if (await page.$('.usa-button-primary.edit-button')) {
+        await page.click('.usa-button-primary.edit-button');
+      }
+
+      formFiller.fillPage(page, data, config, log);
+      await page.click('.usa-button-primary.update-button');
+      await page.click('button[type=submit].usa-button-primary');
+    },
   },
   // TODO: Remove this in favor of importing the formConfig and finding them all
   arrayPages: [

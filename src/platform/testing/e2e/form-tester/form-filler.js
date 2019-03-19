@@ -316,7 +316,7 @@ const fillForm = async (page, testData, testConfig, log) => {
           `Bad testConfig: Page hook for ${url} is not a function`,
         );
       }
-      const retVal = hook(page, testData, testConfig);
+      const retVal = hook(page, testData, testConfig, log);
       if (retVal instanceof Promise) {
         await retVal;
       }
