@@ -16,8 +16,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
-import { submitIDForm } from '../actions';
+import { getEnrollmentStatus } from '../actions';
 import { idFormSchema as schema, idFormUiSchema as uiSchema } from '../helpers';
+import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 function ContinueButton({ isLoading }) {
   return (
@@ -93,7 +94,10 @@ class IDPage extends React.Component {
     // Redirect to intro if a logged in user directly accessed this page.
     if (shouldRedirect) this.props.router.push('/');
 
-    if (noESRRecordFound || enrollmentStatus === 'none_of_the_above') {
+    if (
+      noESRRecordFound ||
+      enrollmentStatus === HCA_ENROLLMENT_STATUSES.noneOfTheAbove
+    ) {
       this.prefillHCA();
       this.goToNextPage();
     }
@@ -227,7 +231,7 @@ IDPage.propTypes = {
 
 const mapDispatchToProps = {
   setFormData: setData,
-  submitIDForm,
+  submitIDForm: getEnrollmentStatus,
   toggleLoginModal,
 };
 
@@ -235,14 +239,14 @@ const mapStateToProps = state => {
   const {
     enrollmentStatus,
     hasServerError,
-    isSubmitting,
+    isLoading,
     loginRequired,
     noESRRecordFound,
-  } = state.hcaIDForm;
+  } = state.hcaEnrollmentStatus;
   return {
     enrollmentStatus,
     form: state.form,
-    isSubmittingIDForm: isSubmitting,
+    isSubmittingIDForm: isLoading,
     loginRequired,
     noESRRecordFound,
     shouldRedirect: isLoggedIn(state),
