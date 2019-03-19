@@ -31,9 +31,9 @@ export const bankInfoHelpText = (
       by electronic funds transfer (EFT), also called direct deposit.
     </p>
     <p>
-      If you do not have a bank account, you must receive your payment through
-      Direct Express Debit MasterCard. To request a Direct Express Debit
-      MasterCard, apply at{' '}
+      If you don’t have a bank account, or don’t wish to provide your bank
+      account information, you must receive your payment through Direct Express
+      Debit MasterCard. To request a Direct Express Debit MasterCard, apply at{' '}
       <a
         href="https://www.usdirectexpress.com/"
         target="_blank"
@@ -48,13 +48,13 @@ export const bankInfoHelpText = (
       .
     </p>
     <p>
-      If you elect not to enroll, you must contact representatives handling
-      waiver requests for the Department of Treasury at{' '}
+      If you choose not to enroll, you’ll need to call the Department of
+      Treasury at{' '}
       <a className="help-phone-number-link" href="tel:1-888-224-2950">
         1-888-224-2950
-      </a>
-      . They will encourage your participation in EFT and address any questions
-      or concerns you may have.
+      </a>{' '}
+      and speak to a representative handling waiver requests. They’ll encourage
+      you to participate in EFT and address any questions or concerns you have.
     </p>
   </AdditionalInfo>
 );
