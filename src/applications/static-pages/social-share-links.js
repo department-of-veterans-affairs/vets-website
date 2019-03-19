@@ -12,6 +12,7 @@ export function openShareLink() {
 
   shareLinks.forEach(link => {
     link.addEventListener('click', event => {
+      event.preventDefault();
       if (!hasNavigatorShare) {
         // Desktop share
         window.open(
@@ -28,9 +29,12 @@ export function openShareLink() {
             url: metaUrl,
           })
           .then(() => event.preventDefault())
-          .catch(() => document.location.assign(link.href));
+          .catch((err) => {
+              // eslint-disable-next-line no-console
+              console.error('Share failed', err);
+              document.location.assign(link.href);
+          })
       }
-      event.preventDefault();
     });
   });
 }
