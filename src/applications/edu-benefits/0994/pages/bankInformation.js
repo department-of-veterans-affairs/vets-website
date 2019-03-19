@@ -42,7 +42,6 @@ export const uiSchema = {
     },
   },
   'view:bankInfoNote': {
-    'ui:title': ' ',
     'ui:description': bankInfoNote,
   },
   'view:bankInfoHelpText': {
