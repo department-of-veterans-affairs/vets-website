@@ -8,8 +8,8 @@ export function openShareLink() {
     link.addEventListener('click', event => {
       window.open(
         link.href,
-        'social_modal',
-        'left=20,top=20,width=900,height=500,toolbar=1,resizable=0',
+        'social_popup',
+        'left=20,top=20,width=700,height=500,toolbar=0,menubar=0,resizable=0',
       );
       event.preventDefault();
     });
