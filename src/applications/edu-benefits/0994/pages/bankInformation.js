@@ -5,7 +5,6 @@ import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
 
 import {
-  bankInfoTitle,
   bankInfoDescription,
   bankInfoNote,
   bankInfoHelpText,
@@ -14,7 +13,7 @@ import {
 const { bankAccount } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:title': bankInfoTitle,
+  'ui:title': 'Direct deposit information',
   'ui:description': bankInfoDescription,
   'view:bankAccount': {
     'ui:field': ReviewCardField,
@@ -47,7 +46,6 @@ export const uiSchema = {
     'ui:description': bankInfoNote,
   },
   'view:bankInfoHelpText': {
-    'ui:title': ' ',
     'ui:description': bankInfoHelpText,
   },
 };

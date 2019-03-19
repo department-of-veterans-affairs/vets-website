@@ -1,8 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-export const bankInfoTitle = <h4>Direct deposit information</h4>;
-
 export const bankInfoDescription =
   'This is the bank account information we have on file for you. We’ll pay your housing stipend to this account.';
 
