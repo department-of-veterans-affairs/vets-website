@@ -29,7 +29,7 @@ const alertContent = (
 const FileSupplementalClaimPage = () => (
   <AlertBox
     status="warning"
-    headline="You’ll need to file a new claim"
+    headline="You’ll need to file a Supplemental Claim"
     content={alertContent}
   />
 );
