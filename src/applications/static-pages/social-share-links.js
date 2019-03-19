@@ -4,14 +4,14 @@ Open share links in a new modal window
 
 export function openShareLink() {
   const shareLinks = document.querySelectorAll('.va-js-share-link');
-  const ifNavigatorShare = navigator.share !== undefined;
+  const hasNavigatorShare = navigator.share !== undefined;
   const metaTitle = document.querySelector("meta[property='og:title']").content;
   const metaDescription = document.querySelector("meta[name='description']")
     .content;
 
   shareLinks.forEach(link => {
     link.addEventListener('click', event => {
-      if (!ifNavigatorShare) {
+      if (!hasNavigatorShare) {
         // Desktop share
         window.open(
           link.href,
