@@ -8,6 +8,7 @@ export function openShareLink() {
   const metaTitle = document.querySelector("meta[name='title']").content;
   const metaDescription = document.querySelector("meta[name='description']")
     .content;
+  const metaUrl = document.querySelector("meta[property='og:url']").content;
 
   shareLinks.forEach(link => {
     link.addEventListener('click', event => {
@@ -24,7 +25,7 @@ export function openShareLink() {
           .share({
             title: metaTitle,
             text: metaDescription,
-            url: link.href,
+            url: metaUrl,
           })
           .then(() => event.preventDefault())
           .catch(() => document.location.assign(link.href));
