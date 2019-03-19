@@ -10,6 +10,8 @@
 <meta content="{{ hostUrl }}" property="og:url">
 {% endif %}
 
+<meta content="website" property="og:type">
+
 {% assign tagsSize = entityMetatags | size %}
 {% if tagsSize > 0 %}
 <!-- Metatags from Drupal -->
@@ -40,7 +42,6 @@
 <meta content="{{ hostUrl }}" property="og:title">
 <meta content="{{ hostUrl }}" name="twitter:title">
     {% endif %}
-    <meta content="website" property="og:type">
       {% if fieldDescription %}
         {% assign description = fieldDescription | newline_to_br %}
       {% elsif fieldIntroText %}
