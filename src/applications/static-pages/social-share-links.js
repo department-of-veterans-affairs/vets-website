@@ -5,7 +5,7 @@ Open share links in a new modal window
 export function openShareLink() {
   const shareLinks = document.querySelectorAll('.va-js-share-link');
   const hasNavigatorShare = navigator.share !== undefined;
-  const metaTitle = document.querySelector("meta[property='og:title']").content;
+  const metaTitle = document.querySelector("meta[name='title']").content;
   const metaDescription = document.querySelector("meta[name='description']")
     .content;
 
