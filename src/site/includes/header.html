@@ -12,7 +12,7 @@
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-{% if drupalTags %}
+{% if drupalTags == true %}
   {% include "src/site/includes/metatags.drupal.liquid" %}
 {% else %}
   {% include "src/site/includes/metatags.liquid" %}
@@ -75,7 +75,7 @@
 
 </head>
 <body class="{{ body_class }} merger">
-  <a class="show-on-focus" href="#content">Skip to Content</a>
+  <a class="show-on-focus" href="#content">Skip to Content, Bob</a>
 
 {% if !noHeader %}
   {% include "src/site/includes/top-nav.html" %}

@@ -1,0 +1,33 @@
+{% comment %}
+    Need variables:
+    pageUrl
+
+    onClick window open behavior.
+    Analytics
+
+{% endcomment %}
+
+<div id="va-c-social-share">
+    <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
+        <li>
+            <a href="">
+                <i class="va-c-social-icon fas fa-calendar-check"></i>
+                Add to Calendar
+            </a>
+        </li>
+
+        <li> <a href="">
+                <i class="va-c-social-icon fab fa-facebook"></i>
+                Share on Facebook
+            </a>
+        </li>
+
+        <li>
+            <a  href="https://twitter.com/intent/tweet?text={{ title }}&url={{ hostUrl }}{{ entityUrl.path }}"
+                title="Share on Twitter" >
+                <i class="va-c-social-icon fab fa-twitter"></i>
+                Share on Twitter
+            </a>
+        </li>
+    </ul>
+</div>
