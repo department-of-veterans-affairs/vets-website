@@ -5,11 +5,13 @@ export const bankInfoDescription =
   'This is the bank account information we have on file for you. We’ll pay your housing stipend to this account.';
 
 export const bankInfoNote = (
-  <p>
-    <strong>Note: </strong>
-    Any updates you make here to your bank account information will also apply
-    to your other VA benefits, including compensation, pension, and education.
-  </p>
+  <div>
+    <p>
+      <strong>Note: </strong>
+      Any updates you make here to your bank account information will also apply
+      to your other VA benefits, including compensation, pension, and education.
+    </p>
+  </div>
 );
 
 const gaBankInfoHelpText = () => {
