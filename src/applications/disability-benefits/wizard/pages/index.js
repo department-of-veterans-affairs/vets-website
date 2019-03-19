@@ -7,7 +7,7 @@ import fileClaim from './file-claim';
 import disagreeing from './disagreeing';
 import decisionReview from './decision-review';
 import fileAppeal from './file-appeal';
-import disagreeFileClaim from './disagree-file-claim';
+import fileSupplementalClaim from './file-supplemental-claim';
 
 export default [
   start,
@@ -19,5 +19,5 @@ export default [
   disagreeing,
   decisionReview,
   fileAppeal,
-  disagreeFileClaim,
+  fileSupplementalClaim,
 ];

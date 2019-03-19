@@ -21,7 +21,7 @@ const findNextPage = state => {
   if (date.isAfter(moment().subtract(1, 'year'), 'day')) {
     return pageNames.fileAppeal;
   }
-  return pageNames.disagreeFileClaim;
+  return pageNames.fileSupplementalClaim;
 };
 
 const defaultState = {
