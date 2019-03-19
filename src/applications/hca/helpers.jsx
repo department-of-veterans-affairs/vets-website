@@ -4,6 +4,8 @@ import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -14,8 +16,39 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
 import { isValidDate } from 'platform/forms/validations';
+import { isInMVI } from 'platform/user/selectors';
 
 import facilityLocator from '../facility-locator/manifest';
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newData = formData;
+
+  if (isInMVI(state) || state.hcaIDForm.isUserInMVI) {
+    newData = { ...newData, 'view:isUserInMVI': true };
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+  };
+}
+
+export function transformAttachments(data) {
+  if (!data.attachments || !(data.attachments instanceof Array)) {
+    return data;
+  }
+  const transformedAttachments = data.attachments.map(attachment => {
+    const { name, size, confirmationCode, attachmentId } = attachment;
+    return {
+      name,
+      size,
+      confirmationCode,
+      dd214: attachmentId === '1',
+    };
+  });
+  return { ...data, attachments: transformedAttachments };
+}
 
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
@@ -34,6 +67,11 @@ export function transform(formConfig, form) {
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
     withoutViewFields = _.set('dependents', [], withoutViewFields);
+  }
+
+  // convert `attachmentId` values to a `dd214` boolean
+  if (withoutViewFields.attachments) {
+    withoutViewFields = transformAttachments(withoutViewFields);
   }
 
   const formData =
@@ -97,6 +135,47 @@ export const facilityHelp = (
     </p>
   </div>
 );
+
+export function fileHelp({ formContext }) {
+  if (formContext.reviewMode) {
+    return null;
+  }
+
+  return (
+    <>
+      <p>
+        Please upload a copy of your military discharge papers (like your DD214,
+        DD256, DD257, NGB22, or other separation documents). If you have more
+        than one discharge document, please upload the one with the highest
+        character of discharge. If you don’t have your discharge papers, you can
+        upload a copy of other official military documents (like proof of
+        military awards or your disability rating letter).
+      </p>
+      <br />
+      <p>
+        You don’t have to upload these documents. But it can help us verify your
+        military service and may speed up your application process.
+      </p>
+      <br />
+      <p>
+        <strong>Tips for uploading:</strong>
+      </p>
+      <ul>
+        <li>
+          Upload documents as one of these file types: .jpg, .png, .pdf, .doc,
+          .rtf
+        </li>
+        <li>
+          Upload one or more files that add up to no more than 10 MB total.
+        </li>
+        <li>
+          If you don’t have a digital copy of a document, you can scan or take a
+          photo of it and then upload the image from your computer or phone.
+        </li>
+      </ul>
+    </>
+  );
+}
 
 // Turns the facility list for each state into an array of strings
 export const medicalCentersByState = _.mapValues(
@@ -381,6 +460,67 @@ export const medicarePartADescription = (
     </div>
   </div>
 );
+
+export const idFormSchema = {
+  type: 'object',
+  properties: {
+    firstName: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+      pattern: '^.*\\S.*',
+    },
+    lastName: {
+      type: 'string',
+      minLength: 2,
+      maxLength: 30,
+      pattern: '^.*\\S.*',
+    },
+    dob: {
+      type: 'string',
+      format: 'date',
+    },
+    ssn: {
+      type: 'string',
+      pattern: '^[0-9]{9}$',
+    },
+  },
+  required: ['firstName', 'lastName', 'dob', 'ssn'],
+};
+
+export const idFormUiSchema = {
+  firstName: {
+    'ui:title': 'First name',
+    'ui:errorMessages': {
+      required: 'Please enter your first name.',
+    },
+  },
+  lastName: {
+    'ui:title': 'Last name',
+    'ui:errorMessages': {
+      required: 'Please enter your last name.',
+    },
+  },
+  dob: {
+    ...currentOrPastDateUI('Date of birth'),
+    'ui:errorMessages': {
+      required:
+        'Please provide your date of birth. Select the month and day, then enter your birth year.',
+    },
+  },
+  ssn: {
+    ...ssnUI,
+    'ui:errorMessages': {
+      required:
+        'Please enter your Social Security number in this format: XXX-XX-XXXX.',
+      // NOTE: this `pattern` message is ignored because the pattern
+      // validation error message is hard coded in the validation function:
+      // https://github.com/usds/us-forms-system/blob/db029cb4f18362870d420e3eee5b71be98004e5e/src/js/validation.js#L231
+      pattern:
+        'Please enter your Social Security number in this format: XXX-XX-XXXX.',
+    },
+  },
+};
 
 /**
  *

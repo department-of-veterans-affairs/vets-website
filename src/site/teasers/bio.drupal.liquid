@@ -1,0 +1,51 @@
+{% comment %}
+    Required variable: node - bio entity
+    Optional variable: header - the header level ('h2','h3', etc.) defaults to h4
+    Example data:
+    {
+    "entityPublished": true,
+    "fieldNameFirst": "Sheila",
+    "fieldLastName": "Tunney",
+    "fieldSuffix": null,
+    "fieldDescription": "Public Affairs Specialist",
+    "fieldOffice": {
+    "entity": {
+    "entityLabel": "Pittsburgh Health Care System",
+    "entityType": "node"
+    }
+    },
+    "fieldIntroText": null,
+    "fieldPhotoAllowHiresDownload": false,
+    "fieldMedia": {
+    "entity": {
+    "image": {
+    "alt": "Robert L Wilkie",
+    "title": "",
+    "derivative": {
+    "url": "http://dev.va.agile6.com/sites/default/files/styles/1_1_square_medium_thumbnail/public/2019-03/Robert_L_Wilkie_8x10.jpg?h=59bf76d8&itok=Q-x_2QaJ",
+    "width": 240,
+    "height": 240
+    }
+    }
+    }
+    },
+    "fieldBody": null,
+    "changed": 1552424311,
+    "entityUrl": {
+    "path": "/pittsburgh-health-care/sheila-tunney"
+    }
+    },
+{% endcomment %}
+{% if header == empty %}
+    {% assign header = "h4" %}
+{% endif %}
+<div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
+    <div class="usa-width-one-third">
+        {% assign image = node.fieldMedia.entity.image %}
+        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+    </div>
+    <div class="usa-width-two-thirds">
+        <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.fieldNameFirst }} {{ node.fieldLastName }} {{ node.fieldSuffix }}</a></{{ header }}>
+    <p class="vads-u-font-weight--bold">{{ node.fieldDescription }}</p>
+    </div>
+</div>

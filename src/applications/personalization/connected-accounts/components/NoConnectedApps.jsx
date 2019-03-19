@@ -10,31 +10,45 @@ const recordAction = () => {
   });
 };
 
-export function NoConnectedApps({ errors, propertyName }) {
-  let title;
-  if (errors.length > 0) {
-    title = <h3>Sorry — we can’t seem to find any connected accounts.</h3>;
-  } else {
-    title = <h3>You do not have any connected accounts.</h3>;
+export class NoConnectedApps extends React.Component {
+  componentDidMount() {
+    this.header.focus();
   }
 
-  return (
-    <div className="row va-connected-acct-null">
-      <div className="usa-width-two-thirds medium-8 small-12 columns">
-        {title}
-        <div className="feature">
-          <h3>Have questions about signing in to {propertyName}?</h3>
-          <p>
-            Get answers to frequently asked questions about how to sign in,
-            common issues with verifying your identity, and your privacy and
-            security on {propertyName}.
-          </p>
+  noAccountsMessage() {
+    return this.props.errors.length > 0
+      ? 'Sorry — we can’t seem to find any connected accounts.'
+      : 'You do not have any connected accounts.';
+  }
 
-          <a href="/sign-in-faq/" onClick={recordAction}>
-            Go to {propertyName} FAQs
-          </a>
+  render() {
+    return (
+      <div className="row va-connected-acct-null">
+        <div className="usa-width-two-thirds medium-8 small-12 columns">
+          <h2
+            tabIndex="-1"
+            ref={header => {
+              this.header = header;
+            }}
+          >
+            {this.noAccountsMessage()}
+          </h2>
+          <div className="feature">
+            <h3>
+              Have questions about signing in to {this.props.propertyName}?
+            </h3>
+            <p>
+              Get answers to frequently asked questions about how to sign in,
+              common issues with verifying your identity, and your privacy and
+              security on {this.props.propertyName}.
+            </p>
+
+            <a href="/sign-in-faq/" onClick={recordAction}>
+              Go to {this.props.propertyName} FAQs
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

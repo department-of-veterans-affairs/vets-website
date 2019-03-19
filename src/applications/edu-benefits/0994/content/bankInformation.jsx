@@ -9,8 +9,8 @@ export const bankInfoDescription =
 export const bankInfoNote = (
   <p>
     <strong>Note: </strong>
-    Any updates you make here to your contact information will also apply to
-    your other VA benefits, including compensation, pension, and education.
+    Any updates you make here to your bank account information will also apply
+    to your other VA benefits, including compensation, pension, and education.
   </p>
 );
 

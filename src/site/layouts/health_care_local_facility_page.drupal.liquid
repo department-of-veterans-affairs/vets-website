@@ -78,7 +78,7 @@
     }
 {% endcomment %}
 
-{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -164,7 +164,6 @@
                     {% if fieldRelatedLinks != empty %}
                         {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
                     {% endif %}
-
 
                 </article>
                 <div class="last-updated usa-content">

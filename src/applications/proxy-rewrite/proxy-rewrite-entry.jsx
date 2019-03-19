@@ -152,24 +152,22 @@ function removeCurrentHeaderFooter() {
   });
 }
 function activateInjectedAssets() {
-  document.addEventListener('DOMContentLoaded', _e => {
-    activateHeaderFooter();
-    fetch(`${getAssetHostName()}/generated/headerFooter.json`)
-      .then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
+  activateHeaderFooter();
+  fetch(`${getAssetHostName()}/generated/headerFooter.json`)
+    .then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      }
 
-        throw new Error(
-          `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
-            resp.statusText
-          }`,
-        );
-      })
-      .then(headerFooterData => {
-        mountReactComponents(headerFooterData, createCommonStore());
-      });
-  });
+      throw new Error(
+        `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+          resp.statusText
+        }`,
+      );
+    })
+    .then(headerFooterData => {
+      mountReactComponents(headerFooterData, createCommonStore());
+    });
 }
 
 function getProxyRewriteCookieValue(
@@ -282,7 +280,16 @@ function main() {
   ) {
     redirectIfNecessary(window);
     removeCurrentHeaderFooter();
-    activateInjectedAssets();
+
+    if (
+      document.readyState === 'complete' ||
+      document.readyState === 'loaded' ||
+      document.readyState === 'interactive'
+    ) {
+      activateInjectedAssets();
+    } else {
+      document.addEventListener('DOMContentLoaded', activateInjectedAssets);
+    }
   }
 }
 

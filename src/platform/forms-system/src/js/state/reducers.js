@@ -37,7 +37,6 @@ export default {
   },
   [SET_DATA]: (state, action) => {
     const newState = _.set('data', action.data, state);
-
     return recalculateSchemaAndData(newState);
   },
   [SET_EDIT_MODE]: (state, action) => {

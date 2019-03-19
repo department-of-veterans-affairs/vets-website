@@ -7,27 +7,45 @@ import {
 } from './actions';
 
 const initialState = {
-  hasOptionalDD214Upload: false,
-  isSubmitting: false,
-  errors: null,
   enrollmentStatus: null,
+  hasServerError: false,
+  isSubmitting: false,
+  isUserInMVI: false,
+  loginRequired: false,
+  noESRRecordFound: false,
 };
 
 function hcaIDForm(state = initialState, action) {
   switch (action.type) {
     case SUBMIT_ID_FORM_STARTED:
-      return { ...state, isSubmitting: true };
+      return { ...initialState, isSubmitting: true };
 
     case SUBMIT_ID_FORM_SUCCEEDED: {
       const { parsedStatus: enrollmentStatus } = action.data;
-      return { ...state, isSubmitting: false, enrollmentStatus };
+      const isInESR = enrollmentStatus !== 'none_of_the_above';
+      return {
+        ...state,
+        enrollmentStatus,
+        loginRequired: isInESR,
+        isSubmitting: false,
+        isUserInMVI: true,
+      };
     }
 
     case SUBMIT_ID_FORM_FAILED: {
       const { errors } = action;
-      const hasOptionalDD214Upload =
+      const noESRRecordFound =
         errors && errors.some(error => error.code === '404');
-      return { ...state, errors, hasOptionalDD214Upload, isSubmitting: false };
+      const hasServerError = errors && errors.some(error => error.code >= 500);
+      const hasRateLimitError =
+        errors && errors.some(error => error.code === '429');
+      return {
+        ...state,
+        hasServerError,
+        isSubmitting: false,
+        loginRequired: hasRateLimitError,
+        noESRRecordFound,
+      };
     }
 
     default:

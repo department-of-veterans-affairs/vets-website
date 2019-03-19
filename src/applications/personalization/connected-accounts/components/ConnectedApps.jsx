@@ -2,11 +2,14 @@ import React from 'react';
 
 import { ConnectedApp } from './ConnectedApp';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import { AppDeletedAlert } from './AppDeletedAlert';
 
-export function ConnectedApps({ confirmDelete, accounts }) {
+export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
+  const deletedAccounts = accounts.filter(account => account.deleted);
+  const activeAccounts = accounts.filter(account => !account.deleted);
   return (
     <div className="row va-connected-acct">
-      <div className="usa-width-two-thirds medium-8 small-12 columns">
+      <div className="usa-width-two-thirds medium-9 small-12 columns">
         <h1>Connected Accounts</h1>
         <p className="va-introtext">
           {/* eslint-disable prettier/prettier */}
@@ -16,19 +19,24 @@ export function ConnectedApps({ confirmDelete, accounts }) {
           anything.
           {/* eslint-enable prettier/prettier */}
         </p>
+        {deletedAccounts.map(account => (
+          <AppDeletedAlert
+            account={account}
+            key={account.id}
+            dismissAlert={dismissAlert}
+          />
+        ))}
 
-        <table className="va-table-connected-acct usa-table-borderless">
-          <tbody>
-            {accounts.map((a, idx) => (
-              <ConnectedApp
-                key={idx}
-                confirmDelete={confirmDelete}
-                isLast={idx + 1 === accounts.length}
-                {...a}
-              />
-            ))}
-          </tbody>
-        </table>
+        <ul className="va-connected-acct-list">
+          {activeAccounts.map((account, idx) => (
+            <ConnectedApp
+              key={account.id}
+              confirmDelete={confirmDelete}
+              isLast={idx + 1 === activeAccounts.length}
+              {...account}
+            />
+          ))}
+        </ul>
 
         <div className="feature">
           <h3>Have questions about connected accounts?</h3>
