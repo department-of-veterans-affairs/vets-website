@@ -44,18 +44,18 @@ export function clearRavenLoginType() {
 
 function redirectWithGAClientId(redirectUrl) {
   try {
-    let clientId;
-
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-undef
     const trackers = ga.getAll();
 
-    for (let i = 0; i < trackers.length; i++) {
-      const trackingId = trackers[i].get('trackingId');
-      if (trackingId === 'UA-50123418-16' || trackingId === 'UA-50123418-17') {
-        clientId = trackers[i].get('clientId');
-        break;
-      }
-    }
+    // Tracking IDs for Staging and Prod
+    const vagovTrackingIds = ['UA-50123418-16', 'UA-50123418-17'];
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get('trackingId');
+      return vagovTrackingIds.includes(trackingId);
+    });
+
+    const clientId = tracker && tracker.get('clientId');
 
     window.location = clientId
       ? appendQuery(redirectUrl, { clientId })
@@ -70,7 +70,7 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
 
-  if (redirectUrl.indexOf('idme') !== -1) {
+  if (redirectUrl.includes('idme')) {
     redirectWithGAClientId(redirectUrl);
   } else {
     window.location = redirectUrl;
