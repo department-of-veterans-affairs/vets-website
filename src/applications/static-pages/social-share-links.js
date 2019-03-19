@@ -9,7 +9,7 @@ export function openShareLink() {
       window.open(
         link.href,
         'social_popup',
-        'left=20,top=20,width=700,height=500,toolbar=0,menubar=0,resizable=0',
+        'left=20,top=20,width=700,height=500,toolbar=0,menubar=0,status=0,location=0,resizable=0',
       );
       event.preventDefault();
     });
