@@ -32,7 +32,7 @@ import {
   STATE_VALUES,
   TWENTY_FIVE_MB,
   USA,
-  MAX_LEVENSHTEIN_DISTANCE,
+  TYPO_THRESHOLD,
 } from './constants';
 
 /**
@@ -497,8 +497,8 @@ export const isDisabilityPtsd = disability => {
     }
 
     return (
-      fastLevenshtein.get(ptsdString, strippedDisability) <
-      Math.ceil(strippedDisability.length * MAX_LEVENSHTEIN_DISTANCE)
+      fastLevenshtein.get(strippedString, strippedDisability) <
+      Math.ceil(strippedDisability.length * TYPO_THRESHOLD)
     );
   });
 };
