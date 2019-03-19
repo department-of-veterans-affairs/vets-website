@@ -138,7 +138,9 @@ function getDrupalContent(buildOptions) {
       log('Successfully piped Drupal content into Metalsmith!');
       done();
     } catch (err) {
+      metalsmith.metadata({ drupalError: drupalData });
       log(err.stack);
+      log(JSON.stringify(drupalData));
       log('Failed to pipe Drupal content into Metalsmith!');
       log('Continuing with build anyway...');
       // done(err);
