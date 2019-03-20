@@ -151,6 +151,11 @@ export const PTSD_MATCHES = [
   'post-traumatic stress',
 ];
 
+// Percent of string length used to calculate maximum levenshtein edit distance
+// E.g., for a 10-char string, we'd say the max edit distance is:
+// Math.ceil(10 x TYPO_THRESHOLD)
+export const TYPO_THRESHOLD = 0.25;
+
 // Max number of incident iterations a user can go through.
 export const PTSD_INCIDENT_ITERATION = 3;
 

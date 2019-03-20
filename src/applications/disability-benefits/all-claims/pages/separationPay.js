@@ -45,7 +45,6 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:hasSeparationPay'],
   properties: {
     'view:hasSeparationPay': {
       type: 'boolean',
