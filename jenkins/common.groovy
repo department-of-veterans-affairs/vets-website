@@ -4,6 +4,18 @@ DRUPAL_MAPPING = [
   'prod': 'vagovprod',
 ]
 
+DRUPAL_ADDRESSES = [
+  'vagovdev'    : 'http://internal-stg-vagovcms-3000-521598752.us-gov-west-1.elb.amazonaws.com',
+  'vagovstaging': 'http://internal-prod-vagovcms-3000-1370756925.us-gov-west-1.elb.amazonaws.com',
+  'vagovprod'   : 'http://internal-prod-vagovcms-3000-1370756925.us-gov-west-1.elb.amazonaws.com',
+]
+
+DRUPAL_CREDENTIALS = [
+  'vagovdev'    : 'drupal-dev',
+  'vagovstaging': 'drupal-staging',
+  'vagovprod'   : 'drupal-prod',
+]
+
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
@@ -80,7 +92,7 @@ def setup() {
     dir("vagov-content") {
       checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
     }
-    
+
     dir("vets-website") {
       sh "mkdir -p build"
       sh "mkdir -p logs/selenium"
@@ -109,10 +121,14 @@ def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def buildDetails = buildDetails(envName, ref)
+        def drupalAddress = DRUPAL_ADDRESSES.get(envName)
+        def drupalCred = DRUPAL_CREDENTIALS.get(envName)
         builds[envName] = {
-          dockerContainer.inside(DOCKER_ARGS) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource}"
-            sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+          withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
+            dockerContainer.inside(DOCKER_ARGS) {
+              sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress}"
+              sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+            }
           }
         }
       }
