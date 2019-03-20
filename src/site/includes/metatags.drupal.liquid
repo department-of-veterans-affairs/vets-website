@@ -18,7 +18,11 @@
 {% for tag in entityMetatags %}
     {% case tag.__typename %}
       {% when "MetaValue" %}
+        {% if tag.key == "title" %}
+<title>{{ tag.value }}</title>
+        {% else %}
 <meta name="{{ tag.key }}" content="{{ tag.value }}">
+        {% endif %}
       {% when "MetaProperty" %}
 <meta property="{{ tag.key }}" content="{{ tag.value }}">
       {% when "MetaLink" %}
@@ -32,13 +36,8 @@
 <meta name="twitter:card" content="Summary">
 <meta name="twitter:site" content="@DeptVetAffairs">
 <meta name="twitter:image" content="{{ hostUrl }}/img/design/logo/va-og-twitter-image.png">
-  {% if title %}
-<meta content="{{ title }} - VA.gov" property="og:title">
-<meta content="{{ title }} - VA.gov" name="twitter:title" >
-  {% else %}
-<meta content="{{ hostUrl }}" property="og:title">
-<meta content="{{ hostUrl }}" name="twitter:title">
-{% endif %}
+<meta content="{{ title }} - Veterans Affairs" property="og:title">
+<meta content="{{ title }} - Veterans Affairs" name="twitter:title" >
   {% if fieldIntroTextNewsStories %}
     {% assign description = fieldIntroTextNewsStories.processed  | strip_html %}
   {% elsif fieldIntroTextEventsPage %}
@@ -62,4 +61,5 @@
 <meta content="{{ description }}" name="description">
   {% endif %}
 <meta content="{{ hostUrl }}/img/design/logo/va-og-image.png" property="og:image">
+<title>{{ title }} - Veterans Affairs</title>
 {% endif %}
