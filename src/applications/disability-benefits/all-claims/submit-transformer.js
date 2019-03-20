@@ -195,7 +195,10 @@ export function transform(formConfig, form) {
   // Grab ratedDisabilities before they're deleted in case the page is inactive
   // We need to send all of these to vets-api even if the veteran doesn't apply
   // for an increase on any of them
-  const savedRatedDisabilities = _.cloneDeep(form.data.ratedDisabilities);
+  const { ratedDisabilities } = form.data;
+  const savedRatedDisabilities = ratedDisabilities
+    ? _.cloneDeep(ratedDisabilities)
+    : undefined;
 
   // Define the transformations
   const filterEmptyObjects = formData =>
