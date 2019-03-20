@@ -3,24 +3,11 @@ import * as ICS from 'ics-js';
 export function icsCreate() {
   const cal = new ICS.VCALENDAR();
   const event = new ICS.VEVENT();
-
-  let start;
-  let end;
-  let location;
-  let description;
-
-  if (document.getElementById('starttime')) {
-    start = document.getElementById('starttime').value;
-  }
-  if (document.getElementById('endtime')) {
-    end = document.getElementById('endtime').value;
-  }
-  if (document.getElementById('location')) {
-    location = document.getElementById('location').value;
-  }
-  if (document.getElementById('description')) {
-    description = document.getElementById('description').value;
-  }
+  const addToCalendarLink = document.getElementById('add-to-calendar-link');
+  const start = addToCalendarLink.getAttribute('data-start');
+  const end = addToCalendarLink.getAttribute('data-end');
+  const location = addToCalendarLink.getAttribute('data-location');
+  const description = addToCalendarLink.getAttribute('data-description');
 
   cal.addProp('VERSION', 2);
   cal.addProp('PRODID', 'VA');

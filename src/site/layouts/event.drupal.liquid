@@ -59,14 +59,7 @@
     ]
     }
 {% endcomment %}
-<<<<<<< HEAD
 {% include "src/site/includes/header.html" with drupalTags = true %}
-=======
-{% if header == empty %}
-  {% assign header = "h4" %}
-{% endif %}
-{% include "src/site/includes/header.html" %}
->>>>>>> Adding ics package and custom logic to create ics files on the fly.
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -89,12 +82,6 @@
     {% assign date_type = "all_dates" %}
   {% endif %}
 {% endif %}
-<form class="hidden-data">
-  <input id="starttime" name="starttime" type="hidden" value="{{fieldDate.startDate}}">
-  <input id="endtime" name="endtime" type="hidden" value="{{fieldDate.endDate}}">
-  <input id="location" name="location" type="hidden" value="{{fieldAddress.addressLine1}} {{fieldAddress.locality}}, {{fieldAddress.administrativeArea}}">
-  <input id="description" name="description" type="hidden" value="{{fieldDescription}}">
-</form>
 <div class="interior" id="content">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
@@ -159,35 +146,10 @@
               {% endif %}
             </div>
 
-<<<<<<< HEAD
                         <div class="usa-width-one-half va-c-event-share">
                             {% include "src/site/includes/social-share.drupal.liquid" %}
                         </div>
                     </div>
-=======
-            <div class="usa-width-one-half va-c-event-share">
-              <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
-                {% if addToCalendarLink %}
-                  <li>
-                    <i class="va-c-social-icon fas fa-calendar-check"></i>
-                    <a id="add-to-calendar-link" href="{{ addToCalendarLink }}">
-                      Add to Calendar</a>
-                  </li>
-                {% endif %}
-                <li>
-                  <i class="va-c-social-icon fab fa-facebook"></i>
-                  <a href="">
-                    Share on Facebook</a>
-                </li>
-                <li>
-                  <i class="va-c-social-icon fab fa-twitter"></i>
-                  <a href="">
-                    Share on Twitter</a>
-                </li>
-              </ul>
-            </div>
-          </div>
->>>>>>> Adding ics package and custom logic to create ics files on the fly.
 
           {% if fieldAdditionalInformationAbo %}
             <div class="registration">
