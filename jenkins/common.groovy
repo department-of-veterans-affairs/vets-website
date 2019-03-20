@@ -10,6 +10,12 @@ DRUPAL_ADDRESSES = [
   'vagovprod'   : 'http://internal-prod-vagovcms-3000-1370756925.us-gov-west-1.elb.amazonaws.com',
 ]
 
+DRUPAL_CREDENTIALS = [
+	'vagovdev'    : 'drupal-dev',
+	'vagovstaging': 'drupal-staging',
+	'vagovprod'   : 'drupal-prod',
+]
+
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
@@ -115,9 +121,10 @@ def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def buildDetails = buildDetails(envName, ref)
-        def drupalAddess = DRUPAL_ADDRESSES.get(envName)
+        def drupalAddress = DRUPAL_ADDRESSES.get(envName)
+				def drupalCred = DRUPAL_CREDENTIALS.get(envName)
         builds[envName] = {
-          withCredentials([usernamePassword(credentialsId:  "drupal-${envName}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
+          withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
             dockerContainer.inside(DOCKER_ARGS) {
               sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress}"
               sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
