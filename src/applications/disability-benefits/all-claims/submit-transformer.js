@@ -352,6 +352,33 @@ export function transform(formConfig, form) {
     );
   };
 
+  /**
+   * We want veterans to be able to type in all chars in the homelessness POC
+   * name field, but we only want to send allowed characters (per schema) to
+   * vets-api
+   * @param {object} formData
+   * @returns {object} either formData, or if homelessness contact name exists,
+   * a copy of formData with the homelessness POC name sanitized
+   */
+  const sanitizeHomelessnessContact = formData => {
+    const { homelessnessContact } = formData;
+    if (!homelessnessContact || !homelessnessContact.name) {
+      return formData;
+    }
+
+    // When name is present, phoneNumber is required and vice-versa
+    // But neither field is required unless the other is present
+    const sanitizedHomelessnessContact = {
+      name: homelessnessContact.name
+        .replace(/[^a-zA-Z0-9-/' ]/g, ' ')
+        .trim()
+        .replace(/\s{2,}/g, ' '),
+      phoneNumber: homelessnessContact.phoneNumber,
+    };
+
+    return _.set('homelessnessContact', sanitizedHomelessnessContact, formData);
+  };
+
   const addForm4142 = formData => {
     if (!formData.providerFacility) {
       return formData;
@@ -470,11 +497,15 @@ export function transform(formConfig, form) {
     splitNewDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,
+    sanitizeHomelessnessContact,
     addForm4142,
     addForm0781,
     addForm8940,
     addFileAttachmments,
-  ].reduce((formData, transformer) => transformer(formData), form.data);
+  ].reduce(
+    (formData, transformer) => transformer(formData),
+    _.cloneDeep(form.data),
+  );
 
   return JSON.stringify({ form526: transformedData });
 }

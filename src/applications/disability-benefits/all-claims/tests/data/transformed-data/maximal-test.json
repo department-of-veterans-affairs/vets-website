@@ -1,14 +1,15 @@
 {
   "form526": {
     "standardClaim": false,
-    "waiveTrainingPay": true,
-    "waiveRetirementPay": true,
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
     "otherHomelessHousing": "Under a bridge",
     "needToLeaveHousing": true,
-    "homelessnessContact": { "name": "Name Here", "phoneNumber": "1231231234" },
+    "homelessnessContact": {
+      "name": "Name Here and invalid chars with email elmer fud com",
+      "phoneNumber": "1231231234"
+    },
     "bankAccountType": "Checking",
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123123123",
@@ -103,10 +104,6 @@
         "disabilityActionType": "NONE"
       }
     ],
-    "hasTrainingPay": true,
-    "militaryRetiredPayBranch": "Air Force",
-    "separationPayDate": "2018-XX-XX",
-    "separationPayBranch": "Air Force",
     "serviceInformation": {
       "reservesNationalGuardService": {
         "title10Activation": {
@@ -131,10 +128,6 @@
       ]
     },
     "servedInCombatZonePost911": true,
-    "alternateNames": [
-      { "first": "William", "middle": "Schwenk", "last": "Gilbert" },
-      { "first": "Arthur", "last": "Sullivan" }
-    ],
     "newPrimaryDisabilities": [
       {
         "cause": "NEW",

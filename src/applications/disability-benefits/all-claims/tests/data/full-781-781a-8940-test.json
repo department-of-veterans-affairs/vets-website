@@ -10,6 +10,9 @@
         "attachmentId": "L115"
       }
     ],
+    "view:claimType": {
+      "view:claimingNew": true
+    },
     "view:upload4192Choice": {
       "view:4192Info": true,
       "view:download4192": true,
@@ -469,8 +472,6 @@
     "view:hasEvidence": false,
     "view:powStatus": false,
     "hasTrainingPay": false,
-    "view:hasMilitaryRetiredPay": false,
-    "view:hasSeparationPay": false,
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,
