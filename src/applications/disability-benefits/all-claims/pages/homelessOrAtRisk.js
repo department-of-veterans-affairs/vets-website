@@ -148,6 +148,9 @@ export const schema = {
       ...homelessnessContact,
       properties: {
         ...homelessnessContact.properties,
+        // we want veterans to be able to type in anything they want, we'll
+        // sanitize their input to adhere to the pattern in vets-json-schema in
+        // the submit transformer
         name: _.omit('pattern', homelessnessContact.properties.name),
       },
     },
