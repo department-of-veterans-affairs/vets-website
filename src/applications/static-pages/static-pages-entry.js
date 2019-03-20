@@ -11,7 +11,7 @@ import createAdditionalInfoWidget from './createAdditionalInfoWidget';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
+import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 
@@ -75,10 +75,7 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.BURIALS_APP_STATUS,
 });
 
-createDisabilityIncreaseApplicationStatus(
-  store,
-  widgetTypes.DISABILITY_APP_STATUS,
-);
+createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 
 createFacilityListWidget();
 createFacilityDetailWidget();
