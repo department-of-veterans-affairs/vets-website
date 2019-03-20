@@ -37,7 +37,11 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_ADDRESS,
   },
-  { name: 'drupal-user', type: String, defaultValue: process.env.DRUPAL_USER },
+  {
+    name: 'drupal-user',
+    type: String,
+    defaultValue: process.env.DRUPAL_USERNAME,
+  },
   {
     name: 'drupal-password',
     type: String,
@@ -75,6 +79,7 @@ app.get('/health', (req, res) => {
 
 app.get('/preview', async (req, res, next) => {
   try {
+    console.log(options);
     const smith = createPipieline({
       ...options,
       port: process.env.PORT || 3001,

@@ -30,7 +30,11 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_ADDRESS,
   },
-  { name: 'drupal-user', type: String, defaultValue: process.env.DRUPAL_USER },
+  {
+    name: 'drupal-user',
+    type: String,
+    defaultValue: process.env.DRUPAL_USERNAME,
+  },
   {
     name: 'drupal-password',
     type: String,
