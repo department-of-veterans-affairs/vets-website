@@ -9,11 +9,16 @@ const { logDrupal: log } = require('../drupal/utilities-drupal');
 const getDrupalClient = require('../drupal/api');
 
 function replaceWithInternalUrl(url) {
-  const [internal, external] = Object.entries(DRUPALS.PUBLIC_URLS).find(entry =>
+  const match = Object.entries(DRUPALS.PUBLIC_URLS).find(entry =>
     url.startsWith(entry[1]),
   );
 
-  return url.replace(external, internal);
+  if (match) {
+    const [internal, external] = match;
+    return url.replace(external, internal);
+  }
+
+  return url;
 }
 
 function downloadDrupalAssets(options) {
