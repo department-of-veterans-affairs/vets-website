@@ -32,12 +32,18 @@
 
 {% else %}
 <!-- Metatags -->
-<meta property="og:site_name" content="VA.gov">
+  {% if regionOrOffice %}
+    {% assign metaTitle = title | append: " | " | append: regionOrOffice %}
+  {% else %}
+    {% assign metaTitle = title %}
+  {% endif %}
+  {% assign metaTitle = metaTitle | append: " | Veterans Affairs" %}
+<meta property="og:site_name" content="Veterans Affairs">
 <meta name="twitter:card" content="Summary">
 <meta name="twitter:site" content="@DeptVetAffairs">
 <meta name="twitter:image" content="{{ hostUrl }}/img/design/logo/va-og-twitter-image.png">
-<meta content="{{ title }} - Veterans Affairs" property="og:title">
-<meta content="{{ title }} - Veterans Affairs" name="twitter:title" >
+<meta content="{{ metaTitle }}" property="og:title">
+<meta content="{{ metaTitle }}" name="twitter:title" >
   {% if fieldIntroTextNewsStories %}
     {% assign description = fieldIntroTextNewsStories.processed  | strip_html %}
   {% elsif fieldIntroTextEventsPage %}
@@ -61,5 +67,5 @@
 <meta content="{{ description }}" name="description">
   {% endif %}
 <meta content="{{ hostUrl }}/img/design/logo/va-og-image.png" property="og:image">
-<title>{{ title }} - Veterans Affairs</title>
+<title>{{ metaTitle }}</title>
 {% endif %}
