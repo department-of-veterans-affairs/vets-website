@@ -2,7 +2,7 @@ const ENVIRONMENTS = require('./environments');
 
 // eslint-disable-next-line no-unused-vars
 const DRUPAL_DEV = {
-  address: 'http://dev.va.agile6.com',
+  address: 'http://dev.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };
@@ -13,8 +13,8 @@ const DRUPAL_STAGING = {
   password: 'drupal8',
 };
 
-const DRUPAL_LIVE = {
-  address: 'http://vagovcms.lndo.site',
+const DRUPAL_PROD = {
+  address: 'http://prod.cms.va.gov',
 };
 
 /**
@@ -27,7 +27,7 @@ const DRUPALS = {
   [ENVIRONMENTS.LOCALHOST]: DRUPAL_STAGING,
   [ENVIRONMENTS.VAGOVDEV]: DRUPAL_STAGING,
   [ENVIRONMENTS.VAGOVSTAGING]: DRUPAL_STAGING,
-  [ENVIRONMENTS.VAGOVPROD]: DRUPAL_LIVE,
+  [ENVIRONMENTS.VAGOVPROD]: DRUPAL_PROD,
 };
 
 const ENABLED_ENVIRONMENTS = new Set([
