@@ -7,7 +7,6 @@ export const hasSeparationPayTitle = (
 export const separationPayDetailsDescription = (
   <p>
     We’re required by law to reduce or withhold some of your VA compensation pay
-    if you also receive disability severance or separation pay, such as
-    involuntary or voluntary separation pay.
+    if you also receive disability severance pay.
   </p>
 );
