@@ -25,6 +25,7 @@
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "postinstall": "npm rebuild node-sass",
+    "puppeteer:docker": "jest -c=config/jest-puppeteer.config.js",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
     "test": "npm run test:unit && npm run test:e2e",
