@@ -21,6 +21,10 @@
         "classificationCode": "540"
       }
     ],
+    "hasTrainingPay": true,
+    "militaryRetiredPayBranch": "Air Force",
+    "separationPayDate": "2018-XX-XX",
+    "separationPayBranch": "Air Force",
     "serviceInformation": {
       "reservesNationalGuardService": {
         "obligationTermOfServiceDateRange": {
@@ -37,6 +41,19 @@
       ]
     },
     "servedInCombatZonePost911": false,
-    "standardClaim": false
+    "alternateNames": [
+      {
+        "first": "William",
+        "middle": "Schwenk",
+        "last": "Gilbert"
+      },
+      {
+        "first": "Arthur",
+        "last": "Sullivan"
+      }
+    ],
+    "standardClaim": false,
+    "waiveTrainingPay": true,
+    "waiveRetirementPay": true
   }
 }

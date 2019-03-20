@@ -9,7 +9,7 @@ import {
   disabilityActionTypes,
 } from '../../all-claims/constants';
 
-describe.only('526v2 prefill transformer', () => {
+describe('526v2 prefill transformer', () => {
   const noTransformData = {
     metadata: { test: 'Test Metadata' },
     formData: {

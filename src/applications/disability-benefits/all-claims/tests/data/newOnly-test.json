@@ -30,6 +30,15 @@
     "view:powStatus": false,
     "view:newDisabilities": false,
     "view:disabilitiesClarification": {},
+    "hasTrainingPay": true,
+    "view:hasMilitaryRetiredPay": true,
+    "militaryRetiredPayBranch": "Air Force",
+    "view:hasSeparationPay": true,
+    "view:separationPayDetails": {
+      "view:separationPayDetailsDescription": {},
+      "separationPayDate": "2018",
+      "separationPayBranch": "Air Force"
+    },
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,
@@ -60,6 +69,17 @@
     ],
     "servedInCombatZonePost911": false,
     "view:hasAlternateName": true,
+    "alternateNames": [
+      {
+        "first": "William",
+        "middle": "Schwenk",
+        "last": "Gilbert"
+      },
+      {
+        "first": "Arthur",
+        "last": "Sullivan"
+      }
+    ],
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},
@@ -132,9 +152,11 @@
     "view:bankAccount": {
       "view:hasPrefilledBank": true
     },
-    "view:waiveRetirementPayDescription": {},
     "standardClaim": false,
     "view:fdcWarning": {},
+    "waiveTrainingPay": true,
+    "view:waiveRetirementPayDescription": {},
+    "waiveRetirementPay": true,
     "view:originalBankAccount": {
       "view:bankAccountType": "Checking",
       "view:bankAccountNumber": "*********1234",
