@@ -14,6 +14,7 @@ const {
 } = require('../src/site/stages/build/drupal/page');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
+const DRUPALS = require('../src/site/constants/drupals');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
@@ -79,7 +80,6 @@ app.get('/health', (req, res) => {
 
 app.get('/preview', async (req, res, next) => {
   try {
-    console.log(options);
     const smith = createPipieline({
       ...options,
       port: process.env.PORT || 3001,
@@ -146,7 +146,7 @@ app.get('/preview', async (req, res, next) => {
         ...fullPage,
         isPreview: true,
         headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
-        drupalSite: drupalClient.getSiteUri(),
+        drupalSite: DRUPALS.PUBLIC_URLS[options['drupal-address']],
       },
     };
 

@@ -44,7 +44,7 @@ function getDrupalClient(buildOptions) {
     usingProxy: address.includes('cms.va.gov'),
 
     getSiteUri() {
-      return DRUPALS.PUBLIC_URLS[address] || address;
+      return address;
     },
 
     async proxyFetch(url, options = {}) {

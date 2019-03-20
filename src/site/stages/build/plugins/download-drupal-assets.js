@@ -4,22 +4,8 @@ const path = require('path');
 const fs = require('fs-extra');
 
 const ENVIRONMENTS = require('../../../constants/environments');
-const DRUPALS = require('../../../constants/drupals');
 const { logDrupal: log } = require('../drupal/utilities-drupal');
 const getDrupalClient = require('../drupal/api');
-
-function replaceWithInternalUrl(url) {
-  const match = Object.entries(DRUPALS.PUBLIC_URLS).find(entry =>
-    url.startsWith(entry[1]),
-  );
-
-  if (match) {
-    const [internal, external] = match;
-    return url.replace(external, internal);
-  }
-
-  return url;
-}
 
 function downloadDrupalAssets(options) {
   const client = getDrupalClient(options);
@@ -36,15 +22,7 @@ function downloadDrupalAssets(options) {
       let errorCount = 0;
 
       const downloads = assetsToDownload.map(async asset => {
-        let srcUrl = asset.src;
-        // if we're not using the proxy, then we're using internal urls
-        // and we need to convert the cms.va.gov urls from Drupal into
-        // internal ones for downloading
-        if (!client.usingProxy) {
-          srcUrl = replaceWithInternalUrl(asset.src);
-        }
-
-        const response = await client.proxyFetch(srcUrl);
+        const response = await client.proxyFetch(asset.src);
 
         if (response.ok) {
           downloadCount++;
