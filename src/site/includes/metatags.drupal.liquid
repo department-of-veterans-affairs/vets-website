@@ -1,24 +1,36 @@
 <link rel="canonical" href="{{ hostUrl }}{{ entityUrl.path }}" />
+
 {% if changed %}
-<meta name="DC.Date" content="{{changed| dateFromUnix: 'YYYY-MM-DD'}}" property="http://purl.org/dc/terms/date">
+<meta name="DC.Date" scheme="W3CDTF" content="{{ changed| dateFromUnix: 'YYYY-MM-DD' }}">
 {% endif %}
+
+{% if entityUrl.path %}
+<meta content="{{ hostUrl }}/{{ entityUrl.path }}" property="og:url">
+{% else %}
+<meta content="{{ hostUrl }}" property="og:url">
+{% endif %}
+
+<meta content="website" property="og:type">
+
 {% assign tagsSize = entityMetatags | size %}
 {% if tagsSize > 0 %}
-  <!-- Metatags -->
-  {% for tag in entityMetatags %}
-    {% if tag.__typename == "MetaValue" %}
+<!-- Metatags from Drupal -->
+{% for tag in entityMetatags %}
+{% if tag.__typename == "MetaValue" %}
 <meta name="{{ tag.key }}" content="{{ tag.value }}">
-    {% else %}
-      {% if tag.__typename == "MetaProperty" %}
-<meta property="{{ tag.key }}" content="{{ tag.value }}">
-      {% else %}
-        {% if tag.__typename == "MetaLink" %}
-<link rel="{{ tag.key }}" href="{{ tag.value }}">
-        {% endif %}
-      {% endif %}
-    {% endif %}
-  {% endfor %}
 {% else %}
+{% if tag.__typename == "MetaProperty" %}
+<meta property="{{ tag.key }}" content="{{ tag.value }}">
+{% else %}
+{% if tag.__typename == "MetaLink" %}
+<link rel="{{ tag.key }}" href="{{ tag.value }}">
+{% endif %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% else %}
+<!-- Metatags -->
 <meta property="og:site_name" content="VA.gov">
 <meta name="twitter:card" content="Summary">
 <meta name="twitter:site" content="@DeptVetAffairs">
@@ -29,11 +41,7 @@
   {% else %}
 <meta content="{{ hostUrl }}" property="og:title">
 <meta content="{{ hostUrl }}" name="twitter:title">
-  {% endif %}
-<meta content="website" property="og:type">
-  {% if entityUrl.path %}
-<meta content="{{ hostUrl }}/{{ entityUrl.path }}" property="og:url">
-  {% endif %}
+{% endif %}
   {% if fieldDescription %}
     {% assign description = fieldDescription | newline_to_br %}
   {% elsif fieldIntroText %}
@@ -49,11 +57,10 @@
   {% elsif fieldPatientFamilyServicesIn %}
     {% assign description = fieldPatientFamilyServicesIn.processed | strip_html %}
   {% endif %}
-
   {% if description %}
 <meta content="{{ description }}" property="og:description">
 <meta content="{{ description }}" name="twitter:description" >
 <meta content="{{ description }}" name="description">
-  {% endif %}
+    {% endif %}
 <meta content="{{ hostUrl }}/img/design/logo/va-og-image.png" property="og:image">
 {% endif %}
