@@ -25,9 +25,6 @@ export const hasSeparationPay = data =>
 
 export const hasTrainingPay = data => _.get('view:hasTrainingPay', data, false);
 
-export const hasRatedDisabilities = data =>
-  !!_.get('ratedDisabilities', data, []).length;
-
 export function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);

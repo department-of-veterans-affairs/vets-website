@@ -474,7 +474,10 @@ export function transform(formConfig, form) {
     addForm0781,
     addForm8940,
     addFileAttachmments,
-  ].reduce((formData, transformer) => transformer(formData), form.data);
+  ].reduce(
+    (formData, transformer) => transformer(formData),
+    _.cloneDeep(form.data),
+  );
 
   return JSON.stringify({ form526: transformedData });
 }

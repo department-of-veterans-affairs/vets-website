@@ -36,7 +36,6 @@
       "state": "AK",
       "zipCode": "12345"
     },
-    "hasTrainingPay": false,
     "serviceInformation": {
       "reservesNationalGuardService": {
         "obligationTermOfServiceDateRange": {
