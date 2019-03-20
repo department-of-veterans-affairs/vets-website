@@ -11,9 +11,9 @@ DRUPAL_ADDRESSES = [
 ]
 
 DRUPAL_CREDENTIALS = [
-	'vagovdev'    : 'drupal-dev',
-	'vagovstaging': 'drupal-staging',
-	'vagovprod'   : 'drupal-prod',
+  'vagovdev'    : 'drupal-dev',
+  'vagovstaging': 'drupal-staging',
+  'vagovprod'   : 'drupal-prod',
 ]
 
 ALL_VAGOV_BUILDTYPES = [
