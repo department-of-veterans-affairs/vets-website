@@ -5,6 +5,7 @@ import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
+import fastLevenshtein from 'fast-levenshtein';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -31,6 +32,7 @@ import {
   STATE_VALUES,
   TWENTY_FIVE_MB,
   USA,
+  TYPO_THRESHOLD,
 } from './constants';
 
 /**
@@ -481,12 +483,24 @@ export const isDisabilityPtsd = disability => {
     return false;
   }
 
-  const loweredDisability = disability.toLowerCase();
-  return PTSD_MATCHES.some(
-    ptsdString =>
-      ptsdString.includes(loweredDisability) ||
-      loweredDisability.includes(ptsdString),
-  );
+  const strippedDisability = disability.toLowerCase().replace(/[^a-zA-Z]/g, '');
+
+  return PTSD_MATCHES.some(ptsdString => {
+    const strippedString = ptsdString.replace(/[^a-zA-Z]/g, '');
+    if (strippedString === strippedDisability) {
+      return true;
+    }
+
+    // does the veteran's input contain a string from our match list?
+    if (strippedDisability.includes(strippedString)) {
+      return true;
+    }
+
+    return (
+      fastLevenshtein.get(strippedString, strippedDisability) <
+      Math.ceil(strippedDisability.length * TYPO_THRESHOLD)
+    );
+  });
 };
 
 export const hasNewPtsdDisability = formData =>
