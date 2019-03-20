@@ -14,7 +14,7 @@
       "needToLeaveHousing": true
     },
     "homelessnessContact": {
-      "name": "Name Here",
+      "name": "Name Here, and invalid chars with email elmer@fud.com",
       "phoneNumber": "1231231234"
     },
     "view:bankAccount": {

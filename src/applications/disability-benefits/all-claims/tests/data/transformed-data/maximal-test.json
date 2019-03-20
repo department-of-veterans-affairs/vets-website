@@ -6,7 +6,10 @@
     "homelessHousingSituation": "other",
     "otherHomelessHousing": "Under a bridge",
     "needToLeaveHousing": true,
-    "homelessnessContact": { "name": "Name Here", "phoneNumber": "1231231234" },
+    "homelessnessContact": {
+      "name": "Name Here and invalid chars with email elmer fud com",
+      "phoneNumber": "1231231234"
+    },
     "bankAccountType": "Checking",
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123123123",
