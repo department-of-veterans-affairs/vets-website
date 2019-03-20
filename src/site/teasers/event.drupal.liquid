@@ -4,11 +4,11 @@ Optional variable: header - the header level ('h2','h3', etc.) defaults to h4
 Example data:
      {
         "title": "Another Test Event",
-        "fieldEventDate": {
-          "value": "2019-03-15T13:00:00"
-        },
-        "fieldEventDateEnd": {
-          "value": "2019-03-15T18:00:00"
+        "fieldDate": {
+            "startDate": "2019-03-16 10:00:01 UTC",
+            "value": "2019-03-16T10:00:01",
+            "endDate": "2019-03-16 11:00:00 UTC",
+            "endValue": "2019-03-16T11:00:00"
         },
         "fieldDescription": "This gives the user an overview of the event in teaser views",
         "fieldLocationHumanreadable": "Here",
@@ -27,16 +27,16 @@ Example data:
 {% endcomment %}
 {% if node != empty %}
 
-    {% assign start_date_no_time = node.fieldEventDate.value | date: "%a, %b %d" %}
-    {% assign end_date_no_time = node.fieldEventDateEnd.value | date: "%a, %b %d" %}
+    {% assign start_date_no_time = node.fieldDate.value | date: "%a, %b %d" %}
+    {% assign end_date_no_time = node.fieldDate.endValue | date: "%a, %b %d" %}
 
-    {% assign start_time = node.fieldEventDate.value | date: "%I:%M %p" %}
-    {% assign end_time = node.fieldEventDateEnd.value | date: "%I:%M %p" %}
+    {% assign start_time = node.fieldDate.value | date: "%I:%M %p" %}
+    {% assign end_time = node.fieldDate.endValue | date: "%I:%M %p" %}
 
-    {% assign start_date_full = node.fieldEventDate.value | date: "%a, %b %d, %I:%M %p" %}
-    {% assign end_date_full = node.fieldEventDateEnd.value | date: "%a, %b %d, %I:%M %p" %}
+    {% assign start_date_full = node.fieldDate.value | date: "%a, %b %d, %I:%M %p" %}
+    {% assign end_date_full = node.fieldDate.endValue | date: "%a, %b %d, %I:%M %p" %}
 
-    {% if node.fieldEventDate.value != empty and node.fieldEventDateEnd.value == empty %}
+    {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
         {% assign date_type = "start_date_only" %}
     {% else %}
         {% if start_date_no_time == end_date_no_time %}
