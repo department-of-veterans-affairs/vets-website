@@ -1,7 +1,8 @@
 {
   "data": {
     "view:claimType": {
-      "view:claimingIncrease": true
+      "view:claimingIncrease": false,
+      "view:claimingNew": true
     },
     "isVaEmployee": false,
     "homelessOrAtRisk": "no",
@@ -58,7 +59,7 @@
       }
     ],
     "servedInCombatZonePost911": false,
-    "view:hasAlternateName": false,
+    "view:hasAlternateName": true,
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},
