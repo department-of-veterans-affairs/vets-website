@@ -122,7 +122,7 @@ def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def buildDetails = buildDetails(envName, ref)
         def drupalAddress = DRUPAL_ADDRESSES.get(envName)
-				def drupalCred = DRUPAL_CREDENTIALS.get(envName)
+        def drupalCred = DRUPAL_CREDENTIALS.get(envName)
         builds[envName] = {
           withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
             dockerContainer.inside(DOCKER_ARGS) {
