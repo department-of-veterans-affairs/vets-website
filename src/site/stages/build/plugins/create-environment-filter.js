@@ -9,7 +9,9 @@ function createEnvironmentFilter(options) {
       const file = files[fileName];
 
       if (environmentName !== ENVIRONMENTS.LOCALHOST) {
-        if (file.draft) delete files[fileName];
+        if (file.status === 'draft') {
+          delete files[fileName];
+        }
       }
 
       if (file[environmentName] === false) {
