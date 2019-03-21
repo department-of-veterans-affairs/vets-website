@@ -42,11 +42,39 @@ export function clearRavenLoginType() {
   Raven.setTagsContext(tags);
 }
 
+function redirectWithGAClientId(redirectUrl) {
+  try {
+    // eslint-disable-next-line no-undef
+    const trackers = ga.getAll();
+
+    // Tracking IDs for Staging and Prod
+    const vagovTrackingIds = ['UA-50123418-16', 'UA-50123418-17'];
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get('trackingId');
+      return vagovTrackingIds.includes(trackingId);
+    });
+
+    const clientId = tracker && tracker.get('clientId');
+
+    window.location = clientId
+      ? appendQuery(redirectUrl, { clientId })
+      : redirectUrl;
+  } catch (e) {
+    window.location = redirectUrl;
+  }
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
-  window.location = redirectUrl;
+
+  if (redirectUrl.includes('idme')) {
+    redirectWithGAClientId(redirectUrl);
+  } else {
+    window.location = redirectUrl;
+  }
 }
 
 export function login(policy) {

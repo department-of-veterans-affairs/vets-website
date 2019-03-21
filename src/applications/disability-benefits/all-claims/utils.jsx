@@ -803,3 +803,6 @@ export const claimingNew = formData =>
 
 export const hasClaimedConditions = formData =>
   claimingNew(formData) || claimingRated(formData);
+
+export const hasRatedDisabilities = formData =>
+  formData.ratedDisabilities && formData.ratedDisabilities.length;
