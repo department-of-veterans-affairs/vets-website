@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="File for disability compensation (Beta)" />
+        <FormTitle title="File for disability compensation" />
         <p>
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).
@@ -31,7 +31,8 @@ class IntroductionPage extends React.Component {
         />
         {itfNotice}
         <h4>
-          Follow the steps below to file a claim for disability compensation.
+          Follow the steps below to file a claim for a new or secondary
+          condition or for increased disability compensation.
         </h4>
         <div className="process schemaform-process">
           <ol>
@@ -49,24 +50,25 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>
                   VA medical records and hospital records that relate to your
-                  claimed illnesses or injuries
+                  claimed condition or that show your rated disability has
+                  gotten worse
                 </li>
                 <li>
                   Private medical records and hospital reports that relate to
-                  your claimed illnesses or injuries
+                  your claimed condition or that show your disability has gotten
+                  worse
                 </li>
                 <li>
-                  Supporting statements you’d like to provide from family
-                  members, friends, clergy members, law enforcement personnel,
-                  or those you served with that can tell us more about your
-                  claimed condition and how and when it happened
+                  Supporting statements from family, friends, coworkers, clergy,
+                  or law enforcement personnel with knowledge about how and when
+                  your disability happened or how it got worse
                 </li>
               </ul>
               <p>
-                In some cases, you may need to turn in one or more supplemental
-                forms to support your claim. For example, you’ll need to fill
-                out another form if you’re claiming a dependent or applying for
-                aid and attendance benefits.
+                In some cases, you may need to turn in one or more additional
+                forms to support your disability claim. For example, you’ll need
+                to fill out another form if you’re claiming a dependent or
+                applying for aid and attendance benefits.
                 <br />
                 <a href="/disability/how-to-file-claim/supplemental-forms/">
                   Learn what additional forms you may need to file with your
@@ -100,12 +102,15 @@ class IntroductionPage extends React.Component {
                       <strong>Disability ratings</strong>
                     </p>
                     <p>
-                      For each disability claim, we assign a rating from 0% to
-                      100%. We base this rating on the evidence (supporting
-                      documents like doctor’s reports, X-rays, and medical test
-                      results) you turn in with your claim. In some cases we may
-                      also ask you to have an exam to help us rate your
-                      disability.
+                      For each disability we assign a rating from 0% to 100%. We
+                      base this rating on the evidence you turn in with your
+                      claim. In some cases we may also ask you to have an exam
+                      to help us rate your disability.
+                    </p>
+                    <p>
+                      Before filing a claim for increase, you might want to
+                      check to see if you’re already receiving the maximum
+                      disability rating for your condition.
                     </p>
                   </div>
                 </div>

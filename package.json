@@ -174,6 +174,7 @@
     "semver": "^5.3.0",
     "sinon": "^3.2.1",
     "skin-deep": "^1.0.0",
+    "socks-proxy-agent": "^4.0.2",
     "style-loader": "^0.20.2",
     "svg-url-loader": "^2.3.2",
     "text-loader": "^0.0.1",
@@ -194,7 +195,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^5.4.0",
+    "@department-of-veterans-affairs/formation": "^5.4.2",
     "@department-of-veterans-affairs/formation-react": "^4.1.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
@@ -251,7 +252,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.4.2",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#03f9fd89c9ae758bfd56ef7114ac8a99b808a070",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#76083e33f175fb00392e31f1f5f90654d05f1fd2",
     "whatwg-fetch": "^2.0.3"
   }
 }
