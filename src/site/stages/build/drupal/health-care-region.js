@@ -99,6 +99,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     hsObj,
     drupalPagePath,
     'Patient and health services',
+    'health-services',
   );
   files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
