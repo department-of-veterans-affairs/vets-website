@@ -684,16 +684,16 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.1.1.tgz#121fdb9135c5d94b6fee6a862b343061488e5825"
+"@department-of-veterans-affairs/formation-react@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.1.2.tgz#e709463591b7b10383efbad364304a605fe1da43"
+  integrity sha512-I18k+TaMpdpePs+LcacEhumnudr2iMnF4CeO1nWePREJQGszCjZ+TTqJ27AzvQ7fHnb4DCAN2AZOTqHnuiqQ3g==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.11"
     moment "^2.23.0"
     prop-types "^15.6.2"
     react-transition-group "1"
-    window-or-global "^1.0.1"
 
 "@department-of-veterans-affairs/formation@^5.4.2":
   version "5.4.2"
@@ -11819,10 +11819,6 @@ wide-align@^1.1.0:
 win-fork@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/win-fork/-/win-fork-1.1.1.tgz#8f58e0656fca00adc8c86a2b89e3cd2d6a2d5e5e"
-
-window-or-global@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/window-or-global/-/window-or-global-1.0.1.tgz#dbe45ba2a291aabc56d62cf66c45b7fa322946de"
 
 window-size@0.1.0:
   version "0.1.0"

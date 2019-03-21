@@ -146,7 +146,9 @@ app.get('/preview', async (req, res, next) => {
         ...fullPage,
         isPreview: true,
         headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
-        drupalSite: DRUPALS.PUBLIC_URLS[options['drupal-address']],
+        drupalSite:
+          DRUPALS.PUBLIC_URLS[options['drupal-address']] ||
+          options['drupal-address'],
       },
     };
 
