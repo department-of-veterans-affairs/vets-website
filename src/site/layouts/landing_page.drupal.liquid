@@ -6,7 +6,18 @@
   <main>
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
+        {% if fieldTitleIcon %}
+          <div class="inline hub-main-icon">
+            <i class="icon-large white hub-icon-{{ fieldTitleIcon }} hub-background-{{ fieldTitleIcon }}"></i>
+          </div>
+
+          <div class="inline hub-main-title">
+            <h1>{{ title }}</h1>
+          </div>
+
+        {% else %}
         <h1>{{ title }}</h1>
+        {% endif %}
         <div class="va-introtext">
           <p>{{ fieldIntroText }}</p>
         </div>

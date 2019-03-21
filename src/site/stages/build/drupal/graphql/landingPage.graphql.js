@@ -20,6 +20,7 @@ module.exports = `
     ${FIELD_PROMO}
     ${FIELD_RELATED_LINKS}
     ${FIELD_ALERT}
+    fieldTitleIcon
     fieldSpokes {
       entity {
         ...listOfLinkTeasers
