@@ -19,7 +19,7 @@ const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
 const updateExternalLinks = require('./plugins/update-external-links');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
-const nonceTransformer = require('./plugins/nonceTransformer');
+const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
@@ -140,7 +140,7 @@ function defaultBuild(BUILD_OPTIONS) {
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
   */
-  smith.use(nonceTransformer);
+  smith.use(addNonceToScripts);
 
   /*
   * This will replace links in static pages with a staging domain,
