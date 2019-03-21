@@ -27,18 +27,28 @@ module.exports = (files, metalsmith, done) => {
       }
     });
     const ids = new Set();
+    const clickHandlers = [];
     dom.window.document.querySelectorAll('[onclick]').forEach(onclickEl => {
       if (onclickEl.id === '') {
         onclickEl.id = generateNewId(ids); // eslint-disable-line no-param-reassign
       }
       const id = onclickEl.id;
       const onclick = onclickEl.getAttribute('onclick');
-      const newScript = dom.window.document.createElement('script');
-      newScript.setAttribute('nonce', CSP_NONCE);
-      newScript.textContent = `(function() { var e = document.getElementById('${id}'); e.addEventListener('click', function(ev) { ${onclick} }); })();`;
+
+      clickHandlers.push(
+        `document.getElementById('${id}').addEventListener('click', function(ev) { ${onclick} });`,
+      );
       onclickEl.removeAttribute('onclick');
-      onclickEl.appendChild(newScript);
     });
+
+    const newScript = dom.window.document.createElement('script');
+    newScript.setAttribute('nonce', CSP_NONCE);
+    newScript.textContent = `
+      (function() {
+        ${clickHandlers.join('\n')}
+      })();`;
+
+    dom.window.document.body.appendChild(newScript);
     data.contents = new Buffer(dom.serialize());
     dom.window.close();
     files[file] = data; // eslint-disable-line no-param-reassign

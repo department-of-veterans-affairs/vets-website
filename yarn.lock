@@ -3558,6 +3558,11 @@ es5-ext@^0.10.14, es5-ext@^0.10.9, es5-ext@~0.10.14:
     es6-iterator "2"
     es6-symbol "~3.1"
 
+es6-error@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/es6-error/-/es6-error-1.0.0.tgz#7ee0a88cb12f3cbeee4b5d2e834da4ab5b0fd396"
+  integrity sha1-fuCojLEvPL7uS10ug02kq1sP05Y=
+
 es6-iterator@2, es6-iterator@^2.0.1, es6-iterator@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/es6-iterator/-/es6-iterator-2.0.1.tgz#8e319c9f0453bf575d374940a655920e59ca5512"
@@ -5298,6 +5303,16 @@ iconv-lite@0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.4.tgz#e95f2e41db0735fc21652f7827a5ee32e63c83a8"
 
+ics-js@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/ics-js/-/ics-js-0.10.2.tgz#d478ea3f832540a6d940dca370203412a0ce69d4"
+  integrity sha1-1HjqP4MlQKbZQNyjcCA0EqDOadQ=
+  dependencies:
+    detect-node "^2.0.3"
+    es6-error "^1.0.0"
+    lodash.difference "^4.3.0"
+    simple-guid "0.0.1"
+
 icss-replace-symbols@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/icss-replace-symbols/-/icss-replace-symbols-1.1.0.tgz#06ea6f83679a7749e386cfe1fe812ae5db223ded"
@@ -6839,6 +6854,11 @@ lodash.defaultsdeep@4.3.2:
     lodash.keysin "^4.0.0"
     lodash.mergewith "^4.0.0"
     lodash.rest "^4.0.0"
+
+lodash.difference@^4.3.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.difference/-/lodash.difference-4.5.0.tgz#9ccb4e505d486b91651345772885a2df27fd017c"
+  integrity sha1-nMtOUF1Ia5FlE0V3KIWi3yf9AXw=
 
 lodash.escape@^4.0.1:
   version "4.0.1"
@@ -10274,6 +10294,11 @@ simple-concat@^1.0.0:
 simple-fmt@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/simple-fmt/-/simple-fmt-0.1.0.tgz#191bf566a59e6530482cb25ab53b4a8dc85c3a6b"
+
+simple-guid@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/simple-guid/-/simple-guid-0.0.1.tgz#d5e819f3c7f7ad3d1a8821eab60d8fed0d3917ea"
+  integrity sha1-1egZ88f3rT0aiCHqtg2P7Q05F+o=
 
 simple-is@~0.2.0:
   version "0.2.0"
