@@ -5,7 +5,7 @@ env.CONCURRENCY = 10
 
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
-              parameters([choice(choices: ["none", "dev", "staging"].join("\n"), description: "", name: "cmsEnvBuildOverride")])]);
+              parameters([choice(choices: ["none", "dev", "staging"].join("\n"), description: "Choose an environment to run a content only build. Select 'none' to run regular pipeline.", name: "cmsEnvBuildOverride")])]);
 
   // Checkout vets-website code
   dir("vets-website") {
