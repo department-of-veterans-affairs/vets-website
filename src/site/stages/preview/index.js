@@ -16,6 +16,7 @@ const createEnvironmentFilter = require('../build/plugins/create-environment-fil
 const nonceTransformer = require('../build/plugins/nonceTransformer');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
+const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
 
@@ -122,6 +123,7 @@ function createPipeline(options) {
   * if it is in the list of domains to replace
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
+  smith.use(rewriteAWSUrls(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
