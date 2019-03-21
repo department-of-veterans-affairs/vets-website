@@ -196,7 +196,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "^5.4.2",
-    "@department-of-veterans-affairs/formation-react": "^4.1.1",
+    "@department-of-veterans-affairs/formation-react": "^4.1.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "blob-polyfill": "^2.0.20171115",
@@ -213,6 +213,7 @@
     "fine-uploader": "^5.11.8",
     "foundation-sites": "^5.5.3",
     "history": "3",
+    "ics-js": "^0.10.2",
     "ismobilejs": "^0.4.0",
     "js-yaml": "^3.12.0",
     "jsonschema": "^1.1.1",
