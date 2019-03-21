@@ -14,6 +14,7 @@ const {
 } = require('../src/site/stages/build/drupal/page');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
+const DRUPALS = require('../src/site/constants/drupals');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
@@ -37,7 +38,11 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_ADDRESS,
   },
-  { name: 'drupal-user', type: String, defaultValue: process.env.DRUPAL_USER },
+  {
+    name: 'drupal-user',
+    type: String,
+    defaultValue: process.env.DRUPAL_USERNAME,
+  },
   {
     name: 'drupal-password',
     type: String,
@@ -141,7 +146,9 @@ app.get('/preview', async (req, res, next) => {
         ...fullPage,
         isPreview: true,
         headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
-        drupalSite: drupalClient.getSiteUri(),
+        drupalSite:
+          DRUPALS.PUBLIC_URLS[options['drupal-address']] ||
+          options['drupal-address'],
       },
     };
 

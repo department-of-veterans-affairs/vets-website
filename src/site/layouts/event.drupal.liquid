@@ -59,10 +59,7 @@
     ]
     }
 {% endcomment %}
-{% if header == empty %}
-    {% assign header = "h4" %}
-{% endif %}
-{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -144,13 +141,7 @@
                         </div>
 
                         <div class="usa-width-one-half va-c-event-share">
-                            <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
-                                {% if addToCalendarLink %}
-                                    <li><i class="va-c-social-icon fas fa-calendar-check"></i>  <a href="{{ addToCalendarLink }}"> Add to Calendar</a></li>
-                                {% endif %}
-                                <li><i class="va-c-social-icon fab fa-facebook"></i>  <a href=""> Share on Facebook</a></li>
-                                <li><i class="va-c-social-icon fab fa-twitter"></i>  <a href=""> Share on Twitter</a></li>
-                            </ul>
+                            {% include "src/site/includes/social-share.drupal.liquid" %}
                         </div>
                     </div>
 

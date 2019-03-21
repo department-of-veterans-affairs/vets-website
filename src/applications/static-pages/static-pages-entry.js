@@ -21,6 +21,9 @@ import './sass/static-pages.scss';
 // New sidebar menu
 import './sidebar-navigation.js';
 
+// Social share links behavior
+import './social-share-links';
+
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createFacilityDetailWidget from './facilities/facilityDetail';
