@@ -5,8 +5,10 @@ const fs = require('fs-extra');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const { logDrupal: log } = require('../drupal/utilities-drupal');
+const getDrupalClient = require('../drupal/api');
 
 function downloadDrupalAssets(options) {
+  const client = getDrupalClient(options);
   return async (files, metalsmith, done) => {
     const assetsToDownload = Object.entries(files)
       .filter(entry => entry[1].isDrupalAsset && !entry[1].contents)
@@ -20,7 +22,7 @@ function downloadDrupalAssets(options) {
       let errorCount = 0;
 
       const downloads = assetsToDownload.map(async asset => {
-        const response = await fetch(asset.src);
+        const response = await client.proxyFetch(asset.src);
 
         if (response.ok) {
           downloadCount++;

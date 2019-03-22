@@ -11,20 +11,20 @@ export default function DesktopLinks({ links, visible }) {
     >
       <div className="va-footer-linkgroup">
         <h4 className="va-footer-linkgroup-title">
-          Veteran Programs and Services
+          Veteran programs and services
         </h4>
         {links[FOOTER_COLUMNS.PROGRAMS]}
       </div>
       <div className="va-footer-linkgroup" id="footer-services">
-        <h4 className="va-footer-linkgroup-title">More VA Resources</h4>
+        <h4 className="va-footer-linkgroup-title">More VA resources</h4>
         {links[FOOTER_COLUMNS.RESOURCES]}
       </div>
       <div className="va-footer-linkgroup" id="footer-popular">
-        <h4 className="va-footer-linkgroup-title">Get VA Updates</h4>
+        <h4 className="va-footer-linkgroup-title">Get VA updates</h4>
         {links[FOOTER_COLUMNS.CONNECT]}
       </div>
       <div className="va-footer-linkgroup" id="veteran-crisis">
-        <h4 className="va-footer-linkgroup-title">In Crisis? Get Help Now</h4>
+        <h4 className="va-footer-linkgroup-title">In crisis? Get help now</h4>
         <ul className="va-footer-links">
           <li>
             <button
@@ -36,7 +36,7 @@ export default function DesktopLinks({ links, visible }) {
             </button>
           </li>
         </ul>
-        <h4 className="va-footer-linkgroup-title">Contact Us</h4>
+        <h4 className="va-footer-linkgroup-title">Contact us</h4>
         {links[FOOTER_COLUMNS.CONTACT]}
       </div>
     </div>

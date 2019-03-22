@@ -99,5 +99,8 @@ module.exports = `
     }
     ${healthCareRegionHealthServices}    
     ${healthCareRegionDetailPage}
+    fieldPressReleaseBlurb {
+      processed
+    }
   }
 `;
