@@ -115,7 +115,7 @@ class IDPage extends React.Component {
   // in the HCA that they just entered into the ID Form. So mix the ID Form's
   // data in with the empty HCA Form data.
   prefillHCA = () => {
-    const { form, setFormData } = this.props;
+    const { form, setFormData, isUserInMVI } = this.props;
     const { idFormData } = this.state;
     const fullName = {
       ...form.data.veteranFullName,
@@ -127,6 +127,7 @@ class IDPage extends React.Component {
       veteranFullName: fullName,
       veteranDateOfBirth: idFormData.dob,
       veteranSocialSecurityNumber: idFormData.ssn,
+      'view:isUserInMVI': isUserInMVI,
     });
   };
 
@@ -219,6 +220,7 @@ IDPage.propTypes = {
   enrollmentStatus: PropTypes.string,
   form: PropTypes.object.isRequired,
   isSubmittingIDForm: PropTypes.bool.isRequired,
+  isUserInMVI: PropTypes.bool.isRequired,
   loginRequired: PropTypes.bool.isRequired,
   noESRRecordFound: PropTypes.bool.isRequired,
   shouldRedirect: PropTypes.bool.isRequired,
@@ -240,6 +242,7 @@ const mapStateToProps = state => {
     enrollmentStatus,
     hasServerError,
     isLoading,
+    isUserInMVI,
     loginRequired,
     noESRRecordFound,
   } = state.hcaEnrollmentStatus;
@@ -247,6 +250,7 @@ const mapStateToProps = state => {
     enrollmentStatus,
     form: state.form,
     isSubmittingIDForm: isLoading,
+    isUserInMVI,
     loginRequired,
     noESRRecordFound,
     shouldRedirect: isLoggedIn(state),
