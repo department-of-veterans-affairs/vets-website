@@ -1,6 +1,5 @@
 export function icsCreate(calendarLink) {
-  import(/* webpackChunkName: "ics-js" */ 'ics-js').then(module => {
-    const ICS = module.default;
+  import(/* webpackChunkName: "ics-js" */ 'ics-js').then(ICS => {
     const cal = new ICS.VCALENDAR();
     const event = new ICS.VEVENT();
     const addToCalendarLink = document.getElementById('add-to-calendar-link');
