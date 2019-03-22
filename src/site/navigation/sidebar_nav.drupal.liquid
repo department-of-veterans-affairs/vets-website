@@ -13,7 +13,7 @@
                 {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
                 {% assign deepLinksObj = deepLinksString | jsonToObj %}
                 {% assign depth = deepLinksObj.depth  %}
-                {% assign deepLinks = deepLinksObj.links | escape %}
+                {% assign deepLinks = deepLinksObj.links %}
 
                 {% if depth <= 2 %}
                     <ul class="usa-accordion">
@@ -64,24 +64,33 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>Current link depth: {{ depth }} </p>
-                {% for link in deepLinksObj.links %}
-                    <div class="sidenav-previous-page">
-                            <a href="{{ link.url.path }}">{{ link.label }}</a>
-                    </div>
-                    <ul class="usa-sidenav-list">
-                        {% for link in link.links %}
-                            <li {% if entityUrl.path == link.url.path %} class="active-level" {% endif %}>
-                                <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
-                                        href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
+                <div class="sidenav-previous-page">
+                    <a href="{{ deepLinks.url.path }}">{{ deepLinks.label }}</a>
+                </div>
+                <ul class="usa-sidenav-list">
+                    {% for link in deepLinks.links %}
+                    <li {% if entityUrl.path == link.url.path %} class="active-level" {% endif %}>
+                        <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
+                                href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                        {% if link.links.length %}
+                            <ul class="usa-sidenav-sub_list">
+                                {% for link in link.links %}
+                                    <li>
+                                        <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
+                                                href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                    </li>
+                        {% else %}
+                    </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
 
                 {% if buildtype != 'vagovprod' %}
                     <script>
-                        console.info('Context specific sidebar data:', {{ deepLinksObj }});
+                        console.info('Context specific sidebar data:', {{ deepLinksString }});
                     </script>
                 {% endif %}
             {% endif %}
