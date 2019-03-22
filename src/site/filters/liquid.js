@@ -68,4 +68,50 @@ module.exports = function registerFilters() {
     const id = `vha_${facilityLocatorApiId}`;
     return JSON.stringify(id);
   };
+
+  // Find this link in an array of nested link arrays
+  liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
+    const findMatchRecursion = (path, linkArr) => {
+      let depth;
+      for (let i = 0; i < linkArr.length; i += 1) {
+        if (linkArr[i].url.path === path) {
+          depth = 1;
+          return depth;
+        }
+        if (linkArr[i].links) {
+          for (let p = 0; p < linkArr[i].links.length; p += 1) {
+            if (linkArr[i].links[p].url.path === path) {
+              depth = 2;
+              return depth;
+            }
+            if (linkArr[i].links[p].links) {
+              for (let z = 0; z < linkArr[i].links[p].links.length; z += 1) {
+                if (linkArr[i].links[p].links[z].url.path === path) {
+                  depth = 3;
+                  return depth;
+                }
+                if (linkArr[i].links[p].links[z].links) {
+                  for (
+                    let d = 0;
+                    d < linkArr[i].links[p].links[z].links.length;
+                    d += 1
+                  ) {
+                    if (
+                      linkArr[i].links[p].links[z].links[d].url.path === path
+                    ) {
+                      depth = 4;
+                      return depth;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return false;
+    };
+
+    return findMatchRecursion(currentPath, linksArray);
+  };
 };

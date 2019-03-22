@@ -9,7 +9,22 @@
                     <i class="icon-small white hub-icon-{{ link.label | handleize }} hub-background-{{ link.label | handleize }}"></i>
                     <h4>{{ link.label }}</h4>
                 </div>
-                <ul class="usa-accordion">
+
+                {% capture depth %}
+                    {{ link.links | findCurrentPath: entityUrl.path }}
+                {% endcapture %}
+
+                {% if depth > 2 %}
+                    <div class="sidenav-previous-page">
+                        <a href="">Previous Page</a>
+                    </div>
+                    <ul class="usa-sidenav-list">
+                        <li>
+                            <a href="">Test Link</a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="usa-accordion">
                     {% for link in link.links %}
                         <li>
                             <button class="usa-accordion-button" aria-expanded="false" aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
@@ -57,7 +72,7 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-
+        {% endif %}
         {% endfor %}
 
     </div>
