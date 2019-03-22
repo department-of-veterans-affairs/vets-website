@@ -29,7 +29,7 @@ function removeLazySrcAttribute(files) {
   });
 }
 
-function checkBrokenLinks() {
+function checkBrokenLinks(buildOptions) {
   return (files, metalsmith, done) => {
     const ignorePaths = [];
 
@@ -47,7 +47,7 @@ function checkBrokenLinks() {
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
-      warn: false,
+      warn: !!buildOptions.watch,
       allowRegex: ignoreLinks,
     });
 
