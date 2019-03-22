@@ -4,9 +4,10 @@ Open share links in a new modal window
 
 export function openShareLink(shareLinks) {
   const hasNavigatorShare = navigator.share !== undefined;
-  const metaTitle = document.querySelector("meta[name='title']");
-  const metaDescription = document.querySelector("meta[name='description']");
-  const metaUrl = document.querySelector("meta[property='og:url']");
+  const metaTitle = document.querySelector("meta[name='title']").content;
+  const metaDescription = document.querySelector("meta[name='description']")
+    .content;
+  const metaUrl = document.querySelector("meta[property='og:url']").content;
 
   shareLinks.forEach(link => {
     link.addEventListener('click', event => {
@@ -22,9 +23,9 @@ export function openShareLink(shareLinks) {
         // Android native share
         navigator
           .share({
-            title: metaTitle ? metaTitle.content : '',
-            text: metaDescription ? metaDescription.content : '',
-            url: metaUrl ? metaUrl.content : '',
+            title: metaTitle,
+            text: metaDescription,
+            url: metaUrl,
           })
           .catch(err => {
             // eslint-disable-next-line no-console
