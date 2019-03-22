@@ -10,6 +10,7 @@ import {
   getFAQBlock3,
   getFAQBlock4,
 } from '../enrollment-status-helpers';
+import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 const ReapplyContent = ({ route }) => (
   <>
@@ -44,22 +45,26 @@ class HCAEnrollmentStatusFAQ extends React.Component {
 
   render() {
     const { enrollmentStatus, route } = this.props;
+    const reapplyAllowed =
+      enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
     return (
       <>
         {getFAQBlock1(enrollmentStatus)}
         {getFAQBlock2(enrollmentStatus)}
         {getFAQBlock3(enrollmentStatus)}
         {getFAQBlock4(enrollmentStatus)}
-        {this.state.showReapplyForHealthCareContent && (
-          <ReapplyContent route={route} />
-        )}
-        {!this.state.showReapplyForHealthCareContent && (
-          <ReapplyTextLink
-            onClick={() => {
-              this.showReapplyForHealthCareContent();
-            }}
-          />
-        )}
+        {reapplyAllowed &&
+          this.state.showReapplyForHealthCareContent && (
+            <ReapplyContent route={route} />
+          )}
+        {reapplyAllowed &&
+          !this.state.showReapplyForHealthCareContent && (
+            <ReapplyTextLink
+              onClick={() => {
+                this.showReapplyForHealthCareContent();
+              }}
+            />
+          )}
       </>
     );
   }

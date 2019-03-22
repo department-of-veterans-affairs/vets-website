@@ -543,9 +543,11 @@ export function getFAQBlock4(enrollmentStatus) {
             If you have questions about the information we have on record for
             you, please call your nearest VA medical center.
           </p>
-          <a className="usa-button-primary" href="/find-locations/">
-            Find your VA medical center
-          </a>
+          <p>
+            <a className="usa-button-primary" href="/find-locations/">
+              Find your VA medical center
+            </a>
+          </p>
         </>
       );
       break;
