@@ -30,13 +30,6 @@ function removeLazySrcAttribute(files) {
   });
 }
 
-// function shouldWarnOnBrokenLinks(file, buildOptions) {
-//   return (
-//     buildOptions.watch ||
-//     (file.isDrupalPage && buildOptions.buildType === ENVIRONMENTS.VAGOVDEV)
-//   );
-// }
-
 function checkBrokenLinks(buildOptions) {
   return (files, metalsmith, done) => {
     const ignorePaths = [];
@@ -57,7 +50,7 @@ function checkBrokenLinks(buildOptions) {
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
       warn:
-        buildOptions.watch || buildOptions.buildType === ENVIRONMENTS.VAGOVDEV,
+        buildOptions.watch || buildOptions.buildtype === ENVIRONMENTS.VAGOVDEV,
       allowRegex: ignoreLinks,
     });
 

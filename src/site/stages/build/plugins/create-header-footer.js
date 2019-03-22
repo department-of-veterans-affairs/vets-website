@@ -73,7 +73,7 @@ function createHeaderFooterData(buildOptions) {
 
     const serialized = JSON.stringify(headerFooter, null, 4);
 
-    const drupalMenu = DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildType)
+    const drupalMenu = DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
       ? replaceWithDrupalLinks(headerFooter, files)
       : headerFooter;
     const drupalMenuSerialized = JSON.stringify(drupalMenu, null, 4);
