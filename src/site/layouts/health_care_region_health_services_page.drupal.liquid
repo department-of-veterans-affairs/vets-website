@@ -11,7 +11,7 @@
                 <h1>A-Z services</h1>
                 <div class="va-introtext">{{ fieldClinicalHealthServi.processed }}</div>
 
-                <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
+                <div class="usa-grid usa-grid-full vads-u-margin-top--2 vads-u-margin-bottom--3">
                     <div class="usa-width-one-third">
                         <a href="{{ entityUrl.path }}/appointments" class="usa-button usa-button-primary">Make an appointment</a>
                     </div>
@@ -20,29 +20,31 @@
                     </div>
                 </div>
 
-                <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
-                    <h3>On this page</h3>
-                    <ul>
-                        {% if careCoordinatorPatientFamilyServices.length %}
-                          <li><a href="#care-patient-family-services">Care Coordinators</a></li>
-                        {% endif %}
-                        {% if socialProgramsPatientFamilyServices.entities.length %}
-                            <li><a href="#social-patient-family-services">Social programs and services</a></li>
-                        {% endif %}
-                        {% if healthWellnessPatientFamilyServices.entities.length %}
-                            <li><a href="#wellness-patient-family-services">Health and wellness</a></li>
-                        {% endif %}
-                        {% if primaryCareHealthServices.entities.length %}
-                            <li><a href="#primary-health-services">Primary care</a></li>
-                        {% endif %}
-                        {% if specialtyCareHealthServices.entities.length %}
-                           <li><a href="#specialty-health-services">Specialty care</a></li>
-                        {% endif %}
-                        {% if mentalHealthServices.entities.length %}
-                            <li><a href="#mental-health-services">Mental health care</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+                {% if careCoordinatorPatientFamilyServices.entites.length || socialProgramsPatientFamilyServices.entities.length || healthWellnessPatientFamilyServices.entities.length || primaryCareHealthServices.entities.length || mentalHealthServices.entities.length || specialtyCareHealthServices.entities.length %}
+                    <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
+                        <h3>On this page</h3>
+                        <ul>
+                            {% if careCoordinatorPatientFamilyServices.entities.length %}
+                              <li><a href="#care-patient-family-services">Care Coordinators</a></li>
+                            {% endif %}
+                            {% if socialProgramsPatientFamilyServices.entities.length %}
+                                <li><a href="#social-patient-family-services">Social programs and services</a></li>
+                            {% endif %}
+                            {% if healthWellnessPatientFamilyServices.entities.length %}
+                                <li><a href="#wellness-patient-family-services">Health and wellness</a></li>
+                            {% endif %}
+                            {% if primaryCareHealthServices.entities.length %}
+                                <li><a href="#primary-health-services">Primary care</a></li>
+                            {% endif %}
+                            {% if mentalHealthServices.entities.length %}
+                                <li><a href="#mental-health-services">Mental health care</a></li>
+                            {% endif %}
+                            {% if specialtyCareHealthServices.entities.length %}
+                               <li><a href="#specialty-health-services">Specialty care</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
 
                 <!-- Patient and Family Services -->
                 {% if careCoordinatorPatientFamilyServices.entities.length %}
@@ -82,20 +84,20 @@
                     </section>
                 {% endif %}
 
-                {% if specialtyCareHealthServices.entities.length %}
-                    <section class="specialty-health-services" id="specialty-health-services">
-                        <h2>Specialty care</h2>
-                        {% for specialtyService in specialtyCareHealthServices.entities %}
-                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = specialtyService %}
-                        {% endfor %}
-                    </section>
-                {% endif %}
-
                 {% if mentalHealthServices.entities.length %}
                     <section class="mental-health-services" id="mental-health-services">
                         <h2>Mental health care</h2>
                         {% for mentalHealthService in mentalHealthServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = mentalHealthService %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
+
+                {% if specialtyCareHealthServices.entities.length %}
+                    <section class="specialty-health-services" id="specialty-health-services">
+                        <h2>Specialty care</h2>
+                        {% for specialtyService in specialtyCareHealthServices.entities %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = specialtyService %}
                         {% endfor %}
                     </section>
                 {% endif %}

@@ -72,6 +72,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     title: page.title,
   };
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
+  locPage.regionOrOffice = page.title;
+
   files[`${drupalPagePath}/locations/index.html`] = createFileObj(
     locPage,
     'health_care_region_locations_page.drupal.liquid',
@@ -99,7 +101,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     hsObj,
     drupalPagePath,
     'Patient and health services',
+    'health-services',
   );
+  hsPage.regionOrOffice = page.title;
+
   files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
     'health_care_region_health_services_page.drupal.liquid',
@@ -109,12 +114,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const prEntityUrl = createEntityUrlObj(drupalPagePath);
   const prObj = {
     allPressReleaseTeasers: page.allPressReleaseTeasers,
+    fieldPressReleaseBlurb: page.fieldPressReleaseBlurb,
     facilitySidebar: sidebar,
     entityUrl: prEntityUrl,
     title: page.title,
     alert: page.alert,
   };
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
+  prPage.regionOrOffice = page.title;
+
   paginatePages(
     prPage,
     files,
@@ -139,6 +147,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'Community stories',
     'stories',
   );
+  nsPage.regionOrOffice = page.title;
+
   paginatePages(
     nsPage,
     files,
@@ -158,6 +168,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { alert: page.alert },
   );
   const eventPage = updateEntityUrlObj(eventObj, drupalPagePath, 'Events');
+  eventPage.regionOrOffice = page.title;
+
   paginatePages(
     eventPage,
     files,
@@ -180,6 +192,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     drupalPagePath,
     'Leadership',
   );
+  bioListingPage.regionOrOffice = page.title;
+
   paginatePages(
     bioListingPage,
     files,
