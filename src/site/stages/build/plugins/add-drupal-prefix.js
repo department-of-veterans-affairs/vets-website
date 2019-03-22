@@ -32,8 +32,6 @@ function overwriteConflictingVagovContentFiles(files) {
     for (const vagovContentFile of potentialConflicts) {
       if (files[vagovContentFile]) {
         log(`Overriding conflicting vagov-content file: ${vagovContentFile}`);
-        // Maintain a reference, for the broken-link checker
-        file.overwrittenVagovContentPage = files[vagovContentFile];
         delete files[vagovContentFile];
       }
     }

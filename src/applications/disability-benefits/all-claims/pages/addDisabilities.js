@@ -52,8 +52,11 @@ export const uiSchema = {
               input => input.replace(/[;–]/g, ' -- '),
               input => input.replace(/[&]/g, ' and '),
               input => input.replace(/[\\]/g, '/'),
+              // TODO: Remove the period replacer once permanent fix in place
+              input => input.replace(/[.]/g, ' '),
               // Strip out everything that's not valid and doesn't need to be replaced
-              input => input.replace(/([^a-zA-Z0-9\-'.,/() ]+)/g, ''),
+              // TODO: Add period back into allowed chars regex
+              input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
               // Get rid of extra whitespace characters
               input => input.trim(),
               input => input.replace(/\s{2,}/g, ' '),
