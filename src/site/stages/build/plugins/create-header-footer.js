@@ -58,8 +58,10 @@ function createHeaderFooterData(buildOptions) {
     // property, has to exist in a separate file for editing/organizational reasons.
     // To accomplish this, we borrow use the fragments concept. More info in that middleware.
     for (const hub of vaBenefitsAndHealthCare.menuSections) {
-      applyFragments(buildOptions, metalsmith, hub.links);
-      delete hub.links.fragments;
+      if (hub.links.fragments) {
+        applyFragments(buildOptions, metalsmith, hub.links);
+        delete hub.links.fragments;
+      }
     }
 
     applyFragments(buildOptions, metalsmith, aboutVa.menuSections);
