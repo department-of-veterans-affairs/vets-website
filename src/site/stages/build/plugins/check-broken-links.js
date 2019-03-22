@@ -44,6 +44,7 @@ function checkBrokenLinks(buildOptions) {
     }
 
     const ignoreGlobs = ignorePaths.map(path => `${path}(.*)`);
+    ignoreGlobs.push('\\.asp');
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
