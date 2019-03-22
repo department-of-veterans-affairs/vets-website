@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+const ENVIRONMENTS = require('../../../constants/environments');
 const createBrokenLinkChecker = require('metalsmith-broken-link-checker');
 const cheerio = require('cheerio');
 
@@ -29,6 +30,13 @@ function removeLazySrcAttribute(files) {
   });
 }
 
+// function shouldWarnOnBrokenLinks(file, buildOptions) {
+//   return (
+//     buildOptions.watch ||
+//     (file.isDrupalPage && buildOptions.buildType === ENVIRONMENTS.VAGOVDEV)
+//   );
+// }
+
 function checkBrokenLinks(buildOptions) {
   return (files, metalsmith, done) => {
     const ignorePaths = [];
@@ -48,7 +56,8 @@ function checkBrokenLinks(buildOptions) {
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
-      warn: !!buildOptions.watch,
+      warn:
+        buildOptions.watch || buildOptions.buildType !== ENVIRONMENTS.VAGOVDEV,
       allowRegex: ignoreLinks,
     });
 
