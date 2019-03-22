@@ -1,6 +1,6 @@
 import * as ICS from 'ics-js';
 
-export function icsCreate() {
+export function icsCreate(calendarLink) {
   const cal = new ICS.VCALENDAR();
   const event = new ICS.VEVENT();
   const addToCalendarLink = document.getElementById('add-to-calendar-link');
@@ -26,10 +26,12 @@ export function icsCreate() {
     e.preventDefault();
   }
 
-  if (document.getElementById('add-to-calendar-link')) {
-    const clicker = document.getElementById('add-to-calendar-link');
-    clicker.addEventListener('click', calDown);
-  }
+  calendarLink.addEventListener('click', calDown);
 }
 
-document.addEventListener('DOMContentLoaded', icsCreate);
+document.addEventListener('DOMContentLoaded', () => {
+  const calendarLink = document.getElementById('add-to-calendar-link');
+  if (calendarLink) {
+    icsCreate(calendarLink);
+  }
+});
