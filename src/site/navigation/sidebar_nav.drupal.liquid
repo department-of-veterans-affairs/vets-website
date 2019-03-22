@@ -13,9 +13,9 @@
                 {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
                 {% assign deepLinksObj = deepLinksString | jsonToObj %}
                 {% assign depth = deepLinksObj.depth  %}
-                {% assign deepLinks = deepLinksObj.links %}
+                {% assign deepLinks = deepLinksObj.links | escape %}
 
-                {% if depth < 2 %}
+                {% if depth <= 2 %}
                     <ul class="usa-accordion">
                     {% for link in link.links %}
                         <li>
@@ -65,7 +65,7 @@
                 </ul>
             {% else %}
                 <p>Current link depth: {{ depth }} </p>
-                {% for link in deepLinks %}
+                {% for link in deepLinksObj.links %}
                     <div class="sidenav-previous-page">
                             <a href="{{ link.url.path }}">{{ link.label }}</a>
                     </div>
@@ -81,11 +81,10 @@
 
                 {% if buildtype != 'vagovprod' %}
                     <script>
-                        console.info('Context specific sidebar data:', {{ deepLinksString }});
+                        console.info('Context specific sidebar data:', {{ deepLinksObj }});
                     </script>
                 {% endif %}
             {% endif %}
-
         {% endif %}
 
         {% endfor %}

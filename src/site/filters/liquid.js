@@ -73,36 +73,52 @@ module.exports = function registerFilters() {
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
     const findMatchRecursion = (path, linkArr) => {
       const deepObj = {};
-      for (let i = 0; i < linkArr.length; i += 1) {
-        if (linkArr[i].url.path === path) {
+      for (let a = 0; a < linkArr.length; a += 1) {
+        if (linkArr[a].url.path === path) {
           deepObj.depth = 1;
           return deepObj;
         }
-        if (linkArr[i].links) {
-          for (let p = 0; p < linkArr[i].links.length; p += 1) {
-            if (linkArr[i].links[p].url.path === path) {
+        if (linkArr[a].links) {
+          for (let b = 0; b < linkArr[a].links.length; b += 1) {
+            if (linkArr[a].links[b].url.path === path) {
               deepObj.depth = 2;
               return deepObj;
             }
-            if (linkArr[i].links[p].links) {
-              for (let z = 0; z < linkArr[i].links[p].links.length; z += 1) {
-                if (linkArr[i].links[p].links[z].url.path === path) {
+            if (linkArr[a].links[b].links) {
+              for (let c = 0; c < linkArr[a].links[b].links.length; c += 1) {
+                if (linkArr[a].links[b].links[c].url.path === path) {
                   deepObj.depth = 3;
-                  deepObj.links = linkArr[i].links[p];
+                  deepObj.links = linkArr[a].links[b];
                   return deepObj;
                 }
-                if (linkArr[i].links[p].links[z].links) {
+                if (linkArr[a].links[b].links[c].links) {
                   for (
                     let d = 0;
-                    d < linkArr[i].links[p].links[z].links.length;
+                    d < linkArr[a].links[b].links[c].links.length;
                     d += 1
                   ) {
                     if (
-                      linkArr[i].links[p].links[z].links[d].url.path === path
+                      linkArr[a].links[b].links[c].links[d].url.path === path
                     ) {
                       deepObj.depth = 4;
-                      deepObj.links = linkArr[i].links[p].links[z];
+                      deepObj.links = linkArr[a].links[b].links[c];
                       return deepObj;
+                    }
+                    if (linkArr[a].links[b].links[c].links[d].links) {
+                      for (
+                        let e = 0;
+                        e < linkArr[a].links[b].links[c].links[d].links.length;
+                        e++
+                      ) {
+                        if (
+                          linkArr[a].links[b].links[c].links[d].links[e].url
+                            .path === path
+                        ) {
+                          deepObj.depth = 5;
+                          deepObj.links = linkArr[a].links[b].links[c].links[d];
+                          return deepObj;
+                        }
+                      }
                     }
                   }
                 }
