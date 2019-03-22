@@ -34,8 +34,10 @@
           {% endfor %}
         </ul>
         {% endif %}
-        {% if fieldAlert != empty %}
-        {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+        {% if fieldAlert.length %}
+            {% for alert in fieldAlert %}
+                {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+            {% endfor %}
         {% endif %}
         {% if fieldSpokes != empty %}
         {% for spoke in fieldSpokes %}

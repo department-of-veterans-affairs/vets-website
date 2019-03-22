@@ -59,6 +59,7 @@ import {
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPageGated from '../containers/IntroductionPageGated';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -202,7 +203,9 @@ const formConfig = {
     message: DowntimeMessage,
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: environment.isProduction()
+    ? IntroductionPage
+    : IntroductionPageGated,
   additionalRoutes: !environment.isProduction() && [
     {
       path: 'id-form',

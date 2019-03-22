@@ -23,7 +23,7 @@ import facilityLocator from '../facility-locator/manifest';
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
-  if (isInMVI(state) || state.hcaIDForm.isUserInMVI) {
+  if (isInMVI(state)) {
     newData = { ...newData, 'view:isUserInMVI': true };
   }
 
