@@ -72,23 +72,24 @@ module.exports = function registerFilters() {
   // Find this link in an array of nested link arrays
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
     const findMatchRecursion = (path, linkArr) => {
-      let depth;
+      const deepObj = {};
       for (let i = 0; i < linkArr.length; i += 1) {
         if (linkArr[i].url.path === path) {
-          depth = 1;
-          return depth;
+          deepObj.depth = 1;
+          return deepObj;
         }
         if (linkArr[i].links) {
           for (let p = 0; p < linkArr[i].links.length; p += 1) {
             if (linkArr[i].links[p].url.path === path) {
-              depth = 2;
-              return depth;
+              deepObj.depth = 2;
+              return deepObj;
             }
             if (linkArr[i].links[p].links) {
               for (let z = 0; z < linkArr[i].links[p].links.length; z += 1) {
                 if (linkArr[i].links[p].links[z].url.path === path) {
-                  depth = 3;
-                  return depth;
+                  deepObj.depth = 3;
+                  deepObj.links = linkArr[i].links[p];
+                  return deepObj;
                 }
                 if (linkArr[i].links[p].links[z].links) {
                   for (
@@ -99,8 +100,9 @@ module.exports = function registerFilters() {
                     if (
                       linkArr[i].links[p].links[z].links[d].url.path === path
                     ) {
-                      depth = 4;
-                      return depth;
+                      deepObj.depth = 4;
+                      deepObj.links = linkArr[i].links[p].links[z];
+                      return deepObj;
                     }
                   }
                 }
@@ -112,6 +114,6 @@ module.exports = function registerFilters() {
       return false;
     };
 
-    return findMatchRecursion(currentPath, linksArray);
+    return JSON.stringify(findMatchRecursion(currentPath, linksArray));
   };
 };
