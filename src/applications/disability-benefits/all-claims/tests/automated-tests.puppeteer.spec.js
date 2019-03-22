@@ -43,13 +43,14 @@ const testConfig = {
       config,
       log,
     ) => {
-      // click to open edit mode for existing banking info if applicable
-      if (await page.$('.usa-button-primary.edit-button')) {
-        await page.click('.usa-button-primary.edit-button');
+      if (data['view:bankAccount']) {
+        if (await page.$('.usa-button-primary.edit-button')) {
+          // Only click edit if new bank info is in the data file
+          await page.click('.usa-button-primary.edit-button');
+        }
+        formFiller.fillPage(page, data, config, log);
+        await page.click('.usa-button-primary.update-button');
       }
-
-      formFiller.fillPage(page, data, config, log);
-      await page.click('.usa-button-primary.update-button');
       await page.click('button[type=submit].usa-button-primary');
     },
   },
