@@ -147,7 +147,11 @@ function getDrupalContent(buildOptions) {
       log(err.stack);
       log(JSON.stringify(drupalData));
       log('Failed to pipe Drupal content into Metalsmith!');
-      done(err);
+      if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
+        done(err);
+      } else {
+        done();
+      }
     }
   };
 }
