@@ -57,7 +57,7 @@ function checkBrokenLinks(buildOptions) {
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
       warn:
-        buildOptions.watch || buildOptions.buildType !== ENVIRONMENTS.VAGOVDEV,
+        buildOptions.watch || buildOptions.buildType === ENVIRONMENTS.VAGOVDEV,
       allowRegex: ignoreLinks,
     });
 
