@@ -69,9 +69,9 @@ module.exports = function registerFilters() {
     return JSON.stringify(id);
   };
 
-  // Find this link in an array of nested link arrays
+  // Find the current path in an array of nested link arrays and then return depth + it's parent and children
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
-    const findMatchRecursion = (path, linkArr) => {
+    const getDeepLinks = (path, linkArr) => {
       const deepObj = {};
       for (let a = 0; a < linkArr.length; a += 1) {
         if (linkArr[a].url.path === path) {
@@ -130,6 +130,6 @@ module.exports = function registerFilters() {
       return false;
     };
 
-    return JSON.stringify(findMatchRecursion(currentPath, linksArray));
+    return JSON.stringify(getDeepLinks(currentPath, linksArray));
   };
 };
