@@ -7,6 +7,7 @@ const footerData = require('../../../../platform/static-data/footer-links.json')
 const { applyFragments } = require('./apply-fragments');
 
 const MEGAMENU_DATA_SOURCE_FILENAME = 'megamenu/index.yml';
+const DRUPALS = require('../../../constants/drupals');
 
 function replaceWithDrupalLinks(data, files) {
   let current = data;
@@ -72,7 +73,9 @@ function createHeaderFooterData(buildOptions) {
 
     const serialized = JSON.stringify(headerFooter, null, 4);
 
-    const drupalMenu = replaceWithDrupalLinks(headerFooter, files);
+    const drupalMenu = DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
+      ? replaceWithDrupalLinks(headerFooter, files)
+      : headerFooter;
     const drupalMenuSerialized = JSON.stringify(drupalMenu, null, 4);
 
     Object.keys(files).forEach(file => {

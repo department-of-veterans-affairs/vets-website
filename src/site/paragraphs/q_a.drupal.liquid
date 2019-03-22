@@ -25,7 +25,7 @@
   {% assign header = "h3" %}
 {% endif %}
 <div itemscope="" itemtype="http://schema.org/Question">
-  <{{ header }} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
+  <{{ header }} {% if header == "h2" %}class="heading-level-3"{% endif %} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
   <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
     <div itemprop="text">
     {% for answer in entity.fieldAnswer %}

@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-continue */
+/* eslint-disable no-param-reassign, no-continue, no-console */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -78,8 +78,13 @@ async function loadDrupal(buildOptions) {
     log('Attempting to load Drupal content from API...');
 
     const contentApi = getApiClient(buildOptions);
+    const drupalTimer = `${contentApi.getSiteUri()} response time: `;
+
+    console.time(drupalTimer);
 
     drupalPages = await contentApi.getAllPages();
+
+    console.timeEnd(drupalTimer);
 
     if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
       const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
@@ -142,9 +147,11 @@ function getDrupalContent(buildOptions) {
       log(err.stack);
       log(JSON.stringify(drupalData));
       log('Failed to pipe Drupal content into Metalsmith!');
-      log('Continuing with build anyway...');
-      // done(err);
-      done();
+      if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
+        done(err);
+      } else {
+        done();
+      }
     }
   };
 }
