@@ -69,7 +69,7 @@ module.exports = function registerFilters() {
     return JSON.stringify(id);
   };
 
-  // Find the current path in an array of nested link arrays and then return depth + it's parent and children
+  // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
     const getDeepLinks = (path, linkArr) => {
       const deepObj = {};
