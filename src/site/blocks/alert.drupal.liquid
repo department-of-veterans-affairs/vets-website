@@ -21,8 +21,12 @@
 {% if alert.fieldAlertContent %}
     {% assign expander = alert.fieldAlertContent.entity %}
 {% endif %}
+{% assign alertType = alert.fieldAlertType %}
+{% if alertType = "information" %}
+    {% assign alertType = "info" %}
+{% endif %}
 
-<div class="usa-alert usa-alert-{{ alert.fieldAlertType }}" role="alert">
+<div class="usa-alert usa-alert-{{ alertType }}" role="alert">
     <div class="usa-alert-body">
         <h3 class="usa-alert-heading">
             {{ alert.fieldAlertTitle }}
@@ -34,6 +38,7 @@
         {% if expander.fieldTextExpander %}<div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
             <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
         </div>{% endif %}
+        {% if expander.fieldWysiwyg && expander.fieldTextExpander === empty %}<div class=" usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>{% endif %}
     </div>
 </div>
 
