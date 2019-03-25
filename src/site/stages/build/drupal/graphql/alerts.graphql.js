@@ -13,6 +13,7 @@ module.exports = `
         fieldNodeReference {
           targetId
         }
+        fieldIsThisAHeaderAlert
         fieldAlertType
         fieldAlertTitle
         fieldAlertContent {

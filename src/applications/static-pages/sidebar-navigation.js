@@ -134,8 +134,10 @@ class SideBarMenu {
 
 export function addActiveState() {
   // Add active state for Drupal-based side nav
-  const sideNav = document.querySelector('#va-detailpage-sidebar');
-  if (sideNav && window.location.href.indexOf('drupal') > -1) {
+  const sideNav = document.querySelector(
+    '#va-detailpage-sidebar[data-drupal-sidebar]',
+  );
+  if (sideNav) {
     const current = document.getElementsByClassName('usa-current')[0];
     const parent = current.closest('.usa-accordion-content')
       .previousElementSibling;

@@ -1,15 +1,17 @@
 import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 
-export const SUBMIT_ID_FORM_STARTED = 'SUBMIT_ID_FORM_STARTED';
-export const SUBMIT_ID_FORM_SUCCEEDED = 'SUBMIT_ID_FORM_SUCCEEDED';
-export const SUBMIT_ID_FORM_FAILED = 'SUBMIT_ID_FORM_FAILED';
+export const FETCH_ENROLLMENT_STATUS_STARTED =
+  'FETCH_ENROLLMENT_STATUS_STARTED';
+export const FETCH_ENROLLMENT_STATUS_SUCCEEDED =
+  'FETCH_ENROLLMENT_STATUS_SUCCEEDED';
+export const FETCH_ENROLLMENT_STATUS_FAILED = 'FETCH_ENROLLMENT_STATUS_FAILED';
 
-export function submitIDForm(formData) {
+export function getEnrollmentStatus(formData = {}) {
   return dispatch => {
-    dispatch({ type: SUBMIT_ID_FORM_STARTED });
+    dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
     /*
-    When hitting the API locally, we cannot get responses other than 404s from
+    When hitting the API locally, we cannot get responses other than 500s from
     the endpoint. This is due to the endpoint's need to connect to MVI, which
     cannot easily been done locally. There are a few ways around this:
     1. Temporarily change the `baseUrl` to:
@@ -25,8 +27,9 @@ export function submitIDForm(formData) {
        vets-api: app/controllers/v0/health_care_applications_controller.rb#L25
     3. Instead of making the apiRequest here, you can immediately dispatch the
        action that corresponds to th condition you want to test:
-       `dispatch({type: SUBMIT_ID_FORM_FAILED, errors: [{ code: '500' }] });`
+       `dispatch({type: FETCH_ENROLLMENT_STATUS_FAILED, errors: [{ code: '404' }] });`
     */
+
     const baseUrl = `/health_care_applications/enrollment_status`;
 
     const url = appendQuery(baseUrl, {
@@ -39,8 +42,9 @@ export function submitIDForm(formData) {
     apiRequest(
       url,
       null,
-      data => dispatch({ type: SUBMIT_ID_FORM_SUCCEEDED, data }),
-      ({ errors }) => dispatch({ type: SUBMIT_ID_FORM_FAILED, errors }),
+      data => dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, data }),
+      ({ errors }) =>
+        dispatch({ type: FETCH_ENROLLMENT_STATUS_FAILED, errors }),
     );
   };
 }

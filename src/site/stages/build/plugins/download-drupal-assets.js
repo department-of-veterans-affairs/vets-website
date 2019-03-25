@@ -2,16 +2,13 @@
 require('isomorphic-fetch');
 const path = require('path');
 const fs = require('fs-extra');
-const chalk = require('chalk');
 
 const ENVIRONMENTS = require('../../../constants/environments');
-
-const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
-
-// eslint-disable-next-line no-console
-const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
+const { logDrupal: log } = require('../drupal/utilities-drupal');
+const getDrupalClient = require('../drupal/api');
 
 function downloadDrupalAssets(options) {
+  const client = getDrupalClient(options);
   return async (files, metalsmith, done) => {
     const assetsToDownload = Object.entries(files)
       .filter(entry => entry[1].isDrupalAsset && !entry[1].contents)
@@ -25,7 +22,7 @@ function downloadDrupalAssets(options) {
       let errorCount = 0;
 
       const downloads = assetsToDownload.map(async asset => {
-        const response = await fetch(asset.src);
+        const response = await client.proxyFetch(asset.src);
 
         if (response.ok) {
           downloadCount++;

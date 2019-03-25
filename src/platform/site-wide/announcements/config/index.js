@@ -4,7 +4,6 @@ import PersonalizationBanner from '../components/PersonalizationBanner';
 import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import AllClaimsBetaBanner from '../components/AllClaimsBetaBanner';
 
 const config = {
   announcements: [
@@ -32,12 +31,6 @@ const config = {
       paths: /^(\/profile\/)$/,
       component: Profile360Intro,
       relatedAnnouncements: ['personalization'],
-    },
-    {
-      name: 'all-claims',
-      paths: /disability\/how-to-file-claim\/$/,
-      component: AllClaimsBetaBanner,
-      showEverytime: true,
     },
     {
       name: 'claim-increase',

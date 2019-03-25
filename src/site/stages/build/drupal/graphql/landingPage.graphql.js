@@ -11,6 +11,7 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
  */
 const ADMIN = '...administration';
 
+// TODO add back fieldTitleIcon
 module.exports = `
   
   fragment landingPage on NodeLandingPage {

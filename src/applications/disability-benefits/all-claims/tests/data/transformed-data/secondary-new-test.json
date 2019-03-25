@@ -1,8 +1,6 @@
 {
   "form526": {
     "standardClaim": false,
-    "waiveTrainingPay": true,
-    "waiveRetirementPay": true,
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
@@ -86,10 +84,6 @@
         "disabilityActionType": "NONE"
       }
     ],
-    "hasTrainingPay": true,
-    "militaryRetiredPayBranch": "Air Force",
-    "separationPayDate": "2018-XX-XX",
-    "separationPayBranch": "Air Force",
     "serviceInformation": {
       "reservesNationalGuardService": {
         "title10Activation": {
@@ -114,10 +108,6 @@
       ]
     },
     "servedInCombatZonePost911": true,
-    "alternateNames": [
-      { "first": "William", "middle": "Schwenk", "last": "Gilbert" },
-      { "first": "Arthur", "last": "Sullivan" }
-    ],
     "newSecondaryDisabilities": [
       {
         "cause": "SECONDARY",

@@ -12,17 +12,33 @@ export const addNoneDisabilityActionType = (disabilities = []) =>
     _.set('disabilityActionType', disabilityActionTypes.NONE, d),
   );
 
+export const setClaimTypeNewOnly = formData =>
+  _.set(
+    ['view:claimType'],
+    {
+      'view:claimingNew': true,
+      'view:claimingIncrease': false,
+    },
+    formData,
+  );
+
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillRatedDisabilities = data => {
-    const newData = _.omit(['disabilities'], data);
     const { disabilities } = data;
-    if (disabilities) {
-      newData.ratedDisabilities = addNoneDisabilityActionType(
-        filterServiceConnected(disabilities),
-      );
+
+    if (!disabilities) {
+      return setClaimTypeNewOnly(data);
     }
 
-    return newData;
+    const transformedDisabilities = addNoneDisabilityActionType(
+      filterServiceConnected(disabilities),
+    );
+
+    const newData = _.omit(['disabilities'], data);
+
+    return transformedDisabilities.length
+      ? _.set('ratedDisabilities', transformedDisabilities, newData)
+      : setClaimTypeNewOnly(newData);
   };
 
   const prefillContactInformation = data => {

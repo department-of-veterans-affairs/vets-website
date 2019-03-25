@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign, no-continue */
+const path = require('path');
 const _ = require('lodash');
 const set = require('lodash/fp/set');
 
@@ -26,7 +27,7 @@ function createEntityUrlObj(pagePath) {
   return {
     breadcrumb: [
       {
-        url: { path: '/drupal/', routed: true },
+        url: { path: '/', routed: true },
         text: 'Home',
       },
     ],
@@ -105,10 +106,9 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
       };
     }
 
-    files[`drupal${pagedPage.entityUrl.path}/index.html`] = createFileObj(
-      pagedPage,
-      layout,
-    );
+    const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
+
+    files[fileName] = createFileObj(pagedPage, layout);
   }
 }
 
@@ -120,19 +120,19 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
       .replace(/&/g, '')
       .replace(/\s+/g, '-')
       .toLowerCase();
+
   let generatedPage = Object.assign({}, page);
+  const absolutePath = path.join('/', drupalPagePath, pathSuffix);
+
   generatedPage.entityUrl.breadcrumb = [
     ...page.entityUrl.breadcrumb,
     {
-      url: { path: drupalPagePath },
+      url: { path: absolutePath },
       text: page.title,
     },
   ];
-  generatedPage = set(
-    'entityUrl.path',
-    `${drupalPagePath}/${pathSuffix}`,
-    page,
-  );
+
+  generatedPage = set('entityUrl.path', absolutePath, page);
 
   generatedPage.title = title;
   return generatedPage;

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign, no-continue */
-const facilityLocationPath = require('./utilities-drupal');
+const path = require('path');
+const { facilityLocationPath } = require('./utilities-drupal');
 const {
   createEntityUrlObj,
   createFileObj,
@@ -33,7 +34,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
           alerts,
         );
 
-        files[`drupal${pagePath}/index.html`] = createFileObj(
+        files[`${pagePath}/index.html`] = createFileObj(
           facilityCompiled,
           'health_care_local_facility_page.drupal.liquid',
         );
@@ -45,9 +46,13 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   if (page.allHealthcareDetailPages !== undefined) {
     for (const detailPage of page.allHealthcareDetailPages.entities) {
       if (detailPage.entityBundle === 'health_care_region_detail_page') {
-        const pagePath = detailPage.entityUrl.path;
+        const pagePath = path.join(
+          '.',
+          detailPage.entityUrl.path,
+          'index.html',
+        );
         const detailPageCompiled = Object.assign(detailPage, sidebar, alerts);
-        files[`drupal${pagePath}/index.html`] = createFileObj(
+        files[pagePath] = createFileObj(
           detailPageCompiled,
           'health_care_region_detail_page.drupal.liquid',
         );
@@ -67,7 +72,9 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     title: page.title,
   };
   const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
-  files[`drupal${drupalPagePath}/locations/index.html`] = createFileObj(
+  locPage.regionOrOffice = page.title;
+
+  files[`${drupalPagePath}/locations/index.html`] = createFileObj(
     locPage,
     'health_care_region_locations_page.drupal.liquid',
   );
@@ -94,8 +101,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     hsObj,
     drupalPagePath,
     'Patient and health services',
+    'health-services',
   );
-  files[`drupal${drupalPagePath}/health-services/index.html`] = createFileObj(
+  hsPage.regionOrOffice = page.title;
+
+  files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
     hsPage,
     'health_care_region_health_services_page.drupal.liquid',
   );
@@ -104,12 +114,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const prEntityUrl = createEntityUrlObj(drupalPagePath);
   const prObj = {
     allPressReleaseTeasers: page.allPressReleaseTeasers,
+    fieldPressReleaseBlurb: page.fieldPressReleaseBlurb,
     facilitySidebar: sidebar,
     entityUrl: prEntityUrl,
     title: page.title,
     alert: page.alert,
   };
   const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
+  prPage.regionOrOffice = page.title;
+
   paginatePages(
     prPage,
     files,
@@ -134,6 +147,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'Community stories',
     'stories',
   );
+  nsPage.regionOrOffice = page.title;
+
   paginatePages(
     nsPage,
     files,
@@ -153,6 +168,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     { alert: page.alert },
   );
   const eventPage = updateEntityUrlObj(eventObj, drupalPagePath, 'Events');
+  eventPage.regionOrOffice = page.title;
+
   paginatePages(
     eventPage,
     files,
@@ -175,6 +192,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     drupalPagePath,
     'Leadership',
   );
+  bioListingPage.regionOrOffice = page.title;
+
   paginatePages(
     bioListingPage,
     files,
