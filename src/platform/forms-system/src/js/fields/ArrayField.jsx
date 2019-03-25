@@ -367,10 +367,10 @@ export default class ArrayField extends React.Component {
           >
             Add Another {uiOptions.itemName}
           </button>
-          <div>
+          <p>
             {addAnotherDisabled &&
               `You’ve entered the maximum number of items allowed.`}
-          </div>
+          </p>
         </div>
       </div>
     );

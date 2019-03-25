@@ -26,7 +26,11 @@ module.exports = `
   ${bioPage}
 
   query GetAllPages($today: String!) {
-    nodeQuery(limit: 500) {
+    nodeQuery(limit: 500, filter: {
+      conditions: [
+        { field: "status", value: ["1"] }
+      ]
+    }) {
       entities {
         ... landingPage
         ... page

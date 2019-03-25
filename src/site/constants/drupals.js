@@ -8,7 +8,7 @@ const DRUPAL_DEV = {
 };
 
 const DRUPAL_STAGING = {
-  address: 'http://stg.va.agile6.com',
+  address: 'http://staging.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };
@@ -37,8 +37,9 @@ const ENABLED_ENVIRONMENTS = new Set([
 ]);
 
 const PREFIXED_ENVIRONMENTS = new Set([
-  ENVIRONMENTS.LOCALHOST,
-  ENVIRONMENTS.VAGOVSTAGING,
+  // ENVIRONMENTS.LOCALHOST,
+  // ENVIRONMENTS.VAGOVSTAGING,
+  ENVIRONMENTS.VAGOVPROD,
 ]);
 
 const PUBLIC_URLS = {
