@@ -316,7 +316,7 @@ const fillForm = async (page, testData, testConfig, log) => {
           `Bad testConfig: Page hook for ${url} is not a function`,
         );
       }
-      const retVal = hook(page, testData, testConfig);
+      const retVal = hook(page, testData, testConfig, log);
       if (retVal instanceof Promise) {
         await retVal;
       }
@@ -332,8 +332,10 @@ const fillForm = async (page, testData, testConfig, log) => {
       // NOTE: This won't trigger if the field we missed isn't required!
       if (page.url() === url) {
         // TODO: Figure out how to remove this arbitrary time
-        await page.waitFor(300);
+        await page.waitFor(500);
         await fillPage(page, testData, testConfig, log);
+        log('Clicking continue again');
+        await page.click(CONTINUE_BUTTON);
       }
     }
 

@@ -1,5 +1,8 @@
 {
   "data": {
+    "view:claimType": {
+      "view:claimingNew": true
+    },
     "form4192Upload": [
       {
         "name": "image (1).png",
