@@ -22,6 +22,7 @@ class SearchApp extends React.Component {
       results: PropTypes.array,
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
+    loader: PropTypes.symbol,
   };
 
   constructor(props) {
@@ -52,6 +53,7 @@ class SearchApp extends React.Component {
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
       this.writeBreadcrumb();
+      this.loader && this.loader.focus();
     }
   }
 
@@ -159,8 +161,15 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4>Our Top Recommendations for You</h4>
-          <ul className="results-list" tabIndex="-1">
+          <h4
+            tabIndex="-1"
+            ref={loader => {
+              this.loader = loader;
+            }}
+          >
+            Our Top Recommendations for You
+          </h4>
+          <ul className="results-list">
             {recommendedResults.map(r =>
               this.renderWebResult(r, 'description', true),
             )}
