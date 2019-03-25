@@ -121,8 +121,7 @@ export const toolUrl = (appId, index) => {
 
     case frontendApps.DISABILITY_BENEFITS:
       return {
-        url:
-          '/disability-benefits/apply/form-526-disability-claim/veteran-information',
+        url: '/disability/how-to-file-claim',
         redirect: false,
       };
 

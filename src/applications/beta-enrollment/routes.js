@@ -6,7 +6,6 @@ export const features = {
   profile: 'profile',
   dashboard: 'dashboard',
   claimIncrease: 'claim_increase',
-  allClaims: 'all_claims',
 };
 
 const routes = {
@@ -15,14 +14,6 @@ const routes = {
     {
       path: 'personalization',
       component: createBetaEnrollmentButton(features.dashboard, '/dashboard'),
-    },
-    {
-      path: 'all-claims',
-      component: createBetaEnrollmentButton(
-        features.allClaims,
-        '/disability/file-disability-claim-form-21-526ez/',
-        'Get Started with the Beta Tool',
-      ),
     },
   ],
 };

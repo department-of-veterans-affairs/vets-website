@@ -13,13 +13,14 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import FormSavedPage from '../containers/FormSavedPage';
 
-import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
+import { hasMilitaryRetiredPay } from '../validations';
 
 import {
   hasGuardOrReservePeriod,
   capitalizeEachWord,
   hasVAEvidence,
   hasPrivateEvidence,
+  hasRatedDisabilities,
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
@@ -162,13 +163,14 @@ const formConfig = {
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
         },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
-          depends: formData => !increaseOnly(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
@@ -204,21 +206,21 @@ const formConfig = {
         separationPay: {
           title: 'Separation or Severance Pay',
           path: 'separation-pay',
-          depends: formData => !increaseOnly(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
         retirementPay: {
           title: 'Retirement Pay',
           path: 'retirement-pay',
-          depends: formData => !increaseOnly(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training Pay',
           path: 'training-pay',
-          depends: formData => !increaseOnly(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
@@ -583,7 +585,7 @@ const formConfig = {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
           depends: formData =>
-            hasMilitaryRetiredPay(formData) && !increaseOnly(formData),
+            hasMilitaryRetiredPay(formData) && !hasRatedDisabilities(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
@@ -591,7 +593,7 @@ const formConfig = {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
           depends: formData =>
-            formData.hasTrainingPay && !increaseOnly(formData),
+            formData.hasTrainingPay && !hasRatedDisabilities(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

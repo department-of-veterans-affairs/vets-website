@@ -6,11 +6,11 @@ const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
         title
-        fieldEventDate {
-          value
-        }
-        fieldEventDateEnd {
-          value
+        fieldDate {
+            startDate
+            value
+            endDate
+            endValue
         }
         fieldDescription
         fieldLocationHumanreadable
@@ -40,11 +40,9 @@ function queryFilter(isAll) {
     ${
       isAll
         ? ''
-        : '{ field: "field_event_date", value: [$today], operator: GREATER_THAN}'
+        : '{ field: "field_date", value: [$today], operator: GREATER_THAN}'
     }
-  ]} sort: {field: "field_event_date", direction: ASC } limit: ${
-    isAll ? '500' : '2'
-  })
+  ]} sort: {field: "field_date", direction: ASC } limit: ${isAll ? '500' : '2'})
   `;
 }
 
