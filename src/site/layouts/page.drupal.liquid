@@ -23,8 +23,10 @@
           <p>{{ fieldIntroText }}</p>
         </div>
 
-        {% if fieldAlert %}
-            {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+        {% if fieldAlert.length %}
+            {% for alert in fieldAlert %}
+              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+            {% endfor %}
         {% endif %}
 
         {% assign featureCount = fieldFeaturedContent | size  %}
