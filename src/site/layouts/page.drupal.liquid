@@ -9,7 +9,8 @@
     {% include 'src/site/navigation/sidebar_nav.drupal.liquid' with sidebar %}
 
     <div class="usa-width-three-fourths">
-      {% if !entityPublished %}
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
           <div class="usa-alert-body">
             <p class="usa-alert-text">You are viewing a draft.</p>

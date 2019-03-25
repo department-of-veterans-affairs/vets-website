@@ -8,17 +8,10 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { focusElement } from 'platform/utilities/ui';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import {
-  selectUser,
-  selectProfile,
-  isLoggedIn,
-  isLOA1,
-  isLOA3,
-  isProfileLoading,
-} from 'platform/user/selectors';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
+import { isLoading, isUserLOA1, isLoggedOut, isUserLOA3 } from '../selectors';
 
 const VerificationRequiredAlert = () => (
   <AlertBox
@@ -111,30 +104,12 @@ class IntroductionPageGated extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  const {
-    isLoading: isEnrollmentStatusLoading,
-    hasServerError,
-    noESRRecordFound,
-  } = state.hcaEnrollmentStatus;
-  const loading = isProfileLoading(state) || isEnrollmentStatusLoading;
-  return {
-    showMainLoader: loading,
-    showVerificationRequiredAlert:
-      !loading && isLoggedIn(state) && isLOA1(state),
-    // If we can't get enrollment status for LOA3 users, treat them like a
-    // logged-out user (ie, just let them start a new application)
-    showLoggedOutContent:
-      !loading && (!isLoggedIn(state) || hasServerError || noESRRecordFound),
-    showLOA3Content:
-      isLoggedIn(state) &&
-      isLOA3(state) &&
-      !hasServerError &&
-      !noESRRecordFound,
-    user: selectUser(state),
-    profile: selectProfile(state),
-  };
-};
+const mapStateToProps = state => ({
+  showMainLoader: isLoading(state),
+  showVerificationRequiredAlert: isUserLOA1(state),
+  showLoggedOutContent: isLoggedOut(state),
+  showLOA3Content: isUserLOA3(state),
+});
 
 export default connect(mapStateToProps)(IntroductionPageGated);
 
