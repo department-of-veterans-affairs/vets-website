@@ -33,8 +33,20 @@ const testConfig = {
       await page.waitFor('.usa-button-primary:not(.schemaform-start-button)');
       await page.click('.usa-button-primary');
     },
-    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async page => {
-      await page.click('input[name="root_ratedDisabilities_0"]');
+    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async (
+      page,
+      data,
+      config,
+      log,
+    ) => {
+      await Promise.all(
+        data.ratedDisabilities.map(async (disability, index) => {
+          if (disability['view:selected']) {
+            log(`Selecting ${disability.name} (index ${index})`);
+            await page.click(`input[name="root_ratedDisabilities_${index}"]`);
+          }
+        }),
+      );
       await page.click('.form-progress-buttons .usa-button-primary');
     },
     '/disability/file-disability-claim-form-21-526ez/payment-information': async (
