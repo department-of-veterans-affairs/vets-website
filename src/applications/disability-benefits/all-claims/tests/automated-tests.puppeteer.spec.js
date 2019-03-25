@@ -48,7 +48,7 @@ const testConfig = {
           // Only click edit if new bank info is in the data file
           await page.click('.usa-button-primary.edit-button');
         }
-        formFiller.fillPage(page, data, config, log);
+        await formFiller.fillPage(page, data, config, log);
         await page.click('.usa-button-primary.update-button');
       }
       await page.click('button[type=submit].usa-button-primary');
