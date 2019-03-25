@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  didEnrollmentStatusChange,
   expensesLessThanIncome,
   getCSTOffset,
   getMedicalCenterNameByID,
@@ -200,6 +201,35 @@ describe('HCA helpers', () => {
       expect(getMedicalCenterNameByID('46333 - NOT A VALID ID')).to.equal(
         '46333 - NOT A VALID ID',
       );
+    });
+  });
+  describe('didEnrollmentStatusChange', () => {
+    const defaultProps = {
+      enrollmentStatus: null,
+      noESRRecordFound: false,
+      shouldRedirect: false,
+    };
+    let prevProps;
+    let newProps;
+    it('returns `false` if none of the relevant props have changed', () => {
+      prevProps = { ...defaultProps };
+      newProps = { ...defaultProps };
+      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(false);
+    });
+    it('returns `true` if `enrollmentStatus` changed', () => {
+      prevProps = { ...defaultProps };
+      newProps = { ...defaultProps, enrollmentStatus: 'enrolled' };
+      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+    });
+    it('returns `true` if `noESRRecordFound` changed', () => {
+      prevProps = { ...defaultProps };
+      newProps = { ...defaultProps, noESRRecordFound: true };
+      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+    });
+    it('returns `true` if `shouldRedirect` changed', () => {
+      prevProps = { ...defaultProps };
+      newProps = { ...defaultProps, shouldRedirect: true };
+      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
     });
   });
 });
