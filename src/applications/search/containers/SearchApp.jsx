@@ -53,7 +53,9 @@ class SearchApp extends React.Component {
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
       this.writeBreadcrumb();
-      this.loader && this.loader.focus();
+    }
+    if (this.loader) {
+      this.loader.focus();
     }
   }
 
