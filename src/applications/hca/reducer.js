@@ -1,38 +1,51 @@
 import formConfig from './config/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import {
-  SUBMIT_ID_FORM_STARTED,
-  SUBMIT_ID_FORM_SUCCEEDED,
-  SUBMIT_ID_FORM_FAILED,
+  FETCH_ENROLLMENT_STATUS_STARTED,
+  FETCH_ENROLLMENT_STATUS_SUCCEEDED,
+  FETCH_ENROLLMENT_STATUS_FAILED,
 } from './actions';
+import { HCA_ENROLLMENT_STATUSES } from './constants';
 
 const initialState = {
+  applicationDate: null,
+  enrollmentDate: null,
+  preferredFacility: null,
   enrollmentStatus: null,
   hasServerError: false,
-  isSubmitting: false,
+  isLoading: false,
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
 };
 
-function hcaIDForm(state = initialState, action) {
+function hcaEnrollmentStatus(state = initialState, action) {
   switch (action.type) {
-    case SUBMIT_ID_FORM_STARTED:
-      return { ...initialState, isSubmitting: true };
+    case FETCH_ENROLLMENT_STATUS_STARTED:
+      return { ...initialState, isLoading: true };
 
-    case SUBMIT_ID_FORM_SUCCEEDED: {
-      const { parsedStatus: enrollmentStatus } = action.data;
-      const isInESR = enrollmentStatus !== 'none_of_the_above';
+    case FETCH_ENROLLMENT_STATUS_SUCCEEDED: {
+      const {
+        parsedStatus: enrollmentStatus,
+        applicationDate,
+        enrollmentDate,
+        preferredFacility,
+      } = action.data;
+      const isInESR =
+        enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
       return {
         ...state,
         enrollmentStatus,
+        applicationDate,
+        enrollmentDate,
+        preferredFacility,
         loginRequired: isInESR,
-        isSubmitting: false,
+        isLoading: false,
         isUserInMVI: true,
       };
     }
 
-    case SUBMIT_ID_FORM_FAILED: {
+    case FETCH_ENROLLMENT_STATUS_FAILED: {
       const { errors } = action;
       const noESRRecordFound =
         errors && errors.some(error => error.code === '404');
@@ -42,7 +55,7 @@ function hcaIDForm(state = initialState, action) {
       return {
         ...state,
         hasServerError,
-        isSubmitting: false,
+        isLoading: false,
         loginRequired: hasRateLimitError,
         noESRRecordFound,
       };
@@ -55,5 +68,5 @@ function hcaIDForm(state = initialState, action) {
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),
-  hcaIDForm,
+  hcaEnrollmentStatus,
 };
