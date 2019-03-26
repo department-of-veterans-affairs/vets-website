@@ -9,7 +9,7 @@ RUN groupadd --gid 504 jenkins \
 ENV YARN_VERSION 1.12.3
 ENV NODE_ENV production
 
-RUN apt-get update && apt-get install -y netcat libx11-xcb-dev \
+RUN apt-get update && apt-get install -y netcat libx11-xcb1 \
   && npm install -g yarn@$YARN_VERSION \
   && npm install -g s3-cli \
   && npm install -g codeclimate-test-reporter \
