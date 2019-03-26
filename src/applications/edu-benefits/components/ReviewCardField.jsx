@@ -163,8 +163,8 @@ export default class ReviewCardField extends React.Component {
     return (
       <div className="review-card">
         <div className="review-card--body va-growable-background">
+          <h4 className="review-card--title">{title}</h4>
           <div className="input-section">
-            <h4 className="review-card--title">{title}</h4>
             {subtitle && (
               <div className="review-card--subtitle">{subtitle}</div>
             )}
@@ -236,7 +236,7 @@ export default class ReviewCardField extends React.Component {
           <h4 className="review-card--title">{title}</h4>
           {!volatileData && (
             <button
-              className="usa-button-secondary edit-button"
+              className="usa-button-primary edit-button"
               onClick={this.startEditing}
               aria-label={`Edit ${title}`}
             >
