@@ -145,6 +145,7 @@ app.get('/preview', async (req, res, next) => {
     const drupalPage = drupalData.data.nodes.entities[0];
     const drupalPath = `${req.path.substring(1)}/index.html`;
 
+    console.log(drupalPage);
     const compiledPage = compilePage(drupalPage, drupalData);
     const fullPage = createFileObj(
       compiledPage,

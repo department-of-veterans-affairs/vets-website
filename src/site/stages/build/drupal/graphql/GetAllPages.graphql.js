@@ -1,6 +1,7 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
+const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
@@ -20,6 +21,7 @@ module.exports = `
   ${landingPage}
   ${page}
   ${healthCareRegionPage}
+  ${healthCareLocalFacilityPage}
   ${pressReleasePage}
   ${newsStoryPage}
   ${eventPage}
@@ -28,13 +30,13 @@ module.exports = `
   query GetAllPages($today: String!) {
     nodeQuery(limit: 500, filter: {
       conditions: [
-        { field: "status", value: ["1"] }
       ]
     }) {
       entities {
         ... landingPage
         ... page
         ... healthCareRegionPage
+        ... healthCareLocalFacilityPage
         ... pressReleasePage
         ... newsStoryPage
         ... eventPage
