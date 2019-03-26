@@ -1,4 +1,5 @@
 const join = require('path').join;
+const _ = require('lodash/fp');
 
 const testForm = require('../../../../platform/testing/e2e/form-tester');
 const formFiller = require('../../../../platform/testing/e2e/form-tester/form-filler');
@@ -9,17 +10,27 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = getTestDataSets(join(__dirname, 'data'), {
   extension: 'json',
   ignore: ['minimal-ptsd-form-upload-test.json'],
-  // only: ['maximal-test.json'],
+  // only: ['secondary-new-test.json'],
 });
 
 const testConfig = {
   // debug: true,
   setup: userToken => {
-    PageHelpers.initInProgressMock(userToken);
     PageHelpers.initDocumentUploadMock();
     PageHelpers.initApplicationSubmitMock();
     PageHelpers.initItfMock(userToken);
     PageHelpers.initPaymentInformationMock(userToken);
+  },
+  setupPerTest: ({ testData: data, userToken }) => {
+    // Pre-fill with the expected ratedDisabilities, but nix view:selected since that's not pre-filled
+    const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(d =>
+      _.omit('view:selected', d),
+    );
+    const sanitizedData =
+      sanitizedRatedDisabilities === []
+        ? data
+        : { ...data, ratedDisabilities: sanitizedRatedDisabilities };
+    PageHelpers.initInProgressMock(userToken, sanitizedData);
   },
   url: '/disability/file-disability-claim-form-21-526ez/introduction',
   logIn: true,
