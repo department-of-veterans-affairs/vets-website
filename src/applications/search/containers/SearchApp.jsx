@@ -52,16 +52,23 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
+      this.renderSearchBarandHeader();
       this.writeBreadcrumb();
+
     }
     if (this.loader) {
       this.loader.focus();
     }
+
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.search.query !== prevProps.search.query) {
       this.writeBreadcrumb();
+      this.renderSearchBarandHeader();
+    }
+    if (this.loader) {
+      this.loader.focus();
     }
   }
 
@@ -100,23 +107,12 @@ class SearchApp extends React.Component {
     });
   };
 
-  writeBreadcrumb() {
-    const breadcrumbList = document.getElementById('va-breadcrumbs-list');
-    const lastCrumb = breadcrumbList.lastElementChild.children[0];
-    if (breadcrumbList && lastCrumb) {
-      lastCrumb.text = `Search Results for '${this.props.search.query}'`;
-    }
-  }
-
-  renderResults() {
-    const { loading, errors } = this.props.search;
-    const hasErrors = !!(errors && errors.length > 0);
-    const nonBlankUserInput =
+  searchInput() {
+    let nonBlankUserInput =
       this.state.userInput &&
       this.state.userInput.replace(/\s/g, '').length > 0;
 
-    // Reusable search input
-    const searchInput = (
+    return (
       <form onSubmit={this.handleSearch} className="va-flex search-box">
         <input
           type="text"
@@ -131,6 +127,45 @@ class SearchApp extends React.Component {
         </button>
       </form>
     );
+  }
+
+  writeBreadcrumb() {
+    const breadcrumbList = document.getElementById('va-breadcrumbs-list');
+    const lastCrumb = breadcrumbList.lastElementChild.children[0];
+    if (breadcrumbList && lastCrumb) {
+      lastCrumb.text = `Search Results for '${this.props.search.query}'`;
+    }
+  }
+
+  renderSearchBarandHeader() {
+    return (
+      <div>
+        {this.searchInput()}
+        {this.renderResultsCount()}
+        <hr />
+        <div>
+          <h4
+            tabIndex="-1"
+            ref={loader => {
+              this.loader = loader;
+            }}
+          >
+            Our Top Recommendations for You
+          </h4>
+        </div>
+      </div>
+    );
+  }
+
+
+
+  renderResults() {
+    const { loading, errors } = this.props.search;
+    const hasErrors = !!(errors && errors.length > 0);
+
+
+    // Reusable search input
+
 
     if (hasErrors && !loading) {
       return (
@@ -147,9 +182,7 @@ class SearchApp extends React.Component {
 
     return (
       <div>
-        {searchInput}
-        {this.renderResultsCount()}
-        <hr />
+        {this.renderSearchBarandHeader()}
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
         <hr id="hr-search-bottom" />
@@ -163,14 +196,6 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4
-            tabIndex="-1"
-            ref={loader => {
-              this.loader = loader;
-            }}
-          >
-            Our Top Recommendations for You
-          </h4>
           <ul className="results-list">
             {recommendedResults.map(r =>
               this.renderWebResult(r, 'description', true),
@@ -248,10 +273,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
+                recordEvent({
+                  event: 'nav-searchresults',
+                  'nav-path': `Recommended Results -> ${strippedTitle}`,
+                })
               : null
           }
         >
@@ -288,6 +313,7 @@ class SearchApp extends React.Component {
       </div>
     );
   }
+
 
   render() {
     return (
