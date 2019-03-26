@@ -20,7 +20,7 @@ export const isLoading = state =>
 export const isUserLOA1 = state =>
   !isLoading(state) && isLoggedIn(state) && isLOA1(state);
 export const isUserLOA3 = state =>
-  !isLoading(state) &&
+  !isProfileLoading(state) &&
   isLoggedIn(state) &&
   !hasServerError(state) &&
   !noESRRecordFound(state) &&
