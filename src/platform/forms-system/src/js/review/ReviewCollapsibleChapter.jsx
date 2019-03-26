@@ -21,8 +21,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
     super();
     this.handleEdit = this.handleEdit.bind(this);
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.id = _.uniqueId();
   }
 

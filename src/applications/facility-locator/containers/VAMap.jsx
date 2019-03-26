@@ -89,8 +89,8 @@ class VAMap extends Component {
       });
     }
   }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
     let resultsPage = newQuery.currentPage;
@@ -550,10 +550,10 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
-          Find VA locations near you with our facility locator tool. You can search for your nearest 
-          VA medical center as well as other health facilities, benefit offices, cemeteries, 
+          Find VA locations near you with our facility locator tool. You can search for your nearest
+          VA medical center as well as other health facilities, benefit offices, cemeteries,
           { ccLocatorEnabled() && <span> community care providers, </span> }
-          and Vet Centers. You can also filter your results by service type to find 
+          and Vet Centers. You can also filter your results by service type to find
           locations that offer the specific service you’re looking for.
         </div>
         { isMobile.any

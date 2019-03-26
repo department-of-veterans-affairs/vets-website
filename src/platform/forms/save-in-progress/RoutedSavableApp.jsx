@@ -40,8 +40,8 @@ class RoutedSavableApp extends React.Component {
     super(props);
     this.location = props.location || window.location;
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
@@ -72,8 +72,8 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
     // If we're done loading the profile, check to see if we should load or redirect
