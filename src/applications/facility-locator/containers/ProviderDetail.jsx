@@ -16,7 +16,8 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
  * (currently Routed at /facilities/provider/{id})
  */
 class ProviderDetail extends Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchProviderDetail(this.props.params.id);
     window.scrollTo(0, 0);
   }

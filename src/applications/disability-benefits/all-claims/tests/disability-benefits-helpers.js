@@ -222,14 +222,14 @@ function initInProgressMock(token) {
             decisionText: 'Service Connected',
             ratingPercentage: 100,
           },
-        ],
-        servicePeriods: [
           {
-            serviceBranch: 'Air Force Reserve',
-            dateRange: {
-              from: '2001-03-21',
-              to: '2014-07-21',
-            },
+            name: 'Diabetes mellitus0',
+            ratedDisabilityId: '3',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238,
+            decisionCode: 'SVCCONNCTED',
+            decisionText: 'Service Connected',
+            ratingPercentage: 100,
           },
         ],
         reservesNationalGuardService: {

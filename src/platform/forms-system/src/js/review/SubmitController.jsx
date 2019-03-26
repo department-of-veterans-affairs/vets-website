@@ -15,7 +15,8 @@ import {
 import { setPreSubmit, setSubmission, submitForm } from '../actions';
 
 class SubmitController extends React.Component {
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextStatus = nextProps.form.submission.status;
     const previousStatus = this.props.form.submission.status;
     if (

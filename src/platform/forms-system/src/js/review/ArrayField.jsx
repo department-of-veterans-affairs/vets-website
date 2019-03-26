@@ -35,8 +35,8 @@ class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.arrayData !== this.props.arrayData) {
       const arrayData = Array.isArray(newProps.arrayData)
         ? newProps.arrayData

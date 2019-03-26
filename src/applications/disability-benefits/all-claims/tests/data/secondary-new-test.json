@@ -94,8 +94,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "De-selected": true
+          "Diabetes mellitus0": true,
+          "De-selected": true,
+          "knee replacement": true
         }
       }
     ],
@@ -115,11 +116,12 @@
     "view:needsCarHelp": {
       "view:alreadyClaimedVehicleAllowance": false
     },
+    "view:powStatus": false,
     "newDisabilities": [
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes mellitus0",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
@@ -128,7 +130,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "De-selected",
+          "causedByDisability": "Diabetes Mellitus1",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "knee replacement",
@@ -167,8 +169,7 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": false
+        "disabilityActionType": "NONE"
       },
       {
         "name": "Not selected",
