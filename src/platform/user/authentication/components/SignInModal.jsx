@@ -52,26 +52,75 @@ class SignInModal extends React.Component {
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
           <div className="columns small-12">
-            <h2>
-              One site. A lifetime of benefits and services at your fingertips.
-            </h2>
+            <h2>Don't have those accounts?</h2>
           </div>
         </div>
+        <DowntimeBanner dependencies={[externalServices.idme]}>
+          <div className="downtime-notification row">
+            <div className="columns small-12">
+              <div className="form-warning-banner">
+                <AlertBox
+                  headline={`Our sign in process isn't working right now`}
+                  isVisible
+                  status="error"
+                >
+                  We’re sorry. We’re working to fix some problems with our sign
+                  in process. If you'd like to sign in to {siteName}, please
+                  check back later.
+                </AlertBox>
+                <br />
+              </div>
+            </div>
+          </div>
+        </DowntimeBanner>
         <DowntimeBanner dependencies={[externalServices.dslogon]}>
           <div className="downtime-notification row">
             <div className="columns small-12">
               <div className="form-warning-banner">
                 <AlertBox
-                  headline={`Some ${siteName} tools and features may not be working as expected`}
+                  headline={`You may have trouble signing in with DS Logon`}
                   isVisible
                   status="warning"
                 >
-                  We’re sorry. We’re working to fix some problems with DS Logon
-                  right now. Please check back later or{' '}
-                  <SubmitSignInForm>
-                    call the {siteName} Help Desk for more information at
-                    1-855-574-7286, TTY: 1-800-877-8339.
-                  </SubmitSignInForm>
+                  We’re sorry. We’re working to fix some problems with our DS
+                  Logon sign in process. If you'd like to sign in to {siteName}
+                  with your DS Logon account, please check back later.
+                </AlertBox>
+                <br />
+              </div>
+            </div>
+          </div>
+        </DowntimeBanner>
+        <DowntimeBanner dependencies={[externalServices.mhv]}>
+          <div className="downtime-notification row">
+            <div className="columns small-12">
+              <div className="form-warning-banner">
+                <AlertBox
+                  headline={`You may have trouble signing in with My HealtheVet`}
+                  isVisible
+                  status="warning"
+                >
+                  We’re sorry. We’re working to fix some problems with our My
+                  HealtheVet in process. If you'd like to sign in to {siteName}
+                  with your My HealtheVet account, please check back later.
+                </AlertBox>
+                <br />
+              </div>
+            </div>
+          </div>
+        </DowntimeBanner>
+        <DowntimeBanner dependencies={[externalServices.mvi]}>
+          <div className="downtime-notification row">
+            <div className="columns small-12">
+              <div className="form-warning-banner">
+                <AlertBox
+                  headline={`You may have trouble signing in or using some tools or services`}
+                  isVisible
+                  status="warning"
+                >
+                  We’re sorry. We’re working to fix a problem that affects some
+                  parts of our site. If you have trouble signing in or using any
+                  tools or srevices, please check back soon.
                 </AlertBox>
                 <br />
               </div>
@@ -121,59 +170,28 @@ class SignInModal extends React.Component {
                     />
                     <strong> Sign in with ID.me</strong>
                   </button>
-                  <span className="sidelines">OR</span>
-                  <div className="alternate-signin">
-                    <h5>Don't have those accounts?</h5>
-                    <button
-                      className="idme-create usa-button usa-button-secondary"
-                      onClick={signup}
-                    >
-                      <img
-                        alt="ID.me"
-                        src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                      />
-                      <strong> Create an ID.me account</strong>
-                    </button>
-                    <p>Use your email, Google, or Facebook</p>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="usa-width-one-half">
-            <div className="explanation-content">
-              <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
-                One site. A lifetime of benefits and services at your
-                fingertips.
-              </div>
-              <p>
-                You spoke. We listened. {siteName} is the direct result of what
-                you said you wanted most—one easy-to-use place to:
-              </p>
-              <ul>
-                <li>Check your disability claim and appeal status</li>
-                <li>
-                  Find out how much money you have left to pay for school or
-                  training
-                </li>
-                <li>
-                  Refill your prescriptions and communicate with your health
-                  care team
-                </li>
-                <li>...and more</li>
-              </ul>
-              <p>
-                <strong>A secure account powered by ID.me</strong>
-                <br />
-                ID.me is our trusted technology partner in helping to keep your
-                personal information safe. They specialize in digital identity
-                protection and help us make sure you're you—and not someone
-                pretending to be you—before we give you access to your
-                information.
-              </p>
+            <div className="alternate-signin">
+              <h5>Don't have those accounts?</h5>
+              <button
+                className="idme-create usa-button usa-button-secondary"
+                onClick={signup}
+              >
+                <img
+                  alt="ID.me"
+                  src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                />
+                <strong> Create an ID.me account</strong>
+              </button>
+              <p>Use your email, Google, or Facebook</p>
               <p>
                 <a href="/sign-in-faq/#what-is-idme" target="_blank">
-                  Learn more about ID.me
+                  Learn more about {siteName}
+                  's partnership with ID.me
                 </a>
               </p>
             </div>
