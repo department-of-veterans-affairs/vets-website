@@ -43,6 +43,7 @@ function sitemapURLs() {
         '/health-care/family-caregiver-benefits/champva/',
         '/drupal/health-care/health-needs-conditions/mental-health/',
         '/health-care/about-va-health-benefits/dental-care/',
+        '/health-care/health-needs-conditions/mental-health/',
         '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/',
         '/disability/how-to-file-claim/evidence-needed/fully-developed-claims/',
         '/disability/how-to-file-claim/evidence-needed/decision-ready-claims/',
