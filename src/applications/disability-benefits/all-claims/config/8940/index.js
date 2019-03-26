@@ -47,7 +47,7 @@ export default function() {
       // 8940 - Upload 8940
       unemployabilityFormUpload: {
         title: 'Upload Unemployability Form',
-        path: 'new-disabilities/unemployability-form-uplaod',
+        path: 'new-disabilities/unemployability-form-upload',
         depends: isUploading8940Form,
         uiSchema: unemployabilityFormUpload.uiSchema,
         schema: unemployabilityFormUpload.schema,
