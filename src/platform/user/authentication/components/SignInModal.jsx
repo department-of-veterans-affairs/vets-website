@@ -33,6 +33,21 @@ class SignInModal extends React.Component {
     }
   }
 
+  downtimeBanner = (dependencies, headline, status, message) => (
+    <DowntimeBanner dependencies={dependencies}>
+      <div className="downtime-notification row">
+        <div className="columns small-12">
+          <div className="form-warning-banner">
+            <AlertBox headline={headline} isVisible status={status}>
+              {message}
+            </AlertBox>
+            <br />
+          </div>
+        </div>
+      </div>
+    </DowntimeBanner>
+  );
+
   renderModalContent = () => (
     <main className="login">
       <div className="row">
@@ -55,78 +70,30 @@ class SignInModal extends React.Component {
             <h2>Don't have those accounts?</h2>
           </div>
         </div>
-        <DowntimeBanner dependencies={[externalServices.idme]}>
-          <div className="downtime-notification row">
-            <div className="columns small-12">
-              <div className="form-warning-banner">
-                <AlertBox
-                  headline={`Our sign in process isn't working right now`}
-                  isVisible
-                  status="error"
-                >
-                  We’re sorry. We’re working to fix some problems with our sign
-                  in process. If you'd like to sign in to {siteName}, please
-                  check back later.
-                </AlertBox>
-                <br />
-              </div>
-            </div>
-          </div>
-        </DowntimeBanner>
-        <DowntimeBanner dependencies={[externalServices.dslogon]}>
-          <div className="downtime-notification row">
-            <div className="columns small-12">
-              <div className="form-warning-banner">
-                <AlertBox
-                  headline={`You may have trouble signing in with DS Logon`}
-                  isVisible
-                  status="warning"
-                >
-                  We’re sorry. We’re working to fix some problems with our DS
-                  Logon sign in process. If you'd like to sign in to {siteName}
-                  with your DS Logon account, please check back later.
-                </AlertBox>
-                <br />
-              </div>
-            </div>
-          </div>
-        </DowntimeBanner>
-        <DowntimeBanner dependencies={[externalServices.mhv]}>
-          <div className="downtime-notification row">
-            <div className="columns small-12">
-              <div className="form-warning-banner">
-                <AlertBox
-                  headline={`You may have trouble signing in with My HealtheVet`}
-                  isVisible
-                  status="warning"
-                >
-                  We’re sorry. We’re working to fix some problems with our My
-                  HealtheVet in process. If you'd like to sign in to {siteName}
-                  with your My HealtheVet account, please check back later.
-                </AlertBox>
-                <br />
-              </div>
-            </div>
-          </div>
-        </DowntimeBanner>
-        <DowntimeBanner dependencies={[externalServices.mvi]}>
-          <div className="downtime-notification row">
-            <div className="columns small-12">
-              <div className="form-warning-banner">
-                <AlertBox
-                  headline={`You may have trouble signing in or using some tools or services`}
-                  isVisible
-                  status="warning"
-                >
-                  We’re sorry. We’re working to fix a problem that affects some
-                  parts of our site. If you have trouble signing in or using any
-                  tools or srevices, please check back soon.
-                </AlertBox>
-                <br />
-              </div>
-            </div>
-          </div>
-        </DowntimeBanner>
+        {this.downtimeBanner(
+          [externalServices.idme],
+          "Our sign in process isn't working right now",
+          'error',
+          "We're sorry. We're working to fix some problems with our sign in process. If you'd like to sign in to VA.gov, please check back later.",
+        )}
+        {this.downtimeBanner(
+          [externalServices.dslogon],
+          'You may have trouble signing in with DS Logon',
+          'warning',
+          "We're sorry. We're working to fix some problems with our DS Logon sign in process. If you'd like to sign in to VA.gov with your DS Logon account, please check back later.",
+        )}
+        {this.downtimeBanner(
+          [externalServices.mhv],
+          'You may have trouble signing in with My HealtheVet',
+          'warning',
+          "We’re sorry. We’re working to fix some problems with our My HealtheVet in process. If you'd like to sign in to VA.gov with your My HealtheVet account, please check back later.",
+        )}
+        {this.downtimeBanner(
+          [externalServices.mvi],
+          'You may have trouble signing in or using some tools or services',
+          'warning',
+          "We're sorry. We're working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or srevices, please check back soon.",
+        )}
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">
