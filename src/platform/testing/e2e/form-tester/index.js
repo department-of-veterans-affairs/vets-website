@@ -82,11 +82,17 @@ const testForm = (testDataSets, testConfig) => {
   });
 
   beforeEach(async () => {
-    browser = await puppeteer.launch({
-      devtools: testConfig.debug,
-      // slowMo: testConfig.debug ? 100 : 0,
-      args: ['--window-size=1400,750'],
-    });
+    if (process.env.IN_DOCKER === true) {
+      browser = await puppeteer.connect({
+        browserUrl: `vets-website:${process.env.WEB_PORT || 3333}`,
+      });
+    } else {
+      browser = await puppeteer.launch({
+        // slowMo: testConfig.debug ? 100 : 0,
+        args: ['--window-size=1400,750'],
+        devtools: testConfig.debug,
+      });
+    }
   });
 
   afterEach(async () => {
