@@ -15,6 +15,8 @@ const DRUPAL_STAGING = {
 
 const DRUPAL_PROD = {
   address: 'http://prod.cms.va.gov',
+  user: 'api',
+  password: 'drupal8',
 };
 
 /**
