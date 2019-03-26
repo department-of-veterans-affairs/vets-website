@@ -50,13 +50,13 @@
 
 {% if expander.fieldTextExpander %}
   <script type="text/javascript">
-      const element = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
+      const alertElement = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
 
       // Toggle the expander info
-      element.addEventListener('click', function() {
+      alertElement.addEventListener('click', function() {
         // Toggle aria-expanded for the button
-        const ariaExpanded = element.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
-        element.setAttribute('aria-expanded', ariaExpanded);
+        const ariaExpanded = alertElement.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
+        alertElement.setAttribute('aria-expanded', ariaExpanded);
 
         const content = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}-content');
         // Toggle the expander class for the content
