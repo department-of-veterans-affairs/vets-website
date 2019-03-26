@@ -14,8 +14,8 @@ export default class FileField extends React.Component {
       progress: 0,
     };
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     const newFiles = newProps.formData || [];
     const files = this.props.formData || [];
     if (newFiles.length !== files.length) {

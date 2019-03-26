@@ -157,7 +157,7 @@ const attachmentsSchema = {
   minItems: 1,
   items: {
     type: 'object',
-    required: ['attachmentId'],
+    required: ['attachmentId', 'name'],
     properties: {
       name: {
         type: 'string',

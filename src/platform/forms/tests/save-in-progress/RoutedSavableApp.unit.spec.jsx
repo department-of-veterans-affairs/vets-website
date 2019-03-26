@@ -121,7 +121,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       prefillStatus: PREFILL_STATUSES.unfilled,
       router,
       routes,
@@ -161,7 +161,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       formConfig,
       router,
       returnUrl,
@@ -202,7 +202,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       router,
       loadedStatus: LOAD_STATUSES.failure,
       formConfig: { urlPrefix: '/' },
@@ -288,7 +288,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     // When logged in, the component gets mounted before the profile is finished
     //  loading, so the logic is in componentWillReceiveProps()
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
       savedForms: [{ form: formConfig.formId }],
@@ -347,7 +347,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     // When logged in, the component gets mounted before the profile is finished
     //  loading, so the logic is in componentWillReceiveProps()
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
       savedForms: [],
@@ -407,7 +407,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     // When logged in, the component gets mounted before the profile is finished
     //  loading, so the logic is in componentWillReceiveProps()
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
       skipPrefill: true,

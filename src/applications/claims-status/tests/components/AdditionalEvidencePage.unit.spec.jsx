@@ -137,7 +137,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     tree
       .getMountedInstance()
-      .componentWillReceiveProps({ uploadComplete: true });
+      .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
     expect(getClaimDetail.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });

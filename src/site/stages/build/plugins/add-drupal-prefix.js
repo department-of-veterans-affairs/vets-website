@@ -43,7 +43,10 @@ function applyPrefixToFiles(files) {
     const file = files[fileName];
 
     if (file.isDrupalPage) {
-      files[`drupal/${fileName}`] = file;
+      files[`drupal/${fileName}`] = {
+        ...file,
+        private: true,
+      };
       delete files[fileName];
     }
   }

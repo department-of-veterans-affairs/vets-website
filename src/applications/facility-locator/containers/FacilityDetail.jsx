@@ -14,7 +14,8 @@ import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 
 class FacilityDetail extends Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
   }
