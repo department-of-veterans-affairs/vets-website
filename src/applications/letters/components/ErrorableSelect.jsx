@@ -20,7 +20,8 @@ import _ from 'lodash';
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableSelect extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.selectId = _.uniqueId('errorable-select-');
   }
 
