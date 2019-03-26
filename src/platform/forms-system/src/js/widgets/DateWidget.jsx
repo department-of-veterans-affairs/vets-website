@@ -23,8 +23,8 @@ export default class DateWidget extends React.Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.state = getEmptyState(this.props.value);
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (
       newProps.formContext.pagePerItemIndex !==
       this.props.formContext.pagePerItemIndex

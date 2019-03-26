@@ -45,8 +45,8 @@ export default class AdditionalSourcesField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     const items = newProps.formData || [];
     if (items.length < this.state.editStates.length) {
       this.setState({
