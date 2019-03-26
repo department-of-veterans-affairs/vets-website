@@ -105,7 +105,7 @@ class SearchApp extends React.Component {
     });
   };
 
-  // Renders searchbox and button
+  // Reusable search input
   searchInput() {
     const nonBlankUserInput =
       this.state.userInput &&
@@ -160,8 +160,6 @@ class SearchApp extends React.Component {
   renderResults() {
     const { loading, errors } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
-
-    // Reusable search input
 
     if (hasErrors && !loading) {
       return (
@@ -269,10 +267,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
+                recordEvent({
+                  event: 'nav-searchresults',
+                  'nav-path': `Recommended Results -> ${strippedTitle}`,
+                })
               : null
           }
         >
