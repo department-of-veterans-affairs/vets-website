@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { HCA_ENROLLMENT_STATUSES } from './constants';
+import { getMedicalCenterNameByID } from './helpers';
 
 // There are 9 possible warning headlines to show depending on enrollment status
 export function getWarningHeadline(enrollmentStatus) {
@@ -79,6 +80,7 @@ export function getWarningStatus(
   preferredFacility,
 ) {
   let content = null;
+  const facilityName = getMedicalCenterNameByID(preferredFacility);
   switch (enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.deceased:
       content = null;
@@ -93,9 +95,8 @@ export function getWarningStatus(
           <strong>We enrolled you on: </strong>
           {moment(enrollmentDate).format('MMMM D, YYYY')}
           <br />
-          {/* TODO: map this facility code to an actual facility */}
           <strong>Your preferred VA medical center is: </strong>
-          {preferredFacility}
+          {facilityName}
         </p>
       );
       break;
