@@ -54,12 +54,10 @@ class SearchApp extends React.Component {
       this.props.fetchSearchResults(userInput, page);
       this.renderSearchBarandHeader();
       this.writeBreadcrumb();
-
     }
     if (this.loader) {
       this.loader.focus();
     }
-
   }
 
   componentDidUpdate(prevProps) {
@@ -107,11 +105,11 @@ class SearchApp extends React.Component {
     });
   };
 
+  // Renders searchbox and button
   searchInput() {
-    let nonBlankUserInput =
+    const nonBlankUserInput =
       this.state.userInput &&
       this.state.userInput.replace(/\s/g, '').length > 0;
-
     return (
       <form onSubmit={this.handleSearch} className="va-flex search-box">
         <input
@@ -137,6 +135,8 @@ class SearchApp extends React.Component {
     }
   }
 
+  // This renders search bar, results count, and h4 header in order to
+  // set focus on h4 header we needed to load it before render()
   renderSearchBarandHeader() {
     return (
       <div>
@@ -157,15 +157,11 @@ class SearchApp extends React.Component {
     );
   }
 
-
-
   renderResults() {
     const { loading, errors } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
 
-
     // Reusable search input
-
 
     if (hasErrors && !loading) {
       return (
@@ -175,7 +171,7 @@ class SearchApp extends React.Component {
             headline="Your search didn't go through"
             content="We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again."
           />
-          {searchInput}
+          {this.searchInput()}
         </div>
       );
     }
@@ -273,10 +269,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                recordEvent({
-                  event: 'nav-searchresults',
-                  'nav-path': `Recommended Results -> ${strippedTitle}`,
-                })
+                  recordEvent({
+                    event: 'nav-searchresults',
+                    'nav-path': `Recommended Results -> ${strippedTitle}`,
+                  })
               : null
           }
         >
@@ -313,7 +309,6 @@ class SearchApp extends React.Component {
       </div>
     );
   }
-
 
   render() {
     return (
