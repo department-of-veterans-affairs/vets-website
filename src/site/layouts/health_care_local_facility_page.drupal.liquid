@@ -82,96 +82,96 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
-<div id="content" class="interior">
-    <main class="va-l-detail-page">
-        <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
-            <div class="usa-width-three-fourths">
-                {% if !entityPublished %}
-                    <div class="usa-alert usa-alert-info" >
-                        <div class="usa-alert-body">
-                            <p class="usa-alert-text">You are viewing a draft.</p>
-                        </div>
-                    </div>
-                {% endif %}
-
-                <article class="usa-content va-l-facility-detail">
-                    {% if title != empty %}
-                        <h1>{{ title }}</h1>
-                    {% endif %}
-
-                    {% if fieldIntroText != empty %}
-                        <div class="va-introtext">
-                            <p>{{ fieldIntroText }}</p>
-                        </div>
-                    {% endif %}
-
-                    <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
-                        <div class="usa-width-one-third vads-facility-main-cta">
-                            <a href="{{ entityUrl.path }}/appointments">Make an appointment</a>
-                        </div>
-                        <div class="usa-width-one-third vads-facility-main-cta">
-                            <a href="{{ entityUrl.path }}/">View A-Z Health Services</a>
-                        </div>
-                        <div class="usa-width-one-third vads-facility-main-cta">
-                            <a href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
-                        </div>
-                    </div>
-
-
-                    <div class="usa-grid usa-grid-full">
-                        <h2>Our location</h2>
-                        <!-- facility details from api -->
-                        <div class="usa-width-one-half">
-                            <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape  }}"></div>
-                        </div>
-
-                        {% if fieldMedia.entity.image != empty %}
-                            <!-- facility image -->
-                            <div class="usa-width-one-half">
-                                {% assign image = fieldMedia.entity.image %}
-                                <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Location services section -->
-                    {% capture difference %} {{ fieldLocationServices | size | minus:1 }} {% endcapture %}
-                    {% unless difference contains '-' %}
-                        <h2>Prepare for your visit</h2>
-                        <div class="usa-accordion">
-                            <ul class="usa-unstyled-list" aria-multiselectable="false">
-                                {% for accordionItem in fieldLocationServices %}
-                                    {% assign item = accordionItem.entity %}
-                                    <li>
-                                        <button
-                                                class="usa-accordion-button usa-button-unstyled"
-                                                aria-expanded="false"
-                                                aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
-                                        >
-                                            {{ item.fieldTitle }}
-                                        </button>
-                                        <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                                            {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
-                                        </div>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endunless %}
-
-                    <!-- List of links section -->
-                    {% if fieldRelatedLinks != empty %}
-                        {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
-                    {% endif %}
-
-                </article>
-                <div class="last-updated usa-content">
-                    Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-                </div>
+<div class="interior" id="content">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+      <div class="usa-width-three-fourths">
+          {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+          {% if !entityPublished %}
+          <div class="usa-alert usa-alert-info">
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">You are viewing a draft.</p>
             </div>
+          </div>
+        {% endif %}
+
+        <article class="usa-content va-l-facility-detail">
+          {% if title != empty %}
+            <h1>{{ title }}</h1>
+          {% endif %}
+
+          {% if fieldIntroText != empty %}
+            <div class="va-introtext">
+              <p>{{ fieldIntroText }}</p>
+            </div>
+          {% endif %}
+
+          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
+            <div class="usa-width-one-third">
+              <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
+            </div>
+            <div class="usa-width-one-third">
+              <a class="usa-button" href="{{ entityUrl.path }}/">View A-Z Health Services</a>
+            </div>
+            <div class="usa-width-one-third">
+              <a class="usa-button" href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
+            </div>
+          </div>
+
+
+          <div class="usa-grid usa-grid-full">
+            <h2>Our location</h2>
+            <!-- facility details from api -->
+            <div class="usa-width-one-half">
+              <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
+            </div>
+
+            {% if fieldMedia.entity.image != empty %}
+              <!-- facility image -->
+              <div class="usa-width-one-half">
+                {% assign image = fieldMedia.entity.image %}
+                <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Location services section -->
+          {% capture difference %}
+            {{ fieldLocationServices | size | minus:1 }}
+          {% endcapture %}
+          {% unless difference contains '-' %}
+            <h2>Prepare for your visit</h2>
+            <div class="usa-accordion">
+              <ul aria-multiselectable="false" class="usa-unstyled-list">
+                {% for accordionItem in fieldLocationServices %}
+                  {% assign item = accordionItem.entity %}
+                  <li>
+                    <button class="usa-accordion-button usa-button-unstyled" aria-expanded="false" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
+                      {{ item.fieldTitle }}
+                    </button>
+                    <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                      {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endunless %}
+
+          <!-- List of links section -->
+          {% if fieldRelatedLinks != empty %}
+            {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+          {% endif %}
+
+        </article>
+        <div class="last-updated usa-content">
+          Last updated:
+          <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 </div>
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

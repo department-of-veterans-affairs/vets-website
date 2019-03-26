@@ -160,7 +160,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes mellitus0",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",

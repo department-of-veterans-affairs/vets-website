@@ -9,7 +9,8 @@
     {% include 'src/site/navigation/sidebar_nav.drupal.liquid' with sidebar %}
 
     <div class="usa-width-three-fourths">
-      {% if !entityPublished %}
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
           <div class="usa-alert-body">
             <p class="usa-alert-text">You are viewing a draft.</p>
@@ -23,8 +24,10 @@
           <p>{{ fieldIntroText }}</p>
         </div>
 
-        {% if fieldAlert %}
-            {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+        {% if fieldAlert.length %}
+            {% for alert in fieldAlert %}
+              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+            {% endfor %}
         {% endif %}
 
         {% assign featureCount = fieldFeaturedContent | size  %}
