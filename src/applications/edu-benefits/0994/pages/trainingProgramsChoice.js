@@ -10,10 +10,6 @@ export const uiSchema = {
   'view:noProgramsYet': {
     'ui:description':
       'You can still submit this application even if you haven’t picked a program yet. If you’re eligible for VET TEC, we’ll send you a Certificate of Eligibility (COE).',
-    'ui:options': {
-      expandUnder: 'hasSelectedPrograms',
-      expandUnderCondition: false,
-    },
   },
 };
 
