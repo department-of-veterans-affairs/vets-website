@@ -7,7 +7,7 @@ const helpClicked = () =>
   recordEventOnce({
     event: 'disability-526EZ--form-help-text-clicked',
     'help-text-label':
-      'Disability - Form 526EZ - How are these dates different',
+      'Disability - Form 526EZ - What is included in gross income',
   });
 
 export const incomeDescription = (
