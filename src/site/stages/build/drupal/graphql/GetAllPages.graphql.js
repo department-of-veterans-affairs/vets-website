@@ -29,10 +29,10 @@ module.exports = `
   ${eventPage}
   ${bioPage}
 
-  query GetAllPages($today: String!) {
+  query GetAllPages($today: String!, $onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 500, filter: {
       conditions: [
-        { field: "status", value: ["1"] }
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent }
       ]
     }) {
       entities {

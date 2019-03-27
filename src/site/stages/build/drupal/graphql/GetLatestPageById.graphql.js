@@ -30,7 +30,7 @@ module.exports = `
   ${eventPage}
   ${bioPage}
 
-  query GetLatestPageById($id: String!, $today: String!) {
+  query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
     conditions: [
       { field: "nid", value: [$id] }
