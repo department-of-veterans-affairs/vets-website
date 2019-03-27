@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { recordEvent } from 'platform/forms-system/src/js/helpers';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from '../../components/ReviewCardField';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
@@ -17,6 +18,10 @@ import {
 } from '../../../../platform/forms/definitions/address';
 
 const { emailAddress, dayTimePhone, nightTimePhone } = fullSchema.properties;
+
+const trackInfoSave = () => {
+  recordEvent({ event: 'edu-0994-personal-information-saved' });
+};
 
 const mailingAddressStartInEdit = formData => {
   if (formData) {
@@ -47,6 +52,7 @@ export const uiSchema = {
     'ui:options': {
       viewComponent: PhoneEmailViewField,
     },
+    onSaveClick: trackInfoSave,
     dayTimePhone: {
       'ui:title': 'Phone number',
       'ui:widget': PhoneNumberWidget,
@@ -84,6 +90,7 @@ export const uiSchema = {
       viewComponent: AddressViewField,
       startInEdit: mailingAddressStartInEdit,
     },
+    onSaveClick: trackInfoSave,
     street: {
       ...addressUiSchema.street,
       'ui:title': 'Street address',

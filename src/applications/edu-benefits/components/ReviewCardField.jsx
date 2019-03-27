@@ -319,6 +319,9 @@ export default class ReviewCardField extends React.Component {
       this.props.formContext.onError();
     } else {
       this.setState({ editing: false, canCancel: true });
+      if (typeof get('onSaveClick', this.props.uiSchema) === 'function') {
+        this.props.uiSchema.onSaveClick();
+      }
     }
   };
 
@@ -345,6 +348,7 @@ ReviewCardField.propTypes = {
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    onSaveClick: PropTypes.func,
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,

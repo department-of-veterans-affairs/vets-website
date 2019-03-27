@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import { recordEvent } from 'platform/forms-system/src/js/helpers';
 import bankAccountUI from '../../../../platform/forms/definitions/bankAccount';
 import ReviewCardField from '../../components/ReviewCardField';
 import PaymentView from '../components/PaymentView';
@@ -13,6 +14,10 @@ import {
 
 const { bankAccount } = fullSchema.properties;
 
+const trackInfoSave = () => {
+  recordEvent({ event: 'edu-0994-bank-account-saved' });
+};
+
 export const uiSchema = {
   'ui:title': bankInfoTitle,
   'ui:description': bankInfoDescription,
@@ -26,6 +31,7 @@ export const uiSchema = {
       startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
+    onSaveClick: trackInfoSave,
     bankAccount: {
       ...bankAccountUI,
       accountType: {
