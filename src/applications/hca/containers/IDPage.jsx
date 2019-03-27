@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -41,13 +40,14 @@ function LoginRequiredAlert({ handleLogin }) {
       <AlertBox
         isVisible
         status="error"
-        headline="Please sign in to continue your application"
+        headline="Please sign in to review your information"
         content={
           <>
             <p>
-              We’re sorry for the interruption, but we need you to review some
-              information before you continue applying. Please sign in below to
-              review. If you don’t have an account, you can create one now.
+              We’re sorry for the interruption, but we’ve found some more
+              information that we need you to review before you can apply for VA
+              health care. Please sign in to VA.gov to review. If you don’t have
+              an account, you can create one now.
             </p>
             <button className="usa-button-primary" onClick={handleLogin}>
               Sign in to VA.gov
@@ -155,62 +155,47 @@ class IDPage extends React.Component {
     } = this.props;
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for health care benefits" />
+        <FormTitle title="We need some information before you can start your application" />
         {showLoadingIndicator && <LoadingIndicator />}
         {!showLoadingIndicator && (
           <>
-            <AlertBox
-              isVisible
-              status="info"
-              headline="Help us fit this application to your specific needs"
-              content={
-                <>
-                  <p>
-                    Before you start your health care application, please
-                    provide the information below. This will help us make sure
-                    the application gathers the right information for us to
-                    determine your eligibility.
-                  </p>
-                  <p>
-                    <strong>Want to skip this step?</strong>
-                  </p>
-                  <button
-                    className="va-button-link"
-                    onClick={this.showSignInModal}
-                  >
-                    Sign in to start your application.
-                  </button>
-                </>
-              }
-            />
-            <br />
-            <SchemaForm
-              // `name` and `title` are required by SchemaForm, but are only used
-              // internally in the component
-              name="ID Form"
-              title="ID Form"
-              schema={schema}
-              uiSchema={uiSchema}
-              onSubmit={this.formSubmit}
-              onChange={this.formChange}
-              data={this.state.idFormData}
-            >
-              {/* The only reason these components are nested in the
-              SchemaForm is to prevent the SchemaForm component from rendering
-              its default SUBMIT button */}
-              {loginRequired && (
-                <LoginRequiredAlert handleLogin={this.showSignInModal} />
-              )}
-              {showServerError && <ServerError />}
-              {showContinueButton && (
-                <ContinueButton isLoading={isSubmittingIDForm} />
-              )}
-            </SchemaForm>
+            <p>
+              This will help us fit the application to your specific needs.
+              Please fill out the form below. Then we’ll take you to the VA
+              health care application (10-10EZ).
+            </p>
+            <p>
+              <strong>Want to skip this step?</strong>
+            </p>
+            <button className="va-button-link" onClick={this.showSignInModal}>
+              Sign in to start your application.
+            </button>
+            <div className="hca-id-form-wrapper">
+              <SchemaForm
+                // `name` and `title` are required by SchemaForm, but are only used
+                // internally in the component
+                name="ID Form"
+                title="ID Form"
+                schema={schema}
+                uiSchema={uiSchema}
+                onSubmit={this.formSubmit}
+                onChange={this.formChange}
+                data={this.state.idFormData}
+              >
+                {/* The only reason these components are nested in the
+                SchemaForm is to prevent the SchemaForm component from rendering
+                its default SUBMIT button */}
+                {loginRequired && (
+                  <LoginRequiredAlert handleLogin={this.showSignInModal} />
+                )}
+                {showServerError && <ServerError />}
+                {showContinueButton && (
+                  <ContinueButton isLoading={isSubmittingIDForm} />
+                )}
+              </SchemaForm>
+            </div>
           </>
         )}
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
-        </div>
       </div>
     );
   }
