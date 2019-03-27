@@ -62,6 +62,10 @@ export class Main extends React.Component {
   };
 
   linkClicked = link => {
+    if (link.title === 'My Health') {
+      this.handleMyHealthClick();
+    }
+
     const linkName = link.text || link.title;
     recordEvent({
       event: 'nav-header-link',
@@ -80,6 +84,16 @@ export class Main extends React.Component {
     this.props.toggleMobileDisplayHidden(hidden);
   };
 
+  handleMyHealthClick = () => {
+    // const mhvLink = replaceDomainsInData([
+    //   {
+    //     title: 'My Health',
+    //     href: 'https://www.myhealth.va.gov/mhv-portal-web/home',
+    //     target: '_blank',
+    //   },
+    // ]);
+  };
+
   render() {
     const childProps = {
       ...this.props,
@@ -90,7 +104,11 @@ export class Main extends React.Component {
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
 
-    return <MegaMenu {...childProps} />;
+    return (
+      <div>
+        <MegaMenu {...childProps} />
+      </div>
+    );
   }
 }
 

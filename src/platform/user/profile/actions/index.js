@@ -2,6 +2,7 @@ import { removeFormApi } from '../../../forms/save-in-progress/api';
 import environment from '../../../utilities/environment';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
+import { fetchMHVAccount } from './mhv';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
@@ -44,6 +45,7 @@ export function refreshProfile(forceCacheClear = false) {
 
     const payload = await response.json();
     dispatch(updateProfileFields(payload));
+    dispatch(fetchMHVAccount());
     return payload;
   };
 }
