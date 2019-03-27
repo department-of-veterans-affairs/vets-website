@@ -1,6 +1,15 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
+import { recordEventOnce } from '../utils';
+
+const helpClicked = () =>
+  recordEventOnce({
+    event: 'disability-526EZ--form-help-text-clicked',
+    'help-text-label':
+      'Disability - Form 526EZ - What is substantially gainful employment',
+  });
+
 export const disabilitiesDescription = (
   <div>
     <h5>Rated, service-connected and new disabilities</h5>
@@ -13,7 +22,10 @@ export const disabilitiesDescription = (
       you’re claiming. Please choose the disability or disabilities that prevent
       you from getting a steady job (substantially gainful employment).
     </p>
-    <AdditionalInfo triggerText="What’s substantially gainful employment?">
+    <AdditionalInfo
+      triggerText="What’s substantially gainful employment?"
+      onClick={helpClicked}
+    >
       <p>Substantially gainful employment means:</p>
       <ul>
         <li>
