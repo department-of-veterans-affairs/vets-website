@@ -3,6 +3,8 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 
+import { recordEventOnce } from '../utils';
+
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 const outputDateFormat = 'MMMM DD, YYYY';
@@ -24,8 +26,17 @@ export const itfMessage = (headline, content, status) => (
   </div>
 );
 
+const recordITFHelpEvent = () =>
+  recordEventOnce({
+    event: 'disability-526EZ--form-help-text-clicked',
+    'help-text-label': 'Disability - Form 526EZ - What is an intent to file',
+  });
+
 const expander = (
-  <AdditionalInfo triggerText="What is an Intent to File?">
+  <AdditionalInfo
+    triggerText="What is an Intent to File?"
+    onClick={recordITFHelpEvent}
+  >
     <p>
       An Intent to File request lets VA know that you’re planning to file a
       claim. An Intent to File reserves a potential effective date for when you
