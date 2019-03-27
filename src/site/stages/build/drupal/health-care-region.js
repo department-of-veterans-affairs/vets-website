@@ -8,7 +8,6 @@ const {
 
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
-  // const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
 
   // Create the top-level locations page for Health Care Regions

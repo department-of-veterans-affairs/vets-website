@@ -24,9 +24,9 @@ function checkForCMSUrls(BUILD_OPTIONS) {
       );
       console.log(filesWithBadUrls.join('\n'));
 
-      // if (!BUILD_OPTIONS.watch) {
-      //   throw new Error('Pages found that reference internal CMS urls');
-      // }
+      if (!BUILD_OPTIONS.watch) {
+        throw new Error('Pages found that reference internal CMS urls');
+      }
     }
 
     done();
