@@ -3,6 +3,7 @@ const page = require('./page.graphql');
 const fragments = require('./fragments.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
+const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
@@ -23,6 +24,7 @@ module.exports = `
   ${page}
   ${healthCareRegionPage}
   ${healthCareLocalFacilityPage}
+  ${healthCareRegionDetailPage}
   ${pressReleasePage}
   ${newsStoryPage}
   ${eventPage}
@@ -39,6 +41,7 @@ module.exports = `
         ... page
         ... healthCareRegionPage
         ... healthCareLocalFacilityPage
+        ... healthCareRegionDetailPage
         ... newsStoryPage
         ... pressReleasePage
         ... eventPage
