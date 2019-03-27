@@ -14,7 +14,7 @@
 
 {% assign tagsSize = entityMetatags | size %}
 {% if tagsSize > 0 %}
-<!-- Metatags from Drupal -->
+<!-- Metatags -->
 {% for tag in entityMetatags %}
     {% case tag.__typename %}
       {% when "MetaValue" %}

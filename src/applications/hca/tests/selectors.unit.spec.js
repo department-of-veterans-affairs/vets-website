@@ -205,13 +205,13 @@ describe('compound selectors', () => {
       const isLOA3 = selectors.isUserLOA3(state);
       expect(isLOA3).to.equal(false);
     });
-    it('returns false if enrollment status still loading', () => {
+    it('returns true if enrollment status is loading but the user has resolved', () => {
       const state = {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState, isLoading: true },
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).to.equal(true);
     });
     it('returns false if the profile still loading', () => {
       const state = {
