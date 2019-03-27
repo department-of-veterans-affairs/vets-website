@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const SocksProxyAgent = require('socks-proxy-agent');
 
 const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
-const GET_PAGE_BY_ID = require('./graphql/GetPageById.graphql');
 const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
 
 const DRUPALS = require('../../../constants/drupals');
@@ -75,13 +74,6 @@ function getDrupalClient(buildOptions) {
       return this.query({
         query: GET_ALL_PAGES,
         variables: { today: moment().format('YYYY-MM-DD') },
-      });
-    },
-
-    getPageById(url) {
-      return this.query({
-        query: GET_PAGE_BY_ID,
-        variables: { path: url, today: moment().format('YYYY-MM-DD') },
       });
     },
 
