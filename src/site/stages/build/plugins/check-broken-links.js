@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+const ENVIRONMENTS = require('../../../constants/environments');
 const createBrokenLinkChecker = require('metalsmith-broken-link-checker');
 const cheerio = require('cheerio');
 
@@ -29,7 +30,7 @@ function removeLazySrcAttribute(files) {
   });
 }
 
-function checkBrokenLinks() {
+function checkBrokenLinks(buildOptions) {
   return (files, metalsmith, done) => {
     const ignorePaths = [];
 
@@ -44,25 +45,16 @@ function checkBrokenLinks() {
     }
 
     const ignoreGlobs = ignorePaths.map(path => `${path}(.*)`);
+    ignoreGlobs.push('\\.asp');
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
-      warn: false,
+      warn:
+        buildOptions.watch || buildOptions.buildtype === ENVIRONMENTS.VAGOVDEV,
       allowRegex: ignoreLinks,
     });
 
-    // Filter out drupal pages
-    const filteredFiles = Object.keys(files)
-      .filter(
-        fileName =>
-          !files[fileName].path || !files[fileName].path.includes('drupal'),
-      )
-      .reduce((acc, fileName) => {
-        acc[fileName] = files[fileName];
-        return acc;
-      }, {});
-
-    brokenLinkChecker(filteredFiles);
+    brokenLinkChecker(files);
     removeLazySrcAttribute(files);
     done();
   };

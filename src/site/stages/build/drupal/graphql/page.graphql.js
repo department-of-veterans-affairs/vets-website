@@ -1,3 +1,4 @@
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const {
   FIELD_RELATED_LINKS,
@@ -19,22 +20,8 @@ const SPANISH_SUMMARY = '... spanishSummary';
 module.exports = `
 
   fragment page on NodePage {
-    entityUrl {
-      ... on EntityCanonicalUrl {
-        breadcrumb {
-          url {
-            path
-            routed
-          }
-          text
-        }
-        path
-      }
-    }
+    ${entityElementsFromPages}
     entityId
-    entityBundle
-    entityPublished
-    title
     fieldIntroText
     fieldDescription
     fieldFeaturedContent {

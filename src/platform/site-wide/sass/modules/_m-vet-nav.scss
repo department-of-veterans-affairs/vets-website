@@ -216,7 +216,7 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-haspopup]:not([aria-expanded="true"]) {
+  &[aria-expanded="false"] {
     background-image: url(/img/plus-white.svg);
 
     &:hover {
@@ -399,10 +399,6 @@ body.va-pos-fixed {
     flex: 0 1 32.5rem;
     margin-left: 0;
     margin-right: 0;
-  }
-
-  p {
-    margin: 0;
   }
 
   [href^="tel"] {

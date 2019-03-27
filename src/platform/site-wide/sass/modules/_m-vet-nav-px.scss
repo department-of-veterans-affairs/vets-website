@@ -217,7 +217,7 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-haspopup]:not([aria-expanded="true"]) {
+  &[aria-expanded="false"] {
     background-image: url(/img/plus-white.svg);
 
     &:hover {

@@ -1,11 +1,15 @@
 {
-  // These compilerOptions settings are required for Intellisense to function
-  // when importing modules that use the Babel module-resolver plugin
   "compilerOptions": {
+    // These compilerOptions settings are required for Intellisense to function
+    // when importing modules that use the Babel module-resolver plugin
     "baseUrl": ".",
     "paths": {
       "*": ["*", "src/*"]
-    }
+    },
+    // adding this line allows you to ⌘click JSX imports to open the source
+    "jsx": "react",
+    // adding this line allows you to ⌘click JSON imports to open the source
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",

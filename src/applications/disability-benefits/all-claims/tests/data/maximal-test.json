@@ -6,9 +6,6 @@
     },
     "standardClaim": false,
     "view:fdcWarning": {},
-    "waiveTrainingPay": true,
-    "view:waiveRetirementPayDescription": {},
-    "waiveRetirementPay": true,
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "view:isHomeless": {
@@ -17,7 +14,7 @@
       "needToLeaveHousing": true
     },
     "homelessnessContact": {
-      "name": "Name Here",
+      "name": "Name Here, and invalid chars with email elmer@fud.com",
       "phoneNumber": "1231231234"
     },
     "view:bankAccount": {
@@ -163,7 +160,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes mellitus0",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
@@ -236,15 +233,6 @@
       }
     ],
     "view:disabilitiesClarification": {},
-    "hasTrainingPay": true,
-    "view:hasMilitaryRetiredPay": true,
-    "militaryRetiredPayBranch": "Air Force",
-    "view:hasSeparationPay": true,
-    "view:separationPayDetails": {
-      "view:separationPayDetailsDescription": {},
-      "separationPayDate": "2018",
-      "separationPayBranch": "Air Force"
-    },
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": true,
@@ -277,18 +265,6 @@
       "view:militaryHistoryNote": {}
     },
     "servedInCombatZonePost911": true,
-    "view:hasAlternateName": true,
-    "alternateNames": [
-      {
-        "first": "William",
-        "middle": "Schwenk",
-        "last": "Gilbert"
-      },
-      {
-        "first": "Arthur",
-        "last": "Sullivan"
-      }
-    ],
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},

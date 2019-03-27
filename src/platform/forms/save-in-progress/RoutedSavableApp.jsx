@@ -4,6 +4,8 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -38,7 +40,8 @@ class RoutedSavableApp extends React.Component {
     super(props);
     this.location = props.location || window.location;
   }
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
@@ -69,8 +72,8 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
     // If we're done loading the profile, check to see if we should load or redirect
@@ -102,9 +105,7 @@ class RoutedSavableApp extends React.Component {
       newProps.prefillStatus !== this.props.prefillStatus &&
       newProps.prefillStatus === PREFILL_STATUSES.unfilled
     ) {
-      newProps.router.push(
-        newProps.routes[this.props.routes.length - 1].pageList[1].path,
-      );
+      newProps.router.push(this.getFirstNonIntroPagePath(newProps));
     } else if (
       status !== LOAD_STATUSES.notAttempted &&
       status !== LOAD_STATUSES.pending &&
@@ -162,14 +163,21 @@ class RoutedSavableApp extends React.Component {
     return message;
   };
 
+  getFirstNonIntroPagePath(props) {
+    return getNextPagePath(
+      props.routes[props.routes.length - 1].pageList,
+      props.formData,
+      '/introduction',
+    );
+  }
+
   redirectOrLoad(props) {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
 
     const firstPagePath =
       props.routes[props.routes.length - 1].pageList[0].path;
-    const firstNonIntroPagePath =
-      props.routes[props.routes.length - 1].pageList[1].path;
+    const firstNonIntroPagePath = this.getFirstNonIntroPagePath(props);
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;

@@ -28,6 +28,8 @@ class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
+    } else if (prevProps.visible && !this.props.visible) {
+      recordEvent({ event: 'login-modal-closed' });
     }
   }
 
@@ -228,7 +230,6 @@ class SignInModal extends React.Component {
         focusSelector="button"
         onClose={this.props.onClose}
         id="signin-signup-modal"
-        title={`Sign in to ${siteName}`}
       >
         {this.renderModalContent()}
       </Modal>

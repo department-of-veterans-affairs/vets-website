@@ -9,18 +9,23 @@ const permalinks = require('metalsmith-permalinks');
 const registerLiquidFilters = require('../../filters/liquid');
 
 const getOptions = require('../build/options');
+const environments = require('../../constants/environments');
 const createBuildSettings = require('../build/plugins/create-build-settings');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
-const nonceTransformer = require('../build/plugins/nonceTransformer');
+const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
-const createHeaderFooter = require('../build/plugins/create-header-footer');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
+const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
+const addAssetHashes = require('../build/plugins/add-asset-hashes');
 
 function createPipeline(options) {
   const BUILD_OPTIONS = getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
+  const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
+    BUILD_OPTIONS.buildtype,
+  );
 
   registerLiquidFilters();
 
@@ -86,8 +91,6 @@ function createPipeline(options) {
     }),
   );
 
-  smith.use(createHeaderFooter(BUILD_OPTIONS));
-
   smith.use(
     navigation({
       navConfigs: {
@@ -113,13 +116,14 @@ function createPipeline(options) {
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
   */
-  smith.use(nonceTransformer);
+  smith.use(addNonceToScripts);
 
   /*
   * This will replace links in static pages with a staging domain,
   * if it is in the list of domains to replace
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
+  smith.use(rewriteAWSUrls(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
@@ -128,7 +132,11 @@ function createPipeline(options) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
 
-  // smith.use(addAssetHashes(BUILD_OPTIONS));
+  // For prod builds, we need to add asset hashes, but since this is a live
+  // request, we're not doing a webpack build.
+  if (!isDevBuild) {
+    smith.use(addAssetHashes(true));
+  }
 
   return smith;
 }

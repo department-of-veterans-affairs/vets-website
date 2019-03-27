@@ -2,7 +2,14 @@ import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
-import { isWithinRange, getPOWValidationMessage, pathWithIndex } from './utils';
+import {
+  isWithinRange,
+  getPOWValidationMessage,
+  pathWithIndex,
+  hasClaimedConditions,
+  increaseOnly,
+  claimingRated,
+} from './utils';
 
 import {
   MILITARY_CITIES,
@@ -17,9 +24,6 @@ export const hasSeparationPay = data =>
   _.get('view:hasSeparationPay', data, false);
 
 export const hasTrainingPay = data => _.get('view:hasTrainingPay', data, false);
-
-export const hasRatedDisabilities = data =>
-  !!_.get('ratedDisabilities', data, []).length;
 
 export function isValidZIP(value) {
   if (value !== null) {
@@ -257,5 +261,33 @@ export const validateDisabilityName = (err, fieldData) => {
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');
+  }
+};
+
+export const requireDisability = (err, fieldData, formData) => {
+  if (!hasClaimedConditions(formData)) {
+    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
+    err.addError('');
+  }
+};
+
+/**
+ * Requires a rated disability to be entered if the increase only path has been selected.
+ */
+export const requireRatedDisability = (err, fieldData, formData) => {
+  if (increaseOnly(formData) && !claimingRated(formData)) {
+    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
+    err.addError('');
+  }
+};
+
+/**
+ * Require "yes" for "do you want to add new conditions" if no rated conditions
+ *  have been selected.
+ */
+export const requireNewDisability = (err, fieldData, formData) => {
+  if (!claimingRated(formData) && !fieldData) {
+    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
+    err.addError('');
   }
 };

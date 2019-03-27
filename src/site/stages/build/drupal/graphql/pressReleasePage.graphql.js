@@ -2,25 +2,12 @@
  * The top-level page for a health care region.
  * Example: /pittsburgh_health_care_system
  */
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 module.exports = `
   fragment pressReleasePage on NodePressRelease {
     entityId
-    entityBundle
-    entityPublished
-    title
-    entityUrl {
-      ... on EntityCanonicalUrl {
-        breadcrumb {
-          url {
-            path
-            routed
-          }
-          text
-        }
-        path
-      }
-    }
+    ${entityElementsFromPages}
     fieldReleaseDate {
       value
       date

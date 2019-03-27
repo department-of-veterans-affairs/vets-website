@@ -1,11 +1,21 @@
+/* eslint-disable no-console */
+
+require('isomorphic-fetch');
+const Raven = require('raven');
 const commandLineArgs = require('command-line-args');
 const path = require('path');
 const express = require('express');
+const proxy = require('express-http-proxy');
 const createPipieline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
+const {
+  compilePage,
+  createFileObj,
+} = require('../src/site/stages/build/drupal/page');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
+const DRUPALS = require('../src/site/constants/drupals');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
@@ -17,15 +27,34 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.PREVIEW_BUILD_TYPE || defaultBuildtype,
   },
-  { name: 'buildpath', type: String, defaultValue: 'build/localhost' },
+  { name: 'buildpath', type: String, defaultValue: null },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: process.env.PORT || 3001 },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  {
+    name: 'drupal-address',
+    type: String,
+    defaultValue: process.env.DRUPAL_ADDRESS,
+  },
+  {
+    name: 'drupal-user',
+    type: String,
+    defaultValue: process.env.DRUPAL_USERNAME,
+  },
+  {
+    name: 'drupal-password',
+    type: String,
+    defaultValue: process.env.DRUPAL_PASSWORD,
+  },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
+
+if (process.env.SENTRY_DSN) {
+  Raven.config(process.env.SENTRY_DSN).install();
+}
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 
@@ -33,55 +62,143 @@ if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
+if (options.buildpath === null) {
+  options.buildpath = `build/${options.buildtype}`;
+}
+
 const app = express();
 const drupalClient = getDrupalClient(options);
 
-app.use(express.static(path.join(__dirname, '..', options.buildpath)));
+const urls = {
+  [ENVIRONMENTS.LOCALHOST]: 'http://localhost:3001',
+  [ENVIRONMENTS.VAGOVDEV]:
+    'http://dev.va.gov.s3-website-us-gov-west-1.amazonaws.com',
+  [ENVIRONMENTS.VAGOVSTAGING]:
+    'http://staging.va.gov.s3-website-us-gov-west-1.amazonaws.com',
+  [ENVIRONMENTS.VAGOVPROD]:
+    'http://www.va.gov.s3-website-us-gov-west-1.amazonaws.com',
+};
 
-app.get('/health', (req, res) => {
-  res.send(200);
+if (process.env.SENTRY_DSN) {
+  app.use(Raven.requestHandler());
+}
+
+// eslint-disable-next-line no-unused-vars
+app.get('/error', (req, res) => {
+  throw new Error('fake error');
 });
 
-app.get('/preview', async (req, res) => {
-  const smith = createPipieline({
-    ...options,
-    port: process.env.PORT,
-  });
+app.get('/health', (req, res) => {
+  res.sendStatus(200);
+});
 
-  const drupalData = await drupalClient.getLatestPageById(req.query.nodeId);
+app.get('/preview', async (req, res, next) => {
+  try {
+    const smith = createPipieline({
+      ...options,
+      port: process.env.PORT || 3001,
+    });
 
-  if (!drupalData.data.nodes.entities.length) {
-    res.sendStatus(404);
-    return;
-  }
+    const requests = [
+      drupalClient.getLatestPageById(req.query.nodeId),
+      fetch(`${urls[options.buildtype]}/generated/file-manifest.json`).then(
+        resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
+          throw new Error(
+            `HTTP error when fetching manifest: ${resp.status} ${
+              resp.statusText
+            }`,
+          );
+        },
+      ),
+      fetch(
+        `${urls[options.buildtype]}/generated/drupalHeaderFooter.json`,
+      ).then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+        throw new Error(
+          `HTTP error when fetching header/footer data: ${resp.status} ${
+            resp.statusText
+          }`,
+        );
+      }),
+    ];
 
-  const drupalPage = drupalData.data.nodes.entities[0];
+    const [drupalData, fileManifest, headerFooterData] = await Promise.all(
+      requests,
+    );
 
-  const files = {
-    [`${req.path.substring(1)}/index.html`]: {
-      ...drupalPage,
-      isPreview: true,
-      isDrupalPage: true,
-      drupalSite: drupalClient.getSiteUri(),
-      layout: `${drupalPage.entityBundle}.drupal.liquid`,
-      contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(drupalPage, null, 4),
-    },
-  };
-
-  smith.run(files, (err, newFiles) => {
-    if (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-      res.sendStatus(500);
-    } else {
-      res.set('Content-Type', 'text/html');
-      res.send(Object.entries(newFiles)[0][1].contents);
+    if (drupalData.errors) {
+      throw new Error(
+        `Drupal errors: ${JSON.stringify(drupalData.errors, null, 2)}`,
+      );
     }
-  });
+
+    if (!drupalData.data.nodes.entities.length) {
+      res.sendStatus(404);
+      return;
+    }
+
+    const drupalPage = drupalData.data.nodes.entities[0];
+    const drupalPath = `${req.path.substring(1)}/index.html`;
+
+    const compiledPage = compilePage(drupalPage, drupalData);
+    const fullPage = createFileObj(
+      compiledPage,
+      `${compiledPage.entityBundle}.drupal.liquid`,
+    );
+
+    const files = {
+      'generated/file-manifest.json': {
+        path: 'generated/file-manifest.json',
+        contents: new Buffer(JSON.stringify(fileManifest)),
+      },
+      [drupalPath]: {
+        ...fullPage,
+        isPreview: true,
+        headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
+        drupalSite:
+          DRUPALS.PUBLIC_URLS[options['drupal-address']] ||
+          options['drupal-address'],
+      },
+    };
+
+    smith.run(files, (err, newFiles) => {
+      if (err) {
+        next(err);
+      } else {
+        res.set('Content-Type', 'text/html');
+        res.send(newFiles[drupalPath].contents);
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+if (options.buildtype !== ENVIRONMENTS.LOCALHOST) {
+  app.use(proxy(urls[options.buildtype]));
+} else {
+  app.use(express.static(path.join(__dirname, '..', options.buildpath)));
+}
+
+if (process.env.SENTRY_DSN) {
+  app.use(Raven.errorHandler());
+}
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.send(`
+    <p>We're sorry, something went wrong when trying to preview that page.</p>
+    <p>Error id: ${res.sentry}</p>
+    <pre>${options.buildtype !== ENVIRONMENTS.VAGOVPROD ? err : ''}</pre>
+  `);
 });
 
 app.listen(options.port, () => {
-  // eslint-disable-next-line no-console
   console.log(`Content preview server running on port ${options.port}`);
 });

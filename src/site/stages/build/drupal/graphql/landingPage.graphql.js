@@ -1,3 +1,4 @@
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const { FIELD_PROMO } = require('./block-fragments/promo.block.graphql');
 const {
   FIELD_RELATED_LINKS,
@@ -13,26 +14,13 @@ const ADMIN = '...administration';
 module.exports = `
   
   fragment landingPage on NodeLandingPage {
-    entityUrl {
-      ... on EntityCanonicalUrl {
-        breadcrumb {
-          url {
-            path
-            routed
-          }
-          text
-        }
-        path
-      }
-    }
+    ${entityElementsFromPages}
     entityId
-    entityBundle
-    entityPublished
-    title
     fieldIntroText
     ${FIELD_PROMO}
     ${FIELD_RELATED_LINKS}
     ${FIELD_ALERT}
+    fieldTitleIcon
     fieldSpokes {
       entity {
         ...listOfLinkTeasers

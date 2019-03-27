@@ -13,22 +13,25 @@ const permalinks = require('metalsmith-permalinks');
 const getOptions = require('./options');
 const registerLiquidFilters = require('../../filters/liquid');
 const getDrupalContent = require('./drupal/metalsmith-drupal');
+const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
 const updateExternalLinks = require('./plugins/update-external-links');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
-const nonceTransformer = require('./plugins/nonceTransformer');
+const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
+const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createTemporaryReactPages = require('./plugins/create-react-pages');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
+const checkForCMSUrls = require('./plugins/check-cms-urls');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -47,6 +50,7 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
+  smith.use(addDrupalPrefix(BUILD_OPTIONS));
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
@@ -136,7 +140,7 @@ function defaultBuild(BUILD_OPTIONS) {
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
   */
-  smith.use(nonceTransformer);
+  smith.use(addNonceToScripts);
 
   /*
   * This will replace links in static pages with a staging domain,
@@ -144,6 +148,7 @@ function defaultBuild(BUILD_OPTIONS) {
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteDrupalPages(BUILD_OPTIONS));
+  smith.use(createDrupalDebugPage(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
@@ -158,6 +163,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  smith.use(checkForCMSUrls(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
   smith.build(err => {

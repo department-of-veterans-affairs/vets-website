@@ -18,7 +18,8 @@ import {
  * Validation is managed in the vet360 reducer
  */
 class Address extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.id = _.uniqueId('address-input-');
   }
 

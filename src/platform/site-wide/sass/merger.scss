@@ -66,6 +66,7 @@ $medium-phone-screen: 375px;
     > p {
       line-height: 1.2em;
       margin-bottom: 0.8em;
+      margin-top: 0;
       &:last-child {
         margin-bottom: 0;
       }
@@ -595,15 +596,6 @@ img[data-srcset] {
 
 .profile-nav {
   margin-top: 6px;
-}
-
-.external-link-icon-black {
-  background-image: url(/img/icons/exit-icon.png);
-  background-position: 100% 50%;
-  background-repeat: no-repeat;
-  background-size: 1em auto;
-  padding-right: 1.2em;
-  position: relative;
 }
 
 .usa-alert-full-width {

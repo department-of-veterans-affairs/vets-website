@@ -5,7 +5,7 @@
  and related links.
 =====================
 
-- Use for interior detail pages that do not have child content.
+- Use for interior detail pages that do not have child content. (i.e va.gov/education/about-gi-bill-benefits/)
 
 {% endcomment %}
 
@@ -20,10 +20,18 @@
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
       {% endif %}  
       
+    {% if no_article_bottom_padding %}
+      <article class="usa-content vads-u-padding-bottom--0">
+        <h1>{{ heading }}</h1>
+        {{ contents }}
+      </article>
+    {% else %}  
       <article class="usa-content">
         <h1>{{ heading }}</h1>
         {{ contents }}
       </article>
+    {% endif %}
+
       {% if majorlinks != empty %}
         {% include "src/site/components/navigation-links-list.html" %}
       {% endif %}
