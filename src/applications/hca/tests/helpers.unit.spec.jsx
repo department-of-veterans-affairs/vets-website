@@ -174,6 +174,18 @@ describe('HCA helpers', () => {
     });
   });
   describe('getMedicalCenterNameByID', () => {
+    it('should return an empty string if it is passed null', () => {
+      expect(getMedicalCenterNameByID(null)).to.equal('');
+    });
+    it('should return an empty string if it is passed undefined', () => {
+      expect(getMedicalCenterNameByID(null)).to.equal('');
+    });
+    it('should return an empty string if it is passed nothing', () => {
+      expect(getMedicalCenterNameByID()).to.equal('');
+    });
+    it('should return an empty string if it is passed a number', () => {
+      expect(getMedicalCenterNameByID(123)).to.equal('');
+    });
     it('should return the name if the id is a known id', () => {
       expect(getMedicalCenterNameByID('463 - ABC')).to.equal(
         'ANCHORAGE VA MEDICAL CENTER',
