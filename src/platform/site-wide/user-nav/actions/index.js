@@ -1,8 +1,13 @@
 import recordEvent from '../../../monitoring/record-event';
 
+export const TOGGLE_MY_HEALTH_MODAL = 'TOGGLE_MY_HEALTH_MODAL';
 export const TOGGLE_FORM_SIGN_IN_MODAL = 'TOGGLE_FORM_SIGN_IN_MODAL';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
 export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
+
+export function toggleMyHealthModal(isOpen) {
+  return { type: TOGGLE_MY_HEALTH_MODAL, isOpen };
+}
 
 export function toggleFormSignInModal(isOpen) {
   return { type: TOGGLE_FORM_SIGN_IN_MODAL, isOpen };

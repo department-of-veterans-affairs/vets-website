@@ -5,6 +5,7 @@ import URLSearchParams from 'url-search-params';
 
 import { isInProgressPath } from '../../../forms/helpers';
 import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
+import MyHealthModal from './../components/MyHealthModal';
 import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
 import SignInModal from '../../../user/authentication/components/SignInModal';
@@ -15,6 +16,7 @@ import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
+  toggleMyHealthModal,
   toggleSearchHelpUserMenu,
 } from '../../../site-wide/user-nav/actions';
 
@@ -119,6 +121,10 @@ export class Main extends React.Component {
     this.props.toggleLoginModal(false);
   };
 
+  closeMyHealthModal = () => {
+    this.props.toggleMyHealthModal(false);
+  };
+
   closeModals = () => {
     if (this.props.showFormSignInModal) this.closeFormSignInModal();
     if (this.props.showLoginModal) this.closeLoginModal();
@@ -152,6 +158,10 @@ export class Main extends React.Component {
           onClose={this.closeFormSignInModal}
           onSignIn={this.openLoginModal}
           visible={this.props.showFormSignInModal}
+        />
+        <MyHealthModal
+          onClose={this.closeMyHealthModal}
+          visible={this.props.showMyHealthModal}
         />
         <SignInModal
           onClose={this.closeLoginModal}
@@ -191,6 +201,7 @@ export const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleFormSignInModal,
   toggleLoginModal,
+  toggleMyHealthModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
   initializeProfile,

@@ -3,6 +3,7 @@ import set from '../../../utilities/data/set';
 import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
+  TOGGLE_MY_HEALTH_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
 } from '../actions';
 
@@ -26,6 +27,9 @@ function closeAllMenus(menuState) {
 
 export default function userNavReducer(state = initialState, action) {
   switch (action.type) {
+    case TOGGLE_MY_HEALTH_MODAL:
+      return set('showMyHealthModal', action.isOpen, state);
+
     case TOGGLE_FORM_SIGN_IN_MODAL:
       return set('showFormSignInModal', action.isOpen, state);
 

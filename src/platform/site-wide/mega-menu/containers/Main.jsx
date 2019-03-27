@@ -8,8 +8,9 @@ import {
   toggleMobileDisplayHidden,
   updateCurrentSection,
 } from '../actions';
+import { toggleMyHealthModal } from './../../user-nav/actions';
 import recordEvent from '../../../monitoring/record-event';
-import { isLoggedIn } from '../../../user/selectors';
+import { selectProfile, isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
 import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
@@ -85,13 +86,23 @@ export class Main extends React.Component {
   };
 
   handleMyHealthClick = () => {
-    // const mhvLink = replaceDomainsInData([
-    //   {
-    //     title: 'My Health',
-    //     href: 'https://www.myhealth.va.gov/mhv-portal-web/home',
-    //     target: '_blank',
-    //   },
-    // ]);
+    const mhvLink = replaceDomainsInData([
+      {
+        title: 'My Health',
+        href: 'https://www.myhealth.va.gov/mhv-portal-web/home',
+        target: '_blank',
+      },
+    ])[0];
+    const { mhvAccount } = this.props;
+
+    const redirectToMhv = mhvAccount && mhvAccount.accountLevel !== null;
+
+    // If user has valid mhvAccount, redirect instead of toggling modal
+    if (redirectToMhv) {
+      window.location = mhvLink.href;
+    } else {
+      this.props.toggleMyHealthModal(true);
+    }
   };
 
   render() {
@@ -113,16 +124,18 @@ export class Main extends React.Component {
 }
 
 const mainSelector = createSelector(
+  ({ state }) => selectProfile(state),
   ({ state }) => isLoggedIn(state),
   ({ state }) => state.megaMenu,
   ({ megaMenuData }) => megaMenuData,
-  (loggedIn, megaMenu, megaMenuData) => {
+  (profile, loggedIn, megaMenu, megaMenuData) => {
     const data = flagCurrentPageInTopLevelLinks(
       getAuthorizedLinkData(loggedIn, megaMenuData),
     );
 
     return {
       ...megaMenu,
+      mhvAccount: profile.mhvAccount,
       data,
     };
   },
@@ -136,6 +149,7 @@ const mapStateToProps = (state, ownProps) =>
 
 const mapDispatchToProps = {
   toggleMobileDisplayHidden,
+  toggleMyHealthModal,
   togglePanelOpen,
   updateCurrentSection,
 };
