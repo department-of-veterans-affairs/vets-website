@@ -7,11 +7,18 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { focusElement } from 'platform/utilities/ui';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
-import { isLoading, isUserLOA1, isLoggedOut, isUserLOA3 } from '../selectors';
+import {
+  isLoading,
+  isLoggedOut,
+  isUserLOA1,
+  isUserLOA3,
+  shouldShowLoggedOutContent,
+} from '../selectors';
 
 const VerificationRequiredAlert = () => (
   <AlertBox
@@ -55,8 +62,30 @@ const VerificationRequiredAlert = () => (
   />
 );
 
-const LoggedOutContent = ({ route }) => (
+const LoggedOutContent = connect(
+  null,
+  { toggleLoginModal },
+)(({ route, showLoginAlert, toggleLoginModal: showLoginModal }) => (
   <>
+    {showLoginAlert && (
+      <div>
+        <AlertBox
+          headline="Have you applied for VA health care before?"
+          content={
+            <button
+              className="va-button-link"
+              onClick={() => showLoginModal(true)}
+            >
+              Sign in to check your application status
+            </button>
+          }
+          isVisible
+          status="info"
+          className="background-color-only"
+        />
+        <br />
+      </div>
+    )}
     <SaveInProgressIntro
       prefillEnabled={route.formConfig.prefillEnabled}
       messages={route.formConfig.savedFormMessages}
@@ -76,7 +105,7 @@ const LoggedOutContent = ({ route }) => (
       <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
     </div>
   </>
-);
+));
 
 class IntroductionPageGated extends React.Component {
   componentDidMount() {
@@ -85,11 +114,12 @@ class IntroductionPageGated extends React.Component {
 
   render() {
     const {
-      showMainLoader,
-      showVerificationRequiredAlert,
+      route,
       showLOA3Content,
       showLoggedOutContent,
-      route,
+      showLoginAlert,
+      showMainLoader,
+      showVerificationRequiredAlert,
     } = this.props;
     return (
       <div className="schemaform-intro">
@@ -97,7 +127,9 @@ class IntroductionPageGated extends React.Component {
         <p>Equal to VA Form 10-10EZ (Application for Health Benefits).</p>
         {showMainLoader && <LoadingIndicator />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
-        {showLoggedOutContent && <LoggedOutContent route={route} />}
+        {showLoggedOutContent && (
+          <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
+        )}
         {showLOA3Content && <HCAEnrollmentStatus route={route} />}
       </div>
     );
@@ -106,9 +138,10 @@ class IntroductionPageGated extends React.Component {
 
 const mapStateToProps = state => ({
   showMainLoader: isLoading(state),
-  showVerificationRequiredAlert: isUserLOA1(state),
-  showLoggedOutContent: isLoggedOut(state),
   showLOA3Content: isUserLOA3(state),
+  showLoggedOutContent: shouldShowLoggedOutContent(state),
+  showLoginAlert: isLoggedOut(state),
+  showVerificationRequiredAlert: isUserLOA1(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPageGated);
