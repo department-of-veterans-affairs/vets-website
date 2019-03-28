@@ -15,7 +15,7 @@ services:
       - 3000
     command: ./script/run-docker-nightwatch.sh
   vets-website-puppeteer:
-    image: vets-website:${IMAGE_TAG:-latest}
+    image: vets-website-puppeteer:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile.puppeteer
