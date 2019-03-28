@@ -17,7 +17,6 @@ const submitForm = (form, formConfig) => {
     formConfig.trackingPrefix,
   ).then(results => {
     recordEvent({
-      event: `${formConfig.trackingPrefix}-submission-successful`,
       'edu-0994-appliedPastBenefits': _.get(
         form,
         'data.appliedForVaEducationBenefits',
