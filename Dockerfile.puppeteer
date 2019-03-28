@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y netcat \
                                                 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 \
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
+                                                x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
+                                                xfonts-cyrillic x11-apps xvfb
   && npm install -g yarn@$YARN_VERSION \
   && npm install -g s3-cli \
   && npm install -g codeclimate-test-reporter \
