@@ -67,7 +67,7 @@ node('vetsgov-general-purpose') {
         parallel (
           e2e: {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-            sh "docker-compose -p e2e run --rm --entrypoint npm -e CHROME_DEVEL_SANDBOX= -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website-puppeteer --no-color run test:puppeteer:docker"
+            sh "docker-compose -p e2e run --rm --entrypoint npm -e CHROME_DEVEL_SANDBOX= -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website-puppeteer --no-sandbox --disable-setuid-sandbox --no-color run test:puppeteer:docker"
           },
 
           accessibility: {
