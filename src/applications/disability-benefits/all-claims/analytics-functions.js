@@ -47,4 +47,25 @@ export default {
         'Disability - Form 526EZ - Past Employment Walkthrough - Choice',
       );
   },
+  paymentInformation: formData => {
+    const paymentInformation = get('view:bankAccount', formData);
+    if (paymentInformation && !objectIsEmpty(paymentInformation)) {
+      if (!paymentInformation.bankAccountType)
+        recordMissingField(
+          'Disability - Form 526EZ - Payment Information - Account Type',
+        );
+      if (!paymentInformation.bankAccountNumber)
+        recordMissingField(
+          'Disability - Form 526EZ - Payment Information - Account Number',
+        );
+      if (!paymentInformation.bankRoutingNumber)
+        recordMissingField(
+          'Disability - Form 526EZ - Payment Information - Routing Number',
+        );
+      if (!paymentInformation.bankName)
+        recordMissingField(
+          'Disability - Form 526EZ - Payment Information - Bank Name',
+        );
+    }
+  },
 };

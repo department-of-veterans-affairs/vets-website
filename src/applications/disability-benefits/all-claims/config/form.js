@@ -572,6 +572,7 @@ const formConfig = {
           path: 'payment-information',
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
+          onContinue: captureEvents.paymentInformation,
         },
         homelessOrAtRisk: {
           title: 'Housing situation',
