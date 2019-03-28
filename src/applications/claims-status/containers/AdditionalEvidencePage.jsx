@@ -40,7 +40,8 @@ class AdditionalEvidencePage extends React.Component {
       scrollToTop();
     }
   }
-  componentWillReceiveProps(props) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
     }

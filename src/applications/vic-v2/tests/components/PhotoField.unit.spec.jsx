@@ -619,7 +619,7 @@ describe('<PhotoField>', () => {
     );
 
     tree.setState({ previewSrc: 'testing', formData: {} });
-    tree.instance().componentWillReceiveProps({
+    tree.instance().UNSAFE_componentWillReceiveProps({
       formData: {
         file: new Blob(),
       },

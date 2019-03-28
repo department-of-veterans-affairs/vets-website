@@ -45,8 +45,8 @@ class PreferencesWidget extends React.Component {
 
     this.state = {};
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchUserSelectedBenefits();
     if (!isEmpty(this.props.preferences.dashboard)) {
       this.setSelectedBenefits();
