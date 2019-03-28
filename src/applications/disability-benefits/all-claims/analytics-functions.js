@@ -1,5 +1,6 @@
 import { recordEventOnce } from './utils';
 import get from 'platform/utilities/data/get';
+import { HOMELESSNESS_TYPES } from './constants';
 
 const objectIsEmpty = (path, formData) =>
   Object.values(get(path, formData, {})).every(option => !option);
@@ -67,5 +68,46 @@ export default {
           'Disability - Form 526EZ - Payment Information - Bank Name',
         );
     }
+  },
+  homelessOrAtRisk: formData => {
+    // Much of the logic in here to get when a field is required is duplicated from the homelessness page
+    const isHomeless =
+      formData.homelessOrAtRisk === HOMELESSNESS_TYPES.homeless;
+    const isAtRisk = formData.homelessOrAtRisk === HOMELESSNESS_TYPES.atRisk;
+    const isHomelessOrAtRisk = isHomeless || isAtRisk;
+
+    if (!formData.homelessOrAtRisk)
+      recordMissingField('Disability - Form 526EZ - Housing Situation - Risk');
+
+    if (isHomeless && !get('view:isHomeless.homelessHousingSituation'))
+      recordMissingField(
+        'Disability - Form 526EZ - Housing Situation - Homeless Living Situation',
+      );
+
+    if (isHomeless && get('view:isHomeless.needToLeaveHousing') === undefined)
+      recordMissingField(
+        'Disability - Form 526EZ - Housing Situation - Homeless Leave Situation',
+      );
+
+    if (isHomelessOrAtRisk) {
+      const contact = formData.homelessnessContact;
+      if (!contact.name)
+        recordMissingField(
+          `Disability - Form 526EZ - Housing Situation - ${
+            isHomeless ? 'Homeless' : 'At Risk'
+          } Contact Name`,
+        );
+      if (!contact.phoneNumber)
+        recordMissingField(
+          `Disability - Form 526EZ - Housing Situation - ${
+            isHomeless ? 'Homeless' : 'At Risk'
+          } Contact Phone`,
+        );
+    }
+
+    if (isAtRisk && !get('view:isAtRisk.atRiskHousingSituation'))
+      recordMissingField(
+        'Disability - Form 526EZ - Housing Situation - Homeless Living Situation',
+      );
   },
 };

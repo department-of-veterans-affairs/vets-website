@@ -579,6 +579,7 @@ const formConfig = {
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
+          onContinue: captureEvents.homelessOrAtRisk,
         },
         vaEmployee: {
           title: 'VA employee',
