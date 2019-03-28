@@ -179,7 +179,7 @@ describe('HCA helpers', () => {
       expect(getMedicalCenterNameByID(null)).to.equal('');
     });
     it('should return an empty string if it is passed undefined', () => {
-      expect(getMedicalCenterNameByID(null)).to.equal('');
+      expect(getMedicalCenterNameByID(undefined)).to.equal('');
     });
     it('should return an empty string if it is passed nothing', () => {
       expect(getMedicalCenterNameByID()).to.equal('');
