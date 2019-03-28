@@ -7,6 +7,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import { recordEvent } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 import set from '../../../platform/utilities/data/set';
@@ -319,6 +320,9 @@ export default class ReviewCardField extends React.Component {
       this.props.formContext.onError();
     } else {
       this.setState({ editing: false, canCancel: true });
+      if (this.props.uiSchema.saveClickTrackEvent) {
+        recordEvent(this.props.uiSchema.saveClickTrackEvent);
+      }
     }
   };
 
@@ -345,6 +349,7 @@ ReviewCardField.propTypes = {
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    saveClickTrackEvent: PropTypes.object,
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,

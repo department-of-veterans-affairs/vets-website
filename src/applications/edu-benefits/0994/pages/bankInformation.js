@@ -26,6 +26,7 @@ export const uiSchema = {
       startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
+    saveClickTrackEvent: { event: 'edu-0994-bank-account-saved' },
     bankAccount: {
       ...bankAccountUI,
       accountType: {
