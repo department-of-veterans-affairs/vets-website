@@ -159,14 +159,14 @@ export class AuthApp extends React.Component {
         header = 'Please try again later';
         alertContent = (
           <p>
-            We’re sorry. Something went wrong on our end, and we couldn't sign
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
             you in. Please try again later.
           </p>
         );
         troubleshootingContent = (
-          <div>
+          <>
             <p>
-              <strong>Please try signing in again.</strong> If you still can't
+              <strong>Please try signing in again.</strong> If you still can’t
               sign in, please use our online form to submit a request for help.
             </p>
             <p>
@@ -181,7 +181,7 @@ export class AuthApp extends React.Component {
             <button onClick={this.props.openLoginModal}>
               Try signing in again
             </button>
-          </div>
+          </>
         );
         break;
 
