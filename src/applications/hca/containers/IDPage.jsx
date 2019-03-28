@@ -16,7 +16,11 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
 import { getEnrollmentStatus } from '../actions';
-import { idFormSchema as schema, idFormUiSchema as uiSchema } from '../helpers';
+import {
+  didEnrollmentStatusChange,
+  idFormSchema as schema,
+  idFormUiSchema as uiSchema,
+} from '../helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 function ContinueButton({ isLoading }) {
@@ -85,7 +89,11 @@ class IDPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!didEnrollmentStatusChange(prevProps, this.props)) {
+      return;
+    }
+
     const { enrollmentStatus, noESRRecordFound, shouldRedirect } = this.props;
 
     // Redirect to intro if a logged in user directly accessed this page.
