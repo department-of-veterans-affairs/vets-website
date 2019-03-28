@@ -24,7 +24,8 @@ export function getWarningHeadline(enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.ineligOver65:
     case HCA_ENROLLMENT_STATUSES.ineligRefusedCopay:
     case HCA_ENROLLMENT_STATUSES.ineligTrainingOnly:
-      content = 'We determined that you don’t qualify for VA health care';
+      content =
+        'We determined that you don’t qualify for VA health care based on your past application';
       break;
 
     case HCA_ENROLLMENT_STATUSES.ineligCHAMPVA:
