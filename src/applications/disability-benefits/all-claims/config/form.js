@@ -40,6 +40,8 @@ import {
   directToCorrectForm,
 } from '../utils';
 
+import captureEvents from '../analytics-functions';
+
 import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
@@ -166,6 +168,7 @@ const formConfig = {
           depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         alternateNames: {
           title: 'Service under another name',
