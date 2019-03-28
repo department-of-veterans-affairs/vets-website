@@ -200,6 +200,21 @@ export const medicalCenterLabels = Object.keys(vaMedicalFacilities).reduce(
   {},
 );
 
+/**
+ *
+ * @param {string} facilityId - facility id in the form: `123 - ABCD` where the
+ * id to look up is the first part of the string
+ * @returns {string} - either the actual name of the medical center or the
+ * passed in id if no match was found
+ */
+export function getMedicalCenterNameByID(facilityId) {
+  if (!facilityId || typeof facilityId !== 'string') {
+    return '';
+  }
+  const [id] = facilityId.split(' - ');
+  return medicalCenterLabels[id] || facilityId;
+}
+
 export const dischargeTypeLabels = {
   honorable: 'Honorable',
   general: 'General',

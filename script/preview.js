@@ -145,6 +145,19 @@ app.get('/preview', async (req, res, next) => {
     const drupalPage = drupalData.data.nodes.entities[0];
     const drupalPath = `${req.path.substring(1)}/index.html`;
 
+    if (!drupalPage.entityBundle) {
+      if (process.env.SENTRY_DSN) {
+        Raven.captureMessage('Preview attempted on page that is not ready');
+      }
+
+      res.send(`
+        <p>This page isn't ready to be previewed yet. 
+          This may mean development is still in progress or that there's an issue with the preview server.
+        </p>
+      `);
+      return;
+    }
+
     const compiledPage = compilePage(drupalPage, drupalData);
     const fullPage = createFileObj(
       compiledPage,
