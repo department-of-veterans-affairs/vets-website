@@ -207,7 +207,10 @@ export const medicalCenterLabels = Object.keys(vaMedicalFacilities).reduce(
  * @returns {string} - either the actual name of the medical center or the
  * passed in id if no match was found
  */
-export function getMedicalCenterNameByID(facilityId = '') {
+export function getMedicalCenterNameByID(facilityId) {
+  if (!facilityId || typeof facilityId !== 'string') {
+    return '';
+  }
   const [id] = facilityId.split(' - ');
   return medicalCenterLabels[id] || facilityId;
 }

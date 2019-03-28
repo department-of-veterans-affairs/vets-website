@@ -171,18 +171,30 @@ function compilePage(page, contentData) {
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
   const alertItems = { alert: alertsItem };
 
-  const {
-    entityUrl: { path: drupalPagePath },
-    entityBundle,
-  } = page;
+  const { entityUrl, entityBundle } = page;
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
   let pageCompiled;
 
   switch (entityBundle) {
-    case 'page':
-      pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
+    case 'health_care_region_detail_page':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        alertItems,
+        pageId,
+      );
+      break;
+    case 'health_care_local_facility':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        alertItems,
+        pageId,
+      );
       break;
     case 'health_care_region_page':
       pageCompiled = Object.assign(
@@ -220,7 +232,7 @@ function compilePage(page, contentData) {
       }
 
       // eslint-disable-next-line no-param-reassign
-      page.entityUrl = generateBreadCrumbs(drupalPagePath);
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -231,7 +243,7 @@ function compilePage(page, contentData) {
       break;
     }
     case 'person_profile':
-      page.entityUrl = generateBreadCrumbs(drupalPagePath);
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -240,7 +252,13 @@ function compilePage(page, contentData) {
       );
       break;
     default:
-      pageCompiled = page;
+      pageCompiled = Object.assign(
+        {},
+        page,
+        sidebarNavItems,
+        alertItems,
+        pageId,
+      );
       break;
   }
 
