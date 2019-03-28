@@ -182,6 +182,7 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
+          onContinue: captureEvents.militaryHistory,
         },
         servedInCombatZone: {
           title: 'Combat status',

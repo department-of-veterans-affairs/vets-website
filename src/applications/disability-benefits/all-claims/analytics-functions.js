@@ -20,4 +20,19 @@ export default {
         'Disability - Form 526EZ - Military Service - Start Date',
       );
   },
+  militaryHistory: formData => {
+    const servicePeriods = get(
+      'serviceInformation.servicePeriods',
+      formData,
+      [],
+    );
+    if (servicePeriods.some(sp => !get('dateRange.from', sp)))
+      recordMissingField(
+        'Disability - Form 526EZ - Military Service - Start Date',
+      );
+    if (servicePeriods.some(sp => !get('dateRange.to', sp)))
+      recordMissingField(
+        'Disability - Form 526EZ - Military Service - End Date',
+      );
+  },
 };
