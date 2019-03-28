@@ -137,28 +137,59 @@ class SignInModal extends React.Component {
                     />
                     <strong> Sign in with ID.me</strong>
                   </button>
+                  <span className="sidelines">OR</span>
+                  <div className="alternate-signin">
+                    <h5>Don't have those accounts?</h5>
+                    <button
+                      className="idme-create usa-button usa-button-secondary"
+                      onClick={signup}
+                    >
+                      <img
+                        alt="ID.me"
+                        src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                      />
+                      <strong> Create an ID.me account</strong>
+                    </button>
+                    <p>Use your email, Google, or Facebook</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="usa-width-one-half">
-            <div className="alternate-signin">
-              <h5>Don't have those accounts?</h5>
-              <button
-                className="idme-create usa-button usa-button-secondary"
-                onClick={signup}
-              >
-                <img
-                  alt="ID.me"
-                  src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                />
-                <strong> Create an ID.me account</strong>
-              </button>
-              <p>Use your email, Google, or Facebook</p>
+            <div className="explanation-content">
+              <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
+                One site. A lifetime of benefits and services at your
+                fingertips.
+              </div>
+              <p>
+                You spoke. We listened. {siteName} is the direct result of what
+                you said you wanted most—one easy-to-use place to:
+              </p>
+              <ul>
+                <li>Check your disability claim and appeal status</li>
+                <li>
+                  Find out how much money you have left to pay for school or
+                  training
+                </li>
+                <li>
+                  Refill your prescriptions and communicate with your health
+                  care team
+                </li>
+                <li>...and more</li>
+              </ul>
+              <p>
+                <strong>A secure account powered by ID.me</strong>
+                <br />
+                ID.me is our trusted technology partner in helping to keep your
+                personal information safe. They specialize in digital identity
+                protection and help us make sure you're you—and not someone
+                pretending to be you—before we give you access to your
+                information.
+              </p>
               <p>
                 <a href="/sign-in-faq/#what-is-idme" target="_blank">
-                  Learn more about {siteName}
-                  's partnership with ID.me
+                  Learn more about ID.me
                 </a>
               </p>
             </div>
