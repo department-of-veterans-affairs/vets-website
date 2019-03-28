@@ -67,7 +67,9 @@ class SignInModal extends React.Component {
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
           <div className="columns small-12">
-            <h2>Don't have those accounts?</h2>
+            <h2>
+              One site. A lifetime of benefits and services at your fingertips.
+            </h2>
           </div>
         </div>
         {this.downtimeBanner(
