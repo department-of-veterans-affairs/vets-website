@@ -41,4 +41,10 @@ export default {
         'Disability - Form 526EZ - Unemployability Walkthrough - Choice',
       );
   },
+  pastEmploymentFormIntro: formData => {
+    if (objectIsEmpty('view:upload4192Choice', formData))
+      recordMissingField(
+        'Disability - Form 526EZ - Past Employment Walkthrough - Choice',
+      );
+  },
 };
