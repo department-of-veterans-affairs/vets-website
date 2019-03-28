@@ -20,16 +20,26 @@ const VerificationRequiredAlert = () => (
         <h4 className="usa-alert-heading">
           Please verify your identity before applying for VA health care
         </h4>
+        <p>This process should take about 5 to 10 minutes.</p>
         <p>
-          We’re sorry for the inconvenience, but we need you to verify your
-          identity before you apply for VA health care. This process should take
-          about 5 to 10 minutes. As soon as you’re finished, you can continue
-          your application.
+          <strong>If you’re applying for the first time</strong>
+        </p>
+        <p>
+          We need to verify your identity so we can help you track the status of
+          your application once you’ve submitted it. As soon as you’re finished
+          verifying your identity, you can continue to the application.
+        </p>
+        <p>
+          <strong>If you’ve applied before</strong>
+        </p>
+        <p>
+          We need to verify your identity so we can show you the status of your
+          past application. We take your privacy seriously, and we need to make
+          sure we’re sharing your personal information only with you.
         </p>
         <p>
           <strong>
-            If you need more information or help with verifying your identity on
-            VA.gov:
+            If you need more information or help with verifying your identity:
           </strong>
         </p>
         <ul>
@@ -38,16 +48,18 @@ const VerificationRequiredAlert = () => (
               Read our identity verification FAQs
             </a>
           </li>
+          <li>
+            Or call us at 1-877-222-VETS (
+            <a href="tel:+18772228387">1-877-222-8387</a>
+            ). If you have hearing loss, call TTY: 1-800-877-8339. We’re here
+            Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </li>
         </ul>
         <p>
-          Or call us at 1-877-222-VETS (
-          <a href="tel:+18772228387">1-877-222-8387</a>
-          ). If you have hearing loss, call TTY: 1-800-877-8339. We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+          <a className="usa-button-primary va-button-primary" href="/verify">
+            Verify your identity
+          </a>
         </p>
-        <a className="usa-button-primary va-button-primary" href="/verify">
-          Verify your identity
-        </a>
       </div>
     }
     isVisible
