@@ -66,6 +66,30 @@ const LOA1UserState = {
   },
 };
 describe('simple top-level selectors', () => {
+  describe('isLoggedOut', () => {
+    it('is `true` if the profile is not loading and the user is not logged in', () => {
+      const state = {
+        user: { ...loggedOutUserState },
+      };
+      const isLoggedOut = selectors.isLoggedOut(state);
+      expect(isLoggedOut).to.be.true;
+    });
+    it('is `false` if the profile is loading', () => {
+      const state = {
+        user: { ...loadingUserState },
+      };
+      const isLoggedOut = selectors.isLoggedOut(state);
+      expect(isLoggedOut).to.be.false;
+    });
+    it('is `false` if the profile is not loading and the user is logged in', () => {
+      const state = {
+        user: { ...LOA3UserState },
+      };
+      const isLoggedOut = selectors.isLoggedOut(state);
+      expect(isLoggedOut).to.be.false;
+    });
+  });
+
   describe('selectEnrollmentStatus', () => {
     it('selects the correct part of the state', () => {
       const state = {
@@ -205,13 +229,13 @@ describe('compound selectors', () => {
       const isLOA3 = selectors.isUserLOA3(state);
       expect(isLOA3).to.equal(false);
     });
-    it('returns false if enrollment status still loading', () => {
+    it('returns true if enrollment status is loading but the user has resolved', () => {
       const state = {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState, isLoading: true },
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).to.equal(true);
     });
     it('returns false if the profile still loading', () => {
       const state = {
@@ -253,7 +277,7 @@ describe('compound selectors', () => {
     });
   });
 
-  describe('isLoggedOut', () => {
+  describe('shouldShowLoggedOutContent', () => {
     it('returns true if the user is not logged in', () => {
       const state = {
         hcaEnrollmentStatus: {
@@ -261,8 +285,10 @@ describe('compound selectors', () => {
         },
         user: { ...loggedOutUserState },
       };
-      const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.equal(true);
+      const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
+        state,
+      );
+      expect(shouldShowLoggedOutContent).to.equal(true);
     });
     it('returns true if there is an enrollment status server error', () => {
       const state = {
@@ -272,8 +298,10 @@ describe('compound selectors', () => {
         },
         user: { ...LOA3UserState },
       };
-      const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.equal(true);
+      const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
+        state,
+      );
+      expect(shouldShowLoggedOutContent).to.equal(true);
     });
     it('returns true if the user was not found in ESR', () => {
       const state = {
@@ -283,8 +311,10 @@ describe('compound selectors', () => {
         },
         user: { ...LOA3UserState },
       };
-      const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.equal(true);
+      const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
+        state,
+      );
+      expect(shouldShowLoggedOutContent).to.equal(true);
     });
     it('returns false if the user is logged in, is in ESR, and there are no enrollment status server errors', () => {
       const state = {
@@ -293,8 +323,10 @@ describe('compound selectors', () => {
         },
         user: { ...LOA3UserState },
       };
-      const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.equal(false);
+      const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
+        state,
+      );
+      expect(shouldShowLoggedOutContent).to.equal(false);
     });
   });
 });

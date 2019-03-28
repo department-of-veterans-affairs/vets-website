@@ -19,7 +19,7 @@ const initialState = {
   noESRRecordFound: false,
 };
 
-function hcaEnrollmentStatus(state = initialState, action) {
+export function hcaEnrollmentStatus(state = initialState, action) {
   switch (action.type) {
     case FETCH_ENROLLMENT_STATUS_STARTED:
       return { ...initialState, isLoading: true };
@@ -40,6 +40,7 @@ function hcaEnrollmentStatus(state = initialState, action) {
         enrollmentDate,
         preferredFacility,
         loginRequired: isInESR,
+        noESRRecordFound: !isInESR,
         isLoading: false,
         isUserInMVI: true,
       };
