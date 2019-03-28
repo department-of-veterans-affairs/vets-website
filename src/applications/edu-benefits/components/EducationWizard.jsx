@@ -178,8 +178,7 @@ export default class EducationWizard extends React.Component {
               />
             )}
             {serviceBenefitBasedOn === 'own' &&
-              nationalCallToService === 'no' &&
-              !environment.isProduction() && (
+              nationalCallToService === 'no' && (
                 <ErrorableRadioButtons
                   additionalFieldsetClass="wizard-fieldset"
                   name="vetTecBenefit"
@@ -286,7 +285,6 @@ export default class EducationWizard extends React.Component {
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
-              !environment.isProduction() &&
               this.getButton('0994')}
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
