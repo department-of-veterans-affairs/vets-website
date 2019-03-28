@@ -1,4 +1,3 @@
-// import sinon from 'sinon';
 import { expect } from 'chai';
 
 import * as actions from '../actions';
