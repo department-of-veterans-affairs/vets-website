@@ -35,4 +35,10 @@ export default {
         'Disability - Form 526EZ - Military Service - End Date',
       );
   },
+  unemployabilityFormIntro: formData => {
+    if (!get('view:unemployabilityUploadChoice', formData))
+      recordMissingField(
+        'Disability - Form 526EZ - Unemployability Walkthrough - Choice',
+      );
+  },
 };
