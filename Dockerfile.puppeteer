@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y netcat \
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb \
+                                                xfonts-cyrillic x11-apps xvfb xauth \
   && npm install -g yarn@$YARN_VERSION \
   && npm install -g s3-cli \
   && npm install -g codeclimate-test-reporter \
@@ -28,6 +28,7 @@ RUN mkdir -p /application
 
 WORKDIR /application
 
+RUN yarn install --production=false
+
 USER jenkins
 
-ENTRYPOINT /usr/bin/xvfb-run --server-args="-screen 0 1024x768x24" npm
