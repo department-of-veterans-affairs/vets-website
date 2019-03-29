@@ -23,6 +23,7 @@ class SearchApp extends React.Component {
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
     loader: PropTypes.symbol,
+    firstSearch: PropTypes.bool,
   };
 
   constructor(props) {
@@ -40,6 +41,7 @@ class SearchApp extends React.Component {
       userInput: userInputFromAddress,
       currentResultsQuery: userInputFromAddress,
       page,
+      firstSearch: true,
     };
 
     if (!userInputFromAddress) {
@@ -53,21 +55,22 @@ class SearchApp extends React.Component {
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
       this.writeBreadcrumb();
-      this.renderSearchBarandHeader();
+      this.renderResults();
     }
     if (this.loader) {
       this.loader.focus();
     }
+    console.log('this is componentDidMount');
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.search.query !== prevProps.search.query) {
       this.writeBreadcrumb();
-      this.renderSearchBarandHeader();
     }
     if (this.loader) {
       this.loader.focus();
     }
+    console.log('this is componentDidUpdate')
   }
 
   handlePageChange = page => {
@@ -105,6 +108,17 @@ class SearchApp extends React.Component {
     });
   };
 
+  // helper function to set focus
+  setFocus = selector => {
+    const el =
+      typeof selector === 'string' ? document.querySelector(selector) : selector;
+    if (el) {
+      el.setAttribute('tabIndex', -1);
+      el.setAttribute("ref", { function(loader) { this.loader = loader; } });
+      el.focus();
+    }
+  };
+
   // Reusable search input
   searchInput() {
     const nonBlankUserInput =
@@ -127,34 +141,22 @@ class SearchApp extends React.Component {
     );
   }
 
+
   writeBreadcrumb() {
     const breadcrumbList = document.getElementById('va-breadcrumbs-list');
     const lastCrumb = breadcrumbList.lastElementChild.children[0];
+    const { firstSearch } = this.state;
     if (breadcrumbList && lastCrumb) {
       lastCrumb.text = `Search Results for '${this.props.search.query}'`;
-    }
-  }
 
-  // This renders search bar, results count, and h4 header in order to
-  // set focus on h4 header we needed to load it before render()
-  renderSearchBarandHeader() {
-    return (
-      <div>
-        {this.searchInput()}
-        {this.renderResultsCount()}
-        <hr />
-        <div>
-          <h4
-            tabIndex="-1"
-            ref={loader => {
-              this.loader = loader;
-            }}
-          >
-            Our Top Recommendations for You
-          </h4>
-        </div>
-      </div>
-    );
+      if (firstSearch) {
+        setTimeout(() => {
+          this.setFocus(breadcrumbList);
+          this.setState({ firstSearch: false });
+        }, 4000);
+
+      }
+    }
   }
 
   renderResults() {
@@ -176,9 +178,16 @@ class SearchApp extends React.Component {
 
     return (
       <div>
-        {this.renderSearchBarandHeader()}
-        {this.renderRecommendedResults()}
-        {this.renderResultsList()}
+        {this.searchInput()}
+        {this.renderResultsCount()}
+        <hr />
+        <div
+          aria-live="polite"
+          aria-relevant="additions">
+          <h4>Our Top Recommendations for You</h4>
+          {this.renderRecommendedResults()}
+          {this.renderResultsList()}
+        </div>
         <hr id="hr-search-bottom" />
         {this.renderResultsFooter()}
       </div>
@@ -267,10 +276,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
+                recordEvent({
+                  event: 'nav-searchresults',
+                  'nav-path': `Recommended Results -> ${strippedTitle}`,
+                })
               : null
           }
         >
@@ -309,6 +318,7 @@ class SearchApp extends React.Component {
   }
 
   render() {
+    console.count("render")
     return (
       <div className="search-app">
         <div className="row">
