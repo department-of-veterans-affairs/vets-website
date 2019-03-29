@@ -82,18 +82,11 @@ const testForm = (testDataSets, testConfig) => {
   });
 
   beforeEach(async () => {
-    if (process.env.IN_DOCKER === true) {
-      browser = await puppeteer.connect({
-        browserUrl: `vets-website:${process.env.WEB_PORT || 3333}`,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      });
-    } else {
       browser = await puppeteer.launch({
         // slowMo: testConfig.debug ? 100 : 0,
-        args: ['--window-size=1400,750'],
+        args: ['--window-size=1400,750', '--no-sandbox', '--disable-setuid-sandbox'],
         devtools: testConfig.debug,
       });
-    }
   });
 
   afterEach(async () => {
