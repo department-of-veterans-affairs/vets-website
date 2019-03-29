@@ -60,7 +60,6 @@ class SearchApp extends React.Component {
     if (this.loader) {
       this.loader.focus();
     }
-    console.log('this is componentDidMount');
   }
 
   componentDidUpdate(prevProps) {
@@ -70,8 +69,23 @@ class SearchApp extends React.Component {
     if (this.loader) {
       this.loader.focus();
     }
-    console.log('this is componentDidUpdate')
   }
+  // helper function to set focus
+  setFocus = selector => {
+    const el =
+      typeof selector === 'string'
+        ? document.querySelector(selector)
+        : selector;
+    if (el) {
+      el.setAttribute('tabIndex', -1);
+      el.setAttribute('ref', {
+        function(loader) {
+          this.loader = loader;
+        },
+      });
+      el.focus();
+    }
+  };
 
   handlePageChange = page => {
     this.setState({ page }, () => this.handleSearch());
@@ -108,17 +122,6 @@ class SearchApp extends React.Component {
     });
   };
 
-  // helper function to set focus
-  setFocus = selector => {
-    const el =
-      typeof selector === 'string' ? document.querySelector(selector) : selector;
-    if (el) {
-      el.setAttribute('tabIndex', -1);
-      el.setAttribute("ref", { function(loader) { this.loader = loader; } });
-      el.focus();
-    }
-  };
-
   // Reusable search input
   searchInput() {
     const nonBlankUserInput =
@@ -141,7 +144,6 @@ class SearchApp extends React.Component {
     );
   }
 
-
   writeBreadcrumb() {
     const breadcrumbList = document.getElementById('va-breadcrumbs-list');
     const lastCrumb = breadcrumbList.lastElementChild.children[0];
@@ -154,7 +156,6 @@ class SearchApp extends React.Component {
           this.setFocus(breadcrumbList);
           this.setState({ firstSearch: false });
         }, 4000);
-
       }
     }
   }
@@ -181,9 +182,7 @@ class SearchApp extends React.Component {
         {this.searchInput()}
         {this.renderResultsCount()}
         <hr />
-        <div
-          aria-live="polite"
-          aria-relevant="additions">
+        <div aria-live="polite" aria-relevant="additions">
           <h4>Our Top Recommendations for You</h4>
           {this.renderRecommendedResults()}
           {this.renderResultsList()}
@@ -276,10 +275,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                recordEvent({
-                  event: 'nav-searchresults',
-                  'nav-path': `Recommended Results -> ${strippedTitle}`,
-                })
+                  recordEvent({
+                    event: 'nav-searchresults',
+                    'nav-path': `Recommended Results -> ${strippedTitle}`,
+                  })
               : null
           }
         >
@@ -318,7 +317,6 @@ class SearchApp extends React.Component {
   }
 
   render() {
-    console.count("render")
     return (
       <div className="search-app">
         <div className="row">
