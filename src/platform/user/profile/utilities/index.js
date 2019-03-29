@@ -1,7 +1,5 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import Raven from 'raven-js';
-
 import {
   setRavenLoginType,
   clearRavenLoginType,
@@ -123,7 +121,7 @@ export const hasSession = () => localStorage.getItem('hasSession');
 
 export function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
-  const loginType = signIn && signIn.serviceName || null;
+  const loginType = (signIn && signIn.serviceName) || null;
 
   localStorage.setItem('hasSession', true);
 

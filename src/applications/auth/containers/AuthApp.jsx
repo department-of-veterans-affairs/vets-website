@@ -40,7 +40,7 @@ export class AuthApp extends React.Component {
         event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
       });
     }
-  }
+  };
 
   recordGAAuthEvents = userProfile => {
     const { type } = this.props.location.query;
@@ -73,7 +73,7 @@ export class AuthApp extends React.Component {
     if (loaCurrent) {
       recordEvent({ event: `login-loa-current-${loaCurrent}` });
     }
-  }
+  };
 
   reportSentryErrors = (userProfile, payload) => {
     const serviceName = get('signIn.serviceName', userProfile, null);
@@ -87,7 +87,7 @@ export class AuthApp extends React.Component {
         extra: { payload },
       });
     }
-  }
+  };
 
   handleAuthError = error => {
     const loginType = this.props.location.query.type;
