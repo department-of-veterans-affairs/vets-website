@@ -25,11 +25,6 @@ node('vetsgov-general-purpose') {
 
     try {
       parallel (
-        lint: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "cd /application && npm --no-color run lint"
-          }
-        },
 
         // Check package.json for known vulnerabilities
         security: {
