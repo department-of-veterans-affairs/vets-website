@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function version2() {
+export default function version2() {
   return savedData => {
     const trainingProgramsChoice = _.get(
       savedData.metadata,
