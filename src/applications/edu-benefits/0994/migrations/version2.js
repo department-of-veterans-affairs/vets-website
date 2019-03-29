@@ -13,7 +13,10 @@ export default function version2() {
       );
       delete newData['view:trainingProgramsChoice'];
 
-      return newData;
+      return {
+        formData: newData,
+        metadata: savedData.metadata,
+      };
     }
     return savedData;
   };
