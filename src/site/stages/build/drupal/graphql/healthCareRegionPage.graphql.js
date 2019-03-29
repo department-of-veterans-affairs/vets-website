@@ -12,7 +12,6 @@ const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaf
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
-    entityId
     fieldMedia {
       entity {
         ... on MediaImage {
