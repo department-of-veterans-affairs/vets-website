@@ -6,6 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import { authnSettings } from '../../../platform/user/authentication/utilities';
 import {
@@ -13,8 +14,7 @@ import {
   setupProfileSession,
 } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
-
-import recordEvent from '../../../platform/monitoring/record-event';
+import get from '../../../platform/utilities/data/get';
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -26,18 +26,75 @@ export class AuthApp extends React.Component {
     if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  handleAuthError = e => {
-    const loginType = sessionStorage.getItem(
-      authnSettings.PENDING_LOGIN_POLICY,
-    );
+  compareLoginPolicy = loginPolicy => {
+    // This is experimental code related to GA that will let us determine
+    // if the backend is returning an accurate loginPolicy (service_name)
 
-    Raven.captureMessage(`User fetch error: ${e.message}`, {
-      extra: {
-        error: e,
-      },
-      tags: {
-        loginType,
-      },
+    let attemptedLoginPolicy = this.props.location.query.type;
+
+    attemptedLoginPolicy =
+      attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
+
+    if (loginPolicy !== attemptedLoginPolicy) {
+      recordEvent({
+        event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
+      });
+    }
+  }
+
+  recordGAAuthEvents = userProfile => {
+    const { type } = this.props.location.query;
+    const loaCurrent = get('loa.loaCurrent', userProfile, null);
+    const loginPolicy = get('signIn.serviceName', userProfile, null);
+
+    switch (type) {
+      case 'signup':
+        recordEvent({ event: `register-success-${loginPolicy}` });
+        break;
+      case 'mhv':
+      case 'dslogon':
+      case 'idme':
+        recordEvent({ event: `login-success-${loginPolicy}` });
+        this.compareLoginPolicy(loginPolicy);
+        break;
+      case 'mfa':
+        recordEvent({ event: `multifactor-success-${loginPolicy}` });
+        break;
+      case 'verify':
+        recordEvent({ event: `verify-success-${loginPolicy}` });
+        break;
+      default:
+        Raven.captureMessage('Unrecognized auth event type', {
+          extra: { type },
+        });
+    }
+
+    // Report out the current level of assurance for the user.
+    if (loaCurrent) {
+      recordEvent({ event: `login-loa-current-${loaCurrent}` });
+    }
+  }
+
+  reportSentryErrors = (userProfile, payload) => {
+    const serviceName = get('signIn.serviceName', userProfile, null);
+
+    if (!Object.keys(userProfile).length) {
+      Raven.captureMessage('Unexpected response for user object', {
+        extra: { payload },
+      });
+    } else if (!serviceName) {
+      Raven.captureMessage('Missing serviceName in user object', {
+        extra: { payload },
+      });
+    }
+  }
+
+  handleAuthError = error => {
+    const loginType = this.props.location.query.type;
+
+    Raven.captureMessage(`User fetch error: ${error.message}`, {
+      extra: { error },
+      tags: { loginType },
     });
 
     recordEvent({ event: `login-error-user-fetch` });
@@ -46,7 +103,10 @@ export class AuthApp extends React.Component {
   };
 
   handleAuthSuccess = payload => {
-    setupProfileSession(payload);
+    const userProfile = get('data.attributes.profile', payload, {});
+    this.reportSentryErrors(userProfile, payload);
+    if (!hasSession()) this.recordGAAuthEvents(userProfile);
+    setupProfileSession(userProfile);
     this.redirect();
   };
 
