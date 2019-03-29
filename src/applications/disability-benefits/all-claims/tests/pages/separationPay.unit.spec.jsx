@@ -56,7 +56,7 @@ describe('Separation Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasSeparationPay': false,
+          hasSeparationPay: false,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -77,7 +77,7 @@ describe('Separation Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasSeparationPay': true,
+          hasSeparationPay: true,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -97,7 +97,7 @@ describe('Separation Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasSeparationPay': true,
+          hasSeparationPay: true,
         }}
         formData={{}}
       />,
