@@ -3,7 +3,6 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
     ${entityElementsFromPages}
-    entityId
     changed
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
