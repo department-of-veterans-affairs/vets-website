@@ -72,6 +72,73 @@ export function getWarningHeadline(enrollmentStatus) {
   return <h4 className="usa-alert-heading">{content}</h4>;
 }
 
+function getDefaultWarningStatus(applicationDate) {
+  if (isNaN(Date.parse(applicationDate))) {
+    return null;
+  }
+  return (
+    <p>
+      <strong>You applied on: </strong>
+      {moment(applicationDate).format('MMMM D, YYYY')}
+    </p>
+  );
+}
+
+function getEnrolledWarningStatus(
+  applicationDate,
+  enrollmentDate,
+  preferredFacility,
+) {
+  const facilityName = getMedicalCenterNameByID(preferredFacility);
+  const blocks = [];
+  // add "you applied on" block if the application date is valid
+  if (!isNaN(Date.parse(applicationDate))) {
+    blocks.push(
+      <>
+        <strong>You applied on: </strong>
+        {moment(applicationDate).format('MMMM D, YYYY')}
+      </>,
+    );
+  }
+  // add "we enrolled you" block if the enrollment date is valid
+  if (!isNaN(Date.parse(enrollmentDate))) {
+    blocks.push(
+      <>
+        <strong>We enrolled you on: </strong>
+        {moment(enrollmentDate).format('MMMM D, YYYY')}
+      </>,
+    );
+  }
+  // add "preferred facility" block if there is a facility name
+  if (facilityName !== '') {
+    blocks.push(
+      <>
+        <strong>Your preferred VA medical center is: </strong>
+        {facilityName}
+      </>,
+    );
+  }
+  if (!blocks.length) {
+    return null;
+  }
+  // build the final content, adding <br/> tags between each block
+  return (
+    <p>
+      {blocks.map((block, i, array) => {
+        if (i < array.length - 1) {
+          return (
+            <>
+              {block}
+              <br />
+            </>
+          );
+        }
+        return block;
+      })}
+    </p>
+  );
+}
+
 // There are 3 options for additional warning stats. By default we just show the
 // application date. If the user is enrolled, we show additional info.
 export function getWarningStatus(
@@ -81,34 +148,21 @@ export function getWarningStatus(
   preferredFacility,
 ) {
   let content = null;
-  const facilityName = getMedicalCenterNameByID(preferredFacility);
   switch (enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.deceased:
       content = null;
       break;
 
     case HCA_ENROLLMENT_STATUSES.enrolled:
-      content = (
-        <p>
-          <strong>You applied on: </strong>
-          {moment(applicationDate).format('MMMM D, YYYY')}
-          <br />
-          <strong>We enrolled you on: </strong>
-          {moment(enrollmentDate).format('MMMM D, YYYY')}
-          <br />
-          <strong>Your preferred VA medical center is: </strong>
-          {facilityName}
-        </p>
+      content = getEnrolledWarningStatus(
+        applicationDate,
+        enrollmentDate,
+        preferredFacility,
       );
       break;
 
     default:
-      content = (
-        <p>
-          <strong>You applied on: </strong>
-          {moment(applicationDate).format('MMMM D, YYYY')}
-        </p>
-      );
+      content = getDefaultWarningStatus(applicationDate);
       break;
   }
   return content;
