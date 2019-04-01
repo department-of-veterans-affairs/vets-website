@@ -3,6 +3,7 @@
  */
 module.exports = `
     entityBundle
+    entityId
     entityPublished
     title
     entityUrl {

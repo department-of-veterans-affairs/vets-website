@@ -40,6 +40,8 @@ import {
   directToCorrectForm,
 } from '../utils';
 
+import captureEvents from '../analytics-functions';
+
 import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
@@ -166,6 +168,7 @@ const formConfig = {
           depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -179,6 +182,7 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
+          onContinue: captureEvents.militaryHistory,
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -568,12 +572,14 @@ const formConfig = {
           path: 'payment-information',
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
+          onContinue: captureEvents.paymentInformation,
         },
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
+          onContinue: captureEvents.homelessOrAtRisk,
         },
         vaEmployee: {
           title: 'VA employee',
