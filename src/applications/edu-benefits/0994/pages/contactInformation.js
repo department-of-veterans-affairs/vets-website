@@ -100,7 +100,6 @@ export const uiSchema = {
     },
   },
   'view:contactInfoNote': {
-    'ui:title': ' ',
     'ui:description': contactInfoNote,
   },
 };
