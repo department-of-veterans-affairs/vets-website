@@ -12,7 +12,7 @@ import {
   getFAQBlock4,
 } from '../enrollment-status-helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
-import { showReapplyContent } from '../actions';
+import { showReapplyContent as showReapplyContentAction } from '../actions';
 import { isShowingHCAReapplyContent } from '../selectors';
 
 const ReapplyContent = ({ route }) => (
@@ -37,44 +37,39 @@ const ReapplyTextLink = ({ onClick }) => (
   </button>
 );
 
-class HCAEnrollmentStatusFAQ extends React.Component {
-  render() {
-    const {
-      enrollmentStatus,
-      route,
-      showingReapplyForHealthCareContent,
-    } = this.props;
-    const reapplyAllowed =
-      enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
-    return (
-      <>
-        {getFAQBlock1(enrollmentStatus)}
-        {getFAQBlock2(enrollmentStatus)}
-        {getFAQBlock3(enrollmentStatus)}
-        {getFAQBlock4(enrollmentStatus)}
-        {reapplyAllowed &&
-          showingReapplyForHealthCareContent && (
-            <ReapplyContent route={route} />
-          )}
-        {reapplyAllowed &&
-          !showingReapplyForHealthCareContent && (
-            <ReapplyTextLink
-              onClick={() => {
-                this.props.showReapplyContent();
-              }}
-            />
-          )}
-      </>
-    );
-  }
-}
+const HCAEnrollmentStatusFAQ = ({
+  enrollmentStatus,
+  route,
+  showingReapplyForHealthCareContent,
+  showReapplyContent,
+}) => {
+  const reapplyAllowed = enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
+  return (
+    <>
+      {getFAQBlock1(enrollmentStatus)}
+      {getFAQBlock2(enrollmentStatus)}
+      {getFAQBlock3(enrollmentStatus)}
+      {getFAQBlock4(enrollmentStatus)}
+      {reapplyAllowed &&
+        showingReapplyForHealthCareContent && <ReapplyContent route={route} />}
+      {reapplyAllowed &&
+        !showingReapplyForHealthCareContent && (
+          <ReapplyTextLink
+            onClick={() => {
+              showReapplyContent();
+            }}
+          />
+        )}
+    </>
+  );
+};
 
 const mapStateToProps = state => ({
   showingReapplyForHealthCareContent: isShowingHCAReapplyContent(state),
 });
 
 const mapDispatchToProps = {
-  showReapplyContent,
+  showReapplyContent: showReapplyContentAction,
 };
 
 export default connect(
