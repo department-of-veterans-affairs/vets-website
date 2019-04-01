@@ -28,6 +28,8 @@ export const uiSchema = {
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
+      expandUnder: 'currentHighTechnologyEmployment',
+      expandUnderCondition: () => true,
       hideIf: formData =>
         !(
           _.get(formData, 'currentHighTechnologyEmployment', false) ||
@@ -50,6 +52,7 @@ export const uiSchema = {
       },
     },
     highTechnologyEmploymentType: {
+      'ui:title': ' ',
       'ui:description':
         'Which area best describes your high-tech work experience? (Check all that apply.)',
       computerProgramming: {

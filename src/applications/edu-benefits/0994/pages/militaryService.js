@@ -23,10 +23,6 @@ export const uiSchema = {
   'view:benefitNotice': {
     'ui:title': '',
     'ui:description': benefitNotice,
-    'ui:options': {
-      expandUnder: 'activeDutyDuringVetTec',
-      expandUnderCondition: true,
-    },
   },
 };
 
