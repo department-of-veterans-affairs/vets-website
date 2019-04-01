@@ -39,7 +39,7 @@
     {% endif %}
     {% if expander.fieldTextExpander %}
       <div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
-        <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed | replace: 'href="838255"', 'href="sms:838255"' }}</div>
+        <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
       </div>
     {% endif %}
     {% if expander.fieldWysiwyg && expander.fieldTextExpander === empty %}
@@ -49,14 +49,16 @@
 </div>
 
 {% if expander.fieldTextExpander %}
+    {% assign element = "alertElement" | append: expander.entityId %}
   <script type="text/javascript">
-      const element = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
+
+      const {{ element }} = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
 
       // Toggle the expander info
-      element.addEventListener('click', function() {
+      {{ element }}.addEventListener('click', function() {
         // Toggle aria-expanded for the button
-        const ariaExpanded = element.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
-        element.setAttribute('aria-expanded', ariaExpanded);
+        const ariaExpanded = {{ element }}.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
+        {{ element }}.setAttribute('aria-expanded', ariaExpanded);
 
         const content = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}-content');
         // Toggle the expander class for the content
@@ -66,5 +68,5 @@
         const ariaHidden = content.getAttribute('aria-hidden') === 'true' ? 'false' : 'true';
         content.setAttribute('aria-hidden', ariaHidden);
       });
-    </script>
+  </script>
 {% endif %}

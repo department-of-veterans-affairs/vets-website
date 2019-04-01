@@ -11,8 +11,17 @@ export const FDCDescription = (
     <a
       href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
       target="_blank"
+      rel="noopener noreferrer"
     >
       Learn more about the FDC program
+    </a>
+    .<br />
+    <a
+      href="/disability/how-to-file-claim/evidence-needed/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View the evidence requirements for disability claims
     </a>
     .
   </div>

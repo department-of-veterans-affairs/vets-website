@@ -15,6 +15,8 @@ const DRUPAL_STAGING = {
 
 const DRUPAL_PROD = {
   address: 'http://prod.cms.va.gov',
+  user: 'api',
+  password: 'drupal8',
 };
 
 /**
@@ -34,12 +36,13 @@ const ENABLED_ENVIRONMENTS = new Set([
   ENVIRONMENTS.LOCALHOST,
   ENVIRONMENTS.VAGOVDEV,
   ENVIRONMENTS.VAGOVSTAGING,
+  ENVIRONMENTS.VAGOVPROD,
 ]);
 
 const PREFIXED_ENVIRONMENTS = new Set([
   // ENVIRONMENTS.LOCALHOST,
   // ENVIRONMENTS.VAGOVSTAGING,
-  ENVIRONMENTS.VAGOVPROD,
+  // ENVIRONMENTS.VAGOVPROD,
 ]);
 
 const PUBLIC_URLS = {
