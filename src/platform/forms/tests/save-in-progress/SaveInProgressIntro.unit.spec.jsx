@@ -505,4 +505,46 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     tree.unmount();
   });
+
+  it('should properly hide non-authed start when desired', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: '1010ez',
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        hideUnauthedStartLink
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+      />,
+    );
+
+    expect(tree.find('.schemaform-start-button').exists()).to.be.false;
+
+    tree.unmount();
+  });
 });
