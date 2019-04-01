@@ -24,17 +24,13 @@ const submitForm = (form, formConfig) => {
       'data.currentHighTechnologyEmployment',
       '',
     ),
-    salary: _.get(form, 'data.currentSalary', ''),
+    salary: _.get(form, 'data.view:salaryEmploymentTypes.currentSalary', ''),
     'edu-0994-programSelection': _.get(
       form,
       'data.view:trainingProgramsChoice',
       '',
     ),
-    'edu-0994-edu-0994-programs-saved': _.get(
-      form,
-      'data.vetTecPrograms.length',
-      0,
-    ),
+    'edu-0994-programs-saved': _.get(form, 'data.vetTecPrograms.length', 0),
   });
 
   return submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix);
