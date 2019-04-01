@@ -120,6 +120,10 @@ class FormPage extends React.Component {
     const isFirstRoutePage =
       route.pageList[0].path === this.props.location.pathname;
 
+    function callOnContinue() {
+      route.pageConfig.onContinue(data);
+    }
+
     return (
       <div className={pageClasses}>
         <SchemaForm
@@ -148,6 +152,7 @@ class FormPage extends React.Component {
             <div className="small-6 medium-5 end columns">
               <ProgressButton
                 submitButton
+                onButtonClick={callOnContinue}
                 buttonText="Continue"
                 buttonClass="usa-button-primary"
                 afterText="»"
@@ -180,6 +185,7 @@ FormPage.propTypes = {
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
       uiSchema: PropTypes.object.isRequired,
+      onContinue: PropTypes.func,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({
