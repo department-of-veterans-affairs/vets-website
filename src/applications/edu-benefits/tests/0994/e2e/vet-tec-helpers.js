@@ -100,13 +100,13 @@ export const completeHighTechWorkExp = (client, data) => {
   }
 };
 
-export const getTrainingProgramsChoice = data =>
-  _.get(data, 'view:trainingProgramsChoice', false);
+export const getHasSelectedPrograms = data =>
+  _.get(data, 'hasSelectedPrograms', false);
 
-export const completeTrainingProgramChoice = (client, data) => {
+export const completeHasSelectedPrograms = (client, data) => {
   client.selectRadio(
-    'root_view:trainingProgramsChoice',
-    getTrainingProgramsChoice(data) ? 'Y' : 'N',
+    'root_hasSelectedPrograms',
+    getHasSelectedPrograms(data) ? 'Y' : 'N',
   );
 };
 
