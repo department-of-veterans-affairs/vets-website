@@ -7,6 +7,7 @@ import ITFWrapper from './containers/ITFWrapper';
 import EVSSClaimsGate from './containers/EVSSClaimsGate';
 
 export default function Form526Entry({ location, children }) {
+  // wraps the app and redirects user if they are not enrolled
   return (
     <EVSSClaimsGate location={location}>
       <ITFWrapper location={location}>

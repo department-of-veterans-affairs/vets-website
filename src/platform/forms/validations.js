@@ -335,6 +335,19 @@ function getFileError(file) {
   return null;
 }
 
+/**
+ * Returns a validator that checks the input length.
+ * Used like: 'ui:validations': [validateLength(50)]
+ */
+function validateLength(
+  length,
+  message = `This field should be less than ${length} characters.`,
+) {
+  return function hasValidLength(errors, input) {
+    if (input.length > length) errors.addError(message);
+  };
+}
+
 export {
   isBlank,
   isBlankDateField,
@@ -372,6 +385,7 @@ export {
   validateCustomFormComponent,
   validateIfDirty,
   validateIfDirtyDate,
+  validateLength,
   isValidRoutingNumber,
   getFileError,
 };

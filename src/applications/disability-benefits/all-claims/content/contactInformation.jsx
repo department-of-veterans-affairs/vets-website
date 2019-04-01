@@ -1,42 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { USA } from '../constants';
 
-export const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    state,
-    country,
-    zipCode,
-  } = formData;
-  let zipString;
-  if (zipCode) {
-    const firstFive = zipCode.slice(0, 5);
-    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
-  }
-
-  let lastLine;
-  if (country === USA) {
-    lastLine = `${city}, ${state} ${zipString}`;
-  } else {
-    lastLine = `${city}, ${country}`;
-  }
-  return (
-    <p className="blue-bar-block">
-      {addressLine1 && addressLine1}
-      <br />
-      {addressLine2 && addressLine2}
-      {addressLine2 && <br />}
-      {addressLine3 && addressLine3}
-      {addressLine3 && <br />}
-      {lastLine}
-    </p>
-  );
-};
+import { AddressViewField } from '../utils';
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
@@ -72,10 +37,6 @@ const EffectiveDateViewField = ({ formData }) => {
   );
 };
 
-export const PrimaryAddressViewField = ({ formData }) => (
-  <AddressViewField formData={formData} />
-);
-
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
   return (
@@ -95,6 +56,13 @@ export const phoneEmailViewField = ({ formData }) => {
     </div>
   );
 };
+
+export const forwardingAddressDescription = () => (
+  <p>
+    If you give us a temporary or forwarding address, we’ll look at the dates
+    you provide to see if we need to use this address when scheduling any exams.
+  </p>
+);
 
 export const contactInfoDescription = () => (
   <p>

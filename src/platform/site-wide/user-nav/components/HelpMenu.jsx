@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
+import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+import IconHelp from '@department-of-veterans-affairs/formation-react/IconHelp';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
@@ -57,7 +57,7 @@ class HelpMenu extends React.Component {
         buttonText={buttonText}
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}
-        id="helpmenu"
+        id="help-menu"
         icon={icon}
         isOpen={this.props.isOpen}
       >

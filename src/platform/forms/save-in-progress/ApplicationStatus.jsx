@@ -8,9 +8,9 @@ import {
   formDescriptions,
   formBenefits,
 } from '../../../applications/personalization/profile360/util/helpers';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { removeSavedForm } from '../../user/profile/actions';
 
 export class ApplicationStatus extends React.Component {
@@ -139,7 +139,7 @@ export class ApplicationStatus extends React.Component {
             {multipleForms && (
               <p className="no-bottom-margin">
                 You have more than one in-progress {formType} form.{' '}
-                <a href="/profile">
+                <a href="/my-va">
                   View and manage your forms on your Account page
                 </a>
                 .
@@ -183,7 +183,7 @@ export class ApplicationStatus extends React.Component {
           {multipleForms && (
             <p className="no-bottom-margin">
               You have more than one in-progress {formType} form.{' '}
-              <a href="/profile">
+              <a href="/my-va">
                 View and manage your forms on your Account page
               </a>
               .

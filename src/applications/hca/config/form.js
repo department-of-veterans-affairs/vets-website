@@ -2,60 +2,64 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { validateMatch } from 'us-forms-system/lib/js/validation';
-import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from '../../../platform/forms/definitions/address';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+} from 'platform/forms/definitions/address';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
-import { maritalStatuses } from '../../../platform/static-data/options-for-select';
-import { states } from '../../../platform/forms/address';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
-import { genderLabels } from '../../../platform/static-data/labels';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import FormFooter from '../components/FormFooter';
-import ErrorText from '../components/ErrorText';
-import environment from '../../../platform/utilities/environment';
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
-import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
-import MilitaryPrefillMessage from '../../../platform/forms/save-in-progress/MilitaryPrefillMessage';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
-import isProduction from '../../../platform/utilities/environment/isProduction';
+import { maritalStatuses } from 'platform/static-data/options-for-select';
+import { states } from 'platform/forms/address';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import { genderLabels } from 'platform/static-data/labels';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { hasSession } from 'platform/user/profile/utilities';
+import environment from 'platform/utilities/environment';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import DowntimeMessage from '../components/DowntimeMessage';
-
+import ErrorText from '../components/ErrorText';
+import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
+import IDPage from '../containers/IDPage';
 
 import {
-  transform,
+  deductibleExpensesDescription,
   dischargeTypeLabels,
-  lastServiceBranchLabels,
-  facilityHelp,
-  isEssentialAcaCoverageDescription,
-  medicaidDescription,
-  medicalCentersByState,
-  medicalCenterLabels,
-  medicarePartADescription,
-  financialDisclosureText,
-  incomeDescription,
   disclosureWarning,
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
-  deductibleExpensesDescription,
+  facilityHelp,
+  fileHelp,
+  financialDisclosureText,
+  incomeDescription,
   isAfterCentralTimeDate,
   isBeforeCentralTimeDate,
+  isEssentialAcaCoverageDescription,
+  lastServiceBranchLabels,
+  medicaidDescription,
+  medicalCenterLabels,
+  medicalCentersByState,
+  medicarePartADescription,
+  prefillTransformer,
+  transform,
   validateDate,
 } from '../helpers';
 
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPageGated from '../containers/IntroductionPageGated';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -84,69 +88,102 @@ const emptyObjectSchema = {
 };
 
 const {
-  gender,
-  mothersMaidenName,
-  cityOfBirth,
-  isSpanishHispanicLatino,
-  isAmericanIndianOrAlaskanNative,
-  isBlackOrAfricanAmerican,
-  isNativeHawaiianOrOtherPacificIslander,
-  isAsian,
-  isWhite,
-  email,
-  lastEntryDate,
-  lastDischargeDate,
-  lastServiceBranch,
-  dischargeType,
-  purpleHeartRecipient,
-  isFormerPow,
-  postNov111998Combat,
-  disabledInLineOfDuty,
-  swAsiaCombat,
-  vietnamService,
-  exposedToRadiation,
-  radiumTreatments,
   campLejeune,
-  isMedicaidEligible,
-  isEnrolledMedicarePartA,
-  medicarePartAEffectiveDate,
-  isCoveredByHealthInsurance,
-  vaMedicalFacility,
-  isEssentialAcaCoverage,
-  wantsInitialVaContact,
-  vaCompensationType,
-  discloseFinancialInformation,
-  spouseFullName,
-  spouseSocialSecurityNumber,
-  spouseDateOfBirth,
-  dateOfMarriage,
-  sameAddress,
+  cityOfBirth,
   cohabitedLastYear,
-  provideSupportLastYear,
-  spousePhone,
+  dateOfMarriage,
+  deductibleEducationExpenses,
+  deductibleFuneralExpenses,
+  deductibleMedicalExpenses,
   dependents,
-  veteranGrossIncome,
-  veteranNetIncome,
-  veteranOtherIncome,
-  veteranFullName,
+  disabledInLineOfDuty,
+  dischargeType,
+  discloseFinancialInformation,
+  email,
+  exposedToRadiation,
+  gender,
+  isAmericanIndianOrAlaskanNative,
+  isAsian,
+  isBlackOrAfricanAmerican,
+  isCoveredByHealthInsurance,
+  isEnrolledMedicarePartA,
+  isEssentialAcaCoverage,
+  isFormerPow,
+  isMedicaidEligible,
+  isNativeHawaiianOrOtherPacificIslander,
+  isSpanishHispanicLatino,
+  isWhite,
+  lastDischargeDate,
+  lastEntryDate,
+  lastServiceBranch,
+  medicarePartAEffectiveDate,
+  mothersMaidenName,
+  postNov111998Combat,
+  provideSupportLastYear,
+  purpleHeartRecipient,
+  radiumTreatments,
+  sameAddress,
+  spouseDateOfBirth,
+  spouseFullName,
   spouseGrossIncome,
   spouseNetIncome,
   spouseOtherIncome,
-  deductibleMedicalExpenses,
-  deductibleFuneralExpenses,
-  deductibleEducationExpenses,
+  spousePhone,
+  spouseSocialSecurityNumber,
+  swAsiaCombat,
+  vaCompensationType,
+  vaMedicalFacility,
+  veteranFullName,
+  veteranGrossIncome,
+  veteranNetIncome,
+  veteranOtherIncome,
+  vietnamService,
+  wantsInitialVaContact,
 } = fullSchemaHca.properties;
 
 const {
-  fullName,
   date,
-  provider,
-  phone,
+  fullName,
   monetaryValue,
+  phone,
+  provider,
   ssn,
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
+
+const attachmentsSchema = {
+  type: 'array',
+  minItems: 1,
+  items: {
+    type: 'object',
+    required: ['attachmentId', 'name'],
+    properties: {
+      name: {
+        type: 'string',
+      },
+      size: {
+        type: 'integer',
+      },
+      confirmationCode: {
+        type: 'string',
+      },
+      attachmentId: {
+        type: 'string',
+        enum: ['1', '2', '3', '4', '5', '6', '7'],
+        enumNames: [
+          'DD214',
+          'DD215 (used to correct or make additions to the DD214)',
+          'WD AGO 53-55 (report of separation used prior to 1950)',
+          'Other discharge papers (like your DD256, DD257, or NGB22)',
+          'Official documentation of a military award (like a Purple Heart, Medal of Honor, or Silver Star)',
+          'Disability rating letter from the Veterans Benefit Administration (VBA)',
+          'Other official military document',
+        ],
+      },
+    },
+  },
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -156,6 +193,7 @@ const formConfig = {
   version: 6,
   migrations,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.',
@@ -165,7 +203,17 @@ const formConfig = {
     message: DowntimeMessage,
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: environment.isProduction()
+    ? IntroductionPage
+    : IntroductionPageGated,
+  additionalRoutes: !environment.isProduction() && [
+    {
+      path: 'id-form',
+      component: IDPage,
+      pageKey: 'id-form',
+      depends: () => !hasSession(),
+    },
+  ],
   confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
@@ -417,7 +465,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description': !isProduction()
+            'ui:description': !environment.isProduction()
               ? MilitaryPrefillMessage
               : undefined,
             lastServiceBranch: {
@@ -509,6 +557,47 @@ const formConfig = {
               exposedToRadiation,
               radiumTreatments,
               campLejeune,
+            },
+          },
+        },
+        documentUpload: {
+          title: 'Upload your discharge papers',
+          path: 'military-service/documents',
+          depends: formData =>
+            !formData['view:isUserInMVI'] && !environment.isProduction(),
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:title': 'Upload your discharge papers',
+            'ui:description': fileHelp,
+            attachments: fileUploadUI('', {
+              buttonText: 'Upload a document',
+              addAnotherLabel: 'Upload another document',
+              fileUploadUrl: `${environment.API_URL}/v0/hca_attachments`,
+              fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
+              maxSize: 1024 * 1024 * 10,
+              hideLabelText: true,
+              createPayload: file => {
+                const payload = new FormData();
+                payload.append('hca_attachment[file_data]', file);
+                return payload;
+              },
+              parseResponse: (response, file) => ({
+                name: file.name,
+                confirmationCode: response.data.attributes.guid,
+                size: file.size,
+              }),
+              attachmentSchema: {
+                'ui:title': 'Document type',
+              },
+              attachmentName: {
+                'ui:title': 'Document name',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              attachments: attachmentsSchema,
             },
           },
         },

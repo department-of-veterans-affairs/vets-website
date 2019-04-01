@@ -1,7 +1,7 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import defaultLinkData from '../mega-menu-link-data.json';
+
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import {
   togglePanelOpen,
@@ -12,7 +12,7 @@ import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
-import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
+import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -29,8 +29,8 @@ export function flagCurrentPageInTopLevelLinks(
 
 export function getAuthorizedLinkData(
   loggedIn,
+  defaultLinks,
   authenticatedLinks = authenticatedUserLinkData,
-  defaultLinks = defaultLinkData,
 ) {
   return [
     ...replaceDomainsInData(defaultLinks),
@@ -94,12 +94,13 @@ export class Main extends React.Component {
   }
 }
 
-const mapStateToProps = createSelector(
-  isLoggedIn,
-  state => state.megaMenu,
-  (loggedIn, megaMenu) => {
+const mainSelector = createSelector(
+  ({ state }) => isLoggedIn(state),
+  ({ state }) => state.megaMenu,
+  ({ megaMenuData }) => megaMenuData,
+  (loggedIn, megaMenu, megaMenuData) => {
     const data = flagCurrentPageInTopLevelLinks(
-      getAuthorizedLinkData(loggedIn),
+      getAuthorizedLinkData(loggedIn, megaMenuData),
     );
 
     return {
@@ -108,6 +109,12 @@ const mapStateToProps = createSelector(
     };
   },
 );
+
+const mapStateToProps = (state, ownProps) =>
+  mainSelector({
+    state,
+    megaMenuData: ownProps.megaMenuData,
+  });
 
 const mapDispatchToProps = {
   toggleMobileDisplayHidden,

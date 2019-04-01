@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
@@ -15,13 +15,15 @@ import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import { setUpPage, scrollToTop } from '../utils/page';
 
 import {
+  APPEAL_TYPES,
   EVENT_TYPES,
   isolateAppeal,
   RECORD_NOT_FOUND_ERROR,
   AVAILABLE,
+  getTypeName,
 } from '../utils/appeals-v2-helpers';
 import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
 const appealsDownMessage = (
   <div className="row" id="appealsDownMessage">
@@ -31,12 +33,12 @@ const appealsDownMessage = (
         <p>
           Please refresh this page or try again later. If it still doesn’t work,
           you can{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {siteName} Help Desk at{' '}
             <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:+18008294833">1-800-829-4833</a>
             ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       </div>
     </div>
@@ -50,12 +52,12 @@ const recordsNotFoundMessage = (
         <h3>We’re sorry. We can’t find your records in our system.</h3>
         <p>
           If you think they should be here, please try again later or{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {siteName} Help Desk at{' '}
             <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:+18008294833">1-800-829-4833</a>
             ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       </div>
     </div>
@@ -75,13 +77,36 @@ export class AppealInfo extends React.Component {
   }
 
   createHeading = () => {
-    const firstClaim = this.props.appeal.attributes.events.find(
-      a => a.type === EVENT_TYPES.claimDecision,
+    let requestEventType;
+    switch (this.props.appeal.type) {
+      case APPEAL_TYPES.legacy:
+        requestEventType = EVENT_TYPES.nod;
+        break;
+      case APPEAL_TYPES.supplementalClaim:
+        requestEventType = EVENT_TYPES.scRequest;
+        break;
+      case APPEAL_TYPES.higherLevelReview:
+        requestEventType = EVENT_TYPES.hlrRequest;
+        break;
+      case APPEAL_TYPES.appeal:
+        requestEventType = EVENT_TYPES.amaNod;
+        break;
+      default:
+      // do nothing
+    }
+    const requestEvent = this.props.appeal.attributes.events.find(
+      event => event.type === requestEventType,
     );
-    const appealDate = firstClaim
-      ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY')
-      : '';
-    return `Appeal of ${appealDate} Claim Decision`;
+
+    let appealTitle = getTypeName(this.props.appeal);
+
+    if (requestEvent) {
+      appealTitle += ` Received ${moment(requestEvent.date).format(
+        'MMMM YYYY',
+      )}`;
+    }
+
+    return appealTitle;
   };
 
   render() {

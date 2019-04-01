@@ -41,6 +41,7 @@ describe('<PhotoField>', () => {
     expect(tree.find('Dropzone').exists()).to.be.true;
     expect(tree.text()).to.contain('Step 1');
     expect(tree.find('ErrorableFileInput').length).to.equal(2);
+    tree.unmount();
   });
   it('should render cropper', () => {
     const formContext = {};
@@ -61,6 +62,7 @@ describe('<PhotoField>', () => {
     expect(tree.find(CropperController).exists()).to.be.true;
     expect(tree.text()).to.contain('Step 2');
     expect(tree.find('ErrorableFileInput').length).to.equal(1);
+    tree.unmount();
   });
   it('should render uploading', () => {
     const formContext = {};
@@ -87,6 +89,7 @@ describe('<PhotoField>', () => {
     expect(tree.text()).not.to.contain('Step');
     expect(tree.find('ErrorableFileInput').exists()).to.be.false;
     expect(tree.find('ProgressBar').props().percent).to.equal(10);
+    tree.unmount();
   });
   it('should render preview while processing', () => {
     const formContext = {};
@@ -117,6 +120,7 @@ describe('<PhotoField>', () => {
     expect(text).not.to.contain('Edit your photo');
     expect(text).to.contain('Go back and change');
     expect(text).not.to.contain('Success!');
+    tree.unmount();
   });
   describe('onChange', () => {
     function FileReader() {}
@@ -169,6 +173,7 @@ describe('<PhotoField>', () => {
         expect(onChange.firstCall.args[0].errorMessage).to.contain(
           'smaller than the',
         );
+        tree.unmount();
         done();
       });
     });
@@ -216,6 +221,7 @@ describe('<PhotoField>', () => {
         expect(onChange.firstCall.args[0].errorMessage).to.contain(
           'make sure the file you’re uploading is a jpeg',
         );
+        tree.unmount();
         done();
       });
     });
@@ -263,6 +269,7 @@ describe('<PhotoField>', () => {
 
       setTimeout(() => {
         expect(tree.state().currentLayout).to.equal('crop_photo');
+        tree.unmount();
         done();
       });
     });
@@ -316,6 +323,7 @@ describe('<PhotoField>', () => {
 
       setTimeout(() => {
         expect(onChange.firstCall.args[0].errorMessage).to.contain('square');
+        tree.unmount();
         done();
       });
     });
@@ -363,6 +371,7 @@ describe('<PhotoField>', () => {
         expect(onChange.firstCall.args[0].errorMessage).to.contain(
           'smaller than the',
         );
+        tree.unmount();
         done();
       });
     });
@@ -410,6 +419,7 @@ describe('<PhotoField>', () => {
         expect(onChange.firstCall.args[0].errorMessage).to.contain(
           'make sure the file you’re uploading is a jpeg',
         );
+        tree.unmount();
         done();
       });
     });
@@ -457,6 +467,7 @@ describe('<PhotoField>', () => {
 
       setTimeout(() => {
         expect(formContext.uploadFile.called).to.be.true;
+        tree.unmount();
         done();
       });
     });
@@ -491,6 +502,7 @@ describe('<PhotoField>', () => {
     expect(tree.find('ErrorableFileInput').props().buttonText).to.equal(
       'Upload Photo Again',
     );
+    tree.unmount();
   });
   it('should render preview in review mode', () => {
     const formContext = {
@@ -518,6 +530,7 @@ describe('<PhotoField>', () => {
     expect(tree.find('Dropzone').exists()).to.be.false;
     expect(tree.find('ErrorableFileInput').exists()).to.be.false;
     expect(tree.find('PhotoPreview').exists()).to.be.true;
+    tree.unmount();
   });
   it('should upload photo', () => {
     const uploadStub = (file, options, onProgress, onChange) => {
@@ -557,6 +570,7 @@ describe('<PhotoField>', () => {
       confirmationCode: 'testing',
       file,
     });
+    tree.unmount();
   });
   it('should revoke url on unmount', () => {
     const formContext = {};
@@ -582,6 +596,7 @@ describe('<PhotoField>', () => {
     tree.instance().componentWillUnmount();
 
     expect(window.URL.revokeObjectURL.called).to.be.true;
+    tree.unmount();
   });
   it('should recreate object url on blob change', () => {
     const formContext = {};
@@ -604,7 +619,7 @@ describe('<PhotoField>', () => {
     );
 
     tree.setState({ previewSrc: 'testing', formData: {} });
-    tree.instance().componentWillReceiveProps({
+    tree.instance().UNSAFE_componentWillReceiveProps({
       formData: {
         file: new Blob(),
       },
@@ -612,6 +627,7 @@ describe('<PhotoField>', () => {
 
     expect(window.URL.revokeObjectURL.called).to.be.true;
     expect(window.URL.createObjectURL.called).to.be.true;
+    tree.unmount();
   });
   it('should reset file on preview view', () => {
     const formContext = {};
@@ -644,5 +660,6 @@ describe('<PhotoField>', () => {
 
     expect(onChange.called).to.be.true;
     expect(tree.state().currentLayout).to.equal('choose_photo');
+    tree.unmount();
   });
 });

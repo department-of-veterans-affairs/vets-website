@@ -1,15 +1,18 @@
+import set from '../../../../platform/utilities/data/set';
 import merge from 'lodash/merge';
-import fullSchema from '../config/schema';
-import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
-import { queryForFacilities, addCheckboxPerDisability } from '../utils';
+import { queryForFacilities, makeSchemaForAllDisabilities } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
+  startedAfterServicePeriod,
+  hasMonthYear,
 } from '../validations';
 import { USA } from '../constants';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const { vaTreatmentFacilities } = fullSchema.properties;
 
@@ -29,7 +32,7 @@ export const uiSchema = {
     items: {
       'ui:order': [
         'treatmentCenterName',
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
@@ -44,11 +47,11 @@ export const uiSchema = {
           },
         },
       ),
-      relatedDisabilities: {
+      treatedDisabilityNames: {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
-          updateSchema: addCheckboxPerDisability,
+          updateSchema: makeSchemaForAllDisabilities,
           showFieldLabel: true,
         },
         'ui:validations': [validateBooleanGroup],
@@ -57,10 +60,27 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
       },
-      treatmentDateRange: dateRangeUI(
-        'When did you first visit this facility?',
-        'When was your most recent visit?',
-        'Date of last treatment must be after date of first treatment',
+      treatmentDateRange: merge(
+        {},
+        dateRangeUI(
+          'When did you first visit this facility?',
+          'When was your most recent visit? (Optional)',
+          'Date of last treatment must be after date of first treatment',
+        ),
+        {
+          from: {
+            'ui:validations': dateRangeUI().from['ui:validations'].concat([
+              startedAfterServicePeriod,
+            ]),
+          },
+        },
+        {
+          to: {
+            'ui:validations': dateRangeUI().to['ui:validations'].concat([
+              hasMonthYear,
+            ]),
+          },
+        },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],
@@ -91,16 +111,10 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
-      items: {
-        required: ['treatmentCenterName', 'relatedDisabilities'],
-        properties: {
-          relatedDisabilities: {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-    }),
+    vaTreatmentFacilities: set(
+      'items.properties.treatedDisabilityNames',
+      { type: 'object', properties: {} },
+      vaTreatmentFacilities,
+    ),
   },
 };

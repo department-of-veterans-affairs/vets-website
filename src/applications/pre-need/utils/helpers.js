@@ -2,18 +2,18 @@ import React from 'react';
 import { get, omit, merge } from 'lodash/fp';
 import Raven from 'raven-js';
 
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import TextWidget from 'us-forms-system/lib/js/widgets/TextWidget';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
 import {
   stringifyFormReplacer,
   filterViewFields,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import environment from '../../../platform/utilities/environment';
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -247,44 +247,6 @@ export const fullMaidenNameUI = merge(fullNameUI, {
   maiden: { 'ui:title': 'Maiden name' },
 });
 
-export class GetFormHelp extends React.Component {
-  render() {
-    return (
-      <div>
-        <p className="help-talk">
-          For other benefit-related questions, please call VA Benefits and
-          Services:
-        </p>
-        <p className="help-phone-number">
-          <a className="help-phone-number-link" href="tel:+1-800-827-1000">
-            1-800-827-1000
-          </a>
-          <br />
-          Monday - Friday, 8:00 a.m. - 9:00 p.m. (ET)
-          <br />
-          For Telecommunications Relay Service (TRS): dial{' '}
-          <a className="help-phone-number-link" href="tel:711">
-            711
-          </a>
-        </p>
-
-        <p className="help-talk">
-          For questions about eligibility for burial in a VA national cemetery,
-          please call the National Cemetery Scheduling Office:
-        </p>
-        <p className="help-phone-number">
-          <a className="help-phone-number-link" href="tel:+1-800-535-1117">
-            1-800-535-1117
-          </a>
-          <br />7 days a week, 8:00 a.m. - 7:30 p.m. (ET)
-          <br />
-          Select option 3 to speak to someone in Eligibility
-        </p>
-      </div>
-    );
-  }
-}
-
 class SSNWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -379,6 +341,9 @@ export const serviceRecordsUI = {
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
+    'ui:options': {
+      ariaLabelForEditButtonOnReview: 'Service Period',
+    },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
@@ -436,6 +401,7 @@ export const militaryNameUI = {
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
     },

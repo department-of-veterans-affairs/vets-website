@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import {
   getScheduledDowntime,
@@ -19,7 +19,7 @@ import Down from '../components/Down';
 import DowntimeApproaching from '../components/DowntimeApproaching';
 
 /**
- * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of Vets.gov services.
+ * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
  * @property {string} [appTitle] - The name of the consuming application, which will be displayed in downtime messaging.
  * @property {node} [children] - React components to be rendered based on downtime.
  * @property {node} [content] - Alias for React.children.

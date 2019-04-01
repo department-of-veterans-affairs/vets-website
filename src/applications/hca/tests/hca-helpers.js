@@ -404,7 +404,9 @@ function initSaveInProgressMock(url, client) {
       data: {
         attributes: {
           profile: {
-            authn_context: 'idme',
+            sign_in: {
+              service_name: 'idme',
+            },
             email: 'fake@fake.com',
             loa: { current: 3 },
             first_name: 'Jane',
@@ -451,6 +453,7 @@ function initSaveInProgressMock(url, client) {
           },
         },
       },
+      meta: { errors: null },
     },
   });
 
@@ -505,9 +508,9 @@ function initSaveInProgressMock(url, client) {
   });
   /* eslint-enable camelcase */
 
-  client.url(url).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(url).waitForElementVisible('body', Timeouts.normal);
 
-  Auth.setUserToken(token, client);
+  Auth.setUserSession(token, client);
 
   return token;
 }

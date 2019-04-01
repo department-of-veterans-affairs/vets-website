@@ -1,0 +1,26 @@
+.va-c-facility-hours-list {
+   list-style-type: none;
+   padding: 0;
+   columns: 2;
+   -webkit-columns: 2;
+   -moz-columns: 2;
+   list-style-position: inside;
+ }
+
+.va-c-facility-sidebar {
+   .usa-sidenav-sub_list {
+      a.usa-current {
+         margin-left: 0 !important;
+      }
+   }
+
+   a + .usa-sidenav-sub_list, li > .usa-sidenav-sub_list {
+      display: none;
+   }
+
+   a.usa-current + .usa-sidenav-sub_list,
+   .usa-sidenav-sub_list + a.usa-current,
+   li.active-level > .usa-sidenav-sub_list {
+      display: block;
+   }
+}

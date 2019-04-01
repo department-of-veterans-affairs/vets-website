@@ -8,7 +8,7 @@ export const getPtsdClassification = (formData, formType) => {
     false,
   );
   const isNonCombat = _.get(
-    'view:selectablePtsdTypes.view:noncombatPtsdType',
+    'view:selectablePtsdTypes.view:nonCombatPtsdType',
     formData,
     false,
   );
@@ -28,38 +28,34 @@ export const getPtsdClassification = (formData, formType) => {
 
   switch (true) {
     case isCombat && isNonCombat && is781:
-      incidentTitle =
-        'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentTitle = 'Combat & non-combat';
 
-      incidentText =
-        'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentText = 'combat and non-combat';
       break;
 
     case isAssault && isMst && !is781:
-      incidentTitle = 'Personal Assault & Military Sexual Trauma';
-      incidentText = 'Personal Assault and Military Sexual Trauma';
+      incidentTitle = 'Personal assault & sexual trauma';
+      incidentText = 'personal assault and sexual trauma';
       break;
 
     case isCombat && is781:
       incidentTitle = 'Combat';
-      incidentText = 'Combat';
+      incidentText = 'combat';
       break;
 
     case isNonCombat && is781:
-      incidentTitle =
-        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-      incidentText =
-        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentTitle = 'Non-combat';
+      incidentText = 'non-combat';
       break;
 
     case isAssault && !is781:
-      incidentTitle = 'Personal Assault';
-      incidentText = 'Personal Assault';
+      incidentTitle = 'Personal assault';
+      incidentText = 'personal assault';
       break;
 
     case isMst && !is781:
-      incidentTitle = 'Military Sexual Trauma';
-      incidentText = 'Military Sexual Trauma';
+      incidentTitle = 'Sexual trauma';
+      incidentText = 'sexual trauma';
       break;
 
     default:
@@ -73,7 +69,14 @@ export const PtsdNameTitle = ({ formData, formType }) => {
   const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentTitle}
+      {`PTSD: ${incidentTitle}`}
     </legend>
   );
 };
+export const ptsd781NameTitle = ({ formData }) => (
+  <PtsdNameTitle formData={formData} formType="781" />
+);
+
+export const ptsd781aNameTitle = ({ formData }) => (
+  <PtsdNameTitle formData={formData} formType="781a" />
+);

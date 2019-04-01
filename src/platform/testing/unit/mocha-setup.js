@@ -8,12 +8,13 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
+import ENVIRONMENTS from '../../../site/constants/environments';
+
 // import sinon from 'sinon'
 
-global.__BUILDTYPE__ = process.env.BUILDTYPE || 'vagovdev';
-global.__ALL_CLAIMS_ENABLED__ =
-  global.__BUILDTYPE__ === 'vagovdev' ||
-  process.env.ALL_CLAIMS_ENABLED === 'true';
+global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
+global.__API__ = null;
+global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 
@@ -34,6 +35,9 @@ export default function setupJSDom() {
   global.dom = dom;
   global.document = win.document;
   global.window = win;
+  global.navigator = {
+    userAgent: 'node.js',
+  };
 
   win.VetsGov = {
     scroll: {
@@ -61,23 +65,20 @@ export default function setupJSDom() {
 
   global.Blob = window.Blob;
 
-  // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
-  function propagateToGlobal(window) {
-    /* eslint-disable */
-    for (const key in window) {
-      if (!window.hasOwnProperty(key)) continue;
-      if (key in global) continue;
-
-      global[key] = window[key];
-    }
-    /* eslint-enable */
-
-    // Mock fetch
-    // This was causing some tests to fail, so we'll have to loop back around to it later
-    // global.fetch = sinon.stub();
+  function copyProps(src, target) {
+    const props = Object.getOwnPropertyNames(src)
+      .filter(prop => typeof target[prop] === 'undefined')
+      .reduce(
+        (result, prop) => ({
+          ...result,
+          [prop]: Object.getOwnPropertyDescriptor(src, prop),
+        }),
+        {},
+      );
+    Object.defineProperties(target, props);
   }
 
-  propagateToGlobal(win);
+  copyProps(win, global);
 }
 
 setupJSDom();

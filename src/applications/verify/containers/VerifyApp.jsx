@@ -2,20 +2,33 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
+import { hasSession } from '../../../platform/user/profile/utilities';
 import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    const { profile } = this.props;
+    const serviceName = (profile.signIn || {}).serviceName;
+
+    const signinMethodLabels = {
+      dslogon: 'DS Logon',
+      myhealthevet: 'My HealtheVet',
+    };
+
+    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
+  }
   componentDidMount() {
-    if (!conditionalStorage().getItem('userToken')) {
-      return window.location.replace('/');
+    if (!hasSession()) {
+      window.location.replace('/');
+    } else {
+      recordEvent({ event: 'verify-prompt-displayed' });
     }
-    return recordEvent({ event: 'verify-prompt-displayed' });
   }
 
   componentDidUpdate(prevProps) {
@@ -35,14 +48,11 @@ export class VerifyApp extends React.Component {
   }
 
   render() {
-    if (this.props.profile.loading) {
+    const { profile } = this.props;
+
+    if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-
-    const signinMethod = {
-      dslogon: 'DS Logon',
-      myhealthevet: 'My HealtheVet',
-    };
 
     return (
       <main className="verify">
@@ -52,9 +62,7 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${signinMethod[
-                    this.props.profile.authnContext
-                  ] || 'ID.me'}`}
+                  content={`You signed in with ${this.signInMethod}`}
                   isVisible
                   status="success"
                 />
@@ -62,7 +70,7 @@ export class VerifyApp extends React.Component {
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
                   <br />
-                  <a href="/faq/#why-verify" target="_blank">
+                  <a href="/sign-in-faq/#why-verify" target="_blank">
                     Why does {siteName} verify identity?
                   </a>
                 </p>
@@ -85,18 +93,18 @@ export class VerifyApp extends React.Component {
               <div className="help-info">
                 <h4>Having trouble verifying your identity?</h4>
                 <p>
-                  <a href="/faq/" target="_blank">
+                  <a href="/sign-in-faq/" target="_blank">
                     Get answers to Frequently Asked Questions
                   </a>
                 </p>
                 <p>
-                  <CallHelpDesk startSentence>
+                  <SubmitSignInForm startSentence>
                     Call the {siteName} Help Desk at{' '}
                     <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                     <a href="tel:18008778339">1-800-877-8339</a>
                     <br />
                     Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-                  </CallHelpDesk>
+                  </SubmitSignInForm>
                 </p>
               </div>
             </div>

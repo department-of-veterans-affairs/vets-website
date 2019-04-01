@@ -20,7 +20,8 @@ import _ from 'lodash';
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableTextInput extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.inputId = _.uniqueId('errorable-text-input-');
   }
 

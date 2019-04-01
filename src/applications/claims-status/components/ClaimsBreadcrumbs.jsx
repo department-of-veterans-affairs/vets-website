@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class ClaimsBreadcrumbs extends React.Component {
   renderBreadcrumbs = childNodes => {
@@ -8,11 +8,8 @@ class ClaimsBreadcrumbs extends React.Component {
       <a href="/" key="home">
         Home
       </a>,
-      <a href="/disability-benefits/" key="disability-benefits">
-        Disability Benefits
-      </a>,
       <Link to="your-claims" key="claims-home">
-        Track Your Claims and Appeals
+        Check Your Claims and Appeals
       </Link>,
     ];
 

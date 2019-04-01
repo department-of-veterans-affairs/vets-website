@@ -1,9 +1,10 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import Raven from 'raven-js';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
+import moment from 'moment';
 
 import { apiRequest } from '../../../platform/utilities/api';
 import {
@@ -11,18 +12,21 @@ import {
   isValidCanPostalCode,
 } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
-import { filterViewFields } from 'us-forms-system/lib/js/helpers';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
-import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
-import { AddressViewField } from '../all-claims/content/contactInformation';
+import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
+import { AddressViewField, capitalizeEachWord } from '../all-claims/utils';
 
-import { VA_FORM4142_URL } from '../all-claims/constants';
+import {
+  VA_FORM4142_URL,
+  SERVICE_CONNECTION_TYPES,
+  disabilityActionTypes,
+} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -151,7 +155,25 @@ export function transform(formConfig, form) {
     selectedDisabilities,
     'treatments',
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
-  );
+  ).map(treatment => {
+    // If the day is missing, set it to the last day of the month because EVSS requires a day
+    const [year, month, day] = get(
+      'treatmentDateRange.to',
+      treatment,
+      '',
+    ).split('-');
+    if (day && day === 'XX') {
+      return set(
+        'treatmentDateRange.to',
+        moment(`${year}-${month}`)
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        treatment,
+      );
+    }
+
+    return treatment;
+  });
 
   const attachments = additionalDocuments.concat(privateRecords);
 
@@ -229,6 +251,20 @@ export function transformObligationDates(formData) {
   return newFormData;
 }
 
+export function transformDisabilities(disabilities = []) {
+  return (
+    disabilities
+      // We want to remove disabilities that aren't service-connected
+      .filter(
+        disability =>
+          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
+      )
+      .map(disability =>
+        set('disabilityActionType', disabilityActionTypes.INCREASE, disability),
+      )
+  );
+}
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -267,13 +303,13 @@ export const supportingEvidenceOrientation = (
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {getDisabilityName(formData.name)}
+    {capitalizeEachWord(formData.name)}
   </legend>
 );
 
 export const facilityDescription = ({ formData }) => (
   <p>
-    Please tell us where VA treated you for {getDisabilityName(formData.name)}{' '}
+    Please tell us where VA treated you for {capitalizeEachWord(formData.name)}{' '}
     <strong>after you got your disability rating</strong>.
   </p>
 );
@@ -281,7 +317,7 @@ export const facilityDescription = ({ formData }) => (
 export const vaMedicalRecordsIntro = ({ formData }) => (
   <p>
     First we’ll ask you about your VA medical records that show your{' '}
-    {getDisabilityName(formData.name)} has gotten worse.
+    {capitalizeEachWord(formData.name)} has gotten worse.
   </p>
 );
 
@@ -289,7 +325,7 @@ export const privateRecordsChoice = ({ formData }) => (
   <div>
     <h4>About private medical records</h4>
     <p>
-      You said you were treated for {getDisabilityName(formData.name)} by a
+      You said you were treated for {capitalizeEachWord(formData.name)} by a
       private doctor. If you have your private medical records, you can upload
       them to your application. If you want us to get them for you, you’ll need
       to authorize their release.
@@ -303,7 +339,7 @@ export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
     {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you
     about your private medical records that show your{' '}
-    {getDisabilityName(formData.name)} has gotten worse.
+    {capitalizeEachWord(formData.name)} has gotten worse.
   </p>
 );
 
@@ -377,7 +413,7 @@ export const download4142Notice = (
       doctor.
     </p>
     <p>
-      <a href={VA_FORM4142_URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank" rel="noopener noreferrer">
         Download VA Form 21-4142
       </a>
       .<p>Please print the form, fill it out, and send it to:</p>
@@ -465,6 +501,7 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
       'view:privateMedicalRecords': privateRecordsSelected,
       'view:otherEvidence': otherEvidenceSelected,
     },
+    'view:uploadPrivateRecords': uploadPrivateRecords,
   } = formData;
 
   return (
@@ -484,10 +521,20 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
             </li>
           )}
         {privateRecords &&
-          privateRecordsSelected && (
+          privateRecordsSelected &&
+          uploadPrivateRecords === 'yes' && (
             <li>
               We have received the private medical records you uploaded:
               {listDocuments(privateRecords)}
+            </li>
+          )}
+        {privateRecordsSelected &&
+          uploadPrivateRecords === 'no' && (
+            <li>
+              You asked us to get your private medical records from your doctor,
+              so you’ll need to fill out an Authorization to Disclose
+              Information to the VA (VA Form 21-4142). We’ll provide a link to
+              the 21-4142 after you submit your form.
             </li>
           )}
         {additionalDocuments &&
@@ -616,23 +663,6 @@ export const VerifiedAlert = (
   </div>
 );
 
-export const GetFormHelp = () => (
-  <div>
-    <p className="help-talk">For help filling out this form, please call:</p>
-    <p className="help-phone-number">
-      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-        1-877-222-VETS
-      </a>{' '}
-      (
-      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-        1-877-222-8387
-      </a>
-      )<br />
-      Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-    </p>
-  </div>
-);
-
 export const ITFDescription = (
   <span>
     <strong>Note:</strong> By clicking the button to start the disability
@@ -664,7 +694,7 @@ const evidenceTypesDescription = disabilityName => (
 
 export const getEvidenceTypesDescription = (form, index) => {
   const { name } = form.disabilities[index];
-  return evidenceTypesDescription(getDisabilityName(name));
+  return evidenceTypesDescription(capitalizeEachWord(name));
 };
 
 /**
@@ -851,7 +881,11 @@ export const patientAcknowledgmentText = (
     <p>
       NOTE: For additional information regarding VA Form 21-4142, refer to the
       following website:
-      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+      <a
+        href="https://www.benefits.va.gov/privateproviders/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         https://www.benefits.va.gov/privateproviders/
       </a>
       .

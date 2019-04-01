@@ -556,6 +556,27 @@ h1:focus {
 .claim-timeline {
   padding-top: 0;
 
+  .section-header-button {
+    background: inherit;
+    border: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-size-adjust: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: inherit;
+    padding: inherit;
+    z-index: inherit;
+  }
+
+  .section-header-button:focus {
+    outline: 2px solid;
+    outline-color: $color-gold-light;
+    outline-offset: 0;
+  }
+
   .section-current > .section-header {
     color: $color-primary;
   }
@@ -784,7 +805,7 @@ h1:focus {
 }
 
 .va-appeals-content {
-  padding-top: 1em;
+  padding: 1em 0 2em;
 
   .usa-alert-text {
     margin-top: 1em;
@@ -1000,6 +1021,10 @@ h1:focus {
       margin-left: 0.5em;
     }
   }
+}
+
+.appeals-next-list-no-separator li.next-event {
+  margin: 1.5em 0 2em;
 }
 
 .alerts-list-container {

@@ -8,7 +8,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Ensure introduction page renders.
   client
-    .url(url)
+    .openUrl(url)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for Health Care: VA.gov')
     .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
@@ -40,7 +40,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .text.to.contain('We’re sorry. We’re having some server issues');
 
   // fail to find in progress form
-  client.url(url).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(url).waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideScrolling(client);
 
@@ -68,7 +68,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Signed out when loading form
   E2eHelpers.overrideVetsGovApi(client);
-  client.url(url).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(url).waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideScrolling(client);
 

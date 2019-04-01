@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
@@ -114,7 +114,7 @@ export class Calculator extends React.Component {
           <div className="link-header">
             <h5>{title}</h5>
             &nbsp;(
-            <a href={learnMoreLink} target="_blank">
+            <a href={learnMoreLink} target="_blank" rel="noopener noreferrer">
               Learn more
             </a>
             )

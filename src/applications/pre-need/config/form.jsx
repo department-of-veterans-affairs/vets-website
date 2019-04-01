@@ -7,24 +7,25 @@ import environment from '../../../platform/utilities/environment';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import * as address from '../definitions/address';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../components/GetFormHelp';
+import ErrorText from '../components/ErrorText';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import { validateSponsorDeathDate } from '../validation';
 
 import {
-  GetFormHelp,
   isVeteran,
   isAuthorizedAgent,
   formatName,
@@ -81,6 +82,8 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
+  prefillEnabled: true,
+  verifyRequiredPrefill: false,
   version: 0,
   savedFormMessages: {
     notFound: 'Please start over to apply for pre-need eligibility.',
@@ -94,6 +97,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     fullName,
     ssn,

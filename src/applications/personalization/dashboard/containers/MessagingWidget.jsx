@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
-import { formattedDate } from '../../../messaging/utils/helpers';
+import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
+import { formattedDate } from '../utils/helpers';
 
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
-import { fetchFolder, fetchRecipients } from '../../../messaging/actions';
+import { fetchFolder, fetchRecipients } from '../actions/messaging';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 
@@ -104,6 +104,7 @@ class MessagingWidget extends React.Component {
           {isBrandConsolidationEnabled() ? (
             <a
               href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+              rel="noopener noreferrer"
               target="_blank"
             >
               View all your secure messages
@@ -111,7 +112,7 @@ class MessagingWidget extends React.Component {
           ) : (
             <span>
               <Link
-                href="/health-care/messaging"
+                href="/health-care/secure-messaging/"
                 onClick={recordDashboardClick('view-all-messages')}
               >
                 View all your secure messages

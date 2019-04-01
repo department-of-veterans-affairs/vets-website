@@ -1,5 +1,6 @@
 import React from 'react';
-import { getDisabilityName } from '../utils';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { capitalizeEachWord } from '../utils';
 
 /**
  * @typedef {Object} Disability
@@ -15,7 +16,7 @@ export const disabilityOption = ({ name, ratingPercentage }) => {
 
   return (
     <div>
-      <h4>{getDisabilityName(name)}</h4>
+      <h4>{capitalizeEachWord(name)}</h4>
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
@@ -32,3 +33,17 @@ export const disabilitiesClarification = (
     are in progress.
   </p>
 );
+
+/**
+ * Shows the alert box only if the form has been submitted
+ */
+export const ratedDisabilitiesAlert = ({ formContext }) => {
+  if (!formContext.submitted) return null;
+  return (
+    <AlertBox
+      status="error"
+      headline="We need you to add a disability"
+      content="You’ll need to add a new disability or choose a rated disability to claim. We can’t process your claim without a disability selected."
+    />
+  );
+};

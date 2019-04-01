@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export class Modals extends React.Component {
   constructor(props) {
@@ -136,6 +136,7 @@ export class Modals extends React.Component {
             <a
               href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
               target="_blank"
+              rel="noopener noreferrer"
             >
               "Ask a Question" page
             </a>
@@ -154,6 +155,7 @@ export class Modals extends React.Component {
               title="Post-9/11 GI Bill"
               href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Post-9/11 GI Bill
             </a>{' '}
@@ -168,6 +170,7 @@ export class Modals extends React.Component {
               title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Click here for FAQs about the Yellow Ribbon Program..
             </a>
@@ -194,6 +197,7 @@ export class Modals extends React.Component {
               title="Principles of Excellence"
               href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Principles of Excellence
             </a>{' '}
@@ -270,6 +274,36 @@ export class Modals extends React.Component {
 
         <Modal
           onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('onlineOnlyDistanceLearning')}
+        >
+          <h3>Online and Distance Learning</h3>
+          <p>
+            <p>
+              Under the GI Bill you’re eligible to receive a monthly housing
+              allowance if you’re enrolled in an online or distance-learning
+              course.
+            </p>
+            <p>
+              We now calculate the monthly housing allowance based on where a
+              student takes their classes. So if you enroll in an online or
+              distance-learning class, your housing allowance payment will be
+              based on where you do most of your coursework, not on your
+              school’s location.
+            </p>
+            <p>
+              If you use your Post-9/11 GI Bill benefits while taking only
+              distance-learning courses, we’ll pay you a housing allowance based
+              on 50% of the national average.
+            </p>
+            <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+              View the current housing allowance payment rates
+            </a>
+            .
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('eightKeys')}
         >
           <h3>8 Keys to Veteran Success</h3>
@@ -292,6 +326,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
               target="_blank"
+              rel="noopener noreferrer"
             >
               8 Keys to Veterans’ Success
             </a>{' '}
@@ -315,6 +350,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Download the VSOC fact sheet.
             </a>
@@ -323,6 +359,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/vocrehab/vsoc.asp"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Learn more about the VSOC program.
             </a>
@@ -349,6 +386,7 @@ export class Modals extends React.Component {
               href="http://ope.ed.gov/accreditation/"
               id="anch_384"
               target="_blank"
+              rel="noopener noreferrer"
             >
               database
             </a>
@@ -363,6 +401,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {' '}
               about this tool
@@ -396,6 +435,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {' '}
               about this tool
@@ -515,17 +555,26 @@ export class Modals extends React.Component {
             <a
               href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Heightened Cash Monitoring
             </a>
           </p>
           <p>
-            <a href="http://ope.ed.gov/accreditation/" target="_blank">
+            <a
+              href="http://ope.ed.gov/accreditation/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Accreditation
             </a>
           </p>
           <p>
-            <a href="https://www.dodmou.com/Home/Faq" target="_blank">
+            <a
+              href="https://www.dodmou.com/Home/Faq"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               DoD Probation For Military Tuition Assistance
             </a>
           </p>
@@ -533,6 +582,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Federal Trade Commission Filed Suit for Deceptive Advertising
             </a>
@@ -541,6 +591,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Settlement reached with the Federal Trade Commission (FTC)
             </a>
@@ -549,6 +600,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Suspended for 85/15 violation – Flight Program
             </a>
@@ -557,6 +609,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Denial of Recertification Application to Participate in the
               Federal Student Financial Assistance Programs
@@ -566,6 +619,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS"
               target="_blank"
+              rel="noopener noreferrer"
             >
               School operating under provisional accreditation (previously
               accredited by ACICS)
@@ -576,6 +630,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
+              rel="noopener noreferrer"
             >
               "About this Tool"
             </a>{' '}
@@ -606,6 +661,7 @@ export class Modals extends React.Component {
               href="http://nces.ed.gov/ipeds/datacenter/"
               id="anch_442"
               target="blank"
+              rel="noopener noreferrer"
             >
               IPEDS
             </a>
@@ -614,6 +670,7 @@ export class Modals extends React.Component {
               href="http://nces.ed.gov/collegenavigator/"
               id="anch_443"
               target="blank"
+              rel="noopener noreferrer"
             >
               College Navigator
             </a>
@@ -626,6 +683,7 @@ export class Modals extends React.Component {
                 'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'
               }
               target="_blank"
+              rel="noopener noreferrer"
             >
               About This Tool
             </a>
@@ -655,6 +713,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Click here for more information.
             </a>
@@ -680,6 +739,7 @@ export class Modals extends React.Component {
               title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
               this page.
             </a>
@@ -774,6 +834,7 @@ export class Modals extends React.Component {
               title="For more information about MHA increases or decreases click here"
               href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
               target="_blank"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -806,6 +867,7 @@ export class Modals extends React.Component {
             <a
               href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
               target="_blank"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -815,7 +877,7 @@ export class Modals extends React.Component {
 
         <Modal
           onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcCampusLocationQuestion')}
+          visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
           <h3>Housing Allowance/BAH changes</h3>
           <p>
@@ -886,6 +948,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
               target="_blank"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -918,6 +981,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
               target="_blank"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -943,6 +1007,7 @@ export class Modals extends React.Component {
               href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
               id="anch_399"
               target="_blank"
+              rel="noopener noreferrer"
             >
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>
@@ -967,6 +1032,7 @@ export class Modals extends React.Component {
               href="https://www.benefits.va.gov/gibill/reap.asp"
               id="anch_403"
               target="_blank"
+              rel="noopener noreferrer"
             >
               https://www.benefits.va.gov/gibill/reap.asp
             </a>

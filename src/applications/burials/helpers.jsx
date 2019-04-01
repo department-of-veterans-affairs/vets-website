@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from '../../platform/utilities/api';
 
 function checkStatus(guid) {
@@ -153,7 +153,7 @@ export const burialDateWarning = (
       If filing for a non-service-connected allowance, the Veteran’s burial date
       must be no more than 2 years from the current date. Find out if you still
       qualify.{' '}
-      <a href="/burials-and-memorials/eligibility/" target="_blank">
+      <a href="/burials-memorials/eligibility/" target="_blank">
         Learn about eligibility.
       </a>
     </span>

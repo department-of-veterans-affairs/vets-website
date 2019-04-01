@@ -1,14 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 import facilityLocator from '../../facility-locator/manifest';
 
@@ -29,8 +24,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
           startText="Start the Burial Benefits Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
@@ -41,7 +34,7 @@ class IntroductionPage extends React.Component {
               </div>
               <div>
                 <h6>
-                  <a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">
+                  <a href="/burials-memorials/veterans-burial-allowance/">
                     Find out if you qualify for a burial allowance
                   </a>
                   .
@@ -88,7 +81,7 @@ class IntroductionPage extends React.Component {
                 If you’re the survivor or dependent of a Veteran who died in the
                 line of duty or from a service-related illness, you may be able
                 to get a benefit called{' '}
-                <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">
+                <a href="/burials-memorials/dependency-indemnity-compensation/">
                   Dependency and Indemnity Compensation
                 </a>
                 .
@@ -146,8 +139,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"
           downtime={this.props.route.formConfig.downtime}
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020" />
@@ -157,21 +148,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };

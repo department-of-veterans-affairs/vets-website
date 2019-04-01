@@ -5,11 +5,23 @@ export const FDCDescription = (
     <h5>Fully developed claim program</h5>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if you’ve
-      uploaded all the supporting documents or supplemental forms needed to
+      uploaded all the supporting documents or additional forms needed to
       support your claim.
     </p>
-    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+    <a
+      href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Learn more about the FDC program
+    </a>
+    .<br />
+    <a
+      href="/disability/how-to-file-claim/evidence-needed/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View the evidence requirements for disability claims
     </a>
     .
   </div>
@@ -37,7 +49,7 @@ export const noFDCWarning = (
           standard claim process, you have up to 1 year from the date we receive
           your claim to turn in any information and evidence.
         </p>
-        <p>You can turn in your evidence 1 of 3 ways:</p>
+        <p>You can turn in your evidence in 1 of 3 ways:</p>
         <ul>
           <li>
             Visit the Claim Status tool and upload your documents under the File

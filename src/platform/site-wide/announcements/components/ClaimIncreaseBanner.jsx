@@ -15,7 +15,7 @@ export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
   return (
     <div className="personalization-announcement">
       <span className="usa-label va-label-primary">New</span>{' '}
-      <a onClick={dismiss} href="/beta-enrollment/claim-increase">
+      <a onClick={dismiss} href="/disability/how-to-file-claim">
         Check out our new beta tool for filing a claim for increased disability
         compensation online.
       </a>
@@ -25,7 +25,7 @@ export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
         onClick={dismiss}
         className="va-modal-close"
       >
-        <i className="fa fa-close" />
+        <i className="fas fa-times-circle" />
       </button>
     </div>
   );

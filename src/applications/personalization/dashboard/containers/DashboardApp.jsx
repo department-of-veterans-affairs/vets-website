@@ -1,31 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import { withRouter } from 'react-router';
 
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../../platform/monitoring/record-event';
-import localStorage from '../../../../platform/utilities/storage/localStorage';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
+import localStorage from 'platform/utilities/storage/localStorage';
+
 import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
+import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, {
+import {
+  DowntimeNotification,
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+} from 'platform/monitoring/DowntimeNotification';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import lettersManifest from '../../../letters/manifest.js';
 import facilityLocator from '../../../facility-locator/manifest';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
@@ -51,7 +50,6 @@ class DashboardApp extends React.Component {
     super(props);
 
     this.state = {
-      modalDismissed: false,
       'show-loa-alert': true,
       'show-mvi-alert': true,
     };
@@ -61,55 +59,11 @@ class DashboardApp extends React.Component {
     scrollToTop();
   }
 
-  dismissModal = () => {
-    this.setState({
-      modalDismissed: true,
-    });
-  };
-
   dismissAlertBox = name => () => {
     this.setState({
       [`show-${name}-alert`]: false,
     });
     localStorage.setItem(`hide-${name}-alert`, true);
-  };
-
-  renderDowntimeNotification = (downtime, children) => {
-    switch (downtime.status) {
-      case 'downtimeApproaching':
-        return (
-          <div
-            className="downtime-notification row-padded"
-            data-status={status}
-          >
-            <Modal
-              id="downtime-approaching-modal"
-              title="Some parts of your homepage will be down for maintenance soon"
-              status="info"
-              onClose={this.dismissModal}
-              visible={!this.state.modalDismissed}
-            >
-              <p>
-                We’ll be making updates to some tools and features on{' '}
-                {downtime.startTime.format('MMMM Do')} between{' '}
-                {downtime.startTime.format('LT')} and{' '}
-                {downtime.endTime.format('LT')} If you have trouble using parts
-                of the dashboard during that time, please check back soon.
-              </p>
-              <button
-                type="button"
-                className="usa-button-secondary"
-                onClick={this.dismissModal}
-              >
-                Continue
-              </button>
-            </Modal>
-            {children}
-          </div>
-        );
-      default:
-        return children;
-    }
   };
 
   renderWidgetDowntimeNotification = (appName, sectionTitle) => (
@@ -153,11 +107,7 @@ class DashboardApp extends React.Component {
         <ul className="va-nav-linkslist-list">
           <li>
             <a
-              href={
-                isBrandConsolidationEnabled()
-                  ? '/disability/'
-                  : '/disability-benefits/'
-              }
+              href="/disability/"
               onClick={recordDashboardClick('disability-benefits')}
             >
               <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
@@ -192,7 +142,10 @@ class DashboardApp extends React.Component {
             </a>
           </li>
           <li>
-            <a href="/employment/" onClick={recordDashboardClick('employment')}>
+            <a
+              href="/careers-employment/"
+              onClick={recordDashboardClick('employment')}
+            >
               <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
               <p className="va-nav-linkslist-description">
                 Find out if you're eligible for Vocational Rehabilitation and
@@ -217,13 +170,12 @@ class DashboardApp extends React.Component {
         content={
           <div>
             <h4 className="usa-alert-heading">
-              Verify your identity to access more {propertyName} tools and
-              features
+              Verify your identity to access more VA.gov tools and features
             </h4>
             <p>
-              When you verify your identity, you can use {propertyName} to do
-              things like track your claims, refill your prescriptions, and
-              download your VA benefit letters.
+              When you verify your identity, you can use VA.gov to do things
+              like track your claims, refill your prescriptions, and download
+              your VA benefit letters.
             </p>
             <a
               className="usa-button-primary"
@@ -275,9 +227,9 @@ class DashboardApp extends React.Component {
               your health and benefits.
             </p>
             <p>
-              If you’d like to use these tools on {propertyName}, please contact
-              your nearest VA medical center. Let them know you need to verify
-              the information in your records, and update it as needed. The
+              If you’d like to use these tools on VA.gov, please contact your
+              nearest VA medical center. Let them know you need to verify the
+              information in your records, and update it as needed. The
               operator, or a patient advocate, can connect you with the right
               person who can help.
             </p>
@@ -319,15 +271,16 @@ class DashboardApp extends React.Component {
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1 id="dashboard-title">
-            {isBrandConsolidationEnabled() ? 'My VA' : 'Your Homepage'}
-          </h1>
+          <h1 id="dashboard-title">My VA</h1>
           <div className="va-introtext">
             <p>
               Access the tools and information you’ll need to track and manage
               your VA benefits and communications.
             </p>
           </div>
+
+          <PreferencesWidget />
+
           <div>
             <FormList
               userProfile={this.props.profile}
@@ -369,7 +322,7 @@ class DashboardApp extends React.Component {
             <ul className="va-nav-linkslist-list">
               <li>
                 <a
-                  href="/health-care/schedule-an-appointment/"
+                  href="/health-care/schedule-view-va-appointments/"
                   onClick={recordDashboardClick('schedule-appointment')}
                 >
                   <h4 className="va-nav-linkslist-title">
@@ -470,26 +423,7 @@ class DashboardApp extends React.Component {
       </div>
     );
 
-    return (
-      <div name="topScrollElement">
-        <RequiredLoginView
-          serviceRequired={[backendServices.USER_PROFILE]}
-          user={this.props.user}
-        >
-          <DowntimeNotification
-            appTitle="user dashboard"
-            dependencies={[
-              externalServices.mvi,
-              externalServices.mhv,
-              externalServices.appeals,
-            ]}
-            render={this.renderDowntimeNotification}
-          >
-            {view}
-          </DowntimeNotification>
-        </RequiredLoginView>
-      </div>
-    );
+    return <div name="topScrollElement">{view}</div>;
   }
 }
 
@@ -521,8 +455,10 @@ const mapDispatchToProps = {
   removeSavedForm,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DashboardApp);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(DashboardApp),
+);
 export { DashboardApp };

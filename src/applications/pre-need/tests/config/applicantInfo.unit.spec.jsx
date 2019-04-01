@@ -27,6 +27,7 @@ describe('Pre-need applicant information', () => {
 
     expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(3);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -44,6 +45,7 @@ describe('Pre-need applicant information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -68,6 +70,7 @@ describe('Pre-need applicant information', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should reveal info message', () => {
@@ -86,5 +89,6 @@ describe('Pre-need applicant information', () => {
     selectRadio(form, 'root_application_claimant_relationshipToVet', '1');
 
     expect(form.find('.usa-alert-info').exists()).to.be.true;
+    form.unmount();
   });
 });

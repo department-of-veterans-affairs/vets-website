@@ -1,6 +1,6 @@
 # Directories to ignore
 node_modules/
-build/
+/build/
 logs/
 
 # Files to ignore
@@ -22,6 +22,8 @@ coverage
 yalc.lock
 /test-results.xml
 package-lock.json
+src/applications/proxy-rewrite/tests/__image_snapshots__/__diff_output__/
+temp
 
 # Ignore user's editor/IDE prefs
 .vscode/

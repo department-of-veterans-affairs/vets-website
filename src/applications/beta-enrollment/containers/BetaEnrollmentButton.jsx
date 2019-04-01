@@ -3,13 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerBeta } from '../actions';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { createIsServiceAvailableSelector } from '../../../platform/user/selectors';
 
 class BetaEnrollmentButton extends React.Component {
   static propTypes = {
     feature: PropTypes.string.isRequired,
     returnUrl: PropTypes.string.isRequired,
+    buttonText: PropTypes.string,
+  };
+
+  static defaultProps = {
+    buttonText: 'Turn On Beta Tools',
   };
 
   constructor(props) {
@@ -70,7 +75,7 @@ class BetaEnrollmentButton extends React.Component {
       );
     }
 
-    let buttonText = 'Turn On Beta Tools';
+    let buttonText = this.props.buttonText;
 
     if (this.props.user.profile.loading) buttonText = 'Loading Profile...';
     else if (this.state.isEnrolling) buttonText = 'Turning On Beta Tools';

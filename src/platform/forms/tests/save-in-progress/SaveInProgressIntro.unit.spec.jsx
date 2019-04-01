@@ -25,7 +25,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: '1010ez',
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -50,6 +53,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
+    expect(
+      tree.find('.saved-form-item-metadata').get(1).props.children[1],
+    ).to.equal(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your form is in progress',
     );
@@ -60,6 +67,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(
       tree.find('withRouter(FormStartControls)').props().startPage,
     ).to.equal('testing');
+    tree.unmount();
   });
   it('should pass prefills available prop', () => {
     const user = {
@@ -91,6 +99,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
       .to.be.true;
+    tree.unmount();
   });
   it('should render sign in message', () => {
     const user = {
@@ -123,8 +132,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.va-button-link').exists()).to.be.true;
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    expect(tree.find('.va-button-link').text()).to.contain(
+      'Sign in to your account.',
+    );
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render prefill Notification when prefill enabled and not signed in', () => {
@@ -161,10 +173,16 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'If you’re signed in to your account, your application process can go more smoothly. Here’s why:We can prefill part of your application based on your account details.You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.Sign in to your account.',
+      'Save time—and save your work in progress—by signing in before starting your application',
     );
-    expect(tree.find('.va-button-link').exists()).to.be.true;
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    expect(tree.find('.usa-button-primary').text()).to.contain(
+      'Sign in to Start Your Application',
+    );
+    expect(tree.find('.va-button-link').text()).to.contain(
+      'Start your application without signing in.',
+    );
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -194,6 +212,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'You can save this form in progress',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render prefill notification if signed in with no saved form and prefill available', () => {
@@ -220,9 +239,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.',
+      'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress and come back later to finish filling it out.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should over-ride the default retentionPeriod prop when one supplied', () => {
@@ -261,6 +281,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.usa-alert').text()).to.contain('1 year');
     expect(tree.find('.usa-alert').text()).to.not.contain('60 days');
+    tree.unmount();
   });
 
   it('should render loading indicator while profile is loading', () => {
@@ -294,6 +315,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render expired message if signed in with an expired form', () => {
@@ -329,6 +351,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
   it('should render sign in message from render prop', () => {
     const user = {
@@ -365,7 +388,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(renderSpy.called).to.be.true;
     expect(tree.text()).to.contain('Render prop info');
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render downtime notification', () => {
@@ -403,6 +427,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should not render downtime notification when logged in', () => {
@@ -441,5 +466,43 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.false;
+    tree.unmount();
+  });
+
+  it('should not render get started button', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: '1010ez',
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+      />,
+    );
+
+    expect(tree.find('.schemaform-start-button').exists()).to.be.false;
+
+    tree.unmount();
   });
 });

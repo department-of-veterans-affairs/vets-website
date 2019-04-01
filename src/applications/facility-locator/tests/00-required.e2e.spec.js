@@ -3,7 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  client.url(`${E2eHelpers.baseUrl}/find-locations/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/find-locations/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
   FacilityHelpers.initApplicationMock();
@@ -11,8 +11,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.facility-locator', Timeouts.slow)
-    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-    .axeCheck('.main', { rules: ['section508'] });
+    .axeCheck('.main');
 
   client
     .clearValue('input[name="street-city-state-zip"]')
@@ -21,14 +20,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .click('input[type="submit"]')
     .waitForElementVisible('.facility-result', Timeouts.normal)
-    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-    .axeCheck('.main', { rules: ['section508'] });
+    .axeCheck('.main');
 
   // check detail pages
   client
-    .waitForElementVisible('.facility-result a h5', Timeouts.normal)
+    .waitForElementVisible('.facility-result a h5', Timeouts.slow)
     .click('.facility-result a h5')
-    .waitForElementVisible('.facility-detail', Timeouts.slow)
+    .waitForElementVisible('.all-details', Timeouts.slow)
     .axeCheck('.main');
 
   client.end();

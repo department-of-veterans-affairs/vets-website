@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ToolTip from './ToolTip';
-import ExpandingGroup from '@department-of-veterans-affairs/formation/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
 /**
  * A radio button group with a label.
@@ -22,8 +22,8 @@ class RadioButtons extends React.Component {
     super();
     this.handleChange = this.handleChange.bind(this);
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.inputId = _.uniqueId('radio-buttons-');
   }
 

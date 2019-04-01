@@ -1,4 +1,4 @@
-const mock = require('../../../../platform/testing/e2e/mock-helpers');
+const mock = require('platform/testing/e2e/mock-helpers');
 
 function completeVeteranInformation(client, data) {
   client
@@ -111,7 +111,7 @@ function completeDependentsInformation(client, data) {
 
 function completeDependentInfo(client, data, index) {
   client
-    .fillCheckboxIf(
+    .fillCheckbox(
       'input[name="root_view:noSSN"]',
       data.dependents[index]['view:noSSN'],
     )

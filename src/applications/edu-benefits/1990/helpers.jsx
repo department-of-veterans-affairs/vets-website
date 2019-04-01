@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = {
@@ -46,7 +46,11 @@ export function directDepositDescription() {
         If you don’t have a bank account, VA will pay you through the Direct
         Express® Debit MasterCard®. Apply for a Direct Express® Debit
         MasterCard® at{' '}
-        <a href="https://www.usdirectexpress.com/" target="_blank">
+        <a
+          href="https://www.usdirectexpress.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           www.usdirectexpress.com
         </a>{' '}
         or by calling <a href="tel:18003331795">1-800-333-1795</a>. To request a

@@ -1,31 +1,24 @@
-import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import Raven from 'raven-js';
 
 import recordEvent from '../../monitoring/record-event';
-import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
-import brandConsolidation from '../../brand-consolidation';
-
-let successRelay = 'vetsgov';
-if (brandConsolidation.isEnabled()) {
-  if (brandConsolidation.isPreview()) {
-    successRelay = 'preview_vagov';
-  } else {
-    successRelay = 'vagov';
-  }
-}
+export const authnSettings = {
+  RETURN_URL: 'authReturnUrl',
+  PENDING_AUTH_ACTION: 'pendingAuthAction',
+  PENDING_LOGIN_POLICY: 'pendingLoginPolicy',
+};
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const redirectUrl = type =>
-  `${SESSIONS_URI}/${type}/new?success_relay=${successRelay}`;
+const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
 
-const MHV_URL = redirectUrl('mhv');
-const DSLOGON_URL = redirectUrl('dslogon');
-const IDME_URL = redirectUrl('idme');
-const MFA_URL = redirectUrl('mfa');
-const VERIFY_URL = redirectUrl('verify');
-const LOGOUT_URL = redirectUrl('slo');
+const MHV_URL = sessionTypeUrl('mhv');
+const DSLOGON_URL = sessionTypeUrl('dslogon');
+const IDME_URL = sessionTypeUrl('idme');
+const MFA_URL = sessionTypeUrl('mfa');
+const VERIFY_URL = sessionTypeUrl('verify');
+const LOGOUT_URL = sessionTypeUrl('slo');
 
 const loginUrl = policy => {
   switch (policy) {
@@ -38,56 +31,75 @@ const loginUrl = policy => {
   }
 };
 
-function popup(popupUrl, clickedEvent, openedEvent) {
-  recordEvent({ event: clickedEvent });
-  const popupWindow = window.open(
-    '',
-    'vets.gov-popup',
-    'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750',
-  );
-  if (popupWindow) {
-    recordEvent({ event: openedEvent });
-    popupWindow.focus();
+export function setRavenLoginType(loginType) {
+  Raven.setTagsContext({ loginType });
+}
 
-    return apiRequest(
-      popupUrl,
-      null,
-      ({ url }) => {
-        popupWindow.location = url;
-      },
-      () => {
-        popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
-      },
-    ).then(() => popupWindow);
+export function clearRavenLoginType() {
+  const context = Raven.getContext(); // Note: Do not mutate context directly.
+  const tags = { ...context.tags };
+  delete tags.loginType;
+  Raven.setTagsContext(tags);
+}
+
+function redirectWithGAClientId(redirectUrl) {
+  try {
+    // eslint-disable-next-line no-undef
+    const trackers = ga.getAll();
+
+    // Tracking IDs for Staging and Prod
+    const vagovTrackingIds = ['UA-50123418-16', 'UA-50123418-17'];
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get('trackingId');
+      return vagovTrackingIds.includes(trackingId);
+    });
+
+    const clientId = tracker && tracker.get('clientId');
+
+    window.location = clientId
+      ? appendQuery(redirectUrl, { clientId })
+      : redirectUrl;
+  } catch (e) {
+    window.location = redirectUrl;
   }
+}
 
-  Raven.captureMessage('Failed to open new window', {
-    extra: { url: popupUrl },
-  });
+function redirect(redirectUrl, clickedEvent) {
+  // Keep track of the URL to return to after auth operation.
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
+  recordEvent({ event: clickedEvent });
 
-  return Promise.reject(new Error('Failed to open new window'));
+  if (redirectUrl.includes('idme')) {
+    redirectWithGAClientId(redirectUrl);
+  } else {
+    window.location = redirectUrl;
+  }
 }
 
 export function login(policy) {
-  return popup(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'login');
+  sessionStorage.setItem(authnSettings.PENDING_LOGIN_POLICY, policy);
+  return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
 export function mfa() {
-  return popup(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
+  return redirect(MFA_URL, 'multifactor-link-clicked');
 }
 
 export function verify() {
-  return popup(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked');
 }
 
 export function logout() {
-  return popup(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  clearRavenLoginType();
+  return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 
 export function signup() {
-  return popup(
+  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'register');
+  return redirect(
     appendQuery(IDME_URL, { signup: true }),
     'register-link-clicked',
-    'register-link-opened',
   );
 }

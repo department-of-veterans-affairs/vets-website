@@ -9,6 +9,8 @@ import applicantDescription from '../../../platform/forms/components/ApplicantDe
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ErrorText from '../components/ErrorText';
+
 import {
   burialDateWarning,
   fileHelp,
@@ -22,7 +24,7 @@ import {
   locationOfDeathLabels,
   allowanceLabels,
 } from '../labels.jsx';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { isFullDate } from '../../../platform/forms/validations';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
@@ -32,13 +34,13 @@ import environment from '../../../platform/utilities/environment';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import * as address from '../../../platform/forms/definitions/address';
-import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   validateBurialAndDeathDates,
   validateCentralMailPostalCode,
@@ -118,6 +120,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     fullName,
     centralMailVaFile,

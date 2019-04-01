@@ -9,14 +9,6 @@
   list-style: none;
 }
 
-.homepage-hub, .va-sidebarnav, .vet-toolbar {
-  [href^="http"]:not(.usa-button-primary), [rel="external"] {
-    background-image: none;
-    padding-right: 0px;
-
-  }
-}
-
 .homepage-hub {
   @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
   padding-top: 1.5em;
@@ -215,10 +207,12 @@
       margin: 0;
       top: 15px;
       left: -7.75px;
+      font-family: "Font Awesome 5 Free"
     }
-    &.fa-user-circle-o {
+    &.fa-user-circle {
       font-size: 1.5em;
       padding-right: .3em;
+      
     }
   }
 

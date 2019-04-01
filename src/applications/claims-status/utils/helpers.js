@@ -2,7 +2,6 @@ import _ from 'lodash/fp';
 import Raven from 'raven-js';
 
 import environment from '../../../platform/utilities/environment';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -256,9 +255,6 @@ export function makeAuthRequest(
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${conditionalStorage().getItem(
-          'userToken',
-        )}`,
       },
       responseType: 'json',
     },
@@ -319,7 +315,7 @@ export const mockData = {
     {
       // Status: Review your statement of the case - pending_form9
       id: '7387389',
-      type: 'appealSeries',
+      type: 'legacyAppeal',
       attributes: {
         appealIds: ['7387389', '123'],
         updated: '2018-01-03T09:30:15-05:00',
@@ -340,13 +336,7 @@ export const mockData = {
             socTimeliness: [2, 16],
           },
         },
-        docket: {
-          front: false,
-          total: 206900,
-          ahead: 109203,
-          ready: 22109,
-          eta: '2019-08-31',
-        },
+        docket: null,
         issues: [
           {
             active: true,
@@ -406,7 +396,7 @@ export const mockData = {
     {
       // Status: Waiting to be assigned to a judge - on_docket
       id: '7387390',
-      type: 'appealSeries',
+      type: 'legacyAppeal',
       attributes: {
         appealIds: ['7387390', '456'],
         updated: '2018-01-03T09:30:15-05:00',
@@ -430,7 +420,9 @@ export const mockData = {
           total: 206900,
           ahead: 109203,
           ready: 22109,
-          eta: '2019-08-31',
+          month: '2016-08-01',
+          docketMonth: '2016-04-01',
+          eta: null,
         },
         issues: [
           {
@@ -486,7 +478,7 @@ export const mockData = {
     {
       // Status: The Board has made a decision on your appeal - bva_decision
       id: '7387391',
-      type: 'appealSeries',
+      type: 'legacyAppeal',
       attributes: {
         appealIds: ['7387391', '789'],
         updated: '2018-01-03T09:30:15-05:00',
@@ -644,6 +636,245 @@ export const mockData = {
           {
             description: 'Service treatment records',
             date: '2017-09-30',
+          },
+        ],
+      },
+    },
+    {
+      id: 'SC105',
+      type: 'supplementalClaim',
+      attributes: {
+        appealIds: ['SC105'],
+        updated: '2019-05-29T19:38:48-04:00',
+        incompleteHistory: false,
+        active: true,
+        description: 'Eligibility for dental treatment',
+        location: 'aoj',
+        aoj: 'vha',
+        programArea: 'medical',
+        status: {
+          type: 'sc_received',
+          details: {},
+        },
+        alerts: [],
+        issues: [
+          {
+            description: 'Eligibility for dental treatment',
+            diagnosticCode: null,
+            active: true,
+            lastAction: null,
+            date: null,
+          },
+        ],
+        events: [
+          {
+            type: 'sc_request',
+            date: '2019-02-19',
+          },
+        ],
+      },
+    },
+    {
+      id: 'HLR101',
+      type: 'higherLevelReview',
+      attributes: {
+        appealIds: ['HLR101'],
+        updated: '2019-08-29T19:38:48-04:00',
+        incompleteHistory: false,
+        active: true,
+        description:
+          'Severance of service connection, hypothyroidism, and 1 other',
+        location: 'aoj',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: {
+          type: 'hlr_dta_error',
+          details: {
+            issues: [
+              {
+                description: 'Service connection, sciatic nerve paralysis',
+                disposition: 'denied',
+              },
+              {
+                description: 'Severance of service connection, hypothyroidism',
+                disposition: 'allowed',
+              },
+            ],
+          },
+        },
+        alerts: [
+          {
+            type: 'ama_post_decision',
+            details: {
+              decisionDate: '2019-08-05',
+              availableOptions: [
+                'supplemental_claim',
+                'higher_level_review',
+                'board_appeal',
+              ],
+              dueDate: '2020-08-04',
+              cavcDueDate: '2019-12-02',
+            },
+          },
+        ],
+        issues: [
+          {
+            description: 'Service connection, sciatic nerve paralysis',
+            diagnosticCode: '8520',
+            active: false,
+            lastAction: 'denied',
+            date: '2019-08-05',
+          },
+          {
+            description: 'Severance of service connection, hypothyroidism',
+            diagnosticCode: '7903',
+            active: false,
+            lastAction: 'allowed',
+            date: '2019-08-05',
+          },
+        ],
+        events: [
+          {
+            type: 'hlr_request',
+            date: '2019-02-19',
+          },
+          {
+            type: 'hlr_dta_error',
+            date: '2019-06-01',
+          },
+          {
+            type: 'hlr_decision',
+            date: '2019-08-05',
+          },
+        ],
+      },
+    },
+    {
+      id: 'A102',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A102'],
+        updated: '2019-05-29T19:38:44-04:00',
+        incompleteHistory: false,
+        type: 'original',
+        active: true,
+        description:
+          'Service connection, malignant skin neoplasm, and 2 others',
+        aod: false,
+        location: 'bva',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: {
+          type: 'pending_hearing_scheduling',
+          details: {
+            type: 'video',
+          },
+        },
+        alerts: [],
+        docket: {
+          type: 'hearing',
+          month: '2019-02-01',
+          switchDueDate: '2019-06-05',
+          eligibleToSwitch: true,
+        },
+        issues: [
+          {
+            description: 'Service connection, malignant skin neoplasm',
+            diagnosticCode: '7818',
+            active: true,
+            lastAction: null,
+            date: null,
+          },
+          {
+            description: 'Service connection, coronary artery disease',
+            diagnosticCode: '7005',
+            active: true,
+            lastAction: null,
+            date: null,
+          },
+          {
+            description: 'Service connection, diabetes',
+            diagnosticCode: '7913',
+            active: true,
+            lastAction: null,
+            date: null,
+          },
+        ],
+        events: [
+          {
+            type: 'ama_nod',
+            date: '2019-02-23',
+          },
+        ],
+      },
+    },
+    {
+      id: 'A106',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A106'],
+        updated: '2021-02-29T19:38:44-04:00',
+        incompleteHistory: false,
+        type: 'original',
+        active: false,
+        description: 'Reasonableness of attorney fees',
+        aod: false,
+        location: 'bva',
+        aoj: 'other',
+        programArea: 'other',
+        status: {
+          type: 'bva_decision',
+          details: {
+            issues: [
+              {
+                description: 'Reasonableness of attorney fees',
+                disposition: 'allowed',
+              },
+            ],
+          },
+        },
+        alerts: [
+          {
+            type: 'ama_post_decision',
+            details: {
+              decisionDate: '2021-02-20',
+              availableOptions: ['supplemental_claim', 'cavc'],
+              dueDate: '2022-02-19',
+              cavcDueDate: '2021-06-19',
+            },
+          },
+        ],
+        docket: {
+          type: 'hearing',
+          month: '2019-02-01',
+          switchDueDate: '2019-06-05',
+          eligibleToSwitch: false,
+        },
+        issues: [
+          {
+            description: 'Reasonableness of attorney fees',
+            diagnosticCode: null,
+            active: false,
+            lastAction: 'allowed',
+            date: '2021-02-20',
+          },
+        ],
+        events: [
+          {
+            type: 'ama_nod',
+            date: '2019-02-23',
+          },
+          {
+            type: 'hearing_no_show',
+            date: '2020-05-21',
+          },
+          {
+            type: 'hearing_held',
+            date: '2020-10-21',
+          },
+          {
+            type: 'bva_decision',
+            date: '2021-02-20',
           },
         ],
       },

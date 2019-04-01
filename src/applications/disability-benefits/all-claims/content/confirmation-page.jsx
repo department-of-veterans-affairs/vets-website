@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import siteName from '../../../../platform/brand-consolidation/site-name';
+import { capitalizeEachWord } from '../utils';
 import {
   successMessage,
   checkLaterMessage,
@@ -32,11 +33,9 @@ const template = (props, title, content, submissionMessage) => {
           <strong>Conditions claimed</strong>
           <br />
           <ul className="disability-list">
-            {disabilities
-              .filter(item => item['view:selected'])
-              .map((disability, i) => (
-                <li key={i}>{disability.name}</li>
-              ))}
+            {disabilities.map((disability, i) => (
+              <li key={i}>{capitalizeEachWord(disability)}</li>
+            ))}
           </ul>
           {submissionMessage}
           <li>
@@ -55,7 +54,7 @@ const template = (props, title, content, submissionMessage) => {
         more information.
       </p>
       <br />
-      <a href="/disability-benefits/after-you-apply/">
+      <a href="/disability/after-you-file-claim/">
         Learn more about what happens after you file a disability claim.
       </a>
       <div className="confirmation-guidance-container">
@@ -105,7 +104,7 @@ export const submitErrorContent = props =>
         at 1-800-827-1000, Monday – Friday, 8:30 a.m. – 4:30 p.m. (ET). Or, you
         can get in touch with your nearest Veterans Service Officer (VSO).
       </p>{' '}
-      <a href="/disability-benefits/apply/help/">Contact your nearest VSO.</a>
+      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO.</a>
     </div>,
     errorMessage(),
   );

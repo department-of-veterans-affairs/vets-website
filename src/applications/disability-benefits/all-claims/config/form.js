@@ -1,79 +1,136 @@
 import environment from '../../../../platform/utilities/environment';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+
+import submitFormFor from './submitForm';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
-import {
-  hasMilitaryRetiredPay,
-  hasRatedDisabilities,
-  hasNewPtsdDisability,
-} from '../validations';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+import FormSavedPage from '../containers/FormSavedPage';
+
+import { hasMilitaryRetiredPay } from '../validations';
 
 import {
   hasGuardOrReservePeriod,
-  getDisabilityName,
-  prefillTransformer,
+  capitalizeEachWord,
   hasVAEvidence,
   hasPrivateEvidence,
+  hasRatedDisabilities,
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
+  isUploading781Form,
+  isUploading781aForm,
   servedAfter911,
+  isNotUploadingPrivateMedical,
+  hasNewPtsdDisability,
+  hasNewDisabilities,
+  newConditionsOnly,
+  increaseOnly,
+  newAndIncrease,
+  noClaimTypeSelected,
+  isDisabilityPtsd,
+  directToCorrectForm,
 } from '../utils';
+
+import captureEvents from '../analytics-functions';
+
+import prefillTransformer from '../prefill-transformer';
+
+import { transform } from '../submit-transformer';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
-  alternateNames,
-  servicePay,
-  waiveRetirementPay,
-  militaryHistory,
-  servedInCombatZone,
-  separationTrainingPay,
-  trainingPayWaiver,
-  reservesNationalGuardService,
-  federalOrders,
-  prisonerOfWar,
-  ratedDisabilities,
-  contactInformation,
+  adaptiveBenefits,
   addDisabilities,
+  additionalBehaviorChanges,
+  additionalDocuments,
+  additionalRemarks781,
+  aidAndAttendance,
+  alternateNames,
+  ancillaryFormsWizardSummary,
+  choosePtsdType,
+  claimExamsInfo,
+  contactInformation,
+  evidenceTypes,
+  federalOrders,
+  finalIncident,
+  fullyDevelopedClaim,
+  homelessOrAtRisk,
+  individualUnemployability,
+  mentalHealthChanges,
+  militaryHistory,
+  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
-  choosePtsdType,
-  ptsdWalkthroughChoice781,
-  uploadPtsdDocuments,
-  ptsdWalkthroughChoice781a,
-  uploadPersonalPtsdDocuments,
-  summaryOfDisabilities,
-  vaMedicalRecords,
-  additionalDocuments,
-  privateMedicalRecords,
+  claimType,
   paymentInformation,
-  evidenceTypes,
-  claimExamsInfo,
-  homelessOrAtRisk,
-  vaEmployee,
+  physicalHealthChanges,
+  prisonerOfWar,
+  privateMedicalRecords,
+  privateMedicalRecordsRelease,
+  ptsd781aChangesIntro,
+  ptsdWalkthroughChoice781,
+  ptsdWalkthroughChoice781a,
+  ratedDisabilities,
+  reservesNationalGuardService,
+  secondaryFinalIncident,
+  separationPay,
+  servedInCombatZone,
+  retirementPay,
+  socialBehaviorChanges,
+  summaryOfDisabilities,
   summaryOfEvidence,
-  fullyDevelopedClaim,
-  unemployabilityStatus,
-  unemployabilityFormIntro,
+  trainingPay,
+  trainingPayWaiver,
+  uploadPersonalPtsdDocuments,
+  uploadPtsdDocuments,
+  vaEmployee,
+  vaMedicalRecords,
+  retirementPayWaiver,
+  workBehaviorChanges,
 } from '../pages';
 
-import { PTSD } from '../constants';
+import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
-import fullSchema from './schema';
+import { ptsd781NameTitle } from '../content/ptsdClassification';
+import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
+
+import { createFormConfig781, createFormConfig781a } from './781';
+
+import createformConfig8940 from './8940';
+
+import { PTSD_INCIDENT_ITERATION } from '../constants';
+
+import migrations from '../migrations';
+
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  submitUrl: `${
+    environment.API_URL
+  }/v0/disability_compensation_form/submit_all_claim`,
+  submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
-  // formId: '21-526EZ-all-claims',
-  formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
-  version: 1,
-  migrations: [],
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+  },
+  formId: '21-526EZ',
+  onFormLoaded: directToCorrectForm,
+  version: migrations.length,
+  migrations,
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
@@ -82,13 +139,13 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
-  // transformForSubmit: transform,
+  formSavedPage: FormSavedPage,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
-  // TODO: Remove this once we've got the api up and running
-  submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
-  // footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -105,23 +162,27 @@ const formConfig = {
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
+        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
-        },
-        servicePay: {
-          title: 'Service Pay',
-          path: 'service-pay',
-          uiSchema: servicePay.uiSchema,
-          schema: servicePay.schema,
         },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
+          onContinue: captureEvents.militaryHistory,
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -146,6 +207,27 @@ const formConfig = {
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
         },
+        separationPay: {
+          title: 'Separation or Severance Pay',
+          path: 'separation-pay',
+          depends: formData => !hasRatedDisabilities(formData),
+          uiSchema: separationPay.uiSchema,
+          schema: separationPay.schema,
+        },
+        retirementPay: {
+          title: 'Retirement Pay',
+          path: 'retirement-pay',
+          depends: formData => !hasRatedDisabilities(formData),
+          uiSchema: retirementPay.uiSchema,
+          schema: retirementPay.schema,
+        },
+        trainingPay: {
+          title: 'Training Pay',
+          path: 'training-pay',
+          depends: formData => !hasRatedDisabilities(formData),
+          uiSchema: trainingPay.uiSchema,
+          schema: trainingPay.schema,
+        },
       },
     },
     disabilities: {
@@ -154,35 +236,37 @@ const formConfig = {
         disabilitiesOrientation: {
           title: '',
           path: 'disabilities/orientation',
+          // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+          depends: formData =>
+            newAndIncrease(formData) || noClaimTypeSelected(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',
-          depends: hasRatedDisabilities,
+          depends: formData =>
+            hasRatedDisabilities(formData) && !newConditionsOnly(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
-          uiSchema: {
-            'ui:title': 'New disabilities',
-            'ui:description':
-              'Now we’ll ask you about your new service-connected disabilities or conditions.',
-          },
-          schema: { type: 'object', properties: {} },
+          depends: formData => !increaseOnly(formData),
+          uiSchema: newDisabilities.uiSchema,
+          schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
           path: 'new-disabilities/add',
+          depends: hasNewDisabilities,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: form => form['view:newDisabilities'] === true,
+          depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -191,12 +275,11 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          title: formData => getDisabilityName(formData.condition),
-          depends: form => form['view:newDisabilities'] === true,
+          title: formData => capitalizeEachWord(formData.condition),
+          depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item =>
-            item.condition && !item.condition.toLowerCase().includes(PTSD),
+          itemFilter: item => !isDisabilityPtsd(item.condition),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
@@ -215,75 +298,199 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
+        // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
-          title: formData => getDisabilityName(formData.condition),
+          title: formData => capitalizeEachWord(formData.condition),
           path: 'new-disabilities/ptsd-intro',
           depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
         },
+        // 781/a - 2. SELECT ONE (OR ALL) OF THE PTSD TYPES LISTED
         choosePtsdType: {
-          title: formData => getDisabilityName(formData.condition),
+          title: 'Factors that contributed to PTSD',
           path: 'new-disabilities/ptsd-type',
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
+        // 781 - 2a.  SELECT UPLOAD OPTION
+        // 781 - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
         ptsdWalkthroughChoice781: {
-          title: 'PTSD Walkthrough 781 Choice',
+          title: 'Answer online questions or upload paper 21-0781',
           path: 'new-disabilities/walkthrough-781-choice',
           depends: formData =>
             hasNewPtsdDisability(formData) && needsToEnter781(formData),
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },
+        incidentIntro: {
+          title: 'PTSD intro to questions',
+          path: 'new-disabilities/ptsd-intro-to-questions',
+          depends: isAnswering781Questions(0),
+          uiSchema: {
+            'ui:title': ptsd781NameTitle,
+            'ui:description': ptsdFirstIncidentIntro,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        // 781 - Pages 3 - 12 (Event Loop)
+        ...createFormConfig781(PTSD_INCIDENT_ITERATION),
+        // 781 - ?. ???
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
           depends: formData =>
-            hasNewPtsdDisability(formData) &&
-            needsToEnter781(formData) &&
-            isUploadingPtsdForm(formData),
+            needsToEnter781(formData) && isUploading781Form(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
+        // 781 - 13. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
+        finalIncident: {
+          path: 'new-disabilities/ptsd-additional-incident',
+          title: 'Additional PTSD event',
+          depends: isAnswering781Questions(PTSD_INCIDENT_ITERATION),
+          uiSchema: finalIncident.uiSchema,
+          schema: finalIncident.schema,
+        },
+        // 781 - 14. ADDITIONAL REMARKS
+        additionalRemarks781: {
+          title: 'Additional Remarks',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: isAnswering781Questions(0),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
+        },
+        // 781a - 2a. SELECT UPLOAD OPTION
+        // 781a - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
         ptsdWalkthroughChoice781a: {
-          title: 'PTSD Walkthrough 781a Choice',
+          title: 'Answer online questions or upload paper 21-0781A?',
           path: 'new-disabilities/walkthrough-781a-choice',
-          depends: formData =>
-            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          depends: needsToEnter781a,
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
+        // 781a - Pages 3 - 10 (Event Loop)
+        ...createFormConfig781a(PTSD_INCIDENT_ITERATION),
+        // 781a - ?. ???
         uploadPtsdDocuments781a: {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
           depends: formData =>
-            hasNewPtsdDisability(formData) &&
-            needsToEnter781a(formData) &&
-            isUploadingPtsdForm(formData),
+            needsToEnter781a(formData) && isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
-        unemployabilityStatus: {
-          title: 'Unemployability Status',
-          path: 'new-disabilities/unemployability-status',
-          uiSchema: unemployabilityStatus.uiSchema,
-          schema: unemployabilityStatus.schema,
+        // 781a - 11. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
+        secondaryFinalIncident: {
+          path: 'new-disabilities/ptsd-assault-additional-incident',
+          title: 'Additional assault PTSD event',
+          depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
+          uiSchema: secondaryFinalIncident.uiSchema,
+          schema: secondaryFinalIncident.schema,
         },
-        unemployabilityFormIntro: {
-          title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployability-walkthrough-choice',
-          depends: formData => formData['view:unemployabilityStatus'],
-          uiSchema: unemployabilityFormIntro.uiSchema,
-          schema: unemployabilityFormIntro.schema,
+        ptsd781ChangesIntro: {
+          title: 'Additional changes in behavior - physical',
+          path: 'new-disabilities/ptsd-781a-changes-intoduction',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: ptsd781aChangesIntro.uiSchema,
+          schema: ptsd781aChangesIntro.schema,
+        },
+        // 781a - 12. BEHAVIOR CHANGES: PHYSICAL
+        physicalHealthChanges: {
+          title: 'Additional changes in behavior - physical',
+          path: 'new-disabilities/ptsd-781a-physical-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: physicalHealthChanges.uiSchema,
+          schema: physicalHealthChanges.schema,
+        },
+        // 781a - 13. BEHAVIOR CHANGES: MENTAL/SUBSTANCE ABUSE
+        mentalHealthChanges: {
+          title: 'Additional changes in behavior - mental/substance abuse',
+          path: 'new-disabilities/ptsd-781a-mental-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: mentalHealthChanges.uiSchema,
+          schema: mentalHealthChanges.schema,
+        },
+        // 781a - 14. BEHAVIOR CHANGES: AT WORK
+        workBehaviorChanges: {
+          title: 'Additional changes in behavior - work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
+        },
+        // 781a - 15. BEHAVIOR CHANGES: SOCIAL
+        socialBehaviorChanges: {
+          title: 'Additional changes in behavior - social',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
+        },
+        // 781a - 16. BEHAVIOR CHANGES: ADDITIONAL INFORMATION
+        additionalBehaviorChanges: {
+          title: 'Additional changes in behavior - more information',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
+          depends: formData => !increaseOnly(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
+        // Ancillary forms wizard
+        ancillaryFormsWizardIntro: {
+          title: 'Additional disability benefits',
+          path: 'additional-disability-benefits',
+          uiSchema: {
+            'ui:title': 'Additional disability benefits',
+            'ui:description': ancillaryFormsWizardDescription,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:ancillaryFormsWizardIntro': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        adaptiveBenefits: {
+          title: 'Automobile allowance and adaptive benefits',
+          path: 'adaptive-benefits',
+          uiSchema: adaptiveBenefits.uiSchema,
+          schema: adaptiveBenefits.schema,
+        },
+        aidAndAttendance: {
+          title: 'Aid and Attendance benefits',
+          path: 'aid-and-attendance',
+          uiSchema: aidAndAttendance.uiSchema,
+          schema: aidAndAttendance.schema,
+        },
+        individualUnemployability: {
+          title: 'Individual Unemployability',
+          path: 'individual-unemployability',
+          uiSchema: individualUnemployability.uiSchema,
+          schema: individualUnemployability.schema,
+        },
+        ...createformConfig8940(),
+        ancillaryFormsWizardSummary: {
+          title: 'Summary of additional benefits',
+          path: 'additional-disability-benefits-summary',
+          depends: ancillaryFormsWizardSummary.depends,
+          uiSchema: ancillaryFormsWizardSummary.uiSchema,
+          schema: ancillaryFormsWizardSummary.schema,
+        },
+        // End ancillary forms wizard
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
           path: 'disabilities/summary',
@@ -321,6 +528,15 @@ const formConfig = {
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
+        privateMedicalRecordsRelease: {
+          title: 'Private Medical Records',
+          path: 'supporting-evidence/private-medical-records-release',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          schema: privateMedicalRecordsRelease.schema,
+        },
         additionalDocuments: {
           title: 'Lay statements and other evidence',
           path: 'supporting-evidence/additional-evidence',
@@ -356,12 +572,14 @@ const formConfig = {
           path: 'payment-information',
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
+          onContinue: captureEvents.paymentInformation,
         },
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
+          onContinue: captureEvents.homelessOrAtRisk,
         },
         vaEmployee: {
           title: 'VA employee',
@@ -369,27 +587,22 @@ const formConfig = {
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
         },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
-          depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
+        retirementPayWaiver: {
+          title: 'Retirement pay waiver',
+          path: 'retirement-pay-waiver',
+          depends: formData =>
+            hasMilitaryRetiredPay(formData) && !hasRatedDisabilities(formData),
+          uiSchema: retirementPayWaiver.uiSchema,
+          schema: retirementPayWaiver.schema,
         },
         trainingPayWaiver: {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
-          depends: formData => formData.hasTrainingPay,
+          depends: formData =>
+            formData.hasTrainingPay && !hasRatedDisabilities(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
-
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',

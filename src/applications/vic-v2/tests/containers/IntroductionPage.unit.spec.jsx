@@ -11,12 +11,10 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {},
-            profile: {
-              services: [],
-            },
+        user={{
+          login: {},
+          profile: {
+            services: [],
           },
         }}
       />,
@@ -29,6 +27,7 @@ describe('VIC <IntroducionPage>', () => {
         .find('h5')
         .text(),
     ).to.contain('Sign In and Verify Your Identity');
+    tree.unmount();
   });
   it('should render signed in and unverified', () => {
     const tree = shallow(
@@ -36,14 +35,12 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              services: [],
-            },
+        user={{
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [],
           },
         }}
       />,
@@ -55,6 +52,7 @@ describe('VIC <IntroducionPage>', () => {
         .find('h5')
         .text(),
     ).to.contain('Verify Your Identity');
+    tree.unmount();
   });
   it('should render signed in and verified', () => {
     const tree = shallow(
@@ -62,14 +60,12 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              services: ['identity-proofed'],
-            },
+        user={{
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: ['identity-proofed'],
           },
         }}
       />,
@@ -81,5 +77,6 @@ describe('VIC <IntroducionPage>', () => {
         .find('h5')
         .text(),
     ).to.contain('Sign In');
+    tree.unmount();
   });
 });

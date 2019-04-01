@@ -1,8 +1,8 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import ErrorableFileInput from '@department-of-veterans-affairs/formation/ErrorableFileInput';
-import ProgressBar from '@department-of-veterans-affairs/formation/ProgressBar';
+import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
+import ProgressBar from '@department-of-veterans-affairs/formation-react/ProgressBar';
 import { scrollAndFocus } from '../../../platform/utilities/ui';
 import PhotoPreview from '../components/PhotoPreview';
 import CropperController from '../components/CropperController';
@@ -57,12 +57,12 @@ export default class PhotoField extends React.Component {
       previewProcessing: false,
     };
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.detectDrag();
   }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextFormData = nextProps.formData || {};
     const prevFormData = this.props.formData || {};
 

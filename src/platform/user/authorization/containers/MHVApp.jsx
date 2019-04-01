@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import appendQuery from 'append-query';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
 import { selectProfile } from '../../selectors';
 import siteName from '../../../brand-consolidation/site-name';
-import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
 
 import {
   createMHVAccount,
@@ -203,12 +203,12 @@ export class MHVApp extends React.Component {
             refresh this page
           </a>{' '}
           or try again later. If you keep having trouble, please{' '}
-          <CallHelpDesk>
+          <SubmitSignInForm>
             call the {siteName}
             Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
             8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallHelpDesk>
+          </SubmitSignInForm>
         </p>
       ),
     };

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import siteName from '../../../../platform/brand-consolidation/site-name';
 
 import {
@@ -32,6 +31,7 @@ import {
   addStatusToIssues,
   isolateAppeal,
   STATUS_TYPES,
+  AOJS,
 } from '../../utils/appeals-v2-helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -401,14 +401,12 @@ describe('Disability benefits helpers: ', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
     beforeEach(() => {
-      conditionalStorage().setItem('userToken', '1234');
       oldFetch = global.fetch;
       fetchMock = sinon.stub();
       global.fetch = fetchMock;
     });
     afterEach(() => {
       global.fetch = oldFetch;
-      conditionalStorage().clear();
     });
     it('should make a fetch request', done => {
       fetchMock.returns({
@@ -465,83 +463,27 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
-      const type = STATUS_TYPES.scheduledHearing;
-      const details = { date: '2018-04-01' };
-      const expectedDescSnippet = 'hearing is scheduled for April 1st, 2018';
-      const contents = getStatusContents(type, details);
-      expect(contents.title).to.equal('Your hearing has been scheduled');
-      // TO-DO: Update with real content
-      const descText = shallow(contents.description)
-        .render()
-        .text();
-      expect(descText).to.contain(expectedDescSnippet);
+      const expectedTitle = 'The Board made a decision on your appeal';
+      const expectedDescSnippet =
+        'The judge granted the following issue:Reasonableness of attorney fees';
+      const contents = getStatusContents(mockData.data[6]);
+      expect(contents.title).to.equal(expectedTitle);
+      const descText = shallow(contents.description);
+      expect(descText.render().text()).to.contain(expectedDescSnippet);
+      descText.unmount();
     });
 
     it('returns sane object when given unknown type', () => {
-      const type = 123;
-      const contents = getStatusContents(type);
-      expect(contents.title).to.equal('We don’t know your appeal status');
+      const contents = getStatusContents({
+        attributes: { status: { type: 'fake_type' } },
+      });
+      expect(contents.title).to.equal('We don’t know your status');
       expect(contents.description.props.children).to.eql([
         // React splits it up into separate nodes when variables are inserted
         'We’re sorry, ',
         siteName,
         ' will soon be updated to show your status.',
       ]);
-    });
-
-    // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
-    // so we should test them specifically to ensure we're getting the desired output
-    it('returns the right number of allowed / denied / remand items for remand status', () => {
-      const details = {
-        issues: mockData.data[2].attributes.status.details.issues,
-      };
-      const contents = getStatusContents('remand', details);
-      expect(contents.title).to.equal(
-        'The Board made a decision on your appeal',
-      );
-
-      const wrapper = shallow(contents.description);
-      const allowedList = wrapper.find('.allowed-items ~ ul');
-      const deniedList = wrapper.find('.denied-items ~ ul');
-      const remandList = wrapper.find('.remand-items ~ ul');
-
-      const allowedDisposition = details.issues.filter(
-        i => i.disposition === 'allowed',
-      );
-      const deniedDisposition = details.issues.filter(
-        i => i.disposition === 'denied',
-      );
-      const remandDisposition = details.issues.filter(
-        i => i.disposition === 'remand',
-      );
-
-      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
-      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
-      expect(remandList.find('li').length).to.equal(remandDisposition.length);
-    });
-
-    it('returns the right number of allowed / denied items for bva_decision status', () => {
-      const details = {
-        issues: mockData.data[2].attributes.status.details.issues,
-      };
-      const contents = getStatusContents('bva_decision', details);
-      expect(contents.title).to.equal(
-        'The Board made a decision on your appeal',
-      );
-
-      const wrapper = shallow(contents.description);
-      const allowedList = wrapper.find('.allowed-items ~ ul');
-      const deniedList = wrapper.find('.denied-items ~ ul');
-
-      const allowedDisposition = details.issues.filter(
-        i => i.disposition === 'allowed',
-      );
-      const deniedDisposition = details.issues.filter(
-        i => i.disposition === 'denied',
-      );
-
-      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
-      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
     });
   });
 
@@ -603,7 +545,9 @@ describe('Disability benefits helpers: ', () => {
         certificationTimeliness: [1, 2],
         ssocTimeliness: [1, 1],
       };
-      const nextEvents = getNextEvents(type, details);
+      const nextEvents = getNextEvents({
+        attributes: { status: { type, details } },
+      });
       expect(nextEvents.header).to.equal(
         'What happens next depends on whether you submit new evidence.',
       );
@@ -616,7 +560,9 @@ describe('Disability benefits helpers: ', () => {
         returnTimeliness: [1, 2],
         remandSsocTimeliness: [1, 1],
       };
-      const nextEvents = getNextEvents(type, details);
+      const nextEvents = getNextEvents({
+        attributes: { status: { type, details } },
+      });
       const { events } = nextEvents;
       expect(events.length).to.equal(2);
       const firstEvent = events[0];
@@ -661,24 +607,43 @@ describe('Disability benefits helpers: ', () => {
   describe('makeDecisionReviewContent', () => {
     it('returns the default content if no additional content is provided', () => {
       const decisionReviewContent = makeDecisionReviewContent();
-      const descText = shallow(decisionReviewContent)
-        .render()
-        .text();
-      expect(descText).to.equal(
-        'A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.equal(
+        'A Veterans Law Judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
+      descText.unmount();
     });
 
     it('returns additional content when provided', () => {
-      const decisionReviewContent = makeDecisionReviewContent(
-        'Once your representative has completed their review, your case will be returned to the Board. ',
+      const decisionReviewContent = makeDecisionReviewContent({
+        prop:
+          'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
+      });
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.equal(
+        'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge. The judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
-      const descText = shallow(decisionReviewContent)
-        .render()
-        .text();
-      expect(descText).to.equal(
-        'Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+      descText.unmount();
+    });
+
+    it('uses the name of the aoj', () => {
+      const decisionReviewContent = makeDecisionReviewContent({
+        aoj: AOJS.nca,
+      });
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.contain(
+        'National Cemetery Administration',
       );
+      descText.unmount();
+    });
+
+    it('adjusts language for ama appeals', () => {
+      const decisionReviewContent = makeDecisionReviewContent({ isAma: true });
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.not.contain(
+        '60% of all cases have at least 1 issue remanded.',
+      );
+      descText.unmount();
     });
   });
 

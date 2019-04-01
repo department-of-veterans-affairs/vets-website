@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import get from '../../../../platform/utilities/data/get';
 import { apiRequest } from '../../../../platform/utilities/api';
@@ -53,11 +54,11 @@ export class ConfirmationPoll extends React.Component {
         }
 
         // Check status
-        const status = response.data.attributes.transactionStatus;
+        const status = response.data.attributes.status;
         if (terminalStatuses.has(status)) {
           this.setState({
             submissionStatus: status,
-            claimId: get('data.attributes.metadata.claimId', response) || null,
+            claimId: get('data.attributes.claimId', response) || null,
           });
         } else {
           // Wait for a bit and recurse
@@ -109,10 +110,20 @@ export class ConfirmationPoll extends React.Component {
   }
 }
 
+export const selectAllDisabilityNames = createSelector(
+  state => state.form.data.ratedDisabilities,
+  state => state.form.data.newDisabilities,
+  (ratedDisabilities = [], newDisabilities = []) =>
+    ratedDisabilities
+      .filter(disability => disability['view:selected'])
+      .concat(newDisabilities)
+      .map(disability => disability.name || disability.condition),
+);
+
 function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
-    disabilities: state.form.data.ratedDisabilities,
+    disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.submittedAt,
     jobId: state.form.submission.response.attributes.jobId,
   };

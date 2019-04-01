@@ -5,17 +5,19 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
-import submitForm from './submitForm';
+import submitFormFor from '../../all-claims/config/submitForm';
 
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 
@@ -37,6 +39,7 @@ import {
 } from '../pages/reservesNationalGuardService';
 
 import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
+import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   transform,
@@ -49,7 +52,6 @@ import {
   facilityDescription,
   download4142Notice,
   evidenceSummaryView,
-  GetFormHelp,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
@@ -59,6 +61,7 @@ import {
 import {
   hasGuardOrReservePeriod,
   queryForFacilities,
+  directToCorrectForm,
 } from '../../all-claims/utils';
 
 import {
@@ -66,10 +69,8 @@ import {
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
 
-import {
-  privateRecordsChoiceHelp,
-  documentDescription,
-} from '../../all-claims/content/privateMedicalRecords';
+import { privateRecordsChoiceHelp } from '../../all-claims/content/privateMedicalRecords';
+import { UploadDescription } from '../../all-claims/content/fileUploadDescriptions';
 
 import {
   FDCDescription,
@@ -81,12 +82,12 @@ import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
-import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
 import { requireOneSelected, isInPast } from '../validations';
+import { hasMonthYear } from '../../all-claims/validations';
 
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 const {
   treatments,
@@ -118,6 +119,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
+  onFormLoaded: directToCorrectForm,
   version: 1,
   migrations: [],
   prefillTransformer,
@@ -128,12 +130,14 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
+  formSavedPage: FormSavedPage,
   transformForSubmit: transform,
-  submit: submitForm,
+  submit: submitFormFor('526-v1'),
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -149,7 +153,6 @@ const formConfig = {
   title: 'File for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
-  // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
       title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
@@ -515,10 +518,13 @@ const formConfig = {
                         },
                       },
                     ),
-                    treatmentDateRange: dateRangeUI(
-                      'Date of first treatment (This date doesn’t have to be exact.)',
-                      'Date of last treatment (This date doesn’t have to be exact.)',
-                      'Date of last treatment must be after date of first treatment',
+                    treatmentDateRange: merge(
+                      dateRangeUI(
+                        'Date of first treatment (This date doesn’t have to be exact.)',
+                        'Date of last treatment (This date doesn’t have to be exact.)',
+                        'Date of last treatment must be after date of first treatment',
+                      ),
+                      { to: { 'ui:validations': [hasMonthYear] } },
                     ),
                     treatmentCenterAddress: treatmentAddressUiSchema,
                   },
@@ -600,7 +606,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records',
+                      no: 'No, please get my records from my doctor.',
                     },
                   },
                 },
@@ -710,7 +716,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': documentDescription },
+                  { 'ui:description': UploadDescription },
                 ),
               },
             },
@@ -789,7 +795,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': additionalDocumentDescription },
+                  { 'ui:description': UploadDescription },
                 ),
               },
             },
@@ -867,7 +873,7 @@ const formConfig = {
                 hideIf: formData => _.get('standardClaim', formData),
               },
             },
-            'view:noFDCWarning': {
+            'view:noFdcWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
                 hideIf: formData => !_.get('standardClaim', formData),
@@ -882,7 +888,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:noFDCWarning': {
+              'view:noFdcWarning': {
                 type: 'object',
                 properties: {},
               },

@@ -3,12 +3,15 @@ const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
-function setUserToken(token, client) {
+const logoutRequestUrl = '/sessions/slo/new';
+
+function setUserSession(token, client) {
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
   client.execute(
-    inToken => {
-      window.sessionStorage.setItem('userToken', inToken);
+    () => {
+      window.localStorage.setItem('hasSession', true);
     },
-    [token],
+    [],
     val => {
       if (val.state !== 'success') {
         // eslint-disable-next-line no-console
@@ -16,10 +19,6 @@ function setUserToken(token, client) {
       }
     },
   );
-}
-
-function getLogoutUrl() {
-  return 'http://example.com/logout_url';
 }
 
 /* eslint-disable camelcase */
@@ -31,7 +30,9 @@ function initUserMock(token, level) {
       data: {
         attributes: {
           profile: {
-            authn_context: 'idme',
+            sign_in: {
+              service_name: 'idme',
+            },
             email: 'fake@fake.com',
             loa: { current: level },
             first_name: 'Jane',
@@ -52,7 +53,7 @@ function initUserMock(token, level) {
               metadata: {},
             },
           ],
-          prefills_available: [],
+          prefills_available: ['21-526EZ', '22-0994'],
           services: [
             'facilities',
             'hca',
@@ -62,6 +63,8 @@ function initUserMock(token, level) {
             'health-records',
             'rx',
             'messaging',
+            'form-save-in-progress',
+            'form-prefill',
           ],
           va_profile: {
             status: 'OK',
@@ -78,16 +81,6 @@ function initUserMock(token, level) {
 }
 /* eslint-enable camelcase */
 
-function initLogoutMock(token) {
-  mock(token, {
-    path: '/sessions/slo/new',
-    verb: 'get',
-    value: {
-      url: getLogoutUrl(),
-    },
-  });
-}
-
 let tokenCounter = 0;
 
 function getUserToken() {
@@ -96,17 +89,16 @@ function getUserToken() {
 
 function logIn(token, client, url, level) {
   initUserMock(token, level);
-  initLogoutMock(token);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.disableAnnouncements(client);
-  setUserToken(token, client);
+  setUserSession(token, client);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideSmoothScrolling(client);
@@ -115,12 +107,9 @@ function logIn(token, client, url, level) {
 }
 
 function testUnauthedUserFlow(client, path) {
-  const token = getUserToken();
   const appURL = `${E2eHelpers.baseUrl}${path}`;
 
-  initLogoutMock(token);
-
-  client.url(appURL).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(appURL).waitForElementVisible('body', Timeouts.normal);
 
   client
     .waitForElementVisible('.login', Timeouts.normal)
@@ -129,11 +118,10 @@ function testUnauthedUserFlow(client, path) {
 }
 
 module.exports = {
-  getLogoutUrl,
   getUserToken,
-  initLogoutMock,
   initUserMock,
   logIn,
+  logoutRequestUrl,
   testUnauthedUserFlow,
-  setUserToken,
+  setUserSession,
 };

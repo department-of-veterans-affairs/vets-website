@@ -3,10 +3,11 @@ import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import localStorage from '../../../../platform/utilities/storage/localStorage';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import AccountVerification from './AccountVerification';
+import ConnectedAccountsSection from './ConnectedAccountsSection.jsx';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
@@ -110,31 +111,33 @@ class AccountMain extends React.Component {
               </p>
             </div>
             <div>
-              <h5>DS Login</h5>
+              <h5>DS Logon</h5>
               <a
                 href="https://myaccess.dmdc.osd.mil/identitymanagement"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 Manage your DS Logon account
               </a>
+              .<span className="external-link-icon-black">&nbsp;</span>
             </div>
             <div>
               <h5>My HealtheVet</h5>
-              <a href="https://www.myhealth.va.gov" target="_blank">
+              <a
+                href="https://www.myhealth.va.gov"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 Manage your My HealtheVet account
               </a>
+              .<span className="external-link-icon-black">&nbsp;</span>
             </div>
           </div>
         )}
         <LoginSettings />
+        <ConnectedAccountsSection />
         {verified && <TermsAndConditions mhvAccount={mhvAccount} />}
 
-        <h3>Connected accounts</h3>
-        <p>
-          Manage the sites and applications that you've granted access to your
-          {propertyName} profile data.
-        </p>
-        <a href="/connected-accounts">Manage your connected accounts</a>
         <div className="feature">
           <h3>Have questions about signing in to {propertyName}?</h3>
           <p>
@@ -143,7 +146,7 @@ class AccountMain extends React.Component {
             security on {propertyName}.
           </p>
           <a
-            href="/faq"
+            href="/sign-in-faq/"
             onClick={() =>
               recordEvent({
                 event: 'account-navigation',

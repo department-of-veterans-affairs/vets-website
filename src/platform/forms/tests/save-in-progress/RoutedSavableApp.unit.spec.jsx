@@ -9,22 +9,19 @@ import {
   PREFILL_STATUSES,
 } from '../../save-in-progress/actions';
 
-let oldWindow;
+let oldAddEventListener;
+const location = {
+  pathname: '/',
+};
 
 const setup = () => {
-  oldWindow = global.window;
+  oldAddEventListener = global.window.addEventListener;
 
-  global.window = {
-    ...oldWindow,
-    location: {
-      pathname: '/',
-    },
-    addEventListener: () => {},
-  };
+  global.window.addEventListener = () => {};
 };
 
 const teardown = () => {
-  global.window = oldWindow;
+  global.window.addEventListener = oldAddEventListener;
 };
 
 describe('Schemaform <RoutedSavableApp>', () => {
@@ -45,6 +42,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
+        location={location}
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
@@ -98,10 +96,10 @@ describe('Schemaform <RoutedSavableApp>', () => {
       {
         pageList: [
           {
-            path: 'intro',
+            path: '/introduction',
           },
           {
-            path: 'test-path',
+            path: '/test-path',
           },
         ],
       },
@@ -123,13 +121,14 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       prefillStatus: PREFILL_STATUSES.unfilled,
       router,
       routes,
+      data: {},
     });
 
-    expect(router.push.calledWith('test-path')).to.be.true;
+    expect(router.push.calledWith('/test-path')).to.be.true;
   });
   it('should route and reset fetch status on success', () => {
     const formConfig = {
@@ -162,7 +161,8 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
+      formConfig,
       router,
       returnUrl,
       loadedStatus: LOAD_STATUSES.success,
@@ -202,7 +202,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       router,
       loadedStatus: LOAD_STATUSES.failure,
       formConfig: { urlPrefix: '/' },
@@ -232,8 +232,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     };
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -249,7 +247,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     tree.getMountedInstance().componentDidMount();
 
     expect(router.replace.calledWith('/introduction')).to.be.true;
-    __BUILDTYPE__ = buildType;
   });
   it('should load a saved form when starting in the middle of a form and logged in', () => {
     const formConfig = {
@@ -276,8 +273,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const fetchInProgressForm = sinon.spy();
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -293,7 +288,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     // When logged in, the component gets mounted before the profile is finished
     //  loading, so the logic is in componentWillReceiveProps()
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
       savedForms: [{ form: formConfig.formId }],
@@ -311,7 +306,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
         false,
       ),
     ).to.be.true;
-    __BUILDTYPE__ = buildType;
   });
   it('should load a pre-filled form when starting in the middle of a form and logged in', () => {
     const formConfig = {
@@ -338,8 +332,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const fetchInProgressForm = sinon.spy();
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -355,7 +347,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     // When logged in, the component gets mounted before the profile is finished
     //  loading, so the logic is in componentWillReceiveProps()
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
       savedForms: [],
@@ -373,7 +365,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
         true,
       ),
     ).to.be.true;
-    __BUILDTYPE__ = buildType;
   });
   it('should skip pre-fill when skipPrefill is true', () => {
     const formConfig = {
@@ -401,8 +392,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const fetchInProgressForm = sinon.spy();
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -418,7 +407,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     // When logged in, the component gets mounted before the profile is finished
     //  loading, so the logic is in componentWillReceiveProps()
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
       skipPrefill: true,
@@ -432,6 +421,5 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     expect(fetchInProgressForm.called).to.be.false;
     expect(router.replace.calledWith('/first-in-form-page')).to.be.true;
-    __BUILDTYPE__ = buildType;
   });
 });

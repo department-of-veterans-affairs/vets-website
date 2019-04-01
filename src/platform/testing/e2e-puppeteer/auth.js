@@ -4,12 +4,15 @@ const Timeouts = require('../e2e/timeouts');
 const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
 
-async function setUserToken(token, client) {
-  await client.evaluate(
-    inToken => {
-      window.sessionStorage.setItem('userToken', inToken);
+const logoutRequestUrl = '/sessions/slo/new';
+
+async function setUserSession(token, client) {
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
+  client.evaluate(
+    () => {
+      window.localStorage.setItem('hasSession', true);
     },
-    [token],
+    [],
     val => {
       if (val.state !== 'success') {
         // eslint-disable-next-line no-console
@@ -17,10 +20,6 @@ async function setUserToken(token, client) {
       }
     },
   );
-}
-
-function getLogoutUrl() {
-  return 'http://example.com/logout_url';
 }
 
 /* eslint-disable camelcase */
@@ -32,7 +31,9 @@ function initUserMock(token, level) {
       data: {
         attributes: {
           profile: {
-            authn_context: 'idme',
+            sign_in: {
+              service_name: 'idme',
+            },
             email: 'fake@fake.com',
             loa: { current: level },
             first_name: 'Jane',
@@ -53,7 +54,7 @@ function initUserMock(token, level) {
               metadata: {},
             },
           ],
-          prefills_available: [],
+          prefills_available: ['21-526EZ'],
           services: [
             'facilities',
             'hca',
@@ -74,20 +75,11 @@ function initUserMock(token, level) {
           },
         },
       },
+      meta: { errors: null },
     },
   });
 }
 /* eslint-enable camelcase */
-
-function initLogoutMock(token) {
-  mock(token, {
-    path: '/sessions/slo/new',
-    verb: 'get',
-    value: {
-      url: getLogoutUrl(),
-    },
-  });
-}
 
 let tokenCounter = 0;
 
@@ -97,13 +89,11 @@ function getUserToken() {
 
 async function logIn(token, client, url, level) {
   initUserMock(token, level);
-  initLogoutMock(token);
-
   const newUrl = `${E2eHelpers.baseUrl}${url}`;
   await client.waitForSelector('body', { timeout: Timeouts.normal });
   await client.goto(newUrl);
   await E2eHelpers.disableAnnouncements(client);
-  await setUserToken(token, client);
+  await setUserSession(token, client);
   await client.goto(`${E2eHelpers.baseUrl}${url}`);
   await client.evaluate(() => {
     const current = window.VetsGov || {};
@@ -119,10 +109,7 @@ async function logIn(token, client, url, level) {
 }
 
 async function testUnauthedUserFlow(client, path) {
-  const token = getUserToken();
   const appURL = `${E2eHelpers.baseUrl}${path}`;
-
-  initLogoutMock(token);
 
   await client.goto(appURL);
   await client.waitForSelector('body', { timeout: Timeouts.normal });
@@ -134,11 +121,10 @@ async function testUnauthedUserFlow(client, path) {
 }
 
 module.exports = {
-  getLogoutUrl,
   getUserToken,
-  initLogoutMock,
   initUserMock,
   logIn,
+  logoutRequestUrl,
   testUnauthedUserFlow,
-  setUserToken,
+  setUserSession,
 };

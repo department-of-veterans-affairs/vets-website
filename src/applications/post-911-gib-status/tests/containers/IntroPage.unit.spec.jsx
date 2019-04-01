@@ -19,8 +19,9 @@ describe('<IntroPage/>', () => {
   };
 
   it('should call getServiceAvailability()', () => {
-    shallow(<IntroPage {...defaultProps} />);
+    const wrapper = shallow(<IntroPage {...defaultProps} />);
     expect(getServiceAvailability.callCount).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render a LoadingIndicator', () => {
@@ -31,37 +32,26 @@ describe('<IntroPage/>', () => {
       />,
     );
     expect(wrapper.find('LoadingIndicator')).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 
-  it('should render a link to /status', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps} />);
-    const summary = wrapper.find('VetsDotGovSummary').dive();
-    expect(
-      summary
-        .find('Link')
-        .first()
-        .props().to,
-    ).to.equal('status');
+  it('should render a success Alert when downtime is not scheduled to start soon', () => {
+    const oneHourAsSeconds = 60 * 60;
+    const wrapper = shallow(
+      <IntroPage {...defaultProps} uptimeRemaining={oneHourAsSeconds} />,
+      { store: {} },
+    );
+    expect(wrapper.find('AlertBox[status="success"]').length).to.equal(1);
+    wrapper.unmount();
   });
 
-  describe('when brand consolidation is enabled', () => {
-    it('should render a success Alert when downtime is not scheduled to start soon', () => {
-      const oneHourAsSeconds = 60 * 60;
-      window.settings = { brandConsolidationEnabled: true };
-      const wrapper = shallow(
-        <IntroPage {...defaultProps} uptimeRemaining={oneHourAsSeconds} />,
-      );
-      expect(wrapper.find('AlertBox [status="success"]').length).to.equal(1);
-    });
-
-    it('should render a warning Alert when downtime is scheduled to start soon', () => {
-      const halfHourAsSeconds = 30 * 60;
-      window.settings = { brandConsolidationEnabled: true };
-      const wrapper = shallow(
-        <IntroPage {...defaultProps} uptimeRemaining={halfHourAsSeconds} />,
-      );
-      expect(wrapper.find('AlertBox [status="warning"]').length).to.equal(1);
-    });
+  it('should render a warning Alert when downtime is scheduled to start soon', () => {
+    const halfHourAsSeconds = 30 * 60;
+    const wrapper = shallow(
+      <IntroPage {...defaultProps} uptimeRemaining={halfHourAsSeconds} />,
+    );
+    expect(wrapper.find('AlertBox[status="warning"]').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render an error Alert when GIBS status down', () => {
@@ -71,6 +61,7 @@ describe('<IntroPage/>', () => {
         serviceAvailability={SERVICE_AVAILABILITY_STATES.down}
       />,
     );
-    expect(wrapper.find('AlertBox [status="error"]').length).to.equal(1);
+    expect(wrapper.find('AlertBox[status="error"]').length).to.equal(1);
+    wrapper.unmount();
   });
 });

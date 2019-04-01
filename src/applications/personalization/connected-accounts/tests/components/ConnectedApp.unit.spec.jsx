@@ -13,11 +13,12 @@ const account = {
     logo: 'example.com/fancy_duck.jpg',
     title: 'Ducks R Us',
     created: '2018-11-05T17:29:40+0000',
+    grants: ['Stuff', 'Things'],
   },
 };
 
 describe('<ConnectedApp>', () => {
-  it('clicking button opens the confirm delete modal', () => {
+  it('opening the row and clicking button opens the confirm delete modal', () => {
     const tree = SkinDeep.shallowRender(
       <ConnectedApp
         {...account}
@@ -26,7 +27,11 @@ describe('<ConnectedApp>', () => {
       />,
     );
 
-    tree.subTree('button').props.onClick({ target: {} });
+    const row = tree.dive(['.va-connected-acct-row']);
+    const toggleButton = row.subTree('.va-connected-acct-row-details-toggle');
+    toggleButton.props.onClick();
+
+    tree.subTree('.usa-button-primary').props.onClick({ target: {} });
 
     expect(tree.subTree('AccountModal').props.modalOpen).to.be.true;
   });

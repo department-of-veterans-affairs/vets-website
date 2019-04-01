@@ -3,7 +3,9 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormApp from 'us-forms-system/lib/js/containers/FormApp';
+import FormApp from 'platform/forms-system/src/js/containers/FormApp';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -11,10 +13,11 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { isInProgress } from '../helpers';
 import { getSaveInProgressState } from './selectors';
+import environment from '../../utilities/environment';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -33,7 +36,12 @@ const scrollToTop = () => {
  * Primary component for a schema generated form app.
  */
 class RoutedSavableApp extends React.Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.location = props.location || window.location;
+  }
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
@@ -47,7 +55,7 @@ class RoutedSavableApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
     const devRedirect =
-      (__BUILDTYPE__ !== 'localhost' &&
+      (!environment.isLocalhost() &&
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
@@ -64,8 +72,8 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
     // If we're done loading the profile, check to see if we should load or redirect
@@ -85,24 +93,27 @@ class RoutedSavableApp extends React.Component {
     ) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
-      newProps.router.push(newProps.returnUrl);
+      if (newProps.formConfig.onFormLoaded) {
+        // The onFormLoaded callback should handle navigating to the start of the form
+        newProps.formConfig.onFormLoaded(newProps);
+      } else {
+        newProps.router.push(newProps.returnUrl);
+      }
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (
       newProps.prefillStatus !== this.props.prefillStatus &&
       newProps.prefillStatus === PREFILL_STATUSES.unfilled
     ) {
-      newProps.router.push(
-        newProps.routes[this.props.routes.length - 1].pageList[1].path,
-      );
+      newProps.router.push(this.getFirstNonIntroPagePath(newProps));
     } else if (
       status !== LOAD_STATUSES.notAttempted &&
       status !== LOAD_STATUSES.pending &&
       status !== this.props.loadedStatus &&
-      !window.location.pathname.endsWith('/error')
+      !this.location.pathname.endsWith('/error')
     ) {
       let action = 'push';
-      if (window.location.pathname.endsWith('resume')) {
+      if (this.location.pathname.endsWith('resume')) {
         action = 'replace';
       }
       newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
@@ -152,14 +163,21 @@ class RoutedSavableApp extends React.Component {
     return message;
   };
 
+  getFirstNonIntroPagePath(props) {
+    return getNextPagePath(
+      props.routes[props.routes.length - 1].pageList,
+      props.formData,
+      '/introduction',
+    );
+  }
+
   redirectOrLoad(props) {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
 
     const firstPagePath =
       props.routes[props.routes.length - 1].pageList[0].path;
-    const firstNonIntroPagePath =
-      props.routes[props.routes.length - 1].pageList[1].path;
+    const firstNonIntroPagePath = this.getFirstNonIntroPagePath(props);
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;

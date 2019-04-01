@@ -1,41 +1,48 @@
 import React from 'react';
 
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import {
   PtsdUploadChoiceDescription,
   UploadPtsdDescription,
 } from '../content/ptsdWalkthroughChoice';
+import { PTSD_TYPES_TO_FORMS } from '../constants';
 
+const { personalAssaultSexualTrauma } = PTSD_TYPES_TO_FORMS;
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription formData={formData} formType="781a" />
+    <UploadPtsdDescription
+      formData={formData}
+      formType={personalAssaultSexualTrauma}
+    />
   ),
-  'view:uploadPtsdChoice': {
+  'view:upload781aChoice': {
     'ui:title': ' ',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        answerQuestions: 'I want to answer questions',
-        upload: 'I want to upload VA Form 21-0781a',
+        answerQuestions:
+          'I want to continue online and answer questions about my PTSD.',
+        upload:
+          'I’ve already filled out VA Form 21-0781a and want to upload it.',
       },
     },
   },
-  'view:uploadPtsdChoiceHelp': {
-    'ui:description': <PtsdUploadChoiceDescription formType="781a" />,
+  'view:upload781aChoiceHelp': {
+    'ui:description': (
+      <PtsdUploadChoiceDescription formType={personalAssaultSexualTrauma} />
+    ),
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    'view:uploadPtsdChoice': {
+    'view:upload781aChoice': {
       type: 'string',
       enum: ['answerQuestions', 'upload'],
     },
-    'view:uploadPtsdChoiceHelp': {
+    'view:upload781aChoiceHelp': {
       type: 'object',
       properties: {},
     },

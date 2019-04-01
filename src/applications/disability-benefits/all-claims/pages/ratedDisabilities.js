@@ -1,17 +1,20 @@
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 import {
   disabilityOption,
   disabilitiesClarification,
+  ratedDisabilitiesAlert,
 } from '../content/ratedDisabilities';
 
-const { disabilities: disabilitiesSchema } = fullSchema.properties;
+import { increaseOnly, claimingRated } from '../utils';
+import { requireRatedDisability } from '../validations';
+
+const { ratedDisabilities } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': 'Rated Disabilities',
-  'ui:description': `Below are your rated disabilities. If you’ll be filing for increased 
-    compensation because one of them has gotten worse, please choose the 
-    disability here.`,
+  'ui:description':
+    'Below are your rated disabilities. Please choose the disability you’re filing for increased compensation because it has gotten worse.',
   ratedDisabilities: {
     'ui:title': ' ',
     'ui:field': 'StringField',
@@ -22,17 +25,28 @@ export const uiSchema = {
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
     },
+    'ui:validations': [requireRatedDisability],
   },
   'view:disabilitiesClarification': {
     'ui:description': disabilitiesClarification,
+  },
+  'view:ratedDisabilitiesAlert': {
+    'ui:description': ratedDisabilitiesAlert,
+    'ui:options': {
+      hideIf: formData => !increaseOnly(formData) || claimingRated(formData),
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    ratedDisabilities: disabilitiesSchema,
+    ratedDisabilities,
     'view:disabilitiesClarification': {
+      type: 'object',
+      properties: {},
+    },
+    'view:ratedDisabilitiesAlert': {
       type: 'object',
       properties: {},
     },

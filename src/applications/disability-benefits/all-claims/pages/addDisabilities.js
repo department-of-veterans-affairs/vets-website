@@ -1,34 +1,40 @@
-import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
+import {
+  descriptionInfo,
+  autoSuggestTitle,
+  newOnlyAlert,
+  increaseAndNewAlert,
+} from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
+import ArrayField from '../components/ArrayField';
+import { validateDisabilityName, requireDisability } from '../validations';
+import {
+  newConditionsOnly,
+  newAndIncrease,
+  hasClaimedConditions,
+} from '../utils';
 
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { condition } = fullSchema.properties.newDisabilities.items.properties;
-
-const conditionsDescriptions = new Set(
-  Object.values(disabilityLabels).map(label => label.toLowerCase()),
-);
+const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  'view:newDisabilities': {
-    'ui:title':
-      'Do you have any new service-connected disabilities or conditions to add to your claim?',
-    'ui:widget': 'yesNo',
-  },
+  'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
-    'ui:title': 'Add a new disability',
+    'ui:title': 'New condition',
+    'ui:field': ArrayField,
     'ui:options': {
-      expandUnder: 'view:newDisabilities',
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
       itemName: 'Disability',
     },
+    // Ideally, this would show the validation on the array itself (or the name field in an array
+    //  item), but that's not working.
+    'ui:validations': [requireDisability],
     items: {
       condition: autosuggest.uiSchema(
-        'If you know the name of your disability, please enter it here. Or, if you don’t know the name, please briefly describe your disability or condition in as much detail as possible.',
+        autoSuggestTitle,
         () =>
           Promise.resolve(
             Object.entries(disabilityLabels).map(([key, value]) => ({
@@ -38,37 +44,48 @@ export const uiSchema = {
           ),
         {
           'ui:options': {
+            debounceRate: 200,
             freeInput: true,
+            inputTransformers: [
+              // Replace a bunch of things that aren't valid with valid equivalents
+              input => input.replace(/["”’]/g, `'`),
+              input => input.replace(/[;–]/g, ' -- '),
+              input => input.replace(/[&]/g, ' and '),
+              input => input.replace(/[\\]/g, '/'),
+              // TODO: Remove the period replacer once permanent fix in place
+              input => input.replace(/[.]/g, ' '),
+              // Strip out everything that's not valid and doesn't need to be replaced
+              // TODO: Add period back into allowed chars regex
+              input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
+              // Get rid of extra whitespace characters
+              input => input.trim(),
+              input => input.replace(/\s{2,}/g, ' '),
+            ],
           },
+          // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+          'ui:validations': [validateDisabilityName],
         },
       ),
       'view:descriptionInfo': {
-        'ui:description': () => (
-          <AlertBox isVisible status="info">
-            <p>
-              Below are some details that may be helpful to include when
-              describing your disability:
-            </p>
-            <ul>
-              <li>The part of your body that's affected</li>
-              <li>
-                If your disability is on the right side or left side of your
-                body
-              </li>
-              <li>The part of your body that isn't working right</li>
-            </ul>
-          </AlertBox>
-        ),
-        'ui:options': {
-          hideIf: (formData, index) => {
-            const enteredCondition = formData.newDisabilities[index].condition;
-            if (enteredCondition) {
-              return conditionsDescriptions.has(enteredCondition.toLowerCase());
-            }
-
-            return true;
-          },
-        },
+        'ui:description': descriptionInfo,
+      },
+    },
+  },
+  // This object only shows up when the user tries to continue without claiming either a rated or new condition
+  'view:newDisabilityErrors': {
+    'view:newOnlyAlert': {
+      'ui:description': newOnlyAlert,
+      'ui:options': {
+        hideIf: formData =>
+          !newConditionsOnly(formData) || hasClaimedConditions(formData),
+      },
+    },
+    'view:increaseAndNewAlert': {
+      'ui:description': increaseAndNewAlert,
+      'ui:options': {
+        hideIf: formData =>
+          // Only show this alert if the veteran is claiming both rated and new conditions
+          !newAndIncrease(formData) || hasClaimedConditions(formData),
       },
     },
   },
@@ -76,21 +93,23 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:newDisabilities'],
   properties: {
-    'view:newDisabilities': {
-      type: 'boolean',
-    },
     newDisabilities: {
       type: 'array',
       minItems: 1,
       items: {
         type: 'object',
-        required: ['condition'],
         properties: {
           condition,
           'view:descriptionInfo': { type: 'object', properties: {} },
         },
+      },
+    },
+    'view:newDisabilityErrors': {
+      type: 'object',
+      properties: {
+        'view:newOnlyAlert': { type: 'object', properties: {} },
+        'view:increaseAndNewAlert': { type: 'object', properties: {} },
       },
     },
   },

@@ -10,32 +10,36 @@ import { fetchInProgressForm, removeInProgressForm } from './actions';
 import { formTitles } from '../../../applications/personalization/profile360/util/helpers';
 import FormStartControls from './FormStartControls';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.VetsGov.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class FormSaved extends React.Component {
+  constructor(props) {
+    super(props);
+    const scroller = Scroll.scroller;
+    const scrollProps = props.scrollParams || window.VetsGov.scroll;
+    this.scrollToTop = () => {
+      scroller.scrollTo(
+        'topScrollElement',
+        scrollProps || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+        },
+      );
+    };
+    this.location = props.location || window.location;
+  }
   componentDidMount() {
     // if we don’t have this then that means we’re loading the page
     // without any data and should just go back to the intro
     if (!this.props.lastSavedDate) {
       this.props.router.replace(this.props.route.pageList[0].path);
     } else {
-      scrollToTop();
+      this.scrollToTop();
       focusElement('.usa-alert');
     }
   }
 
   render() {
-    const { formId, lastSavedDate } = this.props;
+    const { formId, lastSavedDate, expirationMessage } = this.props;
     const { profile } = this.props.user;
     const { verified } = profile;
     const prefillAvailable = !!(
@@ -61,17 +65,19 @@ class FormSaved extends React.Component {
                     Last saved on{' '}
                     {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}
                   </span>
-                  <p className="expires-container">
-                    Your saved application{' '}
-                    <span className="expires">
-                      will expire on {expirationDate}.
-                    </span>
-                  </p>
+                  {expirationMessage || (
+                    <p className="expires-container">
+                      Your saved application{' '}
+                      <span className="expires">
+                        will expire on {expirationDate}.
+                      </span>
+                    </p>
+                  )}
                 </div>
               )}
             {success}
-            If you’re logged in through a public computer, please sign out of
-            your account before you log off to keep your information secure.
+            If you’re on a public computer, please sign out of your account
+            before you leave so your information stays secure.
           </div>
         </div>
         {!verified && (
@@ -80,7 +86,7 @@ class FormSaved extends React.Component {
               We want to keep your information safe with the highest level of
               security. Please{' '}
               <a
-                href={`/verify?next=${window.location.pathname}`}
+                href={`/verify?next=${this.location.pathname}`}
                 className="verify-link"
               >
                 verify your identity
@@ -116,7 +122,10 @@ FormSaved.propTypes = {
     ),
     formConfig: PropTypes.object.isRequired,
   }),
+  location: PropTypes.object,
+  scrollParams: PropTypes.object,
   lastSavedDate: PropTypes.number.isRequired,
+  expirationMessage: PropTypes.node,
 };
 
 function mapStateToProps(state) {

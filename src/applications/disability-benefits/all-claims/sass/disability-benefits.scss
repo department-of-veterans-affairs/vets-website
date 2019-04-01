@@ -37,8 +37,8 @@ ul.original-disability-list {
   }
 }
 
- // Bring the text of an element nested in a <label> up to the same line as the check box
- .form-checkbox input[type="checkbox"] + label {
+// Bring the text of an element nested in a <label> up to the same line as the check box
+.form-checkbox input[type='checkbox'] + label {
   div {
     display: inline-block;
     // Also give a little more space between the checkbox and the label
@@ -65,7 +65,11 @@ ul.original-disability-list {
     margin-bottom: 1em;
   }
 
-  input[type="checkbox"] + label {
+  label {
+    display: inline-block;
+  }
+
+  input[type='checkbox'] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
     margin-top: 0em;
@@ -78,6 +82,17 @@ ul.original-disability-list {
   }
 }
 
+// removes gap when using multiple widget-outlines
+.widget-outline-group {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.all-disabilities-title {
+  margin-top: 0.2em;
+  margin-bottom: 1.4em;
+}
+
 // ReviewCardField styles
 .review-card {
   .review-card--header {
@@ -86,15 +101,11 @@ ul.original-disability-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 5rem;
 
     .review-card--title {
       margin: 0;
       display: inline-block;
-    }
-
-    .edit-button {
-      width: 8rem;
-      margin-right: 0;
     }
   }
 
@@ -109,10 +120,17 @@ ul.original-disability-list {
       margin: 1.5rem 0 2.5rem;
     }
 
-    .update-button {
+    .update-button,
+    .cancel-button {
+      width: auto;
       margin-top: 1rem;
-      width: 15rem;
     }
+  }
+
+  .edit-button {
+    width: auto;
+    min-width: 8rem;
+    margin-right: 0;
   }
 }
 
@@ -120,4 +138,18 @@ ul.original-disability-list {
 //  error formatting doesn't increase the size
 .year-input {
   max-width: 7rem;
+}
+
+.patient-acknowldegment-help {
+  max-width: 80vw;
+}
+
+.upload-completed-form .schemaform-widget-wrapper select {
+  background: none;
+  border: none;
+  font-weight: bold;
+  padding-left: 0;
+  white-space: pre-wrap;
+  height: auto;
+  white-space: pre-wrap;
 }

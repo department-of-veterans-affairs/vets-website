@@ -1,7 +1,9 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
+
+import { recordEventOnce } from '../utils';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
@@ -24,8 +26,17 @@ export const itfMessage = (headline, content, status) => (
   </div>
 );
 
+const recordITFHelpEvent = () =>
+  recordEventOnce({
+    event: 'disability-526EZ--form-help-text-clicked',
+    'help-text-label': 'Disability - Form 526EZ - What is an intent to file',
+  });
+
 const expander = (
-  <AdditionalInfo triggerText="What is an Intent to File?">
+  <AdditionalInfo
+    triggerText="What is an Intent to File?"
+    onClick={recordITFHelpEvent}
+  >
     <p>
       An Intent to File request lets VA know that you’re planning to file a
       claim. An Intent to File reserves a potential effective date for when you
@@ -33,6 +44,18 @@ const expander = (
       gather supporting documents.
     </p>
   </AdditionalInfo>
+);
+
+export const claimsIntakeAddress = (
+  <p className="va-address-block">
+    Department of Veterans Affairs
+    <br />
+    Claims Intake Center
+    <br />
+    PO Box 4444
+    <br />
+    Janesville, WI 53547-4444
+  </p>
 );
 
 export const itfError = (
@@ -46,15 +69,7 @@ export const itfError = (
         a.m. – 9:00 a.m. (ET). Or, you can fill out VA Form 21-0966 and submit
         it to:
       </p>
-      <p>
-        Department of Veterans Affairs
-        <br />
-        Claims Intake Center
-        <br />
-        PO Box 4444
-        <br />
-        Janesville, WI 53547-4444
-      </p>
+      {claimsIntakeAddress}
     </div>
     {expander}
   </div>

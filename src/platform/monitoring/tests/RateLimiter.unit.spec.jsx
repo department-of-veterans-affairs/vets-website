@@ -44,6 +44,7 @@ describe('<RateLimiter>', () => {
     );
     expect(window.sessionStorage.setItem.called).to.be.false;
     expect(tree.text()).to.contain('Limited content');
+    tree.unmount();
   });
   it('should display loading indicator when waiting for profile', () => {
     window.sessionStorage = {
@@ -81,6 +82,7 @@ describe('<RateLimiter>', () => {
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     expect(window.sessionStorage.setItem.called).to.be.false;
+    tree.unmount();
   });
   it('should display real content when over threshold', () => {
     window.sessionStorage = {
@@ -117,6 +119,7 @@ describe('<RateLimiter>', () => {
 
     expect(tree.text()).to.contain('Real content');
     expect(window.sessionStorage.setItem.called).to.be.true;
+    tree.unmount();
   });
   it('should display real content when bypassLimit returns true', () => {
     window.sessionStorage = {
@@ -153,6 +156,7 @@ describe('<RateLimiter>', () => {
     );
 
     expect(tree.text()).to.contain('Real content');
+    tree.unmount();
   });
   it('should display real content when disabled through session storage', () => {
     window.sessionStorage = {
@@ -189,6 +193,7 @@ describe('<RateLimiter>', () => {
     );
 
     expect(tree.text()).to.contain('Real content');
+    tree.unmount();
   });
   afterEach(() => {
     delete window.sessionStorage;

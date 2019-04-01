@@ -1,4 +1,5 @@
 import backendServices from '../../user/profile/constants/backendServices';
+import environment from '../../utilities/environment';
 
 const frontendApps = {
   HEALTH_RECORDS: 'health-records',
@@ -11,6 +12,7 @@ const frontendApps = {
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
   LETTERS: 'letters',
   VETERAN_ID_CARD: 'vic',
+  VET_TEC: 'vet-tec',
 };
 
 const HEALTH_TOOLS = [
@@ -42,16 +44,7 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 export const mhvBaseUrl = () => {
-  const lowerEnvironments = [
-    'localhost',
-    'vagovdev',
-    'staging',
-    'vagovstaging',
-  ];
-
-  const mhvSubdomain = lowerEnvironments.includes(__BUILDTYPE__)
-    ? 'mhv-syst'
-    : 'www';
+  const mhvSubdomain = !environment.isProduction() ? 'mhv-syst' : 'www';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
@@ -128,8 +121,7 @@ export const toolUrl = (appId, index) => {
 
     case frontendApps.DISABILITY_BENEFITS:
       return {
-        url:
-          '/disability-benefits/apply/form-526-disability-claim/veteran-information',
+        url: '/disability/how-to-file-claim',
         redirect: false,
       };
 
@@ -142,6 +134,13 @@ export const toolUrl = (appId, index) => {
     case frontendApps.VETERAN_ID_CARD:
       return {
         url: '/records/get-veteran-id-cards/apply',
+        redirect: false,
+      };
+
+    case frontendApps.VET_TEC:
+      return {
+        url:
+          '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
         redirect: false,
       };
 
@@ -181,6 +180,9 @@ export const requiredServices = appId => {
     case frontendApps.VETERAN_ID_CARD:
       return backendServices.ID_CARD;
 
+    case frontendApps.VET_TEC:
+      return backendServices.EDUCATION_BENEFITS;
+
     default:
       return null;
   }
@@ -189,20 +191,20 @@ export const requiredServices = appId => {
 export const serviceDescription = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
-      return 'use VA Blue Button';
+      return 'view your VA medical records';
 
     case frontendApps.RX:
-      return 'refill VA prescriptions online';
+      return 'refill prescriptions';
 
     case frontendApps.MESSAGING:
-      return 'send secure messages to your health care team';
+      return 'send secure messages';
 
     case frontendApps.LAB_AND_TEST_RESULTS:
-      return 'view your VA lab and test results';
+      return 'view your lab and test results';
 
     case frontendApps.APPOINTMENTS:
       return [
-        'view your VA appointments online',
+        'view your appointments',
         'schedule, reschedule, or cancel a VA appointment online',
       ][index];
 
@@ -220,6 +222,9 @@ export const serviceDescription = (appId, index) => {
 
     case frontendApps.VETERAN_ID_CARD:
       return 'apply for a Veteran ID Card';
+
+    case frontendApps.VET_TEC:
+      return 'apply for VET TEC';
 
     default:
       return 'use this service';

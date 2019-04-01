@@ -1,0 +1,46 @@
+{% comment %}
+  Example data:
+    "entity": {
+      "fieldTimeout": 20,
+      "fieldCtaWidget": false,
+      "fieldWidgetType": "health-care-app-status",
+      "fieldDefaultLink": {
+        "uri": "/health-care/apply/application/",
+        "title": "Apply for Health Care Benefits"
+      },
+      "fieldButtonFormat": true,
+      "fieldErrorMessage": {
+        "value": "<strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes."
+      },
+      "fieldLoadingMessage": "Checking your application status."
+      "reactRoot": 'react-widget-1'
+    }
+
+    OR
+
+    "entity": {
+      "fieldTimeout": 0,
+      "fieldCtaWidget": true,
+      "fieldWidgetType": "rx",
+      "fieldDefaultLink": null,
+      "fieldButtonFormat": false,
+      "fieldErrorMessage": null,
+      "fieldLoadingMessage": null
+    }
+
+{% endcomment %}
+
+  {% if entity.fieldCtaWidget %}
+      <div class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
+  {% else %}
+      <div id="{{ reactRoot }}" class="static-page-widget" data-widget-type={{ entity.fieldWidgetType }}>
+        {% if entity.fieldDefaultLink != empty %}
+          {% if entity.fieldButtonFormat %}
+            {% assign classes = 'class="usa-button-primary va-button-primary"' %}
+          {% else %}
+            {% assign classes = '' %}
+          {% endif %}
+          <a href="{{ entity.fieldDefaultLink.url.path }}" {{ classes }}>{{ entity.fieldDefaultLink.title }}</a>
+        {% endif %}
+      </div>
+  {% endif %}

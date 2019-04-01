@@ -1,11 +1,13 @@
-# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
+# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/testing/job/vets-website/job/master/)
 
 ## What is this?
 
-This is the combined frontend repository for www.vets.gov. With this repository, it is possible to
+This is the combined frontend repository for www.va.gov. With this repository, it is possible to
 build all of the client-side (i.e., anything that gets downloaded to the browser) code for
-www.vets.gov with the exception of some high sensitivity endpoints that require server side
+www.va.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
+
+For backend, see [vets-api repo](https://github.com/department-of-veterans-affairs/vets-api).
 
 As it is client side there are no secrets in this repository since, well, public secrets aren't
 very secret.
@@ -14,24 +16,25 @@ very secret.
 
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
-| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Next, clone the VA.gov content repository into a sibling directory as [described below](#clone-the-vagov-content-repository-into-a-sibling-directory). Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
 | fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
-| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
-| deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
+| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp script/hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../script/hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
+| deploy the site                          | merge to master for `dev.va.gov` and `staging.va.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build`                          |
-| build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
+| build the production site (dev features disabled). | `npm run build -- --buildtype vagovprod` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
-| run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of Javascript and sass without css sourcemaps | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. CSS sourcemaps are off by default to avoid an issue that causes the default watch task to crash after rebuilding |
+| run the site for local development with automatic rebuilding of Javascript and sass with css sourcemaps| `npm run watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run all unit tests and watch | `npm run test:watch` |
-| run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
+| run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- src/applications/disability-benefits/686/tests/**/*.unit.spec.js*` |
 | run only e2e tests | Make sure the site is running locally (`npm run watch`) and run the tests with `npm run test:e2e` |
 | run only e2e tests for a subset of tests | Make sure the site is running locally (`npm run watch`) and run the desired tests with `npm run test:e2e -- src/applications/edu-benefits/tests/1995/*.e2e.spec.js` (provide file paths) |
 | run e2e tests in headless mode           | `npm run test:e2e:headless`              |
@@ -41,23 +44,19 @@ very secret.
 | run automated accessibility tests        | `npm run build && npm run test:accessibility` |
 | run visual regression testing            | Start the site. Generate your baseline image set using `npm run test:visual:baseline`. Make your changes. Then run `npm run test:visual`.  |
 | test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
-| add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
+| add new npm modules                      | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related. |
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
 | run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
-| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype production --analyzer`                  |
+| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype=vagovprod --analyzer`                  |
 | load the analyzer tool on a stats file  | `npm run analyze`                  |
 
 ## Directory structure
 
 | Directory        | Description                              |
 | ---------------- | ---------------------------------------- |
-| assets           | Static assets such as images or fonts. These may get some optimization-style processing done on them, but in general files here are expected to show up directly in the output. |
-| build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=development` appears in `build/development`. This directory is suitable for synchronizing into S3 for deployment |
+| build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=localhost` appears in `build/localhost`. This directory is suitable for synchronizing into S3 for deployment |
 | config           | Contains config files for the site.      |
-| content/pages    | Static content for the site. If a file is added here, it will appear on the website by default. |
-| content/layouts  | Collection of layouts that can be used by content/pages. Must be html. No Markdown. |
-| content/includes | Collection of HTML fragments shared between layouts. Must be html. No Markdown. |
 | logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
 | node\_modules    | install location of npm modules. Managed by npm. |
 | script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
@@ -69,7 +68,7 @@ Inside the `src` directory, we have two folders `applications` and `platform`. `
 
 Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
-The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
+The requirements for running this application are Node.js 8.10.0 and yarn 1.12.3
 
 Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
@@ -98,16 +97,26 @@ nvm alias default 8.10.0
 
 Next install Yarn:
 ```bash
-npm i -g yarn@1.5.1
+npm i -g yarn@1.12.3
 ```
 ### Verify your local requirements are set
 
 ```bash
 node --version // 8.10.0
-yarn --version // 1.5.1
+yarn --version // 1.12.3
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
+
+### Clone the VA.gov content repository into a sibling directory
+The content for VA.gov is located in a separate repository and is required to build the website. The easiest way to do this is to clone that repository into a sibling directory to your clone of `vets-website`. For example -
+
+```
+git clone https://github.com/department-of-veterans-affairs/vets-website
+git clone https://github.com/department-of-veterans-affairs/vagov-content
+```
+
+The `vets-website` build will know to look for a sibling directory called `vagov-content` during its build. We also recommend regularly pulling latest for that repo just as with `vets-website` to ensure the two are always configured with one another correctly.
 
 ## How it all works
 
@@ -215,10 +224,10 @@ The site comes bundled with a static webserver, which is used for serving the fi
 #### Running the site in production
 It is sometimes useful to ensure that a certain feature of the site will function correctly in a certain environment. For example, a common use case is to render a certain feature in all environments outside of production. In this case, it would be beneficial to ensure the production environment is not impacted. To locally run a production build of the website, follow these steps:
 
-1. `NODE_ENV=production npm run build -- --buildtype=production`
-    - This will generate the complete static website in `build/production`.
+1. `NODE_ENV=production npm run build -- --buildtype=vagovprod`
+    - This will generate the complete static website in `build/vagovprod`.
     - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most likely does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
-2. `node src/platform/testing/e2e/test-server.js --buildtype=production`
+2. `node src/platform/testing/e2e/test-server.js --buildtype=vagovprod`
     - You should see console output indicating that a local webserver has started, which port it is running on, and for which build-type.
 
 ### End-to-end Test -- nightwatch
@@ -262,8 +271,8 @@ However, it is sometimes useful to execute E2E tests for a certain build-type, w
 
 For example, to execute the E2E tests for Production:
 
-1. `NODE_ENV=production npm run build -- --buildtype=production`
-2. `BUILDTYPE=production npm run test:e2e`
+1. `NODE_ENV=production npm run build -- --buildtype=vagovprod`
+2. `BUILDTYPE=vagovprod npm run test:e2e`
     - The Nightwatch startup script will see that port `3001` is not blocked (as it would be by the watch-task), and will start a [static webserver](#static-webserver) for the production build.
 
 ### Visual Regression Testing
@@ -334,6 +343,5 @@ disabled by the feature flag.
   - [How to Deploy](docs/HowToDeploy.md)
 
 - React JSON Schemaform
-  - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
-  - [Form Config](docs/schemaform/form-config.md)
+  - [Building a Form](https://github.com/usds/us-forms-system/blob/master/docs/building-a-form/README.md) - walkthrough for using schemaform and the form config
 

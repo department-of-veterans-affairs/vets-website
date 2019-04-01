@@ -1,17 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { focusElement } from '../../../../platform/utilities/ui';
@@ -27,9 +22,7 @@ class IntroductionPage extends React.Component {
   }
 
   hasSavedForm = () => {
-    const {
-      saveInProgress: { user },
-    } = this.props;
+    const { user } = this.props;
     return (
       user.profile &&
       user.profile.savedForms
@@ -44,12 +37,12 @@ class IntroductionPage extends React.Component {
   };
 
   render() {
-    const {
-      saveInProgress: { user },
-    } = this.props;
+    const { user } = this.props;
+
+    const isLoggedIn = user && user.login && user.login.currentlyLoggedIn;
 
     const itfAgreement = (
-      <p className="itf-agreement">
+      <p className={`itf-agreement${isLoggedIn ? '' : ' unauthenticated'}`}>
         By clicking the button to start the disability application, you’ll
         declare your intent to file. This will reserve a potential effective
         date for when you could start getting benefits. You have 1 year from the
@@ -76,8 +69,6 @@ class IntroductionPage extends React.Component {
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
               startText="Start the Disability Compensation Application"
-              {...this.props.saveInProgressActions}
-              {...this.props.saveInProgress}
             />
           </CallToActionWidget>
         ) : (
@@ -128,7 +119,7 @@ class IntroductionPage extends React.Component {
                 out another form if you’re claiming a dependent or applying for
                 aid and attendance benefits.
                 <br />
-                <a href="/disability-benefits/apply/supplemental-forms/">
+                <a href="/disability/how-to-file-claim/supplemental-forms/">
                   Learn what additional forms you may need to file with your
                   disability claim
                 </a>
@@ -163,7 +154,7 @@ class IntroductionPage extends React.Component {
                       disability rating for your claimed condition.
                     </p>
                     <p>
-                      <a href="/disability-benefits/eligibility/ratings/">
+                      <a href="/disability/about-disability-ratings/">
                         Learn how VA assigns disability ratings
                       </a>
                       .
@@ -218,8 +209,6 @@ class IntroductionPage extends React.Component {
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
               startText="Start the Disability Compensation Application"
-              {...this.props.saveInProgressActions}
-              {...this.props.saveInProgress}
             />
           </CallToActionWidget>
         ) : (
@@ -243,26 +232,15 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const { form, user } = state;
   return {
-    form: state.form,
-    saveInProgress: introSelector(state),
+    form,
+    user,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-    toggleLoginModal: update => {
-      dispatch(toggleLoginModal(update));
-    },
-  };
-}
-
-IntroductionPage.PropTypes = {
-  saveInProgress: PropTypes.object.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
-  verifyUrl: PropTypes.string.isRequired,
-  loginUrl: PropTypes.string.isRequired,
+const mapDispatchToProps = {
+  toggleLoginModal,
 };
 
 export default connect(

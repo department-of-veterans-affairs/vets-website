@@ -2,13 +2,13 @@ import _ from 'lodash/fp';
 
 import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import { validateMatch } from 'us-forms-system/lib/js/validation';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
 
 import { preferredContactMethodLabels } from '../utils/labels';
 
 const { preferredContactMethod } = schemaDefinitions;
 
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from '../../../platform/forms/definitions/address';
 
 export default function createContactInformationPage(

@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 spouse info', () => {
@@ -15,22 +15,26 @@ describe('686 spouse info', () => {
     schema,
     uiSchema,
     depends,
-  } = formConfig.chapters.currentSpouseInfo.pages.spouseInfo;
+  } = formConfig.chapters.currentSpouseInfo.pages.spouseInformation;
+  const defaultFormData = {
+    currentMarriage: {
+      liveWithSpouse: true,
+    },
+    marriages: [
+      {
+        spouseFullName: {
+          first: 'Jane',
+          last: 'Doe',
+        },
+      },
+    ],
+  };
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
-        data={{
-          marriages: [
-            {
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe',
-              },
-            },
-          ],
-        }}
+        data={defaultFormData}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
@@ -39,24 +43,18 @@ describe('686 spouse info', () => {
     expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(2);
     expect(
-      form.find('#root_spouseSocialSecurityNumber-label').text(),
+      form
+        .find('#root_currentMarriage_spouseSocialSecurityNumber-label')
+        .text(),
     ).to.contain('Jane Doe');
+    form.unmount();
   });
 
   it('should render spouse address and contrib fields', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
-        data={{
-          marriages: [
-            {
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe',
-              },
-            },
-          ],
-        }}
+        data={defaultFormData}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
@@ -65,29 +63,21 @@ describe('686 spouse info', () => {
     expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(2);
 
-    fillData(form, '#root_liveWithSpouseNo', 'N');
+    fillData(form, '#root_currentMarriage_liveWithSpouseNo', 'N');
 
-    expect(form.find('input').length).to.equal(11);
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('input').length).to.equal(12);
+    expect(form.find('select').length).to.equal(3);
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(8);
+    expect(form.find('.usa-input-error').length).to.equal(6);
+    form.unmount();
   });
 
   it('should render file number', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
-        data={{
-          marriages: [
-            {
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe',
-              },
-            },
-          ],
-        }}
+        data={defaultFormData}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
@@ -96,10 +86,11 @@ describe('686 spouse info', () => {
     expect(form.find('select').length).to.equal(2);
     expect(form.find('input').length).to.equal(7);
 
-    fillData(form, '#root_spouseIsVeteranYes', 'Y');
+    fillData(form, '#root_currentMarriage_spouseIsVeteranYes', 'Y');
 
     expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -115,8 +106,9 @@ describe('686 spouse info', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -130,20 +122,25 @@ describe('686 spouse info', () => {
       />,
     );
 
-    fillDate(form, 'root_spouseDateOfBirth', '1980-03-21');
-    fillData(form, 'input#root_spouseSocialSecurityNumber', '234432444');
-    fillData(form, 'input#root_spouseIsVeteranNo', 'N');
-    fillData(form, 'input#root_liveWithSpouseYes', 'Y');
+    fillDate(form, 'root_currentMarriage_spouseDateOfBirth', '1980-03-21');
+    fillData(
+      form,
+      'input#root_currentMarriage_spouseSocialSecurityNumber',
+      '234432444',
+    );
+    fillData(form, 'input#root_currentMarriage_spouseIsVeteranNo', 'N');
+    fillData(form, 'input#root_currentMarriage_liveWithSpouseYes', 'Y');
     fillData(form, 'input[id="root_spouseMarriages"]', '2');
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('depends should return true if married', () => {
-    const result = depends({ maritalStatus: 'Married' });
+    const result = depends({ maritalStatus: 'MARRIED' });
 
     expect(result).to.be.true;
   });

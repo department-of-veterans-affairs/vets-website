@@ -3,11 +3,10 @@ import Raven from 'raven-js';
 import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { apiRequest } from '../../../platform/utilities/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
-  getStatus,
+  getErrorStatus,
   USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
@@ -19,6 +18,7 @@ import {
   FETCH_CLAIMS_ERROR,
   ROWS_PER_PAGE,
   CHANGE_INDEX_PAGE,
+  UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
 
 // -------------------- v2 and v1 -------------
@@ -98,7 +98,7 @@ export function getAppealsV2() {
       null,
       appeals => dispatch(fetchAppealsSuccess(appeals)),
       response => {
-        const status = getStatus(response);
+        const status = getErrorStatus(response);
         const action = { type: '' };
         switch (status) {
           case '403':
@@ -181,9 +181,10 @@ export function getClaimsV2(poll = pollRequest) {
 
     poll({
       onError: response => {
-        Raven.captureException(
-          `vets_claims_v2_err_get_claims ${getStatus(response)}`,
-        );
+        const errorCode = getErrorStatus(response);
+        if (errorCode && errorCode !== UNKNOWN_STATUS) {
+          Raven.captureException(`vets_claims_v2_err_get_claims ${errorCode}`);
+        }
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
@@ -348,9 +349,6 @@ export function submitFiles(claimId, trackedItem, files) {
             inputName: 'file',
             customHeaders: {
               'X-Key-Inflection': 'camel',
-              Authorization: `Token token=${conditionalStorage().getItem(
-                'userToken',
-              )}`,
             },
           },
           cors: {

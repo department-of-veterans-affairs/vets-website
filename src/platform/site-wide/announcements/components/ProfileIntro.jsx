@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import siteName from '../../../brand-consolidation/site-name';
 
 export default function ProfileIntro({ dismiss, profile }) {

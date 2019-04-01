@@ -1,30 +1,28 @@
-/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
+import appendQuery from 'append-query';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import { validateIdString } from '../utils/helpers';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
-import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
-  // TODO: Move this logic into a shared helper so it can be 
-  // reused on VAMap.jsx and other places we want to build
-  // complex URL strings.
-  buildSearchString() {
+  renderBreadcrumbs(location, selectedResult) {
+    // Map and name props for the search query object
     const {
       currentPage: page,
       context,
       facilityType,
-      position: location,
       searchString: address,
       serviceType,
       zoomLevel,
     } = this.props.searchQuery;
-    
-    const searchQuery = {
+
+    // Build the query object in the expected order
+    const searchQueryObj = {
       zoomLevel,
       page,
       address,
@@ -34,21 +32,31 @@ class FacilityLocatorApp extends React.Component {
       serviceType,
     };
 
-    const searchQueryUrl = appendQuery('/', searchQuery);
-    return searchQueryUrl;
-  }
-
-  renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <Link to={this.buildSearchString()} key="facility-locator">Find Facilities & Services</Link>,
+      <a href="/" key="home">
+        Home
+      </a>,
+      <Link to={appendQuery('/', searchQueryObj)} key="facility-locator">
+        Find Locations
+      </Link>,
     ];
 
-    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
-    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
-      // TODO: Remove feature flag when ready to go live
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
+    if (validateIdString(location.pathname, '/facility') && selectedResult) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Facility Details
+        </Link>,
+      );
+    } else if (
+      ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
+      validateIdString(location.pathname, '/provider') &&
+      selectedResult
+    ) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Provider Details
+        </Link>,
+      );
     }
 
     return crumbs;

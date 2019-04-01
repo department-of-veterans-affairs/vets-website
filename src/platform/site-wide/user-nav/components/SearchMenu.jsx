@@ -2,17 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
-import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
+import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
+import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
 class SearchMenu extends React.Component {
-  // TODO: make the action url environment specific
   constructor(props) {
     super(props);
-    this.makeForm = this.makeForm.bind(this);
-    this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: 'https://www.va.gov/search/',
+      searchAction: replaceWithStagingDomain('https://www.va.gov/search/'),
       userInput: '',
     };
   }
@@ -21,17 +19,11 @@ class SearchMenu extends React.Component {
     this.refs.searchField.focus();
   }
 
-  toggleSearchForm() {
-    this.props.clickHandler();
-  }
-
   handleInputChange = e => {
-    this.setState({
-      userInput: e.target.value,
-    });
+    this.setState({ userInput: e.target.value });
   };
 
-  makeForm() {
+  makeForm = () => {
     const validUserInput =
       this.state.userInput &&
       this.state.userInput.replace(/\s/g, '').length > 0;
@@ -64,7 +56,7 @@ class SearchMenu extends React.Component {
         </div>
       </form>
     );
-  }
+  };
 
   render() {
     const buttonClasses = classNames(
@@ -80,7 +72,7 @@ class SearchMenu extends React.Component {
         buttonText="Search"
         clickHandler={this.props.clickHandler}
         cssClass={buttonClasses}
-        id="searchmenu"
+        id="search-menu"
         icon={icon}
         isOpen={this.props.isOpen}
       >

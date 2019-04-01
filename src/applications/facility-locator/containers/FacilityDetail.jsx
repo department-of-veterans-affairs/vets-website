@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,13 +8,14 @@ import LocationDirectionsLink from '../components/search-results/LocationDirecti
 import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
 import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 
 class FacilityDetail extends Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
   }
@@ -34,17 +34,22 @@ class FacilityDetail extends Component {
         <div>
           <LocationPhoneLink location={facility} />
         </div>
-        { website &&
-          <span>
-            <a href={website} target="_blank">
-              <i className="fa fa-globe" />Website
-            </a>
-          </span>
-        }
+        {website &&
+          website !== 'NULL' && (
+            <span>
+              <a href={website} target="_blank" rel="noopener noreferrer">
+                <i className="fa fa-globe" />
+                Website
+              </a>
+            </span>
+          )}
         <div>
           <LocationDirectionsLink location={facility} />
         </div>
-        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
+        <p className="p1">
+          Planning to visit? Please call first as information on this page may
+          change.
+        </p>
       </div>
     );
   }
@@ -68,7 +73,7 @@ class FacilityDetail extends Component {
     }
 
     return (
-      <div className="row facility-detail">
+      <div className="row facility-detail all-details">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}
@@ -97,7 +102,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.searchResult.selectedResult, currentQuery: state.searchQuery };
+  return {
+    facility: state.searchResult.selectedResult,
+    currentQuery: state.searchQuery,
+  };
 }
 
 export default connect(

@@ -2,17 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
-import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
   }
-
-  componentWillReceiveProps = newProps => {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps = newProps => {
     if (!this.props.returnUrl && newProps.returnUrl) {
+      // TODO: Remove this; it doesn't actually run
+      // The redirect is instead done in RoutedSavableApp
       // Navigate to the last page they were on
       this.props.router.push(newProps.returnUrl);
     }
@@ -28,8 +30,11 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     this.captureAnalytics();
+    // temp hack to fix the fact that the START button doesn't work
+    // this.goToBeginning();
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
+        // TODO: where does this come from?
         this.props.formId,
         this.props.migrations,
         true,
@@ -109,7 +114,7 @@ class FormStartControls extends React.Component {
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
           buttonText={this.props.startText || 'Get Started'}
-          buttonClass="usa-button-primary schemaform-start-button"
+          buttonClass="usa-button-primary va-button-primary schemaform-start-button"
           afterText="»"
         />
       </div>

@@ -1,14 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 import facilityLocator from '../../facility-locator/manifest';
 
@@ -34,8 +29,6 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Pre-need Eligibility Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="process schemaform-process">
           <ol>
@@ -133,7 +126,7 @@ class IntroductionPage extends React.Component {
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
                 <br />
-                <a href="/disability-benefits/apply/help/">
+                <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim.
                 </a>
               </p>
@@ -164,8 +157,6 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Pre-need Eligibility Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="omb-info--container">
           <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="11/30/2018" />
@@ -175,21 +166,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };

@@ -44,6 +44,7 @@ describe('<MhvTermsAndConditions>', () => {
     const alertBox = wrapper.find('AlertBox');
     expect(alertBox.exists()).to.be.true;
     expect(alertBox.prop('status')).to.eq('error');
+    wrapper.unmount();
   });
 
   it('should show a loading indicator when fetching terms and conditions', () => {
@@ -52,6 +53,7 @@ describe('<MhvTermsAndConditions>', () => {
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.exists()).to.be.true;
     expect(loader.prop('message')).to.eq('Loading terms and conditions...');
+    wrapper.unmount();
   });
 
   it('should show a loading indicator when fetching previous acceptance', () => {
@@ -60,6 +62,7 @@ describe('<MhvTermsAndConditions>', () => {
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.exists()).to.be.true;
     expect(loader.prop('message')).to.eq('Loading terms and conditions...');
+    wrapper.unmount();
   });
 
   it('should show a loading indicator when accepting terms and conditions', () => {
@@ -69,6 +72,7 @@ describe('<MhvTermsAndConditions>', () => {
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.exists()).to.be.true;
     expect(loader.prop('message')).to.eq('Accepting terms and conditions...');
+    wrapper.unmount();
   });
 
   it('should show a success message after acceptance', () => {
@@ -82,6 +86,7 @@ describe('<MhvTermsAndConditions>', () => {
     expect(alertBox.prop('headline')).to.eq(
       'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
     );
+    wrapper.unmount();
   });
 
   it('should show a success message after acceptance', () => {
@@ -90,6 +95,7 @@ describe('<MhvTermsAndConditions>', () => {
     const alertBox = wrapper.find('AlertBox').first();
     expect(alertBox.prop('status')).to.eq('warning');
     expect(alertBox.prop('headline')).to.eq('Using Vets.gov Health Tools');
+    wrapper.unmount();
   });
 
   it('should redirect after acceptance if there is a redirect URL', () => {
@@ -103,23 +109,27 @@ describe('<MhvTermsAndConditions>', () => {
     wrapper.setProps({ accepted: true });
     expect(wrapper.state('showAcceptedMessage')).to.be.true;
     expect(global.window.location.replace.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should not allow the user to agree if they are not logged in', () => {
     const newProps = set('user.loggedIn', false, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should not allow the user to agree if they are not verified', () => {
     const newProps = set('user.verified', false, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should not allow the user to agree if they have already accepted', () => {
     const newProps = set('accepted', true, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+    wrapper.unmount();
   });
 });

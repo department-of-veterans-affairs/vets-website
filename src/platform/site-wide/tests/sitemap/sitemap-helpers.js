@@ -27,7 +27,6 @@ function sitemapURLs() {
         // of one of the elements, search won't work.
         '/404.html',
         // This is here because aXe bug flags the custom select component on this page
-        '/facilities/',
         '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
@@ -42,10 +41,13 @@ function sitemapURLs() {
         '/pension/how-to-apply/fully-developed-claim/',
         '/disability/how-to-file-claim/when-to-file/',
         '/health-care/family-caregiver-benefits/champva/',
+        '/drupal/health-care/health-needs-conditions/mental-health/',
         '/health-care/about-va-health-benefits/dental-care/',
+        '/health-care/health-needs-conditions/mental-health/',
         '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/',
         '/disability/how-to-file-claim/evidence-needed/fully-developed-claims/',
         '/disability/how-to-file-claim/evidence-needed/decision-ready-claims/',
+        '/disability/how-to-file-claim/evidence-needed/',
       ];
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please
@@ -62,7 +64,7 @@ function runTests(client, segment, only508List) {
         // eslint-disable-next-line no-console
         console.log(url);
       })
-      .url(url)
+      .openUrl(url)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck(
         'document',

@@ -65,6 +65,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
         .render()
         .text(),
     ).to.not.contain(initialData.disabilities[1].name);
+    tree.unmount();
   });
 
   it('should render 4142 helper text when 4142 option selected for any disability', () => {
@@ -78,6 +79,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(wrapper.render().text()).to.contain(
       'you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142).',
     );
+    wrapper.unmount();
   });
 
   it('should not render 4142 helper text when 4142 option not selected for any disability', () => {
@@ -91,11 +93,13 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(wrapper.render().text()).to.not.contain(
       'you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142).',
     );
+    wrapper.unmount();
   });
 
   it('should render a confirmation number', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps} />);
     expect(wrapper.render().text()).to.contain(defaultProps.claimId);
+    wrapper.unmount();
   });
 
   it('should render a formatted full name', () => {
@@ -112,11 +116,13 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(wrapper.render().text()).to.contain(
       `${first} ${middle} ${last} ${suffix}`,
     );
+    wrapper.unmount();
   });
 
   it('should render a formatted submission date', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps} />);
     expect(wrapper.render().text()).to.contain('April 12, 2018');
+    wrapper.unmount();
   });
 
   it('should render a success message', () => {
@@ -124,6 +130,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     const text = wrapper.render().text();
     expect(text).to.contain('Claim ID number');
     expect(text).to.contain(defaultProps.claimId);
+    wrapper.unmount();
   });
 
   it('should render a "check later" message', () => {
@@ -137,6 +144,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(text).to.contain('Please allow 24 hours');
     expect(text).to.contain('Confirmation number');
     expect(text).to.contain(defaultProps.jobId);
+    wrapper.unmount();
   });
 
   it('should render a failure message', () => {
@@ -149,5 +157,6 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     const text = wrapper.render().text();
     expect(text).to.not.contain('Please allow 24 hours');
     expect(text).to.contain('Something went wrong');
+    wrapper.unmount();
   });
 });
