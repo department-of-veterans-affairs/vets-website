@@ -10,6 +10,7 @@ import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/Sav
 import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { focusElement } from '../../../../platform/utilities/ui';
+import { urls } from '../../all-claims/utils';
 
 import { VerifiedAlert } from '../helpers';
 import FormStartControls from './FormStartControls';
@@ -18,6 +19,9 @@ const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
+    if (!this.hasSavedForm()) {
+      window.location.replace(urls.v2);
+    }
     focusElement('.va-nav-breadcrumbs-list');
   }
 
