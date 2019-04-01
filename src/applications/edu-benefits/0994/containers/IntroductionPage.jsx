@@ -105,7 +105,7 @@ export class IntroductionPage extends React.Component {
               <p>
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
-                <a href="https://www.va.gov/careers-employment/careerscope-skills-assessment/">
+                <a href="/careers-employment/careerscope-skills-assessment/">
                   Learn about career counseling options.
                 </a>
               </p>
