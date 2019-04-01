@@ -69,7 +69,7 @@ describe('Separation Pay', () => {
     form.unmount();
   });
 
-  it('should not submit if answer is Yes but no other info provided', () => {
+  it('should submit if answer is Yes but no other info provided', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -85,8 +85,8 @@ describe('Separation Pay', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
