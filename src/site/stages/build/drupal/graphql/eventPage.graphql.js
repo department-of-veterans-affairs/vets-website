@@ -30,9 +30,6 @@ module.exports = `
         endDate
         endValue
     }
-    fieldAddToCalendar {
-      fileref 
-    }
     fieldAddress {
       addressLine1
       addressLine2
