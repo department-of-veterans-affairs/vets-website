@@ -20,7 +20,7 @@ const gaStartEventName = 'disability-526EZ-start';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     if (!this.hasSavedForm()) {
-      window.location.replace(urls.v2);
+      window.location.replace(`${urls.v2}/introduction`);
     }
     focusElement('.va-nav-breadcrumbs-list');
   }
