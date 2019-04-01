@@ -127,6 +127,7 @@
     "eslint-plugin-no-unsafe-innerhtml": "^1.0.14",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-scanjs-rules": "^0.1.4",
     "eslint-plugin-va-enzyme": "./script/custom-eslint/va-enzyme",
     "eslint-stats": "^1.0.0",
