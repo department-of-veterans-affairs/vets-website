@@ -11,6 +11,7 @@ const basicEnrollmentStatusState = {
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
+  showHCAReapplyContent: false,
 };
 const loggedOutUserState = {
   login: {
@@ -137,6 +138,21 @@ describe('simple top-level selectors', () => {
       state.hcaEnrollmentStatus.noESRRecordFound = true;
       noESRRecordFound = selectors.noESRRecordFound(state);
       expect(noESRRecordFound).to.equal(true);
+    });
+  });
+
+  describe('isShowingHCAReapplyContent', () => {
+    it('returns the correct part of the enrollment status state', () => {
+      const state = {
+        hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
+      };
+      let isShowingHCAReapplyContent = selectors.isShowingHCAReapplyContent(
+        state,
+      );
+      expect(isShowingHCAReapplyContent).to.equal(false);
+      state.hcaEnrollmentStatus.showHCAReapplyContent = true;
+      isShowingHCAReapplyContent = selectors.isShowingHCAReapplyContent(state);
+      expect(isShowingHCAReapplyContent).to.equal(true);
     });
   });
 });
@@ -327,6 +343,65 @@ describe('compound selectors', () => {
         state,
       );
       expect(shouldShowLoggedOutContent).to.equal(false);
+    });
+  });
+
+  describe('shouldHideFormFooter', () => {
+    it('returns false if the user is loading', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+        },
+        user: { ...loadingUserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).to.equal(false);
+    });
+
+    it('returns false if the enrollment status is loading', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          isLoading: true,
+        },
+        user: { ...LOA1UserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).to.equal(false);
+    });
+
+    it('returns true if the user is LOA1', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+        },
+        user: { ...LOA1UserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).to.equal(true);
+    });
+
+    it('returns true if the user is LOA3 and the Reapply For Healthcare content is not shown', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+        },
+        user: { ...LOA3UserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).to.equal(true);
+    });
+
+    it('returns false if the user is LOA3 but the Reapply For Healthcare content is shown', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          showHCAReapplyContent: true,
+        },
+        user: { ...LOA3UserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).to.equal(false);
     });
   });
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -11,6 +12,8 @@ import {
   getFAQBlock4,
 } from '../enrollment-status-helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
+import { showReapplyContent } from '../actions';
+import { isShowingHCAReapplyContent } from '../selectors';
 
 const ReapplyContent = ({ route }) => (
   <>
@@ -35,16 +38,12 @@ const ReapplyTextLink = ({ onClick }) => (
 );
 
 class HCAEnrollmentStatusFAQ extends React.Component {
-  state = {
-    showReapplyForHealthCareContent: false,
-  };
-
-  showReapplyForHealthCareContent() {
-    this.setState({ showReapplyForHealthCareContent: true });
-  }
-
   render() {
-    const { enrollmentStatus, route } = this.props;
+    const {
+      enrollmentStatus,
+      route,
+      showingReapplyForHealthCareContent,
+    } = this.props;
     const reapplyAllowed =
       enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
     return (
@@ -54,14 +53,14 @@ class HCAEnrollmentStatusFAQ extends React.Component {
         {getFAQBlock3(enrollmentStatus)}
         {getFAQBlock4(enrollmentStatus)}
         {reapplyAllowed &&
-          this.state.showReapplyForHealthCareContent && (
+          showingReapplyForHealthCareContent && (
             <ReapplyContent route={route} />
           )}
         {reapplyAllowed &&
-          !this.state.showReapplyForHealthCareContent && (
+          !showingReapplyForHealthCareContent && (
             <ReapplyTextLink
               onClick={() => {
-                this.showReapplyForHealthCareContent();
+                this.props.showReapplyContent();
               }}
             />
           )}
@@ -70,4 +69,15 @@ class HCAEnrollmentStatusFAQ extends React.Component {
   }
 }
 
-export default HCAEnrollmentStatusFAQ;
+const mapStateToProps = state => ({
+  showingReapplyForHealthCareContent: isShowingHCAReapplyContent(state),
+});
+
+const mapDispatchToProps = {
+  showReapplyContent,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HCAEnrollmentStatusFAQ);

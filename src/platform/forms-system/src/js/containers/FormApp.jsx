@@ -69,7 +69,7 @@ class FormApp extends React.Component {
     }
 
     let footer;
-    if (Footer) {
+    if (Footer && !isNonFormPage) {
       footer = (
         <Footer formConfig={formConfig} currentLocation={currentLocation} />
       );
