@@ -50,6 +50,7 @@ export default function startApp({
         'Root urls should not end with a slash. Check your manifest.json file and application entry file.',
       );
     }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     history = useRouterHistory(createHistory)({
       basename: url,
     });

@@ -38,12 +38,6 @@ $medium-phone-screen: 375px;
   @import "iconography";
   @import "right-rail";
 
-  .vetnav-panel {
-    @include media($medium-large-screen) {
-      box-shadow: 0 5px 9px -3px $color-base;
-    }
-  }
-
   section.usa-grid {
     padding-top: 3em;
   }
@@ -166,12 +160,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  #vetnav {
-    // 100% width necessary for right aligned items
-    width: 100%;
-    left: initial;
-  }
-
   .sign-in-nav {
     .va-dropdown-trigger {
       display: flex;
@@ -237,35 +225,9 @@ $medium-phone-screen: 375px;
       }
     }
 
-    #mega-menu {
-      // #vetnav {
-      //   min-height: unset;
-      // }
-      .login-container {
-        // due to these been nested, this has to have a higher z-level then vet-toolbar
-        position: relative;
-        top: -40px;
-      }
-    }
     #menu-rule {
       border-bottom: 0;
       padding-bottom: 0;
-    }
-
-    #vetnav-controls {
-      margin-top: 7px;
-
-      svg {
-        margin-left: 0.8rem;
-      }
-    }
-
-    .mm-link-container {
-      padding-left: 10px;
-    }
-
-    .vetnav-panel a {
-      padding: 0.8rem 1rem;
     }
 
     .va-header-logo-wrapper {
@@ -413,35 +375,7 @@ $medium-phone-screen: 375px;
     }
   }
 
-  // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
-  #vetnav-records-ms {
-    & + div {
-      .column-two h3 {
-        visibility: hidden;
-      }
-    }
-  }
 
-  #va-nav-controls {
-    position: relative;
-    width: 100px;
-
-    svg {
-      display: inline-block;
-      height: 1.6rem;
-      margin-left: 0.8rem;
-      width: 1rem;
-      vertical-align: 0;
-    }
-
-    path {
-      fill: $color-white;
-    }
-
-    @include media($medium-large-screen) {
-      display: none;
-    }
-  }
 
   .usa-accordion-bordered {
     &.social {
@@ -557,10 +491,6 @@ $medium-phone-screen: 375px;
   .fa {
     color: $color-link-default;
   }
-}
-
-[class^="vetnav-controller"] {
-  position: relative !important;
 }
 
 // There are styles in our sidebar styles that set a small

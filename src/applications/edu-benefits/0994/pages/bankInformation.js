@@ -5,7 +5,6 @@ import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
 
 import {
-  bankInfoTitle,
   bankInfoDescription,
   bankInfoNote,
   bankInfoHelpText,
@@ -14,7 +13,7 @@ import {
 const { bankAccount } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:title': bankInfoTitle,
+  'ui:title': 'Direct deposit information',
   'ui:description': bankInfoDescription,
   'view:bankAccount': {
     'ui:field': ReviewCardField,
@@ -26,6 +25,7 @@ export const uiSchema = {
       startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
+    saveClickTrackEvent: { event: 'edu-0994-bank-account-saved' },
     bankAccount: {
       ...bankAccountUI,
       accountType: {
@@ -43,11 +43,9 @@ export const uiSchema = {
     },
   },
   'view:bankInfoNote': {
-    'ui:title': ' ',
     'ui:description': bankInfoNote,
   },
   'view:bankInfoHelpText': {
-    'ui:title': ' ',
     'ui:description': bankInfoHelpText,
   },
 };

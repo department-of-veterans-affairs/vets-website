@@ -8,8 +8,6 @@ import appendQuery from 'append-query';
 import { focusElement } from '../../../../platform/utilities/ui';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
-import BusyEnrollmentAlert from '../../components/BusyEnrollmentAlert';
-
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -51,7 +49,6 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <BusyEnrollmentAlert />
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We usually process claims within <strong>30 days</strong>.

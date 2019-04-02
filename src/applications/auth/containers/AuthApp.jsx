@@ -156,44 +156,32 @@ export class AuthApp extends React.Component {
 
       // We're having trouble matching the user with MVI
       case '004':
-        header = 'We can’t match your information to our records';
+        header = 'Please try again later';
         alertContent = (
           <p>
-            We’re sorry. We can’t match the information you provided with what
-            we have in our Veteran records. We take your privacy seriously, and
-            we’re committed to protecting your information.
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in. Please try again later.
           </p>
         );
         troubleshootingContent = (
-          <ul>
-            <li>
-              <p>
-                <strong>
-                  If you feel you’ve entered your information correctly
-                </strong>
-                , please call the VA.gov Help Desk at{' '}
-                <a href="tel:18446982311">1-844-698-2311</a> (TTY: 711). We’re
-                here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>
-                  Try signing in with your ID.me username and password.
-                </strong>{' '}
-                This may resolve the issue. If you don’t have an ID.me account,
-                you can create one now.
-              </p>
-              <p>
-                <button
-                  className="va-button-link"
-                  onClick={this.props.openLoginModal}
-                >
-                  Sign in or create an account with ID.me
-                </button>
-              </p>
-            </li>
-          </ul>
+          <>
+            <p>
+              <strong>Please try signing in again.</strong> If you still can’t
+              sign in, please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
         );
         break;
 
