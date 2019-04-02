@@ -4,6 +4,7 @@ import {
   FETCH_ENROLLMENT_STATUS_STARTED,
   FETCH_ENROLLMENT_STATUS_SUCCEEDED,
   FETCH_ENROLLMENT_STATUS_FAILED,
+  SHOW_HCA_REAPPLY_CONTENT,
 } from './actions';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 
@@ -17,6 +18,7 @@ const initialState = {
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
+  showHCAReapplyContent: false,
 };
 
 export function hcaEnrollmentStatus(state = initialState, action) {
@@ -61,6 +63,9 @@ export function hcaEnrollmentStatus(state = initialState, action) {
         noESRRecordFound,
       };
     }
+
+    case SHOW_HCA_REAPPLY_CONTENT:
+      return { ...state, showHCAReapplyContent: true };
 
     default:
       return state;
