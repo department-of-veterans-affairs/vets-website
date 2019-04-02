@@ -30,7 +30,7 @@ describe('hca validation', () => {
 
       expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
     });
-    it('should set message if discharge date is later than 730 days', () => {
+    it('should set message if discharge date is later than 365 days', () => {
       const errors = {
         lastDischargeDate: {
           addError: sinon.spy(),
@@ -40,7 +40,7 @@ describe('hca validation', () => {
         errors,
         {
           lastDischargeDate: moment()
-            .add(731, 'days')
+            .add(366, 'days')
             .format('YYYY-MM-DD'),
           lastEntryDate: '2011-01-01',
         },
