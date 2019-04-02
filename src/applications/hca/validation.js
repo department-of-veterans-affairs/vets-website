@@ -7,7 +7,7 @@ import {
 import { isValidDateRange } from '../../platform/forms/validations';
 
 function calculateEndDate() {
-  const endDateLimit = 365;
+  const endDateLimit = 1;
   const description = '1 year';
 
   return {
@@ -15,7 +15,7 @@ function calculateEndDate() {
     description,
     endDate: moment()
       .endOf('day')
-      .add(endDateLimit, 'days'),
+      .add(endDateLimit, 'years'),
   };
 }
 
