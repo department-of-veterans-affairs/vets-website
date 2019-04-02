@@ -193,7 +193,39 @@ function completeRecordReleaseInformation(client, data) {
   });
 }
 
-function initInProgressMock(token) {
+const defaultData = {
+  ratedDisabilities: [
+    {
+      name: 'First Condition',
+      ratedDisabilityId: '0',
+      ratingDecisionId: '63655',
+      diagnosticCode: 5238,
+      decisionCode: 'SVCCONNCTED',
+      decisionText: 'Service Connected',
+      ratingPercentage: 100,
+    },
+    {
+      name: 'Second Condition',
+      ratedDisabilityId: '1',
+      ratingDecisionId: '63655',
+      diagnosticCode: 5238,
+      decisionCode: 'SVCCONNCTED',
+      decisionText: 'Service Connected',
+      ratingPercentage: 100,
+    },
+    {
+      name: 'Diabetes mellitus0',
+      ratedDisabilityId: '3',
+      ratingDecisionId: '63655',
+      diagnosticCode: 5238,
+      decisionCode: 'SVCCONNCTED',
+      decisionText: 'Service Connected',
+      ratingPercentage: 100,
+    },
+  ],
+};
+
+function initInProgressMock(token, data = defaultData) {
   mock(token, {
     path: '/v0/in_progress_forms/21-526EZ',
     verb: 'get',
@@ -203,35 +235,7 @@ function initInProgressMock(token) {
           primaryPhone: '4445551212',
           emailAddress: 'test2@test1.net',
         },
-        disabilities: [
-          {
-            name: 'First Condition',
-            ratedDisabilityId: '0',
-            ratingDecisionId: '63655',
-            diagnosticCode: 5238,
-            decisionCode: 'SVCCONNCTED',
-            decisionText: 'Service Connected',
-            ratingPercentage: 100,
-          },
-          {
-            name: 'Second Condition',
-            ratedDisabilityId: '1',
-            ratingDecisionId: '63655',
-            diagnosticCode: 5238,
-            decisionCode: 'SVCCONNCTED',
-            decisionText: 'Service Connected',
-            ratingPercentage: 100,
-          },
-          {
-            name: 'Diabetes mellitus0',
-            ratedDisabilityId: '3',
-            ratingDecisionId: '63655',
-            diagnosticCode: 5238,
-            decisionCode: 'SVCCONNCTED',
-            decisionText: 'Service Connected',
-            ratingPercentage: 100,
-          },
-        ],
+        disabilities: data.ratedDisabilities,
         reservesNationalGuardService: {
           obligationTermOfServiceDateRange: {
             from: '2007-05-22',

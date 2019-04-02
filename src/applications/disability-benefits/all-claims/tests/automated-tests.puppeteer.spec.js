@@ -1,4 +1,5 @@
 const join = require('path').join;
+const _ = require('lodash/fp');
 
 const testForm = require('../../../../platform/testing/e2e/form-tester');
 const formFiller = require('../../../../platform/testing/e2e/form-tester/form-filler');
@@ -9,17 +10,27 @@ const PageHelpers = require('./disability-benefits-helpers');
 const testData = getTestDataSets(join(__dirname, 'data'), {
   extension: 'json',
   ignore: ['minimal-ptsd-form-upload-test.json'],
-  // only: ['maximal-test.json'],
+  // only: ['secondary-new-test.json'],
 });
 
 const testConfig = {
   // debug: true,
   setup: userToken => {
-    PageHelpers.initInProgressMock(userToken);
     PageHelpers.initDocumentUploadMock();
     PageHelpers.initApplicationSubmitMock();
     PageHelpers.initItfMock(userToken);
     PageHelpers.initPaymentInformationMock(userToken);
+  },
+  setupPerTest: ({ testData: data, userToken }) => {
+    // Pre-fill with the expected ratedDisabilities, but nix view:selected since that's not pre-filled
+    const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(d =>
+      _.omit('view:selected', d),
+    );
+    const sanitizedData =
+      sanitizedRatedDisabilities === []
+        ? data
+        : { ...data, ratedDisabilities: sanitizedRatedDisabilities };
+    PageHelpers.initInProgressMock(userToken, sanitizedData);
   },
   url: '/disability/file-disability-claim-form-21-526ez/introduction',
   logIn: true,
@@ -33,8 +44,20 @@ const testConfig = {
       await page.waitFor('.usa-button-primary:not(.schemaform-start-button)');
       await page.click('.usa-button-primary');
     },
-    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async page => {
-      await page.click('input[name="root_ratedDisabilities_0"]');
+    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async (
+      page,
+      data,
+      config,
+      log,
+    ) => {
+      await Promise.all(
+        data.ratedDisabilities.map(async (disability, index) => {
+          if (disability['view:selected']) {
+            log(`Selecting ${disability.name} (index ${index})`);
+            await page.click(`input[name="root_ratedDisabilities_${index}"]`);
+          }
+        }),
+      );
       await page.click('.form-progress-buttons .usa-button-primary');
     },
     '/disability/file-disability-claim-form-21-526ez/payment-information': async (
@@ -48,7 +71,7 @@ const testConfig = {
           // Only click edit if new bank info is in the data file
           await page.click('.usa-button-primary.edit-button');
         }
-        formFiller.fillPage(page, data, config, log);
+        await formFiller.fillPage(page, data, config, log);
         await page.click('.usa-button-primary.update-button');
       }
       await page.click('button[type=submit].usa-button-primary');

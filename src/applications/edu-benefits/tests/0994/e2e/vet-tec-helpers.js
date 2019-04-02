@@ -23,6 +23,7 @@ export const completeAlreadySubmitted = (client, data) => {
     `root_appliedForVaEducationBenefits`,
     _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
   );
+  client.pause(1000);
 };
 
 export const completeMilitaryService = (client, data) => {
