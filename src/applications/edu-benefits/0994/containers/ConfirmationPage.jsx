@@ -49,7 +49,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">
+          Your claim has been received
+        </h3>
         <p>
           We usually process claims within <strong>30 days</strong>.
         </p>
@@ -60,8 +62,7 @@ class ConfirmationPage extends React.Component {
         </p>
         <div className="inset">
           <h4>
-            Education Benefit Claim{' '}
-            <span className="additional">(Form 22-0994)</span>
+            Education Claim <span className="additional">(Form 22-0994)</span>
           </h4>
           <span>
             for {name && name.first} {name && name.middle} {name && name.last}{' '}
@@ -93,6 +94,7 @@ class ConfirmationPage extends React.Component {
         {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
           <div>
             <p>
+              <strong>{'Note: '}</strong>
               We’ll also need you to complete the Application for VA Education
               Benefits (VA Form 22-1990) to determine your eligibility for VET
               TEC. We recommend you do that now.

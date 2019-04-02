@@ -24,7 +24,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
   if (isInMVI(state)) {
-    newData = { ...newData, 'view:isUserInMVI': true };
+    newData = { ...newData, 'view:isUserInMvi': true };
   }
 
   return {
