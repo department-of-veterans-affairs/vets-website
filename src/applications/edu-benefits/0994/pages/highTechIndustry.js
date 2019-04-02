@@ -39,7 +39,7 @@ export const uiSchema = {
     },
     currentSalary: {
       'ui:title':
-        'About how much per year do you or have you earned as a high-tech worker?',
+        'About how much a year do you or have you earned as a high-tech worker?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
