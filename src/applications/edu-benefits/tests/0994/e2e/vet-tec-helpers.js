@@ -14,11 +14,15 @@ export const completeFormPage = (url, client, data, func) => {
     func(client, data);
   }
 
+  client.waitForElementVisible('.schemaform-start-button', Timeouts.verySlow);
   client.click('body').click('.form-progress-buttons .usa-button-primary');
 };
 
 export const completeAlreadySubmitted = (client, data) => {
-  client.pause(1000);
+  client.waitForElementVisible(
+    '.root_appliedForVaEducationBenefits',
+    Timeouts.verySlow,
+  );
   client.selectRadio(
     `root_appliedForVaEducationBenefits`,
     _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
