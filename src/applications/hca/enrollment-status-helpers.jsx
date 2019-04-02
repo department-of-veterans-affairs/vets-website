@@ -265,7 +265,7 @@ export function getWarningExplanation(enrollmentStatus) {
       content = (
         <p>
           You can’t qualify for VA health care until you’ve received your
-          separation or retirement orders We welcome you to apply again once
+          separation or retirement orders. We welcome you to apply again once
           you’ve received your orders.{' '}
           <a href="/HEALTHBENEFITS/apply/active_duty.asp">
             Learn more about transitioning to VA health care
