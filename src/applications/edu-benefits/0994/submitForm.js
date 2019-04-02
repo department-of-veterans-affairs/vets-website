@@ -25,11 +25,7 @@ const submitForm = (form, formConfig) => {
       '',
     ),
     salary: _.get(form, 'data.view:salaryEmploymentTypes.currentSalary', ''),
-    'edu-0994-programSelection': _.get(
-      form,
-      'data.view:trainingProgramsChoice',
-      '',
-    ),
+    'edu-0994-programSelection': _.get(form, 'data.hasSelectedPrograms', ''),
     'edu-0994-programs-saved': _.get(form, 'data.vetTecPrograms.length', 0),
   });
 
