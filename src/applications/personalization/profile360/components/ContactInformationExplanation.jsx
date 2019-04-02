@@ -1,10 +1,10 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import recordEvent from 'platform/monitoring/record-event';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-import facilityLocator from '../../../facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest';
 
 export default function ContactInformationExplanation() {
   return (
@@ -14,9 +14,10 @@ export default function ContactInformationExplanation() {
           <p>
             We’ll use this information to contact you about certain benefits and
             services, including disability compensation, pension benefits, and
-            claims and appeals. If you’re enrolled in the VA health care
-            program, your health care team may also use this information to
-            communicate with you.
+            claims and appeals. If you’re enrolled in VA health care, we’ll send
+            your prescriptions to the mailing address listed below. Your health
+            care team may also use this contact information to communicate with
+            you.
           </p>
           {!isBrandConsolidationEnabled() && (
             <span>
