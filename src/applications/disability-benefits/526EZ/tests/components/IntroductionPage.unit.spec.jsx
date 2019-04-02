@@ -8,6 +8,7 @@ import { IntroductionPage } from '../../components/IntroductionPage';
 const defaultProps = {
   user: {
     profile: {
+      // need to have a saved form or else form will redirect to v2
       savedForms: [
         {
           form: '21-526EZ',
