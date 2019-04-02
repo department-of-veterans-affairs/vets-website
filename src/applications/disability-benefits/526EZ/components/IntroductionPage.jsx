@@ -28,6 +28,7 @@ class IntroductionPage extends React.Component {
   hasSavedForm = () => {
     const { user } = this.props;
     return (
+      user &&
       user.profile &&
       user.profile.savedForms
         .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
