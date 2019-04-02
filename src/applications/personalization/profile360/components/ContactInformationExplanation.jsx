@@ -71,10 +71,6 @@ export default function ContactInformationExplanation() {
             Insurance Center (VAIC) at 1-800-669-8477, Monday through Friday,
             8:00 a.m. to 6:00 p.m. (ET)
           </li>
-          <li>
-            <strong>For prescriptions:</strong> Call your health care team or
-            your nearest VA medical center.
-          </li>
         </ul>
         <a href={facilityLocator.rootUrl}>
           Find your nearest VA medical center
