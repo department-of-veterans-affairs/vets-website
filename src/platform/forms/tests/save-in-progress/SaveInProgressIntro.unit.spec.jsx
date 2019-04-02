@@ -509,15 +509,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   it('should properly hide non-authed start when desired', () => {
     const user = {
       profile: {
-        savedForms: [
-          {
-            form: '1010ez',
-            metadata: {
-              lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
-            },
-          },
-        ],
+        savedForms: [],
         prefillsAvailable: [],
       },
       login: {
