@@ -36,6 +36,7 @@
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "./script/run-coverage.sh",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",
+    "test:puppeteer:docker": "IN_DOCKER=true jest -c=config/jest-puppeteer.config.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
