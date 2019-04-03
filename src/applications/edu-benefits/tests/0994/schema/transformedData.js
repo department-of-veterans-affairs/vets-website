@@ -65,6 +65,7 @@ const transformedMaximalDataActual = {
       plannedStartDate: '2010-01-02',
     },
   ],
+  hasSelectedPrograms: true,
   currentHighTechnologyEmployment: false,
   pastHighTechnologyEmployment: true,
   currentSalary: 'moreThanSeventyFive',

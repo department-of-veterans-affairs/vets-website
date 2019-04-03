@@ -217,7 +217,7 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-haspopup]:not([aria-expanded="true"]) {
+  &[aria-expanded="false"] {
     background-image: url(/img/plus-white.svg);
 
     &:hover {
@@ -463,4 +463,86 @@ body.va-pos-fixed {
   .child-menu-opened {
     height: auto;
   }
+}
+
+
+.merger {
+  #vetnav {
+    // 100% width necessary for right aligned items
+    width: 100%;
+    left: initial;
+  }
+
+  @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    #mega-menu {
+      // #vetnav {
+      //   min-height: unset;
+      // }
+      .login-container {
+        // due to these been nested, this has to have a higher z-level then vet-toolbar
+        position: relative;
+        top: -40px;
+      }
+    }
+
+    #vetnav {
+      // 100% width necessary for right aligned items
+      width: 100%;
+      left: initial;
+    }
+
+    #vetnav-controls {
+      margin-top: 7px;
+
+      svg {
+        margin-left: 0.8rem;
+      }
+    }
+
+    .mm-link-container {
+      padding-left: 10px;
+    }
+  }
+
+  // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
+  #vetnav-records-ms {
+    & + div {
+      .column-two h3 {
+        visibility: hidden;
+      }
+    }
+  }
+
+  #va-nav-controls {
+    position: relative;
+    width: 100px;
+
+    svg {
+      display: inline-block;
+      height: 1.6rem;
+      margin-left: 0.8rem;
+      width: 1rem;
+      vertical-align: 0;
+    }
+
+    path {
+      fill: $color-white;
+    }
+
+    @include media($medium-large-screen) {
+      display: none;
+    }
+  }
+
+  .vetnav-panel {
+    @include media($medium-large-screen) {
+      box-shadow: 0 5px 9px -3px $color-base;
+    }
+  }
+
+  // Toggle button on mobile
+  [class^="vetnav-controller"] {
+    position: relative !important;
+  }
+
 }

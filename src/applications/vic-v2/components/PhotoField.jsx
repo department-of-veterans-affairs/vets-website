@@ -57,12 +57,12 @@ export default class PhotoField extends React.Component {
       previewProcessing: false,
     };
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.detectDrag();
   }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextFormData = nextProps.formData || {};
     const prevFormData = this.props.formData || {};
 

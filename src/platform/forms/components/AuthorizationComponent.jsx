@@ -15,8 +15,8 @@ class AuthorizationComponent extends React.Component {
   componentDidMount() {
     this.authorize();
   }
-
-  componentWillUpdate() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillUpdate() {
     this.authorize();
   }
 

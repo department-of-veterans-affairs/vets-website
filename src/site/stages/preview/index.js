@@ -13,9 +13,10 @@ const environments = require('../../constants/environments');
 const createBuildSettings = require('../build/plugins/create-build-settings');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
-const nonceTransformer = require('../build/plugins/nonceTransformer');
+const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
+const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
 
@@ -115,13 +116,14 @@ function createPipeline(options) {
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
   */
-  smith.use(nonceTransformer);
+  smith.use(addNonceToScripts);
 
   /*
   * This will replace links in static pages with a staging domain,
   * if it is in the list of domains to replace
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
+  smith.use(rewriteAWSUrls(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.

@@ -17,8 +17,8 @@ class ToolTip extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.state = {};
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.setState({ closed: true });
   }
 

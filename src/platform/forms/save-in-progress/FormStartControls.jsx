@@ -10,8 +10,8 @@ class FormStartControls extends React.Component {
     super(props);
     this.state = { modalOpen: false };
   }
-
-  componentWillReceiveProps = newProps => {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps = newProps => {
     if (!this.props.returnUrl && newProps.returnUrl) {
       // TODO: Remove this; it doesn't actually run
       // The redirect is instead done in RoutedSavableApp

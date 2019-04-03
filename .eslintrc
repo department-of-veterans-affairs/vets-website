@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
@@ -39,6 +39,7 @@
       2,
       { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
     ],
+    "no-restricted-imports": ["error", "raven"],
     "prefer-rest-params": 2,
     "quote-props": [2, "as-needed", { "keywords": false }],
 
@@ -104,7 +105,9 @@
     "react/no-array-index-key": 0,
     "react/no-unescaped-entities": 0,
     "react/no-unused-prop-types": 0,
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "overrides": [
     {
@@ -117,7 +120,7 @@
         "src/applications/static-pages/**/*.jsx"
       ],
       "rules": {
-        "no-restricted-imports": ["error", "lodash/fp"]
+        "no-restricted-imports": ["error", "raven", "lodash/fp"]
       }
     },
     {
@@ -128,7 +131,7 @@
         "src/platform/testing/**/*.jsx"
       ],
       "rules": {
-        "no-restricted-imports": 0,
+        "no-restricted-imports": ["error", "raven"],
         "no-unused-expressions": 0,
         "react/no-find-dom-node": 0
       }

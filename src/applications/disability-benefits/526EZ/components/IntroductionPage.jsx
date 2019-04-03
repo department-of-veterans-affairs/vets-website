@@ -10,31 +10,25 @@ import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/Sav
 import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { focusElement } from '../../../../platform/utilities/ui';
-
-import { features } from '../../../beta-enrollment/routes';
-import { createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
+import { urls } from '../../all-claims/utils';
 
 import { VerifiedAlert } from '../helpers';
 import FormStartControls from './FormStartControls';
-import { urls } from '../../all-claims/utils';
 
 const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
-
-  componentDidUpdate() {
-    // Redirect if necessary
-    if (this.props.signedUpForV2Beta) {
-      window.location.replace(urls.v2);
+    if (!this.hasSavedForm()) {
+      window.location.replace(`${urls.v2}/introduction`);
     }
+    focusElement('.va-nav-breadcrumbs-list');
   }
 
   hasSavedForm = () => {
     const { user } = this.props;
     return (
+      user &&
       user.profile &&
       user.profile.savedForms
         .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
@@ -247,9 +241,6 @@ function mapStateToProps(state) {
   return {
     form,
     user,
-    signedUpForV2Beta: createIsServiceAvailableSelector(features.allClaims)(
-      state,
-    ),
   };
 }
 

@@ -1,8 +1,6 @@
 {
   "form526": {
     "standardClaim": false,
-    "waiveTrainingPay": true,
-    "waiveRetirementPay": true,
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
@@ -41,7 +39,7 @@
           "city": "Bigcity",
           "state": "AK"
         },
-        "treatedDisabilityNames": ["Diabetes mellitus0", "De-selected"]
+        "treatedDisabilityNames": ["Diabetes mellitus0", "De-selected", "knee replacement"]
       }
     ],
     "ratedDisabilities": [
@@ -86,10 +84,6 @@
         "disabilityActionType": "NONE"
       }
     ],
-    "hasTrainingPay": true,
-    "militaryRetiredPayBranch": "Air Force",
-    "separationPayDate": "2018-XX-XX",
-    "separationPayBranch": "Air Force",
     "serviceInformation": {
       "reservesNationalGuardService": {
         "title10Activation": {
@@ -114,21 +108,17 @@
       ]
     },
     "servedInCombatZonePost911": true,
-    "alternateNames": [
-      { "first": "William", "middle": "Schwenk", "last": "Gilbert" },
-      { "first": "Arthur", "last": "Sullivan" }
-    ],
     "newSecondaryDisabilities": [
       {
         "cause": "SECONDARY",
-        "causedByDisability": "Diabetes mellitus0",
+        "causedByDisability": "Diabetes Mellitus0",
         "causedByDisabilityDescription": "Again, this doesn't really make sense.",
         "condition": "phlebitis",
         "classificationCode": "5300"
       },
       {
         "cause": "SECONDARY",
-        "causedByDisability": "De-selected",
+        "causedByDisability": "Diabetes Mellitus1",
         "causedByDisabilityDescription": "Again, this doesn't really make sense.",
         "condition": "knee replacement",
         "classificationCode": "8919"

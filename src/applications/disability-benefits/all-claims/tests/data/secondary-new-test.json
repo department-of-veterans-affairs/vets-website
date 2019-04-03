@@ -5,9 +5,6 @@
     },
     "standardClaim": false,
     "view:fdcWarning": {},
-    "waiveTrainingPay": true,
-    "view:waiveRetirementPayDescription": {},
-    "waiveRetirementPay": true,
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "view:isHomeless": {
@@ -97,8 +94,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "De-selected": true
+          "Diabetes mellitus0": true,
+          "De-selected": true,
+          "knee replacement": true
         }
       }
     ],
@@ -118,11 +116,12 @@
     "view:needsCarHelp": {
       "view:alreadyClaimedVehicleAllowance": false
     },
+    "view:powStatus": false,
     "newDisabilities": [
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes mellitus0",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
@@ -131,7 +130,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "De-selected",
+          "causedByDisability": "Diabetes Mellitus1",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "knee replacement",
@@ -170,8 +169,7 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": false
+        "disabilityActionType": "NONE"
       },
       {
         "name": "Not selected",
@@ -185,15 +183,6 @@
       }
     ],
     "view:disabilitiesClarification": {},
-    "hasTrainingPay": true,
-    "view:hasMilitaryRetiredPay": true,
-    "militaryRetiredPayBranch": "Air Force",
-    "view:hasSeparationPay": true,
-    "view:separationPayDetails": {
-      "view:separationPayDetailsDescription": {},
-      "separationPayDate": "2018",
-      "separationPayBranch": "Air Force"
-    },
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": true,
@@ -226,18 +215,6 @@
       "view:militaryHistoryNote": {}
     },
     "servedInCombatZonePost911": true,
-    "view:hasAlternateName": true,
-    "alternateNames": [
-      {
-        "first": "William",
-        "middle": "Schwenk",
-        "last": "Gilbert"
-      },
-      {
-        "first": "Arthur",
-        "last": "Sullivan"
-      }
-    ],
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},

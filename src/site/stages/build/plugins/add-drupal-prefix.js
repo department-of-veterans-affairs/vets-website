@@ -32,8 +32,6 @@ function overwriteConflictingVagovContentFiles(files) {
     for (const vagovContentFile of potentialConflicts) {
       if (files[vagovContentFile]) {
         log(`Overriding conflicting vagov-content file: ${vagovContentFile}`);
-        // Maintain a reference, for the broken-link checker
-        file.overwrittenVagovContentPage = files[vagovContentFile];
         delete files[vagovContentFile];
       }
     }
@@ -45,7 +43,10 @@ function applyPrefixToFiles(files) {
     const file = files[fileName];
 
     if (file.isDrupalPage) {
-      files[`drupal/${fileName}`] = file;
+      files[`drupal/${fileName}`] = {
+        ...file,
+        private: true,
+      };
       delete files[fileName];
     }
   }

@@ -10,8 +10,9 @@ export const activeDutyNotice = (
 
 export const benefitNotice = (
   <p>
-    If you’re called to active duty while you’re enrolled in VET TEC, it may
-    affect your eligibility for the program. If you’re called to active duty,
+    <strong>Note: </strong>
+    If you’re called to active duty, while you’re enrolled in VET TEC, it may
+    affect your eligibility for the program. If you're called to active duty,
     please let us know as soon as possible.
   </p>
 );

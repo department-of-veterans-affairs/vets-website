@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 require('isomorphic-fetch');
+const Raven = require('raven');
 const commandLineArgs = require('command-line-args');
 const path = require('path');
 const express = require('express');
@@ -14,6 +15,7 @@ const {
 } = require('../src/site/stages/build/drupal/page');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
+const DRUPALS = require('../src/site/constants/drupals');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
@@ -37,7 +39,11 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_ADDRESS,
   },
-  { name: 'drupal-user', type: String, defaultValue: process.env.DRUPAL_USER },
+  {
+    name: 'drupal-user',
+    type: String,
+    defaultValue: process.env.DRUPAL_USERNAME,
+  },
   {
     name: 'drupal-password',
     type: String,
@@ -45,6 +51,10 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
+
+if (process.env.SENTRY_DSN) {
+  Raven.config(process.env.SENTRY_DSN).install();
+}
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 
@@ -69,8 +79,17 @@ const urls = {
     'http://www.va.gov.s3-website-us-gov-west-1.amazonaws.com',
 };
 
+if (process.env.SENTRY_DSN) {
+  app.use(Raven.requestHandler());
+}
+
+// eslint-disable-next-line no-unused-vars
+app.get('/error', (req, res) => {
+  throw new Error('fake error');
+});
+
 app.get('/health', (req, res) => {
-  res.send(200);
+  res.sendStatus(200);
 });
 
 app.get('/preview', async (req, res, next) => {
@@ -126,6 +145,19 @@ app.get('/preview', async (req, res, next) => {
     const drupalPage = drupalData.data.nodes.entities[0];
     const drupalPath = `${req.path.substring(1)}/index.html`;
 
+    if (!drupalPage.entityBundle) {
+      if (process.env.SENTRY_DSN) {
+        Raven.captureMessage('Preview attempted on page that is not ready');
+      }
+
+      res.send(`
+        <p>This page isn't ready to be previewed yet. 
+          This may mean development is still in progress or that there's an issue with the preview server.
+        </p>
+      `);
+      return;
+    }
+
     const compiledPage = compilePage(drupalPage, drupalData);
     const fullPage = createFileObj(
       compiledPage,
@@ -141,7 +173,9 @@ app.get('/preview', async (req, res, next) => {
         ...fullPage,
         isPreview: true,
         headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
-        drupalSite: drupalClient.getSiteUri(),
+        drupalSite:
+          DRUPALS.PUBLIC_URLS[options['drupal-address']] ||
+          options['drupal-address'],
       },
     };
 
@@ -164,11 +198,16 @@ if (options.buildtype !== ENVIRONMENTS.LOCALHOST) {
   app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 }
 
+if (process.env.SENTRY_DSN) {
+  app.use(Raven.errorHandler());
+}
+
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err);
   res.send(`
     <p>We're sorry, something went wrong when trying to preview that page.</p>
+    <p>Error id: ${res.sentry}</p>
     <pre>${options.buildtype !== ENVIRONMENTS.VAGOVPROD ? err : ''}</pre>
   `);
 });

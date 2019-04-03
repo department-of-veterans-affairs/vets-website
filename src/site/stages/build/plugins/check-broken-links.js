@@ -1,8 +1,7 @@
 /* eslint-disable no-param-reassign */
+const ENVIRONMENTS = require('../../../constants/environments');
 const createBrokenLinkChecker = require('metalsmith-broken-link-checker');
 const cheerio = require('cheerio');
-
-const DRUPALS = require('../../../constants/drupals');
 
 const lazyImageFiles = [];
 
@@ -46,47 +45,16 @@ function checkBrokenLinks(buildOptions) {
     }
 
     const ignoreGlobs = ignorePaths.map(path => `${path}(.*)`);
+    ignoreGlobs.push('\\.asp');
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
-      warn: false,
+      warn:
+        buildOptions.watch || buildOptions.buildtype === ENVIRONMENTS.VAGOVDEV,
       allowRegex: ignoreLinks,
     });
 
-    // Filter out drupal pages
-    // Once Drupal is live, we should be able to delete all of this and just
-    // validate all of files.
-    let filteredFiles = { ...files };
-    if (DRUPALS.ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
-      if (DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)) {
-        // On Drupal-prefixed builds, ignore all pages beginning with /drupal.
-        filteredFiles = Object.keys(files)
-          .filter(
-            fileName =>
-              !files[fileName].path || !files[fileName].path.includes('drupal'),
-          )
-          .reduce((acc, fileName) => {
-            acc[fileName] = files[fileName];
-            return acc;
-          }, {});
-      } else {
-        for (const fileName of Object.keys(filteredFiles)) {
-          // On Drupal-enabled non-prefixed builds, either filter out the Drupal
-          // page; or, if this Drupal page overwrote a Vagov-content page, then
-          // validate the overwritten page.
-          const file = filteredFiles[fileName];
-          if (file.isDrupalPage) {
-            if (file.overwrittenVagovContentPage) {
-              filteredFiles[fileName] = file.overwrittenVagovContentPage;
-            } else {
-              delete filteredFiles[fileName];
-            }
-          }
-        }
-      }
-    }
-
-    brokenLinkChecker(filteredFiles);
+    brokenLinkChecker(files);
     removeLazySrcAttribute(files);
     done();
   };

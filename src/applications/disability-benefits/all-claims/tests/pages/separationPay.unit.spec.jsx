@@ -29,7 +29,7 @@ describe('Separation Pay', () => {
     form.unmount();
   });
 
-  it('should fail to submit if no answers provided', () => {
+  it('should submit if no answers provided', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -43,8 +43,8 @@ describe('Separation Pay', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
     form.unmount();
   });
 

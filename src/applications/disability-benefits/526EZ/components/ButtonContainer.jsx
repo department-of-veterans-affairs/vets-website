@@ -27,7 +27,7 @@ export default function ButtonContainer(props) {
         !isLoggedIn && (
           <a
             className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href="/disability/how-to-file-claim"
             onClick={authenticate}
           >
             Sign In and Verify Your Identity
@@ -39,7 +39,7 @@ export default function ButtonContainer(props) {
         !isVerified && (
           <a
             className="usa-button-primary"
-            href="/verify?next=/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href="/verify?next=/disability/how-to-file-claim"
           >
             Verify Your Identity
             <span className="button-icon"> »</span>
@@ -49,7 +49,7 @@ export default function ButtonContainer(props) {
         isVerified && (
           <a
             className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href="/disability/how-to-file-claim"
           >
             Apply for Claim for Increase
             <span className="button-icon"> »</span>

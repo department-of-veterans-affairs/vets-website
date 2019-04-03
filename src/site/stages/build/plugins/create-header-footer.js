@@ -7,6 +7,7 @@ const footerData = require('../../../../platform/static-data/footer-links.json')
 const { applyFragments } = require('./apply-fragments');
 
 const MEGAMENU_DATA_SOURCE_FILENAME = 'megamenu/index.yml';
+const DRUPALS = require('../../../constants/drupals');
 
 function replaceWithDrupalLinks(data, files) {
   let current = data;
@@ -58,8 +59,10 @@ function createHeaderFooterData(buildOptions) {
     // property, has to exist in a separate file for editing/organizational reasons.
     // To accomplish this, we borrow use the fragments concept. More info in that middleware.
     for (const hub of vaBenefitsAndHealthCare.menuSections) {
-      applyFragments(buildOptions, metalsmith, hub.links);
-      delete hub.links.fragments;
+      if (hub.links && hub.links.fragments) {
+        applyFragments(buildOptions, metalsmith, hub.links);
+        delete hub.links.fragments;
+      }
     }
 
     applyFragments(buildOptions, metalsmith, aboutVa.menuSections);
@@ -72,7 +75,9 @@ function createHeaderFooterData(buildOptions) {
 
     const serialized = JSON.stringify(headerFooter, null, 4);
 
-    const drupalMenu = replaceWithDrupalLinks(headerFooter, files);
+    const drupalMenu = DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
+      ? replaceWithDrupalLinks(headerFooter, files)
+      : headerFooter;
     const drupalMenuSerialized = JSON.stringify(drupalMenu, null, 4);
 
     Object.keys(files).forEach(file => {

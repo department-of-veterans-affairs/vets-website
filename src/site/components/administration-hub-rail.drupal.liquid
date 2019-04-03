@@ -20,7 +20,7 @@
             </section>
 
             <section>
-                <h4>Follow Us</h4>
+                <h4>Follow us</h4>
                 <ul class="va-nav-linkslist-list social">
                     {% assign socialLinks =  administration.fieldSocialMediaLinks.platformValues | jsonToObj %}
                     {% assign socialPlatforms = socialLinks | keys %}
@@ -31,14 +31,25 @@
                                 <li>
                                     <a href="http://youtube.com/channel/{{ socialLink.value }}">
                                         <i class="fab fa-youtube"></i>
-                                         Youtube
+                                         Veterans Health Youtube channel
                                     </a>
                                 </li>
                             {% else %}
                                 <li>
                                     <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}">
                                         <i class="fab fa-{{ socialPlatform }}"></i>
-                                         {{ socialPlatform }}
+                                        {% case socialPlatform %}
+                                            {% when "twitter" %}
+                                                Veterans Health Twitter
+                                            {% when "facebook" %}
+                                                Veterans Health Facebook
+                                            {% when "youtube" %}
+                                                Veterans Health YouTube
+                                            {% when "instagram" %}
+                                                Veterans Health Instagram
+                                            {% when "linkedin" %}
+                                                Veterans Health LinkedIn
+                                        {% endcase %}
                                     </a>
                                 </li>
                             {% endif %}
