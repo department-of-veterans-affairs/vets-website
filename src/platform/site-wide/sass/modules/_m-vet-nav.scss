@@ -259,6 +259,7 @@ body.va-pos-fixed {
   text-align: left;
   width: 100%;
   -webkit-font-smoothing: antialiased;
+  line-height: 1;
 
   @include media($medium-large-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center
@@ -328,7 +329,6 @@ body.va-pos-fixed {
     background-image: none;
     color: $color-white;
     display: block;
-    padding: 0.8rem 1.6rem;
     text-decoration: none;
 
     @include media($medium-large-screen) {
@@ -339,6 +339,10 @@ body.va-pos-fixed {
         text-decoration: underline;
       }
     }
+  }
+
+  .mm-links {
+    padding: 0.8rem 1.6rem;
   }
 
   @include media($medium-large-screen) {
@@ -451,4 +455,85 @@ body.va-pos-fixed {
   .child-menu-opened {
     height: auto;
   }
+}
+
+.merger {
+  #vetnav {
+    // 100% width necessary for right aligned items
+    width: 100%;
+    left: initial;
+  }
+
+  @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    #mega-menu {
+      // #vetnav {
+      //   min-height: unset;
+      // }
+      .login-container {
+        // due to these been nested, this has to have a higher z-level then vet-toolbar
+        position: relative;
+        top: -40px;
+      }
+    }
+
+    #vetnav {
+      // 100% width necessary for right aligned items
+      width: 100%;
+      left: initial;
+    }
+
+    #vetnav-controls {
+      margin-top: 7px;
+
+      svg {
+        margin-left: 0.8rem;
+      }
+    }
+
+    .mm-link-container {
+      padding-left: 10px;
+    }
+  }
+
+  // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
+  #vetnav-records-ms {
+    & + div {
+      .column-two h3 {
+        visibility: hidden;
+      }
+    }
+  }
+
+  #va-nav-controls {
+    position: relative;
+    width: 100px;
+
+    svg {
+      display: inline-block;
+      height: 1.6rem;
+      margin-left: 0.8rem;
+      width: 1rem;
+      vertical-align: 0;
+    }
+
+    path {
+      fill: $color-white;
+    }
+
+    @include media($medium-large-screen) {
+      display: none;
+    }
+  }
+
+  .vetnav-panel {
+    @include media($medium-large-screen) {
+      box-shadow: 0 5px 9px -3px $color-base;
+    }
+  }
+
+  // Toggle button on mobile
+  [class^="vetnav-controller"] {
+    position: relative !important;
+  }
+
 }

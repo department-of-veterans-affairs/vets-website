@@ -39,7 +39,7 @@
     {% endif %}
     {% if expander.fieldTextExpander %}
       <div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
-        <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed | replace: 'href="838255"', 'href="sms:838255"' }}</div>
+        <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
       </div>
     {% endif %}
     {% if expander.fieldWysiwyg && expander.fieldTextExpander === empty %}

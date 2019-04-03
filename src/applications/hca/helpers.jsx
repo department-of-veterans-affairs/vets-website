@@ -24,7 +24,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
   if (isInMVI(state)) {
-    newData = { ...newData, 'view:isUserInMVI': true };
+    newData = { ...newData, 'view:isUserInMvi': true };
   }
 
   return {
@@ -607,4 +607,24 @@ export function validateDate(date) {
   const month = newDate.month() + 1; // Note: Months are zero indexed, so January is month 0.
   const year = newDate.year();
   return isValidDate(day, month, year);
+}
+
+/**
+ * Helper that takes two sets of props and returns true if any of its relevant
+ * props are different.
+ * @param {Object} prevProps - first set of props to compare
+ * @param {Object} props - second set of props to compare
+ * @returns {boolean} - true if any relevant props differ between the two sets
+ * of props; otherwise returns false
+ *
+ */
+export function didEnrollmentStatusChange(prevProps, props) {
+  const relevantProps = [
+    'enrollmentStatus',
+    'noESRRecordFound',
+    'shouldRedirect',
+  ];
+  return relevantProps.some(
+    propName => prevProps[propName] !== props[propName],
+  );
 }

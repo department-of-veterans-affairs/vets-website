@@ -163,7 +163,6 @@ function compilePage(page, contentData) {
       sidebarQuery: sidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
-      icsFiles: { entities: icsFiles },
     },
   } = contentData;
 
@@ -221,16 +220,6 @@ function compilePage(page, contentData) {
       );
       break;
     case 'event': {
-      let addToCalendar;
-      for (const icsFile of icsFiles) {
-        if (
-          page.fieldAddToCalendar !== null &&
-          icsFile.fid === parseInt(page.fieldAddToCalendar.fileref, 10)
-        ) {
-          addToCalendar = icsFile.url;
-        }
-      }
-
       // eslint-disable-next-line no-param-reassign
       page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
@@ -238,7 +227,6 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         alertItems,
         pageId,
-        { addToCalendarLink: addToCalendar },
       );
       break;
     }

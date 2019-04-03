@@ -13,6 +13,8 @@ export const hasServerError = state =>
   selectEnrollmentStatus(state).hasServerError;
 export const noESRRecordFound = state =>
   selectEnrollmentStatus(state).noESRRecordFound;
+export const isShowingHCAReapplyContent = state =>
+  selectEnrollmentStatus(state).showHCAReapplyContent;
 
 // compound selectors
 export const isLoading = state =>
@@ -25,8 +27,14 @@ export const isUserLOA3 = state =>
   !hasServerError(state) &&
   !noESRRecordFound(state) &&
   isLOA3(state);
+export const isLoggedOut = state =>
+  !isProfileLoading(state) && !isLoggedIn(state);
 // If we can't get enrollment status for LOA3 users, treat them like a
 // logged-out user (ie, just let them start a new application)
-export const isLoggedOut = state =>
+export const shouldShowLoggedOutContent = state =>
   !isLoading(state) &&
   (!isLoggedIn(state) || hasServerError(state) || noESRRecordFound(state));
+export const shouldHideFormFooter = state =>
+  !isLoading(state) &&
+  (isUserLOA1(state) ||
+    (isUserLOA3(state) && !isShowingHCAReapplyContent(state)));
