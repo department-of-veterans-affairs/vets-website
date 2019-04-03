@@ -21,7 +21,6 @@ module.exports = `
 
   fragment page on NodePage {
     ${entityElementsFromPages}
-    entityId
     fieldIntroText
     fieldDescription
     fieldFeaturedContent {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -11,6 +12,8 @@ import {
   getFAQBlock4,
 } from '../enrollment-status-helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
+import { showReapplyContent as showReapplyContentAction } from '../actions';
+import { isShowingHCAReapplyContent } from '../selectors';
 
 const ReapplyContent = ({ route }) => (
   <>
@@ -34,40 +37,42 @@ const ReapplyTextLink = ({ onClick }) => (
   </button>
 );
 
-class HCAEnrollmentStatusFAQ extends React.Component {
-  state = {
-    showReapplyForHealthCareContent: false,
-  };
+const HCAEnrollmentStatusFAQ = ({
+  enrollmentStatus,
+  route,
+  showingReapplyForHealthCareContent,
+  showReapplyContent,
+}) => {
+  const reapplyAllowed = enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
+  return (
+    <>
+      {getFAQBlock1(enrollmentStatus)}
+      {getFAQBlock2(enrollmentStatus)}
+      {getFAQBlock3(enrollmentStatus)}
+      {getFAQBlock4(enrollmentStatus)}
+      {reapplyAllowed &&
+        showingReapplyForHealthCareContent && <ReapplyContent route={route} />}
+      {reapplyAllowed &&
+        !showingReapplyForHealthCareContent && (
+          <ReapplyTextLink
+            onClick={() => {
+              showReapplyContent();
+            }}
+          />
+        )}
+    </>
+  );
+};
 
-  showReapplyForHealthCareContent() {
-    this.setState({ showReapplyForHealthCareContent: true });
-  }
+const mapStateToProps = state => ({
+  showingReapplyForHealthCareContent: isShowingHCAReapplyContent(state),
+});
 
-  render() {
-    const { enrollmentStatus, route } = this.props;
-    const reapplyAllowed =
-      enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
-    return (
-      <>
-        {getFAQBlock1(enrollmentStatus)}
-        {getFAQBlock2(enrollmentStatus)}
-        {getFAQBlock3(enrollmentStatus)}
-        {getFAQBlock4(enrollmentStatus)}
-        {reapplyAllowed &&
-          this.state.showReapplyForHealthCareContent && (
-            <ReapplyContent route={route} />
-          )}
-        {reapplyAllowed &&
-          !this.state.showReapplyForHealthCareContent && (
-            <ReapplyTextLink
-              onClick={() => {
-                this.showReapplyForHealthCareContent();
-              }}
-            />
-          )}
-      </>
-    );
-  }
-}
+const mapDispatchToProps = {
+  showReapplyContent: showReapplyContentAction,
+};
 
-export default HCAEnrollmentStatusFAQ;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HCAEnrollmentStatusFAQ);

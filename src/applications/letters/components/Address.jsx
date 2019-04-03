@@ -15,7 +15,8 @@ import { militaryStateNames } from '../utils/helpers';
  * No validation is provided through a currently stubbed isAddressValid function.
  */
 class Address extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.id = _.uniqueId('address-input-');
   }
 

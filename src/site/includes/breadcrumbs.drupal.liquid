@@ -1,39 +1,52 @@
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
-    {% assign numCrumbs = entityUrl.breadcrumb | size %}
-    {% assign crumbCount = 1 %}
-    {% for crumb in entityUrl.breadcrumb %}
-      {% if crumbCount == numCrumbs %}
+    {% if path == "health-care" or path == "drupal/health-care" %}
+      <li>
+        <a href="/">
+          Home
+        </a>
+      </li>
       <li>
         <a href="/{{path}}" aria-current="page">
-          {{crumb.text}}
+          Health Care
         </a>
       </li>
-      {% else %}
-        {% if crumb.text == "Health Care" %}
-          {% assign crumbPath = "/health-care" %}
+    {% else %}
+      {% assign numCrumbs = entityUrl.breadcrumb | size %}
+      {% assign crumbCount = 1 %}
+      {% for crumb in entityUrl.breadcrumb %}
+        {% if crumbCount == numCrumbs %}
+        <li>
+          <a href="/{{path}}" aria-current="page">
+            {{crumb.text}}
+          </a>
+        </li>
         {% else %}
-          {% assign crumbPath = crumb.url.path %}
-        {% endif %}
-        {% if crumb.text != "Get Benefits" and crumb.text != "Manage Benefits" and crumb.text != "More Resources" %}
-      <li>
-        {% if crumbPath != empty %}
-        <a href="{{crumbPath}}"
-          {% if crumb.url.path == "/" %}
-          onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });"
-          {% elsif crumb.text == lastCrumb %}
-          aria-current="page"
+          {% if crumb.text == "Health Care" %}
+            {% assign crumbPath = "/health-care" %}
+          {% else %}
+            {% assign crumbPath = crumb.url.path %}
           {% endif %}
-          >
+          {% if crumb.text != "Get Benefits" and crumb.text != "Manage Benefits" and crumb.text != "More Resources" %}
+        <li>
+          {% if crumbPath != empty %}
+          <a href="{{crumbPath}}"
+            {% if crumb.url.path == "/" %}
+            onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });"
+            {% elsif crumb.text == lastCrumb %}
+            aria-current="page"
+            {% endif %}
+            >
+          {% endif %}
+            {{crumb.text}}
+          {% if crumbPath != empty %}
+          </a>
+          {% endif %}
+        </li>
+          {% endif %}
         {% endif %}
-          {{crumb.text}}
-        {% if crumbPath != empty %}
-        </a>
-        {% endif %}
-      </li>
-        {% endif %}
-      {% endif %}
-      {% assign crumbCount = crumbCount | plus: 1 %}
-    {% endfor %}
+        {% assign crumbCount = crumbCount | plus: 1 %}
+      {% endfor %}
+    {% endif %}
   </ul>
 </nav>

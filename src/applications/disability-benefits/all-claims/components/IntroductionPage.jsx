@@ -150,6 +150,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           buttonOnly
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           formId={this.props.formId}

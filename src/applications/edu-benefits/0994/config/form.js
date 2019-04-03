@@ -10,10 +10,11 @@ import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import submitForm from '../submitForm';
 import { prefillTransformer } from '../prefill-transformer';
 import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import { urlMigration } from '../../config/migrations';
+import migrations from '../migrations';
 
 import {
   applicantInformation,
@@ -30,10 +31,11 @@ import {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
+  submit: submitForm,
   trackingPrefix: 'edu-0994-',
   formId: '22-0994',
-  version: 1,
-  migrations: [urlMigration('/0994')],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   verifyRequiredPrefill: true,
@@ -126,7 +128,7 @@ const formConfig = {
         trainingProgramsInformation: {
           title: 'Program Selection',
           path: 'training-programs-information',
-          depends: form => form['view:trainingProgramsChoice'] === true,
+          depends: form => form.hasSelectedPrograms === true,
           uiSchema: trainingProgramsInformation.uiSchema,
           schema: trainingProgramsInformation.schema,
         },

@@ -157,7 +157,7 @@ const attachmentsSchema = {
   minItems: 1,
   items: {
     type: 'object',
-    required: ['attachmentId'],
+    required: ['attachmentId', 'name'],
     properties: {
       name: {
         type: 'string',
@@ -564,7 +564,7 @@ const formConfig = {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
           depends: formData =>
-            !formData['view:isUserInMVI'] && !environment.isProduction(),
+            !formData['view:isUserInMvi'] && !environment.isProduction(),
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:title': 'Upload your discharge papers',

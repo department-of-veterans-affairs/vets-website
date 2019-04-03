@@ -7,18 +7,18 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { focusElement } from 'platform/utilities/ui';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import {
-  selectUser,
-  selectProfile,
-  isLoggedIn,
-  isLOA1,
-  isLOA3,
-  isProfileLoading,
-} from 'platform/user/selectors';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
+import {
+  isLoading,
+  isLoggedOut,
+  isUserLOA1,
+  isUserLOA3,
+  shouldShowLoggedOutContent,
+} from '../selectors';
 
 const VerificationRequiredAlert = () => (
   <AlertBox
@@ -27,16 +27,26 @@ const VerificationRequiredAlert = () => (
         <h4 className="usa-alert-heading">
           Please verify your identity before applying for VA health care
         </h4>
+        <p>This process should take about 5 to 10 minutes.</p>
         <p>
-          We’re sorry for the inconvenience, but we need you to verify your
-          identity before you apply for VA health care. This process should take
-          about 5 to 10 minutes. As soon as you’re finished, you can continue
-          your application.
+          <strong>If you’re applying for the first time</strong>
+        </p>
+        <p>
+          We need to verify your identity so we can help you track the status of
+          your application once you’ve submitted it. As soon as you’re finished
+          verifying your identity, you can continue to the application.
+        </p>
+        <p>
+          <strong>If you’ve applied before</strong>
+        </p>
+        <p>
+          We need to verify your identity so we can show you the status of your
+          past application. We take your privacy seriously, and we need to make
+          sure we’re sharing your personal information only with you.
         </p>
         <p>
           <strong>
-            If you need more information or help with verifying your identity on
-            VA.gov:
+            If you need more information or help with verifying your identity:
           </strong>
         </p>
         <ul>
@@ -45,16 +55,18 @@ const VerificationRequiredAlert = () => (
               Read our identity verification FAQs
             </a>
           </li>
+          <li>
+            Or call us at 1-877-222-VETS (
+            <a href="tel:+18772228387">1-877-222-8387</a>
+            ). If you have hearing loss, call TTY: 1-800-877-8339. We’re here
+            Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </li>
         </ul>
         <p>
-          Or call us at 1-877-222-VETS (
-          <a href="tel:+18772228387">1-877-222-8387</a>
-          ). If you have hearing loss, call TTY: 1-800-877-8339. We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+          <a className="usa-button-primary va-button-primary" href="/verify">
+            Verify your identity
+          </a>
         </p>
-        <a className="usa-button-primary va-button-primary" href="/verify">
-          Verify your identity
-        </a>
       </div>
     }
     isVisible
@@ -62,8 +74,30 @@ const VerificationRequiredAlert = () => (
   />
 );
 
-const LoggedOutContent = ({ route }) => (
+const LoggedOutContent = connect(
+  null,
+  { toggleLoginModal },
+)(({ route, showLoginAlert, toggleLoginModal: showLoginModal }) => (
   <>
+    {showLoginAlert && (
+      <div>
+        <AlertBox
+          headline="Have you applied for VA health care before?"
+          content={
+            <button
+              className="va-button-link"
+              onClick={() => showLoginModal(true)}
+            >
+              Sign in to check your application status
+            </button>
+          }
+          isVisible
+          status="info"
+          className="background-color-only"
+        />
+        <br />
+      </div>
+    )}
     <SaveInProgressIntro
       prefillEnabled={route.formConfig.prefillEnabled}
       messages={route.formConfig.savedFormMessages}
@@ -83,7 +117,7 @@ const LoggedOutContent = ({ route }) => (
       <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
     </div>
   </>
-);
+));
 
 class IntroductionPageGated extends React.Component {
   componentDidMount() {
@@ -92,11 +126,12 @@ class IntroductionPageGated extends React.Component {
 
   render() {
     const {
-      showMainLoader,
-      showVerificationRequiredAlert,
+      route,
       showLOA3Content,
       showLoggedOutContent,
-      route,
+      showLoginAlert,
+      showMainLoader,
+      showVerificationRequiredAlert,
     } = this.props;
     return (
       <div className="schemaform-intro">
@@ -104,37 +139,22 @@ class IntroductionPageGated extends React.Component {
         <p>Equal to VA Form 10-10EZ (Application for Health Benefits).</p>
         {showMainLoader && <LoadingIndicator />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
-        {showLoggedOutContent && <LoggedOutContent route={route} />}
+        {showLoggedOutContent && (
+          <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
+        )}
         {showLOA3Content && <HCAEnrollmentStatus route={route} />}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  const {
-    isLoading: isEnrollmentStatusLoading,
-    hasServerError,
-    noESRRecordFound,
-  } = state.hcaEnrollmentStatus;
-  const loading = isProfileLoading(state) || isEnrollmentStatusLoading;
-  return {
-    showMainLoader: loading,
-    showVerificationRequiredAlert:
-      !loading && isLoggedIn(state) && isLOA1(state),
-    // If we can't get enrollment status for LOA3 users, treat them like a
-    // logged-out user (ie, just let them start a new application)
-    showLoggedOutContent:
-      !loading && (!isLoggedIn(state) || hasServerError || noESRRecordFound),
-    showLOA3Content:
-      isLoggedIn(state) &&
-      isLOA3(state) &&
-      !hasServerError &&
-      !noESRRecordFound,
-    user: selectUser(state),
-    profile: selectProfile(state),
-  };
-};
+const mapStateToProps = state => ({
+  showMainLoader: isLoading(state),
+  showLOA3Content: isUserLOA3(state),
+  showLoggedOutContent: shouldShowLoggedOutContent(state),
+  showLoginAlert: isLoggedOut(state),
+  showVerificationRequiredAlert: isUserLOA1(state),
+});
 
 export default connect(mapStateToProps)(IntroductionPageGated);
 

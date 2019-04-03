@@ -5,7 +5,6 @@ const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../../platform/testing/e2e/timeouts');
 const FormsTestHelpers = require('../../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../../platform/testing/e2e/auth');
-const ENVIRONMENTS = require('../../../../../site/constants/environments');
 
 import {
   completeFormPage,
@@ -13,8 +12,8 @@ import {
   completeMilitaryService,
   completeEducationHistory,
   completeHighTechWorkExp,
-  getTrainingProgramsChoice,
-  completeTrainingProgramChoice,
+  getHasSelectedPrograms,
+  completeHasSelectedPrograms,
   completeTrainingProgramsInformation,
   completeContactInformation,
   completeBankInformation,
@@ -85,11 +84,11 @@ const e2eTests = (client, formData) => {
     '/training-programs-choice',
     client,
     formData,
-    completeTrainingProgramChoice,
+    completeHasSelectedPrograms,
   );
 
   // Training Programs information
-  if (getTrainingProgramsChoice(formData)) {
+  if (getHasSelectedPrograms(formData)) {
     completeFormPage(
       '/training-programs-information',
       client,
@@ -122,20 +121,18 @@ const e2eTests = (client, formData) => {
 };
 
 const runTest = E2eHelpers.createE2eTest(client => {
-  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
-    authentication(client);
+  authentication(client);
 
-    const files = fs.readdirSync(dirName);
-    files.filter(file => file.endsWith('json')).forEach(file => {
-      const contents = JSON.parse(
-        fs.readFileSync(path.join(dirName, file), 'utf8'),
-      );
-      e2eTests(client, contents.data);
-    });
+  const files = fs.readdirSync(dirName);
+  files.filter(file => file.endsWith('json')).forEach(file => {
+    const contents = JSON.parse(
+      fs.readFileSync(path.join(dirName, file), 'utf8'),
+    );
+    e2eTests(client, contents.data);
+  });
 
-    client.axeCheck('.main');
-    client.end();
-  }
+  client.axeCheck('.main');
+  client.end();
 });
 
 module.exports = runTest;

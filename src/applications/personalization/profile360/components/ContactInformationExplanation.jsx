@@ -1,10 +1,10 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import recordEvent from 'platform/monitoring/record-event';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-import facilityLocator from '../../../facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest';
 
 export default function ContactInformationExplanation() {
   return (
@@ -14,9 +14,10 @@ export default function ContactInformationExplanation() {
           <p>
             We’ll use this information to contact you about certain benefits and
             services, including disability compensation, pension benefits, and
-            claims and appeals. If you’re enrolled in the VA health care
-            program, your health care team may also use this information to
-            communicate with you.
+            claims and appeals. If you’re enrolled in VA health care, we’ll send
+            your prescriptions to the mailing address listed below. Your health
+            care team may also use this contact information to communicate with
+            you.
           </p>
           {!isBrandConsolidationEnabled() && (
             <span>
@@ -70,10 +71,6 @@ export default function ContactInformationExplanation() {
             <strong>For Veterans' Mortgage Life Insurance:</strong> Call the VA
             Insurance Center (VAIC) at 1-800-669-8477, Monday through Friday,
             8:00 a.m. to 6:00 p.m. (ET)
-          </li>
-          <li>
-            <strong>For prescriptions:</strong> Call your health care team or
-            your nearest VA medical center.
           </li>
         </ul>
         <a href={facilityLocator.rootUrl}>
