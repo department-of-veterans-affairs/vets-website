@@ -8,8 +8,10 @@ export const bankInfoNote = (
   <div>
     <p>
       <strong>Note: </strong>
-      Any updates you make here to your bank account information will also apply
-      to your other VA benefits, including compensation, pension, and education.
+      Any updates you make here to your bank account information will apply
+      to your other Veteran benefits, including compensation, pension, and
+      education. Updates here will not change accounts on file for your VA
+      health benefits.
     </p>
   </div>
 );
