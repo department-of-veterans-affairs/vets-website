@@ -5,8 +5,9 @@ env.CONCURRENCY = 10
 
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
-              // a string param cannot be null, so we set the arbitrary value of 'none' here to make sure the default doesn't match anything
-              [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', name: 'cmsEnvBuildOverride', defaultValue: 'none']]]]);
+              parameters([choice(name: "cmsEnvBuildOverride",
+                                 description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
+                                 choices: ["none", "dev", "staging"].join("\n"))])]);
 
   // Checkout vets-website code
   dir("vets-website") {
@@ -66,6 +67,7 @@ node('vetsgov-general-purpose') {
         parallel (
           e2e: {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+            sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:puppeteer:docker"
           },
 
           accessibility: {

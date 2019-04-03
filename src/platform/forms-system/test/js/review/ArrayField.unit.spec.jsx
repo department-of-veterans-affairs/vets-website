@@ -359,7 +359,7 @@ describe('Schemaform review <ArrayField>', () => {
       arrayData: [],
     });
 
-    instance.componentWillReceiveProps(newProps);
+    instance.UNSAFE_componentWillReceiveProps(newProps);
 
     expect(instance.state.items).to.eql(newProps.arrayData);
     expect(instance.state.editing).to.eql([]);

@@ -101,7 +101,8 @@ export class AddressSection extends React.Component {
    * will get a blank form instead of one prefilled with their existing data. This hook
    * ensures we populate the form's initial state as soon as the prop becomes available
    */
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       !this.state.hasLoadedAddress &&
       Object.keys(nextProps.savedAddress).length > 0

@@ -19,38 +19,46 @@
     }
 {% endcomment %}
 {% if alert.fieldAlertContent %}
-    {% assign expander = alert.fieldAlertContent.entity %}
+  {% assign expander = alert.fieldAlertContent.entity %}
 {% endif %}
 {% assign alertType = alert.fieldAlertType %}
 {% if alertType = "information" %}
-    {% assign alertType = "info" %}
+  {% assign alertType = "info" %}
 {% endif %}
 
 <div class="usa-alert usa-alert-{{ alertType }}" role="alert">
-    <div class="usa-alert-body">
-        <h3 class="usa-alert-heading">
-            {{ alert.fieldAlertTitle }}
-        </h3>
-        {% if alert.fieldHelpText %}<p>{{ alert.fieldHelpText }}</p>{% endif %}
-        {% if expander.fieldTextExpander %}
-            <button id="{{ expander.entityBundle }}-{{ expander.entityId }}" class="va-button-link" aria-expanded="false">{{ expander.fieldTextExpander }}</button>
-        {% endif %}
-        {% if expander.fieldTextExpander %}<div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
-            <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
-        </div>{% endif %}
-        {% if expander.fieldWysiwyg && expander.fieldTextExpander === empty %}<div class=" usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>{% endif %}
-    </div>
+  <div class="usa-alert-body">
+    <h3 class="usa-alert-heading">
+      {{ alert.fieldAlertTitle }}
+    </h3>
+    {% if alert.fieldHelpText %}
+      <p>{{ alert.fieldHelpText }}</p>
+    {% endif %}
+    {% if expander.fieldTextExpander %}
+      <button id="{{ expander.entityBundle }}-{{ expander.entityId }}" class="va-button-link" aria-expanded="false">{{ expander.fieldTextExpander }}</button>
+    {% endif %}
+    {% if expander.fieldTextExpander %}
+      <div id="{{ expander.entityBundle }}-{{ expander.entityId }}-content" class="expander-content expander-content-closed" aria-hidden="true">
+        <div class="expander-content-inner usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
+      </div>
+    {% endif %}
+    {% if expander.fieldWysiwyg && expander.fieldTextExpander === empty %}
+      <div class=" usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
+    {% endif %}
+  </div>
 </div>
 
 {% if expander.fieldTextExpander %}
-    <script type="text/javascript">
-      const element = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
+    {% assign element = "alertElement" | append: expander.entityId %}
+  <script type="text/javascript">
+
+      const {{ element }} = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}');
 
       // Toggle the expander info
-      element.addEventListener('click', function() {
+      {{ element }}.addEventListener('click', function() {
         // Toggle aria-expanded for the button
-        const ariaExpanded = element.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
-        element.setAttribute('aria-expanded', ariaExpanded);
+        const ariaExpanded = {{ element }}.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
+        {{ element }}.setAttribute('aria-expanded', ariaExpanded);
 
         const content = document.getElementById('{{ expander.entityBundle }}-{{ expander.entityId }}-content');
         // Toggle the expander class for the content
@@ -60,5 +68,5 @@
         const ariaHidden = content.getAttribute('aria-hidden') === 'true' ? 'false' : 'true';
         content.setAttribute('aria-hidden', ariaHidden);
       });
-    </script>
+  </script>
 {% endif %}

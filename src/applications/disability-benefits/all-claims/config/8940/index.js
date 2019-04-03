@@ -30,6 +30,8 @@ import {
   hasDoctorsCare,
 } from '../../utils';
 
+import captureEvents from '../../analytics-functions';
+
 import createFormConfig4192 from '../4192';
 
 export default function() {
@@ -43,11 +45,12 @@ export default function() {
         depends: needsToEnterUnemployability,
         uiSchema: unemployabilityFormIntro.uiSchema,
         schema: unemployabilityFormIntro.schema,
+        onContinue: captureEvents.unemployabilityFormIntro,
       },
       // 8940 - Upload 8940
       unemployabilityFormUpload: {
         title: 'Upload Unemployability Form',
-        path: 'new-disabilities/unemployability-form-uplaod',
+        path: 'new-disabilities/unemployability-form-upload',
         depends: isUploading8940Form,
         uiSchema: unemployabilityFormUpload.uiSchema,
         schema: unemployabilityFormUpload.schema,

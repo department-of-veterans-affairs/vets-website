@@ -11,16 +11,15 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
  */
 const ADMIN = '...administration';
 
-// TODO add back fieldTitleIcon
 module.exports = `
   
   fragment landingPage on NodeLandingPage {
     ${entityElementsFromPages}
-    entityId
     fieldIntroText
     ${FIELD_PROMO}
     ${FIELD_RELATED_LINKS}
     ${FIELD_ALERT}
+    fieldTitleIcon
     fieldSpokes {
       entity {
         ...listOfLinkTeasers

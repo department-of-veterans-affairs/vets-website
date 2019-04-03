@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -16,8 +15,13 @@ import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
-import { submitIDForm } from '../actions';
-import { idFormSchema as schema, idFormUiSchema as uiSchema } from '../helpers';
+import { getEnrollmentStatus } from '../actions';
+import {
+  didEnrollmentStatusChange,
+  idFormSchema as schema,
+  idFormUiSchema as uiSchema,
+} from '../helpers';
+import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 function ContinueButton({ isLoading }) {
   return (
@@ -40,13 +44,14 @@ function LoginRequiredAlert({ handleLogin }) {
       <AlertBox
         isVisible
         status="error"
-        headline="Please sign in to continue your application"
+        headline="Please sign in to review your information"
         content={
           <>
             <p>
-              We’re sorry for the interruption, but we need you to review some
-              information before you continue applying. Please sign in below to
-              review. If you don’t have an account, you can create one now.
+              We’re sorry for the interruption, but we’ve found some more
+              information that we need you to review before you can apply for VA
+              health care. Please sign in to VA.gov to review. If you don’t have
+              an account, you can create one now.
             </p>
             <button className="usa-button-primary" onClick={handleLogin}>
               Sign in to VA.gov
@@ -64,12 +69,9 @@ function ServerError() {
     <AlertBox
       isVisible
       status="error"
-      headline="Server Error"
+      headline="Something went wrong on our end"
       content={
-        <p>
-          We’re sorry for the interruption, but we have encountered an error.
-          Please try again later.
-        </p>
+        <p>We’re sorry. Something went wrong on our end. Please try again</p>
       }
     />
   );
@@ -87,13 +89,20 @@ class IDPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!didEnrollmentStatusChange(prevProps, this.props)) {
+      return;
+    }
+
     const { enrollmentStatus, noESRRecordFound, shouldRedirect } = this.props;
 
     // Redirect to intro if a logged in user directly accessed this page.
     if (shouldRedirect) this.props.router.push('/');
 
-    if (noESRRecordFound || enrollmentStatus === 'none_of_the_above') {
+    if (
+      noESRRecordFound ||
+      enrollmentStatus === HCA_ENROLLMENT_STATUSES.noneOfTheAbove
+    ) {
       this.prefillHCA();
       this.goToNextPage();
     }
@@ -111,7 +120,7 @@ class IDPage extends React.Component {
   // in the HCA that they just entered into the ID Form. So mix the ID Form's
   // data in with the empty HCA Form data.
   prefillHCA = () => {
-    const { form, setFormData } = this.props;
+    const { form, setFormData, isUserInMVI } = this.props;
     const { idFormData } = this.state;
     const fullName = {
       ...form.data.veteranFullName,
@@ -123,6 +132,7 @@ class IDPage extends React.Component {
       veteranFullName: fullName,
       veteranDateOfBirth: idFormData.dob,
       veteranSocialSecurityNumber: idFormData.ssn,
+      'view:isUserInMvi': isUserInMVI,
     });
   };
 
@@ -150,62 +160,47 @@ class IDPage extends React.Component {
     } = this.props;
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for health care benefits" />
+        <FormTitle title="We need some information before you can start your application" />
         {showLoadingIndicator && <LoadingIndicator />}
         {!showLoadingIndicator && (
           <>
-            <AlertBox
-              isVisible
-              status="info"
-              headline="Help us fit this application to your specific needs"
-              content={
-                <>
-                  <p>
-                    Before you start your health care application, please
-                    provide the information below. This will help us make sure
-                    the application gathers the right information for us to
-                    determine your eligibility.
-                  </p>
-                  <p>
-                    <strong>Want to skip this step?</strong>
-                  </p>
-                  <button
-                    className="va-button-link"
-                    onClick={this.showSignInModal}
-                  >
-                    Sign in to start your application.
-                  </button>
-                </>
-              }
-            />
-            <br />
-            <SchemaForm
-              // `name` and `title` are required by SchemaForm, but are only used
-              // internally in the component
-              name="ID Form"
-              title="ID Form"
-              schema={schema}
-              uiSchema={uiSchema}
-              onSubmit={this.formSubmit}
-              onChange={this.formChange}
-              data={this.state.idFormData}
-            >
-              {/* The only reason these components are nested in the
-              SchemaForm is to prevent the SchemaForm component from rendering
-              its default SUBMIT button */}
-              {loginRequired && (
-                <LoginRequiredAlert handleLogin={this.showSignInModal} />
-              )}
-              {showServerError && <ServerError />}
-              {showContinueButton && (
-                <ContinueButton isLoading={isSubmittingIDForm} />
-              )}
-            </SchemaForm>
+            <p>
+              This will help us fit the application to your specific needs.
+              Please fill out the form below. Then we’ll take you to the VA
+              health care application (10-10EZ).
+            </p>
+            <p>
+              <strong>Want to skip this step?</strong>
+            </p>
+            <button className="va-button-link" onClick={this.showSignInModal}>
+              Sign in to start your application.
+            </button>
+            <div className="hca-id-form-wrapper">
+              <SchemaForm
+                // `name` and `title` are required by SchemaForm, but are only used
+                // internally in the component
+                name="ID Form"
+                title="ID Form"
+                schema={schema}
+                uiSchema={uiSchema}
+                onSubmit={this.formSubmit}
+                onChange={this.formChange}
+                data={this.state.idFormData}
+              >
+                {/* The only reason these components are nested in the
+                SchemaForm is to prevent the SchemaForm component from rendering
+                its default SUBMIT button */}
+                {loginRequired && (
+                  <LoginRequiredAlert handleLogin={this.showSignInModal} />
+                )}
+                {showServerError && <ServerError />}
+                {showContinueButton && (
+                  <ContinueButton isLoading={isSubmittingIDForm} />
+                )}
+              </SchemaForm>
+            </div>
           </>
         )}
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
-        </div>
       </div>
     );
   }
@@ -215,6 +210,7 @@ IDPage.propTypes = {
   enrollmentStatus: PropTypes.string,
   form: PropTypes.object.isRequired,
   isSubmittingIDForm: PropTypes.bool.isRequired,
+  isUserInMVI: PropTypes.bool.isRequired,
   loginRequired: PropTypes.bool.isRequired,
   noESRRecordFound: PropTypes.bool.isRequired,
   shouldRedirect: PropTypes.bool.isRequired,
@@ -227,7 +223,7 @@ IDPage.propTypes = {
 
 const mapDispatchToProps = {
   setFormData: setData,
-  submitIDForm,
+  submitIDForm: getEnrollmentStatus,
   toggleLoginModal,
 };
 
@@ -235,14 +231,16 @@ const mapStateToProps = state => {
   const {
     enrollmentStatus,
     hasServerError,
-    isSubmitting,
+    isLoading,
+    isUserInMVI,
     loginRequired,
     noESRRecordFound,
-  } = state.hcaIDForm;
+  } = state.hcaEnrollmentStatus;
   return {
     enrollmentStatus,
     form: state.form,
-    isSubmittingIDForm: isSubmitting,
+    isSubmittingIDForm: isLoading,
+    isUserInMVI,
     loginRequired,
     noESRRecordFound,
     shouldRedirect: isLoggedIn(state),

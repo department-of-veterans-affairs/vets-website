@@ -47,8 +47,8 @@ class SchemaForm extends React.Component {
       StringField,
     };
   }
-
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (
       newProps.name !== this.props.name ||
       newProps.pagePerItemIndex !== this.props.pagePerItemIndex

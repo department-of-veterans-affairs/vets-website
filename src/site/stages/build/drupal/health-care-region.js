@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign, no-continue */
-const path = require('path');
-const { facilityLocationPath } = require('./utilities-drupal');
 const {
   createEntityUrlObj,
   createFileObj,
@@ -10,55 +8,7 @@ const {
 
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
-  const relatedLinks = { fieldRelatedLinks: page.fieldRelatedLinks };
   const sidebar = { facilitySidebar: page.facilitySidebar };
-  const alerts = { alert: page.alert };
-
-  // Create the detail page for health care local facilities
-  if (page.mainFacilities !== undefined || page.otherFacilities !== undefined) {
-    for (const facility of [
-      ...page.mainFacilities.entities,
-      ...page.otherFacilities.entities,
-    ]) {
-      if (facility.entityBundle === 'health_care_local_facility') {
-        const pagePath = facilityLocationPath(
-          drupalPagePath,
-          facility.fieldFacilityLocatorApiId,
-          facility.fieldNicknameForThisFacility,
-        );
-
-        const facilityCompiled = Object.assign(
-          facility,
-          relatedLinks,
-          sidebar,
-          alerts,
-        );
-
-        files[`${pagePath}/index.html`] = createFileObj(
-          facilityCompiled,
-          'health_care_local_facility_page.drupal.liquid',
-        );
-      }
-    }
-  }
-
-  // Create the detail page for health care static information
-  if (page.allHealthcareDetailPages !== undefined) {
-    for (const detailPage of page.allHealthcareDetailPages.entities) {
-      if (detailPage.entityBundle === 'health_care_region_detail_page') {
-        const pagePath = path.join(
-          '.',
-          detailPage.entityUrl.path,
-          'index.html',
-        );
-        const detailPageCompiled = Object.assign(detailPage, sidebar, alerts);
-        files[pagePath] = createFileObj(
-          detailPageCompiled,
-          'health_care_region_detail_page.drupal.liquid',
-        );
-      }
-    }
-  }
 
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);

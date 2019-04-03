@@ -156,7 +156,7 @@
     "newSecondaryDisabilities": [
       {
         "cause": "SECONDARY",
-        "causedByDisability": "Diabetes mellitus0",
+        "causedByDisability": "Diabetes Mellitus0",
         "causedByDisabilityDescription": "Again, this doesn't really make sense.",
         "condition": "phlebitis",
         "classificationCode": "5300"

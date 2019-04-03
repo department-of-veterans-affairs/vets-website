@@ -144,7 +144,7 @@ describe('Schemaform <SchemaForm>', () => {
 
     expect(instance.state.formContext.submitted).to.be.true;
 
-    instance.componentWillReceiveProps({
+    instance.UNSAFE_componentWillReceiveProps({
       name: 'testPage2',
       title: name,
       schema,
@@ -174,7 +174,7 @@ describe('Schemaform <SchemaForm>', () => {
 
     expect(instance.state.formContext.submitted).to.be.false;
 
-    instance.componentWillReceiveProps({
+    instance.UNSAFE_componentWillReceiveProps({
       name,
       formContext: { test: true },
       title: name,

@@ -59,6 +59,7 @@ import {
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPageGated from '../containers/IntroductionPageGated';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -156,7 +157,7 @@ const attachmentsSchema = {
   minItems: 1,
   items: {
     type: 'object',
-    required: ['attachmentId'],
+    required: ['attachmentId', 'name'],
     properties: {
       name: {
         type: 'string',
@@ -202,7 +203,9 @@ const formConfig = {
     message: DowntimeMessage,
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: environment.isProduction()
+    ? IntroductionPage
+    : IntroductionPageGated,
   additionalRoutes: !environment.isProduction() && [
     {
       path: 'id-form',
@@ -561,7 +564,7 @@ const formConfig = {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
           depends: formData =>
-            !formData['view:isUserInMVI'] && !environment.isProduction(),
+            !formData['view:isUserInMvi'] && !environment.isProduction(),
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:title': 'Upload your discharge papers',
