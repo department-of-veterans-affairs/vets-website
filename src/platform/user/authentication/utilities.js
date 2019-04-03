@@ -57,7 +57,8 @@ function redirectWithGAClientId(redirectUrl) {
     const clientId = tracker && tracker.get('clientId');
 
     window.location = clientId
-      ? appendQuery(redirectUrl, { clientId })
+      ? // eslint-disable-next-line camelcase
+        appendQuery(redirectUrl, { client_id: clientId })
       : redirectUrl;
   } catch (e) {
     window.location = redirectUrl;
