@@ -15,7 +15,8 @@ const findNextPage = state => {
   // https://www.va.gov/opa/pressrel/pressrelease.cfm?id=5183
   const feb19 = moment('2019-02-19');
 
-  if (date.isAfter(feb19, 'day')) {
+  // On or after feb19
+  if (!date.isBefore(feb19, 'day')) {
     return pageNames.decisionReview;
   }
   if (date.isAfter(moment().subtract(1, 'year'), 'day')) {
