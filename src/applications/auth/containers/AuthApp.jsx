@@ -16,6 +16,81 @@ import {
 import { apiRequest } from '../../../platform/utilities/api';
 import get from '../../../platform/utilities/data/get';
 
+class AuthSuccessHandler {
+  constructor(type, payload) {
+    this.type = type;
+    this.payload = payload;
+    this.userProfile = get('data.attributes.profile', payload, {});
+    this.loaCurrent = get('loa.loaCurrent', this.userProfile, null);
+    this.serviceName = get('signIn.serviceName', this.userProfile, null);
+  }
+
+  compareLoginPolicy = () => {
+    // This is experimental code related to GA that will let us determine
+    // if the backend is returning an accurate service_name
+
+    const attemptedLoginPolicy =
+      this.type === 'mhv' ? 'myhealthevet' : this.type;
+
+    if (this.serviceName !== attemptedLoginPolicy) {
+      recordEvent({
+        event: `login-mismatch-${attemptedLoginPolicy}-${this.serviceName}`,
+      });
+    }
+  };
+
+  recordGAAuthEvents = () => {
+    switch (this.type) {
+      case 'signup':
+        recordEvent({ event: `register-success-${this.serviceName}` });
+        break;
+      case 'mhv':
+      case 'dslogon':
+      case 'idme':
+        recordEvent({ event: `login-success-${this.serviceName}` });
+        this.compareLoginPolicy();
+        break;
+      case 'mfa':
+        recordEvent({ event: `multifactor-success-${this.serviceName}` });
+        break;
+      case 'verify':
+        recordEvent({ event: `verify-success-${this.serviceName}` });
+        break;
+      default:
+        Raven.captureMessage('Unrecognized auth event type', {
+          extra: { type: this.type },
+        });
+    }
+
+    // Report out the current level of assurance for the user.
+    if (this.loaCurrent) {
+      recordEvent({ event: `login-loa-current-${this.loaCurrent}` });
+    }
+  };
+
+  reportSentryErrors = () => {
+    if (!Object.keys(this.userProfile).length) {
+      Raven.captureMessage('Unexpected response for user object', {
+        extra: { payload: this.payload },
+      });
+    } else if (!this.serviceName) {
+      Raven.captureMessage('Missing serviceName in user object', {
+        extra: { payload: this.payload },
+      });
+    }
+  };
+
+  setupProfileSession = () => {
+    setupProfileSession(this.userProfile);
+  };
+
+  run = () => {
+    this.reportSentryErrors();
+    if (!hasSession()) this.recordGAAuthEvents();
+    this.setupProfileSession();
+  };
+}
+
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
@@ -25,69 +100,6 @@ export class AuthApp extends React.Component {
   componentDidMount() {
     if (!this.state.error || hasSession()) this.validateSession();
   }
-
-  compareLoginPolicy = loginPolicy => {
-    // This is experimental code related to GA that will let us determine
-    // if the backend is returning an accurate loginPolicy (service_name)
-
-    let attemptedLoginPolicy = this.props.location.query.type;
-
-    attemptedLoginPolicy =
-      attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
-
-    if (loginPolicy !== attemptedLoginPolicy) {
-      recordEvent({
-        event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
-      });
-    }
-  };
-
-  recordGAAuthEvents = userProfile => {
-    const { type } = this.props.location.query;
-    const loaCurrent = get('loa.loaCurrent', userProfile, null);
-    const loginPolicy = get('signIn.serviceName', userProfile, null);
-
-    switch (type) {
-      case 'signup':
-        recordEvent({ event: `register-success-${loginPolicy}` });
-        break;
-      case 'mhv':
-      case 'dslogon':
-      case 'idme':
-        recordEvent({ event: `login-success-${loginPolicy}` });
-        this.compareLoginPolicy(loginPolicy);
-        break;
-      case 'mfa':
-        recordEvent({ event: `multifactor-success-${loginPolicy}` });
-        break;
-      case 'verify':
-        recordEvent({ event: `verify-success-${loginPolicy}` });
-        break;
-      default:
-        Raven.captureMessage('Unrecognized auth event type', {
-          extra: { type },
-        });
-    }
-
-    // Report out the current level of assurance for the user.
-    if (loaCurrent) {
-      recordEvent({ event: `login-loa-current-${loaCurrent}` });
-    }
-  };
-
-  reportSentryErrors = (userProfile, payload) => {
-    const serviceName = get('signIn.serviceName', userProfile, null);
-
-    if (!Object.keys(userProfile).length) {
-      Raven.captureMessage('Unexpected response for user object', {
-        extra: { payload },
-      });
-    } else if (!serviceName) {
-      Raven.captureMessage('Missing serviceName in user object', {
-        extra: { payload },
-      });
-    }
-  };
 
   handleAuthError = error => {
     const loginType = this.props.location.query.type;
@@ -103,10 +115,9 @@ export class AuthApp extends React.Component {
   };
 
   handleAuthSuccess = payload => {
-    const userProfile = get('data.attributes.profile', payload, {});
-    this.reportSentryErrors(userProfile, payload);
-    if (!hasSession()) this.recordGAAuthEvents(userProfile);
-    setupProfileSession(userProfile);
+    const { type } = this.props.location.query;
+    const authSuccessHandler = new AuthSuccessHandler(type, payload);
+    authSuccessHandler.run();
     this.redirect();
   };
 
