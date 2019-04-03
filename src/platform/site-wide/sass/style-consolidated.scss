@@ -1,11 +1,7 @@
 //===================================
 // asset paths
 //===================================
-$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-$font-path: "~uswds/src/fonts";
-$image-path: "~uswds/src/img";
-$formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
-$formation-font-path: '~@department-of-veterans-affairs/formation/assets/fonts';
+@import "modules/m-overrides";
 
 //===================================
 // color values
