@@ -2,11 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import { EVSSClaimsGate } from '../../containers/EVSSClaimsGate';
+import { RequiredServicesGate } from '../../containers/RequiredServicesGate';
 
 import backendServices from '../../../../../platform/user/profile/constants/backendServices';
 
-describe('EVSSClaimsGate', () => {
+describe('RequiredServicesGate', () => {
   const disallowedUser = {
     login: { currentlyLoggedIn: true },
     profile: {
@@ -17,18 +17,18 @@ describe('EVSSClaimsGate', () => {
   const allowedUser = {
     login: { currentlyLoggedIn: true },
     profile: {
-      services: [backendServices.EVSS_CLAIMS],
+      services: [backendServices.FORM526],
     },
   };
 
   it('should not gate the form on the intro page', () => {
     const tree = mount(
-      <EVSSClaimsGate
+      <RequiredServicesGate
         user={disallowedUser}
         location={{ pathname: '/introduction' }}
       >
         <p>It worked!</p>
-      </EVSSClaimsGate>,
+      </RequiredServicesGate>,
     );
     expect(tree.text()).to.equal('It worked!');
     tree.unmount();
@@ -36,12 +36,12 @@ describe('EVSSClaimsGate', () => {
 
   it('should render a RequiredLoginView', () => {
     const tree = shallow(
-      <EVSSClaimsGate
+      <RequiredServicesGate
         user={allowedUser}
         location={{ pathname: '/middle-of-the-form' }}
       >
         <p>It worked!</p>
-      </EVSSClaimsGate>,
+      </RequiredServicesGate>,
     );
     expect(tree.find('RequiredLoginView').length).to.equal(1);
     tree.unmount();

@@ -14,7 +14,7 @@ import submitForm from '../submitForm';
 import { prefillTransformer } from '../prefill-transformer';
 import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import { urlMigration } from '../../config/migrations';
+import migrations from '../migrations';
 
 import {
   applicantInformation,
@@ -34,8 +34,8 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-0994-',
   formId: '22-0994',
-  version: 1,
-  migrations: [urlMigration('/0994')],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   verifyRequiredPrefill: true,

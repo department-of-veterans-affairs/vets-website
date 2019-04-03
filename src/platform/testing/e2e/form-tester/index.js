@@ -46,6 +46,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
  * @typedef {object} TestConfig
  * @property {function} setup - Function called before the browser navigates to the initial URL.
  *                              Useful for setting up api mocks.
+ * @property {function} setupPerTest - Function that's called before each test.
  * @property {string} url - The url where the form can be found.
  * @property {boolean} logIn - Whether to log in at LoA 3 or not.
  * @property {object.<function>} pageHooks - Functions used to bypass the automatic form filling
@@ -82,9 +83,13 @@ const testForm = (testDataSets, testConfig) => {
 
   beforeEach(async () => {
     browser = await puppeteer.launch({
-      devtools: testConfig.debug,
       // slowMo: testConfig.debug ? 100 : 0,
-      args: ['--window-size=1400,750'],
+      args: [
+        '--window-size=1400,750',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ],
+      devtools: testConfig.debug,
     });
   });
 
@@ -98,15 +103,14 @@ const testForm = (testDataSets, testConfig) => {
     test(
       fileName,
       async () => {
+        const testData = getTestData(contents, testConfig.testDataPathPrefix);
+        if (testConfig.setupPerTest) {
+          testConfig.setupPerTest({ userToken: token, testData });
+        }
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
         await fastForwardAnimations(page);
-        await runTest(
-          page,
-          getTestData(contents, testConfig.testDataPathPrefix),
-          testConfig,
-          token,
-        );
+        await runTest(page, testData, testConfig, token);
       },
       // TODO: Make the timeout based on the number of inputs by default
       testConfig.timeoutPerTest || 120000,
