@@ -22,6 +22,7 @@ class IntroductionPage extends React.Component {
           Related Compensation Benefits).
         </p>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={this.props.route.pageList}
