@@ -6,7 +6,7 @@ const alertContent = (
   <>
     <p>
       If you disagree with a VA decision that you received more than a year ago,
-      you’ll need to file a new disability claim.
+      you can file a Supplemental Claim.
     </p>
     <a
       href="/disability/file-disability-claim-form-21-526ez/introduction"
@@ -20,7 +20,7 @@ const alertContent = (
 const DisagreeFileClaimPage = () => (
   <AlertBox
     status="warning"
-    headline="You’ll need to file a new claim"
+    headline="You’ll need to file a Supplemental Claim"
     content={alertContent}
   />
 );
