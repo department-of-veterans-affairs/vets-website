@@ -40,12 +40,8 @@ export function groupPagesIntoChapters(routes, prefix = '') {
 
 export function isInProgress(pathName) {
   const trimmedPathname = pathName.replace(/\/$/, '');
-  return !(
-    trimmedPathname.endsWith('introduction') ||
-    trimmedPathname.endsWith('confirmation') ||
-    trimmedPathname.endsWith('form-saved') ||
-    trimmedPathname.endsWith('error')
-  );
+  const safePaths = ['introduction', 'confirmation', 'form-saved', 'error'];
+  return safePaths.every(path => !trimmedPathname.endsWith(path));
 }
 
 export function isActivePage(page, data) {
