@@ -38,9 +38,15 @@ export function groupPagesIntoChapters(routes, prefix = '') {
   }));
 }
 
-export function isInProgress(pathName) {
+export function isInProgress(pathName, additionalSafePaths = []) {
   const trimmedPathname = pathName.replace(/\/$/, '');
-  const safePaths = ['introduction', 'confirmation', 'form-saved', 'error'];
+  const safePaths = [
+    'introduction',
+    'confirmation',
+    'form-saved',
+    'error',
+    ...additionalSafePaths,
+  ];
   return safePaths.every(path => !trimmedPathname.endsWith(path));
 }
 

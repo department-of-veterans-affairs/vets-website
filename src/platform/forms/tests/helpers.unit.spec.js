@@ -6,14 +6,29 @@ import { isActivePage, isInProgress } from '../helpers';
 describe('Helpers unit tests', () => {
   describe('isInProgress', () => {
     describe('default behavior', () => {
-      it('returns false when passed a standard non-form-page path', () => {
+      it('returns false when passed a standard safe path', () => {
         expect(isInProgress('introduction')).to.be.false;
         expect(isInProgress('confirmation')).to.be.false;
         expect(isInProgress('form-saved')).to.be.false;
         expect(isInProgress('error')).to.be.false;
       });
-      it('returns true when passed a path that is not a non-form path', () => {
+      it('returns true when passed a path that is not a safe path', () => {
         expect(isInProgress('id-page')).to.be.true;
+      });
+    });
+    describe('when given additional safe paths', () => {
+      const additionalSafePaths = ['id-page'];
+      it('returns false when passed a standard safe path', () => {
+        expect(isInProgress('introduction', additionalSafePaths)).to.be.false;
+        expect(isInProgress('confirmation', additionalSafePaths)).to.be.false;
+        expect(isInProgress('form-saved', additionalSafePaths)).to.be.false;
+        expect(isInProgress('error', additionalSafePaths)).to.be.false;
+      });
+      it('returns false when passed a path that is one of the additional safe paths', () => {
+        expect(isInProgress('id-page', additionalSafePaths)).to.be.false;
+      });
+      it('returns true when passed a path that is not an additional safe path', () => {
+        expect(isInProgress('page-one', additionalSafePaths)).to.be.true;
       });
     });
   });
