@@ -5,6 +5,9 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { genderLabels } from 'platform/static-data/labels';
+import environment from 'platform/utilities/environment';
+
+import { ApplicantInformation } from '../components/ApplicantInformation';
 
 const {
   applicantFullName,
@@ -13,32 +16,50 @@ const {
   applicantGender,
 } = fullSchema.properties;
 
-export const uiSchema = {
-  'ui:description': ApplicantDescription,
-  applicantFullName: fullNameUI,
-  applicantSocialSecurityNumber: ssnUI,
-  dateOfBirth: {
-    ...currentOrPastDateUI('Date of birth'),
-    'ui:errorMessages': {
-      pattern: 'Please provide a valid date',
-      futureDate: 'Please provide a valid date',
-    },
-  },
-  applicantGender: {
-    'ui:widget': 'radio',
-    'ui:title': 'Gender',
-    'ui:options': {
-      labels: genderLabels,
-    },
-  },
+export const uiSchema = () => {
+  if (!environment.isProduction()) {
+    return {
+      'ui:description': ApplicantDescription,
+      applicantFullName: fullNameUI,
+      applicantSocialSecurityNumber: ssnUI,
+      dateOfBirth: {
+        ...currentOrPastDateUI('Date of birth'),
+        'ui:errorMessages': {
+          pattern: 'Please provide a valid date',
+          futureDate: 'Please provide a valid date',
+        },
+      },
+      applicantGender: {
+        'ui:widget': 'radio',
+        'ui:title': 'Gender',
+        'ui:options': {
+          labels: genderLabels,
+        },
+      },
+    };
+  }
+
+  return {
+    'ui:field': ApplicantInformation,
+  };
 };
 
-export const schema = {
-  type: 'object',
-  properties: {
-    applicantFullName,
-    applicantSocialSecurityNumber,
-    dateOfBirth,
-    applicantGender,
-  },
+export const schema = () => {
+  if (!environment.isProduction()) {
+    return {
+      type: 'object',
+      properties: {
+        applicantFullName,
+        applicantSocialSecurityNumber,
+        dateOfBirth,
+        applicantGender,
+      },
+    };
+  }
+  return {
+    'view:applicantInfo': {
+      type: 'object',
+      properties: {},
+    },
+  };
 };
