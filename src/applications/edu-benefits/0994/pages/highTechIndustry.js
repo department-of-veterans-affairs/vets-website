@@ -8,6 +8,72 @@ const {
   currentSalary,
 } = fullSchema.properties;
 
+function typeCount(types) {
+  let count = 0;
+  Object.values(types).forEach(value => {
+    if (value) {
+      count += 1;
+    }
+  });
+  return count;
+}
+
+function undefinedCount(types) {
+  let count = 0;
+  Object.values(types).forEach(value => {
+    if (typeof value === 'undefined' || value === null) {
+      count += 1;
+    }
+  });
+  return count;
+}
+
+function setUndefined(value) {
+  let fake;
+  if (!value) {
+    return fake;
+  }
+  return value;
+}
+
+function validateNoneApply(errors, fieldData, formData) {
+  const highTechnologyEmploymentTypes =
+    formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+  const count = typeCount(highTechnologyEmploymentTypes);
+  if (highTechnologyEmploymentTypes.noneApply && (count > 2 || count === 1)) {
+    highTechnologyEmploymentTypes.computerProgramming = false;
+    highTechnologyEmploymentTypes.computerSoftware = false;
+    highTechnologyEmploymentTypes.dataProcessing = false;
+    highTechnologyEmploymentTypes.informationSciences = false;
+    highTechnologyEmploymentTypes.mediaApplication = false;
+  } else if (highTechnologyEmploymentTypes.noneApply && count === 2) {
+    if (undefinedCount(highTechnologyEmploymentTypes) > 0) {
+      highTechnologyEmploymentTypes.computerProgramming = false;
+      highTechnologyEmploymentTypes.computerSoftware = false;
+      highTechnologyEmploymentTypes.dataProcessing = false;
+      highTechnologyEmploymentTypes.informationSciences = false;
+      highTechnologyEmploymentTypes.mediaApplication = false;
+    } else {
+      highTechnologyEmploymentTypes.noneApply = false;
+      highTechnologyEmploymentTypes.computerProgramming = setUndefined(
+        highTechnologyEmploymentTypes.computerProgramming,
+      );
+      highTechnologyEmploymentTypes.computerSoftware = setUndefined(
+        highTechnologyEmploymentTypes.computerSoftware,
+      );
+      highTechnologyEmploymentTypes.dataProcessing = setUndefined(
+        highTechnologyEmploymentTypes.dataProcessing,
+      );
+      highTechnologyEmploymentTypes.informationSciences = setUndefined(
+        highTechnologyEmploymentTypes.informationSciences,
+      );
+      highTechnologyEmploymentTypes.mediaApplication = setUndefined(
+        highTechnologyEmploymentTypes.mediaApplication,
+      );
+    }
+  }
+}
+
 export const uiSchema = {
   'ui:description': highTechIndustryDescription,
   currentHighTechnologyEmployment: {
@@ -57,21 +123,27 @@ export const uiSchema = {
         'Which area best describes your high-tech work experience? (Check all that apply.)',
       computerProgramming: {
         'ui:title': 'Computer programming',
+        'ui:validations': [validateNoneApply],
       },
       dataProcessing: {
         'ui:title': 'Data processing',
+        'ui:validations': [validateNoneApply],
       },
       computerSoftware: {
         'ui:title': 'Computer software',
+        'ui:validations': [validateNoneApply],
       },
       informationSciences: {
         'ui:title': 'Information sciences',
+        'ui:validations': [validateNoneApply],
       },
       mediaApplication: {
         'ui:title': 'Media application',
+        'ui:validations': [validateNoneApply],
       },
       noneApply: {
         'ui:title': 'None of these',
+        'ui:validations': [validateNoneApply],
       },
     },
   },
