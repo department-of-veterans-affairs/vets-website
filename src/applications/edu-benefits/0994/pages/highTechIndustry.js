@@ -29,11 +29,30 @@ function undefinedCount(types) {
 }
 
 function setUndefined(value) {
-  let fake;
   if (!value) {
-    return fake;
+    return null;
   }
   return value;
+}
+
+function clearValues(formData) {
+  const types =
+    formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+  types.computerProgramming = false;
+  types.computerSoftware = false;
+  types.dataProcessing = false;
+  types.informationSciences = false;
+  types.mediaApplication = false;
+}
+
+function setUndefinedValues(formData) {
+  const types =
+    formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+  types.computerProgramming = setUndefined(types.computerProgramming);
+  types.computerSoftware = setUndefined(types.computerSoftware);
+  types.dataProcessing = setUndefined(types.dataProcessing);
+  types.informationSciences = setUndefined(types.informationSciences);
+  types.mediaApplication = setUndefined(types.mediaApplication);
 }
 
 function validateNoneApply(errors, fieldData, formData) {
@@ -41,35 +60,13 @@ function validateNoneApply(errors, fieldData, formData) {
     formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
   const count = typeCount(highTechnologyEmploymentTypes);
   if (highTechnologyEmploymentTypes.noneApply && (count > 2 || count === 1)) {
-    highTechnologyEmploymentTypes.computerProgramming = false;
-    highTechnologyEmploymentTypes.computerSoftware = false;
-    highTechnologyEmploymentTypes.dataProcessing = false;
-    highTechnologyEmploymentTypes.informationSciences = false;
-    highTechnologyEmploymentTypes.mediaApplication = false;
+    clearValues(formData);
   } else if (highTechnologyEmploymentTypes.noneApply && count === 2) {
     if (undefinedCount(highTechnologyEmploymentTypes) > 0) {
-      highTechnologyEmploymentTypes.computerProgramming = false;
-      highTechnologyEmploymentTypes.computerSoftware = false;
-      highTechnologyEmploymentTypes.dataProcessing = false;
-      highTechnologyEmploymentTypes.informationSciences = false;
-      highTechnologyEmploymentTypes.mediaApplication = false;
+      clearValues(formData);
     } else {
       highTechnologyEmploymentTypes.noneApply = false;
-      highTechnologyEmploymentTypes.computerProgramming = setUndefined(
-        highTechnologyEmploymentTypes.computerProgramming,
-      );
-      highTechnologyEmploymentTypes.computerSoftware = setUndefined(
-        highTechnologyEmploymentTypes.computerSoftware,
-      );
-      highTechnologyEmploymentTypes.dataProcessing = setUndefined(
-        highTechnologyEmploymentTypes.dataProcessing,
-      );
-      highTechnologyEmploymentTypes.informationSciences = setUndefined(
-        highTechnologyEmploymentTypes.informationSciences,
-      );
-      highTechnologyEmploymentTypes.mediaApplication = setUndefined(
-        highTechnologyEmploymentTypes.mediaApplication,
-      );
+      setUndefinedValues(formData);
     }
   }
 }
