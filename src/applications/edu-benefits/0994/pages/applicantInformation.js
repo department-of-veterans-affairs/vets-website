@@ -47,6 +47,7 @@ export const uiSchema = () => {
 export const schema = () => {
   if (!environment.isProduction()) {
     return {
+      required: ['applicantSocialSecurityNumber', 'dateOfBirth'],
       type: 'object',
       properties: {
         applicantFullName,
