@@ -192,7 +192,7 @@ export const benefitChoices = [
     cta: {
       link: '/family-member-benefits/',
       text: 'View all related benefits',
-      gaTag: 'recommendations-family-view-benefits', // TODO: Vet this tag w/ Analytics Team.
+      gaTag: 'View all related benefits',
     },
     faqs: [
       {
