@@ -47,7 +47,11 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.applicantFullName;
-
+    const appliedForVaEducationBenefits = _.get(
+      form.data,
+      'appliedForVaEducationBenefits',
+      true,
+    );
     return (
       <div>
         <h3 className="confirmation-page-title">
@@ -61,7 +65,7 @@ class ConfirmationPage extends React.Component {
           <br />
           <i>Please print this page for your records.</i>
         </p>
-        {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
+        {!appliedForVaEducationBenefits && (
           <AlertBox
             isVisible
             status="warning"
@@ -107,7 +111,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
+        {!appliedForVaEducationBenefits && (
           <div>
             <p>
               <strong>{'Note: '}</strong>
