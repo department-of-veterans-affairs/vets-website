@@ -158,7 +158,42 @@ describe('<Main>', () => {
     );
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
     expect(props.toggleFormSignInModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledOnce).to.be.false;
     expect(props.toggleFormSignInModal.calledWith(true)).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should not show the modal to confirm leaving an in-progress form if the user is on the standard form introduction page', () => {
+    const oldLocation = global.window.location;
+    global.window.location.pathname =
+      '/health-care/apply/application/introduction';
+    const wrapper = shallow(
+      <Main {...props} formAutoSavedStatus="not-attempted" />,
+    );
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.toggleFormSignInModal.calledOnce).to.be.false;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+    global.window.location = oldLocation;
+    wrapper.unmount();
+  });
+
+  it('should not show the modal to confirm leaving an in-progress form if the user is on a non-form page as defined in the form config', () => {
+    const oldLocation = global.window.location;
+    global.window.location.pathname = '/health-care/apply/application/id-page';
+    const additionalRoutes = [{ path: 'id-page' }];
+    const wrapper = shallow(
+      <Main
+        {...props}
+        formAutoSavedStatus="not-attempted"
+        additionalRoutes={additionalRoutes}
+      />,
+    );
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.toggleFormSignInModal.calledOnce).to.be.false;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+    global.window.location = oldLocation;
     wrapper.unmount();
   });
 

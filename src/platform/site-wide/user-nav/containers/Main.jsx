@@ -129,12 +129,13 @@ export class Main extends React.Component {
   };
 
   signInSignUp = () => {
-    const { formAutoSavedStatus } = this.props;
+    const { formAutoSavedStatus, additionalRoutes = [] } = this.props;
+    const additionalSafePaths = additionalRoutes.map(route => route.path);
 
     const shouldConfirmLeavingForm =
       typeof formAutoSavedStatus !== 'undefined' &&
       formAutoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgress(window.location.pathname);
+      isInProgress(window.location.pathname, additionalSafePaths);
 
     if (shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
@@ -175,6 +176,7 @@ const mapStateToProps = state => ({
   isProfileLoading: isProfileLoading(state),
   isLOA3: isLOA3(state),
   userGreeting: selectUserGreeting(state),
+  additionalRoutes: state.form && state.form.additionalRoutes,
   ...state.navigation,
 });
 
