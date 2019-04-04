@@ -63,16 +63,17 @@ class ConfirmationPage extends React.Component {
         </p>
         {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
           <AlertBox
-              isVisible
-              status="warning"
-              headline="Don’t forget to apply for VA education benefits"
-              content={
-                  <span>
-                  Now that you've submitted your application for VET TEC, you’ll need to
-                  complete an Application for VA Education Benefits (VA Form 22-1990).
-                  Click the button on the bottom of this page to go to that application.
-                </span>
-              }
+            isVisible
+            status="warning"
+            headline="Don’t forget to apply for VA education benefits"
+            content={
+              <span>
+                Now that you've submitted your application for VET TEC, you’ll
+                need to complete an Application for VA Education Benefits (VA
+                Form 22-1990). Click the button on the bottom of this page to go
+                to that application.
+              </span>
+            }
           />
         )}
         <div className="inset">
