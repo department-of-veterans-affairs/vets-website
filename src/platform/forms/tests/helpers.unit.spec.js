@@ -1,9 +1,23 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { isActivePage } from '../helpers';
+import { isActivePage, isInProgress } from '../helpers';
 
 describe('Helpers unit tests', () => {
+  describe('isInProgress', () => {
+    describe('default behavior', () => {
+      it('returns false when passed a standard non-form-page path', () => {
+        expect(isInProgress('introduction')).to.be.false;
+        expect(isInProgress('confirmation')).to.be.false;
+        expect(isInProgress('form-saved')).to.be.false;
+        expect(isInProgress('error')).to.be.false;
+      });
+      it('returns true when passed a path that is not a non-form path', () => {
+        expect(isInProgress('id-page')).to.be.true;
+      });
+    });
+  });
+
   describe('isActivePage', () => {
     it('matches against data', () => {
       const page = {
