@@ -17,7 +17,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { isInProgress } from '../helpers';
 import { getSaveInProgressState } from './selectors';
-import environment from '../../utilities/environment';
+import environment from 'platform/utilities/environment';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -147,13 +147,15 @@ class RoutedSavableApp extends React.Component {
   }
 
   onbeforeunload = e => {
-    const { currentLocation, autoSavedStatus } = this.props;
+    const { currentLocation, autoSavedStatus, formConfig } = this.props;
+    const { additionalRoutes = [] } = formConfig;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const additionalSafePaths = additionalRoutes.map(route => route.path);
 
     let message;
     if (
       autoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgress(trimmedPathname)
+      isInProgress(trimmedPathname, additionalSafePaths)
     ) {
       message =
         'Are you sure you wish to leave this application? All progress will be lost.';
@@ -172,7 +174,8 @@ class RoutedSavableApp extends React.Component {
   }
 
   redirectOrLoad(props) {
-    // Stop a user that's been redirected to be redirected again after logging in
+    // Stop a user that's been redirected from being redirected again after
+    // logging in
     this.shouldRedirectOrLoad = false;
 
     const firstPagePath =
