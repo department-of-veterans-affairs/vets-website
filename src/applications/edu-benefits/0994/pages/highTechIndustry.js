@@ -35,9 +35,12 @@ function setUndefined(value) {
   return value;
 }
 
+function getHighTechnologyEmploymentTypes(formData) {
+  return formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+}
+
 function clearValues(formData) {
-  const types =
-    formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+  const types = getHighTechnologyEmploymentTypes(formData);
   types.computerProgramming = false;
   types.computerSoftware = false;
   types.dataProcessing = false;
@@ -46,8 +49,7 @@ function clearValues(formData) {
 }
 
 function setUndefinedValues(formData) {
-  const types =
-    formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+  const types = getHighTechnologyEmploymentTypes(formData);
   types.computerProgramming = setUndefined(types.computerProgramming);
   types.computerSoftware = setUndefined(types.computerSoftware);
   types.dataProcessing = setUndefined(types.dataProcessing);
@@ -56,8 +58,9 @@ function setUndefinedValues(formData) {
 }
 
 function validateNoneApply(errors, fieldData, formData) {
-  const highTechnologyEmploymentTypes =
-    formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
+  const highTechnologyEmploymentTypes = getHighTechnologyEmploymentTypes(
+    formData,
+  );
   const count = typeCount(highTechnologyEmploymentTypes);
   if (highTechnologyEmploymentTypes.noneApply && (count > 2 || count === 1)) {
     clearValues(formData);
