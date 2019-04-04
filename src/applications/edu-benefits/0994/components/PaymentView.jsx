@@ -12,10 +12,10 @@ export const accountTitleLabels = {
 
 const directDepositAlert = (
   <p>
-    Thank you for providing your direct deposit information.
-    <strong>This new account won’t be updated right away.</strong>
-    We'll deposit your housing stipend into this account if your VET TEC
-    application is approved.
+    Thank you for providing your direct deposit information.{' '}
+    <strong>This new account won’t be updated right away.</strong> We'll deposit
+    your housing stipend into this account if your VET TEC application is
+    approved.
   </p>
 );
 
