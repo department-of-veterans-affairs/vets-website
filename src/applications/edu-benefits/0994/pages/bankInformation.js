@@ -1,27 +1,46 @@
+import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import bankAccountUI from '../../../../platform/forms/definitions/bankAccount';
 import ReviewCardField from '../../components/ReviewCardField';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
+import { hasNewBankInformation } from '../utils';
 
 import {
-  bankInfoDescription,
+  bankInfoDescriptionWithPrefill,
+  bankInfoDescriptionWithoutPrefill,
   bankInfoNote,
   bankInfoHelpText,
 } from '../content/bankInformation';
 
 const { bankAccount } = fullSchema.properties;
+const hasNewBankInfo = formData => {
+  const viewBankAccount = _.get(formData, 'view:bankAccount', {});
+  return hasNewBankInformation(viewBankAccount.bankAccount);
+};
 
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
-  'ui:description': bankInfoDescription,
+  'view:descriptionWithPrefill': {
+    'ui:description': bankInfoDescriptionWithPrefill,
+    'ui:options': {
+      hideIf: hasNewBankInfo,
+    },
+  },
+  'view:descriptionWithoutPrefill': {
+    'ui:description': bankInfoDescriptionWithoutPrefill,
+    'ui:options': {
+      hideIf: formData => !hasNewBankInfo(formData),
+    },
+  },
   'view:bankAccount': {
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PaymentView,
       reviewTitle: 'Payment information',
-      editTitle: 'Add new bank account',
+      editTitle: 'Update bank account',
       itemName: 'account',
+      itemNameAction: 'Update',
       startInEdit: data => !data['view:hasBankInformation'],
       volatileData: true,
     },
@@ -53,6 +72,14 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:descriptionWithPrefill': {
+      type: 'object',
+      properties: {},
+    },
+    'view:descriptionWithoutPrefill': {
+      type: 'object',
+      properties: {},
+    },
     'view:bankAccount': {
       type: 'object',
       properties: {

@@ -35,5 +35,9 @@ export const maskBankInformation = (string, unmaskedLength) => {
 
 export const hasNewBankInformation = (bankAccount = {}) => {
   const { accountType, accountNumber, routingNumber } = bankAccount;
-  return accountType || accountNumber || routingNumber;
+  return (
+    typeof accountType !== 'undefined' ||
+    typeof accountNumber !== 'undefined' ||
+    typeof routingNumber !== 'undefined'
+  );
 };

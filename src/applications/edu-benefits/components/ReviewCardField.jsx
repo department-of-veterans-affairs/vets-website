@@ -228,6 +228,7 @@ export default class ReviewCardField extends React.Component {
       volatileData,
       reviewTitle,
       itemName,
+      itemNameAction,
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
@@ -252,9 +253,9 @@ export default class ReviewCardField extends React.Component {
           <button
             className="usa-button-primary edit-button"
             onClick={this.startEditing}
-            aria-label={`New ${itemName || title}`}
+            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
-            New {itemName || title}
+            {itemNameAction || 'New'} {itemName || title}
           </button>
         )}
       </div>

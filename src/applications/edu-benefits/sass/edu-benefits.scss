@@ -57,6 +57,15 @@
   }
 }
 
+.green-bar-block {
+  border-left: 7px solid #fdb81d;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
 .search-select-school-fieldset {
   .no-results-box {
     background-color: $color-gray-lightest;
@@ -121,15 +130,6 @@
         padding: 10px 15px;
       }
     }
-  }
-}
-
-.blue-bar-block {
-  border-left: 7px solid $color-primary;
-  padding-left: 1em;
-
-  p {
-    margin: 0.5em 0;
   }
 }
 
