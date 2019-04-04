@@ -91,7 +91,7 @@ export function getEnrollmentStatus(formData = { firstName: '' }) {
       if (formData.firstName.toLowerCase() === 'pat') {
         callFake404(dispatch);
       } else {
-        callFakeSuccess(dispatch, 'canceled_declined');
+        callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.canceledDeclined);
       }
     } else {
       callAPI(dispatch, formData);
