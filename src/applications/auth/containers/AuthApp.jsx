@@ -16,7 +16,7 @@ import {
 import { apiRequest } from '../../../platform/utilities/api';
 import get from '../../../platform/utilities/data/get';
 
-class AuthSuccessHandler {
+class AuthMetrics {
   constructor(type, payload) {
     this.type = type;
     this.payload = payload;
@@ -80,14 +80,9 @@ class AuthSuccessHandler {
     }
   };
 
-  setupProfileSession = () => {
-    setupProfileSession(this.userProfile);
-  };
-
   run = () => {
     this.reportSentryErrors();
     if (!hasSession()) this.recordGAAuthEvents();
-    this.setupProfileSession();
   };
 }
 
@@ -116,8 +111,9 @@ export class AuthApp extends React.Component {
 
   handleAuthSuccess = payload => {
     const { type } = this.props.location.query;
-    const authSuccessHandler = new AuthSuccessHandler(type, payload);
-    authSuccessHandler.run();
+    const authMetrics = new AuthMetrics(type, payload);
+    authMetrics.run();
+    setupProfileSession(authMetrics.userProfile);
     this.redirect();
   };
 
