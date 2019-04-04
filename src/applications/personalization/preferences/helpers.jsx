@@ -190,6 +190,11 @@ export const benefitChoices = [
     gaTag: 'Family',
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
+    cta: {
+      link: '/family-member-benefits/',
+      text: 'View all related benefits',
+      gaTag: 'recommendations-family-view-benefits', // TODO: Vet this tag w/ Analytics Team.
+    },
     faqs: [
       {
         title: 'What kinds of family and caregiver benefits does VA offer?',
