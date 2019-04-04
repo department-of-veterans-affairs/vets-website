@@ -50,13 +50,16 @@ class AuthMetrics {
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
+      /*
       case 'mfa':
         recordEvent({ event: `multifactor-success-${this.serviceName}` });
         break;
       case 'verify':
         recordEvent({ event: `verify-success-${this.serviceName}` });
         break;
+      */
       default:
+        recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Raven.captureMessage('Unrecognized auth event type', {
           extra: { type: this.type },
         });
