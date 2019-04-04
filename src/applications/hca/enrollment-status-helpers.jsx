@@ -197,8 +197,8 @@ export function getWarningExplanation(enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge:
       content = (
         <p>
-          Our records show that don’t have a high enough Character of Discharge
-          to qualify for VA health care.
+          Our records show that you don’t have a high enough Character of
+          Discharge to qualify for VA health care.
         </p>
       );
       break;
@@ -207,7 +207,7 @@ export function getWarningExplanation(enrollmentStatus) {
       content = (
         <p>
           We determined that you’re not eligible for VA health care because we
-          didn't have proof of your military service (like your DD214 or other
+          didn’t have proof of your military service (like your DD214 or other
           separation papers).
         </p>
       );
@@ -265,7 +265,7 @@ export function getWarningExplanation(enrollmentStatus) {
       content = (
         <p>
           You can’t qualify for VA health care until you’ve received your
-          separation or retirement orders We welcome you to apply again once
+          separation or retirement orders. We welcome you to apply again once
           you’ve received your orders.{' '}
           <a href="/HEALTHBENEFITS/apply/active_duty.asp">
             Learn more about transitioning to VA health care
@@ -323,7 +323,7 @@ export function getWarningExplanation(enrollmentStatus) {
       content = (
         <>
           <p>
-            You included on your application that you've received a Purple Heart
+            You included on your application that you’ve received a Purple Heart
             medal. We need an official document showing that you received this
             award so we can confirm your eligibility for VA health care.
           </p>
@@ -492,7 +492,7 @@ export function getFAQBlock1(enrollmentStatus) {
             military service?
           </h4>
           <p>
-            If we need more information, we'll send you a letter in the mail. If
+            If we need more information, we’ll send you a letter in the mail. If
             you have any questions, please call our enrollment case management
             team at 1-877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
@@ -551,7 +551,7 @@ export function getFAQBlock3(enrollmentStatus) {
       <h4>Can I still get mental health care?</h4>
       <p>
         You may still be able to access certain mental health care services even
-        if you're not enrolled in VA health care.
+        if you’re not enrolled in VA health care.
       </p>
       <p>
         <a href="/health-care/health-needs-conditions/mental-health/">
@@ -594,7 +594,7 @@ export function getFAQBlock4(enrollmentStatus) {
           <h4>Will applying again update my information?</h4>
           <p>
             <strong>
-              No. A new application won't update your information.
+              No. A new application won’t update your information.
             </strong>{' '}
             If you have questions about the information we have on record for
             you, please call your nearest VA medical center.
@@ -629,7 +629,7 @@ export function getFAQBlock4(enrollmentStatus) {
               A new application most likely won’t change our decision on your
               eligibility.
             </strong>{' '}
-            If you'd like to talk about your options, please call our enrollment
+            If you’d like to talk about your options, please call our enrollment
             case management team at 1-877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               1-877-222-8387
@@ -652,12 +652,12 @@ export function getFAQBlock4(enrollmentStatus) {
           <h4>Could applying again change VA’s decision?</h4>
           <p>
             <strong>
-              Only if you've had a change in your life since you last applied
+              Only if you’ve had a change in your life since you last applied
               that may make you eligible for VA health care now—like receiving a
               VA rating for a service-connected disability or experiencing a
               decrease in your income.
             </strong>{' '}
-            If you'd like to talk about your options, please call our enrollment
+            If you’d like to talk about your options, please call our enrollment
             case management team at 1-877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               1-877-222-8387
@@ -677,8 +677,8 @@ export function getFAQBlock4(enrollmentStatus) {
         <>
           <h4>Can I apply again?</h4>
           <p>
-            Yes, but we recommend waiting until you've received your separation
-            or retirement orders. If you'd like to talk about your options,
+            Yes, but we recommend waiting until you’ve received your separation
+            or retirement orders. If you’d like to talk about your options,
             please call our enrollment case management team at 1-877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               1-877-222-8387
@@ -715,8 +715,8 @@ export function getFAQBlock4(enrollmentStatus) {
           </h4>
           <p>
             <strong>
-              No. We're in the process of reviewing your current application,
-              and submitting a new application won't affect our decision.
+              No. We’re in the process of reviewing your current application,
+              and submitting a new application won’t affect our decision.
             </strong>{' '}
             To get help providing the information we need to complete our
             review, please call our enrollment case management team at
@@ -727,8 +727,8 @@ export function getFAQBlock4(enrollmentStatus) {
             ).
           </p>
           <p>
-            We only recommend applying again if you've already worked with our
-            enrollment case management team, and they've advised you to reapply.
+            We only recommend applying again if you’ve already worked with our
+            enrollment case management team, and they’ve advised you to reapply.
           </p>
         </>
       );
@@ -741,10 +741,10 @@ export function getFAQBlock4(enrollmentStatus) {
           <h4>Should I apply again?</h4>
           <p>
             <strong>
-              No. We're in the process of reviewing your current application,
-              and submitting a new application won't affect our decision.
+              No. We’re in the process of reviewing your current application,
+              and submitting a new application won’t affect our decision.
             </strong>{' '}
-            If you'd like to talk about your current application, please call
+            If you’d like to talk about your current application, please call
             our enrollment case management team at 1-877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               1-877-222-8387
@@ -752,8 +752,8 @@ export function getFAQBlock4(enrollmentStatus) {
             ).
           </p>
           <p>
-            We only recommend applying again if you've already worked with our
-            enrollment case management team, and they've advised you to reapply.
+            We only recommend applying again if you’ve already worked with our
+            enrollment case management team, and they’ve advised you to reapply.
           </p>
         </>
       );
