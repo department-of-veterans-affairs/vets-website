@@ -3,9 +3,7 @@
  * style.scss. If you make a change to this file, please
  * verify that you do or do not need to make the same change in the other file
  */
- $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
- $font-path: "~uswds/src/fonts";
- $image-path: "~uswds/src/img";
+@import "modules/m-overrides";
 @import "~@department-of-veterans-affairs/formation/sass/core.scss";
 
 @import "modules/m-footer-brand-consolidation";
