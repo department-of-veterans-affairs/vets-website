@@ -343,6 +343,13 @@ const fillForm = async (page, testData, testConfig, log) => {
       try {
         await page.waitForNavigation({ timeout: 1000 });
       } catch (e) {
+        const messages = await page.$$eval('.usa-input-error-message', errors =>
+          errors.map(error => [error.getAttribute('id'), error.innerText]),
+        );
+        messages.forEach(([id, message]) => {
+          // eslint-disable-next-line no-console
+          console.error(`${id}: ${message}`);
+        });
         throw new Error(`Expected to navigate away from ${url}`);
       }
     }
