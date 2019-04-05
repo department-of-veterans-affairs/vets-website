@@ -15,7 +15,7 @@ import {
 } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { isInProgress } from '../helpers';
+import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
 
@@ -59,7 +59,7 @@ class RoutedSavableApp extends React.Component {
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
-    if (isInProgress(currentLocation.pathname) && goToStartPage) {
+    if (isInProgressPath(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;
@@ -155,7 +155,7 @@ class RoutedSavableApp extends React.Component {
     let message;
     if (
       autoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgress(trimmedPathname, additionalSafePaths)
+      isInProgressPath(trimmedPathname, additionalSafePaths)
     ) {
       message =
         'Are you sure you wish to leave this application? All progress will be lost.';

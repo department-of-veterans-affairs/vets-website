@@ -38,16 +38,26 @@ export function groupPagesIntoChapters(routes, prefix = '') {
   }));
 }
 
-export function isInProgress(pathName, additionalSafePaths = []) {
+/**
+ * Checks if the passed-in path is part of the application form or not. This
+ * function is useful for checking if a logged-out user has started filling out
+ * a form so we can warn them if they are about to leave and lose their work.
+ *
+ * @param {string} pathName - the path to check
+ * @param {string[]} [additionalNonFormPaths=[]] - optional array of additional
+ * paths that are not part of the form
+ * @returns {boolean} - true if the path is a form page, false if it's not
+ */
+export function isInProgressPath(pathName, additionalNonFormPaths = []) {
   const trimmedPathname = pathName.replace(/\/$/, '');
-  const safePaths = [
+  const nonFormPaths = [
     'introduction',
     'confirmation',
     'form-saved',
     'error',
-    ...additionalSafePaths,
+    ...additionalNonFormPaths,
   ];
-  return safePaths.every(path => !trimmedPathname.endsWith(path));
+  return nonFormPaths.every(path => !trimmedPathname.endsWith(path));
 }
 
 export function isActivePage(page, data) {

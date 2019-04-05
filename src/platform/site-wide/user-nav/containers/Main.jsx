@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import { isInProgress } from '../../../forms/helpers';
+import { isInProgressPath } from '../../../forms/helpers';
 import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
 import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
@@ -135,7 +135,7 @@ export class Main extends React.Component {
     const shouldConfirmLeavingForm =
       typeof formAutoSavedStatus !== 'undefined' &&
       formAutoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgress(window.location.pathname, additionalSafePaths);
+      isInProgressPath(window.location.pathname, additionalSafePaths);
 
     if (shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
