@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+const ENVIRONMENTS = require('../../../constants/environments');
+
 const ignoredPages = new Set(['drupal/test/index.html']);
 
 function checkForCMSUrls(BUILD_OPTIONS) {
@@ -24,7 +26,7 @@ function checkForCMSUrls(BUILD_OPTIONS) {
       );
       console.log(filesWithBadUrls.join('\n'));
 
-      if (!BUILD_OPTIONS.watch) {
+      if (BUILD_OPTIONS.buildtype === ENVIRONMENTS.VAGOVPROD) {
         throw new Error('Pages found that reference internal CMS urls');
       }
     }
