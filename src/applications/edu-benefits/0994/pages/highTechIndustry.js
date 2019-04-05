@@ -8,7 +8,16 @@ const {
   currentSalary,
 } = fullSchema.properties;
 
-function typeCount(types) {
+const HIGH_TECH_EMPLOYMENT_TYPES = {
+  COMPUTER_PROGRAMMING: 'computerProgramming',
+  COMPUTER_SOFTWARE: 'computerSoftware',
+  DATA_PROCESSING: 'dataProcessing',
+  INFORMATION_SCIENCES: 'informationSciences',
+  MEDIA_APPLICATION: 'mediaApplication',
+  NONE_APPLY: 'noneApply',
+};
+
+const typeCount = types => {
   let count = 0;
   Object.values(types).forEach(value => {
     if (value) {
@@ -16,9 +25,9 @@ function typeCount(types) {
     }
   });
   return count;
-}
+};
 
-function undefinedCount(types) {
+const undefinedCount = types => {
   let count = 0;
   Object.values(types).forEach(value => {
     if (typeof value === 'undefined' || value === null) {
@@ -26,53 +35,46 @@ function undefinedCount(types) {
     }
   });
   return count;
-}
+};
 
-function setUndefined(value) {
+const setUndefined = value => {
   if (!value) {
     return null;
   }
   return value;
-}
+};
 
-function getHighTechnologyEmploymentTypes(formData) {
-  return formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
-}
+const getHighTechnologyEmploymentTypes = formData =>
+  formData['view:salaryEmploymentTypes'].highTechnologyEmploymentType;
 
-function clearValues(formData) {
+const clearValues = formData => {
   const types = getHighTechnologyEmploymentTypes(formData);
-  types.computerProgramming = false;
-  types.computerSoftware = false;
-  types.dataProcessing = false;
-  types.informationSciences = false;
-  types.mediaApplication = false;
-}
+  for (const type of Object.entries(types).filter(e => e[0] !== 'noneApply')) {
+    types[type[0]] = false;
+  }
+};
 
-function setUndefinedValues(formData) {
+const setUndefinedValues = formData => {
   const types = getHighTechnologyEmploymentTypes(formData);
-  types.computerProgramming = setUndefined(types.computerProgramming);
-  types.computerSoftware = setUndefined(types.computerSoftware);
-  types.dataProcessing = setUndefined(types.dataProcessing);
-  types.informationSciences = setUndefined(types.informationSciences);
-  types.mediaApplication = setUndefined(types.mediaApplication);
-}
+  for (const type of Object.entries(types).filter(e => e[0] !== 'noneApply')) {
+    types[type[0]] = setUndefined(types[type[0]]);
+  }
+};
 
-function validateNoneApply(errors, fieldData, formData) {
-  const highTechnologyEmploymentTypes = getHighTechnologyEmploymentTypes(
-    formData,
-  );
-  const count = typeCount(highTechnologyEmploymentTypes);
-  if (highTechnologyEmploymentTypes.noneApply && (count > 2 || count === 1)) {
+const validateNoneApply = (errors, fieldData, formData) => {
+  const types = getHighTechnologyEmploymentTypes(formData);
+  const count = typeCount(types);
+  if (types.noneApply && (count > 2 || count === 1)) {
     clearValues(formData);
-  } else if (highTechnologyEmploymentTypes.noneApply && count === 2) {
-    if (undefinedCount(highTechnologyEmploymentTypes) > 0) {
+  } else if (types.noneApply && count === 2) {
+    if (undefinedCount(types) > 0) {
       clearValues(formData);
     } else {
-      highTechnologyEmploymentTypes.noneApply = false;
+      types.noneApply = false;
       setUndefinedValues(formData);
     }
   }
-}
+};
 
 export const uiSchema = {
   'ui:description': highTechIndustryDescription,
@@ -121,27 +123,27 @@ export const uiSchema = {
       'ui:title': ' ',
       'ui:description':
         'Which area best describes your high-tech work experience? (Check all that apply.)',
-      computerProgramming: {
+      [HIGH_TECH_EMPLOYMENT_TYPES.COMPUTER_PROGRAMMING]: {
         'ui:title': 'Computer programming',
         'ui:validations': [validateNoneApply],
       },
-      dataProcessing: {
+      [HIGH_TECH_EMPLOYMENT_TYPES.DATA_PROCESSING]: {
         'ui:title': 'Data processing',
         'ui:validations': [validateNoneApply],
       },
-      computerSoftware: {
+      [HIGH_TECH_EMPLOYMENT_TYPES.COMPUTER_SOFTWARE]: {
         'ui:title': 'Computer software',
         'ui:validations': [validateNoneApply],
       },
-      informationSciences: {
+      [HIGH_TECH_EMPLOYMENT_TYPES.INFORMATION_SCIENCES]: {
         'ui:title': 'Information sciences',
         'ui:validations': [validateNoneApply],
       },
-      mediaApplication: {
+      [HIGH_TECH_EMPLOYMENT_TYPES.MEDIA_APPLICATION]: {
         'ui:title': 'Media application',
         'ui:validations': [validateNoneApply],
       },
-      noneApply: {
+      [HIGH_TECH_EMPLOYMENT_TYPES.NONE_APPLY]: {
         'ui:title': 'None of these',
         'ui:validations': [validateNoneApply],
       },
@@ -162,12 +164,16 @@ export const schema = {
         highTechnologyEmploymentType: {
           type: 'object',
           properties: {
-            computerProgramming: { type: 'boolean' },
-            dataProcessing: { type: 'boolean' },
-            computerSoftware: { type: 'boolean' },
-            informationSciences: { type: 'boolean' },
-            mediaApplication: { type: 'boolean' },
-            noneApply: { type: 'boolean' },
+            [HIGH_TECH_EMPLOYMENT_TYPES.COMPUTER_PROGRAMMING]: {
+              type: 'boolean',
+            },
+            [HIGH_TECH_EMPLOYMENT_TYPES.DATA_PROCESSING]: { type: 'boolean' },
+            [HIGH_TECH_EMPLOYMENT_TYPES.COMPUTER_SOFTWARE]: { type: 'boolean' },
+            [HIGH_TECH_EMPLOYMENT_TYPES.INFORMATION_SCIENCES]: {
+              type: 'boolean',
+            },
+            [HIGH_TECH_EMPLOYMENT_TYPES.MEDIA_APPLICATION]: { type: 'boolean' },
+            [HIGH_TECH_EMPLOYMENT_TYPES.NONE_APPLY]: { type: 'boolean' },
           },
         },
       },
