@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
-export function EVSSClaimsGate({ user, location, children }) {
+export function RequiredServicesGate({ user, location, children }) {
   // Short-circuit the check on the intro page
   if (location.pathname === '/introduction') {
     return children;
@@ -14,7 +14,7 @@ export function EVSSClaimsGate({ user, location, children }) {
 
   if (
     user.login.currentlyLoggedIn &&
-    !user.profile.services.includes(backendServices.EVSS_CLAIMS)
+    !user.profile.services.includes(backendServices.FORM526)
   ) {
     return (
       <div className="usa-grid full-page-alert">
@@ -30,7 +30,7 @@ export function EVSSClaimsGate({ user, location, children }) {
 
   return (
     <RequiredLoginView
-      serviceRequired={backendServices.EVSS_CLAIMS}
+      serviceRequired={backendServices.FORM526}
       user={user}
       verify
     >
@@ -43,4 +43,4 @@ const mapStateToProps = store => ({
   user: store.user,
 });
 
-export default connect(mapStateToProps)(EVSSClaimsGate);
+export default connect(mapStateToProps)(RequiredServicesGate);

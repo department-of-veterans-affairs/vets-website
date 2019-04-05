@@ -36,6 +36,7 @@
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "./script/run-coverage.sh",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",
+    "test:puppeteer:docker": "IN_DOCKER=true jest -c=config/jest-puppeteer.config.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
@@ -196,7 +197,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^5.4.2",
+    "@department-of-veterans-affairs/formation": "^6.1.0",
     "@department-of-veterans-affairs/formation-react": "^4.3.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
@@ -253,9 +254,9 @@
     "reselect": "^2.5.4",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
-    "uswds": "1.4.2",
+    "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a3c1dabd13a840ff970d3a673415caf7fc3dfbbf",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d674ca3c39e2181bea5fa642c73a9a8b17be7533",
     "whatwg-fetch": "^2.0.3"
   }
 }
