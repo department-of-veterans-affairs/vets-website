@@ -57,11 +57,15 @@ export default class PreferenceItem extends React.Component {
     super(props);
 
     this.removeBtnRef = React.createRef();
+    this.alertHeaderRef = React.createRef();
     this.removeCancelled = false;
   }
 
   componentDidUpdate() {
-    if (!this.props.isRemoving && this.removeCancelled) {
+    // Set focus for keyboard-users upon content-swap.
+    if (this.props.isRemoving) {
+      this.alertHeaderRef.current.focus();
+    } else if (this.removeCancelled) {
       this.removeBtnRef.current.focus();
       this.removeCancelled = false;
     }
@@ -78,7 +82,7 @@ export default class PreferenceItem extends React.Component {
     if (this.props.isRemoving) {
       return (
         <div>
-          <h3 className="benefit-title" tabIndex="-1">
+          <h3 ref={this.alertHeaderRef} className="benefit-title" tabIndex="-1">
             {title}
           </h3>
           <AlertBox status="warning" headline="Please confirm this change">
@@ -107,7 +111,7 @@ export default class PreferenceItem extends React.Component {
     }
     return (
       <div>
-        <div className="title-container preference-item-title" data-code={code}>
+        <div className="title-container preference-item-title">
           <h3>{title}</h3>
           <button
             ref={this.removeBtnRef}
