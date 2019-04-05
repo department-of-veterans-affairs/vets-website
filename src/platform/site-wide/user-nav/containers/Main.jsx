@@ -129,15 +129,7 @@ export class Main extends React.Component {
   };
 
   signInSignUp = () => {
-    const { formAutoSavedStatus, additionalRoutes = [] } = this.props;
-    const additionalSafePaths = additionalRoutes.map(route => route.path);
-
-    const shouldConfirmLeavingForm =
-      typeof formAutoSavedStatus !== 'undefined' &&
-      formAutoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgressPath(window.location.pathname, additionalSafePaths);
-
-    if (shouldConfirmLeavingForm) {
+    if (this.props.shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
     } else {
       this.props.toggleLoginModal(true, 'header');
@@ -170,15 +162,23 @@ export class Main extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentlyLoggedIn: isLoggedIn(state),
-  formAutoSavedStatus: state.form && state.form.autoSavedStatus,
-  isProfileLoading: isProfileLoading(state),
-  isLOA3: isLOA3(state),
-  userGreeting: selectUserGreeting(state),
-  additionalRoutes: state.form && state.form.additionalRoutes,
-  ...state.navigation,
-});
+export const mapStateToProps = state => {
+  const { form = {} } = state;
+  const { formAutoSavedStatus = '', additionalRoutes = [] } = form;
+  const additionalSafePaths = additionalRoutes.map(route => route.path);
+  const shouldConfirmLeavingForm =
+    formAutoSavedStatus !== SAVE_STATUSES.success &&
+    isInProgressPath(window.location.pathname, additionalSafePaths);
+
+  return {
+    currentlyLoggedIn: isLoggedIn(state),
+    isProfileLoading: isProfileLoading(state),
+    isLOA3: isLOA3(state),
+    shouldConfirmLeavingForm,
+    userGreeting: selectUserGreeting(state),
+    ...state.navigation,
+  };
+};
 
 const mapDispatchToProps = {
   toggleFormSignInModal,
