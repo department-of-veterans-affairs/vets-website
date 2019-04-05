@@ -58,9 +58,12 @@ export const schema = () => {
     };
   }
   return {
-    'view:applicantInfo': {
-      type: 'object',
-      properties: {},
+    type: 'object',
+    properties: {
+      'view:applicantInfo': {
+        type: 'object',
+        properties: {},
+      },
     },
   };
 };
