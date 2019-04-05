@@ -14,6 +14,14 @@ const recordProfileEvent = recordNavUserEvent('profile');
 const recordAccountEvent = recordNavUserEvent('account');
 
 class PersonalizationDropdown extends React.Component {
+  signOut = () => {
+    // Prevent double clicking of "Sign Out"
+    if (!this.signOutDisabled) {
+      this.signOutDisabled = true;
+      logout();
+    }
+  };
+
   render() {
     return (
       <ul>
@@ -43,7 +51,7 @@ class PersonalizationDropdown extends React.Component {
           </a>
         </li>
         <li>
-          <a href="#" onClick={logout}>
+          <a href="#" onClick={this.signOut}>
             Sign Out
           </a>
         </li>
