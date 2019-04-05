@@ -18,12 +18,11 @@ export const completeFormPage = (url, client, data, func) => {
 };
 
 export const completeAlreadySubmitted = (client, data) => {
-  client.pause(1000);
   client.selectRadio(
     `root_appliedForVaEducationBenefits`,
     _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
   );
-  client.pause(1000);
+  client.waitForElementVisible('.form-expanding-group', Timeouts.normal);
 };
 
 export const completeMilitaryService = (client, data) => {
