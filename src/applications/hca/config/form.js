@@ -206,14 +206,16 @@ const formConfig = {
   introduction: environment.isProduction()
     ? IntroductionPage
     : IntroductionPageGated,
-  additionalRoutes: !environment.isProduction() && [
-    {
-      path: 'id-form',
-      component: IDPage,
-      pageKey: 'id-form',
-      depends: () => !hasSession(),
-    },
-  ],
+  additionalRoutes: environment.isProduction()
+    ? []
+    : [
+        {
+          path: 'id-form',
+          component: IDPage,
+          pageKey: 'id-form',
+          depends: () => !hasSession(),
+        },
+      ],
   confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
