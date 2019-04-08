@@ -22,7 +22,7 @@ export const completeAlreadySubmitted = (client, data) => {
     `root_appliedForVaEducationBenefits`,
     _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
   );
-  client.waitForElementVisible('.form-expanding-group', Timeouts.normal);
+  client.waitForElementVisible('.form-expanding-group', Timeouts.verySlow);
 };
 
 export const completeMilitaryService = (client, data) => {
