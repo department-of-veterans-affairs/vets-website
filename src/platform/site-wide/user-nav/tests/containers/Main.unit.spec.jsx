@@ -245,7 +245,7 @@ describe('mapStateToProps', () => {
         '/health-care/apply/application/veteran-info';
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
-        form: { formAutoSavedStatus: 'not-attempted' },
+        form: { autoSavedStatus: 'not-attempted' },
       });
       expect(shouldConfirmLeavingForm).to.be.true;
     });
@@ -255,7 +255,7 @@ describe('mapStateToProps', () => {
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: {
-          formAutoSavedStatus: 'success',
+          autoSavedStatus: 'success',
         },
       });
       expect(shouldConfirmLeavingForm).to.be.false;
@@ -265,7 +265,7 @@ describe('mapStateToProps', () => {
         '/health-care/apply/application/introduction';
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
-        form: { formAutoSavedStatus: 'not-attempted' },
+        form: { autoSavedStatus: 'not-attempted' },
       });
       expect(shouldConfirmLeavingForm).to.be.false;
     });
@@ -275,7 +275,7 @@ describe('mapStateToProps', () => {
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: {
-          formAutoSavedStatus: 'not-attempted',
+          autoSavedStatus: 'not-attempted',
           additionalRoutes: [{ path: 'id-page' }],
         },
       });
