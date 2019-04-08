@@ -64,8 +64,8 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant Information',
           path: 'applicant/information',
-          uiSchema: applicantInformation.uiSchema(),
-          schema: applicantInformation.schema(),
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
         },
         benefitsEligibility: {
           title: 'Applicant Information',
