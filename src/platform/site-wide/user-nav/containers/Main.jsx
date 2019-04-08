@@ -168,7 +168,7 @@ export const mapStateToProps = state => {
   let additionalSafePaths;
   const { form } = state;
   if (typeof form === 'object') {
-    formAutoSavedStatus = form.formAutoSavedStatus;
+    formAutoSavedStatus = form.autoSavedStatus;
     additionalRoutes = form.additionalRoutes;
     additionalSafePaths =
       additionalRoutes && additionalRoutes.map(route => route.path);
