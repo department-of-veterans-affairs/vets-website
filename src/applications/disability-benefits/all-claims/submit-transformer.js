@@ -318,6 +318,30 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  // transform secondary disabilities into primary, with description appended
+  const transformSecondaryDisabilities = formData => {
+    if (!formData.newSecondaryDisabilities) {
+      return formData;
+    }
+
+    const clonedData = _.cloneDeep(formData);
+
+    return clonedData.newSecondaryDisabilities.map(sd => {
+      const descString = [
+        'Secondary to ',
+        sd.causedByDisability,
+        '\n',
+        sd.causedByDisabilityDescription,
+      ].join('');
+
+      return {
+        ...sd,
+        cause: causeTypes.NEW,
+        primaryDescription: descString.substring(0, 400),
+      };
+    });
+  };
+
   // Transform the related disabilities lists into an array of strings
   const stringifyRelatedDisabilities = formData => {
     if (!formData.vaTreatmentFacilities) {
@@ -495,6 +519,7 @@ export function transform(formConfig, form) {
     addPTSDCause,
     addClassificationCodeToNewDisabilities,
     splitNewDisabilities,
+    transformSecondaryDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,
     sanitizeHomelessnessContact,
