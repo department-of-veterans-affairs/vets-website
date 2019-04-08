@@ -38,10 +38,10 @@ const undefinedCount = types => {
 };
 
 const setUndefined = value => {
-  if (!value) {
-    return null;
+  if (value) {
+    return value;
   }
-  return value;
+  return null;
 };
 
 const getHighTechnologyEmploymentTypes = formData =>
