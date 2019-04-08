@@ -71,10 +71,6 @@ const disabilityQuestions = [
         'Consider working with a trained professional who can help you file your claim.',
     },
     {
-      href: '/disability/how-to-file-claim',
-      title: 'Find out how to file a claim online, by mail, or in person.',
-    },
-    {
       href: '/disability/file-an-appeal',
       title:
         'Learn how to file an appeal if you disagree with our decision on your claim.',

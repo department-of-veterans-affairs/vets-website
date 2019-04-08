@@ -38,9 +38,8 @@ export const benefitChoices = [
     introduction:
       'You may be able to get VA disability compensation (pay) if you got sick or injured while serving in the military—or if a condition that you already had got worse because of your service. You may qualify even if your condition didn’t appear until years after your service ended.',
     cta: {
-      link:
-        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-      text: 'File a Claim now on eBenefits',
+      link: '/disability/how-to-file-claim/',
+      text: 'Find out how to file a claim',
       gaTag: 'recommendations-disability-file-claim',
     },
     faqs: [
