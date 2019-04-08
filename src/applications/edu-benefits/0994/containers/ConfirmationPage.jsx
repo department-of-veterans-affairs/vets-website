@@ -7,6 +7,7 @@ import appendQuery from 'append-query';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
@@ -46,7 +47,11 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.applicantFullName;
-
+    const appliedForVaEducationBenefits = _.get(
+      form.data,
+      'appliedForVaEducationBenefits',
+      true,
+    );
     return (
       <div>
         <h3 className="confirmation-page-title">
@@ -60,6 +65,19 @@ class ConfirmationPage extends React.Component {
           <br />
           <i>Please print this page for your records.</i>
         </p>
+        <AlertBox
+          isVisible={!appliedForVaEducationBenefits}
+          status="warning"
+          headline="Don’t forget to apply for VA education benefits"
+          content={
+            <span>
+              Now that you've submitted your application for VET TEC, you’ll
+              need to complete an Application for VA Education Benefits (VA Form
+              22-1990). Click the button on the bottom of this page to go to
+              that application.
+            </span>
+          }
+        />
         <div className="inset">
           <h4>
             Education Claim <span className="additional">(Form 22-0994)</span>
@@ -91,7 +109,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        {!_.get(form.data, 'appliedForVaEducationBenefits', true) && (
+        {!appliedForVaEducationBenefits && (
           <div>
             <p>
               <strong>{'Note: '}</strong>
