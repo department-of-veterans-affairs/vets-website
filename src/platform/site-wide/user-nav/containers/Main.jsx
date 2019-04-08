@@ -164,9 +164,10 @@ export class Main extends React.Component {
 
 export const mapStateToProps = state => {
   const { form = {} } = state;
-  const { formAutoSavedStatus = '', additionalRoutes = [] } = form;
+  const { formAutoSavedStatus, additionalRoutes = [] } = form;
   const additionalSafePaths = additionalRoutes.map(route => route.path);
   const shouldConfirmLeavingForm =
+    typeof formAutoSavedStatus !== 'undefined' &&
     formAutoSavedStatus !== SAVE_STATUSES.success &&
     isInProgressPath(window.location.pathname, additionalSafePaths);
 
