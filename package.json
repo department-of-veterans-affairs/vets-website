@@ -76,8 +76,12 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "browserslist": [
-    "last 1 version",
-    "> 1%",
+    "Chrome 60",
+    "Firefox 56",
+    "iOS 9",
+    "Edge 14",
+    "ChromeAndroid 64",
+    "Safari 10",
     "ie 11"
   ],
   "devDependencies": {
