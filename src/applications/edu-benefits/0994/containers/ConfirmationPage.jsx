@@ -65,21 +65,19 @@ class ConfirmationPage extends React.Component {
           <br />
           <i>Please print this page for your records.</i>
         </p>
-        {!appliedForVaEducationBenefits && (
-          <AlertBox
-            isVisible
-            status="warning"
-            headline="Don’t forget to apply for VA education benefits"
-            content={
-              <span>
-                Now that you've submitted your application for VET TEC, you’ll
-                need to complete an Application for VA Education Benefits (VA
-                Form 22-1990). Click the button on the bottom of this page to go
-                to that application.
-              </span>
-            }
-          />
-        )}
+        <AlertBox
+          isVisible={!appliedForVaEducationBenefits}
+          status="warning"
+          headline="Don’t forget to apply for VA education benefits"
+          content={
+            <span>
+              Now that you've submitted your application for VET TEC, you’ll
+              need to complete an Application for VA Education Benefits (VA Form
+              22-1990). Click the button on the bottom of this page to go to
+              that application.
+            </span>
+          }
+        />
         <div className="inset">
           <h4>
             Education Claim <span className="additional">(Form 22-0994)</span>
