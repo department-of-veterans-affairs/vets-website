@@ -163,9 +163,16 @@ export class Main extends React.Component {
 }
 
 export const mapStateToProps = state => {
-  const { form = {} } = state;
-  const { formAutoSavedStatus, additionalRoutes = [] } = form;
-  const additionalSafePaths = additionalRoutes.map(route => route.path);
+  let formAutoSavedStatus;
+  let additionalRoutes;
+  let additionalSafePaths;
+  const { form } = state;
+  if (typeof form === 'object') {
+    formAutoSavedStatus = form.formAutoSavedStatus;
+    additionalRoutes = form.additionalRoutes;
+    additionalSafePaths =
+      additionalRoutes && additionalRoutes.map(route => route.path);
+  }
   const shouldConfirmLeavingForm =
     typeof formAutoSavedStatus !== 'undefined' &&
     formAutoSavedStatus !== SAVE_STATUSES.success &&
