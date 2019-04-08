@@ -6,13 +6,12 @@ import environment from '../../utilities/environment';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
-  PENDING_AUTH_ACTION: 'pendingAuthAction',
-  PENDING_LOGIN_POLICY: 'pendingLoginPolicy',
 };
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
 
+const SIGNUP_URL = sessionTypeUrl('signup');
 const MHV_URL = sessionTypeUrl('mhv');
 const DSLOGON_URL = sessionTypeUrl('dslogon');
 const IDME_URL = sessionTypeUrl('idme');
@@ -58,7 +57,8 @@ function redirectWithGAClientId(redirectUrl) {
     const clientId = tracker && tracker.get('clientId');
 
     window.location = clientId
-      ? appendQuery(redirectUrl, { clientId })
+      ? // eslint-disable-next-line camelcase
+        appendQuery(redirectUrl, { client_id: clientId })
       : redirectUrl;
   } catch (e) {
     window.location = redirectUrl;
@@ -78,8 +78,6 @@ function redirect(redirectUrl, clickedEvent) {
 }
 
 export function login(policy) {
-  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'login');
-  sessionStorage.setItem(authnSettings.PENDING_LOGIN_POLICY, policy);
   return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
@@ -97,9 +95,5 @@ export function logout() {
 }
 
 export function signup() {
-  sessionStorage.setItem(authnSettings.PENDING_AUTH_ACTION, 'register');
-  return redirect(
-    appendQuery(IDME_URL, { signup: true }),
-    'register-link-clicked',
-  );
+  return redirect(SIGNUP_URL, 'register-link-clicked');
 }
