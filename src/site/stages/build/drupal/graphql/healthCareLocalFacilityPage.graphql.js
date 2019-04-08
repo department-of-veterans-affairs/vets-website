@@ -35,5 +35,44 @@ module.exports = `
         }
       }
     }
+    fieldLocalHealthCareService {
+      entity {
+        ... on NodeHealthCareLocalHealthService {
+          fieldBody {
+            processed
+          }
+          fieldClinicalHealthServices {
+            entity {
+              ... on NodeRegionalHealthCareServiceDes {
+                entityBundle
+                fieldBody {
+                  processed
+                }
+                fieldServiceNameAndDescripti {
+                  entity {
+                    ... on TaxonomyTermHealthCareServiceTaxonomy {
+                      entityId
+                      entityBundle
+                      fieldAlsoKnownAs
+                      name
+                      description {
+                        processed
+                      }
+                      parent {
+                        entity {
+                          ...on TaxonomyTermHealthCareServiceTaxonomy {
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }    
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;

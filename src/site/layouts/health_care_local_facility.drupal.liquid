@@ -159,6 +159,16 @@
             </div>
           {% endunless %}
 
+            <!-- Local Health Services -->
+            {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
+                <h2>Our health services</h2>
+                <section class="local-health-services" id="local-health-services">
+                    {% for localService in fieldLocalHealthCareService %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = localService.entity.fieldClinicalHealthServices.0.entity localServiceDescription = localService.entity.fieldBody.processed %}
+                    {% endfor %}
+                </section>
+            {% endif %}
+
           <!-- List of links section -->
           {% if fieldRelatedLinks != empty %}
             {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
