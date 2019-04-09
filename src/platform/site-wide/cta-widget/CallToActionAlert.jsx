@@ -7,8 +7,8 @@ export default function CallToActionAlert({
   alertText,
   primaryButtonText,
   primaryButtonHandler,
-  secondaryLinkText,
-  secondaryLinkHandler,
+  secondaryButtonText,
+  secondaryButtonHandler,
   status,
 }) {
   const buttonClass =
@@ -24,9 +24,13 @@ export default function CallToActionAlert({
             {primaryButtonText}
           </button>
         )}
-        {secondaryLinkText && (
-          <button className="va-button-link" onClick={secondaryLinkHandler}>
-            {secondaryLinkText}
+        {secondaryButtonText && (
+          <button
+            className="va-button-link"
+            onClick={secondaryButtonHandler}
+            style={{ marginLeft: '1rem' }}
+          >
+            {secondaryButtonText}
           </button>
         )}
       </div>

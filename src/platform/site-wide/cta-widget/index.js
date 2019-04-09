@@ -377,8 +377,8 @@ export class CallToActionWidget extends React.Component {
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
-        secondaryLinkText: 'Sign out of VA.gov',
-        secondaryLinkHandler: this.signOut,
+        secondaryButtonText: 'Sign out of VA.gov',
+        secondaryButtonHandler: this.signOut,
         status: 'continue',
       };
     }
