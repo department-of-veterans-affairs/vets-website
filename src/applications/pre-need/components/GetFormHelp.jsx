@@ -1,5 +1,5 @@
 import React from 'react';
-import CallNCACenter from '../../../platform/brand-consolidation/components/CallNCACenter';
+import CallNCACenter from '../../../platform/static-data/CallNCACenter';
 import CallVBACenter from '../../../platform/static-data/CallVBACenter';
 
 export default function GetFormHelp() {
