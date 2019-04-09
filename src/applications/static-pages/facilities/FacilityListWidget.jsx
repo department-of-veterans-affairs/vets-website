@@ -2,6 +2,12 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
+import Alert from './Alert';
+import {
+  facilitiesApiAlertMessage,
+  facilityApiAlertTitle,
+  sortFacilitiesByName,
+} from './facilityUtilities';
 
 export default class FacilityListWidget extends React.Component {
   constructor(props) {
@@ -29,30 +35,28 @@ export default class FacilityListWidget extends React.Component {
   };
 
   handleFacilitiesError = () => {
-    this.setState({ error: true });
-  };
-
-  facilitiesList = facilities =>
-    facilities.sort((a, b) => {
-      const aName = a.attributes.name;
-      const bName = b.attributes.name;
-      if (aName < bName) {
-        return -1;
-      }
-
-      if (aName > bName) {
-        return 1;
-      }
-
-      return 0;
+    this.setState({
+      loading: false,
+      error: true,
     });
+  };
 
   render() {
     if (this.state.loading) {
       return <LoadingIndicator message="Loading facilities..." />;
     }
 
-    const facilitiesList = this.facilitiesList(this.state.facilities).map(
+    if (this.state.error) {
+      return (
+        <Alert
+          title={facilityApiAlertTitle}
+          description={facilitiesApiAlertMessage}
+          displayType="info"
+        />
+      );
+    }
+
+    const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
       facility => {
         const location = {
           attributes: facility.attributes,
