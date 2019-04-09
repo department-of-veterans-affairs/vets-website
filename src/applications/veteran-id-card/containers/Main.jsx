@@ -4,7 +4,7 @@ import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import EmailVICHelp from '../../../platform/brand-consolidation/components/EmailVICHelp';
+import EmailVICHelp from '../../../platform/static-data/EmailVICHelp';
 
 class Main extends React.Component {
   constructor(props) {
@@ -71,12 +71,7 @@ class Main extends React.Component {
     const content = (
       <p>
         Please refresh the page or try again later. You can also{' '}
-        <EmailVICHelp>
-          call the VA.gov Help Desk at{' '}
-          <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
-        </EmailVICHelp>
+        <EmailVICHelp />
       </p>
     );
 

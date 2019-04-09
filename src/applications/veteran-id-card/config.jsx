@@ -1,5 +1,5 @@
 import React from 'react';
-import EmailVICHelp from '../../platform/brand-consolidation/components/EmailVICHelp';
+import EmailVICHelp from '../../platform/static-data/EmailVICHelp';
 
 const config = {
   messages: {
@@ -15,10 +15,7 @@ const config = {
       <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your eligibility right now. Please{' '}
-        <EmailVICHelp>
-          call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339,
-          Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-        </EmailVICHelp>
+        <EmailVICHelp />
       </p>
     ),
     VIC010: (
@@ -26,10 +23,7 @@ const config = {
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
-        <EmailVICHelp>
-          call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339,
-          Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-        </EmailVICHelp>
+        <EmailVICHelp />
       </p>
     ),
     VIC011: (
@@ -37,10 +31,7 @@ const config = {
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
-        <EmailVICHelp>
-          call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339,
-          Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-        </EmailVICHelp>
+        <EmailVICHelp />
       </p>
     ),
     default: (
