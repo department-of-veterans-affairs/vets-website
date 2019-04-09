@@ -5,7 +5,7 @@ import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
-import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
@@ -89,12 +89,7 @@ class RequiredLoginView extends React.Component {
           messageLine1="We couldn’t find your records with that information."
           messageLine2={
             <span>
-              Please{' '}
-              <SubmitSignInForm>
-                call the VA.gov Help Desk at 1-855-574-7286, TTY:
-                1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
-                &#8211; 8:00 p.m. (ET).
-              </SubmitSignInForm>
+              Please <SubmitSignInForm />
             </span>
           }
         />

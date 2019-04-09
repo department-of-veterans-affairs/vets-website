@@ -3,7 +3,7 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import environment from '../../../utilities/environment';
 import recordEvent from '../../../monitoring/record-event';
@@ -66,11 +66,7 @@ class SignInModal extends React.Component {
                   status="warning"
                 >
                   We’re sorry. We’re working to fix some problems with DS Logon
-                  right now. Please check back later or{' '}
-                  <SubmitSignInForm>
-                    call the VA.gov Help Desk for more information at
-                    1-855-574-7286, TTY: 1-800-877-8339.
-                  </SubmitSignInForm>
+                  right now. Please check back later or <SubmitSignInForm />
                 </AlertBox>
                 <br />
               </div>

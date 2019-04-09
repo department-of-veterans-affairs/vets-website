@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
 import { hasSession } from '../../../platform/user/profile/utilities';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../platform/static-data/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
   constructor(props) {

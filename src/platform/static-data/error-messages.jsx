@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import SubmitSignInForm from '../brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from './SubmitSignInForm';
 import CallVBACenter from './CallVBACenter';
 
 export const systemDownMessage = (
@@ -67,11 +67,7 @@ export const mhvAccessError = (
             </li>
           </ol>
           <p>
-            If none of these apply to you, please{' '}
-            <SubmitSignInForm>
-              call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339.
-              We're here Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
-            </SubmitSignInForm>
+            If none of these apply to you, please <SubmitSignInForm />
           </p>
         </div>
       </div>
