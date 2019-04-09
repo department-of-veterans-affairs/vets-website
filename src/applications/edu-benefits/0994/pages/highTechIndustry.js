@@ -64,11 +64,14 @@ const setUndefinedValues = formData => {
 const validateNoneApply = (errors, fieldData, formData) => {
   const types = getHighTechnologyEmploymentTypes(formData);
   const count = typeCount(types);
+  // noneApply was clicked, clear other checkboxes
   if (types.noneApply && (count > 2 || count === 1)) {
     clearValues(formData);
   } else if (types.noneApply && count === 2) {
+    // noneApply was clicked, clear other checkboxes
     if (undefinedCount(types) > 0) {
       clearValues(formData);
+      // other type was clicked, clear noneApply
     } else {
       types.noneApply = false;
       setUndefinedValues(formData);
