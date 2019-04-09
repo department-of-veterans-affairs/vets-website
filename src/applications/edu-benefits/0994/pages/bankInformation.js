@@ -15,8 +15,8 @@ import {
 
 const { bankAccount } = fullSchema.properties;
 const hasNewBankInfo = formData => {
-  const viewBankAccount = _.get(formData, 'view:bankAccount', {});
-  return hasNewBankInformation(viewBankAccount.bankAccount);
+  const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
+  return hasNewBankInformation(bankAccountObj);
 };
 
 export const uiSchema = {
@@ -24,13 +24,13 @@ export const uiSchema = {
   'view:descriptionWithPrefill': {
     'ui:description': bankInfoDescriptionWithPrefill,
     'ui:options': {
-      hideIf: hasNewBankInfo,
+      hideIf: data => !data['view:hasBankInformation'] && hasNewBankInfo(data),
     },
   },
   'view:descriptionWithoutPrefill': {
     'ui:description': bankInfoDescriptionWithoutPrefill,
     'ui:options': {
-      hideIf: formData => !hasNewBankInfo(formData),
+      hideIf: data => data['view:hasBankInformation'] && !hasNewBankInfo(data),
     },
   },
   'view:bankAccount': {

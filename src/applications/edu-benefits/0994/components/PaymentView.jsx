@@ -50,9 +50,11 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p>Account number: {maskBankInformation(bankAccountNumber, 4)}</p>
         <p>Bank routing number: {maskBankInformation(bankRoutingNumber, 4)}</p>
       </div>
-      {hasNewBankAccountInfo && (
-        <AlertBox isVisible status="success" content={directDepositAlert} />
-      )}
+      <AlertBox
+        isVisible={hasNewBankAccountInfo}
+        status="success"
+        content={directDepositAlert}
+      />
     </div>
   );
 };
