@@ -16,25 +16,11 @@ export function prefillTransformer(pages, formData, metadata) {
 
   const newData = _.omit(formData, ['bankAccount']);
 
-  const { bankAccountType, bankAccountNumber, bankRoutingNumber } = _.get(
-    formData,
-    'bankAccount',
-    {},
-  );
-
-  let hasBankInformation = false;
-
-  if (bankAccountType && bankAccountNumber && bankRoutingNumber) {
-    hasBankInformation = true;
-  }
-
   const newFormData = {
     ...newData,
     'view:phoneAndEmail': phoneAndEmail,
     prefillBankAccount: formData.bankAccount,
-    'view:bankAccount': {
-      'view:hasBankInformation': hasBankInformation,
-    },
+    'view:bankAccount': {},
   };
 
   return {

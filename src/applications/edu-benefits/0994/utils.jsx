@@ -41,3 +41,12 @@ export const hasNewBankInformation = (bankAccount = {}) => {
     typeof routingNumber !== 'undefined'
   );
 };
+
+export const hasPrefillBankInformation = (bankAccount = {}) => {
+  const { bankAccountType, bankAccountNumber, bankRoutingNumber } = bankAccount;
+  return (
+    typeof bankAccountType !== 'undefined' ||
+    typeof bankAccountNumber !== 'undefined' ||
+    typeof bankRoutingNumber !== 'undefined'
+  );
+};

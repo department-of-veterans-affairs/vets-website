@@ -55,9 +55,7 @@ export const transformedMaxPrefillData = {
     nightTimePhone: '4445551212',
     emailAddress: 'test2@test1.net',
   },
-  'view:bankAccount': {
-    'view:hasBankInformation': true,
-  },
+  'view:bankAccount': {},
 };
 
 export const minPrefillData = {
@@ -86,7 +84,5 @@ export const minTransformedPrefillData = {
     emailAddress: undefined,
   },
   prefillBankAccount: undefined,
-  'view:bankAccount': {
-    'view:hasBankInformation': false,
-  },
+  'view:bankAccount': {},
 };

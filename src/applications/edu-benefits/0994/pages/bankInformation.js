@@ -4,7 +4,7 @@ import bankAccountUI from '../../../../platform/forms/definitions/bankAccount';
 import ReviewCardField from '../../components/ReviewCardField';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
-import { hasNewBankInformation } from '../utils';
+import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 
 import {
   bankInfoDescriptionWithPrefill,
@@ -20,8 +20,10 @@ const hasNewBankInfo = formData => {
   return hasNewBankInformation(bankAccountObj);
 };
 
-const hasPrefillBankInfo = formData =>
-  _.get(formData['view:bankAccount'], 'view:hasBankInformation', false);
+const hasPrefillBankInfo = formData => {
+  const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
+  return hasPrefillBankInformation(bankAccountObj);
+};
 
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
@@ -45,7 +47,8 @@ export const uiSchema = {
       editTitle: 'Update bank account',
       itemName: 'account',
       itemNameAction: 'Update',
-      startInEdit: data => !data['view:hasBankInformation'],
+      startInEdit: data =>
+        !hasPrefillBankInfo(data) && !hasNewBankInformation(data),
       volatileData: true,
     },
     saveClickTrackEvent: { event: 'edu-0994-bank-account-saved' },
