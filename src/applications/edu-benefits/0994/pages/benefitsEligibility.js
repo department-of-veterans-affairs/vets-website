@@ -16,6 +16,7 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'appliedForVaEducationBenefits',
       expandUnderCondition: false,
+      hideBar: true,
     },
   },
 };
