@@ -6,7 +6,6 @@
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "node --max-old-space-size=4096 script/build.js",
-    "build:redirects": "node script/vets-gov-to-va-gov.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "prebuild": "node script/prebuild.js",
     "preview": "node script/preview.js",
