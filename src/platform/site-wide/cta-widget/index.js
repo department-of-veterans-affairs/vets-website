@@ -363,7 +363,9 @@ export class CallToActionWidget extends React.Component {
             <p>
               You’ll need to create a My HealtheVet account before you can{' '}
               {this._serviceDescription}
-              {this._serviceDescription.endsWith('online') ? '. ' : ' online. '}
+              {this._serviceDescription.endsWith('online')
+                ? '.'
+                : ' online.'}{' '}
               This account is cost-free and secure.
             </p>
             <p>
