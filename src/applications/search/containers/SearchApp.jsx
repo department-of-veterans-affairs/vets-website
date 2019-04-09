@@ -15,6 +15,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { focusElement } from '../../../platform/utilities/ui';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -52,43 +53,19 @@ class SearchApp extends React.Component {
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
+
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
       this.writeBreadcrumb();
       this.renderResults();
     }
-    if (this.loader) {
-      this.loader.focus();
-    }
-    console.log('i am in componentDidMount')
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.search.query !== prevProps.search.query) {
       this.writeBreadcrumb();
     }
-    if (this.loader) {
-      this.loader.focus();
-    }
-    console.log('i am in componentDidUpdate')
-
   }
-  // helper function to set focus
-  setFocus = selector => {
-    const el =
-      typeof selector === 'string'
-        ? document.querySelector(selector)
-        : selector;
-    if (el) {
-      el.setAttribute('tabIndex', -1);
-      el.setAttribute('ref', {
-        function(loader) {
-          this.loader = loader;
-        },
-      });
-      el.focus();
-    }
-  };
 
   handlePageChange = page => {
     this.setState({ page }, () => this.handleSearch());
@@ -115,7 +92,9 @@ class SearchApp extends React.Component {
 
     // Update query is necessary
     if (queryChanged) {
+      const allResults = document.getElementById('allResults');
       this.setState({ currentResultsQuery: userInput, page: 1 });
+      focusElement(allResults);
     }
   };
 
@@ -150,16 +129,9 @@ class SearchApp extends React.Component {
   writeBreadcrumb() {
     const breadcrumbList = document.getElementById('va-breadcrumbs-list');
     const lastCrumb = breadcrumbList.lastElementChild.children[0];
-    const { firstSearch } = this.state;
+    // const { firstSearch } = this.state;
     if (breadcrumbList && lastCrumb) {
       lastCrumb.text = `Search Results for '${this.props.search.query}'`;
-
-      if (firstSearch) {
-        setTimeout(() => {
-          this.setFocus(breadcrumbList);
-          this.setState({ firstSearch: false });
-        }, 4000);
-      }
     }
   }
 
@@ -185,7 +157,7 @@ class SearchApp extends React.Component {
         {this.searchInput()}
         {this.renderResultsCount()}
         <hr />
-        <div aria-live="polite" aria-relevant="additions">
+        <div id="allResults" aria-live="polite" aria-relevant="additions">
           <h4>Our Top Recommendations for You</h4>
           {this.renderRecommendedResults()}
           {this.renderResultsList()}
@@ -198,7 +170,6 @@ class SearchApp extends React.Component {
 
   renderRecommendedResults() {
     const { loading, recommendedResults } = this.props.search;
-    console.log('loading in renderRecommendedResults: ', loading)
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
@@ -243,22 +214,26 @@ class SearchApp extends React.Component {
         </span>
       </p>
     );
-    /* eslint-enable prettier/prettier */
   }
 
   renderResultsList() {
     const { results, loading } = this.props.search;
-    console.log('loading in renderResultsList: ', loading)
     if (loading) {
       return <LoadingIndicator message="Loading results..." setFocus />;
     }
 
     if (results && results.length > 0) {
+      const breadcrumbList = document.getElementById('va-breadcrumbs-list')
+      if (this.state.firstSearch) {
+        focusElement(breadcrumbList)
+        this.setState({ firstSearch: false });
+      }
       return (
         <ul className="results-list">
           {results.map(r => this.renderWebResult(r))}
         </ul>
       );
+
     }
 
     return (
@@ -306,7 +281,6 @@ class SearchApp extends React.Component {
 
   renderResultsFooter() {
     const { currentPage, totalPages } = this.props.search;
-
     return (
       <div className="va-flex results-footer">
         <span className="powered-by">Powered by Search.gov</span>
@@ -321,7 +295,6 @@ class SearchApp extends React.Component {
   }
 
   render() {
-    console.count('render')
     return (
       <div className="search-app">
         <div className="row">
