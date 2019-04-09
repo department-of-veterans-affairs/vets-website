@@ -92,8 +92,8 @@ export class CallToActionWidget extends React.Component {
             If you don’t have any of those accounts, you can create one.
           </p>
         ),
-        buttonText: 'Sign In or Create an Account',
-        buttonHandler: this.openLoginModal,
+        primaryButtonText: 'Sign In or Create an Account',
+        primaryButtonHandler: this.openLoginModal,
         status: 'continue',
       };
     }
@@ -110,8 +110,8 @@ export class CallToActionWidget extends React.Component {
             give you access to your personal health information.
           </p>
         ),
-        buttonText: 'Verify Your Identity',
-        buttonHandler: verify,
+        primaryButtonText: 'Verify Your Identity',
+        primaryButtonHandler: verify,
         status: 'continue',
       };
     }
@@ -132,8 +132,8 @@ export class CallToActionWidget extends React.Component {
             will be able to open.
           </p>
         ),
-        buttonText: 'Go to My HealtheVet',
-        buttonHandler: this.goToTool,
+        primaryButtonText: 'Go to My HealtheVet',
+        primaryButtonHandler: this.goToTool,
         status: 'info',
       };
     }
@@ -182,8 +182,8 @@ export class CallToActionWidget extends React.Component {
               can give you access to your personal health information.
             </p>
           ),
-          buttonText: 'Verify Your Identity',
-          buttonHandler: verify,
+          primaryButtonText: 'Verify Your Identity',
+          primaryButtonHandler: verify,
           status: 'continue',
         };
 
@@ -271,8 +271,8 @@ export class CallToActionWidget extends React.Component {
        * case 'no_account':
        *   return {
        *     heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription`,
-       *     buttonText: 'Create a My HealtheVet Account',
-       *     buttonHandler: this.props.createAndUpgradeMHVAccount,
+       *     primaryButtonText: 'Create a My HealtheVet Account',
+       *     primaryButtonHandler: this.props.createAndUpgradeMHVAccount,
        *     status: 'continue'
        *   };
 
@@ -280,8 +280,8 @@ export class CallToActionWidget extends React.Component {
        * case 'registered':
        *   return {
        *     heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
-       *     buttonText: 'Upgrade Your Account',
-       *     buttonHandler: this.props.upgradeMHVAccount,
+       *     primaryButtonText: 'Upgrade Your Account',
+       *     primaryButtonHandler: this.props.upgradeMHVAccount,
        *     status: 'continue'
        *   };
        */
@@ -372,8 +372,8 @@ export class CallToActionWidget extends React.Component {
             </p>
           </>
         ),
-        buttonText: 'Create your free account',
-        buttonHandler:
+        primaryButtonText: 'Create your free account',
+        primaryButtonHandler:
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
@@ -387,8 +387,8 @@ export class CallToActionWidget extends React.Component {
       heading: `You’ll need to upgrade your My HealtheVet account before you can ${
         this._serviceDescription
       }. It’ll only take us a minute to do this for you, and it’s free.`,
-      buttonText: 'Upgrade Your My HealtheVet Account',
-      buttonHandler:
+      primaryButtonText: 'Upgrade Your My HealtheVet Account',
+      primaryButtonHandler:
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
           : this.props.upgradeMHVAccount,
