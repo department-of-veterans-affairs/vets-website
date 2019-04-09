@@ -9,7 +9,7 @@ import debounce from '../../utilities/data/debounce';
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
-import CallHRC from '../../brand-consolidation/components/CallHRC';
+import CallHRC from '../../static-data/CallHRC';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -90,14 +90,7 @@ class RoutedSavableReviewPage extends React.Component {
     } else {
       InlineErrorComponent = () => (
         <p>
-          If it still doesn’t work, please{' '}
-          <CallHRC>
-            call the VA.gov Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>
-            ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-            (ET).
-          </CallHRC>
+          If it still doesn’t work, please <CallHRC />
         </p>
       );
     }

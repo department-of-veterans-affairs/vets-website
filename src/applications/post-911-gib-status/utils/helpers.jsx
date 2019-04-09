@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import CallHRC from '../../../platform/static-data/CallHRC';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -217,11 +217,7 @@ export function backendErrorMessage() {
         </ul>
         <p>
           If you think your Statement of Benefits should be here, please{' '}
-          <CallHRC>
-            call the VA.gov Help Desk at{' '}
-            <a href="tel:18555747286">1-855-574-7286</a>. We’re here Monday
-            through Friday, 8:00 a.m. to 8:00 p.m. (ET).
-          </CallHRC>
+          <CallHRC />
         </p>
         <Link className="usa-button usa-button-primary" to="/">
           Back to Post-9/11 GI Bill

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import CallToActionWidget from '../../../platform/site-wide/cta-widget';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import CallHRC from '../../../platform/static-data/CallHRC';
 import environment from '../../../platform/utilities/environment';
 
 import EducationWizard from '../components/EducationWizard';
@@ -50,11 +50,7 @@ export function VetsDotGovSummary() {
           </li>
         </ul>
         If none of the above situations applies to you, and you think your
-        Statement of Benefits should be here, please{' '}
-        <CallHRC>
-          call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday
-          through Friday, 8:00 a.m. to 8:00 p.m. (ET).
-        </CallHRC>
+        Statement of Benefits should be here, please <CallHRC />
       </p>
     </div>
   );
@@ -208,12 +204,7 @@ export default function BrandConsolidationSummary() {
             </ul>
             <p>
               If none of the above situations applies to you, and you think your
-              Statement of Benefits should be here, please{' '}
-              <CallHRC>
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:+18555747286">1-855-574-7286</a>. We’re here Monday
-                through Friday, 8:00 a.m. to 8:00 p.m. (ET)
-              </CallHRC>
+              Statement of Benefits should be here, please <CallHRC />
             </p>
           </div>
         )}
