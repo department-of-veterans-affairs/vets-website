@@ -1,8 +1,5 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../../platform/brand-consolidation/feature-flag';
 import EmailVICHelp from '../../platform/brand-consolidation/components/EmailVICHelp';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 const config = {
   messages: {
@@ -19,9 +16,8 @@ const config = {
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your eligibility right now. Please{' '}
         <EmailVICHelp>
-          call the {propertyName} Help Desk at 1-855-574-7286, TTY:
-          1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-          (ET).
+          call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339,
+          Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </EmailVICHelp>
       </p>
     ),
@@ -31,9 +27,8 @@ const config = {
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
         <EmailVICHelp>
-          call the {propertyName} Help Desk at 1-855-574-7286, TTY:
-          1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-          (ET).
+          call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339,
+          Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </EmailVICHelp>
       </p>
     ),
@@ -43,9 +38,8 @@ const config = {
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
         <EmailVICHelp>
-          call the {propertyName} Help Desk at 1-855-574-7286, TTY:
-          1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-          (ET).
+          call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339,
+          Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </EmailVICHelp>
       </p>
     ),

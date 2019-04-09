@@ -18,7 +18,6 @@ const config = {
       name: 'welcome-to-new-va',
       paths: /^\/$/,
       component: WelcomeToNewVAModal,
-      disabled: !WelcomeToNewVAModal.isEnabled(),
     },
     {
       name: 'find-benefits-intro',
@@ -36,11 +35,13 @@ const config = {
       name: 'claim-increase',
       paths: /disability-benefits\/apply\/$/,
       component: ClaimIncreaseBanner,
+      disabled: true,
     },
     {
       name: 'claim-increase',
       paths: /^\/$/,
       component: ClaimIncreaseBanner,
+      disabled: true,
     },
     {
       name: 'personalization',

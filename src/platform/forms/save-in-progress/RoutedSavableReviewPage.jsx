@@ -9,7 +9,6 @@ import debounce from '../../utilities/data/debounce';
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
-import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 import CallHRC from '../../brand-consolidation/components/CallHRC';
 import DowntimeNotification, {
   externalServiceStatus,
@@ -27,8 +26,6 @@ import {
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
-const brandConsolidationIsEnabled = isBrandConsolidationEnabled();
-const propertyName = brandConsolidationIsEnabled ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
@@ -95,7 +92,7 @@ class RoutedSavableReviewPage extends React.Component {
         <p>
           If it still doesn’t work, please{' '}
           <CallHRC>
-            call the {propertyName} Help Desk at{' '}
+            call the VA.gov Help Desk at{' '}
             <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>
             ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.

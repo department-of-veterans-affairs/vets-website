@@ -8,7 +8,6 @@ import SystemDownView from '@department-of-veterans-affairs/formation-react/Syst
 import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
-import siteName from '../../../brand-consolidation/site-name';
 import { hasSession } from '../../profile/utilities';
 
 const nextQuery = { next: window.location.pathname };
@@ -92,7 +91,7 @@ class RequiredLoginView extends React.Component {
             <span>
               Please{' '}
               <SubmitSignInForm>
-                call the {siteName} Help Desk at 1-855-574-7286, TTY:
+                call the VA.gov Help Desk at 1-855-574-7286, TTY:
                 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
                 &#8211; 8:00 p.m. (ET).
               </SubmitSignInForm>
