@@ -20,18 +20,14 @@ export default function CallToActionAlert({
       <div>
         {alertText}
         {buttonText && (
-          <button
-            className={buttonClass}
-            onClick={buttonHandler}
-            style={secondaryLinkText ? { marginRight: '1em' } : {}}
-          >
+          <button className={buttonClass} onClick={buttonHandler}>
             {buttonText}
           </button>
         )}
         {secondaryLinkText && (
-          <a href="#" onClick={secondaryLinkHandler}>
+          <button className="va-button-link" onClick={secondaryLinkHandler}>
             {secondaryLinkText}
-          </a>
+          </button>
         )}
       </div>
     ),

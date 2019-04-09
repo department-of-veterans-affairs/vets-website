@@ -361,8 +361,9 @@ export class CallToActionWidget extends React.Component {
         alertText: (
           <>
             <p>
-              You’ll need to create a My HealtheVet account before you can
-              refill prescriptions online. This account is cost-free and secure.
+              You’ll need to create a My HealtheVet account before you can{' '}
+              {this._serviceDescription} online. This account is cost-free and
+              secure.
             </p>
             <p>
               <strong>If you already have a My HealtheVet account,</strong>{' '}
