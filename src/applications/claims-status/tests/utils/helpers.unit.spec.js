@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import siteName from '../../../../platform/brand-consolidation/site-name';
-
 import {
   groupTimelineActivity,
   isPopulatedClaim,
@@ -481,7 +479,7 @@ describe('Disability benefits helpers: ', () => {
       expect(contents.description.props.children).to.eql([
         // React splits it up into separate nodes when variables are inserted
         'We’re sorry, ',
-        siteName,
+        'VA.gov',
         ' will soon be updated to show your status.',
       ]);
     });

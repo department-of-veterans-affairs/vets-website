@@ -3,12 +3,9 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
-
 import disabilityIncreaseManifest from '../../526EZ/manifest.json';
 
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const { rootUrl: increaseRootUrl } = disabilityIncreaseManifest;
 import { profileStatuses } from '../helpers';
 
@@ -44,7 +41,7 @@ export default class AuthorizationMessage extends React.Component {
             <span>
               Please{' '}
               <CallVBACenter>
-                call the {propertyName} Help Desk at 1-855-574-7286, TTY:
+                call the VA.gov Help Desk at 1-855-574-7286, TTY:
                 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
                 &#8211; 8:00 p.m. (ET).
               </CallVBACenter>

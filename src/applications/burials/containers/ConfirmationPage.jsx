@@ -4,11 +4,10 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
 import { focusElement } from '../../../platform/utilities/ui';
 import { benefitsLabels } from '../labels';
 
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+const propertyName = 'VA.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {

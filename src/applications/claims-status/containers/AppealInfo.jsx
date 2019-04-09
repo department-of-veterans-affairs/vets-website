@@ -22,7 +22,6 @@ import {
   AVAILABLE,
   getTypeName,
 } from '../utils/appeals-v2-helpers';
-import siteName from '../../../platform/brand-consolidation/site-name';
 import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
 const appealsDownMessage = (
@@ -34,7 +33,7 @@ const appealsDownMessage = (
           Please refresh this page or try again later. If it still doesn’t work,
           you can{' '}
           <CallVBACenter>
-            call the {siteName} Help Desk at{' '}
+            call the VA.gov Help Desk at{' '}
             <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:+18008294833">1-800-829-4833</a>
             ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
@@ -53,7 +52,7 @@ const recordsNotFoundMessage = (
         <p>
           If you think they should be here, please try again later or{' '}
           <CallVBACenter>
-            call the {siteName} Help Desk at{' '}
+            call the VA.gov Help Desk at{' '}
             <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:+18008294833">1-800-829-4833</a>
             ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
