@@ -58,16 +58,14 @@ export default class PreferenceItem extends React.Component {
 
     this.removeBtnRef = React.createRef();
     this.alertHeaderRef = React.createRef();
-    this.removeCancelled = false;
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // Set focus for keyboard-users upon content-swap.
-    if (this.props.isRemoving) {
+    if (!prevProps.isRemoving && this.props.isRemoving) {
       this.alertHeaderRef.current.focus();
-    } else if (this.removeCancelled) {
+    } else if (prevProps.isRemoving && !this.props.isRemoving) {
       this.removeBtnRef.current.focus();
-      this.removeCancelled = false;
     }
   }
 
@@ -89,7 +87,7 @@ export default class PreferenceItem extends React.Component {
             <p>
               We’ll remove this content. If you’d like to see the information
               again, you can always add it back. Just click on the “Find More
-              Benefits” button at the top of your dashboard, then select "
+              Benefits” button at the top of your dashboard, then select “
               {title}
               .”
             </p>
