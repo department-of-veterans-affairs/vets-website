@@ -20,16 +20,16 @@ export default function CallToActionAlert({
       <div>
         {alertText}
         {buttonText && (
-          <button className={buttonClass} onClick={buttonHandler}>
+          <button
+            className={buttonClass}
+            onClick={buttonHandler}
+            style={secondaryLinkText ? { marginRight: '1em' } : {}}
+          >
             {buttonText}
           </button>
         )}
         {secondaryLinkText && (
-          <a
-            href="#"
-            onClick={secondaryLinkHandler}
-            className="cta-alert-secondary-link"
-          >
+          <a href="#" onClick={secondaryLinkHandler}>
             {secondaryLinkText}
           </a>
         )}
