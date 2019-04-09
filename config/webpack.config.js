@@ -21,7 +21,7 @@ const globalEntryFiles = {
     'src/platform/site-wide/sass/style-consolidated.scss',
   ),
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
-  vagov: getAbsolutePath('src/platform/site-wide/sass/vagov.scss'),
+  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
   vendor: [
     getAbsolutePath('src/platform/polyfills'),
     'react',
