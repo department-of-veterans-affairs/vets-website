@@ -109,6 +109,12 @@ const configGenerator = (buildOptions, apps) => {
                 },
               },
               {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => [require('autoprefixer')],
+                },
+              },
+              {
                 loader: 'sass-loader',
                 options: { sourceMap: true },
               },
