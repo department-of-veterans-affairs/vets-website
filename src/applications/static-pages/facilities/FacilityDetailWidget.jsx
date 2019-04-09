@@ -4,11 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { buildHours } from '../../facility-locator/utils/facilityHours';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
-import Alert from './Alert';
-import {
-  facilitiesApiAlertMessage,
-  facilityApiAlertTitle,
-} from './facilityUtilities';
+import FacilityApiAlert from './FacilityApiAlert';
 
 export default class FacilityDetailWidget extends React.Component {
   constructor(props) {
@@ -48,13 +44,7 @@ export default class FacilityDetailWidget extends React.Component {
     }
 
     if (this.state.error) {
-      return (
-        <Alert
-          title={facilityApiAlertTitle}
-          description={facilitiesApiAlertMessage}
-          displayType="info"
-        />
-      );
+      return <FacilityApiAlert />;
     }
 
     const facilityDetail = this.state.facility;

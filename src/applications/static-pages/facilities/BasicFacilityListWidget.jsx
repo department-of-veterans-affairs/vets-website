@@ -4,12 +4,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import FacilityTitle from './FacilityTitle';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
-import Alert from './Alert';
-import {
-  facilityApiAlertTitle,
-  facilitiesApiAlertMessage,
-  sortFacilitiesByName,
-} from './facilityUtilities';
+import FacilityApiAlert from './FacilityApiAlert';
+import { sortFacilitiesByName } from './facilityUtilities';
 
 export default class BasicFacilityListWidget extends React.Component {
   constructor(props) {
@@ -49,13 +45,7 @@ export default class BasicFacilityListWidget extends React.Component {
     }
 
     if (this.state.error) {
-      return (
-        <Alert
-          title={facilityApiAlertTitle}
-          description={facilitiesApiAlertMessage}
-          displayType="info"
-        />
-      );
+      return <FacilityApiAlert />;
     }
 
     const facilitiesList = sortFacilitiesByName(this.state.facilities).map(

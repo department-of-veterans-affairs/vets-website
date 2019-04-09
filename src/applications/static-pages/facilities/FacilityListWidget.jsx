@@ -2,12 +2,8 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import Alert from './Alert';
-import {
-  facilitiesApiAlertMessage,
-  facilityApiAlertTitle,
-  sortFacilitiesByName,
-} from './facilityUtilities';
+import FacilityApiAlert from './FacilityApiAlert';
+import { sortFacilitiesByName } from './facilityUtilities';
 
 export default class FacilityListWidget extends React.Component {
   constructor(props) {
@@ -47,13 +43,7 @@ export default class FacilityListWidget extends React.Component {
     }
 
     if (this.state.error) {
-      return (
-        <Alert
-          title={facilityApiAlertTitle}
-          description={facilitiesApiAlertMessage}
-          displayType="info"
-        />
-      );
+      return <FacilityApiAlert />;
     }
 
     const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
