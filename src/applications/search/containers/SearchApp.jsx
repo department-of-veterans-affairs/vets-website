@@ -60,6 +60,7 @@ class SearchApp extends React.Component {
     if (this.loader) {
       this.loader.focus();
     }
+    console.log('i am in componentDidMount')
   }
 
   componentDidUpdate(prevProps) {
@@ -69,6 +70,8 @@ class SearchApp extends React.Component {
     if (this.loader) {
       this.loader.focus();
     }
+    console.log('i am in componentDidUpdate')
+
   }
   // helper function to set focus
   setFocus = selector => {
@@ -195,6 +198,7 @@ class SearchApp extends React.Component {
 
   renderRecommendedResults() {
     const { loading, recommendedResults } = this.props.search;
+    console.log('loading in renderRecommendedResults: ', loading)
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
@@ -244,7 +248,7 @@ class SearchApp extends React.Component {
 
   renderResultsList() {
     const { results, loading } = this.props.search;
-
+    console.log('loading in renderResultsList: ', loading)
     if (loading) {
       return <LoadingIndicator message="Loading results..." setFocus />;
     }
@@ -275,10 +279,10 @@ class SearchApp extends React.Component {
           onClick={
             isBestBet
               ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
+                recordEvent({
+                  event: 'nav-searchresults',
+                  'nav-path': `Recommended Results -> ${strippedTitle}`,
+                })
               : null
           }
         >
@@ -317,6 +321,7 @@ class SearchApp extends React.Component {
   }
 
   render() {
+    console.count('render')
     return (
       <div className="search-app">
         <div className="row">
