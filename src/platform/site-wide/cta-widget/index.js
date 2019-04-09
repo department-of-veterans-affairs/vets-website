@@ -9,7 +9,8 @@ import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
 import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
-import { verify } from '../../user/authentication/utilities';
+import { logout, verify } from '../../user/authentication/utilities';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import {
   createAndUpgradeMHVAccount,
@@ -354,14 +355,29 @@ export class CallToActionWidget extends React.Component {
 
     if (!accountLevel) {
       return {
-        heading: `You’ll need to create a My HealtheVet account before you can ${
+        heading: `Please create a My HealtheVet account to ${
           this._serviceDescription
         }`,
-        buttonText: 'Create a My HealtheVet Account',
+        alertText: (
+          <>
+            <p>
+              You’ll need to create a My HealtheVet account before you can
+              refill prescriptions online. This account is cost-free and secure.
+            </p>
+            <p>
+              <strong>If you already have a My HealtheVet account,</strong>{' '}
+              please sign out of VA.gov. Then sign in again with your My{' '}
+              HealtheVet username and password.
+            </p>
+          </>
+        ),
+        buttonText: 'Create your free account',
         buttonHandler:
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
+        secondaryLinkText: 'Sign out of VA.gov',
+        secondaryLinkHandler: this.signOut,
         status: 'continue',
       };
     }
@@ -412,6 +428,11 @@ export class CallToActionWidget extends React.Component {
         this._popup = true;
       }
     }
+  };
+
+  signOut = () => {
+    recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
+    logout();
   };
 
   render() {

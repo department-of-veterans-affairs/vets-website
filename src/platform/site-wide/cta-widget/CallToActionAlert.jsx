@@ -7,6 +7,8 @@ export default function CallToActionAlert({
   alertText,
   buttonText,
   buttonHandler,
+  secondaryLinkText,
+  secondaryLinkHandler,
   status,
 }) {
   const buttonClass =
@@ -21,6 +23,15 @@ export default function CallToActionAlert({
           <button className={buttonClass} onClick={buttonHandler}>
             {buttonText}
           </button>
+        )}
+        {secondaryLinkText && (
+          <a
+            href="#"
+            onClick={secondaryLinkHandler}
+            className="cta-alert-secondary-link"
+          >
+            {secondaryLinkText}
+          </a>
         )}
       </div>
     ),
