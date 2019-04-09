@@ -327,6 +327,7 @@ export function transform(formConfig, form) {
     const clonedData = _.cloneDeep(formData);
 
     return clonedData.newSecondaryDisabilities.map(sd => {
+      // prepend caused by condition to primary description
       const descString = [
         'Secondary to ',
         sd.causedByDisability,
@@ -334,9 +335,11 @@ export function transform(formConfig, form) {
         sd.causedByDisabilityDescription,
       ].join('');
 
+      // TODO: if necessary, delete causedByDisability and causedByDisabilityDescription
       return {
         ...sd,
         cause: causeTypes.NEW,
+        // truncate description to 400 characters
         primaryDescription: descString.substring(0, 400),
       };
     });
