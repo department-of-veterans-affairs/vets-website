@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import SubmitSignInForm from '../brand-consolidation/components/SubmitSignInForm';
-import CallVBACenter from '../brand-consolidation/components/CallVBACenter';
+import CallVBACenter from './CallVBACenter';
 
 export const systemDownMessage = (
   <div className="row" id="systemDownMessage">
@@ -25,12 +25,7 @@ export const unableToFindRecordWarning = (
       <div className="react-container">
         <h3>We weren't able to find your records.</h3>
         <h4>
-          Please{' '}
-          <CallVBACenter>
-            call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-            8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallVBACenter>
+          Please <CallVBACenter />
         </h4>
       </div>
     </div>

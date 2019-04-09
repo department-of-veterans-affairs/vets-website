@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextArea from '@department-of-veterans-affairs/formation-react/ErrorableTextArea';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import CallVBACenter from '../../../brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../static-data/CallVBACenter';
 
 class FeedbackForm extends React.Component {
   constructor(props) {

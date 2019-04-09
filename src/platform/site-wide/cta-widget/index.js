@@ -5,7 +5,7 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../static-data/CallVBACenter';
 import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
@@ -149,14 +149,7 @@ export class CallToActionWidget extends React.Component {
             </p>
             <h5>What you can do</h5>
             <p>
-              You can try again later or{' '}
-              <CallVBACenter>
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
-              </CallVBACenter>
+              You can try again later or <CallVBACenter />
             </p>
           </div>
         ),
@@ -295,14 +288,7 @@ export class CallToActionWidget extends React.Component {
                 VA.gov health tools right now.
               </p>
               <p>
-                You can try again later or{' '}
-                <CallVBACenter>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </CallVBACenter>
+                You can try again later or <CallVBACenter />
               </p>
             </div>
           ),

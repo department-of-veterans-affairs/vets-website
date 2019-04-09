@@ -1,6 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
 
 export default function IdentityVerification({
   learnMoreClick,
@@ -72,14 +72,7 @@ export default function IdentityVerification({
           </a>
         </p>
         <p>
-          Or{' '}
-          <CallVBACenter>
-            call the VA.gov Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>
-            ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-            (ET)
-          </CallVBACenter>
+          Or <CallVBACenter />
         </p>
       </div>
     </div>

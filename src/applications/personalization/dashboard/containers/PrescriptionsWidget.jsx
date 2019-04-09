@@ -7,7 +7,7 @@ import { loadPrescriptions } from '../actions/prescriptions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
 import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 import environment from '../../../../platform/utilities/environment';
 
@@ -35,13 +35,7 @@ class PrescriptionsWidget extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions. Please refresh this page or
-          try again later. If you keep having trouble, please{' '}
-          <CallVBACenter>
-            call the VA.gov Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-            8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallVBACenter>
+          try again later. If you keep having trouble, please <CallVBACenter />
         </p>
       );
     }

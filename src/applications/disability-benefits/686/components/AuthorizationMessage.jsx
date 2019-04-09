@@ -3,7 +3,7 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
 import disabilityIncreaseManifest from '../../526EZ/manifest.json';
 
 const { rootUrl: increaseRootUrl } = disabilityIncreaseManifest;
@@ -39,12 +39,7 @@ export default class AuthorizationMessage extends React.Component {
           messageLine1="We couldn’t find your records with that information."
           messageLine2={
             <span>
-              Please{' '}
-              <CallVBACenter>
-                call the VA.gov Help Desk at 1-855-574-7286, TTY:
-                1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
-                &#8211; 8:00 p.m. (ET).
-              </CallVBACenter>
+              Please <CallVBACenter />
             </span>
           }
         />
