@@ -26,9 +26,8 @@ export default function CallToActionAlert({
         )}
         {secondaryButtonText && (
           <button
-            className="va-button-link"
+            className="va-button-link vads-u-margin-left--2"
             onClick={secondaryButtonHandler}
-            style={{ marginLeft: '1rem' }}
           >
             {secondaryButtonText}
           </button>
