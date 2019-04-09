@@ -75,6 +75,15 @@
     ]
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
+  "browserslist": [
+    "Chrome 60",
+    "Firefox 56",
+    "iOS 9",
+    "Edge 14",
+    "ChromeAndroid 64",
+    "Safari 10",
+    "ie 11"
+  ],
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -91,6 +100,7 @@
     "@babel/register": "^7.0.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
+    "autoprefixer": "^9.5.1",
     "axe-core": "^2.6.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
@@ -162,6 +172,7 @@
     "null-loader": "^0.1.1",
     "nyc": "^11.1.0",
     "polyfill-function-prototype-bind": "0.0.1",
+    "postcss-loader": "^3.0.0",
     "prettier": "^1.14.3",
     "puppeteer": "^1.9.0",
     "quick_check": "^0.7.0",
@@ -256,7 +267,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d674ca3c39e2181bea5fa642c73a9a8b17be7533",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#59807d15c8d8cf7312bedb3076478aad2fa7762e",
     "whatwg-fetch": "^2.0.3"
   }
 }
