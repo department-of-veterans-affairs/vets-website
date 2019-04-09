@@ -14,23 +14,27 @@ import {
 } from '../content/bankInformation';
 
 const { bankAccount } = fullSchema.properties;
+
 const hasNewBankInfo = formData => {
   const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
   return hasNewBankInformation(bankAccountObj);
 };
+
+const hasPrefillBankInfo = formData =>
+  _.get(formData['view:bankAccount'], 'view:hasBankInformation', false);
 
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
   'view:descriptionWithPrefill': {
     'ui:description': bankInfoDescriptionWithPrefill,
     'ui:options': {
-      hideIf: data => !data['view:hasBankInformation'] && hasNewBankInfo(data),
+      hideIf: data => !hasPrefillBankInfo(data) || hasNewBankInfo(data),
     },
   },
   'view:descriptionWithoutPrefill': {
     'ui:description': bankInfoDescriptionWithoutPrefill,
     'ui:options': {
-      hideIf: data => data['view:hasBankInformation'] && !hasNewBankInfo(data),
+      hideIf: data => hasPrefillBankInfo(data) && !hasNewBankInfo(data),
     },
   },
   'view:bankAccount': {
