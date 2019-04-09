@@ -20,11 +20,8 @@ const globalEntryFiles = {
   styleConsolidated: getAbsolutePath(
     'src/platform/site-wide/sass/style-consolidated.scss',
   ),
-  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
-  brandConsolidation: getAbsolutePath(
-    'src/platform/site-wide/sass/brand-consolidation.scss',
-  ),
+  vagov: getAbsolutePath('src/platform/site-wide/sass/vagov.scss'),
   vendor: [
     getAbsolutePath('src/platform/polyfills'),
     'react',
