@@ -42,7 +42,7 @@ const INELIGIBLE_MESSAGES = {
   },
 
   needs_va_patient: {
-    headline: `We can’t give you access to the $VA.gov health tools`,
+    headline: `We can’t give you access to the VA.gov health tools`,
     content: (
       <div>
         <p>
@@ -178,7 +178,7 @@ export class MHVApp extends React.Component {
     }
 
     const alertProps = {
-      headline: `Thank you for accepting the Terms and Conditions for using $VA.gov health tools`,
+      headline: `Thank you for accepting the Terms and Conditions for using VA.gov health tools`,
       content: <p>You can now access health tools on VA.gov.</p>,
       onCloseAlert: this.closeTcAcceptanceMessage,
     };
