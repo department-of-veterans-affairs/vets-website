@@ -25,6 +25,10 @@ const hasPrefillBankInfo = formData => {
   return hasPrefillBankInformation(bankAccountObj);
 };
 
+const startInEdit = data =>
+  !_.get(data, 'view:hasBankInformation', false) &&
+  !hasNewBankInformation(data.bankAccount);
+
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
   'view:descriptionWithPrefill': {
@@ -47,8 +51,7 @@ export const uiSchema = {
       editTitle: 'Update bank account',
       itemName: 'account',
       itemNameAction: 'Update',
-      startInEdit: data =>
-        !hasPrefillBankInfo(data) && !hasNewBankInformation(data),
+      startInEdit,
       volatileData: true,
     },
     saveClickTrackEvent: { event: 'edu-0994-bank-account-saved' },
