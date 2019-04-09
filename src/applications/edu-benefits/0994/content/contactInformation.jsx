@@ -4,8 +4,8 @@ export const contactInfoNote = (
   <span>
     <strong>Note: </strong>
     Any updates you make here to your contact information will apply to your VA
-    compensation, pension, and education benefits. This will not update your
-    records for your VA health benefits or your prescriptions.
+    compensation, pension, and education benefits. The updates won't apply to
+    your VA health care records and prescriptions.
   </span>
 );
 

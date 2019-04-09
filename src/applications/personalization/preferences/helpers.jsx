@@ -38,9 +38,8 @@ export const benefitChoices = [
     introduction:
       'You may be able to get VA disability compensation (pay) if you got sick or injured while serving in the military—or if a condition that you already had got worse because of your service. You may qualify even if your condition didn’t appear until years after your service ended.',
     cta: {
-      link:
-        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-      text: 'File a Claim now on eBenefits',
+      link: '/disability/how-to-file-claim/',
+      text: 'Find out how to file a claim',
       gaTag: 'recommendations-disability-file-claim',
     },
     faqs: [
@@ -190,6 +189,11 @@ export const benefitChoices = [
     gaTag: 'Family',
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
+    cta: {
+      link: '/family-member-benefits/',
+      text: 'View all related benefits',
+      gaTag: 'view-all-related-benefits',
+    },
     faqs: [
       {
         title: 'What kinds of family and caregiver benefits does VA offer?',
