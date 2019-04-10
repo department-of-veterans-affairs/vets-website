@@ -14,8 +14,10 @@ export const uiSchema = {
     'ui:title': '',
     'ui:description': eligibilityInstructions,
     'ui:options': {
-      expandUnder: 'appliedForVaEducationBenefits',
       expandUnderCondition: false,
+      hideIf: formData =>
+        formData.appliedForVaEducationBenefits ||
+        formData.appliedForVaEducationBenefits === undefined,
     },
   },
 };
