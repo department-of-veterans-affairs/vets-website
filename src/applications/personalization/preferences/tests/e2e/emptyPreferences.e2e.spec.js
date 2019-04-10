@@ -21,18 +21,18 @@ function emptyPreferences(browser, token) {
     );
   });
 
-  // verify FTUX Find VA Benefits modal
+  // verify FTUX Find VA benefits modal
   browser
     .url(`${E2eHelpers.baseUrl}/my-va`)
     .waitForElementVisible('.va-modal-body', Timeouts.slow);
-  browser.assert.containsText('.va-modal-body', 'Find VA Benefits');
+  browser.assert.containsText('.va-modal-body', 'Find VA benefits');
 
   // accept find benefits modal
   browser
     .click('.va-modal-body .usa-button')
     // land on correct page
     .waitForElementVisible('#dashboard-title', Timeouts.slow);
-  browser.assert.containsText('#dashboard-title', 'Find VA Benefits');
+  browser.assert.containsText('#dashboard-title', 'Find VA benefits');
 
   // init announcements
   browser.execute(() => {
@@ -47,7 +47,7 @@ function emptyPreferences(browser, token) {
   browser
     .url(`${E2eHelpers.baseUrl}/my-va`)
     .waitForElementVisible('.va-modal-body', Timeouts.slow);
-  browser.assert.containsText('.va-modal-body', 'Find VA Benefits');
+  browser.assert.containsText('.va-modal-body', 'Find VA benefits');
 
   // decline find benefits modal
   browser

@@ -73,7 +73,7 @@ class PrescriptionsWidget extends React.Component {
 
       return (
         <div id="rx-widget">
-          <h2>Refill Prescriptions</h2>
+          <h2>Refill prescriptions</h2>
           <div>{content}</div>
           <p>
             {isBrandConsolidationEnabled() ? (

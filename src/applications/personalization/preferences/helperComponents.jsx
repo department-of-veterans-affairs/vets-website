@@ -140,7 +140,7 @@ const familyQuestions = [
   },
   {
     href: '/life-insurance/options-eligibility/fsgli',
-    title: 'Learn about Family Servicemembers’ Group Life Insurance (FSGLI).',
+    title: 'Learn about Family Servicemembers’ Group Life insurance (FSGLI).',
   },
   {
     href: '/health-care/about-va-health-benefits/long-term-care',
@@ -184,12 +184,12 @@ const lifeInsuranceQuestions = [
   },
   {
     href: '/life-insurance/options-eligibility/vgli/',
-    title: 'Consider Veterans’ Group Life Insurance (VGLI) after your service.',
+    title: 'Consider Veterans’ Group Life insurance (VGLI) after your service.',
   },
   {
     href: '/life-insurance/options-eligibility/s-dvi/',
     title:
-      'See if Service-Disabled Veterans Life Insurance (S-DVI) might be an option.',
+      'See if Service-Disabled Veterans Life insurance (S-DVI) might be an option.',
   },
 ];
 const pensionQuestions = [

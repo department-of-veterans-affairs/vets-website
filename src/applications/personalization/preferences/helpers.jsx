@@ -10,7 +10,7 @@ export const DISMISSED_BENEFIT_ALERTS = 'DISMISSED_BENEFIT_ALERTS';
 
 export const benefitChoices = [
   {
-    title: 'Health Care',
+    title: 'Health care',
     description: 'Get health care coverage.',
     code: 'health-care',
     gaTag: 'Health',
@@ -18,7 +18,7 @@ export const benefitChoices = [
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists like cardiologists, gynecologists, and mental health providers. You can access Veterans health care services like home health or geriatric (elder) care, and get medical equipment, prosthetics, and prescriptions.',
     cta: {
       link: '/health-care/apply/application/introduction',
-      text: 'Apply Now for VA Health Care',
+      text: 'Apply Now for VA Health care',
       gaTag: 'recommendations-health-care-apply-now',
     },
     faqs: [
@@ -30,7 +30,7 @@ export const benefitChoices = [
     alert: components.homelessnessAlert,
   },
   {
-    title: 'Disability Compensation',
+    title: 'Disability compensation',
     description:
       'Find benefits for an illness or injury related to my service.',
     code: 'disability',
@@ -83,7 +83,7 @@ export const benefitChoices = [
     ],
   },
   {
-    title: 'Careers and Employment',
+    title: 'Careers and employment',
     description:
       'Find a job, build skills, or get support for my own business.',
     code: 'careers-employment',
@@ -124,7 +124,7 @@ export const benefitChoices = [
     ],
   },
   {
-    title: 'Housing Assistance',
+    title: 'Housing assistance',
     description: 'Find, buy, build, modify, or refinance a place to live.',
     code: 'housing-assistance',
     gaTag: 'Housing',
@@ -146,7 +146,7 @@ export const benefitChoices = [
     alert: components.homelessnessAlert,
   },
   {
-    title: 'Life Insurance',
+    title: 'Life insurance',
     description: 'Learn about my life insurance options.',
     code: 'life-insurance',
     gaTag: 'LifeInsurance',
@@ -161,7 +161,7 @@ export const benefitChoices = [
     ],
   },
   {
-    title: 'Burial Benefits and Memorial Items',
+    title: 'Burial benefits and memorial items',
     description:
       'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
     code: 'burials-memorials',
@@ -183,7 +183,7 @@ export const benefitChoices = [
     ],
   },
   {
-    title: 'Family and Caregiver Benefits',
+    title: 'Family and caregiver benefits',
     description: 'Learn about benefits for family members and caregivers.',
     code: 'family-caregiver-benefits',
     gaTag: 'Family',
