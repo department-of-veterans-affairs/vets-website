@@ -7,8 +7,8 @@ import PaymentReviewView from '../components/PaymentReviewView';
 import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 
 import {
-  bankInfoDescriptionWithPrefill,
-  bankInfoDescriptionWithoutPrefill,
+  bankInfoDescriptionWithInfo,
+  bankInfoDescriptionWithoutInfo,
   bankInfoNote,
   bankInfoHelpText,
 } from '../content/bankInformation';
@@ -31,16 +31,16 @@ const startInEdit = data =>
 
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
-  'view:descriptionWithPrefill': {
-    'ui:description': bankInfoDescriptionWithPrefill,
+  'view:descriptionWithInfo': {
+    'ui:description': bankInfoDescriptionWithInfo,
     'ui:options': {
-      hideIf: data => !hasPrefillBankInfo(data) || hasNewBankInfo(data),
+      hideIf: data => !hasPrefillBankInfo(data) && !hasNewBankInfo(data),
     },
   },
-  'view:descriptionWithoutPrefill': {
-    'ui:description': bankInfoDescriptionWithoutPrefill,
+  'view:descriptionWithoutInfo': {
+    'ui:description': bankInfoDescriptionWithoutInfo,
     'ui:options': {
-      hideIf: data => hasPrefillBankInfo(data) && !hasNewBankInfo(data),
+      hideIf: data => hasPrefillBankInfo(data) || hasNewBankInfo(data),
     },
   },
   'view:bankAccount': {
@@ -82,11 +82,11 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:descriptionWithPrefill': {
+    'view:descriptionWithInfo': {
       type: 'object',
       properties: {},
     },
-    'view:descriptionWithoutPrefill': {
+    'view:descriptionWithoutInfo': {
       type: 'object',
       properties: {},
     },
