@@ -5,7 +5,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import environment from 'platform/utilities/environment';
 
 export function EducationGate({ user, location, children }) {
   // Short-circuit the check on the intro page
@@ -33,7 +32,6 @@ export function EducationGate({ user, location, children }) {
     <RequiredLoginView
       serviceRequired={backendServices.EDUCATION_BENEFITS}
       user={user}
-      verify={environment.isProduction()}
     >
       {children}
     </RequiredLoginView>
