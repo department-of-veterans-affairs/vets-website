@@ -17,6 +17,23 @@ export const completeFormPage = (url, client, data, func) => {
   client.click('body').click('.form-progress-buttons .usa-button-primary');
 };
 
+export const completeApplicantInformation = (client, data) => {
+  const {
+    applicantFullName,
+    applicantSocialSecurityNumber,
+    dateOfBirth,
+  } = data;
+
+  client
+    .fill('input[name="root_applicantFullName_first"]', applicantFullName.first)
+    .fill('input[name="root_applicantFullName_last"]', applicantFullName.last)
+    .fill(
+      'input[name="root_applicantSocialSecurityNumber"]',
+      applicantSocialSecurityNumber,
+    )
+    .fillDate(`root_dateOfBirth`, dateOfBirth);
+};
+
 export const completeAlreadySubmitted = (client, data) => {
   client.pause(1000);
   client.selectRadio(
