@@ -61,7 +61,7 @@ class SignInModal extends React.Component {
             <div className="columns small-12">
               <div className="form-warning-banner">
                 <AlertBox
-                  headline={`Some VA.gov tools and features may not be working as expected`}
+                  headline="Some VA.gov tools and features may not be working as expected"
                   isVisible
                   status="warning"
                 >
