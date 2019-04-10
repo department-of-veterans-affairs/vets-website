@@ -47,14 +47,11 @@ class ConnectedAcctApp extends React.Component {
         <ConnectedApps
           confirmDelete={this.confirmDelete}
           accounts={this.props.accounts}
-          propertyName={'VA.gov'}
           dismissAlert={this.dismissAlert}
         />
       );
     } else {
-      connectedAccountsView = (
-        <NoConnectedApps propertyName={'VA.gov'} errors={this.props.errors} />
-      );
+      connectedAccountsView = <NoConnectedApps errors={this.props.errors} />;
     }
 
     return (
