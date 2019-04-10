@@ -8,7 +8,6 @@
 function getBuildSettings(options) {
   return {
     type: options.buildtype,
-    brandConsolidationEnabled: true,
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1,

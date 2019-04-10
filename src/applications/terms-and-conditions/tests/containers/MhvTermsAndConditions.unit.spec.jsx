@@ -84,7 +84,7 @@ describe('<MhvTermsAndConditions>', () => {
     const alertBox = wrapper.find('AlertBox').first();
     expect(alertBox.prop('status')).to.eq('success');
     expect(alertBox.prop('headline')).to.eq(
-      'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
+      'You’ve accepted the Terms and Conditions for using VA.gov health tools',
     );
     wrapper.unmount();
   });
@@ -94,7 +94,7 @@ describe('<MhvTermsAndConditions>', () => {
     wrapper.setState({ showCanceledMessage: true });
     const alertBox = wrapper.find('AlertBox').first();
     expect(alertBox.prop('status')).to.eq('warning');
-    expect(alertBox.prop('headline')).to.eq('Using Vets.gov Health Tools');
+    expect(alertBox.prop('headline')).to.eq('Using VA.gov Health Tools');
     wrapper.unmount();
   });
 
