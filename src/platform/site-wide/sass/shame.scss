@@ -36,7 +36,7 @@ $medium-phone-screen: 375px;
   $color-primary-lightest: #e1f3f8;
 
   @import "iconography";
-  @import "right-rail";
+  @import "modules/m-right-rail";
 
   section.usa-grid {
     padding-top: 3em;
