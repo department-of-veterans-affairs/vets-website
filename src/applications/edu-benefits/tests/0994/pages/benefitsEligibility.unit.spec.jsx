@@ -29,7 +29,7 @@ describe('VET TEC benefits eligibility', () => {
     );
 
     selectRadio(form, 'root_appliedForVaEducationBenefits', 'N');
-    expect(form.find('.form-expanding-group-open').length).to.equal(1);
+    expect(form.find('.feature').length).to.equal(1);
     form.unmount();
   });
 
