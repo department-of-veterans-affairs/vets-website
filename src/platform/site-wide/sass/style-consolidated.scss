@@ -106,11 +106,11 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   @import "../../site-wide/user-nav/sass/user-nav";
 
 
-  @import "modules/m-footer-brand-consolidation";
+  @import "modules/m-footer";
 
   // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
-  @import "modules/m-crisis-line-brand-consolidation";
+  @import "modules/m-crisis-line";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";

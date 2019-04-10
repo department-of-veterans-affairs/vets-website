@@ -5,8 +5,6 @@ import { selectUser } from '../../../../platform/user/selectors';
 import { focusElement } from '../../../../platform/utilities/ui';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import {
@@ -15,8 +13,6 @@ import {
   dismissDeletedAccountAlert,
 } from '../actions';
 import { NoConnectedApps, ConnectedApps } from '../components';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 class ConnectedAcctApp extends React.Component {
   constructor(props) {
@@ -51,17 +47,11 @@ class ConnectedAcctApp extends React.Component {
         <ConnectedApps
           confirmDelete={this.confirmDelete}
           accounts={this.props.accounts}
-          propertyName={propertyName}
           dismissAlert={this.dismissAlert}
         />
       );
     } else {
-      connectedAccountsView = (
-        <NoConnectedApps
-          propertyName={propertyName}
-          errors={this.props.errors}
-        />
-      );
+      connectedAccountsView = <NoConnectedApps errors={this.props.errors} />;
     }
 
     return (
