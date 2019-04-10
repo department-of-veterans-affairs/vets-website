@@ -1,4 +1,6 @@
 import _ from '../../../platform/utilities/data';
+import environment from '../../../platform/utilities/environment';
+
 import {
   transformForSubmit,
   filterViewFields,
@@ -320,29 +322,39 @@ export function transform(formConfig, form) {
 
   // transform secondary disabilities into primary, with description appended
   const transformSecondaryDisabilities = formData => {
-    if (!formData.newSecondaryDisabilities) {
+    // Skip transform in production environment
+    if (environment.isProduction() || !formData.newSecondaryDisabilities) {
       return formData;
     }
 
     const clonedData = _.cloneDeep(formData);
 
-    return clonedData.newSecondaryDisabilities.map(sd => {
-      // prepend caused by condition to primary description
-      const descString = [
-        'Secondary to ',
-        sd.causedByDisability,
-        '\n',
-        sd.causedByDisabilityDescription,
-      ].join('');
+    const transformedSecondaries = clonedData.newSecondaryDisabilities.map(
+      sd => {
+        // prepend caused by condition to primary description
+        const descString = [
+          'Secondary to ',
+          sd.causedByDisability,
+          '\n',
+          sd.causedByDisabilityDescription,
+        ].join('');
 
-      // TODO: if necessary, delete causedByDisability and causedByDisabilityDescription
-      return {
-        ...sd,
-        cause: causeTypes.NEW,
-        // truncate description to 400 characters
-        primaryDescription: descString.substring(0, 400),
-      };
-    });
+        return {
+          condition: sd.condition,
+          cause: causeTypes.NEW,
+          classificationCode: sd.classificationCode,
+          // truncate description to 400 characters
+          primaryDescription: descString.substring(0, 400),
+        };
+      },
+    );
+
+    clonedData.newPrimaryDisabilities = (
+      clonedData.newPrimaryDisabilities || []
+    ).concat(transformedSecondaries);
+
+    delete clonedData.newSecondaryDisabilities;
+    return clonedData;
   };
 
   // Transform the related disabilities lists into an array of strings

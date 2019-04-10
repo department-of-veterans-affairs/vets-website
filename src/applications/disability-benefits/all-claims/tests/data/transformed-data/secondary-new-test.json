@@ -108,18 +108,16 @@
       ]
     },
     "servedInCombatZonePost911": true,
-    "newSecondaryDisabilities": [
+    "newPrimaryDisabilities": [
       {
-        "cause": "SECONDARY",
-        "causedByDisability": "Diabetes Mellitus0",
-        "causedByDisabilityDescription": "Again, this doesn't really make sense.",
+        "cause": "NEW",
+        "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
         "condition": "phlebitis",
         "classificationCode": "5300"
       },
       {
-        "cause": "SECONDARY",
-        "causedByDisability": "Diabetes Mellitus1",
-        "causedByDisabilityDescription": "Again, this doesn't really make sense.",
+        "cause": "NEW",
+        "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
         "condition": "knee replacement",
         "classificationCode": "8919"
       }
