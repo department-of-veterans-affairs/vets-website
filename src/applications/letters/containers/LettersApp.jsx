@@ -6,8 +6,7 @@ import backendServices from '../../../platform/user/profile/constants/backendSer
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../platform/monitoring/DowntimeNotification/components/Banner';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../platform/static-data/CallVBACenter';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
@@ -41,13 +40,7 @@ export class AppContent extends React.Component {
         <h4>
           We weren’t able to find information about your VA letters. If you
           think you should be able to access this information, please{' '}
-          <CallVBACenter>
-            call the
-            {siteName} Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-            8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallVBACenter>
+          <CallVBACenter />
         </h4>
       );
     } else {
