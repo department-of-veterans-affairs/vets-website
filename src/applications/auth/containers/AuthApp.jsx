@@ -5,7 +5,7 @@ import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import { authnSettings } from '../../../platform/user/authentication/utilities';
 import {
@@ -13,8 +13,80 @@ import {
   setupProfileSession,
 } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
+import get from '../../../platform/utilities/data/get';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+class AuthMetrics {
+  constructor(type, payload) {
+    this.type = type;
+    this.payload = payload;
+    this.userProfile = get('data.attributes.profile', payload, {});
+    this.loaCurrent = get('loa.loaCurrent', this.userProfile, null);
+    this.serviceName = get('signIn.serviceName', this.userProfile, null);
+  }
+
+  compareLoginPolicy = () => {
+    // This is experimental code related to GA that will let us determine
+    // if the backend is returning an accurate service_name
+
+    const attemptedLoginPolicy =
+      this.type === 'mhv' ? 'myhealthevet' : this.type;
+
+    if (this.serviceName !== attemptedLoginPolicy) {
+      recordEvent({
+        event: `login-mismatch-${attemptedLoginPolicy}-${this.serviceName}`,
+      });
+    }
+  };
+
+  recordGAAuthEvents = () => {
+    switch (this.type) {
+      case 'signup':
+        recordEvent({ event: `register-success-${this.serviceName}` });
+        break;
+      case 'mhv':
+      case 'dslogon':
+      case 'idme':
+        recordEvent({ event: `login-success-${this.serviceName}` });
+        this.compareLoginPolicy();
+        break;
+      /*
+      case 'mfa':
+        recordEvent({ event: `multifactor-success-${this.serviceName}` });
+        break;
+      case 'verify':
+        recordEvent({ event: `verify-success-${this.serviceName}` });
+        break;
+      */
+      default:
+        recordEvent({ event: `login-or-register-success-${this.serviceName}` });
+        Raven.captureMessage('Unrecognized auth event type', {
+          extra: { type: this.type },
+        });
+    }
+
+    // Report out the current level of assurance for the user.
+    if (this.loaCurrent) {
+      recordEvent({ event: `login-loa-current-${this.loaCurrent}` });
+    }
+  };
+
+  reportSentryErrors = () => {
+    if (!Object.keys(this.userProfile).length) {
+      Raven.captureMessage('Unexpected response for user object', {
+        extra: { payload: this.payload },
+      });
+    } else if (!this.serviceName) {
+      Raven.captureMessage('Missing serviceName in user object', {
+        extra: { payload: this.payload },
+      });
+    }
+  };
+
+  run = () => {
+    this.reportSentryErrors();
+    if (!hasSession()) this.recordGAAuthEvents();
+  };
+}
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -26,18 +98,12 @@ export class AuthApp extends React.Component {
     if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  handleAuthError = e => {
-    const loginType = sessionStorage.getItem(
-      authnSettings.PENDING_LOGIN_POLICY,
-    );
+  handleAuthError = error => {
+    const loginType = this.props.location.query.type;
 
-    Raven.captureMessage(`User fetch error: ${e.message}`, {
-      extra: {
-        error: e,
-      },
-      tags: {
-        loginType,
-      },
+    Raven.captureMessage(`User fetch error: ${error.message}`, {
+      extra: { error },
+      tags: { loginType },
     });
 
     recordEvent({ event: `login-error-user-fetch` });
@@ -46,7 +112,10 @@ export class AuthApp extends React.Component {
   };
 
   handleAuthSuccess = payload => {
-    setupProfileSession(payload);
+    const { type } = this.props.location.query;
+    const authMetrics = new AuthMetrics(type, payload);
+    authMetrics.run();
+    setupProfileSession(authMetrics.userProfile);
     this.redirect();
   };
 
@@ -275,7 +344,7 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message={`Signing in to ${siteName}...`} />
+      <LoadingIndicator message={`Signing in to VA.gov...`} />
     );
 
     return <div className="row vads-u-padding-y--5">{view}</div>;
