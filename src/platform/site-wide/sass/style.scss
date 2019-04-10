@@ -1,8 +1,3 @@
-/*
- * NOTE: there is a version of this file for the regular vets.gov build at
- * style.scss. If you make a change to this file, please
- * verify that you do or do not need to make the same change in the other file
- */
 @import "modules/m-overrides";
 @import "~@department-of-veterans-affairs/formation/sass/core.scss";
 
@@ -25,7 +20,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-hub-page-link-list";
 @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
-@import "modules/m-facilities";
 
 @import "modules/m-layers";
 @import "modules/m-facilities";
