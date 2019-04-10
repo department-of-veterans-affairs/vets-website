@@ -11,7 +11,6 @@ import classnames from 'classnames';
  * open - determines if the second child is displayed
  * additionalClass - A string added as a class to the parent element of the second child
  * showPlus - Boolean to display a "+" or "-" icon based on open status
- * hideBar - Hide the blue bar used as a visual cue to indicate grouping
  */
 export default function ExpandingGroup({
   children,
@@ -19,11 +18,10 @@ export default function ExpandingGroup({
   showPlus,
   additionalClass,
   expandedContentId,
-  hideBar,
 }) {
   const classNames = classnames(
     'form-expanding-group',
-    { 'form-expanding-group-open': open && hideBar !== true },
+    { 'form-expanding-group-open': open },
     { 'form-expanding-group-plus': showPlus },
   );
 
@@ -63,8 +61,4 @@ ExpandingGroup.propTypes = {
    * id for ReactCSSTransitionGroup
    */
   expandedContentId: PropTypes.string,
-  /**
-   * Hide the blue bar used as a visual cue to indicate grouping
-   */
-  hideBar: PropTypes.bool,
 };

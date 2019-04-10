@@ -249,13 +249,8 @@ class ObjectField extends React.Component {
             const visible = rest.filter(
               prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
             );
-            const hideBar = _.get([visible, 'ui:options', 'hideBar'], uiSchema);
             return (
-              <ExpandingGroup
-                open={visible.length > 0}
-                key={index}
-                hideBar={hideBar}
-              >
+              <ExpandingGroup open={visible.length > 0} key={index}>
                 {renderProp(first)}
                 <div
                   className={_.get(
