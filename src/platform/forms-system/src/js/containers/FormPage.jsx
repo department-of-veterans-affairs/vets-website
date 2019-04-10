@@ -29,6 +29,19 @@ const scrollToTop = () => {
 };
 
 class FormPage extends React.Component {
+  constructor(props) {
+    super(props);
+    // If the page config has an ancillaryData property, connect to the redux store and get the data
+    //  it specifies.
+    // Setting it here so SchemaForm doesn't get re-mounted a bunch
+    const ancillaryData = this.props.route.pageConfig.ancillaryData;
+    this.SchemaFormWrapper = ancillaryData
+      ? connect(state => ({
+          ancillaryData: ancillaryData(state),
+        }))(SchemaForm)
+      : SchemaForm;
+  }
+
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
       scrollToTop();
@@ -124,9 +137,11 @@ class FormPage extends React.Component {
       route.pageConfig.onContinue(data);
     }
 
+    const SchemaFormWrapper = this.SchemaFormWrapper;
+
     return (
       <div className={pageClasses}>
-        <SchemaForm
+        <SchemaFormWrapper
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
           data={data}
@@ -160,7 +175,7 @@ class FormPage extends React.Component {
             </div>
           </div>
           {contentAfterButtons}
-        </SchemaForm>
+        </SchemaFormWrapper>
       </div>
     );
   }
