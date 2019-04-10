@@ -24,20 +24,14 @@ export const completeApplicantInformation = (client, data) => {
     dateOfBirth,
   } = data;
 
-  client.fill(
-    'input[name="root_applicantFullName_first"]',
-    applicantFullName.first,
-  );
-  client.fill(
-    'input[name="root_applicantFullName_last"]',
-    applicantFullName.last,
-  );
-  client.fill(
-    'input[name="root_applicantSocialSecurityNumber"]',
-    applicantSocialSecurityNumber,
-  );
-
-  client.fillDate(`root_dateOfBirth`, dateOfBirth);
+  client
+    .fill('input[name="root_applicantFullName_first"]', applicantFullName.first)
+    .fill('input[name="root_applicantFullName_last"]', applicantFullName.last)
+    .fill(
+      'input[name="root_applicantSocialSecurityNumber"]',
+      applicantSocialSecurityNumber,
+    )
+    .fillDate(`root_dateOfBirth`, dateOfBirth);
 };
 
 export const completeAlreadySubmitted = (client, data) => {
