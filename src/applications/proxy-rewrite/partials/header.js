@@ -78,7 +78,7 @@ export default `
       )}" class="va-header-logo" title="Go to VA.gov">
       <img src="${replaceWithStagingDomain(
         'https://www.va.gov/img/header-logo.png',
-      )}"/>
+      )}" alt="Go to VA.gov">
       </a>
     </div>
     <div id="va-nav-controls"></div>
