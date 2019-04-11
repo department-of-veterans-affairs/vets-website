@@ -119,8 +119,8 @@ export function mapStateToProps(state, ownProps) {
     return {
       expandedPages: expandedPages.map(
         page =>
-          page.ancillaryData
-            ? { ...page, ancillaryData: page.ancillaryData(state) }
+          page.appStateSelector
+            ? { ...page, appStateData: page.appStateSelector(state) }
             : page,
       ),
       formConfig: chapterFormConfig,

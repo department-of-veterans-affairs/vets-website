@@ -98,7 +98,7 @@ class FormPage extends React.Component {
       form,
       contentAfterButtons,
       formContext,
-      ancillaryData,
+      appStateData,
     } = this.props;
 
     let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
@@ -131,7 +131,7 @@ class FormPage extends React.Component {
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
           data={data}
-          ancillaryData={ancillaryData}
+          appStateData={appStateData}
           schema={schema}
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
@@ -169,11 +169,11 @@ class FormPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const getAncillaryData = ownProps.route.pageConfig.ancillaryData;
+  const { appStateSelector } = ownProps.route.pageConfig;
   return {
     form: state.form,
     user: state.user,
-    ancillaryData: getAncillaryData && getAncillaryData(state),
+    appStateData: appStateSelector && appStateSelector(state),
   };
 }
 

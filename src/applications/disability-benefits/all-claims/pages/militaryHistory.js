@@ -17,9 +17,9 @@ const validateAge = (
   schema,
   uiSchema,
   currentIndex,
-  ancillaryData,
+  appStateData,
 ) => {
-  if (moment(dateString).isBefore(moment(ancillaryData.dob).add(13, 'years'))) {
+  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };

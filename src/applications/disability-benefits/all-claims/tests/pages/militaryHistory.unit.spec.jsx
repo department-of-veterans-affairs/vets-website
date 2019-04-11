@@ -15,7 +15,7 @@ describe('Military history', () => {
     uiSchema,
   } = formConfig.chapters.veteranDetails.pages.militaryHistory;
 
-  const ancillaryData = {
+  const appStateData = {
     dob: '1990-01-01',
   };
 
@@ -27,7 +27,7 @@ describe('Military history', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        ancillaryData={ancillaryData}
+        appStateData={appStateData}
       />,
     );
 
@@ -46,7 +46,7 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        ancillaryData={ancillaryData}
+        appStateData={appStateData}
       />,
     );
 
@@ -66,7 +66,7 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        ancillaryData={ancillaryData}
+        appStateData={appStateData}
       />,
     );
 
@@ -110,7 +110,7 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        ancillaryData={ancillaryData}
+        appStateData={appStateData}
       />,
     );
 
@@ -151,7 +151,7 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        ancillaryData={ancillaryData}
+        appStateData={appStateData}
       />,
     );
 

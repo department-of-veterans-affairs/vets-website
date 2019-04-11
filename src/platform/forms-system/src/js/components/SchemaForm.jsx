@@ -149,7 +149,7 @@ class SchemaForm extends React.Component {
   }
 
   validate(formData, errors) {
-    const { schema, uiSchema, ancillaryData } = this.props;
+    const { schema, uiSchema, appStateData } = this.props;
     if (uiSchema) {
       uiSchemaValidate(
         errors,
@@ -158,7 +158,7 @@ class SchemaForm extends React.Component {
         formData,
         '',
         null,
-        ancillaryData,
+        appStateData,
       );
     }
     return errors;
@@ -213,7 +213,7 @@ SchemaForm.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,
   data: PropTypes.any,
-  ancillaryData: PropTypes.object,
+  appStateData: PropTypes.object,
   reviewMode: PropTypes.bool,
   editModeOnReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
