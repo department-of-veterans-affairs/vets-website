@@ -169,10 +169,11 @@ class FormPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const getAncillaryData = ownProps.route.pageConfig.ancillaryData;
   return {
     form: state.form,
     user: state.user,
-    ancillaryData: ownProps.route.pageConfig.ancillaryData(state),
+    ancillaryData: getAncillaryData && getAncillaryData(state),
   };
 }
 
