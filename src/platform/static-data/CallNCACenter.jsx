@@ -1,11 +1,6 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../feature-flag';
 
-export default function CallNCACenter({ children, startSentence }) {
-  if (!isBrandConsolidationEnabled()) {
-    return <span>{children}</span>;
-  }
-
+export default function CallNCACenter({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} the National Cemetery Scheduling Office

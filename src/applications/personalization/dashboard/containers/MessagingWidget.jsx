@@ -7,20 +7,8 @@ import SortableTable from '@department-of-veterans-affairs/formation-react/Sorta
 import { formattedDate } from '../utils/helpers';
 
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../../platform/monitoring/record-event';
 import { fetchFolder, fetchRecipients } from '../actions/messaging';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-link',
-      'dashboard-product': product,
-    });
-  };
-}
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -101,25 +89,13 @@ class MessagingWidget extends React.Component {
         <h2>Check secure messages</h2>
         {content}
         <p>
-          {isBrandConsolidationEnabled() ? (
-            <a
-              href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              View all your secure messages
-            </a>
-          ) : (
-            <span>
-              <Link
-                href="/health-care/secure-messaging/"
-                onClick={recordDashboardClick('view-all-messages')}
-              >
-                View all your secure messages
-              </Link>
-              .
-            </span>
-          )}
+          <a
+            href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View all your secure messages
+          </a>
         </p>
       </div>
     );

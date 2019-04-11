@@ -3,7 +3,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 import { Link } from 'react-router';
-import siteName from '../../../platform/brand-consolidation/site-name';
 import Decision from '../components/appeals-v2/Decision';
 
 // This literally determines how many rows are displayed per page on the v2 index page
@@ -820,7 +819,7 @@ export function getStatusContents(appeal, name = {}) {
     default:
       contents.title = 'We don’t know your status';
       contents.description = (
-        <p>We’re sorry, {siteName} will soon be updated to show your status.</p>
+        <p>We’re sorry, VA.gov will soon be updated to show your status.</p>
       );
   }
 
