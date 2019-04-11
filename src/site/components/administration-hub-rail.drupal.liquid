@@ -31,7 +31,7 @@
                                 <li>
                                     <a href="http://youtube.com/channel/{{ socialLink.value }}">
                                         <i class="fab fa-youtube vads-u-margin-right--0p5"></i>
-                                        {{ administration.name }} Youtube channel
+                                        {{ administration.name }} {{ socialPlatform | remove: '_' | capitalize }}
                                     </a>
                                 </li>
                             {% else %}
