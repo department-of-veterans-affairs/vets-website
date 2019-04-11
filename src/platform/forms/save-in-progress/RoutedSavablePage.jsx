@@ -74,11 +74,12 @@ class RoutedSavablePage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const getAncillaryData = ownProps.route.pageConfig.ancillaryData;
   return {
     form: state.form,
     user: state.user,
     showLoginModal: state.navigation.showLoginModal,
-    ancillaryData: ownProps.route.pageConfig.ancillaryData(state),
+    ancillaryData: getAncillaryData && getAncillaryData(state),
   };
 }
 
