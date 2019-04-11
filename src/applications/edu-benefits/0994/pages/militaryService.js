@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import {
   activeDutyNotice,
   benefitNotice,
-  reserveNationalGuardExpectedDutyTitle as selectedReserveNationalGuardExpectedDutyTitle,
+  selectedReserveNationalGuardExpectedDutyTitle,
 } from '../content/militaryService';
 
 const { activeDuty, activeDutyDuringVetTec } = fullSchema.properties;

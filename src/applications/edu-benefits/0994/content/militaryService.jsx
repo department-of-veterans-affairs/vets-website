@@ -17,7 +17,7 @@ export const benefitNotice = (
   </p>
 );
 
-export const reserveNationalGuardExpectedDutyTitle = (
+export const selectedReserveNationalGuardExpectedDutyTitle = (
   <p>
     Are you in the Selected Reserve or National Guard <strong>and</strong> do
     you expect to be called to duty for 30 days or more?
