@@ -43,12 +43,33 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (this.props.prescriptions && this.props.prescriptions.length === 0) {
-      content = (
-        <p>
-          We haven’t refilled or shipped any prescriptions for you in the last
-          30 days.
-        </p>
+    if (canAccessRx) {
+      if (this.props.prescriptions && this.props.prescriptions.length === 0) {
+        content = (
+          <p>
+            We haven’t refilled or shipped any prescriptions for you in the last
+            30 days.
+          </p>
+        );
+      }
+
+      return (
+        <div id="rx-widget">
+          {environment.isProduction() && <h2>Refill Prescriptions</h2>}
+          {!environment.isProduction() && <h3>Refill prescriptions</h3>}
+          <div>{content}</div>
+          <p>
+            <a
+              href={`${mhvBaseUrl()}/mhv-portal-web/${
+                environment.isProduction() ? 'web/myhealthevet/' : ''
+              }refill-prescriptions`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View all your prescriptions
+            </a>
+          </p>
+        </div>
       );
     }
 

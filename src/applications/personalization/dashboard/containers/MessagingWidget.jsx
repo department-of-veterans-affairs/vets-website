@@ -9,6 +9,7 @@ import { formattedDate } from '../utils/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { fetchFolder, fetchRecipients } from '../actions/messaging';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
+import environment from 'platform/utilities/environment';
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -86,7 +87,8 @@ class MessagingWidget extends React.Component {
 
     return (
       <div id="msg-widget">
-        <h2>Check Secure Messages</h2>
+        {environment.isProduction() && <h2>Check Secure Messages</h2>}
+        {!environment.isProduction() && <h3>Check secure messages</h3>}
         {content}
         <p>
           <a

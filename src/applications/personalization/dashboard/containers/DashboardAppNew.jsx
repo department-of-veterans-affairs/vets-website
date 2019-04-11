@@ -36,6 +36,39 @@ const scrollToTop = () => {
   });
 };
 
+const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
+  downtime,
+  children,
+) => {
+  switch (downtime.status) {
+    case 'down':
+      return (
+        <div>
+          <h2>{sectionTitle}</h2>
+          <AlertBox
+            content={
+              <div>
+                <h4 className="usa-alert-heading">
+                  {appName} is down for maintenance
+                </h4>
+                <p>
+                  We’re making some updates to our {appName.toLowerCase()} tool.
+                  We’re sorry it’s not working right now and hope to be finished
+                  by {downtime.startTime.format('MMMM Do')},{' '}
+                  {downtime.endTime.format('LT')}. Please check back soon.
+                </p>
+              </div>
+            }
+            isVisible
+            status="warning"
+          />
+        </div>
+      );
+    default:
+      return children;
+  }
+};
+
 function recordDashboardClick(product, actionType = 'view-link') {
   return () => {
     recordEvent({
@@ -46,22 +79,83 @@ function recordDashboardClick(product, actionType = 'view-link') {
   };
 }
 
-const ManageHealthBenefits = () => (
-  <>
-    <h2>Manage Your Health and Benefits</h2>
+const EmptyStateLinks = () => (
+  <div>
+    <h2>Explore Our Most Used Benefits</h2>
     <ul className="va-nav-linkslist-list">
       <li>
         <a
-          href="/health-care/schedule-view-va-appointments/"
-          onClick={recordDashboardClick('schedule-appointment')}
+          href="/disability/"
+          onClick={recordDashboardClick('disability-benefits')}
         >
-          <h4 className="va-nav-linkslist-title">Schedule a VA Appointment</h4>
+          <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
           <p className="va-nav-linkslist-description">
-            Find out how to make a doctor’s appointment with a member of your VA
-            health care team online or by phone.
+            Apply for disability compensation and other benefits for conditions
+            related to your military service.
           </p>
         </a>
       </li>
+      <li>
+        <a href="/health-care/" onClick={recordDashboardClick('health-care')}>
+          <h4 className="va-nav-linkslist-title">Health Care Benefits</h4>
+          <p className="va-nav-linkslist-description">
+            Apply for VA health care, find out how to access services, and
+            manage your health and benefits online.
+          </p>
+        </a>
+      </li>
+      <li>
+        <a
+          href="/education/"
+          onClick={recordDashboardClick('education-benefits')}
+        >
+          <h4 className="va-nav-linkslist-title">Education Benefits</h4>
+          <p className="va-nav-linkslist-description">
+            Apply for and manage benefits that help you pay for college and
+            training programs.
+          </p>
+        </a>
+      </li>
+      <li>
+        <a
+          href="/careers-employment/"
+          onClick={recordDashboardClick('employment')}
+        >
+          <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
+          <p className="va-nav-linkslist-description">
+            Find out if you're eligible for Vocational Rehabilitation and
+            Employment (VR&E) services, get support for your Veteran-owned small
+            business, and access other resources to help build your career
+            skills and find a job.
+          </p>
+        </a>
+      </li>
+    </ul>
+  </div>
+);
+
+const ScheduleAnAppointmentWidget = () => (
+  <div id="rx-widget">
+    <h3>Schedule an appointment</h3>
+    <p>
+      Find out how to make a doctor’s appointment with a member of your VA
+      health care team online or by phone.
+    </p>
+    <p>
+      <a
+        href="/health-care/schedule-view-va-appointments/"
+        onClick={recordDashboardClick('schedule-appointment')}
+      >
+        Schedule an appointment
+      </a>
+    </p>
+  </div>
+);
+
+const ManageBenefitsOrRequestRecords = () => (
+  <>
+    <h2>Manage benefits or request records</h2>
+    <ul className="va-nav-linkslist-list">
       <li>
         <a
           href="/education/gi-bill/post-9-11/ch-33-benefit"
@@ -75,14 +169,6 @@ const ManageHealthBenefits = () => (
           </p>
         </a>
       </li>
-    </ul>
-  </>
-);
-
-const RequestYourRecords = () => (
-  <>
-    <h2>Request Your Records</h2>
-    <ul className="va-nav-linkslist-list">
       <li>
         <a
           href="/health-care/get-medical-records/"
@@ -107,6 +193,34 @@ const RequestYourRecords = () => (
         </a>
       </li>
     </ul>
+  </>
+);
+
+const ManageYourVAHealthCare = () => (
+  <>
+    <h2>Manage your VA health care</h2>
+    <DowntimeNotification
+      appTitle="messaging"
+      dependencies={[externalServices.mvi, externalServices.mhv]}
+      render={renderWidgetDowntimeNotification(
+        'Secure messaging',
+        'Track Secure Messages',
+      )}
+    >
+      <MessagingWidget />
+    </DowntimeNotification>
+
+    <DowntimeNotification
+      appTitle="rx"
+      dependencies={[externalServices.mvi, externalServices.mhv]}
+      render={renderWidgetDowntimeNotification(
+        'prescription refill',
+        'Refill Prescriptions',
+      )}
+    >
+      <PrescriptionsWidget />
+    </DowntimeNotification>
+    <ScheduleAnAppointmentWidget />
   </>
 );
 
@@ -149,7 +263,7 @@ const ManageYourAccount = () => (
   </>
 );
 
-class DashboardApp extends React.Component {
+class DashboardAppNew extends React.Component {
   constructor(props) {
     super(props);
 
@@ -170,105 +284,7 @@ class DashboardApp extends React.Component {
     localStorage.setItem(`hide-${name}-alert`, true);
   };
 
-  renderWidgetDowntimeNotification = (appName, sectionTitle) => (
-    downtime,
-    children,
-  ) => {
-    switch (downtime.status) {
-      case 'down':
-        return (
-          <div>
-            <h2>{sectionTitle}</h2>
-            <AlertBox
-              content={
-                <div>
-                  <h4 className="usa-alert-heading">
-                    {appName} is down for maintenance
-                  </h4>
-                  <p>
-                    We’re making some updates to our {appName.toLowerCase()}{' '}
-                    tool. We’re sorry it’s not working right now and hope to be
-                    finished by {downtime.startTime.format('MMMM Do')},{' '}
-                    {downtime.endTime.format('LT')}. Please check back soon.
-                  </p>
-                </div>
-              }
-              isVisible
-              status="warning"
-            />
-          </div>
-        );
-      default:
-        return children;
-    }
-  };
-
-  renderEmptyStateLinks() {
-    return (
-      <div>
-        <h2>Explore Our Most Used Benefits</h2>
-
-        <ul className="va-nav-linkslist-list">
-          <li>
-            <a
-              href="/disability/"
-              onClick={recordDashboardClick('disability-benefits')}
-            >
-              <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
-              <p className="va-nav-linkslist-description">
-                Apply for disability compensation and other benefits for
-                conditions related to your military service.
-              </p>
-            </a>
-          </li>
-          <li>
-            <a
-              href="/health-care/"
-              onClick={recordDashboardClick('health-care')}
-            >
-              <h4 className="va-nav-linkslist-title">Health Care Benefits</h4>
-              <p className="va-nav-linkslist-description">
-                Apply for VA health care, find out how to access services, and
-                manage your health and benefits online.
-              </p>
-            </a>
-          </li>
-          <li>
-            <a
-              href="/education/"
-              onClick={recordDashboardClick('education-benefits')}
-            >
-              <h4 className="va-nav-linkslist-title">Education Benefits</h4>
-              <p className="va-nav-linkslist-description">
-                Apply for and manage benefits that help you pay for college and
-                training programs.
-              </p>
-            </a>
-          </li>
-          <li>
-            <a
-              href="/careers-employment/"
-              onClick={recordDashboardClick('employment')}
-            >
-              <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
-              <p className="va-nav-linkslist-description">
-                Find out if you're eligible for Vocational Rehabilitation and
-                Employment (VR&E) services, get support for your Veteran-owned
-                small business, and access other resources to help build your
-                career skills and find a job.
-              </p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    );
-  }
-
   renderLOAPrompt() {
-    if (this.props.profile.verified) {
-      return null;
-    }
-
     return (
       <AlertBox
         content={
@@ -310,13 +326,6 @@ class DashboardApp extends React.Component {
   }
 
   renderMVIWarning() {
-    if (
-      this.props.profile.loa.current === 1 ||
-      this.props.profile.status === 'OK'
-    ) {
-      return null;
-    }
-
     return (
       <AlertBox
         content={
@@ -365,70 +374,64 @@ class DashboardApp extends React.Component {
   }
 
   render() {
+    const {
+      canAccessClaims,
+      canAccessRx,
+      canAccessMessaging,
+      canAccessAppeals,
+      profile,
+      removeSavedForm,
+    } = this.props;
     const availableWidgetsCount = [
-      this.props.canAccessClaims,
-      this.props.canAccessRx,
-      this.props.canAccessMessaging,
-      this.props.canAccessAppeals,
+      canAccessClaims,
+      canAccessRx,
+      canAccessMessaging,
+      canAccessAppeals,
     ].filter(e => e).length;
 
     const view = (
-      <div className="row user-profile-row">
-        <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1 id="dashboard-title">My VA</h1>
-          <div className="va-introtext">
-            <p>
-              Access the tools and information you’ll need to track and manage
-              your VA benefits and communications.
-            </p>
-          </div>
-
-          <PreferencesWidget />
-
-          <FormList
-            userProfile={this.props.profile}
-            removeSavedForm={this.props.removeSavedForm}
-            savedForms={this.props.profile.savedForms}
-          />
-
-          {this.renderLOAPrompt()}
-          {this.renderMVIWarning()}
-
-          <ClaimsAppealsWidget />
-
-          <DowntimeNotification
-            appTitle="messaging"
-            dependencies={[externalServices.mvi, externalServices.mhv]}
-            render={this.renderWidgetDowntimeNotification(
-              'Secure messaging',
-              'Track Secure Messages',
-            )}
-          >
-            <MessagingWidget />
-          </DowntimeNotification>
-
-          <DowntimeNotification
-            appTitle="rx"
-            dependencies={[externalServices.mvi, externalServices.mhv]}
-            render={this.renderWidgetDowntimeNotification(
-              'prescription refill',
-              'Refill Prescriptions',
-            )}
-          >
-            <PrescriptionsWidget />
-          </DowntimeNotification>
-
-          {availableWidgetsCount === 0 && this.renderEmptyStateLinks()}
-
-          <ManageHealthBenefits />
-          <RequestYourRecords />
-          <ViewYourProfile />
-          <ManageYourAccount />
+      <div>
+        <h1 id="dashboard-title">My VA</h1>
+        <div className="va-introtext">
+          <p>
+            Access the tools and information you’ll need to track and manage
+            your VA benefits and communications.
+          </p>
         </div>
+
+        <PreferencesWidget />
+
+        <FormList
+          userProfile={profile}
+          removeSavedForm={removeSavedForm}
+          savedForms={profile.savedForms}
+        />
+
+        {!profile.verified && this.renderLOAPrompt()}
+        {profile.loa.current !== 1 &&
+          profile.status !== 'OK' &&
+          this.renderMVIWarning()}
+
+        <ClaimsAppealsWidget />
+
+        {availableWidgetsCount === 0 && <EmptyStateLinks />}
+
+        <ManageYourVAHealthCare />
+        <ManageBenefitsOrRequestRecords />
+        <ViewYourProfile />
+        <ManageYourAccount />
       </div>
     );
 
-    return <div name="topScrollElement">{view}</div>;
+    return (
+      <div name="topScrollElement">
+        <div className="row user-profile-row">
+          <div className="usa-width-two-thirds medium-8 small-12 columns">
+            {view}
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -462,6 +465,6 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(DashboardApp),
+  )(DashboardAppNew),
 );
-export { DashboardApp };
+export { DashboardAppNew };
