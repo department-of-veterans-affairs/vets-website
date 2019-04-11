@@ -15,7 +15,6 @@ export const uiSchema = {
     'ui:title': '',
     'ui:description': eligibilityInstructions,
     'ui:options': {
-      expandUnderCondition: false,
       hideIf: data => _.get(data, 'appliedForVaEducationBenefits', true),
     },
   },
