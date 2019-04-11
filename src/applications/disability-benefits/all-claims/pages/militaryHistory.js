@@ -20,7 +20,7 @@ const validateAge = (
   ancillaryData,
 ) => {
   if (moment(dateString).isBefore(moment(ancillaryData.dob).add(13, 'years'))) {
-    errors.addError('Start date must be after your 13th birthday');
+    errors.addError('Your start date must be after your 13th birthday');
   }
 };
 
