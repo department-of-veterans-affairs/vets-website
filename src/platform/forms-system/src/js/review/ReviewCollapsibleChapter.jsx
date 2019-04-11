@@ -151,6 +151,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     name={page.pageKey}
                     title={page.reviewTitle || page.title}
                     data={pageData}
+                    ancillaryData={page.ancillaryData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
                     hideHeaderRow={page.hideHeaderRow}
@@ -194,6 +195,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       pageTitle={page.title}
                       arrayData={_.get(arrayField.path, form.data)}
                       formData={form.data}
+                      ancillaryData={page.ancillaryData}
                       formContext={formContext}
                       pageConfig={page}
                       onBlur={this.props.onBlur}

@@ -247,6 +247,7 @@ class ArrayField extends React.Component {
                       ) : null}
                       <SchemaForm
                         data={item}
+                        ancillaryData={this.props.ancillaryData}
                         schema={itemSchema}
                         uiSchema={arrayPageConfig.uiSchema}
                         title={pageTitle}
@@ -286,6 +287,7 @@ class ArrayField extends React.Component {
                   <SchemaForm
                     reviewMode
                     data={item}
+                    ancillaryData={this.props.ancillaryData}
                     schema={itemSchema}
                     uiSchema={arrayPageConfig.uiSchema}
                     title={itemTitle}
@@ -342,5 +344,6 @@ ArrayField.propTypes = {
   path: PropTypes.array.isRequired,
   formData: PropTypes.object,
   arrayData: PropTypes.array,
+  ancillaryData: PropTypes.object,
   pageTitle: PropTypes.string,
 };
