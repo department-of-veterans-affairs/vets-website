@@ -1,10 +1,11 @@
-const E2eHelpers = require('../../../testing/e2e/helpers');
-const Timeouts = require('../../../testing/e2e/timeouts.js');
-const HcaHelpers = require('../../../../applications/hca/tests/hca-helpers.js');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const HcaHelpers = require('applications/hca/tests/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
   const token = HcaHelpers.initSaveInProgressMock(url, client);
+  HcaHelpers.initEnrollmentStatusMock(token);
 
   // Ensure introduction page renders.
   client

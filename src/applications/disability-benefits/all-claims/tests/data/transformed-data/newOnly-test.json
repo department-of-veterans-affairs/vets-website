@@ -23,6 +23,7 @@
     ],
     "hasTrainingPay": true,
     "militaryRetiredPayBranch": "Air Force",
+    "hasSeparationPay": true,
     "separationPayDate": "2018-XX-XX",
     "separationPayBranch": "Air Force",
     "serviceInformation": {

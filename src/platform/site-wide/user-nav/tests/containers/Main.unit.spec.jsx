@@ -243,13 +243,30 @@ describe('mapStateToProps', () => {
     it('is true when the user is on a form page and the form has not saved', () => {
       global.window.location.pathname =
         '/health-care/apply/application/veteran-info';
-      const { shouldConfirmLeavingForm } = mapStateToProps(state);
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: { autoSavedStatus: 'not-attempted' },
+      });
       expect(shouldConfirmLeavingForm).to.be.true;
+    });
+    it('is false when the user is on a form page page the form has auto-saved', () => {
+      global.window.location.pathname =
+        '/health-care/apply/application/veteran-info';
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: {
+          autoSavedStatus: 'success',
+        },
+      });
+      expect(shouldConfirmLeavingForm).to.be.false;
     });
     it('is false when the user is on a standard non-form page', () => {
       global.window.location.pathname =
         '/health-care/apply/application/introduction';
-      const { shouldConfirmLeavingForm } = mapStateToProps(state);
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: { autoSavedStatus: 'not-attempted' },
+      });
       expect(shouldConfirmLeavingForm).to.be.false;
     });
     it('is false when the user is on a non-standard non-form page', () => {
@@ -258,20 +275,15 @@ describe('mapStateToProps', () => {
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: {
+          autoSavedStatus: 'not-attempted',
           additionalRoutes: [{ path: 'id-page' }],
         },
       });
       expect(shouldConfirmLeavingForm).to.be.false;
     });
-    it('is false when the user is on a form page page the form has auto-saved', () => {
-      global.window.location.pathname =
-        '/health-care/apply/application/veteran-info';
-      const { shouldConfirmLeavingForm } = mapStateToProps({
-        ...state,
-        form: {
-          formAutoSavedStatus: 'success',
-        },
-      });
+    it('is false when the user is not in the form app', () => {
+      global.window.location.pathname = '/health-care';
+      const { shouldConfirmLeavingForm } = mapStateToProps(state);
       expect(shouldConfirmLeavingForm).to.be.false;
     });
   });

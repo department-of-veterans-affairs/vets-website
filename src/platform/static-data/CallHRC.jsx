@@ -1,11 +1,6 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../feature-flag';
 
-export default function CallHRC({ children, startSentence }) {
-  if (!isBrandConsolidationEnabled()) {
-    return <span>{children}</span>;
-  }
-
+export default function CallHRC({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} us at{' '}
