@@ -213,6 +213,7 @@ SchemaForm.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,
   data: PropTypes.any,
+  ancillaryData: PropTypes.object,
   reviewMode: PropTypes.bool,
   editModeOnReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
