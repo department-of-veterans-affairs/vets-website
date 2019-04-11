@@ -1,6 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
 import { highTechIndustryDescription } from '../content/highTechIndustry';
+import HighTechEmploymentTypeView from '../components/HighTechEmploymentTypeView';
 
 const {
   currentHighTechnologyEmployment,
@@ -52,28 +53,29 @@ export const uiSchema = {
       },
     },
     highTechnologyEmploymentType: {
+      'ui:field': HighTechEmploymentTypeView,
       'ui:title': ' ',
       'ui:description':
         'Which area best describes your high-tech work experience? (Check all that apply.)',
-      computerProgramming: {
-        'ui:title': 'Computer programming',
-      },
-      dataProcessing: {
-        'ui:title': 'Data processing',
-      },
-      computerSoftware: {
-        'ui:title': 'Computer software',
-      },
-      informationSciences: {
-        'ui:title': 'Information sciences',
-      },
-      mediaApplication: {
-        'ui:title': 'Media application',
-      },
-      noneApply: {
-        'ui:title': 'None of these',
-      },
     },
+    // computerProgramming: {
+    //   'ui:title': 'Computer programming',
+    // },
+    // dataProcessing: {
+    //   'ui:title': 'Data processing',
+    // },
+    // computerSoftware: {
+    //   'ui:title': 'Computer software',
+    // },
+    // informationSciences: {
+    //   'ui:title': 'Information sciences',
+    // },
+    // mediaApplication: {
+    //   'ui:title': 'Media application',
+    // },
+    // noneApply: {
+    //   'ui:title': 'None of these',
+    // },
   },
 };
 
