@@ -12,11 +12,11 @@ const test = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(
       `${
-        E2eHelpers.baseUrl
+      E2eHelpers.baseUrl
       }/education/apply-for-education-benefits/application/1990`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for education benefits: VA.gov')
+    .assert.title('Apply for education benefits | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');

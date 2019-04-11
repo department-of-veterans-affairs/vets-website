@@ -12,11 +12,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(
       `${
-        E2eHelpers.baseUrl
+      E2eHelpers.baseUrl
       }/education/apply-for-education-benefits/application/1995`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Veteran Request for Change: VA.gov')
+    .assert.title('Veteran Request for Change | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
