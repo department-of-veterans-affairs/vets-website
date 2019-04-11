@@ -4,7 +4,7 @@ import ErrorableDate from '@department-of-veterans-affairs/formation-react/Error
 import { pageNames } from './pageList';
 
 // Figure out which page to go to based on the date entered
-const findNextPage = state => {
+export const findNextPage = state => {
   const date = moment({
     day: state.day.value,
     // moment takes 0-indexed months, but the date picker provides 1-indexed months
@@ -15,10 +15,13 @@ const findNextPage = state => {
   // https://www.va.gov/opa/pressrel/pressrelease.cfm?id=5183
   const feb19 = moment('2019-02-19');
 
-  if (date.isAfter(feb19, 'day')) {
+  // !isBefore == on or after
+  if (!date.isBefore(feb19, 'day')) {
     return pageNames.decisionReview;
   }
-  if (date.isAfter(moment().subtract(1, 'year'), 'day')) {
+  if (!date.isBefore(moment().subtract(1, 'year'), 'day')) {
+    // On Feb 19, 2020, this will be obsolete since the decision date will be either
+    //  on or after feb19 or over a year ago.
     return pageNames.fileAppeal;
   }
   return pageNames.disagreeFileClaim;

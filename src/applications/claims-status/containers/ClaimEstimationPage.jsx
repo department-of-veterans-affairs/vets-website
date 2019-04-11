@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../platform/static-data/CallVBACenter';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
 
@@ -83,12 +83,7 @@ class ClaimEstimationPage extends React.Component {
               uploading the documents requested by VA.
             </p>
             <p>
-              If you have questions,{' '}
-              <CallVBACenter>
-                call VA at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
-                Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-              </CallVBACenter>
+              If you have questions, <CallVBACenter />
             </p>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">

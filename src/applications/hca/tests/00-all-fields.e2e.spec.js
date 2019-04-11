@@ -1,11 +1,13 @@
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
 const HcaHelpers = require('./hca-helpers.js');
 const testData = require('./schema/maximal-test.json');
-const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
+const ENVIRONMENTS = require('site/constants/environments');
+const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   HcaHelpers.initApplicationSubmitMock();
+  HcaHelpers.initEnrollmentStatusMock();
 
   // Ensure introduction page renders.
   client
@@ -18,6 +20,14 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.overrideVetsGovApi(client);
   FormsTestHelpers.overrideFormsScrolling(client);
   E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
+
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // ID Form page.
+    client.expect.element('input[name="root_firstName"]').to.be.visible;
+    HcaHelpers.completeIDForm(client, testData.data);
+    client.axeCheck('.main').click('.hca-id-form-wrapper .usa-button');
+    E2eHelpers.expectNavigateAwayFrom(client, '/id-form');
+  }
 
   // Personal Information page.
   client.expect.element('input[name="root_veteranFullName_first"]').to.be
