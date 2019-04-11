@@ -30,7 +30,7 @@ export function EducationGate({ user, location, children }) {
 
   return (
     <RequiredLoginView
-      serviceRequired={backendServices.EDUCATION_BENEFITS}
+      serviceRequired={backendServices.USER_PROFILE}
       user={user}
     >
       {children}
