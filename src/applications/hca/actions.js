@@ -3,6 +3,7 @@ import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 
+// flip the `false` to `true` to fake the endpoint when testing locally
 const simulateServerLocally = environment.isLocalhost() && false;
 
 export const FETCH_ENROLLMENT_STATUS_STARTED =
@@ -65,7 +66,7 @@ function callAPI(dispatch, formData = {}) {
   );
 }
 
-export function getEnrollmentStatus(formData = { firstName: '' }) {
+export function getEnrollmentStatus(formData) {
   return dispatch => {
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
     /*
@@ -90,7 +91,11 @@ export function getEnrollmentStatus(formData = { firstName: '' }) {
        vets-api: app/controllers/v0/health_care_applications_controller.rb#L25
     */
     if (simulateServerLocally) {
-      if (formData.firstName.toLowerCase() === 'pat') {
+      if (
+        formData &&
+        formData.firstName &&
+        formData.firstName.toLowerCase() === 'pat'
+      ) {
         callFake404(dispatch);
       } else {
         callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.canceledDeclined);
