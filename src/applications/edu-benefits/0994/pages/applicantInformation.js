@@ -6,6 +6,7 @@ import ApplicantDescription from 'platform/forms/components/ApplicantDescription
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { genderLabels } from 'platform/static-data/labels';
 import environment from 'platform/utilities/environment';
+import { validateApplicantName } from '../validations';
 
 import { ApplicantInformation } from '../components/ApplicantInformation';
 
@@ -20,7 +21,10 @@ export const uiSchema = () => {
   if (!environment.isProduction()) {
     return {
       'ui:description': ApplicantDescription,
-      applicantFullName: fullNameUI,
+      applicantFullName: {
+        ...fullNameUI,
+        'ui:validations': [validateApplicantName],
+      },
       applicantSocialSecurityNumber: ssnUI,
       dateOfBirth: {
         ...currentOrPastDateUI('Date of birth'),
