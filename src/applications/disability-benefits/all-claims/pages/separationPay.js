@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { hasSeparationPay, isValidYear } from '../validations';
+import { isValidYear } from '../validations';
 import {
   separationPayDetailsDescription,
   hasSeparationPayTitle,
@@ -8,16 +8,17 @@ import {
 const {
   separationPayDate: separationPayDateSchema,
   separationPayBranch: separationPayBranchSchema,
+  hasSeparationPay,
 } = fullSchema.properties;
 
 export const uiSchema = {
-  'view:hasSeparationPay': {
+  hasSeparationPay: {
     'ui:title': hasSeparationPayTitle,
     'ui:widget': 'yesNo',
   },
   'view:separationPayDetails': {
     'ui:options': {
-      expandUnder: 'view:hasSeparationPay',
+      expandUnder: 'hasSeparationPay',
     },
     'view:separationPayDetailsDescription': {
       'ui:title': 'Separation or Severance Pay',
@@ -33,12 +34,10 @@ export const uiSchema = {
       'ui:options': {
         widgetClassNames: 'year-input',
       },
-      'ui:required': hasSeparationPay,
     },
     separationPayBranch: {
       'ui:title':
         'Please choose the branch of service that gave you separation or severance pay',
-      'ui:required': hasSeparationPay,
     },
   },
 };
@@ -46,9 +45,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:hasSeparationPay': {
-      type: 'boolean',
-    },
+    hasSeparationPay,
     'view:separationPayDetails': {
       type: 'object',
       properties: {
