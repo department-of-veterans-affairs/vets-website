@@ -38,7 +38,6 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   prefillTransformer,
-  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
