@@ -17,11 +17,11 @@ const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
 const globalEntryFiles = {
-  styleConsolidated: getAbsolutePath(
-    'src/platform/site-wide/sass/style-consolidated.scss',
-  ),
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  styleConsolidated: getAbsolutePath(
+    'src/applications/proxy-rewrite/sass/style-consolidated.scss',
+  ),
   vendor: [
     getAbsolutePath('src/platform/polyfills'),
     'react',

@@ -1,4 +1,6 @@
 import _ from '../../../platform/utilities/data';
+import environment from '../../../platform/utilities/environment';
+
 import {
   transformForSubmit,
   filterViewFields,
@@ -318,6 +320,43 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  // transform secondary disabilities into primary, with description appended
+  const transformSecondaryDisabilities = formData => {
+    // Skip transform in production environment
+    if (environment.isProduction() || !formData.newSecondaryDisabilities) {
+      return formData;
+    }
+
+    const clonedData = _.cloneDeep(formData);
+
+    const transformedSecondaries = clonedData.newSecondaryDisabilities.map(
+      sd => {
+        // prepend caused by condition to primary description
+        const descString = [
+          'Secondary to ',
+          sd.causedByDisability,
+          '\n',
+          sd.causedByDisabilityDescription,
+        ].join('');
+
+        return {
+          condition: sd.condition,
+          cause: causeTypes.NEW,
+          classificationCode: sd.classificationCode,
+          // truncate description to 400 characters
+          primaryDescription: descString.substring(0, 400),
+        };
+      },
+    );
+
+    clonedData.newPrimaryDisabilities = (
+      clonedData.newPrimaryDisabilities || []
+    ).concat(transformedSecondaries);
+
+    delete clonedData.newSecondaryDisabilities;
+    return clonedData;
+  };
+
   // Transform the related disabilities lists into an array of strings
   const stringifyRelatedDisabilities = formData => {
     if (!formData.vaTreatmentFacilities) {
@@ -495,6 +534,7 @@ export function transform(formConfig, form) {
     addPTSDCause,
     addClassificationCodeToNewDisabilities,
     splitNewDisabilities,
+    transformSecondaryDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,
     sanitizeHomelessnessContact,
