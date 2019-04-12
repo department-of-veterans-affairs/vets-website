@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit', 3)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main')
-    .assert.title('Check Your Post-9/11 GI Bill Benefits Status: VA.gov')
+    .assert.title('Check your Post-9/11 GI Bill benefits status: VA.gov')
     .waitForElementVisible(
       '.usa-button-primary.va-button-primary',
       Timeouts.slow,
