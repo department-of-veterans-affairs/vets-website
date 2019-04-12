@@ -14,7 +14,7 @@ export default function() {
           delayed, and you’re having trouble paying your bills or meeting your
           basic needs, please call us at{' '}
           <a href="tel:+18884424551">1-888-442-4551</a>. We're here Monday
-          through Friday, 7:00 a.m. - 6:00 p.m. (CT).
+          through Friday, 7:00 a.m. - 6:00 p.m. CT.
         </span>
       }
     />
