@@ -34,7 +34,7 @@ describe('<PreferenceItem>', () => {
     expect(component.find('FAQList').length).to.equal(1);
     // Display benefit-specific CTA
     expect(component.find('CallToAction').html()).to.contain(
-      'Apply Now for VA Health care',
+      'Apply now for VA health care',
     );
     component
       .find('button')

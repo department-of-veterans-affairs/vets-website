@@ -132,7 +132,7 @@ class SetPreferences extends React.Component {
               onClick={this.handleSave}
               disabled={this.userHasNotMadeChange()}
             >
-              <span>Save Preferences</span>
+              <span>Save preferences</span>
             </LoadingButton>
             <Link to="/" className="usa-button usa-button-secondary">
               Cancel

@@ -61,7 +61,7 @@ class FormItem extends React.Component {
                 href={`${formLinks[formId]}resume`}
                 onClick={this.recordDashboardClick(formId)}
               >
-                Continue Your Application
+                Continue your application
               </a>
             </div>
           </div>
@@ -101,7 +101,7 @@ class FormItem extends React.Component {
               className="usa-button-primary application-route"
               href={formLinks[formId]}
             >
-              Start a New Application
+              Start a new application
             </a>
           </div>
         </div>
