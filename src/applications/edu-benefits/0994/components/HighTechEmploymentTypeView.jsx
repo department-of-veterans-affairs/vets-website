@@ -12,15 +12,11 @@ class HighTechEmploymentTypeView extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleNoneApply = this.handleNoneApply.bind(this);
     this.setHighTechEmploymentType = this.setHighTechEmploymentType.bind(this);
+    this.updateFormData = this.updateFormData.bind(this);
   }
 
   setHighTechEmploymentType(property, value) {
     _.set(this.props.formData, property, value);
-  }
-
-  handleChange(e) {
-    this.handleNoneApply(e.target.id === 'noneApply');
-    this.setHighTechEmploymentType([e.target.id], e.target.checked);
   }
 
   handleNoneApply(isNoneApply) {
@@ -33,6 +29,16 @@ class HighTechEmploymentTypeView extends React.Component {
     } else {
       this.setHighTechEmploymentType('noneApply', false);
     }
+  }
+
+  updateFormData(value) {
+    this.props.onChange(value);
+  }
+
+  handleChange(e) {
+    this.handleNoneApply(e.target.id === 'noneApply');
+    this.setHighTechEmploymentType([e.target.id], e.target.checked);
+    this.updateFormData(this.props.formData);
   }
 
   render() {
