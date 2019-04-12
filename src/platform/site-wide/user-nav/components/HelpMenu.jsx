@@ -25,7 +25,7 @@ class HelpMenu extends React.Component {
           <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
         </p>
         <p>
-          <a href="tel:18446982311">Call MyVA311: 1-844-698-2311</a>
+          <a href="tel:18446982311">Call MyVA311: 844-698-2311</a>
         </p>
         <p>TTY: 711</p>
       </div>

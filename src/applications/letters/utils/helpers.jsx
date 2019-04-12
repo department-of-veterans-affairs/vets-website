@@ -88,8 +88,8 @@ export const recordsNotFound = (
     <p>
       If you have questions or need help looking up your VA letters and
       documents, please call{' '}
-      <a className="letters-phone-nowrap" href="tel:1-800-827-1000">
-        1-800-827-1000
+      <a className="letters-phone-nowrap" href="tel:800-827-1000">
+        800-827-1000
       </a>{' '}
       from 8:00 a.m. to 7:00 pm ET.
     </p>
@@ -178,8 +178,8 @@ export const letterContent = {
       insurance requirements under the Affordable Care Act (ACA). To prove that
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
-      plan. If you’ve lost your IRS Form 1095-B, please call 1-877-222-VETS (
-      <a href="tel:+18772228387">1-877-222-8387</a>
+      plan. If you’ve lost your IRS Form 1095-B, please call 877-222-VETS (
+      <a href="tel:+18772228387">877-222-8387</a>
       ), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET to request
       another copy.
     </div>

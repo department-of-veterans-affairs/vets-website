@@ -154,7 +154,7 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday &#8211;
+            <a href="tel:800-827-1000">800-827-1000</a>, Monday &#8211;
             Friday, 8 a.m. &#8211; 9 p.m. ET
           </div>
         </div>

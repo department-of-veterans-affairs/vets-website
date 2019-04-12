@@ -42,16 +42,16 @@ export default function ContactInformationExplanation() {
         <ul>
           <li>
             <strong>For education benefits:</strong> Call 1-888-GIBILL-1
-            (1-888-442-4551), Monday through Friday, 7:00 a.m. to 6:00 p.m. CT
+            (888-442-4551), Monday through Friday, 7:00 a.m. to 6:00 p.m. CT
           </li>
           <li>
-            <strong>For home loan benefits:</strong> Call 1-877-827-3702, Monday
+            <strong>For home loan benefits:</strong> Call 877-827-3702, Monday
             through Friday, 8:00 a.m. to 6:00 p.m. ET to reach the nearest VA
             regional benefit office with loan guaranty staff.
           </li>
           <li>
             <strong>For Veterans' Mortgage Life Insurance:</strong> Call the VA
-            Insurance Center (VAIC) at 1-800-669-8477, Monday through Friday,
+            Insurance Center (VAIC) at 800-669-8477, Monday through Friday,
             8:00 a.m. to 6:00 p.m. ET
           </li>
         </ul>

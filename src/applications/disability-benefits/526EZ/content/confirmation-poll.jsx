@@ -17,7 +17,7 @@ export const successMessage = claimId => (
     <p>
       If you don’t see your increased disability claim online after 24 hours,
       please call Veterans Benefits Assistance at{' '}
-      <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m.
+      <a href="tel:+18008271000">800-827-1000</a>, Monday – Friday, 8:00 a.m.
       – 9:00 a.m. ET.
     </p>
   </div>
@@ -47,7 +47,7 @@ export const errorMessage = () => (
     <p>
       We're sorry. Something went wrong on our end when we tried to submit your
       application. For help submitting your claim, please call Veterans Benefits
-      Assistance at <a href="tel:18008271000">1-800-827-1000</a>, Monday –
+      Assistance at <a href="tel:18008271000">800-827-1000</a>, Monday –
       Friday, 8:30 a.m. – 4:30 p.m. ET. Or, you can get in touch with your
       nearest Veterans Service Officer (VSO).
     </p>
