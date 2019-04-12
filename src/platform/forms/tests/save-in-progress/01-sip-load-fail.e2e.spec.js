@@ -11,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(url)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for Health Care: VA.gov')
+    .assert.title('Apply for Health Care | Veterans Affairs')
     .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
   client.axeCheck('.main');
