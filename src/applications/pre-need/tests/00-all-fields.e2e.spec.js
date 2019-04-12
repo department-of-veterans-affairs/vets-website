@@ -18,7 +18,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     )
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title(
-      'Apply online for pre-need determination of eligibility in a VA National Cemetery: VA.gov',
+      'Apply online for pre-need determination of eligibility in a VA National Cemetery | Veterans Affairs',
     )
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
     .click('.schemaform-start-button');
