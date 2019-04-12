@@ -130,7 +130,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes Mellitus1",
+          "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "knee replacement",

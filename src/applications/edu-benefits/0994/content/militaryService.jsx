@@ -11,8 +11,15 @@ export const activeDutyNotice = (
 export const benefitNotice = (
   <p>
     <strong>Note: </strong>
-    If you’re called to active duty, while you’re enrolled in VET TEC, it may
-    affect your eligibility for the program. If you're called to active duty,
-    please let us know as soon as possible.
+    Your eligibility for VET TEC may be affected if you're called to active
+    duty. Please let us know as soon as possible if there's a change in your
+    military status.
+  </p>
+);
+
+export const selectedReserveNationalGuardExpectedDutyTitle = (
+  <p>
+    Are you in the Selected Reserve or National Guard <strong>and</strong> do
+    you expect to be called to duty for 30 days or more?
   </p>
 );
