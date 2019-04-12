@@ -1,31 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 class HighTechEmploymentTypeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      computerProgramming: false,
-      dataProcessing: false,
-      computerSoftware: false,
-      informationSciences: false,
-      mediaApplication: false,
-      noneApply: false,
+      ...props.formData,
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleNoneApply = this.handleNoneApply.bind(this);
+    this.setHighTechEmploymentType = this.setHighTechEmploymentType.bind(this);
+  }
+
+  setHighTechEmploymentType(property, value) {
+    _.set(this.props.formData, property, value);
   }
 
   handleChange(e) {
-    this.setState({ [e.target.id]: e.target.checked });
-    if (e.target.id === 'noneApply') {
-      this.setState({ computerProgramming: false });
-      this.setState({ dataProcessing: false });
-      this.setState({ computerSoftware: false });
-      this.setState({ informationSciences: false });
-      this.setState({ mediaApplication: false });
+    this.handleNoneApply(e.target.id === 'noneApply');
+    this.setHighTechEmploymentType([e.target.id], e.target.checked);
+  }
+
+  handleNoneApply(isNoneApply) {
+    if (isNoneApply) {
+      this.setHighTechEmploymentType('computerProgramming', false);
+      this.setHighTechEmploymentType('dataProcessing', false);
+      this.setHighTechEmploymentType('computerSoftware', false);
+      this.setHighTechEmploymentType('informationSciences', false);
+      this.setHighTechEmploymentType('mediaApplication', false);
     } else {
-      this.setState({ noneApply: false });
+      this.setHighTechEmploymentType('noneApply', false);
     }
   }
 
@@ -50,7 +56,7 @@ class HighTechEmploymentTypeView extends React.Component {
             type="checkbox"
             id={highTechEmploymentTypeIds.computerProgramming}
             name={highTechEmploymentTypeIds.computerProgramming}
-            checked={this.state.computerProgramming}
+            checked={this.props.formData.computerProgramming}
             onChange={this.handleChange}
           />
           <label
@@ -63,7 +69,7 @@ class HighTechEmploymentTypeView extends React.Component {
             type="checkbox"
             id={highTechEmploymentTypeIds.dataProcessing}
             name={highTechEmploymentTypeIds.dataProcessing}
-            checked={this.state.dataProcessing}
+            checked={this.props.formData.dataProcessing}
             onChange={this.handleChange}
           />
           <label
@@ -76,7 +82,7 @@ class HighTechEmploymentTypeView extends React.Component {
             type="checkbox"
             id={highTechEmploymentTypeIds.computerSoftware}
             name={highTechEmploymentTypeIds.computerSoftware}
-            checked={this.state.computerSoftware}
+            checked={this.props.formData.computerSoftware}
             onChange={this.handleChange}
           />
           <label
@@ -89,7 +95,7 @@ class HighTechEmploymentTypeView extends React.Component {
             type="checkbox"
             id={highTechEmploymentTypeIds.informationSciences}
             name={highTechEmploymentTypeIds.informationSciences}
-            checked={this.state.informationSciences}
+            checked={this.props.formData.informationSciences}
             onChange={this.handleChange}
           />
           <label
@@ -102,7 +108,7 @@ class HighTechEmploymentTypeView extends React.Component {
             type="checkbox"
             id={highTechEmploymentTypeIds.mediaApplication}
             name={highTechEmploymentTypeIds.mediaApplication}
-            checked={this.state.mediaApplication}
+            checked={this.props.formData.mediaApplication}
             onChange={this.handleChange}
           />
           <label
@@ -115,7 +121,7 @@ class HighTechEmploymentTypeView extends React.Component {
             type="checkbox"
             id={highTechEmploymentTypeIds.noneApply}
             name={highTechEmploymentTypeIds.noneApply}
-            checked={this.state.noneApply}
+            checked={this.props.formData.noneApply}
             onChange={this.handleChange}
           />
           <label
