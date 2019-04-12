@@ -5,7 +5,6 @@ const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../../platform/testing/e2e/timeouts');
 const FormsTestHelpers = require('../../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../../platform/testing/e2e/auth');
-const ENVIRONMENTS = require('../../../../../site/constants/environments');
 
 import {
   completeFormPage,
@@ -47,17 +46,12 @@ const authentication = client => {
 const e2eTests = (client, formData) => {
   // Benefits eligibility
   // Personal Information
-
-  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
-    completeFormPage(
-      '/applicant/information',
-      client,
-      formData,
-      completeApplicantInformation,
-    );
-  } else {
-    completeFormPage('/applicant/information', client);
-  }
+  completeFormPage(
+    '/applicant/information',
+    client,
+    formData,
+    completeApplicantInformation,
+  );
 
   // Already submitted
   completeFormPage(
