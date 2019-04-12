@@ -43,7 +43,7 @@ export class DownloadLetters extends React.Component {
 
     return (
       <div className="usa-width-three-fourths letters">
-        <FormTitle title="VA Letters and Documents" />
+        <FormTitle title="VA letters and documents" />
         <p className="va-introtext">
           To receive some benefits, Veterans need a letter proving their status.
           You can download some of these benefit letters and documents online.
