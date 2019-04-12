@@ -93,7 +93,7 @@ export class ConfirmationPage extends React.Component {
           <p className="confirmation-guidance-message">
             If you have questions, please call 1-877-222-VETS (
             <a href="tel:+18772228387">1-877-222-8387</a>) and press 2, Monday
-            &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+            &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET.
           </p>
         </div>
       </div>

@@ -12,7 +12,7 @@ const vbaVersion = (
         1-800-827-1000
       </a>
     </p>
-    <p>Monday - Friday, 8:00am - 9:00pm (ET)</p>
+    <p>Monday - Friday, 8:00am - 9:00pm ET</p>
   </div>
 );
 
@@ -25,7 +25,7 @@ const vhaVersion = (
         1-877-222-VETS (8387)
       </a>
     </p>
-    <p>Monday - Friday, 8:00am - 8:00pm (ET)</p>
+    <p>Monday - Friday, 8:00am - 8:00pm ET</p>
   </div>
 );
 

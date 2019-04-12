@@ -111,7 +111,7 @@ export const benefitsRelinquishedDescription = (
     <br />
     If you have questions or don’t understand the choice, talk to a specialist
     at 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>
-    ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).
+    ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
   </span>
 );
 

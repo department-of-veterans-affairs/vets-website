@@ -9,7 +9,7 @@ describe('<AppealHeader/>', () => {
     lastUpdated: '2018-01-03T09:30:15-05:00',
   };
 
-  const formattedDate = 'Up to date as of January 03, 2018, at 9:30 a.m. (ET)';
+  const formattedDate = 'Up to date as of January 03, 2018, at 9:30 a.m. ET';
 
   it('renders', () => {
     const wrapper = shallow(<AppealHeader {...defaultProps} />);

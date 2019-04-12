@@ -14,7 +14,7 @@ function GetFormHelp() {
           1-888-442-4551 (1-888-GIBILL1)
         </a>
         <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET)
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
         <br />
         <a
           className="help-phone-number-link"

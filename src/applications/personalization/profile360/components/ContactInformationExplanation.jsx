@@ -46,13 +46,13 @@ export default function ContactInformationExplanation() {
           </li>
           <li>
             <strong>For home loan benefits:</strong> Call 1-877-827-3702, Monday
-            through Friday, 8:00 a.m. to 6:00 p.m. (ET) to reach the nearest VA
+            through Friday, 8:00 a.m. to 6:00 p.m. ET to reach the nearest VA
             regional benefit office with loan guaranty staff.
           </li>
           <li>
             <strong>For Veterans' Mortgage Life Insurance:</strong> Call the VA
             Insurance Center (VAIC) at 1-800-669-8477, Monday through Friday,
-            8:00 a.m. to 6:00 p.m. (ET)
+            8:00 a.m. to 6:00 p.m. ET
           </li>
         </ul>
         <a href={facilityLocator.rootUrl}>

@@ -73,7 +73,7 @@ export default class AuthorizationMessage extends React.Component {
             rating is less than 30%, so you can’t apply at this time. If you
             think our records aren’t correct, please call Veterans Benefits
             Assistance at 1-800-827-1000. We’re here Monday – Friday, 8:00 a.m.
-            to 9:00 p.m. (ET).
+            to 9:00 p.m. ET.
           </p>
           <a className="usa-button-primary" href={increaseRootUrl}>
             Start a Claim for Increase Application

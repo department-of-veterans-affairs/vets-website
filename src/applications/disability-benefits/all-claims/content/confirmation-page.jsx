@@ -61,7 +61,7 @@ const template = (props, title, content, submissionMessage) => {
         <p className="confirmation-guidance-message">
           If you have questions, please call{' '}
           <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          8:00 a.m. &#8211; 8:00 p.m. ET.
         </p>
       </div>
       <div className="row form-progress-buttons schemaform-back-buttons">
@@ -98,7 +98,7 @@ export const submitErrorContent = props =>
     <div>
       <p>
         For help submitting your claim, please call Veterans Benefits Assistance
-        at 1-800-827-1000, Monday – Friday, 8:30 a.m. – 4:30 p.m. (ET). Or, you
+        at 1-800-827-1000, Monday – Friday, 8:30 a.m. – 4:30 p.m. ET. Or, you
         can get in touch with your nearest Veterans Service Officer (VSO).
       </p>{' '}
       <a href="/disability/get-help-filing-claim/">Contact your nearest VSO.</a>

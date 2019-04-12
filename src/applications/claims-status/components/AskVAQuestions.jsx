@@ -11,7 +11,7 @@ class AskVAQuestions extends React.Component {
             1-800-827-1000
           </a>
         </p>
-        <p>Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET)</p>
+        <p>Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET</p>
         <p>
           <a href="https://iris.custhelp.com/">Submit a question to VA</a>
         </p>

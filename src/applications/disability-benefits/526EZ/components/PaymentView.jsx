@@ -72,7 +72,7 @@ const PaymentView = response => {
           <li>
             Call Veterans Benefits Assistance at{' '}
             <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
-            8:00 a.m. – 9:00 p.m. (ET).
+            8:00 a.m. – 9:00 p.m. ET.
           </li>
         </ul>
       </div>
