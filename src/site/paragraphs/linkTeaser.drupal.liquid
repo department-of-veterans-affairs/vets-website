@@ -29,11 +29,11 @@
     {% if link.url.path != empty %}
         <li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
             <a href="{{link.url.path}}" {% if link.options["target"] %}target="{{ link.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
-                {% if link.title != empty %}
+            {% if link.title != empty %}
                 <{{ header }} class="{{ headerClass }}">{{ link.title }}</{{ header }}>
-            {% if parentFieldName === "field_spokes" %}
-                <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
-            {% endif %}
+                {% if parentFieldName === "field_spokes" %}
+                    <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
+                {% endif %}
             {% endif %}
 
             {% if linkTeaser.fieldLinkSummary != empty %}
