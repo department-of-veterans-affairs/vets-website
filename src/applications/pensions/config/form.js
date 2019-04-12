@@ -228,7 +228,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           path: 'applicant/information',
@@ -268,11 +268,11 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Military history',
       pages: {
         servicePeriods: {
           path: 'military/history',
-          title: 'Service Periods',
+          title: 'Service periods',
           uiSchema: {
             'ui:title': 'Service periods',
             servicePeriods: {
@@ -348,7 +348,7 @@ const formConfig = {
         },
         general: {
           path: 'military/general',
-          title: 'General History',
+          title: 'General history',
           uiSchema: {
             'view:serveUnderOtherNames': {
               'ui:title': 'Did you serve under another name?',
@@ -408,7 +408,7 @@ const formConfig = {
         },
         reserveAndNationalGuard: {
           path: 'military/reserve-national-guard',
-          title: 'Reserve and National Guard',
+          title: 'Reserve and national guard',
           uiSchema: {
             'ui:title': 'Reserve and National Guard',
             nationalGuardActivation: {
@@ -452,7 +452,7 @@ const formConfig = {
         },
         powAndSeverance: {
           path: 'military/pow-severance',
-          title: 'POW Status & Severance Pay',
+          title: 'POW status & severance pay',
           uiSchema: {
             'ui:title': 'POW Status & Severance Pay',
             'ui:order': [
