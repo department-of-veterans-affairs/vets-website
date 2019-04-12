@@ -35,6 +35,10 @@
       <p>{{ alert.fieldHelpText }}</p>
     {% endif %}
     {% if expander.fieldTextExpander %}
+      {% comment %}
+        NOTE: .additional-info-container is a class utilized by
+        createAdditionalInfoWidget.js to add toggle functionality to info alerts
+      {% endcomment %}
       <div class="form-expanding-group borderless-alert additional-info-container" aria-hidden="true">
         <div class="additional-info-title">{{ expander.fieldTextExpander }}</div>
 
