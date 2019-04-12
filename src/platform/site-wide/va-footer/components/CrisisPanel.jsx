@@ -65,8 +65,7 @@ export default function CrisisPanel() {
                 aria-hidden="true"
               />
               <a href="tel:18007994889">
-                Call TTY if you have hearing loss{' '}
-                <strong>800-799-4889</strong>
+                Call TTY if you have hearing loss <strong>800-799-4889</strong>
               </a>
             </li>
           </ul>

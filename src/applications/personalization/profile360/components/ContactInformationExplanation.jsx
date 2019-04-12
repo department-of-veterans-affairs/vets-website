@@ -51,8 +51,8 @@ export default function ContactInformationExplanation() {
           </li>
           <li>
             <strong>For Veterans' Mortgage Life Insurance:</strong> Call the VA
-            Insurance Center (VAIC) at 800-669-8477, Monday through Friday,
-            8:00 a.m. to 6:00 p.m. ET
+            Insurance Center (VAIC) at 800-669-8477, Monday through Friday, 8:00
+            a.m. to 6:00 p.m. ET
           </li>
         </ul>
         <a href={facilityLocator.rootUrl}>

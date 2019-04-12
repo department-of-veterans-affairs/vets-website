@@ -11,19 +11,19 @@ class SearchControls extends Component {
   };
 
   // eslint-disable-next-line prettier/prettier
-  handleQueryChange = (e) => {
+  handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
 
   // eslint-disable-next-line prettier/prettier
-  handleFacilityTypeChange = (option) => {
+  handleFacilityTypeChange = option => {
     this.props.onChange({ facilityType: option, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
     // eslint-disable-next-line prettier/prettier
-    const serviceType = (option === 'All') ? null : option;
+    const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
   };
 

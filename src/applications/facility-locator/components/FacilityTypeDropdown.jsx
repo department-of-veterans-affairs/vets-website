@@ -96,7 +96,7 @@ class FacilityTypeDropdown extends Component {
           selectedItem,
         }) => {
           // eslint-disable-next-line prettier/prettier
-          const handleKeyDown = (e) => {
+          const handleKeyDown = e => {
             // Allow blurring focus (with TAB) to close dropdown.
             if (e.keyCode === keyMap.TAB && isOpen) {
               closeMenu();
