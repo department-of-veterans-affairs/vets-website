@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(
       `${
-      E2eHelpers.baseUrl
+        E2eHelpers.baseUrl
       }/education/apply-for-education-benefits/application/1995`,
     )
     .waitForElementVisible('body', Timeouts.normal)
