@@ -5,6 +5,7 @@ import { calculatorConstants } from '../gibct-helpers';
 import createCommonStore from '../../../../platform/startup/store';
 import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/calculator';
+import environment from 'platform/utilities/environment';
 
 const defaultState = createCommonStore(reducer).getState();
 
@@ -65,7 +66,6 @@ defaultState.profile = {
     createdAt: '2017-04-15T00:58:45.542Z',
     creditForMilTraining: true,
     cross: '00439057',
-    dodBah: 2231.0,
     dodmou: true,
     eightKeys: true,
     facilityCode: '21405247',
@@ -186,6 +186,15 @@ describe('getCalculatedBenefits', () => {
     expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
   });
 
+  it('should show the GI Bill Benefit assistance field for GI Bill Ch 33 with eligible military status', () => {
+    const state = set(
+      'eligibility.militaryStatus',
+      'national guard / reserves',
+      defaultState,
+    );
+    expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
+  });
+
   it('should hide kicker fields for GI Bill Ch 35', () => {
     const state = set('eligibility.giBillChapter', '35', defaultState);
     expect(getCalculatedBenefits(state).inputs.kicker).to.be.false;
@@ -283,4 +292,27 @@ describe('getCalculatedBenefits', () => {
     expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be
       .true;
   });
+
+  if (!environment.isProduction()) {
+    it('should fall back to VA rate', () => {
+      const state = set('calculator.giBillBenefit', 'no', defaultState);
+      expect(
+        getCalculatedBenefits(state).outputs.housingAllowance.value,
+      ).to.equal('$2,271/mo');
+    });
+    it('should use VA rate when Post-9/11 GI Bill benefit used before 1/1/2018', () => {
+      let state = set('profile.attributes.dodBah', 2000, defaultState);
+      state = set('calculator.giBillBenefit', 'yes', state);
+      expect(
+        getCalculatedBenefits(state).outputs.housingAllowance.value,
+      ).to.equal('$2,271/mo');
+    });
+    it('should use DOD rate when available', () => {
+      let state = set('profile.attributes.dodBah', 2000, defaultState);
+      state = set('calculator.giBillBenefit', 'no', state);
+      expect(
+        getCalculatedBenefits(state).outputs.housingAllowance.value,
+      ).to.equal('$2,000/mo');
+    });
+  }
 });
