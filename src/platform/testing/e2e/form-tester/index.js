@@ -89,7 +89,7 @@ const testForm = (testDataSets, testConfig) => {
         '--no-sandbox',
         '--disable-setuid-sandbox',
       ],
-      devtools: testConfig.debug,
+      devtools: testConfig.debug && !process.env.IN_DOCKER,
     });
   });
 
