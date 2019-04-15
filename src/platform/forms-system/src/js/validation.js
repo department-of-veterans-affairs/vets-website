@@ -270,7 +270,15 @@ export function isValidForm(form, pageList) {
 
       if (result.valid) {
         const customErrors = {};
-        uiSchemaValidate(customErrors, uiSchema, schema, formData);
+        uiSchemaValidate(
+          customErrors,
+          uiSchema,
+          schema,
+          formData,
+          '',
+          null,
+          appStateData,
+        );
 
         return {
           isValid: isValid && errorSchemaIsValid(customErrors),
