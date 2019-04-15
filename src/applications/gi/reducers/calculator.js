@@ -305,7 +305,7 @@ export default function(state = INITIAL_STATE, action) {
         action.payload.data.attributes.dodBah <
           action.payload.data.attributes.bah
       ) {
-        giBillBenefit = 'yes';
+        giBillBenefit = 'no';
       }
 
       return {

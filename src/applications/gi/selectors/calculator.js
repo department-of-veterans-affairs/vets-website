@@ -1,8 +1,8 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
-import environment from 'platform/utilities/environment';
 import { formatCurrency } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -481,10 +481,28 @@ const getDerivedValues = createSelector(
     const useBeneficiaryLocationRate =
       inputs.beneficiaryLocationQuestion === 'no' &&
       inputs.beneficiaryLocationBah !== null;
+
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
       inputs.giBillBenefit === 'yes';
-    if (useBeneficiaryLocationRate) {
+
+    if (!environment.isProduction()) {
+      if (useBeneficiaryLocationRate) {
+        // sometimes there's no grandfathered rate for a zip code
+        bah =
+          useGrandfatheredBeneficiaryLocationRate &&
+          inputs.beneficiaryLocationGrandfatheredBah
+            ? inputs.beneficiaryLocationGrandfatheredBah
+            : inputs.beneficiaryLocationBah;
+      } else {
+        const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+        // use the DOD rate on staging
+        bah =
+          !hasUsedGiBillBenefit && institution.dodBah
+            ? institution.dodBah
+            : institution.bah;
+      }
+    } else if (useBeneficiaryLocationRate) {
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate &&
@@ -492,15 +510,10 @@ const getDerivedValues = createSelector(
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
-      // use the DOD rate on staging
-      const grandfatheredBah = environment.isProduction()
-        ? institution.bahGrandfathered
-        : institution.dodBah;
-
       // sometimes there's no grandfathered rate for a zip code
       bah =
-        useGrandfatheredBeneficiaryLocationRate && grandfatheredBah
-          ? grandfatheredBah
+        useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
+          ? institution.bahGrandfathered
           : institution.bah;
     }
 
