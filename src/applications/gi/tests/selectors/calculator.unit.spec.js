@@ -186,15 +186,6 @@ describe('getCalculatedBenefits', () => {
     expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
   });
 
-  it('should show the GI Bill Benefit assistance field for GI Bill Ch 33 with eligible military status', () => {
-    const state = set(
-      'eligibility.militaryStatus',
-      'national guard / reserves',
-      defaultState,
-    );
-    expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
-  });
-
   it('should hide kicker fields for GI Bill Ch 35', () => {
     const state = set('eligibility.giBillChapter', '35', defaultState);
     expect(getCalculatedBenefits(state).inputs.kicker).to.be.false;
@@ -284,13 +275,6 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
-  });
-
-  it('should show scholarships in calculations if there were any', () => {
-    let state = set('calculator.scholarships', 10000, defaultState);
-    state = set('calculator.tuitionAssist', 5000, state);
-    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be
-      .true;
   });
 
   if (!environment.isProduction()) {
