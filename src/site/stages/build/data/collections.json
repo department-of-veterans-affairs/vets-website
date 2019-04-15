@@ -4,7 +4,7 @@
     "metadata": {
       "name": "Burials and Memorials",
       "hub": "burials",
-      "spokes": ["Get Benefits", "Plan a Burial", "More Resources"]
+      "spokes": ["Get benefits", "Plan a burial", "More resources"]
     }
   },
   "burialsHonor": {
@@ -402,7 +402,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Housing Assistance",
-      "spokes": ["VA Home Loans", "Disability Housing Grants"],
+      "spokes": ["VA home loans", "Disability housing grants"],
       "hub": "housing"
     }
   },
@@ -532,7 +532,7 @@
     "metadata": {
       "hub": "records",
       "name": "Records",
-      "spokes": ["Get Records"]
+      "spokes": ["Get records"]
     }
   },
   "veteranIdCards": {
@@ -541,7 +541,7 @@
     "metadata": {
       "hub": "records",
       "name": "Records",
-      "spokes": ["Get Records"]
+      "spokes": ["Get records"]
     }
   }
 }
