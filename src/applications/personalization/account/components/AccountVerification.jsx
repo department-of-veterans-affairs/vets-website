@@ -27,7 +27,7 @@ export default function AccountVerification({ loa }) {
                   recordEvent({ event: 'verify-link-clicked' });
                 }}
               >
-                Verify Your identity
+                Verify your identity
               </a>
             </p>
             <p>
