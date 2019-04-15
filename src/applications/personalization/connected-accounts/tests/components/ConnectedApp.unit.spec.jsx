@@ -20,11 +20,7 @@ const account = {
 describe('<ConnectedApp>', () => {
   it('opening the row and clicking button opens the confirm delete modal', () => {
     const tree = SkinDeep.shallowRender(
-      <ConnectedApp
-        {...account}
-        confirmDelete={() => null}
-        propertyName="VA.gov"
-      />,
+      <ConnectedApp {...account} confirmDelete={() => null} />,
     );
 
     const row = tree.dive(['.va-connected-acct-row']);
@@ -41,11 +37,7 @@ describe('<ConnectedApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <div>
-        <ConnectedApp
-          {...account}
-          propertyName="VA.gov"
-          confirmDelete={confirmDelete}
-        />
+        <ConnectedApp {...account} confirmDelete={confirmDelete} />
       </div>,
     );
 

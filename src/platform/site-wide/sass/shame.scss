@@ -1,4 +1,3 @@
-/* MERGER-specific shame. This is not production ready; proof of concept only */
 $medium-phone-screen: 375px;
 /* OVERRIDE */
 .merger {
@@ -36,7 +35,7 @@ $medium-phone-screen: 375px;
   $color-primary-lightest: #e1f3f8;
 
   @import "iconography";
-  @import "right-rail";
+  @import "modules/m-right-rail";
 
   section.usa-grid {
     padding-top: 3em;
@@ -382,6 +381,9 @@ $medium-phone-screen: 375px;
       a {
         text-decoration: underline;
       }
+        .social-icon {
+          text-decoration: none;
+        }
 
       .usa-accordion-content {
         h4:first-child {

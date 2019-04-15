@@ -1,11 +1,8 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import brandConsolidation from '../../../brand-consolidation';
 
 export default class VAPlusVetsModal extends React.Component {
   static isEnabled() {
-    if (!brandConsolidation.isEnabled()) return false;
-
     const wasRedirectedFromVets = /^https:\/\/((dev|staging|www)\.)?vets\.gov/.test(
       document.referrer,
     );

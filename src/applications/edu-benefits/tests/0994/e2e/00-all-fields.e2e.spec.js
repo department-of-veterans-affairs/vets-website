@@ -8,6 +8,7 @@ const Auth = require('../../../../../platform/testing/e2e/auth');
 
 import {
   completeFormPage,
+  completeApplicantInformation,
   completeAlreadySubmitted,
   completeMilitaryService,
   completeEducationHistory,
@@ -32,7 +33,7 @@ const authentication = client => {
 
   // Ensure introduction page renders.
   client.assert
-    .title('Apply for education benefits: VA.gov')
+    .title('Apply for education benefits | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.verySlow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
@@ -45,7 +46,12 @@ const authentication = client => {
 const e2eTests = (client, formData) => {
   // Benefits eligibility
   // Personal Information
-  completeFormPage('/applicant/information', client);
+  completeFormPage(
+    '/applicant/information',
+    client,
+    formData,
+    completeApplicantInformation,
+  );
 
   // Already submitted
   completeFormPage(

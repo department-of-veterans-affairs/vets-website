@@ -1,7 +1,7 @@
 //===================================
 // asset paths
 //===================================
-@import "modules/m-overrides";
+@import "../../../platform/site-wide/sass/modules/m-overrides";
 
 //===================================
 // color values
@@ -101,43 +101,33 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 
 .consolidated {
   font-family: $font-stack;
+
   @import "~@department-of-veterans-affairs/formation/sass/core";
-
-  @import "../../site-wide/user-nav/sass/user-nav";
-
-
-  @import "modules/m-footer-brand-consolidation";
-
-  // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
-  @import "modules/m-crisis-line-brand-consolidation";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
-  @import "modules/m-search";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
-  @import "modules/m-vet-nav-px";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
-  @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
-  @import "modules/m-layers";
-
-  // ----- mobile typography -- see #6214 on vets.gov-team ---- //
-
   @import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
-
-  // ----- VA SHAME ---- //
-
   @import "~@department-of-veterans-affairs/formation/sass/shame";
-  // @import "slider";
-  @import "iconography";
 
-  @import "merger";
+  @import "../../../platform/site-wide/user-nav/sass/user-nav";
 
+  @import "../../../platform/site-wide/sass/modules/m-footer";
+  @import "../../../platform/site-wide/sass/modules/m-crisis-line";
+  @import "../../../platform/site-wide/sass/modules/m-search";
+  @import "../../../platform/site-wide/sass/modules/m-downtime-notification";
+  @import "../../../platform/site-wide/sass/modules/m-layers";
+  @import "../../../platform/site-wide/sass/iconography";
+
+  @import "m-vet-nav-px";
+  @import "../../../platform/site-wide/sass/shame";
   @import "consolidated-patches";
 }
 
