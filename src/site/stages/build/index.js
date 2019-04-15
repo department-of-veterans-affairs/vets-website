@@ -15,7 +15,6 @@ const registerLiquidFilters = require('../../filters/liquid');
 const getDrupalContent = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const createBuildSettings = require('./plugins/create-build-settings');
-const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
 const updateExternalLinks = require('./plugins/update-external-links');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
@@ -161,7 +160,6 @@ function defaultBuild(BUILD_OPTIONS) {
   configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS));
-  smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
   smith.use(checkForCMSUrls(BUILD_OPTIONS));
 
