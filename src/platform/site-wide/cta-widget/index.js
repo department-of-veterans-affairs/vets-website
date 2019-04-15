@@ -120,6 +120,25 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    if (this.props.mviDown) {
+      return {
+        heading: 'VA.gov health tools are temporarily unavailable',
+        alertText: (
+          <>
+            <p>
+              We’re sorry. We’re having trouble accessing your Veteran records.
+            </p>
+            <h5>What you can do</h5>
+            <p>
+              Please check back in a few minutes. This issue is temporary and
+              will be resolved soon.
+            </p>
+          </>
+        ),
+        status: 'error',
+      };
+    }
+
     if (this.isAccessible()) {
       return {
         heading: 'My HealtheVet will open in a new tab',
@@ -436,12 +455,13 @@ CallToActionWidget.defaultProps = {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, /* services, */ verified } = profile;
+  const { loading, mhvAccount, /* services, */ verified, status } = profile;
   return {
     // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
     profile: { loading, verified },
     mhvAccount,
+    mviDown: status !== 'OK',
   };
 };
 
