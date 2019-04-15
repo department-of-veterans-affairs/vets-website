@@ -97,7 +97,7 @@ function applyDefaultOptions(options) {
       [`${blocks}/**/*`]: '**/*.{md,html}',
       [`${teasers}/**/*`]: '**/*.{md,html}',
     },
-    cacheDirectory: path.resolve(projectRoot, '.cache'),
+    cacheDirectory: path.join(projectRoot, '.cache', options.buildtype),
   });
 }
 

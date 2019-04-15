@@ -86,12 +86,10 @@ async function loadDrupal(buildOptions) {
 
     console.timeEnd(drupalTimer);
 
-    if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
-      const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-      fs.ensureDirSync(buildOptions.cacheDirectory);
-      fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
-      fs.writeFileSync(drupalCache, serialized);
-    }
+    const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
+    fs.ensureDirSync(buildOptions.cacheDirectory);
+    fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
+    fs.writeFileSync(drupalCache, serialized);
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
