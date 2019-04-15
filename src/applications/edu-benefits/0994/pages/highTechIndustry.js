@@ -58,24 +58,6 @@ export const uiSchema = {
       'ui:description':
         'Which area best describes your high-tech work experience? (Check all that apply.)',
     },
-    // computerProgramming: {
-    //   'ui:title': 'Computer programming',
-    // },
-    // dataProcessing: {
-    //   'ui:title': 'Data processing',
-    // },
-    // computerSoftware: {
-    //   'ui:title': 'Computer software',
-    // },
-    // informationSciences: {
-    //   'ui:title': 'Information sciences',
-    // },
-    // mediaApplication: {
-    //   'ui:title': 'Media application',
-    // },
-    // noneApply: {
-    //   'ui:title': 'None of these',
-    // },
   },
 };
 

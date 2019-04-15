@@ -2,6 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+const setHighTechEmploymentType = (property, value, formData) => {
+  _.set(formData, property, value);
+};
+
+const handleNoneApply = (isNoneApply, formData) => {
+  if (isNoneApply) {
+    setHighTechEmploymentType('computerProgramming', false, formData);
+    setHighTechEmploymentType('dataProcessing', false, formData);
+    setHighTechEmploymentType('computerSoftware', false, formData);
+    setHighTechEmploymentType('informationSciences', false, formData);
+    setHighTechEmploymentType('mediaApplication', false, formData);
+  } else {
+    setHighTechEmploymentType('noneApply', false, formData);
+  }
+};
+
+const updateFormData = props => {
+  props.onChange(props.formData);
+};
+
 class HighTechEmploymentTypeView extends React.Component {
   constructor(props) {
     super(props);
@@ -10,35 +30,17 @@ class HighTechEmploymentTypeView extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleNoneApply = this.handleNoneApply.bind(this);
-    this.setHighTechEmploymentType = this.setHighTechEmploymentType.bind(this);
-    this.updateFormData = this.updateFormData.bind(this);
-  }
-
-  setHighTechEmploymentType(property, value) {
-    _.set(this.props.formData, property, value);
-  }
-
-  handleNoneApply(isNoneApply) {
-    if (isNoneApply) {
-      this.setHighTechEmploymentType('computerProgramming', false);
-      this.setHighTechEmploymentType('dataProcessing', false);
-      this.setHighTechEmploymentType('computerSoftware', false);
-      this.setHighTechEmploymentType('informationSciences', false);
-      this.setHighTechEmploymentType('mediaApplication', false);
-    } else {
-      this.setHighTechEmploymentType('noneApply', false);
-    }
-  }
-
-  updateFormData(value) {
-    this.props.onChange(value);
   }
 
   handleChange(e) {
-    this.handleNoneApply(e.target.id === 'noneApply');
-    this.setHighTechEmploymentType([e.target.id], e.target.checked);
-    this.updateFormData(this.props.formData);
+    handleNoneApply(e.target.id === 'noneApply', this.props.formData);
+    setHighTechEmploymentType(
+      [e.target.id],
+      e.target.checked,
+      this.props.formData,
+    );
+    updateFormData(this.props);
+    this.forceUpdate();
   }
 
   render() {
