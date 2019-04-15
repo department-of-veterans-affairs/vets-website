@@ -38,34 +38,6 @@ function createRedirects(options) {
       };
     }
 
-    for (const fileName of Object.keys(files)) {
-      const fileData = files[fileName];
-
-      if (!fileData) continue;
-
-      const { aliases, path: redirectToPath } = fileData;
-
-      if (!aliases) continue;
-
-      const redirectPage = {
-        contents: new Buffer(getRedirectPage(redirectToPath)),
-      };
-
-      for (const alias of aliases) {
-        let finalPath;
-        if (alias.startsWith('/')) {
-          finalPath = alias.slice(1);
-        }
-        if (!path.extname(finalPath))
-          finalPath = path.join(finalPath, 'index.html');
-
-        files[finalPath] = {
-          ...redirectPage,
-          path: finalPath,
-        };
-      }
-    }
-
     done();
   };
 }
