@@ -25,7 +25,6 @@ export default function MVIError({ facilitiesClick }) {
         <a href={facilityLocator} onClick={facilitiesClick}>
           Find your nearest VA Medical Center
         </a>
-        .
       </p>
     </div>
   );

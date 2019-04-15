@@ -97,7 +97,7 @@ class PersonalInformationContent extends React.Component {
 export default function PersonalInformation(props) {
   return (
     <div>
-      <h2 className="va-profile-heading">Personal Information</h2>
+      <h2 className="va-profile-heading">Personal information</h2>
       <DowntimeNotification
         render={handleDowntimeForSection('personal')}
         dependencies={[externalServices.mvi]}
