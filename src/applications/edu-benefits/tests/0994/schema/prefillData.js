@@ -39,7 +39,6 @@ export const transformedMaxPrefillData = {
     bankRoutingNumber: '*****2115',
     bankName: 'Comerica',
   },
-  privacyAgreementAccepted: false,
   applicantFullName: {
     first: 'Greg',
     middle: 'A',
@@ -70,7 +69,6 @@ export const minPrefillData = {
   applicantGender: 'M',
   dateOfBirth: '1933-04-05',
   applicantSocialSecurityNumber: '796121200',
-  privacyAgreementAccepted: false,
 };
 
 export const minTransformedPrefillData = {
@@ -88,7 +86,6 @@ export const minTransformedPrefillData = {
     emailAddress: undefined,
   },
   prefillBankAccount: undefined,
-  privacyAgreementAccepted: false,
   'view:bankAccount': {
     'view:hasBankInformation': false,
   },

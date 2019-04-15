@@ -7,7 +7,7 @@ const analyticsEvents = [
     action: SET_SUBMISSION,
     event: store => {
       const state = store.getState();
-      if (_.get(state, 'form.data.privacyAgreementAccepted', {}) === false) {
+      if (!_.get(state, 'form.data.privacyAgreementAccepted', false)) {
         recordEvent({
           event: 'edu-0994--response-missing',
           'missing-field-question':
