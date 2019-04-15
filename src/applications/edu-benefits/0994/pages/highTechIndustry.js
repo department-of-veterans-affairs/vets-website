@@ -54,9 +54,6 @@ export const uiSchema = {
     },
     highTechnologyEmploymentType: {
       'ui:field': HighTechEmploymentTypeView,
-      'ui:title': ' ',
-      'ui:description':
-        'Which area best describes your high-tech work experience? (Check all that apply.)',
     },
   },
 };
