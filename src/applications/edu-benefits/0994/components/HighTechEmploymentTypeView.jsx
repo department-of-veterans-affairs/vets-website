@@ -1,20 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 
-const setHighTechEmploymentType = (property, value, formData) => {
+const setHighTechEmploymentType = (formData, property, value) => {
   _.set(formData, property, value);
 };
 
 const handleNoneApply = (isNoneApply, formData) => {
   if (isNoneApply) {
-    setHighTechEmploymentType('computerProgramming', false, formData);
-    setHighTechEmploymentType('dataProcessing', false, formData);
-    setHighTechEmploymentType('computerSoftware', false, formData);
-    setHighTechEmploymentType('informationSciences', false, formData);
-    setHighTechEmploymentType('mediaApplication', false, formData);
+    setHighTechEmploymentType(formData, 'computerProgramming', false);
+    setHighTechEmploymentType(formData, 'dataProcessing', false);
+    setHighTechEmploymentType(formData, 'computerSoftware', false);
+    setHighTechEmploymentType(formData, 'informationSciences', false);
+    setHighTechEmploymentType(formData, 'mediaApplication', false);
   } else {
-    setHighTechEmploymentType('noneApply', false, formData);
+    setHighTechEmploymentType(formData, 'noneApply', false);
   }
 };
 
@@ -35,9 +34,9 @@ class HighTechEmploymentTypeView extends React.Component {
   handleChange(e) {
     handleNoneApply(e.target.id === 'noneApply', this.props.formData);
     setHighTechEmploymentType(
+      this.props.formData,
       [e.target.id],
       e.target.checked,
-      this.props.formData,
     );
     updateFormData(this.props);
     this.forceUpdate();
@@ -144,13 +143,4 @@ class HighTechEmploymentTypeView extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  computerProgramming: state.computerProgramming,
-  dataProcessing: state.dataProcessing,
-  computerSoftware: state.computerSoftware,
-  informationSciences: state.informationSciences,
-  mediaApplication: state.mediaApplication,
-  noneApply: state.noneApply,
-});
-
-export default connect(mapStateToProps)(HighTechEmploymentTypeView);
+export default HighTechEmploymentTypeView;
