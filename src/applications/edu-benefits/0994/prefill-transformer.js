@@ -35,6 +35,7 @@ export function prefillTransformer(pages, formData, metadata) {
     'view:bankAccount': {
       'view:hasBankInformation': hasBankInformation,
     },
+    privacyAgreementAccepted: false,
   };
 
   return {
