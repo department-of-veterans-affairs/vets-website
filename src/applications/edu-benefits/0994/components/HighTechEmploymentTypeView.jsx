@@ -1,12 +1,24 @@
 import React from 'react';
 import _ from 'lodash';
+import { TargetCheckboxWidget } from './TargetCheckboxWidget';
+
+const highTechEmploymentTypeIds = {
+  computerProgramming: 'computerProgramming',
+  dataProcessing: 'dataProcessing',
+  computerSoftware: 'computerSoftware',
+  informationSciences: 'informationSciences',
+  mediaApplication: 'mediaApplication',
+  noneApply: 'noneApply',
+};
 
 const setHighTechEmploymentType = (formData, property, value) => {
   _.set(formData, property, value);
 };
 
-const handleNoneApply = (isNoneApply, formData) => {
-  if (isNoneApply) {
+const isNoneApply = id => id === highTechEmploymentTypeIds.noneApply;
+
+const handleNoneApply = (id, formData) => {
+  if (isNoneApply(id)) {
     setHighTechEmploymentType(formData, 'computerProgramming', false);
     setHighTechEmploymentType(formData, 'dataProcessing', false);
     setHighTechEmploymentType(formData, 'computerSoftware', false);
@@ -32,113 +44,59 @@ class HighTechEmploymentTypeView extends React.Component {
   }
 
   handleChange(e) {
-    handleNoneApply(e.target.id === 'noneApply', this.props.formData);
-    setHighTechEmploymentType(
-      this.props.formData,
-      [e.target.id],
-      e.target.checked,
-    );
+    const { id, checked } = e;
+    handleNoneApply(id, this.props.formData);
+    setHighTechEmploymentType(this.props.formData, [id], checked);
     updateFormData(this.props);
-    this.forceUpdate();
+    this.setState(this.props.formData);
   }
 
   render() {
-    const highTechEmploymentTypeIds = {
-      computerProgramming: 'computerProgramming',
-      dataProcessing: 'dataProcessing',
-      computerSoftware: 'computerSoftware',
-      informationSciences: 'informationSciences',
-      mediaApplication: 'mediaApplication',
-      noneApply: 'noneApply',
-    };
-
     return (
-      <fieldset className="schemaform-field-template">
-        <div>
-          <legend className="schemaform-label">
-            Which area best describes your high-tech work experience? (Check all
-            that apply.)
-          </legend>
-          <input
-            type="checkbox"
+      <div>
+        <legend className="schemaform-label">
+          Which area best describes your high-tech work experience? (Check all
+          that apply.)
+        </legend>
+        <fieldset className="schemaform-field-template">
+          <TargetCheckboxWidget
             id={highTechEmploymentTypeIds.computerProgramming}
-            name={highTechEmploymentTypeIds.computerProgramming}
-            checked={this.props.formData.computerProgramming}
+            value={this.props.formData.computerProgramming}
             onChange={this.handleChange}
+            options={{ title: 'Computer programming' }}
           />
-          <label
-            className="schemaform-label"
-            htmlFor={highTechEmploymentTypeIds.computerProgramming}
-          >
-            Computer programming
-          </label>
-          <input
-            type="checkbox"
+          <TargetCheckboxWidget
             id={highTechEmploymentTypeIds.dataProcessing}
-            name={highTechEmploymentTypeIds.dataProcessing}
-            checked={this.props.formData.dataProcessing}
+            value={this.props.formData.dataProcessing}
             onChange={this.handleChange}
+            options={{ title: 'Data processing' }}
           />
-          <label
-            className="schemaform-label"
-            htmlFor={highTechEmploymentTypeIds.dataProcessing}
-          >
-            Data processing
-          </label>
-          <input
-            type="checkbox"
+          <TargetCheckboxWidget
             id={highTechEmploymentTypeIds.computerSoftware}
-            name={highTechEmploymentTypeIds.computerSoftware}
-            checked={this.props.formData.computerSoftware}
+            value={this.props.formData.computerSoftware}
             onChange={this.handleChange}
+            options={{ title: 'Computer software' }}
           />
-          <label
-            className="schemaform-label"
-            htmlFor={highTechEmploymentTypeIds.computerSoftware}
-          >
-            Computer software
-          </label>
-          <input
-            type="checkbox"
+          <TargetCheckboxWidget
             id={highTechEmploymentTypeIds.informationSciences}
-            name={highTechEmploymentTypeIds.informationSciences}
-            checked={this.props.formData.informationSciences}
+            value={this.props.formData.informationSciences}
             onChange={this.handleChange}
+            options={{ title: 'Information sciences' }}
           />
-          <label
-            className="schemaform-label"
-            htmlFor={highTechEmploymentTypeIds.informationSciences}
-          >
-            Information sciences
-          </label>
-          <input
-            type="checkbox"
+          <TargetCheckboxWidget
             id={highTechEmploymentTypeIds.mediaApplication}
-            name={highTechEmploymentTypeIds.mediaApplication}
-            checked={this.props.formData.mediaApplication}
+            value={this.props.formData.mediaApplication}
             onChange={this.handleChange}
+            options={{ title: 'Media application' }}
           />
-          <label
-            className="schemaform-label"
-            htmlFor={highTechEmploymentTypeIds.mediaApplication}
-          >
-            Media application
-          </label>
-          <input
-            type="checkbox"
+          <TargetCheckboxWidget
             id={highTechEmploymentTypeIds.noneApply}
-            name={highTechEmploymentTypeIds.noneApply}
-            checked={this.props.formData.noneApply}
+            value={this.props.formData.noneApply}
             onChange={this.handleChange}
+            options={{ title: 'None of these' }}
           />
-          <label
-            className="schemaform-label"
-            htmlFor={highTechEmploymentTypeIds.noneApply}
-          >
-            None of these
-          </label>
-        </div>
-      </fieldset>
+        </fieldset>
+      </div>
     );
   }
 }
