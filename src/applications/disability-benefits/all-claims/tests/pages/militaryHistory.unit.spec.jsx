@@ -15,6 +15,10 @@ describe('Military history', () => {
     uiSchema,
   } = formConfig.chapters.veteranDetails.pages.militaryHistory;
 
+  const appStateData = {
+    dob: '1990-01-01',
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -23,6 +27,7 @@ describe('Military history', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
+        appStateData={appStateData}
       />,
     );
 
@@ -41,12 +46,57 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
+        appStateData={appStateData}
       />,
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it("should fail when the start date is before the veteran's 13th birthday", () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2002-12-31',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      '2012-05-05',
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2003-01-01',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -60,6 +110,7 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
+        appStateData={appStateData}
       />,
     );
 
@@ -100,6 +151,7 @@ describe('Military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
+        appStateData={appStateData}
       />,
     );
 
