@@ -1,4 +1,5 @@
 import { qS, qSA, removeChildNodes } from './helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function createAdditionalInfoWidget() {
   const widgets = qSA(document, '.additional-info-container');
@@ -30,6 +31,7 @@ export default function createAdditionalInfoWidget() {
 
       const chevron = qS(el, 'i.fa-angle-down');
       const button = qS(el, 'button');
+      const analyticsEvent = button.dataset.event;
 
       button.addEventListener('click', () => {
         const ariaExpanded = JSON.parse(button.getAttribute('aria-expanded'));
@@ -37,6 +39,10 @@ export default function createAdditionalInfoWidget() {
         button.setAttribute('aria-expanded', `${!ariaExpanded}`);
         button.parentNode.classList.toggle('form-expanding-group-open');
         chevron.classList.toggle('open');
+
+        if (analyticsEvent) {
+          recordEvent(analyticsEvent);
+        }
       });
     });
   }
