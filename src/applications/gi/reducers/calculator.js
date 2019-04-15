@@ -23,7 +23,7 @@ const INITIAL_STATE = {
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
-  giBillBenefit: 'no',
+  giBillBenefit: 'yes',
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
