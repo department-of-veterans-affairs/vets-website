@@ -1,6 +1,7 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
+import environment from 'platform/utilities/environment';
 import { formatCurrency } from '../utils/helpers';
 
 const getConstants = state => state.constants.constants;
@@ -491,10 +492,15 @@ const getDerivedValues = createSelector(
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
+      // use the DOD rate on staging
+      const grandfatheredBah = environment.isProduction()
+        ? institution.bahGrandfathered
+        : institution.dodBah;
+
       // sometimes there's no grandfathered rate for a zip code
       bah =
-        useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
-          ? institution.bahGrandfathered
+        useGrandfatheredBeneficiaryLocationRate && grandfatheredBah
+          ? grandfatheredBah
           : institution.bah;
     }
 

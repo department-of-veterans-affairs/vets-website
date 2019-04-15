@@ -65,6 +65,7 @@ defaultState.profile = {
     createdAt: '2017-04-15T00:58:45.542Z',
     creditForMilTraining: true,
     cross: '00439057',
+    dodBah: 2231.0,
     dodmou: true,
     eightKeys: true,
     facilityCode: '21405247',
@@ -274,5 +275,12 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
+  });
+
+  it('should show scholarships in calculations if there were any', () => {
+    let state = set('calculator.scholarships', 10000, defaultState);
+    state = set('calculator.tuitionAssist', 5000, state);
+    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be
+      .true;
   });
 });
