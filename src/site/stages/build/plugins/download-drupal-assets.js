@@ -31,7 +31,7 @@ function downloadDrupalAssets(options) {
             contents: await response.buffer(),
           };
           fs.outputFileSync(
-            path.join(options.cacheDirectory, 'drupalFiles', asset.dest),
+            path.join(options.cacheDirectory, 'drupal/downloads', asset.dest),
             files[asset.dest].contents,
           );
         } else {

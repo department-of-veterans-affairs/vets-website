@@ -12,7 +12,7 @@ const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
 const createHealthCareRegionListPages = require('./health-care-region');
 
-const DRUPAL_CACHE_FILENAME = 'drupal.json';
+const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
@@ -88,7 +88,7 @@ async function loadDrupal(buildOptions) {
 
     const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
     fs.ensureDirSync(buildOptions.cacheDirectory);
-    fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
+    fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupal'));
     fs.writeFileSync(drupalCache, serialized);
   } else {
     log('Attempting to load Drupal content from cache...');
