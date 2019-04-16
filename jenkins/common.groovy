@@ -87,12 +87,10 @@ def slackNotify() {
 }
 
 def puppeteerNotification() {
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
-    message = "(Testing) @chris.valarida: `${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
-    slackSend message: message,
-      color: 'danger',
-      failOnError: true
-  }
+  message = "(Testing) @chris.valarida: `${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
+  slackSend message: message,
+    color: 'danger',
+    failOnError: true
 }
 
 def setup() {
