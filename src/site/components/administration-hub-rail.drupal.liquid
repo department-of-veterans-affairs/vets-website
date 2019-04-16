@@ -12,7 +12,7 @@
                 <ul class="va-nav-linkslist-list social">
                     <li>
                         <a href="{{ administration.fieldEmailUpdatesUrl }}">
-                            <i class="fas fa-envelope vads-u-margin-right--0p5"></i>
+                            <i class="fas fa-envelope vads-u-padding-right--1"></i>
                             {{ administration.fieldEmailUpdatesLinkText }}
                         </a>
                     </li>
@@ -30,14 +30,14 @@
                             {% if socialPlatform = "youtube_channel" %}
                                 <li>
                                     <a href="http://youtube.com/channel/{{ socialLink.value }}">
-                                        <i class="fab fa-youtube vads-u-margin-right--0p5"></i>
+                                        <i class="fab fa-youtube vads-u-padding-right--1"></i>
                                         {{ administration.name }} {{ socialPlatform | remove: '_' | capitalize }}
                                     </a>
                                 </li>
                             {% else %}
                                 <li>
                                     <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}">
-                                        <i class="fab fa-{{ socialPlatform }} vads-u-margin-right--0p5"></i>
+                                        <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
                                         {{ administration.name }} {{ socialPlatform | capitalize }}
                                     </a>
                                 </li>
