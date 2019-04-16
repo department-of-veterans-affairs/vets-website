@@ -7,9 +7,9 @@ import { loadPrescriptions } from '../actions/prescriptions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
-import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-import environment from '../../../../platform/utilities/environment';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
+import environment from 'platform/utilities/environment';
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
@@ -22,8 +22,11 @@ class PrescriptionsWidget extends React.Component {
   }
 
   render() {
-    let content;
     const { canAccessRx } = this.props;
+    if (!canAccessRx) {
+      return null;
+    }
+    let content;
 
     if (this.props.loading) {
       content = <LoadingIndicator message="Loading your prescriptions..." />;
@@ -40,36 +43,32 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (canAccessRx) {
-      if (this.props.prescriptions && this.props.prescriptions.length === 0) {
-        content = (
-          <p>
-            We haven’t refilled or shipped any prescriptions for you in the last
-            30 days.
-          </p>
-        );
-      }
-
-      return (
-        <div id="rx-widget">
-          <h2>Refill Prescriptions</h2>
-          <div>{content}</div>
-          <p>
-            <a
-              href={`${mhvBaseUrl()}/mhv-portal-web/${
-                environment.isProduction() ? 'web/myhealthevet/' : ''
-              }refill-prescriptions`}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              View all your prescriptions
-            </a>
-          </p>
-        </div>
+    if (this.props.prescriptions && this.props.prescriptions.length === 0) {
+      content = (
+        <p>
+          We haven’t refilled or shipped any prescriptions for you in the last
+          30 days.
+        </p>
       );
     }
 
-    return null;
+    return (
+      <div id="rx-widget">
+        <h2>Refill Prescriptions</h2>
+        <div>{content}</div>
+        <p>
+          <a
+            href={`${mhvBaseUrl()}/mhv-portal-web/${
+              environment.isProduction() ? 'web/myhealthevet/' : ''
+            }refill-prescriptions`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View all your prescriptions
+          </a>
+        </p>
+      </div>
+    );
   }
 }
 

@@ -6,9 +6,9 @@ import { Link } from 'react-router';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { formattedDate } from '../utils/helpers';
 
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import { fetchFolder, fetchRecipients } from '../actions/messaging';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -19,6 +19,14 @@ class MessagingWidget extends React.Component {
   }
 
   render() {
+    const { canAccessMessaging, recipients } = this.props;
+
+    if (!canAccessMessaging || (recipients && recipients.length === 0)) {
+      // do not show widget if user is not a VA patient
+      // or if user does not have access to messaging
+      return null;
+    }
+
     const fields = [
       { label: 'From', value: 'senderName', nonSortable: true },
       { label: 'Subject line', value: 'subject', nonSortable: true },
@@ -34,16 +42,8 @@ class MessagingWidget extends React.Component {
       <Link>{content}</Link>
     );
 
-    let { messages } = this.props;
-    const { recipients, canAccessMessaging } = this.props;
-
-    if (!canAccessMessaging || (recipients && recipients.length === 0)) {
-      // do not show widget if user is not a VA patient
-      // or if user does not have access to messaging
-      return null;
-    }
-
     let content;
+    let { messages } = this.props;
     messages = messages || [];
 
     messages = messages.filter(message => message.readReceipt !== 'READ');

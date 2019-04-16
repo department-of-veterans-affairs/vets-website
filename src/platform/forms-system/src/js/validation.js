@@ -135,6 +135,7 @@ export function uiSchemaValidate(
   formData,
   path = '',
   currentIndex = null,
+  appStateData,
 ) {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
@@ -161,6 +162,7 @@ export function uiSchemaValidate(
           formData,
           newPath,
           index,
+          appStateData,
         );
       });
     } else if (!uiSchema.items) {
@@ -185,6 +187,7 @@ export function uiSchemaValidate(
             formData,
             nextPath,
             currentIndex,
+            appStateData,
           );
         });
     }
@@ -201,6 +204,7 @@ export function uiSchemaValidate(
             schema,
             uiSchema['ui:errorMessages'],
             currentIndex,
+            appStateData,
           );
         } else {
           validation.validator(
@@ -211,6 +215,7 @@ export function uiSchemaValidate(
             uiSchema['ui:errorMessages'],
             validation.options,
             currentIndex,
+            appStateData,
           );
         }
       });

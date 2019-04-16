@@ -33,7 +33,7 @@ const authentication = client => {
 
   // Ensure introduction page renders.
   client.assert
-    .title('Apply for education benefits: VA.gov')
+    .title('Apply for education benefits | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.verySlow)
     .axeCheck('.main')
     .click('.schemaform-start-button');

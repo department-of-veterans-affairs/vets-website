@@ -183,6 +183,7 @@ const formConfig = {
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
+          appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
         servedInCombatZone: {
           title: 'Combat status',
