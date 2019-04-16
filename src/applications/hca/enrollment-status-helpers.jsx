@@ -281,7 +281,7 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>
             If this information is incorrect, please call our enrollment case
             management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
@@ -397,7 +397,7 @@ export function getFAQBlock1(enrollmentStatus) {
           </h4>
           <p>
             Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -415,7 +415,7 @@ export function getFAQBlock1(enrollmentStatus) {
           </h4>
           <p>
             Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -432,7 +432,7 @@ export function getFAQBlock1(enrollmentStatus) {
             Yes. To learn more about VA medical centers that offer services to
             CHAMPVA recipients, or if you have any other questions, please call
             our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -457,7 +457,7 @@ export function getFAQBlock1(enrollmentStatus) {
           <h4>What should I do if I have questions about my eligibility?</h4>
           <p>
             Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -473,7 +473,7 @@ export function getFAQBlock1(enrollmentStatus) {
           <h4>How do I submit this information to VA?</h4>
           <p>
             Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ) for directions on how to submit your information. We’re here
@@ -495,7 +495,7 @@ export function getFAQBlock1(enrollmentStatus) {
             If we need more information, we’ll send you a letter in the mail. If
             you have any questions, please call our enrollment case management
             team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -631,7 +631,7 @@ export function getFAQBlock4(enrollmentStatus) {
             </strong>{' '}
             If you’d like to talk about your options, please call our enrollment
             case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
@@ -659,7 +659,7 @@ export function getFAQBlock4(enrollmentStatus) {
             </strong>{' '}
             If you’d like to talk about your options, please call our enrollment
             case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
@@ -680,7 +680,7 @@ export function getFAQBlock4(enrollmentStatus) {
             Yes, but we recommend waiting until you’ve received your separation
             or retirement orders. If you’d like to talk about your options,
             please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
@@ -697,7 +697,7 @@ export function getFAQBlock4(enrollmentStatus) {
           <p>
             Yes. If you have questions about how to complete your application,
             please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
@@ -721,7 +721,7 @@ export function getFAQBlock4(enrollmentStatus) {
             To get help providing the information we need to complete our
             review, please call our enrollment case management team at
             877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
@@ -746,7 +746,7 @@ export function getFAQBlock4(enrollmentStatus) {
             </strong>{' '}
             If you’d like to talk about your current application, please call
             our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:877-222-8387">
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
             ).
