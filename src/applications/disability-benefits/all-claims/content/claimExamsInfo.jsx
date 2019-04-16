@@ -35,7 +35,7 @@ export const claimExamsFAQ = (
         If you can’t make it to your scheduled exam, let us know right away. You
         can most likely reschedule, but this may delay a decision on your claim.
         If you need to reschedule your exam, please call{' '}
-        <a href="tel:800-827-1000">800-827-1000</a>.
+        <a href="tel:1-800-827-1000">800-827-1000</a>.
       </p>
     </CollapsiblePanel>
   </div>
