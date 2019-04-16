@@ -40,7 +40,7 @@ export default function() {
     configObj = {
       // 8940 - Introduction
       unemployabilityFormIntro: {
-        title: 'File a claim for individual unemployability',
+        title: 'File a claim for Individual Unemployability',
         path: 'unemployability-walkthrough-choice',
         depends: needsToEnterUnemployability,
         uiSchema: unemployabilityFormIntro.uiSchema,
