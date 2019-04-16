@@ -408,7 +408,7 @@ const formConfig = {
         },
         reserveAndNationalGuard: {
           path: 'military/reserve-national-guard',
-          title: 'Reserve and national guard',
+          title: 'Reserve and National Guard',
           uiSchema: {
             'ui:title': 'Reserve and National Guard',
             nationalGuardActivation: {
@@ -1341,7 +1341,7 @@ const formConfig = {
       },
     },
     financialDisclosure: {
-      title: 'Financial Disclosure',
+      title: 'Financial disclosure',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
@@ -1679,7 +1679,7 @@ const formConfig = {
       },
     },
     additionalInformation: {
-      title: 'Additional Information',
+      title: 'Additional information',
       pages: {
         directDeposit: {
           title: 'Direct deposit',
@@ -1769,7 +1769,7 @@ const formConfig = {
         },
         aidAttendance: {
           path: 'additional-information/aid-attendance',
-          title: 'Aid and Attendance and Housebound Benefits',
+          title: 'Aid and Attendance and Housebound benefits',
           uiSchema: {
             'ui:title': 'Aid and Attendance and Housebound Benefits',
             'view:evidenceInfo': {
@@ -1813,7 +1813,7 @@ const formConfig = {
           },
         },
         expedited: {
-          title: 'Fully developed claim program',
+          title: 'Fully Developed Claim program',
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': expeditedProcessDescription,
