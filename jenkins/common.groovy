@@ -86,6 +86,13 @@ def slackNotify() {
   }
 }
 
+def puppeteerNotification() {
+  message = "(Testing) @chris.valarida: `${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
+  slackSend message: message,
+    color: 'danger',
+    failOnError: true
+}
+
 def setup() {
   stage("Setup") {
 

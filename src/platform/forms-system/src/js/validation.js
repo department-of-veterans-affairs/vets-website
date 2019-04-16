@@ -232,10 +232,11 @@ export function errorSchemaIsValid(errorSchema) {
   return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
 }
 
-export function isValidForm(form, pageListByChapters) {
-  const pageConfigs = _.flatten(_.values(pageListByChapters));
+export function isValidForm(form, pageList) {
+  const pageListMap = new Map();
+  pageList.forEach(page => pageListMap.set(page.pageKey, page));
   const validPages = Object.keys(form.pages).filter(pageKey =>
-    isActivePage(_.find({ pageKey }, pageConfigs), form.data),
+    isActivePage(_.find({ pageKey }, pageList), form.data),
   );
 
   const v = new Validator();
@@ -249,6 +250,7 @@ export function isValidForm(form, pageListByChapters) {
         itemFilter,
         arrayPath,
       } = form.pages[page];
+      const { appStateData } = pageListMap.get(page);
       let formData = form.data;
 
       if (showPagePerItem) {
@@ -268,7 +270,15 @@ export function isValidForm(form, pageListByChapters) {
 
       if (result.valid) {
         const customErrors = {};
-        uiSchemaValidate(customErrors, uiSchema, schema, formData);
+        uiSchemaValidate(
+          customErrors,
+          uiSchema,
+          schema,
+          formData,
+          '',
+          null,
+          appStateData,
+        );
 
         return {
           isValid: isValid && errorSchemaIsValid(customErrors),
