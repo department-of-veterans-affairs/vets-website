@@ -22,12 +22,12 @@
           </a>
         </li>
         {% else %}
-          {% if crumb.text == "Health Care" %}
+          {% if crumb.text == "Health care" %}
             {% assign crumbPath = "/health-care" %}
           {% else %}
             {% assign crumbPath = crumb.url.path %}
           {% endif %}
-          {% if crumb.text != "Get Benefits" and crumb.text != "Manage Benefits" and crumb.text != "More Resources" %}
+          {% if crumb.text != "Get benefits" and crumb.text != "Manage benefits" and crumb.text != "More resources" %}
         <li>
           {% if crumbPath != empty %}
           <a href="{{crumbPath}}"
