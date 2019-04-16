@@ -23,7 +23,7 @@ const INITIAL_STATE = {
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
-  giBillBenefit: 'yes',
+  giBillBenefit: 'no',
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
@@ -297,15 +297,16 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
       }
 
-      // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
       let giBillBenefit = INITIAL_STATE.giBillBenefit;
-      if (
-        !environment.isProduction() &&
-        action.payload.data.attributes.dodBah &&
-        action.payload.data.attributes.dodBah <
-          action.payload.data.attributes.bah
-      ) {
-        giBillBenefit = 'no';
+
+      if (!environment.isProduction()) {
+        // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
+        giBillBenefit =
+          action.payload.data.attributes.dodBah &&
+          action.payload.data.attributes.dodBah <
+            action.payload.data.attributes.bah
+            ? 'no'
+            : 'yes';
       }
 
       return {
