@@ -122,7 +122,9 @@ class FormPage extends React.Component {
       route.pageList[0].path === this.props.location.pathname;
 
     function callOnContinue() {
-      route.pageConfig.onContinue(data);
+      if (typeof route.pageConfig.onContinue === 'function') {
+        route.pageConfig.onContinue(data);
+      }
     }
 
     return (
