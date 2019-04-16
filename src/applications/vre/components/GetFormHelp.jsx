@@ -5,7 +5,7 @@ export default function GetFormHelp() {
     <div>
       <p className="help-talk">Enrollment or Eligibility questions:</p>
       <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:877-222-8387">
+        <a className="help-phone-number-link" href="tel:1-877-222-8387">
           877-222-8387
         </a>
         <br />
