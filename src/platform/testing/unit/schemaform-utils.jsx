@@ -114,6 +114,7 @@ export class DefinitionTester extends React.Component {
         onChange={this.handleChange}
         uploadFile={this.props.uploadFile}
         onSubmit={this.props.onSubmit}
+        appStateData={this.props.appStateData}
       />
     );
   }

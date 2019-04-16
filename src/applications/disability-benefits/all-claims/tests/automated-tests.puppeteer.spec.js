@@ -14,7 +14,7 @@ const testData = getTestDataSets(join(__dirname, 'data'), {
 });
 
 const testConfig = {
-  // debug: true,
+  debug: true,
   setup: userToken => {
     PageHelpers.initDocumentUploadMock();
     PageHelpers.initApplicationSubmitMock();
