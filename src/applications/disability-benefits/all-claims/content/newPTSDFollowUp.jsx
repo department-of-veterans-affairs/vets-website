@@ -23,7 +23,7 @@ export const introExplanationText = (
     <ul>
       <li>
         Call the Veterans Crisis Line at{' '}
-        <a href="tel:800-273-8255">800-273-8255</a> and press 1,{' '}
+        <a href="tel:1-800-273-8255">800-273-8255</a> and press 1,{' '}
         <strong>or</strong>
       </li>
       <li>

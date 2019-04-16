@@ -178,10 +178,10 @@ const formConfig = {
       },
     },
     veteranInformation: {
-      title: 'Deceased veteran information',
+      title: 'Deceased Veteran information',
       pages: {
         veteranInformation: {
-          title: 'Deceased veteran information',
+          title: 'Deceased Veteran information',
           path: 'veteran-information',
           uiSchema: {
             veteranFullName: fullNameUI,

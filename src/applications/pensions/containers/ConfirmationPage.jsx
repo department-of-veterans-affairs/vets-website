@@ -85,7 +85,7 @@ class ConfirmationPage extends React.Component {
               <span>{pmcName}</span>
               <br />
               <span>
-                Phone: <a href="tel:800-827-1000">800-827-1000</a>, Monday
+                Phone: <a href="tel:1-800-827-1000">800-827-1000</a>, Monday
                 &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
               </span>
               <br />

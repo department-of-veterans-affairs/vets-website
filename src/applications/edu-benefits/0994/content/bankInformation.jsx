@@ -47,7 +47,7 @@ export const bankInfoHelpText = (
         www.usdirectexpress.com
       </a>{' '}
       or call{' '}
-      <a className="help-phone-number-link" href="tel:800-333-1795">
+      <a className="help-phone-number-link" href="tel:1-800-333-1795">
         800-333-1795
       </a>
       .
@@ -55,7 +55,7 @@ export const bankInfoHelpText = (
     <p>
       If you choose not to enroll, you’ll need to call the Department of
       Treasury at{' '}
-      <a className="help-phone-number-link" href="tel:888-224-2950">
+      <a className="help-phone-number-link" href="tel:1-888-224-2950">
         888-224-2950
       </a>{' '}
       and speak to a representative handling waiver requests. They’ll encourage

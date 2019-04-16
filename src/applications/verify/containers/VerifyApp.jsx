@@ -99,7 +99,7 @@ export class VerifyApp extends React.Component {
                 <p>
                   <SubmitSignInForm startSentence>
                     Call the VA.gov Help Desk at{' '}
-                    <a href="tel:855-574-7286">855-574-7286</a>, TTY:{' '}
+                    <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
                     <a href="tel:18008778339">800-877-8339</a>
                     <br />
                     Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET

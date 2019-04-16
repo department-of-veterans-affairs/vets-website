@@ -193,7 +193,7 @@ const formConfig = {
           schema: servedInCombatZone.schema,
         },
         reservesNationalGuardService: {
-          title: 'Reserves and national guard service',
+          title: 'Reserves and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
@@ -478,7 +478,7 @@ const formConfig = {
           schema: aidAndAttendance.schema,
         },
         individualUnemployability: {
-          title: 'Individual unemployability',
+          title: 'Individual Unemployability',
           path: 'individual-unemployability',
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,

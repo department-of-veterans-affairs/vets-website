@@ -88,7 +88,7 @@ export const recordsNotFound = (
     <p>
       If you have questions or need help looking up your VA letters and
       documents, please call{' '}
-      <a className="letters-phone-nowrap" href="tel:800-827-1000">
+      <a className="letters-phone-nowrap" href="tel:1-800-827-1000">
         800-827-1000
       </a>{' '}
       from 8:00 a.m. to 7:00 pm ET.
@@ -232,7 +232,7 @@ const benefitOptionText = {
     false: {
       veteran: (
         <div>
-          You <strong>do not have</strong> one or more service-connected
+          You <strong>don't have</strong> one or more service-connected
           disabilities.
         </div>
       ),
@@ -293,20 +293,20 @@ const benefitOptionText = {
       ),
       dependent: (
         <div>
-          The veteran <strong>was</strong> totally and permanently disabled.
+          The Veteran <strong>was</strong> totally and permanently disabled.
         </div>
       ),
     },
     false: {
       veteran: (
         <div>
-          You <strong>are not</strong> considered to be totally and permanently
+          You <strong>aren't</strong> considered to be totally and permanently
           disabled solely due to your service-connected disabilities.
         </div>
       ),
       dependent: (
         <div>
-          The veteran <strong>was not</strong> totally and permanently disabled.
+          The Veteran <strong>wasn't</strong> totally and permanently disabled.
         </div>
       ),
     },
@@ -324,7 +324,7 @@ const benefitOptionText = {
       veteran: undefined,
       dependent: (
         <div>
-          The Veteran <strong>did not</strong> die as a result of a
+          The Veteran <strong>didn't</strong> die as a result of a
           service-connected disability.
         </div>
       ),
