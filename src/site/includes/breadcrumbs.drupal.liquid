@@ -2,7 +2,7 @@
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     {% for crumb in entityUrl.breadcrumb %}
         {% if forloop.last == true %}
-            <li>{{ crumb.text }}</li>
+            <li><a aria-current="page" href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
         {% elsif crumb.url.path %}
             {% if crumb.url.path == '/' %}
                 <li>
