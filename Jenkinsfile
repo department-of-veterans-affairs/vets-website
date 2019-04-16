@@ -1,3 +1,4 @@
+@Library('va.gov-devops-jenkins-lib') _
 import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
@@ -67,8 +68,12 @@ node('vetsgov-general-purpose') {
         parallel (
           e2e: {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-            // Temporarily disabling puppeteer tests due to flakiness
-            // sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:puppeteer:docker"
+            try {
+              sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:puppeteer:docker"
+            } catch (error) {
+              commonStages.puppeteerNotification()
+              // Don't throw the error; it shouldn't stop the build for now
+            }
           },
 
           accessibility: {
