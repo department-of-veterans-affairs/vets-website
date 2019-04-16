@@ -82,10 +82,7 @@ function getUnitTestsForSrc(requiredFiles) {
       // iterate over each test file
       .reduce((acc, testFile) => {
         // get the test files require.cache
-        const requiredSourceFiles = require.cache[
-          testFile
-        ]// children is an array of modules the test file imports
-        .children
+        const requiredSourceFiles = require.cache[testFile].children // children is an array of modules the test file imports
           .forEach(childModule => {
             // filter anything that isn't in the src directory
             if (!childModule.id.includes('src')) {

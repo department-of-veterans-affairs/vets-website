@@ -82,8 +82,8 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
         <div className="section benefit-end-date">
           <h4>Benefit end date</h4>
           <div>
-            Since you're on active duty, your benefits don’t yet have
-            an expiration date.
+            Since you’re on active duty, your benefits don’t yet have an
+            expiration date.
           </div>
         </div>
       );
