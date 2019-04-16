@@ -10,8 +10,8 @@ function GetFormHelp() {
         ask the Education Call Center:
       </p>
       <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:888-442-4551">
-          888-442-4551 (888-GIBILL1)
+        <a className="help-phone-number-link" href="tel:1-888-442-4551">
+          888-442-4551 (888-GI-BILL-1)
         </a>
         <br />
         Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
