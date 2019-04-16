@@ -302,7 +302,7 @@ export const wizardConfig = [
     type: 'veteran',
     previous: 'recentApplication',
     label:
-      'Are you a Veteran or Servicemember claiming a benefit based on your own service?',
+      'Are you a Veteran or service member claiming a benefit based on your own service?',
     options: [
       {
         label: 'Yes',

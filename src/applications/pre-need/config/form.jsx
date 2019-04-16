@@ -124,11 +124,11 @@ const formConfig = {
                 ssn: ssnDashesUI,
                 dateOfBirth: currentOrPastDateUI('Date of birth'),
                 relationshipToVet: {
-                  'ui:title': 'Relationship to Servicemember',
+                  'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',
                   'ui:options': {
                     labels: {
-                      1: 'I am the Servicemember/Veteran',
+                      1: 'I am the service member/Veteran',
                       2: 'Spouse or surviving spouse',
                       3: 'Unmarried adult child',
                       4: 'Other',

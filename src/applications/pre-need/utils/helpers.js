@@ -51,27 +51,27 @@ export const authorizedAgentDescription = (
 
 export const veteranRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>Servicemember or Veteran</strong>. You’re
-    applying as the Servicemember or Veteran. We’ll use your military status and
-    history to decide if you qualify for burial in a VA national cemetery.
+    You’re applying as the <strong>service member or Veteran</strong>. You’re
+    applying as the service member or Veteran. We’ll use your military status
+    and history to decide if you qualify for burial in a VA national cemetery.
   </div>
 );
 
 export const spouseRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the{' '}
-    <strong>legally married spouse or surviving spouse</strong> of the
-    Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
-    for your information as the applicant. Then, we’ll ask for your sponsor’s
+    <strong>legally married spouse or surviving spouse</strong> of the service
+    member or Veteran who’s sponsoring this application. First, we’ll ask for
+    your information as the applicant. Then, we’ll ask for your sponsor’s
     information.
   </div>
 );
 
 export const childRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>unmarried adult child</strong> of the
-    Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
-    for your information as the applicant. Then, we’ll ask for your sponsor’s
+    You’re applying as the <strong>unmarried adult child</strong> of the service
+    member or Veteran who’s sponsoring this application. First, we’ll ask for
+    your information as the applicant. Then, we’ll ask for your sponsor’s
     information. You’ll also need to provide supporting documents with
     information about your disability.
   </div>
@@ -79,9 +79,9 @@ export const childRelationshipDescription = (
 
 export const otherRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying on <strong>behalf</strong> of the Servicemember or Veteran
+    You’re applying on <strong>behalf</strong> of the service member or Veteran
     who’s sponsoring this application. First, we’ll ask for your information as
-    the applicant. Then, we’ll ask for the Servicemember's or Veteran's
+    the applicant. Then, we’ll ask for the service member's or Veteran's
     information as the sponsor.
   </div>
 );

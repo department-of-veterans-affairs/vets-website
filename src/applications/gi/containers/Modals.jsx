@@ -97,7 +97,7 @@ export class Modals extends React.Component {
         >
           <h3>GI Bill students</h3>
           <p>
-            The number of Veterans, Servicemembers and family members utilizing
+            The number of Veterans, service members and family members utilizing
             their GI Bill benefits attending this school in the last calendar
             year. This includes all chapters of the GI Bill program (e.g.,
             Post-9/11, Montgomery GI Bill, Reserve Education Assistance Program,
@@ -178,9 +178,9 @@ export class Modals extends React.Component {
           <p>
             Veterans and Fry Scholarship and Purple Heart recipients are
             entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active duty Servicemembers and their
+            can receive this funding. Active duty service members and their
             spouses aren’t eligible for this program (child transferees of
-            active duty Servicemembers may be eligible if the servicemember is
+            active duty service members may be eligible if the servicemember is
             qualified at the 100% rate). This information will be updated
             quarterly.
           </p>
@@ -340,7 +340,7 @@ export class Modals extends React.Component {
         >
           <h3>VetSuccess on Campus (VSOC)</h3>
           <p>
-            This program supports Servicemembers, Veterans, and qualified
+            This program supports service members, Veterans, and qualified
             dependents through on-campus counseling and help overcoming
             barriers—like accommodating disabilities or getting referrals to
             health services. It's designed to help you succeed at school and get
@@ -747,9 +747,9 @@ export class Modals extends React.Component {
           <p>
             Veterans and Fry Scholarship and Purple Heart recipients are
             entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active duty Servicemembers and their
+            can receive this funding. Active duty service members and their
             spouses are not eligible for this program (child transferees of
-            active duty Servicemembers may be eligible if the servicemember is
+            active duty service members may be eligible if the servicemember is
             qualified at the 100% rate). This information will be updated
             quarterly.
           </p>
@@ -996,7 +996,7 @@ export class Modals extends React.Component {
           <h3>Completed an enlistment of (MGIB):</h3>
           <p>
             The Montgomery GI Bill – Active Duty provides education benefits to
-            Veterans and Servicemembers who have served at least two years of
+            Veterans and service members who have served at least two years of
             active duty. When using this tool, you will need to select the
             length of your original active duty enlistment obligation in order
             to get an estimate of your monthly benefit. The amount of time you

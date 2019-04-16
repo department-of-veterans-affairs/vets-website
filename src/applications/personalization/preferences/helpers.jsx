@@ -188,7 +188,7 @@ export const benefitChoices = [
     code: 'family-caregiver-benefits',
     gaTag: 'Family',
     introduction:
-      'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
+      'If you’re the family member of a Veteran or service member, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
     cta: {
       link: '/family-member-benefits/',
       text: 'View all related benefits',

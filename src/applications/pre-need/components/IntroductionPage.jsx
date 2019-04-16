@@ -46,9 +46,9 @@ class IntroductionPage extends React.Component {
                   .
                 </li>
                 <li>
-                  Service history or the service history of the Servicemember or
-                  Veteran who’s sponsoring your application. This includes your
-                  or your sponsor’s:
+                  Service history or the service history of the service member
+                  or Veteran who’s sponsoring your application. This includes
+                  your or your sponsor’s:
                   <ul>
                     <li>
                       Social Security number (and Military Service Number if
@@ -57,7 +57,7 @@ class IntroductionPage extends React.Component {
                     <li>VA claim number (if you know it)</li>
                     <li>Date and place of birth</li>
                     <li>
-                      Date of death (if the Servicemember or Veteran has died)
+                      Date of death (if the service member or Veteran has died)
                     </li>
                     <li>Military status and history</li>
                   </ul>
@@ -78,8 +78,8 @@ class IntroductionPage extends React.Component {
                 <li>
                   <strong>
                     If you’re applying as the legally married spouse or
-                    surviving spouse or the unmarried adult child of a
-                    Servicemember or Veteran
+                    surviving spouse or the unmarried adult child of a service
+                    member or Veteran
                   </strong>
                   , you’ll need your personal information (including Social
                   Security number and date of birth).

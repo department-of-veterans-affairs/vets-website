@@ -127,7 +127,7 @@ export default class EducationWizard extends React.Component {
                   this.answerQuestion('serviceBenefitBasedOn', value)
                 }
                 value={{ value: serviceBenefitBasedOn }}
-                label="Are you a Veteran or Servicemember claiming a benefit based on your own service?"
+                label="Are you a Veteran or service member claiming a benefit based on your own service?"
               />
             )}
             {newBenefit === 'no' && (

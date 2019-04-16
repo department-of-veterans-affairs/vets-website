@@ -140,7 +140,7 @@ const familyQuestions = [
   },
   {
     href: '/life-insurance/options-eligibility/fsgli',
-    title: 'Learn about Family Servicemembers’ Group Life Insurance (FSGLI).',
+    title: 'Learn about Family service members’ Group Life Insurance (FSGLI).',
   },
   {
     href: '/health-care/about-va-health-benefits/long-term-care',
