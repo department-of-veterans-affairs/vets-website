@@ -1,14 +1,16 @@
 import { createSelector } from 'reselect';
+import environment from '../../../platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
 const getEligibilityDetails = state => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
-  const { type, bah, country } = props;
+  const { type, bah, dodBah, country } = props;
   return {
     type: type && type.toLowerCase(),
     bah,
+    dodBah,
     country: country && country.toLowerCase(),
   };
 };
@@ -162,9 +164,6 @@ function calculateHousing(constant, eligibility, institution, derived) {
   if (your.giBillChapter === '31' && isFlightOrCorrespondence()) {
     return { qualifier: 'per month', value: 0 };
   }
-  if (derived.oldGiBill && derived.onlyTuitionFees) {
-    return { qualifier: 'per month', value: Math.round(derived.monthlyRate) };
-  }
   if (derived.oldGiBill || derived.onlyVRE) {
     return { qualifier: 'per month', value: Math.round(derived.monthlyRate) };
   }
@@ -193,6 +192,14 @@ function calculateHousing(constant, eligibility, institution, derived) {
     return {
       qualifier: 'per month',
       value: Math.round(derived.tier * constant.AVGBAH),
+    };
+  }
+  if (!environment.isProduction()) {
+    return {
+      qualifier: 'per month',
+      value: Math.round(
+        derived.tier * (its.bah < its.dodBah ? its.bah : its.dodBah),
+      ),
     };
   }
   return { qualifier: 'per month', value: Math.round(derived.tier * its.bah) };
