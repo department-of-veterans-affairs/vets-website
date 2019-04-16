@@ -191,7 +191,12 @@ function mapStateToProps(state, ownProps) {
     form,
     formConfig,
     formContext,
-    pageList,
+    pageList: pageList.map(
+      page =>
+        page.appStateSelector
+          ? { ...page, appStateData: page.appStateSelector(state) }
+          : page,
+    ),
     showLoginModal: state.navigation.showLoginModal,
     path,
     route,
