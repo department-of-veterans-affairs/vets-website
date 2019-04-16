@@ -41,7 +41,7 @@ export default function ContactInformationExplanation() {
         </h5>
         <ul>
           <li>
-            <strong>For education benefits:</strong> Call 1-888-GIBILL-1
+            <strong>For education benefits:</strong> Call 888-GI-BILL-1
             (888-442-4551), Monday through Friday, 7:00 a.m. to 6:00 p.m. CT
           </li>
           <li>
