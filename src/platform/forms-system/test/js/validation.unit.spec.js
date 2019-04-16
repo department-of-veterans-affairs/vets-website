@@ -445,16 +445,14 @@ describe('Schemaform validations', () => {
           },
         },
       };
-      const pageListByChapters = {
-        testChapter: [
-          {
-            pageKey: 'testPage',
-            chapterKey: 'testChapter',
-          },
-        ],
-      };
+      const pageList = [
+        {
+          pageKey: 'testPage',
+          chapterKey: 'testChapter',
+        },
+      ];
 
-      expect(isValidForm(form, pageListByChapters).isValid).to.be.false;
+      expect(isValidForm(form, pageList).isValid).to.be.false;
     });
     it('should validate only filtered items for pagePerItem schema', () => {
       const form = {
@@ -482,16 +480,14 @@ describe('Schemaform validations', () => {
           },
         },
       };
-      const pageListByChapters = {
-        testChapter: [
-          {
-            pageKey: 'testPage',
-            chapterKey: 'testChapter',
-          },
-        ],
-      };
+      const pageList = [
+        {
+          pageKey: 'testPage',
+          chapterKey: 'testChapter',
+        },
+      ];
 
-      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
+      expect(isValidForm(form, pageList).isValid).to.be.true;
     });
     it('should not validate pages where depends is false', () => {
       const form = {
@@ -527,23 +523,20 @@ describe('Schemaform validations', () => {
           },
         },
       };
-      const pageListByChapters = {
-        testChapter: [
-          {
-            pageKey: 'testPage',
-            chapterKey: 'testChapter',
-          },
-          {
-            pageKey: 'testPage2',
-            chapterKey: 'testChapter',
-            depends: sinon.stub().returns(false),
-          },
-        ],
-      };
+      const pageList = [
+        {
+          pageKey: 'testPage',
+          chapterKey: 'testChapter',
+        },
+        {
+          pageKey: 'testPage2',
+          chapterKey: 'testChapter',
+          depends: sinon.stub().returns(false),
+        },
+      ];
 
-      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
-      expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to
-        .be.true;
+      expect(isValidForm(form, pageList).isValid).to.be.true;
+      expect(pageList[1].depends.calledWith(form.data)).to.be.true;
     });
   });
   describe('validateMonthYear', () => {
