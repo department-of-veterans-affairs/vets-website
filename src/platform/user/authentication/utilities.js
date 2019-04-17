@@ -41,6 +41,7 @@ export function clearRavenLoginType() {
   Raven.setTagsContext(tags);
 }
 
+/* Commented to verify a possible issue with browser extensions
 function redirectWithGAClientId(redirectUrl) {
   try {
     // eslint-disable-next-line no-undef
@@ -64,6 +65,7 @@ function redirectWithGAClientId(redirectUrl) {
     window.location = redirectUrl;
   }
 }
+/*
 
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
