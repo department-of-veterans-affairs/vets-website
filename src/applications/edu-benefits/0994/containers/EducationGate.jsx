@@ -21,7 +21,7 @@ export function EducationGate({ user, location, children }) {
         <AlertBox
           isVisible
           headline="We’re sorry. It looks like we’re missing some information needed for your application"
-          content="For help with your application, please call Veterans Benefits Assistance at 1-800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET)."
+          content="For help with your application, please call Veterans Benefits Assistance at 800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. ET."
           status="error"
         />
       </div>

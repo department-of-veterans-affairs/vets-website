@@ -15,17 +15,18 @@ let showErrors = false;
 // keys for current require.cache
 const unwatchedModules = Object.keys(require.cache).map(file => file);
 
-process.on('message', ({tests, shouldShowErrors}) => {
+process.on('message', ({ tests, shouldShowErrors }) => {
   showErrors = shouldShowErrors;
   runMochaTests(tests).then(() => {
     // create a list of src and test files required by mocha
-    const requiredFiles = Object
-      .keys(require.cache)
-      .filter(file => !unwatchedModules.includes(file) && !file.includes('node_modules'));
+    const requiredFiles = Object.keys(require.cache).filter(
+      file =>
+        !unwatchedModules.includes(file) && !file.includes('node_modules'),
+    );
     // send list of imported files and unit tests for each src file to the runner
     process.send({
       requiredFiles,
-      unitTestsForSrc: getUnitTestsForSrc(requiredFiles)
+      unitTestsForSrc: getUnitTestsForSrc(requiredFiles),
     });
   });
 });
@@ -35,7 +36,9 @@ async function runMochaTests(files) {
   if (files.length < 10) {
     files.forEach(file => {
       let fileParts = path.basename(file).split('.');
-      console.log(`${chalk.cyan(fileParts.shift())}.${chalk.blue(fileParts.join('.'))}`);
+      console.log(
+        `${chalk.cyan(fileParts.shift())}.${chalk.blue(fileParts.join('.'))}`,
+      );
     });
   }
   console.log(' ');
@@ -46,7 +49,7 @@ async function runMochaTests(files) {
     errorStream = new Writable({
       write(chunk, encoding, callback) {
         callback();
-      }
+      },
     });
     process.stderr.write = errorStream;
   }
@@ -57,52 +60,50 @@ async function runMochaTests(files) {
   mocha.addFile('./src/platform/testing/unit/helper.js');
 
   files.forEach(file => mocha.addFile(file));
-  return new Promise ((fulfill, reject) => {
-  console.log(chalk.green('Starting mocha (this can take a few seconds)...'));
-    mocha.run()
-      .once('end', function() {
-        // reattach error stream
-        fulfill();
-      });
+  return new Promise((fulfill, reject) => {
+    console.log(chalk.green('Starting mocha (this can take a few seconds)...'));
+    mocha.run().once('end', function() {
+      // reattach error stream
+      fulfill();
+    });
   }).catch(error => {
     console.log(error);
     process.send({
-      error
+      error,
     });
   });
 }
 
 function getUnitTestsForSrc(requiredFiles) {
-  return requiredFiles
-  // only use files in test directory
-    .filter(file => file.includes('test'))
-  // iterate over each test file
-    .reduce((acc, testFile) => {
-      // get the test files require.cache
-      const requiredSourceFiles = require.cache[testFile]
-      // children is an array of modules the test file imports
-        .children
-        .forEach(childModule => {
-          // filter anything that isn't in the src directory
-          if (!childModule.id.includes('src')) {
-            return;
-          }
+  return (
+    requiredFiles
+      // only use files in test directory
+      .filter(file => file.includes('test'))
+      // iterate over each test file
+      .reduce((acc, testFile) => {
+        // get the test files require.cache
+        const requiredSourceFiles = require.cache[testFile].children // children is an array of modules the test file imports
+          .forEach(childModule => {
+            // filter anything that isn't in the src directory
+            if (!childModule.id.includes('src')) {
+              return;
+            }
 
-          // add the file path as a key to the accumulator
-          // add the test file to the tests array
-          if (acc[childModule.id]) {
-            acc[childModule.id].push(testFile);
-          } else {
-            acc[childModule.id] = [testFile];
-          }
-        });
+            // add the file path as a key to the accumulator
+            // add the test file to the tests array
+            if (acc[childModule.id]) {
+              acc[childModule.id].push(testFile);
+            } else {
+              acc[childModule.id] = [testFile];
+            }
+          });
 
-      return acc;
-
-    }, {});
+        return acc;
+      }, {})
+  );
 }
 
 // ensures errors that blow up test watcher make it to console reporter
 process.on('uncaughtException', function(err) {
-  console.error((err && err.stack) ? err.stack : err);
+  console.error(err && err.stack ? err.stack : err);
 });

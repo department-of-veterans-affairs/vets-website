@@ -228,7 +228,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           path: 'applicant/information',
@@ -268,11 +268,11 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Military history',
       pages: {
         servicePeriods: {
           path: 'military/history',
-          title: 'Service Periods',
+          title: 'Service periods',
           uiSchema: {
             'ui:title': 'Service periods',
             servicePeriods: {
@@ -348,7 +348,7 @@ const formConfig = {
         },
         general: {
           path: 'military/general',
-          title: 'General History',
+          title: 'General history',
           uiSchema: {
             'view:serveUnderOtherNames': {
               'ui:title': 'Did you serve under another name?',
@@ -452,7 +452,7 @@ const formConfig = {
         },
         powAndSeverance: {
           path: 'military/pow-severance',
-          title: 'POW Status & Severance Pay',
+          title: 'POW status & severance pay',
           uiSchema: {
             'ui:title': 'POW Status & Severance Pay',
             'ui:order': [
@@ -1341,7 +1341,7 @@ const formConfig = {
       },
     },
     financialDisclosure: {
-      title: 'Financial Disclosure',
+      title: 'Financial disclosure',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
@@ -1679,7 +1679,7 @@ const formConfig = {
       },
     },
     additionalInformation: {
-      title: 'Additional Information',
+      title: 'Additional information',
       pages: {
         directDeposit: {
           title: 'Direct deposit',
@@ -1769,7 +1769,7 @@ const formConfig = {
         },
         aidAttendance: {
           path: 'additional-information/aid-attendance',
-          title: 'Aid and Attendance and Housebound Benefits',
+          title: 'Aid and Attendance and Housebound benefits',
           uiSchema: {
             'ui:title': 'Aid and Attendance and Housebound Benefits',
             'view:evidenceInfo': {
@@ -1813,7 +1813,7 @@ const formConfig = {
           },
         },
         expedited: {
-          title: 'Fully developed claim program',
+          title: 'Fully Developed Claim program',
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': expeditedProcessDescription,

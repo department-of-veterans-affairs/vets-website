@@ -59,7 +59,7 @@ describe('686 <AuthorizationMessage>', () => {
     );
 
     expect(tree.text()).to.contain(
-      'You won’t be able to add a dependent at this timeWe’re sorry. You need to have a disability rating of at least 30% to add a dependent to your benefits. Our records show that your current rating is less than 30%, so you can’t apply at this time. If you think our records aren’t correct, please call Veterans Benefits Assistance at 1-800-827-1000. We’re here Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).Start a Claim for Increase Application',
+      'You won’t be able to add a dependent at this timeWe’re sorry. You need to have a disability rating of at least 30% to add a dependent to your benefits. Our records show that your current rating is less than 30%, so you can’t apply at this time. If you think our records aren’t correct, please call Veterans Benefits Assistance at 800-827-1000. We’re here Monday – Friday, 8:00 a.m. to 9:00 p.m. ET.Start a Claim for Increase Application',
     );
     tree.unmount();
   });
