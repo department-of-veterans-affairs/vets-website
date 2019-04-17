@@ -57,8 +57,8 @@ export const noFDCWarning = (
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
-            8:30 a.m. – 4:30 p.m. (ET).
+            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday – Friday, 8:30
+            a.m. – 4:30 p.m. ET.
           </li>
           <li>
             Save your application and return to it later when you have your

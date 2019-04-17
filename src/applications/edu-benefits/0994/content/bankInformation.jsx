@@ -48,7 +48,7 @@ export const bankInfoHelpText = (
       </a>{' '}
       or call{' '}
       <a className="help-phone-number-link" href="tel:1-800-333-1795">
-        1-800-333-1795
+        800-333-1795
       </a>
       .
     </p>
@@ -56,7 +56,7 @@ export const bankInfoHelpText = (
       If you choose not to enroll, you’ll need to call the Department of
       Treasury at{' '}
       <a className="help-phone-number-link" href="tel:1-888-224-2950">
-        1-888-224-2950
+        888-224-2950
       </a>{' '}
       and speak to a representative handling waiver requests. They’ll encourage
       you to participate in EFT and address any questions or concerns you have.

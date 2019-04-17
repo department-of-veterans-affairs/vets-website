@@ -328,7 +328,7 @@ describe('<AddressSection>', () => {
       stateCode: '',
       type: ADDRESS_TYPES.domestic,
     };
-    const tree = shallow(<AddressSection {...props}/>); // eslint-disable-line
+    const tree = shallow(<AddressSection {...props} />); // eslint-disable-line
 
     expect(editSpy.called).to.be.true;
     tree.unmount();
@@ -339,7 +339,7 @@ describe('<AddressSection>', () => {
     props.savedAddress = emptyAddress;
     props.canUpdate = false;
 
-    const component = shallow(<AddressSection {...props}/>); // eslint-disable-line
+    const component = shallow(<AddressSection {...props} />); // eslint-disable-line
     expect(editSpy.called).to.be.false;
     component.unmount();
   });
