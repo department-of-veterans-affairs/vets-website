@@ -390,7 +390,7 @@ class DashboardAppNew extends React.Component {
     ].filter(e => e).length;
 
     const view = (
-      <div>
+      <>
         <h1 id="dashboard-title">My VA</h1>
         <div className="va-introtext">
           <p>
@@ -420,7 +420,7 @@ class DashboardAppNew extends React.Component {
         <ManageBenefitsOrRequestRecords />
         <ViewYourProfile />
         <ManageYourAccount />
-      </div>
+      </>
     );
 
     return (
