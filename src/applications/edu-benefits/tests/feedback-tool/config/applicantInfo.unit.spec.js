@@ -105,7 +105,7 @@ describe('feedback tool applicant info', () => {
 
     const select = form.find('select#root_serviceAffiliation');
     select.simulate('change', {
-      target: { value: 'service member' },
+      target: { value: 'Servicemember' },
     });
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
