@@ -65,7 +65,7 @@ function redirectWithGAClientId(redirectUrl) {
     window.location = redirectUrl;
   }
 }
-/*
+*/
 
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
