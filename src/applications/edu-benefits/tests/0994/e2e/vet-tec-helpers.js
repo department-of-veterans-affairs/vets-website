@@ -111,7 +111,7 @@ export const completeHighTechWorkExp = (client, data) => {
 
     Object.keys(highTechnologyEmploymentType).forEach(key => {
       client.fillCheckbox(
-        `input[name="root_view:salaryEmploymentTypes_highTechnologyEmploymentType_${key}"]`,
+        `input[name="${key}"]`,
         highTechnologyEmploymentType[key],
       );
     });
