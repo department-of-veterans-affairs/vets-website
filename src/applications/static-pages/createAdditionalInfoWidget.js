@@ -31,7 +31,7 @@ export default function createAdditionalInfoWidget() {
 
       const chevron = qS(el, 'i.fa-angle-down');
       const button = qS(el, 'button');
-      const analyticsEvent = button.dataset.event;
+      const analyticsEvent = button.parentNode.dataset.event;
 
       button.addEventListener('click', () => {
         const ariaExpanded = JSON.parse(button.getAttribute('aria-expanded'));
@@ -41,7 +41,7 @@ export default function createAdditionalInfoWidget() {
         chevron.classList.toggle('open');
 
         if (analyticsEvent) {
-          recordEvent(analyticsEvent);
+          recordEvent({ event: analyticsEvent });
         }
       });
     });
