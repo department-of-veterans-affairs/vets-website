@@ -3,7 +3,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 import { Link } from 'react-router';
-import siteName from '../../../platform/brand-consolidation/site-name';
 import Decision from '../components/appeals-v2/Decision';
 
 // This literally determines how many rows are displayed per page on the v2 index page
@@ -631,7 +630,7 @@ export function getStatusContents(appeal, name = {}) {
             <br />
             Washington, DC 20038
             <br />
-            Fax 1-844-678-8979
+            Fax 844-678-8979
           </p>
         </div>
       );
@@ -725,7 +724,7 @@ export function getStatusContents(appeal, name = {}) {
                 <br />
                 Janesville, WI 53547-4444
                 <br />
-                Fax 1-844-531-7818
+                Fax 844-531-7818
               </p>
             </div>
           )}
@@ -820,7 +819,7 @@ export function getStatusContents(appeal, name = {}) {
     default:
       contents.title = 'We don’t know your status';
       contents.description = (
-        <p>We’re sorry, {siteName} will soon be updated to show your status.</p>
+        <p>We’re sorry, VA.gov will soon be updated to show your status.</p>
       );
   }
 
@@ -1759,7 +1758,7 @@ export function getAlertContent(alert, appealIsActive) {
               <br />
               Washington, DC 20038
               <br />
-              Fax 1-844-678-8979
+              Fax 844-678-8979
             </p>
             <p>
               Please contact your Veterans Service Organization or
@@ -1790,7 +1789,7 @@ export function getAlertContent(alert, appealIsActive) {
               <br />
               Washington, DC 20038
               <br />
-              Fax 1-844-678-8979
+              Fax 844-678-8979
             </p>
           </div>
         ),

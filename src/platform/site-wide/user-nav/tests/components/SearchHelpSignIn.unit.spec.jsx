@@ -29,9 +29,6 @@ describe('<SearchHelpSignIn>', () => {
         replace: () => {},
         pathname: '/',
       },
-      settings: {
-        brandConsolidationEnabled: true,
-      },
     };
   });
 
@@ -40,7 +37,6 @@ describe('<SearchHelpSignIn>', () => {
   });
 
   it('should present login links when not logged in on VA subdomain', () => {
-    window.settings.brandConsolidationEnabled = true;
     window.location.hostname = 'www.benefits.va.gov';
     const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
     expect(

@@ -8,11 +8,11 @@
             </h4>
 
             <section>
-                <h4>Get Updates</h4>
+                <h4>Get updates</h4>
                 <ul class="va-nav-linkslist-list social">
                     <li>
                         <a href="{{ administration.fieldEmailUpdatesUrl }}">
-                            <i class="fas fa-envelope"></i>
+                            <i class="fas fa-envelope vads-u-padding-right--1"></i>
                             {{ administration.fieldEmailUpdatesLinkText }}
                         </a>
                     </li>
@@ -30,26 +30,15 @@
                             {% if socialPlatform = "youtube_channel" %}
                                 <li>
                                     <a href="http://youtube.com/channel/{{ socialLink.value }}">
-                                        <i class="fab fa-youtube"></i>
-                                         Veterans Health Youtube channel
+                                        <i class="fab fa-youtube vads-u-padding-right--1"></i>
+                                        {{ administration.name }} {{ socialPlatform | remove: '_' | capitalize }}
                                     </a>
                                 </li>
                             {% else %}
                                 <li>
                                     <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}">
-                                        <i class="fab fa-{{ socialPlatform }}"></i>
-                                        {% case socialPlatform %}
-                                            {% when "twitter" %}
-                                                Veterans Health Twitter
-                                            {% when "facebook" %}
-                                                Veterans Health Facebook
-                                            {% when "youtube" %}
-                                                Veterans Health YouTube
-                                            {% when "instagram" %}
-                                                Veterans Health Instagram
-                                            {% when "linkedin" %}
-                                                Veterans Health LinkedIn
-                                        {% endcase %}
+                                        <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
+                                        {{ administration.name }} {{ socialPlatform | capitalize }}
                                     </a>
                                 </li>
                             {% endif %}

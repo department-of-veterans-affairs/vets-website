@@ -6,9 +6,7 @@
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "node --max-old-space-size=4096 script/build.js",
-    "build:redirects": "node script/vets-gov-to-va-gov.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
-    "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
     "prebuild": "node script/prebuild.js",
     "preview": "node script/preview.js",
     "heroku-serve": "http-server",
@@ -228,7 +226,7 @@
     "history": "3",
     "ics-js": "^0.10.2",
     "ismobilejs": "^0.4.0",
-    "js-yaml": "^3.13.0",
+    "js-yaml": "^3.13.1",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.0.3",
     "leaflet-control-geocoder": "^1.5.1",
@@ -267,7 +265,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#59807d15c8d8cf7312bedb3076478aad2fa7762e",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f8871623b6020e97850521427fe9d67dd2d41837",
     "whatwg-fetch": "^2.0.3"
   }
 }

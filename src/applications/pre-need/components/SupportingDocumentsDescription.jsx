@@ -92,7 +92,7 @@ export default function SupportingDocumentsDescription(props) {
               <div>PO Box 510543</div>
               <div>St. Louis, MO 63151</div>
             </div>
-            <p>Fax (toll-free): 1-855-840-8299</p>
+            <p>Fax (toll-free): 855-840-8299</p>
           </li>
         </ol>
       </AdditionalInfo>

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import isVATeamSiteSubdomain from '../va-subdomain';
+import isVATeamSiteSubdomain from '../../environment/va-subdomain';
 
 describe('brand-consolidation/va-subdomain', () => {
   const oldWindow = window;

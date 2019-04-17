@@ -6,7 +6,6 @@ import moment from 'moment';
 import { focusElement } from '../../../../platform/utilities/ui';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp';
-import siteName from '../../../../platform/brand-consolidation/site-name';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -92,18 +91,16 @@ class ConfirmationPage extends React.Component {
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
-            If you have questions, please call 1-877-222-VETS (1-877-222-8387)
-            and press 2,
+            If you have questions, please call 877-222-VETS (877-222-8387) and
+            press 2,
             <br />
-            Monday — Friday, 8:00 a.m. — 8:00 p.m. (ET).
+            Monday — Friday, 8:00 a.m. — 8:00 p.m. ET.
           </p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
-              <button className="usa-button-primary">
-                Go Back to {siteName}
-              </button>
+              <button className="usa-button-primary">Go Back to VA.gov</button>
             </a>
           </div>
         </div>

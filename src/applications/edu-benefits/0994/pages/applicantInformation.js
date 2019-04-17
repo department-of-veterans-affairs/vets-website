@@ -5,9 +5,6 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { genderLabels } from 'platform/static-data/labels';
-import environment from 'platform/utilities/environment';
-
-import { ApplicantInformation } from '../components/ApplicantInformation';
 
 const {
   applicantFullName,
@@ -16,54 +13,47 @@ const {
   applicantGender,
 } = fullSchema.properties;
 
-export const uiSchema = () => {
-  if (!environment.isProduction()) {
-    return {
-      'ui:description': ApplicantDescription,
-      applicantFullName: fullNameUI,
-      applicantSocialSecurityNumber: ssnUI,
-      dateOfBirth: {
-        ...currentOrPastDateUI('Date of birth'),
-        'ui:errorMessages': {
-          pattern: 'Please provide a valid date',
-          futureDate: 'Please provide a valid date',
-        },
-      },
-      applicantGender: {
-        'ui:widget': 'radio',
-        'ui:title': 'Gender',
-        'ui:options': {
-          labels: genderLabels,
-        },
-      },
-    };
-  }
-
-  return {
-    'ui:field': ApplicantInformation,
-  };
-};
-
-export const schema = () => {
-  if (!environment.isProduction()) {
-    return {
-      required: ['applicantSocialSecurityNumber', 'dateOfBirth'],
-      type: 'object',
-      properties: {
-        applicantFullName,
-        applicantSocialSecurityNumber,
-        dateOfBirth,
-        applicantGender,
-      },
-    };
-  }
-  return {
-    type: 'object',
-    properties: {
-      'view:applicantInfo': {
-        type: 'object',
-        properties: {},
+export const uiSchema = {
+  'ui:description': ApplicantDescription,
+  applicantFullName: {
+    ...fullNameUI,
+    first: {
+      ...fullNameUI.first,
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
       },
     },
-  };
+    last: {
+      ...fullNameUI.last,
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
+    },
+  },
+  applicantSocialSecurityNumber: ssnUI,
+  dateOfBirth: {
+    ...currentOrPastDateUI('Date of birth'),
+    'ui:errorMessages': {
+      pattern: 'Please provide a valid date',
+      futureDate: 'Please provide a valid date',
+    },
+  },
+  applicantGender: {
+    'ui:widget': 'radio',
+    'ui:title': 'Gender',
+    'ui:options': {
+      labels: genderLabels,
+    },
+  },
+};
+
+export const schema = {
+  required: ['applicantSocialSecurityNumber', 'dateOfBirth'],
+  type: 'object',
+  properties: {
+    applicantFullName,
+    applicantSocialSecurityNumber,
+    dateOfBirth,
+    applicantGender,
+  },
 };
