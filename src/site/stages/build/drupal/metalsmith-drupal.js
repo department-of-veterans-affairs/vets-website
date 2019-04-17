@@ -146,8 +146,7 @@ function getDrupalContent(buildOptions) {
       log(JSON.stringify(drupalData));
       log('Failed to pipe Drupal content into Metalsmith!');
       if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
-        // done(err);
-        done();
+        done(err);
       } else {
         done();
       }
