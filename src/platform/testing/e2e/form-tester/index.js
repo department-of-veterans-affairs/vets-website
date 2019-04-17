@@ -74,6 +74,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
 const testForm = (testDataSets, testConfig) => {
   let browser;
   const token = getUserToken();
+  const headlessMode = !testConfig.debug || process.env.IN_DOCKER;
 
   beforeAll(() => {
     if (testConfig.setup) {
@@ -89,12 +90,15 @@ const testForm = (testDataSets, testConfig) => {
         '--no-sandbox',
         '--disable-setuid-sandbox',
       ],
-      devtools: testConfig.debug,
+      devtools: !headlessMode,
     });
   });
 
   afterEach(async () => {
-    if (!testConfig.debug) {
+    // The assumption here is that debug mode is turned on to see what's causing a failure,
+    //  so keep the window open.
+    // When running in docker, it will always be in headless mode, so always close it.
+    if (headlessMode) {
       await browser.close();
     }
   });
