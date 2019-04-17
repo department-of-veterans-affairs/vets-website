@@ -280,9 +280,9 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>We can’t accept an application for this Veteran.</p>
           <p>
             If this information is incorrect, please call our enrollment case
-            management team at 1-877-222-VETS (
+            management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>
@@ -396,9 +396,9 @@ export function getFAQBlock1(enrollmentStatus) {
             have questions about my eligibility?
           </h4>
           <p>
-            Please call our enrollment case management team at 1-877-222-VETS (
+            Please call our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
@@ -414,9 +414,9 @@ export function getFAQBlock1(enrollmentStatus) {
             or if I have questions about my eligibility?
           </h4>
           <p>
-            Please call our enrollment case management team at 1-877-222-VETS (
+            Please call our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
@@ -431,9 +431,9 @@ export function getFAQBlock1(enrollmentStatus) {
           <p>
             Yes. To learn more about VA medical centers that offer services to
             CHAMPVA recipients, or if you have any other questions, please call
-            our enrollment case management team at 1-877-222-VETS (
+            our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
@@ -456,9 +456,9 @@ export function getFAQBlock1(enrollmentStatus) {
         <>
           <h4>What should I do if I have questions about my eligibility?</h4>
           <p>
-            Please call our enrollment case management team at 1-877-222-VETS (
+            Please call our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
@@ -472,9 +472,9 @@ export function getFAQBlock1(enrollmentStatus) {
         <>
           <h4>How do I submit this information to VA?</h4>
           <p>
-            Please call our enrollment case management team at 1-877-222-VETS (
+            Please call our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ) for directions on how to submit your information. We’re here
             Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -494,9 +494,9 @@ export function getFAQBlock1(enrollmentStatus) {
           <p>
             If we need more information, we’ll send you a letter in the mail. If
             you have any questions, please call our enrollment case management
-            team at 1-877-222-VETS (
+            team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
@@ -630,9 +630,9 @@ export function getFAQBlock4(enrollmentStatus) {
               eligibility.
             </strong>{' '}
             If you’d like to talk about your options, please call our enrollment
-            case management team at 1-877-222-VETS (
+            case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>
@@ -658,9 +658,9 @@ export function getFAQBlock4(enrollmentStatus) {
               decrease in your income.
             </strong>{' '}
             If you’d like to talk about your options, please call our enrollment
-            case management team at 1-877-222-VETS (
+            case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>
@@ -679,9 +679,9 @@ export function getFAQBlock4(enrollmentStatus) {
           <p>
             Yes, but we recommend waiting until you’ve received your separation
             or retirement orders. If you’d like to talk about your options,
-            please call our enrollment case management team at 1-877-222-VETS (
+            please call our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>
@@ -696,9 +696,9 @@ export function getFAQBlock4(enrollmentStatus) {
           <h4>Can I apply again?</h4>
           <p>
             Yes. If you have questions about how to complete your application,
-            please call our enrollment case management team at 1-877-222-VETS (
+            please call our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>
@@ -720,9 +720,9 @@ export function getFAQBlock4(enrollmentStatus) {
             </strong>{' '}
             To get help providing the information we need to complete our
             review, please call our enrollment case management team at
-            1-877-222-VETS (
+            877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>
@@ -745,9 +745,9 @@ export function getFAQBlock4(enrollmentStatus) {
               and submitting a new application won’t affect our decision.
             </strong>{' '}
             If you’d like to talk about your current application, please call
-            our enrollment case management team at 1-877-222-VETS (
+            our enrollment case management team at 877-222-VETS (
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              1-877-222-8387
+              877-222-8387
             </a>
             ).
           </p>

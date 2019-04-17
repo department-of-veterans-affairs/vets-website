@@ -23,7 +23,7 @@ export const introExplanationText = (
     <ul>
       <li>
         Call the Veterans Crisis Line at{' '}
-        <a href="tel:1-800-273-8255">1-800-273-8255</a> and press 1,{' '}
+        <a href="tel:1-800-273-8255">800-273-8255</a> and press 1,{' '}
         <strong>or</strong>
       </li>
       <li>
@@ -37,7 +37,7 @@ export const introExplanationText = (
         Send a text message to <a href="sms:838255">838255</a>.
       </li>
     </ul>
-    <p>If you have hearing loss, please call TTY at 1-800-799-4889.</p>
+    <p>If you have hearing loss, please call TTY at 800-799-4889.</p>
   </div>
 );
 

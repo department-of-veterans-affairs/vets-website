@@ -287,10 +287,9 @@ export const homelessnessAlert = {
     >
       <p>
         You can talk with someone right now. Call the National Call Center for
-        Homeless Veterans at 1-877-4AID-VET (
-        <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day,
-        7 days a week. You’ll talk privately with a trained VA counselor for
-        free.
+        Homeless Veterans at 877-4AID-VET (
+        <a href="tel:+18774243838">877-424-3838</a>) for help 24 hours a day, 7
+        days a week. You’ll talk privately with a trained VA counselor for free.
       </p>
     </AlertBox>
   ),

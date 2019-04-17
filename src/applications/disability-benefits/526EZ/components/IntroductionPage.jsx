@@ -123,7 +123,7 @@ class IntroductionPage extends React.Component {
                 If you need help submitting a claim for increase, you can
                 contact a VA regional office and ask to speak to a counselor. To
                 find the nearest regional office, please call{' '}
-                <a href="tel:1-800-827-1000">1-800-827-1000</a>. An accredited
+                <a href="tel:1-800-827-1000">800-827-1000</a>. An accredited
                 representative, like a Veterans Service Officer (VSO), can also
                 help you with your claim.
               </p>
