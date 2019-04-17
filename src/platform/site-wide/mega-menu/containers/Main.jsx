@@ -63,10 +63,6 @@ export class Main extends React.Component {
   };
 
   linkClicked = link => {
-    if (link.title === 'My Health') {
-      this.handleMyHealthClick();
-    }
-
     const linkName = link.text || link.title;
     recordEvent({
       event: 'nav-header-link',
@@ -83,26 +79,6 @@ export class Main extends React.Component {
 
   toggleDisplayHidden = hidden => {
     this.props.toggleMobileDisplayHidden(hidden);
-  };
-
-  handleMyHealthClick = () => {
-    const mhvLink = replaceDomainsInData([
-      {
-        title: 'My Health',
-        href: 'https://www.myhealth.va.gov/mhv-portal-web/home',
-        target: '_blank',
-      },
-    ])[0];
-    const { mhvAccount } = this.props;
-
-    const redirectToMhv = mhvAccount && mhvAccount.accountLevel !== null;
-
-    // If user has valid mhvAccount, redirect instead of toggling modal
-    if (redirectToMhv) {
-      window.location = mhvLink.href;
-    } else {
-      this.props.toggleMyHealthModal(true);
-    }
   };
 
   render() {

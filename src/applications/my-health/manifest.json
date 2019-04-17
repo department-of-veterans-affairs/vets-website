@@ -1,0 +1,8 @@
+{
+  "appName": "My Health",
+  "entryFile": "./my-health-entry.jsx",
+  "entryName": "verify-my-health",
+  "rootUrl": "/my-health/verify",
+  "noRouting": true,
+  "production": true
+}
