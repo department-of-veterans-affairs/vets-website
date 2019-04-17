@@ -94,9 +94,9 @@ class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
             If you have questions, call{' '}
-            <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday &#8211;
-            Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET). Please have your Social
-            Security number or VA file number ready. For Telecommunication Relay
+            <a href="tel:800-827-1000">800-827-1000</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 9:00 p.m. ET. Please have your Social Security
+            number or VA file number ready. For Telecommunication Relay
             Services, dial <a href="tel:711">711</a>.
           </p>
         </div>

@@ -47,8 +47,8 @@ export const helpDescription = (
     <p>
       <strong>Please note:</strong> If you expect to see something that is not
       included in this list or if you have other questions about your claim,
-      contact: 1-877-222-VETS (1-877-222-8387), Monday – Friday, 8:00 a.m. –
-      8:00 p.m. (ET).
+      contact: 877-222-VETS (877-222-8387), Monday – Friday, 8:00 a.m. – 8:00
+      p.m. ET.
     </p>
   </div>
 );

@@ -35,7 +35,7 @@ export default function CrisisPanel() {
                 aria-hidden="true"
               />
               <a href="tel:18002738255">
-                Call <strong>1-800-273-8255 and press 1</strong>
+                Call <strong>800-273-8255 and press 1</strong>
               </a>
             </li>
             <li>
@@ -65,8 +65,7 @@ export default function CrisisPanel() {
                 aria-hidden="true"
               />
               <a href="tel:18007994889">
-                Call TTY if you have hearing loss{' '}
-                <strong>1-800-799-4889</strong>
+                Call TTY if you have hearing loss <strong>800-799-4889</strong>
               </a>
             </li>
           </ul>

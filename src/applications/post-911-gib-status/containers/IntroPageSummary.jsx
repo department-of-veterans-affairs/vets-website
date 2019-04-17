@@ -26,7 +26,7 @@ export default function IntroPageSummary() {
       <CallToActionWidget appId="gi-bill-benefits" />
       <p>
         <strong>Note:</strong> This tool is available Sunday through Friday,
-        6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+        6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
       </p>
       <h2 itemProp="name">Am I eligible to use this tool?</h2>
       <div
@@ -150,7 +150,7 @@ export default function IntroPageSummary() {
               <li>
                 You’re trying to access the tool during its scheduled downtime.
                 This tool is available Sunday through Friday, 6:00 a.m. to 10:00
-                p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+                p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
               </li>
             </ul>
             <p>

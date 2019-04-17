@@ -630,7 +630,7 @@ export function getStatusContents(appeal, name = {}) {
             <br />
             Washington, DC 20038
             <br />
-            Fax 1-844-678-8979
+            Fax 844-678-8979
           </p>
         </div>
       );
@@ -724,7 +724,7 @@ export function getStatusContents(appeal, name = {}) {
                 <br />
                 Janesville, WI 53547-4444
                 <br />
-                Fax 1-844-531-7818
+                Fax 844-531-7818
               </p>
             </div>
           )}
@@ -1758,7 +1758,7 @@ export function getAlertContent(alert, appealIsActive) {
               <br />
               Washington, DC 20038
               <br />
-              Fax 1-844-678-8979
+              Fax 844-678-8979
             </p>
             <p>
               Please contact your Veterans Service Organization or
@@ -1789,7 +1789,7 @@ export function getAlertContent(alert, appealIsActive) {
               <br />
               Washington, DC 20038
               <br />
-              Fax 1-844-678-8979
+              Fax 844-678-8979
             </p>
           </div>
         ),
