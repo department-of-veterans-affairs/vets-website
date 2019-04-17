@@ -9,7 +9,9 @@ export class AppDeletedAlert extends React.Component {
 
   alertMessage() {
     // eslint-disable-next-line prettier/prettier
-    return `${this.props.account.attributes.title} has been disconnected from your account.`;
+    return `${
+      this.props.account.attributes.title
+    } has been disconnected from your account.`;
   }
 
   render() {

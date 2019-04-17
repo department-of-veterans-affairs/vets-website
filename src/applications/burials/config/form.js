@@ -178,7 +178,7 @@ const formConfig = {
       },
     },
     veteranInformation: {
-      title: 'Deceased Veteran Information',
+      title: 'Deceased Veteran information',
       pages: {
         veteranInformation: {
           title: 'Deceased Veteran information',
@@ -274,10 +274,10 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Military history',
       pages: {
         servicePeriods: {
-          title: 'Service Periods',
+          title: 'Service periods',
           path: 'military-history/service-periods',
           uiSchema: {
             'view:serviceRecordNotification': {
@@ -297,7 +297,7 @@ const formConfig = {
           },
         },
         previousNames: {
-          title: 'Previous Names',
+          title: 'Previous names',
           path: 'military-history/previous-names',
           uiSchema: {
             previousNames: {
@@ -328,7 +328,7 @@ const formConfig = {
       },
     },
     benefitsSelection: {
-      title: 'Benefits Selection',
+      title: 'Benefits selection',
       pages: {
         benefitsSelection: {
           title: 'Benefits selection',
@@ -540,7 +540,7 @@ const formConfig = {
       },
     },
     additionalInformation: {
-      title: 'Additional Information',
+      title: 'Additional information',
       pages: {
         claimantContactInformation: {
           title: 'Claimant contact information',
