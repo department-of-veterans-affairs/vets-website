@@ -41,7 +41,7 @@ class VerifyMyHealth extends React.Component {
 
     // MHV Checks
     if (mhvAccount.errors) {
-      return this.getMhvErrorContent();
+      return this.getErrorContent();
     }
 
     // const accountState = 'needs_va_patient';
@@ -92,7 +92,7 @@ class VerifyMyHealth extends React.Component {
     ),
   });
 
-  getMhvErrorContent = () => ({
+  getErrorContent = () => ({
     heading: 'Please try again later',
     alertContent: (
       <>
