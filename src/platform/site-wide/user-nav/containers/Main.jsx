@@ -7,6 +7,7 @@ import { isInProgressPath } from '../../../forms/helpers';
 import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
 import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
+import SessionTimeoutModal from '../../../user/authentication/components/SessionTimeoutModal';
 import SignInModal from '../../../user/authentication/components/SignInModal';
 import { initializeProfile } from '../../../user/profile/actions';
 import { hasSession } from '../../../user/profile/utilities';
@@ -156,6 +157,10 @@ export class Main extends React.Component {
         <SignInModal
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
+        />
+        <SessionTimeoutModal
+          isLoggedIn={this.props.currentlyLoggedIn}
+          onExtendSession={this.props.initializeProfile}
         />
       </div>
     );
