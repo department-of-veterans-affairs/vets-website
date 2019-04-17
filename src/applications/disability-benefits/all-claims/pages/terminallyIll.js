@@ -2,7 +2,7 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { terminallyIll } = fullSchema.properties;
+const { isTerminallyIll } = fullSchema.properties;
 
 const TerminallyIllInfo = (
   <AdditionalInfo triggerText="Why does this matter?">
@@ -15,7 +15,7 @@ const TerminallyIllInfo = (
 
 export const uiSchema = {
   'ui:title': 'High Priority claims',
-  terminallyIll: {
+  isTerminallyIll: {
     'ui:title': 'Are you terminally ill?',
     'ui:widget': 'yesNo',
   },
@@ -27,7 +27,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    terminallyIll,
+    isTerminallyIll,
     'view:terminallyIllInfo': {
       type: 'object',
       properties: {},
