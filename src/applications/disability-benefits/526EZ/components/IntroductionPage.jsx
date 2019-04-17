@@ -5,7 +5,6 @@ import moment from 'moment';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
@@ -13,9 +12,6 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import { urls } from '../../all-claims/utils';
 
 import { VerifiedAlert } from '../helpers';
-import FormStartControls from './FormStartControls';
-
-const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -62,29 +58,19 @@ class IntroductionPage extends React.Component {
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).
         </p>
-        {isBrandConsolidationEnabled() ? (
-          <CallToActionWidget appId="disability-benefits">
-            <SaveInProgressIntro
-              {...this.props}
-              verifiedPrefillAlert={VerifiedAlert}
-              verifyRequiredPrefill={
-                this.props.route.formConfig.verifyRequiredPrefill
-              }
-              prefillEnabled={this.props.route.formConfig.prefillEnabled}
-              messages={this.props.route.formConfig.savedFormMessages}
-              pageList={this.props.route.pageList}
-              startText="Start the Disability Compensation Application"
-            />
-          </CallToActionWidget>
-        ) : (
-          <FormStartControls
-            pathname={this.props.location.pathname}
-            user={user}
-            authenticate={this.authenticate}
-            gaStartEventName={gaStartEventName}
+        <CallToActionWidget appId="disability-benefits">
+          <SaveInProgressIntro
             {...this.props}
+            verifiedPrefillAlert={VerifiedAlert}
+            verifyRequiredPrefill={
+              this.props.route.formConfig.verifyRequiredPrefill
+            }
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the Disability Compensation Application"
           />
-        )}
+        </CallToActionWidget>
         {itfAgreement}
         <h4>
           Follow the steps below to file a claim for increased disability
@@ -201,31 +187,20 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {isBrandConsolidationEnabled() ? (
-          <CallToActionWidget appId="disability-benefits">
-            <SaveInProgressIntro
-              {...this.props}
-              buttonOnly
-              verifiedPrefillAlert={VerifiedAlert}
-              verifyRequiredPrefill={
-                this.props.route.formConfig.verifyRequiredPrefill
-              }
-              prefillEnabled={this.props.route.formConfig.prefillEnabled}
-              messages={this.props.route.formConfig.savedFormMessages}
-              pageList={this.props.route.pageList}
-              startText="Start the Disability Compensation Application"
-            />
-          </CallToActionWidget>
-        ) : (
-          <FormStartControls
-            pathname={this.props.location.pathname}
-            user={user}
-            authenticate={this.authenticate}
-            gaStartEventName={gaStartEventName}
+        <CallToActionWidget appId="disability-benefits">
+          <SaveInProgressIntro
             {...this.props}
             buttonOnly
+            verifiedPrefillAlert={VerifiedAlert}
+            verifyRequiredPrefill={
+              this.props.route.formConfig.verifyRequiredPrefill
+            }
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the Disability Compensation Application"
           />
-        )}
+        </CallToActionWidget>
         {itfAgreement}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

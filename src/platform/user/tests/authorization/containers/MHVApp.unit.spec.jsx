@@ -105,7 +105,7 @@ describe('<MHVApp>', () => {
     expectAlert(
       wrapper,
       'success',
-      'Thank you for accepting the Terms and Conditions for using Vets.gov health tools',
+      'Thank you for accepting the Terms and Conditions for using VA.gov health tools',
     );
     wrapper.unmount();
   });
@@ -190,7 +190,7 @@ describe('<MHVApp>', () => {
     expectAlert(
       wrapper,
       'error',
-      'We can’t give you access to Vets.gov health tools right now',
+      'We can’t give you access to VA.gov health tools right now',
     );
     wrapper.unmount();
   });
@@ -201,7 +201,7 @@ describe('<MHVApp>', () => {
     expectAlert(
       wrapper,
       'error',
-      'We can’t give you access to Vets.gov health tools right now',
+      'We can’t give you access to VA.gov health tools right now',
     );
     wrapper.unmount();
   });
@@ -216,7 +216,7 @@ describe('<MHVApp>', () => {
     expectAlert(
       wrapper,
       'error',
-      'We can’t give you access to the Vets.gov health tools',
+      'We can’t give you access to the VA.gov health tools',
     );
     wrapper.unmount();
   });
@@ -227,7 +227,7 @@ describe('<MHVApp>', () => {
     expectAlert(
       wrapper,
       'error',
-      'We can’t give you access to the Vets.gov health tools',
+      'We can’t give you access to the VA.gov health tools',
     );
     wrapper.unmount();
   });

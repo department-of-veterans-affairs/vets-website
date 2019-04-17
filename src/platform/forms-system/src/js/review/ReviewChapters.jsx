@@ -117,7 +117,12 @@ export function mapStateToProps(state, ownProps) {
     const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
 
     return {
-      expandedPages,
+      expandedPages: expandedPages.map(
+        page =>
+          page.appStateSelector
+            ? { ...page, appStateData: page.appStateSelector(state) }
+            : page,
+      ),
       formConfig: chapterFormConfig,
       name: chapterName,
       open,

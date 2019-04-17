@@ -15,6 +15,7 @@ import { prefillTransformer } from '../prefill-transformer';
 import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import migrations from '../migrations';
+import captureEvents from '../analytics-functions';
 
 import {
   applicantInformation,
@@ -38,7 +39,6 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   prefillTransformer,
-  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -66,12 +66,14 @@ const formConfig = {
           path: 'applicant/information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
+          onContinue: captureEvents.applicantInformation,
         },
         benefitsEligibility: {
           title: 'Applicant Information',
           path: 'benefits-eligibility',
           uiSchema: benefitsEligibility.uiSchema,
           schema: benefitsEligibility.schema,
+          onContinue: captureEvents.benefitsEligibility,
         },
       },
     },
@@ -84,6 +86,7 @@ const formConfig = {
           path: 'military-service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+          onContinue: captureEvents.militaryService,
         },
       },
     },
@@ -110,6 +113,7 @@ const formConfig = {
           path: 'work-experience',
           uiSchema: highTechIndustry.uiSchema,
           schema: highTechIndustry.schema,
+          onContinue: captureEvents.highTechWorkExp,
         },
       },
     },
@@ -144,6 +148,7 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
+          onContinue: captureEvents.contactInformation,
         },
         // page - banking information
         bankInformation: {

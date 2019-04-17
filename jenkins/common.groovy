@@ -86,6 +86,13 @@ def slackNotify() {
   }
 }
 
+def puppeteerNotification() {
+  message = "(Testing) @chris.valarida: `${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
+  slackSend message: message,
+    color: 'danger',
+    failOnError: true
+}
+
 def setup() {
   stage("Setup") {
 
@@ -126,7 +133,7 @@ def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
         builds[envName] = {
           withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
             dockerContainer.inside(DOCKER_ARGS) {
-              sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress}"
+              sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} --pull-drupal"
               sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
             }
           }

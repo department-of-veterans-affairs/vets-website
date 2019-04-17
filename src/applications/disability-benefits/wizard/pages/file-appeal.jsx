@@ -6,8 +6,8 @@ const alertContent = (
   <>
     <p>
       If you disagree with a VA decision on your claim, you can appeal all or
-      some of the decision. You have 1 year from the date on your decision to
-      file an appeal.
+      some of the decision. To appeal, you can file a Supplemental Claim or a
+      Notice of Disagreement.
     </p>
     <p>
       <a href="/disability/file-an-appeal">Find out how to file an appeal</a>

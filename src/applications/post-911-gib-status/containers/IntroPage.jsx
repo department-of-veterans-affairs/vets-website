@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import BrandConsolidationSummary from './IntroPageSummary';
+import IntroPageSummary from './IntroPageSummary';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
@@ -58,7 +58,7 @@ export class IntroPage extends React.Component {
               }
               status="success"
             />
-            <BrandConsolidationSummary />
+            <IntroPageSummary />
           </div>
         );
         break;

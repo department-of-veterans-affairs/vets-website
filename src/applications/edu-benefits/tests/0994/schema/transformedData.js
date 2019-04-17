@@ -4,6 +4,8 @@ const transformedMinimalDataActual = {
     first: 'testy',
     last: 'mcTestFace',
   },
+  applicantSocialSecurityNumber: '796121200',
+  dateOfBirth: '1933-04-05',
   appliedForVaEducationBenefits: false,
   activeDuty: true,
   dayTimePhone: '1234567890',

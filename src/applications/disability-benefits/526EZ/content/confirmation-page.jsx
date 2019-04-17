@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import siteName from '../../../../platform/brand-consolidation/site-name';
 import {
   successMessage,
   checkLaterMessage,
@@ -105,9 +104,7 @@ const template = (props, title, content, submissionMessage) => {
       <div className="row form-progress-buttons schemaform-back-buttons">
         <div className="small-6 usa-width-one-half medium-6 columns">
           <a href="/">
-            <button className="usa-button-primary">
-              Go Back to {siteName}
-            </button>
+            <button className="usa-button-primary">Go Back to VA.gov</button>
           </a>
         </div>
       </div>
