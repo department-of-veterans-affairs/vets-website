@@ -5,7 +5,6 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { genderLabels } from 'platform/static-data/labels';
-import { validateApplicantName } from '../validations';
 
 const {
   applicantFullName,
@@ -18,7 +17,18 @@ export const uiSchema = {
   'ui:description': ApplicantDescription,
   applicantFullName: {
     ...fullNameUI,
-    'ui:validations': [validateApplicantName],
+    first: {
+      ...fullNameUI.first,
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
+    },
+    last: {
+      ...fullNameUI.last,
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
+    },
   },
   applicantSocialSecurityNumber: ssnUI,
   dateOfBirth: {
