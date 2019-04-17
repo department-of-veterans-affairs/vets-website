@@ -292,7 +292,7 @@ export const wizardConfig = [
         </li>{' '}
         <span>or </span>
         <li>
-          <a href="/education/how-to-apply/">Apply for education benefits.</a>
+          <a href="/education/how-to-apply/">Apply for education benefits</a>
         </li>
       </ul>
     ),

@@ -53,7 +53,7 @@ export const noFDCWarning = (
         <ul>
           <li>
             Visit the Claim Status tool and upload your documents under the File
-            tab. <a href="/track-claims">Track the status of your claims.</a>
+            tab. <a href="/track-claims">Track the status of your claims</a>
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}

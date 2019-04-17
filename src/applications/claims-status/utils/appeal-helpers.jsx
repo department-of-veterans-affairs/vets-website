@@ -348,7 +348,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
               the Board know if you’d like a hearing for your appeal.
             </p>
             <p>
-              <a href="#">Learn more about hearings.</a>
+              <a href="#">Learn more about hearings</a>
             </p>
           </div>
         ),

@@ -12,7 +12,7 @@ export const successMessage = claimId => (
       your increased disability claim to show up there.
     </p>
     <p>
-      <a href="/track-claims">Check the status of your claim.</a>
+      <a href="/track-claims">Check the status of your claim</a>
     </p>
     <p>
       If you don’t see your increased disability claim online after 24 hours,
@@ -33,7 +33,7 @@ export const checkLaterMessage = jobId => (
       your increased disability claim to show up there.
     </p>
     <p>
-      <a href="/track-claims">Check the status of your claim.</a>
+      <a href="/track-claims">Check the status of your claim</a>
     </p>
     <p>
       If you don’t see your increased disability claim online after 24 hours,
@@ -52,7 +52,7 @@ export const errorMessage = () => (
       nearest Veterans Service Officer (VSO).
     </p>
     <p>
-      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO.</a>
+      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO</a>
     </p>
   </div>
 );

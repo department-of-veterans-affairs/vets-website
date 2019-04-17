@@ -101,7 +101,7 @@ export const submitErrorContent = props =>
         at 1-800-827-1000, Monday – Friday, 8:30 a.m. – 4:30 p.m. (ET). Or, you
         can get in touch with your nearest Veterans Service Officer (VSO).
       </p>{' '}
-      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO.</a>
+      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO</a>
     </div>,
     errorMessage(),
   );
