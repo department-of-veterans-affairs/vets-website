@@ -62,7 +62,7 @@ export const mhvAccessError = (
               <strong>
                 Did you forget to accept My HealtheVet's terms and conditions?
               </strong>{' '}
-              You need to log in to My HealtheVet and accept their terms and
+              You need to sign in to My HealtheVet and accept their terms and
               conditions.
             </li>
           </ol>
