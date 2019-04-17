@@ -70,11 +70,14 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
 
+/* temporarily commented out to test a possible plugin related issue
   if (redirectUrl.includes('idme')) {
     redirectWithGAClientId(redirectUrl);
   } else {
     window.location = redirectUrl;
   }
+*/
+  window.location = redirectUrl;
 }
 
 export function login(policy) {
