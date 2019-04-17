@@ -8,7 +8,7 @@ import { selectProfile } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import { removeSavedForm } from '../actions';
+import { removeSavedForm as removeSavedFormAction } from '../actions';
 
 import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
@@ -458,7 +458,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  removeSavedForm,
+  removeSavedForm: removeSavedFormAction,
 };
 
 export default withRouter(
