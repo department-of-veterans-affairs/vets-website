@@ -16,6 +16,10 @@ import {
 import { apiRequest } from '../../../platform/utilities/api';
 import get from '../../../platform/utilities/data/get';
 
+const REDIRECT_IGNORE_PATTERN = new RegExp(
+  ['/auth/login/callback', '/session-expired'].join('|'),
+);
+
 class AuthMetrics {
   constructor(type, payload) {
     this.type = type;
@@ -123,10 +127,9 @@ export class AuthApp extends React.Component {
   redirect = () => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
-
-    const redirectUrl =
-      (!returnUrl.match(window.location.pathname) && returnUrl) || '/';
-
+    const redirectUrl = !returnUrl.match(REDIRECT_IGNORE_PATTERN)
+      ? returnUrl
+      : '/';
     window.location.replace(redirectUrl);
   };
 
