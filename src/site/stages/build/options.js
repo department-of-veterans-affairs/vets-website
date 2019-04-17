@@ -154,6 +154,8 @@ function getOptions(commandLineOptions) {
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
 
+  global.buildtype = options.buildtype;
+
   return options;
 }
 
