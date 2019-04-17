@@ -23,7 +23,10 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
 
   return (
     // eslint-disable-next-line
-    <li className={`past-events-expander process-step clickable ${cssClass}`} onClick={onToggle}>
+    <li
+      className={`past-events-expander process-step clickable ${cssClass}`}
+      onClick={onToggle}
+    >
       {/* Giving this a margin top to help center the text to the li bullet */}
       <button className="va-button-link" onClick={onToggle}>
         <h3 style={{ color: 'inherit' }}>{title}</h3>

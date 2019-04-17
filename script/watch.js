@@ -31,7 +31,6 @@ async function runUnitTests(unitTests = allUnitTests) {
   try {
     ({ requiredFiles, unitTestsForSrc } = await runMochaTests(unitTests));
   } catch (e) {
-
     if (!watcher) {
       // mocha errored before setting up watcher; exit process
       console.log(chalk.red('Mocha failed. Fix error and restart watch'));
@@ -57,26 +56,25 @@ async function runUnitTests(unitTests = allUnitTests) {
   } else {
     console.log(chalk.yellow('Watching for changes'));
     console.log(chalk.yellow('======\n\n'));
-  };
+  }
 
   // watcher is only created once- if new files are added, then watcher must be restarted
   if (!watcher) {
     // start watcher with the files that mocha imported
-    watcher = chokidar.watch(requiredFiles).
-      on('change', file => {
-        // if a unit test is updated just run that unit test
-        if (file.includes('.unit.spec')) {
-          runUnitTests([file]);
-        }
+    watcher = chokidar.watch(requiredFiles).on('change', file => {
+      // if a unit test is updated just run that unit test
+      if (file.includes('.unit.spec')) {
+        runUnitTests([file]);
+      }
 
-        // if change is from a src file, run unit tests that import that src file
-        if (file.includes('src') && unitTestsForSrc[file]) {
-          runUnitTests(unitTestsForSrc[file]);
-        } else {
-          // if no unit tests import src file, run all unit tests
-          runUnitTests();
-        }
-      });
+      // if change is from a src file, run unit tests that import that src file
+      if (file.includes('src') && unitTestsForSrc[file]) {
+        runUnitTests(unitTestsForSrc[file]);
+      } else {
+        // if no unit tests import src file, run all unit tests
+        runUnitTests();
+      }
+    });
   }
 }
 
@@ -88,7 +86,7 @@ function runMochaTests(tests) {
     // send the mocha process the tests to run
     forked.send({
       tests,
-      showErrors
+      showErrors,
     });
     forked.on('message', ({ error, requiredFiles, unitTestsForSrc }) => {
       if (error) {
