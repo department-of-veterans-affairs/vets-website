@@ -24,17 +24,22 @@
         {% assign headerClass = "va-nav-linkslist-title" %}
     {% endif %}
 {% endif %}
-<li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
-    <a href="{{linkTeaser.fieldLink.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
-        {% if linkTeaser.fieldLink.title != empty %}
-            <{{ header }} class="{{ headerClass }}">{{ linkTeaser.fieldLink.title }}</{{ header }}>
-            {% if parentFieldName === "field_spokes" %}
-                <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
-            {% endif %}
-        {% endif %}
 
-        {% if linkTeaser.fieldLinkSummary != empty %}
-            <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
-        {% endif %}
-    </a>
-</li>
+{% for link in linkTeaser.fieldLink %}
+    {% if link.url.path != empty %}
+        <li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
+            <a href="{{link.url.path}}" {% if link.options["target"] %}target="{{ link.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+            {% if link.title != empty %}
+                <{{ header }} class="{{ headerClass }}">{{ link.title }}</{{ header }}>
+                {% if parentFieldName === "field_spokes" %}
+                    <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
+                {% endif %}
+            {% endif %}
+
+            {% if linkTeaser.fieldLinkSummary != empty %}
+                <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
+            {% endif %}
+            </a>
+        </li>
+    {% endif %}
+{% endfor %}

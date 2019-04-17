@@ -1,11 +1,6 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../feature-flag';
 
-export default function SubmitSignInForm({ children, startSentence }) {
-  if (!isBrandConsolidationEnabled()) {
-    return <span>{children}</span>;
-  }
-
+export default function SubmitSignInForm({ startSentence }) {
   return (
     <span>
       <a

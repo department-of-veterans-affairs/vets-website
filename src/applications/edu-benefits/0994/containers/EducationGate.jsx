@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 export function EducationGate({ user, location, children }) {
   // Short-circuit the check on the intro page
@@ -30,9 +30,8 @@ export function EducationGate({ user, location, children }) {
 
   return (
     <RequiredLoginView
-      serviceRequired={backendServices.EDUCATION_BENEFITS}
+      serviceRequired={backendServices.USER_PROFILE}
       user={user}
-      verify
     >
       {children}
     </RequiredLoginView>

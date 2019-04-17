@@ -1,11 +1,6 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../feature-flag';
 
-export default function CallVBACenter({ children, startSentence }) {
-  if (!isBrandConsolidationEnabled()) {
-    return <span>{children}</span>;
-  }
-
+export default function CallVBACenter({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} VA Benefits and Services at{' '}

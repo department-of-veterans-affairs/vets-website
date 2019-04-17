@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import isVATeamSiteSubdomain from 'platform/brand-consolidation/va-subdomain';
+import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 import { hasSession } from 'platform/user/profile/utilities';
 import HelpMenu from './HelpMenu';
 import SearchMenu from './SearchMenu';

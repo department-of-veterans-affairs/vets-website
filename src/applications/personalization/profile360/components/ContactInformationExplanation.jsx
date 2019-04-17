@@ -1,7 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 import recordEvent from 'platform/monitoring/record-event';
 
 import facilityLocator from 'applications/facility-locator/manifest';
@@ -19,23 +18,6 @@ export default function ContactInformationExplanation() {
             care team may also use this contact information to communicate with
             you.
           </p>
-          {!isBrandConsolidationEnabled() && (
-            <span>
-              <a
-                href="/health-care/"
-                onClick={() => {
-                  recordEvent({
-                    event: 'profile-navigation',
-                    'profile-action': 'view-link',
-                    'profile-section': 'learn-more-va-benefits',
-                  });
-                }}
-              >
-                Learn more about VA health benefits
-              </a>
-              .
-            </span>
-          )}
         </AlertBox>
       </div>
       <AdditionalInfo

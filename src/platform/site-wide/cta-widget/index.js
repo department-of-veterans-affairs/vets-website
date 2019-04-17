@@ -5,8 +5,8 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
-import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
+import CallVBACenter from '../../static-data/CallVBACenter';
+import SubmitSignInForm from '../../static-data/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { logout, verify } from '../../user/authentication/utilities';
@@ -120,6 +120,25 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    if (this.props.mviDown) {
+      return {
+        heading: 'VA.gov health tools are temporarily unavailable',
+        alertText: (
+          <>
+            <p>
+              We’re sorry. We’re having trouble accessing your Veteran records.
+            </p>
+            <h5>What you can do</h5>
+            <p>
+              Please check back in a few minutes. This issue is temporary and
+              will be resolved soon.
+            </p>
+          </>
+        ),
+        status: 'error',
+      };
+    }
+
     if (this.isAccessible()) {
       return {
         heading: 'My HealtheVet will open in a new tab',
@@ -150,14 +169,7 @@ export class CallToActionWidget extends React.Component {
             </p>
             <h5>What you can do</h5>
             <p>
-              You can try again later or{' '}
-              <CallVBACenter>
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
-              </CallVBACenter>
+              You can try again later or <CallVBACenter />
             </p>
           </div>
         ),
@@ -203,13 +215,7 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -228,13 +234,7 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -249,14 +249,7 @@ export class CallToActionWidget extends React.Component {
               <p>We’re sorry. We found more than one active account for you.</p>
               <h5>What you can do</h5>
               <p>
-                Please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                Please <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -296,14 +289,7 @@ export class CallToActionWidget extends React.Component {
                 VA.gov health tools right now.
               </p>
               <p>
-                You can try again later or{' '}
-                <CallVBACenter>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </CallVBACenter>
+                You can try again later or <CallVBACenter />
               </p>
             </div>
           ),
@@ -323,13 +309,7 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -475,12 +455,13 @@ CallToActionWidget.defaultProps = {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, /* services, */ verified } = profile;
+  const { loading, mhvAccount, /* services, */ verified, status } = profile;
   return {
     // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
     profile: { loading, verified },
     mhvAccount,
+    mviDown: status !== 'OK',
   };
 };
 

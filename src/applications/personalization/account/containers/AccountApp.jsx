@@ -10,9 +10,6 @@ import DowntimeNotification, {
 } from '../../../../platform/monitoring/DowntimeNotification';
 
 import { fetchMHVAccount } from '../../../../platform/user/profile/actions';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 class AccountApp extends React.Component {
   render() {
@@ -29,13 +26,13 @@ class AccountApp extends React.Component {
           >
             <div className="row user-profile-row">
               <div className="usa-width-two-thirds medium-8 small-12 columns">
-                <h1>Your {propertyName} Account Settings</h1>
+                <h1>Your VA.gov Account Settings</h1>
                 <div className="va-introtext">
                   <p>
                     Below, you’ll find your current settings for signing in to{' '}
-                    {propertyName}. Find out how to update your settings as
-                    needed to access more site tools or add extra security to
-                    your account.
+                    VA.gov. Find out how to update your settings as needed to
+                    access more site tools or add extra security to your
+                    account.
                   </p>
                 </div>
                 <AccountMain

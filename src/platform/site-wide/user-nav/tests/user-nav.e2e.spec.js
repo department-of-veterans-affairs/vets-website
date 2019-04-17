@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // log in & wait for little person icon to appear next to the username
   Auth.logIn(token, client, '/my-va', 3)
-    .assert.title('My VA: VA.gov')
+    .assert.title('My VA | Veterans Affairs')
     .waitForElementVisible(selectors.menu, Timeouts.slow);
 
   // click dropdown on username

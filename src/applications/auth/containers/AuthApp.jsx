@@ -5,7 +5,6 @@ import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import { authnSettings } from '../../../platform/user/authentication/utilities';
@@ -345,7 +344,7 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message={`Signing in to ${siteName}...`} />
+      <LoadingIndicator message={`Signing in to VA.gov...`} />
     );
 
     return <div className="row vads-u-padding-y--5">{view}</div>;

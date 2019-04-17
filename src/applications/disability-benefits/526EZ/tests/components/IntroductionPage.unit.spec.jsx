@@ -34,15 +34,16 @@ const defaultProps = {
 };
 
 describe('IntroductionPage', () => {
-  it('should render SaveInProgressIntro', () => {
+  it('should render CallToActionWidget', () => {
     const oldWindow = global.window;
     global.window = { location: { replace: () => {} } };
 
     const tree = shallow(<IntroductionPage {...defaultProps} />);
-    const formStartControls = tree.find('FormStartControls');
-    expect(formStartControls.length).to.equal(2);
-    expect(formStartControls.first().props().gaStartEventName).to.equal(
-      'disability-526EZ-start',
+
+    const callToActionWidget = tree.find('Connect(CallToActionWidget)');
+    expect(callToActionWidget.length).to.equal(2);
+    expect(callToActionWidget.first().props().appId).to.equal(
+      'disability-benefits',
     );
     tree.unmount();
 
