@@ -1,7 +1,7 @@
-import { removeFormApi } from '../../../forms/save-in-progress/api';
-import environment from '../../../utilities/environment';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
 import { updateLoggedInStatus } from '../../authentication/actions';
-import { teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
@@ -31,18 +31,11 @@ export function refreshProfile(forceCacheClear = false) {
       url += `?now=${new Date().getTime()}`;
     }
 
-    const response = await fetch(url, {
+    const payload = await apiRequest(url, {
       method: 'GET',
       credentials: 'include',
     });
 
-    if (!response.ok) {
-      const error = new Error(response.statusText);
-      error.status = response.status;
-      throw error;
-    }
-
-    const payload = await response.json();
     dispatch(updateProfileFields(payload));
     return payload;
   };
@@ -56,7 +49,6 @@ export function initializeProfile() {
     } catch (error) {
       if (error.status === 401) {
         dispatch(updateLoggedInStatus(false));
-        teardownProfileSession();
       }
       dispatch(profileLoadingFinished());
     }

@@ -1,7 +1,8 @@
 import Raven from 'raven-js';
-import appendQuery from 'append-query';
 
+import { expireSession } from 'platform/user/profile/utilities';
 import environment from '../environment';
+import localStorage from '../storage/localStorage';
 
 function isJson(response) {
   const contentType = response.headers.get('Content-Type');
@@ -23,7 +24,6 @@ function isJson(response) {
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
-  const isLogout = resource.endsWith('/slo/new');
 
   const defaultSettings = {
     method: 'GET',
@@ -57,27 +57,19 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         ? response.json()
         : Promise.resolve(response);
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          const { pathname } = window.location;
-
-          // If the user receives a 401 when trying to log out, it means their session
-          // has expired.  Redirect them home.  In all other cases, redirect to login
-          if (isLogout) {
-            window.localStorage.removeItem('hasSession');
-            window.location.href = '/';
-          } else if (!pathname.includes('auth/login/callback')) {
-            const loginUrl = appendQuery(environment.BASE_URL, {
-              next: pathname,
-            });
-            window.location.href = loginUrl;
-          }
-        } else {
-          return data.then(Promise.reject.bind(Promise));
-        }
+      if (response.ok || response.status === 304) {
+        const sessionExpiration = response.headers.get('X-Session-Expiration');
+        if (sessionExpiration)
+          localStorage.setItem('sessionExpiration', sessionExpiration);
+        return data;
       }
 
-      return data;
+      // The timeout modal should cover any session timeouts,
+      // but in case it doesn't, the next response with unauthorized status
+      // will invoke the same session expiration flow.
+      if (response.status === 401) expireSession();
+
+      return data.then(Promise.reject.bind(Promise));
     })
     .then(success)
     .catch(error);
