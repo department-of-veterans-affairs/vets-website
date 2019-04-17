@@ -4,20 +4,17 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 // import appendQuery from 'append-query';
-import {
-  logout,
-  verify,
-} from '../../../platform/user/authentication/utilities';
+import { logout, verify } from '../../platform/user/authentication/utilities';
 
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
   // upgradeMHVAccount,
-} from '../../../platform/user/profile/actions';
+} from '../../platform/user/profile/actions';
 
-import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
+import { isLoggedIn, selectProfile } from '../../platform/user/selectors';
 
-class VerifyMyHealth extends React.Component {
+class ValidateMHVAccount extends React.Component {
   componentDidUpdate(prevProps) {
     const { profile } = this.props;
     if (prevProps.profile.loading && !profile.loading) {
@@ -37,10 +34,8 @@ class VerifyMyHealth extends React.Component {
       return this.getVerifyContent();
     }
 
-    // TODO: MVI Checks
-
     // MHV Checks
-    if (mhvAccount.errors) {
+    if (this.props.mviDown || mhvAccount.errors) {
       return this.getErrorContent();
     }
 
@@ -635,12 +630,13 @@ class VerifyMyHealth extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, /* services, */ verified } = profile;
+  const { loading, mhvAccount, /* services, */ status, verified } = profile;
   return {
     // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
     profile: { loading, verified },
     mhvAccount,
+    mviDown: status === 'SERVER_ERROR',
   };
 };
 const mapDispatchToProps = {
@@ -653,4 +649,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(VerifyMyHealth);
+)(ValidateMHVAccount);
