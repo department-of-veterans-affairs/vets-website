@@ -48,8 +48,8 @@ export class ConfirmationPage extends React.Component {
         </h2>
         <p>
           You’ll need to call the Education Call Center at{' '}
-          <a href="tel:+18884424551">1-888-442-4551</a>, Monday through Friday,
-          8:00 a.m. to 7:00 p.m. (ET), to ask VA to start sharing your education
+          <a href="tel:+18884424551">888-442-4551</a>, Monday through Friday,
+          8:00 a.m. to 7:00 p.m. ET, to ask VA to start sharing your education
           benefits information again.
         </p>
         <h2 className="schemaform-confirmation-section-header">

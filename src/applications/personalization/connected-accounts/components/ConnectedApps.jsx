@@ -13,10 +13,9 @@ export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {
         <h1>Connected Accounts</h1>
         <p className="va-introtext">
           {/* eslint-disable prettier/prettier */}
-          You gave the sites and applications listed below permissions to
-          access some of your VA.gov profile data. These sites and
-          applications can only view your information. They can’t change
-          anything.
+          You gave the sites and applications listed below permissions to access
+          some of your VA.gov profile data. These sites and applications can
+          only view your information. They can’t change anything.
           {/* eslint-enable prettier/prettier */}
         </p>
         {deletedAccounts.map(account => (

@@ -85,11 +85,11 @@ class ConfirmationPage extends React.Component {
               <span>{pmcName}</span>
               <br />
               <span>
-                Phone: <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday
-                &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET)
+                Phone: <a href="tel:1-800-827-1000">800-827-1000</a>, Monday
+                &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
               </span>
               <br />
-              <span>Fax: 1-844-655-1604</span>
+              <span>Fax: 844-655-1604</span>
             </li>
             <li>
               <span>
@@ -113,7 +113,7 @@ class ConfirmationPage extends React.Component {
           <p className="confirmation-guidance-message">
             If you have questions, <CallVBACenter />
             <br />
-            Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET). <br />
+            Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET. <br />
             Please have your Social Security number or VA file number ready.
           </p>
         </div>
