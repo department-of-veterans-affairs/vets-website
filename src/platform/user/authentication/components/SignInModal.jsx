@@ -73,27 +73,27 @@ class SignInModal extends React.Component {
         </div>
         {this.downtimeBanner(
           [externalServices.idme],
-          "Our sign in process isn't working right now",
+          'Our sign in process isn’t working right now',
           'error',
-          "We're sorry. We're working to fix some problems with our sign in process. If you'd like to sign in to VA.gov, please check back later.",
+          'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
         )}
         {this.downtimeBanner(
           [externalServices.dslogon],
           'You may have trouble signing in with DS Logon',
           'warning',
-          "We're sorry. We're working to fix some problems with our DS Logon sign in process. If you'd like to sign in to VA.gov with your DS Logon account, please check back later.",
+          'We’re sorry. We’re working to fix some problems with our DS Logon sign in process. If you’d like to sign in to VA.gov with your DS Logon account, please check back later.',
         )}
         {this.downtimeBanner(
           [externalServices.mhv],
           'You may have trouble signing in with My HealtheVet',
           'warning',
-          "We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you'd like to sign in to VA.gov with your My HealtheVet account, please check back later.",
+          'We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you’d like to sign in to VA.gov with your My HealtheVet account, please check back later.',
         )}
         {this.downtimeBanner(
           [externalServices.mvi],
           'You may have trouble signing in or using some tools or services',
           'warning',
-          "We're sorry. We're working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or srevices, please check back soon.",
+          'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
         )}
         <div>
           <div className="usa-width-one-half">
