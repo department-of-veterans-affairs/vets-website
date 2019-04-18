@@ -287,7 +287,7 @@ export const wizardConfig = [
       <ul>
         <li>
           <a href="/education/about-gi-bill-benefits/post-9-11/">
-            Find out if you’re eligible for Post-9/11 GI Bill benefits.
+            Find out if you’re eligible for Post-9/11 GI Bill benefits
           </a>
         </li>{' '}
         <span>or </span>

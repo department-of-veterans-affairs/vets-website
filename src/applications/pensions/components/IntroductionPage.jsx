@@ -117,7 +117,7 @@ class IntroductionPage extends React.Component {
               </p>
               <h6>Learn about Veterans pension rates</h6>
               <a href="/pension/veterans-pension-rates/" target="_blank">
-                Find out how we decide pension rates.
+                Find out how we decide pension rates
               </a>
             </li>
             <li className="process-step list-three">
