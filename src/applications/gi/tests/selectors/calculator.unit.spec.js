@@ -5,6 +5,7 @@ import { calculatorConstants } from '../gibct-helpers';
 import createCommonStore from '../../../../platform/startup/store';
 import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/calculator';
+import environment from 'platform/utilities/environment';
 
 const defaultState = createCommonStore(reducer).getState();
 
@@ -275,4 +276,27 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
   });
+
+  if (!environment.isProduction()) {
+    it('should fall back to VA rate', () => {
+      const state = set('calculator.giBillBenefit', 'no', defaultState);
+      expect(
+        getCalculatedBenefits(state).outputs.housingAllowance.value,
+      ).to.equal('$2,271/mo');
+    });
+    it('should use VA rate when Post-9/11 GI Bill benefit used before 1/1/2018', () => {
+      let state = set('profile.attributes.dodBah', 2000, defaultState);
+      state = set('calculator.giBillBenefit', 'yes', state);
+      expect(
+        getCalculatedBenefits(state).outputs.housingAllowance.value,
+      ).to.equal('$2,271/mo');
+    });
+    it('should use DOD rate when available', () => {
+      let state = set('profile.attributes.dodBah', 2000, defaultState);
+      state = set('calculator.giBillBenefit', 'no', state);
+      expect(
+        getCalculatedBenefits(state).outputs.housingAllowance.value,
+      ).to.equal('$2,000/mo');
+    });
+  }
 });

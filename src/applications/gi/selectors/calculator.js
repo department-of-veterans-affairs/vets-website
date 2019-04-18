@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { formatCurrency } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -480,10 +481,28 @@ const getDerivedValues = createSelector(
     const useBeneficiaryLocationRate =
       inputs.beneficiaryLocationQuestion === 'no' &&
       inputs.beneficiaryLocationBah !== null;
+
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
       inputs.giBillBenefit === 'yes';
-    if (useBeneficiaryLocationRate) {
+
+    if (!environment.isProduction()) {
+      if (useBeneficiaryLocationRate) {
+        // sometimes there's no grandfathered rate for a zip code
+        bah =
+          useGrandfatheredBeneficiaryLocationRate &&
+          inputs.beneficiaryLocationGrandfatheredBah
+            ? inputs.beneficiaryLocationGrandfatheredBah
+            : inputs.beneficiaryLocationBah;
+      } else {
+        const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+        // use the DOD rate on staging
+        bah =
+          !hasUsedGiBillBenefit && institution.dodBah
+            ? institution.dodBah
+            : institution.bah;
+      }
+    } else if (useBeneficiaryLocationRate) {
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate &&
@@ -888,13 +907,14 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
-    const beneficiaryLocationQuestion = giBillChapter === 33;
+    const isChapter33 = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
       // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
-      beneficiaryLocationQuestion,
+      beneficiaryLocationQuestion: isChapter33,
+      giBillBenefit: isChapter33,
       books: false,
       yellowRibbon: false,
       scholarships: true,

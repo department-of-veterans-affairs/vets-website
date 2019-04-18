@@ -1,5 +1,6 @@
 import { isFinite } from 'lodash';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+import environment from 'platform/utilities/environment';
 
 import {
   CALCULATOR_INPUTS_CHANGED,
@@ -296,8 +297,21 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
       }
 
+      let giBillBenefit = INITIAL_STATE.giBillBenefit;
+
+      if (!environment.isProduction()) {
+        // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
+        giBillBenefit =
+          action.payload.data.attributes.dodBah &&
+          action.payload.data.attributes.dodBah <
+            action.payload.data.attributes.bah
+            ? 'no'
+            : 'yes';
+      }
+
       return {
         ...INITIAL_STATE,
+        giBillBenefit,
         type,
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,

@@ -6,6 +6,7 @@ import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import environment from 'platform/utilities/environment';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -76,21 +77,33 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderGbBenefit = () => (
-    <div>
-      <RadioButtons
-        label={this.renderLearnMoreLabel({
-          text:
-            'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
-          modal: 'whenUsedGiBill',
-        })}
-        name="giBillBenefit"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
-        value={this.props.inputs.giBillBenefit}
-        onChange={this.handleInputChange}
-      />
-    </div>
-  );
+  renderGbBenefit = () => {
+    if (
+      !this.props.displayedInputs.giBillBenefit &&
+      !environment.isProduction()
+    ) {
+      return null;
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text:
+              'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
+            modal: 'whenUsedGiBill',
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  };
 
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
