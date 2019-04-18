@@ -18,14 +18,14 @@ const fastForwardAnimations = async page => {
 
 const getTestData = (contents, pathPrefix) => get(pathPrefix, contents, {});
 
-const getLogger = debugMode => (...params) => {
+const getLogger = (debugMode, testName) => (...params) => {
   if (debugMode) {
     // eslint-disable-next-line no-console
-    console.log(...params);
+    console.log(`${testName}:`, ...params);
   }
 };
 
-const runTest = async (page, testData, testConfig, userToken) => {
+const runTest = async (page, testData, testConfig, userToken, testName) => {
   // Go to the starting page either by logging in or going there directly
   if (testConfig.logIn) {
     await logIn(userToken, page, testConfig.url, 3);
@@ -33,7 +33,12 @@ const runTest = async (page, testData, testConfig, userToken) => {
     await page.goto(`${baseUrl}${testConfig.url}`);
   }
 
-  await fillForm(page, testData, testConfig, getLogger(testConfig.debug));
+  await fillForm(
+    page,
+    testData,
+    testConfig,
+    getLogger(testConfig.debug, testName),
+  );
 
   // TODO: Check for unused data
   // TODO: Submit
@@ -74,6 +79,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
 const testForm = (testDataSets, testConfig) => {
   let browser;
   const token = getUserToken();
+  const headlessMode = !testConfig.debug || process.env.IN_DOCKER;
 
   beforeAll(() => {
     if (testConfig.setup) {
@@ -89,12 +95,15 @@ const testForm = (testDataSets, testConfig) => {
         '--no-sandbox',
         '--disable-setuid-sandbox',
       ],
-      devtools: testConfig.debug,
+      devtools: !headlessMode,
     });
   });
 
   afterEach(async () => {
-    if (!testConfig.debug) {
+    // The assumption here is that debug mode is turned on to see what's causing a failure,
+    //  so keep the window open.
+    // When running in docker, it will always be in headless mode, so always close it.
+    if (headlessMode) {
       await browser.close();
     }
   });
@@ -110,7 +119,7 @@ const testForm = (testDataSets, testConfig) => {
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
         await fastForwardAnimations(page);
-        await runTest(page, testData, testConfig, token);
+        await runTest(page, testData, testConfig, token, fileName);
       },
       // TODO: Make the timeout based on the number of inputs by default
       testConfig.timeoutPerTest || 120000,

@@ -226,7 +226,7 @@
     "history": "3",
     "ics-js": "^0.10.2",
     "ismobilejs": "^0.4.0",
-    "js-yaml": "^3.13.0",
+    "js-yaml": "^3.13.1",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.0.3",
     "leaflet-control-geocoder": "^1.5.1",
@@ -265,7 +265,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#59807d15c8d8cf7312bedb3076478aad2fa7762e",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9539558d77f94ca7c86d40ec475cfec2aedf585f",
     "whatwg-fetch": "^2.0.3"
   }
 }

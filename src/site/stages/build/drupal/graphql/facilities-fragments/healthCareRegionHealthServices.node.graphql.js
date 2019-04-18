@@ -11,31 +11,31 @@ const HEALTH_SERVICES_RESULTS = `
         processed
       }
       
-      fieldHealthServicesLocalInfo {
+      fieldLocalHealthCareService {
         entity {
-          ... on ParagraphLocalFacilityHealthService {
-            fieldLocalFacilityOrClinic {
+          ...on NodeHealthCareLocalHealthService {
+            fieldFacilityLocation {
               entity {
-                  ... on NodeHealthCareLocalFacility {
-                    entityUrl {
-                      ... on EntityCanonicalUrl {
-                        breadcrumb {
-                          url {
-                            path
-                            routed
-                          }
-                          text
+                ... on NodeHealthCareLocalFacility {
+                  entityUrl {
+                    ... on EntityCanonicalUrl {
+                      breadcrumb {
+                        url {
+                          path
+                          routed
                         }
-                        path
+                        text
                       }
+                      path
                     }
-                    fieldNicknameForThisFacility
                   }
+                  fieldNicknameForThisFacility
                 }
               }
             }
           }
         }
+      }
                           
       fieldServiceNameAndDescripti {
         entity {

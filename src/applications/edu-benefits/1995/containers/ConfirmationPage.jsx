@@ -138,9 +138,9 @@ class ConfirmationPage extends React.Component {
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
-            If you have questions, call 1-888-GI-BILL-1 (
-            <a href="tel:+18884424551">1-888-442-4551</a>
-            ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).
+            If you have questions, call 888-GI-BILL-1 (
+            <a href="tel:+18884424551">888-442-4551</a>
+            ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">

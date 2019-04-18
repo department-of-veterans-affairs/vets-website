@@ -18,8 +18,8 @@ export default function DowntimeMessage({ isAfterSteps }) {
           fix a few things. We’ll be back up as soon as we can.
         </p>
         <p>
-          In the meantime, you can call 1-877-222-VETS (
-          <a href="tel:+18772228387">1-877-222-8387</a>
+          In the meantime, you can call 877-222-VETS (
+          <a href="tel:+18772228387">877-222-8387</a>
           ), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (
           <abbr title="eastern time">ET</abbr>) and press 2 to complete this
           application over the phone.
