@@ -46,7 +46,7 @@ class IntroductionPage extends React.Component {
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
-            startText="Start the Declaration of Dependents Application"
+            startText="Start the declaration of dependents application"
           />
         </AuthorizationComponent>
         <h4>Follow the steps below to add a dependent to your VA benefits.</h4>
@@ -111,7 +111,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>
                 We process applications in the order we receive them. We may
@@ -134,7 +134,7 @@ class IntroductionPage extends React.Component {
             disabled
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
-            startText="Start the Declaration of Dependents Application"
+            startText="Start the declaration of dependents application"
           />
         </AuthorizationComponent>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
