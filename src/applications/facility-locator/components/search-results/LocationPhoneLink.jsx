@@ -40,7 +40,13 @@ const LocationPhoneLink = ({ location }) => {
 };
 
 // eslint-disable-next-line prettier/prettier
-const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw', altPhone) => {
+const renderPhoneNumber = (
+  title,
+  subTitle = null,
+  phone,
+  icon = 'fw',
+  altPhone,
+) => {
   if (!phone) {
     return null;
   }

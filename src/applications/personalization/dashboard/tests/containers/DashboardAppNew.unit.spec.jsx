@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import localStorage from '../../../../../platform/utilities/storage/localStorage';
-import { DashboardApp } from '../../containers/DashboardApp';
+import localStorage from 'platform/utilities/storage/localStorage';
+import { DashboardAppNew as DashboardApp } from '../../containers/DashboardAppNew';
 
 const defaultProps = {
   profile: {
@@ -34,7 +34,7 @@ describe('<DashboardApp>', () => {
     const tree = SkinDeep.shallowRender(
       <DashboardApp profile={{ loa: { current: 1 }, verified: false }} />,
     );
-    expect(tree.toString()).to.contain('Explore Our Most Used Benefits');
+    expect(tree.toString()).to.contain('<EmptyStateLinks />');
   });
 
   it('should not render empty state links if there are available widgets', () => {
@@ -44,7 +44,7 @@ describe('<DashboardApp>', () => {
         profile={{ loa: { current: 1 }, verified: false }}
       />,
     );
-    expect(tree.toString()).not.to.contain('Explore Our Most Used Benefits');
+    expect(tree.toString()).not.to.contain('<EmptyStateLinks />');
   });
 
   it('should render verification state if LOA != 3', () => {

@@ -147,9 +147,9 @@ class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
             If you have questions, call{' '}
-            <a href="tel:+1-855-673-4357">1-855-673-4357</a>, Monday &#8211;
-            Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET). For Telecommunication
-            Relay Services, dial <a href="tel:711">711</a>.
+            <a href="tel:855-673-4357">855-673-4357</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. ET. For Telecommunication Relay
+            Services, dial <a href="tel:711">711</a>.
           </p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">

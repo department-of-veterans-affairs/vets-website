@@ -95,7 +95,7 @@ describe('<UserInfoSection>', () => {
       const benefitLevel = tree.subTree('#benefit-level');
       expect(benefitLevel).to.be.false;
       const notQualifiedMessage = tree.subTree('.not-qualified');
-      expect(notQualifiedMessage.text()).to.contain('Currently Not Qualified');
+      expect(notQualifiedMessage.text()).to.contain("You don't qualify");
     });
   });
 
@@ -133,9 +133,7 @@ describe('<UserInfoSection>', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...newProps} />);
       const benefitEndDate = tree.subTree('.benefit-end-date');
       expect(benefitEndDate).to.not.be.false;
-      expect(benefitEndDate.text()).to.contain(
-        'Since you are currently on active duty',
-      );
+      expect(benefitEndDate.text()).to.contain('Since you’re on active duty');
     });
   });
 });

@@ -461,7 +461,7 @@ const mapStateToProps = state => {
     isLoggedIn: isLoggedIn(state),
     profile: { loading, verified },
     mhvAccount,
-    mviDown: status !== 'OK',
+    mviDown: status === 'SERVER_ERROR',
   };
 };
 

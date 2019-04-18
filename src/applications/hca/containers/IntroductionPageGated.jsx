@@ -56,9 +56,9 @@ const VerificationRequiredAlert = () => (
             </a>
           </li>
           <li>
-            Or call us at 1-877-222-VETS (
-            <a href="tel:+18772228387">1-877-222-8387</a>
-            ). If you have hearing loss, call TTY: 1-800-877-8339. We’re here
+            Or call us at 877-222-VETS (
+            <a href="tel:+18772228387">877-222-8387</a>
+            ). If you have hearing loss, call TTY: 800-877-8339. We’re here
             Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </li>
         </ul>

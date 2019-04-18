@@ -132,7 +132,7 @@ class SetPreferences extends React.Component {
               onClick={this.handleSave}
               disabled={this.userHasNotMadeChange()}
             >
-              <span>Save Preferences</span>
+              <span>Save preferences</span>
             </LoadingButton>
             <Link to="/" className="usa-button usa-button-secondary">
               Cancel
@@ -148,7 +148,7 @@ class SetPreferences extends React.Component {
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
-          <h1 id="dashboard-title">Find VA Benefits</h1>
+          <h1 id="dashboard-title">Find VA benefits</h1>
           <p className="va-introtext">
             Tell us which benefits you’re interested in, so we can help you
             apply. Select one or more of the types of benefits below, and we’ll

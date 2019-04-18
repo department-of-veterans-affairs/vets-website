@@ -2,9 +2,6 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const SocksProxyAgent = require('socks-proxy-agent');
 
-const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
-const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
-
 const DRUPALS = require('../../../constants/drupals');
 
 function encodeCredentials({ user, password }) {
@@ -71,6 +68,7 @@ function getDrupalClient(buildOptions) {
     },
 
     getAllPages(onlyPublishedContent = true) {
+      const GET_ALL_PAGES = require('./graphql/GetAllPages.graphql');
       return this.query({
         query: GET_ALL_PAGES,
         variables: {
@@ -81,6 +79,7 @@ function getDrupalClient(buildOptions) {
     },
 
     getLatestPageById(nodeId) {
+      const GET_LATEST_PAGE_BY_ID = require('./graphql/GetLatestPageById.graphql');
       return this.query({
         query: GET_LATEST_PAGE_BY_ID,
         variables: {

@@ -21,19 +21,14 @@
                     <div>{{ serviceTaxonomy.description.processed }}</div>
                 {% endif %}
 
-                {% if healthService.fieldLocalHealthCareService.length and localServiceDescription == empty %}
+                {% if healthService.fieldHealthServicesLocalInfo.length %}
                     <p class="vads-u-font-weight--bold">Available at</p>
                     <ul class="usa-unstyled-list">
-                        {% for location in healthService.fieldLocalHealthCareService %}
-                            {% assign facility = location.entity.fieldFacilityLocation.entity %}
-                            {% if facility != empty %}<li class="vads-u-margin-bottom--2">
-                                <a href="{{ facility.entityUrl.path }}">{{ facility.fieldNicknameForThisFacility }}</a></li>{% endif %}
+                        {% for location in healthService.fieldHealthServicesLocalInfo %}
+                            {% assign facility = location.entity.fieldLocalFacilityOrClinic.entity %}
+                            <li class="vads-u-margin-bottom--2"><a href="{{ entityUrl.path }}/{{ facility | locationUrlConvention }}">{{ facility.fieldNicknameForThisFacility }}</a></li>
                         {% endfor %}
                     </ul>
-                {% endif %}
-
-                {% if localServiceDescription !== empty %}
-                    {{ localServiceDescription }}
                 {% endif %}
             </div>
         </li>
