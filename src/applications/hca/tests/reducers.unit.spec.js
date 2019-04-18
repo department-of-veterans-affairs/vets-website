@@ -137,4 +137,14 @@ describe('HCA Enrollment Status Reducer', () => {
       });
     });
   });
+
+  describe('SHOW_HCA_REAPPLY_CONTENT', () => {
+    it('sets `showHCAReapplyContent` to `true`', () => {
+      action = {
+        type: actions.SHOW_HCA_REAPPLY_CONTENT,
+      };
+      reducedState = reducer(state, action);
+      expect(reducedState.showHCAReapplyContent).to.be.true;
+    });
+  });
 });

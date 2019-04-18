@@ -3,7 +3,6 @@ require('isomorphic-fetch');
 const path = require('path');
 const fs = require('fs-extra');
 
-const ENVIRONMENTS = require('../../../constants/environments');
 const { logDrupal: log } = require('../drupal/utilities-drupal');
 const getDrupalClient = require('../drupal/api');
 
@@ -31,12 +30,10 @@ function downloadDrupalAssets(options) {
             isDrupalAsset: true,
             contents: await response.buffer(),
           };
-          if (options.buildtype === ENVIRONMENTS.LOCALHOST) {
-            fs.outputFileSync(
-              path.join(options.cacheDirectory, 'drupalFiles', asset.dest),
-              files[asset.dest].contents,
-            );
-          }
+          fs.outputFileSync(
+            path.join(options.cacheDirectory, 'drupal/downloads', asset.dest),
+            files[asset.dest].contents,
+          );
         } else {
           // For now, not going to fail the build for a missing asset
           // Should get caught by the broken link checker, though

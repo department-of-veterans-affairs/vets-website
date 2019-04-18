@@ -23,7 +23,7 @@ describe('Edu 0994 <ConfirmationPage>', () => {
     const tree = shallow(<ConfirmationPage form={form} />);
 
     expect(tree.find('.confirmation-page-title').text()).to.equal(
-      'Claim received',
+      'Your claim has been received',
     );
 
     const name = tree.find('span').at(1);

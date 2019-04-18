@@ -1,5 +1,5 @@
 import React from 'react';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import CallHRC from '../../../platform/static-data/CallHRC';
 
 function GetFormHelp() {
   return (
@@ -10,11 +10,11 @@ function GetFormHelp() {
         ask the Education Call Center:
       </p>
       <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:+1-888-442-4551">
-          1-888-442-4551 (1-888-GIBILL1)
+        <a className="help-phone-number-link" href="tel:1-888-442-4551">
+          888-442-4551 (888-GI-BILL-1)
         </a>
         <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET)
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
         <br />
         <a
           className="help-phone-number-link"

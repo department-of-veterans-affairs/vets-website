@@ -6,21 +6,10 @@ import { Link } from 'react-router';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { formattedDate } from '../utils/helpers';
 
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import { fetchFolder, fetchRecipients } from '../actions/messaging';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-link',
-      'dashboard-product': product,
-    });
-  };
-}
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
+import environment from 'platform/utilities/environment';
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -31,6 +20,14 @@ class MessagingWidget extends React.Component {
   }
 
   render() {
+    const { canAccessMessaging, recipients } = this.props;
+
+    if (!canAccessMessaging || (recipients && recipients.length === 0)) {
+      // do not show widget if user is not a VA patient
+      // or if user does not have access to messaging
+      return null;
+    }
+
     const fields = [
       { label: 'From', value: 'senderName', nonSortable: true },
       { label: 'Subject line', value: 'subject', nonSortable: true },
@@ -46,16 +43,8 @@ class MessagingWidget extends React.Component {
       <Link>{content}</Link>
     );
 
-    let { messages } = this.props;
-    const { recipients, canAccessMessaging } = this.props;
-
-    if (!canAccessMessaging || (recipients && recipients.length === 0)) {
-      // do not show widget if user is not a VA patient
-      // or if user does not have access to messaging
-      return null;
-    }
-
     let content;
+    let { messages } = this.props;
     messages = messages || [];
 
     messages = messages.filter(message => message.readReceipt !== 'READ');
@@ -98,28 +87,17 @@ class MessagingWidget extends React.Component {
 
     return (
       <div id="msg-widget">
-        <h2>Check Secure Messages</h2>
+        {environment.isProduction() && <h2>Check secure messages</h2>}
+        {!environment.isProduction() && <h3>Check secure messages</h3>}
         {content}
         <p>
-          {isBrandConsolidationEnabled() ? (
-            <a
-              href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              View all your secure messages
-            </a>
-          ) : (
-            <span>
-              <Link
-                href="/health-care/secure-messaging/"
-                onClick={recordDashboardClick('view-all-messages')}
-              >
-                View all your secure messages
-              </Link>
-              .
-            </span>
-          )}
+          <a
+            href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View all your secure messages
+          </a>
         </p>
       </div>
     );

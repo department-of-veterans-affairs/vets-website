@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { mockEventListeners } from '../../../../testing/unit/helpers';
-import localStorage from '../../../../utilities/storage/localStorage';
-import { Main } from '../../containers/Main';
+import { mockEventListeners } from 'platform/testing/unit/helpers';
+import localStorage from 'platform/utilities/storage/localStorage';
+import { Main, mapStateToProps } from '../../containers/Main';
 
 describe('<Main>', () => {
   const props = {
@@ -153,12 +153,45 @@ describe('<Main>', () => {
   });
 
   it('should show the modal to confirm leaving an in-progress form', () => {
+    const wrapper = shallow(<Main {...props} shouldConfirmLeavingForm />);
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.toggleFormSignInModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledOnce).to.be.false;
+    expect(props.toggleFormSignInModal.calledWith(true)).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should not show the modal to confirm leaving an in-progress form if the user is on the standard form introduction page', () => {
+    const oldLocation = global.window.location;
+    global.window.location.pathname =
+      '/health-care/apply/application/introduction';
     const wrapper = shallow(
       <Main {...props} formAutoSavedStatus="not-attempted" />,
     );
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-    expect(props.toggleFormSignInModal.calledOnce).to.be.true;
-    expect(props.toggleFormSignInModal.calledWith(true)).to.be.true;
+    expect(props.toggleFormSignInModal.calledOnce).to.be.false;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+    global.window.location = oldLocation;
+    wrapper.unmount();
+  });
+
+  it('should not show the modal to confirm leaving an in-progress form if the user is on a non-form page as defined in the form config', () => {
+    const oldLocation = global.window.location;
+    global.window.location.pathname = '/health-care/apply/application/id-page';
+    const additionalRoutes = [{ path: 'id-page' }];
+    const wrapper = shallow(
+      <Main
+        {...props}
+        formAutoSavedStatus="not-attempted"
+        additionalRoutes={additionalRoutes}
+      />,
+    );
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.toggleFormSignInModal.calledOnce).to.be.false;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+    global.window.location = oldLocation;
     wrapper.unmount();
   });
 
@@ -178,5 +211,80 @@ describe('<Main>', () => {
     expect(props.toggleFormSignInModal.calledOnce).to.be.true;
     expect(props.toggleFormSignInModal.calledWith(false)).to.be.true;
     wrapper.unmount();
+  });
+});
+
+describe('mapStateToProps', () => {
+  // We have to mock out the login and profile because the user/selectors.js and
+  // user-nav/selectors.js are used in mapStateToProps and they do not fail
+  // gracefully when accessing properties of the login and profile objects.
+  const state = {
+    user: {
+      login: {},
+      profile: {
+        userFullName: {},
+        loa: {},
+      },
+    },
+  };
+  describe('shouldConfirmLeavingForm', () => {
+    let oldWindow;
+    beforeEach(() => {
+      oldWindow = global.window;
+      global.window = {
+        location: {
+          pathname: '',
+        },
+      };
+    });
+    afterEach(() => {
+      global.window = oldWindow;
+    });
+    it('is true when the user is on a form page and the form has not saved', () => {
+      global.window.location.pathname =
+        '/health-care/apply/application/veteran-info';
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: { autoSavedStatus: 'not-attempted' },
+      });
+      expect(shouldConfirmLeavingForm).to.be.true;
+    });
+    it('is false when the user is on a form page page the form has auto-saved', () => {
+      global.window.location.pathname =
+        '/health-care/apply/application/veteran-info';
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: {
+          autoSavedStatus: 'success',
+        },
+      });
+      expect(shouldConfirmLeavingForm).to.be.false;
+    });
+    it('is false when the user is on a standard non-form page', () => {
+      global.window.location.pathname =
+        '/health-care/apply/application/introduction';
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: { autoSavedStatus: 'not-attempted' },
+      });
+      expect(shouldConfirmLeavingForm).to.be.false;
+    });
+    it('is false when the user is on a non-standard non-form page', () => {
+      global.window.location.pathname =
+        '/health-care/apply/application/id-page';
+      const { shouldConfirmLeavingForm } = mapStateToProps({
+        ...state,
+        form: {
+          autoSavedStatus: 'not-attempted',
+          additionalRoutes: [{ path: 'id-page' }],
+        },
+      });
+      expect(shouldConfirmLeavingForm).to.be.false;
+    });
+    it('is false when the user is not in the form app', () => {
+      global.window.location.pathname = '/health-care';
+      const { shouldConfirmLeavingForm } = mapStateToProps(state);
+      expect(shouldConfirmLeavingForm).to.be.false;
+    });
   });
 });

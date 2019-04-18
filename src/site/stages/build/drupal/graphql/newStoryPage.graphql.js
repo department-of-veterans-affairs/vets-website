@@ -7,7 +7,6 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 module.exports = `
   fragment newsStoryPage on NodeNewsStory {
     ${entityElementsFromPages}
-    entityId
     promote
     created
     fieldOffice {

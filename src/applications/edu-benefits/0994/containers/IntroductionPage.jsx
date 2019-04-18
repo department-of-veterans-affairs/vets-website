@@ -45,7 +45,7 @@ export class IntroductionPage extends React.Component {
                 <li>Highest level of education</li>
                 <li>Previous high-tech industry experience, if applicable</li>
                 <li>
-                  Information about the provider or training program you want to
+                  Information about the training provider or program you want to
                   attend (optional)
                 </li>
               </ul>
@@ -53,8 +53,8 @@ export class IntroductionPage extends React.Component {
                 To be eligible for VET TEC, you need to be a Veteran with at
                 least one day of unexpired education benefits. You can complete
                 the VET TEC application to see if you’re eligible for the
-                program, even if you haven’t selected the training program you’d
-                like to attend.{' '}
+                program, even if you haven’t yet selected the training program
+                you’d like to attend.{' '}
                 <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
                   Learn more about the programs covered under VET TEC
                 </a>
@@ -77,7 +77,7 @@ export class IntroductionPage extends React.Component {
                 <h5>Apply</h5>
               </div>
               <div>
-                <p>Complete this VET TEC application (VA Form 22-0994).</p>
+                <p>Complete this VET TEC application.</p>
                 <p>
                   After submitting the form, you’ll get a confirmation message.
                   You can print this for your records.
@@ -105,7 +105,7 @@ export class IntroductionPage extends React.Component {
               <p>
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
-                <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
+                <a href="/careers-employment/careerscope-skills-assessment/">
                   Learn about career counseling options.
                 </a>
               </p>

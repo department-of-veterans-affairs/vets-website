@@ -39,7 +39,7 @@ describe('authentication URL helpers', () => {
 
   it('should redirect for signup', () => {
     signup();
-    expect(global.window.location).to.include('/sessions/idme/new?signup');
+    expect(global.window.location).to.include('/sessions/signup/new');
   });
 
   it('should redirect for login', () => {

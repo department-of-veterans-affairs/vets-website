@@ -23,10 +23,6 @@ import Email from '../vet360/components/Email';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import ContactInformationExplanation from './ContactInformationExplanation';
 
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
-
 export default class ContactInformation extends React.Component {
   renderContent = () => (
     <Vet360InitializeID>
@@ -59,7 +55,7 @@ export default class ContactInformation extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading">Contact Information</h2>
+        <h2 className="va-profile-heading">Contact information</h2>
         <DowntimeNotification
           render={handleDowntimeForSection('contact')}
           dependencies={[externalServices.vet360]}
@@ -67,9 +63,7 @@ export default class ContactInformation extends React.Component {
           <div>
             {this.renderContent()}
             <div>
-              <h3>
-                How do I update the email I use to sign in to {propertyName}?
-              </h3>
+              <h3>How do I update the email I use to sign in to VA.gov?</h3>
               <a
                 href={accountManifest.rootUrl}
                 onClick={() => {

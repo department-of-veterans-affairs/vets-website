@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { shouldHideFormFooter } from '../selectors';
 
-export default class FormFooter extends React.Component {
+class FormFooter extends React.Component {
   render() {
-    const { formConfig, currentLocation } = this.props;
+    const { formConfig, currentLocation, isHidden } = this.props;
     const GetFormHelp = formConfig.getHelp;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
@@ -15,11 +17,23 @@ export default class FormFooter extends React.Component {
       <div className="row">
         <div className="usa-width-two-thirds medium-8 columns">
           <div className="help-footer-box">
-            <h2 className="help-heading">Need help?</h2>
-            <GetFormHelp />
+            {!isHidden && (
+              <>
+                <h2 className="help-heading">Need help?</h2>
+                <GetFormHelp />
+              </>
+            )}
           </div>
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isHidden: shouldHideFormFooter(state),
+});
+
+export default connect(mapStateToProps)(FormFooter);
+
+export { FormFooter };

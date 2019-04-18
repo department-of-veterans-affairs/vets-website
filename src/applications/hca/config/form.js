@@ -206,14 +206,16 @@ const formConfig = {
   introduction: environment.isProduction()
     ? IntroductionPage
     : IntroductionPageGated,
-  additionalRoutes: !environment.isProduction() && [
-    {
-      path: 'id-form',
-      component: IDPage,
-      pageKey: 'id-form',
-      depends: () => !hasSession(),
-    },
-  ],
+  additionalRoutes: environment.isProduction()
+    ? []
+    : [
+        {
+          path: 'id-form',
+          component: IDPage,
+          pageKey: 'id-form',
+          depends: () => !hasSession(),
+        },
+      ],
   confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
@@ -564,7 +566,7 @@ const formConfig = {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
           depends: formData =>
-            !formData['view:isUserInMVI'] && !environment.isProduction(),
+            !formData['view:isUserInMvi'] && !environment.isProduction(),
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:title': 'Upload your discharge papers',

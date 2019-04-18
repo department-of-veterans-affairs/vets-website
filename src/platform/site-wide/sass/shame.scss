@@ -1,0 +1,599 @@
+$medium-phone-screen: 375px;
+/* OVERRIDE */
+.merger {
+  .login {
+    .container {
+      width: 100%;
+    }
+  }
+
+  .va-dropdown-panel {
+    min-width: 100%;
+  }
+
+  .vet-toolbar {
+    min-height: 50px;
+  }
+  .va-modal {
+    font-size: 1.6rem;
+  }
+
+  #modal-crisisline {
+    display: block;
+    p {
+      font-size: 100%;
+    }
+  }
+
+  #dashboard-title {
+    margin-top: 0;
+  }
+
+  #va-header-logo-menu {
+    align-items: center;
+  }
+  $color-primary-lightest: #e1f3f8;
+
+  @import "iconography";
+  @import "modules/m-right-rail";
+
+  section.usa-grid {
+    padding-top: 3em;
+  }
+
+  /* logo size override */
+
+  .va-header-logo {
+    width: 100%;
+    max-width: 264px;
+    height: auto;
+  }
+
+  article {
+    &:last-of-type {
+      padding-bottom: 3em;
+    }
+  }
+
+  .va-helpmenu-contents {
+    > p {
+      line-height: 1.2em;
+      margin-bottom: 0.8em;
+      margin-top: 0;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+
+  #menu-rule {
+    border-bottom: 1px solid $color-white;
+    margin-left: -0.55em;
+    padding-bottom: 1em;
+    padding-right: 1.2em;
+  }
+
+  /* new pattern? where we use old VA icons with h3 */
+  .va-icon-header {
+    width: 100%;
+    height: 40px;
+    margin-left: -6px;
+
+    .va-icon-icon {
+      margin: 0;
+      padding: 0;
+      display: inline;
+      float: left;
+      width: 12%;
+      height: auto;
+    }
+
+    .va-icon-h {
+      display: inline;
+      width: 87%;
+    }
+  }
+
+  .va-icon-cols {
+    p {
+      margin-top: 0;
+    }
+
+    padding-bottom: 3em;
+  }
+
+  h3,
+  h4 {
+    .fa {
+      padding-right: 0.35em;
+    }
+  }
+
+  .merger-majorlinks {
+    .link {
+      margin-bottom: 1em;
+      p {
+        margin: 0;
+      }
+      a {
+        text-decoration: none;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .va-nav-breadcrumbs-list {
+    padding-left: 0;
+
+    li {
+      list-style: none;
+      padding-bottom: 1em;
+      padding-top: 1em;
+    }
+  }
+
+  .hub-main-title {
+    width: 90%;
+  }
+
+  .usa-grid {
+    .usa-width-two-thirds {
+      .hub-main-icon {
+        vertical-align: top;
+        margin-top: 8px;
+        > .icon-large {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .vet-toolbar {
+    .va-dropdown {
+      span {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .sign-in-nav {
+    .va-dropdown-trigger {
+      display: flex;
+
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60px;
+        padding-left: 6px;
+
+        &.user-dropdown-email {
+          margin-top: 5px;
+        }
+      }
+
+      @include media($medium-phone-screen) {
+        span {
+          max-width: 102px;
+        }
+      }
+
+      @include media($medium-screen) {
+        span {
+          padding-left: 0;
+          max-width: 215px;
+          height: 20px;
+
+          svg {
+            display: inline-block;
+          }
+        }
+      }
+
+      @include media($small-desktop-screen) {
+        span {
+          max-width: 300px;
+        }
+      }
+    }
+  }
+
+  // mobile
+  @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    .flex-col-mobile {
+      flex-direction: column;
+    }
+
+    .va-sidebarnav {
+      display: none;
+    }
+
+    button {
+      &.va-sidebarnav-close {
+        position: absolute;
+        right: 2px;
+        top: 2px;
+
+        &:hover,
+        &:focus {
+          background-color: $mm-gray;
+        }
+      }
+    }
+
+    #menu-rule {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .va-header-logo-wrapper {
+      width: 55%;
+      float: left;
+      margin-right: 10px;
+
+      a {
+        width: 100%;
+        height: auto;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    #login-root {
+      .profile-nav {
+        justify-content: left;
+      }
+    }
+
+    .vet-toolbar {
+      margin-left: 0;
+      .profile-nav-container {
+        align-items: baseline;
+        display: inherit;
+      }
+
+      .sign-in-nav {
+        font-weight: normal;
+
+        .sign-in-links {
+          background: none;
+          margin-left: 0;
+          padding-left: 0.75em;
+
+          .va-button-link {
+            font-weight: 600;
+            -webkit-font-smoothing: antialiased;
+          }
+        }
+      }
+
+      .va-dropdown {
+        margin-left: 0;
+        width: auto;
+
+        .va-dropdown-trigger {
+          width: 100%;
+          font-weight: 600;
+          padding-left: 0;
+          margin-right: 1em;
+          background-position: right 1.5rem center;
+          line-height: unset;
+
+          span {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    #homepage-benefits,
+    #homepage-news,
+    .va-h-ruled--stars,
+    .va-nav-breadcrumbs,
+    article,
+    #hub-rail {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+    }
+
+    .va-nav-breadcrumbs {
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+
+      .va-nav-breadcrumbs-list {
+        li {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    #hub-rail {
+      padding-top: 0;
+    }
+
+    .va-nav-linkslist--related {
+      margin-bottom: 0 !important; //hard override; what does this break elsewhere
+    }
+
+    .va-sidebarnav--opened {
+      position: fixed;
+      display: block;
+    }
+    .va-navigation-nextprevious {
+      padding-left: 0.9375rem;
+      padding-right: 0.9375rem;
+    }
+  }
+
+  // tablet
+  @media (min-width: 768px) and (max-width: $large-screen) {
+    .va-modal {
+      .usa-width-one-half {
+        margin-right: 4.82916%;
+        width: 44%;
+      }
+    }
+    .va-header-logo-wrapper {
+      margin-bottom: 0;
+      justify-content: space-between;
+    }
+
+    .vet-toolbar {
+      flex-shrink: 0;
+
+      .profile-nav {
+        width: 100%;
+        .va-dropdown {
+          .va-dropdown-trigger {
+            background-position: right 0.8rem center;
+          }
+
+          .sign-in-links {
+            padding-right: 0;
+            padding-left: 0;
+          }
+        }
+      }
+    }
+
+    #homepage-benefits,
+    #homepage-news,
+    .va-h-ruled--stars,
+    .va-nav-breadcrumbs,
+    article,
+    #hub-rail {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+  }
+
+
+
+  .usa-accordion-bordered {
+    &.social {
+      a {
+        text-decoration: underline;
+      }
+        .social-icon {
+          text-decoration: none;
+        }
+
+      .usa-accordion-content {
+        h4:first-child {
+          margin-top: 0px;
+        }
+
+        > section {
+          margin-bottom: 1.5em;
+        }
+
+        > section:last-child {
+          margin-bottom: 0px;
+        }
+
+        > h4 {
+          margin: 1.5em auto;
+        }
+
+        ul > h4 {
+          margin: 1em auto;
+        }
+
+        ul > li {
+          margin: 1em auto;
+          &:last-child {
+            margin: unset;
+          }
+        }
+      }
+
+      .usa-accordion-button {
+        border: none;
+      }
+    }
+  }
+
+  .va-sign-in-alert {
+    .usa-button-primary {
+      margin-top: 10px;
+    }
+  }
+
+  .va-modal-close {
+    .fa {
+      color: inherit;
+    }
+  }
+
+  .hub-links-container {
+    flex: 1;
+  }
+  .white {
+    color: $color-white;
+  }
+
+  .sidenav-previous-page {
+    font-size: 15px;
+    padding-bottom: 12px;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+      margin-left: 15px;
+    }
+
+    a {
+      &::before {
+        content: " \2039 ";
+        display: inline-block;
+        padding: 0 0.35em 0 0;
+      }
+    }
+  }
+
+  // These next two rules override some styles in user-nav.scss, should be moved there
+  // after WBC is live
+  .sign-in-links {
+    flex-shrink: 0;
+  }
+
+  .sign-in-link {
+    margin: 0;
+
+    @include media($medium-large-screen) {
+      &:hover,
+      &:active {
+        background-color: $color-primary-darker;
+        color: inherit !important;
+        text-decoration: none;
+      }
+      &:focus {
+        outline-offset: 2px;
+      }
+    }
+    // This is backwards from the mobile first approach we should be taking
+    // but the amount of overrides we would need if we did that way would be
+    // very tricky to write and maintain
+    @media (max-width: $medium-large-screen - 1) {
+      @include button-link;
+      font-weight: 600;
+      color: $color-white !important;
+      text-decoration: none;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+}
+
+.usa-accordion-bordered {
+  .fa {
+    color: $color-link-default;
+  }
+}
+
+// There are styles in our sidebar styles that set a small
+// amount of padding on the grid for detail pages, which we
+// are overriding for WBC with no padding
+.va-l-detail-page > .usa-grid-full {
+  padding-right: inherit;
+  padding-left: inherit;
+}
+
+.left-side-nav-title {
+  color: $color-black;
+  padding-left: 1em;
+  @include media($small-desktop-screen) {
+    padding-left: 0;
+  }
+}
+
+.flex-container {
+  display: flex;
+}
+
+// This is a fix for Edge and lazy image loading.
+img[data-src],
+img[data-srcset] {
+  display: block;
+  min-height: 1px;
+}
+
+.vet-toolbar .va-dropdown {
+  margin-left: 0;
+}
+
+.profile-nav {
+  margin-top: 6px;
+}
+
+.usa-alert-full-width {
+  background-color: $color-gray-lightest;
+  &.dismissable-option-header {
+    display: none;
+    &.show-alert {
+      display: block;
+    }
+    &.dismissed {
+      display: none;
+    }
+  }
+  .usa-alert-dismiss {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    cursor: pointer;
+  }
+  > .usa-alert {
+    border-left: none;
+    max-width: 1000px;
+    margin: 0 auto;
+    .paragraph--type--expandable-text {
+      .field--name-field-text-expander {
+        .field__label {
+          display: none;
+        }
+        .field__item {
+          font-size: 2rem;
+          margin-top: 0;
+          padding-top: 0;
+          font-weight: 700;
+          text-decoration: underline;
+          color: #003e73;
+          cursor: pointer;
+        }
+      }
+      .field--type-text-long {
+        display: none;
+        .field__label {
+          display: none;
+        }
+        &.expander-content-open {
+          display: block;
+        }
+      }
+    }
+  }
+  &-warning {
+    border-top: 1rem solid $color-gold;
+  }
+  &-info,
+  &-information {
+    border-top: 1rem solid $color-primary-alt-dark;
+    .usa-alert:before {
+      content: "\F05A";
+      background: none;
+      font-size: 2rem;
+      margin-right: 1.5rem;
+      position: static;
+      font-weight: 900;
+    }
+  }
+}
+
+.process-accordion > li {
+  list-style: none !important;
+}

@@ -163,23 +163,27 @@ export default class ReviewCardField extends React.Component {
 
     return (
       <div className="review-card">
-        <div className="review-card--body input-section va-growable-background">
+        <div className="review-card--body va-growable-background">
           <h4 className="review-card--title">{title}</h4>
-          {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          <SchemaField
-            name={idSchema.$id}
-            required={required}
-            schema={schema}
-            uiSchema={uiSchema}
-            errorSchema={errorSchema}
-            idSchema={idSchema}
-            formData={formData}
-            onChange={onChange}
-            onBlur={onBlur}
-            registry={registry}
-            disabled={disabled}
-            readonly={readonly}
-          />
+          <div className="input-section">
+            {subtitle && (
+              <div className="review-card--subtitle">{subtitle}</div>
+            )}
+            <SchemaField
+              name={idSchema.$id}
+              required={required}
+              schema={schema}
+              uiSchema={uiSchema}
+              errorSchema={errorSchema}
+              idSchema={idSchema}
+              formData={formData}
+              onChange={onChange}
+              onBlur={onBlur}
+              registry={registry}
+              disabled={disabled}
+              readonly={readonly}
+            />
+          </div>
           <button
             className="usa-button-primary update-button"
             onClick={this.update}
@@ -224,6 +228,7 @@ export default class ReviewCardField extends React.Component {
       volatileData,
       reviewTitle,
       itemName,
+      itemNameAction,
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
@@ -233,7 +238,7 @@ export default class ReviewCardField extends React.Component {
           <h4 className="review-card--title">{title}</h4>
           {!volatileData && (
             <button
-              className="usa-button-secondary edit-button"
+              className="usa-button-primary edit-button"
               onClick={this.startEditing}
               aria-label={`Edit ${title}`}
             >
@@ -248,9 +253,9 @@ export default class ReviewCardField extends React.Component {
           <button
             className="usa-button-primary edit-button"
             onClick={this.startEditing}
-            aria-label={`New ${itemName || title}`}
+            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
-            New {itemName || title}
+            {itemNameAction || 'New'} {itemName || title}
           </button>
         )}
       </div>

@@ -32,7 +32,7 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
           {% endif %}
           <ul class="va-nav-linkslist-list social">
             {% assign is_social_media_links = false %}
-            {% if subs.subhead == 'Follow Us' %}
+            {% if subs.subhead == 'Follow us' %}
               {% assign is_social_media_links = true %}
             {% endif %}
             {% for link in subs.links %}
@@ -45,9 +45,9 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
                     >
                     {% if link.icon != empty %}
                       {% if is_social_media_links %}
-                        <i class="fab {{link.icon}}"></i>
+                        <i class="fab {{link.icon}} social-icon vads-u-padding-right--1"></i>
                       {% else %}
-                        <i class="fas {{link.icon}}"></i>
+                        <i class="fas {{link.icon}} social-icon vads-u-padding-right--1"></i>
                       {% endif %}
                     {% endif %}
 

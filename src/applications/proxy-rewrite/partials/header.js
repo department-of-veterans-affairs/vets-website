@@ -75,10 +75,10 @@ export default `
     <div class="va-header-logo-wrapper">
       <a href="${replaceWithStagingDomain(
         'https://www.va.gov',
-      )}" class="va-header-logo" title="Go to VA.gov">
+      )}" class="va-header-logo">
       <img src="${replaceWithStagingDomain(
         'https://www.va.gov/img/header-logo.png',
-      )}"/>
+      )}" alt="Go to VA.gov"/>
       </a>
     </div>
     <div id="va-nav-controls"></div>

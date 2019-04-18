@@ -35,8 +35,6 @@ import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-
 const appealTypes = Object.values(APPEAL_TYPES);
 
 class YourClaimsPageV2 extends React.Component {
@@ -46,7 +44,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   componentDidMount() {
-    document.title = `Track Claims: ${siteName}`;
+    document.title = `Track Claims: VA.gov`;
     if (this.props.canAccessClaims) {
       this.props.getClaimsV2();
     }

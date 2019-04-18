@@ -40,6 +40,8 @@ import {
   directToCorrectForm,
 } from '../utils';
 
+import captureEvents from '../analytics-functions';
+
 import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
@@ -58,6 +60,7 @@ import {
   ancillaryFormsWizardSummary,
   choosePtsdType,
   claimExamsInfo,
+  claimType,
   contactInformation,
   evidenceTypes,
   federalOrders,
@@ -70,7 +73,6 @@ import {
   newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
-  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -88,6 +90,7 @@ import {
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
+  terminallyIll,
   trainingPay,
   trainingPayWaiver,
   uploadPersonalPtsdDocuments,
@@ -155,7 +158,7 @@ const formConfig = {
       title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
         veteranInformation: {
-          title: 'Veteran Information',
+          title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
@@ -166,6 +169,7 @@ const formConfig = {
           depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -179,6 +183,8 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
+          onContinue: captureEvents.militaryHistory,
+          appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -188,7 +194,7 @@ const formConfig = {
           schema: servedInCombatZone.schema,
         },
         reservesNationalGuardService: {
-          title: 'Reserves and National Guard Service',
+          title: 'Reserves and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
@@ -204,21 +210,21 @@ const formConfig = {
           schema: federalOrders.schema,
         },
         separationPay: {
-          title: 'Separation or Severance Pay',
+          title: 'Separation or severance pay',
           path: 'separation-pay',
           depends: formData => !hasRatedDisabilities(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
         retirementPay: {
-          title: 'Retirement Pay',
+          title: 'Retirement pay',
           path: 'retirement-pay',
           depends: formData => !hasRatedDisabilities(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
-          title: 'Training Pay',
+          title: 'Training pay',
           path: 'training-pay',
           depends: formData => !hasRatedDisabilities(formData),
           uiSchema: trainingPay.uiSchema,
@@ -239,7 +245,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
-          title: 'Existing Conditions (Rated Disabilities)',
+          title: 'Existing conditions (rated disabilities)',
           path: 'disabilities/rated-disabilities',
           depends: formData =>
             hasRatedDisabilities(formData) && !newConditionsOnly(formData),
@@ -337,7 +343,7 @@ const formConfig = {
         ...createFormConfig781(PTSD_INCIDENT_ITERATION),
         // 781 - ?. ???
         uploadPtsdDocuments781: {
-          title: 'Upload PTSD Documents - 781',
+          title: 'Upload PTSD documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
           depends: formData =>
             needsToEnter781(formData) && isUploading781Form(formData),
@@ -354,7 +360,7 @@ const formConfig = {
         },
         // 781 - 14. ADDITIONAL REMARKS
         additionalRemarks781: {
-          title: 'Additional Remarks',
+          title: 'Additional remarks',
           path: 'new-disabilities/additional-remarks-781',
           depends: isAnswering781Questions(0),
           uiSchema: additionalRemarks781.uiSchema,
@@ -373,7 +379,7 @@ const formConfig = {
         ...createFormConfig781a(PTSD_INCIDENT_ITERATION),
         // 781a - ?. ???
         uploadPtsdDocuments781a: {
-          title: 'Upload PTSD Documents - 781a',
+          title: 'Upload PTSD documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
           depends: formData =>
             needsToEnter781a(formData) && isUploading781aForm(formData),
@@ -436,7 +442,7 @@ const formConfig = {
           schema: additionalBehaviorChanges.schema,
         },
         prisonerOfWar: {
-          title: 'Prisoner of War (POW)',
+          title: 'Prisoner of war (POW)',
           path: 'pow',
           depends: formData => !increaseOnly(formData),
           uiSchema: prisonerOfWar.uiSchema,
@@ -467,7 +473,7 @@ const formConfig = {
           schema: adaptiveBenefits.schema,
         },
         aidAndAttendance: {
-          title: 'Aid and Attendance benefits',
+          title: 'Aid and attendance benefits',
           path: 'aid-and-attendance',
           uiSchema: aidAndAttendance.uiSchema,
           schema: aidAndAttendance.schema,
@@ -496,7 +502,7 @@ const formConfig = {
       },
     },
     supportingEvidence: {
-      title: 'Supporting Evidence',
+      title: 'Supporting evidence',
       pages: {
         orientation: {
           title: '',
@@ -518,14 +524,14 @@ const formConfig = {
           schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
-          title: 'Private Medical Records',
+          title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records',
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
         privateMedicalRecordsRelease: {
-          title: 'Private Medical Records',
+          title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -568,12 +574,20 @@ const formConfig = {
           path: 'payment-information',
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
+          onContinue: captureEvents.paymentInformation,
         },
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
+          onContinue: captureEvents.homelessOrAtRisk,
+        },
+        terminallyIll: {
+          title: 'Terminally ill',
+          path: 'terminally-ill',
+          uiSchema: terminallyIll.uiSchema,
+          schema: terminallyIll.schema,
         },
         vaEmployee: {
           title: 'VA employee',

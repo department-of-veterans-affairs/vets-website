@@ -60,6 +60,7 @@ function initUserMock(token, level) {
             'hca',
             'edu-benefits',
             'evss-claims',
+            'form526',
             'user-profile',
             'health-records',
             'rx',

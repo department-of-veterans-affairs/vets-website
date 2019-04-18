@@ -36,7 +36,7 @@ describe('Training programs choice page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:trainingProgramsChoice': false,
+          hasSelectedPrograms: false,
         }}
         formData={{}}
       />,

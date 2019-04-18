@@ -1,11 +1,16 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import { activeDutyNotice, benefitNotice } from '../content/militaryService';
+import {
+  activeDutyNotice,
+  benefitNotice,
+  selectedReserveNationalGuardExpectedDutyTitle,
+} from '../content/militaryService';
 
 const { activeDuty, activeDutyDuringVetTec } = fullSchema.properties;
 
 export const uiSchema = {
   activeDuty: {
-    'ui:title': 'Are you currently on active duty?',
+    'ui:title':
+      "Are you on full-time duty in the Armed Forces? (This doesn't include active-duty training for Reserve and National Guard members.)",
     'ui:widget': 'yesNo',
   },
   'view:activeDutyNotice': {
@@ -16,17 +21,12 @@ export const uiSchema = {
     },
   },
   activeDutyDuringVetTec: {
-    'ui:title':
-      'Do you expect to be called to active duty while you’re enrolled in a VET TEC program?',
+    'ui:title': selectedReserveNationalGuardExpectedDutyTitle,
     'ui:widget': 'yesNo',
   },
   'view:benefitNotice': {
     'ui:title': '',
     'ui:description': benefitNotice,
-    'ui:options': {
-      expandUnder: 'activeDutyDuringVetTec',
-      expandUnderCondition: true,
-    },
   },
 };
 

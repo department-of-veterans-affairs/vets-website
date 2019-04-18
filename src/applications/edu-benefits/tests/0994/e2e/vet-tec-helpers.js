@@ -17,12 +17,30 @@ export const completeFormPage = (url, client, data, func) => {
   client.click('body').click('.form-progress-buttons .usa-button-primary');
 };
 
+export const completeApplicantInformation = (client, data) => {
+  const {
+    applicantFullName,
+    applicantSocialSecurityNumber,
+    dateOfBirth,
+  } = data;
+
+  client
+    .fill('input[name="root_applicantFullName_first"]', applicantFullName.first)
+    .fill('input[name="root_applicantFullName_last"]', applicantFullName.last)
+    .fill(
+      'input[name="root_applicantSocialSecurityNumber"]',
+      applicantSocialSecurityNumber,
+    )
+    .fillDate(`root_dateOfBirth`, dateOfBirth);
+};
+
 export const completeAlreadySubmitted = (client, data) => {
   client.pause(1000);
   client.selectRadio(
     `root_appliedForVaEducationBenefits`,
     _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
   );
+  client.pause(1000);
 };
 
 export const completeMilitaryService = (client, data) => {
@@ -100,13 +118,13 @@ export const completeHighTechWorkExp = (client, data) => {
   }
 };
 
-export const getTrainingProgramsChoice = data =>
-  _.get(data, 'view:trainingProgramsChoice', false);
+export const getHasSelectedPrograms = data =>
+  _.get(data, 'hasSelectedPrograms', false);
 
-export const completeTrainingProgramChoice = (client, data) => {
+export const completeHasSelectedPrograms = (client, data) => {
   client.selectRadio(
-    'root_view:trainingProgramsChoice',
-    getTrainingProgramsChoice(data) ? 'Y' : 'N',
+    'root_hasSelectedPrograms',
+    getHasSelectedPrograms(data) ? 'Y' : 'N',
   );
 };
 

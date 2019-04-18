@@ -3,14 +3,13 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import environment from '../../../utilities/environment';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
-import siteName from '../../../brand-consolidation/site-name';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -54,7 +53,7 @@ class SignInModal extends React.Component {
         <div className="columns">
           <div className="logo">
             <a href="/">
-              <img alt={siteName} className="va-header-logo" src={logoSrc} />
+              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
             </a>
           </div>
         </div>
@@ -62,7 +61,7 @@ class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1>Sign in to {siteName}</h1>
+            <h1>Sign in to VA.gov</h1>
           </div>
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
@@ -165,8 +164,8 @@ class SignInModal extends React.Component {
                 fingertips.
               </div>
               <p>
-                You spoke. We listened. {siteName} is the direct result of what
-                you said you wanted most—one easy-to-use place to:
+                You spoke. We listened. VA.gov is the direct result of what you
+                said you wanted most—one easy-to-use place to:
               </p>
               <ul>
                 <li>Check your disability claim and appeal status</li>
@@ -213,8 +212,8 @@ class SignInModal extends React.Component {
             <hr />
             <div className="fed-warning">
               <p>
-                When you sign in to {siteName}, you’re using a United States
-                federal government information system.
+                When you sign in to VA.gov, you’re using a United States federal
+                government information system.
               </p>
               <p>
                 By signing in, you agree to only use information you have legal

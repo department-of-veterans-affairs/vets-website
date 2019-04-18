@@ -132,7 +132,7 @@ class IDPage extends React.Component {
       veteranFullName: fullName,
       veteranDateOfBirth: idFormData.dob,
       veteranSocialSecurityNumber: idFormData.ssn,
-      'view:isUserInMVI': isUserInMVI,
+      'view:isUserInMvi': isUserInMVI,
     });
   };
 

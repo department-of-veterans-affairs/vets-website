@@ -15,9 +15,9 @@ import {
 } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { isInProgress } from '../helpers';
+import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
-import environment from '../../utilities/environment';
+import environment from 'platform/utilities/environment';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -59,7 +59,7 @@ class RoutedSavableApp extends React.Component {
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
-    if (isInProgress(currentLocation.pathname) && goToStartPage) {
+    if (isInProgressPath(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;
@@ -147,13 +147,15 @@ class RoutedSavableApp extends React.Component {
   }
 
   onbeforeunload = e => {
-    const { currentLocation, autoSavedStatus } = this.props;
+    const { currentLocation, autoSavedStatus, formConfig } = this.props;
+    const { additionalRoutes = [] } = formConfig;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const additionalSafePaths = additionalRoutes.map(route => route.path);
 
     let message;
     if (
       autoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgress(trimmedPathname)
+      isInProgressPath(trimmedPathname, additionalSafePaths)
     ) {
       message =
         'Are you sure you wish to leave this application? All progress will be lost.';
@@ -172,7 +174,8 @@ class RoutedSavableApp extends React.Component {
   }
 
   redirectOrLoad(props) {
-    // Stop a user that's been redirected to be redirected again after logging in
+    // Stop a user that's been redirected from being redirected again after
+    // logging in
     this.shouldRedirectOrLoad = false;
 
     const firstPagePath =

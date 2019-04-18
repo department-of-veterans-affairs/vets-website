@@ -7,8 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
 import { hasSession } from '../../../platform/user/profile/utilities';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../platform/static-data/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
@@ -71,7 +70,7 @@ export class VerifyApp extends React.Component {
                   access and manage your benefits.
                   <br />
                   <a href="/sign-in-faq/#why-verify" target="_blank">
-                    Why does {siteName} verify identity?
+                    Why does VA.gov verify identity?
                   </a>
                 </p>
                 <p>
@@ -99,11 +98,11 @@ export class VerifyApp extends React.Component {
                 </p>
                 <p>
                   <SubmitSignInForm startSentence>
-                    Call the {siteName} Help Desk at{' '}
-                    <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                    <a href="tel:18008778339">1-800-877-8339</a>
+                    Call the VA.gov Help Desk at{' '}
+                    <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
+                    <a href="tel:18008778339">800-877-8339</a>
                     <br />
-                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
                   </SubmitSignInForm>
                 </p>
               </div>

@@ -5,7 +5,7 @@ import Raven from 'raven-js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import { authnSettings } from '../../../platform/user/authentication/utilities';
 import {
@@ -13,8 +13,80 @@ import {
   setupProfileSession,
 } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
+import get from '../../../platform/utilities/data/get';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+class AuthMetrics {
+  constructor(type, payload) {
+    this.type = type;
+    this.payload = payload;
+    this.userProfile = get('data.attributes.profile', payload, {});
+    this.loaCurrent = get('loa.loaCurrent', this.userProfile, null);
+    this.serviceName = get('signIn.serviceName', this.userProfile, null);
+  }
+
+  compareLoginPolicy = () => {
+    // This is experimental code related to GA that will let us determine
+    // if the backend is returning an accurate service_name
+
+    const attemptedLoginPolicy =
+      this.type === 'mhv' ? 'myhealthevet' : this.type;
+
+    if (this.serviceName !== attemptedLoginPolicy) {
+      recordEvent({
+        event: `login-mismatch-${attemptedLoginPolicy}-${this.serviceName}`,
+      });
+    }
+  };
+
+  recordGAAuthEvents = () => {
+    switch (this.type) {
+      case 'signup':
+        recordEvent({ event: `register-success-${this.serviceName}` });
+        break;
+      case 'mhv':
+      case 'dslogon':
+      case 'idme':
+        recordEvent({ event: `login-success-${this.serviceName}` });
+        this.compareLoginPolicy();
+        break;
+      /*
+      case 'mfa':
+        recordEvent({ event: `multifactor-success-${this.serviceName}` });
+        break;
+      case 'verify':
+        recordEvent({ event: `verify-success-${this.serviceName}` });
+        break;
+      */
+      default:
+        recordEvent({ event: `login-or-register-success-${this.serviceName}` });
+        Raven.captureMessage('Unrecognized auth event type', {
+          extra: { type: this.type },
+        });
+    }
+
+    // Report out the current level of assurance for the user.
+    if (this.loaCurrent) {
+      recordEvent({ event: `login-loa-current-${this.loaCurrent}` });
+    }
+  };
+
+  reportSentryErrors = () => {
+    if (!Object.keys(this.userProfile).length) {
+      Raven.captureMessage('Unexpected response for user object', {
+        extra: { payload: this.payload },
+      });
+    } else if (!this.serviceName) {
+      Raven.captureMessage('Missing serviceName in user object', {
+        extra: { payload: this.payload },
+      });
+    }
+  };
+
+  run = () => {
+    this.reportSentryErrors();
+    if (!hasSession()) this.recordGAAuthEvents();
+  };
+}
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -26,18 +98,12 @@ export class AuthApp extends React.Component {
     if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  handleAuthError = e => {
-    const loginType = sessionStorage.getItem(
-      authnSettings.PENDING_LOGIN_POLICY,
-    );
+  handleAuthError = error => {
+    const loginType = this.props.location.query.type;
 
-    Raven.captureMessage(`User fetch error: ${e.message}`, {
-      extra: {
-        error: e,
-      },
-      tags: {
-        loginType,
-      },
+    Raven.captureMessage(`User fetch error: ${error.message}`, {
+      extra: { error },
+      tags: { loginType },
     });
 
     recordEvent({ event: `login-error-user-fetch` });
@@ -46,7 +112,10 @@ export class AuthApp extends React.Component {
   };
 
   handleAuthSuccess = payload => {
-    setupProfileSession(payload);
+    const { type } = this.props.location.query;
+    const authMetrics = new AuthMetrics(type, payload);
+    authMetrics.run();
+    setupProfileSession(authMetrics.userProfile);
     this.redirect();
   };
 
@@ -156,44 +225,32 @@ export class AuthApp extends React.Component {
 
       // We're having trouble matching the user with MVI
       case '004':
-        header = 'We can’t match your information to our records';
+        header = 'Please try again later';
         alertContent = (
           <p>
-            We’re sorry. We can’t match the information you provided with what
-            we have in our Veteran records. We take your privacy seriously, and
-            we’re committed to protecting your information.
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in. Please try again later.
           </p>
         );
         troubleshootingContent = (
-          <ul>
-            <li>
-              <p>
-                <strong>
-                  If you feel you’ve entered your information correctly
-                </strong>
-                , please call the VA.gov Help Desk at{' '}
-                <a href="tel:18446982311">1-844-698-2311</a> (TTY: 711). We’re
-                here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
-              </p>
-            </li>
-            <li>
-              <p>
-                <strong>
-                  Try signing in with your ID.me username and password.
-                </strong>{' '}
-                This may resolve the issue. If you don’t have an ID.me account,
-                you can create one now.
-              </p>
-              <p>
-                <button
-                  className="va-button-link"
-                  onClick={this.props.openLoginModal}
-                >
-                  Sign in or create an account with ID.me
-                </button>
-              </p>
-            </li>
-          </ul>
+          <>
+            <p>
+              <strong>Please try signing in again.</strong> If you still can’t
+              sign in, please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
         );
         break;
 
@@ -287,7 +344,7 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message={`Signing in to ${siteName}...`} />
+      <LoadingIndicator message={`Signing in to VA.gov...`} />
     );
 
     return <div className="row vads-u-padding-y--5">{view}</div>;

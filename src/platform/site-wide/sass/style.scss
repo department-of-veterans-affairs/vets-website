@@ -1,42 +1,29 @@
-/*
- * NOTE: there is a version of this file for brand consolidation at
- * brand-consolidate.scss. If you make a change to this file, please
- * verify that you do or do not need to make the same change in the other file
- */
-$font-path: "~uswds/src/fonts";
-$image-path: "~uswds/src/img";
-$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "modules/m-overrides";
+
 @import "~@department-of-veterans-affairs/formation/sass/core";
-
-@import "modules/m-footer";
-
-// ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
-@import "modules/m-crisis-line";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
-@import "modules/m-search";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
-@import "modules/m-vet-nav";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
-@import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
-@import "modules/m-layers";
-
-// ----- mobile typography -- see #6214 on vets.gov-team ---- //
-
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-hub-page-link-list";
 @import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
-
-// ----- VA SHAME ---- //
-
 @import "~@department-of-veterans-affairs/formation/sass/shame";
 
-// ----- Medallia ----- //
-@import "modules/m-medallia";
+@import "modules/m-footer";
+@import "modules/m-crisis-line";
+@import "modules/m-search";
+@import "modules/m-vet-nav";
+@import "modules/m-downtime-notification";
+@import "modules/m-layers";
+@import "modules/m-facilities";
+@import "modules/m-homepage";
+@import "modules/m-veteran-banner";
 
-// "Preview the New VA.gov" banner
-@import "modules/m-preview-banner";
+@import "shame";

@@ -24,7 +24,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
   if (isInMVI(state)) {
-    newData = { ...newData, 'view:isUserInMVI': true };
+    newData = { ...newData, 'view:isUserInMvi': true };
   }
 
   return {
@@ -539,7 +539,7 @@ export const idFormUiSchema = {
 
 /**
  *
- * Provides the current Central Time (CT) offset according to whether or not daylight savings is in effect
+ * Provides the current Central Time CT offset according to whether or not daylight savings is in effect
  * @export
  * @param {boolean} isDST
  * @returns {number} offset in minutes
@@ -571,7 +571,7 @@ export function getAdjustedTime(time, offset) {
 }
 
 /**
- * Provides a current date object in Central Time (CT)
+ * Provides a current date object in Central Time CT
  * Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
  */
 export function getCSTDate() {

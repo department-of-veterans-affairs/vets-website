@@ -1,30 +1,15 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
-import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-import environment from '../../../../platform/utilities/environment';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
-
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-link',
-      'dashboard-product': product,
-    });
-  };
-}
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
+import environment from 'platform/utilities/environment';
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
@@ -37,8 +22,11 @@ class PrescriptionsWidget extends React.Component {
   }
 
   render() {
-    let content;
     const { canAccessRx } = this.props;
+    if (!canAccessRx) {
+      return null;
+    }
+    let content;
 
     if (this.props.loading) {
       content = <LoadingIndicator message="Loading your prescriptions..." />;
@@ -50,59 +38,38 @@ class PrescriptionsWidget extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions. Please refresh this page or
-          try again later. If you keep having trouble, please{' '}
-          <CallVBACenter>
-            call the {propertyName} Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-            8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallVBACenter>
+          try again later. If you keep having trouble, please <CallVBACenter />
         </p>
       );
     }
 
-    if (canAccessRx) {
-      if (this.props.prescriptions && this.props.prescriptions.length === 0) {
-        content = (
-          <p>
-            We haven’t refilled or shipped any prescriptions for you in the last
-            30 days.
-          </p>
-        );
-      }
-
-      return (
-        <div id="rx-widget">
-          <h2>Refill Prescriptions</h2>
-          <div>{content}</div>
-          <p>
-            {isBrandConsolidationEnabled() ? (
-              <a
-                href={`${mhvBaseUrl()}/mhv-portal-web/${
-                  environment.isProduction() ? 'web/myhealthevet/' : ''
-                }refill-prescriptions`}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                View all your prescriptions
-              </a>
-            ) : (
-              <span>
-                <Link
-                  href="/health-care/refill-track-prescriptions/"
-                  onClick={recordDashboardClick('view-all-prescriptions')}
-                >
-                  View all your prescriptions
-                </Link>
-                .
-              </span>
-            )}
-          </p>
-        </div>
+    if (this.props.prescriptions && this.props.prescriptions.length === 0) {
+      content = (
+        <p>
+          We haven’t refilled or shipped any prescriptions for you in the last
+          30 days.
+        </p>
       );
     }
 
-    return null;
+    return (
+      <div id="rx-widget">
+        {environment.isProduction() && <h2>Refill Prescriptions</h2>}
+        {!environment.isProduction() && <h3>Refill prescriptions</h3>}
+        <div>{content}</div>
+        <p>
+          <a
+            href={`${mhvBaseUrl()}/mhv-portal-web/${
+              environment.isProduction() ? 'web/myhealthevet/' : ''
+            }refill-prescriptions`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View all your prescriptions
+          </a>
+        </p>
+      </div>
+    );
   }
 }
 

@@ -11,7 +11,6 @@ import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
-import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
@@ -48,7 +47,6 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
-  startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
   startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);

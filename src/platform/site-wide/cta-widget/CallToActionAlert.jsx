@@ -5,8 +5,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 export default function CallToActionAlert({
   heading,
   alertText,
-  buttonText,
-  buttonHandler,
+  primaryButtonText,
+  primaryButtonHandler,
+  secondaryButtonText,
+  secondaryButtonHandler,
   status,
 }) {
   const buttonClass =
@@ -17,9 +19,17 @@ export default function CallToActionAlert({
     content: (
       <div>
         {alertText}
-        {buttonText && (
-          <button className={buttonClass} onClick={buttonHandler}>
-            {buttonText}
+        {primaryButtonText && (
+          <button className={buttonClass} onClick={primaryButtonHandler}>
+            {primaryButtonText}
+          </button>
+        )}
+        {secondaryButtonText && (
+          <button
+            className="va-button-link vads-u-margin-left--2"
+            onClick={secondaryButtonHandler}
+          >
+            {secondaryButtonText}
           </button>
         )}
       </div>

@@ -33,7 +33,28 @@ export const maskBankInformation = (string, unmaskedLength) => {
   );
 };
 
+/**
+ * Different than hasPrefillBankInformation because plucked property names are different
+ * @param {*} bankAccount new bank account information object
+ */
 export const hasNewBankInformation = (bankAccount = {}) => {
   const { accountType, accountNumber, routingNumber } = bankAccount;
-  return accountType || accountNumber || routingNumber;
+  return (
+    typeof accountType !== 'undefined' ||
+    typeof accountNumber !== 'undefined' ||
+    typeof routingNumber !== 'undefined'
+  );
+};
+
+/**
+ * Different than hasNewBankInformation because plucked property names are different
+ * @param {*} bankAccount prefill bank account information object
+ */
+export const hasPrefillBankInformation = (bankAccount = {}) => {
+  const { bankAccountType, bankAccountNumber, bankRoutingNumber } = bankAccount;
+  return (
+    typeof bankAccountType !== 'undefined' ||
+    typeof bankAccountNumber !== 'undefined' ||
+    typeof bankRoutingNumber !== 'undefined'
+  );
 };

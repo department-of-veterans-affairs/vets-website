@@ -17,13 +17,10 @@ const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
 const globalEntryFiles = {
-  styleConsolidated: getAbsolutePath(
-    'src/platform/site-wide/sass/style-consolidated.scss',
-  ),
-  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
-  brandConsolidation: getAbsolutePath(
-    'src/platform/site-wide/sass/brand-consolidation.scss',
+  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  styleConsolidated: getAbsolutePath(
+    'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
   vendor: [
     getAbsolutePath('src/platform/polyfills'),
@@ -106,6 +103,12 @@ const configGenerator = (buildOptions, apps) => {
                 options: {
                   minimize: isOptimizedBuild,
                   sourceMap: enableCSSSourcemaps,
+                },
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => [require('autoprefixer')],
                 },
               },
               {

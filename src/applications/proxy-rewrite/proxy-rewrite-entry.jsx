@@ -16,7 +16,6 @@ import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 
 // import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
-import startFeedbackWidget from 'platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter, {
   footerElemementId,
@@ -126,7 +125,6 @@ function mountReactComponents(headerFooterData, commonStore) {
   startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);
   // startLRNHealthCarWidget(commonStore);
-  startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
   renderFooter(headerFooterData.footerData);
 }
