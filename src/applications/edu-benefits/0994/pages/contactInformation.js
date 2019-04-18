@@ -89,6 +89,9 @@ export const uiSchema = {
     street: {
       ...addressUiSchema.street,
       'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
     },
     street2: {
       ...addressUiSchema.street2,
@@ -97,6 +100,12 @@ export const uiSchema = {
     street3: {
       ...addressUiSchema.street3,
       'ui:title': 'Street address (line 3)',
+    },
+    city: {
+      ...addressUiSchema.city,
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
     },
   },
   'view:contactInfoNote': {

@@ -10,8 +10,7 @@ Each pull request page indicates whether your commits have errors that break the
 
 ![What failing builds look like on GitHub](images/FailingBuild.png)
 
-Next to the failing build message is a _Details_ link. Click it to find out what's causing the failure. It will take you to a page at jenkins.vetsgov-internal. You will need to [configure the SOCKS proxy](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practic\
-es/Engineering/Internal%20Tools.md) to access this utility. Scroll down that page until you see a failure.
+Next to the failing build message is a _Details_ link. Click it to find out what's causing the failure. It will take you to a page at jenkins.vetsgov-internal. You will need to [configure the SOCKS proxy](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Internal%20Tools.md) to access this utility. Scroll down that page until you see a failure.
 
 ![What a Jenkins CI error looks like](images/JenkinsFail.png)
 

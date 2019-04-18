@@ -10,7 +10,7 @@ export const instructionalPart3Description = (
     </p>
     <div className="blue-bar-block">
       Department of Veterans Affairs Claims Intake Center PO Box 4444
-      Janesville, WI 53547-4444 Or fax them toll-free: 1-844-531-7818
+      Janesville, WI 53547-4444 Or fax them toll-free: 844-531-7818
     </div>
 
     <img src="/img/part3-image.png" alt="Box 1" />

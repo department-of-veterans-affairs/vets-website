@@ -68,7 +68,7 @@ class EmailForm extends React.Component {
         <AlertBox
           isVisible
           headline="We’re sorry. It looks like we’re missing some information needed for you to apply online for increased disability compensation."
-          content="For help, please call Veterans Benefits Assistance at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET)."
+          content="For help, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET."
           status="error"
         />
       );

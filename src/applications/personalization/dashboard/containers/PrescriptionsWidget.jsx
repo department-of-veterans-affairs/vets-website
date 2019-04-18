@@ -54,7 +54,8 @@ class PrescriptionsWidget extends React.Component {
 
     return (
       <div id="rx-widget">
-        <h2>Refill Prescriptions</h2>
+        {environment.isProduction() && <h2>Refill Prescriptions</h2>}
+        {!environment.isProduction() && <h3>Refill prescriptions</h3>}
         <div>{content}</div>
         <p>
           <a
