@@ -71,10 +71,6 @@ const handleNoneApply = (id, formData) => {
   }
 };
 
-const updateFormData = props => {
-  props.onChange(props.formData);
-};
-
 class HighTechEmploymentTypeView extends React.Component {
   constructor(props) {
     super(props);
@@ -87,10 +83,11 @@ class HighTechEmploymentTypeView extends React.Component {
 
   handleChange(e) {
     const { id, checked } = e;
-    handleNoneApply(id, this.props.formData);
-    setHighTechEmploymentType(this.props.formData, [id], checked);
-    updateFormData(this.props);
-    this.setState(this.props.formData);
+    const formData = { ...this.props.formData };
+    handleNoneApply(id, formData);
+    setHighTechEmploymentType(formData, [id], checked);
+    this.props.onChange(formData);
+    this.setState(formData);
   }
 
   render() {
