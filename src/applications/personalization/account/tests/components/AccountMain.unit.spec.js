@@ -37,7 +37,7 @@ describe('<AccountMain/>', () => {
   it('should prompt to increase LOA when a user is not verified', () => {
     props.profile.loa = 1;
     const wrapper = enzyme.shallow(<AccountMain {...props} />);
-    expect(wrapper.html()).to.contain('Verify Your identity');
+    expect(wrapper.html()).to.contain('Verify your identity');
     wrapper.unmount();
   });
 
