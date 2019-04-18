@@ -11,12 +11,12 @@ export default function FindVABenefitsIntro({ dismiss }) {
         We can help you find and apply for benefits.
       </h3>
       <p>
-        Our new “Find VA Benefits” tool can help you quickly learn which
+        Our new “Find VA benefits” tool can help you quickly learn which
         benefits you may be eligible for, and how to apply. Get started by
-        clicking on the “Find VA Benefits Now” button below.
+        clicking on the “Find VA benefits now” button below.
       </p>
       <a onClick={dismiss} className="usa-button" href="find-benefits/">
-        Find VA Benefits Now
+        Find VA benefits now
       </a>
       <button
         type="button"
@@ -24,7 +24,7 @@ export default function FindVABenefitsIntro({ dismiss }) {
         aria-label="No thanks"
         onClick={dismiss}
       >
-        No, Thanks
+        No, thanks
       </button>
     </Modal>
   );
