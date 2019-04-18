@@ -86,7 +86,7 @@ class MessagingWidget extends React.Component {
 
     return (
       <div id="msg-widget">
-        <h2>Check Secure Messages</h2>
+        <h2>Check secure messages</h2>
         {content}
         <p>
           <a

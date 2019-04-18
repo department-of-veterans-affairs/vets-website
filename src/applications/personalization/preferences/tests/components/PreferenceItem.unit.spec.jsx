@@ -20,7 +20,7 @@ describe('<PreferenceItem>', () => {
     props.isRemoving = false;
     const component = shallow(<PreferenceItem {...props} />);
     // Display benefit-specific Heading
-    expect(component.find('.title-container').html()).to.contain('Health Care');
+    expect(component.find('.title-container').html()).to.contain('Health care');
     // Display benefit-specific introduction
     expect(
       component
@@ -34,7 +34,7 @@ describe('<PreferenceItem>', () => {
     expect(component.find('FAQList').length).to.equal(1);
     // Display benefit-specific CTA
     expect(component.find('CallToAction').html()).to.contain(
-      'Apply Now for VA Health Care',
+      'Apply now for VA health care',
     );
     component
       .find('button')
@@ -48,7 +48,7 @@ describe('<PreferenceItem>', () => {
     props.isRemoving = true;
     const component = shallow(<PreferenceItem {...props} />);
     expect(component.find('AlertBox').html()).to.contain(
-      `We’ll remove this content. If you’d like to see the information again, you can always add it back. Just click on the “Find More Benefits” button at the top of your dashboard, then select “Health Care.”`,
+      `We’ll remove this content. If you’d like to see the information again, you can always add it back. Just click on the “Find More Benefits” button at the top of your dashboard, then select “Health care.”`,
     );
 
     component
