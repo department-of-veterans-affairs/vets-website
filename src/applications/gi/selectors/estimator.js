@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -19,6 +20,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   let monthlyRate;
 
   const serviceDischarge = your.cumulativeService === 'service discharge';
+  const purpleHeart = your.cumulativeService === 'purple heart';
 
   // VRE and post-9/11 eligibility
   const vre911Eligible =
@@ -30,7 +32,11 @@ function getDerivedAttributes(constant, eligibility, institution) {
 
   // Determines benefits tier
   const tier =
-    vre911Eligible || serviceDischarge ? 1 : Number(your.cumulativeService);
+    vre911Eligible ||
+    serviceDischarge ||
+    (purpleHeart && !environment.isProduction())
+      ? 1
+      : Number(your.cumulativeService);
 
   const oldGiBill =
     your.giBillChapter === '30' ||
