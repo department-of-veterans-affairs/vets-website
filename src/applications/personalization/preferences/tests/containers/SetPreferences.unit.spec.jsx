@@ -46,7 +46,7 @@ describe('<SetPreferences>', () => {
         .first()
         .html(),
     ).to.contain('Cancel');
-    expect(component.find('h1').html()).to.contain('Find VA Benefits');
+    expect(component.find('h1').html()).to.contain('Find VA benefits');
     expect(component.find('p').html()).to.contain(
       'Tell us which benefits you’re interested in, so we can help you apply. Select one or more of the types of benefits below, and we’ll help you get started.',
     );

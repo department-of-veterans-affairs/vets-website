@@ -55,7 +55,7 @@ export default class ContactInformation extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading">Contact Information</h2>
+        <h2 className="va-profile-heading">Contact information</h2>
         <DowntimeNotification
           render={handleDowntimeForSection('contact')}
           dependencies={[externalServices.vet360]}
