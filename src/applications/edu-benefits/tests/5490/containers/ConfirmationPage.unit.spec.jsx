@@ -40,6 +40,6 @@ describe('Edu 5490 <ConfirmationPage>', () => {
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply.');
+    ).to.contain('Find out what happens after you apply');
   });
 });

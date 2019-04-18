@@ -98,7 +98,6 @@ class ConfirmationPage extends React.Component {
             <a href="/education/after-you-apply/">
               Find out what happens after you apply
             </a>
-            .
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">

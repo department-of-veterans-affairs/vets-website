@@ -320,7 +320,7 @@ export const wartimeWarning = (
         </a>
         . Find out if you still qualify.{' '}
         <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility.
+          Check your eligibility
         </a>
       </p>
     </div>

@@ -89,7 +89,7 @@ class ConfirmationPage extends React.Component {
             className="confirmation-guidance-message"
             href="/burials-memorials/pre-need-eligibility/after-you-apply/"
           >
-            Find out what happens after you apply.
+            Find out what happens after you apply
           </a>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <div>
