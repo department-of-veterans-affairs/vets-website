@@ -28,7 +28,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Pre-need Eligibility Application"
+          startText="Start the pre-need eligibility application"
         />
         <div className="process schemaform-process">
           <ol>
@@ -140,7 +140,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <h5>VA Review</h5>
+              <h5>VA review</h5>
               <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
@@ -156,7 +156,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Pre-need Eligibility Application"
+          startText="Start the pre-need eligibility application"
         />
         <div className="omb-info--container">
           <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="11/30/2018" />
