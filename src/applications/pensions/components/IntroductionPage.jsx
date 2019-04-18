@@ -21,7 +21,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
-          startText="Start the Pension Application"
+          startText="Start the pension application"
         />
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
@@ -134,7 +134,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>We process claims in the order we receive them.</p>
               <p>We’ll let you know by mail if we need more information.</p>
@@ -153,7 +153,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
-          startText="Start the Pension Application"
+          startText="Start the pension application"
           downtime={this.props.route.formConfig.downtime}
         >
           Please complete the 21-527EZ form to apply for pension benefits.
