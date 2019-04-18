@@ -54,7 +54,7 @@ const template = (props, title, content, submissionMessage) => {
       </p>
       <br />
       <a href="/disability/after-you-file-claim/">
-        Learn more about what happens after you file a disability claim.
+        Learn more about what happens after you file a disability claim
       </a>
       <div className="confirmation-guidance-container">
         <h4 className="confirmation-guidance-heading">Need help?</h4>

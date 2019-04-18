@@ -233,7 +233,7 @@ export class ApplicationStatus extends React.Component {
               </a>
               {window.location.pathname.endsWith('eligibility/') && (
                 <p>
-                  <a href={applyLink}>Learn more about how to apply</a>.
+                  <a href={applyLink}>Learn more about how to apply</a>
                 </p>
               )}
             </div>

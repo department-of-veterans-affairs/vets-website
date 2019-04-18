@@ -81,7 +81,7 @@ class IntroductionPage extends React.Component {
               </p>
               <div>
                 <a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf">
-                  Download VA Form 21-674.
+                  Download VA Form 21-674
                 </a>
               </div>
               <AlertBox content={this.alertContent()} isVisible status="info" />
@@ -95,7 +95,7 @@ class IntroductionPage extends React.Component {
               </p>
               <div>
                 <a href="/disability-benefits/apply/help/index.html">
-                  Get help filing your claim.
+                  Get help filing your claim
                 </a>
               </div>
             </li>

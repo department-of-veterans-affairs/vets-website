@@ -1982,7 +1982,7 @@ export function getAlertContent(alert, appealIsActive) {
                     Appeal to a Veterans Law Judge. A judge at the Board of
                     Veterans’ Appeals in Washington, D.C. will review your case.
                     This option is called a{' '}
-                    <a href="/decision-reviews/board-appeal">Board Appeal</a>.{' '}
+                    <a href="/decision-reviews/board-appeal">Board Appeal</a>{' '}
                     <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
