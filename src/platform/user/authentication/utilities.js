@@ -1,4 +1,4 @@
-import appendQuery from 'append-query';
+// import appendQuery from 'append-query';
 import Raven from 'raven-js';
 
 import recordEvent from '../../monitoring/record-event';
@@ -72,7 +72,7 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
 
-/* temporarily commented out to test a possible plugin related issue
+  /* temporarily commented out to test a possible plugin related issue
   if (redirectUrl.includes('idme')) {
     redirectWithGAClientId(redirectUrl);
   } else {
