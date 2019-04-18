@@ -219,7 +219,7 @@ class PreferencesWidget extends React.Component {
     return (
       <div>
         <div className="title-container">
-          <h2>Find VA Benefits</h2>
+          <h2>Find VA benefits</h2>
           {isLoaded &&
             hasSelectedBenefits && (
               <Link
@@ -233,7 +233,7 @@ class PreferencesWidget extends React.Component {
                   })
                 }
               >
-                Find VA Benefits
+                Find VA benefits
               </Link>
             )}
         </div>
