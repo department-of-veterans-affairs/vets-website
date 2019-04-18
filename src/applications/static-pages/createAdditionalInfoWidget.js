@@ -43,7 +43,6 @@ export default function createAdditionalInfoWidget() {
         chevron.classList.toggle('open');
 
         if (analyticsEvent) {
-          alert(analyticsEvent);
           recordEventOnce({ event: analyticsEvent });
         }
       });
