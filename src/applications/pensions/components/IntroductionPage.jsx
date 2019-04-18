@@ -28,7 +28,7 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div>
-                <h5>Declare Your Intent to File</h5>
+                <h5>Declare your intent to file</h5>
               </div>
               <div>
                 If you’d like to submit an intent to file to set the earliest
@@ -40,7 +40,7 @@ class IntroductionPage extends React.Component {
               </div>
               <div>
                 <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf">
-                  Download VA Form 21-0966.
+                  Download VA Form 21-0966
                 </a>
               </div>
               <div>
@@ -73,7 +73,7 @@ class IntroductionPage extends React.Component {
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <h4 className="usa-alert-heading">
-                    Fully Developed Claim (FDC) Program
+                    Fully Developed Claim (FDC) program
                   </h4>
                   <div className="usa-alert-text">
                     <p>
@@ -88,7 +88,7 @@ class IntroductionPage extends React.Component {
                       href="/pension/how-to-apply/fully-developed-claim/"
                       target="_blank"
                     >
-                      Learn more about the FDC Program
+                      Learn more about the FDC program
                     </a>
                     .
                   </div>
