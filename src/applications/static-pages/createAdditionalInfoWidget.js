@@ -10,16 +10,16 @@ export default function createAdditionalInfoWidget() {
       const titleText =
         (titleNode && titleNode.textContent) || 'More information';
       const contentContainer = qS(el, '.additional-info-content').parentNode;
-      const contentContainerID = contentContainer.id;
       const contentMarkup = qS(el, '.additional-info-content').innerHTML;
+      const expandedContentId = `${contentContainer.id}-expanded`;
 
       const template = `
-          <button type="button" class="additional-info-button va-button-link" aria-controls="${contentContainerID}" aria-expanded="false">
+          <button type="button" class="additional-info-button va-button-link" aria-controls="${expandedContentId}" aria-expanded="false">
             <span class="additional-info-title">${titleText}
               <i class="fa fa-angle-down"></i>
             </span>
           </button>
-          <span id="${contentContainerID}">
+          <span id="${expandedContentId}">
             <div class="additional-info-content">
               ${contentMarkup}
             </div>
