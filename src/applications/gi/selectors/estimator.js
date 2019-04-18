@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -32,9 +31,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
 
   // Determines benefits tier
   const tier =
-    vre911Eligible ||
-    serviceDischarge ||
-    (purpleHeart && !environment.isProduction())
+    vre911Eligible || serviceDischarge || purpleHeart
       ? 1
       : Number(your.cumulativeService);
 
