@@ -11,7 +11,7 @@ export const findBenefitsRoute = {
   path: 'find-benefits',
   component: SetPreferences,
   key: 'find-benefits',
-  name: 'Find VA Benefits',
+  name: 'Find VA benefits',
 };
 
 const routes = {
