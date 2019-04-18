@@ -39,7 +39,7 @@
         NOTE: .additional-info-container is a class utilized by
         createAdditionalInfoWidget.js to add toggle functionality to info alerts
       {% endcomment %}
-      <div class="form-expanding-group borderless-alert additional-info-container" aria-hidden="true">
+      <div id="{{ expander.entityBundle }}-{{ expander.entityId }}-details" class="form-expanding-group borderless-alert additional-info-container" aria-hidden="true">
         <div class="additional-info-title">{{ expander.fieldTextExpander }}</div>
 
         {% if expander.fieldWysiwyg %}
