@@ -41,8 +41,8 @@ export class ConfirmationPage extends React.Component {
           <p>
             If more than a week has passed since you submitted your application
             and you haven’t heard back, please don’t apply again. Call our
-            toll-free hotline at 1-877-222-VETS (
-            <a href="tel:+18772228387">1-877-222-8387</a>
+            toll-free hotline at 877-222-VETS (
+            <a href="tel:+18772228387">877-222-8387</a>
             ).
           </p>
         </div>
@@ -91,9 +91,9 @@ export class ConfirmationPage extends React.Component {
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
-            If you have questions, please call 1-877-222-VETS (
-            <a href="tel:+18772228387">1-877-222-8387</a>) and press 2, Monday
-            &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+            If you have questions, please call 877-222-VETS (
+            <a href="tel:+18772228387">877-222-8387</a>) and press 2, Monday
+            &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET.
           </p>
         </div>
       </div>
