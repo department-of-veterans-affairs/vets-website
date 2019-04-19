@@ -3,7 +3,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 
-import { recordEventOnce } from '../utils';
+import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
