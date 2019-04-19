@@ -66,7 +66,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal(
-      'Continue Your Application',
+      'Continue your application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
       'Your form is in progress',
@@ -98,7 +98,7 @@ describe('schemaform <ApplicationStatus>', () => {
     );
     expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal(
-      'Start a New Application',
+      'Start a new application',
     );
   });
   it('should render saved form from ids', () => {
@@ -128,7 +128,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal(
-      'Continue Your Application',
+      'Continue your application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
       'Your form is in progress',
