@@ -14,7 +14,7 @@ const scrollToTop = () => {
   });
 };
 
-export class ConfirmationPage extends React.Component {
+export class ConfirmationPageNew extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
@@ -175,4 +175,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ConfirmationPage);
+export default connect(mapStateToProps)(ConfirmationPageNew);

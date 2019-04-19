@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 
 import { ConfirmationPageNew } from '../../containers/ConfirmationPageNew';
 
-describe('hca <ConfirmationPage>', () => {
+describe('hca <ConfirmationPageNew>', () => {
   it('should render', () => {
     const form = {
       submission: {
@@ -23,7 +23,7 @@ describe('hca <ConfirmationPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
+    const tree = SkinDeep.shallowRender(<ConfirmationPageNew form={form} />);
 
     expect(tree.subTree('.claim-list')).to.exist;
     expect(tree.everySubTree('span')[2].text()).to.contain('Jan. 1, 2010');
@@ -46,7 +46,7 @@ describe('hca <ConfirmationPage>', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
+    const tree = SkinDeep.shallowRender(<ConfirmationPageNew form={form} />);
     expect(tree.everySubTree('.how-long')[0].text()).to.contain(
       'We usually decide on applications within 1 week.',
     );
