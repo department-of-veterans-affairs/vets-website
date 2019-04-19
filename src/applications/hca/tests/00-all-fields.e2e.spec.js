@@ -223,9 +223,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .to.not.contain('/review-and-submit')
     .before(Timeouts.slow);
 
-  // Submit message
-  client.expect.element('.confirmation-page-title').to.be.visible;
-
   client.axeCheck('.main');
 
   client.end();
