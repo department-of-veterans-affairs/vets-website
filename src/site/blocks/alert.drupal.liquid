@@ -35,15 +35,29 @@
       <p>{{ alert.fieldHelpText }}</p>
     {% endif %}
     {% if expander.fieldTextExpander %}
+
       {% comment %}
         NOTE: .additional-info-container is a class utilized by
         createAdditionalInfoWidget.js to add toggle functionality to info alerts
       {% endcomment %}
-      <div id="{{ expander.entityBundle }}-{{ expander.entityId }}-details" class="form-expanding-group borderless-alert additional-info-container" aria-hidden="true">
+
+      {% if alert.fieldAlertTitle contains 'homeless' %}
+        {% assign analyticsId = 'nav-crisis-homelessness-expander' %}
+      {% elsif expander.fieldTextExpander contains 'support' %}
+        {% assign analyticsId = 'nav-crisis-get-support-247' %}
+      {% elsif expander.fieldTextExpander contains 'care now' %}
+        {% assign analyticsId = 'nav-crisis-get-care-now' %}
+      {% else %}
+        {% comment %}
+          Nothing required!
+        {% endcomment %}
+      {% endif %}
+
+      <div data-analytics="{{ analyticsId }}" class="form-expanding-group borderless-alert additional-info-container">
         <div class="additional-info-title">{{ expander.fieldTextExpander }}</div>
 
         {% if expander.fieldWysiwyg %}
-          <div class="additional-info-content usa-alert-text">{{ expander.fieldWysiwyg.processed }}</div>
+          <div class="additional-info-content usa-alert-text" hidden>{{ expander.fieldWysiwyg.processed }}</div>
         {% endif %}
       </div>
     {% endif %}
