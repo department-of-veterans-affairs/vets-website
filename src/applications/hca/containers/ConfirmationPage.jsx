@@ -97,7 +97,7 @@ export class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">
             How can I check the status of my application?
           </h4>
-          <ol>
+          <ol className="process-steps">
             <li className="process-step list-one">
               <p>
                 <strong>Sign in to VA.gov</strong>
