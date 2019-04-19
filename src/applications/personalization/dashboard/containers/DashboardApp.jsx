@@ -206,7 +206,7 @@ class DashboardApp extends React.Component {
   renderEmptyStateLinks() {
     return (
       <div>
-        <h2>Explore Our Most Used Benefits</h2>
+        <h2>Explore our most used benefits</h2>
 
         <ul className="va-nav-linkslist-list">
           <li>
