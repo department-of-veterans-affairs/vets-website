@@ -13,7 +13,7 @@ export default function createAdditionalInfoWidget() {
       const contentContainer = qS(el, '.additional-info-content').parentNode;
       const contentMarkup = qS(el, '.additional-info-content').innerHTML;
       const additionalInfoId = uniqueId('additional-info-');
-      const analyticsEvent =
+      const eventName =
         contentContainer.dataset && contentContainer.dataset.analytics;
 
       const template = `
@@ -42,8 +42,14 @@ export default function createAdditionalInfoWidget() {
         button.parentNode.classList.toggle('form-expanding-group-open');
         chevron.classList.toggle('open');
 
-        if (analyticsEvent) {
-          recordEventOnce({ event: analyticsEvent });
+        if (eventName) {
+          const key = 'additional-info-expander-label';
+          const analytic = {
+            event: eventName,
+            [key]: `Additional Info - ${titleText}`,
+          };
+
+          recordEventOnce(analytic, key);
         }
       });
     });
