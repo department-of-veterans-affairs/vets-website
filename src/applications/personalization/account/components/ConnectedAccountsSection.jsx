@@ -27,7 +27,6 @@ export default function ConnectedAccountsSection() {
           >
             Manage your connected accounts
           </a>
-          .
         </p>
       </div>
     </div>

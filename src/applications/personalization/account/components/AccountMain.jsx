@@ -64,7 +64,7 @@ class AccountMain extends React.Component {
             </p>
             <p>
               <a href={facilityLocator.rootUrl}>
-                Find your nearest VA Medical Center
+                Find your nearest VA medical center
               </a>
             </p>
           </div>
@@ -115,7 +115,7 @@ class AccountMain extends React.Component {
             >
               Manage your DS Logon account
             </a>
-            .<span className="external-link-icon-black">&nbsp;</span>
+            <span className="external-link-icon-black">&nbsp;</span>
           </div>
           <div>
             <h5>My HealtheVet</h5>
@@ -126,7 +126,7 @@ class AccountMain extends React.Component {
             >
               Manage your My HealtheVet account
             </a>
-            .<span className="external-link-icon-black">&nbsp;</span>
+            <span className="external-link-icon-black">&nbsp;</span>
           </div>
         </div>
         <LoginSettings />

@@ -26,7 +26,7 @@ class AccountApp extends React.Component {
           >
             <div className="row user-profile-row">
               <div className="usa-width-two-thirds medium-8 small-12 columns">
-                <h1>Your VA.gov Account Settings</h1>
+                <h1>Your VA.gov account settings</h1>
                 <div className="va-introtext">
                   <p>
                     Below, you’ll find your current settings for signing in to{' '}
