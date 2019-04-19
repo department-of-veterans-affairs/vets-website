@@ -58,7 +58,6 @@ export default function ContactInformationExplanation() {
         <a href={facilityLocator.rootUrl}>
           Find your nearest VA medical center
         </a>
-        .
       </AdditionalInfo>
     </div>
   );
