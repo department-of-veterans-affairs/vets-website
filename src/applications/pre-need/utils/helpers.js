@@ -51,7 +51,9 @@ export const authorizedAgentDescription = (
 
 export const veteranRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>service member or Veteran</strong>. We'll ask you questions about your military status and history to determine if you qualify for burial in a VA national cemetery.
+    You’re applying as the <strong>service member or Veteran</strong>. We'll ask
+    you questions about your military status and history to determine if you
+    qualify for burial in a VA national cemetery.
   </div>
 );
 
@@ -59,22 +61,28 @@ export const spouseRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the{' '}
     <strong>legally married spouse or surviving spouse</strong> of the service
-    member or Veteran who’s your sponsor. We’ll ask you questions about your sponsor’s military status and history to determine if you qualify for burial in a VA national cemetery.
+    member or Veteran who’s your sponsor. We’ll ask you questions about your
+    sponsor’s military status and history to determine if you qualify for burial
+    in a VA national cemetery.
   </div>
 );
 
 export const childRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the <strong>unmarried adult child</strong> of the service
-    member or Veteran who’s your sponsor. We’ll ask you questions about your sponsor’s military status and history to determine if you qualify for burial in a VA national cemetery. You’ll also need to provide supporting documents with
-    information about your disability.
+    member or Veteran who’s your sponsor. We’ll ask you questions about your
+    sponsor’s military status and history to determine if you qualify for burial
+    in a VA national cemetery. You’ll also need to provide supporting documents
+    with information about your disability.
   </div>
 );
 
 export const otherRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
     You’re applying on <strong>behalf</strong> of the service member or Veteran
-    who’s your sponsor. We’ll ask you questions about your sponsor’s military status and history to determine if they qualify for burial in a VA national cemetery.
+    who’s your sponsor. We’ll ask you questions about your sponsor’s military
+    status and history to determine if they qualify for burial in a VA national
+    cemetery.
   </div>
 );
 
