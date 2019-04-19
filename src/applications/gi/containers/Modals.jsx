@@ -770,8 +770,8 @@ export class Modals extends React.Component {
           <ul>
             <li>
               The individual campus of a school where the student is taking
-              classes (for example, the school’s science center, humanities building, or
-              athletic center)
+              classes (for example, the school’s science center, humanities
+              building, or athletic center)
             </li>
             <li>
               The physical location where a student is learning in a study
