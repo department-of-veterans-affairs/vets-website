@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import { ConfirmationPageNew } from '../../containers/ConfirmationPageNew';
 
 describe('hca <ConfirmationPage>', () => {
   it('should render', () => {
@@ -25,17 +25,14 @@ describe('hca <ConfirmationPage>', () => {
 
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
-    expect(tree.subTree('.confirmation-page-title').text()).to.contain(
-      'Your claim is pending',
-    );
     expect(tree.subTree('.claim-list')).to.exist;
     expect(tree.everySubTree('span')[2].text()).to.contain('Jan. 1, 2010');
-    expect(tree.everySubTree('p')[0].text()).to.contain(
-      'We usually process claims within a week.',
+    expect(tree.everySubTree('.how-long')[0].text()).to.contain(
+      'We usually decide on applications within 1 week.',
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply.');
+    ).to.contain('Find out what happens after you apply');
   });
   it('should render without response properties', () => {
     const form = {
@@ -50,15 +47,12 @@ describe('hca <ConfirmationPage>', () => {
       },
     };
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-    expect(tree.subTree('.confirmation-page-title').text()).to.contain(
-      'Your claim is pending',
-    );
-    expect(tree.everySubTree('p')[0].text()).to.contain(
-      'We usually process claims within a week.',
+    expect(tree.everySubTree('.how-long')[0].text()).to.contain(
+      'We usually decide on applications within 1 week.',
     );
     expect(tree.subTree('.claim-list')).to.be.false;
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply.');
+    ).to.contain('Find out what happens after you apply');
   });
 });
