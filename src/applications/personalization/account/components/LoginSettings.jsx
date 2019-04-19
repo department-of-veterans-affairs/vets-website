@@ -37,7 +37,7 @@ export default function LoginSettings() {
           >
             Manage your ID.me account
           </a>
-          .<span className="external-link-icon-black">&nbsp;</span>
+          <span className="external-link-icon-black">&nbsp;</span>
         </p>
         <AdditionalInfo triggerText="What is ID.me?">
           {idMeAnswer}
