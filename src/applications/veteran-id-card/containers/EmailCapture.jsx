@@ -40,7 +40,7 @@ class EmailCapture extends React.Component {
         <div>
           <h1>Printed Veteran ID Card</h1>
           <p>
-            You've reached the new Veteran ID Card application! We're excited to
+            You've reached the new Veteran ID Card application. We're excited to
             bring this important recognition to Veterans. We've experienced a
             great response and are working to make the application process more
             efficient.
