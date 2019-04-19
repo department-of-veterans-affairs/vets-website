@@ -736,7 +736,7 @@ export const contactInfoUpdateHelp = () => (
       please go to your profile page.
     </p>
     <p>
-      <a href="/profile">Go to my profile page</a>.
+      <a href="/profile">Go to my profile page</a>
     </p>
   </div>
 );

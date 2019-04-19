@@ -95,9 +95,9 @@ describe('<DisabilityWizard>', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({ disabilityStatus: 'appeal', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Learn how to file an appeal.');
+    expect(tree.find('a').text()).to.equal('Learn how to file an appeal');
     expect(tree.find('p').text()).to.equal(
-      'If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal.',
+      'If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal',
     );
     tree.unmount();
   });

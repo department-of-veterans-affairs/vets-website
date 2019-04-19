@@ -35,7 +35,7 @@ describe('hca <ConfirmationPage>', () => {
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply.');
+    ).to.contain('Find out what happens after you apply');
   });
   it('should render without response properties', () => {
     const form = {
@@ -59,6 +59,6 @@ describe('hca <ConfirmationPage>', () => {
     expect(tree.subTree('.claim-list')).to.be.false;
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply.');
+    ).to.contain('Find out what happens after you apply');
   });
 });

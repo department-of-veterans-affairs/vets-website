@@ -20,7 +20,7 @@ export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
       <span>
         If you disagree with our decision on your disability claim, you can
         appeal it. <br />
-        <a href="/disability/file-an-appeal/">Learn how to file an appeal.</a>
+        <a href="/disability/file-an-appeal/">Learn how to file an appeal</a>
       </span>
     );
   }
