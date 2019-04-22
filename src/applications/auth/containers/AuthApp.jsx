@@ -60,7 +60,7 @@ class AuthMetrics {
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Raven.captureMessage('Unrecognized auth event type', {
-          extra: { type: this.type },
+          extra: { type: this.type || 'N/A' },
         });
     }
 
@@ -72,13 +72,9 @@ class AuthMetrics {
 
   reportSentryErrors = () => {
     if (!Object.keys(this.userProfile).length) {
-      Raven.captureMessage('Unexpected response for user object', {
-        extra: { payload: this.payload },
-      });
+      Raven.captureMessage('Unexpected response for user object');
     } else if (!this.serviceName) {
-      Raven.captureMessage('Missing serviceName in user object', {
-        extra: { payload: this.payload },
-      });
+      Raven.captureMessage('Missing serviceName in user object');
     }
   };
 
