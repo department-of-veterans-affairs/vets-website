@@ -20,7 +20,7 @@ class AuthMetrics {
     this.type = type;
     this.payload = payload;
     this.userProfile = get('data.attributes.profile', payload, {});
-    this.loaCurrent = get('loa.loaCurrent', this.userProfile, null);
+    this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
   }
 
