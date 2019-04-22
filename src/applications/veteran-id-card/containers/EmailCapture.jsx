@@ -50,7 +50,7 @@ class EmailCapture extends React.Component {
             sending specific instructions on how to proceed. Please enter your
             email address below. We'll only use it to contact you about
             continuing the Veteran ID Card application process.{' '}
-            <a href="/privacy/">See our privacy policy</a>.
+            <a href="/privacy-policy/">See our privacy policy</a>.
           </p>
           <form onSubmit={this.handleSubmit}>
             <ErrorableTextInput
