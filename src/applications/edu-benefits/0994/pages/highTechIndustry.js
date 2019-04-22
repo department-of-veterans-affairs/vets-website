@@ -70,9 +70,6 @@ export const uiSchema = {
       mediaApplication: {
         'ui:title': 'Media application',
       },
-      noneApply: {
-        'ui:title': 'None of these',
-      },
     },
   },
 };
@@ -95,7 +92,6 @@ export const schema = {
             computerSoftware: { type: 'boolean' },
             informationSciences: { type: 'boolean' },
             mediaApplication: { type: 'boolean' },
-            noneApply: { type: 'boolean' },
           },
         },
       },
