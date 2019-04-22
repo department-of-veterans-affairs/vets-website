@@ -8,11 +8,11 @@ export const systemDownMessage = (
     <div className="small-12 columns">
       <div className="react-container">
         <h3>
-          Sorry, our system is temporarily down while we fix a few things.
+          We're sorry. Our system is temporarily down while we fix a few things.
           Please try again later.
         </h3>
         <a href="/" className="usa-button-primary">
-          Go Back to VA.gov
+          Go back to VA.gov
         </a>
       </div>
     </div>
@@ -62,7 +62,7 @@ export const mhvAccessError = (
               <strong>
                 Did you forget to accept My HealtheVet's terms and conditions?
               </strong>{' '}
-              You need to log in to My HealtheVet and accept their terms and
+              You need to sign in to My HealtheVet and accept their terms and
               conditions.
             </li>
           </ol>
