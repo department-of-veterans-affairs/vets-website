@@ -386,6 +386,7 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
+            'ui:description': PrefillMessage,
             veteranAddress: _.merge(addressUI('Permanent address', true), {
               street: {
                 'ui:errorMessages': {
