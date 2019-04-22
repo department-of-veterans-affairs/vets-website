@@ -86,7 +86,7 @@ export class ConfirmationPage extends React.Component {
           </h4>
           <p className="confirmation-guidance-message">
             <a href="/health-care/after-you-apply/">
-              Find out what happens after you apply.
+              Find out what happens after you apply
             </a>
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>

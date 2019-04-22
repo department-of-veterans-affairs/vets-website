@@ -123,7 +123,6 @@ class ConfirmationPage extends React.Component {
             <a href="/education/after-you-apply/">
               Find out what happens after you apply
             </a>
-            .
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
@@ -135,7 +134,7 @@ class ConfirmationPage extends React.Component {
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
-              <button className="usa-button-primary">Go Back to VA.gov</button>
+              <button className="usa-button-primary">Go back to VA.gov</button>
             </a>
           </div>
         </div>

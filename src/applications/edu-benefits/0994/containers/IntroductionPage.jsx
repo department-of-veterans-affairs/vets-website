@@ -96,7 +96,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>
                 We usually process applications within 30 days. We'll let you
@@ -106,7 +106,7 @@ export class IntroductionPage extends React.Component {
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
                 <a href="/careers-employment/careerscope-skills-assessment/">
-                  Learn about career counseling options.
+                  Learn about career counseling options
                 </a>
               </p>
             </li>
@@ -129,7 +129,7 @@ export class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the VET TEC Application"
+          startText="Start the VET TEC application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo

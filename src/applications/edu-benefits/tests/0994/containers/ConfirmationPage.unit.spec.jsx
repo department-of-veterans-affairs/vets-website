@@ -51,7 +51,7 @@ describe('Edu 0994 <ConfirmationPage>', () => {
         .find('.confirmation-guidance-message')
         .at(0)
         .text(),
-    ).to.equal('Find out what happens after you apply.');
+    ).to.equal('Find out what happens after you apply');
 
     tree.unmount();
   });

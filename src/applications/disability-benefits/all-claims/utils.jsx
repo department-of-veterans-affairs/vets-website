@@ -6,7 +6,6 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
-import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -771,25 +770,6 @@ export const directToCorrectForm = ({
     window.location.assign(`${baseUrl}/resume`);
   } else {
     router.push(returnUrl);
-  }
-};
-
-/**
- * Pushes an event to the Analytics dataLayer if the event doesn't already
- * exist there. If the event contains a `key` property whose value matches an
- * existing item in the dataLayer with the same key/value pair, the whole event
- * and all of its properties will be skipped.
- * @param {object} event this will get pushed to `dataLayer`.
- * @param {string} key the property in the event object to use when looking for
- *                     existing matches in the dataLayer
- */
-export const recordEventOnce = (event, key) => {
-  const alreadyRecorded =
-    window.dataLayer &&
-    !!window.dataLayer.find(item => item[key] === event[key]);
-
-  if (!alreadyRecorded) {
-    recordEvent(event);
   }
 };
 

@@ -20,7 +20,7 @@ export class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Education Application"
+          startText="Start the education application"
         />
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
@@ -71,7 +71,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>
                 We usually process claims within 30 days. We’ll let you know by
@@ -81,7 +81,7 @@ export class IntroductionPage extends React.Component {
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
                 <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                  Learn about career counseling options.
+                  Learn about career counseling options
                 </a>
               </p>
             </li>
@@ -104,7 +104,7 @@ export class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Education Application"
+          startText="Start the education application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019" />
