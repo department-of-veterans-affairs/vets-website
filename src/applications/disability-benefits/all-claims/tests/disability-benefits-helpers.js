@@ -236,12 +236,6 @@ function initInProgressMock(token, data = defaultData) {
           emailAddress: 'test2@test1.net',
         },
         disabilities: data.ratedDisabilities,
-        reservesNationalGuardService: {
-          obligationTermOfServiceDateRange: {
-            from: '2007-05-22',
-            to: '2008-06-05',
-          },
-        },
       },
       metadata: {
         version: 0,
