@@ -1,6 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
-import { highTechIndustryDescription } from '../content/highTechIndustry';
+import {
+  highTechIndustryDescription,
+  highTechnologyEmploymentTypeDescription,
+} from '../content/highTechIndustry';
 
 const {
   currentHighTechnologyEmployment,
@@ -52,9 +55,8 @@ export const uiSchema = {
       },
     },
     highTechnologyEmploymentType: {
-      'ui:title': '',
-      'ui:description':
-        'Which area best describes your high-tech work experience? (Check all that apply.)',
+      'ui:title': ' ',
+      'ui:description': highTechnologyEmploymentTypeDescription,
       computerProgramming: {
         'ui:title': 'Computer programming',
       },
