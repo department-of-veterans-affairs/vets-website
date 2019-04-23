@@ -17,4 +17,4 @@ To create a similar process for another application, follow these steps:
     - The FE and API have to agree on the name of your beta. Make sure it exists in the [API](https://github.com/department-of-veterans-affairs/vets-api/blob/cb0b37ec83fd5c46e7d8c918bae35027e8541696/config/routes.rb#L243) `beta_registration` controller.
 
 ## Unenrolling from Beta
-There is an action available for deleting a service from the user's services array, but it must be implemented manually.
+There is an action available for deleting a service from the user's services array, but it must be implemented manually. [Here's](https://github.com/department-of-veterans-affairs/vets-website/blob/4caa3f5689de0767c85c30e260e9eda9fb953130/src/applications/personalization/account-beta/containers/BetaTools.jsx) how we did in the Personalization rollout.
