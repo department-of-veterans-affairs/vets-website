@@ -10,8 +10,6 @@
                 {{ serviceTaxonomy.name }}
             </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                <div>{{ serviceTaxonomy.fieldAlsoKnownAs }}</div>
-
 
                 {% if healthService.fieldBody.processed %}
                     <div>{{ healthService.fieldBody.processed }}</div>
