@@ -27,4 +27,14 @@ describe('estimatedBenefits', () => {
       }).tuition.value,
     ).to.equal('N/A');
   });
+
+  it('lower DoD rate than VA should result in DoD rate displaying', () => {
+    expect(
+      estimatedBenefits(defaultState, {
+        bah: 1000,
+        dodBah: 500,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(500);
+  });
 });
