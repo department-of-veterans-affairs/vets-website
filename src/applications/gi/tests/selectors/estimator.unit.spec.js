@@ -39,6 +39,16 @@ describe('estimatedBenefits', () => {
     ).to.equal(500);
   });
 
+  it('lower VA rate than DoD should result in VA rate displaying', () => {
+    expect(
+      estimatedBenefits(defaultState, {
+        bah: 1000,
+        dodBah: 5000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(1000);
+  });
+
   it('should estimate zero housing allowance for active duty', () => {
     const state = set(
       'eligibility.militaryStatus',
