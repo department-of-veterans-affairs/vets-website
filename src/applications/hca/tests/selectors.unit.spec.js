@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
+import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 const basicEnrollmentStatusState = {
   applicationDate: null,
@@ -153,6 +154,42 @@ describe('simple top-level selectors', () => {
       state.hcaEnrollmentStatus.showHCAReapplyContent = true;
       isShowingHCAReapplyContent = selectors.isShowingHCAReapplyContent(state);
       expect(isShowingHCAReapplyContent).to.equal(true);
+    });
+  });
+
+  describe('isEnrolledInVAHealthCare', () => {
+    it('returns `false` if the enrollmentStatus is not set', () => {
+      const state = {
+        hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
+      };
+      const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
+        state,
+      );
+      expect(isEnrolledInVAHealthCare).to.be.false;
+    });
+    it('returns `false` if the enrollmentStatus is not enrolled', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.pendingOther,
+        },
+      };
+      const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
+        state,
+      );
+      expect(isEnrolledInVAHealthCare).to.be.false;
+    });
+    it('returns `true` if the enrollmentStatus is enrolled', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+        },
+      };
+      const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
+        state,
+      );
+      expect(isEnrolledInVAHealthCare).to.be.true;
     });
   });
 });

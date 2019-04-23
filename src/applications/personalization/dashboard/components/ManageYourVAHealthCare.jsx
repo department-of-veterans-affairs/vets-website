@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import {
   DowntimeNotification,
@@ -12,6 +14,12 @@ import {
 
 import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
+
+import {
+  isEnrolledInVAHealthCare,
+  selectEnrollmentStatus,
+} from 'applications/hca/selectors';
+import { getEnrollmentDetails } from 'applications/hca/enrollment-status-helpers';
 
 const ScheduleAnAppointmentWidget = () => (
   <div id="rx-widget">
@@ -31,9 +39,31 @@ const ScheduleAnAppointmentWidget = () => (
   </div>
 );
 
-const ManageYourVAHealthCare = () => (
+const ManageYourVAHealthCare = ({
+  applicationDate,
+  enrollmentDate,
+  isEnrolledInHealthCare,
+  preferredFacility,
+}) => (
   <>
     <h2>Manage your VA health care</h2>
+    <AlertBox
+      content={
+        <div>
+          <h4 className="usa-alert-heading">
+            You are enrolled in VA Health Care
+          </h4>
+          {getEnrollmentDetails(
+            applicationDate,
+            enrollmentDate,
+            preferredFacility,
+          )}
+        </div>
+      }
+      status="info"
+      isVisible={isEnrolledInHealthCare}
+      className="background-color-only"
+    />
     <DowntimeNotification
       appTitle="messaging"
       dependencies={[externalServices.mvi, externalServices.mhv]}
@@ -55,8 +85,27 @@ const ManageYourVAHealthCare = () => (
     >
       <PrescriptionsWidget />
     </DowntimeNotification>
-    <ScheduleAnAppointmentWidget />
+    {isEnrolledInHealthCare && <ScheduleAnAppointmentWidget />}
   </>
 );
 
-export default ManageYourVAHealthCare;
+const mapStateToProps = state => {
+  const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
+  const hcaEnrollmentStatus = selectEnrollmentStatus(state);
+  const {
+    applicationDate,
+    enrollmentDate,
+    preferredFacility,
+  } = hcaEnrollmentStatus;
+
+  return {
+    applicationDate,
+    enrollmentDate,
+    isEnrolledInHealthCare,
+    preferredFacility,
+  };
+};
+
+export { ManageYourVAHealthCare };
+
+export default connect(mapStateToProps)(ManageYourVAHealthCare);
