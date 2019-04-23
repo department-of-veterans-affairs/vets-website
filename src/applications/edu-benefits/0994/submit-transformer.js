@@ -54,7 +54,7 @@ export function transform(formConfig, form) {
 
       const highTechnologyEmploymentTypes = Object.keys(
         highTechnologyEmploymentType,
-      );
+      ).filter(key => highTechnologyEmploymentType[key] && key !== 'noneApply');
 
       delete clonedData.highTechnologyEmploymentType;
 
