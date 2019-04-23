@@ -99,6 +99,7 @@ describe('estimatedBenefits', () => {
       }).housing.value,
     ).to.equal(Math.round(state.constants.constants.MGIB3YRRATE));
   });
+
   it('should estimate OJT housing allowance for chapter 30 as .75 * MGIB3YRRATE', () => {
     const state = set('eligibility.giBillChapter', '30', defaultState);
     expect(
