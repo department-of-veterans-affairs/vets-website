@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { set } from 'lodash/fp';
 
 import reducer from '../../reducers';
 import { calculatorConstants } from '../gibct-helpers';
@@ -18,7 +19,7 @@ calculatorConstants.data.forEach(c => {
 });
 
 describe('estimatedBenefits', () => {
-  it('should estimate no tuition allowance for ojt school', () => {
+  it('should estimate zero tuition allowance for ojt school', () => {
     expect(
       estimatedBenefits(defaultState, {
         type: 'ojt',
@@ -36,5 +37,76 @@ describe('estimatedBenefits', () => {
         country: 'usa',
       }).housing.value,
     ).to.equal(500);
+  });
+
+  it('should estimate zero housing allowance for active duty', () => {
+    const state = set(
+      'eligibility.militaryStatus',
+      'active duty',
+      defaultState,
+    );
+
+    expect(
+      estimatedBenefits(state, {
+        type: 'public school',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(0);
+  });
+
+  it('should estimate zero housing allowance for active duty spouse', () => {
+    let state = set('eligibility.militaryStatus', 'spouse', defaultState);
+    state = set('eligibility.spouseActiveDuty', 'yes', state);
+
+    expect(
+      estimatedBenefits(state, {
+        type: 'public school',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(0);
+  });
+
+  it('should estimate zero housing allowance for correspondence school', () => {
+    expect(
+      estimatedBenefits(defaultState, {
+        type: 'correspondence',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(0);
+  });
+
+  it('should estimate zero tuition allowance for old GI bill', () => {
+    const state = set('eligibility.giBillChapter', '30', defaultState);
+    expect(
+      estimatedBenefits(state, {
+        type: 'public school',
+        bah: 1000,
+        country: 'usa',
+      }).tuition.value,
+    ).to.equal(0);
+  });
+
+  it('should estimate housing allowance for chapter 30 as MGIB3YRRATE', () => {
+    const state = set('eligibility.giBillChapter', '30', defaultState);
+    expect(
+      estimatedBenefits(state, {
+        type: 'public school',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(Math.round(state.constants.constants.MGIB3YRRATE));
+  });
+  it('should estimate OJT housing allowance for chapter 30 as .75 * MGIB3YRRATE', () => {
+    const state = set('eligibility.giBillChapter', '30', defaultState);
+    expect(
+      estimatedBenefits(state, {
+        type: 'ojt',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(Math.round(state.constants.constants.MGIB3YRRATE * 0.75));
   });
 });
