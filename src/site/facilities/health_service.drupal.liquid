@@ -10,13 +10,12 @@
                 {{ serviceTaxonomy.name }}
             </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                {% if serviceTaxonomy.description.processed  %}
+                    <div>{{ serviceTaxonomy.description.processed }}</div>
+                {% endif %}
 
                 {% if healthService.fieldBody.processed %}
                     <div>{{ healthService.fieldBody.processed }}</div>
-                {% endif %}
-
-                {% if serviceTaxonomy.description.processed  %}
-                    <div>{{ serviceTaxonomy.description.processed }}</div>
                 {% endif %}
 
                 {% if healthService.fieldLocalHealthCareService.length and localServiceDescription == empty %}
