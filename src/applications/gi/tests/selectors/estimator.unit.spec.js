@@ -29,6 +29,26 @@ describe('estimatedBenefits', () => {
     ).to.equal('N/A');
   });
 
+  it('lower DoD rate than VA should result in DoD rate displaying', () => {
+    expect(
+      estimatedBenefits(defaultState, {
+        bah: 1000,
+        dodBah: 500,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(500);
+  });
+
+  it('lower VA rate than DoD should result in VA rate displaying', () => {
+    expect(
+      estimatedBenefits(defaultState, {
+        bah: 1000,
+        dodBah: 5000,
+        country: 'usa',
+      }).housing.value,
+    ).to.equal(1000);
+  });
+
   it('should estimate zero housing allowance for active duty', () => {
     const state = set(
       'eligibility.militaryStatus',
@@ -89,6 +109,7 @@ describe('estimatedBenefits', () => {
       }).housing.value,
     ).to.equal(Math.round(state.constants.constants.MGIB3YRRATE));
   });
+
   it('should estimate OJT housing allowance for chapter 30 as .75 * MGIB3YRRATE', () => {
     const state = set('eligibility.giBillChapter', '30', defaultState);
     expect(
