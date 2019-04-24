@@ -296,6 +296,8 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   /* eslint-enable no-await-in-loop */
 };
 
+const removeForeseeOverlay = page => searchAndDestroy(page, '.__acs');
+
 /**
  * This is the main entry point. After all the setup has been performed, this function
  *  loops through the pages, filling in all the data it can until it gets to the review
@@ -309,7 +311,7 @@ const fillForm = async (page, testData, testConfig, log) => {
     log(page.url());
     // TODO: Run axe checker
 
-    searchAndDestroy(page, '.__acs');
+    removeForeseeOverlay(page);
 
     // If there's a page hook, run that
     const url = page.url();
