@@ -19,7 +19,7 @@ calculatorConstants.data.forEach(c => {
 });
 
 describe('estimatedBenefits', () => {
-  it('should estimate zero tuition allowance for ojt school', () => {
+  it('should estimate zero tuition allowance for OJT school', () => {
     expect(
       estimatedBenefits(defaultState, {
         type: 'ojt',
@@ -119,5 +119,28 @@ describe('estimatedBenefits', () => {
         country: 'usa',
       }).housing.value,
     ).to.equal(Math.round(state.constants.constants.MGIB3YRRATE * 0.75));
+  });
+
+  it('should estimate housing for purple heart benefit', () => {
+    const state = set(
+      'eligibility.cululativeService',
+      'purple heart',
+      defaultState,
+    );
+    expect(
+      estimatedBenefits(state, { type: 'public', bah: 2000, country: 'usa' })
+        .housing.value,
+    ).to.equal(2000);
+  });
+
+  it('should estimate books for purple heart benefit', () => {
+    const state = set(
+      'eligibility.cululativeService',
+      'purple heart',
+      defaultState,
+    );
+    expect(
+      estimatedBenefits(state, { type: 'public', country: 'usa' }).books.value,
+    ).to.equal(1000);
   });
 });

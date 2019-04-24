@@ -21,6 +21,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   let monthlyRate;
 
   const serviceDischarge = your.cumulativeService === 'service discharge';
+  const purpleHeart = your.cumulativeService === 'purple heart';
 
   // VRE and post-9/11 eligibility
   const vre911Eligible =
@@ -32,7 +33,9 @@ function getDerivedAttributes(constant, eligibility, institution) {
 
   // Determines benefits tier
   const tier =
-    vre911Eligible || serviceDischarge ? 1 : Number(your.cumulativeService);
+    vre911Eligible || serviceDischarge || purpleHeart
+      ? 1
+      : Number(your.cumulativeService);
 
   const oldGiBill =
     your.giBillChapter === '30' ||
@@ -195,11 +198,10 @@ function calculateHousing(constant, eligibility, institution, derived) {
     };
   }
   if (!environment.isProduction()) {
+    const bah = its.dodBah && its.dodBah < its.bah ? its.dodBah : its.bah;
     return {
       qualifier: 'per month',
-      value: Math.round(
-        derived.tier * (its.bah < its.dodBah ? its.bah : its.dodBah),
-      ),
+      value: Math.round(derived.tier * bah),
     };
   }
   return { qualifier: 'per month', value: Math.round(derived.tier * its.bah) };
