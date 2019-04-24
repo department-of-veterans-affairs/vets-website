@@ -169,6 +169,13 @@ function calculateHousing(constant, eligibility, institution, derived) {
       ? its.dodBah
       : its.bah;
 
+  const avgBah =
+    constant.AVGDODBAH &&
+    constant.AVGDODBAH < constant.AVGBAH &&
+    !environment.isProduction()
+      ? constant.AVGDODBAH
+      : constant.AVGBAH;
+
   if (your.giBillChapter === '31' && isFlightOrCorrespondence()) {
     return { qualifier: 'per month', value: 0 };
   }
@@ -193,13 +200,13 @@ function calculateHousing(constant, eligibility, institution, derived) {
   if (your.onlineClasses === 'yes') {
     return {
       qualifier: 'per month',
-      value: Math.round((derived.tier * constant.AVGBAH) / 2),
+      value: Math.round((derived.tier * avgBah) / 2),
     };
   }
   if (its.country !== 'usa') {
     return {
       qualifier: 'per month',
-      value: Math.round(derived.tier * constant.AVGBAH),
+      value: Math.round(derived.tier * avgBah),
     };
   }
   return { qualifier: 'per month', value: Math.round(derived.tier * bah) };
