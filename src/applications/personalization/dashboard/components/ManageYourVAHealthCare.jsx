@@ -58,6 +58,14 @@ const ManageYourVAHealthCare = ({
             enrollmentDate,
             preferredFacility,
           )}
+          <p>
+            <a href="/health-care/about-va-health-benefits/#health-about-basic">
+              Learn more about your VA health benefits
+            </a>
+          </p>
+          <p>
+            <a href="/find-locations/">Find your nearest VA health facility</a>
+          </p>
         </div>
       }
       status="info"
