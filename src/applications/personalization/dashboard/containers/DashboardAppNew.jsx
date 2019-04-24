@@ -11,6 +11,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
+import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
 
@@ -183,6 +185,7 @@ class DashboardAppNew extends React.Component {
 
   componentDidMount() {
     scrollToTop();
+    this.props.getEnrollmentStatus();
   }
 
   dismissAlertBox = name => () => {
@@ -357,12 +360,14 @@ const mapStateToProps = state => {
     canAccessAppeals,
     canAccessClaims,
     profile: profileState,
-    showManageYourVAHealthCare: canAccessRx || canAccessMessaging,
+    showManageYourVAHealthCare:
+      isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
   };
 };
 
 const mapDispatchToProps = {
   removeSavedForm: removeSavedFormAction,
+  getEnrollmentStatus: getEnrollmentStatusAction,
 };
 
 export default withRouter(
