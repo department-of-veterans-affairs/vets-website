@@ -1,4 +1,4 @@
-// TODO: perhaps make these selectors fail gracefully if state.user, or any of
+// TODO: perhaps make these selectors fail gracefully if state.user, or any of;
 // the properties on the user object are not defined
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
