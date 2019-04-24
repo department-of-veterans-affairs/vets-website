@@ -75,10 +75,18 @@ describe('estimatedBenefits', () => {
       ).to.equal(250);
     });
 
-    it('should display 1/2 lower VA average rate for online classes', () => {
+    it('should display 1/2 lower VA average rate for online classes for usa institutions', () => {
       const state = set('eligibility.onlineClasses', 'yes', defaultState);
       expect(
         estimatedBenefits(state, { type: 'public', country: 'usa' }).housing
+          .value,
+      ).to.equal(806);
+    });
+
+    it('should display 1/2 lower VA average rate for online classes for non-usa institutions', () => {
+      const state = set('eligibility.onlineClasses', 'yes', defaultState);
+      expect(
+        estimatedBenefits(state, { type: 'public', country: 'canada' }).housing
           .value,
       ).to.equal(806);
     });
