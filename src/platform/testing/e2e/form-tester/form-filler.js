@@ -1,6 +1,8 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
+const { searchAndDestroy } = require('./util');
+
 const FIELD_SELECTOR = 'input, select, textarea';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
 const ARRAY_ITEM_SELECTOR =
@@ -306,6 +308,8 @@ const fillForm = async (page, testData, testConfig, log) => {
   while (!page.url().endsWith('review-and-submit')) {
     log(page.url());
     // TODO: Run axe checker
+
+    searchAndDestroy(page, '.__acs');
 
     // If there's a page hook, run that
     const url = page.url();
