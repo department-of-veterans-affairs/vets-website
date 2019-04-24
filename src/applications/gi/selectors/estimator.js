@@ -164,6 +164,11 @@ function calculateHousing(constant, eligibility, institution, derived) {
   const isFlightOrCorrespondence = () =>
     its.type === 'flight' || its.type === 'correspondence';
 
+  const bah =
+    its.dodBah && its.dodBah < its.bah && !environment.isProduction()
+      ? its.dodBah
+      : its.bah;
+
   if (your.giBillChapter === '31' && isFlightOrCorrespondence()) {
     return { qualifier: 'per month', value: 0 };
   }
@@ -182,7 +187,7 @@ function calculateHousing(constant, eligibility, institution, derived) {
   if (its.type === 'ojt') {
     return {
       qualifier: 'per month',
-      value: Math.round(derived.tier * its.bah),
+      value: Math.round(derived.tier * bah),
     };
   }
   if (your.onlineClasses === 'yes') {
@@ -197,14 +202,7 @@ function calculateHousing(constant, eligibility, institution, derived) {
       value: Math.round(derived.tier * constant.AVGBAH),
     };
   }
-  if (!environment.isProduction()) {
-    const bah = its.dodBah && its.dodBah < its.bah ? its.dodBah : its.bah;
-    return {
-      qualifier: 'per month',
-      value: Math.round(derived.tier * bah),
-    };
-  }
-  return { qualifier: 'per month', value: Math.round(derived.tier * its.bah) };
+  return { qualifier: 'per month', value: Math.round(derived.tier * bah) };
 }
 
 function calculateBooks(constant, eligibility, institution, derived) {
