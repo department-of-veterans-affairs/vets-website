@@ -97,11 +97,7 @@ export class Main extends React.Component {
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
 
-    return (
-      <div>
-        <MegaMenu {...childProps} />
-      </div>
-    );
+    return <MegaMenu {...childProps} />;
   }
 }
 
@@ -110,14 +106,13 @@ const mainSelector = createSelector(
   ({ state }) => isLoggedIn(state),
   ({ state }) => state.megaMenu,
   ({ megaMenuData }) => megaMenuData,
-  (profile, loggedIn, megaMenu, megaMenuData) => {
+  (loggedIn, megaMenu, megaMenuData) => {
     const data = flagCurrentPageInTopLevelLinks(
       getAuthorizedLinkData(loggedIn, megaMenuData),
     );
 
     return {
       ...megaMenu,
-      mhvAccount: profile.mhvAccount,
       data,
     };
   },
