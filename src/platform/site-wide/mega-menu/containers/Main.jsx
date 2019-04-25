@@ -8,7 +8,6 @@ import {
   toggleMobileDisplayHidden,
   updateCurrentSection,
 } from '../actions';
-import { toggleMyHealthModal } from './../../user-nav/actions';
 import recordEvent from '../../../monitoring/record-event';
 import { selectProfile, isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
@@ -132,7 +131,6 @@ const mapStateToProps = (state, ownProps) =>
 
 const mapDispatchToProps = {
   toggleMobileDisplayHidden,
-  toggleMyHealthModal,
   togglePanelOpen,
   updateCurrentSection,
 };
