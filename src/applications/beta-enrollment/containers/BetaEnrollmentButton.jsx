@@ -14,7 +14,7 @@ class BetaEnrollmentButton extends React.Component {
   };
 
   static defaultProps = {
-    buttonText: 'Turn On Beta Tools',
+    buttonText: 'Turn on beta tools',
   };
 
   constructor(props) {
