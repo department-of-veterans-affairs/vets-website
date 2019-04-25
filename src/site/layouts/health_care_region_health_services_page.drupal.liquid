@@ -72,7 +72,7 @@
                         {% for wellnessService in healthWellnessPatientFamilyServices.entities %}
                             {% if buildtype == 'vagovprod' %}
                               {% include "src/site/facilities/health_service.old.drupal.liquid" with healthService = wellnessService %}
-                            {% elsif %}
+                            {% else %}
                               {% include "src/site/facilities/health_service.drupal.liquid" with healthService = wellnessService %}
                             {% endif %}
                         {% endfor %}
