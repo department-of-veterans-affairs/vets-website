@@ -177,6 +177,16 @@ function compilePage(page, contentData) {
   let pageCompiled;
 
   switch (entityBundle) {
+    case 'library':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        alertItems,
+        pageId,
+      );
+      break;
+
     case 'health_care_region_detail_page':
       pageCompiled = Object.assign(
         {},
