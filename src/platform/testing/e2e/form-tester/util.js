@@ -41,10 +41,12 @@ function getTestDataSets(path, rules = { extension: 'json' }) {
  * @param {...String} - The selectors used to find the elements to
  *                      remove
  */
-function searchAndDestroy(page, ...selectors) {
-  selectors.forEach(sel =>
-    page.$$eval(sel, elements =>
-      elements.forEach(el => el.parentNode.removeChild(el)),
+async function searchAndDestroy(page, ...selectors) {
+  await Promise.all(
+    selectors.map(async sel =>
+      page.$$eval(sel, elements =>
+        elements.forEach(el => el.parentNode.removeChild(el)),
+      ),
     ),
   );
 }

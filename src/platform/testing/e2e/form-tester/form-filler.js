@@ -296,7 +296,7 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   /* eslint-enable no-await-in-loop */
 };
 
-const removeForeseeOverlay = page => searchAndDestroy(page, '.__acs');
+const removeForeseeOverlay = async page => searchAndDestroy(page, '.__acs');
 
 /**
  * This is the main entry point. After all the setup has been performed, this function
@@ -311,7 +311,7 @@ const fillForm = async (page, testData, testConfig, log) => {
     log(page.url());
     // TODO: Run axe checker
 
-    removeForeseeOverlay(page);
+    await removeForeseeOverlay(page);
 
     // If there's a page hook, run that
     const url = page.url();
@@ -339,6 +339,7 @@ const fillForm = async (page, testData, testConfig, log) => {
       if (page.url() === url) {
         // TODO: Figure out how to remove this arbitrary time
         await page.waitFor(500);
+        await removeForeseeOverlay(page);
         await fillPage(page, testData, testConfig, log);
         log('Clicking continue again');
         await page.click(CONTINUE_BUTTON);
