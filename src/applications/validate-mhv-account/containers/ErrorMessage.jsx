@@ -9,7 +9,7 @@ import {
 import GenericError from '../components/errors/GenericError';
 import MultipleMHVIds from '../components/errors/MultipleMHVIds';
 import DeactivatedMHVId from '../components/errors/DeactivatedMHVId';
-import NeedsSSNResolution from '../components/errors/NeedsSSNResolution';
+import VerificationFailed from '../components/errors/VerificationFailed';
 import NeedsVAPatient from '../components/errors/NeedsVAPatient';
 import CreateAccountFailed from '../components/errors/CreateAccountFailed';
 import UpgradeAccountFailed from '../components/errors/UpgradeAccountFailed';
@@ -19,13 +19,14 @@ class ErrorMessage extends React.Component {
     const { params } = this.props;
     const errorCode = params.errorCode;
 
+    // Render error messaging based on code
     switch (errorCode) {
       case 'has-deactivated-mhv-ids':
         return <DeactivatedMHVId />;
       case 'has-multiple-active-mhv-ids':
         return <MultipleMHVIds />;
       case 'needs-ssn-resolution':
-        return <NeedsSSNResolution />;
+        return <VerificationFailed />;
       case 'needs-va-patient':
         return <NeedsVAPatient />;
       case 'register-failed':

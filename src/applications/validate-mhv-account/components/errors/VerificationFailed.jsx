@@ -1,7 +1,7 @@
 import React from 'react';
 import MessageTemplate from '../MessageTemplate';
 
-const NeedaSSNResolution = () => {
+const VerificationFailed = () => {
   const content = {
     heading: 'Please contact us to verify your identity.',
     alertContent: (
@@ -106,4 +106,4 @@ const NeedaSSNResolution = () => {
   return <MessageTemplate content={content} />;
 };
 
-export default NeedaSSNResolution;
+export default VerificationFailed;

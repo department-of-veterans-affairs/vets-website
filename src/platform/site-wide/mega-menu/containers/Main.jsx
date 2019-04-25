@@ -11,6 +11,7 @@ import {
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
+import environment from '../../../utilities/environment';
 
 import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
 
@@ -34,9 +35,20 @@ export function getAuthorizedLinkData(
 ) {
   const authLinks = authenticatedLinks;
 
-  if (localStorage.getItem('enableMhvAccountValidation') === 'true') {
-    authLinks[1].href = '/my-health-account-validation/';
-    authLinks[1].target = undefined;
+  const myHealthLink = authLinks[1];
+
+  /* 
+    Feature flag:  Once tested, My Health link in
+    mega-menu-link-data-for-authenticated-users.json will be
+    replaced and this code block will be removed
+  */
+  if (
+    !environment.isProduction() &&
+    myHealthLink &&
+    myHealthLink.title === 'My Health'
+  ) {
+    myHealthLink.href = '/my-health-account-validation/';
+    myHealthLink.target = undefined;
   }
 
   return [

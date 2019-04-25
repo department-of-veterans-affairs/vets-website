@@ -71,7 +71,10 @@ class ValidateMHVAccount extends React.Component {
     return (
       <div className="row">
         <div className="vads-u-padding-bottom--5">
-          <LoadingIndicator messsage="Loading your health account information..." />
+          <LoadingIndicator
+            setFocus
+            messsage="Loading your health account information..."
+          />
         </div>
       </div>
     );
