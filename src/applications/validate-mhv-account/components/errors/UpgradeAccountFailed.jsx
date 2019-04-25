@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MessageTemplate from '../MessageTemplate';
 
 const UpgradeAccountFailed = ({ upgradeAccount }) => {
@@ -93,6 +94,10 @@ const UpgradeAccountFailed = ({ upgradeAccount }) => {
   };
 
   return <MessageTemplate content={content} />;
+};
+
+UpgradeAccountFailed.propTypes = {
+  upgradeAccount: PropTypes.func.isRequired,
 };
 
 export default UpgradeAccountFailed;

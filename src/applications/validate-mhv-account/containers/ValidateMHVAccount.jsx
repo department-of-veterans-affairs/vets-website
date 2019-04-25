@@ -8,6 +8,8 @@ import {
 } from '../../../platform/user/profile/actions';
 
 import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
+import environment from '../../../platform/utilities/environment/index';
+import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 
 class ValidateMHVAccount extends React.Component {
   componentDidUpdate(prevProps) {
@@ -40,8 +42,6 @@ class ValidateMHVAccount extends React.Component {
       window.location = 'error/mhv-error';
     }
 
-    // const accountState = 'needs_va_patient';
-
     switch (accountState) {
       case 'needs_identity_verification':
         window.location = 'verify';
@@ -64,7 +64,16 @@ class ValidateMHVAccount extends React.Component {
       window.location = 'create-account';
     }
 
-    window.location = 'upgrade-account';
+    if (accountLevel === 'Premium' || accountLevel === 'Advanced') {
+      const mhvUrl = 'https://www.myhealth.va.gov/mhv-portal-web/home';
+      window.location = environment.isProduction()
+        ? mhvUrl
+        : replaceWithStagingDomain(mhvUrl);
+    } else if (accountLevel === 'Basic') {
+      window.location = 'upgrade-account';
+    } else {
+      window.location = 'error';
+    }
   };
 
   render() {
