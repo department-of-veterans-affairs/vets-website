@@ -28,6 +28,7 @@ function downloadDrupalAssets(options) {
           files[asset.dest] = {
             path: asset.dest,
             isDrupalAsset: true,
+            internalUrl: asset.src,
             contents: await response.buffer(),
           };
           fs.outputFileSync(
