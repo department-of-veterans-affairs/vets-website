@@ -9,7 +9,7 @@ import {
   updateCurrentSection,
 } from '../actions';
 import recordEvent from '../../../monitoring/record-event';
-import { selectProfile, isLoggedIn } from '../../../user/selectors';
+import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
 import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
@@ -102,7 +102,6 @@ export class Main extends React.Component {
 }
 
 const mainSelector = createSelector(
-  ({ state }) => selectProfile(state),
   ({ state }) => isLoggedIn(state),
   ({ state }) => state.megaMenu,
   ({ megaMenuData }) => megaMenuData,
