@@ -65,4 +65,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BetaTools);
-export { BetaTools as HCABetaTools };
+
+export { BetaTools };
