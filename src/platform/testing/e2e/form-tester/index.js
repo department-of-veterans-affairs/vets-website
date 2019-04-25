@@ -31,14 +31,6 @@ const getLogger = (debugMode, testName) => (...params) => {
  *  the form.
  */
 const runTest = async (page, testData, testConfig, userToken, testName) => {
-  // Hide the Foresee overlay
-  await page.evaluateOnNewDocument(() => {
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = `.__acs { display: none !important; }`;
-    document.getElementsByTagName('head')[0].appendChild(style);
-  });
-
   // Go to the starting page either by logging in or going there directly
   if (testConfig.logIn) {
     await logIn(userToken, page, testConfig.url, 3);
