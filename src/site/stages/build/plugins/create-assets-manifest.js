@@ -36,9 +36,9 @@ function createAssetsManifest(buildOptions) {
       }
 
       const assetData = {
-        url: `${hostUrl}/${fileName}`,
         fileName: filePath.base,
         fileSize: file.contents.byteLength,
+        url: `${hostUrl}/${fileName}`,
         internalUrl,
       };
 
