@@ -1,5 +1,5 @@
 import React from 'react';
-import MessageTemplate from './MessageTemplate';
+import MessageTemplate from '../MessageTemplate';
 
 const NeedaSSNResolution = () => {
   const content = {

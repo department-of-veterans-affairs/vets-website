@@ -5,6 +5,7 @@
     },
     {
         "title": "My Health",
-        "href": "/my-health-account-validation/"
+        "href": "https://www.myhealth.va.gov/mhv-portal-web/home",
+        "target": "_blank"
     }
 ]

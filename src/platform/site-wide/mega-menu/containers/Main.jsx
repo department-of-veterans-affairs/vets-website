@@ -33,9 +33,16 @@ export function getAuthorizedLinkData(
   defaultLinks,
   authenticatedLinks = authenticatedUserLinkData,
 ) {
+  const authLinks = authenticatedLinks;
+
+  if (localStorage.getItem('enableMhvAccountValidation') === 'true') {
+    authLinks[1].href = '/my-health-account-validation/';
+    authLinks[1].target = undefined;
+  }
+
   return [
     ...replaceDomainsInData(defaultLinks),
-    ...(loggedIn ? replaceDomainsInData(authenticatedLinks) : []),
+    ...(loggedIn ? replaceDomainsInData(authLinks) : []),
   ];
 }
 

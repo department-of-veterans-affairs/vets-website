@@ -1,32 +1,56 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GenericError from '../components/GenericError';
-import MultipleMHVIds from '../components/MultipleMHVIds';
-import DeactivatedMHVId from '../components/DeactivatedMHVId';
-import NeedsSSNResolution from '../components/NeedsSSNResolution';
-import NeedsVAPatient from '../components/NeedsVAPatient';
+import { connect } from 'react-redux';
+import {
+  createAndUpgradeMHVAccount,
+  upgradeMHVAccount,
+} from '../../../platform/user/profile/actions';
 
-const ErrorMessage = ({ params }) => {
-  const errorCode = params.errorCode;
+import GenericError from '../components/errors/GenericError';
+import MultipleMHVIds from '../components/errors/MultipleMHVIds';
+import DeactivatedMHVId from '../components/errors/DeactivatedMHVId';
+import NeedsSSNResolution from '../components/errors/NeedsSSNResolution';
+import NeedsVAPatient from '../components/errors/NeedsVAPatient';
+import CreateAccountFailed from '../components/errors/CreateAccountFailed';
+import UpgradeAccountFailed from '../components/errors/UpgradeAccountFailed';
 
-  switch (errorCode) {
-    case 'has-deactivated-mhv-ids':
-      return <DeactivatedMHVId />;
-    case 'has-multiple-active-mhv-ids':
-      return <MultipleMHVIds />;
-    case 'needs-ssn-resolution':
-      return <NeedsSSNResolution />;
-    case 'needs-va-patient':
-      return <NeedsVAPatient />;
-    case 'register-failed':
-    case 'upgrade-failed':
-    default:
-      return <GenericError />;
+class ErrorMessage extends React.Component {
+  render() {
+    const { params } = this.props;
+    const errorCode = params.errorCode;
+
+    switch (errorCode) {
+      case 'has-deactivated-mhv-ids':
+        return <DeactivatedMHVId />;
+      case 'has-multiple-active-mhv-ids':
+        return <MultipleMHVIds />;
+      case 'needs-ssn-resolution':
+        return <NeedsSSNResolution />;
+      case 'needs-va-patient':
+        return <NeedsVAPatient />;
+      case 'register-failed':
+        return <CreateAccountFailed />;
+      case 'upgrade-failed':
+        return (
+          <UpgradeAccountFailed upgradeAccount={this.props.upgradeMHVAccount} />
+        );
+      default:
+        return <GenericError />;
+    }
   }
-};
+}
 
 ErrorMessage.propTypes = {
   params: PropTypes.object,
+  upgradeMHVAccount: PropTypes.func.isRequired,
 };
 
-export default ErrorMessage;
+const mapDispatchToProps = {
+  createAndUpgradeMHVAccount,
+  upgradeMHVAccount,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ErrorMessage);
