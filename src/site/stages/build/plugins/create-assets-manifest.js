@@ -2,10 +2,26 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-const vetsWebsiteRepo =
-  'https://github.com/department-of-veterans-affairs/vagov-content/tree/master/assets';
 const vagovContentRepo =
+  'https://github.com/department-of-veterans-affairs/vagov-content/tree/master/assets';
+const vetsWebsiteRepo =
   'https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/site/assets';
+
+const mimeTypes = new Map([
+  ['.png', 'image/png'],
+  ['.jpg', 'image/jpg'],
+  ['.jpeg', 'image/jpeg'],
+  ['.jpeg', 'image/jpeg'],
+  ['.pdf', 'application/pdf'],
+  ['.txt', 'text/plain'],
+  ['.woff2', 'font/woff2'],
+  ['.ttf', 'font/ttf'],
+  ['.eot', 'font/eot'],
+  ['.woff', 'font/woff'],
+  ['.svg', 'image/svg+xml'],
+  ['.ics', 'text/calendar'],
+  ['.js', 'text/javascript'],
+]);
 
 function createAssetsManifest(buildOptions) {
   return (files, smith, done) => {
@@ -29,15 +45,16 @@ function createAssetsManifest(buildOptions) {
         const isInVagovContent = fs.existsSync(vagovContentPath);
 
         if (isInVagovContent) {
-          internalUrl = `${vetsWebsiteRepo}/${fileName}`;
-        } else {
           internalUrl = `${vagovContentRepo}/${fileName}`;
+        } else {
+          internalUrl = `${vetsWebsiteRepo}/${fileName}`;
         }
       }
 
       const assetData = {
         fileName: filePath.base,
         fileSize: file.contents.byteLength,
+        fileType: mimeTypes.get(filePath.ext),
         url: `${hostUrl}/${fileName}`,
         internalUrl,
       };
