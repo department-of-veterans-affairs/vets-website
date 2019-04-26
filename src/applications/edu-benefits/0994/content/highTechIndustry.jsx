@@ -12,3 +12,12 @@ export const highTechIndustryDescription = (
     </ul>
   </span>
 );
+
+export const highTechnologyEmploymentTypeDescription = (
+  <div>
+    <legend className="schemaform-label">
+      Which area best describes your high-tech work experience? (Check all that
+      apply.)
+    </legend>
+  </div>
+);

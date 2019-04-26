@@ -1,5 +1,4 @@
 import _ from '../../../platform/utilities/data';
-import environment from '../../../platform/utilities/environment';
 
 import {
   transformForSubmit,
@@ -322,8 +321,7 @@ export function transform(formConfig, form) {
 
   // transform secondary disabilities into primary, with description appended
   const transformSecondaryDisabilities = formData => {
-    // Skip transform in production environment
-    if (environment.isProduction() || !formData.newSecondaryDisabilities) {
+    if (!formData.newSecondaryDisabilities) {
       return formData;
     }
 

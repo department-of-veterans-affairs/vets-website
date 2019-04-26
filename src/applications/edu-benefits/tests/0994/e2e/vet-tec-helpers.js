@@ -109,12 +109,14 @@ export const completeHighTechWorkExp = (client, data) => {
       currentSalary,
     );
 
-    Object.keys(highTechnologyEmploymentType).forEach(key => {
-      client.fillCheckbox(
-        `input[name="root_view:salaryEmploymentTypes_highTechnologyEmploymentType_${key}"]`,
-        highTechnologyEmploymentType[key],
-      );
-    });
+    Object.keys(highTechnologyEmploymentType)
+      .filter(key => key !== 'noneApply')
+      .forEach(key => {
+        client.fillCheckbox(
+          `input[name="root_view:salaryEmploymentTypes_highTechnologyEmploymentType_${key}"]`,
+          highTechnologyEmploymentType[key],
+        );
+      });
   }
 };
 
