@@ -2,7 +2,7 @@ import React from 'react';
 import { activeServicePeriods } from '../utils';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 
-export const depends = formData => activeServicePeriods(formData).length;
+export const depends = formData => !!activeServicePeriods(formData).length;
 
 export const uiSchema = {
   'ui:title': 'Filing a claim before discharge',
