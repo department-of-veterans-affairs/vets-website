@@ -6,6 +6,7 @@ import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import * as verifyBdd from './verifyBdd';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
 import * as claimType from './claimType';
@@ -187,5 +188,6 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
+  verifyBdd,
   workBehaviorChanges,
 };

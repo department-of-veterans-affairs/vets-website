@@ -83,10 +83,11 @@ import {
   ptsdWalkthroughChoice781a,
   ratedDisabilities,
   reservesNationalGuardService,
+  retirementPay,
+  retirementPayWaiver,
   secondaryFinalIncident,
   separationPay,
   servedInCombatZone,
-  retirementPay,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -97,7 +98,7 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
-  retirementPayWaiver,
+  verifyBdd,
   workBehaviorChanges,
 } from '../pages';
 
@@ -185,6 +186,13 @@ const formConfig = {
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
+        },
+        bdd: {
+          title: 'Filing a claim before discharge',
+          path: 'review-veteran-details/bdd',
+          depends: verifyBdd.depends,
+          uiSchema: verifyBdd.uiSchema,
+          schema: verifyBdd.schema,
         },
         servedInCombatZone: {
           title: 'Combat status',
