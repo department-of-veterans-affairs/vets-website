@@ -17,7 +17,10 @@ import { ACCOUNT_STATES } from './../constants';
 class ErrorMessage extends React.Component {
   render() {
     const { params } = this.props;
-    const errorCode = params.errorCode.replace(/-/g, '_');
+
+    const errorCode = params.errorCode
+      ? params.errorCode.replace(/-/g, '_')
+      : '';
 
     // Render error messaging based on code
     switch (errorCode) {
