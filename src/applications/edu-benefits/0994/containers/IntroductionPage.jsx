@@ -12,10 +12,9 @@ export class IntroductionPage extends React.Component {
   }
 
   render() {
-    const resBurden = '10 minutes';
+    const resBurden = '10';
     const ombNumber = '2900-0866';
     const expDate = '04/30/2022';
-
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
