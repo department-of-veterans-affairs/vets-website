@@ -1,6 +1,8 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
+const { searchAndDestroy } = require('./util');
+
 const FIELD_SELECTOR = 'input, select, textarea';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
 const ARRAY_ITEM_SELECTOR =
@@ -294,6 +296,8 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   /* eslint-enable no-await-in-loop */
 };
 
+const removeForeseeOverlay = async page => searchAndDestroy(page, '.__acs');
+
 /**
  * This is the main entry point. After all the setup has been performed, this function
  *  loops through the pages, filling in all the data it can until it gets to the review
@@ -306,6 +310,8 @@ const fillForm = async (page, testData, testConfig, log) => {
   while (!page.url().endsWith('review-and-submit')) {
     log(page.url());
     // TODO: Run axe checker
+
+    await removeForeseeOverlay(page);
 
     // If there's a page hook, run that
     const url = page.url();
@@ -333,6 +339,7 @@ const fillForm = async (page, testData, testConfig, log) => {
       if (page.url() === url) {
         // TODO: Figure out how to remove this arbitrary time
         await page.waitFor(500);
+        await removeForeseeOverlay(page);
         await fillPage(page, testData, testConfig, log);
         log('Clicking continue again');
         await page.click(CONTINUE_BUTTON);

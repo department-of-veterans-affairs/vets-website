@@ -1,17 +1,18 @@
 import React from 'react';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-import localStorage from '../../../../platform/utilities/storage/localStorage';
+import recordEvent from 'platform/monitoring/record-event';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import BetaTools from '../containers/BetaTools';
 
 import AccountVerification from './AccountVerification';
 import ConnectedAccountsSection from './ConnectedAccountsSection.jsx';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
-import facilityLocator from '../../../facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest';
 
 class AccountMain extends React.Component {
   constructor(props) {
@@ -130,6 +131,7 @@ class AccountMain extends React.Component {
           </div>
         </div>
         <LoginSettings />
+        <BetaTools />
         <ConnectedAccountsSection />
         {verified && <TermsAndConditions mhvAccount={mhvAccount} />}
 
