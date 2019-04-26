@@ -12,6 +12,10 @@ export class IntroductionPage extends React.Component {
   }
 
   render() {
+    const resBurden = '10 minutes';
+    const ombNumber = '2900-0866';
+    const expDate = '04/30/2022';
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
@@ -133,9 +137,9 @@ export class IntroductionPage extends React.Component {
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo
-            resBurden={'10 minutes'}
-            ombNumber="2900-0866"
-            expDate="04/30/2022"
+            resBurden={resBurden}
+            ombNumber={ombNumber}
+            expDate={expDate}
           />
         </div>
       </div>
