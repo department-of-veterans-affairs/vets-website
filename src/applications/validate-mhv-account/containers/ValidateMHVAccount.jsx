@@ -27,7 +27,7 @@ class ValidateMHVAccount extends React.Component {
   }
 
   redirect = () => {
-    const { profile, mhvAccount, /* accountState, */ router } = this.props;
+    const { profile, mhvAccount, accountState, router } = this.props;
 
     // LOA Checks
     if (!profile.verified) {
@@ -40,8 +40,6 @@ class ValidateMHVAccount extends React.Component {
     } else if (mhvAccount.errors) {
       router.replace('error/mhv-error');
     }
-
-    const accountState = ACCOUNT_STATES.REGISTER_FAILED;
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
