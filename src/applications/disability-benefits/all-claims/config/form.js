@@ -187,7 +187,7 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
-        bdd: {
+        verifyBdd: {
           title: 'Filing a claim before discharge',
           path: 'review-veteran-details/bdd',
           depends: verifyBdd.depends,
