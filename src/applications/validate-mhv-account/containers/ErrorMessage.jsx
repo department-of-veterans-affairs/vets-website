@@ -10,28 +10,27 @@ import GenericError from '../components/errors/GenericError';
 import MultipleMHVIds from '../components/errors/MultipleMHVIds';
 import DeactivatedMHVId from '../components/errors/DeactivatedMHVId';
 import VerificationFailed from '../components/errors/VerificationFailed';
-import NeedsVAPatient from '../components/errors/NeedsVAPatient';
 import CreateAccountFailed from '../components/errors/CreateAccountFailed';
 import UpgradeAccountFailed from '../components/errors/UpgradeAccountFailed';
+import { ACCOUNT_STATES } from './../constants';
 
 class ErrorMessage extends React.Component {
   render() {
     const { params } = this.props;
-    const errorCode = params.errorCode;
+    const errorCode = params.errorCode.replace(/-/g, '_');
 
     // Render error messaging based on code
     switch (errorCode) {
-      case 'has-deactivated-mhv-ids':
+      case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
         return <DeactivatedMHVId />;
-      case 'has-multiple-active-mhv-ids':
+      case ACCOUNT_STATES.MULTIPLE_IDS:
         return <MultipleMHVIds />;
-      case 'needs-ssn-resolution':
+      case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
+      case ACCOUNT_STATES.NEEDS_VA_PATIENT:
         return <VerificationFailed />;
-      case 'needs-va-patient':
-        return <NeedsVAPatient />;
-      case 'register-failed':
+      case ACCOUNT_STATES.REGISTER_FAILED:
         return <CreateAccountFailed />;
-      case 'upgrade-failed':
+      case ACCOUNT_STATES.UPGRADE_FAILED:
         return (
           <UpgradeAccountFailed upgradeAccount={this.props.upgradeMHVAccount} />
         );

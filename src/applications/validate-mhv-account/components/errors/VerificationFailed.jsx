@@ -93,7 +93,11 @@ const VerificationFailed = () => {
                 <strong>Submit</strong>
               </p>
               <p>We’ll contact you within 2 to 3 days.</p>
-              <a href="https://iris.custhelp.va.gov/app/as">
+              <a
+                href="https://iris.custhelp.va.gov/app/as"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Go to the IRIS website question form
               </a>
             </div>
