@@ -8,21 +8,18 @@ import {
   fetchMHVAccount,
 } from '../../../platform/user/profile/actions';
 
-import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
+import { selectProfile } from '../../../platform/user/selectors';
 import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS } from './../constants';
 
 class ValidateMHVAccount extends React.Component {
+  componentDidMount() {
+    this.props.fetchMHVAccount();
+  }
+
   componentDidUpdate(prevProps) {
-    const { profile, mhvAccount } = this.props;
-    if (prevProps.profile.loading && !profile.loading) {
-      if (this.props.isLoggedIn) {
-        this.props.fetchMHVAccount();
-      } else {
-        window.location = '/';
-      }
-    }
+    const { mhvAccount } = this.props;
 
     if (prevProps.mhvAccount.loading && !mhvAccount.loading) {
       this.redirect();
@@ -30,7 +27,7 @@ class ValidateMHVAccount extends React.Component {
   }
 
   redirect = () => {
-    const { profile, mhvAccount, accountState, router } = this.props;
+    const { profile, mhvAccount, /* accountState, */ router } = this.props;
 
     // LOA Checks
     if (!profile.verified) {
@@ -43,6 +40,8 @@ class ValidateMHVAccount extends React.Component {
     } else if (mhvAccount.errors) {
       router.replace('error/mhv-error');
     }
+
+    const accountState = ACCOUNT_STATES.REGISTER_FAILED;
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
@@ -95,12 +94,11 @@ class ValidateMHVAccount extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, status, verified } = profile;
+  const { mhvAccount, status } = profile;
   return {
-    isLoggedIn: isLoggedIn(state),
-    profile: { loading, verified },
     mhvAccount,
     mviDown: status === 'SERVER_ERROR',
+    profile,
   };
 };
 const mapDispatchToProps = {
