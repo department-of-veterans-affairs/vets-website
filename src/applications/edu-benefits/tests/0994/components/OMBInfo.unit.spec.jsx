@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { axeCheck } from '../test-helpers';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import OMBInfo from '../../../0994/components/OMBInfo';
 
