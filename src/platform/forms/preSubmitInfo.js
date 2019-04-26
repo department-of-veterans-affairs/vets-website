@@ -14,7 +14,7 @@ export default {
   label: (
     <span>
       I have read and accept the{' '}
-      <a target="_blank" href="/privacy/">
+      <a target="_blank" href="/privacy-policy/">
         privacy policy
       </a>
     </span>
