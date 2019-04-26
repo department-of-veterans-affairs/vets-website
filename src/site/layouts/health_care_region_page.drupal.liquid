@@ -140,7 +140,11 @@ Example data:
       <article class="usa-content">
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
-        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
+
+        <div class="duotone darken lighten">
+          <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
+        </div>
+
         <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
           <div class="usa-width-one-third">
             <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
@@ -160,7 +164,7 @@ Example data:
         {% endif %}
 
         <section>
-          <h2>Main Locations</h2>
+          <h2>Locations</h2>
           <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
           <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/locations">
             See all locations <i class="fa fa-chevron-right">&nbsp;</i>

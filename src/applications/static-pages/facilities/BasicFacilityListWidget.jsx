@@ -56,14 +56,33 @@ export default class BasicFacilityListWidget extends React.Component {
 
     const facilitiesList = this.facilitiesList(this.state.facilities).map(
       facility => (
-        <div key={facility.id} className="usa-width-one-half">
-          <FacilityTitle
-            facility={facility}
-            nickname={this.props.facilities[facility.id].nickname}
-            regionPath={this.props.path}
-          />
-          <FacilityAddress facility={facility} />
-          <FacilityPhone facility={facility} />
+        <div
+          key={facility.id}
+          className="usa-width-one-whole vads-u-margin-bottom--2"
+        >
+          <section className="usa-width-two-thirds">
+            <FacilityTitle
+              facility={facility}
+              nickname={this.props.facilities[facility.id].nickname}
+              regionPath={this.props.path}
+            />
+            <FacilityAddress facility={facility} />
+            <FacilityPhone facility={facility} />
+          </section>
+          <section className="usa-width-one-third">
+            <img
+              src={
+                this.props.facilities[facility.id].derivative
+                  ? this.props.facilities[facility.id].derivative.url
+                  : ''
+              }
+              alt={
+                this.props.facilities[facility.id].alt
+                  ? this.props.facilities[facility.id].alt
+                  : ''
+              }
+            />
+          </section>
         </div>
       ),
     );
