@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import {
@@ -7,20 +8,18 @@ import {
   fetchMHVAccount,
 } from '../../../platform/user/profile/actions';
 
-import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
+import { selectProfile } from '../../../platform/user/selectors';
 import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
+import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS } from './../constants';
 
 class ValidateMHVAccount extends React.Component {
+  componentDidMount() {
+    this.props.fetchMHVAccount();
+  }
+
   componentDidUpdate(prevProps) {
-    const { profile, mhvAccount } = this.props;
-    if (prevProps.profile.loading && !profile.loading) {
-      if (this.props.isLoggedIn) {
-        this.props.fetchMHVAccount();
-      } else {
-        window.location = '/';
-      }
-    }
+    const { mhvAccount } = this.props;
 
     if (prevProps.mhvAccount.loading && !mhvAccount.loading) {
       this.redirect();
@@ -28,32 +27,32 @@ class ValidateMHVAccount extends React.Component {
   }
 
   redirect = () => {
-    const { profile, mhvAccount, accountState } = this.props;
+    const { profile, mhvAccount, accountState, router } = this.props;
 
     // LOA Checks
     if (!profile.verified) {
-      window.location = 'verify';
+      router.replace('verify');
     }
 
     // MVI/MHV Checks
     if (this.props.mviDown) {
-      window.location = 'error/mvi-down';
+      router.replace('error/mvi-down');
     } else if (mhvAccount.errors) {
-      window.location = 'error/mhv-error';
+      router.replace('error/mhv-error');
     }
 
     switch (accountState) {
-      case 'needs_identity_verification':
-        window.location = 'verify';
-        break;
-      case 'has_deactivated_mhv_ids':
-      case 'has_multiple_active_mhv_ids':
-      case 'needs_ssn_resolution':
-      case 'register_failed':
-      case 'upgrade_failed':
-      case 'needs_va_patient':
-        window.location = `error/${accountState.replace(/_/g, '-')}`;
-        break;
+      case ACCOUNT_STATES.NEEDS_VERIFICATION:
+        router.replace('verify');
+        return;
+      case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
+      case ACCOUNT_STATES.MULTIPLE_IDS:
+      case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
+      case ACCOUNT_STATES.REGISTER_FAILED:
+      case ACCOUNT_STATES.UPGRADE_FAILED:
+      case ACCOUNT_STATES.NEEDS_VA_PATIENT:
+        router.replace(`error/${accountState.replace(/_/g, '-')}`);
+        return;
       default:
         break;
     }
@@ -61,18 +60,19 @@ class ValidateMHVAccount extends React.Component {
     const { accountLevel } = this.props.mhvAccount;
 
     if (!accountLevel) {
-      window.location = 'create-account';
-    }
-
-    if (accountLevel === 'Premium' || accountLevel === 'Advanced') {
+      router.replace('create-account');
+    } else if (
+      accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
+      accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED
+    ) {
       const mhvUrl = 'https://www.myhealth.va.gov/mhv-portal-web/home';
-      window.location = environment.isProduction()
-        ? mhvUrl
-        : replaceWithStagingDomain(mhvUrl);
-    } else if (accountLevel === 'Basic') {
-      window.location = 'upgrade-account';
+      router.replace(
+        environment.isProduction() ? mhvUrl : replaceWithStagingDomain(mhvUrl),
+      );
+    } else if (accountLevel === MHV_ACCOUNT_LEVELS.BASIC) {
+      router.replace('upgrade-account');
     } else {
-      window.location = 'error';
+      router.replace('error');
     }
   };
 
@@ -92,12 +92,11 @@ class ValidateMHVAccount extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, status, verified } = profile;
+  const { mhvAccount, status } = profile;
   return {
-    isLoggedIn: isLoggedIn(state),
-    profile: { loading, verified },
     mhvAccount,
     mviDown: status === 'SERVER_ERROR',
+    profile,
   };
 };
 const mapDispatchToProps = {
@@ -105,7 +104,9 @@ const mapDispatchToProps = {
   fetchMHVAccount,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ValidateMHVAccount);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ValidateMHVAccount),
+);
