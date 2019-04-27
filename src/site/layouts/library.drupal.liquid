@@ -1,4 +1,3 @@
-
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
@@ -21,6 +20,20 @@
         <article class="usa-content">
           <div class="usa-grid usa-grid-full">
             <h1>{{ title }}</h1>
+            <div class="va-pagination">
+              <span class="va-pagination-prev">
+                <a id="pager-previous-click" aria-label="Load previous page undefined" tabindex="0">
+                  <abbr title="Previous">Prev</abbr>
+                </a>
+              </span>
+              <div id="pager-nums-insert" class="va-pagination-inner">
+              </div>
+              <span class="va-pagination-next">
+                <a id="pager-next-click" aria-label="Load next page undefined" tabindex="0">Next</a>
+              </span>
+            </div>
+            <div class="vads-l-grid-container--full asset-component-library"
+              id="search-entry"></div>
           </div>
         </article>
 
