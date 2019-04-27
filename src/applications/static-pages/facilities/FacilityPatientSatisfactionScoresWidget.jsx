@@ -63,7 +63,7 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               <p className="vads-u-margin--0">Primary care</p>
               <p
                 id="facility-patient-satisfaction-scores-primary-urgent-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0"
+                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
               >
                 {this.state.facility.attributes.feedback.health
                   .primaryCareUrgent
@@ -76,7 +76,7 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               <p className="vads-u-margin--0">Specialty care</p>
               <p
                 id="facility-patient-satisfaction-scores-specialty-urgent-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0"
+                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
               >
                 {this.state.facility.attributes.feedback.health
                   .specialtyCareUrgent
@@ -99,7 +99,7 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               <p className="vads-u-margin--0">Primary care</p>
               <p
                 id="facility-patient-satisfaction-scores-primary-routine-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0"
+                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
               >
                 {this.state.facility.attributes.feedback.health
                   .primaryCareRoutine
@@ -112,7 +112,7 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               <p className="vads-u-margin--0">Specialty care</p>
               <p
                 id="facility-patient-satisfaction-scores-specialty-routine-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0"
+                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
               >
                 {this.state.facility.attributes.feedback.health
                   .specialtyCareRoutine
