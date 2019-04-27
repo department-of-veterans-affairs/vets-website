@@ -100,7 +100,7 @@ const ManageBenefitsOrRequestRecords = () => (
           onClick={recordDashboardClick('post-911')}
         >
           <h4 className="va-nav-linkslist-title">
-            Check Post-9/11 GI Bill Benefits
+            Check Post-9/11 GI Bill benefits
           </h4>
           <p className="va-nav-linkslist-description">
             View and print your statement of benefits.
@@ -112,7 +112,7 @@ const ManageBenefitsOrRequestRecords = () => (
           href="/health-care/get-medical-records/"
           onClick={recordDashboardClick('health-records')}
         >
-          <h4 className="va-nav-linkslist-title">Get Your VA Health Records</h4>
+          <h4 className="va-nav-linkslist-title">Get your VA health records</h4>
           <p className="va-nav-linkslist-description">
             View, download, and print your VA health records.
           </p>
@@ -123,7 +123,7 @@ const ManageBenefitsOrRequestRecords = () => (
           href={lettersManifest.rootUrl}
           onClick={recordDashboardClick('download-letters')}
         >
-          <h4 className="va-nav-linkslist-title">Download Your VA Letters</h4>
+          <h4 className="va-nav-linkslist-title">Download your VA letters</h4>
           <p className="va-nav-linkslist-description">
             Access and download benefit letters and documents proving your
             status online.
@@ -136,7 +136,7 @@ const ManageBenefitsOrRequestRecords = () => (
 
 const ViewYourProfile = () => (
   <>
-    <h2>View Your Profile</h2>
+    <h2>View your profile</h2>
     <p>
       Review your contact, personal, and military service information—and find
       out how to make any needed updates or corrections.
@@ -146,7 +146,7 @@ const ViewYourProfile = () => (
         href={profileManifest.rootUrl}
         onClick={recordDashboardClick('view-your-profile', 'view-button')}
       >
-        View Your Profile
+        View your profile
       </a>
     </p>
   </>
@@ -154,7 +154,7 @@ const ViewYourProfile = () => (
 
 const ManageYourAccount = () => (
   <>
-    <h2>Manage Your Account</h2>
+    <h2>Manage your account</h2>
     <p>
       View your current account settings—and find out how to update them as
       needed to access more site tools or add extra security to your account.
@@ -167,7 +167,7 @@ const ManageYourAccount = () => (
           'view-button',
         )}
       >
-        View Your Account Settings
+        View your account settings
       </a>
     </p>
   </>
