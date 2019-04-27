@@ -5,6 +5,7 @@ import Raven from 'raven-js';
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
 import './alerts-dismiss-view';
+import './filter-library';
 import './ics-generator';
 
 import widgetTypes from './widgetTypes';

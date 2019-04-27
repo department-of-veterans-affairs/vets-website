@@ -1,0 +1,18 @@
+
+.asset-component-library {
+  .asset-card {
+    min-height:450px;
+    .asset-image-wrap {
+      max-width: 318px;
+      max-height: 212px;
+      overflow: hidden;
+      img {
+        max-height: auto;
+      }
+    }
+    .asset-body-wrap {
+      background: $color-gray-lightest;
+      height: 250px;
+    }
+  }
+}
