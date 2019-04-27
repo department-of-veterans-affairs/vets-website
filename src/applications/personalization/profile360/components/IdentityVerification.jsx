@@ -9,7 +9,7 @@ export default function IdentityVerification({
 }) {
   return (
     <div>
-      <h1>Verify Your Identity to View Your Profile</h1>
+      <h1>Verify your identity to view your profile</h1>
       <p>
         We need to make sure you’re you—and not someone pretending to be
         you—before we give you access to your personal and health-related
