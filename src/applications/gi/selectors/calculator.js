@@ -241,11 +241,20 @@ const getDerivedValues = createSelector(
     if (isOJT) {
       // eslint-disable-next-line no-multi-assign
       ropOjt = ropOld = +inputs.working / 30;
-    } else {
+    } else if (giBillChapter === 35) {
+      // only do these calculations for DEA
       ropOld = {
         full: 1,
         'three quarters': 1, // at 100% since uses DEARATETHREEQUARTERS
         half: 1, // at 100% since uses DEARATEONEHALF
+        'less than half': 0.5,
+        quarter: 0.25,
+      }[inputs.enrolledOld];
+    } else {
+      ropOld = {
+        full: 1,
+        'three quarters': 0.75,
+        half: 0.5,
         'less than half': 0.5,
         quarter: 0.25,
       }[inputs.enrolledOld];
