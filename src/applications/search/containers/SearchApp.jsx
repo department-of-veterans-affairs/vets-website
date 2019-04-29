@@ -8,6 +8,8 @@ import { formatResponseString } from '../utils';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 
+import { focusElement } from 'platform/utilities/ui';
+
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
@@ -24,6 +26,10 @@ class SearchApp extends React.Component {
       results: PropTypes.array,
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    resultsContainerId: 'results-container',
   };
 
   constructor(props) {
@@ -53,6 +59,14 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const hasNewResults =
+      prevProps.search.loading && !this.props.search.loading;
+    if (hasNewResults) {
+      focusElement(`#${this.props.resultsContainerId}`);
     }
   }
 
@@ -131,10 +145,12 @@ class SearchApp extends React.Component {
     return (
       <div>
         {searchInput}
-        {this.renderResultsCount()}
-        <hr />
-        {this.renderRecommendedResults()}
-        {this.renderResultsList()}
+        <div id={this.props.resultsContainerId}>
+          {this.renderResultsCount()}
+          <hr />
+          {this.renderRecommendedResults()}
+          {this.renderResultsList()}
+        </div>
         <hr id="hr-search-bottom" />
         {this.renderResultsFooter()}
       </div>
@@ -181,7 +197,7 @@ class SearchApp extends React.Component {
 
     /* eslint-disable prettier/prettier */
     return (
-      <p>
+      <p aria-live="polite" aria-relevant="additions text">
         Showing{' '}
         {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of{' '}
         {totalEntries} results
