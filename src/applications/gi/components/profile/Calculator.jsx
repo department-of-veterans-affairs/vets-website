@@ -10,6 +10,8 @@ import {
   showModal,
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
+import { getCalculatedBenefits as getCalculatedBenefitsOld } from '../../selectors/calculator.old';
+import environment from '../../../../platform/utilities/environment';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
@@ -213,7 +215,9 @@ export class Calculator extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   calculator: state.calculator,
-  calculated: getCalculatedBenefits(state, props),
+  calculated: environment.isProduction()
+    ? getCalculatedBenefitsOld(state, props)
+    : getCalculatedBenefits(state, props),
 });
 
 const mapDispatchToProps = {

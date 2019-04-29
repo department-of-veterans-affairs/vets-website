@@ -138,13 +138,7 @@ const getDerivedValues = createSelector(
         } else if (isFlight) {
           monthlyRate = 0;
         } else {
-          monthlyRate = {
-            full: constant.DEARATEFULLTIME,
-            'three quarters': constant.DEARATETHREEQUARTERS,
-            half: constant.DEARATEONEHALF,
-            'less than half': constant.DEARATEFULLTIME,
-            quarter: constant.DEARATEFULLTIME,
-          }[inputs.enrolledOld];
+          monthlyRate = constant.DEARATE;
         }
         break;
       }
@@ -244,8 +238,8 @@ const getDerivedValues = createSelector(
     } else {
       ropOld = {
         full: 1,
-        'three quarters': 1, // at 100% since uses DEARATETHREEQUARTERS
-        half: 1, // at 100% since uses DEARATEONEHALF
+        'three quarters': 0.75,
+        half: 0.5,
         'less than half': 0.5,
         quarter: 0.25,
       }[inputs.enrolledOld];
