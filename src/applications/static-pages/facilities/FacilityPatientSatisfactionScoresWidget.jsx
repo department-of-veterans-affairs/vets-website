@@ -2,6 +2,7 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { formatDateLong } from '../../../platform/utilities/date';
+import { displayPercent } from '../../../platform/utilities/ui';
 
 export default class FacilityPatientSatisfactionScoresWidget extends React.Component {
   constructor(props) {
@@ -67,8 +68,10 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               >
                 {this.state.facility.attributes.feedback.health
                   .primaryCareUrgent
-                  ? `${this.state.facility.attributes.feedback.health
-                      .primaryCareUrgent * 100}%`
+                  ? displayPercent(
+                      this.state.facility.attributes.feedback.health
+                        .primaryCareUrgent,
+                    )
                   : 'N/A'}
               </p>
             </div>
@@ -80,8 +83,10 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               >
                 {this.state.facility.attributes.feedback.health
                   .specialtyCareUrgent
-                  ? `${this.state.facility.attributes.feedback.health
-                      .specialtyCareUrgent * 100}%`
+                  ? displayPercent(
+                      this.state.facility.attributes.feedback.health
+                        .specialtyCareUrgent,
+                    )
                   : 'N/A'}
               </p>
             </div>
@@ -103,8 +108,10 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               >
                 {this.state.facility.attributes.feedback.health
                   .primaryCareRoutine
-                  ? `${this.state.facility.attributes.feedback.health
-                      .primaryCareRoutine * 100}%`
+                  ? displayPercent(
+                      this.state.facility.attributes.feedback.health
+                        .primaryCareRoutine,
+                    )
                   : 'N/A'}
               </p>
             </div>
@@ -116,8 +123,10 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
               >
                 {this.state.facility.attributes.feedback.health
                   .specialtyCareRoutine
-                  ? `${this.state.facility.attributes.feedback.health
-                      .specialtyCareRoutine * 100}%`
+                  ? displayPercent(
+                      this.state.facility.attributes.feedback.health
+                        .specialtyCareRoutine,
+                    )
                   : 'N/A'}
               </p>
             </div>
