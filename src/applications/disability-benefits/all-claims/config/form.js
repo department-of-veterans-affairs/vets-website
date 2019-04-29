@@ -58,6 +58,7 @@ import {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
+  bddGoBack,
   bddRedirect,
   choosePtsdType,
   claimExamsInfo,
@@ -194,6 +195,13 @@ const formConfig = {
           depends: verifyBdd.depends,
           uiSchema: verifyBdd.uiSchema,
           schema: verifyBdd.schema,
+        },
+        bddGoBack: {
+          title: '',
+          path: 'review-veteran-details/update-service-history-warning',
+          depends: bddGoBack.depends,
+          uiSchema: bddGoBack.uiSchema,
+          schema: bddGoBack.schema,
         },
         bddRedirect: {
           title: '',
