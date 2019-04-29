@@ -26,7 +26,7 @@ export const uiSchema = {
       </div>
     </div>
   ),
-  'view:verifyBDD': {
+  'view:verifyBdd': {
     'ui:title': 'Are your military service dates correct?',
     'ui:widget': 'yesNo',
   },
@@ -35,7 +35,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:verifyBDD': {
+    'view:verifyBdd': {
       type: 'boolean',
     },
   },
