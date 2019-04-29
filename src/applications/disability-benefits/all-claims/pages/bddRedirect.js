@@ -1,9 +1,11 @@
 import content from '../content/bddRedirect';
+import { activeServicePeriods } from '../utils';
 
-export const depends = () => true;
+export const depends = formData => !!activeServicePeriods(formData).length;
+
 export const uiSchema = {
   'ui:title': 'Filing a claim before discharge',
-  'view:bddRedirect': {
+  'view:bddRedirectWarning': {
     'ui:description': content,
   },
 };
@@ -11,6 +13,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:bddRedirect': { type: 'object', properties: {} },
+    'view:bddRedirectWarning': { type: 'object', properties: {} },
   },
 };

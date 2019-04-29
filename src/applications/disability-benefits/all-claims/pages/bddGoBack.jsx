@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import { activeServicePeriods } from '../utils';
+
 const content = (
   <>
     <p>
@@ -20,7 +22,8 @@ const content = (
   </>
 );
 
-export const depends = formData => !formData['view:verifyBDD'];
+export const depends = formData =>
+  !!activeServicePeriods(formData).length && !formData['view:verifyBdd'];
 
 export const uiSchema = {
   'ui:title': 'Filing a claim before discharge',
