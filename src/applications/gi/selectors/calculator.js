@@ -1154,6 +1154,13 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
+    if (['active duty'].includes(militaryStatus) && giBillChapter === 33) {
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
+        yellowRibbon: false,
+      };
+    }
+
     if (!derived.yellowRibbonElig) {
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
