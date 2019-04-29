@@ -1,0 +1,65 @@
+{% comment %}
+    Example data:
+    {
+    "entityBundle": "alert",
+    "fieldAlertType": "warning",
+    "fieldHelpText": null,
+    "fieldAlertTitle": "How do I talk to someone right now?",
+    "fieldReusability": "reusable",
+    "fieldAlertContent": {
+    "entity": {
+    "entityId": "932",
+    "entityBundle": "expandable_text"
+    "fieldWysiwyg": {
+    "processed": "..."
+    },
+    "fieldTextExpander": "Find out how to get support anytime day or night."
+    }
+    }
+    }
+{% endcomment %}
+{% if alert.fieldAlertContent %}
+    {% assign expander = alert.fieldAlertContent.entity %}
+{% endif %}
+{% assign alertType = alert.fieldAlertType %}
+{% if alertType = "information" %}
+    {% assign alertType = "info" %}
+{% endif %}
+
+<div class="usa-alert usa-alert-{{ alertType }}" role="alert">
+    <div class="usa-alert-body">
+        <h3 class="usa-alert-heading">
+            {{ alert.fieldAlertTitle }}
+        </h3>
+        {% if alert.fieldHelpText %}
+            <p>{{ alert.fieldHelpText }}</p>
+        {% endif %}
+        {% if expander.fieldTextExpander %}
+
+            {% comment %}
+                NOTE: .additional-info-container is a class utilized by
+                createAdditionalInfoWidget.js to add toggle functionality to info alerts
+            {% endcomment %}
+
+            {% if alert.fieldAlertTitle contains 'homeless' %}
+                {% assign analyticsId = 'nav-crisis-homelessness-expander' %}
+                {% elsif expander.fieldTextExpander contains 'support' %}
+                {% assign analyticsId = 'nav-crisis-get-support-247' %}
+                {% elsif expander.fieldTextExpander contains 'care now' %}
+                {% assign analyticsId = 'nav-crisis-get-care-now' %}
+            {% else %}
+                {% comment %}
+                    Nothing required!
+                {% endcomment %}
+            {% endif %}
+
+            <div data-analytics="{{ analyticsId }}" class="form-expanding-group borderless-alert additional-info-container">
+                <div class="additional-info-title">{{ expander.fieldTextExpander }}</div>
+
+                {% if expander.fieldWysiwyg %}
+                    <div class="additional-info-content usa-alert-text" hidden>{{ expander.fieldWysiwyg.processed }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
