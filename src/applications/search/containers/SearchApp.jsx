@@ -20,16 +20,14 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 
+const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
+
 class SearchApp extends React.Component {
   static propTypes = {
     search: PropTypes.shape({
       results: PropTypes.array,
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    resultsContainerId: 'results-container',
   };
 
   constructor(props) {
@@ -65,8 +63,13 @@ class SearchApp extends React.Component {
   componentDidUpdate(prevProps) {
     const hasNewResults =
       prevProps.search.loading && !this.props.search.loading;
+
     if (hasNewResults) {
-      focusElement(`#${this.props.resultsContainerId}`);
+      const shouldFocusOnResults = this.props.search.searchesPerformed > 1;
+
+      if (shouldFocusOnResults) {
+        focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
+      }
     }
   }
 
@@ -145,12 +148,10 @@ class SearchApp extends React.Component {
     return (
       <div>
         {searchInput}
-        <div id={this.props.resultsContainerId}>
-          {this.renderResultsCount()}
-          <hr />
-          {this.renderRecommendedResults()}
-          {this.renderResultsList()}
-        </div>
+        {this.renderResultsCount()}
+        <hr />
+        {this.renderRecommendedResults()}
+        {this.renderResultsList()}
         <hr id="hr-search-bottom" />
         {this.renderResultsFooter()}
       </div>
@@ -162,7 +163,9 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4>Our Top Recommendations for You</h4>
+          <h4 className={SCREENREADER_FOCUS_CLASSNAME}>
+            Our Top Recommendations for You
+          </h4>
           <ul className="results-list">
             {recommendedResults.map(r =>
               this.renderWebResult(r, 'description', true),
@@ -238,7 +241,7 @@ class SearchApp extends React.Component {
     return (
       <li key={result.url} className="result-item">
         <a
-          className="result-title"
+          className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
           onClick={
             isBestBet
