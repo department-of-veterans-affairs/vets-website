@@ -58,6 +58,7 @@ import {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
+  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
   claimType,
@@ -188,11 +189,18 @@ const formConfig = {
           appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
         verifyBdd: {
-          title: 'Filing a claim before discharge',
-          path: 'review-veteran-details/bdd',
+          title: 'Verify active duty status',
+          path: 'review-veteran-details/verify-bdd',
           depends: verifyBdd.depends,
           uiSchema: verifyBdd.uiSchema,
           schema: verifyBdd.schema,
+        },
+        bddRedirect: {
+          title: '',
+          path: 'review-veteran-details/bdd-redirect',
+          depends: bddRedirect.depends,
+          uiSchema: bddRedirect.uiSchema,
+          schema: bddRedirect.schema,
         },
         servedInCombatZone: {
           title: 'Combat status',
