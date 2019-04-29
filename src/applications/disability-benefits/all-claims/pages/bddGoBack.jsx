@@ -27,15 +27,13 @@ export const depends = formData =>
 
 export const uiSchema = {
   'ui:title': 'Filing a claim before discharge',
-  'view:bddGoBackWarning': {
-    'ui:description': (
-      <AlertBox
-        status="error"
-        headline="Please update your military service history"
-        content={content}
-      />
-    ),
-  },
+  'ui:description': (
+    <AlertBox
+      status="error"
+      headline="Please update your military service history"
+      content={content}
+    />
+  ),
 };
 
 export const schema = {
