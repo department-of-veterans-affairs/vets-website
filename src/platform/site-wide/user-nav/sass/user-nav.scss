@@ -12,7 +12,8 @@ span.sidelines {
   font-size: 1.15em;
   font-weight: bold;
 
-  &:before, &:after {
+  &:before,
+  &:after {
     position: absolute;
     top: 51%;
     overflow: hidden;
@@ -69,7 +70,8 @@ span.sidelines {
   }
 }
 
-.verify, .login {
+.verify,
+.login {
   button {
     display: flex;
     justify-content: center;
@@ -119,6 +121,7 @@ span.sidelines {
       &:hover {
         background-color: transparent;
       }
+
       display: inline-block;
     }
   }
@@ -141,7 +144,7 @@ span.sidelines {
     }
   }
 
-  h4 + p {
+  h4+p {
     margin-top: 0;
   }
 }
