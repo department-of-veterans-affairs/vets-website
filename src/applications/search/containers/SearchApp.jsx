@@ -16,6 +16,8 @@ import IconSearch from '@department-of-veterans-affairs/formation-react/IconSear
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
+
 class SearchApp extends React.Component {
   static propTypes = {
     search: PropTypes.shape({
@@ -51,13 +53,6 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
-      this.writeBreadcrumb();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.search.query !== prevProps.search.query) {
-      this.writeBreadcrumb();
     }
   }
 
@@ -95,14 +90,6 @@ class SearchApp extends React.Component {
       userInput: event.target.value,
     });
   };
-
-  writeBreadcrumb() {
-    const breadcrumbList = document.getElementById('va-breadcrumbs-list');
-    const lastCrumb = breadcrumbList.lastElementChild.children[0];
-    if (breadcrumbList && lastCrumb) {
-      lastCrumb.text = `Search Results for '${this.props.search.query}'`;
-    }
-  }
 
   renderResults() {
     const { loading, errors } = this.props.search;
@@ -211,7 +198,7 @@ class SearchApp extends React.Component {
     const { results, loading } = this.props.search;
 
     if (loading) {
-      return <LoadingIndicator message="Loading results..." setFocus />;
+      return <LoadingIndicator message="Loading results..." />;
     }
 
     if (results && results.length > 0) {
@@ -284,6 +271,7 @@ class SearchApp extends React.Component {
   render() {
     return (
       <div className="search-app">
+        <SearchBreadcrumbs query={this.props.search.query} />
         <div className="row">
           <div className="columns">
             <h2>Search VA.gov</h2>
