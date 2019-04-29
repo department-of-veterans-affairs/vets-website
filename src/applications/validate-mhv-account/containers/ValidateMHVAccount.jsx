@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import appendQuery from 'append-query';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { fetchMHVAccount } from '../../../platform/user/profile/actions';
@@ -43,6 +44,9 @@ class ValidateMHVAccount extends React.Component {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
         router.replace('verify');
         return;
+      case ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE:
+        this.redirectToTermsAndConditions();
+        return;
       case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
       case ACCOUNT_STATES.MULTIPLE_IDS:
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
@@ -70,6 +74,15 @@ class ValidateMHVAccount extends React.Component {
     } else {
       router.replace('error');
     }
+  };
+
+  redirectToTermsAndConditions = () => {
+    const redirectQuery = { tc_redirect: '/my-health-account-validation' }; // eslint-disable-line camelcase
+    const termsConditionsUrl = appendQuery(
+      '/health-care/medical-information-terms-conditions/',
+      redirectQuery,
+    );
+    window.location = termsConditionsUrl;
   };
 
   render() {
