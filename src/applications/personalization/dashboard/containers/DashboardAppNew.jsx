@@ -37,14 +37,14 @@ const scrollToTop = () => {
 
 const EmptyStateLinks = () => (
   <div>
-    <h2>Explore Our Most Used Benefits</h2>
+    <h2>Explore our most used benefits</h2>
     <ul className="va-nav-linkslist-list">
       <li>
         <a
           href="/disability/"
           onClick={recordDashboardClick('disability-benefits')}
         >
-          <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
+          <h4 className="va-nav-linkslist-title">Disability benefits</h4>
           <p className="va-nav-linkslist-description">
             Apply for disability compensation and other benefits for conditions
             related to your military service.
@@ -53,7 +53,7 @@ const EmptyStateLinks = () => (
       </li>
       <li>
         <a href="/health-care/" onClick={recordDashboardClick('health-care')}>
-          <h4 className="va-nav-linkslist-title">Health Care Benefits</h4>
+          <h4 className="va-nav-linkslist-title">Health care benefits</h4>
           <p className="va-nav-linkslist-description">
             Apply for VA health care, find out how to access services, and
             manage your health and benefits online.
@@ -65,7 +65,7 @@ const EmptyStateLinks = () => (
           href="/education/"
           onClick={recordDashboardClick('education-benefits')}
         >
-          <h4 className="va-nav-linkslist-title">Education Benefits</h4>
+          <h4 className="va-nav-linkslist-title">Education benefits</h4>
           <p className="va-nav-linkslist-description">
             Apply for and manage benefits that help you pay for college and
             training programs.
@@ -77,7 +77,7 @@ const EmptyStateLinks = () => (
           href="/careers-employment/"
           onClick={recordDashboardClick('employment')}
         >
-          <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
+          <h4 className="va-nav-linkslist-title">Careers and employment</h4>
           <p className="va-nav-linkslist-description">
             Find out if you're eligible for Vocational Rehabilitation and
             Employment (VR&E) services, get support for your Veteran-owned small
@@ -215,7 +215,7 @@ class DashboardAppNew extends React.Component {
                 recordEvent({ event: 'verify-link-clicked' });
               }}
             >
-              Verify Your Identity
+              Verify your identity
             </a>
             <p>
               <a
