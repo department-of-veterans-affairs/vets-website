@@ -78,43 +78,36 @@
   },
   {
     "column": 2,
-    "href": "https://www.va.gov/finance/policy/pubs/volumex.asp",
-    "order": 5,
-    "target": null,
-    "title": "Grants Management Services"
-  },
-  {
-    "column": 2,
     "href": "https://www.va.gov/ogc/accreditation.asp",
-    "order": 6,
+    "order": 5,
     "target": null,
     "title": "VA claims accreditation"
   },
   {
     "column": 2,
     "href": "https://www.accesstocare.va.gov/ourproviders/",
-    "order": 7,
+    "order": 6,
     "target": "_blank",
     "title": "Find a VA health care provider"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/vso/",
-    "order": 8,
+    "order": 7,
     "target": null,
     "title": "Veterans Service Organizations (VSOs)"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": 9,
+    "order": 8,
     "target": null,
     "title": "State Veterans Affairs offices"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/welcome-kit/",
-    "order": 10,
+    "order": 9,
     "target": null,
     "title": "Print your VA welcome kit"
   },
