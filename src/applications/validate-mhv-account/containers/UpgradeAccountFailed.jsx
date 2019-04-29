@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import MessageTemplate from '../MessageTemplate';
-import { upgradeMHVAccount } from '../../../../platform/user/profile/actions';
+import MessageTemplate from '../components/MessageTemplate';
+import { upgradeMHVAccount } from '../../../platform/user/profile/actions';
 
-class upgradeMHVAccountFailed extends Component {
-  static propTypes = {
-    prop: PropTypes,
-  };
-
+class UpgradeMHVAccountFailed extends Component {
   render() {
     const content = {
       heading: 'We couldn’t upgrade your My HealtheVet account for you',
@@ -109,7 +105,7 @@ class upgradeMHVAccountFailed extends Component {
   }
 }
 
-upgradeMHVAccountFailed.propTypes = {
+UpgradeMHVAccountFailed.propTypes = {
   upgradeMHVAccount: PropTypes.func.isRequired,
 };
 
@@ -120,4 +116,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(upgradeMHVAccountFailed);
+)(UpgradeMHVAccountFailed);

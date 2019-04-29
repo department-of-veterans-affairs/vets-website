@@ -10,10 +10,8 @@ class Main extends React.Component {
     const { loadingProfile, loggedIn, mhvAccount, router } = this.props;
     const prevMhvAccount = prevProps.mhvAccount;
 
-    if (prevProps.loadingProfile && !loadingProfile) {
-      if (!loggedIn) {
-        window.location = '/';
-      }
+    if (prevProps.loadingProfile && !loadingProfile && !loggedIn) {
+      window.location = '/';
     }
 
     // If accountState or accountLevel has changed, excluding initial
