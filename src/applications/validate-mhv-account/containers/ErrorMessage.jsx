@@ -6,13 +6,14 @@ import MultipleMHVIds from '../components/errors/MultipleMHVIds';
 import DeactivatedMHVId from '../components/errors/DeactivatedMHVId';
 import VerificationFailed from '../components/errors/VerificationFailed';
 import CreateAccountFailed from '../components/errors/CreateAccountFailed';
-import UpgradeAccountFailed from '../components/errors/UpgradeAccountFailed';
+import UpgradeAccountFailed from './UpgradeAccountFailed';
 import { ACCOUNT_STATES } from './../constants';
 
 export default class ErrorMessage extends React.Component {
   render() {
     const { params } = this.props;
 
+    // Replace hyphens with underscores to match ACCOUNT_STATES constants
     const errorCode = params.errorCode
       ? params.errorCode.replace(/-/g, '_')
       : '';
