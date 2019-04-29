@@ -1,10 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  createAndUpgradeMHVAccount,
-  upgradeMHVAccount,
-} from '../../../platform/user/profile/actions';
 
 import GenericError from '../components/errors/GenericError';
 import MultipleMHVIds from '../components/errors/MultipleMHVIds';
@@ -14,7 +9,7 @@ import CreateAccountFailed from '../components/errors/CreateAccountFailed';
 import UpgradeAccountFailed from '../components/errors/UpgradeAccountFailed';
 import { ACCOUNT_STATES } from './../constants';
 
-class ErrorMessage extends React.Component {
+export default class ErrorMessage extends React.Component {
   render() {
     const { params } = this.props;
 
@@ -34,9 +29,7 @@ class ErrorMessage extends React.Component {
       case ACCOUNT_STATES.REGISTER_FAILED:
         return <CreateAccountFailed />;
       case ACCOUNT_STATES.UPGRADE_FAILED:
-        return (
-          <UpgradeAccountFailed upgradeAccount={this.props.upgradeMHVAccount} />
-        );
+        return <UpgradeAccountFailed />;
       default:
         return <GenericError />;
     }
@@ -45,15 +38,4 @@ class ErrorMessage extends React.Component {
 
 ErrorMessage.propTypes = {
   params: PropTypes.object,
-  upgradeMHVAccount: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = {
-  createAndUpgradeMHVAccount,
-  upgradeMHVAccount,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ErrorMessage);

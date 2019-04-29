@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import {
-  createAndUpgradeMHVAccount,
-  fetchMHVAccount,
-} from '../../../platform/user/profile/actions';
+import { fetchMHVAccount } from '../../../platform/user/profile/actions';
 
 import { selectProfile } from '../../../platform/user/selectors';
 import environment from '../../../platform/utilities/environment/index';
@@ -27,7 +24,8 @@ class ValidateMHVAccount extends React.Component {
   }
 
   redirect = () => {
-    const { profile, mhvAccount, accountState, router } = this.props;
+    const { profile, mhvAccount, router } = this.props;
+    const { accountLevel, accountState } = mhvAccount;
 
     // LOA Checks
     if (!profile.verified) {
@@ -56,8 +54,6 @@ class ValidateMHVAccount extends React.Component {
       default:
         break;
     }
-
-    const { accountLevel } = this.props.mhvAccount;
 
     if (!accountLevel) {
       router.replace('create-account');
@@ -100,7 +96,6 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = {
-  createAndUpgradeMHVAccount,
   fetchMHVAccount,
 };
 
