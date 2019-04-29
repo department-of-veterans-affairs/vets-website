@@ -32,6 +32,7 @@ const createHeaderFooter = require('./plugins/create-header-footer');
 const createTemporaryReactPages = require('./plugins/create-react-pages');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
+const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -51,6 +52,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
   smith.use(addDrupalPrefix(BUILD_OPTIONS));
+  smith.use(createOutreachAssetsData(BUILD_OPTIONS));
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 

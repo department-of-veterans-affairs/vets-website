@@ -1,5 +1,4 @@
 module.exports = `
-{
   outreachAssets: nodeQuery(filter: {conditions: [{field: "type", value: "outreach_asset"}]}, limit: 10000) {
     entities {
       ... on NodeOutreachAsset {
@@ -35,5 +34,4 @@ module.exports = `
       }
     }
   }
-}
 `;
