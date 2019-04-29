@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import formConfig from '../../config/form';
 
 describe('526 bddGoBack page', () => {
+  const { depends } = formConfig.chapters.veteranDetails.pages.bddGoBack;
   const futureDate = moment()
     .add(1, 'day')
     .format('YYYY-MM-DD');
@@ -25,8 +26,6 @@ describe('526 bddGoBack page', () => {
     if (verifyBddData !== undefined) data['view:verifyBdd'] = verifyBddData;
     return data;
   };
-
-  const { depends } = formConfig.chapters.veteranDetails.pages.bddGoBack;
 
   it('should show up when the service period confirmation question is not answered', () => {
     expect(depends(formData())).to.be.true;
