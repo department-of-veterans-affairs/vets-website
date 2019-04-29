@@ -872,6 +872,13 @@ const getDerivedValues = createSelector(
   },
 );
 
+const isOneHundredPercent = eligibility =>
+  eligibility.cumulativeService === '1.0';
+
+const isActiveDuty = militaryStatus => ['active duty'].includes(militaryStatus);
+
+const isChapter33 = giBillChapter => giBillChapter === 33;
+
 export const getCalculatedBenefits = createSelector(
   getEligibilityDetails,
   getInstitution,
@@ -1154,10 +1161,19 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (['active duty'].includes(militaryStatus) && giBillChapter === 33) {
+    if (
+      isActiveDuty(militaryStatus) &&
+      isChapter33(giBillChapter) &&
+      isOneHundredPercent(eligibility)
+    ) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         yellowRibbon: false,
+      };
+    } else {
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
+        yellowRibbon: true,
       };
     }
 
