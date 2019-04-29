@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   consecutiveService: '0.8',
   eligForPostGiBill: 'no',
   numberOfDependents: '0',
+  usedBeforeJan2018: 'no',
 };
 
 export default function(state = INITIAL_STATE, action) {

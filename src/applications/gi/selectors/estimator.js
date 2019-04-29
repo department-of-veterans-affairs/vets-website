@@ -157,7 +157,7 @@ function calculateTuition(constant, eligibility, institution, derived) {
     value: Math.round(constant.TFCAP * derived.tier),
   };
 }
-
+// Remove Production Flag checks when changes are expected to go live.
 function calculateHousing(constant, eligibility, institution, derived) {
   const your = eligibility;
   const its = institution;
@@ -165,13 +165,17 @@ function calculateHousing(constant, eligibility, institution, derived) {
     its.type === 'flight' || its.type === 'correspondence';
 
   const bah =
-    its.dodBah && its.dodBah < its.bah && !environment.isProduction()
+    its.dodBah &&
+    its.dodBah < its.bah &&
+    your.usedBeforeJan2018 === 'no' &&
+    !environment.isProduction()
       ? its.dodBah
       : its.bah;
 
   const avgBah =
     constant.AVGDODBAH &&
     constant.AVGDODBAH < constant.AVGBAH &&
+    your.usedBeforeJan2018 === 'no' &&
     !environment.isProduction()
       ? constant.AVGDODBAH
       : constant.AVGBAH;
@@ -190,12 +194,6 @@ function calculateHousing(constant, eligibility, institution, derived) {
   }
   if (isFlightOrCorrespondence()) {
     return { qualifier: 'per month', value: 0 };
-  }
-  if (its.type === 'ojt') {
-    return {
-      qualifier: 'per month',
-      value: Math.round(derived.tier * bah),
-    };
   }
   if (your.onlineClasses === 'yes') {
     return {
