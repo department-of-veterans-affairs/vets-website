@@ -38,7 +38,11 @@ export default ({ formData }) => {
     </>
   );
 
-  if (endDates.some(d => d.isBefore(oneEighty) && d.isAfter(ninety))) {
+  if (
+    endDates.some(
+      d => d.isSameOrBefore(oneEighty, 'day') && d.isSameOrAfter(ninety, 'day'),
+    )
+  ) {
     content = (
       <>
         <p>
@@ -50,7 +54,7 @@ export default ({ formData }) => {
         {learnMoreLink}
       </>
     );
-  } else if (endDates.some(d => d.isBefore(ninety))) {
+  } else if (endDates.some(d => d.isBefore(ninety, 'day'))) {
     content = (
       <>
         <p>
