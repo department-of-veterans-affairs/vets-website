@@ -7,6 +7,25 @@ module.exports = `
   fragment alertParagraph on ParagraphAlert {      
       fieldAlertType
       fieldAlertHeading
+      fieldVaParagraphs {
+        entity {
+          ... on ParagraphWysiwyg {
+            entityId
+            entityBundle
+            fieldWysiwyg {
+              processed
+            }
+          }
+          ... on ParagraphExpandableText {
+            entityId
+            entityBundle
+            fieldWysiwyg {
+              processed
+            }
+            fieldTextExpander
+          }
+        }
+      }
       fieldAlertBlockReference {
         entity {
           ... on BlockContentAlert {
@@ -17,6 +36,8 @@ module.exports = `
             fieldAlertContent {
               entity {
                 ... on ParagraphWysiwyg {
+                  entityId
+                  entityBundle
                   fieldWysiwyg {
                     processed
                   }
@@ -31,23 +52,6 @@ module.exports = `
                 }
               }
             }
-          }
-        }
-      }
-      fieldVaParagraphs {
-        entity {
-          ... on ParagraphWysiwyg {
-            fieldWysiwyg {
-              processed
-            }
-          }
-          ... on ParagraphExpandableText {
-            entityId
-            entityBundle
-            fieldWysiwyg {
-              processed
-            }
-            fieldTextExpander
           }
         }
       }
