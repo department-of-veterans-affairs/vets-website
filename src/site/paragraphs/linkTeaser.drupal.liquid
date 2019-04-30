@@ -1,14 +1,14 @@
 {% comment %}
     Example data:
     {
-        fieldLink: {
+        fieldLink: [{
             options: null,
             title: "Content Page",
             uri: "http://dev.va.agile6.com/admin/content",
             url: {
                 path: "http://dev.va.agile6.com/admin/content"
             }
-        },
+        }],
         fieldLinkSummary: "This is some plain text to describe the link."
     }
 {% endcomment %}
@@ -25,9 +25,9 @@
     {% endif %}
 {% endif %}
 <li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
-    <a href="{{linkTeaser.fieldLink.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
-        {% if linkTeaser.fieldLink.title != empty %}
-            <{{ header }} class="{{ headerClass }}">{{ linkTeaser.fieldLink.title }}</{{ header }}>
+    <a href="{{linkTeaser.fieldLink.0.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+        {% if linkTeaser.fieldLink.0.title != empty %}
+            <{{ header }} class="{{ headerClass }}">{{ linkTeaser.fieldLink.0.title }}</{{ header }}>
             {% if parentFieldName === "field_spokes" %}
                 <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
             {% endif %}
