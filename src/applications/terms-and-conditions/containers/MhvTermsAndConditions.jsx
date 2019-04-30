@@ -71,12 +71,14 @@ export class MhvTermsAndConditions extends React.Component {
   renderBanner = () => {
     const bannerProps = this.props.accepted
       ? {
-          headline: `You’ve accepted the Terms and Conditions for using VA.gov health tools`,
+          headline:
+            'You’ve accepted the Terms and Conditions for using VA.gov health tools',
           content: '',
           status: 'success',
         }
       : {
-          headline: `Accept our terms and conditions to use VA.gov health tools`,
+          headline:
+            'Accept our terms and conditions to use VA.gov health tools',
           content: (
             <>
               <p>
