@@ -28,6 +28,7 @@ const {
 } = require('./../../../../utilities/stringHelpers');
 
 const libraryPage = require('./libraryPage.graphql');
+const officePage = require('./officePage.graphql');
 /**
  * Queries for all of the pages out of Drupal
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
@@ -43,7 +44,7 @@ module.exports = `
   ${pressReleasePage}
   ${newsStoryPage}
   ${eventPage}
-  ${libraryPage}
+  ${officePage}
   ${bioPage}
 
   query GetAllPages($today: String!, $onlyPublishedContent: Boolean!) {
@@ -61,7 +62,7 @@ module.exports = `
         ... pressReleasePage
         ... newsStoryPage
         ... eventPage
-        ... libraryPage
+        ... officePage
         ... bioPage
       }
     }

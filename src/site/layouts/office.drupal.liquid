@@ -1,0 +1,104 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+
+<div class="interior" id="content">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+      <div class="usa-width-three-fourths">
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% if !entityPublished %}
+        <div class="usa-alert usa-alert-info">
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">You are viewing a draft.</p>
+          </div>
+        </div>
+        {% endif %}
+
+        <article class="usa-content">
+          <div class="usa-grid usa-grid-full">
+            <h1>{{ title }}</h1>
+            {% if  title == 'Public outreach materials' %}
+            <div class="vads-l-grid-container--full">
+              <form class="usa-form outreach-asset-form-filters">
+                <div class="vads-l-grid-container">
+                  <div class="vads-l-row">
+                    <div class="vads-l-col">
+                      <label for="outreach-topic">Select a topic</label>
+                      <select class="usa-select" name="outreach-topic"
+                        id="outreach-topic">
+                        <option value="select">- All topics -</option>
+                        <option value="general">General Benefits Information
+                        </option>
+                        <option value="burial">Burial Benefits And Memorial
+                          Items
+                        </option>
+                        <option value="careers">Careers And Employment</option>
+                        <option value="disability">Disability Compensation
+                        </option>
+                        <option value="education">Education And Training
+                          Benefits
+                        </option>
+                        <option value="family">Family member benefits</option>
+                        <option value="healthcare">Health Care</option>
+                        <option value="housing">Housing Assistance</option>
+                        <option value="insurance">Life Insurance</option>
+                        <option value="pension">Pension Benefits</option>
+                        <option value="records">Records</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="vads-l-row vads-u-justify-content--space-between">
+                    <div class="vads-l-col--5">
+                      <label for="outreach-type">View file type</label>
+                      <select class="usa-select" name="outreach-type"
+                        id="outreach-type">
+                        <option value="select">- All types -</option>
+                        <option value="image">Image</option>
+                        <option value="document">Document</option>
+                        <option value="video">Video</option>
+                      </select>
+                    </div>
+
+                    <div class="vads-l-col--5">
+                      <label for="outreach-sort">Sort by</label>
+                      <select class="usa-select" name="outreach-sort"
+                        id="outreach-sort">
+                        <option value="select">- Select -</option>
+                        <option value="type">Type</option>
+                        <option value="time">Date</option>
+                      </select>
+                    </div>
+                  </div>
+
+              </form>
+            </div>
+            <div class="vads-l-grid-container--full asset-component-library"
+              id="search-entry"></div>
+          </div>
+          <div class="va-pagination">
+            <span class="va-pagination-prev">
+              <a id="pager-previous-click"
+                aria-label="Load previous page undefined" tabindex="0">
+                <abbr title="Previous">Prev</abbr>
+              </a>
+            </span>
+            <div id="pager-nums-insert" class="va-pagination-inner">
+            </div>
+            <span class="va-pagination-next">
+              <a id="pager-next-click" aria-label="Load next page undefined"
+                tabindex="0">Next</a>
+            </span>
+          </div>
+          {% endif %}
+        </article>
+
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
