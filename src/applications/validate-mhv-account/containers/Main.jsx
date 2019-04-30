@@ -7,11 +7,30 @@ import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
 
 class Main extends React.Component {
   componentDidUpdate(prevProps) {
-    const { loadingProfile, loggedIn } = this.props;
-    if (prevProps.loadingProfile && !loadingProfile) {
-      if (!loggedIn) {
-        window.location = '/';
+    const { loadingProfile, loggedIn, mhvAccount, router } = this.props;
+    const prevMhvAccount = prevProps.mhvAccount;
+
+    if (prevProps.loadingProfile && !loadingProfile && !loggedIn) {
+      window.location = '/';
+    }
+
+    // If accountState or accountLevel has changed, excluding initial
+    // fetchMHVAccount(), return to index route to refresh mhvAccount
+    if (loggedIn && this.loadedMhvAccount) {
+      const prevAccountLevel = prevMhvAccount.accountLevel;
+      const prevAccountState = prevMhvAccount.accountState;
+      const { accountLevel, accountState } = mhvAccount;
+
+      if (
+        prevAccountLevel !== accountLevel ||
+        prevAccountState !== accountState
+      ) {
+        router.replace('/');
       }
+    }
+
+    if (prevMhvAccount.loading && !mhvAccount.loading) {
+      this.loadedMhvAccount = true;
     }
   }
 
@@ -35,10 +54,11 @@ class Main extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading } = profile;
+  const { loading, mhvAccount } = profile;
   return {
     loggedIn: isLoggedIn(state),
     loadingProfile: loading,
+    mhvAccount,
   };
 };
 

@@ -6,6 +6,7 @@ export const ACCOUNT_STATES = {
   REGISTER_FAILED: 'register_failed',
   UPGRADE_FAILED: 'upgrade_failed',
   NEEDS_VA_PATIENT: 'needs_va_patient',
+  NEEDS_TERMS_ACCEPTANCE: 'needs_terms_acceptance',
 };
 
 export const MHV_ACCOUNT_LEVELS = {
