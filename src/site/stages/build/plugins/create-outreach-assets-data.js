@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-continue */
 
 const ENTITY_BUNDLES = {
   DOCUMENT: 'document',
@@ -20,30 +20,28 @@ function createOutreachAssetsData(buildSettings) {
       data: { outreachAssets },
     } = drupalData;
 
-    const fieldMedias = outreachAssets.entities.map(e => e.fieldMedia.entity);
-    const documentFieldMedias = fieldMedias.filter(
-      f => f.entityBundle === ENTITY_BUNDLES.DOCUMENT,
-    );
-    const imageFieldMedias = fieldMedias.filter(
-      f => f.entityBundle === ENTITY_BUNDLES.IMAGE,
-    );
+    for (const entity of outreachAssets.entities) {
+      let relativeUrl = '';
 
-    documentFieldMedias.forEach(docFieldMedia => {
-      const relativeUrl = docFieldMedia.fieldDocument.entity.url;
+      switch (entity.fieldMedia.entity.entityBundle) {
+        case ENTITY_BUNDLES.DOCUMENT:
+          relativeUrl = entity.fieldMedia.entity.fieldDocument.entity.url;
+          break;
+        case ENTITY_BUNDLES.IMAGE:
+          relativeUrl = entity.fieldMedia.entity.image.url;
+          break;
+        default:
+          break;
+      }
+
+      if (!relativeUrl) continue;
+
       const noSlash = relativeUrl.slice(1);
+      const absoluteUrl = `${hostUrl}${relativeUrl}`;
+      const fileSize = files[noSlash].contents.byteLength;
 
-      docFieldMedia.fieldDocument.entity.absoluteUrl = `${hostUrl}${relativeUrl}`;
-      docFieldMedia.fieldDocument.entity.size =
-        files[noSlash].contents.byteLength;
-    });
-
-    imageFieldMedias.forEach(imageFieldMedia => {
-      const relativeUrl = imageFieldMedia.image.url;
-      const noSlash = relativeUrl.slice(1);
-
-      imageFieldMedia.image.absoluteUrl = `${hostUrl}${relativeUrl}`;
-      imageFieldMedia.image.size = files[noSlash].contents.byteLength;
-    });
+      entity.derivedFields = { absoluteUrl, fileSize };
+    }
 
     const outreachAssetsFileName = 'generated/outreach-assets.json';
     const serializedOutreachAssets = JSON.stringify(outreachAssets, null, 2);
