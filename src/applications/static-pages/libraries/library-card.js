@@ -18,6 +18,9 @@ export function libraryCard(jsonData) {
       switch (type) {
         case 'document':
           url = json.fieldMedia.entity.fieldDocument.entity.url;
+          if (Object.hasOwnProperty.call(json, 'derivedFields')) {
+            url = json.derivedFields.absoluteUrl;
+          }
           format = fileType(url);
           assetText = `<a class="file-download-with-icon" target="_blank" href="${url}" download="${url}"><i class="fas fa-download vads-u-padding-right--1"></i>Download ${format.toUpperCase()}</a>`;
           break;
@@ -29,12 +32,18 @@ export function libraryCard(jsonData) {
 
         case 'image':
           url = json.fieldMedia.entity.image.url;
+          if (Object.hasOwnProperty.call(json, 'derivedFields')) {
+            url = json.derivedFields.absoluteUrl;
+          }
           format = fileType(url);
           assetText = `<a class="file-download-with-icon" target="_blank" href="${url}" download="${url}"><i class="fas fa-download vads-u-padding-right--1"></i>Download ${format.toUpperCase()}</a>`;
           break;
 
         default:
           url = json.fieldMedia.entity.image.url;
+          if (Object.hasOwnProperty.call(json, 'derivedFields')) {
+            url = json.derivedFields.absoluteUrl;
+          }
           format = fileType(url);
           assetText = `<a class="file-download-with-icon" target="_blank" href="${url}" download="${url}"><i class="fas fa-download vads-u-padding-right--1"></i>Download ${format.toUpperCase()}</a>`;
           break;
@@ -51,11 +60,10 @@ export function libraryCard(jsonData) {
       }
       output += `</div>`;
       output += `<div class="asset-body-wrap">`;
-
       if (json.title) {
         const sizeTitle =
-          json.title.length > 25
-            ? `${json.title.substring(0, 35)}
+          json.title.length > 36
+            ? `${json.title.substring(0, 36)}
              ...`
             : json.title;
 
@@ -64,8 +72,8 @@ export function libraryCard(jsonData) {
 
       if (json.fieldDescription) {
         const sizeBody =
-          json.fieldDescription.length > 25
-            ? `${json.fieldDescription.substring(0, 35)}
+          json.fieldDescription.length > 81
+            ? `${json.fieldDescription.substring(0, 81)}
           ...`
             : json.fieldDescription;
 

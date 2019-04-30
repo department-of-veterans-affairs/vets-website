@@ -16,26 +16,11 @@ export function libraryProcess(assets) {
     pageNumbers();
   }
 
-  function compareType(a, b) {
-    if (a.fieldMedia.entity.entityBundle > b.fieldMedia.entity.entityBundle) {
-      return 1;
-    }
-    if (b.fieldMedia.entity.entityBundle > a.fieldMedia.entity.entityBundle) {
-      return -1;
-    }
-
-    return 0;
-  }
-
-  function compareDate(a, b) {
-    if (a.changed > b.changed) {
-      return -1;
-    }
-    if (b.changed > a.changed) {
-      return 1;
-    }
-
-    return 0;
+  function pageReset() {
+    sessionStorage.removeItem('topic');
+    sessionStorage.removeItem('type');
+    sessionStorage.setItem('pageNum', 1);
+    pageNumbers();
   }
 
   function getJSON(url) {
@@ -58,7 +43,6 @@ export function libraryProcess(assets) {
   async function dataProcess() {
     sessionStorage.removeItem('numOfPages');
     let data = await getJSON(assets);
-
     const topic = sessionStorage.getItem('topic')
       ? sessionStorage.getItem('topic')
       : null;
@@ -67,26 +51,15 @@ export function libraryProcess(assets) {
       ? sessionStorage.getItem('type')
       : null;
 
-    const sortFilter = sessionStorage.getItem('sort')
-      ? sessionStorage.getItem('sort')
-      : null;
-
-    data = data.data.nodeQuery.entities.filter(
-      item => item.fieldMedia !== null,
-    );
+    data = data.entities.filter(item => item.fieldMedia !== null);
 
     if (topic !== null) {
       data = data.filter(item => item.fieldBenefits.includes(topic));
     }
     if (typeFilter !== null) {
-      data = data.filter(item =>
-        item.fieldMedia.entity.entityBundle.includes(typeFilter),
-      );
+      data = data.filter(item => item.fieldFormat.includes(typeFilter));
     }
-    if (sortFilter !== null) {
-      data =
-        sortFilter === 'type' ? data.sort(compareType) : data.sort(compareDate);
-    }
+
     const pageNum = sessionStorage.getItem('pageNum');
     const jsonData = paginate(data, 10, pageNum);
     const numPages = Math.ceil(data.length / 10);
@@ -96,13 +69,19 @@ export function libraryProcess(assets) {
 
   pageNumbers = () => {
     let i = sessionStorage.getItem('pageNum');
+    const num =
+      sessionStorage.getItem('numOfPages') !== null
+        ? sessionStorage.getItem('numOfPages')
+        : 10;
+
     let output = `<a class="pager-item-number-${i} pager-item-link va-pagination-active" tabindex="0">${i}</a>`;
     const second = ++i;
     const third = ++i;
-    if (second <= sessionStorage.getItem('numOfPages')) {
+
+    if (second <= num) {
       output += `<a class="pager-item-number-${second} pager-item-link" tabindex="0">${second}</a>`;
     }
-    if (third <= sessionStorage.getItem('numOfPages')) {
+    if (third <= num) {
       output += `<a class="pager-item-number-${third} pager-item-link" tabindex="0">${third}</a>`;
     }
 
@@ -157,28 +136,11 @@ export function libraryProcess(assets) {
     pageNumbers();
   });
 
-  const sortItem = document.getElementById('outreach-sort');
-  sortItem.addEventListener('change', () => {
-    if (sortItem.value !== 'select') {
-      sessionStorage.setItem('sort', sortItem.value);
-    } else if (sortItem.value === 'select') {
-      sessionStorage.removeItem('sort');
-      sessionStorage.removeItem('numOfPages');
-    }
-    sessionStorage.setItem('pageNum', 1);
-
-    pageNumbers();
-  });
-
   const next = document.getElementById('pager-next-click');
   next.addEventListener('click', pageSetForward);
 
   const prev = document.getElementById('pager-previous-click');
   prev.addEventListener('click', pageSetBackward);
 
-  sessionStorage.removeItem('topic');
-  sessionStorage.removeItem('type');
-  sessionStorage.removeItem('sort');
-  sessionStorage.setItem('pageNum', 1);
-  pageNumbers();
+  pageReset();
 }
