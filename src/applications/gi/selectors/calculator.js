@@ -872,7 +872,7 @@ const getDerivedValues = createSelector(
   },
 );
 
-const isOneHundredPercent = eligibility =>
+const isThirtySixMonthsPlus = eligibility =>
   eligibility.cumulativeService === '1.0';
 
 const isActiveDuty = militaryStatus => ['active duty'].includes(militaryStatus);
@@ -1164,16 +1164,11 @@ export const getCalculatedBenefits = createSelector(
     if (
       isActiveDuty(militaryStatus) &&
       isChapter33(giBillChapter) &&
-      isOneHundredPercent(eligibility)
+      isThirtySixMonthsPlus(eligibility)
     ) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         yellowRibbon: false,
-      };
-    } else {
-      calculatedBenefits.inputs = {
-        ...calculatedBenefits.inputs,
-        yellowRibbon: true,
       };
     }
 
