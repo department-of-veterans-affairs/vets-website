@@ -93,7 +93,7 @@ const LoggedOutContent = connect(
           }
           isVisible
           status="info"
-          className="background-color-only"
+          backgroundOnly
         />
         <br />
       </div>

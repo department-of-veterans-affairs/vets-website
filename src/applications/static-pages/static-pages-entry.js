@@ -29,6 +29,7 @@ import './social-share-links';
 import createFacilityListWidget from './facilities/facilityList';
 import createFacilityDetailWidget from './facilities/facilityDetail';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
+import createFacilityPatientSatisfactionScoresWidget from './facilities/facilityPatientSatisfactionScores';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -84,6 +85,7 @@ createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createFacilityListWidget();
 createFacilityDetailWidget();
 createBasicFacilityListWidget();
+createFacilityPatientSatisfactionScoresWidget();
 
 // homepage widgets
 if (location.pathname === '/') {
