@@ -177,7 +177,7 @@ function compilePage(page, contentData) {
   let pageCompiled;
 
   switch (entityBundle) {
-    case 'library':
+    case 'office':
       pageCompiled = Object.assign(
         {},
         page,

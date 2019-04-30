@@ -1,0 +1,56 @@
+.outreach-asset-form-filters {
+  padding: 15px;
+  background: $color-gray-lightest;
+  max-width: 95%;
+  margin-bottom: 25px;
+  .vads-l-grid-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  label {
+    margin-top: 0;
+  }
+  select {
+    max-width: 100%;
+  }
+}
+
+.asset-component-library {
+  .asset-card {
+    min-height: 450px;
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .asset-head-wrap {
+      max-width: 318px;
+      height: 212px;
+      overflow: hidden;
+      background: $color-primary-alt-darkest;
+      background-size: contain;
+      &.document-asset-wrap {
+        background: url(/img/megamenu/disability-illustration.png) center center;
+      }
+      &.video-asset-wrap {
+        background: url(/img/megamenu/health-care-illustration.png) center center;
+      }
+      img {
+        margin: 0 auto;
+        display: block;
+      }
+    }
+    .asset-body-wrap {
+      background: $color-gray-lightest;
+      height: 250px;
+      padding: 15px;
+      .asset-body-text,
+      .asset-category-text,
+      .asset-filetype-text {
+        padding-bottom: 12px;
+      }
+      .capitalize-first {
+        text-transform: capitalize;
+      }
+    }
+  }
+}

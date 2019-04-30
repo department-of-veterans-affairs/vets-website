@@ -5,7 +5,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 module.exports = `
- fragment libraryPage on NodeLibrary {
+ fragment officePage on NodeOffice {
     ${entityElementsFromPages}
     changed
     title
