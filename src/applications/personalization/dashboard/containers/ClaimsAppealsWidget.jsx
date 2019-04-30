@@ -176,7 +176,7 @@ class ClaimsAppealsWidget extends React.Component {
 
     return (
       <div id="claims-widget">
-        <h2>Track Claims</h2>
+        <h2>Track claims</h2>
         <div>
           <DowntimeNotification
             appTitle="claims"

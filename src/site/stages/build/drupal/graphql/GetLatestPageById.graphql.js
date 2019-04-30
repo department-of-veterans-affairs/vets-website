@@ -2,6 +2,7 @@ const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const fragments = require('./fragments.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
+
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');

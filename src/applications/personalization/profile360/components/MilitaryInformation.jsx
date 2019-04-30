@@ -132,7 +132,7 @@ export default function MilitaryInformation(props) {
 
   return (
     <div>
-      <h2 className="va-profile-heading">Military Service</h2>
+      <h2 className="va-profile-heading">Military service</h2>
       <DowntimeNotification
         render={handleDowntimeForSection('military service')}
         dependencies={[externalServices.emis]}

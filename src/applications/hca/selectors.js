@@ -4,6 +4,7 @@ import {
   isLoggedIn,
   isProfileLoading,
 } from 'platform/user/selectors';
+import { HCA_ENROLLMENT_STATUSES } from './constants';
 
 // top-level selectors
 export const selectEnrollmentStatus = state => state.hcaEnrollmentStatus;
@@ -15,6 +16,9 @@ export const noESRRecordFound = state =>
   selectEnrollmentStatus(state).noESRRecordFound;
 export const isShowingHCAReapplyContent = state =>
   selectEnrollmentStatus(state).showHCAReapplyContent;
+export const isEnrolledInVAHealthCare = state =>
+  selectEnrollmentStatus(state).enrollmentStatus ===
+  HCA_ENROLLMENT_STATUSES.enrolled;
 
 // compound selectors
 export const isLoading = state =>

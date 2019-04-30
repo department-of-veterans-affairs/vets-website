@@ -3,7 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const benefitDescription = (
   <p>
-    We can help Servicemembers and Veterans with certain service-connected
+    We can help service members and Veterans with certain service-connected
     disabilities buy a specially equipped vehicle or modify their car or home to
     make it more accessible. Typically, you can receive the automobile allowance
     only once in your lifetime.

@@ -9,7 +9,7 @@ export default function ClaimantView({ formData }) {
 
   switch (relationshipToVet.type) {
     case 1:
-      relationship = 'Servicemember';
+      relationship = 'Service member';
       break;
     case 2:
       relationship = 'Spouse';

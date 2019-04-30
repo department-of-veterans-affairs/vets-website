@@ -103,14 +103,18 @@ async function loadDrupal(buildOptions) {
 }
 
 async function loadCachedDrupalFiles(buildOptions, files) {
-  const cachedFilesPath = path.join(buildOptions.cacheDirectory, 'drupalFiles');
+  const cachedFilesPath = path.join(
+    buildOptions.cacheDirectory,
+    'drupal/downloads',
+  );
   if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
     const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
     cachedDrupalFiles.forEach(file => {
       const relativePath = path.relative(
-        path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+        path.join(buildOptions.cacheDirectory, 'drupal/downloads'),
         file,
       );
+      log(`Loaded Drupal asset from cache: ${relativePath}`);
       files[relativePath] = {
         path: relativePath,
         isDrupalAsset: true,
@@ -145,7 +149,7 @@ function getDrupalContent(buildOptions) {
       log(err.stack);
       log(JSON.stringify(drupalData));
       log('Failed to pipe Drupal content into Metalsmith!');
-      if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
+      if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
         done(err);
       } else {
         done();

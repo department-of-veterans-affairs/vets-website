@@ -25,6 +25,11 @@ const getLogger = (debugMode, testName) => (...params) => {
   }
 };
 
+/**
+ * Function to start the test. This logs in if necessary, navigates to the starting
+ *  URL, sets up CSS injection to hide the Foresee overlay, and starts filling out
+ *  the form.
+ */
 const runTest = async (page, testData, testConfig, userToken, testName) => {
   // Go to the starting page either by logging in or going there directly
   if (testConfig.logIn) {

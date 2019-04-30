@@ -24,7 +24,7 @@ class AuthMetrics {
     this.type = type;
     this.payload = payload;
     this.userProfile = get('data.attributes.profile', payload, {});
-    this.loaCurrent = get('loa.loaCurrent', this.userProfile, null);
+    this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
   }
 
@@ -64,7 +64,7 @@ class AuthMetrics {
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Raven.captureMessage('Unrecognized auth event type', {
-          extra: { type: this.type },
+          extra: { type: this.type || 'N/A' },
         });
     }
 
@@ -76,13 +76,9 @@ class AuthMetrics {
 
   reportSentryErrors = () => {
     if (!Object.keys(this.userProfile).length) {
-      Raven.captureMessage('Unexpected response for user object', {
-        extra: { payload: this.payload },
-      });
+      Raven.captureMessage('Unexpected response for user object');
     } else if (!this.serviceName) {
-      Raven.captureMessage('Missing serviceName in user object', {
-        extra: { payload: this.payload },
-      });
+      Raven.captureMessage('Missing serviceName in user object');
     }
   };
 
@@ -250,6 +246,27 @@ export class AuthApp extends React.Component {
                 Submit a request to get help signing in
               </a>
             </p>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
+        );
+        break;
+
+      // Session expired error
+      case '005':
+        header = 'Your session expired';
+        alertContent = (
+          <p>
+            We’re sorry. We signed you out of VA.gov because your session
+            expired. We take your privacy very seriously. To protect your
+            personal information, we sign you out if you don’t take any action
+            on the site for 30 minutes.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>Please try signing in again.</p>
             <button onClick={this.props.openLoginModal}>
               Try signing in again
             </button>

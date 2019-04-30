@@ -86,7 +86,7 @@ export const benefitsServices = {
 };
 
 export const vetCenterServices = [
-  'Individual and group counseling for Veterans, Servicemembers, and their families',
+  'Individual and group counseling for Veterans, service members, and their families',
   'Family counseling for military related issues',
   'Bereavement (grief) counseling',
   'Military sexual trauma counseling and referral',

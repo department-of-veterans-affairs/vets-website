@@ -15,7 +15,7 @@ export const uploadDescription = () => (
       <li>Military or civilian police reports that you haven’t yet uploaded</li>
       <li>
         Supporting statements from roommates, family members, clergy, or fellow
-        Servicemembers
+        service members
       </li>
       <li>Your personal journals or diaries</li>
       <li>

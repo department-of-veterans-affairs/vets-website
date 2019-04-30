@@ -96,10 +96,11 @@ class IDPage extends React.Component {
 
     const { enrollmentStatus, noESRRecordFound, shouldRedirect } = this.props;
 
-    // Redirect to intro if a logged in user directly accessed this page.
-    if (shouldRedirect) this.props.router.push('/');
-
-    if (
+    // Redirect to intro if a logged in user directly accessed this page...
+    // ...otherwise handle the response from the ID Form
+    if (shouldRedirect) {
+      this.props.router.push('/');
+    } else if (
       noESRRecordFound ||
       enrollmentStatus === HCA_ENROLLMENT_STATUSES.noneOfTheAbove
     ) {

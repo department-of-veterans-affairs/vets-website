@@ -7,12 +7,26 @@
     margin: 1rem 0;
   }
 
-  h3 + hr {
+  h3+hr {
     margin: 0 0 2rem;
   }
 
   ul {
+    padding-left: 4rem;
     list-style: inherit;
+  }
+
+  .terms-text {
+    h3 {
+      font-size: 3rem
+    }
+
+    p {
+      strong {
+        font-size: 2rem;
+        font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+      }
+    }
   }
 }
 
@@ -22,7 +36,7 @@
   button {
     width: auto;
 
-    & + button {
+    &+button {
       margin-left: 2rem;
     }
   }

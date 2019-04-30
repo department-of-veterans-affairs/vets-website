@@ -51,7 +51,7 @@ export class ConfirmationPage extends React.Component {
           rel="noopener noreferrer"
           href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
         >
-          Download VA Form 21-674.
+          Download VA Form 21-674
         </a>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">

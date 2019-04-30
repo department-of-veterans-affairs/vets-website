@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
-import { recordEventOnce } from '../utils';
+import { recordEventOnce } from 'platform/monitoring/record-event';
 
 const {
   openedPrivateRecordsAcknowledgment,

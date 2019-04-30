@@ -75,6 +75,7 @@ import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
+import * as terminallyIll from './terminallyIll.js';
 import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
@@ -103,6 +104,7 @@ export {
   ancillaryFormsWizardSummary,
   choosePtsdType,
   claimExamsInfo,
+  claimType,
   contactInformation,
   employmentHistory,
   evidenceTypes,
@@ -135,7 +137,6 @@ export {
   pastEmploymentFormIntro,
   pastEmploymentFormDownload,
   pastEmploymentFormUpload,
-  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -170,6 +171,7 @@ export {
   summaryOfDisabilities,
   summaryOfEvidence,
   supplementalBenefits,
+  terminallyIll,
   trainingPay,
   trainingPayWaiver,
   unemployabilityAdditionalInformation,
