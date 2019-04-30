@@ -108,6 +108,7 @@ export class MhvTermsAndConditions extends React.Component {
   };
 
   renderAcceptButton = () => {
+    const { loading } = this.props;
     const shouldHideSection =
       !this.props.user.loggedIn ||
       !this.props.user.verified ||
@@ -117,7 +118,10 @@ export class MhvTermsAndConditions extends React.Component {
       return null;
     }
     const submitButton = (
-      <button className="usa-button submit-button">
+      <button
+        className="usa-button submit-button"
+        disabled={loading.acceptance}
+      >
         Accept terms and conditions
       </button>
     );
@@ -158,14 +162,18 @@ export class MhvTermsAndConditions extends React.Component {
     const { termsContent } = this.props.attributes;
 
     return (
-      <div>
+      <>
         <h1>Terms and conditions for medical information</h1>
         {this.renderBanner()}
         <form onSubmit={this.handleSubmit}>
-          <div dangerouslySetInnerHTML={{ __html: termsContent }} />
+          <h2>Terms and conditions</h2>
+          <div
+            dangerouslySetInnerHTML={{ __html: termsContent }}
+            className="terms-text"
+          />
           {this.renderAcceptButton()}
         </form>
-      </div>
+      </>
     );
   };
   /* eslint-enable react/no-danger */
@@ -176,7 +184,7 @@ export class MhvTermsAndConditions extends React.Component {
         <div className="container">
           <div className="row">
             <div
-              className="columns medium-10"
+              className="columns medium-9"
               role="region"
               aria-label="Terms and Conditions"
             >
