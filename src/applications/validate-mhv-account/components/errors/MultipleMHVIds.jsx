@@ -75,7 +75,7 @@ const MultipleMHVIds = () => {
               </p>
               <a href="https://www.myhealth.va.gov/mhv-portal-web/contact-us">
                 Go to the My HealtheVet contact form
-              </a>{' '}
+              </a>
             </div>
           </li>
         </ul>
