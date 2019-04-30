@@ -69,37 +69,34 @@ export class MhvTermsAndConditions extends React.Component {
   };
 
   renderBanner = () => {
-    let bannerProps;
-    if (this.props.accepted) {
-      bannerProps = {
-        headline: `You’ve accepted the Terms and Conditions for using VA.gov health tools`,
-        content: '',
-        status: 'success',
-      };
-    } else {
-      bannerProps = {
-        headline: `Accept our terms and conditions to use VA.gov health tools`,
-        content: (
-          <>
-            <p>
-              Before you can use the health tools on VA.gov, you’ll need to read
-              and agree to the terms and conditions below. This will give us
-              permission to share your VA medical information with you so you
-              can:
-            </p>
-            <ul>
-              <li>Refill your VA prescriptions</li>
-              <li>Download your VA health records</li>
-              <li>Communicate securely with your health care team</li>
-            </ul>
-            <div className="vads-u-margin-top--2">
-              {this.renderAcceptButton()}
-            </div>
-          </>
-        ),
-        status: 'info',
-      };
-    }
+    const bannerProps = this.props.accepted
+      ? {
+          headline: `You’ve accepted the Terms and Conditions for using VA.gov health tools`,
+          content: '',
+          status: 'success',
+        }
+      : {
+          headline: `Accept our terms and conditions to use VA.gov health tools`,
+          content: (
+            <>
+              <p>
+                Before you can use the health tools on VA.gov, you’ll need to
+                read and agree to the terms and conditions below. This will give
+                us permission to share your VA medical information with you so
+                you can:
+              </p>
+              <ul>
+                <li>Refill your VA prescriptions</li>
+                <li>Download your VA health records</li>
+                <li>Communicate securely with your health care team</li>
+              </ul>
+              <div className="vads-u-margin-top--2">
+                {this.renderAcceptButton()}
+              </div>
+            </>
+          ),
+          status: 'info',
+        };
 
     return (
       bannerProps && (
