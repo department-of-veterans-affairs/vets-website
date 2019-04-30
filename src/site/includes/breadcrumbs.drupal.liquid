@@ -1,52 +1,17 @@
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
-    {% if path == "health-care" or path == "drupal/health-care" %}
-      <li>
-        <a href="/">
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="/{{path}}" aria-current="page">
-          Health Care
-        </a>
-      </li>
-    {% else %}
-      {% assign numCrumbs = entityUrl.breadcrumb | size %}
-      {% assign crumbCount = 1 %}
-      {% for crumb in entityUrl.breadcrumb %}
-        {% if crumbCount == numCrumbs %}
-        <li>
-          <a href="/{{path}}" aria-current="page">
-            {{crumb.text}}
-          </a>
-        </li>
-        {% else %}
-          {% if crumb.text == "Health care" %}
-            {% assign crumbPath = "/health-care" %}
-          {% else %}
-            {% assign crumbPath = crumb.url.path %}
-          {% endif %}
-          {% if crumb.text != "Get benefits" and crumb.text != "Manage benefits" and crumb.text != "More resources" %}
-        <li>
-          {% if crumbPath != empty %}
-          <a href="{{crumbPath}}"
-            {% if crumb.url.path == "/" %}
-            onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });"
-            {% elsif crumb.text == lastCrumb %}
-            aria-current="page"
+    {% for crumb in entityUrl.breadcrumb %}
+        {% if forloop.last == true %}
+            <li><a aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
+        {% elsif crumb.url.path %}
+            {% if crumb.url.path == '/' %}
+                <li>
+                    <a href="{{ crumb.url.path }}" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
+                </li>
+            {% else %}
+                <li><a href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
             {% endif %}
-            >
-          {% endif %}
-            {{crumb.text}}
-          {% if crumbPath != empty %}
-          </a>
-          {% endif %}
-        </li>
-          {% endif %}
         {% endif %}
-        {% assign crumbCount = crumbCount | plus: 1 %}
-      {% endfor %}
-    {% endif %}
+    {% endfor %}
   </ul>
 </nav>

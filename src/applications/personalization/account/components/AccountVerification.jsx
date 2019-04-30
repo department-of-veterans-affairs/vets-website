@@ -15,8 +15,8 @@ export default function AccountVerification({ loa }) {
               status or send secure messages to your health care team?
             </h4>
             <p>
-              We need to make sure you’re you-and not someone pretending to be
-              you-before we can give you access to your personal and
+              We need to make sure you’re you—and not someone pretending to be
+              you—before we can give you access to your personal and
               health-related information. This helps to keep your information
               safe, and to prevent fraud and identity theft.
               <br />
@@ -27,7 +27,7 @@ export default function AccountVerification({ loa }) {
                   recordEvent({ event: 'verify-link-clicked' });
                 }}
               >
-                Verify Your identity
+                Verify your identity
               </a>
             </p>
             <p>
@@ -41,7 +41,7 @@ export default function AccountVerification({ loa }) {
                   })
                 }
               >
-                Learn more about how to verify your identity.
+                Learn more about how to verify your identity
               </a>
             </p>
           </div>

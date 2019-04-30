@@ -3,24 +3,23 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectProfile } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
+import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
+
+import { recordDashboardClick } from '../helpers';
 
 import FormList from '../components/FormList';
-import MessagingWidget from './MessagingWidget';
+import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
-import PrescriptionsWidget from './PrescriptionsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
-
-import {
-  DowntimeNotification,
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import profileManifest from 'applications/personalization/profile360/manifest.json';
 import accountManifest from 'applications/personalization/account/manifest.json';
@@ -36,59 +35,16 @@ const scrollToTop = () => {
   });
 };
 
-const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
-  downtime,
-  children,
-) => {
-  switch (downtime.status) {
-    case 'down':
-      return (
-        <div>
-          <h2>{sectionTitle}</h2>
-          <AlertBox
-            content={
-              <div>
-                <h4 className="usa-alert-heading">
-                  {appName} is down for maintenance
-                </h4>
-                <p>
-                  We’re making some updates to our {appName.toLowerCase()} tool.
-                  We’re sorry it’s not working right now and hope to be finished
-                  by {downtime.startTime.format('MMMM Do')},{' '}
-                  {downtime.endTime.format('LT')}. Please check back soon.
-                </p>
-              </div>
-            }
-            isVisible
-            status="warning"
-          />
-        </div>
-      );
-    default:
-      return children;
-  }
-};
-
-function recordDashboardClick(product, actionType = 'view-link') {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': actionType,
-      'dashboard-product': product,
-    });
-  };
-}
-
 const EmptyStateLinks = () => (
   <div>
-    <h2>Explore Our Most Used Benefits</h2>
+    <h2>Explore our most used benefits</h2>
     <ul className="va-nav-linkslist-list">
       <li>
         <a
           href="/disability/"
           onClick={recordDashboardClick('disability-benefits')}
         >
-          <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
+          <h4 className="va-nav-linkslist-title">Disability benefits</h4>
           <p className="va-nav-linkslist-description">
             Apply for disability compensation and other benefits for conditions
             related to your military service.
@@ -97,7 +53,7 @@ const EmptyStateLinks = () => (
       </li>
       <li>
         <a href="/health-care/" onClick={recordDashboardClick('health-care')}>
-          <h4 className="va-nav-linkslist-title">Health Care Benefits</h4>
+          <h4 className="va-nav-linkslist-title">Health care benefits</h4>
           <p className="va-nav-linkslist-description">
             Apply for VA health care, find out how to access services, and
             manage your health and benefits online.
@@ -109,7 +65,7 @@ const EmptyStateLinks = () => (
           href="/education/"
           onClick={recordDashboardClick('education-benefits')}
         >
-          <h4 className="va-nav-linkslist-title">Education Benefits</h4>
+          <h4 className="va-nav-linkslist-title">Education benefits</h4>
           <p className="va-nav-linkslist-description">
             Apply for and manage benefits that help you pay for college and
             training programs.
@@ -121,7 +77,7 @@ const EmptyStateLinks = () => (
           href="/careers-employment/"
           onClick={recordDashboardClick('employment')}
         >
-          <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
+          <h4 className="va-nav-linkslist-title">Careers and employment</h4>
           <p className="va-nav-linkslist-description">
             Find out if you're eligible for Vocational Rehabilitation and
             Employment (VR&E) services, get support for your Veteran-owned small
@@ -131,24 +87,6 @@ const EmptyStateLinks = () => (
         </a>
       </li>
     </ul>
-  </div>
-);
-
-const ScheduleAnAppointmentWidget = () => (
-  <div id="rx-widget">
-    <h3>Schedule an appointment</h3>
-    <p>
-      Find out how to make a doctor’s appointment with a member of your VA
-      health care team online or by phone.
-    </p>
-    <p>
-      <a
-        href="/health-care/schedule-view-va-appointments/"
-        onClick={recordDashboardClick('schedule-appointment')}
-      >
-        Schedule an appointment
-      </a>
-    </p>
   </div>
 );
 
@@ -162,7 +100,7 @@ const ManageBenefitsOrRequestRecords = () => (
           onClick={recordDashboardClick('post-911')}
         >
           <h4 className="va-nav-linkslist-title">
-            Check Post-9/11 GI Bill Benefits
+            Check Post-9/11 GI Bill benefits
           </h4>
           <p className="va-nav-linkslist-description">
             View and print your statement of benefits.
@@ -174,7 +112,7 @@ const ManageBenefitsOrRequestRecords = () => (
           href="/health-care/get-medical-records/"
           onClick={recordDashboardClick('health-records')}
         >
-          <h4 className="va-nav-linkslist-title">Get Your VA Health Records</h4>
+          <h4 className="va-nav-linkslist-title">Get your VA health records</h4>
           <p className="va-nav-linkslist-description">
             View, download, and print your VA health records.
           </p>
@@ -185,7 +123,7 @@ const ManageBenefitsOrRequestRecords = () => (
           href={lettersManifest.rootUrl}
           onClick={recordDashboardClick('download-letters')}
         >
-          <h4 className="va-nav-linkslist-title">Download Your VA Letters</h4>
+          <h4 className="va-nav-linkslist-title">Download your VA letters</h4>
           <p className="va-nav-linkslist-description">
             Access and download benefit letters and documents proving your
             status online.
@@ -196,37 +134,9 @@ const ManageBenefitsOrRequestRecords = () => (
   </>
 );
 
-const ManageYourVAHealthCare = () => (
-  <>
-    <h2>Manage your VA health care</h2>
-    <DowntimeNotification
-      appTitle="messaging"
-      dependencies={[externalServices.mvi, externalServices.mhv]}
-      render={renderWidgetDowntimeNotification(
-        'Secure messaging',
-        'Track Secure Messages',
-      )}
-    >
-      <MessagingWidget />
-    </DowntimeNotification>
-
-    <DowntimeNotification
-      appTitle="rx"
-      dependencies={[externalServices.mvi, externalServices.mhv]}
-      render={renderWidgetDowntimeNotification(
-        'prescription refill',
-        'Refill Prescriptions',
-      )}
-    >
-      <PrescriptionsWidget />
-    </DowntimeNotification>
-    <ScheduleAnAppointmentWidget />
-  </>
-);
-
 const ViewYourProfile = () => (
   <>
-    <h2>View Your Profile</h2>
+    <h2>View your profile</h2>
     <p>
       Review your contact, personal, and military service information—and find
       out how to make any needed updates or corrections.
@@ -236,7 +146,7 @@ const ViewYourProfile = () => (
         href={profileManifest.rootUrl}
         onClick={recordDashboardClick('view-your-profile', 'view-button')}
       >
-        View Your Profile
+        View your profile
       </a>
     </p>
   </>
@@ -244,7 +154,7 @@ const ViewYourProfile = () => (
 
 const ManageYourAccount = () => (
   <>
-    <h2>Manage Your Account</h2>
+    <h2>Manage your account</h2>
     <p>
       View your current account settings—and find out how to update them as
       needed to access more site tools or add extra security to your account.
@@ -257,7 +167,7 @@ const ManageYourAccount = () => (
           'view-button',
         )}
       >
-        View Your Account Settings
+        View your account settings
       </a>
     </p>
   </>
@@ -275,6 +185,7 @@ class DashboardAppNew extends React.Component {
 
   componentDidMount() {
     scrollToTop();
+    this.props.getEnrollmentStatus();
   }
 
   dismissAlertBox = name => () => {
@@ -304,7 +215,7 @@ class DashboardAppNew extends React.Component {
                 recordEvent({ event: 'verify-link-clicked' });
               }}
             >
-              Verify Your Identity
+              Verify your identity
             </a>
             <p>
               <a
@@ -349,13 +260,7 @@ class DashboardAppNew extends React.Component {
             <p>
               <a
                 href={facilityLocator.rootUrl}
-                onClick={() => {
-                  recordEvent({
-                    event: 'dashboard-navigation',
-                    'dashboard-action': 'view-link',
-                    'dashboard-product': 'find-center',
-                  });
-                }}
+                onClick={recordDashboardClick('find-center')}
               >
                 Find your nearest VA medical center
               </a>
@@ -381,6 +286,7 @@ class DashboardAppNew extends React.Component {
       canAccessAppeals,
       profile,
       removeSavedForm,
+      showManageYourVAHealthCare,
     } = this.props;
     const availableWidgetsCount = [
       canAccessClaims,
@@ -416,7 +322,7 @@ class DashboardAppNew extends React.Component {
 
         {availableWidgetsCount === 0 && <EmptyStateLinks />}
 
-        <ManageYourVAHealthCare />
+        {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
         <ViewYourProfile />
         <ManageYourAccount />
@@ -454,11 +360,14 @@ const mapStateToProps = state => {
     canAccessAppeals,
     canAccessClaims,
     profile: profileState,
+    showManageYourVAHealthCare:
+      isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
   };
 };
 
 const mapDispatchToProps = {
   removeSavedForm: removeSavedFormAction,
+  getEnrollmentStatus: getEnrollmentStatusAction,
 };
 
 export default withRouter(

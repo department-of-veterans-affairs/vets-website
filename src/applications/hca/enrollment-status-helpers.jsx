@@ -72,19 +72,7 @@ export function getWarningHeadline(enrollmentStatus) {
   return <h4 className="usa-alert-heading">{content}</h4>;
 }
 
-function getDefaultWarningStatus(applicationDate) {
-  if (isNaN(Date.parse(applicationDate))) {
-    return null;
-  }
-  return (
-    <p>
-      <strong>You applied on: </strong>
-      {moment(applicationDate).format('MMMM D, YYYY')}
-    </p>
-  );
-}
-
-function getEnrolledWarningStatus(
+export function getEnrollmentDetails(
   applicationDate,
   enrollmentDate,
   preferredFacility,
@@ -154,7 +142,7 @@ export function getWarningStatus(
       break;
 
     case HCA_ENROLLMENT_STATUSES.enrolled:
-      content = getEnrolledWarningStatus(
+      content = getEnrollmentDetails(
         applicationDate,
         enrollmentDate,
         preferredFacility,
@@ -162,7 +150,7 @@ export function getWarningStatus(
       break;
 
     default:
-      content = getDefaultWarningStatus(applicationDate);
+      content = getEnrollmentDetails(applicationDate);
       break;
   }
   return content;

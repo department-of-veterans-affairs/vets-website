@@ -61,7 +61,7 @@ describe('High tech industry page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(13);
+    expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 
@@ -117,7 +117,7 @@ describe('High tech industry page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(15);
+    expect(form.find('input').length).to.equal(14);
     form.unmount();
   });
 

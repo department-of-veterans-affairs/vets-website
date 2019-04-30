@@ -339,7 +339,7 @@ class IntroductionPage extends React.Component {
             .
           </p>
         )}
-        <a href="/privacy">Read the VA.gov Privacy Policy</a>
+        <a href="/privacy-policy">Read the VA.gov Privacy Policy</a>
       </div>
     );
   }

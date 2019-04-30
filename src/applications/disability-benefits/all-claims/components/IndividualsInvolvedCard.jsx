@@ -7,7 +7,7 @@ export default function IndividualsInvolvedCard({ formData }) {
     displayTitle = `${name.first || ''} ${name.last || ''}`;
   } else {
     displayTitle = formData['view:serviceMember']
-      ? 'Servicemember'
+      ? 'Service member'
       : 'Civilian';
   }
   return <h5>{displayTitle}</h5>;

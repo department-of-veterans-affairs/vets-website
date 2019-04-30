@@ -169,6 +169,8 @@
                 </section>
             {% endif %}
 
+            <div data-widget-type="facility-patient-satisfaction-scores" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
+
           <!-- List of links section -->
           {% if fieldRelatedLinks != empty %}
             {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}

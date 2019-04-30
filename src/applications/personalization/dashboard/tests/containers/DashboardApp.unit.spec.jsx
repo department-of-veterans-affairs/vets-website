@@ -34,7 +34,7 @@ describe('<DashboardApp>', () => {
     const tree = SkinDeep.shallowRender(
       <DashboardApp profile={{ loa: { current: 1 }, verified: false }} />,
     );
-    expect(tree.toString()).to.contain('Explore Our Most Used Benefits');
+    expect(tree.toString()).to.contain('Explore our most used benefits');
   });
 
   it('should not render empty state links if there are available widgets', () => {

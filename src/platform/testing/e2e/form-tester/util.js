@@ -34,4 +34,21 @@ function getTestDataSets(path, rules = { extension: 'json' }) {
     }));
 }
 
-module.exports = { getTestDataSets };
+/**
+ * Searches for DOM elements found by selectors in page and removes
+ * them from the DOM.
+ * @param {Page} page - Puppeteer browser page
+ * @param {...String} - The selectors used to find the elements to
+ *                      remove
+ */
+async function searchAndDestroy(page, ...selectors) {
+  await Promise.all(
+    selectors.map(async sel =>
+      page.$$eval(sel, elements =>
+        elements.forEach(el => el.parentNode.removeChild(el)),
+      ),
+    ),
+  );
+}
+
+module.exports = { getTestDataSets, searchAndDestroy };

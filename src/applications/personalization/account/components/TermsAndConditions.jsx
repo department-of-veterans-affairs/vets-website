@@ -8,8 +8,12 @@ export default function TermsAndConditions({ mhvAccount }) {
 
   if (mhvAccount.termsAndConditionsAccepted) {
     content = (
-      <p>
-        <i className="fa fa-check-circle" /> You’ve accepted the latest{' '}
+      <>
+        <p>
+          <i className="fa fa-check-circle" />
+          You’ve accepted the latest terms and conditions for medical
+          information.
+        </p>
         <a
           href={termsConditionsUrl}
           onClick={() =>
@@ -20,10 +24,9 @@ export default function TermsAndConditions({ mhvAccount }) {
             })
           }
         >
-          Terms and Conditions for Medical Information
+          View terms and conditions for medical information
         </a>
-        .
-      </p>
+      </>
     );
   } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
     content = (

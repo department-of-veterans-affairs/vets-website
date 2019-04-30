@@ -93,7 +93,7 @@ export default class EducationWizard extends React.Component {
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
         >
-          Find Your Education Benefits Form
+          Find your education benefits form
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
@@ -127,7 +127,7 @@ export default class EducationWizard extends React.Component {
                   this.answerQuestion('serviceBenefitBasedOn', value)
                 }
                 value={{ value: serviceBenefitBasedOn }}
-                label="Are you a Veteran or Servicemember claiming a benefit based on your own service?"
+                label="Are you a Veteran or service member claiming a benefit based on your own service?"
               />
             )}
             {newBenefit === 'no' && (
@@ -235,7 +235,7 @@ export default class EducationWizard extends React.Component {
                 <div className="usa-alert usa-alert-warning">
                   <div className="usa-alert-body">
                     <h4>
-                      Your application cannot be approved until your sponsor
+                      Your application can't be approved until your sponsor
                       transfers their benefits.
                     </h4>
                     <a

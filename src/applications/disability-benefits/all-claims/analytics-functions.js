@@ -1,4 +1,4 @@
-import { recordEventOnce } from './utils';
+import { recordEventOnce } from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
 import { HOMELESSNESS_TYPES } from './constants';
 
