@@ -13,10 +13,9 @@
       "required": true
     }
   },
+  "stack": "heroku-18"
+  "image": "heroku/nodejs"
   "addons":[],
   "buildpacks": [
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
-    }
   ]
 }
