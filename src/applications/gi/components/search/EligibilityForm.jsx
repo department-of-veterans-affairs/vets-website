@@ -87,6 +87,7 @@ export class EligibilityForm extends React.Component {
           visible
           onChange={this.props.eligibilityChange}
         />
+
         {this.props.militaryStatus === 'active duty' &&
           this.props.giBillChapter === '33' && (
             <div className="military-status-info warning form-group">
