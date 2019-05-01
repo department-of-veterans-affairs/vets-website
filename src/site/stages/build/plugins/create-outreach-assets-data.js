@@ -60,10 +60,10 @@ function createOutreachAssetsData(buildSettings) {
       logDrupal('Failed to generate outreach-assets.json!');
       if (buildSettings.buildtype === ENVIRONMENTS.VAGOVPROD) {
         done(err);
-      } else {
-        done();
+        return;
       }
     }
+    done();
   };
 }
 
