@@ -2,7 +2,7 @@ import React from 'react';
 import MessageTemplate from './../components/MessageTemplate';
 import { verify } from '../../../platform/user/authentication/utilities';
 
-const MultipleMHVIds = () => {
+const VerifyIdentity = () => {
   const content = {
     heading: 'Verify your identity to access health tools',
     body: (
@@ -25,4 +25,4 @@ const MultipleMHVIds = () => {
   return <MessageTemplate content={content} />;
 };
 
-export default MultipleMHVIds;
+export default VerifyIdentity;
