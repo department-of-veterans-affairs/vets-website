@@ -104,9 +104,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   }
 
   const bah =
-    its.dodBah &&
-    its.dodBah < its.bah &&
-    !environment.isProduction()
+    its.dodBah && its.dodBah < its.bah && !environment.isProduction()
       ? its.dodBah
       : its.bah;
 
