@@ -26,10 +26,6 @@ import accountManifest from 'applications/personalization/account/manifest.json'
 import lettersManifest from 'applications/letters/manifest.js';
 import facilityLocator from 'applications/facility-locator/manifest';
 
-import DashboardAlert, {
-  DASHBOARD_ALERT_TYPES,
-} from '../components/DashboardAlert';
-
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
   scroller.scrollTo(0, {
