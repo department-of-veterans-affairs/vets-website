@@ -13,7 +13,8 @@ export default ({ formData }) => {
   const oneEighty = moment().add(180, 'days');
   const ninety = moment().add(90, 'days');
 
-  const headline = 'You’ll need to file your claim on eBenefits';
+  let headline = 'You’ll need to file your claim on eBenefits';
+  let content;
   const eBenLink = (
     <div style={{ marginBottom: '1em' }}>
       <a className="usa-button-primary va-button-primary" href={EBEN_526_URL}>
@@ -26,16 +27,11 @@ export default ({ formData }) => {
       <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
     </div>
   );
-  // Default to > 180 days
-  let content = (
-    <>
-      <p>
-        <strong>Your separation date is more than 180 days away</strong>, so you
-        won’t be able to file a disability claim. Please check back when you
-        have less than 180 days until your separation date.
-      </p>
-      {learnMoreLink}
-    </>
+  let preAlertContent = (
+    <p>
+      You’re still in the service, so you won’t be able to submit your
+      application here on VA.gov.
+    </p>
   );
 
   if (
@@ -67,14 +63,30 @@ export default ({ formData }) => {
         {learnMoreLink}
       </>
     );
+  } else {
+    headline = 'You can’t file a disability claim right now';
+    preAlertContent = null;
+    content = (
+      <>
+        <p>
+          <strong>
+            You can’t file a disability claim until 180 days before you leave
+            the service.
+          </strong>{' '}
+          Please check back when your separation date is less than 180 days
+          away.
+        </p>
+        <p>
+          In the meantime, you can begin to gather any supporting documents or
+          evidence you’ll submit for your claim.
+        </p>
+      </>
+    );
   }
 
   return (
     <>
-      <p>
-        You’re still in the service, so you won’t be able to submit your
-        application here on VA.gov.
-      </p>
+      {preAlertContent}
       <AlertBox headline={headline} content={content} status="error" />
     </>
   );

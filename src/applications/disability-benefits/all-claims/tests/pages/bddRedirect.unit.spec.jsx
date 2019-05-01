@@ -109,9 +109,12 @@ describe('526 bddRedirect page', () => {
       />,
     );
 
-    expect(tree.text()).to.contain(
-      'Your separation date is more than 180 days away',
+    const text = tree.text();
+    expect(text).to.contain('You can’t file a disability claim right now');
+    expect(text).to.contain(
+      'You can’t file a disability claim until 180 days before you leave the service.',
     );
+    expect(text).to.not.contain('You’re still in the service');
 
     tree.unmount();
   });
