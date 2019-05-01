@@ -5,7 +5,6 @@ import { showModal, hideModal, eligibilityChange } from '../../actions';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
-import environment from '../../../../platform/utilities/environment';
 
 export class EligibilityForm extends React.Component {
   constructor(props) {
@@ -88,21 +87,6 @@ export class EligibilityForm extends React.Component {
           visible
           onChange={this.props.eligibilityChange}
         />
-
-        {this.props.giBillChapter === '33' &&
-          !environment.isProduction() && (
-            <RadioButtons
-              label="Did you use your Post-9/11 GI Bill benefit before January 1, 2018?"
-              name="usedBeforeJan2018"
-              options={[
-                { value: 'yes', label: 'Yes' },
-                { value: 'no', label: 'No' },
-              ]}
-              value={this.props.usedBeforeJan2018}
-              onChange={this.props.eligibilityChange}
-            />
-          )}
-
         {this.props.militaryStatus === 'active duty' &&
           this.props.giBillChapter === '33' && (
             <div className="military-status-info warning form-group">

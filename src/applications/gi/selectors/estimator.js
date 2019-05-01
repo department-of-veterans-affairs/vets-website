@@ -106,7 +106,6 @@ function getDerivedAttributes(constant, eligibility, institution) {
   const bah =
     its.dodBah &&
     its.dodBah < its.bah &&
-    your.usedBeforeJan2018 === 'no' &&
     !environment.isProduction()
       ? its.dodBah
       : its.bah;
@@ -114,7 +113,6 @@ function getDerivedAttributes(constant, eligibility, institution) {
   const averageBah =
     constant.AVGDODBAH &&
     constant.AVGDODBAH < constant.AVGBAH &&
-    your.usedBeforeJan2018 === 'no' &&
     !environment.isProduction()
       ? constant.AVGDODBAH
       : constant.AVGBAH;
