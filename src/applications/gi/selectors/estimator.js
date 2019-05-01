@@ -103,11 +103,13 @@ function getDerivedAttributes(constant, eligibility, institution) {
       monthlyRate = null;
   }
 
+  // Remove Production Flag checks when changes are expected to go live.
   const bah =
     its.dodBah && its.dodBah < its.bah && !environment.isProduction()
       ? its.dodBah
       : its.bah;
 
+  // Remove Production Flag checks when changes are expected to go live.
   const averageBah =
     constant.AVGDODBAH &&
     constant.AVGDODBAH < constant.AVGBAH &&
@@ -166,7 +168,7 @@ function calculateTuition(constant, eligibility, institution, derived) {
     value: Math.round(constant.TFCAP * derived.tier),
   };
 }
-// Remove Production Flag checks when changes are expected to go live.
+
 function calculateHousing(constant, eligibility, institution, derived) {
   if (derived.chapter === 31 && derived.isFlightOrCorrespondence) {
     return { qualifier: 'per month', value: 0 };
