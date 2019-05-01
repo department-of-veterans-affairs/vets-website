@@ -16,5 +16,8 @@
   "stack": "heroku-18",
   "addons":[],
   "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
   ]
 }
