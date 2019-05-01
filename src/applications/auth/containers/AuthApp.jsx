@@ -250,6 +250,27 @@ export class AuthApp extends React.Component {
         );
         break;
 
+      // Session expired error
+      case '005':
+        header = 'Your session expired';
+        alertContent = (
+          <p>
+            We’re sorry. We signed you out of VA.gov because your session
+            expired. We take your privacy very seriously. To protect your
+            personal information, we sign you out if you don’t take any action
+            on the site for 30 minutes.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>Please try signing in again.</p>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
+        );
+        break;
+
       // Catch all generic error
       default:
         alertContent = (
