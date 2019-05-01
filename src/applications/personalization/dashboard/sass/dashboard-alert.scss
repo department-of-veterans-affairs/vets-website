@@ -6,6 +6,7 @@ $symbol-exclamation-circle: "\f06a";
 $symbol-info-circle: "\f05a";
 $symbol-checkmark-circle: "\f058";
 $symbol-pause-circle: "\f28b";
+$symbol-circle: "\f111";
 
 .dashboard-alert {
   background: none;
@@ -92,7 +93,7 @@ $symbol-pause-circle: "\f28b";
     border-color: $color-light-blue;
 
     h3::before {
-      content: $symbol-pause-circle;
+      content: $symbol-circle;
       color: $color-light-blue;
     }
   }
