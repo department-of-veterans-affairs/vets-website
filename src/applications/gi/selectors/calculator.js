@@ -477,6 +477,7 @@ const getDerivedValues = createSelector(
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
     let bah;
+    let avgBah;
     // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
     const useBeneficiaryLocationRate =
       inputs.beneficiaryLocationQuestion === 'no' &&
@@ -487,6 +488,8 @@ const getDerivedValues = createSelector(
       inputs.giBillBenefit === 'yes';
 
     if (!environment.isProduction()) {
+      const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+      avgBah = !hasUsedGiBillBenefit ? constant.AVGDODBAH : constant.AVGBAH;
       if (useBeneficiaryLocationRate) {
         // sometimes there's no grandfathered rate for a zip code
         bah =
@@ -495,7 +498,6 @@ const getDerivedValues = createSelector(
             ? inputs.beneficiaryLocationGrandfatheredBah
             : inputs.beneficiaryLocationBah;
       } else {
-        const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
         // use the DOD rate on staging
         bah =
           !hasUsedGiBillBenefit && institution.dodBah
@@ -503,6 +505,7 @@ const getDerivedValues = createSelector(
             : institution.bah;
       }
     } else if (useBeneficiaryLocationRate) {
+      avgBah = constant.AVGBAH;
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate &&
@@ -566,10 +569,9 @@ const getDerivedValues = createSelector(
       housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
-        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
+        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm1 =
-        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -629,10 +631,9 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
-        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
+        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm2 =
-        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -694,10 +695,9 @@ const getDerivedValues = createSelector(
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
-        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
+        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm3 =
-        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);
     }
