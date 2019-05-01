@@ -5,7 +5,7 @@ import GenericError from '../components/errors/GenericError';
 import MultipleMHVIds from '../components/errors/MultipleMHVIds';
 import DeactivatedMHVId from '../components/errors/DeactivatedMHVId';
 import VerificationFailed from '../components/errors/VerificationFailed';
-import CreateAccountFailed from '../components/errors/CreateAccountFailed';
+import CreateMHVAccountFailed from './CreateMHVAccountFailed';
 import UpgradeAccountFailed from './UpgradeAccountFailed';
 import { ACCOUNT_STATES } from './../constants';
 
@@ -28,7 +28,7 @@ export default class ErrorMessage extends React.Component {
       case ACCOUNT_STATES.NEEDS_VA_PATIENT:
         return <VerificationFailed />;
       case ACCOUNT_STATES.REGISTER_FAILED:
-        return <CreateAccountFailed />;
+        return <CreateMHVAccountFailed />;
       case ACCOUNT_STATES.UPGRADE_FAILED:
         return <UpgradeAccountFailed />;
       default:
