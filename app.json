@@ -14,7 +14,6 @@
     }
   },
   "stack": "heroku-18"
-  "image": "heroku/nodejs"
   "addons":[],
   "buildpacks": [
   ]
