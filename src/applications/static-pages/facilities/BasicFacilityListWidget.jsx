@@ -4,6 +4,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import FacilityTitle from './FacilityTitle';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
+import FacilityApiAlert from './FacilityApiAlert';
+import { sortFacilitiesByName } from './facilityUtilities';
 
 export default class BasicFacilityListWidget extends React.Component {
   constructor(props) {
@@ -31,39 +33,50 @@ export default class BasicFacilityListWidget extends React.Component {
   };
 
   handleFacilitiesError = () => {
-    this.setState({ error: true });
-  };
-
-  facilitiesList = facilities =>
-    facilities.sort((a, b) => {
-      const aName = a.attributes.name;
-      const bName = b.attributes.name;
-      if (aName < bName) {
-        return -1;
-      }
-
-      if (aName > bName) {
-        return 1;
-      }
-
-      return 0;
+    this.setState({
+      loading: false,
+      error: true,
     });
+  };
 
   render() {
     if (this.state.loading) {
       return <LoadingIndicator message="Loading facilities..." />;
     }
 
-    const facilitiesList = this.facilitiesList(this.state.facilities).map(
+    if (this.state.error) {
+      return <FacilityApiAlert />;
+    }
+
+    const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
       facility => (
-        <div key={facility.id} className="usa-width-one-half">
-          <FacilityTitle
-            facility={facility}
-            nickname={this.props.facilities[facility.id].nickname}
-            regionPath={this.props.path}
-          />
-          <FacilityAddress facility={facility} />
-          <FacilityPhone facility={facility} />
+        <div
+          key={facility.id}
+          className="usa-width-one-whole vads-u-margin-bottom--2"
+        >
+          <section className="usa-width-two-thirds">
+            <FacilityTitle
+              facility={facility}
+              nickname={this.props.facilities[facility.id].nickname}
+              regionPath={this.props.path}
+            />
+            <FacilityAddress facility={facility} />
+            <FacilityPhone facility={facility} />
+          </section>
+          <section className="usa-width-one-third">
+            <img
+              src={
+                this.props.facilities[facility.id].derivative
+                  ? this.props.facilities[facility.id].derivative.url
+                  : ''
+              }
+              alt={
+                this.props.facilities[facility.id].alt
+                  ? this.props.facilities[facility.id].alt
+                  : ''
+              }
+            />
+          </section>
         </div>
       ),
     );

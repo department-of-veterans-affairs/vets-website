@@ -62,7 +62,7 @@
             </section>
           {%  endif %}
 
-          {% if fieldRelatedLinks != empty %}
+          {% if fieldRelatedLinks != empty and fieldRelatedLink.entity.fieldVaParagraphs.length and fieldRelatedLink.entity.fieldVaParagraphs.0.fieldLink != empty %}
             <div class="row">
               <div class="usa-content columns">
                 <aside class="va-nav-linkslist va-nav-linkslist--related">

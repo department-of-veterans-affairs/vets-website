@@ -70,11 +70,7 @@
                     <section class="wellness-patient-family-services" id="wellness-patient-family-services">
                         <h2>Health and wellness</h2>
                         {% for wellnessService in healthWellnessPatientFamilyServices.entities %}
-                            {% if buildtype == 'vagovprod' %}
-                              {% include "src/site/facilities/health_service.old.drupal.liquid" with healthService = wellnessService %}
-                            {% else %}
-                              {% include "src/site/facilities/health_service.drupal.liquid" with healthService = wellnessService %}
-                            {% endif %}
+                          {% include "src/site/facilities/health_service.drupal.liquid" with healthService = wellnessService %}
                         {% endfor %}
                     </section>
                 {% endif %}

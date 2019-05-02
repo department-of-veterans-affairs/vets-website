@@ -51,7 +51,10 @@ class RoutedSavableApp extends React.Component {
     //  saved form / prefill
     // If we're in production, we'll redirect if we start in the middle of a form
     // In development, we won't redirect unless we append the URL with `?redirect`
-    const { currentLocation } = this.props;
+    const { currentLocation, formConfig } = this.props;
+    const { additionalRoutes = [] } = formConfig;
+    const additionalSafePaths =
+      additionalRoutes && additionalRoutes.map(route => route.path);
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
     const devRedirect =
@@ -59,7 +62,10 @@ class RoutedSavableApp extends React.Component {
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
-    if (isInProgressPath(currentLocation.pathname) && goToStartPage) {
+    if (
+      isInProgressPath(currentLocation.pathname, additionalSafePaths) &&
+      goToStartPage
+    ) {
       // We started on a page that isn't the first, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;

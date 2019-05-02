@@ -15,7 +15,7 @@ export default class FacilityAddress extends React.Component {
 
     return (
       <div>
-        <address className="vads-u-margin-bottom--1p5">
+        <address>
           <div>{this.props.facility.attributes.address.physical.address1}</div>
           <div>
             {this.props.facility.attributes.address.physical.city}
@@ -24,7 +24,7 @@ export default class FacilityAddress extends React.Component {
             {this.props.facility.attributes.address.physical.zip}
           </div>
         </address>
-        <div className="vads-u-margin-bottom--1p5">
+        <div>
           <a
             href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
             target="_blank"

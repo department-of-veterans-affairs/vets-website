@@ -48,6 +48,14 @@ const mockFacilityLocatorApiResponse = {
           mentalHealthClinic: '412-360-6600',
           enrollmentCoordinator: '412-360-6993 x',
         },
+        feedback: {
+          health: {
+            effectiveDate: '2018-05-22',
+            primaryCareRoutine: 0.88,
+            specialtyCareRoutine: 0.91,
+            specialtyCareUrgent: 0.76,
+          },
+        },
       },
     },
   ],
