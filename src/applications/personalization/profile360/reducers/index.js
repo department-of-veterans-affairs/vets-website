@@ -4,6 +4,7 @@ import {
   FETCH_HERO_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
+  FETCH_PAYMENT_INFORMATION_SUCCESS,
 } from '../actions';
 
 const initialState = {
@@ -22,6 +23,9 @@ function vaProfile(state = initialState, action) {
 
     case FETCH_MILITARY_INFORMATION_SUCCESS:
       return { ...state, militaryInformation: action.militaryInformation };
+
+    case FETCH_PAYMENT_INFORMATION_SUCCESS:
+      return { ...state, paymentInformation: action.paymentInformation };
 
     default:
       return state;
