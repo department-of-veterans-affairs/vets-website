@@ -5,7 +5,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Ensure education apply-wizard page renders.
   // Open education apply wizard
   client
-    .openUrl(`${E2eHelpers.baseUrl}/education/apply/`)
+    .openUrl(`${E2eHelpers.baseUrl}/education/how-to-apply/`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title(
       'How to apply for the GI Bill and other education benefits | Veterans Affairs',

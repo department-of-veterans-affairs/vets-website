@@ -786,3 +786,12 @@ export const hasClaimedConditions = formData =>
 
 export const hasRatedDisabilities = formData =>
   formData.ratedDisabilities && formData.ratedDisabilities.length;
+
+/**
+ * Finds active service periods—those without end dates or end dates
+ * in the future.
+ */
+export const activeServicePeriods = formData =>
+  _.get('serviceInformation.servicePeriods', formData, []).filter(
+    sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
+  );

@@ -50,7 +50,7 @@ const PUBLIC_URLS = {
     'http://dev.cms.va.gov',
   'http://internal-stg-vagovcms-3000-521598752.us-gov-west-1.elb.amazonaws.com':
     'http://staging.cms.va.gov',
-  'http://internal-prod-vagovcms-3000-1370756925.us-gov-west-1.elb.amazonaws.com':
+  'http://internal-prod-vagovcms-3001-2053888503.us-gov-west-1.elb.amazonaws.com':
     'http://prod.cms.va.gov',
 };
 
