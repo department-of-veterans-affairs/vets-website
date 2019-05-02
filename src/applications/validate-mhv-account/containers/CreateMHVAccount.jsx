@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../../platform/user/authentication/utilities';
 import MessageTemplate from './../components/MessageTemplate';
 
-import {
-  createAndUpgradeMHVAccount,
-  // upgradeMHVAccount,
-} from '../../../platform/user/profile/actions';
+import { createAndUpgradeMHVAccount } from '../../../platform/user/profile/actions';
 
 class CreateMHVAccount extends React.Component {
   render() {

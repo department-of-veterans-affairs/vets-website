@@ -39,8 +39,8 @@ const CreateAccountFailed = () => {
               </p>
               <p>
                 Tell the representative that you tried to sign in to use health
-                tools on VA.gov, but received an error messaging telling you
-                that we couldn't create an account for you.
+                tools on VA.gov, but received an error message telling you that
+                we couldn't create an account for you.
               </p>
             </div>
           </li>

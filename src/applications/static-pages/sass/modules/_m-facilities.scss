@@ -1,3 +1,39 @@
+/* Blue duo-tone for the main region landing page image */
+$duo-tone-darken: #476384;
+$duo-tone-lighten: #000000;
+
+/* The brightest duo-tone color */
+.darken::before {
+  background-color: $duo-tone-darken;
+}
+
+/* The darkest duo-tone color */
+.lighten::after {
+  background-color: $duo-tone-lighten;
+}
+
+/* Duo-tone effect */
+.duotone {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+}
+
+.duotone::before, .duotone::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.duotone::before {
+  mix-blend-mode: color;
+}
+
+.duotone::after {
+  mix-blend-mode: screen;
+}
+
 .usa-accordion > ul li ul.usa-unstyled-list,
 .usa-accordion-bordered > ul li ul.usa-unstyled-list {
   list-style: none;
