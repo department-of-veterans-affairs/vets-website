@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
+import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
 
 // TODO: Add in the dates for 180 and 90 days in the future
 const dateFormat = 'MMMM DD, YYYY';
@@ -27,16 +28,11 @@ const alertContent = (
       file a BDD claim, but you can still begin the process of filing your claim
       on eBenefits.
     </p>
-    <a
-      href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
-      className="usa-button-primary va-button-primary"
-    >
+    <a href={EBEN_526_URL} className="usa-button-primary va-button-primary">
       Go to eBenefits
     </a>
     <p>
-      <a href="/disability/how-to-file-claim/when-to-file/pre-discharge-claim/">
-        Learn more about the BDD program
-      </a>
+      <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
     </p>
   </>
 );
