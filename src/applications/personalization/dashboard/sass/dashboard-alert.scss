@@ -1,12 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
+@import "~@fortawesome/fontawesome-free/scss/variables";
 @import "../../../../platform/forms/sass/_m-applications";
-
-$symbol-exclamation-circle: "\f06a";
-$symbol-info-circle: "\f05a";
-$symbol-checkmark-circle: "\f058";
-$symbol-pause-circle: "\f28b";
-$symbol-circle: "\f111";
 
 .dashboard-alert {
   background: none;
@@ -66,7 +61,7 @@ $symbol-circle: "\f111";
     border-color: $color-black;
 
     h3::before {
-      content: $symbol-exclamation-circle;
+      content: fa-content($fa-var-exclamation-circle);
       color: $color-black;
     }
   }
@@ -75,7 +70,7 @@ $symbol-circle: "\f111";
     border-color: $color-red;
 
     h3::before {
-      content: $symbol-exclamation-circle;
+      content: fa-content($fa-var-exclamation-circle);
       color: $color-red;
     }
   }
@@ -84,7 +79,7 @@ $symbol-circle: "\f111";
     border-color: $color-green;
 
     h3::before {
-      content: $symbol-checkmark-circle;
+      content: fa-content($fa-var-check-circle);
       color: $color-green;
     }
   }
@@ -93,7 +88,7 @@ $symbol-circle: "\f111";
     border-color: $color-light-blue;
 
     h3::before {
-      content: $symbol-circle;
+      content: fa-content($fa-var-circle);
       color: $color-light-blue;
     }
   }
@@ -102,7 +97,7 @@ $symbol-circle: "\f111";
     border-color: $color-gold-light;
 
     h3::before {
-      content: $symbol-exclamation-circle;
+      content: fa-content($fa-var-exclamation-circle);
       color: $color-gold-light;
     }
   }
