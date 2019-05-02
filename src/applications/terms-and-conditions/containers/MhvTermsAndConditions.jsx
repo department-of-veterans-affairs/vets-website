@@ -21,20 +21,11 @@ const scroller = Scroll.scroller;
 
 const TERMS_NAME = 'mhvac';
 
-const unagreedBannerProps = {
-  headline: `Using VA.gov Health Tools`,
-  content: `Before you can use the health tools on VA.gov, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.`,
-  status: 'warning',
-};
-
 export class MhvTermsAndConditions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAgreementChecked: false,
       isSubmitted: false,
-      showAcceptedMessage: false,
-      showCanceledMessage: false,
     };
   }
 
@@ -59,21 +50,10 @@ export class MhvTermsAndConditions extends React.Component {
     }
   };
 
-  handleAgreementCheck = () => {
-    this.setState({ isAgreementChecked: !this.state.isAgreementChecked });
-    recordEvent({
-      event: 'account-navigation',
-      'account-action': 'agree-check',
-      'account-section': 'terms',
-    });
-  };
-
   handleAcceptanceSuccess = () => {
-    this.setState({ showAcceptedMessage: true }, () => {
-      scroller.scrollTo('banner', getScrollOptions());
-      recordEvent({ event: 'account-terms-transaction' });
-      this.redirect();
-    });
+    scroller.scrollTo('banner', getScrollOptions());
+    recordEvent({ event: 'account-terms-transaction' });
+    this.redirect();
   };
 
   handleSubmit = e => {
@@ -88,52 +68,49 @@ export class MhvTermsAndConditions extends React.Component {
     });
   };
 
-  handleCancel = e => {
-    e.preventDefault();
-    this.setState({ showCanceledMessage: true }, () => {
-      scroller.scrollTo('banner', getScrollOptions());
-    });
-    recordEvent({
-      event: 'account-navigation',
-      'account-action': 'cancel-button',
-      'account-section': 'terms',
-    });
-  };
-
-  handleCloseBanner = () => {
-    this.setState({
-      showAcceptedMessage: false,
-      showCanceledMessage: false,
-    });
-  };
-
   renderBanner = () => {
-    let bannerProps = null;
-
-    if (this.state.showAcceptedMessage) {
-      bannerProps = {
-        headline: `You’ve accepted the Terms and Conditions for using VA.gov health tools`,
-        content: '',
-        status: 'success',
-      };
-    } else if (this.state.showCanceledMessage) {
-      bannerProps = unagreedBannerProps;
-    }
+    const bannerProps = this.props.accepted
+      ? {
+          headline:
+            'You’ve accepted the Terms and Conditions for using VA.gov health tools',
+          content: '',
+          status: 'success',
+        }
+      : {
+          headline:
+            'Accept our terms and conditions to use VA.gov health tools',
+          content: (
+            <>
+              <p>
+                Before you can use the health tools on VA.gov, you’ll need to
+                read and agree to the terms and conditions below. This will give
+                us permission to share your VA medical information with you so
+                you can:
+              </p>
+              <ul>
+                <li>Refill your VA prescriptions</li>
+                <li>Download your VA health records</li>
+                <li>Communicate securely with your health care team</li>
+              </ul>
+              <div className="vads-u-margin-top--2">
+                {this.renderAcceptButton()}
+              </div>
+            </>
+          ),
+          status: 'info',
+        };
 
     return (
       bannerProps && (
         <ScrollElement name="banner">
-          <AlertBox
-            {...bannerProps}
-            isVisible
-            onCloseAlert={this.handleCloseBanner}
-          />
+          <AlertBox {...bannerProps} isVisible />
         </ScrollElement>
       )
     );
   };
 
-  renderAgreementSection = () => {
+  renderAcceptButton = () => {
+    const { loading } = this.props;
     const shouldHideSection =
       !this.props.user.loggedIn ||
       !this.props.user.verified ||
@@ -142,50 +119,16 @@ export class MhvTermsAndConditions extends React.Component {
     if (shouldHideSection) {
       return null;
     }
-
-    const yesCheckbox = (
-      <div>
-        <input
-          type="checkbox"
-          id="agreement-checkbox"
-          value="yes"
-          checked={this.state.isAgreementChecked}
-          onChange={this.handleAgreementCheck}
-        />
-        <label className="agreement-label" htmlFor="agreement-checkbox">
-          {this.props.attributes.yesContent}
-        </label>
-      </div>
-    );
-
     const submitButton = (
       <button
         className="usa-button submit-button"
-        disabled={!this.state.isAgreementChecked}
+        disabled={loading.acceptance}
       >
-        Submit
+        Accept terms and conditions
       </button>
     );
 
-    const cancelButton = (
-      <button
-        className="usa-button usa-button-secondary"
-        type="button"
-        onClick={this.handleCancel}
-      >
-        Cancel
-      </button>
-    );
-
-    return (
-      <div>
-        {yesCheckbox}
-        <div className="tc-buttons">
-          {submitButton}
-          {cancelButton}
-        </div>
-      </div>
-    );
+    return submitButton;
   };
 
   /* eslint-disable react/no-danger */
@@ -218,35 +161,21 @@ export class MhvTermsAndConditions extends React.Component {
       );
     }
 
-    const { title, headerContent, termsContent } = this.props.attributes;
-
-    const header = !this.props.accepted && (
-      <div>
-        {!this.state.showCanceledMessage && (
-          <div className="usa-alert usa-alert-info background-color-only">
-            <h3 className="usa-alert-heading">
-              {unagreedBannerProps.headline}
-            </h3>
-            <p className="usa-alert-text">{unagreedBannerProps.content}</p>
-          </div>
-        )}
-        <div
-          className="va-introtext"
-          dangerouslySetInnerHTML={{ __html: headerContent }}
-        />
-        <h3>Terms and Conditions</h3>
-      </div>
-    );
+    const { termsContent } = this.props.attributes;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>{title}</h1>
-        {header}
-        <hr />
-        <div dangerouslySetInnerHTML={{ __html: termsContent }} />
-        <hr />
-        {this.renderAgreementSection()}
-      </form>
+      <>
+        <h1>Terms and conditions for medical information</h1>
+        {this.renderBanner()}
+        <form onSubmit={this.handleSubmit}>
+          <h2>Terms and conditions</h2>
+          <div
+            dangerouslySetInnerHTML={{ __html: termsContent }}
+            className="terms-text"
+          />
+          {this.renderAcceptButton()}
+        </form>
+      </>
     );
   };
   /* eslint-enable react/no-danger */
@@ -256,9 +185,8 @@ export class MhvTermsAndConditions extends React.Component {
       <main className="terms-and-conditions">
         <div className="container">
           <div className="row">
-            {this.renderBanner()}
             <div
-              className="columns small-12"
+              className="columns medium-9"
               role="region"
               aria-label="Terms and Conditions"
             >
