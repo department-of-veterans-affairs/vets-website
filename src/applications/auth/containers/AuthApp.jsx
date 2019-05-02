@@ -258,18 +258,15 @@ export class AuthApp extends React.Component {
         header = 'Your session expired';
         alertContent = (
           <p>
-            We’re sorry. We signed you out of VA.gov because your session
-            expired. We take your privacy very seriously. To protect your
-            personal information, we sign you out if you don’t take any action
-            on the site for 30 minutes.
+            We take your privacy very seriously. You didn’t take any action on
+            VA.gov for 30 minutes, so we signed you out of the site to protect
+            your personal information.
           </p>
         );
         troubleshootingContent = (
           <>
-            <p>Please try signing in again.</p>
-            <button onClick={this.props.openLoginModal}>
-              Try signing in again
-            </button>
+            <p>Please sign in again.</p>
+            <button onClick={this.props.openLoginModal}>Sign in</button>
           </>
         );
         break;
