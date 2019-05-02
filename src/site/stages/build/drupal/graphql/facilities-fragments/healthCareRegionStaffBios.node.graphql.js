@@ -66,3 +66,5 @@ module.exports = `
     ${PERSON_PROFILE_RESULTS}
   }
 `;
+
+applyFeatureFlags(module);

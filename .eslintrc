@@ -24,7 +24,7 @@
     "__BUILDTYPE__": true,
     "__API__": true,
     "__MEGAMENU_CONFIG__": true,
-    "requireWithFeatureFlag",
+    "applyFeatureFlags",
   },
   "rules": {
     // Override airbnb style.

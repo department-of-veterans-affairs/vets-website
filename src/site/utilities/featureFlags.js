@@ -3,18 +3,18 @@ const path = require('path');
 
 // Edit this to add new flags
 const featureFlags = {
-  FEATURE1: 'feature1',
+  // FEATURE1: 'feature1',
 };
 
 // Edit this to turn flags on or off
 const flagsByBuildtype = {
-  // localhost: [],
-  localhost: [featureFlags.FEATURE1],
-  // vagovdev: [flags.FEATURE1],
+  // localhost: [featureFlags.FEATURE1],
+  localhost: [],
+  // vagovdev: [featureFlags.FEATURE1],
   vagovdev: [],
-  // vagovstaging: [flags.FEATURE1],
+  // vagovstaging: [featureFlags.FEATURE1],
   vagovstaging: [],
-  // vagovprod: [flags.FEATURE1],
+  // vagovprod: [featureFlags.FEATURE1],
   vagovprod: [],
 };
 
@@ -24,38 +24,33 @@ const enabledFeatureFlags = Object.values(featureFlags).reduce((acc, next) => {
   return acc;
 }, {});
 
-// For requiring queries
-const requireWithFeatureFlag = (dirname, filePath) => {
-  if (!dirname || !filePath) {
-    throw new Error(
-      'Both the directory name and the file path are required when using requireWithFeatureFlag',
-    );
-  }
-
-  let flaggedPath = filePath;
+const applyFeatureFlags = moduleToFlag => {
+  let flaggedPath;
   Object.keys(enabledFeatureFlags)
     .filter(flag => enabledFeatureFlags[flag])
     .forEach(flag => {
-      // Would need some logic to handle with and without .js
-      let pathToTest = `${filePath}.${flag}.js`;
-      if (filePath.endsWith('.js')) {
-        pathToTest = filePath.replace('.js', `.${flag}.js`);
-      }
+      const extension = path.extname(module.filename);
+      const pathToTest = moduleToFlag.filename.replace(
+        extension,
+        `.${flag}${extension}`,
+      );
 
-      if (fs.existsSync(path.join(dirname, pathToTest))) {
+      if (fs.existsSync(pathToTest)) {
         flaggedPath = pathToTest;
       }
     });
 
-  // eslint-disable-next-line import/no-dynamic-require
-  return require(path.join(dirname, flaggedPath));
+  if (flaggedPath) {
+    // eslint-disable-next-line import/no-dynamic-require,no-param-reassign
+    moduleToFlag.exports = require(flaggedPath);
+  }
 };
 
-Object.defineProperty(global, 'requireWithFeatureFlag', {
+Object.defineProperty(global, 'applyFeatureFlags', {
   enumerable: false,
   configurable: false,
   writable: false,
-  value: requireWithFeatureFlag,
+  value: applyFeatureFlags,
 });
 
 module.exports = {
