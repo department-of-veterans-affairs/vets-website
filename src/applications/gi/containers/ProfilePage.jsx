@@ -29,6 +29,7 @@ export class ProfilePage extends React.Component {
     this.props.fetchProfile(
       this.props.params.facilityCode,
       this.props.location.query.version,
+      this.props.constants,
     );
   }
 

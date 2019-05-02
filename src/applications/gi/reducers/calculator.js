@@ -247,7 +247,6 @@ export default function(state = INITIAL_STATE, action) {
 
     case FETCH_PROFILE_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
-
       const {
         tuitionInState,
         tuitionOutOfState,
@@ -301,12 +300,20 @@ export default function(state = INITIAL_STATE, action) {
 
       if (!environment.isProduction()) {
         // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
-        giBillBenefit =
-          action.payload.data.attributes.dodBah &&
-          action.payload.data.attributes.dodBah <
-            action.payload.data.attributes.bah
-            ? 'no'
-            : 'yes';
+        if (action.payload.data.attributes.type === 'USA') {
+          giBillBenefit =
+            action.payload.data.attributes.dodBah &&
+            action.payload.data.attributes.dodBah <
+              action.payload.data.attributes.bah
+              ? 'no'
+              : 'yes';
+        } else {
+          giBillBenefit =
+            action.constants.AVGDODBAH &&
+            action.constants.AVGDODBAH < action.constants.AVGBAH
+              ? 'no'
+              : 'yes';
+        }
       }
 
       return {
