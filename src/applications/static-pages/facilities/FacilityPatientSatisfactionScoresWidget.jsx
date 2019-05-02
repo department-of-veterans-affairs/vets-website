@@ -18,6 +18,66 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
     }
 
     const facility = this.props.facility.attributes;
+    const routineScoreMarkup = [];
+    const urgentScoreMarkup = [];
+
+    if (facility.feedback.health.primaryCareRoutine) {
+      urgentScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+          <p className="vads-u-margin--0">Primary care</p>
+          <p
+            id="facility-patient-satisfaction-scores-primary-urgent-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(facility.feedback.health.primaryCareUrgent)}
+          </p>
+        </div>,
+      );
+    }
+
+    if (facility.attributes.feedback.health.specialtyCareUrgent) {
+      urgentScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+          <p className="vads-u-margin--0">Specialty care</p>
+          <p
+            id="facility-patient-satisfaction-scores-specialty-urgent-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(
+              facility.attributes.feedback.health.specialtyCareUrgent,
+            )}
+          </p>
+        </div>,
+      );
+    }
+
+    if (facility.feedback.health.primaryCareRoutine) {
+      routineScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+          <p className="vads-u-margin--0">Primary care</p>
+          <p
+            id="facility-patient-satisfaction-scores-primary-routine-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(facility.feedback.health.primaryCareRoutine)}
+          </p>
+        </div>,
+      );
+    }
+
+    if (facility.feedback.health.specialtyCareRoutine) {
+      routineScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+          <p className="vads-u-margin--0">Specialty care</p>
+          <p
+            id="facility-patient-satisfaction-scores-specialty-routine-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(facility.feedback.health.specialtyCareRoutine)}
+          </p>
+        </div>,
+      );
+    }
 
     return (
       <div>
@@ -36,29 +96,8 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           they need care right away
         </p>
         <div className="usa-grid-full">
-          <div className="usa-width-one-half">
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Primary care</p>
-              <p
-                id="facility-patient-satisfaction-scores-primary-urgent-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {facility.feedback.health.primaryCareUrgent
-                  ? displayPercent(facility.feedback.health.primaryCareUrgent)
-                  : 'N/A'}
-              </p>
-            </div>
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Specialty care</p>
-              <p
-                id="facility-patient-satisfaction-scores-specialty-urgent-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {facility.feedback.health.specialtyCareUrgent
-                  ? displayPercent(facility.feedback.health.specialtyCareUrgent)
-                  : 'N/A'}
-              </p>
-            </div>
+          <div className="usa-width-one-half vads-u-display--flex">
+            {urgentScoreMarkup}
           </div>
         </div>
 
@@ -68,31 +107,8 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           they need it
         </p>
         <div className="usa-grid-full">
-          <div className="usa-width-one-half">
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Primary care</p>
-              <p
-                id="facility-patient-satisfaction-scores-primary-routine-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {facility.feedback.health.primaryCareRoutine
-                  ? displayPercent(facility.feedback.health.primaryCareRoutine)
-                  : 'N/A'}
-              </p>
-            </div>
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Specialty care</p>
-              <p
-                id="facility-patient-satisfaction-scores-specialty-routine-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {facility.feedback.health.specialtyCareRoutine
-                  ? displayPercent(
-                      facility.feedback.health.specialtyCareRoutine,
-                    )
-                  : 'N/A'}
-              </p>
-            </div>
+          <div className="usa-width-one-half vads-u-display--flex">
+            {routineScoreMarkup}
           </div>
         </div>
       </div>

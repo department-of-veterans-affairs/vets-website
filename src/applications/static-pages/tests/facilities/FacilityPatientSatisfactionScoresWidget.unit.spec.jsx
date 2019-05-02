@@ -47,7 +47,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
       const primaryUrgentScore = tree.find(
         '#facility-patient-satisfaction-scores-primary-urgent-score',
       );
-      expect(primaryUrgentScore.text()).to.contain('N/A');
+      expect(primaryUrgentScore).to.not.have.length;
 
       const primaryRoutineScore = tree.find(
         '#facility-patient-satisfaction-scores-primary-routine-score',
