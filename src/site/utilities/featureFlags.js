@@ -29,7 +29,7 @@ const applyFeatureFlags = moduleToFlag => {
   Object.keys(enabledFeatureFlags)
     .filter(flag => enabledFeatureFlags[flag])
     .forEach(flag => {
-      const extension = path.extname(module.filename);
+      const extension = path.extname(moduleToFlag.filename);
       const pathToTest = moduleToFlag.filename.replace(
         extension,
         `.${flag}${extension}`,
