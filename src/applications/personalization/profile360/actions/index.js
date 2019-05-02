@@ -7,6 +7,8 @@ export const FETCH_MILITARY_INFORMATION_SUCCESS =
   'FETCH_MILITARY_INFORMATION_SUCCESS';
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS =
   'FETCH_ADDRESS_CONSTANTS_SUCCESS';
+export const FETCH_PAYMENT_INFORMATION_SUCCESS =
+  'FETCH_PAYMENT_INFORMATION_SUCCESS';
 
 async function getData(apiRoute) {
   try {
@@ -44,6 +46,15 @@ export function fetchMilitaryInformation() {
       militaryInformation: {
         serviceHistory: await getData('/profile/service_history'),
       },
+    });
+  };
+}
+
+export function fetchPaymentInformation() {
+  return async dispatch => {
+    dispatch({
+      type: FETCH_PAYMENT_INFORMATION_SUCCESS,
+      paymentInformation: await getData('/ppiu/payment_information'),
     });
   };
 }
