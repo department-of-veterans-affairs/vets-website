@@ -24,10 +24,12 @@ const enabledFeatureFlags = Object.values(featureFlags).reduce((acc, next) => {
   return acc;
 }, {});
 
-const applyFeatureFlags = moduleToFlag => {
+const applyFeatureFlags = (moduleToFlag, flagToUse = null) => {
   let flaggedPath;
   Object.keys(enabledFeatureFlags)
-    .filter(flag => enabledFeatureFlags[flag])
+    .filter(
+      flag => enabledFeatureFlags[flag] && (!flagToUse || flagToUse === flag),
+    )
     .forEach(flag => {
       const extension = path.extname(moduleToFlag.filename);
       const pathToTest = moduleToFlag.filename.replace(
