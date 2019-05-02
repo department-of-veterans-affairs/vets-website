@@ -47,6 +47,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
+    enabledFeatureFlags: BUILD_OPTIONS.enabledFeatureFlags,
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
