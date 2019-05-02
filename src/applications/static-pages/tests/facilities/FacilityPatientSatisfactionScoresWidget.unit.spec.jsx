@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
-import FacilityPatientSatisfactionScoresWidget from '../../facilities/FacilityPatientSatisfactionScoresWidget';
+import { FacilityPatientSatisfactionScoresWidget } from '../../facilities/FacilityPatientSatisfactionScoresWidget';
 
 describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
   it('should render loading', () => {
     const tree = shallow(
       <FacilityPatientSatisfactionScoresWidget
-        facilityId={mockFacilityLocatorApiResponse.data[0].id}
+        facility={mockFacilityLocatorApiResponse.data[0]}
       />,
       {
         disableLifecycleMethods: true,
