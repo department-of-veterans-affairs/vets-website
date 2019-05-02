@@ -76,6 +76,7 @@ class SideBarMenu {
     );
     this.tabbableElements = getTabbableElements(this.menu);
     this.accordionButtons = this.getAccordionButtons(this.menu);
+
     this.lastAccordionButton = this.accordionButtons[
       this.accordionButtons.length - 1
     ];
