@@ -44,8 +44,7 @@ class PaymentInformation extends React.Component {
       return <LoadingIndicator message="Loading payment information..." />;
     }
 
-    const paymentAccount = this.props.paymentInformation.responses[0]
-      .paymentAccount;
+    const { paymentAccount } = this.props.paymentInformation.responses[0];
 
     return (
       <>
