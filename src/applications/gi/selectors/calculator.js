@@ -142,8 +142,8 @@ const getDerivedValues = createSelector(
             full: constant.DEARATEFULLTIME,
             'three quarters': constant.DEARATETHREEQUARTERS,
             half: constant.DEARATEONEHALF,
-            'less than half': constant.DEARATEFULLTIME,
-            quarter: constant.DEARATEFULLTIME,
+            'less than half': constant.DEARATEFULLTIME, // uses this constant because multiplied by a percentage later
+            quarter: constant.DEARATEFULLTIME, // uses this constant because multiplied by a percentage later
           }[inputs.enrolledOld];
         }
         break;
