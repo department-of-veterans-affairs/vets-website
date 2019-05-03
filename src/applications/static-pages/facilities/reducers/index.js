@@ -10,12 +10,12 @@ const initialState = {
   error: false,
 };
 
-function facilityReducer(state = initialState, action) {
+export function facilityReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_FACILITY_STARTED:
-      return { data: {}, loading: true };
+      return { data: {}, loading: true, error: false };
     case FETCH_FACILITY_SUCCESS:
-      return { data: action.facility, loading: false };
+      return { data: action.facility, loading: false, error: false };
     case FETCH_FACILITY_FAILED:
       return { data: {}, loading: false, error: true };
     default:

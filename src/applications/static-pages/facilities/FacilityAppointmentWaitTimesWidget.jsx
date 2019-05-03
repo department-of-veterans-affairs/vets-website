@@ -43,8 +43,8 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
             Last updated: {formatDateLong(facility.access.health.effectiveDate)}
           </p>
           <div className="usa-grid-full">
-            <div className="usa-width-one-half">
-              <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
+            <div className="usa-width-one-half vads-u-display--flex">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
                 <p className="vads-u-margin--0">New patient</p>
                 <p
                   id="facility-patient-satisfaction-scores-primary-routine-score"
@@ -56,7 +56,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   )}
                 </p>
               </div>
-              <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
                 <p className="vads-u-margin--0">Existing patient</p>
                 <p
                   id="facility-patient-satisfaction-scores-specialty-routine-score"
