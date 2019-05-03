@@ -696,11 +696,12 @@
     react-transition-group "1"
 
 "@department-of-veterans-affairs/formation@^6.2.2":
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.2.2.tgz#3566bdb0c06102bc17352699a5f4af74220175c3"
-  integrity sha512-VQt98XX9L4Jw7fBnzHn7kIeP+kYGilDULxrLFA6LGndcWSeUN0GUo16vpYaN261ofDnLmBqyBcuDzIOa8AFAWA==
+  version "6.2.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.2.6.tgz#c2f9b7ed35f032414e857d04392d5fc3cd83e875"
+  integrity sha512-H6fezdggWe7bCsRIGnK90HacxwjI2sWISDdZbSgN70X487qRaSEsR1IYEpivp/i3+kCaIex+Q6duH0S+WCGINw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
+    domready "^1.0.8"
     foundation-sites "5"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
