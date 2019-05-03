@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { logout } from 'platform/user/authentication/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -50,17 +51,25 @@ class SessionTimeoutModal extends React.Component {
   };
 
   expireSession = () => {
+    recordEvent({ event: 'logout-session-expired' });
     teardownProfileSession();
     window.location = '/session-expired';
   };
 
   extendSession = () => {
+    recordEvent({ event: 'login-cta-stay-signed-in' });
+
     // Remove session expiration to temporarily prevent the interval from
     // overwriting countdown immediately after clearing it.
     // Expiration will reset after a successful request to extend the session.
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
     this.props.onExtendSession();
+  };
+
+  signOut = () => {
+    recordEvent({ event: 'logout-cta-manual-signout' });
+    logout();
   };
 
   render() {
@@ -86,7 +95,7 @@ class SessionTimeoutModal extends React.Component {
           <button className="usa-button" onClick={this.extendSession}>
             I need more time
           </button>
-          <button className="va-button-link" onClick={logout}>
+          <button className="va-button-link" onClick={this.signOut}>
             Sign out
           </button>
         </div>
