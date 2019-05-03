@@ -67,7 +67,7 @@ module.exports = E2eHelpers.createE2eTest(browser => {
   const token = Auth.getUserToken();
 
   // Login to access the dashboard
-  Auth.logIn(token, browser, '/dashboard', 3).waitForElementVisible(
+  Auth.logIn(token, browser, '/my-va', 3).waitForElementVisible(
     '.user-profile-row',
     Timeouts.normal,
   );
