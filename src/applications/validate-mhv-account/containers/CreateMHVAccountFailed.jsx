@@ -45,13 +45,13 @@ class CreateMHVAccountFailed extends React.Component {
                 <p>
                   Call the My HealtheVet help desk at{' '}
                   <a href="tel:877-327-0022">877-327-0022</a>
-                  8. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                  8. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET. If you have hearing loss, call TTY: 800-877-3399.
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to use
                   health tools on VA.gov, but received an error message telling
-                  you that we couldn't create an account for you.
+                  you that we couldn’t create an account for you.
                 </p>
               </div>
             </li>
