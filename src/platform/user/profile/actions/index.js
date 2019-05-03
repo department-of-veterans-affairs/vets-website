@@ -1,5 +1,7 @@
-import { removeFormApi } from '../../../forms/save-in-progress/api';
-import environment from '../../../utilities/environment';
+import appendQuery from 'append-query';
+
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
+import { apiRequest } from 'platform/utilities/api';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
 
@@ -10,6 +12,8 @@ export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
 export * from './mhv';
+
+const baseUrl = '/user';
 
 export function updateProfileFields(payload) {
   return {
@@ -26,23 +30,11 @@ export function profileLoadingFinished() {
 
 export function refreshProfile(forceCacheClear = false) {
   return async dispatch => {
-    let url = `${environment.API_URL}/v0/user`;
-    if (forceCacheClear) {
-      url += `?now=${new Date().getTime()}`;
-    }
+    const url = forceCacheClear
+      ? appendQuery(baseUrl, { now: new Date().getTime() })
+      : baseUrl;
 
-    const response = await fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      const error = new Error(response.statusText);
-      error.status = response.status;
-      throw error;
-    }
-
-    const payload = await response.json();
+    const payload = await apiRequest(url);
     dispatch(updateProfileFields(payload));
     return payload;
   };
@@ -54,11 +46,8 @@ export function initializeProfile() {
       await dispatch(refreshProfile());
       dispatch(updateLoggedInStatus(true));
     } catch (error) {
-      if (error.status === 401) {
-        dispatch(updateLoggedInStatus(false));
-        teardownProfileSession();
-      }
-      dispatch(profileLoadingFinished());
+      dispatch(updateLoggedInStatus(false));
+      teardownProfileSession();
     }
   };
 }
