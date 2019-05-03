@@ -2,6 +2,7 @@ import 'platform/polyfills';
 import '../profile360/sass/user-profile.scss';
 import '../../claims-status/sass/claims-status.scss';
 import './sass/dashboard.scss';
+import './sass/dashboard-alert.scss';
 import './sass/messaging/messaging.scss';
 import '../preferences/sass/preferences.scss';
 

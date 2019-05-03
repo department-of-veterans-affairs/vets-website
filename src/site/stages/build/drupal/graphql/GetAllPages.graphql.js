@@ -12,6 +12,7 @@ const alertsQuery = require('./alerts.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
+const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
 const bioPage = require('./bioPage.graphql');
 const officePage = require('./officePage.graphql');
 /**
@@ -55,5 +56,6 @@ module.exports = `
     ${sidebarQuery}
     ${facilitySidebarQuery}
     ${alertsQuery}
+    ${outreachAssetsQuery}
   }
 `;
