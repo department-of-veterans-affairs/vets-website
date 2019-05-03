@@ -34,7 +34,7 @@ const NeedsSSNResolution = () => {
             </button>
             <div id="a1" className="usa-accordion-content">
               <p>
-                Please call us at <a href="tel:+800-827-1000">800-827-1000</a>.
+                Please call us at <a href="tel:800-827-1000">800-827-1000</a>.
                 We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If
                 you have hearing loss, call TTY: 1-800-829-4833.
               </p>
