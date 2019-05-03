@@ -3,7 +3,7 @@ import { libraryCard } from './library-card';
  * Creates elements for asset library.
  */
 
-export function libraryProcess(assets) {
+export function libraryProcess() {
   let pageNumbers;
 
   function paginate(array, pageSize, pageNumber) {
@@ -23,26 +23,9 @@ export function libraryProcess(assets) {
     pageNumbers();
   }
 
-  function getJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('get', url, true);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        const status = xhr.status;
-        if (status === 200) {
-          resolve(xhr.response);
-        } else {
-          reject(status);
-        }
-      };
-      xhr.send();
-    });
-  }
-
   async function dataProcess() {
     sessionStorage.removeItem('numOfPages');
-    let data = await getJSON(assets);
+    let data = window.VetsGov.outreachAssetsData;
     const topic = sessionStorage.getItem('topic')
       ? sessionStorage.getItem('topic')
       : null;

@@ -1,6 +1,12 @@
 {% assign entryname = "public-outreach-materials" %}
 
 {% include "src/site/includes/header.html" with drupalTags = true %}
+
+<script>
+  window.VetsGov = window.VetsGov || {};
+  window.VetsGov.outreachAssetsData = {{ outreachAssetsData }}
+</script>
+
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
