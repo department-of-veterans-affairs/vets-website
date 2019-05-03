@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
@@ -42,10 +41,10 @@ class SessionTimeoutModal extends React.Component {
     const expirationDate = localStorage.getItem('sessionExpiration');
     if (!expirationDate) return;
 
-    const expirationMoment = moment(new Date(expirationDate).toISOString());
-    if (!expirationMoment.isValid()) return;
+    const expirationTime = new Date(expirationDate).getTime();
+    if (isNaN(expirationTime)) return;
 
-    const countdown = expirationMoment.diff(moment(), 'seconds');
+    const countdown = Math.floor((expirationTime - Date.now()) / 1000);
     if (countdown < 0) this.expireSession();
     else if (countdown <= MODAL_DURATION) this.setState({ countdown });
   };
