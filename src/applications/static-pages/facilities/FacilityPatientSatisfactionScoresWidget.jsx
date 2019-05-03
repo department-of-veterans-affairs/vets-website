@@ -39,6 +39,76 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
         <LoadingIndicator message="Loading facility patient satisfaction scores..." />
       );
     }
+
+    const routineScoreMarkup = [];
+    const urgentScoreMarkup = [];
+
+    if (this.state.facility.attributes.feedback.health.primaryCareRoutine) {
+      urgentScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+          <p className="vads-u-margin--0">Primary care</p>
+          <p
+            id="facility-patient-satisfaction-scores-primary-urgent-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(
+              this.state.facility.attributes.feedback.health.primaryCareUrgent,
+            )}
+          </p>
+        </div>,
+      );
+    }
+
+    if (this.state.facility.attributes.feedback.health.specialtyCareUrgent) {
+      urgentScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+          <p className="vads-u-margin--0">Specialty care</p>
+          <p
+            id="facility-patient-satisfaction-scores-specialty-urgent-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(
+              this.state.facility.attributes.feedback.health
+                .specialtyCareUrgent,
+            )}
+          </p>
+        </div>,
+      );
+    }
+
+    if (this.state.facility.attributes.feedback.health.primaryCareRoutine) {
+      routineScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+          <p className="vads-u-margin--0">Primary care</p>
+          <p
+            id="facility-patient-satisfaction-scores-primary-routine-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(
+              this.state.facility.attributes.feedback.health.primaryCareRoutine,
+            )}
+          </p>
+        </div>,
+      );
+    }
+
+    if (this.state.facility.attributes.feedback.health.specialtyCareRoutine) {
+      routineScoreMarkup.push(
+        <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+          <p className="vads-u-margin--0">Specialty care</p>
+          <p
+            id="facility-patient-satisfaction-scores-specialty-routine-score"
+            className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
+          >
+            {displayPercent(
+              this.state.facility.attributes.feedback.health
+                .specialtyCareRoutine,
+            )}
+          </p>
+        </div>,
+      );
+    }
+
     return (
       <div>
         <h2>Our patient satisfaction scores</h2>
@@ -59,37 +129,8 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
           they need care right away
         </p>
         <div className="usa-grid-full">
-          <div className="usa-width-one-half">
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Primary care</p>
-              <p
-                id="facility-patient-satisfaction-scores-primary-urgent-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {this.state.facility.attributes.feedback.health
-                  .primaryCareUrgent
-                  ? displayPercent(
-                      this.state.facility.attributes.feedback.health
-                        .primaryCareUrgent,
-                    )
-                  : 'N/A'}
-              </p>
-            </div>
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Specialty care</p>
-              <p
-                id="facility-patient-satisfaction-scores-specialty-urgent-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {this.state.facility.attributes.feedback.health
-                  .specialtyCareUrgent
-                  ? displayPercent(
-                      this.state.facility.attributes.feedback.health
-                        .specialtyCareUrgent,
-                    )
-                  : 'N/A'}
-              </p>
-            </div>
+          <div className="usa-width-one-half vads-u-display--flex">
+            {urgentScoreMarkup}
           </div>
         </div>
 
@@ -99,37 +140,8 @@ export default class FacilityPatientSatisfactionScoresWidget extends React.Compo
           they need it
         </p>
         <div className="usa-grid-full">
-          <div className="usa-width-one-half">
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Primary care</p>
-              <p
-                id="facility-patient-satisfaction-scores-primary-routine-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {this.state.facility.attributes.feedback.health
-                  .primaryCareRoutine
-                  ? displayPercent(
-                      this.state.facility.attributes.feedback.health
-                        .primaryCareRoutine,
-                    )
-                  : 'N/A'}
-              </p>
-            </div>
-            <div className="usa-width-one-half vads-u-background-color--gray-lightest vads-u-padding--1p5">
-              <p className="vads-u-margin--0">Specialty care</p>
-              <p
-                id="facility-patient-satisfaction-scores-specialty-routine-score"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
-              >
-                {this.state.facility.attributes.feedback.health
-                  .specialtyCareRoutine
-                  ? displayPercent(
-                      this.state.facility.attributes.feedback.health
-                        .specialtyCareRoutine,
-                    )
-                  : 'N/A'}
-              </p>
-            </div>
+          <div className="usa-width-one-half vads-u-display--flex">
+            {routineScoreMarkup}
           </div>
         </div>
       </div>
