@@ -5,6 +5,7 @@ import {
 } from '../actions';
 
 const initialState = {
+  searchesPerformed: 0,
   results: [],
   loading: false,
   error: null,
@@ -31,6 +32,7 @@ function SearchReducer(state = initialState, action) {
       } = action.meta.pagination;
       const { results } = action.results.web;
       const recommendedResults = action.results.textBestBets;
+      const searchesPerformed = state.searchesPerformed + 1;
 
       return {
         ...state,
@@ -41,6 +43,7 @@ function SearchReducer(state = initialState, action) {
         currentPage,
         perPage,
         totalPages,
+        searchesPerformed,
         errors: undefined,
         loading: false,
       };

@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import moment from 'moment';
 
 import {
   makeSchemaForNewDisabilities,
@@ -28,6 +29,7 @@ import {
   ReservesGuardDescription,
   servedAfter911,
   viewifyFields,
+  activeServicePeriods,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -600,6 +602,27 @@ describe('526 helpers', () => {
         'view:prop2': 'this is a string',
       };
       expect(viewifyFields(formData)).to.eql(viewifiedFormData);
+    });
+  });
+
+  describe('activeServicePeriods', () => {
+    it('should return an array of service periods with no end `to` date or a `to` date in the future', () => {
+      const inactivePeriod = { dateRange: { to: '1999-03-03' } };
+      const futurePeriod = {
+        dateRange: {
+          to: moment()
+            .add(1, 'day')
+            .format('YYYY-MM-DD'),
+        },
+      };
+      const noToDate = { dateRange: { to: undefined } };
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [inactivePeriod, futurePeriod, noToDate],
+        },
+      };
+
+      expect(activeServicePeriods(formData)).to.eql([futurePeriod, noToDate]);
     });
   });
 });
