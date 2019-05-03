@@ -142,4 +142,9 @@
       border-radius: 0 5px 5px 0;
     }
   }
+
+  nav[aria-label="Breadcrumb"],
+  h4.sr-focus {
+    outline: 0;
+  }
 }
