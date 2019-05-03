@@ -29,9 +29,14 @@ const DashboardAlert = ({
         {subheadline && <h4>{subheadline}</h4>}
         <h3>{headline}</h3>
       </header>
-      <section className="status">
-        <h3>{statusHeadline}</h3>
-        {statusInfo && <p>{statusInfo}</p>}
+      <section className="status vads-u-display--flex">
+        <div className="status-icon-container vads-u-flex--auto">
+          <i />
+        </div>
+        <div className="vads-u-flex--1">
+          <h3>{statusHeadline}</h3>
+          {statusInfo && <p>{statusInfo}</p>}
+        </div>
       </section>
       <section className="content">{alertContent}</section>
     </div>
