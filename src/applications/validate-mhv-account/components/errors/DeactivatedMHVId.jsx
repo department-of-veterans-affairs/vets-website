@@ -31,31 +31,15 @@ const DeactivatedMHVId = () => {
             </button>
             <div id="a1" className="usa-accordion-content">
               <p>
-                Ask us a question online through our online help center, known
-                as the Inquiry Routing &amp; Information System (or IRIS).
+                Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
+                here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
+                have hearing loss, call TTY: 800-877-3399.
               </p>
               <p>
-                <strong>Fill in the form fields as below:</strong>
+                Tell the representative that you tried to sign in to use health
+                tools on VA.gov, but received an error message telling you that
+                your My HealtheVet account isn’t active.
               </p>
-              <ul>
-                <li>
-                  <strong>Question:</strong> Type in “Not in DEERS.”
-                </li>
-                <li>
-                  <strong>Topic:</strong> Select “Veteran not in DEERS (Add)”
-                </li>
-                <li>
-                  <strong>Inquiry type:</strong> Select “Question”
-                </li>
-              </ul>
-              <p>
-                Then, complete the rest of the form and click{' '}
-                <strong>Submit</strong>
-              </p>
-              <p>We’ll contact you within 2 to 3 days.</p>
-              <a href="https://iris.custhelp.va.gov/app/as">
-                Go to the IRIS website question form
-              </a>
             </div>
           </li>
           <li>
@@ -68,30 +52,32 @@ const DeactivatedMHVId = () => {
             </button>
             <div id="a2" className="usa-accordion-content">
               <p>
-                Ask us a question online through our online help center, known
-                as the Inquiry Routing &amp; Information System (or IRIS).
+                Use the My HealtheVet contact form to submit a request for help
+                online.
               </p>
               <p>
                 <strong>Fill in the form fields as below:</strong>
               </p>
               <ul>
                 <li>
-                  <strong>Question:</strong> Type in “Not in DEERS.”
+                  <strong>Topic:</strong> Select <strong>Account Login</strong>.
                 </li>
                 <li>
-                  <strong>Topic:</strong> Select “Veteran not in DEERS (Add)”
+                  <strong>Category:</strong> Select{' '}
+                  <strong>Request for Assistance</strong>.
                 </li>
                 <li>
-                  <strong>Inquiry type:</strong> Select “Question”
+                  <strong>Comments:</strong> Type, or copy and paste, in the
+                  message below:
+                  <p>
+                    “When I tried to sign in to use health tools on VA.gov, I
+                    received an error message telling me that my My HealtheVet
+                    account isn’t active.”
+                  </p>
                 </li>
               </ul>
-              <p>
-                Then, complete the rest of the form and click{' '}
-                <strong>Submit</strong>
-              </p>
-              <p>We’ll contact you within 2 to 3 days.</p>
-              <a href="https://iris.custhelp.va.gov/app/as">
-                Go to the IRIS website question form
+              <a href="https://www.myhealth.va.gov/mhv-portal-web/contact-us">
+                Go to the My HealtheVet contact form
               </a>
             </div>
           </li>

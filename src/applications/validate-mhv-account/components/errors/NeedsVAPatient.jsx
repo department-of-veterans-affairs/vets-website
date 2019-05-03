@@ -30,7 +30,7 @@ const NeedsVAPatient = () => {
         </p>
         <p>
           <strong>
-            If you're enrolled in VA health care, but not currently registered
+            If you’re enrolled in VA health care, but not currently registered
             as a patient at a VA health facility
           </strong>
         </p>
@@ -44,10 +44,10 @@ const NeedsVAPatient = () => {
           you’d like to register as a VA patient.
         </p>
         <p>
-          <strong>If you're not enrolled in VA health care</strong>
+          <strong>If you’re not enrolled in VA health care</strong>
         </p>
         <p>
-          You'll need to apply for VA health care benefits before you can
+          You’ll need to apply for VA health care benefits before you can
           register as a VA patient.
         </p>
         <p>
