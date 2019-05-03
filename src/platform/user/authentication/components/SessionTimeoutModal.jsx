@@ -4,7 +4,7 @@ import moment from 'moment';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import { logout } from 'platform/user/authentication/utilities';
-import { expireSession } from 'platform/user/profile/utilities';
+import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 const MODAL_DURATION = 30; // seconds
@@ -45,8 +45,13 @@ class SessionTimeoutModal extends React.Component {
     if (!expirationMoment.isValid()) return;
 
     const countdown = expirationMoment.diff(moment(), 'seconds');
-    if (countdown < 0) expireSession();
+    if (countdown < 0) this.expireSession();
     else if (countdown <= MODAL_DURATION) this.setState({ countdown });
+  };
+
+  expireSession = () => {
+    teardownProfileSession();
+    window.location = '/session-expired';
   };
 
   extendSession = () => {

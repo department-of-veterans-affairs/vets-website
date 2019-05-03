@@ -140,8 +140,3 @@ export function teardownProfileSession() {
   for (const key of sessionKeys) localStorage.removeItem(key);
   clearRavenLoginType();
 }
-
-export function expireSession() {
-  teardownProfileSession();
-  window.location = '/session-expired';
-}

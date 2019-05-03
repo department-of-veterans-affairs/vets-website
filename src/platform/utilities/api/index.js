@@ -1,6 +1,5 @@
 import Raven from 'raven-js';
 
-import { expireSession } from 'platform/user/profile/utilities';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
@@ -63,11 +62,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         return data;
       }
-
-      // The timeout modal should cover any session timeouts,
-      // but in case it doesn't, the next response with unauthorized status
-      // will invoke the same session expiration flow.
-      if (response.status === 401) expireSession();
 
       return data.then(Promise.reject.bind(Promise));
     })
