@@ -1,4 +1,5 @@
 import Raven from 'raven-js';
+import appendQuery from 'append-query';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
@@ -61,6 +62,21 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         if (sessionExpiration)
           localStorage.setItem('sessionExpiration', sessionExpiration);
         return data;
+      }
+
+      if (environment.isProduction()) {
+        const { pathname } = window.location;
+        const shouldRedirectToLogin =
+          response.status === 401 &&
+          resource !== '/user' &&
+          !pathname.includes('auth/login/callback');
+
+        if (shouldRedirectToLogin) {
+          const loginUrl = appendQuery(environment.BASE_URL, {
+            next: pathname,
+          });
+          window.location = loginUrl;
+        }
       }
 
       return data.then(Promise.reject.bind(Promise));
