@@ -78,13 +78,16 @@ const NeedsSSNResolution = () => {
               </p>
               <ul>
                 <li>
-                  <strong>Question:</strong> Type in “Not in DEERS.”
+                  <strong>Question:</strong> Type in{' '}
+                  <strong>Not in DEERS</strong>.
                 </li>
                 <li>
-                  <strong>Topic:</strong> Select “Veteran not in DEERS (Add)”
+                  <strong>Topic:</strong> Select{' '}
+                  <strong>Veteran not in DEERS (Add)</strong>.
                 </li>
                 <li>
-                  <strong>Inquiry type:</strong> Select “Question”
+                  <strong>Inquiry type:</strong> Select{' '}
+                  <strong>Question</strong>
                 </li>
               </ul>
               <p>
