@@ -1,5 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
+// @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
 @import "~@fortawesome/fontawesome-free/scss/variables";
 @import "../../../../platform/forms/sass/_m-applications";
 
@@ -30,10 +30,10 @@
   background: none;
   background-color: $color-gray-lightest;
   font-family: $font-sans;
-  padding: 1.25em;
+  padding: units(2);
 
   @include media($medium-large-screen) {
-    padding: 2em;
+    padding: units(4);
   }
 
   header {
@@ -53,19 +53,19 @@
   }
 
   section.status {
-    margin: 1.5em 0;
-    padding: 1em 0;
+    margin: units(3) 0;
+    padding: units(2) 0;
     border-top: 1px solid;
     border-bottom: 1px solid;
 
     .status-icon-container {
-      width: 2em;
+      width: units(4);
       padding-top: 3px;
 
       i {
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: units(2.5);
+        height: units(2.5);
         color: $color-white;
         border-radius: 50%;
 
@@ -129,11 +129,11 @@
 
     .remove-notification-link {
       display: block;
-      margin-top: 1em;
+      margin-top: units(2);
     }
 
     .remove-notification-label {
-      margin-left: .5em;
+      margin-left: units(1);
     }
   }
 }
