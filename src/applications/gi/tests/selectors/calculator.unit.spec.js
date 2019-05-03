@@ -363,7 +363,7 @@ describe('getCalculatedBenefits', () => {
     );
   });
 
-  it("should calculate housing allowance as DEARATEFULLTIME * 0.5 for DEA (35) if enrolledOld is 'less than half'", () => {
+  it("should calculate housing allowance as DEARATEFULLTIME * 0.5 for DEA (35) if enrolledOld is 'less than half' and tuitionFeesPerTerm > totalHousingAllowance", () => {
     let state = set('calculator.enrolledOld', 'less than half', defaultState);
     state = set('eligibility.giBillChapter', '35', state);
 
@@ -374,7 +374,7 @@ describe('getCalculatedBenefits', () => {
     ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
   });
 
-  it('should calculate housing allowance as DEARATEFULLTIME * 0.25 for DEA (35) if enrolledOld is quarter', () => {
+  it('should calculate housing allowance as DEARATEFULLTIME * 0.25 for DEA (35) if enrolledOld is quarter and tuitionFeesPerTerm > totalHousingAllowance', () => {
     let state = set('calculator.enrolledOld', 'quarter', defaultState);
     state = set('eligibility.giBillChapter', '35', state);
 
@@ -383,5 +383,91 @@ describe('getCalculatedBenefits', () => {
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+  });
+
+  it("should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if enrolledOld is 'less than half' and tuitionFeesPerTerm < totalHousingAllowance", () => {
+    const tuitionFees = 4430;
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        enrolledOld: 'less than half',
+        calendar: 'semesters',
+        tuitionInState: tuitionFees,
+        tuitionOutOfState: 8600,
+        tuitionFees,
+        inStateTuitionFees: tuitionFees,
+        books: 1500,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        giBillChapter: '35',
+      },
+    };
+
+    const tuitionFeesPerTerm = tuitionFees / 2;
+    const housingAllowance = tuitionFeesPerTerm / 4.5;
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+  });
+
+  it('should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if enrolledOld is quarter and tuitionFeesPerTerm < totalHousingAllowance', () => {
+    const tuitionFees = 2500;
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        enrolledOld: 'quarter',
+        calendar: 'semesters',
+        tuitionInState: tuitionFees,
+        tuitionOutOfState: 8600,
+        tuitionFees,
+        inStateTuitionFees: tuitionFees,
+        books: 1500,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        giBillChapter: '35',
+      },
+    };
+
+    const tuitionFeesPerTerm = tuitionFees / 2;
+    const housingAllowance = tuitionFeesPerTerm / 4.5;
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+  });
+
+  it('should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if OJT', () => {
+    const working = '30';
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        type: 'OJT',
+        working,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        giBillChapter: '35',
+      },
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          ...defaultState.profile.attributes,
+          type: 'ojt',
+        },
+      },
+    };
+
+    const ropOjt = working / 30;
+    const monthlyRateFinal =
+      ropOjt * defaultState.constants.constants.DEARATEOJT;
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
   });
 });
