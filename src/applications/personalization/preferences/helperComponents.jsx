@@ -284,6 +284,7 @@ export const homelessnessAlert = {
       status="warning"
       headline="If you’re homeless or at risk of becoming homeless:"
       onCloseAlert={onCloseAlert}
+      closeBtnAriaLabel="Close risk of homelessness notification"
     >
       <p>
         You can talk with someone right now. Call the National Call Center for

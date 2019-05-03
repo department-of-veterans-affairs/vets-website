@@ -114,6 +114,7 @@ export default class PreferenceItem extends React.Component {
           <button
             ref={this.removeBtnRef}
             className="va-button-link"
+            aria-label={`Remove ${title} preference`}
             onClick={() => this.props.handleViewToggle(code)}
           >
             <i className="fas fa-times" /> <span>Remove</span>
