@@ -3,11 +3,11 @@ import MessageTemplate from '../MessageTemplate';
 
 const GenericError = () => {
   const content = {
-    heading: 'Please try again later',
+    heading: 'We couldn’t connect you to our health tools',
     alertContent: (
       <>
         <p>
-          We're sorry. Something went wrong on our end, and we couldn't connect
+          We’re sorry. Something went wrong on our end, and we couldn’t connect
           you to health tools.
         </p>
       </>

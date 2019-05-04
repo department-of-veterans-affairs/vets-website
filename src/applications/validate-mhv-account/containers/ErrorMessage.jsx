@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import GenericError from '../components/errors/GenericError';
 import MultipleMHVIds from '../components/errors/MultipleMHVIds';
 import DeactivatedMHVId from '../components/errors/DeactivatedMHVId';
-import VerificationFailed from '../components/errors/VerificationFailed';
-import CreateAccountFailed from '../components/errors/CreateAccountFailed';
+import NeedsSSNResolution from '../components/errors/NeedsSSNResolution';
+import NeedsVAPatient from '../components/errors/NeedsVAPatient';
+import CreateMHVAccountFailed from './CreateMHVAccountFailed';
 import UpgradeAccountFailed from './UpgradeAccountFailed';
 import { ACCOUNT_STATES } from './../constants';
 
@@ -25,10 +26,11 @@ export default class ErrorMessage extends React.Component {
       case ACCOUNT_STATES.MULTIPLE_IDS:
         return <MultipleMHVIds />;
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
+        return <NeedsSSNResolution />;
       case ACCOUNT_STATES.NEEDS_VA_PATIENT:
-        return <VerificationFailed />;
+        return <NeedsVAPatient />;
       case ACCOUNT_STATES.REGISTER_FAILED:
-        return <CreateAccountFailed />;
+        return <CreateMHVAccountFailed />;
       case ACCOUNT_STATES.UPGRADE_FAILED:
         return <UpgradeAccountFailed />;
       default:
