@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import { isInProgressPath } from '../../../forms/helpers';
-import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
-import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
-import { updateLoggedInStatus } from '../../../user/authentication/actions';
-import SignInModal from '../../../user/authentication/components/SignInModal';
-import { initializeProfile } from '../../../user/profile/actions';
-import { hasSession } from '../../../user/profile/utilities';
-import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
+import { isInProgressPath } from 'platform/forms/helpers';
+import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
+import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { initializeProfile } from 'platform/user/profile/actions';
+import { hasSession } from 'platform/user/profile/utilities';
+import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
 import {
   toggleFormSignInModal,
@@ -157,6 +159,12 @@ export class Main extends React.Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
+        {!environment.isProduction() && (
+          <SessionTimeoutModal
+            isLoggedIn={this.props.currentlyLoggedIn}
+            onExtendSession={this.props.initializeProfile}
+          />
+        )}
       </div>
     );
   }

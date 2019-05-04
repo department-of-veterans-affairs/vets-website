@@ -136,11 +136,7 @@ export function setupProfileSession(userProfile) {
 export function teardownProfileSession() {
   // Legacy keys (entryTime, userToken) can be removed
   // after session cookie is fully in place.
-  const sessionKeys = ['hasSession', 'userFirstName', 'entryTime', 'userToken'];
-
-  for (const key of sessionKeys) {
-    localStorage.removeItem(key);
-  }
-
+  const sessionKeys = ['hasSession', 'userFirstName', 'sessionExpiration'];
+  for (const key of sessionKeys) localStorage.removeItem(key);
   clearRavenLoginType();
 }

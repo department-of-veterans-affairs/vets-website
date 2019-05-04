@@ -1,14 +1,14 @@
 import React from 'react';
 import MessageTemplate from '../MessageTemplate';
 
-const VerificationFailed = () => {
+const NeedsSSNResolution = () => {
   const content = {
-    heading: 'Please contact us to verify your identity.',
+    heading: 'The information you provided doesn’t match our records.',
     alertContent: (
       <div>
         <p>
           We’re sorry. We can’t match the information you provided with what we
-          have in our Veteran records. We take your privacy seriously, and we’re
+          have in our Veteran records. We take your privacy seriously, and we're
           committed to protecting your information. We can’t give you access to
           our online health tools until we can match your information and verify
           your identity.
@@ -20,8 +20,8 @@ const VerificationFailed = () => {
       <>
         <h5>What you can do</h5>
         <p>
-          To verify your identity, please call us or submit an online help
-          request.
+          Please call us or submit a question online. We can help to try to
+          match your information to our records and verify your identity.
         </p>
         <ul className="usa-accordion">
           <li>
@@ -78,13 +78,16 @@ const VerificationFailed = () => {
               </p>
               <ul>
                 <li>
-                  <strong>Question:</strong> Type in “Not in DEERS.”
+                  <strong>Question:</strong> Type in{' '}
+                  <strong>Not in DEERS</strong>.
                 </li>
                 <li>
-                  <strong>Topic:</strong> Select “Veteran not in DEERS (Add)”
+                  <strong>Topic:</strong> Select{' '}
+                  <strong>Veteran not in DEERS (Add)</strong>.
                 </li>
                 <li>
-                  <strong>Inquiry type:</strong> Select “Question”
+                  <strong>Inquiry type:</strong> Select{' '}
+                  <strong>Question</strong>
                 </li>
               </ul>
               <p>
@@ -109,4 +112,4 @@ const VerificationFailed = () => {
   return <MessageTemplate content={content} />;
 };
 
-export default VerificationFailed;
+export default NeedsSSNResolution;
