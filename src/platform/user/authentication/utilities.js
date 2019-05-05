@@ -65,9 +65,9 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-function redirect(redirectUrl, clickedEvent) {
+function redirect(redirectUrl, clickedEvent, returnURL = window.location.href) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
+  sessionStorage.setItem(authnSettings.RETURN_URL, returnURL);
   recordEvent({ event: clickedEvent });
 
   if (redirectUrl.includes('idme')) {
@@ -85,8 +85,8 @@ export function mfa() {
   return redirect(MFA_URL, 'multifactor-link-clicked');
 }
 
-export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked');
+export function verify({ returnURL }) {
+  return redirect(VERIFY_URL, 'verify-link-clicked', returnURL);
 }
 
 export function logout() {
