@@ -15,6 +15,10 @@ import {
 import { apiRequest } from '../../../platform/utilities/api';
 import get from '../../../platform/utilities/data/get';
 
+const REDIRECT_IGNORE_PATTERN = new RegExp(
+  ['/auth/login/callback', '/session-expired'].join('|'),
+);
+
 class AuthMetrics {
   constructor(type, payload) {
     this.type = type;
@@ -118,10 +122,9 @@ export class AuthApp extends React.Component {
   redirect = () => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
-
-    const redirectUrl =
-      (!returnUrl.match(window.location.pathname) && returnUrl) || '/';
-
+    const redirectUrl = !returnUrl.match(REDIRECT_IGNORE_PATTERN)
+      ? returnUrl
+      : '/';
     window.location.replace(redirectUrl);
   };
 
@@ -255,18 +258,15 @@ export class AuthApp extends React.Component {
         header = 'Your session expired';
         alertContent = (
           <p>
-            We’re sorry. We signed you out of VA.gov because your session
-            expired. We take your privacy very seriously. To protect your
-            personal information, we sign you out if you don’t take any action
-            on the site for 30 minutes.
+            We take your privacy very seriously. You didn’t take any action on
+            VA.gov for 30 minutes, so we signed you out of the site to protect
+            your personal information.
           </p>
         );
         troubleshootingContent = (
           <>
-            <p>Please try signing in again.</p>
-            <button onClick={this.props.openLoginModal}>
-              Try signing in again
-            </button>
+            <p>Please sign in again.</p>
+            <button onClick={this.props.openLoginModal}>Sign in</button>
           </>
         );
         break;
