@@ -14,6 +14,10 @@ import ProfileFieldHeading from 'applications/personalization/profile360/vet360/
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
 import { fetchPaymentInformation } from '../actions';
 
+function isGated() {
+  return environment.isProduction();
+}
+
 class PaymentInformation extends React.Component {
   static propTypes = {
     fetchPaymentInformation: PropTypes.func.isRequired,
@@ -39,16 +43,9 @@ class PaymentInformation extends React.Component {
   }
 
   componentDidMount() {
-    if (this.shouldRender()) {
+    if (!isGated() && this.props.isEligible) {
       this.props.fetchPaymentInformation();
     }
-  }
-
-  shouldRender() {
-    if (environment.isProduction()) {
-      return null;
-    }
-    return this.props.isEligible;
   }
 
   toggleEditModal = () => {
@@ -60,7 +57,11 @@ class PaymentInformation extends React.Component {
   };
 
   render() {
-    if (!this.shouldRender()) {
+    if (isGated()) {
+      return null;
+    }
+
+    if (!this.props.isEligible) {
       return null;
     }
 
