@@ -11,7 +11,6 @@ import {
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation,
-  fetchPaymentInformation,
 } from '../actions';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
@@ -34,7 +33,6 @@ class VAProfileApp extends React.Component {
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
-            fetchPaymentInformation={this.props.fetchPaymentInformation}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
@@ -60,7 +58,6 @@ const mapDispatchToProps = {
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation,
-  fetchPaymentInformation,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };
