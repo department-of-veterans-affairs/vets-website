@@ -5,12 +5,19 @@ import {
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
   FETCH_PAYMENT_INFORMATION_SUCCESS,
+  SAVE_PAYMENT_INFORMATION,
+  SAVE_PAYMENT_INFORMATION_SUCCESS,
+  SAVE_PAYMENT_INFORMATION_FAIL,
 } from '../actions';
 
 const initialState = {
   hero: null,
   personalInformation: null,
   militaryInformation: null,
+  paymentInformation: null,
+  paymentInformationStatus: {
+    isSaving: false,
+  },
 };
 
 function vaProfile(state = initialState, action) {
@@ -25,7 +32,33 @@ function vaProfile(state = initialState, action) {
       return { ...state, militaryInformation: action.militaryInformation };
 
     case FETCH_PAYMENT_INFORMATION_SUCCESS:
-      return { ...state, paymentInformation: action.paymentInformation };
+    case SAVE_PAYMENT_INFORMATION_SUCCESS:
+      return {
+        ...state,
+        paymentInformation: action.paymentInformation,
+        paymentInformationStatus: {
+          response: null,
+          isSaving: false,
+        },
+      };
+
+    case SAVE_PAYMENT_INFORMATION:
+      return {
+        ...state,
+        paymentInformationStatus: {
+          response: null,
+          isSaving: true,
+        },
+      };
+
+    case SAVE_PAYMENT_INFORMATION_FAIL:
+      return {
+        ...state,
+        paymentInformationStatus: {
+          response: action.response,
+          isSaving: false,
+        },
+      };
 
     default:
       return state;

@@ -12,7 +12,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
-import { fetchPaymentInformation } from '../actions';
+import { fetchPaymentInformation, savePaymentInformation } from '../actions';
 
 function isGated() {
   return environment.isProduction();
@@ -50,10 +50,6 @@ class PaymentInformation extends React.Component {
 
   toggleEditModal = () => {
     this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
-  };
-
-  submitEditModal = () => {
-    // Todo
   };
 
   render() {
@@ -115,9 +111,9 @@ class PaymentInformation extends React.Component {
         </p>
         <PaymentInformationEditModal
           isVisible={this.state.isEditModalVisible}
-          onSubmit={this.submitEditModal}
+          status={this.props.paymentInformationStatus}
+          onSubmit={this.props.savePaymentInformation}
           onClose={this.toggleEditModal}
-          paymentAccount={paymentAccount}
         />
       </>
     );
@@ -132,10 +128,12 @@ const mapStateToProps = state => ({
   isEligible: isEvssAvailable(state),
   isLoading: !state.vaProfile.paymentInformation,
   paymentInformation: state.vaProfile.paymentInformation,
+  paymentInformationStatus: state.vaProfile.paymentInformationStatus,
 });
 
 const mapDispatchToProps = {
   fetchPaymentInformation,
+  savePaymentInformation,
 };
 
 const PaymentInformationContainer = connect(

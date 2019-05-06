@@ -13,13 +13,9 @@ const ACCOUNT_TYPES_OPTIONS = {
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     isVisible: PropTypes.bool.isRequired,
-    paymentAccount: PropTypes.shape({
-      accountNumber: PropTypes.string.isRequired,
-      accountType: PropTypes.string.isRequired,
-      financialInstitutionName: PropTypes.string.isRequired,
-      financialInstitutionRoutingNumber: PropTypes.string.isRequired,
-    }),
+    status: PropTypes.object,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -28,6 +24,10 @@ class PaymentInformationEditModal extends React.Component {
     }
 
     // Make sure the form is reset when the modal is not visible.
+    return PaymentInformationEditModal.getClearedForm();
+  }
+
+  static getClearedForm() {
     return {
       financialInstitutionRoutingNumber: {
         field: {
@@ -50,7 +50,14 @@ class PaymentInformationEditModal extends React.Component {
     };
   }
 
-  onSubmit = () => {
+  constructor(props) {
+    super(props);
+    this.state = PaymentInformationEditModal.getClearedForm();
+  }
+
+  onSubmit = event => {
+    event.preventDefault();
+
     const routingNumberErrorMessage = this.getRoutingNumberErrorMessage(
       this.state.financialInstitutionRoutingNumber.field.value,
     );
@@ -70,7 +77,13 @@ class PaymentInformationEditModal extends React.Component {
         },
       });
     } else {
-      this.props.onSubmit();
+      this.props.onSubmit({
+        financialInstitutionName: 'Hidden form field',
+        financialInstitutionRoutingNumber: this.state
+          .financialInstitutionRoutingNumber.field.value,
+        accountNumber: this.state.accountNumber.field.value,
+        accountType: this.state.accountType.value.value,
+      });
     }
   };
 
@@ -140,49 +153,51 @@ class PaymentInformationEditModal extends React.Component {
           alt="On a personal check, find your bank's 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
         />
 
-        <ErrorableTextInput
-          label="Routing number (9 digits)"
-          field={this.state.financialInstitutionRoutingNumber.field}
-          errorMessage={
-            this.state.financialInstitutionRoutingNumber.errorMessage
-          }
-          onValueChange={this.onRoutingNumberChanged}
-          required
-          charMax={9}
-        />
+        <form onSubmit={this.onSubmit}>
+          <ErrorableTextInput
+            label="Routing number (9 digits)"
+            field={this.state.financialInstitutionRoutingNumber.field}
+            errorMessage={
+              this.state.financialInstitutionRoutingNumber.errorMessage
+            }
+            onValueChange={this.onRoutingNumberChanged}
+            required
+            charMax={9}
+          />
 
-        <ErrorableTextInput
-          label="Account number (1-17 digits)"
-          field={this.state.accountNumber.field}
-          errorMessage={this.state.accountNumber.errorMessage}
-          onValueChange={this.onAccountNumberChanged}
-          required
-          charMax={17}
-        />
+          <ErrorableTextInput
+            label="Account number (1-17 digits)"
+            field={this.state.accountNumber.field}
+            errorMessage={this.state.accountNumber.errorMessage}
+            onValueChange={this.onAccountNumberChanged}
+            required
+            charMax={17}
+          />
 
-        <ErrorableSelect
-          label="Account type"
-          value={this.state.accountType.value}
-          onValueChange={this.onAccountTypeChanged}
-          options={Object.values(ACCOUNT_TYPES_OPTIONS)}
-          required
-        />
+          <ErrorableSelect
+            label="Account type"
+            value={this.state.accountType.value}
+            onValueChange={this.onAccountTypeChanged}
+            options={Object.values(ACCOUNT_TYPES_OPTIONS)}
+            required
+          />
 
-        <button
-          type="button"
-          className="usa-button-primary"
-          onClick={this.onSubmit}
-        >
-          Update
-        </button>
+          <button
+            type="submit"
+            className="usa-button-primary vads-u-width--auto"
+            disabled={this.props.status.isSaving}
+          >
+            Update
+          </button>
 
-        <button
-          type="button"
-          className="usa-button-secondary"
-          onClick={this.props.onClose}
-        >
-          Cancel
-        </button>
+          <button
+            type="button"
+            className="usa-button-secondary"
+            onClick={this.props.onClose}
+          >
+            Cancel
+          </button>
+        </form>
       </Modal>
     );
   }
