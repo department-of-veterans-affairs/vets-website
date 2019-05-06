@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
@@ -141,12 +142,23 @@ class PaymentInformationEditModal extends React.Component {
   }
 
   render() {
+    const lastResponse = this.props.status.response;
+
     return (
       <Modal
         title="Edit direct deposit information"
         visible={this.props.isVisible}
         onClose={this.props.onClose}
       >
+        <AlertBox
+          status="error"
+          isVisible={lastResponse && lastResponse.errors.length}
+        >
+          <p>
+            We’re sorry. Something went wrong on our end and we couldn’t save
+            the recent updates you made to your profile. Please try again later.
+          </p>
+        </AlertBox>
         <p>Update your account and routing number</p>
         <img
           src="/img/direct-deposit-check-guide.png"
