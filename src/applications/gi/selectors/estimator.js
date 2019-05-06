@@ -86,7 +86,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
       } else if (isFlight) {
         monthlyRate = 0;
       } else {
-        monthlyRate = constant.DEARATE;
+        monthlyRate = constant.DEARATEFULLTIME;
       }
       break;
     case 31:
