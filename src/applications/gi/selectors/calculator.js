@@ -513,6 +513,7 @@ const getDerivedValues = createSelector(
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
+      avgBah = constant.AVGBAH;
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
