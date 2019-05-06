@@ -17,7 +17,18 @@ import { fetchPaymentInformation } from '../actions';
 class PaymentInformation extends React.Component {
   static propTypes = {
     fetchPaymentInformation: PropTypes.func.isRequired,
-    paymentInformation: PropTypes.object,
+    paymentInformation: PropTypes.shape({
+      responses: PropTypes.arrayOf(
+        PropTypes.shape({
+          paymentAccount: PropTypes.shape({
+            accountNumber: PropTypes.string.isRequired,
+            accountType: PropTypes.string.isRequired,
+            financialInstitutionName: PropTypes.string.isRequired,
+            financialInstitutionRoutingNumber: PropTypes.string.isRequired,
+          }),
+        }),
+      ),
+    }),
   };
 
   constructor(props) {
@@ -42,6 +53,10 @@ class PaymentInformation extends React.Component {
 
   toggleEditModal = () => {
     this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
+  };
+
+  submitEditModal = () => {
+    // Todo
   };
 
   render() {
@@ -99,7 +114,9 @@ class PaymentInformation extends React.Component {
         </p>
         <PaymentInformationEditModal
           isVisible={this.state.isEditModalVisible}
+          onSubmit={this.submitEditModal}
           onClose={this.toggleEditModal}
+          paymentAccount={paymentAccount}
         />
       </>
     );
