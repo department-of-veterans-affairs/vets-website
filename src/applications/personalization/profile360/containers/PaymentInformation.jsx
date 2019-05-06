@@ -11,11 +11,8 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
+import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
 import { fetchPaymentInformation } from '../actions';
-
-const getDirectDepositEligibity = createIsServiceAvailableSelector(
-  backendServices.EVSS_CLAIMS,
-);
 
 class PaymentInformation extends React.Component {
   static propTypes = {
@@ -23,20 +20,32 @@ class PaymentInformation extends React.Component {
     paymentInformation: PropTypes.object,
   };
 
-  componentDidMount() {
-    this.props.fetchPaymentInformation();
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditModalVisible: false,
+    };
   }
 
-  editClicked = () => {
-    // Todo
-  };
+  componentDidMount() {
+    if (this.shouldRender()) {
+      this.props.fetchPaymentInformation();
+    }
+  }
 
-  render() {
+  shouldRender() {
     if (environment.isProduction()) {
       return null;
     }
+    return this.props.isEligible;
+  }
 
-    if (!this.props.isEligible) {
+  toggleEditModal = () => {
+    this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
+  };
+
+  render() {
+    if (!this.shouldRender()) {
       return null;
     }
 
@@ -65,19 +74,19 @@ class PaymentInformation extends React.Component {
           </p>
         </AdditionalInfo>
         <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.editClicked}>
+          <ProfileFieldHeading onEditClick={this.toggleEditModal}>
             Bank name
           </ProfileFieldHeading>
           {paymentAccount.financialInstitutionName}
         </div>
         <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.editClicked}>
+          <ProfileFieldHeading onEditClick={this.toggleEditModal}>
             Account type
           </ProfileFieldHeading>
           {paymentAccount.accountType}
         </div>
         <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.editClicked}>
+          <ProfileFieldHeading onEditClick={this.toggleEditModal}>
             Account number
           </ProfileFieldHeading>
           {paymentAccount.accountNumber}
@@ -88,13 +97,21 @@ class PaymentInformation extends React.Component {
             1-800-827-1000.
           </strong>
         </p>
+        <PaymentInformationEditModal
+          isVisible={this.state.isEditModalVisible}
+          onClose={this.toggleEditModal}
+        />
       </>
     );
   }
 }
 
+const isEvssAvailable = createIsServiceAvailableSelector(
+  backendServices.EVSS_CLAIMS,
+);
+
 const mapStateToProps = state => ({
-  isEligible: getDirectDepositEligibity(state),
+  isEligible: isEvssAvailable(state),
   isLoading: !state.vaProfile.paymentInformation,
   paymentInformation: state.vaProfile.paymentInformation,
 });
