@@ -15,12 +15,11 @@ class PaymentInformationEditModal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    isVisible: PropTypes.bool.isRequired,
     status: PropTypes.object,
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.isVisible) {
+    if (props.status.isEditing) {
       return state;
     }
 
@@ -147,7 +146,7 @@ class PaymentInformationEditModal extends React.Component {
     return (
       <Modal
         title="Edit direct deposit information"
-        visible={this.props.isVisible}
+        visible={this.props.status.isEditing}
         onClose={this.props.onClose}
       >
         <AlertBox

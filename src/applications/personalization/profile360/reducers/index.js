@@ -4,11 +4,15 @@ import {
   FETCH_HERO_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
+} from '../actions';
+
+import {
   FETCH_PAYMENT_INFORMATION_SUCCESS,
   SAVE_PAYMENT_INFORMATION,
   SAVE_PAYMENT_INFORMATION_SUCCESS,
   SAVE_PAYMENT_INFORMATION_FAIL,
-} from '../actions';
+  SET_PAYMENT_INFO_UI_STATE,
+} from '../actions/paymentInformation';
 
 const initialState = {
   hero: null,
@@ -16,6 +20,7 @@ const initialState = {
   militaryInformation: null,
   paymentInformation: null,
   paymentInformationStatus: {
+    isEditing: false,
     isSaving: false,
   },
 };
@@ -39,6 +44,7 @@ function vaProfile(state = initialState, action) {
         paymentInformationStatus: {
           response: null,
           isSaving: false,
+          isEditing: false,
         },
       };
 
@@ -48,6 +54,7 @@ function vaProfile(state = initialState, action) {
         paymentInformationStatus: {
           response: null,
           isSaving: true,
+          isEditing: true,
         },
       };
 
@@ -57,6 +64,16 @@ function vaProfile(state = initialState, action) {
         paymentInformationStatus: {
           response: action.response,
           isSaving: false,
+          isEditing: true,
+        },
+      };
+
+    case SET_PAYMENT_INFO_UI_STATE:
+      return {
+        ...state,
+        paymentInformationStatus: {
+          ...state.paymentInformationStatus,
+          ...action.status,
         },
       };
 

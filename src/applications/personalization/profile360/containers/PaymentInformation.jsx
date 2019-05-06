@@ -12,7 +12,11 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
-import { fetchPaymentInformation, savePaymentInformation } from '../actions';
+import {
+  fetchPaymentInformation,
+  savePaymentInformation,
+  setPaymentInformationStatus,
+} from '../actions/paymentInformation';
 
 function isGated() {
   return environment.isProduction();
@@ -35,13 +39,6 @@ class PaymentInformation extends React.Component {
     }),
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditModalVisible: false,
-    };
-  }
-
   componentDidMount() {
     if (!isGated() && this.props.isEligible) {
       this.props.fetchPaymentInformation();
@@ -49,7 +46,9 @@ class PaymentInformation extends React.Component {
   }
 
   toggleEditModal = () => {
-    this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
+    this.props.setPaymentInformationStatus({
+      isEditing: !this.props.paymentInformationStatus.isEditing,
+    });
   };
 
   render() {
@@ -110,7 +109,6 @@ class PaymentInformation extends React.Component {
           </strong>
         </p>
         <PaymentInformationEditModal
-          isVisible={this.state.isEditModalVisible}
           status={this.props.paymentInformationStatus}
           onSubmit={this.props.savePaymentInformation}
           onClose={this.toggleEditModal}
@@ -134,6 +132,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchPaymentInformation,
   savePaymentInformation,
+  setPaymentInformationStatus,
 };
 
 const PaymentInformationContainer = connect(
