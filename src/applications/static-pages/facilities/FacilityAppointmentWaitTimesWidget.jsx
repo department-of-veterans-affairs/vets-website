@@ -23,7 +23,11 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
   render() {
     if (this.props.loading || !Object.keys(this.props.facility).length) {
       return (
-        <LoadingIndicator message="Loading facility health care service wait time..." />
+        <LoadingIndicator
+          message={`Loading facility's ${
+            this.props.service
+          } appointment wait times...`}
+        />
       );
     }
 
@@ -39,7 +43,11 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
       return (
         <div>
           <h3>Appointment wait times at this location</h3>
-          <p id="facility-patient-satisfaction-scores-effective-date">
+          <p
+            id={`facility-${_.camelCase(
+              this.props.service,
+            )}-appointment-wait-times-effective-date`}
+          >
             Last updated: {formatDateLong(facility.access.health.effectiveDate)}
           </p>
           <div className="usa-grid-full">
@@ -47,7 +55,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
               <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
                 <p className="vads-u-margin--0">New patient</p>
                 <p
-                  id="facility-patient-satisfaction-scores-primary-routine-score"
+                  id={`facility-${_.camelCase(
+                    this.props.service,
+                  )}-new-patient-wait-time`}
                   className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
                 >
                   {this.appointmentWaitTime(
@@ -59,7 +69,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
               <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
                 <p className="vads-u-margin--0">Existing patient</p>
                 <p
-                  id="facility-patient-satisfaction-scores-specialty-routine-score"
+                  id={`facility-${_.camelCase(
+                    this.props.service,
+                  )}-existing-patient-wait-time`}
                   className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
                 >
                   {this.appointmentWaitTime(

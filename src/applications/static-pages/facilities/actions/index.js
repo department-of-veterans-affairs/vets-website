@@ -36,7 +36,8 @@ export function fetchFacility(id) {
     }
     dispatch(fetchFacilityStarted());
 
-    apiRequest(
+    // eslint-disable-next-line consistent-return
+    return apiRequest(
       `/facilities/va/${id}`,
       null,
       facility => dispatch(fetchFacilitySuccess(facility.data)),
