@@ -6,11 +6,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
-const ACCOUNT_TYPES_OPTIONS = {
-  checking: 'Checking',
-  savings: 'Savings',
-};
-
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
@@ -18,78 +13,44 @@ class PaymentInformationEditModal extends React.Component {
     paymentInformationUiState: PropTypes.object,
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.paymentInformationUiState.isEditing) {
-      return state;
-    }
-
-    // Make sure the form is reset when the modal is not visible.
-    return PaymentInformationEditModal.getClearedForm();
-  }
-
-  static getClearedForm() {
-    return {
-      financialInstitutionRoutingNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountType: {
-        value: {
-          value: ACCOUNT_TYPES_OPTIONS.checking,
-          dirty: false,
-        },
-      },
-    };
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = PaymentInformationEditModal.getClearedForm();
-  }
-
   onSubmit = event => {
     event.preventDefault();
 
+    const editedState = this.props.paymentInformationUiState.editModalFields;
+
     const routingNumberErrorMessage = this.getRoutingNumberErrorMessage(
-      this.state.financialInstitutionRoutingNumber.field.value,
+      editedState.financialInstitutionRoutingNumber.field.value,
     );
     const accountNumberErrorMessage = this.getAccountNumberErrorMessage(
-      this.state.accountNumber.field.value,
+      editedState.accountNumber.field.value,
     );
 
     if (routingNumberErrorMessage || accountNumberErrorMessage) {
-      this.setState({
+      this.setEditedState({
         financialInstitutionRoutingNumber: {
-          ...this.state.financialInstitutionRoutingNumber,
+          ...editedState.financialInstitutionRoutingNumber,
           errorMessage: routingNumberErrorMessage,
         },
         accountNumber: {
-          ...this.state.accountNumber,
+          ...editedState.accountNumber,
           errorMessage: accountNumberErrorMessage,
         },
       });
     } else {
       this.props.onSubmit({
         financialInstitutionName: 'Hidden form field',
-        financialInstitutionRoutingNumber: this.state
-          .financialInstitutionRoutingNumber.field.value,
-        accountNumber: this.state.accountNumber.field.value,
-        accountType: this.state.accountType.value.value,
+        financialInstitutionRoutingNumber:
+          editedState.financialInstitutionRoutingNumber.field.value,
+        accountNumber: editedState.accountNumber.field.value,
+        accountType: editedState.accountType.value.value,
       });
     }
   };
 
   onRoutingNumberChanged = field => {
     const financialInstitutionRoutingNumber = {
-      ...this.state.financialInstitutionRoutingNumber,
+      ...this.props.paymentInformationUiState.editModalFields
+        .financialInstitutionRoutingNumber,
       field,
     };
 
@@ -99,12 +60,12 @@ class PaymentInformationEditModal extends React.Component {
       );
     }
 
-    this.setState({ financialInstitutionRoutingNumber });
+    this.setEditedState({ financialInstitutionRoutingNumber });
   };
 
   onAccountNumberChanged = field => {
     const accountNumber = {
-      ...this.state.accountNumber,
+      ...this.props.paymentInformationUiState.editModalFields.accountNumber,
       field,
     };
 
@@ -114,17 +75,26 @@ class PaymentInformationEditModal extends React.Component {
       );
     }
 
-    this.setState({ accountNumber });
+    this.setEditedState({ accountNumber });
   };
 
   onAccountTypeChanged = value => {
     const accountType = {
-      ...this.state.accountType,
+      ...this.props.paymentInformationUiState.editModalFields.accountType,
       value,
     };
 
-    this.setState({ accountType });
+    this.setEditedState({ accountType });
   };
+
+  setEditedState(vals) {
+    this.props.setPaymentInformationUiState({
+      editModalFields: {
+        ...this.props.paymentInformationUiState.editModalFields,
+        ...vals,
+      },
+    });
+  }
 
   getRoutingNumberErrorMessage(value) {
     if (!value.match(/^\d{9}$/)) {
@@ -141,6 +111,7 @@ class PaymentInformationEditModal extends React.Component {
   }
 
   render() {
+    const editedState = this.props.paymentInformationUiState.editModalFields;
     const lastResponse = this.props.paymentInformationUiState.response;
 
     return (
@@ -167,9 +138,9 @@ class PaymentInformationEditModal extends React.Component {
         <form onSubmit={this.onSubmit}>
           <ErrorableTextInput
             label="Routing number (9 digits)"
-            field={this.state.financialInstitutionRoutingNumber.field}
+            field={editedState.financialInstitutionRoutingNumber.field}
             errorMessage={
-              this.state.financialInstitutionRoutingNumber.errorMessage
+              editedState.financialInstitutionRoutingNumber.errorMessage
             }
             onValueChange={this.onRoutingNumberChanged}
             required
@@ -178,8 +149,8 @@ class PaymentInformationEditModal extends React.Component {
 
           <ErrorableTextInput
             label="Account number (1-17 digits)"
-            field={this.state.accountNumber.field}
-            errorMessage={this.state.accountNumber.errorMessage}
+            field={editedState.accountNumber.field}
+            errorMessage={editedState.accountNumber.errorMessage}
             onValueChange={this.onAccountNumberChanged}
             required
             charMax={17}
@@ -187,9 +158,9 @@ class PaymentInformationEditModal extends React.Component {
 
           <ErrorableSelect
             label="Account type"
-            value={this.state.accountType.value}
+            value={editedState.accountType.value}
             onValueChange={this.onAccountTypeChanged}
-            options={Object.values(ACCOUNT_TYPES_OPTIONS)}
+            options={editedState.accountType.options}
             required
           />
 
