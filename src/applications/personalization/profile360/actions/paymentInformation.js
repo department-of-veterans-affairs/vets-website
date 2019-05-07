@@ -50,9 +50,9 @@ export function savePaymentInformation(fields) {
   };
 }
 
-export function setPaymentInformationStatus(status) {
+export function setPaymentInformationUiState(state) {
   return {
     type: SET_PAYMENT_INFO_UI_STATE,
-    status,
+    state,
   };
 }

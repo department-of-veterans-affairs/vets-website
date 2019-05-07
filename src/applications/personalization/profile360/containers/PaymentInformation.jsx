@@ -15,7 +15,7 @@ import PaymentInformationEditModal from '../components/PaymentInformationEditMod
 import {
   fetchPaymentInformation,
   savePaymentInformation,
-  setPaymentInformationStatus,
+  setPaymentInformationUiState,
 } from '../actions/paymentInformation';
 
 function isGated() {
@@ -46,8 +46,8 @@ class PaymentInformation extends React.Component {
   }
 
   toggleEditModal = () => {
-    this.props.setPaymentInformationStatus({
-      isEditing: !this.props.paymentInformationStatus.isEditing,
+    this.props.setPaymentInformationUiState({
+      isEditing: !this.props.paymentInformationUiState.isEditing,
     });
   };
 
@@ -109,7 +109,8 @@ class PaymentInformation extends React.Component {
           </strong>
         </p>
         <PaymentInformationEditModal
-          status={this.props.paymentInformationStatus}
+          paymentInformationUiState={this.props.paymentInformationUiState}
+          setPaymentInformationUiState={this.props.setPaymentInformationUiState}
           onSubmit={this.props.savePaymentInformation}
           onClose={this.toggleEditModal}
         />
@@ -126,13 +127,13 @@ const mapStateToProps = state => ({
   isEligible: isEvssAvailable(state),
   isLoading: !state.vaProfile.paymentInformation,
   paymentInformation: state.vaProfile.paymentInformation,
-  paymentInformationStatus: state.vaProfile.paymentInformationStatus,
+  paymentInformationUiState: state.vaProfile.paymentInformationUiState,
 });
 
 const mapDispatchToProps = {
   fetchPaymentInformation,
   savePaymentInformation,
-  setPaymentInformationStatus,
+  setPaymentInformationUiState,
 };
 
 const PaymentInformationContainer = connect(

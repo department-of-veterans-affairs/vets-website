@@ -19,7 +19,7 @@ const initialState = {
   personalInformation: null,
   militaryInformation: null,
   paymentInformation: null,
-  paymentInformationStatus: {
+  paymentInformationUiState: {
     isEditing: false,
     isSaving: false,
   },
@@ -41,7 +41,7 @@ function vaProfile(state = initialState, action) {
       return {
         ...state,
         paymentInformation: action.paymentInformation,
-        paymentInformationStatus: {
+        paymentInformationUiState: {
           response: null,
           isSaving: false,
           isEditing: false,
@@ -51,7 +51,7 @@ function vaProfile(state = initialState, action) {
     case SAVE_PAYMENT_INFORMATION:
       return {
         ...state,
-        paymentInformationStatus: {
+        paymentInformationUiState: {
           response: null,
           isSaving: true,
           isEditing: true,
@@ -61,7 +61,7 @@ function vaProfile(state = initialState, action) {
     case SAVE_PAYMENT_INFORMATION_FAIL:
       return {
         ...state,
-        paymentInformationStatus: {
+        paymentInformationUiState: {
           response: action.response,
           isSaving: false,
           isEditing: true,
@@ -71,9 +71,9 @@ function vaProfile(state = initialState, action) {
     case SET_PAYMENT_INFO_UI_STATE:
       return {
         ...state,
-        paymentInformationStatus: {
-          ...state.paymentInformationStatus,
-          ...action.status,
+        paymentInformationUiState: {
+          ...state.paymentInformationUiState,
+          ...action.state,
         },
       };
 
