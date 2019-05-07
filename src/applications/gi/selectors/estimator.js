@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -85,6 +86,8 @@ function getDerivedAttributes(constant, eligibility, institution) {
         monthlyRate = constant.DEARATEOJT;
       } else if (isFlight) {
         monthlyRate = 0;
+      } else if (environment.isProduction()) {
+        monthlyRate = constant.DEARATE;
       } else {
         monthlyRate = constant.DEARATEFULLTIME;
       }
