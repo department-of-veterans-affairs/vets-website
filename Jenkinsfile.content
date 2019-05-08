@@ -1,14 +1,9 @@
 node('vetsgov-general-purpose') {
-  // params.ref can either be a git commit ref or a tag
-  // If its a tag, the checkout function requires 'refs/tags/' prepended to the tag to function properly
-  if (params.ref.startsWith('vets-website')) {
-    branchName = "refs/tags/${params.ref}"
-  } else {
-    branchName = params.ref
-  }
 
+  // Checkout vets-website code
   dir("vets-website") {
-    checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
+    checkout scm
+    ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
