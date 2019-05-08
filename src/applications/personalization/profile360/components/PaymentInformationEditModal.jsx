@@ -188,7 +188,7 @@ class PaymentInformationEditModal extends React.Component {
           />
 
           <ErrorableTextInput
-            label="Account number (1-17 digits)"
+            label="Account number (6-17 digits)"
             field={editedState.accountNumber.field}
             errorMessage={editedState.accountNumber.errorMessage}
             onValueChange={this.onAccountNumberChanged}

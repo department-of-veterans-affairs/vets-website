@@ -68,7 +68,7 @@ describe('<PaymentInformationEditModal/>', () => {
         },
         accountNumber: {
           field: {
-            value: '123',
+            value: '123456',
             dirty: false,
           },
         },
