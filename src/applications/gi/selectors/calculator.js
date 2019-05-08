@@ -142,8 +142,8 @@ const getDerivedValues = createSelector(
             full: constant.DEARATEFULLTIME,
             'three quarters': constant.DEARATETHREEQUARTERS,
             half: constant.DEARATEONEHALF,
-            'less than half': constant.DEARATEFULLTIME, // uses this constant because multiplied by a percentage later
-            quarter: constant.DEARATEFULLTIME, // uses this constant because multiplied by a percentage later
+            'less than half': constant.DEARATEUPTOONEHALF,
+            quarter: constant.DEARATEUPTOONEQUARTER,
           }[inputs.enrolledOld];
         }
         break;
@@ -243,13 +243,7 @@ const getDerivedValues = createSelector(
       ropOjt = ropOld = +inputs.working / 30;
     } else if (giBillChapter === 35) {
       // only do these calculations for DEA
-      ropOld = {
-        full: 1,
-        'three quarters': 1, // at 100% since uses DEARATETHREEQUARTERS
-        half: 1, // at 100% since uses DEARATEONEHALF
-        'less than half': 0.5,
-        quarter: 0.25,
-      }[inputs.enrolledOld];
+      ropOld = 1;
     } else {
       ropOld = {
         full: 1,

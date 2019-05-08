@@ -367,22 +367,26 @@ describe('getCalculatedBenefits', () => {
     let state = set('calculator.enrolledOld', 'less than half', defaultState);
     state = set('eligibility.giBillChapter', '35', state);
 
-    const housingAllowance =
-      defaultState.constants.constants.DEARATEFULLTIME * 0.5;
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+    ).to.equal(
+      `${formatCurrency(
+        defaultState.constants.constants.DEARATEUPTOONEHALF,
+      )}/mo`,
+    );
   });
 
   it('should calculate housing allowance as DEARATEFULLTIME * 0.25 for DEA (35) if enrolledOld is quarter and tuitionFeesPerTerm > totalHousingAllowance', () => {
     let state = set('calculator.enrolledOld', 'quarter', defaultState);
     state = set('eligibility.giBillChapter', '35', state);
 
-    const housingAllowance =
-      defaultState.constants.constants.DEARATEFULLTIME * 0.25;
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+    ).to.equal(
+      `${formatCurrency(
+        defaultState.constants.constants.DEARATEUPTOONEQUARTER,
+      )}/mo`,
+    );
   });
 
   it("should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if enrolledOld is 'less than half' and tuitionFeesPerTerm < totalHousingAllowance", () => {

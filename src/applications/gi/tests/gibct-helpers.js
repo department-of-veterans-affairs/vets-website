@@ -316,6 +316,22 @@ const calculatorConstants = {
       },
     },
     {
+      id: '61',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEUPTOONEHALF',
+        value: 710,
+      },
+    },
+    {
+      id: '62',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEUPTOONEQUARTER',
+        value: 306,
+      },
+    },
+    {
       id: '27',
       type: 'calculator_constants',
       attributes: {
