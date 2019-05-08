@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import fullSchema1995Stem from 'vets-json-schema/dist/22-1995-STEM-schema.json';
 
 import { transform } from '../helpers';
 
@@ -32,7 +32,7 @@ const {
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
-} = fullSchema1995.properties;
+} = fullSchema1995Stem.properties;
 
 const {
   preferredContactMethod,
@@ -40,7 +40,7 @@ const {
   date,
   dateRange,
   serviceBefore1977,
-} = fullSchema1995.definitions;
+} = fullSchema1995Stem.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -74,16 +74,19 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: createApplicantInformationPage(fullSchema1995, {
-          isVeteran: true,
-          fields: [
-            'veteranFullName',
-            'veteranSocialSecurityNumber',
-            'view:noSSN',
-            'vaFileNumber',
-          ],
-          required: ['veteranFullName'],
-        }),
+        applicantInformation: createApplicantInformationPage(
+          fullSchema1995Stem,
+          {
+            isVeteran: true,
+            fields: [
+              'veteranFullName',
+              'veteranSocialSecurityNumber',
+              'view:noSSN',
+              'vaFileNumber',
+            ],
+            required: ['veteranFullName'],
+          },
+        ),
       },
     },
     benefitSelection: {
@@ -134,7 +137,7 @@ const formConfig = {
               'view:newService': {
                 type: 'boolean',
               },
-              toursOfDuty: fullSchema1995.properties.toursOfDuty,
+              toursOfDuty: fullSchema1995Stem.properties.toursOfDuty,
             },
           },
         },
@@ -208,20 +211,20 @@ const formConfig = {
                 type: 'string',
               },
               educationType,
-              newSchoolAddress: address.schema(fullSchema1995),
+              newSchoolAddress: address.schema(fullSchema1995Stem),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance,
             },
           },
         },
-        oldSchool: createOldSchoolPage(fullSchema1995),
+        oldSchool: createOldSchoolPage(fullSchema1995Stem),
       },
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage(fullSchema1995),
+        contactInformation: createContactInformationPage(fullSchema1995Stem),
         dependents: {
           title: 'Dependents',
           path: 'personal-information/dependents',
@@ -239,7 +242,7 @@ const formConfig = {
             },
           },
         },
-        directDeposit: createDirectDepositChangePage(fullSchema1995),
+        directDeposit: createDirectDepositChangePage(fullSchema1995Stem),
       },
     },
   },
