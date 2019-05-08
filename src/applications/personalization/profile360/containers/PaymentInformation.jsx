@@ -24,6 +24,8 @@ function isGated() {
 
 class PaymentInformation extends React.Component {
   static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    isEligible: PropTypes.bool.isRequired,
     fetchPaymentInformation: PropTypes.func.isRequired,
     paymentInformation: PropTypes.shape({
       responses: PropTypes.arrayOf(
