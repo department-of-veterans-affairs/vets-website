@@ -141,7 +141,7 @@ class PaymentInformationEditModal extends React.Component {
   }
 
   getAccountNumberErrorMessage(value) {
-    if (!value.match(/^\d{1,17}$/)) {
+    if (!value.match(/^\d{6,17}$/)) {
       return 'Please enter a valid account number.';
     }
     return null;
