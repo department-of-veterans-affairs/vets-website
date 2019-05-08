@@ -1,0 +1,36 @@
+node('vetsgov-general-purpose') {
+  // params.ref can either be a git commit ref or a tag
+  // If its a tag, the checkout function requires 'refs/tags/' prepended to the tag to function properly
+  if (params.ref.startsWith('vets-website')) {
+    branchName = "refs/tags/${params.ref}"
+  } else {
+    branchName = params.ref
+  }
+
+  dir("vets-website") {
+    checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
+  }
+
+  def commonStages = load "vets-website/jenkins/common.groovy"
+
+  // Setup stage
+  dockerContainer = commonStages.setup()
+
+  stage('Integration') {
+    dir("vets-website") {
+      try {
+        parallel (
+          e2e: {
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod -e WEB_HOST=staging.va.gov -e WEB_PORT=80 vets-website --no-color run nightwatch:docker -- --tag integration"
+          }
+        )
+      } catch (error) {
+        commonStages.slackIntegrationNotify()
+        throw error
+      } finally {
+        sh "docker-compose -p e2e down --remove-orphans"
+        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      }
+    }
+  }
+}
