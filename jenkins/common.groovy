@@ -93,6 +93,13 @@ def puppeteerNotification() {
     failOnError: true
 }
 
+def slackIntegrationNotify() {
+  message = "(Testing) @jbalboni: integration tests failed. |${env.RUN_DISPLAY_URL}".stripMargin()
+  slackSend message: message,
+    color: 'danger',
+    failOnError: true
+}
+
 def setup() {
   stage("Setup") {
 
