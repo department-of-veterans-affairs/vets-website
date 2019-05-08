@@ -5,7 +5,7 @@ import { Validator } from 'jsonschema';
 
 import { transform } from '../../../1995-STEM/helpers';
 import formConfig from '../../../1995-STEM/config/form';
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import fullSchema1995Stem from 'vets-json-schema/dist/22-1995-STEM-schema.json';
 
 describe('1995 schema tests', () => {
   const v = new Validator();
@@ -17,7 +17,7 @@ describe('1995 schema tests', () => {
       );
       const submitData = JSON.parse(transform(formConfig, contents))
         .educationBenefitsClaim.form;
-      const result = v.validate(JSON.parse(submitData), fullSchema1995);
+      const result = v.validate(JSON.parse(submitData), fullSchema1995Stem);
 
       if (!result.valid) {
           console.log(result.errors); // eslint-disable-line
