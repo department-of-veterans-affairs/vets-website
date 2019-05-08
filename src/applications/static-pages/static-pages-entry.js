@@ -30,13 +30,15 @@ import createFacilityListWidget from './facilities/facilityList';
 import createFacilityDetailWidget from './facilities/facilityDetail';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import createFacilityPatientSatisfactionScoresWidget from './facilities/facilityPatientSatisfactionScores';
+import facilityReducer from './facilities/reducers';
+import createFacilityAppointmentWaitTimesWidget from './facilities/facilityAppointmentWaitTimes';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
   source: 'static-pages',
 });
 
-const store = createCommonStore();
+const store = createCommonStore(facilityReducer);
 Raven.context(
   {
     tags: { source: 'site-wide' },
@@ -83,9 +85,11 @@ createApplicationStatus(store, {
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 
 createFacilityListWidget();
-createFacilityDetailWidget();
 createBasicFacilityListWidget();
-createFacilityPatientSatisfactionScoresWidget();
+
+createFacilityDetailWidget(store);
+createFacilityPatientSatisfactionScoresWidget(store);
+createFacilityAppointmentWaitTimesWidget(store);
 
 // homepage widgets
 if (location.pathname === '/') {
