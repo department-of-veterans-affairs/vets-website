@@ -141,7 +141,7 @@ class PaymentInformationEditModal extends React.Component {
   }
 
   getAccountNumberErrorMessage(value) {
-    if (!value.match(/^\d{6,17}$/)) {
+    if (!value.match(/^\d{1,17}$/)) {
       return 'Please enter a valid account number.';
     }
     return null;
@@ -188,7 +188,7 @@ class PaymentInformationEditModal extends React.Component {
           />
 
           <ErrorableTextInput
-            label="Account number (6-17 digits)"
+            label="Account number (No more than 17 digits)"
             field={editedState.accountNumber.field}
             errorMessage={editedState.accountNumber.errorMessage}
             onValueChange={this.onAccountNumberChanged}
