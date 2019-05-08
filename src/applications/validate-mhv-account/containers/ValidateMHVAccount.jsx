@@ -66,9 +66,9 @@ class ValidateMHVAccount extends React.Component {
       accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED
     ) {
       const mhvUrl = 'https://www.myhealth.va.gov/mhv-portal-web/home';
-      router.replace(
-        environment.isProduction() ? mhvUrl : replaceWithStagingDomain(mhvUrl),
-      );
+      window.location = environment.isProduction()
+        ? mhvUrl
+        : replaceWithStagingDomain(mhvUrl);
     } else if (accountLevel === MHV_ACCOUNT_LEVELS.BASIC) {
       router.replace('upgrade-account');
     } else {
