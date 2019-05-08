@@ -6,12 +6,48 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
+const ACCOUNT_TYPES_OPTIONS = {
+  checking: 'Checking',
+  savings: 'Savings',
+};
+
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     setPaymentInformationUiState: PropTypes.func.isRequired,
     paymentInformationUiState: PropTypes.object,
+  };
+
+  static defaultEditModalFields = {
+    financialInstitutionRoutingNumber: {
+      field: {
+        value: '',
+        dirty: false,
+      },
+    },
+    accountNumber: {
+      field: {
+        value: '',
+        dirty: false,
+      },
+    },
+    accountType: {
+      options: Object.values(ACCOUNT_TYPES_OPTIONS),
+      value: {
+        value: ACCOUNT_TYPES_OPTIONS.checking,
+        dirty: false,
+      },
+    },
+  };
+
+  componentDidMount() {
+    this.setEditedState(PaymentInformationEditModal.defaultEditModalFields);
+  }
+
+  onClose = () => {
+    this.props.onClose();
+    this.setEditedState(PaymentInformationEditModal.defaultEditModalFields);
   };
 
   onSubmit = event => {
@@ -115,11 +151,14 @@ class PaymentInformationEditModal extends React.Component {
     const editedState = this.props.paymentInformationUiState.editModalFields;
     const lastResponse = this.props.paymentInformationUiState.response;
 
+    // The modal values may still be initializing into the store.
+    if (!editedState) return null;
+
     return (
       <Modal
         title="Edit direct deposit information"
         visible={this.props.paymentInformationUiState.isEditing}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
       >
         <AlertBox
           status="error"
@@ -176,7 +215,7 @@ class PaymentInformationEditModal extends React.Component {
           <button
             type="button"
             className="usa-button-secondary"
-            onClick={this.props.onClose}
+            onClick={this.onClose}
           >
             Cancel
           </button>

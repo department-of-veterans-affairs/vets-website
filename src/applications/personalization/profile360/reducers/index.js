@@ -14,33 +14,6 @@ import {
   SET_PAYMENT_INFO_UI_STATE,
 } from '../actions/paymentInformation';
 
-const ACCOUNT_TYPES_OPTIONS = {
-  checking: 'Checking',
-  savings: 'Savings',
-};
-
-const paymentInfoEditModalFields = {
-  financialInstitutionRoutingNumber: {
-    field: {
-      value: '',
-      dirty: false,
-    },
-  },
-  accountNumber: {
-    field: {
-      value: '',
-      dirty: false,
-    },
-  },
-  accountType: {
-    options: Object.values(ACCOUNT_TYPES_OPTIONS),
-    value: {
-      value: ACCOUNT_TYPES_OPTIONS.checking,
-      dirty: false,
-    },
-  },
-};
-
 const initialState = {
   hero: null,
   personalInformation: null,
@@ -49,7 +22,6 @@ const initialState = {
   paymentInformationUiState: {
     isEditing: false,
     isSaving: false,
-    editModalFields: paymentInfoEditModalFields,
   },
 };
 
@@ -99,21 +71,14 @@ function vaProfile(state = initialState, action) {
         },
       };
 
-    case SET_PAYMENT_INFO_UI_STATE: {
-      const derived = {};
-      if (action.state.isEditing) {
-        derived.editModalFields = paymentInfoEditModalFields;
-      }
-
+    case SET_PAYMENT_INFO_UI_STATE:
       return {
         ...state,
         paymentInformationUiState: {
           ...state.paymentInformationUiState,
           ...action.state,
-          ...derived,
         },
       };
-    }
 
     default:
       return state;
