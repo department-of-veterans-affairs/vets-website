@@ -2,6 +2,7 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import environment from '../environment';
+import localStorage from '../storage/localStorage';
 
 function isJson(response) {
   const contentType = response.headers.get('Content-Type');
@@ -56,22 +57,29 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         ? response.json()
         : Promise.resolve(response);
 
-      if (!response.ok) {
+      if (response.ok || response.status === 304) {
+        const sessionExpiration = response.headers.get('X-Session-Expiration');
+        if (sessionExpiration)
+          localStorage.setItem('sessionExpiration', sessionExpiration);
+        return data;
+      }
+
+      if (environment.isProduction()) {
         const { pathname } = window.location;
         const shouldRedirectToLogin =
-          response.status === 401 && !pathname.includes('auth/login/callback');
+          response.status === 401 &&
+          resource !== '/user' &&
+          !pathname.includes('auth/login/callback');
 
         if (shouldRedirectToLogin) {
           const loginUrl = appendQuery(environment.BASE_URL, {
             next: pathname,
           });
-          window.location.href = loginUrl;
+          window.location = loginUrl;
         }
-
-        return data.then(Promise.reject.bind(Promise));
       }
 
-      return data;
+      return data.then(Promise.reject.bind(Promise));
     })
     .then(success)
     .catch(error);

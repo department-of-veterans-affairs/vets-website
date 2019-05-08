@@ -23,7 +23,8 @@
     "PerformanceObserver": true,
     "__BUILDTYPE__": true,
     "__API__": true,
-    "__MEGAMENU_CONFIG__": true
+    "__MEGAMENU_CONFIG__": true,
+    "applyFeatureFlags",
   },
   "rules": {
     // Override airbnb style.

@@ -11,9 +11,9 @@ import {
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { getCalculatedBenefits as getCalculatedBenefitsOld } from '../../selectors/calculator.old';
+import environment from 'platform/utilities/environment';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
-import environment from 'platform/utilities/environment';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (

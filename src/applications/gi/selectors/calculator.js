@@ -138,7 +138,13 @@ const getDerivedValues = createSelector(
         } else if (isFlight) {
           monthlyRate = 0;
         } else {
-          monthlyRate = constant.DEARATE;
+          monthlyRate = {
+            full: constant.DEARATEFULLTIME,
+            'three quarters': constant.DEARATETHREEQUARTERS,
+            half: constant.DEARATEONEHALF,
+            'less than half': constant.DEARATEUPTOONEHALF,
+            quarter: constant.DEARATEUPTOONEQUARTER,
+          }[inputs.enrolledOld];
         }
         break;
       }
@@ -235,6 +241,9 @@ const getDerivedValues = createSelector(
     if (isOJT) {
       // eslint-disable-next-line no-multi-assign
       ropOjt = ropOld = +inputs.working / 30;
+    } else if (giBillChapter === 35) {
+      // only do these calculations for DEA
+      ropOld = 1;
     } else {
       ropOld = {
         full: 1,

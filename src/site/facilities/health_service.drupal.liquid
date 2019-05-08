@@ -31,6 +31,7 @@
 
                 {% if localServiceDescription !== empty %}
                     {{ localServiceDescription }}
+                    <div data-widget-type="facility-appointment-wait-times-widget" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}" data-service="{{ serviceTaxonomy.name | escape }}"></div>
                 {% endif %}
             </div>
         </li>
