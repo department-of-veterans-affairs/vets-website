@@ -164,7 +164,7 @@
                 <h2>Our health services</h2>
                 <section class="local-health-services" id="local-health-services">
                     {% for localService in fieldLocalHealthCareService %}
-                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = localService.entity.fieldClinicalHealthServices.0.entity localServiceDescription = localService.entity.fieldBody.processed %}
+                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = localService.entity.fieldClinicalHealthServices.0.entity localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
                     {% endfor %}
                 </section>
             {% endif %}
