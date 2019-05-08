@@ -97,7 +97,7 @@ describe('<PaymentInformationEditModal/>', () => {
     expect(submitVal).to.be.deep.equal({
       financialInstitutionName: 'Hidden form field',
       financialInstitutionRoutingNumber: '123123123',
-      accountNumber: '123',
+      accountNumber: '123456',
       accountType: 'Checking',
     });
 
