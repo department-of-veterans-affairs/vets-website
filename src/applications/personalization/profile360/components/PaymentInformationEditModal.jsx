@@ -10,6 +10,7 @@ class PaymentInformationEditModal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    setPaymentInformationUiState: PropTypes.func.isRequired,
     paymentInformationUiState: PropTypes.object,
   };
 
