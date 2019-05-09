@@ -190,8 +190,8 @@ export function fetchProfile(facilityCode, version, constants) {
           throw new Error(errors);
         });
       })
-      .then(payload => {
-        const institutionZIP = _.get(payload, 'data.attributes.zip');
+      .then(institution => {
+        const institutionZIP = _.get(institution, 'data.attributes.zip');
         const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
 
         return (
@@ -201,9 +201,11 @@ export function fetchProfile(facilityCode, version, constants) {
             .then(zipRatesPayload => {
               withPreview(dispatch, {
                 type: FETCH_PROFILE_SUCCEEDED,
-                payload,
+                payload: {
+                  ...institution,
+                  constants,
+                },
                 zipRatesPayload,
-                constants,
               });
             })
         );

@@ -443,10 +443,10 @@ describe('calculator reducer', () => {
                 },
               ],
             },
-            constants: {
-              AVGDODBAH: 400,
-              AVGBAH: 500,
-            },
+          },
+          constants: {
+            AVGDODBAH: 400,
+            AVGBAH: 500,
           },
         },
       },
@@ -566,10 +566,10 @@ describe('calculator reducer', () => {
               attributes: {
                 yellowRibbonPrograms: [],
               },
-              constants: {
-                AVGDODBAH: 500,
-                AVGBAH: 400,
-              },
+            },
+            constants: {
+              AVGDODBAH: 500,
+              AVGBAH: 400,
             },
           },
         },
@@ -589,10 +589,10 @@ describe('calculator reducer', () => {
               attributes: {
                 yellowRibbonPrograms: [],
               },
-              constants: {
-                AVGDODBAH: 400,
-                AVGBAH: 500,
-              },
+            },
+            constants: {
+              AVGDODBAH: 400,
+              AVGBAH: 500,
             },
           },
         },
