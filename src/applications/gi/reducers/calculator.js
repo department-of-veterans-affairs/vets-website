@@ -309,9 +309,8 @@ export default function(state = INITIAL_STATE, action) {
               : 'yes';
         } else {
           giBillBenefit =
-            action.payload.data.constants.AVGDODBAH &&
-            action.payload.data.constants.AVGDODBAH <
-              action.payload.data.constants.AVGBAH
+            action.constants.AVGDODBAH &&
+            action.constants.AVGDODBAH < action.constants.AVGBAH
               ? 'no'
               : 'yes';
         }
