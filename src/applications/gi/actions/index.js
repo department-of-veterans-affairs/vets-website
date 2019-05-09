@@ -173,7 +173,7 @@ export function fetchSearchResults(query = {}) {
   };
 }
 
-export function fetchProfile(facilityCode, version, constants) {
+export function fetchProfile(facilityCode, constants, version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
@@ -201,9 +201,14 @@ export function fetchProfile(facilityCode, version, constants) {
             .then(zipRatesPayload => {
               withPreview(dispatch, {
                 type: FETCH_PROFILE_SUCCEEDED,
-                payload,
+                payload: {
+                  ...payload,
+                  data: {
+                    ...payload.data,
+                    constants,
+                  },
+                },
                 zipRatesPayload,
-                constants,
               });
             })
         );
