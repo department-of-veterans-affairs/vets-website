@@ -11,6 +11,7 @@ import feedbackManifest from '../../edu-benefits/feedback-tool/manifest.js';
 import burialsManifest from '../../burials/manifest.js';
 import edu1990Manifest from '../../edu-benefits/1990/manifest.json';
 import edu1995Manifest from '../../edu-benefits/1995/manifest.json';
+import edu1995StemManifest from '../../edu-benefits/1995-STEM/manifest.json';
 import edu1990eManifest from '../../edu-benefits/1990e/manifest.json';
 import edu1990nManifest from '../../edu-benefits/1990n/manifest.json';
 import edu5490Manifest from '../../edu-benefits/5490/manifest.json';
@@ -69,6 +70,7 @@ export const formBenefits = {
   '22-1990E': 'education benefits',
   '22-1990N': 'education benefits',
   '22-1995': 'education benefits',
+  '22-1995-STEM': 'education benefits',
   '22-5490': 'education benefits',
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
@@ -105,6 +107,7 @@ export const formLinks = {
   '22-1990E': `${edu1990eManifest.rootUrl}/`,
   '22-1990N': `${edu1990nManifest.rootUrl}/`,
   '22-1995': `${edu1995Manifest.rootUrl}/`,
+  '22-1995-STEM': `${edu1995StemManifest.rootUrl}/`,
   '22-5490': `${edu5490Manifest.rootUrl}/`,
   '22-5495': `${edu5495Manifest.rootUrl}/`,
   '40-10007': `${preneedManifest.rootUrl}/`,
@@ -126,6 +129,7 @@ export const trackingPrefixes = {
   '22-1990E': 'edu-1990e-',
   '22-1990N': 'edu-1990n-',
   '22-1995': 'edu-1995-',
+  '22-1995-STEM': 'edu-1995-STEM-',
   '22-5490': 'edu-5490-',
   '22-5495': 'edu-5495-',
   '40-10007': 'preneed-',
