@@ -36,7 +36,7 @@ describe('actions/paymentInformation', () => {
 
     expect(dispatch.called).to.be.true;
     expect(dispatch.firstCall.args[0].type).to.be.equal(
-      paymentInformationActions.FETCH_PAYMENT_INFORMATION_SUCCESS,
+      paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
     );
     expect(global.fetch.called).to.be.true;
   });
@@ -52,10 +52,10 @@ describe('actions/paymentInformation', () => {
     expect(global.fetch.called).to.be.true;
     expect(dispatch.calledTwice).to.be.true;
     expect(dispatch.firstCall.args[0].type).to.be.equal(
-      paymentInformationActions.SAVE_PAYMENT_INFORMATION,
+      paymentInformationActions.PAYMENT_INFORMATION_SAVE_STARTED,
     );
     expect(dispatch.secondCall.args[0].type).to.be.equal(
-      paymentInformationActions.SAVE_PAYMENT_INFORMATION_SUCCESS,
+      paymentInformationActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
     );
   });
 });

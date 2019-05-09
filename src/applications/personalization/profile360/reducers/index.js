@@ -7,11 +7,11 @@ import {
 } from '../actions';
 
 import {
-  FETCH_PAYMENT_INFORMATION_SUCCESS,
-  SAVE_PAYMENT_INFORMATION,
-  SAVE_PAYMENT_INFORMATION_SUCCESS,
-  SAVE_PAYMENT_INFORMATION_FAIL,
-  SET_PAYMENT_INFO_UI_STATE,
+  PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+  PAYMENT_INFORMATION_SAVE_STARTED,
+  PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+  PAYMENT_INFORMATION_SAVE_FAILED,
+  PAYMENT_INFO_UI_STATE_CHANGED,
 } from '../actions/paymentInformation';
 
 const initialState = {
@@ -36,8 +36,8 @@ function vaProfile(state = initialState, action) {
     case FETCH_MILITARY_INFORMATION_SUCCESS:
       return { ...state, militaryInformation: action.militaryInformation };
 
-    case FETCH_PAYMENT_INFORMATION_SUCCESS:
-    case SAVE_PAYMENT_INFORMATION_SUCCESS:
+    case PAYMENT_INFORMATION_FETCH_SUCCEEDED:
+    case PAYMENT_INFORMATION_SAVE_SUCCEEDED:
       return {
         ...state,
         paymentInformation: action.paymentInformation,
@@ -49,7 +49,7 @@ function vaProfile(state = initialState, action) {
         },
       };
 
-    case SAVE_PAYMENT_INFORMATION:
+    case PAYMENT_INFORMATION_SAVE_STARTED:
       return {
         ...state,
         paymentInformationUiState: {
@@ -60,7 +60,7 @@ function vaProfile(state = initialState, action) {
         },
       };
 
-    case SAVE_PAYMENT_INFORMATION_FAIL:
+    case PAYMENT_INFORMATION_SAVE_FAILED:
       return {
         ...state,
         paymentInformationUiState: {
@@ -71,7 +71,7 @@ function vaProfile(state = initialState, action) {
         },
       };
 
-    case SET_PAYMENT_INFO_UI_STATE:
+    case PAYMENT_INFO_UI_STATE_CHANGED:
       return {
         ...state,
         paymentInformationUiState: {

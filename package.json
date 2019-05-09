@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
+    "help": "echo hey",
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "node --max-old-space-size=4096 script/build.js",

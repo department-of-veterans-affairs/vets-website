@@ -32,7 +32,7 @@ describe('index reducer', () => {
 
   it('updates payment info and ui state', () => {
     const fetchAction = {
-      type: paymentInfoActions.FETCH_PAYMENT_INFORMATION_SUCCESS,
+      type: paymentInfoActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
       paymentInformation: {
         something: 'something',
       },
@@ -46,7 +46,7 @@ describe('index reducer', () => {
     );
 
     const editAction = {
-      type: paymentInfoActions.SET_PAYMENT_INFO_UI_STATE,
+      type: paymentInfoActions.PAYMENT_INFO_UI_STATE_CHANGED,
       state: {
         isEditing: true,
       },
@@ -57,7 +57,7 @@ describe('index reducer', () => {
     expect(state.paymentInformationUiState.isEditing).to.be.true;
 
     const saveAction = {
-      type: paymentInfoActions.SAVE_PAYMENT_INFORMATION,
+      type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_STARTED,
     };
 
     state = vaProfile(state, saveAction);
@@ -66,7 +66,7 @@ describe('index reducer', () => {
     expect(state.paymentInformationUiState.isSaving).to.be.true;
 
     const savedAction = {
-      type: paymentInfoActions.SAVE_PAYMENT_INFORMATION_SUCCESS,
+      type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
       paymentInformation: {
         somethingElse: 'somethingElse',
       },

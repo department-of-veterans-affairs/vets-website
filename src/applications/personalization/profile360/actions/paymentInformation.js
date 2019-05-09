@@ -1,20 +1,22 @@
 import { apiRequest } from 'platform/utilities/api';
 import { getData } from './index';
 
-export const FETCH_PAYMENT_INFORMATION_SUCCESS =
+export const PAYMENT_INFORMATION_FETCH_SUCCEEDED =
   'FETCH_PAYMENT_INFORMATION_SUCCESS';
 
-export const SET_PAYMENT_INFO_UI_STATE = 'SET_PAYMENT_INFO_UI_STATE';
+export const PAYMENT_INFO_UI_STATE_CHANGED = 'PAYMENT_INFO_UI_STATE_CHANGED';
 
-export const SAVE_PAYMENT_INFORMATION = 'SAVE_PAYMENT_INFORMATION';
-export const SAVE_PAYMENT_INFORMATION_SUCCESS =
-  'SAVE_PAYMENT_INFORMATION_SUCCESS';
-export const SAVE_PAYMENT_INFORMATION_FAIL = 'SAVE_PAYMENT_INFORMATION_FAIL';
+export const PAYMENT_INFORMATION_SAVE_STARTED =
+  'PAYMENT_INFORMATION_SAVE_STARTED';
+export const PAYMENT_INFORMATION_SAVE_SUCCEEDED =
+  'PAYMENT_INFORMATION_SAVE_SUCCEEDED';
+export const PAYMENT_INFORMATION_SAVE_FAILED =
+  'PAYMENT_INFORMATION_SAVE_FAILED';
 
 export function fetchPaymentInformation() {
   return async dispatch => {
     dispatch({
-      type: FETCH_PAYMENT_INFORMATION_SUCCESS,
+      type: PAYMENT_INFORMATION_FETCH_SUCCEEDED,
       paymentInformation: await getData('/ppiu/payment_information'),
     });
   };
@@ -30,7 +32,7 @@ export function savePaymentInformation(fields) {
     };
 
     try {
-      dispatch({ type: SAVE_PAYMENT_INFORMATION });
+      dispatch({ type: PAYMENT_INFORMATION_SAVE_STARTED });
 
       const response = await apiRequest(
         '/ppiu/payment_information',
@@ -38,12 +40,12 @@ export function savePaymentInformation(fields) {
       );
 
       dispatch({
-        type: SAVE_PAYMENT_INFORMATION_SUCCESS,
+        type: PAYMENT_INFORMATION_SAVE_SUCCEEDED,
         paymentInformation: response.data.attributes,
       });
     } catch (response) {
       dispatch({
-        type: SAVE_PAYMENT_INFORMATION_FAIL,
+        type: PAYMENT_INFORMATION_SAVE_FAILED,
         response,
       });
     }
@@ -52,7 +54,7 @@ export function savePaymentInformation(fields) {
 
 export function setPaymentInformationUiState(state) {
   return {
-    type: SET_PAYMENT_INFO_UI_STATE,
+    type: PAYMENT_INFO_UI_STATE_CHANGED,
     state,
   };
 }
