@@ -218,6 +218,13 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
   });
 
+  it('should hide Yellow Ribbon fields when is active duty and is thirty six months plus cumulative post-9/11 active duty service', () => {
+    let state = set('eligibility.militaryStatus', 'active duty', defaultState);
+    state = set('eligibility.giBillChapter', 33, state);
+    state = set('eligibility.cumulativeService', '1.0', state);
+    expect(getCalculatedBenefits(state).inputs.yellowRibbon).to.be.false;
+  });
+
   it('should show the books field for GI Bill Ch 31', () => {
     const state = set('eligibility.giBillChapter', '31', defaultState);
     expect(getCalculatedBenefits(state).inputs.books).to.be.true;
