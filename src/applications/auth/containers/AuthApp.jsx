@@ -122,9 +122,10 @@ export class AuthApp extends React.Component {
   redirect = () => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
-    const redirectUrl = !returnUrl.match(REDIRECT_IGNORE_PATTERN)
-      ? returnUrl
-      : '/';
+
+    const redirectUrl =
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && returnUrl) || '/';
+
     window.location.replace(redirectUrl);
   };
 
