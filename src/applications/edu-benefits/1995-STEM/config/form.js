@@ -44,7 +44,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995-STEM`,
   trackingPrefix: 'edu-1995-stem-',
   formId: '22-1995-STEM',
   version: 1,
