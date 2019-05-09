@@ -924,14 +924,13 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
-    const isChapter33 = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
       // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
-      beneficiaryLocationQuestion: isChapter33,
-      giBillBenefit: isChapter33,
+      beneficiaryLocationQuestion: isChapter33(giBillChapter),
+      giBillBenefit: isChapter33(giBillChapter),
       books: false,
       yellowRibbon: false,
       scholarships: true,
