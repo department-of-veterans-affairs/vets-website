@@ -42,7 +42,7 @@ export const initialState = {
   letters: [],
   lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
-  fullName: {},
+  fullName: '',
   address: {},
   addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   isEditingAddress: false,

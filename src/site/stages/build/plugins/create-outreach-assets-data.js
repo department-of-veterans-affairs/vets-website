@@ -15,7 +15,7 @@ function createOutreachAssetsData(buildSettings) {
       : BUCKETS[buildSettings.buildtype];
 
   return (files, metalsmith, done) => {
-    const { drupalData } = metalsmith.metadata();
+    const { drupalData } = buildSettings;
 
     if (!drupalData) {
       done();

@@ -2,7 +2,6 @@ import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { formatCurrency } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -139,13 +138,7 @@ const getDerivedValues = createSelector(
         } else if (isFlight) {
           monthlyRate = 0;
         } else {
-          monthlyRate = {
-            full: constant.DEARATEFULLTIME,
-            'three quarters': constant.DEARATETHREEQUARTERS,
-            half: constant.DEARATEONEHALF,
-            'less than half': constant.DEARATEUPTOONEHALF,
-            quarter: constant.DEARATEUPTOONEQUARTER,
-          }[inputs.enrolledOld];
+          monthlyRate = constant.DEARATE;
         }
         break;
       }
@@ -242,9 +235,6 @@ const getDerivedValues = createSelector(
     if (isOJT) {
       // eslint-disable-next-line no-multi-assign
       ropOjt = ropOld = +inputs.working / 30;
-    } else if (giBillChapter === 35) {
-      // only do these calculations for DEA
-      ropOld = 1;
     } else {
       ropOld = {
         full: 1,
@@ -486,35 +476,14 @@ const getDerivedValues = createSelector(
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
     let bah;
-    let avgBah;
     // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
     const useBeneficiaryLocationRate =
       inputs.beneficiaryLocationQuestion === 'no' &&
       inputs.beneficiaryLocationBah !== null;
-
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
       inputs.giBillBenefit === 'yes';
-
-    if (!environment.isProduction()) {
-      const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
-      avgBah = !hasUsedGiBillBenefit ? constant.AVGDODBAH : constant.AVGBAH;
-      if (useBeneficiaryLocationRate) {
-        // sometimes there's no grandfathered rate for a zip code
-        bah =
-          useGrandfatheredBeneficiaryLocationRate &&
-          inputs.beneficiaryLocationGrandfatheredBah
-            ? inputs.beneficiaryLocationGrandfatheredBah
-            : inputs.beneficiaryLocationBah;
-      } else {
-        // use the DOD rate on staging
-        bah =
-          !hasUsedGiBillBenefit && institution.dodBah
-            ? institution.dodBah
-            : institution.bah;
-      }
-    } else if (useBeneficiaryLocationRate) {
-      avgBah = constant.AVGBAH;
+    if (useBeneficiaryLocationRate) {
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate &&
@@ -522,7 +491,6 @@ const getDerivedValues = createSelector(
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
-      avgBah = constant.AVGBAH;
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
@@ -579,9 +547,10 @@ const getDerivedValues = createSelector(
       housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
-        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
+        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
+      housingAllowTerm1 =
+        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
       housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -641,9 +610,10 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
-        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
+        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
+      housingAllowTerm2 =
+        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
       housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -705,9 +675,10 @@ const getDerivedValues = createSelector(
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
-        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
+        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
+      housingAllowTerm3 =
+        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
       housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -917,14 +888,13 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
-    const isChapter33 = giBillChapter === 33;
+    const beneficiaryLocationQuestion = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
       // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
-      beneficiaryLocationQuestion: isChapter33,
-      giBillBenefit: isChapter33,
+      beneficiaryLocationQuestion,
       books: false,
       yellowRibbon: false,
       scholarships: true,
