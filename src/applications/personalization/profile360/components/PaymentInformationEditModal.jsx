@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
-const ACCOUNT_TYPES_OPTIONS = {
+export const ACCOUNT_TYPES_OPTIONS = {
   checking: 'Checking',
   savings: 'Savings',
 };
@@ -33,7 +33,6 @@ class PaymentInformationEditModal extends React.Component {
       },
     },
     accountType: {
-      options: Object.values(ACCOUNT_TYPES_OPTIONS),
       value: {
         value: ACCOUNT_TYPES_OPTIONS.checking,
         dirty: false,
@@ -200,7 +199,7 @@ class PaymentInformationEditModal extends React.Component {
             label="Account type"
             value={editedState.accountType.value}
             onValueChange={this.onAccountTypeChanged}
-            options={editedState.accountType.options}
+            options={Object.values(ACCOUNT_TYPES_OPTIONS)}
             required
           />
 

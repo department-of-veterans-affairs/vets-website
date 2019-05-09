@@ -2,7 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
+import PaymentInformationEditModal, {
+  ACCOUNT_TYPES_OPTIONS,
+} from '../../components/PaymentInformationEditModal';
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {
@@ -26,9 +28,8 @@ describe('<PaymentInformationEditModal/>', () => {
           },
         },
         accountType: {
-          options: ['Checking', 'Savings'],
           value: {
-            value: 'Checking',
+            value: ACCOUNT_TYPES_OPTIONS.checking,
             dirty: false,
           },
         },
@@ -73,9 +74,8 @@ describe('<PaymentInformationEditModal/>', () => {
           },
         },
         accountType: {
-          options: ['Checking', 'Savings'],
           value: {
-            value: 'Checking',
+            value: ACCOUNT_TYPES_OPTIONS.checking,
             dirty: false,
           },
         },
@@ -98,7 +98,7 @@ describe('<PaymentInformationEditModal/>', () => {
       financialInstitutionName: 'Hidden form field',
       financialInstitutionRoutingNumber: '123123123',
       accountNumber: '123456',
-      accountType: 'Checking',
+      accountType: ACCOUNT_TYPES_OPTIONS.checking,
     });
 
     wrapper.unmount();
@@ -124,9 +124,8 @@ describe('<PaymentInformationEditModal/>', () => {
           },
         },
         accountType: {
-          options: ['Checking', 'Savings'],
           value: {
-            value: 'Checking',
+            value: ACCOUNT_TYPES_OPTIONS.checking,
             dirty: false,
           },
         },
