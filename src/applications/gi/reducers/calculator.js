@@ -300,7 +300,7 @@ export default function(state = INITIAL_STATE, action) {
 
       if (!environment.isProduction()) {
         // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
-        if (action.payload.data.attributes.physicalCountry === 'USA') {
+        if (action.payload.data.attributes.country === 'USA') {
           giBillBenefit =
             action.payload.data.attributes.dodBah &&
             action.payload.data.attributes.dodBah <
