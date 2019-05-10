@@ -6,162 +6,82 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
-export const ACCOUNT_TYPES_OPTIONS = {
-  checking: 'Checking',
-  savings: 'Savings',
-};
+import {
+  getAccountNumberErrorMessage,
+  getRoutingNumberErrorMessage,
+} from '../util';
+import { ACCOUNT_TYPES_OPTIONS } from '../constants';
 
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
+    fields: PropTypes.object,
+    isEditing: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    setPaymentInformationUiState: PropTypes.func.isRequired,
-    paymentInformationUiState: PropTypes.object,
-  };
-
-  static defaultEditModalFields = {
-    financialInstitutionRoutingNumber: {
-      field: {
-        value: '',
-        dirty: false,
-      },
-    },
-    accountNumber: {
-      field: {
-        value: '',
-        dirty: false,
-      },
-    },
-    accountType: {
-      value: {
-        value: ACCOUNT_TYPES_OPTIONS.checking,
-        dirty: false,
-      },
-    },
-  };
-
-  componentDidMount() {
-    this.setEditedState(PaymentInformationEditModal.defaultEditModalFields);
-  }
-
-  onClose = () => {
-    this.props.onClose();
-    this.setEditedState(PaymentInformationEditModal.defaultEditModalFields);
+    editModalFieldChanged: PropTypes.func.isRequired,
+    responseError: PropTypes.object,
   };
 
   onSubmit = event => {
     event.preventDefault();
 
-    const editedState = this.props.paymentInformationUiState.editModalFields;
+    const {
+      financialInstitutionRoutingNumber: routingNumber,
+      accountNumber,
+      accountType,
+    } = this.props.fields;
 
-    const routingNumberErrorMessage = this.getRoutingNumberErrorMessage(
-      editedState.financialInstitutionRoutingNumber.field.value,
-    );
-    const accountNumberErrorMessage = this.getAccountNumberErrorMessage(
-      editedState.accountNumber.field.value,
-    );
-
-    if (routingNumberErrorMessage || accountNumberErrorMessage) {
-      this.setEditedState({
-        financialInstitutionRoutingNumber: {
-          ...editedState.financialInstitutionRoutingNumber,
-          errorMessage: routingNumberErrorMessage,
-        },
-        accountNumber: {
-          ...editedState.accountNumber,
-          errorMessage: accountNumberErrorMessage,
-        },
-      });
+    if (routingNumber.errorMessage) {
+      // todo
+    } else if (accountNumber.errorMessage) {
+      // todo
     } else {
       this.props.onSubmit({
         financialInstitutionName: 'Hidden form field',
-        financialInstitutionRoutingNumber:
-          editedState.financialInstitutionRoutingNumber.field.value,
-        accountNumber: editedState.accountNumber.field.value,
-        accountType: editedState.accountType.value.value,
+        financialInstitutionRoutingNumber: routingNumber.field.value,
+        accountNumber: accountNumber.field.value,
+        accountType: accountType.value.value,
       });
     }
   };
 
   onRoutingNumberChanged = field => {
-    const financialInstitutionRoutingNumber = {
-      ...this.props.paymentInformationUiState.editModalFields
-        .financialInstitutionRoutingNumber,
+    this.props.editModalFieldChanged('financialInstitutionRoutingNumber', {
       field,
-    };
-
-    if (financialInstitutionRoutingNumber.field.dirty) {
-      financialInstitutionRoutingNumber.errorMessage = this.getRoutingNumberErrorMessage(
-        financialInstitutionRoutingNumber.field.value,
-      );
-    }
-
-    this.setEditedState({ financialInstitutionRoutingNumber });
+      errorMessage: field.dirty && getRoutingNumberErrorMessage(field.value),
+    });
   };
 
   onAccountNumberChanged = field => {
-    const accountNumber = {
-      ...this.props.paymentInformationUiState.editModalFields.accountNumber,
+    this.props.editModalFieldChanged('accountNumber', {
       field,
-    };
-
-    if (accountNumber.field.dirty) {
-      accountNumber.errorMessage = this.getAccountNumberErrorMessage(
-        accountNumber.field.value,
-      );
-    }
-
-    this.setEditedState({ accountNumber });
+      errorMessage: field.dirty && getAccountNumberErrorMessage(field.value),
+    });
   };
 
   onAccountTypeChanged = value => {
-    const accountType = {
-      ...this.props.paymentInformationUiState.editModalFields.accountType,
-      value,
-    };
-
-    this.setEditedState({ accountType });
+    this.props.editModalFieldChanged('accountType', { value });
   };
 
-  setEditedState(vals) {
-    this.props.setPaymentInformationUiState({
-      editModalFields: {
-        ...this.props.paymentInformationUiState.editModalFields,
-        ...vals,
-      },
-    });
-  }
-
-  getRoutingNumberErrorMessage(value) {
-    if (!value.match(/^\d{9}$/)) {
-      return 'Please enter a valid routing number.';
-    }
-    return null;
-  }
-
-  getAccountNumberErrorMessage(value) {
-    if (!value.match(/^\d{1,17}$/)) {
-      return 'Please enter a valid account number.';
-    }
-    return null;
-  }
-
   render() {
-    const editedState = this.props.paymentInformationUiState.editModalFields;
-    const lastResponse = this.props.paymentInformationUiState.response;
+    const {
+      financialInstitutionRoutingNumber: routingNumber,
+      accountNumber,
+      accountType,
+    } = this.props.fields;
 
-    // The modal values may still be initializing into the store.
-    if (!editedState) return null;
+    const lastResponse = this.props.responseError;
 
     return (
       <Modal
         title="Edit direct deposit information"
-        visible={this.props.paymentInformationUiState.isEditing}
-        onClose={this.onClose}
+        visible={this.props.isEditing}
+        onClose={this.props.onClose}
       >
         <AlertBox
           status="error"
-          isVisible={lastResponse && lastResponse.errors.length}
+          isVisible={!!lastResponse && lastResponse.errors.length}
         >
           <p>
             We’re sorry. Something went wrong on our end and we couldn’t save
@@ -177,10 +97,8 @@ class PaymentInformationEditModal extends React.Component {
         <form onSubmit={this.onSubmit}>
           <ErrorableTextInput
             label="Routing number (9 digits)"
-            field={editedState.financialInstitutionRoutingNumber.field}
-            errorMessage={
-              editedState.financialInstitutionRoutingNumber.errorMessage
-            }
+            field={routingNumber.field}
+            errorMessage={routingNumber.errorMessage}
             onValueChange={this.onRoutingNumberChanged}
             required
             charMax={9}
@@ -188,8 +106,8 @@ class PaymentInformationEditModal extends React.Component {
 
           <ErrorableTextInput
             label="Account number (No more than 17 digits)"
-            field={editedState.accountNumber.field}
-            errorMessage={editedState.accountNumber.errorMessage}
+            field={accountNumber.field}
+            errorMessage={accountNumber.errorMessage}
             onValueChange={this.onAccountNumberChanged}
             required
             charMax={17}
@@ -197,7 +115,7 @@ class PaymentInformationEditModal extends React.Component {
 
           <ErrorableSelect
             label="Account type"
-            value={editedState.accountType.value}
+            value={accountType.value}
             onValueChange={this.onAccountTypeChanged}
             options={Object.values(ACCOUNT_TYPES_OPTIONS)}
             required
@@ -206,7 +124,7 @@ class PaymentInformationEditModal extends React.Component {
           <button
             type="submit"
             className="usa-button-primary vads-u-width--auto"
-            disabled={this.props.paymentInformationUiState.isSaving}
+            disabled={this.props.isSaving}
           >
             Update
           </button>
@@ -214,7 +132,7 @@ class PaymentInformationEditModal extends React.Component {
           <button
             type="button"
             className="usa-button-secondary"
-            onClick={this.onClose}
+            onClick={this.props.onClose}
           >
             Cancel
           </button>

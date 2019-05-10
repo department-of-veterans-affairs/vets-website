@@ -2,9 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import PaymentInformationEditModal, {
-  ACCOUNT_TYPES_OPTIONS,
-} from '../../components/PaymentInformationEditModal';
+
+import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
+import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {

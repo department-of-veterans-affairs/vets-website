@@ -16,6 +16,8 @@ import {
   fetchPaymentInformation,
   savePaymentInformation,
   setPaymentInformationUiState,
+  editModalToggled,
+  editModalFieldChanged,
 } from '../actions/paymentInformation';
 
 function isGated() {
@@ -46,12 +48,6 @@ class PaymentInformation extends React.Component {
       this.props.fetchPaymentInformation();
     }
   }
-
-  toggleEditModal = () => {
-    this.props.setPaymentInformationUiState({
-      isEditing: !this.props.paymentInformationUiState.isEditing,
-    });
-  };
 
   render() {
     if (isGated()) {
@@ -87,19 +83,19 @@ class PaymentInformation extends React.Component {
           </p>
         </AdditionalInfo>
         <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.toggleEditModal}>
+          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
             Bank name
           </ProfileFieldHeading>
           {paymentAccount.financialInstitutionName}
         </div>
         <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.toggleEditModal}>
+          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
             Account type
           </ProfileFieldHeading>
           {paymentAccount.accountType}
         </div>
         <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.toggleEditModal}>
+          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
             Account number
           </ProfileFieldHeading>
           {paymentAccount.accountNumber}
@@ -111,10 +107,13 @@ class PaymentInformation extends React.Component {
           </strong>
         </p>
         <PaymentInformationEditModal
-          paymentInformationUiState={this.props.paymentInformationUiState}
-          setPaymentInformationUiState={this.props.setPaymentInformationUiState}
+          onClose={this.props.editModalToggled}
           onSubmit={this.props.savePaymentInformation}
-          onClose={this.toggleEditModal}
+          isEditing={this.props.paymentInformationUiState.isEditing}
+          isSaving={this.props.paymentInformationUiState.isSaving}
+          fields={this.props.paymentInformationUiState.editModalForm}
+          editModalFieldChanged={this.props.editModalFieldChanged}
+          responseError={this.props.paymentInformationUiState.responseError}
         />
       </>
     );
@@ -136,6 +135,8 @@ const mapDispatchToProps = {
   fetchPaymentInformation,
   savePaymentInformation,
   setPaymentInformationUiState,
+  editModalToggled,
+  editModalFieldChanged,
 };
 
 const PaymentInformationContainer = connect(
