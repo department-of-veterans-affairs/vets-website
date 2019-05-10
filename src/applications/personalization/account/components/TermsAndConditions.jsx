@@ -1,5 +1,6 @@
 import React from 'react';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function TermsAndConditions({ mhvAccount }) {
   const termsConditionsUrl =
@@ -31,33 +32,30 @@ export default function TermsAndConditions({ mhvAccount }) {
   } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
     content = (
       <div>
-        <div className="usa-alert usa-alert-info background-color-only">
-          <div className="usa-alert-body">
-            <div className="usa-alert-heading">
-              <strong>
-                Want to use VA.gov health tools to do things like refill your VA
-                prescriptions?
-              </strong>
-            </div>
-            <p className="usa-alert-text">
-              To get started, you’ll need to read and agree to the{' '}
-              <a
-                href={termsConditionsUrl}
-                onClick={() =>
-                  recordEvent({
-                    event: 'account-navigation',
-                    'account-action': 'view-link',
-                    'account-section': 'terms',
-                  })
-                }
-              >
-                Terms and Conditions for Medical Information
-              </a>
-              . This will give us your permission to show you your VA medical
-              information on this site.
-            </p>
-          </div>
-        </div>
+        <AlertBox
+          status="info"
+          headline="Want to use VA.gov health tools to do things like refill your VA
+                prescriptions?"
+          backgroundOnly
+        >
+          <p>
+            To get started, you’ll need to read and agree to the{' '}
+            <a
+              href={termsConditionsUrl}
+              onClick={() =>
+                recordEvent({
+                  event: 'account-navigation',
+                  'account-action': 'view-link',
+                  'account-section': 'terms',
+                })
+              }
+            >
+              Terms and Conditions for Medical Information
+            </a>
+            . This will give us your permission to show you your VA medical
+            information on this site.
+          </p>
+        </AlertBox>
         <p>
           Once you agree to these Terms and Conditions, you’ll be able to use{' '}
           VA.gov health tools to:
