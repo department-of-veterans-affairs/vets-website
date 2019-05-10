@@ -96,7 +96,7 @@ function getDisabilities(formData) {
 
 function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name;
+  return name && name.trim();
 }
 
 function getClaimedConditionNames(formData) {

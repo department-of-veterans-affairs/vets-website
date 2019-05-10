@@ -86,7 +86,7 @@ const LoggedOutContent = connect(
           content={
             <button
               className="va-button-link"
-              onClick={() => showLoginModal(true)}
+              onClick={() => showLoginModal(true, 'hcainfo')}
             >
               Sign in to check your application status
             </button>
