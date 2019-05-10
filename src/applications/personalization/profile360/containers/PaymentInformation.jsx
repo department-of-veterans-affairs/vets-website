@@ -58,7 +58,17 @@ class PaymentInformation extends React.Component {
       return <LoadingIndicator message="Loading payment information..." />;
     }
 
-    const { paymentAccount } = this.props.paymentInformation.responses[0];
+    const { paymentInformation } = this.props;
+
+    // @todo Determine what an uninitialized state really looks like -
+    // Is responses null? Do we really need to check responses.length?
+    // Is there a paymentAccount, but containing only empty values?
+
+    if (!paymentInformation.responses || !paymentInformation.responses.length) {
+      return null;
+    }
+
+    const { paymentAccount } = paymentInformation.responses[0];
 
     return (
       <>
