@@ -6,6 +6,8 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
+import { focusElement } from 'platform/utilities/ui';
+
 import {
   getAccountNumberErrorMessage,
   getRoutingNumberErrorMessage,
@@ -33,9 +35,9 @@ class PaymentInformationEditModal extends React.Component {
     } = this.props.fields;
 
     if (routingNumber.errorMessage) {
-      // todo
+      focusElement('[name=routing-number]');
     } else if (accountNumber.errorMessage) {
-      // todo
+      focusElement('[name=account-number]');
     } else {
       this.props.onSubmit({
         financialInstitutionName: 'Hidden form field',
@@ -97,6 +99,7 @@ class PaymentInformationEditModal extends React.Component {
         <form onSubmit={this.onSubmit}>
           <ErrorableTextInput
             label="Routing number (9 digits)"
+            name="routing-number"
             field={routingNumber.field}
             errorMessage={routingNumber.errorMessage}
             onValueChange={this.onRoutingNumberChanged}
@@ -106,6 +109,7 @@ class PaymentInformationEditModal extends React.Component {
 
           <ErrorableTextInput
             label="Account number (No more than 17 digits)"
+            name="account-number"
             field={accountNumber.field}
             errorMessage={accountNumber.errorMessage}
             onValueChange={this.onAccountNumberChanged}
