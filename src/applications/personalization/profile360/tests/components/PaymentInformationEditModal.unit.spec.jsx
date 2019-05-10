@@ -3,38 +3,39 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import set from 'platform/utilities/data/set';
+
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
 import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {
-    onClose() {},
-    onSubmit() {},
-    setPaymentInformationUiState() {},
-    paymentInformationUiState: {
-      isEditing: true,
-      isSaving: false,
-      editModalFields: {
-        financialInstitutionRoutingNumber: {
-          field: {
-            value: '',
-            dirty: false,
-          },
+    fields: {
+      financialInstitutionRoutingNumber: {
+        field: {
+          value: '',
+          dirty: false,
         },
-        accountNumber: {
-          field: {
-            value: '',
-            dirty: false,
-          },
+      },
+      accountNumber: {
+        field: {
+          value: '',
+          dirty: false,
         },
-        accountType: {
-          value: {
-            value: ACCOUNT_TYPES_OPTIONS.checking,
-            dirty: false,
-          },
+      },
+      accountType: {
+        value: {
+          value: ACCOUNT_TYPES_OPTIONS.checking,
+          dirty: false,
         },
       },
     },
+    isEditing: true,
+    isSaving: false,
+    onClose() {},
+    onSubmit() {},
+    editModalFieldChanged() {},
+    responseError: null,
   };
 
   it('renders', () => {
@@ -44,45 +45,23 @@ describe('<PaymentInformationEditModal/>', () => {
   });
 
   it('renders empty when not editing', () => {
-    const paymentInformationUiState = {
-      ...defaultProps.paymentInformationUiState,
-      isEditing: false,
-    };
-    const props = { ...defaultProps, paymentInformationUiState };
+    const props = set('isEditing', false, defaultProps);
     const wrapper = shallow(<PaymentInformationEditModal {...props} />);
-
     expect(wrapper.html()).to.be.empty;
     wrapper.unmount();
   });
 
   it('submits', () => {
     const onSubmit = sinon.spy();
-    const paymentInformationUiState = {
-      isEditing: true,
-      isSaving: false,
-      editModalFields: {
-        financialInstitutionRoutingNumber: {
-          field: {
-            value: '123123123',
-            dirty: false,
-          },
-        },
-        accountNumber: {
-          field: {
-            value: '123456',
-            dirty: false,
-          },
-        },
-        accountType: {
-          value: {
-            value: ACCOUNT_TYPES_OPTIONS.checking,
-            dirty: false,
-          },
-        },
-      },
-    };
 
-    const props = { ...defaultProps, onSubmit, paymentInformationUiState };
+    let props = set('fields.accountNumber.field.value', '123456', defaultProps);
+    props = set(
+      'fields.financialInstitutionRoutingNumber.field.value',
+      '123456789',
+      props,
+    );
+    props = set('onSubmit', onSubmit, props);
+
     const wrapper = shallow(<PaymentInformationEditModal {...props} />);
     const event = {
       preventDefault() {},
@@ -96,7 +75,7 @@ describe('<PaymentInformationEditModal/>', () => {
 
     expect(submitVal).to.be.deep.equal({
       financialInstitutionName: 'Hidden form field',
-      financialInstitutionRoutingNumber: '123123123',
+      financialInstitutionRoutingNumber: '123456789',
       accountNumber: '123456',
       accountType: ACCOUNT_TYPES_OPTIONS.checking,
     });
@@ -105,49 +84,22 @@ describe('<PaymentInformationEditModal/>', () => {
   });
 
   it('does not submit when input is invalid', () => {
-    const setPaymentInformationUiState = sinon.spy();
     const onSubmit = sinon.spy();
-    const paymentInformationUiState = {
-      isEditing: true,
-      isSaving: false,
-      editModalFields: {
-        financialInstitutionRoutingNumber: {
-          field: {
-            value: 'INVALID',
-            dirty: false,
-          },
-        },
-        accountNumber: {
-          field: {
-            value: '123',
-            dirty: false,
-          },
-        },
-        accountType: {
-          value: {
-            value: ACCOUNT_TYPES_OPTIONS.checking,
-            dirty: false,
-          },
-        },
-      },
-    };
 
-    const props = {
-      ...defaultProps,
-      setPaymentInformationUiState,
-      onSubmit,
-      paymentInformationUiState,
-    };
+    let props = set(
+      'fields.accountNumber.field.value',
+      'INVALID',
+      defaultProps,
+    );
+    props = set('onSubmit', onSubmit, props);
+
     const wrapper = shallow(<PaymentInformationEditModal {...props} />);
     const event = {
       preventDefault() {},
     };
 
     wrapper.find('form').simulate('submit', event);
-
     expect(onSubmit.called).to.be.false;
-    expect(setPaymentInformationUiState.called).to.be.true;
-
     wrapper.unmount();
   });
 });
