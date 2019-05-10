@@ -1,5 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
-import { getData } from './index';
+import { getData } from '../util';
 
 export const PAYMENT_INFORMATION_FETCH_SUCCEEDED =
   'FETCH_PAYMENT_INFORMATION_SUCCESS';
@@ -22,7 +21,7 @@ export function fetchPaymentInformation() {
   return async dispatch => {
     dispatch({
       type: PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-      paymentInformation: await getData('/ppiu/payment_information'),
+      response: await getData('/ppiu/payment_information'),
     });
   };
 }
@@ -36,21 +35,21 @@ export function savePaymentInformation(fields) {
       mode: 'cors',
     };
 
-    try {
-      dispatch({ type: PAYMENT_INFORMATION_SAVE_STARTED });
+    dispatch({ type: PAYMENT_INFORMATION_SAVE_STARTED });
 
-      const response = await apiRequest(
-        '/ppiu/payment_information',
-        apiRequestOptions,
-      );
+    const response = await getData(
+      '/ppiu/payment_information',
+      apiRequestOptions,
+    );
 
-      dispatch({
-        type: PAYMENT_INFORMATION_SAVE_SUCCEEDED,
-        paymentInformation: response.data.attributes,
-      });
-    } catch (response) {
+    if (response.error) {
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_FAILED,
+        response,
+      });
+    } else {
+      dispatch({
+        type: PAYMENT_INFORMATION_SAVE_SUCCEEDED,
         response,
       });
     }
