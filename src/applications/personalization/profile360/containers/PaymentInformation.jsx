@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import environment from 'platform/utilities/environment';
 import { createIsServiceAvailableSelector } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
@@ -19,9 +18,7 @@ import {
   editModalFieldChanged,
 } from '../actions/paymentInformation';
 
-function isGated() {
-  return environment.isProduction();
-}
+import featureFlags from '../featureFlags';
 
 class PaymentInformation extends React.Component {
   static propTypes = {
@@ -43,16 +40,12 @@ class PaymentInformation extends React.Component {
   };
 
   componentDidMount() {
-    if (!isGated() && this.props.isEligible) {
+    if (this.props.isEligible) {
       this.props.fetchPaymentInformation();
     }
   }
 
   render() {
-    if (isGated()) {
-      return null;
-    }
-
     if (!this.props.isEligible) {
       return null;
     }
@@ -142,6 +135,10 @@ const PaymentInformationContainer = connect(
   mapDispatchToProps,
 )(PaymentInformation);
 
-export default PaymentInformationContainer;
+const noop = () => null;
+
+export default (featureFlags.directDeposit
+  ? PaymentInformationContainer
+  : noop);
 
 export { PaymentInformation };
