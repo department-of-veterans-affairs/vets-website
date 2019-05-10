@@ -25,6 +25,10 @@ class PaymentInformation extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     isEligible: PropTypes.bool.isRequired,
     fetchPaymentInformation: PropTypes.func.isRequired,
+    editModalToggled: PropTypes.func.isRequired,
+    editModalFieldChanged: PropTypes.func.isRequired,
+    savePaymentInformation: PropTypes.func.isRequired,
+    paymentInformationUiState: PropTypes.object.isRequired,
     paymentInformation: PropTypes.shape({
       responses: PropTypes.arrayOf(
         PropTypes.shape({

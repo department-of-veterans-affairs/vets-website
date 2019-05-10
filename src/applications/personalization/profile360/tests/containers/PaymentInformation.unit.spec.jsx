@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { PaymentInformation } from '../../containers/PaymentInformation';
 
 describe('<PaymentInformation/>', () => {
@@ -9,6 +11,12 @@ describe('<PaymentInformation/>', () => {
     isEligible: true,
     fetchPaymentInformation() {},
     savePaymentInformation() {},
+    editModalToggled() {},
+    editModalFieldChanged() {},
+    paymentInformationUiState: {
+      isEditing: false,
+      isSaving: false,
+    },
     paymentInformation: {
       responses: [
         {
@@ -30,9 +38,15 @@ describe('<PaymentInformation/>', () => {
   });
 
   it('does not render if the user is not eligible for direct deposit', () => {
-    const props = { ...defaultProps, isEligible: false };
+    const fetchPaymentInformation = sinon.spy();
+    const props = {
+      ...defaultProps,
+      fetchPaymentInformation,
+      isEligible: false,
+    };
     const wrapper = shallow(<PaymentInformation {...props} />);
     expect(wrapper.text()).to.be.empty;
+    expect(fetchPaymentInformation.called).to.be.false;
     wrapper.unmount();
   });
 
