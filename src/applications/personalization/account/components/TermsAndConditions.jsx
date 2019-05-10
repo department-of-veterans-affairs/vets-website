@@ -34,8 +34,7 @@ export default function TermsAndConditions({ mhvAccount }) {
       <div>
         <AlertBox
           status="info"
-          headline="Want to use VA.gov health tools to do things like refill your VA
-                prescriptions?"
+          headline="Want to use VA.gov health tools to do things like refill your VA prescriptions?"
           backgroundOnly
         >
           <p>
