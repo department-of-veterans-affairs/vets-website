@@ -147,7 +147,7 @@ describe('fetchProfile', () => {
 
     const dispatch = sinon.spy();
 
-    fetchProfile('12345')(dispatch);
+    fetchProfile('12345', {})(dispatch);
 
     expect(
       dispatch.firstCall.calledWith({
@@ -159,7 +159,10 @@ describe('fetchProfile', () => {
       expect(
         dispatch.secondCall.calledWith({
           type: FETCH_PROFILE_SUCCEEDED,
-          payload: institutionPayload,
+          payload: {
+            ...institutionPayload,
+            constants: {},
+          },
           zipRatesPayload: ZIPPayload,
         }),
       ).to.be.true;
@@ -219,7 +222,7 @@ describe('fetchProfile', () => {
 
     const dispatch = sinon.spy();
 
-    fetchProfile('12345')(dispatch);
+    fetchProfile('12345', {})(dispatch);
 
     expect(
       dispatch.firstCall.calledWith({
@@ -231,7 +234,10 @@ describe('fetchProfile', () => {
       expect(
         dispatch.secondCall.calledWith({
           type: FETCH_PROFILE_SUCCEEDED,
-          payload: institutionPayload,
+          payload: {
+            ...institutionPayload,
+            constants: {},
+          },
           zipRatesPayload: ZIPPayload,
         }),
       ).to.be.true;
