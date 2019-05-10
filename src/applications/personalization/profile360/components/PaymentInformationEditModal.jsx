@@ -34,9 +34,16 @@ class PaymentInformationEditModal extends React.Component {
       accountType,
     } = this.props.fields;
 
-    if (routingNumber.errorMessage) {
+    const routingNumberErr = getRoutingNumberErrorMessage(
+      routingNumber.field.value,
+    );
+    const accountNumberErr = getAccountNumberErrorMessage(
+      accountNumber.field.value,
+    );
+
+    if (routingNumberErr) {
       focusElement('[name=routing-number]');
-    } else if (accountNumber.errorMessage) {
+    } else if (accountNumberErr) {
       focusElement('[name=account-number]');
     } else {
       this.props.onSubmit({
