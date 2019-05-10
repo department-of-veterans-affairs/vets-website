@@ -15,7 +15,6 @@ import PaymentInformationEditModal from '../components/PaymentInformationEditMod
 import {
   fetchPaymentInformation,
   savePaymentInformation,
-  setPaymentInformationUiState,
   editModalToggled,
   editModalFieldChanged,
 } from '../actions/paymentInformation';
@@ -134,7 +133,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchPaymentInformation,
   savePaymentInformation,
-  setPaymentInformationUiState,
   editModalToggled,
   editModalFieldChanged,
 };

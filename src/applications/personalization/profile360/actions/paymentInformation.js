@@ -3,8 +3,6 @@ import { getData } from '../util';
 export const PAYMENT_INFORMATION_FETCH_SUCCEEDED =
   'FETCH_PAYMENT_INFORMATION_SUCCESS';
 
-export const PAYMENT_INFO_UI_STATE_CHANGED = 'PAYMENT_INFO_UI_STATE_CHANGED';
-
 export const PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED =
   'PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED';
 export const PAYMENT_INFORMATION_EDIT_MODAL_FIELD_CHANGED =
@@ -53,13 +51,6 @@ export function savePaymentInformation(fields) {
         response,
       });
     }
-  };
-}
-
-export function setPaymentInformationUiState(state) {
-  return {
-    type: PAYMENT_INFO_UI_STATE_CHANGED,
-    state,
   };
 }
 
