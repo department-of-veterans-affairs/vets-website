@@ -14,7 +14,9 @@ const setup = () => {
       ok: true,
       json: () =>
         Promise.resolve({
-          data: [],
+          data: {
+            attributes: {},
+          },
         }),
     }),
   );
