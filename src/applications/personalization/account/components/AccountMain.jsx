@@ -1,7 +1,6 @@
 import React from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
-import localStorage from 'platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -15,25 +14,10 @@ import TermsAndConditions from './TermsAndConditions';
 import facilityLocator from 'applications/facility-locator/manifest';
 
 class AccountMain extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      'show-acct-mvi-alert': true,
-    };
-  }
-
   componentDidMount() {
     // Get MHV account to determine what to render for Terms and Conditions.
     this.props.fetchMHVAccount();
   }
-
-  dismissMVIError = () => {
-    this.setState({
-      'show-acct-mvi-alert': false,
-    });
-    localStorage.setItem('hide-acct-mvi-alert', true);
-  };
 
   renderMVIError() {
     if (
@@ -45,12 +29,10 @@ class AccountMain extends React.Component {
 
     return (
       <AlertBox
+        headline="We’re having trouble matching your information to our Veteran
+        records"
         content={
           <div>
-            <h4 className="usa-alert-heading">
-              We’re having trouble matching your information to our Veteran
-              records
-            </h4>
             <p>
               We’re sorry. We’re having trouble matching your information to our
               Veteran records, so we can’t give you access to tools for managing
@@ -69,11 +51,6 @@ class AccountMain extends React.Component {
               </a>
             </p>
           </div>
-        }
-        onCloseAlert={this.dismissMVIError}
-        isVisible={
-          this.state['show-acct-mvi-alert'] &&
-          !localStorage.getItem('hide-acct-mvi-alert')
         }
         status="warning"
       />
@@ -135,8 +112,11 @@ class AccountMain extends React.Component {
         <ConnectedAccountsSection />
         {verified && <TermsAndConditions mhvAccount={mhvAccount} />}
 
-        <div className="feature">
-          <h3>Have questions about signing in to VA.gov?</h3>
+        <AlertBox
+          status="info"
+          headline="Have questions about signing in to VA.gov?"
+          backgroundOnly
+        >
           <p>
             Get answers to frequently asked questions about how to sign in,
             common issues with verifying your identity, and your privacy and
@@ -154,7 +134,7 @@ class AccountMain extends React.Component {
           >
             Go to VA.gov FAQs
           </a>
-        </div>
+        </AlertBox>
       </div>
     );
   }
