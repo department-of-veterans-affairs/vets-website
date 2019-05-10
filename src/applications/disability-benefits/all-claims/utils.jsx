@@ -152,9 +152,12 @@ export const capitalizeEachWord = name => {
     return name.replace(/\w[^\s-]*/g, capitalizeWord);
   }
 
-  Raven.captureMessage(
-    `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
-  );
+  if (typeof name !== 'string') {
+    Raven.captureMessage(
+      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+    );
+  }
+
   return 'Unknown Condition';
 };
 
@@ -786,3 +789,12 @@ export const hasClaimedConditions = formData =>
 
 export const hasRatedDisabilities = formData =>
   formData.ratedDisabilities && formData.ratedDisabilities.length;
+
+/**
+ * Finds active service periods—those without end dates or end dates
+ * in the future.
+ */
+export const activeServicePeriods = formData =>
+  _.get('serviceInformation.servicePeriods', formData, []).filter(
+    sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
+  );

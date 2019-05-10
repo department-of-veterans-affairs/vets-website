@@ -34,10 +34,9 @@ const VerificationFailed = () => {
             </button>
             <div id="a1" className="usa-accordion-content">
               <p>
-                Please call us at{' '}
-                <a href="tel:+1-800-827-1000">1-800-827-1000</a>. We’re here
-                Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-                hearing loss, call TTY: 1-800-829-4833.
+                Please call us at <a href="tel:800-827-1000">800-827-1000</a>.
+                We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If
+                you have hearing loss, call TTY: 1-800-829-4833.
               </p>
               <p>
                 When the system prompts you to give a reason for your call, say,
@@ -94,7 +93,7 @@ const VerificationFailed = () => {
               </p>
               <p>We’ll contact you within 2 to 3 days.</p>
               <a
-                href="https://iris.custhelp.va.gov/app/as"
+                href="https://iris.custhelp.va.gov/app/ask"
                 target="_blank"
                 rel="noopener noreferrer"
               >
