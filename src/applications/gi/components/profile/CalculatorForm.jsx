@@ -86,7 +86,7 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text:
-              'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
+              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
             modal: 'whenUsedGiBill',
           })}
           name="giBillBenefit"
