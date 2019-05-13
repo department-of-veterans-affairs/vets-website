@@ -15,7 +15,7 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
   return true;
 };
 
-export const specialCharacterValidator = input => {
+const specialCharacterValidator = input => {
   if (/[^A-Za-z0-9 #%&'()+,./:@]/.test(input)) {
     return "Please only use letters, numbers, and the special characters #%&'()+,./:@";
   }
