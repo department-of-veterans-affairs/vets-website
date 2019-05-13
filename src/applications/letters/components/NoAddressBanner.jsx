@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NoAddressBanner = (
+const noAddressBanner = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
@@ -14,4 +14,4 @@ const NoAddressBanner = (
   </div>
 );
 
-export default NoAddressBanner;
+export default noAddressBanner;

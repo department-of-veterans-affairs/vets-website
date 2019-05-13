@@ -30,7 +30,7 @@ import {
 } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
-import NoAddressBanner from '../components/NoAddressBanner';
+import noAddressBanner from '../components/NoAddressBanner';
 
 import {
   addressOneValidations,
@@ -348,7 +348,7 @@ export class AddressSection extends React.Component {
           <h5 className="letters-address">
             {(this.props.recipientName || '').toLowerCase()}
           </h5>
-          {emptyAddress ? NoAddressBanner : displayAddress}
+          {emptyAddress ? noAddressBanner : displayAddress}
           <button className="address-help-btn" onClick={this.openAddressHelp}>
             What is this?
           </button>
@@ -397,7 +397,7 @@ export class AddressSection extends React.Component {
         <Element name="addressScrollElement" />
         <div aria-live="polite" aria-relevant="additions">
           {/* Warning message goes here while editing with no address on record */}
-          {emptyAddress && this.props.isEditingAddress && NoAddressBanner}
+          {emptyAddress && this.props.isEditingAddress && noAddressBanner}
           {addressContent}
         </div>
       </div>
