@@ -38,10 +38,13 @@ describe('<AccountMain/>', () => {
   it('should show an MVI error when status is not OK', () => {
     props.profile.status = 'NOT_FOUND';
     const wrapper = enzyme.shallow(<AccountMain {...props} />);
-    const alertBox = wrapper.find('AlertBox');
-    expect(alertBox.html()).to.contain(
-      'We’re having trouble matching your information to our Veteran records',
+    const alertBox = wrapper.findWhere(
+      n =>
+        n.name() === 'AlertBox' &&
+        n.prop('headline') ===
+          'We’re having trouble matching your information to our Veteran records',
     );
+    expect(alertBox.isEmpty()).to.be.false;
     wrapper.unmount();
   });
 });

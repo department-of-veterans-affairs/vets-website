@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
-import recordEvent from '../../../../platform/monitoring/record-event';
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+import recordEvent from 'platform/monitoring/record-event';
 
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
@@ -14,6 +14,7 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
+import PaymentInformation from '../containers/PaymentInformation';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
@@ -84,6 +85,7 @@ class ProfileView extends React.Component {
                 militaryInformation={militaryInformation}
               />
               <ContactInformation />
+              <PaymentInformation />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}

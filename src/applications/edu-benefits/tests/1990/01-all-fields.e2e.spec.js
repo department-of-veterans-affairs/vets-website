@@ -185,7 +185,7 @@ const test = E2eHelpers.createE2eTest(client => {
     .element('.js-test-location')
     .attribute('data-location')
     .to.not.contain('/review-and-submit')
-    .before(Timeouts.submission);
+    .before(Timeouts.slow);
 
   // Confirmation page
   client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
@@ -193,3 +193,4 @@ const test = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = test;
+module.exports['@tags'] = ['integration'];
