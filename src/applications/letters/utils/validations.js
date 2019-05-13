@@ -15,7 +15,7 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
   return true;
 };
 
-const specialCharacterValidator = input => {
+export const specialCharacterValidator = input => {
   if (/[^A-Za-z0-9 #%&'()+,./:@]/.test(input)) {
     return "Please only use letters, numbers, and the special characters #%&'()+,./:@";
   }
@@ -38,6 +38,8 @@ export const addressOneValidations = [
     requiredValidator(input, fullAddress, 'Please enter a street address'),
   specialCharacterValidator,
 ];
+
+export const optionalAddressValidations = [specialCharacterValidator];
 
 export const postalCodeValidations = [
   // Require zip for US addresses
