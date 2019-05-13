@@ -1162,6 +1162,7 @@ export const makeDurationText = timeliness => {
  */
 export function getNextEvents(appeal) {
   const { type: currentStatus, details } = appeal.attributes.status;
+  const appealType = appeal.type;
 
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
@@ -1420,7 +1421,13 @@ export function getNextEvents(appeal) {
                   Your hearing will be transcribed and added to your appeal
                   file. The judge won’t make a decision about your appeal at the
                   hearing.{' '}
-                  <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
+                  <a
+                    href={
+                      appealType === APPEAL_TYPES.appeal
+                        ? '/decision-reviews/board-appeal/veterans-law-judge-hearing/'
+                        : '/disability/file-an-appeal/board-of-veterans-appeals/'
+                    }
+                  >
                     Learn more about hearings.
                   </a>
                 </p>
@@ -1455,7 +1462,13 @@ export function getNextEvents(appeal) {
                 Your hearing will be transcribed and added to your appeal file.
                 The judge won’t make a decision about your appeal at the
                 hearing.{' '}
-                <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
+                <a
+                  href={
+                    appealType === APPEAL_TYPES.appeal
+                      ? '/decision-reviews/board-appeal/veterans-law-judge-hearing/'
+                      : '/disability/file-an-appeal/board-of-veterans-appeals/'
+                  }
+                >
                   Learn more about hearings
                 </a>
                 , including how to prepare for, reschedule, or cancel your
