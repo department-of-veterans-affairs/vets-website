@@ -86,10 +86,21 @@ export default class AutosuggestField extends React.Component {
 
   setOptions = options => {
     if (!this.unmounted) {
+      const suggestions = this.getSuggestions(options, this.state.input);
       this.setState({
         options,
-        suggestions: this.getSuggestions(options, this.state.input),
+        suggestions,
       });
+
+      if (this.state.input && this.state.input.length > 3) {
+        const item = this.getItemFromInput(
+          this.state.input,
+          suggestions,
+          this.props.uiSchema['ui:options'],
+        );
+
+        this.props.onChange(item);
+      }
     }
   };
 
@@ -118,6 +129,34 @@ export default class AutosuggestField extends React.Component {
     return _.set('widget', 'autosuggest', suggestion);
   };
 
+  getItemFromInput = (inputValue, suggestions, uiOptions) => {
+    let item = { widget: 'autosuggest', label: inputValue };
+    // once the input is long enough, check for exactly matching strings so that we don't
+    // force a user to click on an item when they've typed an exact match of a label
+    if (inputValue && inputValue.length > 3) {
+      const matchingItem = suggestions.find(
+        suggestion => suggestion.label === inputValue,
+      );
+      if (matchingItem) {
+        item = this.getFormData(matchingItem);
+      }
+    }
+
+    const { freeInput, inputTransformers } = uiOptions;
+
+    const inputToSave =
+      inputTransformers &&
+      Array.isArray(inputTransformers) &&
+      inputTransformers.length
+        ? inputTransformers.reduce(
+            (userInput, transformer) => transformer(userInput),
+            inputValue,
+          )
+        : inputValue;
+
+    return freeInput || this.useEnum ? inputToSave : item;
+  };
+
   handleInputValueChange = inputValue => {
     if (inputValue !== this.state.input) {
       const uiOptions = this.props.uiSchema['ui:options'];
@@ -125,30 +164,13 @@ export default class AutosuggestField extends React.Component {
         this.debouncedGetOptions(inputValue);
       }
 
-      let item = { widget: 'autosuggest', label: inputValue };
-      // once the input is long enough, check for exactly matching strings so that we don't
-      // force a user to click on an item when they've typed an exact match of a label
-      if (inputValue && inputValue.length > 3) {
-        const matchingItem = this.state.suggestions.find(
-          suggestion => suggestion.label === inputValue,
-        );
-        if (matchingItem) {
-          item = this.getFormData(matchingItem);
-        }
-      }
+      const item = this.getItemFromInput(
+        inputValue,
+        this.state.suggestions,
+        uiOptions,
+      );
 
-      const { freeInput, inputTransformers } = uiOptions;
-
-      const inputToSave =
-        inputTransformers &&
-        Array.isArray(inputTransformers) &&
-        inputTransformers.length
-          ? inputTransformers.reduce(
-              (userInput, transformer) => transformer(userInput),
-              inputValue,
-            )
-          : inputValue;
-      this.props.onChange(freeInput || this.useEnum ? inputToSave : item);
+      this.props.onChange(item);
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue),
