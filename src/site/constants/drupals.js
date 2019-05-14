@@ -8,7 +8,7 @@ const DRUPAL_DEV = {
 };
 
 const DRUPAL_STAGING = {
-  address: 'http://dev.cms.va.gov',
+  address: 'http://staging.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };
