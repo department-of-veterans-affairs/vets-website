@@ -18,7 +18,6 @@ const flagsByBuildtype = {
 
 // Exported feature flag state, which can be used in code as needed
 const enabledFeatureFlags = Object.values(featureFlags).reduce((acc, next) => {
-  // console.log('buildtype', global.buildtype);
   acc[next] = flagsByBuildtype[global.buildtype].includes(next);
   return acc;
 }, {});
