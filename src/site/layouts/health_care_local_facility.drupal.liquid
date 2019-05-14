@@ -165,7 +165,9 @@
                 <section class="local-health-services" id="local-health-services">
                     {% for localService in fieldLocalHealthCareService %}
                         {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
-                        {% include "src/site/facilities/health_service.drupal.liquid" with healthService = localHealthService localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
+                        {% if localHealthService != empty %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = localHealthService localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
+                        {% endif %}
                     {% endfor %}
                 </section>
             {% endif %}
