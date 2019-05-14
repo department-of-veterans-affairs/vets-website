@@ -226,8 +226,12 @@ export function truncateDescription(text) {
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
-
   return text;
+}
+
+// strip escaped html entities that have made its way into the desc
+export function stripHtml(text) {
+  return text.replace(/&\w+;/g, '');
 }
 
 export function isClaimComplete(claim) {
