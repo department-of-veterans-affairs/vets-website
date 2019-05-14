@@ -563,3 +563,43 @@ export function isAddressEmpty(address) {
     true,
   );
 }
+
+export function formatStreetAddress(address) {
+  let formattedAddress = '';
+
+  if (address.addressOne) {
+    const streetAddressLines = [
+      address.addressOne,
+      address.addressTwo ? `, ${address.addressTwo}` : '',
+      address.addressThree ? ` ${address.addressThree}` : '',
+    ];
+    formattedAddress = streetAddressLines.join('').toLowerCase();
+  }
+
+  return formattedAddress;
+}
+
+export function formatCityStatePostal(address) {
+  // Formats to "city, state, postal code" for the second line of an address
+  let cityStatePostal = '';
+
+  if (isAddressEmpty(address)) {
+    return cityStatePostal;
+  }
+
+  const city = address.city || '';
+  const zipCode = getZipCode(address);
+
+  if (isDomesticAddress(address)) {
+    const state = getStateName(address.stateCode);
+    cityStatePostal = `${city}, ${state} ${zipCode}`;
+  } else if (isMilitaryAddress(address)) {
+    const militaryStateCode = address.stateCode || '';
+    cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
+  } else {
+    // Must be an international address, only show a city
+    cityStatePostal = `${city}`;
+  }
+
+  return cityStatePostal;
+}
