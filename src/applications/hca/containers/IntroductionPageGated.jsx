@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import HealthcareModalContent from '@department-of-veterans-affairs/formation-react/HealthcareModalContent';
+import HealthcareModalContent from 'platform/forms/components/OMBInfoModalContent/HealthcareModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { focusElement } from 'platform/utilities/ui';
