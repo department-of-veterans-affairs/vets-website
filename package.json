@@ -39,6 +39,7 @@
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
     "test:unit": "./script/run-unit-test.sh",
+    "test:unit:form-system": "BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/forms-system/test/js/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js '$@'",
     "test:unit:hca": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/hca/**/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:personalization": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/**/tests/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch.js",
@@ -48,7 +49,9 @@
     "test:visual:mobile:baseline": "./script/run-nightwatch.sh --visual --command=baseline --mobile",
     "test:vrt:baseline": "jest -c=config/jest-vrt.config.js -u",
     "test:vrt": "jest -c=config/jest-vrt.config.js",
-    "test:integration": "jest -c=config/jest-integration.config.js",
+    "test:integration:jest": "jest -c=config/jest-integration.config.js",
+    "test:integration:nightwatch": "nightwatch -c config/nightwatch.js --tag integration",
+    "test:integration:nightwatch:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod -e WEB_HOST=staging.va.gov -e WEB_PORT=80 vets-website --no-color run nightwatch:docker -- --tag integration && docker-compose -p e2e stop",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node --max-old-space-size=4096 script/build.js --watch",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build.js --watch --local-css-sourcemaps",
@@ -207,7 +210,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^6.2.2",
+    "@department-of-veterans-affairs/formation": "^6.3.1",
     "@department-of-veterans-affairs/formation-react": "^4.5.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
@@ -266,7 +269,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9539558d77f94ca7c86d40ec475cfec2aedf585f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#aded660d6ffc54c0c95d6f77987489fee48df977",
     "whatwg-fetch": "^2.0.3"
   }
 }

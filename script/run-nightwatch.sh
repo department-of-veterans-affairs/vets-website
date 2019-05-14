@@ -29,7 +29,7 @@ trap 'if [ $(jobs -p) ] ; then kill $(jobs -p); fi' EXIT
 
 BUILDTYPE=${BUILDTYPE:-vagovdev}
 
-"$(dirname "$0")"/run-mockapi.sh
+"$(dirname "$0")"/run-mockapi.sh &
 
 # Check to see if we already have a server running on port 3001 (as with 'npm run build')
  if [ "$(nc -z localhost 3001; echo $?)" -ne 0 ]; then

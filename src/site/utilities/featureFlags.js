@@ -3,17 +3,15 @@ const path = require('path');
 
 // Edit this to add new flags
 const featureFlags = {
-  // FEATURE1: 'feature1',
+  FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
 };
 
 // Edit this to turn flags on or off
 const flagsByBuildtype = {
-  // localhost: [featureFlags.FEATURE1],
-  localhost: [],
-  // vagovdev: [featureFlags.FEATURE1],
-  vagovdev: [],
+  localhost: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
+  vagovdev: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   // vagovstaging: [featureFlags.FEATURE1],
-  vagovstaging: [],
+  vagovstaging: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   // vagovprod: [featureFlags.FEATURE1],
   vagovprod: [],
 };

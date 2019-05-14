@@ -475,4 +475,30 @@ describe('<AutosuggestField>', () => {
       done();
     });
   });
+
+  it('should call onChange if input exists when setting options', () => {
+    const uiSchema = {
+      'ui:options': {
+        getOptions: () => Promise.resolve([]),
+      },
+    };
+    const formContext = {
+      reviewMode: false,
+    };
+    const onChange = sinon.spy();
+    const tree = mount(
+      <AutosuggestField
+        formData={{ widget: 'autosuggest', label: 'label' }}
+        formContext={formContext}
+        idSchema={{ $id: 'id' }}
+        onChange={onChange}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    onChange.reset();
+    tree.instance().setOptions([]);
+    expect(onChange.called).to.be.true;
+    tree.unmount();
+  });
 });
