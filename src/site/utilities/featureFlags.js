@@ -11,7 +11,7 @@ const flagsByBuildtype = {
   localhost: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   vagovdev: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   // vagovstaging: [featureFlags.FEATURE1],
-  vagovstaging: [],
+  vagovstaging: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   // vagovprod: [featureFlags.FEATURE1],
   vagovprod: [],
 };
