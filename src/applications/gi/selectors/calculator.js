@@ -2,7 +2,6 @@ import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { formatCurrency } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -488,35 +487,13 @@ const getDerivedValues = createSelector(
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
     let bah;
-    let avgBah;
-    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
-    const useBeneficiaryLocationRate =
-      inputs.beneficiaryLocationQuestion === 'no' &&
-      inputs.beneficiaryLocationBah !== null;
-
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
       inputs.giBillBenefit === 'yes';
 
-    if (!environment.isProduction()) {
-      const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
-      avgBah = !hasUsedGiBillBenefit ? constant.AVGDODBAH : constant.AVGBAH;
-      if (useBeneficiaryLocationRate) {
-        // sometimes there's no grandfathered rate for a zip code
-        bah =
-          useGrandfatheredBeneficiaryLocationRate &&
-          inputs.beneficiaryLocationGrandfatheredBah
-            ? inputs.beneficiaryLocationGrandfatheredBah
-            : inputs.beneficiaryLocationBah;
-      } else {
-        // use the DOD rate on staging
-        bah =
-          !hasUsedGiBillBenefit && institution.dodBah
-            ? institution.dodBah
-            : institution.bah;
-      }
-    } else if (useBeneficiaryLocationRate) {
-      avgBah = constant.AVGBAH;
+    const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+    const avgBah = !hasUsedGiBillBenefit ? constant.AVGDODBAH : constant.AVGBAH;
+    if (hasUsedGiBillBenefit) {
       // sometimes there's no grandfathered rate for a zip code
       bah =
         useGrandfatheredBeneficiaryLocationRate &&
@@ -524,11 +501,10 @@ const getDerivedValues = createSelector(
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
-      avgBah = constant.AVGBAH;
-      // sometimes there's no grandfathered rate for a zip code
+      // use the DOD rate on staging
       bah =
-        useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
-          ? institution.bahGrandfathered
+        !hasUsedGiBillBenefit && institution.dodBah
+          ? institution.dodBah
           : institution.bah;
     }
 
@@ -930,8 +906,7 @@ export const getCalculatedBenefits = createSelector(
       tuition: true,
       // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
       // (disabled in staging)
-      beneficiaryLocationQuestion:
-        derived.isChapter33 && environment.isProduction(),
+      beneficiaryLocationQuestion: false,
       giBillBenefit: derived.isChapter33,
       books: false,
       yellowRibbon: false,
