@@ -14,6 +14,7 @@ import fullSchema1990 from '../../../edu-benefits/1990/config/form';
 import fullSchema1990e from '../../../edu-benefits/1990e/config/form';
 import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
 import fullSchema1995 from '../../../edu-benefits/1995/config/form';
+import fullSchema1995Stem from '../../../edu-benefits/1995-STEM/config/form';
 import fullSchema5490 from '../../../edu-benefits/5490/config/form';
 import fullSchema5495 from '../../../edu-benefits/5495/config/form';
 import fullSchemaFeedbackTool from '../../../edu-benefits/feedback-tool/config/form';
@@ -39,6 +40,7 @@ const schemaToConfigIds = {
   '22-1990E': '1990e',
   '22-1990N': '1990n',
   '22-1995': '1995',
+  '22-1995-STEM': '1995-STEM',
   '22-5490': '5490',
   '22-5495': '5495',
   '40-10007': '40-10007',
@@ -83,6 +85,7 @@ describe('profile helpers:', () => {
         fullSchema1990e,
         fullSchema1990n,
         fullSchema1995,
+        fullSchema1995Stem,
         fullSchema5490,
         fullSchema5495,
         fullSchemaFeedbackTool,
