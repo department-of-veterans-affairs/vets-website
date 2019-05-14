@@ -334,7 +334,6 @@
 "@babel/plugin-syntax-object-rest-spread@^7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.2.0.tgz#3b7a3e733510c57e820b9142a6579ac8b0dfad2e"
-  integrity sha512-t0JKGgqk2We+9may3t0xDdmneaXmyxq0xieYcKHxIsrJO64n1OiMWNUtc5gQK1PA0NpdCRrtZp4z+IUaKugrSA==
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
@@ -696,10 +695,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.2.6":
-  version "6.2.6"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.2.6.tgz#c2f9b7ed35f032414e857d04392d5fc3cd83e875"
-  integrity sha512-H6fezdggWe7bCsRIGnK90HacxwjI2sWISDdZbSgN70X487qRaSEsR1IYEpivp/i3+kCaIex+Q6duH0S+WCGINw==
+"@department-of-veterans-affairs/formation@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.3.1.tgz#68eefda16e30013620ba7d8a0709d30e242a6599"
+  integrity sha512-kWeoRj8Nnm4sb3KWJM8fz7HOXV0wjiVMuYE4Iqe7BqWMiJZyRhm3caYqn3vj8ZDj19tMRY4oD3KYJRMTe5jz+g==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -3376,7 +3375,6 @@ domhandler@^2.3.0:
 domready@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/domready/-/domready-1.0.8.tgz#91f252e597b65af77e745ae24dd0185d5e26d58c"
-  integrity sha1-kfJS5Ze2Wvd+dFriTdAYXV4m1Yw=
 
 domutils@1.5.1, domutils@^1.5.1:
   version "1.5.1"
@@ -4456,7 +4454,6 @@ filename-regex@^2.0.0:
 fileset@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/fileset/-/fileset-2.0.3.tgz#8e7548a96d3cc2327ee5e674168723a333bba2a0"
-  integrity sha1-jnVIqW08wjJ+5eZ0FocjozO7oqA=
   dependencies:
     glob "^7.0.3"
     minimatch "^3.0.3"
@@ -5017,7 +5014,6 @@ gonzales-pe@3.4.7:
 graceful-fs@^4.1.10:
   version "4.1.15"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
-  integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
@@ -8754,7 +8750,6 @@ pinkie@^2.0.0:
 pirates@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.1.tgz#643a92caf894566f91b2b986d2c66950a8e2fb87"
-  integrity sha512-WuNqLTbMI3tmfef2TKxlQmAiLHKtFhlsCZnPIpuv2Ow0RDVO8lfy1Opf4NUzlMXLjPl+Men7AuVdX6TA+s+uGA==
   dependencies:
     node-modules-regexp "^1.0.0"
 
@@ -11898,9 +11893,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9539558d77f94ca7c86d40ec475cfec2aedf585f":
-  version "3.138.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9539558d77f94ca7c86d40ec475cfec2aedf585f"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#aded660d6ffc54c0c95d6f77987489fee48df977":
+  version "3.138.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#aded660d6ffc54c0c95d6f77987489fee48df977"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"
@@ -11917,7 +11912,6 @@ w3c-hr-time@^1.0.1:
 walker@~1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
-  integrity sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
   dependencies:
     makeerror "1.0.x"
 
