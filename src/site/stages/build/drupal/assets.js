@@ -1,6 +1,19 @@
 const getDrupalClient = require('./api');
 const cheerio = require('cheerio');
 
+const siteURIs = [
+  'http://prod.cms.va.gov',
+  'https://prod.cms.va.gov',
+  'http://staging.cms.va.gov',
+  'https://staging.cms.va.gov',
+  'http://stg.cms.va.gov',
+  'https://stg.cms.va.gov',
+  'http://dev.cms.va.gov',
+  'https://dev.cms.va.gov',
+  'http://cms.va.gov',
+  'https://cms.va.gov',
+];
+
 function replacePathInData(data, replacer) {
   let current = data;
   if (Array.isArray(data)) {
@@ -46,18 +59,20 @@ function convertAssetPath(drupalInstance, url) {
   return `/files/${path}`;
 }
 
-function updateAttr(attr, doc, client) {
+function updateAttrAllEnvs(attr, doc) {
   const assetsToDownload = [];
-  doc(`[${attr}^="${client.getSiteUri()}/sites"]`).each((i, el) => {
-    const item = doc(el);
-    const srcAttr = item.attr(attr);
-    const newAssetPath = convertAssetPath(client.getSiteUri(), srcAttr);
-    assetsToDownload.push({
-      src: srcAttr,
-      dest: newAssetPath,
-    });
+  siteURIs.forEach(siteURI => {
+    doc(`[${attr}^="${siteURI}/sites"]`).each((i, el) => {
+      const item = doc(el);
+      const srcAttr = item.attr(attr);
+      const newAssetPath = convertAssetPath(siteURI, srcAttr);
+      assetsToDownload.push({
+        src: srcAttr,
+        dest: newAssetPath,
+      });
 
-    item.attr(attr, newAssetPath);
+      item.attr(attr, newAssetPath);
+    });
   });
 
   return assetsToDownload;
@@ -84,8 +99,8 @@ function convertDrupalFilesToLocal(drupalData, files, options) {
     if (key === 'processed') {
       const doc = cheerio.load(data);
       const assetsToDownload = [
-        ...updateAttr('href', doc, client),
-        ...updateAttr('src', doc, client),
+        ...updateAttrAllEnvs('href', doc),
+        ...updateAttrAllEnvs('src', doc),
       ];
 
       if (assetsToDownload.length) {
