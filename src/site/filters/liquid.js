@@ -1,6 +1,10 @@
 const moment = require('moment');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('../utilities/featureFlags');
 
 module.exports = function registerFilters() {
   // Custom liquid filter(s)
@@ -132,4 +136,9 @@ module.exports = function registerFilters() {
 
     return JSON.stringify(getDeepLinks(currentPath, linksArray));
   };
+
+  liquid.filters.featureFieldRegionalHealthService = entity =>
+    enabledFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
+      ? entity.fieldRegionalHealthService.entity
+      : entity.fieldClinicalHealthServices[0].entity;
 };

@@ -3,15 +3,13 @@ const path = require('path');
 
 // Edit this to add new flags
 const featureFlags = {
-  // FEATURE1: 'feature1',
+  FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
 };
 
 // Edit this to turn flags on or off
 const flagsByBuildtype = {
-  // localhost: [featureFlags.FEATURE1],
-  localhost: [],
-  // vagovdev: [featureFlags.FEATURE1],
-  vagovdev: [],
+  localhost: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
+  vagovdev: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   // vagovstaging: [featureFlags.FEATURE1],
   vagovstaging: [],
   // vagovprod: [featureFlags.FEATURE1],
@@ -20,6 +18,7 @@ const flagsByBuildtype = {
 
 // Exported feature flag state, which can be used in code as needed
 const enabledFeatureFlags = Object.values(featureFlags).reduce((acc, next) => {
+  // console.log('buildtype', global.buildtype);
   acc[next] = flagsByBuildtype[global.buildtype].includes(next);
   return acc;
 }, {});
