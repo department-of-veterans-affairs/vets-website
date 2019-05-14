@@ -4,8 +4,6 @@ import fullSchema1995Stem from 'vets-json-schema/dist/22-1995-STEM-schema.json';
 
 import { transform } from '../helpers';
 
-import { urlMigration } from '../../config/migrations';
-
 import * as address from '../../../../platform/forms/definitions/address';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -48,7 +46,6 @@ const formConfig = {
   trackingPrefix: 'edu-1995-STEM-',
   formId: '22-1995-STEM',
   version: 1,
-  migrations: [urlMigration('/1995-STEM')],
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',

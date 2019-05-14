@@ -1,7 +1,14 @@
 {
   "appName": "22-1995-STEM Education benefits form",
   "entryFile": "./edu-benefits-entry.jsx",
+<<<<<<< HEAD
   "entryName": "1995-stem-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/1995-STEM",
   "production": false
 }
+=======
+  "entryName": "1995-STEM-edu-benefits",
+  "rootUrl": "/education/apply-for-education-benefits/application/1995-STEM",
+  "production": false
+}
+>>>>>>> dac1b8e4f5343626736e7d8f214f4606a6bfe745
