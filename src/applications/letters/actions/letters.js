@@ -61,20 +61,24 @@ export function getLetterList(dispatch) {
       if (status === '403') {
         // Backend authentication problem
         dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+        throw new Error(`vets_letters_error_getLetterList: ${status}`);
       } else if (status === '422') {
         // User has an invalid address for his or her letters
         dispatch({ type: INVALID_ADDRESS_PROPERTY });
+        throw new Error(`vets_letters_error_getLetterList: ${status}`);
       } else if (status === '502') {
         // Some of the partner services are down, so we cannot verify the
         // eligibility of some letters
         dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+        throw new Error(`vets_letters_error_getLetterList: ${status}`);
       } else if (status === '503' || status === '504') {
         // Either EVSS or a partner service is down or EVSS times out
         dispatch({ type: BACKEND_SERVICE_ERROR });
+        throw new Error(`vets_letters_error_getLetterList: ${status}`);
       } else {
         dispatch({ type: GET_LETTERS_FAILURE });
+        throw new Error(`vets_letters_error_getLetterList: ${status}`);
       }
-      throw new Error(`vets_letters_error_getLetterList: ${status}`);
     },
   );
 }
