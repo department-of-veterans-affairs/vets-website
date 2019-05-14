@@ -20,8 +20,8 @@ class InstitutionFilterForm extends React.Component {
 
   stemLabel = () =>
     environment.isProduction()
-      ? 'STEM (Science, Technology, Engineering, and Math):'
-      : 'STEM Scholarship:';
+      ? 'STEM (Science, Technology, Engineering, and Math)'
+      : 'STEM Scholarship';
 
   handleDropdownChange(e) {
     const { name: field, value } = e.target;
