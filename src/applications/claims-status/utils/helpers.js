@@ -231,7 +231,7 @@ export function truncateDescription(text) {
 
 // strip escaped html entities that have made its way into the desc
 export function stripHtml(text) {
-  return text.replace(/&\w+;/g, '');
+  return text && text.replace(/&\w+;/g, '');
 }
 
 export function isClaimComplete(claim) {
