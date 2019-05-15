@@ -107,7 +107,7 @@
             </div>
           {% endif %}
 
-          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
+          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--4">
             <div class="usa-width-one-third">
               <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
             </div>
@@ -120,14 +120,10 @@
           </div>
 
           <div class="usa-grid usa-grid-full">
-            <div class="usa-width-one-whole">
-                <div class="usa-width-one-half">
-                  <h2>Address and phone numbers</h2>
-                </div>
-            </div>
 
             <!-- facility details from api -->
             <div class="usa-width-one-half">
+              <h2 class="heading-level-3">Address and phone numbers</h2>
               <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
             </div>
 
