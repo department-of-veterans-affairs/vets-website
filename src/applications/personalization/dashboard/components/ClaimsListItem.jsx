@@ -25,7 +25,7 @@ function handleViewClaim() {
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   const dateRecd = moment(claim.attributes.dateFiled).format('MMMM D, YYYY');
-  
+
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
