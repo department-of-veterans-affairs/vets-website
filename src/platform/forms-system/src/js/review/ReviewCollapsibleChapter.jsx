@@ -169,9 +169,16 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         page.index,
                       )
                     }
-                    onChange={formData =>
-                      this.onChange(formData, page.arrayPath, page.index)
-                    }
+                    onChange={formData => {
+                      this.onChange(
+                        page.updateDataHooks.reduce(
+                          (data, hook) => hook(form.data, data),
+                          formData,
+                        ),
+                        page.arrayPath,
+                        page.index,
+                      );
+                    }}
                     uploadFile={this.props.uploadFile}
                     reviewMode={!editing}
                     formContext={formContext}
