@@ -58,7 +58,7 @@ export class IntroductionPage extends React.Component {
                 the VET TEC application to see if you’re eligible for the
                 program, even if you haven’t yet selected the training program
                 you’d like to attend.{' '}
-                <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
+                <a href="https://www.benefits.va.gov/GIBILL/FGIB/VetTecTrainingProviders.asp">
                   Learn more about the programs covered under VET TEC
                 </a>
                 .
