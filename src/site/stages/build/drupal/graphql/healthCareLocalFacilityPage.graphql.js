@@ -1,4 +1,8 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('../../../../utilities/featureFlags');
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -41,7 +45,13 @@ module.exports = `
           fieldBody {
             processed
           }
-          fieldClinicalHealthServices {
+          ${
+            enabledFeatureFlags[
+              featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
+            ]
+              ? 'fieldRegionalHealthService'
+              : 'fieldClinicalHealthServices'
+          } {
             entity {
               ... on NodeRegionalHealthCareServiceDes {
                 entityBundle
