@@ -28,7 +28,6 @@ export class ProfilePage extends React.Component {
   componentDidMount() {
     this.props.fetchProfile(
       this.props.params.facilityCode,
-      this.props.constants,
       this.props.location.query.version,
     );
   }
@@ -57,7 +56,7 @@ export class ProfilePage extends React.Component {
     }
 
     if (prevProps.location.query.version !== uuid) {
-      this.props.fetchProfile(facilityCode, this.props.constants, uuid);
+      this.props.fetchProfile(facilityCode, uuid);
     }
   }
 

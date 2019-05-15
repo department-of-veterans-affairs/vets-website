@@ -173,11 +173,11 @@ export function fetchSearchResults(query = {}) {
   };
 }
 
-export function fetchProfile(facilityCode, constants, version) {
+export function fetchProfile(facilityCode, version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: FETCH_PROFILE_STARTED });
 
     return fetch(url, api.settings)
@@ -199,11 +199,13 @@ export function fetchProfile(facilityCode, constants, version) {
             .then(res => res.json())
             // if there's an error from the zipRatesPayload the reducer will just use the values from the institution end point.
             .then(zipRatesPayload => {
+              const { AVGBAH, AVGDODBAH } = getState().constants.constants;
               withPreview(dispatch, {
                 type: FETCH_PROFILE_SUCCEEDED,
                 payload: {
                   ...institution,
-                  constants,
+                  AVGBAH,
+                  AVGDODBAH,
                 },
                 zipRatesPayload,
               });
