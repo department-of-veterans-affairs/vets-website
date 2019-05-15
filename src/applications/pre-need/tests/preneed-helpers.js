@@ -134,7 +134,7 @@ function completeBenefitSelection(client, data) {
       'input[name="root_application_claimant_desiredCemetery"]',
       data.claimant.desiredCemetery.label,
     )
-    .waitForElementVisible('#downshift-1-item-0', Timeouts.slow)
+    .waitForElementPresent('#downshift-1-item-0', Timeouts.slow)
     .click('body')
     // Test is flaky so have to select option twice for it to register
     .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried)
@@ -149,7 +149,7 @@ function completeBenefitSelection(client, data) {
           `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
           person.cemeteryNumber.label,
         )
-        .waitForElementVisible('#downshift-1-item-0', Timeouts.slow)
+        .waitForElementPresent('#downshift-1-item-0', Timeouts.slow)
         .fillName(
           `root_application_currentlyBuriedPersons_${index}_name`,
           person.name,
