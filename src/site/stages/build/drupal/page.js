@@ -160,13 +160,16 @@ function generateBreadCrumbs(pathString) {
 function compilePage(page, contentData) {
   const {
     data: {
-      sidebarQuery: sidebarNav = {},
+      // sidebarQuery: sidebarNav = {},
+      healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
+      recordsHubSidebarQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
     },
   } = contentData;
 
-  const sidebarNavItems = { sidebar: sidebarNav };
+  const owner = page.fieldAdministration.entity.name;
+  let sidebarNavItems;
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
   const alertItems = { alert: alertsItem };
 
@@ -240,6 +243,20 @@ function compilePage(page, contentData) {
       );
       break;
     default:
+      // Get the right benefits hub sidebar
+      switch (owner) {
+        case 'Health care benefits hub':
+          sidebarNavItems = { sidebar: healthcareHubSidebarNav };
+          break;
+        case 'Records benefits hub':
+          sidebarNavItems = { sidebar: recordsHubSidebarNav };
+          break;
+        default:
+          sidebarNavItems = { sidebar: healthcareHubSidebarNav };
+          break;
+      }
+
+      // Build page with correct sidebar
       pageCompiled = Object.assign(
         {},
         page,
