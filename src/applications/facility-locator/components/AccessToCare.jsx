@@ -21,6 +21,10 @@ export default class AccessToCare extends Component {
 
     const healthFeedbackAttrs = location.attributes.feedback.health;
 
+    if (!healthFeedbackAttrs) {
+      return null;
+    }
+
     if (
       isEmpty(
         compact([

@@ -3,7 +3,9 @@ import React from 'react';
 import { focusElement } from '../../../../platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import EducationModalContent from 'platform/forms/components/OMBInfoModalContent/EducationModalContent';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import environment from 'platform/utilities/environment';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -100,7 +102,17 @@ class IntroductionPage extends React.Component {
           startText="Submit Your Feedback"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={15} ombNumber="2900-0797" expDate="12/31/2018" />
+          {environment.isProduction() ? (
+            <OMBInfo
+              resBurden={15}
+              ombNumber="2900-0797"
+              expDate="12/31/2018"
+            />
+          ) : (
+            <OMBInfo resBurden={15} ombNumber="2900-0797" expDate="12/31/2018">
+              <EducationModalContent resBurden={15} ombNumber="2900-0797" />
+            </OMBInfo>
+          )}
         </div>
       </div>
     );

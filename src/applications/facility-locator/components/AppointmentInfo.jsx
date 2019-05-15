@@ -44,6 +44,10 @@ export default class AppointmentInfo extends Component {
 
     const healthAccessAttrs = location.attributes.access.health;
 
+    if (!healthAccessAttrs) {
+      return null;
+    }
+
     if (
       !this.anyWaitTimes(healthAccessAttrs, 'new') &&
       !this.anyWaitTimes(healthAccessAttrs, 'established')
