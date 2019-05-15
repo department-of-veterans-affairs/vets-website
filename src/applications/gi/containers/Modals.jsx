@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import environment from '../../../platform/utilities/environment';
 
 export class Modals extends React.Component {
   constructor(props) {
@@ -370,6 +371,39 @@ export class Modals extends React.Component {
   }
 
   renderProfileSummaryModals() {
+    const stemOfferedModal = (
+      <div>
+        <p>
+          The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
+          additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
+        </p>
+        <p>
+          Veterans and Fry Scholars may qualify for this scholarship if they're
+          enrolled in an undergraduate program for Science, Technology,
+          Engineering, or Math (STEM), or if they've earned a STEM degree and
+          are getting a teaching certification.
+        </p>
+        <p>
+          To learn more about the STEM Scholarship,{' '}
+          <a
+            href="https://benefits.va.gov/gibill/fgib/stem.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {' '}
+            visit the VBA STEM website.
+          </a>
+        </p>
+      </div>
+    );
+    const stemOfferedModalProduction = (
+      <p>
+        VA will provide up to 9 months of additional Post-9/11 GI Bill benefits
+        if you're eligible and enrolled in a Science, Technology, Engineering,
+        or Math educational program.
+      </p>
+    );
+
     return (
       <span>
         <Modal
@@ -469,11 +503,9 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('stemOffered')}
         >
           <h3>STEM</h3>
-          <p>
-            VA will provide up to 9 months of additional Post-9/11 GI Bill
-            benefits if you're eligible and enrolled in a Science, Technology,
-            Engineering, or Math educational program.
-          </p>
+          {environment.isProduction()
+            ? stemOfferedModalProduction
+            : stemOfferedModal}
         </Modal>
         <Modal
           onClose={this.props.hideModal}
@@ -759,35 +791,49 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('whenUsedGiBill')}
         >
-          <h3>When you used GI Bill before?</h3>
+          <h3>When did you first use Post-9/11 GI Bill benefits?</h3>
           <p>
-            Effective August 1, 2018, the monthly housing under the Post-9/11 GI
-            Bill program will be calculated based on the zip code of the
-            “campus” where the student physically attends the majority of
-            classes, rather than the location of the school where the student is
-            enrolled. A campus may include:
+            Effective January 1, 2018, the Post-9/11 GI Bill basic allowance for
+            housing (BAH) is based on the Department of Defense’s E-5 with
+            dependents BAH rate.
+          </p>
+          <p>
+            You’ll receive this rate if you first used your Post-9/11 GI Bill
+            benefits for one of the following:
           </p>
           <ul>
             <li>
-              The individual campus of a school where the student is taking
-              classes (for example, the school’s science center, humanities
-              building, or athletic center)
+              Tuition, housing, or books for a term that started on or after
+              January 1, 2018, or
             </li>
             <li>
-              The physical location where a student is learning in a study
-              abroad program
+              To take a licensing or certification exam and/or national test
+              before January 1, 2018, and you now want to enroll in an
+              educational program that qualifies for a housing allowance.
+            </li>
+          </ul>
+          <p>
+            Also, effective August 1, 2018, the Post-9/11 GI Bill BAH is
+            calculated based on the zip code of the campus where you physically
+            attend the majority of your classes, rather than the location of the
+            school where you’re enrolled.
+          </p>
+          <p>A campus could include:</p>
+
+          <ul>
+            <li>
+              The individual campus of a school where you’re taking classes (for
+              example, the school’s science center, humanities building, or
+              athletic center)
+            </li>
+            <li>
+              The physical location where you’re learning in a study abroad
+              program
             </li>
             <li>
               Any internship, externship, practicum, or student teaching site
             </li>
           </ul>
-
-          <p>
-            Those who first use Post-9/11 GI Bill on or after January 1, 2018,
-            will receive a monthly housing allowance based directly on the
-            Department of Defense basic housing allowance (BAH) for monthly
-            housing rates.
-          </p>
         </Modal>
 
         <Modal

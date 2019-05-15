@@ -39,6 +39,8 @@ export const addressOneValidations = [
   specialCharacterValidator,
 ];
 
+export const optionalAddressValidations = [specialCharacterValidator];
+
 export const postalCodeValidations = [
   // Require zip for US addresses
   (postalCode, fullAddress) => {
