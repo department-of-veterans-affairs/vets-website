@@ -191,6 +191,7 @@ export class SearchPage extends React.Component {
                 cautionFlag={result.cautionFlag}
                 studentCount={result.studentCount}
                 bah={result.bah}
+                dodBah={result.dodBah}
                 schoolClosing={result.schoolClosing}
                 tuitionInState={result.tuitionInState}
                 tuitionOutOfState={result.tuitionOutOfState}
