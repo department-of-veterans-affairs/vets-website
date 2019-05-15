@@ -21,7 +21,7 @@
         <div class="va-introtext">
           <p>{{ fieldIntroText }}</p>
         </div>
-        {% if fieldSpokes != empty %}
+        {% if fieldSpokes != empty and fieldSpokes.length > 1 %}
         <h3>On This Page:</h3>
         <ul>
           {% for spoke in fieldSpokes %}
@@ -107,8 +107,8 @@
           </li>
         </ul>
 
-        {% if fieldAdministration != empty %}
-        {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+        {% if fieldAdministration != empty and fieldAdministration.entity.name != "Health care benefits hub" %}
+          {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
         {% endif %}
       </div>
     </div>
