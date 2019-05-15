@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import HealthcareModalContent from 'platform/forms/components/OMBInfoModalContent/HealthcareModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import environment from 'platform/utilities/environment';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
@@ -86,7 +88,7 @@ const LoggedOutContent = connect(
           content={
             <button
               className="va-button-link"
-              onClick={() => showLoginModal(true)}
+              onClick={() => showLoginModal(true, 'hcainfo')}
             >
               Sign in to check your application status
             </button>
@@ -114,7 +116,13 @@ const LoggedOutContent = connect(
       downtime={route.formConfig.downtime}
     />
     <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-      <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
+      {environment.isProduction() ? (
+        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
+      ) : (
+        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018">
+          <HealthcareModalContent resBurden={30} ombNumber="2900-0091" />
+        </OMBInfo>
+      )}
     </div>
   </>
 ));

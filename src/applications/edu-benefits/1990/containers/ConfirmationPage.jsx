@@ -6,7 +6,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 
-import BusyEnrollmentAlert from '../../components/BusyEnrollmentAlert';
 import { getListOfBenefits } from '../../utils/helpers';
 import { benefitsRelinquishmentLabels } from '../helpers';
 
@@ -94,7 +93,6 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <BusyEnrollmentAlert />
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We usually process claims within <strong>30 days</strong>.

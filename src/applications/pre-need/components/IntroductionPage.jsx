@@ -2,8 +2,10 @@ import React from 'react';
 
 import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import BurialModalContent from 'platform/forms/components/OMBInfoModalContent/BurialModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import environment from 'platform/utilities/environment';
 
 import facilityLocator from '../../facility-locator/manifest';
 
@@ -159,7 +161,17 @@ class IntroductionPage extends React.Component {
           startText="Start the pre-need eligibility application"
         />
         <div className="omb-info--container">
-          <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="11/30/2018" />
+          {environment.isProduction() ? (
+            <OMBInfo
+              resBurden={20}
+              ombNumber="2900-0784"
+              expDate="11/30/2018"
+            />
+          ) : (
+            <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="11/30/2018">
+              <BurialModalContent resBurden={20} ombNumber="2900-0784" />
+            </OMBInfo>
+          )}
         </div>
       </div>
     );

@@ -881,6 +881,13 @@ const getDerivedValues = createSelector(
   },
 );
 
+const isThirtySixMonthsPlus = eligibility =>
+  eligibility.cumulativeService === '1.0';
+
+const isActiveDuty = militaryStatus => ['active duty'].includes(militaryStatus);
+
+const isChapter33 = giBillChapter => giBillChapter === 33;
+
 export const getCalculatedBenefits = createSelector(
   getEligibilityDetails,
   getInstitution,
@@ -1160,6 +1167,17 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         tuitionAssist: true,
+      };
+    }
+
+    if (
+      isActiveDuty(militaryStatus) &&
+      isChapter33(giBillChapter) &&
+      isThirtySixMonthsPlus(eligibility)
+    ) {
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
+        yellowRibbon: false,
       };
     }
 
