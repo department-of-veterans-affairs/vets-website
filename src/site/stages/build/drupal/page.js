@@ -168,8 +168,10 @@ function compilePage(page, contentData) {
   } = contentData;
 
   // Get page owner
-  const owner = _.toLower(page.fieldAdministration.entity.name);
-
+  let owner;
+  if (page.fieldAdministration) {
+    owner = _.toLower(page.fieldAdministration.entity.name);
+  }
   // Benefits hub side navs in an array to loop through later
   const sideNavs = [healthcareHubSidebarNav, recordsHubSidebarNav];
   let sidebarNavItems;
