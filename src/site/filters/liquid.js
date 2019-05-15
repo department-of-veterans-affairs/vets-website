@@ -3,6 +3,11 @@ const converter = require('number-to-words');
 const liquid = require('tinyliquid');
 
 module.exports = function registerFilters() {
+  const {
+    featureFlags,
+    enabledFeatureFlags,
+  } = require('../utilities/featureFlags');
+
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
@@ -131,5 +136,16 @@ module.exports = function registerFilters() {
     };
 
     return JSON.stringify(getDeepLinks(currentPath, linksArray));
+  };
+
+  liquid.filters.featureFieldRegionalHealthService = entity => {
+    if (
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
+    ) {
+      return entity.fieldRegionalHealthService
+        ? entity.fieldRegionalHealthService.entity
+        : null;
+    }
+    return entity.fieldClinicalHealthServices[0].entity;
   };
 };

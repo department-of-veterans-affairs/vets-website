@@ -152,9 +152,12 @@ export const capitalizeEachWord = name => {
     return name.replace(/\w[^\s-]*/g, capitalizeWord);
   }
 
-  Raven.captureMessage(
-    `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
-  );
+  if (typeof name !== 'string') {
+    Raven.captureMessage(
+      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+    );
+  }
+
   return 'Unknown Condition';
 };
 

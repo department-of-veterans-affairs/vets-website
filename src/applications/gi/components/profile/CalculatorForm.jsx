@@ -76,21 +76,30 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderGbBenefit = () => (
-    <div>
-      <RadioButtons
-        label={this.renderLearnMoreLabel({
-          text:
-            'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
-          modal: 'whenUsedGiBill',
-        })}
-        name="giBillBenefit"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
-        value={this.props.inputs.giBillBenefit}
-        onChange={this.handleInputChange}
-      />
-    </div>
-  );
+  renderGbBenefit = () => {
+    if (!this.props.displayedInputs.giBillBenefit) {
+      return null;
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text:
+              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
+            modal: 'whenUsedGiBill',
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  };
 
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
