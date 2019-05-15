@@ -1,6 +1,6 @@
 import '../../platform/polyfills';
 import './sass/discharge-wizard.scss';
-import '../static-pages/sidebar-navigation';
+import '@department-of-veterans-affairs/formation/js/sidenav';
 
 import startApp from '../../platform/startup';
 
