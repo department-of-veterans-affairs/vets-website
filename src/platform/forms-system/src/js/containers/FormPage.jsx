@@ -47,17 +47,21 @@ class FormPage extends React.Component {
     }
   }
 
-  onChange = formData => {
-    let newData = formData;
+  onChange = (oldData, changedData, updateDataHooks = []) => {
+    let newData = changedData;
     if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
       newData = _.set(
         [this.props.route.pageConfig.arrayPath, this.props.params.index],
-        formData,
+        changedData,
         this.props.form.data,
       );
     }
+    newData = updateDataHooks.reduce(
+      (data, hook) => hook(oldData, data),
+      newData,
+    );
     this.props.setData(newData);
   };
 
@@ -127,6 +131,13 @@ class FormPage extends React.Component {
       }
     }
 
+    // Use function declaration instead of arrow function in an
+    // attempt to not re-render Schemaform more than necessary.
+    const self = this;
+    function callOnChange(newData) {
+      self.onChange(data, newData, route.pageConfig.updateDataHooks);
+    }
+
     return (
       <div className={pageClasses}>
         <SchemaForm
@@ -139,7 +150,7 @@ class FormPage extends React.Component {
           pagePerItemIndex={params ? params.index : undefined}
           formContext={formContext}
           uploadFile={this.props.uploadFile}
-          onChange={this.onChange}
+          onChange={callOnChange}
           onSubmit={this.onSubmit}
         >
           <div className="row form-progress-buttons schemaform-buttons">
