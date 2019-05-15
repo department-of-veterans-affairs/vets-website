@@ -28,6 +28,7 @@ import './social-share-links';
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createFacilityDetailWidget from './facilities/facilityDetail';
+import createFacilityMapWidget from './facilities/facilityMapDetail';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import createFacilityPatientSatisfactionScoresWidget from './facilities/facilityPatientSatisfactionScores';
 import facilityReducer from './facilities/reducers';
@@ -85,6 +86,8 @@ createApplicationStatus(store, {
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 
 createFacilityListWidget();
+createFacilityDetailWidget();
+createFacilityMapWidget();
 createBasicFacilityListWidget();
 
 createFacilityDetailWidget(store);
