@@ -30,13 +30,15 @@ import {
 } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
+import noAddressBanner from '../components/NoAddressBanner';
 
 import {
   addressOneValidations,
-  postalCodeValidations,
-  stateValidations,
   countryValidations,
   cityValidations,
+  optionalAddressValidations,
+  postalCodeValidations,
+  stateValidations,
 } from '../utils/validations';
 
 const Element = Scroll.Element;
@@ -51,20 +53,6 @@ const scrollToTop = () => {
     },
   );
 };
-
-const noAddressBanner = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">
-        VA does not have a valid address on file for you
-      </h3>
-      <div className="usa-alert-text">
-        You will need to update your address before we can provide you any
-        letters.
-      </div>
-    </div>
-  </div>
-);
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -360,8 +348,7 @@ export class AddressSection extends React.Component {
           <h5 className="letters-address">
             {(this.props.recipientName || '').toLowerCase()}
           </h5>
-          {emptyAddress && noAddressBanner}
-          {!emptyAddress && displayAddress}
+          {emptyAddress ? noAddressBanner : displayAddress}
           <button className="address-help-btn" onClick={this.openAddressHelp}>
             What is this?
           </button>
@@ -421,6 +408,8 @@ export class AddressSection extends React.Component {
 // For testing purposes; we need to wrap the validators in spies--the same instances that are called in here
 AddressSection.fieldValidations = {
   addressOne: addressOneValidations,
+  addressTwo: optionalAddressValidations,
+  addressThree: optionalAddressValidations,
   zipCode: postalCodeValidations,
   stateCode: stateValidations,
   countryName: countryValidations,

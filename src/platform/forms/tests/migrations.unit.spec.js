@@ -57,6 +57,7 @@ const excludedForms = new Set([
   '21-4142',
   'VIC',
   '22-0994', // TODO: remove this when 0994 is ready
+  '22-1995-STEM',
   'definitions',
   'constants',
   'vaMedicalFacilities',
