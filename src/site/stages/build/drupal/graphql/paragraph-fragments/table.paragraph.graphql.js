@@ -6,6 +6,7 @@
 module.exports = `
   fragment table on ParagraphTable {
     entityId
+    entityBundle
     fieldTable {
       tableValue
       format
