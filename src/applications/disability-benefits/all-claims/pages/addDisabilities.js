@@ -1,4 +1,3 @@
-import uuid from 'uuid/v4';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import { deletedElement } from '../../../../platform/forms-system/src/js/helpers';
@@ -20,6 +19,7 @@ import {
   newConditionsOnly,
   newAndIncrease,
   hasClaimedConditions,
+  sippableId,
 } from '../utils';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -132,7 +132,7 @@ const removeFromTreatedDisabilityNames = (disability, formData) => {
     facilities.map(f =>
       set(
         'treatedDisabilityNames',
-        omit([disability['view:uuid']], get('treatedDisabilityNames', f)),
+        omit([disability.uuid], get('treatedDisabilityNames', f)),
         f,
       ),
     ),
@@ -147,7 +147,7 @@ export const newDisabilitiesHook = (oldData, newData) => {
 
   // If a new disability was added, give it an ID
   if (newArr.length > oldArr.length) {
-    return set(`${path}.${newArr.length - 1}.view:uuid`, uuid(), newData);
+    return set(`${path}.${newArr.length - 1}.uuid`, sippableId(), newData);
   }
 
   // If an existing disability was deleted, remove it from `treatedDisabilityNames`
