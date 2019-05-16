@@ -8,6 +8,8 @@ module.exports = `
     entityId
     fieldTable {
       tableValue
+      format
+      caption
     }
   }
 `;

@@ -1,0 +1,13 @@
+{% comment %}
+    Example data:
+    entity: {
+        "entityId": "3944",
+        "fieldTable": {
+            "tableValue": "Cell 1x1 Cell 2x1 Cell 1x2 Cell 2x2 1x3 2x3 1x4 2x4 1x5 2x5",
+            "format": "rich_text",
+            "caption": "Test Table"
+        }
+    }
+{% endcomment %}
+
+{{ entity.fieldTable.tableValue }}

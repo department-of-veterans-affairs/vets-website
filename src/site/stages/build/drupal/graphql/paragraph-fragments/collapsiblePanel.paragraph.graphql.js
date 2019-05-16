@@ -18,12 +18,7 @@ module.exports = `
             }
             fieldVaParagraphs {
               entity {
-                ... on ParagraphTable {
-                  entityId
-                  fieldTable {
-                    tableValue
-                  }
-                }
+                ... table
               }
             }
           }
