@@ -251,11 +251,14 @@ function compilePage(page, contentData) {
     default:
       // Get the right benefits hub sidebar
       for (const nav of sideNavs) {
-        if (nav != null) {
+        if (nav !== null && nav.links.length) {
           const navName = _.toLower(nav.name);
           if (owner !== null && owner === navName) {
             sidebarNavItems = { sidebar: nav };
           }
+        } else {
+          // default to no menu
+          sidebarNavItems = { sidebar: {} };
         }
       }
 
