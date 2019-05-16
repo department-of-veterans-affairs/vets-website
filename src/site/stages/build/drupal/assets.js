@@ -61,18 +61,17 @@ function convertAssetPath(drupalInstance, url) {
 
 function updateAttrAllEnvs(attr, doc) {
   const assetsToDownload = [];
-  siteURIs.forEach(siteURI => {
-    doc(`[${attr}^="${siteURI}/sites"]`).each((i, el) => {
-      const item = doc(el);
-      const srcAttr = item.attr(attr);
-      const newAssetPath = convertAssetPath(siteURI, srcAttr);
-      assetsToDownload.push({
-        src: srcAttr,
-        dest: newAssetPath,
-      });
-
-      item.attr(attr, newAssetPath);
+  doc(`[${attr}*="cms.va.gov/sites"]`).each((i, el) => {
+    const item = doc(el);
+    const srcAttr = item.attr(attr);
+    const siteURI = srcAttr.match(/http[s]:\/\/(.*)\.cms\.va\.gov/)[0];
+    const newAssetPath = convertAssetPath(siteURI, srcAttr);
+    assetsToDownload.push({
+      src: srcAttr,
+      dest: newAssetPath,
     });
+
+    item.attr(attr, newAssetPath);
   });
 
   return assetsToDownload;
