@@ -171,7 +171,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     }
                     onChange={formData => {
                       this.onChange(
-                        page.updateDataHooks.reduce(
+                        (page.updateDataHooks || []).reduce(
                           (data, hook) => hook(form.data, data),
                           formData,
                         ),
@@ -208,7 +208,14 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       onBlur={this.props.onBlur}
                       schema={arrayField.schema}
                       uiSchema={arrayField.uiSchema}
-                      setData={this.props.setData}
+                      setData={formData => {
+                        this.props.setData(
+                          (page.updateDataHooks || []).reduce(
+                            (data, hook) => hook(form.data, data),
+                            formData,
+                          ),
+                        );
+                      }}
                       path={arrayField.path}
                     />
                   </div>
