@@ -13,6 +13,7 @@ const administration = require('./taxonomy-fragments/administration.taxonomy.gra
 const reactWidget = require('./paragraph-fragments/reactWidget.paragraph.graphql');
 const spanishSummary = require('./paragraph-fragments/spanishSummary.paragraph.graphql');
 const numberCallout = require('./paragraph-fragments/numberCallout.paragraph.graphql');
+const alertParagraph = require('./paragraph-fragments/alert.paragraph.graphql');
 
 module.exports = `
   ${alert}
@@ -28,4 +29,5 @@ module.exports = `
   ${reactWidget}
   ${spanishSummary}
   ${numberCallout}
+  ${alertParagraph}
 `;
