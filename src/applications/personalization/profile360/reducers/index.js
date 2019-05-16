@@ -1,8 +1,6 @@
 import set from 'platform/utilities/data/set';
 import vet360 from '../vet360/reducers';
 
-import { ACCOUNT_TYPES_OPTIONS } from '../constants';
-
 import {
   FETCH_HERO_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -34,8 +32,9 @@ const editModalFormsInitialState = {
     },
   },
   accountType: {
+    errorMessage: '',
     value: {
-      value: ACCOUNT_TYPES_OPTIONS.checking,
+      value: '',
       dirty: false,
     },
   },
