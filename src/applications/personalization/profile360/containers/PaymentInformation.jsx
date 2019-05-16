@@ -96,15 +96,15 @@ class PaymentInformation extends React.Component {
         </div>
         <div className="vet360-profile-field">
           <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
-            Account type
-          </ProfileFieldHeading>
-          {paymentAccount.accountType}
-        </div>
-        <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
             Account number
           </ProfileFieldHeading>
           {paymentAccount.accountNumber}
+        </div>
+        <div className="vet360-profile-field">
+          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            Account type
+          </ProfileFieldHeading>
+          {paymentAccount.accountType}
         </div>
         <p>
           <strong>
