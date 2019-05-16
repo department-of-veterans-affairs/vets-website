@@ -1,53 +1,22 @@
 import React from 'react';
-import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
 import { mapboxToken } from '../../facility-locator/components/MapboxClient';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import environment from '../../../platform/utilities/environment';
+import { connect } from 'react-redux';
 
-export default class FacilityDetailWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
-  }
-
-  componentDidMount() {
-    const facilityId = this.props.facilityId;
-    this.request = apiRequest(
-      `/facilities/va/${facilityId}`,
-      null,
-      this.handleFacilitySuccess,
-      this.handleFacilityError,
-    );
-  }
-
-  handleFacilitySuccess = facility => {
-    this.setState({
-      loading: false,
-      facility: facility.data,
-    });
-  };
-
-  handleFacilityError = () => {
-    this.setState({
-      loading: false,
-      error: true,
-    });
-  };
-
+export class FacilityMapWidget extends React.Component {
   render() {
-    if (this.state.loading) {
+    if (this.props.loading) {
       return <LoadingIndicator message="Loading facility..." />;
     }
 
-    if (this.state.error) {
+    if (this.props.error) {
       return <FacilityApiAlert />;
     }
 
-    const facilityDetail = this.state.facility;
+    const facilityDetail = this.props.facility;
 
     const lat = facilityDetail.attributes.lat;
     const long = facilityDetail.attributes.long;
@@ -86,3 +55,11 @@ export default class FacilityDetailWidget extends React.Component {
     );
   }
 }
+
+const mapStateToProps = store => ({
+  facility: store.facility.data,
+  loading: store.facility.loading,
+  error: store.facility.error,
+});
+
+export default connect(mapStateToProps)(FacilityMapWidget);
