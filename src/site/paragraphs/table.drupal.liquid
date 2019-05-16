@@ -10,4 +10,14 @@
     }
 {% endcomment %}
 
-{{ entity.fieldTable.tableValue }}
+
+<table class="va-sortable-table va-table">
+    <caption>{{ entity.fieldTable.caption }}</caption>
+    <tbody>
+        <tr class="class">
+            <td>
+                {{ entity.fieldTable.tableValue }}
+            </td>
+        </tr>
+    </tbody>
+</table>
