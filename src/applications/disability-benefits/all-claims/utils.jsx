@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
+import uuid from 'uuid/v4';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -798,3 +799,9 @@ export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
     sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
   );
+
+/**
+ * SiP strips out the - in the uuid, so to make it SiP-safe, strip
+ * them out at generation
+ */
+export const sippableId = () => uuid().replace(/-/g, '');
