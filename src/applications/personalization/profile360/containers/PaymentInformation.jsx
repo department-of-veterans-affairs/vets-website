@@ -73,19 +73,45 @@ class PaymentInformation extends React.Component {
     return (
       <>
         <h2 className="va-profile-heading">
-          Direct Deposit Information for Compensation and Pension
+          Direct deposit information for disability compensation and pension
+          benefits
         </h2>
-        <AdditionalInfo triggerText="How do I update my GI Bill direct deposit information?">
-          <p>
-            To update your GI Bill direct deposit, go to your{' '}
+
+        <div className="vads-u-margin-bottom--2">
+          <AdditionalInfo triggerText="How do I change my direct deposit information for GI Bill and other education benefits?">
+            <p>
+              You’ll need to sign in to the eBenefits website with your Premium
+              DS Logon account to change your direct deposit information for GI
+              Bill and other education benefits online.
+            </p>
+
+            <p>
+              If you don’t have a Premium DS Logon account, you can register for
+              one, or upgrade your Basic account to Premium. Your MyHealtheVet
+              or ID.me credentials won’t work on eBenefits.
+            </p>
             <a
               rel="noopener noreferrer"
               target="_blank"
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
             >
-              eBenefits
+              Go to eBenefits to change your information
             </a>
-            .
+            <br />
+            <a href="/change-direct-deposit/#mail-phone">
+              Find out how to change your information by mail or phone
+            </a>
+          </AdditionalInfo>
+        </div>
+
+        <AdditionalInfo triggerText="What’s my bank’s routing number?">
+          <p>
+            Your bank’s routing number is a 9-digit code that’s based on the
+            U.S. location where your bank was opened. It’s the first set of
+            numbers on the bottom left of your paper checks. You can also search
+            for this number on your bank’s website. If your bank has multiple
+            routing numbers, you’ll want the number for the state where you
+            opened your account.
           </p>
         </AdditionalInfo>
         <div className="vet360-profile-field">
@@ -107,10 +133,9 @@ class PaymentInformation extends React.Component {
           {paymentAccount.accountType}
         </div>
         <p>
-          <strong>
-            If you suspect fraud has occured, please call MyVA311 at
-            1-800-827-1000.
-          </strong>
+          <strong>Note:</strong> If you think you’ve been the victim of bank
+          fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and select
+          5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
         </p>
         <PaymentInformationEditModal
           onClose={this.props.editModalToggled}
