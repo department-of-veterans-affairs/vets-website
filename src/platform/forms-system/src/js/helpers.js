@@ -687,3 +687,31 @@ export function transformForSubmit(
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
+
+/**
+ * Returns the element that was deleted.
+ *
+ * Assumes oldArr and newArr have the same elements in the same order
+ *   (except the missing element)
+ * Assumes oldArr is exactly one element larger than newArr
+ * Assumes the elements can be compared with ===
+ *
+ * @param {Array} oldArr -- The old array
+ * @param {Array} newArr -- The new array without the deleted element
+ * @return {undefined} -- If one or both parameters aren't arrays, the
+ *                        newArr is not shorter than oldArr, or if all
+ *                        the elements match up
+ * @return {*} -- The element in oldArr that was removed from newArr
+ */
+export function deletedElement(oldArr, newArr) {
+  // Sanity checks
+  if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return undefined;
+  if (oldArr.length <= newArr.length) return undefined;
+
+  for (let i = 0; i < newArr.length; i++) {
+    if (oldArr[i] !== newArr[i]) return oldArr[i];
+  }
+
+  // No difference found; last element must have been deleted
+  return oldArr[oldArr.length - 1];
+}

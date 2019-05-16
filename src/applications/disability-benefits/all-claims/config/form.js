@@ -289,6 +289,7 @@ const formConfig = {
           depends: hasNewDisabilities,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
+          updateDataHooks: addDisabilities.updateDataHooks,
         },
         followUpDesc: {
           title: 'Follow-up questions',

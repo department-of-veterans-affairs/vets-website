@@ -1,4 +1,11 @@
+import uuid from 'uuid/v4';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+
+import { deletedElement } from '../../../../platform/forms-system/src/js/helpers';
+import get from '../../../../platform/utilities/data/get';
+import set from '../../../../platform/utilities/data/set';
+import omit from '../../../../platform/utilities/data/omit';
+
 import disabilityLabels from '../content/disabilityLabels';
 import {
   descriptionInfo,
@@ -114,3 +121,46 @@ export const schema = {
     },
   },
 };
+
+const removeFromTreatedDisabilityNames = (disability, formData) => {
+  const path = 'vaTreatmentFacilities';
+  const facilities = get(path, formData);
+  if (!facilities) return formData;
+
+  return set(
+    path,
+    facilities.map(f =>
+      set(
+        'treatedDisabilityNames',
+        omit([disability['view:uuid']], get('treatedDisabilityNames', f)),
+        f,
+      ),
+    ),
+    formData,
+  );
+};
+
+export const newDisabilitiesHook = (oldData, newData) => {
+  const path = 'newDisabilities';
+  const oldArr = get(path, oldData, []);
+  const newArr = get(path, newData);
+
+  // If a new disability was added, give it an ID
+  if (newArr.length > oldArr.length) {
+    return set(`${path}.${newArr.length - 1}.view:uuid`, uuid(), newData);
+  }
+
+  // If an existing disability was deleted, remove it from `treatedDisabilityNames`
+  if (newArr.length < oldArr.length) {
+    return removeFromTreatedDisabilityNames(
+      deletedElement(oldArr, newArr),
+      newData,
+    );
+  }
+
+  // If an existing disability was changed, no formData updates are necessary
+  // No changes; carry on
+  return newData;
+};
+
+export const updateDataHooks = [newDisabilitiesHook];
