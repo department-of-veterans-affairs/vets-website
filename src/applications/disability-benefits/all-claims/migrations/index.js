@@ -1,6 +1,7 @@
 import redirectToClaimTypePage from './01-require-claim-type';
 import convertCountryCode from './02-convert-country-code';
 import upgradeHasSeparationPay from './03-upgrade-hasSeparationPay';
+import addDisabilityUUID from './04-add-disability-uuid';
 
 // We launched at version 1 and not version 0, so the first _real_ migration is at
 //  migrations[1]
@@ -12,4 +13,5 @@ export default [
   redirectToClaimTypePage,
   convertCountryCode,
   upgradeHasSeparationPay,
+  addDisabilityUUID,
 ];
