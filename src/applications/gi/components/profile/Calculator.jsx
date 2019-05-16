@@ -57,8 +57,7 @@ export class Calculator extends React.Component {
       <div className="eligibility-details">
         <button
           onClick={this.toggleEligibilityForm}
-          className="usa-accordion-button"
-          aria-expanded={expanded}
+          className="usa-button-secondary"
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
@@ -82,8 +81,7 @@ export class Calculator extends React.Component {
       <div className="calculator-inputs">
         <button
           onClick={this.toggleCalculatorForm}
-          className="usa-accordion-button"
-          aria-expanded={expanded}
+          className="usa-button-secondary"
         >
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
