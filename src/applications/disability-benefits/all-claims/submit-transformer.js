@@ -361,19 +361,40 @@ export function transform(formConfig, form) {
       return formData;
     }
     const clonedData = _.cloneDeep(formData);
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+      const activeIds = Object.keys(facility.treatedDisabilityNames).filter(
+        id => facility.treatedDisabilityNames[id],
+      );
       // Transform the related disabilities lists into an array of strings
-      _.set(
+      return _.set(
         'treatedDisabilityNames',
-        transformRelatedDisabilities(
-          facility.treatedDisabilityNames,
-          getClaimedConditionNames(formData),
-        ),
+        getDisabilities(formData)
+          .filter(d => activeIds.includes(d.uuid))
+          .map(getDisabilityName),
         facility,
-      ),
-    );
+      );
+    });
     clonedData.vaTreatmentFacilities = newVAFacilities;
     return clonedData;
+  };
+
+  // For each disability array, remove the uuid from each disability
+  const removeUUIDs = formData => {
+    let newData = formData;
+    [
+      'newDisabilities',
+      'newPrimaryDisabilities',
+      'newSecondaryDisabilities',
+    ].forEach(key => {
+      if (newData[key]) {
+        newData = _.set(
+          key,
+          _.get(key, newData).map(d => _.omit('uuid', d)),
+          newData,
+        );
+      }
+    });
+    return newData;
   };
 
   const transformSeparationPayDate = formData => {
@@ -534,6 +555,7 @@ export function transform(formConfig, form) {
     splitNewDisabilities,
     transformSecondaryDisabilities,
     stringifyRelatedDisabilities,
+    removeUUIDs,
     transformSeparationPayDate,
     sanitizeHomelessnessContact,
     addForm4142,
