@@ -196,11 +196,10 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
-const createCheckboxSchema = (schema, disabilityName) => {
-  const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
+const createCheckboxSchema = (schema, { name, id }) => {
+  const capitalizedDisabilityName = capitalizeEachWord(name);
   return _.set(
-    // downcase value for SIP consistency
-    [`${capitalizedDisabilityName.toLowerCase()}`],
+    id,
     { title: capitalizedDisabilityName, type: 'boolean' },
     schema,
   );
@@ -210,7 +209,10 @@ export const makeSchemaForNewDisabilities = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) => ({
     properties: newDisabilities
-      .map(disability => capitalizeEachWord(disability.condition))
+      .map(disability => ({
+        name: disability.condition,
+        id: disability.uuid,
+      }))
       .reduce(createCheckboxSchema, {}),
   }),
 );
@@ -220,7 +222,10 @@ export const makeSchemaForRatedDisabilities = createSelector(
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
       .filter(disabilityIsSelected)
-      .map(disability => capitalizeEachWord(disability.name))
+      .map(disability => ({
+        name: disability.name,
+        id: disability.uuid,
+      }))
       .reduce(createCheckboxSchema, {}),
   }),
 );
