@@ -107,7 +107,7 @@
             </div>
           {% endif %}
 
-          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
+          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--4">
             <div class="usa-width-one-third">
               <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
             </div>
@@ -119,11 +119,11 @@
             </div>
           </div>
 
-
           <div class="usa-grid usa-grid-full">
-            <h2>Our location</h2>
+
             <!-- facility details from api -->
             <div class="usa-width-one-half">
+              <h2 class="heading-level-3">Address and phone numbers</h2>
               <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
             </div>
 
@@ -136,12 +136,31 @@
             {% endif %}
           </div>
 
+        <div class="vads-u-margin-y--2">
+            <h2 class="heading-level-3">On this page</h2>
+            <ul class="usa-unstyled-list">
+                {% if fieldLocationServices != empty and fieldLocationServices.length %}
+                    <li class="vads-u-margin-bottom--2">
+                        <a class="vads-u-text-decoration--none" href="#prepare-for-your-visit"><i class="fas fa-level-down-alt"></i> Prepare for your visit</a>
+                    </li>
+                {% endif %}
+                {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
+                    <li class="vads-u-margin-bottom--2">
+                        <a class="vads-u-text-decoration--none" href="#health-care-offered-here"><i class="fas fa-level-down-alt"></i> Health care offered here</a>
+                    </li>
+                {% endif %}
+                <li class="vads-u-margin-bottom--2">
+                    <a class="vads-u-text-decoration--none" href="#our-patient-satisfaction-scores"><i class="fas fa-level-down-alt"></i> Our patient satisfaction scores</a>
+                </li>
+            </ul>
+        </div>
+
           <!-- Location services section -->
           {% capture difference %}
             {{ fieldLocationServices | size | minus:1 }}
           {% endcapture %}
           {% unless difference contains '-' %}
-            <h2>Prepare for your visit</h2>
+            <h2 id="prepare-for-your-visit">Prepare for your visit</h2>
             <div class="usa-accordion">
               <ul aria-multiselectable="false" class="usa-unstyled-list">
                 {% for accordionItem in fieldLocationServices %}
@@ -161,7 +180,7 @@
 
             <!-- Local Health Services -->
             {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
-                <h2>Our health services</h2>
+                <h2 id="health-care-offered-here">Health care offered here</h2>
                 <section class="local-health-services" id="local-health-services">
                     {% for localService in fieldLocalHealthCareService %}
                         {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}

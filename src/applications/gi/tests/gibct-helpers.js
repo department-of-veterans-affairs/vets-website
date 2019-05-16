@@ -427,6 +427,14 @@ const calculatorConstants = {
         value: 737.77,
       },
     },
+    {
+      id: '55',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'AVGDODBAH',
+        value: 1600,
+      },
+    },
   ],
   links: {
     self: 'http://localhost:3000/v0/calculator/constants',

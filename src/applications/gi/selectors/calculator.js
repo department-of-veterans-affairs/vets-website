@@ -79,6 +79,8 @@ const getDerivedValues = createSelector(
     const isCorrespondence = institutionType === 'correspondence';
     const isFlightOrCorrespondence = isFlight || isCorrespondence;
     const isPublic = institutionType === 'public';
+    const isChapter33 = giBillChapter === 33;
+    const isActiveDuty = militaryStatus === 'active duty';
 
     const institutionCountry = institution.country.toLowerCase();
 
@@ -489,9 +491,13 @@ const getDerivedValues = createSelector(
     const useBeneficiaryLocationRate =
       inputs.beneficiaryLocationQuestion === 'no' &&
       inputs.beneficiaryLocationBah !== null;
+
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
       inputs.giBillBenefit === 'yes';
+
+    const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+    const avgBah = !hasUsedGiBillBenefit ? constant.AVGDODBAH : constant.AVGBAH;
     if (useBeneficiaryLocationRate) {
       // sometimes there's no grandfathered rate for a zip code
       bah =
@@ -500,10 +506,10 @@ const getDerivedValues = createSelector(
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
-      // sometimes there's no grandfathered rate for a zip code
+      // use the DOD rate on staging
       bah =
-        useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
-          ? institution.bahGrandfathered
+        !hasUsedGiBillBenefit && institution.dodBah
+          ? institution.dodBah
           : institution.bah;
     }
 
@@ -556,10 +562,9 @@ const getDerivedValues = createSelector(
       housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
-        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
+        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm1 =
-        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -619,10 +624,9 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
-        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
+        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm2 =
-        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -684,10 +688,9 @@ const getDerivedValues = createSelector(
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
-        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
+        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
-      housingAllowTerm3 =
-        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);
     }
@@ -877,16 +880,14 @@ const getDerivedValues = createSelector(
       bookStipendTerm3,
       bookStipendTotal,
       totalToYou,
+      isChapter33,
+      isActiveDuty,
     };
   },
 );
 
 const isThirtySixMonthsPlus = eligibility =>
   eligibility.cumulativeService === '1.0';
-
-const isActiveDuty = militaryStatus => ['active duty'].includes(militaryStatus);
-
-const isChapter33 = giBillChapter => giBillChapter === 33;
 
 export const getCalculatedBenefits = createSelector(
   getEligibilityDetails,
@@ -904,13 +905,14 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
-    const beneficiaryLocationQuestion = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
       // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
-      beneficiaryLocationQuestion,
+      // (disabled in staging)
+      beneficiaryLocationQuestion: false,
+      giBillBenefit: derived.isChapter33,
       books: false,
       yellowRibbon: false,
       scholarships: true,
@@ -1171,8 +1173,8 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (
-      isActiveDuty(militaryStatus) &&
-      isChapter33(giBillChapter) &&
+      derived.isActiveDuty &&
+      derived.isChapter33 &&
       isThirtySixMonthsPlus(eligibility)
     ) {
       calculatedBenefits.inputs = {

@@ -48,7 +48,7 @@
                 <article class="usa-content">
                     <h1>Our Leadership Team</h1>
                     {% for bio in pagedItems %}
-                        {% include "src/site/teasers/bio.drupal.liquid" with node = bio %}
+                        {% include "src/site/teasers/bio.drupal.liquid" with node = bio.entity %}
                     {% endfor %}
                     {% include "src/site/includes/pagination.drupal.liquid" %}
                 </article>

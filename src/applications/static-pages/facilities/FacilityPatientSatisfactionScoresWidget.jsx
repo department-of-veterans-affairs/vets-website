@@ -21,7 +21,9 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
 
     return (
       <div>
-        <h2>Our patient satisfaction scores</h2>
+        <h2 id="our-patient-satisfaction-scores">
+          Our patient satisfaction scores
+        </h2>
         <p id="facility-patient-satisfaction-scores-effective-date">
           Last updated: {formatDateLong(facility.feedback.health.effectiveDate)}
         </p>
