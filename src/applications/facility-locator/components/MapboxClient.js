@@ -1,5 +1,5 @@
 import MapboxClient from 'mapbox';
-import { mapboxToken } from './MapboxToken';
+import { mapboxToken } from '../utils/mapboxToken';
 
 export const mapboxClient = new MapboxClient(mapboxToken);
 

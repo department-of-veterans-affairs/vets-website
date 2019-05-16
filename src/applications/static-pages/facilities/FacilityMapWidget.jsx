@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
-import { mapboxToken } from '../../facility-locator/components/MapboxToken';
+import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import environment from '../../../platform/utilities/environment';
 import { connect } from 'react-redux';
