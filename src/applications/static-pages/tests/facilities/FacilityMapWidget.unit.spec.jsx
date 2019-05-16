@@ -20,7 +20,7 @@ describe('facilities <FacilityMapWidget>', () => {
       />,
     );
 
-    const map = tree.find('#google-map-link-image');
+    const map = tree.find('#generated-mapbox-image-link');
     expect(map.exists()).to.be.true;
 
     tree.unmount();
