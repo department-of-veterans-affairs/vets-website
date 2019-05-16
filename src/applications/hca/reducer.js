@@ -4,6 +4,10 @@ import {
   FETCH_ENROLLMENT_STATUS_STARTED,
   FETCH_ENROLLMENT_STATUS_SUCCEEDED,
   FETCH_ENROLLMENT_STATUS_FAILED,
+  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
+  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
+  SET_DISMISSED_HCA_NOTIFICATION_STARTED,
   SHOW_HCA_REAPPLY_CONTENT,
 } from './actions';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
@@ -13,8 +17,11 @@ const initialState = {
   enrollmentDate: null,
   preferredFacility: null,
   enrollmentStatus: null,
+  enrollmentStatusEffectiveDate: null,
+  dismissedNotificationDate: null,
   hasServerError: false,
-  isLoading: false,
+  isLoadingApplicationStatus: false,
+  isLoadingDismissedNotification: false,
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
@@ -24,12 +31,13 @@ const initialState = {
 export function hcaEnrollmentStatus(state = initialState, action) {
   switch (action.type) {
     case FETCH_ENROLLMENT_STATUS_STARTED:
-      return { ...initialState, isLoading: true };
+      return { ...state, isLoadingApplicationStatus: true };
 
     case FETCH_ENROLLMENT_STATUS_SUCCEEDED: {
       const {
         parsedStatus: enrollmentStatus,
         applicationDate,
+        effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
       } = action.data;
@@ -37,13 +45,15 @@ export function hcaEnrollmentStatus(state = initialState, action) {
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
       return {
         ...state,
+        hasServerError: false,
         enrollmentStatus,
+        enrollmentStatusEffectiveDate,
         applicationDate,
         enrollmentDate,
         preferredFacility,
         loginRequired: isInESR,
         noESRRecordFound: !isInESR,
-        isLoading: false,
+        isLoadingApplicationStatus: false,
         isUserInMVI: true,
       };
     }
@@ -58,7 +68,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
       return {
         ...state,
         hasServerError,
-        isLoading: false,
+        isLoadingApplicationStatus: false,
         loginRequired: hasRateLimitError,
         noESRRecordFound,
       };
@@ -66,6 +76,34 @@ export function hcaEnrollmentStatus(state = initialState, action) {
 
     case SHOW_HCA_REAPPLY_CONTENT:
       return { ...state, showHCAReapplyContent: true };
+
+    case FETCH_DISMISSED_HCA_NOTIFICATION_STARTED:
+      return { ...state, isLoadingDismissedNotification: true };
+
+    case FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED: {
+      const {
+        statusEffectiveAt: dismissedNotificationDate,
+      } = action.data.data.attributes;
+      return {
+        ...state,
+        dismissedNotificationDate,
+        isLoadingDismissedNotification: false,
+      };
+    }
+
+    case FETCH_DISMISSED_HCA_NOTIFICATION_FAILED: {
+      return {
+        ...state,
+        isLoadingDismissedNotification: false,
+      };
+    }
+
+    case SET_DISMISSED_HCA_NOTIFICATION_STARTED: {
+      return {
+        ...state,
+        dismissedNotificationDate: action.data,
+      };
+    }
 
     default:
       return state;

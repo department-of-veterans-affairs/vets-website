@@ -9,16 +9,31 @@ import { HCA_ENROLLMENT_STATUSES } from './constants';
 // top-level selectors
 export const selectEnrollmentStatus = state => state.hcaEnrollmentStatus;
 export const isEnrollmentStatusLoading = state =>
-  selectEnrollmentStatus(state).isLoading;
+  selectEnrollmentStatus(state).isLoadingApplicationStatus;
+export const isLoadingDismissedNotification = state =>
+  selectEnrollmentStatus(state).isLoadingDismissedNotification;
 export const hasServerError = state =>
   selectEnrollmentStatus(state).hasServerError;
 export const noESRRecordFound = state =>
   selectEnrollmentStatus(state).noESRRecordFound;
 export const isShowingHCAReapplyContent = state =>
   selectEnrollmentStatus(state).showHCAReapplyContent;
+export const isInESR = state => {
+  const status = selectEnrollmentStatus(state).enrollmentStatus;
+  return (
+    [
+      null,
+      HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+      HCA_ENROLLMENT_STATUSES.canceledDeclined,
+      HCA_ENROLLMENT_STATUSES.deceased,
+    ].includes(status) === false
+  );
+};
 export const isEnrolledInVAHealthCare = state =>
   selectEnrollmentStatus(state).enrollmentStatus ===
   HCA_ENROLLMENT_STATUSES.enrolled;
+export const dismissedHCANotificationDate = state =>
+  selectEnrollmentStatus(state).dismissedNotificationDate;
 
 // compound selectors
 export const isLoading = state =>

@@ -13,12 +13,12 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('FETCH_ENROLLMENT_STATUS_STARTED', () => {
-    it('sets the `isLoading` to `true`', () => {
+    it('sets the `isLoadingApplicationStatus` to `true`', () => {
       action = {
         type: actions.FETCH_ENROLLMENT_STATUS_STARTED,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isLoading).to.be.true;
+      expect(reducedState.isLoadingApplicationStatus).to.be.true;
     });
   });
 
@@ -29,8 +29,9 @@ describe('HCA Enrollment Status Reducer', () => {
           type: actions.FETCH_ENROLLMENT_STATUS_SUCCEEDED,
           data: {
             parsedStatus: 'enrolled',
-            applicationDate: 'application date',
-            enrollmentData: 'enrollment data',
+            effectiveDate: '2019-01-02T21:58:55.000-06:00',
+            applicationDate: '2018-12-27T00:00:00.000-06:00',
+            enrollmentDate: '2018-12-27T17:15:39.000-06:00',
             preferredFacility: '123 - ABC',
           },
         };
@@ -44,10 +45,13 @@ describe('HCA Enrollment Status Reducer', () => {
         expect(reducedState.enrollmentDate).to.equal(
           action.data.enrollmentDate,
         );
+        expect(reducedState.enrollmentStatusEffectiveDate).to.equal(
+          action.data.effectiveDate,
+        );
         expect(reducedState.preferredFacility).to.equal(
           action.data.preferredFacility,
         );
-        expect(reducedState.isLoading).to.be.false;
+        expect(reducedState.isLoadingApplicationStatus).to.be.false;
         expect(reducedState.isUserInMVI).to.be.true;
       });
     });
@@ -98,7 +102,7 @@ describe('HCA Enrollment Status Reducer', () => {
         };
         reducedState = reducer(state, action);
         expect(reducedState.hasServerError).to.be.false;
-        expect(reducedState.isLoading).to.be.false;
+        expect(reducedState.isLoadingApplicationStatus).to.be.false;
         expect(reducedState.loginRequired).to.be.false;
         expect(reducedState.noESRRecordFound).to.be.false;
       });
@@ -145,6 +149,57 @@ describe('HCA Enrollment Status Reducer', () => {
       };
       reducedState = reducer(state, action);
       expect(reducedState.showHCAReapplyContent).to.be.true;
+    });
+  });
+
+  describe('FETCH_DISMISSED_HCA_NOTIFICATION_STARTED', () => {
+    it('sets `isLoadingDismissedNotification` to `true`', () => {
+      state = { isLoadingDismissedNotification: false };
+      action = {
+        type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
+      };
+      reducedState = reducer(state, action);
+      expect(reducedState.isLoadingDismissedNotification).to.be.true;
+    });
+  });
+
+  describe('FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED', () => {
+    it('sets the state correctly', () => {
+      state = {
+        isLoadingDismissedNotification: true,
+        dismissedNotificationDate: null,
+      };
+      action = {
+        type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+        data: {
+          data: {
+            attributes: {
+              subject: 'form_10_10ez',
+              status: 'pending_mt',
+              statusEffectiveAt: '2019-02-25T01:22:00.000Z',
+              readAt: '2019-02-26T21:20:50.151Z',
+            },
+          },
+        },
+      };
+      reducedState = reducer(state, action);
+      expect(reducedState.isLoadingDismissedNotification).to.be.false;
+      expect(reducedState.dismissedNotificationDate).to.equal(
+        '2019-02-25T01:22:00.000Z',
+      );
+    });
+  });
+
+  describe('FETCH_DISMISSED_HCA_NOTIFICATION_FAILED', () => {
+    it('sets `isLoadingDismissedNotification` to `false`', () => {
+      state = {
+        isLoadingDismissedNotification: true,
+      };
+      action = {
+        type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
+      };
+      reducedState = reducer(state, action);
+      expect(reducedState.isLoadingDismissedNotification).to.be.false;
     });
   });
 });
