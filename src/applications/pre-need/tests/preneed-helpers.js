@@ -134,6 +134,7 @@ function completeBenefitSelection(client, data) {
       'input[name="root_application_claimant_desiredCemetery"]',
       data.claimant.desiredCemetery.label,
     )
+    .waitForElementPresent('.autosuggest-item', Timeouts.slow)
     .click('body')
     // Test is flaky so have to select option twice for it to register
     .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried)
