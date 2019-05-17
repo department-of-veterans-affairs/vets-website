@@ -95,9 +95,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "diabetes mellitus1": true,
-          "myocardial infarction (mi)": true
+          "aaf776c26ff74d4580d5c1acad130ee8": true,
+          "7a6f56b4791a47e8bf204d52fd633acf": true,
+          "211abcde068f4a62a9c7b380faf3b789": true
         }
       },
       {
@@ -111,9 +111,9 @@
           "city": "Ugandan City"
         },
         "treatedDisabilityNames": {
-          "asthma": true,
-          "phlebitis": true,
-          "knee replacement": true
+          "b7a90dc26ff74d4580d5c1acad135a8f": true,
+          "a8ba1dc26ff74d4580d5c1acad02497e": true,
+          "8b3a7924791a47e8bf204d52fe8230be": true
         }
       }
     ],
@@ -146,8 +146,8 @@
         }
       ],
       "powDisabilities": {
-        "knee replacement": true,
-        "myocardial infarction (mi)": true
+        "8b3a7924791a47e8bf204d52fe8230be": true,
+        "211abcde068f4a62a9c7b380faf3b789": true
       }
     },
     "newDisabilities": [
@@ -155,7 +155,8 @@
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
         "condition": "asthma",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "b7a90dc26ff74d4580d5c1acad135a8f"
       },
       {
         "cause": "SECONDARY",
@@ -164,7 +165,8 @@
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "a8ba1dc26ff74d4580d5c1acad02497e"
       },
       {
         "cause": "WORSENED",
@@ -173,7 +175,8 @@
           "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?"
         },
         "condition": "knee replacement",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "8b3a7924791a47e8bf204d52fe8230be"
       },
       {
         "cause": "VA",
@@ -183,7 +186,8 @@
           "vaMistreatmentDate": "A while ago"
         },
         "condition": "myocardial infarction (MI)",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "211abcde068f4a62a9c7b380faf3b789"
       }
     ],
     "view:newDisabilities": true,
@@ -197,7 +201,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": true
+        "view:selected": true,
+	"uuid": "aaf776c26ff74d4580d5c1acad130ee8"
       },
       {
         "name": "Diabetes mellitus1",
@@ -208,7 +213,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": true
+        "view:selected": true,
+	"uuid": "7a6f56b4791a47e8bf204d52fd633acf"
       },
       {
         "name": "De-selected",
@@ -219,7 +225,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": false
+        "view:selected": false,
+	"uuid": "3222bcdc068f4a62a9c7b380fae5b849"
       },
       {
         "name": "Not selected",
@@ -229,7 +236,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+	"uuid": "b57fa189cc4548b0967ee5853d9a7585"
       }
     ],
     "view:disabilitiesClarification": {},

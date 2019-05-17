@@ -68,7 +68,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": false
+        "view:selected": false,
+	"uuid": "aaf776c26ff74d4580d5c1acad130ee8"
       },
       {
         "name": "Diabetes mellitus1",
@@ -79,7 +80,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": false
+        "view:selected": false,
+	"uuid": "7a6f56b4791a47e8bf204d52fd633acf"
       }
     ],
     "view:disabilitiesClarification": {},

@@ -94,9 +94,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "Diabetes mellitus0": true,
-          "De-selected": true,
-          "knee replacement": true
+          "aaf776c26ff74d4580d5c1acad130ee8": true,
+          "3222bcdc068f4a62a9c7b380fae5b849": true,
+          "8b3a7924791a47e8bf204d52fe8230be": true
         }
       }
     ],
@@ -125,7 +125,8 @@
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "a8ba1dc26ff74d4580d5c1acad02497e"
       },
       {
         "cause": "SECONDARY",
@@ -134,7 +135,8 @@
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "knee replacement",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "8b3a7924791a47e8bf204d52fe8230be"
       }
     ],
     "view:newDisabilities": true,
@@ -148,7 +150,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": false
+        "view:selected": false,
+	"uuid": "aaf776c26ff74d4580d5c1acad130ee8"
       },
       {
         "name": "Diabetes mellitus1",
@@ -159,7 +162,8 @@
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
         "disabilityActionType": "NONE",
-        "view:selected": false
+        "view:selected": false,
+	"uuid": "7a6f56b4791a47e8bf204d52fd633acf"
       },
       {
         "name": "De-selected",
@@ -169,7 +173,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+	"uuid": "3222bcdc068f4a62a9c7b380fae5b849"
       },
       {
         "name": "Not selected",
@@ -179,7 +184,8 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
+        "disabilityActionType": "NONE",
+	"uuid": "b57fa189cc4548b0967ee5853d9a7585"
       }
     ],
     "view:disabilitiesClarification": {},

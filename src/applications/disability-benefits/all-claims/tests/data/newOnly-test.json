@@ -64,7 +64,8 @@
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
         "condition": "asthma",
-        "view:descriptionInfo": {}
+        "view:descriptionInfo": {},
+	"uuid": "b7a90dc26ff74d4580d5c1acad135a8f"
       }
     ],
     "servedInCombatZonePost911": false,
