@@ -140,6 +140,14 @@ const removeFromTreatedDisabilityNames = (disability, formData) => {
   );
 };
 
+const removeFromPow = (disability, formData) => {
+  const path = 'view:isPow.powDisabilities';
+  const powDisabilities = get(path, formData);
+  if (!powDisabilities) return formData;
+
+  return set(path, omit([disability.uuid], powDisabilities), formData);
+};
+
 export const newDisabilitiesHook = (oldData, newData) => {
   const path = 'newDisabilities';
   const oldArr = get(path, oldData, []);
@@ -152,9 +160,10 @@ export const newDisabilitiesHook = (oldData, newData) => {
 
   // If an existing disability was deleted, remove it from `treatedDisabilityNames`
   if (newArr.length < oldArr.length) {
-    return removeFromTreatedDisabilityNames(
-      deletedElement(oldArr, newArr),
-      newData,
+    const deleted = deletedElement(oldArr, newArr);
+    return removeFromPow(
+      deleted,
+      removeFromTreatedDisabilityNames(deleted, newData),
     );
   }
 
