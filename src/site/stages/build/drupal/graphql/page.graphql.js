@@ -16,6 +16,7 @@ const QA = '... qa';
 const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const SPANISH_SUMMARY = '... spanishSummary';
+const ALERT_PARAGRAPH = '... alertParagraph';
 
 module.exports = `
 
@@ -42,6 +43,7 @@ module.exports = `
         ${LIST_OF_LINK_TEASERS}
         ${REACT_WIDGET} 
         ${SPANISH_SUMMARY}
+        ${ALERT_PARAGRAPH}
       }
     }
     ${FIELD_ALERT} 
