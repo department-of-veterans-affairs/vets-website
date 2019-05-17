@@ -1,5 +1,5 @@
 import React from 'react';
-
+import DisabilityRatingCalculator from '../components/DisabilityRatingCalculator';
 
 export default class AboutDisabilityRatings extends React.Component {
 
@@ -40,6 +40,7 @@ export default class AboutDisabilityRatings extends React.Component {
             </div>
           </div>
         </div>
+        <DisabilityRatingCalculator />
       </div>
     );
   }
