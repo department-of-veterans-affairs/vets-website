@@ -1,18 +1,6 @@
 const getDrupalClient = require('./api');
 const cheerio = require('cheerio');
-
-const siteURIs = [
-  'http://prod.cms.va.gov',
-  'https://prod.cms.va.gov',
-  'http://staging.cms.va.gov',
-  'https://staging.cms.va.gov',
-  'http://stg.cms.va.gov',
-  'https://stg.cms.va.gov',
-  'http://dev.cms.va.gov',
-  'https://dev.cms.va.gov',
-  'http://cms.va.gov',
-  'https://cms.va.gov',
-];
+const { PUBLIC_URLS } = require('../../../constants/drupals');
 
 function replacePathInData(data, replacer) {
   let current = data;
@@ -59,15 +47,26 @@ function convertAssetPath(drupalInstance, url) {
   return `/files/${path}`;
 }
 
-function updateAttrAllEnvs(attr, doc) {
+function updateAttr(attr, doc, client) {
   const assetsToDownload = [];
+  const usingAWS = !!PUBLIC_URLS[client.getSiteUri()];
+
   doc(`[${attr}*="cms.va.gov/sites"]`).each((i, el) => {
     const item = doc(el);
     const srcAttr = item.attr(attr);
-    const siteURI = srcAttr.match(/http[s]:\/\/(.*)\.cms\.va\.gov/)[0];
+
+    const siteURI = srcAttr.match(
+      /http[s]{0,1}:\/\/[^.]*[.]{0,1}cms\.va\.gov/,
+    )[0];
+    const awsURI = Object.entries(PUBLIC_URLS).find(
+      entry => entry[1] === siteURI,
+    )[0];
+
     const newAssetPath = convertAssetPath(siteURI, srcAttr);
     assetsToDownload.push({
-      src: srcAttr,
+      // urls in WYSIWYG content won't be the aws urls, they'll be cms urls
+      // this means we need to replace them with the aws urls if we're on jenkins
+      src: usingAWS ? srcAttr.replace(siteURI, awsURI) : srcAttr,
       dest: newAssetPath,
     });
 
@@ -98,8 +97,8 @@ function convertDrupalFilesToLocal(drupalData, files, options) {
     if (key === 'processed') {
       const doc = cheerio.load(data);
       const assetsToDownload = [
-        ...updateAttrAllEnvs('href', doc),
-        ...updateAttrAllEnvs('src', doc),
+        ...updateAttr('href', doc, client),
+        ...updateAttr('src', doc, client),
       ];
 
       if (assetsToDownload.length) {
