@@ -1,6 +1,6 @@
 import _ from '../../../platform/utilities/data';
 import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
-import { viewifyFields } from './utils';
+import { viewifyFields, sippableId } from './utils';
 
 export const filterServiceConnected = (disabilities = []) =>
   disabilities.filter(
@@ -11,6 +11,9 @@ export const addNoneDisabilityActionType = (disabilities = []) =>
   disabilities.map(d =>
     _.set('disabilityActionType', disabilityActionTypes.NONE, d),
   );
+
+export const addUUID = (disabilities = []) =>
+  disabilities.map(d => _.set('uuid', sippableId, d));
 
 export const setClaimTypeNewOnly = formData =>
   _.set(
@@ -30,8 +33,8 @@ export default function prefillTransformer(pages, formData, metadata) {
       return setClaimTypeNewOnly(data);
     }
 
-    const transformedDisabilities = addNoneDisabilityActionType(
-      filterServiceConnected(disabilities),
+    const transformedDisabilities = addUUID(
+      addNoneDisabilityActionType(filterServiceConnected(disabilities)),
     );
 
     const newData = _.omit(['disabilities'], data);
