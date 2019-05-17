@@ -99,12 +99,6 @@ function getDisabilityName(disability) {
   return name && name.trim();
 }
 
-function getClaimedConditionNames(formData) {
-  return getDisabilities(formData).map(disability =>
-    getDisabilityName(disability),
-  );
-}
-
 const setActionType = disability =>
   disabilityIsSelected(disability)
     ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
@@ -236,12 +230,10 @@ export function transform(formConfig, form) {
     const clonedData = _.cloneDeep(formData);
     if (clonedData.powDisabilities) {
       // Add POW specialIssue to new conditions
-      const powDisabilities = transformRelatedDisabilities(
-        clonedData.powDisabilities,
-        getClaimedConditionNames(formData),
-      ).map(name => name.toLowerCase());
+      const powDisabilities = Object.keys(clonedData.powDisabilities);
+
       clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition.toLowerCase())) {
+        if (powDisabilities.includes(d.uuid)) {
           const newSpecialIssues = (d.specialIssues || []).slice();
           newSpecialIssues.push(specialIssueTypes.POW);
           return _.set('specialIssues', newSpecialIssues, d);
