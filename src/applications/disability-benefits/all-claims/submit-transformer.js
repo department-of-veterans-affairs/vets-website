@@ -220,6 +220,15 @@ export function transform(formConfig, form) {
 
   const filterRatedViewFields = formData => filterViewFields(formData);
 
+  // Transform the checkbox-per-disability lists into an array of
+  // checked disability names
+  const idMapToNames = (formData, idMap) => {
+    const active = Object.keys(idMap).filter(id => idMap[id]);
+    return getDisabilities(formData)
+      .filter(d => active.includes(d.uuid))
+      .map(getDisabilityName);
+  };
+
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
       return formData;
@@ -361,19 +370,13 @@ export function transform(formConfig, form) {
       return formData;
     }
     const clonedData = _.cloneDeep(formData);
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
-      const activeIds = Object.keys(facility.treatedDisabilityNames).filter(
-        id => facility.treatedDisabilityNames[id],
-      );
-      // Transform the related disabilities lists into an array of strings
-      return _.set(
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
+      _.set(
         'treatedDisabilityNames',
-        getDisabilities(formData)
-          .filter(d => activeIds.includes(d.uuid))
-          .map(getDisabilityName),
+        idMapToNames(formData, facility.treatedDisabilityNames),
         facility,
-      );
-    });
+      ),
+    );
     clonedData.vaTreatmentFacilities = newVAFacilities;
     return clonedData;
   };
