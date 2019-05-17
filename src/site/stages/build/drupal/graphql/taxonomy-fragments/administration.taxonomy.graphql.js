@@ -6,7 +6,7 @@
 module.exports = `
     fragment administration on NodeLandingPage {
         fieldAdministration {
-        ... on FieldNodeFieldAdministration {
+        ... on FieldNodeLandingPageFieldAdministration {
           entity {
             ... on TaxonomyTermAdministration {
               name
