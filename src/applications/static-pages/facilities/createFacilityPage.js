@@ -68,9 +68,8 @@ export default async function createFacilityPage(store) {
     if (waitTimeWidgets.length) {
       const {
         default: FacilityAppointmentWaitTimesWidget,
-      } = await import(/* webpackChunkName: "facility-patient-satisfaction-scores" */ './FacilityAppointmentWaitTimesWidget');
+      } = await import(/* webpackChunkName: "facility-detail" */ './FacilityAppointmentWaitTimesWidget');
 
-      // since these widgets are on content pages, we don't want to focus on them
       waitTimeWidgets.forEach(el => {
         ReactDOM.render(
           <Provider store={store}>
