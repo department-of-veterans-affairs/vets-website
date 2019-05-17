@@ -148,4 +148,9 @@ module.exports = function registerFilters() {
     }
     return entity.fieldClinicalHealthServices[0].entity;
   };
+
+  // used to get a base url path of a health care region from entityUrl.path
+  liquid.filters.regionBasePath = path => path.split('/')[1];
+
+  liquid.filters.isContactPage = path => path.includes('contact');
 };
