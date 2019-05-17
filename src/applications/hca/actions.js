@@ -21,8 +21,7 @@ export const FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED =
 export const FETCH_DISMISSED_HCA_NOTIFICATION_FAILED =
   'FETCH_DISMISSED_HCA_NOTIFICATION_FAILED';
 
-export const SET_DISMISSED_HCA_NOTIFICATION_STARTED =
-  'SET_DISMISSED_HCA_NOTIFICATION_STARTED';
+export const SET_DISMISSED_HCA_NOTIFICATION = 'SET_DISMISSED_HCA_NOTIFICATION';
 
 export const SHOW_HCA_REAPPLY_CONTENT = 'SHOW_HCA_REAPPLY_CONTENT';
 
@@ -145,7 +144,7 @@ export function getDismissedHCANotification() {
 export function setDismissedHCANotification(status, statusEffectiveAt, update) {
   return dispatch => {
     dispatch({
-      type: SET_DISMISSED_HCA_NOTIFICATION_STARTED,
+      type: SET_DISMISSED_HCA_NOTIFICATION,
       data: statusEffectiveAt,
     });
     if (update) {

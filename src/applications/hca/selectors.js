@@ -21,12 +21,12 @@ export const isShowingHCAReapplyContent = state =>
 export const isInESR = state => {
   const status = selectEnrollmentStatus(state).enrollmentStatus;
   return (
-    [
+    new Set([
       null,
       HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
       HCA_ENROLLMENT_STATUSES.canceledDeclined,
       HCA_ENROLLMENT_STATUSES.deceased,
-    ].includes(status) === false
+    ]).has(status) === false
   );
 };
 export const isEnrolledInVAHealthCare = state =>

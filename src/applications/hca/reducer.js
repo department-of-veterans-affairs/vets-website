@@ -7,7 +7,7 @@ import {
   FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
   FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
   FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-  SET_DISMISSED_HCA_NOTIFICATION_STARTED,
+  SET_DISMISSED_HCA_NOTIFICATION,
   SHOW_HCA_REAPPLY_CONTENT,
 } from './actions';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
@@ -98,7 +98,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
       };
     }
 
-    case SET_DISMISSED_HCA_NOTIFICATION_STARTED: {
+    case SET_DISMISSED_HCA_NOTIFICATION: {
       return {
         ...state,
         dismissedNotificationDate: action.data,
