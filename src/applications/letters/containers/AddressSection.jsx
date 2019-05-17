@@ -279,13 +279,11 @@ export class AddressSection extends React.Component {
     const address = this.props.savedAddress || {};
     const emptyAddress = isAddressEmpty(this.props.savedAddress);
 
-    const addressContentLines = emptyAddress
-      ? {}
-      : {
-          streetAddress: formatStreetAddress(address),
-          cityStatePostal: formatCityStatePostal(address),
-          country: isInternationalAddress(address) ? address.countryName : '',
-        };
+    const addressContentLines = {
+      streetAddress: formatStreetAddress(address),
+      cityStatePostal: formatCityStatePostal(address),
+      country: isInternationalAddress(address) ? address.countryName : '',
+    };
 
     let addressFields;
     if (this.props.isEditingAddress) {
@@ -315,7 +313,7 @@ export class AddressSection extends React.Component {
           <LoadingIndicator message="Updating your address..." />
         </div>
       );
-    } else if (!emptyAddress) {
+    } else {
       const { streetAddress, cityStatePostal, country } = addressContentLines;
       const displayAddress = (
         <div>
