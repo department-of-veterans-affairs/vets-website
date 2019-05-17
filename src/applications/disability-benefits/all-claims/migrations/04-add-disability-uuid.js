@@ -39,21 +39,32 @@ function addDisabilityUUID(savedData) {
     );
   }
 
+  const idMap = namedMap => {
+    const newNames = {};
+    Object.entries(namedMap || {}).forEach(([name, value]) => {
+      newNames[uuidMap.get(name)] = value;
+    });
+    return newNames;
+  };
+
   // Associate each `treatedDisabilityName` in each
   // `vaTreatmentFacilities` with the appropriate uuid
   const facilities = get('vaTreatmentFacilities', formData);
   if (facilities) {
     newData = set(
       'vaTreatmentFacilities',
-      facilities.map(f => {
-        const newNames = {};
-        Object.entries(f.treatedDisabilityNames || {}).forEach(
-          ([name, value]) => {
-            newNames[uuidMap.get(name)] = value;
-          },
-        );
-        return set('treatedDisabilityNames', newNames, f);
-      }),
+      facilities.map(f =>
+        set('treatedDisabilityNames', idMap(f.treatedDisabilities), f),
+      ),
+      newData,
+    );
+  }
+
+  const powDisabilities = get('view:isPow.powDisabilities', formData);
+  if (powDisabilities) {
+    newData = set(
+      'view:isPow.powDisabilities',
+      idMap(powDisabilities),
       newData,
     );
   }
