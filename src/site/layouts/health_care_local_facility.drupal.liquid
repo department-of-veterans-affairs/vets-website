@@ -131,7 +131,7 @@
                 <!-- facility image -->
                 {% if fieldMedia.entity.image != empty %}
                   {% assign image = fieldMedia.entity.image %}
-                  <a target="_blank" id="google-map-link-image">
+                  <a href="placeholder" rel="noopener noreferrer" target="_blank" id="google-map-link-image">
                     <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
                   </a>
                 {% endif %}

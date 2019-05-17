@@ -1,19 +1,50 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import FacilityApiAlert from './FacilityApiAlert';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import environment from '../../../platform/utilities/environment';
 import { connect } from 'react-redux';
 
 export class FacilityMapWidget extends React.Component {
+  componentDidMount() {
+    if (!this.props.loading && !this.props.error) {
+      this.updateImageLink(this.props.facility);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // We only want to run this logic when we were loading before, but now we're done loading and there's no error
+    if (prevProps.loading && !this.props.loading && !this.props.error) {
+      this.updateImageLink(this.props.facility);
+    }
+  }
+
+  updateImageLink(facilityDetail) {
+    const lat = facilityDetail.attributes.lat;
+    const long = facilityDetail.attributes.long;
+
+    let address = buildAddressArray(facilityDetail);
+    if (address.length !== 0) {
+      address = address.join(', ');
+    } else {
+      // If we don't have an address fallback on coords
+      address = `${lat},${long}`;
+    }
+
+    const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
+    const imageLink = document.getElementById('google-map-link-image');
+    if (imageLink) {
+      imageLink.setAttribute('href', mapLink);
+    }
+  }
+
   render() {
     if (this.props.loading) {
       return <LoadingIndicator message="Loading facility..." />;
     }
 
     if (this.props.error) {
-      return <FacilityApiAlert />;
+      return null;
     }
 
     const facilityDetail = this.props.facility;
@@ -35,11 +66,6 @@ export class FacilityMapWidget extends React.Component {
 
     const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/url-${pinURL}(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
-    const imageLink = document.getElementById('google-map-link-image');
-
-    if (imageLink) {
-      imageLink.setAttribute('href', mapLink);
-    }
 
     return (
       <div className="mb2">

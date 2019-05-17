@@ -41,7 +41,8 @@ export function fetchFacility(id) {
       `/facilities/va/${id}`,
       null,
       facility => dispatch(fetchFacilitySuccess(facility.data)),
-      dispatch(fetchFacilityFailed()),
+      // this line is changed to not immediately dispatch an error
+      () => dispatch(fetchFacilityFailed()),
     );
   };
 }
