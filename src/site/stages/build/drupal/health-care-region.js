@@ -131,7 +131,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Staff bio listing page
   const bioEntityUrl = createEntityUrlObj(drupalPagePath);
   page.allStaffProfiles = {
-    entities: { ...page.fieldLeadership },
+    entities: [...page.fieldLeadership],
   };
   const bioObj = {
     allStaffProfiles: page.allStaffProfiles,

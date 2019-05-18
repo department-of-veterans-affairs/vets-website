@@ -3,7 +3,7 @@
  */
 
 const PERSON_PROFILE_RESULTS = `
-  entities {
+  entity {
     ... on NodePersonProfile {
       entityPublished
       title
