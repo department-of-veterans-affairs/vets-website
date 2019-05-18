@@ -19,9 +19,6 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 // No-react styles.
 import './sass/static-pages.scss';
 
-// New sidebar menu
-import './sidebar-navigation.js';
-
 // Social share links behavior
 import './social-share-links';
 

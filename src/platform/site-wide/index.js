@@ -15,7 +15,7 @@ import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
-import(/* webpackChunkName: "uswds" */ 'uswds');
+import '@department-of-veterans-affairs/formation/dist/formation';
 
 /**
  * Start up the site-wide components that live on every page, like
