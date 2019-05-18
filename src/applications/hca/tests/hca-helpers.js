@@ -386,6 +386,7 @@ function initEnrollmentStatusMock(token = null) {
       enrollmentDate: '2018-01-24T00:00:00.000-06:00',
       preferredFacility: '987 - CHEY6',
       parsedStatus: 'none_of_the_above',
+      e2eTestNotInMVI: true, // If true, sets isUserInMVI to false for e2e testing.
     },
   });
 }

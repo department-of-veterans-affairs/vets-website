@@ -102,6 +102,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
     '/military-service/additional-information',
   );
 
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // Military Service Documents Page.
+    client.waitForElementVisible(
+      'label[for="root_attachments"]',
+      Timeouts.slow,
+    );
+    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-service/documents');
+  }
+
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(2)',
     'progress-segment-complete',
