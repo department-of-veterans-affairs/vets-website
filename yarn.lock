@@ -695,10 +695,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.3.1.tgz#68eefda16e30013620ba7d8a0709d30e242a6599"
-  integrity sha512-kWeoRj8Nnm4sb3KWJM8fz7HOXV0wjiVMuYE4Iqe7BqWMiJZyRhm3caYqn3vj8ZDj19tMRY4oD3KYJRMTe5jz+g==
+"@department-of-veterans-affairs/formation@^6.3.4":
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.3.4.tgz#c40b47f726284bea2a6ba4a530fba80530b09e52"
+  integrity sha512-T7qjzJlVScTQ86cgUCxK8MQoTB3Y/ApN59f5N5bee4+zYFbxqfzfjyT4+WETexqGK7vJf/i0iPhTt43EeWk0VQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -11893,9 +11893,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#aded660d6ffc54c0c95d6f77987489fee48df977":
-  version "3.138.5"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#aded660d6ffc54c0c95d6f77987489fee48df977"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#f586e9e01cb42cd74f2575e3bbced1ecd46e78fc":
+  version "3.138.6"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f586e9e01cb42cd74f2575e3bbced1ecd46e78fc"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"
