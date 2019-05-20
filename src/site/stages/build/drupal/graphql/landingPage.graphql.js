@@ -26,7 +26,7 @@ module.exports = `
       }
     }    
     fieldSupportServices {          
-      ...on FieldNodeLandingPageFieldSupportServices {            
+      ...on FieldNodeFieldSupportServices {            
         entity {      
           entityId
           entityBundle
