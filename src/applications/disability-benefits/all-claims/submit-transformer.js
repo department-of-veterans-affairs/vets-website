@@ -380,6 +380,7 @@ export function transform(formConfig, form) {
   const removeUUIDs = formData => {
     let newData = formData;
     [
+      'ratedDisabilities',
       'newDisabilities',
       'newPrimaryDisabilities',
       'newSecondaryDisabilities',
