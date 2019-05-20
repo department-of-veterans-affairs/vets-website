@@ -1,3 +1,14 @@
+// Query strings to search for
+const queryParamToBeChanged = [
+  'CROP_FREEFORM',
+  '_1_1_SQUARE_MEDIUM_THUMBNAIL',
+  'CROP_7_2',
+  'CROP_3_2',
+  'CROP_2_1',
+  'FieldNodeFieldSupportServices',
+  'FieldNodeFieldAdministration',
+];
+
 // If string starts with a number prepend an underscore to it
 function prependUnderscore(string) {
   const firstNumber = new RegExp('^\\d');
@@ -8,12 +19,26 @@ function prependUnderscore(string) {
 }
 
 // Remove all underscores from body of string and then prepend an underscore if string starts with number
-function shiftUnderscores(matchedString) {
+function updateQueryString(matchedString) {
   const findUnderscores = new RegExp('_', 'g');
-  return prependUnderscore(matchedString.replace(findUnderscores, ''));
+  let updatedString;
+
+  switch (matchedString) {
+    case 'FieldNodeFieldAdministration':
+      updatedString = 'FieldNodeLandingPageFieldAdministration';
+      break;
+    case 'FieldNodeFieldSupportServices':
+      updatedString = 'FieldNodeLandingPageFieldSupportServices';
+      break;
+    default:
+      updatedString = prependUnderscore(
+        matchedString.replace(findUnderscores, ''),
+      );
+  }
+  return updatedString;
 }
 
 module.exports = {
-  prependUnderscore,
-  shiftUnderscores,
+  updateQueryString,
+  queryParamToBeChanged,
 };

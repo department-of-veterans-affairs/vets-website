@@ -21,7 +21,10 @@ const {
 } = require('./../../../../utilities/featureFlags');
 
 // String Helpers
-const { shiftUnderscores } = require('./../../../../utilities/stringHelpers');
+const {
+  updateQueryString,
+  queryParamToBeChanged,
+} = require('./../../../../utilities/stringHelpers');
 
 /**
  * Queries for a page by the node id, getting the latest revision
@@ -68,19 +71,11 @@ module.exports = `
 if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
   const query = module.exports;
 
-  const queryParamToBeChanged = [
-    'CROP_FREEFORM',
-    '_1_1_SQUARE_MEDIUM_THUMBNAIL',
-    'CROP_7_2',
-    'CROP_3_2',
-    'CROP_2_1',
-  ];
-
   let regString = '';
   queryParamToBeChanged.forEach(param => {
     regString += `${param}|`;
   });
 
   const regex = new RegExp(`${regString}`, 'g');
-  module.exports = query.replace(regex, shiftUnderscores);
+  module.exports = query.replace(regex, updateQueryString);
 }
