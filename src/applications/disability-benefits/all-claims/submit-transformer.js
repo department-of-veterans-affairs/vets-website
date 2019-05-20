@@ -218,9 +218,12 @@ export function transform(formConfig, form) {
   // checked disability names
   const idMapToNames = (formData, idMap) => {
     const active = Object.keys(idMap).filter(id => idMap[id]);
-    return getDisabilities(formData)
-      .filter(d => active.includes(d.uuid))
-      .map(getDisabilityName);
+    const unique = new Set(
+      getDisabilities(formData)
+        .filter(d => active.includes(d.uuid))
+        .map(getDisabilityName),
+    );
+    return Array.from(unique);
   };
 
   const addPOWSpecialIssues = formData => {
