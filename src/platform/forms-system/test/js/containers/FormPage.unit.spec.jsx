@@ -211,7 +211,11 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    tree.getMountedInstance().onChange({ test: 2 });
+    // FormPage renders Schemaform, which calls onChange with only the new data
+    // FormPage's onChange takes three parameters; oldData, newData, updateDataHooks
+    // Calling it with three parameters here reflects how the callOnChange function
+    //  (declared in render(), passed to Schemaform) calls onChange.
+    tree.getMountedInstance().onChange({}, { test: 2 }, []);
 
     expect(setData.firstCall.args[0]).to.eql({
       arrayProp: [{ test: 2 }],
