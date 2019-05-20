@@ -13,6 +13,7 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired,
+  deletedElement,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -995,6 +996,37 @@ describe('Schemaform helpers:', () => {
         },
       };
       expect(omitRequired(schema)).to.eql(expected);
+    });
+  });
+});
+
+describe('callback helpers', () => {
+  describe('deleted element', () => {
+    it('should return undefined if at least one parameter is not an array', () => {
+      expect(deletedElement([])).to.be.undefined;
+      expect(deletedElement('foo', [])).to.be.undefined;
+    });
+
+    it('should return undefined if the new array is not shorter than the old one', () => {
+      expect(deletedElement(['foo'], ['foo'])).to.be.undefined;
+      expect(deletedElement([], ['foo'])).to.be.undefined;
+    });
+
+    it('should work if the first element is deleted', () => {
+      expect(deletedElement(['foo', 'bar'], ['bar'])).to.equal('foo');
+    });
+
+    it('should work if the last element is deleted', () => {
+      expect(deletedElement(['foo', 'bar'], ['foo'])).to.equal('bar');
+    });
+    it('should work if a middle element is deleted', () => {
+      expect(deletedElement(['foo', 'bar', 'baz'], ['foo', 'baz'])).to.equal(
+        'bar',
+      );
+    });
+    it('should work on objects', () => {
+      const arr = [{ name: 'foo' }, { name: 'bar' }];
+      expect(deletedElement(arr, arr.slice(1))).to.equal(arr[0]);
     });
   });
 });
