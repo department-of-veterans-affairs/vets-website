@@ -116,7 +116,11 @@ describe('Schemaform <FormPage>', () => {
       const autoSave = sinon.spy();
       const instance = tree.getMountedInstance();
       instance.debouncedAutoSave = autoSave;
-      instance.onChange(newData);
+      // FormPage renders Schemaform, which calls onChange with only the new data
+      // FormPage's onChange takes three parameters; oldData, newData, updateDataHooks
+      // Calling it with three parameters here reflects how the callOnChange function
+      //  (declared in render(), passed to Schemaform) calls onChange.
+      instance.onChange({}, newData, []);
 
       expect(setData.calledWith('testPage', newData));
     });
