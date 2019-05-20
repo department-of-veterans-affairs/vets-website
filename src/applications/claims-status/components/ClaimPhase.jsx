@@ -179,14 +179,11 @@ export default class ClaimPhase extends React.Component {
       ) : null;
 
     return (
-      <li
-        onClick={() => this.expandCollapse()}
-        role="presentation"
-        className={`${getClasses(phase, current)}`}
-      >
+      <li role="presentation" className={`${getClasses(phase, current)}`}>
         {expandCollapseIcon}
         <h5 className="section-header">
           <button
+            onClick={() => this.expandCollapse()}
             className="section-header-button"
             aria-expanded={this.state.open}
           >
