@@ -157,6 +157,21 @@ function generateBreadCrumbs(pathString) {
   return entityUrlObj;
 }
 
+function getHubSidebar(navsArray, owner) {
+  // Get the right benefits hub sidebar
+  for (const nav of navsArray) {
+    if (nav !== null && nav.links.length) {
+      const navName = _.toLower(nav.name);
+      if (owner !== null && owner === navName) {
+        return { sidebar: nav };
+      }
+    }
+  }
+
+  // default to no menu
+  return { sidebar: {} };
+}
+
 function compilePage(page, contentData) {
   const {
     data: {
@@ -250,17 +265,7 @@ function compilePage(page, contentData) {
       break;
     default:
       // Get the right benefits hub sidebar
-      for (const nav of sideNavs) {
-        if (nav !== null && nav.links.length) {
-          const navName = _.toLower(nav.name);
-          if (owner !== null && owner === navName) {
-            sidebarNavItems = { sidebar: nav };
-          }
-        } else {
-          // default to no menu
-          sidebarNavItems = { sidebar: {} };
-        }
-      }
+      sidebarNavItems = getHubSidebar(sideNavs, owner);
 
       // Build page with correct sidebar
       pageCompiled = Object.assign(
