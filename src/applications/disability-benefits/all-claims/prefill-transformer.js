@@ -13,7 +13,7 @@ export const addNoneDisabilityActionType = (disabilities = []) =>
   );
 
 export const addUUID = (disabilities = []) =>
-  disabilities.map(d => _.set('uuid', sippableId, d));
+  disabilities.map(d => _.set('uuid', sippableId(), d));
 
 export const setClaimTypeNewOnly = formData =>
   _.set(
