@@ -12,15 +12,13 @@ export default function LoadFail({ information }) {
   return (
     <AlertBox
       isVisible
+      headline={`We can’t access your ${information} information right now.`}
       status="warning"
       content={
-        <div>
-          <h3>We can’t access your {information} information right now.</h3>
-          <p>
-            We’re sorry. Something went wrong on our end. Please refresh this
-            page or try again later.
-          </p>
-        </div>
+        <p>
+          We’re sorry. Something went wrong on our end. Please refresh this page
+          or try again later.
+        </p>
       }
     />
   );
