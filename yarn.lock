@@ -695,10 +695,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.3.1.tgz#68eefda16e30013620ba7d8a0709d30e242a6599"
-  integrity sha512-kWeoRj8Nnm4sb3KWJM8fz7HOXV0wjiVMuYE4Iqe7BqWMiJZyRhm3caYqn3vj8ZDj19tMRY4oD3KYJRMTe5jz+g==
+"@department-of-veterans-affairs/formation@^6.3.4":
+  version "6.3.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.3.5.tgz#425196bc95dcb85397877316aa30654a65af0225"
+  integrity sha512-fhj/DD3+aan/WpoTkKXEFEyzBd+R4OmhlbXdU418nc8OlYKJjd2lfsJAKoItvfxCDQR35WdrpLFjBHVzCSnLuw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -3375,6 +3375,7 @@ domhandler@^2.3.0:
 domready@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/domready/-/domready-1.0.8.tgz#91f252e597b65af77e745ae24dd0185d5e26d58c"
+  integrity sha1-kfJS5Ze2Wvd+dFriTdAYXV4m1Yw=
 
 domutils@1.5.1, domutils@^1.5.1:
   version "1.5.1"

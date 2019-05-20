@@ -201,9 +201,9 @@ class YourClaimsPageV2 extends React.Component {
               </div>
             </div>
             <p>
-              <a
-                href
-                className="claims-combined"
+              <button
+                type="button"
+                className="va-button-link claims-combined"
                 onClick={evt => {
                   evt.preventDefault();
                   recordEvent({
@@ -213,7 +213,7 @@ class YourClaimsPageV2 extends React.Component {
                 }}
               >
                 Find out why we sometimes combine claims.
-              </a>
+              </button>
             </p>
             {content}
             <Modal
