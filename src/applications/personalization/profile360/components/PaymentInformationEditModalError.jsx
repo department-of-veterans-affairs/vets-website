@@ -1,7 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-const ACCOUNT_FLAGGED_FOR_ACTIVE_FRAUD_INVESTIGATION = 'Account Flagged';
+const ACCOUNT_FLAGGED_FOR_FRAUD = 'cnp.payment.flashes.on.record.message';
+const INVALID_ROUTING_NUMBER = 'payment.accountRoutingNumber.invalidCheckSum';
 
 function FlaggedAccount() {
   return (
@@ -21,18 +22,29 @@ function FlaggedAccount() {
   );
 }
 
+function InvalidRoutingNumber() {
+  return (
+    <p>
+      We couldn’t find a bank linked to this routing number. Please check your
+      bank’s 9-digit routing number and enter it again.
+    </p>
+  );
+}
+
+function hasError(errors, errorKey) {
+  return errors.some(err => err.key === errorKey);
+}
+
 export default function PaymentInformationEditModalError({ responseError }) {
   if (!responseError) return null;
 
   const { errors = [] } = responseError.error;
   let content = null;
 
-  const flaggedAccount = errors.some(
-    err => err.title === ACCOUNT_FLAGGED_FOR_ACTIVE_FRAUD_INVESTIGATION,
-  );
-
-  if (flaggedAccount) {
+  if (hasError(errors, ACCOUNT_FLAGGED_FOR_FRAUD)) {
     content = <FlaggedAccount />;
+  } else if (hasError(errors, INVALID_ROUTING_NUMBER)) {
+    content = <InvalidRoutingNumber />;
   } else {
     content = (
       <p>
