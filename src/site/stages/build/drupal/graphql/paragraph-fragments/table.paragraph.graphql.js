@@ -9,6 +9,7 @@ module.exports = `
     entityBundle
     fieldTable {
       tableValue
+      value
       format
       caption
     }
