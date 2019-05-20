@@ -9,6 +9,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
 
@@ -21,6 +22,19 @@ import {
   isUserLOA3,
   shouldShowLoggedOutContent,
 } from '../selectors';
+
+const onVyiBtnClick = (clickEvent, gaEventName) => {
+  // Fires recordEvent, and navigates away after GA-image request completes.
+  const linkPathname = clickEvent.target.pathname;
+
+  clickEvent.preventDefault();
+  recordEvent({
+    event: gaEventName,
+    eventCallback: function vyiBtnHitCallback() {
+      location.href = linkPathname;
+    },
+  });
+};
 
 const VerificationRequiredAlert = () => (
   <AlertBox
@@ -65,7 +79,13 @@ const VerificationRequiredAlert = () => (
           </li>
         </ul>
         <p>
-          <a className="usa-button-primary va-button-primary" href="/verify">
+          <a
+            className="usa-button-primary va-button-primary"
+            href="/verify"
+            onClick={e => {
+              onVyiBtnClick(e, 'verify-link-clicked');
+            }}
+          >
             Verify your identity
           </a>
         </p>
