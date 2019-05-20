@@ -15,6 +15,7 @@ import get from 'platform/utilities/data/get';
 
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
+import PaymentInformationAddLink from '../components/PaymentInformationAddLink';
 import LoadFail from '../components/LoadFail';
 import PaymentInformation2FARequired from '../components/PaymentInformation2FARequired';
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
@@ -80,12 +81,7 @@ class PaymentInformation extends React.Component {
       content = <PaymentInformation2FARequired />;
     } else if (directDepositNotSetup) {
       content = (
-        <button
-          className="usa-button vads-u-margin-top--2"
-          onClick={this.editModalToggled}
-        >
-          Add your direct deposit information
-        </button>
+        <PaymentInformationAddLink onClick={this.props.editModalToggled} />
       );
     } else {
       const paymentAccount = paymentInformation.responses[0].paymentAccount;
