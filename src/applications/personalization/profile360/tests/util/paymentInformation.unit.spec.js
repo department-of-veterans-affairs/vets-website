@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import * as utils from '../../util';
+import * as utils from '../../util/paymentInformation';
 
 describe('profile utils', () => {
   it('validates routing numbers', () => {
