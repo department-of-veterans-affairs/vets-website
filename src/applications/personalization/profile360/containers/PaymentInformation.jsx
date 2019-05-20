@@ -7,7 +7,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 
 import {
   createIsServiceAvailableSelector,
-  selectProfile,
+  isMultifactorEnabled,
 } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
@@ -31,6 +31,7 @@ class PaymentInformation extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isEligible: PropTypes.bool.isRequired,
+    multifactorEnabled: PropTypes.bool.isRequired,
     fetchPaymentInformation: PropTypes.func.isRequired,
     editModalToggled: PropTypes.func.isRequired,
     editModalFieldChanged: PropTypes.func.isRequired,
@@ -51,7 +52,7 @@ class PaymentInformation extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.isEligible && this.props.profile.multifactor) {
+    if (this.props.isEligible && this.props.multifactorEnabled) {
       this.props.fetchPaymentInformation();
     }
   }
@@ -75,7 +76,7 @@ class PaymentInformation extends React.Component {
 
     if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
-    } else if (!this.props.profile.multifactor) {
+    } else if (!this.props.multifactorEnabled) {
       content = <PaymentInformation2FARequired />;
     } else if (directDepositNotSetup) {
       content = (
@@ -182,7 +183,7 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => ({
-  profile: selectProfile(state),
+  multifactorEnabled: isMultifactorEnabled(state),
   isEligible: isEvssAvailable(state),
   isLoading: !state.vaProfile.paymentInformation,
   paymentInformation: state.vaProfile.paymentInformation,
