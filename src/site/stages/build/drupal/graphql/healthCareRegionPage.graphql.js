@@ -19,7 +19,7 @@ module.exports = `
             image {
               alt
               title
-              derivative(style: CROP72) {
+              derivative(style: CROP_7_2) {
                   url
                   width
                   height

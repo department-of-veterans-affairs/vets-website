@@ -13,7 +13,7 @@ const promo = `
             title
             width
             height
-            derivative(style: CROPFREEFORM) {
+            derivative(style: CROP_FREEFORM) {
                 url
                 width
                 height
