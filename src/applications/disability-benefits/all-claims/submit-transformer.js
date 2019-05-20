@@ -347,6 +347,7 @@ export function transform(formConfig, form) {
           classificationCode: sd.classificationCode,
           // truncate description to 400 characters
           primaryDescription: descString.substring(0, 400),
+          uuid: sd.uuid,
         };
       },
     );
