@@ -5,11 +5,15 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import { createIsServiceAvailableSelector } from 'platform/user/selectors';
+import {
+  createIsServiceAvailableSelector,
+  selectProfile,
+} from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
+import PaymentInformation2FARequired from '../components/PaymentInformation2FARequired';
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
 import {
   fetchPaymentInformation,
@@ -44,7 +48,7 @@ class PaymentInformation extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.isEligible) {
+    if (this.props.isEligible && this.props.profile.multifactor) {
       this.props.fetchPaymentInformation();
     }
   }
@@ -114,38 +118,44 @@ class PaymentInformation extends React.Component {
             opened your account.
           </p>
         </AdditionalInfo>
-        <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
-            Bank name
-          </ProfileFieldHeading>
-          {paymentAccount.financialInstitutionName}
-        </div>
-        <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
-            Account number
-          </ProfileFieldHeading>
-          {paymentAccount.accountNumber}
-        </div>
-        <div className="vet360-profile-field">
-          <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
-            Account type
-          </ProfileFieldHeading>
-          {paymentAccount.accountType}
-        </div>
-        <p>
-          <strong>Note:</strong> If you think you’ve been the victim of bank
-          fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and select
-          5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-        </p>
-        <PaymentInformationEditModal
-          onClose={this.props.editModalToggled}
-          onSubmit={this.props.savePaymentInformation}
-          isEditing={this.props.paymentInformationUiState.isEditing}
-          isSaving={this.props.paymentInformationUiState.isSaving}
-          fields={this.props.paymentInformationUiState.editModalForm}
-          editModalFieldChanged={this.props.editModalFieldChanged}
-          responseError={this.props.paymentInformationUiState.responseError}
-        />
+        {this.props.profile.multifactor ? (
+          <>
+            <div className="vet360-profile-field">
+              <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+                Bank name
+              </ProfileFieldHeading>
+              {paymentAccount.financialInstitutionName}
+            </div>
+            <div className="vet360-profile-field">
+              <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+                Account number
+              </ProfileFieldHeading>
+              {paymentAccount.accountNumber}
+            </div>
+            <div className="vet360-profile-field">
+              <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+                Account type
+              </ProfileFieldHeading>
+              {paymentAccount.accountType}
+            </div>
+            <p>
+              <strong>Note:</strong> If you think you’ve been the victim of bank
+              fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and
+              select 5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+            </p>
+            <PaymentInformationEditModal
+              onClose={this.props.editModalToggled}
+              onSubmit={this.props.savePaymentInformation}
+              isEditing={this.props.paymentInformationUiState.isEditing}
+              isSaving={this.props.paymentInformationUiState.isSaving}
+              fields={this.props.paymentInformationUiState.editModalForm}
+              editModalFieldChanged={this.props.editModalFieldChanged}
+              responseError={this.props.paymentInformationUiState.responseError}
+            />
+          </>
+        ) : (
+          <PaymentInformation2FARequired />
+        )}
       </>
     );
   }
@@ -156,6 +166,7 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => ({
+  profile: selectProfile(state),
   isEligible: isEvssAvailable(state),
   isLoading: !state.vaProfile.paymentInformation,
   paymentInformation: state.vaProfile.paymentInformation,
