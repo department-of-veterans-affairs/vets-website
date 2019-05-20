@@ -115,6 +115,7 @@ const singleSchool = {
       zip: '20002',
       country: 'USA',
       bah: 2301.0,
+      dodBah: 2100.0,
       cross: null,
       flight: false,
       correspondence: false,
@@ -193,6 +194,7 @@ const singleSchool = {
         transcript_by_ope_id_do_not_sum: 0,
         other_by_ope_id_do_not_sum: 0,
       },
+      yellowRibbonPrograms: [],
       created_at: '2017-03-22T17:05:04.440Z',
       updated_at: '2017-03-22T17:05:04.440Z',
     },
@@ -464,6 +466,20 @@ const autocomplete = {
   },
 };
 
+const zipRates = {
+  data: {
+    id: '7618',
+    type: 'zipcode_rates',
+    attributes: {
+      zip_code: '20002',
+      mha_code: 'DC053',
+      mha_name: 'WASHINGTON, DC METRO AREA',
+      mha_rate: 2262.0,
+      mha_rate_grandfathered: 2312.0,
+    },
+  },
+};
+
 // Create API routes
 function initApplicationMock() {
   mock(null, {
@@ -488,6 +504,12 @@ function initApplicationMock() {
     path: '/v0/gi/institutions/autocomplete',
     verb: 'get',
     value: autocomplete,
+  });
+
+  mock(null, {
+    path: '/v0/gi/zipcode_rates/20002',
+    verb: 'get',
+    value: zipRates,
   });
 }
 
