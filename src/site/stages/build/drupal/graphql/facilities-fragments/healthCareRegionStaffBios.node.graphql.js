@@ -26,7 +26,7 @@ const PERSON_PROFILE_RESULTS = `
               alt
               title
               url
-              derivative(style: _11SQUAREMEDIUMTHUMBNAIL) {
+              derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
                 url
                 width
                 height
