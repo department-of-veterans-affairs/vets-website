@@ -2,6 +2,7 @@ import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
+import { dismissedHCANotificationDate } from './selectors';
 
 // flip the `false` to `true` to fake the endpoint when testing locally
 const simulateServerLocally = environment.isLocalhost() && false;
@@ -141,13 +142,16 @@ export function getDismissedHCANotification() {
   };
 }
 
-export function setDismissedHCANotification(status, statusEffectiveAt, update) {
-  return dispatch => {
+export function setDismissedHCANotification(status, statusEffectiveAt) {
+  return (dispatch, getState) => {
+    const hasPreviousDismissedNotification = !!dismissedHCANotificationDate(
+      getState(),
+    );
     dispatch({
       type: SET_DISMISSED_HCA_NOTIFICATION,
       data: statusEffectiveAt,
     });
-    if (update) {
+    if (hasPreviousDismissedNotification) {
       apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
