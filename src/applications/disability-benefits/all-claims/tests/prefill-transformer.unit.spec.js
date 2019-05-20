@@ -102,6 +102,24 @@ describe('526v2 prefill transformer', () => {
         .formData;
       expect(transformedData['view:claimType']).to.be.undefined;
     });
+
+    it('should add uuids to rated disabilities', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        disabilities: [
+          {
+            name: 'other disability',
+            decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected,
+          },
+        ],
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      const uuid = transformedData.ratedDisabilities[0].uuid;
+      expect(typeof uuid).to.equal('string');
+      expect(uuid).to.have.length(32);
+    });
   });
 
   describe('prefillContactInformation', () => {
