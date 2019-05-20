@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
@@ -12,9 +11,10 @@ import {
   getAccountNumberErrorMessage,
   getRoutingNumberErrorMessage,
   getAccountTypeErrorMessage,
-  getUpdateErrorMessage,
 } from '../util/paymentInformation';
 import { ACCOUNT_TYPES_OPTIONS } from '../constants';
+
+import PaymentInformationEditModalError from './PaymentInformationEditModalError';
 
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
@@ -94,12 +94,9 @@ class PaymentInformationEditModal extends React.Component {
         visible={this.props.isEditing}
         onClose={this.props.onClose}
       >
-        <AlertBox status="error" isVisible={!!this.props.responseError}>
-          <p>
-            {this.props.responseError &&
-              getUpdateErrorMessage(this.props.responseError)}
-          </p>
-        </AlertBox>
+        <PaymentInformationEditModalError
+          responseError={this.props.responseError}
+        />
         <p className="vads-u-margin-top--1p5">
           Please provide your bank’s current routing number as well as your
           current account number and type. Then click <strong>Update</strong> to
