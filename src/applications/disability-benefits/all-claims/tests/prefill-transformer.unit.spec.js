@@ -100,9 +100,7 @@ describe('526v2 prefill transformer', () => {
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(transformedData.ratedDisabilities[0].name).to.equal(
-        formData.disabilities[0].name,
-      );
+      expect(transformedData['view:claimType']).to.be.undefined;
     });
   });
 
