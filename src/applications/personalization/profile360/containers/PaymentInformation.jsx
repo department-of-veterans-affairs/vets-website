@@ -11,6 +11,8 @@ import {
 } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
+import get from 'platform/utilities/data/get';
+
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import PaymentInformation2FARequired from '../components/PaymentInformation2FARequired';
@@ -63,22 +65,27 @@ class PaymentInformation extends React.Component {
     }
 
     const { paymentInformation } = this.props;
-
-    // @todo Determine what an uninitialized state really looks like -
-    // Is responses null? Do we really need to check responses.length?
-    // Is there a paymentAccount, but containing only empty values?
-
-    if (!paymentInformation.responses || !paymentInformation.responses.length) {
-      return null;
-    }
-
-    const { paymentAccount } = paymentInformation.responses[0];
+    const directDepositNotSetup = !get(
+      'responses[0].paymentAccount.accountNumber',
+      paymentInformation,
+    );
 
     let content = null;
 
     if (!this.props.profile.multifactor) {
       content = <PaymentInformation2FARequired />;
+    } else if (directDepositNotSetup) {
+      content = (
+        <button
+          className="usa-button vads-u-margin-top--2"
+          onClick={this.editModalToggled}
+        >
+          Add your direct deposit information
+        </button>
+      );
     } else {
+      const paymentAccount = paymentInformation.responses[0].paymentAccount;
+
       content = (
         <>
           <div className="vet360-profile-field">
