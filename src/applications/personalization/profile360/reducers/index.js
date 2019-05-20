@@ -48,6 +48,7 @@ const initialState = {
   paymentInformationUiState: {
     isEditing: false,
     isSaving: false,
+    responseError: null,
     editModalForm: editModalFormsInitialState,
   },
 };
@@ -71,11 +72,14 @@ function vaProfile(state = initialState, action) {
     }
 
     case PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED: {
-      const newState = set(
+      let newState = set(
         'paymentInformationUiState.isEditing',
         !state.paymentInformationUiState.isEditing,
         state,
       );
+
+      newState = set('paymentInformationUiState.responseError', null, newState);
+
       return set(
         'paymentInformationUiState.editModalForm',
         editModalFormsInitialState,

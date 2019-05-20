@@ -12,7 +12,8 @@ import {
   getAccountNumberErrorMessage,
   getRoutingNumberErrorMessage,
   getAccountTypeErrorMessage,
-} from '../util';
+  getUpdateErrorMessage,
+} from '../util/paymentInformation';
 import { ACCOUNT_TYPES_OPTIONS } from '../constants';
 
 class PaymentInformationEditModal extends React.Component {
@@ -87,24 +88,19 @@ class PaymentInformationEditModal extends React.Component {
       accountType,
     } = this.props.fields;
 
-    const lastResponse = this.props.responseError;
-
     return (
       <Modal
         title="Edit your direct deposit information"
         visible={this.props.isEditing}
         onClose={this.props.onClose}
       >
-        <AlertBox
-          status="error"
-          isVisible={!!lastResponse && lastResponse.errors.length}
-        >
+        <AlertBox status="error" isVisible={!!this.props.responseError}>
           <p>
-            We’re sorry. Something went wrong on our end and we couldn’t save
-            the recent updates you made to your profile. Please try again later.
+            {this.props.responseError &&
+              getUpdateErrorMessage(this.props.responseError)}
           </p>
         </AlertBox>
-        <p>
+        <p className="vads-u-margin-top--1p5">
           Please provide your bank’s current routing number as well as your
           current account number and type. Then click <strong>Update</strong> to
           save your information.
