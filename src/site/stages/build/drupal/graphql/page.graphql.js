@@ -48,6 +48,15 @@ module.exports = `
     }
     ${FIELD_ALERT} 
     ${FIELD_RELATED_LINKS}
+    fieldAdministration {
+      ... on FieldNodeFieldAdministration {
+        entity {
+          ... on TaxonomyTermAdministration {
+            name
+          }
+        }
+      }
+    }
     fieldPageLastBuilt {
       date
     }    
