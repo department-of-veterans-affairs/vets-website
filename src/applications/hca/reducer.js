@@ -83,7 +83,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
     case FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED: {
       const {
         statusEffectiveAt: dismissedNotificationDate,
-      } = action.data.data.attributes;
+      } = action.response.data.attributes;
       return {
         ...state,
         dismissedNotificationDate,

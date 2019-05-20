@@ -171,7 +171,7 @@ describe('HCA Enrollment Status Reducer', () => {
       };
       action = {
         type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-        data: {
+        response: {
           data: {
             attributes: {
               subject: 'form_10_10ez',

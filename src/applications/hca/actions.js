@@ -134,8 +134,11 @@ export function getDismissedHCANotification() {
     apiRequest(
       url,
       null,
-      data =>
-        dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED, data }),
+      response =>
+        dispatch({
+          type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+          response,
+        }),
       ({ errors }) =>
         dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED, errors }),
     );
@@ -144,14 +147,14 @@ export function getDismissedHCANotification() {
 
 export function setDismissedHCANotification(status, statusEffectiveAt) {
   return (dispatch, getState) => {
-    const hasPreviousDismissedNotification = !!dismissedHCANotificationDate(
+    const hasPreviouslyDismissedNotification = !!dismissedHCANotificationDate(
       getState(),
     );
     dispatch({
       type: SET_DISMISSED_HCA_NOTIFICATION,
       data: statusEffectiveAt,
     });
-    if (hasPreviousDismissedNotification) {
+    if (hasPreviouslyDismissedNotification) {
       apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
