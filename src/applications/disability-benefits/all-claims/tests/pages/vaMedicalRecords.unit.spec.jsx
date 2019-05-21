@@ -11,6 +11,19 @@ describe('VA Medical Records', () => {
     uiSchema,
   } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
 
+  const ratedDisabilities = () => [
+    {
+      name: 'Post traumatic stress disorder',
+      'view:selected': true,
+      uuid: 'b7a90dc26ff74d4580d5c1acad135a8f',
+    },
+    {
+      name: 'Intervertebral disc syndrome',
+      'view:selected': true,
+      uuid: 'a8ba1dc26ff74d4580d5c1acad02497e',
+    },
+  ];
+
   it('should render ', () => {
     const form = mount(
       <DefinitionTester
@@ -18,16 +31,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
         }}
       />,
     );
@@ -45,16 +49,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
           vaTreatmentFacilities: [],
         }}
         onSubmit={onSubmit}
@@ -76,16 +71,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
@@ -128,16 +114,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
@@ -180,16 +157,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
@@ -226,16 +194,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
@@ -272,16 +231,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities: ratedDisabilities(),
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
