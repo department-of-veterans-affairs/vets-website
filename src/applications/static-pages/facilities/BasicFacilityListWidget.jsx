@@ -64,18 +64,23 @@ export default class BasicFacilityListWidget extends React.Component {
             <FacilityPhone facility={facility} />
           </section>
           <section className="usa-width-one-third">
-            <img
-              src={
-                this.props.facilities[facility.id].derivative
-                  ? this.props.facilities[facility.id].derivative.url
-                  : ''
-              }
-              alt={
-                this.props.facilities[facility.id].alt
-                  ? this.props.facilities[facility.id].alt
-                  : ''
-              }
-            />
+            <a
+              href={this.props.facilities[facility.id].entityUrl.path}
+              aria-label={this.props.facilities[facility.id].nickname}
+            >
+              <img
+                src={
+                  this.props.facilities[facility.id].derivative
+                    ? this.props.facilities[facility.id].derivative.url
+                    : ''
+                }
+                alt={
+                  this.props.facilities[facility.id].alt
+                    ? this.props.facilities[facility.id].alt
+                    : ''
+                }
+              />
+            </a>
           </section>
         </div>
       ),
