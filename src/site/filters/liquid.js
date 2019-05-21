@@ -147,7 +147,9 @@ module.exports = function registerFilters() {
         ? entity.fieldRegionalHealthService.entity
         : null;
     }
-    return entity && entity.fieldClinicalHealthServices ? entity.fieldClinicalHealthServices[0].entity : null;
+    return entity && entity.fieldClinicalHealthServices
+      ? entity.fieldClinicalHealthServices[0].entity
+      : null;
   };
 
   // used to get a base url path of a health care region from entityUrl.path
