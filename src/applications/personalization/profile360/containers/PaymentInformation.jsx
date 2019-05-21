@@ -141,8 +141,8 @@ class PaymentInformation extends React.Component {
 
             <p>
               If you don’t have a Premium DS Logon account, you can register for
-              one, or upgrade your Basic account to Premium. Your MyHealtheVet
-              or ID.me credentials won’t work on eBenefits.
+              one or upgrade your Basic account to Premium. Your MyHealtheVet or
+              ID.me credentials won’t work on eBenefits.
             </p>
             <a
               rel="noopener noreferrer"

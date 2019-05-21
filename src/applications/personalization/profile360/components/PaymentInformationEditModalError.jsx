@@ -36,8 +36,6 @@ function hasError(errors, errorKey) {
 }
 
 export default function PaymentInformationEditModalError({ responseError }) {
-  if (!responseError) return null;
-
   const { errors = [] } = responseError.error;
   let content = null;
 
