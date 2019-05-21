@@ -190,12 +190,13 @@ describe('526 helpers', () => {
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
+            uuid: '82d0ac47b2c084d2efac2810d4a157ab',
           },
         ],
       };
       expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
-          'ptsd personal trauma': {
+          '82d0ac47b2c084d2efac2810d4a157ab': {
             title: 'Ptsd Personal Trauma',
             type: 'boolean',
           },
@@ -208,12 +209,13 @@ describe('526 helpers', () => {
         newDisabilities: [
           {
             condition: 'period. Period.',
+            uuid: '82d0ac47b2c084d2efac2810d4a157ab',
           },
         ],
       };
       expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
-          'period. period.': {
+          '82d0ac47b2c084d2efac2810d4a157ab': {
             title: 'Period. Period.',
             type: 'boolean',
           },
