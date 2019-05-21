@@ -78,6 +78,7 @@ export function getLetterList(dispatch) {
       Raven.captureException(lettersError, {
         fingerprint: ['{{ default }}', status],
       });
+      return Promise.reject();
     },
   );
 }
