@@ -18,7 +18,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     const time = waitTimes[serviceKey];
     // return waitTimes for service
     return time
-      ? `${Math.round(time[established ? 'established' : 'new'])} days`
+      ? `${time[established ? 'established' : 'new'].toFixed(0)} days`
       : '';
   }
 
