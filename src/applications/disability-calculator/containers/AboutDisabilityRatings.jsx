@@ -1,5 +1,5 @@
 import React from 'react';
-import DisabilityRatingCalculator from '../components/DisabilityRatingCalculator';
+import DisabilityRatingCalculator from '../components/testDisabilityRatingCalculator';
 
 export default class AboutDisabilityRatings extends React.Component {
 
