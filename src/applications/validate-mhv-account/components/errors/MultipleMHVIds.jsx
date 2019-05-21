@@ -24,7 +24,7 @@ const MultipleMHVIds = () => {
             <div id="a1" className="usa-accordion-content">
               <p>
                 Call the My HealtheVet help desk at{' '}
-                <a href="tel:877-327-0022">877-327-0022</a>. We're here Monday
+                <a href="tel:877-327-0022">877-327-0022</a>. We’re here Monday
                 through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing
                 loss, call TTY: 800-877-3399.
               </p>
