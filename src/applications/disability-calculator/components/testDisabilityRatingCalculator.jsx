@@ -1,6 +1,7 @@
 import React from 'react';
 import { calculateRating, roundRating } from '../utils/helpers';
 import '../sass/disability-calculator.scss';
+import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 
 export default class DisabilityRatingCalculator extends React.Component {
   constructor() {
@@ -33,6 +34,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     const { ratings } = this.state;
     console.log("Your VA disability rating is ", calculateRating(ratings), "%")
     alert(`Your VA disability rating is ${calculateRating(ratings)} %`);
+    // return calculateRating(ratings);
   };
 
   handleAddRating = () => {
@@ -45,6 +47,19 @@ export default class DisabilityRatingCalculator extends React.Component {
       ratings: this.state.ratings.filter((s, sidx) => idx !== sidx)
     });
   };
+
+  clearAll = () => {
+    let ratingInputs = document.getElementsByClassName('ratingInput');
+    let descriptionInputs = document.getElementsByClassName('descriptionInput');
+    for (let i = 0; i < ratingInputs.length; i++) {
+      ratingInputs[i].value = '';
+      descriptionInputs[i].value = '';
+    }
+    // document.getElementsById('ratingInput').value = ''
+    // this.setState({
+    //   ratings: []
+    // })
+  }
 
 
 
@@ -76,10 +91,12 @@ export default class DisabilityRatingCalculator extends React.Component {
                   placeholder={`rating #${idx + 1}`}
                   value={rating.value}
                   onChange={this.handleRatingNameChange(idx)}
+                  className="ratingInput"
                 />
               </div>
               <div className="vads-l-col--8">
-                <input />
+                <input
+                  className="descriptionInput" />
               </div>
               <div className="vads-l-col--2">
                 <button
@@ -100,7 +117,7 @@ export default class DisabilityRatingCalculator extends React.Component {
                   onClick={this.handleAddRating}
                 ><i className="fas fa-plus-circle"></i>
                 </button>
-                <a onClick={(e) => this.handleAddRating}>Add rating</a>
+                <a onClick={this.handleAddRating}>Add rating</a>
               </div>
               <div className="vads-l-col--8">
 
@@ -111,11 +128,12 @@ export default class DisabilityRatingCalculator extends React.Component {
                 <button onClick={(evt) => { this.handleSubmit(evt) }}>Calculate</button>
               </div>
               <div className="vads-l-col--8">
-                <a href="#">Clear all</a>
+                <a onClick={this.clearAll}>Clear all</a>
               </div>
             </div>
           </div>
         </div>
+        <p><CalculatedDisabilityRating ratings={this.state.ratings} /></p>
       </div>
     );
   }
