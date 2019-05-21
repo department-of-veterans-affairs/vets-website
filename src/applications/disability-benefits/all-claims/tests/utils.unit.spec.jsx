@@ -231,16 +231,18 @@ describe('526 helpers', () => {
           {
             name: 'Ptsd personal trauma',
             'view:selected': false,
+            uuid: '01a3ba47b2c084d2efac2810d2c793bc',
           },
           {
             name: 'Diabetes mellitus',
             'view:selected': true,
+            uuid: '82d0ac47b2c084d2efac2810d4a157ab',
           },
         ],
       };
       expect(makeSchemaForRatedDisabilities(formData)).to.eql({
         properties: {
-          'diabetes mellitus': {
+          '82d0ac47b2c084d2efac2810d4a157ab': {
             title: 'Diabetes Mellitus',
             type: 'boolean',
           },
@@ -256,25 +258,28 @@ describe('526 helpers', () => {
           {
             name: 'Ptsd personal trauma',
             'view:selected': false,
+            uuid: '01a3ba47b2c084d2efac2810d2c793bc',
           },
           {
             name: 'Diabetes mellitus',
             'view:selected': true,
+            uuid: '82d0ac47b2c084d2efac2810d4a157ab',
           },
         ],
         newDisabilities: [
           {
             condition: 'A new Condition.',
+            uuid: '9238da0f1bc9316de95ab0c3f68ea35',
           },
         ],
       };
       expect(makeSchemaForAllDisabilities(formData)).to.eql({
         properties: {
-          'diabetes mellitus': {
+          '82d0ac47b2c084d2efac2810d4a157ab': {
             title: 'Diabetes Mellitus',
             type: 'boolean',
           },
-          'a new condition.': {
+          '9238da0f1bc9316de95ab0c3f68ea35': {
             title: 'A New Condition.',
             type: 'boolean',
           },
