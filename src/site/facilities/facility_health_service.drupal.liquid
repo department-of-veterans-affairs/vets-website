@@ -6,19 +6,13 @@
                     class="usa-accordion-button usa-button-unstyled"
                     aria-expanded="false"
                     aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
-            >
-                {{ serviceTaxonomy.name }}
-            </button>
+            >{{ serviceTaxonomy.name }}</button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                {% if serviceTaxonomy.description.processed  %}
-                    <div>{{ serviceTaxonomy.description.processed }}</div>
-                {% endif %}
+                {% if serviceTaxonomy.description.processed  %}<div>{{ serviceTaxonomy.description.processed }}</div>{% endif %}
 
-                {% if healthService.fieldBody.processed %}
-                    <div>{{ healthService.fieldBody.processed }}</div>
-                {% endif %}
+                {% if healthService.fieldBody.processed %}<div>{{ healthService.fieldBody.processed }}</div>{% endif %}
 
-                {{ localServiceDescription }}
+                <div>{{ localServiceDescription }}</div>
 
                 <div data-widget-type="facility-appointment-wait-times-widget" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}" data-service="{{ serviceTaxonomy.name | escape }}"></div>
 
