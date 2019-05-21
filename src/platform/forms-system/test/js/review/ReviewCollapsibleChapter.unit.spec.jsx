@@ -24,6 +24,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
           editMode: false,
         },
       },
@@ -59,6 +60,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
           editMode: [false],
         },
       },
@@ -154,6 +156,7 @@ describe('<ReviewCollapsibleChapter>', () => {
             condition2: 'boolean',
           },
         },
+        uiSchema: {},
       },
       {
         pageKey: 'test2',
@@ -177,10 +180,12 @@ describe('<ReviewCollapsibleChapter>', () => {
               condition2: 'boolean',
             },
           },
+          uiSchema: {},
         },
         test2: {
           editMode: false,
           schema: {},
+          uiSchema: {},
         },
       },
       data: {
@@ -216,6 +221,7 @@ describe('<ReviewCollapsibleChapter>', () => {
             condition2: 'boolean',
           },
         },
+        uiSchema: {},
       },
       {
         pageKey: 'test2',
@@ -224,6 +230,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           condition1: true,
         },
         schema: {},
+        uiSchema: {},
       },
     ];
     const chapterKey = 'test';
@@ -238,10 +245,12 @@ describe('<ReviewCollapsibleChapter>', () => {
               condition2: 'boolean',
             },
           },
+          uiSchema: {},
         },
         test2: {
           editMode: false,
           schema: {},
+          uiSchema: {},
         },
       },
       data: {
@@ -273,6 +282,7 @@ describe('<ReviewCollapsibleChapter>', () => {
         schema: {
           properties: {},
         },
+        uiSchema: {},
       },
     ];
     const chapterKey = 'test';
@@ -285,6 +295,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
         },
       },
       data: {},
@@ -331,6 +342,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
           editMode: [false],
         },
       },
