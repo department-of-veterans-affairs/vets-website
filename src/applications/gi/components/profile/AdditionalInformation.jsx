@@ -6,7 +6,7 @@ export class AdditionalInformation extends React.Component {
   stemLabel = () =>
     environment.isProduction()
       ? 'STEM (Science, Technology, Engineering, and Math):'
-      : 'STEM Scholarship:';
+      : 'Rogers STEM Scholarship:';
 
   renderInstitutionSummary() {
     const it = this.props.institution;
