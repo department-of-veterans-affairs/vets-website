@@ -3,7 +3,7 @@
  */
 
 const PERSON_PROFILE_RESULTS = `
-  entities {
+  entity {
     ... on NodePersonProfile {
       entityPublished
       title
@@ -46,22 +46,8 @@ const PERSON_PROFILE_RESULTS = `
   }
 `;
 
-function queryFilter(isAll) {
-  return `
-    reverseFieldOfficeNode(
-    filter: {
-      conditions: [
-        { field: "type", value: "person_profile"}
-        { field: "status", value: "1"}
-      ]
-    } 
-    sort: {field: "field_office", direction: DESC }
-    limit:${isAll ? '500' : '10'})
-  `;
-}
-
 module.exports = `
-  allStaffProfiles: ${queryFilter(true)}
+  fieldLeadership
     {
     ${PERSON_PROFILE_RESULTS}
   }

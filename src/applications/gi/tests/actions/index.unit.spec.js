@@ -144,7 +144,7 @@ describe('fetchProfile', () => {
 
     const constants = {
       constants: {
-        AVGBAH: 10,
+        AVGVABAH: 10,
         AVGDODBAH: 10,
       },
     };
@@ -228,7 +228,7 @@ describe('fetchProfile', () => {
     };
     const constants = {
       constants: {
-        AVGBAH: 10,
+        AVGVABAH: 10,
         AVGDODBAH: 10,
       },
     };
