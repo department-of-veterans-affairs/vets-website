@@ -1,6 +1,5 @@
 import '../../platform/polyfills';
 import './sass/post-911-gib-status.scss';
-import '@department-of-veterans-affairs/formation/js/sidenav';
 
 import startApp from '../../platform/startup';
 
