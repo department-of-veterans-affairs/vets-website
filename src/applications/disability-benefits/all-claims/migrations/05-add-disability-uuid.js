@@ -54,7 +54,7 @@ function addDisabilityUUID(savedData) {
     newData = set(
       'vaTreatmentFacilities',
       facilities.map(f =>
-        set('treatedDisabilityNames', idMap(f.treatedDisabilities), f),
+        set('treatedDisabilityNames', idMap(f.treatedDisabilityNames), f),
       ),
       newData,
     );
