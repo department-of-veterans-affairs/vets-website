@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   formTitles,
   formLinks,
+  isFormAuthorizable,
   isSIPEnabledForm,
   sipEnabledForms,
 } from '../helpers';
@@ -74,6 +75,23 @@ describe('profile helpers:', () => {
       });
     });
   });
+  describe('isFormAuthorizable', () => {
+    it('should return `true` if `authorize` is defined on the passed-in form config', () => {
+      const formConfig = {
+        authorize: () => {},
+      };
+      expect(isFormAuthorizable(formConfig)).to.be.true;
+    });
+    it('should return `false` if `authorize` is not defined on the passed-in form config', () => {
+      const formConfig = {};
+      expect(isFormAuthorizable(formConfig)).to.be.false;
+    });
+    it('should return `false` if it is passed in an undefined form config', () => {
+      let formConfig;
+      expect(isFormAuthorizable(formConfig)).to.be.false;
+    });
+  });
+
   describe('sipEnabledForms', () => {
     it('should include all and only SIP enabled forms', () => {
       const configs = [
