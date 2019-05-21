@@ -176,7 +176,8 @@ export function isSIPEnabledForm(savedForm) {
   return true;
 }
 
-export const isFormAuthorizable = formConfig => !!formConfig.authorize;
+export const isFormAuthorizable = formConfig =>
+  !!formConfig && !!formConfig.authorize;
 
 export const getFormAuthorizationState = (formConfig, state) =>
   formConfig.getAuthorizationState(state);
