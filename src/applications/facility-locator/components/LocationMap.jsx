@@ -1,4 +1,4 @@
-import { mapboxToken } from './MapboxClient';
+import { mapboxToken } from '../utils/mapboxToken';
 import environment from '../../../platform/utilities/environment';
 import React, { Component } from 'react';
 import { LocationType, PinNames } from '../constants';
