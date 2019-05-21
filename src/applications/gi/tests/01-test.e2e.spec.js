@@ -38,13 +38,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 
-  client
-    .waitForElementVisible('.total-paid-to-youss', 100000000)
-    .assert.containsText(
-      '.total-paid-to-you',
-      '$747/mo',
-      'The housing allowance is right',
-    );
+  GiHelpers.verifyDEA(client);
 
   client.end();
 });

@@ -2,7 +2,19 @@
 /* eslint quote-props: 0 */
 /* eslint quotes: 0 */
 
+const Timeouts = require('../../../platform/testing/e2e/timeouts');
+
 const mock = require('../../../platform/testing/e2e/mock-helpers');
+
+const verifyDEA = client => {
+  client
+    .waitForElementVisible('.total-paid-to-you', Timeouts.slow)
+    .assert.containsText(
+      '.total-paid-to-you',
+      '$747/mo',
+      'The housing allowance is right',
+    );
+};
 
 const schools = {
   data: [
@@ -517,4 +529,5 @@ module.exports = {
   calculatorConstants,
   schools,
   initApplicationMock,
+  verifyDEA,
 };
