@@ -73,20 +73,20 @@ describe('estimatedBenefits', () => {
 
   it('should display 1/2 lower VA average rate for online classes for usa institutions', () => {
     let state = set('eligibility.onlineClasses', 'yes', defaultState);
-    state = set('constants.constants.AVGBAH', 1000, state);
+    state = set('constants.constants.AVGVABAH', 1000, state);
     expect(
       estimatedBenefits(state, { type: 'public', country: 'usa' }).housing
         .value,
-    ).to.equal(state.constants.constants.AVGBAH * 0.5);
+    ).to.equal(state.constants.constants.AVGVABAH * 0.5);
   });
 
-  it('should display 1/2 lower AVGBAH rate for online classes for non-usa institutions', () => {
+  it('should display 1/2 lower AVGVABAH rate for online classes for non-usa institutions', () => {
     let state = set('eligibility.onlineClasses', 'yes', defaultState);
-    state = set('constants.constants.AVGBAH', 1000, state);
+    state = set('constants.constants.AVGVABAH', 1000, state);
     expect(
       estimatedBenefits(state, { type: 'public', country: 'canada' }).housing
         .value,
-    ).to.equal(state.constants.constants.AVGBAH * 0.5);
+    ).to.equal(state.constants.constants.AVGVABAH * 0.5);
   });
 
   it('should display lower AVGDODBAH rate for non-usa institutions', () => {
@@ -96,12 +96,12 @@ describe('estimatedBenefits', () => {
     ).to.equal(defaultState.constants.constants.AVGDODBAH);
   });
 
-  it('should display lower AVGBAH rate for non-usa institutions', () => {
-    const state = set('constants.constants.AVGBAH', 200, defaultState);
+  it('should display lower AVGVABAH rate for non-usa institutions', () => {
+    const state = set('constants.constants.AVGVABAH', 200, defaultState);
     expect(
       estimatedBenefits(state, { type: 'public', country: 'canada' }).housing
         .value,
-    ).to.equal(state.constants.constants.AVGBAH);
+    ).to.equal(state.constants.constants.AVGVABAH);
   });
 
   it('should estimate zero tuition allowance for OJT school', () => {

@@ -7,23 +7,23 @@ import {
   sipEnabledForms,
 } from '../helpers';
 
-import fullSchema1010ez from '../../../hca/config/form';
-import fullSchema0993 from '../../../edu-benefits/0993/config/form';
-import fullSchema0994 from '../../../edu-benefits/0994/config/form';
-import fullSchema1990 from '../../../edu-benefits/1990/config/form';
-import fullSchema1990e from '../../../edu-benefits/1990e/config/form';
-import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
-import fullSchema1995 from '../../../edu-benefits/1995/config/form';
-import fullSchema1995Stem from '../../../edu-benefits/1995-STEM/config/form';
-import fullSchema5490 from '../../../edu-benefits/5490/config/form';
-import fullSchema5495 from '../../../edu-benefits/5495/config/form';
-import fullSchemaFeedbackTool from '../../../edu-benefits/feedback-tool/config/form';
-import fullSchema526EZ from '../../../disability-benefits/526EZ/config/form';
-import fullSchema527EZ from '../../../pensions/config/form';
-import fullSchema530 from '../../../burials/config/form';
-import fullSchema10007 from '../../../pre-need/config/form';
-import fullSchemaVIC from '../../../vic-v2/config/form';
-import fullSchema686 from '../../../disability-benefits/686/config/form';
+import fullSchema1010ez from 'applications/hca/config/form';
+import fullSchema0993 from 'applications/edu-benefits/0993/config/form';
+import fullSchema0994 from 'applications/edu-benefits/0994/config/form';
+import fullSchema1990 from 'applications/edu-benefits/1990/config/form';
+import fullSchema1990e from 'applications/edu-benefits/1990e/config/form';
+import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
+import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
+import fullSchema1995Stem from 'applications/edu-benefits/1995-STEM/config/form';
+import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
+import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
+import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
+import fullSchema526EZ from 'applications/disability-benefits/526EZ/config/form';
+import fullSchema527EZ from 'applications/pensions/config/form';
+import fullSchema530 from 'applications/burials/config/form';
+import fullSchema10007 from 'applications/pre-need/config/form';
+import fullSchemaVIC from 'applications/vic-v2/config/form';
+import fullSchema686 from 'applications/disability-benefits/686/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 

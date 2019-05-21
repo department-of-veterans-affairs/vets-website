@@ -585,7 +585,7 @@ describe('calculator reducer', () => {
             },
           },
           AVGDODBAH: 400,
-          AVGBAH: 500,
+          AVGVABAH: 500,
         },
       },
     );
