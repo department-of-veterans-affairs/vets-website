@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
@@ -11,8 +10,11 @@ import { focusElement } from 'platform/utilities/ui';
 import {
   getAccountNumberErrorMessage,
   getRoutingNumberErrorMessage,
-} from '../util';
+  getAccountTypeErrorMessage,
+} from '../util/paymentInformation';
 import { ACCOUNT_TYPES_OPTIONS } from '../constants';
+
+import PaymentInformationEditModalError from './PaymentInformationEditModalError';
 
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
@@ -40,11 +42,14 @@ class PaymentInformationEditModal extends React.Component {
     const accountNumberErr = getAccountNumberErrorMessage(
       accountNumber.field.value,
     );
+    const accountTypeErr = getAccountTypeErrorMessage(accountType.value.value);
 
     if (routingNumberErr) {
       focusElement('[name=routing-number]');
     } else if (accountNumberErr) {
       focusElement('[name=account-number]');
+    } else if (accountTypeErr) {
+      focusElement('[name=account-type]');
     } else {
       this.props.onSubmit({
         financialInstitutionName: 'Hidden form field',
@@ -70,7 +75,10 @@ class PaymentInformationEditModal extends React.Component {
   };
 
   onAccountTypeChanged = value => {
-    this.props.editModalFieldChanged('accountType', { value });
+    this.props.editModalFieldChanged('accountType', {
+      value,
+      errorMessage: value.dirty && getAccountTypeErrorMessage(value.value),
+    });
   };
 
   render() {
@@ -80,24 +88,22 @@ class PaymentInformationEditModal extends React.Component {
       accountType,
     } = this.props.fields;
 
-    const lastResponse = this.props.responseError;
-
     return (
       <Modal
-        title="Edit direct deposit information"
+        title="Edit your direct deposit information"
         visible={this.props.isEditing}
         onClose={this.props.onClose}
       >
-        <AlertBox
-          status="error"
-          isVisible={!!lastResponse && lastResponse.errors.length}
-        >
-          <p>
-            We’re sorry. Something went wrong on our end and we couldn’t save
-            the recent updates you made to your profile. Please try again later.
-          </p>
-        </AlertBox>
-        <p>Update your account and routing number</p>
+        {!!this.props.responseError && (
+          <PaymentInformationEditModalError
+            responseError={this.props.responseError}
+          />
+        )}
+        <p className="vads-u-margin-top--1p5">
+          Please provide your bank’s current routing number as well as your
+          current account number and type. Then click <strong>Update</strong> to
+          save your information.
+        </p>
         <img
           src="/img/direct-deposit-check-guide.png"
           alt="On a personal check, find your bank's 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
@@ -126,9 +132,12 @@ class PaymentInformationEditModal extends React.Component {
 
           <ErrorableSelect
             label="Account type"
+            name="account-type"
             value={accountType.value}
+            errorMessage={accountType.errorMessage}
             onValueChange={this.onAccountTypeChanged}
             options={Object.values(ACCOUNT_TYPES_OPTIONS)}
+            includeBlankOption
             required
           />
 
