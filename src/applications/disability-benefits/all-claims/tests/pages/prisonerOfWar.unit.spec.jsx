@@ -125,7 +125,16 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={Object.assign({}, formData, {
-          newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
+          newDisabilities: [
+            {
+              condition: 'ASHD',
+              uuid: 'a8ba1dc26ff74d4580d5c1acad02497e',
+            },
+            {
+              condition: 'scars',
+              uuid: '8b3a7924791a47e8bf204d52fe8230be',
+            },
+          ],
           'view:newDisabilities': true,
         })}
       />,
