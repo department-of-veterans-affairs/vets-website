@@ -6,15 +6,11 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
-const verifyDEA = client => {
+function verifyDEA(client, expectedDEA) {
   client
     .waitForElementVisible('.total-paid-to-you', Timeouts.slow)
-    .assert.containsText(
-      '.total-paid-to-you',
-      '$747/mo',
-      'The housing allowance is right',
-    );
-};
+    .assert.containsText('.total-paid-to-you', expectedDEA);
+}
 
 const schools = {
   data: [

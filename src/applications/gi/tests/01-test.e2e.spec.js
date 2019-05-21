@@ -38,7 +38,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 
-  GiHelpers.verifyDEA(client);
+  GiHelpers.verifyDEA(client, '$747/mo');
 
   client.end();
 });
