@@ -19,7 +19,11 @@ const DashboardAlert = ({
   statusInfo,
   subheadline,
 }) => {
-  const classes = classNames('dashboard-alert', `dashboard-alert-${status}`);
+  const classes = classNames(
+    'dashboard-alert',
+    `dashboard-alert-${status}`,
+    'vads-u-margin-bottom--3',
+  );
 
   const alertContent = content || children;
 

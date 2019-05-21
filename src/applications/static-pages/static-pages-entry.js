@@ -6,6 +6,7 @@ import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
 import './alerts-dismiss-view';
 import './ics-generator';
+import createFacilityPage from './facilities/createFacilityPage';
 
 import widgetTypes from './widgetTypes';
 import createAdditionalInfoWidget from './createAdditionalInfoWidget';
@@ -19,19 +20,13 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 // No-react styles.
 import './sass/static-pages.scss';
 
-// New sidebar menu
-import './sidebar-navigation.js';
-
 // Social share links behavior
 import './social-share-links';
 
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
-import createFacilityDetailWidget from './facilities/facilityDetail';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
-import createFacilityPatientSatisfactionScoresWidget from './facilities/facilityPatientSatisfactionScores';
 import facilityReducer from './facilities/reducers';
-import createFacilityAppointmentWaitTimesWidget from './facilities/facilityAppointmentWaitTimes';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -85,11 +80,8 @@ createApplicationStatus(store, {
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 
 createFacilityListWidget();
+createFacilityPage(store);
 createBasicFacilityListWidget();
-
-createFacilityDetailWidget(store);
-createFacilityPatientSatisfactionScoresWidget(store);
-createFacilityAppointmentWaitTimesWidget(store);
 
 // homepage widgets
 if (location.pathname === '/') {

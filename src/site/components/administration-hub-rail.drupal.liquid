@@ -34,6 +34,13 @@
                                         {{ administration.name }} {{ socialPlatform | remove: '_' | capitalize }}
                                     </a>
                                 </li>
+                            {% elsif socialPlatform == "youtube" %}
+                                <li>
+                                    <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}">
+                                        <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
+                                        {{ administration.name }} YouTube
+                                    </a>
+                                </li>
                             {% else %}
                                 <li>
                                     <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}">

@@ -40,7 +40,7 @@ class FormList extends React.Component {
     return !hasVerifiedSavedForms ? null : (
       <div className="profile-section medium-12 columns">
         <h2 className="section-header">Your applications</h2>
-        {forms.map(form => (
+        {verifiedSavedForms.map(form => (
           <FormItem
             key={form.form}
             savedFormData={form}
