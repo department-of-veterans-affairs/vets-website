@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { selectProfile } from 'platform/user/selectors';
 import {
@@ -103,6 +104,27 @@ export const mapStateToProps = state => {
     shouldRenderContent,
     shouldRenderHCAAlert,
   };
+};
+
+YourApplications.propTypes = {
+  getDismissedHCANotification: PropTypes.func.isRequired,
+  getEnrollmentStatus: PropTypes.func.isRequired,
+  setDismissedHCANotification: PropTypes.func.isRequired,
+  hcaEnrollmentStatus: PropTypes.shape({
+    enrollmentStatus: PropTypes.string,
+    applicationDate: PropTypes.string,
+  }),
+  savedForms: PropTypes.arrayOf(
+    PropTypes.shape({
+      form: PropTypes.string.required,
+      metadata: PropTypes.shape({
+        lastUpdated: PropTypes.string,
+        expiresAt: PropTypes.string,
+      }),
+    }),
+  ),
+  shouldRenderContent: PropTypes.bool.isRequired,
+  shouldRenderHCAAlert: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
