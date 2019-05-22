@@ -40,7 +40,6 @@ export function hcaEnrollmentStatus(state = initialState, action) {
         effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
-        e2eTestNotInMVI = false,
       } = action.data;
       const isInESR =
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
@@ -55,7 +54,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
         loginRequired: isInESR,
         noESRRecordFound: !isInESR,
         isLoadingApplicationStatus: false,
-        isUserInMVI: !e2eTestNotInMVI,
+        isUserInMVI: true,
       };
     }
 
