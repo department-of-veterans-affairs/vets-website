@@ -1,5 +1,6 @@
 import React from 'react';
 import Raven from 'raven-js';
+import { isPlainObject } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
@@ -193,6 +194,31 @@ export function isSIPEnabledForm(savedForm) {
     );
   }
   return true;
+}
+
+// Callback to use with Array.sort that expects two properly formatted form
+// objects (that have `metadata.expiresAt` properties). Used to sort form
+// objects, placing the form that expires sooner before the form that expires
+// later
+export function sipFormSorter(formA, formB) {
+  // simple helper to make sure the arg is an object with a metadata.expiresAt
+  // prop
+  function isValidForm(arg) {
+    if (!isPlainObject(arg)) {
+      throw new TypeError(`${arg} is not a plain object`);
+    }
+    if (
+      !arg.metadata ||
+      !arg.metadata.expiresAt ||
+      typeof arg.metadata.expiresAt !== 'number'
+    ) {
+      throw new TypeError(`'metadata.expiresAt' is not set on ${arg}`);
+    }
+    return true;
+  }
+
+  [formA, formB].forEach(isValidForm);
+  return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
 
 export const isFormAuthorizable = formConfig =>
