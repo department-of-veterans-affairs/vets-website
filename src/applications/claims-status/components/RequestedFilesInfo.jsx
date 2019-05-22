@@ -55,7 +55,7 @@ export default class RequestedFilesInfo extends React.Component {
               <div className="item-container">
                 <h3 className="file-request-title">{item.displayName}</h3>
                 <p className="submission-description">
-                  {stripHtml(truncateDescription(item.description))}
+                  {truncateDescription(stripHtml(item.description))}
                 </p>
                 <div className="claims-optional-desc">
                   <strong>Optional</strong> - We requested this from others, but
