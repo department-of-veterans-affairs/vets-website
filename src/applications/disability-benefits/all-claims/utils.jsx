@@ -592,17 +592,7 @@ export const ancillaryFormUploadUi = (
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: TWENTY_FIVE_MB,
     createPayload: file => {
       const payload = new FormData();

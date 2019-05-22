@@ -766,8 +766,6 @@ const formConfig = {
                       'png',
                       'gif',
                       'bmp',
-                      'tif',
-                      'tiff',
                       'txt',
                     ],
                     maxSize: FIFTY_MB,
