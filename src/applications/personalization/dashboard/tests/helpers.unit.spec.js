@@ -3,27 +3,29 @@ import { expect } from 'chai';
 import {
   formTitles,
   formLinks,
+  isFormAuthorizable,
   isSIPEnabledForm,
+  presentableFormIDs,
   sipEnabledForms,
 } from '../helpers';
 
-import fullSchema1010ez from '../../../hca/config/form';
-import fullSchema0993 from '../../../edu-benefits/0993/config/form';
-import fullSchema0994 from '../../../edu-benefits/0994/config/form';
-import fullSchema1990 from '../../../edu-benefits/1990/config/form';
-import fullSchema1990e from '../../../edu-benefits/1990e/config/form';
-import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
-import fullSchema1995 from '../../../edu-benefits/1995/config/form';
-import fullSchema1995Stem from '../../../edu-benefits/1995-STEM/config/form';
-import fullSchema5490 from '../../../edu-benefits/5490/config/form';
-import fullSchema5495 from '../../../edu-benefits/5495/config/form';
-import fullSchemaFeedbackTool from '../../../edu-benefits/feedback-tool/config/form';
-import fullSchema526EZ from '../../../disability-benefits/526EZ/config/form';
-import fullSchema527EZ from '../../../pensions/config/form';
-import fullSchema530 from '../../../burials/config/form';
-import fullSchema10007 from '../../../pre-need/config/form';
-import fullSchemaVIC from '../../../vic-v2/config/form';
-import fullSchema686 from '../../../disability-benefits/686/config/form';
+import fullSchema1010ez from 'applications/hca/config/form';
+import fullSchema0993 from 'applications/edu-benefits/0993/config/form';
+import fullSchema0994 from 'applications/edu-benefits/0994/config/form';
+import fullSchema1990 from 'applications/edu-benefits/1990/config/form';
+import fullSchema1990e from 'applications/edu-benefits/1990e/config/form';
+import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
+import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
+import fullSchema1995Stem from 'applications/edu-benefits/1995-STEM/config/form';
+import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
+import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
+import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
+import fullSchema526EZ from 'applications/disability-benefits/526EZ/config/form';
+import fullSchema527EZ from 'applications/pensions/config/form';
+import fullSchema530 from 'applications/burials/config/form';
+import fullSchema10007 from 'applications/pre-need/config/form';
+import fullSchemaVIC from 'applications/vic-v2/config/form';
+import fullSchema686 from 'applications/disability-benefits/686/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
@@ -67,6 +69,22 @@ describe('profile helpers:', () => {
       });
     });
   });
+  describe('prefixedFormIDs', () => {
+    it('should have an entry for each verified form', () => {
+      sipEnabledForms.forEach(form => {
+        expect(presentableFormIDs[form]).to.exist;
+      });
+    });
+    it('should handle the standard case', () => {
+      expect(presentableFormIDs['22-0993']).to.equal('FORM 22-0993');
+    });
+    it('should handle VIC differently', () => {
+      expect(presentableFormIDs.VIC).to.equal('VETERAN ID CARD');
+    });
+    it('should handle Feedback Tool differently', () => {
+      expect(presentableFormIDs['FEEDBACK-TOOL']).to.equal('FEEDBACK TOOL');
+    });
+  });
   describe('formLinks', () => {
     it('should have link information for each verified form', () => {
       sipEnabledForms.forEach(form => {
@@ -74,6 +92,23 @@ describe('profile helpers:', () => {
       });
     });
   });
+  describe('isFormAuthorizable', () => {
+    it('should return `true` if `authorize` is defined on the passed-in form config', () => {
+      const formConfig = {
+        authorize: () => {},
+      };
+      expect(isFormAuthorizable(formConfig)).to.be.true;
+    });
+    it('should return `false` if `authorize` is not defined on the passed-in form config', () => {
+      const formConfig = {};
+      expect(isFormAuthorizable(formConfig)).to.be.false;
+    });
+    it('should return `false` if it is passed in an undefined form config', () => {
+      let formConfig;
+      expect(isFormAuthorizable(formConfig)).to.be.false;
+    });
+  });
+
   describe('sipEnabledForms', () => {
     it('should include all and only SIP enabled forms', () => {
       const configs = [

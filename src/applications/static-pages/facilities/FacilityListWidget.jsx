@@ -58,7 +58,7 @@ export default class FacilityListWidget extends React.Component {
             <FacilityTitle
               facility={facility}
               nickname={this.props.facilities[facility.id].nickname}
-              regionPath={this.props.path}
+              regionPath={this.props.facilities[facility.id].entityUrl.path}
             />
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
@@ -72,18 +72,23 @@ export default class FacilityListWidget extends React.Component {
             </div>
           </section>
           <section className="usa-width-one-half">
-            <img
-              src={
-                this.props.facilities[facility.id].derivative
-                  ? this.props.facilities[facility.id].derivative.url
-                  : ''
-              }
-              alt={
-                this.props.facilities[facility.id].alt
-                  ? this.props.facilities[facility.id].alt
-                  : ''
-              }
-            />
+            <a
+              href={this.props.facilities[facility.id].entityUrl.path}
+              aria-label={this.props.facilities[facility.id].nickname}
+            >
+              <img
+                src={
+                  this.props.facilities[facility.id].derivative
+                    ? this.props.facilities[facility.id].derivative.url
+                    : ''
+                }
+                alt={
+                  this.props.facilities[facility.id].alt
+                    ? this.props.facilities[facility.id].alt
+                    : ''
+                }
+              />
+            </a>
           </section>
         </div>
       ),
