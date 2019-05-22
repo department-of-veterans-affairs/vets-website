@@ -3,10 +3,13 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import set from 'platform/utilities/data/set';
+
 import { PaymentInformation } from '../../containers/PaymentInformation';
 
 describe('<PaymentInformation/>', () => {
   const defaultProps = {
+    multifactorEnabled: true,
     isLoading: false,
     isEligible: true,
     fetchPaymentInformation() {},
@@ -47,6 +50,31 @@ describe('<PaymentInformation/>', () => {
     const wrapper = shallow(<PaymentInformation {...props} />);
     expect(wrapper.text()).to.be.empty;
     expect(fetchPaymentInformation.called).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('renders a prompt to enable 2FA is the user does not have it enabled already', () => {
+    const props = { ...defaultProps, multifactorEnabled: false };
+    const wrapper = shallow(<PaymentInformation {...props} />);
+    expect(wrapper.find('PaymentInformation2FARequired')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('renders a load-fail message if the API returns an error during the initial fetch', () => {
+    const props = set('paymentInformation', { error: {} }, defaultProps);
+    const wrapper = shallow(<PaymentInformation {...props} />);
+    expect(wrapper.find('LoadFail')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('renders a button for initializing direct deposit if the accountNumber is empty', () => {
+    const props = set(
+      'paymentInformation.responses[0].paymentAccount.accountNumber',
+      '',
+      defaultProps,
+    );
+    const wrapper = shallow(<PaymentInformation {...props} />);
+    expect(wrapper.find('PaymentInformationAddLink')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 

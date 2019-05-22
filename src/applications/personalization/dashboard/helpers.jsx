@@ -28,6 +28,7 @@ import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.
 import burialsConfig from 'applications/burials/config/form.js';
 import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
 import edu1995Config from 'applications/edu-benefits/1995/config/form.js';
+import edu1995StemConfig from 'applications/edu-benefits/1995-STEM/config/form.js';
 import edu1990eConfig from 'applications/edu-benefits/1990e/config/form.js';
 import edu1990nConfig from 'applications/edu-benefits/1990n/config/form.js';
 import edu5490Config from 'applications/edu-benefits/5490/config/form.js';
@@ -51,6 +52,7 @@ export const formConfigs = {
   '22-1990E': edu1990eConfig,
   '22-1990N': edu1990nConfig,
   '22-1995': edu1995Config,
+  '22-1995-STEM': edu1995StemConfig,
   '22-5490': edu5490Config,
   '22-5495': edu5495Config,
   '40-10007': preneedConfig,
@@ -176,7 +178,8 @@ export function isSIPEnabledForm(savedForm) {
   return true;
 }
 
-export const isFormAuthorizable = formConfig => !!formConfig.authorize;
+export const isFormAuthorizable = formConfig =>
+  !!formConfig && !!formConfig.authorize;
 
 export const getFormAuthorizationState = (formConfig, state) =>
   formConfig.getAuthorizationState(state);
