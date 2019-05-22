@@ -296,9 +296,9 @@ export const directDepositWarning = (
     >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at <a href="tel:8003331795">1-800-333-1795</a>. If you chose
+    or by telephone at <a href="tel:8003331795">800-333-1795</a>. If you chose
     not to enroll, you must contact representatives handling waiver requests for
-    the Department of Treasury at <a href="tel:8882242950">1-888-224-2950</a>.
+    the Department of Treasury at <a href="tel:8882242950">888-224-2950</a>.
     They will address any questions or concerns you may have and encourage your
     participation in EFT.
   </div>
@@ -320,7 +320,7 @@ export const wartimeWarning = (
         </a>
         . Find out if you still qualify.{' '}
         <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility.
+          Check your eligibility
         </a>
       </p>
     </div>

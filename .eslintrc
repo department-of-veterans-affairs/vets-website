@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
@@ -23,7 +23,8 @@
     "PerformanceObserver": true,
     "__BUILDTYPE__": true,
     "__API__": true,
-    "__MEGAMENU_CONFIG__": true
+    "__MEGAMENU_CONFIG__": true,
+    "applyFeatureFlags",
   },
   "rules": {
     // Override airbnb style.
@@ -105,7 +106,9 @@
     "react/no-array-index-key": 0,
     "react/no-unescaped-entities": 0,
     "react/no-unused-prop-types": 0,
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "overrides": [
     {

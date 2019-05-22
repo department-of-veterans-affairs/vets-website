@@ -16,7 +16,11 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
 import { getEnrollmentStatus } from '../actions';
-import { idFormSchema as schema, idFormUiSchema as uiSchema } from '../helpers';
+import {
+  didEnrollmentStatusChange,
+  idFormSchema as schema,
+  idFormUiSchema as uiSchema,
+} from '../helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 function ContinueButton({ isLoading }) {
@@ -65,12 +69,9 @@ function ServerError() {
     <AlertBox
       isVisible
       status="error"
-      headline="Server Error"
+      headline="Something went wrong on our end"
       content={
-        <p>
-          We’re sorry for the interruption, but we have encountered an error.
-          Please try again later.
-        </p>
+        <p>We’re sorry. Something went wrong on our end. Please try again</p>
       }
     />
   );
@@ -88,13 +89,18 @@ class IDPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!didEnrollmentStatusChange(prevProps, this.props)) {
+      return;
+    }
+
     const { enrollmentStatus, noESRRecordFound, shouldRedirect } = this.props;
 
-    // Redirect to intro if a logged in user directly accessed this page.
-    if (shouldRedirect) this.props.router.push('/');
-
-    if (
+    // Redirect to intro if a logged in user directly accessed this page...
+    // ...otherwise handle the response from the ID Form
+    if (shouldRedirect) {
+      this.props.router.push('/');
+    } else if (
       noESRRecordFound ||
       enrollmentStatus === HCA_ENROLLMENT_STATUSES.noneOfTheAbove
     ) {
@@ -127,7 +133,7 @@ class IDPage extends React.Component {
       veteranFullName: fullName,
       veteranDateOfBirth: idFormData.dob,
       veteranSocialSecurityNumber: idFormData.ssn,
-      'view:isUserInMVI': isUserInMVI,
+      'view:isUserInMvi': isUserInMVI,
     });
   };
 

@@ -16,68 +16,64 @@ const makeUnorderedList = questions => (
 const appealsQuestions = [
   {
     href: '/disability-benefits/claims-appeal',
-    title: 'Find out how appeals work.',
+    title: 'Find out how appeals work',
   },
   {
     href: '/disability/get-help-filing-claim',
     title:
-      'Consider getting help from a VSO to appeal the decision on your claim.',
+      'Consider getting help from a VSO to appeal the decision on your claim',
   },
 ];
 const burialQuestions = [
   {
     href: '/burials-memorials/',
-    title: 'View all burial benefits and memorial items.',
+    title: 'View all burial benefits and memorial items',
   },
   {
     href: '/burials-memorials/eligibility/',
     title:
-      'See who’s eligible for burial in a VA national cemetery and other honors.',
+      'See who’s eligible for burial in a VA national cemetery and other honors',
   },
   {
     href: '/burials-memorials/plan-a-burial/',
-    title: 'Learn how we can help you plan a burial for a family member.',
+    title: 'Learn how we can help you plan a burial for a family member',
   },
   {
     href: '/burials-memorials/dependency-indemnity-compensation/',
     title:
-      'Learn about compensation for surviving spouses, children, and parents.',
+      'Learn about compensation for surviving spouses, children, and parents',
   },
 ];
 const careersQuestions = [
   {
     href: '/careers-employment/vocational-rehabilitation',
-    title: 'See if you’re eligible for vocational rehabilitation benefits.',
+    title: 'See if you’re eligible for vocational rehabilitation benefits',
   },
   {
     href: '/careers-employment/veteran-owned-business-support',
     title:
-      'Get support for your small business by registering to do business with us.',
+      'Get support for your small business by registering to do business with us',
   },
 ];
 const disabilityQuestions = [
   [
     {
       href: '/disability/eligibility',
-      title: 'See if you’re eligible for compensation.',
+      title: 'See if you’re eligible for compensation',
     },
     {
       href: '/disability/how-to-file-claim/when-to-file/',
-      title: 'Learn about the different claim types.',
+      title: 'Learn about the different claim types',
     },
     {
       href: '/disability/get-help-filing-claim',
       title:
-        'Consider working with a trained professional who can help you file your claim.',
-    },
-    {
-      href: '/disability/how-to-file-claim',
-      title: 'Find out how to file a claim online, by mail, or in person.',
+        'Consider working with a trained professional who can help you file your claim',
     },
     {
       href: '/disability/file-an-appeal',
       title:
-        'Learn how to file an appeal if you disagree with our decision on your claim.',
+        'Learn how to file an appeal if you disagree with our decision on your claim',
     },
   ],
   [
@@ -103,135 +99,133 @@ const disabilityQuestions = [
 const educationQuestions = [
   {
     href: '/education/eligibility',
-    title: 'See if you’re eligible for education benefits.',
+    title: 'See if you’re eligible for education benefits',
   },
   {
     href: '/education/about-gi-bill-benefits',
-    title: 'Learn about the different types of GI Bill benefits.',
+    title: 'Learn about the different types of GI Bill benefits',
   },
   {
     href: '/gi-bill-comparison-tool',
-    title: 'Compare schools, tuition costs, and benefits offered.',
+    title: 'Compare schools, tuition costs, and benefits offered',
   },
   {
     href: '/education/after-you-apply',
-    title: 'Find out what to expect after you apply.',
+    title: 'Find out what to expect after you apply',
   },
   {
     href: '/education/transfer-post-9-11-gi-bill-benefits',
-    title:
-      'Learn how to transfer Post-9/11 GI Bill benefits to family members.',
+    title: 'Learn how to transfer Post-9/11 GI Bill benefits to family members',
   },
   {
     href: '/careers-employment/vocational-rehabilitation',
     title:
-      'Consider vocational rehabilitation if you have a service-connected disability.',
+      'Consider vocational rehabilitation if you have a service-connected disability',
   },
 ];
 const familyQuestions = [
   {
     href: '/health-care/family-caregiver-benefits',
-    title: 'Find out if you qualify for health care benefits.',
+    title: 'Find out if you qualify for health care benefits',
   },
   {
     href: '/education/transfer-post-9-11-gi-bill-benefits',
     title:
-      'Find out how to transfer Post-9/11 GI Bill benefits to family members.',
+      'Find out how to transfer Post-9/11 GI Bill benefits to family members',
   },
   {
     href: '/careers-employment/dependent-benefits',
-    title: 'See if you’re eligible for educational and career counseling.',
+    title: 'See if you’re eligible for educational and career counseling',
   },
   {
     href: '/life-insurance/options-eligibility/fsgli',
-    title: 'Learn about Family Servicemembers’ Group Life Insurance (FSGLI).',
+    title: 'Learn about Family Service Members’ Group Life Insurance (FSGLI)',
   },
   {
     href: '/health-care/about-va-health-benefits/long-term-care',
-    title: 'Consider options for assisted living and home health care.',
+    title: 'Consider options for assisted living and home health care',
   },
 ];
 const healthQuestions = [
   {
     href: '/health-care/eligibility/',
-    title: 'See if you’re eligible for VA health care benefits.',
+    title: 'See if you’re eligible for VA health care benefits',
   },
   {
     href: '/health-care/how-to-apply/',
-    title: 'Learn how to apply online, by mail, or in person.',
+    title: 'Learn how to apply online, by mail, or in person',
   },
   {
     href: '/health-care/about-va-health-benefits/',
-    title: 'Find out what kinds of health care and services are covered.',
+    title: 'Find out what kinds of health care and services are covered',
   },
 ];
 const housingQuestions = [
   {
     href: '/housing-assistance/home-loans/loan-types/',
-    title: 'Compare different VA loan types.',
+    title: 'Compare different VA loan types',
   },
   {
     href: '/housing-assistance/home-loans/eligibility/',
     title:
-      'Find out if you may be eligible for a VA-backed or VA direct home loan.',
+      'Find out if you may be eligible for a VA-backed or VA direct home loan',
   },
   {
     href: '/housing-assistance/disability-housing-grants/',
     title:
-      'Learn about grants for adapting your home to meet service-connected disability needs.',
+      'Learn about grants for adapting your home to meet service-connected disability needs',
   },
 ];
 const lifeInsuranceQuestions = [
   {
     href: '/life-insurance/options-eligibility/',
-    title: 'Find out which VA life insurance programs may work for you.',
+    title: 'Find out which VA life insurance programs may work for you',
   },
   {
     href: '/life-insurance/options-eligibility/vgli/',
-    title: 'Consider Veterans’ Group Life Insurance (VGLI) after your service.',
+    title: 'Consider Veterans’ Group Life insurance (VGLI) after your service',
   },
   {
     href: '/life-insurance/options-eligibility/s-dvi/',
     title:
-      'See if Service-Disabled Veterans Life Insurance (S-DVI) might be an option.',
+      'See if Service-Disabled Veterans Life insurance (S-DVI) might be an option',
   },
 ];
 const pensionQuestions = [
   {
     href: '/pension/',
-    title: 'See what pension benefits are available.',
+    title: 'See what pension benefits are available',
   },
   {
     href: '/pension/eligibility/',
-    title: 'Find out what the requirements are for receiving pension benefits.',
+    title: 'Find out what the requirements are for receiving pension benefits',
   },
   {
     href: '/pension/how-to-apply/',
-    title: 'Learn how to apply for a Veterans pension.',
+    title: 'Learn how to apply for a Veterans pension',
   },
 ];
 const survivorQuestions = [
   {
     href: '/burials-memorials/veterans-burial-allowance',
     title:
-      'Apply for a Veteran’s burial allowance to help cover burial and funeral costs.',
+      'Apply for a Veteran’s burial allowance to help cover burial and funeral costs',
   },
   {
     href: '/burials-memorials/bereavement-counseling',
-    title: 'Find out if you qualify for bereavement counseling.',
+    title: 'Find out if you qualify for bereavement counseling',
   },
   {
     href: '/burials-memorials/dependency-indemnity-compensation',
-    title: 'Learn about compensation for survivors.',
+    title: 'Learn about compensation for survivors',
   },
   {
     href: '/pension/survivors-pension',
-    title: 'See if you’re eligible for pension benefits based on income.',
+    title: 'See if you’re eligible for pension benefits based on income',
   },
   {
     href: '/education/survivor-dependent-benefits',
-    title:
-      'Find out about other education and training benefits for survivors.',
+    title: 'Find out about other education and training benefits for survivors',
   },
 ];
 
@@ -290,13 +284,13 @@ export const homelessnessAlert = {
       status="warning"
       headline="If you’re homeless or at risk of becoming homeless:"
       onCloseAlert={onCloseAlert}
+      closeBtnAriaLabel="Close risk of homelessness notification"
     >
       <p>
         You can talk with someone right now. Call the National Call Center for
-        Homeless Veterans at 1-877-4AID-VET (
-        <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day,
-        7 days a week. You’ll talk privately with a trained VA counselor for
-        free.
+        Homeless Veterans at 877-4AID-VET (
+        <a href="tel:+18774243838">877-424-3838</a>) for help 24 hours a day, 7
+        days a week. You’ll talk privately with a trained VA counselor for free.
       </p>
     </AlertBox>
   ),

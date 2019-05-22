@@ -97,7 +97,7 @@ function applyDefaultOptions(options) {
       [`${blocks}/**/*`]: '**/*.{md,html}',
       [`${teasers}/**/*`]: '**/*.{md,html}',
     },
-    cacheDirectory: path.resolve(projectRoot, '.cache'),
+    cacheDirectory: path.join(projectRoot, '.cache', options.buildtype),
   });
 }
 
@@ -147,12 +147,26 @@ function deriveHostUrl(options) {
   ];
 }
 
+function setUpFeatureFlags(options) {
+  global.buildtype = options.buildtype;
+  const {
+    enabledFeatureFlags,
+    featureFlags,
+  } = require('../../utilities/featureFlags');
+
+  Object.assign(options, {
+    enabledFeatureFlags,
+    featureFlags,
+  });
+}
+
 function getOptions(commandLineOptions) {
   const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
+  setUpFeatureFlags(options);
 
   return options;
 }

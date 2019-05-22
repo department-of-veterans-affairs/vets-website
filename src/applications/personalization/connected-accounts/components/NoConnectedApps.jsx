@@ -34,17 +34,15 @@ export class NoConnectedApps extends React.Component {
             {this.noAccountsMessage()}
           </h2>
           <div className="feature">
-            <h3>
-              Have questions about signing in to {this.props.propertyName}?
-            </h3>
+            <h3>Have questions about signing in to VA.gov?</h3>
             <p>
               Get answers to frequently asked questions about how to sign in,
               common issues with verifying your identity, and your privacy and
-              security on {this.props.propertyName}.
+              security on VA.gov.
             </p>
 
             <a href="/sign-in-faq/" onClick={recordAction}>
-              Go to {this.props.propertyName} FAQs
+              Go to VA.gov FAQs
             </a>
           </div>
         </div>

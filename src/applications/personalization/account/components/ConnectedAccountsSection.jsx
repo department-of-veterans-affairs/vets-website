@@ -1,6 +1,5 @@
 import React from 'react';
 
-import environment from '../../../../platform/utilities/environment';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 function recordAnalyticEvent() {
@@ -12,10 +11,6 @@ function recordAnalyticEvent() {
 }
 
 export default function ConnectedAccountsSection() {
-  if (environment.isProduction()) {
-    return null;
-  }
-
   return (
     <div>
       <h3>Connected accounts</h3>
@@ -32,7 +27,6 @@ export default function ConnectedAccountsSection() {
           >
             Manage your connected accounts
           </a>
-          .
         </p>
       </div>
     </div>

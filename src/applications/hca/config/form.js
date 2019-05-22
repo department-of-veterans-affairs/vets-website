@@ -61,6 +61,7 @@ import migrations from './migrations';
 import IntroductionPage from '../containers/IntroductionPage';
 import IntroductionPageGated from '../containers/IntroductionPageGated';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPageNew from '../containers/ConfirmationPageNew';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
@@ -206,15 +207,19 @@ const formConfig = {
   introduction: environment.isProduction()
     ? IntroductionPage
     : IntroductionPageGated,
-  additionalRoutes: !environment.isProduction() && [
-    {
-      path: 'id-form',
-      component: IDPage,
-      pageKey: 'id-form',
-      depends: () => !hasSession(),
-    },
-  ],
-  confirmation: ConfirmationPage,
+  additionalRoutes: environment.isProduction()
+    ? []
+    : [
+        {
+          path: 'id-form',
+          component: IDPage,
+          pageKey: 'id-form',
+          depends: () => !hasSession(),
+        },
+      ],
+  confirmation: environment.isProduction()
+    ? ConfirmationPage
+    : ConfirmationPageNew,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
@@ -381,6 +386,7 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
+            'ui:description': PrefillMessage,
             veteranAddress: _.merge(addressUI('Permanent address', true), {
               street: {
                 'ui:errorMessages': {
@@ -564,7 +570,7 @@ const formConfig = {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
           depends: formData =>
-            !formData['view:isUserInMVI'] && !environment.isProduction(),
+            !formData['view:isUserInMvi'] && !environment.isProduction(),
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:title': 'Upload your discharge papers',

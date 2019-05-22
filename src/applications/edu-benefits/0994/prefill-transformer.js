@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { hasPrefillBankInformation } from './utils';
 
 export function prefillTransformer(pages, formData, metadata) {
   // TODO: enable this to implement the review card UI for verified users
@@ -16,17 +17,7 @@ export function prefillTransformer(pages, formData, metadata) {
 
   const newData = _.omit(formData, ['bankAccount']);
 
-  const { bankAccountType, bankAccountNumber, bankRoutingNumber } = _.get(
-    formData,
-    'bankAccount',
-    {},
-  );
-
-  let hasBankInformation = false;
-
-  if (bankAccountType && bankAccountNumber && bankRoutingNumber) {
-    hasBankInformation = true;
-  }
+  const hasBankInformation = hasPrefillBankInformation(formData.bankAccount);
 
   const newFormData = {
     ...newData,

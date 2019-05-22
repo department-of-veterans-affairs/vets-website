@@ -162,14 +162,16 @@ class SaveInProgressIntro extends React.Component {
               >
                 Sign in to Start Your Application
               </button>
-              <p>
-                <button
-                  className="va-button-link schemaform-start-button"
-                  onClick={this.goToBeginning}
-                >
-                  Start your application without signing in.
-                </button>
-              </p>
+              {!this.props.hideUnauthedStartLink && (
+                <p>
+                  <button
+                    className="va-button-link schemaform-start-button"
+                    onClick={this.goToBeginning}
+                  >
+                    Start your application without signing in.
+                  </button>
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -333,6 +335,7 @@ SaveInProgressIntro.propTypes = {
   downtime: PropTypes.object,
   gaStartEventName: PropTypes.string,
   startMessageOnly: PropTypes.bool,
+  hideUnauthedStartLink: PropTypes.bool,
 };
 
 SaveInProgressIntro.defaultProps = {

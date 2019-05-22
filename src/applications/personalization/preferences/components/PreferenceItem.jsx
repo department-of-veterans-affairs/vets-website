@@ -52,57 +52,80 @@ const FAQList = ({ faqs }) => (
   </div>
 );
 
-export default function PreferenceItem({
-  handleViewToggle,
-  handleRemove,
-  isRemoving,
-  benefit,
-}) {
-  const { title, introduction, code, cta, faqs } = benefit;
+export default class PreferenceItem extends React.Component {
+  constructor(props) {
+    super(props);
 
-  if (isRemoving) {
+    this.removeBtnRef = React.createRef();
+    this.alertHeaderRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Set focus for keyboard-users upon content-swap.
+    if (!prevProps.isRemoving && this.props.isRemoving) {
+      this.alertHeaderRef.current.focus();
+    } else if (prevProps.isRemoving && !this.props.isRemoving) {
+      this.removeBtnRef.current.focus();
+    }
+  }
+
+  onCancelRemove(code) {
+    this.removeCancelled = true;
+    this.props.handleViewToggle(code);
+  }
+
+  render() {
+    const { title, introduction, code, cta, faqs } = this.props.benefit;
+
+    if (this.props.isRemoving) {
+      return (
+        <div>
+          <h3 ref={this.alertHeaderRef} className="benefit-title" tabIndex="-1">
+            {title}
+          </h3>
+          <AlertBox status="warning" headline="Please confirm this change">
+            <p>
+              We’ll remove this content. If you’d like to see the information
+              again, you can always add it back. Just click on the “Find More
+              Benefits” button at the top of your dashboard, then select “
+              {title}
+              .”
+            </p>
+            <button
+              className="usa-button-primary"
+              onClick={() => this.props.handleRemove(code)}
+            >
+              Remove
+            </button>
+            <button
+              className="usa-button-secondary"
+              onClick={() => this.onCancelRemove(code)}
+            >
+              Cancel
+            </button>
+          </AlertBox>
+        </div>
+      );
+    }
     return (
       <div>
-        <h3 className="benefit-title">{title}</h3>
-        <AlertBox status="warning" headline="Please confirm this change">
-          <p>
-            We’ll remove this content. If you’d like to see the information
-            again, you can always add it back. Just click on the “Find More
-            Benefits” button at the top of your dashboard, then select “{title}
-            .”
-          </p>
+        <div className="title-container preference-item-title">
+          <h3>{title}</h3>
           <button
-            className="usa-button-primary"
-            onClick={() => handleRemove(code)}
+            ref={this.removeBtnRef}
+            className="va-button-link"
+            aria-label={`Remove ${title} preference`}
+            onClick={() => this.props.handleViewToggle(code)}
           >
-            Remove
+            <i className="fas fa-times" /> <span>Remove</span>
           </button>
-          <button
-            className="usa-button-secondary"
-            onClick={() => handleViewToggle(code)}
-          >
-            Cancel
-          </button>
-        </AlertBox>
+        </div>
+        <p className="va-introtext">{introduction}</p>
+        {faqs && <FAQList faqs={faqs} />}
+        {cta && <CallToAction cta={cta} />}
       </div>
     );
   }
-  return (
-    <div>
-      <div className="title-container preference-item-title">
-        <h3>{title}</h3>
-        <button
-          className="va-button-link"
-          onClick={() => handleViewToggle(code)}
-        >
-          <i className="fas fa-times" /> <span>Remove</span>
-        </button>
-      </div>
-      <p className="va-introtext">{introduction}</p>
-      {faqs && <FAQList faqs={faqs} />}
-      {cta && <CallToAction cta={cta} />}
-    </div>
-  );
 }
 
 PreferenceItem.propTypes = {

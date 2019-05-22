@@ -30,6 +30,8 @@ import {
   hasDoctorsCare,
 } from '../../utils';
 
+import captureEvents from '../../analytics-functions';
+
 import createFormConfig4192 from '../4192';
 
 export default function() {
@@ -38,15 +40,16 @@ export default function() {
     configObj = {
       // 8940 - Introduction
       unemployabilityFormIntro: {
-        title: 'File a Claim for Individual Unemployability',
+        title: 'File a claim for Individual Unemployability',
         path: 'unemployability-walkthrough-choice',
         depends: needsToEnterUnemployability,
         uiSchema: unemployabilityFormIntro.uiSchema,
         schema: unemployabilityFormIntro.schema,
+        onContinue: captureEvents.unemployabilityFormIntro,
       },
       // 8940 - Upload 8940
       unemployabilityFormUpload: {
-        title: 'Upload Unemployability Form',
+        title: 'Upload unemployability form',
         path: 'new-disabilities/unemployability-form-upload',
         depends: isUploading8940Form,
         uiSchema: unemployabilityFormUpload.uiSchema,
@@ -62,7 +65,7 @@ export default function() {
       },
       // 8940 - Medical Care
       medicalCare: {
-        title: 'Medical Care',
+        title: 'Medical care',
         path: 'medical-care',
         depends: needsToAnswerUnemployability,
         uiSchema: medicalCare.uiSchema,
@@ -118,7 +121,7 @@ export default function() {
       },
       // 8940 - Supplementary Benefits
       supplementalBenefits: {
-        title: 'Supplemental Benefits',
+        title: 'Supplemental benefits',
         path: 'supplemental-benefits',
         depends: needsToAnswerUnemployability,
         uiSchema: supplementalBenefits.uiSchema,
@@ -142,7 +145,7 @@ export default function() {
       },
       // 8940 - Education & Training
       pastEducationTraining: {
-        title: 'Education & Training',
+        title: 'Education & training',
         path: 'past-education-training',
         depends: needsToAnswerUnemployability,
         uiSchema: pastEducationTraining.uiSchema,
@@ -158,7 +161,7 @@ export default function() {
       },
       // 8940 - Additional Remarks
       unemployabilityAdditionalInformation: {
-        title: '8940 Additional Information',
+        title: '8940 additional information',
         path: 'unemployability-additional-information',
         depends: needsToAnswerUnemployability,
         uiSchema: unemployabilityAdditionalInformation.uiSchema,
@@ -182,7 +185,7 @@ export default function() {
       },
       // 8940 - Certification
       unemployabilityCertification: {
-        title: 'Unemployability Certification',
+        title: 'Unemployability certification',
         path: 'unemployability-certification',
         depends: needsToAnswerUnemployability,
         uiSchema: unemployabilityCertification.uiSchema,

@@ -44,7 +44,7 @@ function createDrupalDebugPage(buildOptions) {
   return (files, smith, done) => {
     log('Drupal debug page written to /drupal/debug.');
 
-    const { drupalError } = smith.metadata();
+    const { drupalError } = buildOptions;
     const drupalDebugPage = drupalError
       ? createErrorPage(drupalError)
       : createIndexPage(files);

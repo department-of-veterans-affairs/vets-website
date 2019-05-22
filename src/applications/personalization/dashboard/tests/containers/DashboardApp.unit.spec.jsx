@@ -30,19 +30,64 @@ describe('<DashboardApp>', () => {
     expect(vdom).to.be.ok;
   });
 
+  it('should render empty state links if there are no available widgets', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 1 }, verified: false }} />,
+    );
+    expect(tree.toString()).to.contain('Explore our most used benefits');
+  });
+
+  it('should not render empty state links if there are available widgets', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp
+        canAccessRx
+        profile={{ loa: { current: 1 }, verified: false }}
+      />,
+    );
+    expect(tree.toString()).not.to.contain('Explore Our Most Used Benefits');
+  });
+
   it('should render verification state if LOA != 3', () => {
     const tree = SkinDeep.shallowRender(
-      <DashboardApp profile={{ loa: { current: 1 } }} />,
+      <DashboardApp profile={{ loa: { current: 1 }, verified: false }} />,
     );
     expect(tree.toString()).to.contain('Verify your identity to access more');
     expect(tree.toString()).to.contain('tools and features');
   });
 
-  it('should render MVI warning state if status not OK', () => {
+  it('should not render verification state if profile is verified', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 3 }, verified: true }} />,
+    );
+    expect(tree.toString()).not.to.contain(
+      'Verify your identity to access more',
+    );
+    expect(tree.toString()).not.to.contain('tools and features');
+  });
+
+  it('should render MVI warning state if status not OK and LOA.current is not 1', () => {
     const tree = SkinDeep.shallowRender(
       <DashboardApp profile={{ loa: { current: 3 }, status: 'ERROR' }} />,
     );
     expect(tree.toString()).to.contain(
+      'We’re having trouble matching your information to our Veteran records',
+    );
+  });
+
+  it('should not render MVI warning state if status is OK', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 3 }, status: 'OK' }} />,
+    );
+    expect(tree.toString()).not.to.contain(
+      'We’re having trouble matching your information to our Veteran records',
+    );
+  });
+
+  it('should not render MVI warning state if LOA.current is 1', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 1 }, status: 'ERROR' }} />,
+    );
+    expect(tree.toString()).not.to.contain(
       'We’re having trouble matching your information to our Veteran records',
     );
   });

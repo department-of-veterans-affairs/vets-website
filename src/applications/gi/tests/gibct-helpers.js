@@ -212,127 +212,167 @@ const singleSchool = {
 const calculatorConstants = {
   data: [
     {
-      id: '21',
+      id: '45',
       type: 'calculator_constants',
       attributes: {
         name: 'AVEGRADRATE',
-        value: 41.5,
+        value: 42.3,
+      },
+    },
+    {
+      id: '47',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'AVEREPAYMENTRATE',
+        value: 67.9,
+      },
+    },
+    {
+      id: '44',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'AVERETENTIONRATE',
+        value: 47.99,
+      },
+    },
+    {
+      id: '46',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'AVESALARY',
+        value: 33400,
+      },
+    },
+    {
+      id: '24',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'AVGVABAH',
+        value: 1681,
+      },
+    },
+    {
+      id: '25',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'BSCAP',
+        value: 1000,
+      },
+    },
+    {
+      id: '26',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'BSOJTMONTH',
+        value: 83,
+      },
+    },
+    {
+      id: '28',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'CORRESPONDTFCAP',
+        value: 11076.86,
+      },
+    },
+    {
+      id: '32',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATE',
+        value: 1024,
+      },
+    },
+    {
+      id: '33',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEFULLTIME',
+        value: 1224,
+      },
+    },
+    {
+      id: '36',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEOJT',
+        value: 747,
+      },
+    },
+    {
+      id: '35',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEONEHALF',
+        value: 710,
+      },
+    },
+    {
+      id: '34',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATETHREEQUARTERS',
+        value: 967,
+      },
+    },
+    {
+      id: '61',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEUPTOONEHALF',
+        value: 710,
+      },
+    },
+    {
+      id: '62',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'DEARATEUPTOONEQUARTER',
+        value: 306,
+      },
+    },
+    {
+      id: '27',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'FLTTFCAP',
+        value: 13031.61,
+      },
+    },
+    {
+      id: '30',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'MGIB2YRRATE',
+        value: 1509,
+      },
+    },
+    {
+      id: '29',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'MGIB3YRRATE',
+        value: 1857,
+      },
+    },
+    {
+      id: '31',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'SRRATE',
+        value: 369,
       },
     },
     {
       id: '23',
       type: 'calculator_constants',
       attributes: {
-        name: 'AVEREPAYMENTRATE',
-        value: 45.9,
-      },
-    },
-    {
-      id: '20',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'AVERETENTIONRATE',
-        value: 67.9,
-      },
-    },
-    {
-      id: '22',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'AVESALARY',
-        value: 33500.0,
-      },
-    },
-    {
-      id: '2',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'AVGBAH',
-        value: 1611.0,
-      },
-    },
-    {
-      id: '3',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'BSCAP',
-        value: 1000.0,
-      },
-    },
-    {
-      id: '4',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'BSOJTMONTH',
-        value: 83.0,
-      },
-    },
-    {
-      id: '6',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'CORRESPONDTFCAP',
-        value: 10671.35,
-      },
-    },
-    {
-      id: '10',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'DEARATE',
-        value: 1024.0,
-      },
-    },
-    {
-      id: '11',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'DEARATEOJT',
-        value: 747.0,
-      },
-    },
-    {
-      id: '5',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'FLTTFCAP',
-        value: 12554.54,
-      },
-    },
-    {
-      id: '8',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'MGIB2YRRATE',
-        value: 1509.0,
-      },
-    },
-    {
-      id: '7',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'MGIB3YRRATE',
-        value: 1857.0,
-      },
-    },
-    {
-      id: '9',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'SRRATE',
-        value: 369.0,
-      },
-    },
-    {
-      id: '1',
-      type: 'calculator_constants',
-      attributes: {
         name: 'TFCAP',
-        value: 21970.46,
+        value: 22805.34,
       },
     },
     {
-      id: '12',
+      id: '37',
       type: 'calculator_constants',
       attributes: {
         name: 'VRE0DEPRATE',
@@ -340,7 +380,7 @@ const calculatorConstants = {
       },
     },
     {
-      id: '16',
+      id: '41',
       type: 'calculator_constants',
       attributes: {
         name: 'VRE0DEPRATEOJT',
@@ -348,15 +388,15 @@ const calculatorConstants = {
       },
     },
     {
-      id: '13',
+      id: '38',
       type: 'calculator_constants',
       attributes: {
         name: 'VRE1DEPRATE',
-        value: 751.0,
+        value: 751,
       },
     },
     {
-      id: '17',
+      id: '42',
       type: 'calculator_constants',
       attributes: {
         name: 'VRE1DEPRATEOJT',
@@ -364,23 +404,15 @@ const calculatorConstants = {
       },
     },
     {
-      id: '14',
+      id: '39',
       type: 'calculator_constants',
       attributes: {
         name: 'VRE2DEPRATE',
-        value: 885.0,
+        value: 885,
       },
     },
     {
-      id: '18',
-      type: 'calculator_constants',
-      attributes: {
-        name: 'VRE2DEPRATEOJT',
-        value: 737.77,
-      },
-    },
-    {
-      id: '15',
+      id: '40',
       type: 'calculator_constants',
       attributes: {
         name: 'VREINCRATE',
@@ -388,22 +420,29 @@ const calculatorConstants = {
       },
     },
     {
-      id: '19',
+      id: '43',
       type: 'calculator_constants',
       attributes: {
         name: 'VREINCRATEOJT',
-        value: 47.99,
+        value: 737.77,
+      },
+    },
+    {
+      id: '55',
+      type: 'calculator_constants',
+      attributes: {
+        name: 'AVGDODBAH',
+        value: 1600,
       },
     },
   ],
   links: {
-    self:
-      'http://internal-dsva-vetsgov-stag-gids-elb-657904045.us-gov-west-1.elb.amazonaws.com:3004/gids/v0/calculator/constants?version=1',
+    self: 'http://localhost:3000/v0/calculator/constants',
   },
   meta: {
     version: {
       number: 1,
-      created_at: '2017-03-22T17:06:12.737Z',
+      created_at: '2019-04-22T15:48:57.598Z',
       preview: false,
     },
   },

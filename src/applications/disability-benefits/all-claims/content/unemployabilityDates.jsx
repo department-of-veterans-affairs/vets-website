@@ -1,6 +1,15 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
+import { recordEventOnce } from 'platform/monitoring/record-event';
+
+const helpClicked = () =>
+  recordEventOnce({
+    event: 'disability-526EZ--form-help-text-clicked',
+    'help-text-label':
+      'Disability - Form 526EZ - How are these dates different',
+  });
+
 export const dateDescription = (
   <div>
     <h5>Disability dates</h5>
@@ -14,7 +23,10 @@ export const dateDescription = (
 
 export const dateFieldsDescription = (
   <div className="additional-info-title-help">
-    <AdditionalInfo triggerText="How are these dates different?">
+    <AdditionalInfo
+      triggerText="How are these dates different?"
+      onClick={helpClicked}
+    >
       <h5>Date you became too disabled to work</h5>
       <p>
         This is the date you could no longer work full-time or part time due to

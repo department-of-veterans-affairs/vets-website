@@ -3,6 +3,11 @@ const converter = require('number-to-words');
 const liquid = require('tinyliquid');
 
 module.exports = function registerFilters() {
+  const {
+    featureFlags,
+    enabledFeatureFlags,
+  } = require('../utilities/featureFlags');
+
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
@@ -132,4 +137,23 @@ module.exports = function registerFilters() {
 
     return JSON.stringify(getDeepLinks(currentPath, linksArray));
   };
+
+  liquid.filters.featureFieldRegionalHealthService = entity => {
+    if (
+      entity &&
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
+    ) {
+      return entity.fieldRegionalHealthService
+        ? entity.fieldRegionalHealthService.entity
+        : null;
+    }
+    return entity && entity.fieldClinicalHealthServices
+      ? entity.fieldClinicalHealthServices[0].entity
+      : null;
+  };
+
+  // used to get a base url path of a health care region from entityUrl.path
+  liquid.filters.regionBasePath = path => path.split('/')[1];
+
+  liquid.filters.isContactPage = path => path.includes('contact');
 };

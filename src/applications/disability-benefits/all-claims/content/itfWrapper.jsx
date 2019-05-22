@@ -3,6 +3,8 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 
+import { recordEventOnce } from 'platform/monitoring/record-event';
+
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 const outputDateFormat = 'MMMM DD, YYYY';
@@ -24,8 +26,17 @@ export const itfMessage = (headline, content, status) => (
   </div>
 );
 
+const recordITFHelpEvent = () =>
+  recordEventOnce({
+    event: 'disability-526EZ--form-help-text-clicked',
+    'help-text-label': 'Disability - Form 526EZ - What is an intent to file',
+  });
+
 const expander = (
-  <AdditionalInfo triggerText="What is an Intent to File?">
+  <AdditionalInfo
+    triggerText="What is an Intent to File?"
+    onClick={recordITFHelpEvent}
+  >
     <p>
       An Intent to File request lets VA know that you’re planning to file a
       claim. An Intent to File reserves a potential effective date for when you
@@ -54,9 +65,9 @@ export const itfError = (
         We’re sorry. Your Intent to File request didn’t go through because
         something went wrong on our end. For help creating an Intent to File a
         Claim for Compensation, please call Veterans Benefits Assistance at{' '}
-        <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00
-        a.m. – 9:00 a.m. (ET). Or, you can fill out VA Form 21-0966 and submit
-        it to:
+        <a href="tel:1-800-827-1000">800-827-1000</a>, Monday – Friday, 8:00
+        a.m. – 9:00 a.m. ET. Or, you can fill out VA Form 21-0966 and submit it
+        to:
       </p>
       {claimsIntakeAddress}
     </div>

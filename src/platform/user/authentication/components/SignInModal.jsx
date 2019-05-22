@@ -3,14 +3,13 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import environment from '../../../utilities/environment';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
-import siteName from '../../../brand-consolidation/site-name';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -33,13 +32,28 @@ class SignInModal extends React.Component {
     }
   }
 
+  downtimeBanner = (dependencies, headline, status, message) => (
+    <DowntimeBanner dependencies={dependencies}>
+      <div className="downtime-notification row">
+        <div className="columns small-12">
+          <div className="form-warning-banner">
+            <AlertBox headline={headline} isVisible status={status}>
+              {message}
+            </AlertBox>
+            <br />
+          </div>
+        </div>
+      </div>
+    </DowntimeBanner>
+  );
+
   renderModalContent = () => (
     <main className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
             <a href="/">
-              <img alt={siteName} className="va-header-logo" src={logoSrc} />
+              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
             </a>
           </div>
         </div>
@@ -47,7 +61,7 @@ class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1>Sign in to {siteName}</h1>
+            <h1>Sign in to VA.gov</h1>
           </div>
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
@@ -57,27 +71,30 @@ class SignInModal extends React.Component {
             </h2>
           </div>
         </div>
-        <DowntimeBanner dependencies={[externalServices.dslogon]}>
-          <div className="downtime-notification row">
-            <div className="columns small-12">
-              <div className="form-warning-banner">
-                <AlertBox
-                  headline={`Some ${siteName} tools and features may not be working as expected`}
-                  isVisible
-                  status="warning"
-                >
-                  We’re sorry. We’re working to fix some problems with DS Logon
-                  right now. Please check back later or{' '}
-                  <SubmitSignInForm>
-                    call the {siteName} Help Desk for more information at
-                    1-855-574-7286, TTY: 1-800-877-8339.
-                  </SubmitSignInForm>
-                </AlertBox>
-                <br />
-              </div>
-            </div>
-          </div>
-        </DowntimeBanner>
+        {this.downtimeBanner(
+          [externalServices.idme],
+          'Our sign in process isn’t working right now',
+          'error',
+          'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
+        )}
+        {this.downtimeBanner(
+          [externalServices.dslogon],
+          'You may have trouble signing in with DS Logon',
+          'warning',
+          'We’re sorry. We’re working to fix some problems with our DS Logon sign in process. If you’d like to sign in to VA.gov with your DS Logon account, please check back later.',
+        )}
+        {this.downtimeBanner(
+          [externalServices.mhv],
+          'You may have trouble signing in with My HealtheVet',
+          'warning',
+          'We’re sorry. We’re making some scheduled updates to our My HealtheVet sign-in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
+        )}
+        {this.downtimeBanner(
+          [externalServices.mvi],
+          'You may have trouble signing in or using some tools or services',
+          'warning',
+          'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
+        )}
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">
@@ -147,8 +164,8 @@ class SignInModal extends React.Component {
                 fingertips.
               </div>
               <p>
-                You spoke. We listened. {siteName} is the direct result of what
-                you said you wanted most—one easy-to-use place to:
+                You spoke. We listened. VA.gov is the direct result of what you
+                said you wanted most—one easy-to-use place to:
               </p>
               <ul>
                 <li>Check your disability claim and appeal status</li>
@@ -195,8 +212,8 @@ class SignInModal extends React.Component {
             <hr />
             <div className="fed-warning">
               <p>
-                When you sign in to {siteName}, you’re using a United States
-                federal government information system.
+                When you sign in to VA.gov, you’re using a United States federal
+                government information system.
               </p>
               <p>
                 By signing in, you agree to only use information you have legal

@@ -14,14 +14,12 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
   addressModalContent,
   addressUpdateUnavailable,
-  getStateName,
-  getZipCode,
+  formatStreetAddress,
+  formatCityStatePostal,
   inferAddressType,
-  isDomesticAddress,
   isInternationalAddress,
-  isMilitaryAddress,
-  resetDisallowedAddressFields,
   isAddressEmpty,
+  resetDisallowedAddressFields,
 } from '../utils/helpers';
 import {
   saveAddress,
@@ -30,13 +28,15 @@ import {
 } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
+import noAddressBanner from '../components/NoAddressBanner';
 
 import {
   addressOneValidations,
-  postalCodeValidations,
-  stateValidations,
   countryValidations,
   cityValidations,
+  optionalAddressValidations,
+  postalCodeValidations,
+  stateValidations,
 } from '../utils/validations';
 
 const Element = Scroll.Element;
@@ -51,20 +51,6 @@ const scrollToTop = () => {
     },
   );
 };
-
-const noAddressBanner = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">
-        VA does not have a valid address on file for you
-      </h3>
-      <div className="usa-alert-text">
-        You will need to update your address before we can provide you any
-        letters.
-      </div>
-    </div>
-  </div>
-);
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -292,31 +278,12 @@ export class AddressSection extends React.Component {
   render() {
     const address = this.props.savedAddress || {};
     const emptyAddress = isAddressEmpty(this.props.savedAddress);
-    // Street address: first line of address
-    const streetAddressLines = [
-      address.addressOne,
-      address.addressTwo ? `, ${address.addressTwo}` : '',
-      address.addressThree ? ` ${address.addressThree}` : '',
-    ];
-    const streetAddress = streetAddressLines.join('').toLowerCase();
 
-    // City, state, postal code: second line of address
-    const zipCode = getZipCode(address);
-    const city = address.city || '';
-    let cityStatePostal;
-    if (isDomesticAddress(address)) {
-      const state = getStateName(address.stateCode);
-      cityStatePostal = `${city}, ${state} ${zipCode}`;
-    } else if (isMilitaryAddress(address)) {
-      const militaryStateCode = address.stateCode || '';
-      cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
-    } else {
-      // Must be an international address, only show a city
-      cityStatePostal = `${city}`;
-    }
-
-    const country = isInternationalAddress(address) ? address.countryName : '';
-    const addressContentLines = { streetAddress, cityStatePostal, country };
+    const addressContentLines = {
+      streetAddress: formatStreetAddress(address),
+      cityStatePostal: formatCityStatePostal(address),
+      country: isInternationalAddress(address) ? address.countryName : '',
+    };
 
     let addressFields;
     if (this.props.isEditingAddress) {
@@ -347,6 +314,7 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
+      const { streetAddress, cityStatePostal, country } = addressContentLines;
       const displayAddress = (
         <div>
           <div className="letters-address street">{streetAddress}</div>
@@ -360,8 +328,7 @@ export class AddressSection extends React.Component {
           <h5 className="letters-address">
             {(this.props.recipientName || '').toLowerCase()}
           </h5>
-          {emptyAddress && noAddressBanner}
-          {!emptyAddress && displayAddress}
+          {emptyAddress ? noAddressBanner : displayAddress}
           <button className="address-help-btn" onClick={this.openAddressHelp}>
             What is this?
           </button>
@@ -421,6 +388,8 @@ export class AddressSection extends React.Component {
 // For testing purposes; we need to wrap the validators in spies--the same instances that are called in here
 AddressSection.fieldValidations = {
   addressOne: addressOneValidations,
+  addressTwo: optionalAddressValidations,
+  addressThree: optionalAddressValidations,
   zipCode: postalCodeValidations,
   stateCode: stateValidations,
   countryName: countryValidations,

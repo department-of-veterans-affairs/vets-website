@@ -157,32 +157,67 @@ function generateBreadCrumbs(pathString) {
   return entityUrlObj;
 }
 
+function getHubSidebar(navsArray, owner) {
+  // Get the right benefits hub sidebar
+  for (const nav of navsArray) {
+    if (nav !== null && nav.links.length) {
+      const navName = _.toLower(nav.name);
+      if (owner !== null && owner === navName) {
+        return { sidebar: nav };
+      }
+    }
+  }
+
+  // default to no menu
+  return { sidebar: {} };
+}
+
 function compilePage(page, contentData) {
   const {
     data: {
-      sidebarQuery: sidebarNav = {},
+      healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
+      recordsHubSidebarQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
-      icsFiles: { entities: icsFiles },
     },
   } = contentData;
 
-  const sidebarNavItems = { sidebar: sidebarNav };
+  // Get page owner
+  let owner;
+  if (page.fieldAdministration) {
+    owner = _.toLower(page.fieldAdministration.entity.name);
+  }
+  // Benefits hub side navs in an array to loop through later
+  const sideNavs = [healthcareHubSidebarNav, recordsHubSidebarNav];
+  let sidebarNavItems;
+
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
   const alertItems = { alert: alertsItem };
 
-  const {
-    entityUrl: { path: drupalPagePath },
-    entityBundle,
-  } = page;
+  const { entityUrl, entityBundle } = page;
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
   let pageCompiled;
 
   switch (entityBundle) {
-    case 'page':
-      pageCompiled = Object.assign(page, sidebarNavItems, alertItems, pageId);
+    case 'health_care_region_detail_page':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        alertItems,
+        pageId,
+      );
+      break;
+    case 'health_care_local_facility':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        alertItems,
+        pageId,
+      );
       break;
     case 'health_care_region_page':
       pageCompiled = Object.assign(
@@ -209,29 +244,18 @@ function compilePage(page, contentData) {
       );
       break;
     case 'event': {
-      let addToCalendar;
-      for (const icsFile of icsFiles) {
-        if (
-          page.fieldAddToCalendar !== null &&
-          icsFile.fid === parseInt(page.fieldAddToCalendar.fileref, 10)
-        ) {
-          addToCalendar = icsFile.url;
-        }
-      }
-
       // eslint-disable-next-line no-param-reassign
-      page.entityUrl = generateBreadCrumbs(drupalPagePath);
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
         alertItems,
         pageId,
-        { addToCalendarLink: addToCalendar },
       );
       break;
     }
     case 'person_profile':
-      page.entityUrl = generateBreadCrumbs(drupalPagePath);
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -240,7 +264,17 @@ function compilePage(page, contentData) {
       );
       break;
     default:
-      pageCompiled = page;
+      // Get the right benefits hub sidebar
+      sidebarNavItems = getHubSidebar(sideNavs, owner);
+
+      // Build page with correct sidebar
+      pageCompiled = Object.assign(
+        {},
+        page,
+        sidebarNavItems,
+        alertItems,
+        pageId,
+      );
       break;
   }
 

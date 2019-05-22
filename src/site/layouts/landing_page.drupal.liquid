@@ -21,7 +21,7 @@
         <div class="va-introtext">
           <p>{{ fieldIntroText }}</p>
         </div>
-        {% if fieldSpokes != empty %}
+        {% if fieldSpokes != empty and fieldSpokes.length > 1 %}
         <h3>On This Page:</h3>
         <ul>
           {% for spoke in fieldSpokes %}
@@ -70,11 +70,11 @@
             <button
               class="usa-accordion-button usa-accordion-button-dark rail-heading"
               aria-expanded="true" aria-controls="a1">
-              Ask Questions
+              Ask questions
             </button>
             <div id="a1" class="usa-accordion-content" aria-hidden="false">
               <section>
-                <h4>Message Us</h4>
+                <h4>Message us</h4>
                 <ul class="va-nav-linkslist-list social">
                   <li>
                     <a href="https://iris.custhelp.va.gov/app/ask">
@@ -85,7 +85,7 @@
               </section>
               {% if fieldSupportServices != empty %}
               <section>
-                <h4>Call Us</h4>
+                <h4>Call us</h4>
                 <ul class="va-nav-linkslist-list social">
                   {% for supportService in fieldSupportServices %}
                   {% assign service = supportService.entity %}
@@ -107,8 +107,8 @@
           </li>
         </ul>
 
-        {% if fieldAdministration != empty %}
-        {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
+        {% if fieldAdministration != empty and fieldAdministration.entity.name != "Records benefits hub" %}
+          {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}
         {% endif %}
       </div>
     </div>

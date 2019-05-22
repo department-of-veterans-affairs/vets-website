@@ -11,12 +11,11 @@ import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
-import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
-import(/* webpackChunkName: "uswds" */ 'uswds');
+import '@department-of-veterans-affairs/formation/dist/formation';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -48,7 +47,6 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
-  startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
   startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);

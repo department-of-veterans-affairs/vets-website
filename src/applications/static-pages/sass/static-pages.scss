@@ -1,3 +1,4 @@
+$formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
@@ -75,5 +76,14 @@
   }
   > span {
     display: none;
+  }
+
+  &.form-expanding-group-open.borderless-alert {
+    border: none;
+    padding-left: 2rem;
+
+    ul {
+      padding-left: 1.5em;
+    }
   }
 }

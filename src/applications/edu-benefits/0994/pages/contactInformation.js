@@ -47,6 +47,7 @@ export const uiSchema = {
     'ui:options': {
       viewComponent: PhoneEmailViewField,
     },
+    saveClickTrackEvent: { event: 'edu-0994-personal-information-saved' },
     dayTimePhone: {
       'ui:title': 'Phone number',
       'ui:widget': PhoneNumberWidget,
@@ -84,9 +85,13 @@ export const uiSchema = {
       viewComponent: AddressViewField,
       startInEdit: mailingAddressStartInEdit,
     },
+    saveClickTrackEvent: { event: 'edu-0994-personal-information-saved' },
     street: {
       ...addressUiSchema.street,
       'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
     },
     street2: {
       ...addressUiSchema.street2,
@@ -96,9 +101,14 @@ export const uiSchema = {
       ...addressUiSchema.street3,
       'ui:title': 'Street address (line 3)',
     },
+    city: {
+      ...addressUiSchema.city,
+      'ui:errorMessages': {
+        pattern: 'Please provide a response',
+      },
+    },
   },
   'view:contactInfoNote': {
-    'ui:title': ' ',
     'ui:description': contactInfoNote,
   },
 };

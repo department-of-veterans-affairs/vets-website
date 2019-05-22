@@ -76,7 +76,7 @@ export function setViewedPages(pageKeys) {
   };
 }
 
-function submitToUrl(body, submitUrl, trackingPrefix) {
+export function submitToUrl(body, submitUrl, trackingPrefix) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('POST', submitUrl);

@@ -18,14 +18,19 @@ const fastForwardAnimations = async page => {
 
 const getTestData = (contents, pathPrefix) => get(pathPrefix, contents, {});
 
-const getLogger = debugMode => (...params) => {
+const getLogger = (debugMode, testName) => (...params) => {
   if (debugMode) {
     // eslint-disable-next-line no-console
-    console.log(...params);
+    console.log(`${testName}:`, ...params);
   }
 };
 
-const runTest = async (page, testData, testConfig, userToken) => {
+/**
+ * Function to start the test. This logs in if necessary, navigates to the starting
+ *  URL, sets up CSS injection to hide the Foresee overlay, and starts filling out
+ *  the form.
+ */
+const runTest = async (page, testData, testConfig, userToken, testName) => {
   // Go to the starting page either by logging in or going there directly
   if (testConfig.logIn) {
     await logIn(userToken, page, testConfig.url, 3);
@@ -33,7 +38,12 @@ const runTest = async (page, testData, testConfig, userToken) => {
     await page.goto(`${baseUrl}${testConfig.url}`);
   }
 
-  await fillForm(page, testData, testConfig, getLogger(testConfig.debug));
+  await fillForm(
+    page,
+    testData,
+    testConfig,
+    getLogger(testConfig.debug, testName),
+  );
 
   // TODO: Check for unused data
   // TODO: Submit
@@ -46,6 +56,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
  * @typedef {object} TestConfig
  * @property {function} setup - Function called before the browser navigates to the initial URL.
  *                              Useful for setting up api mocks.
+ * @property {function} setupPerTest - Function that's called before each test.
  * @property {string} url - The url where the form can be found.
  * @property {boolean} logIn - Whether to log in at LoA 3 or not.
  * @property {object.<function>} pageHooks - Functions used to bypass the automatic form filling
@@ -73,6 +84,7 @@ const runTest = async (page, testData, testConfig, userToken) => {
 const testForm = (testDataSets, testConfig) => {
   let browser;
   const token = getUserToken();
+  const headlessMode = !testConfig.debug || process.env.IN_DOCKER;
 
   beforeAll(() => {
     if (testConfig.setup) {
@@ -82,14 +94,21 @@ const testForm = (testDataSets, testConfig) => {
 
   beforeEach(async () => {
     browser = await puppeteer.launch({
-      devtools: testConfig.debug,
       // slowMo: testConfig.debug ? 100 : 0,
-      args: ['--window-size=1400,750'],
+      args: [
+        '--window-size=1400,750',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ],
+      devtools: !headlessMode,
     });
   });
 
   afterEach(async () => {
-    if (!testConfig.debug) {
+    // The assumption here is that debug mode is turned on to see what's causing a failure,
+    //  so keep the window open.
+    // When running in docker, it will always be in headless mode, so always close it.
+    if (headlessMode) {
       await browser.close();
     }
   });
@@ -98,15 +117,14 @@ const testForm = (testDataSets, testConfig) => {
     test(
       fileName,
       async () => {
+        const testData = getTestData(contents, testConfig.testDataPathPrefix);
+        if (testConfig.setupPerTest) {
+          testConfig.setupPerTest({ userToken: token, testData });
+        }
         const pageList = await browser.pages();
         const page = pageList[0] || (await browser.newPage());
         await fastForwardAnimations(page);
-        await runTest(
-          page,
-          getTestData(contents, testConfig.testDataPathPrefix),
-          testConfig,
-          token,
-        );
+        await runTest(page, testData, testConfig, token, fileName);
       },
       // TODO: Make the timeout based on the number of inputs by default
       testConfig.timeoutPerTest || 120000,

@@ -80,21 +80,11 @@ describe('<MhvTermsAndConditions>', () => {
     wrapper.setState({ isSubmitted: true }, () => {
       wrapper.setProps({ accepted: true });
     });
-    expect(wrapper.state('showAcceptedMessage')).to.be.true;
     const alertBox = wrapper.find('AlertBox').first();
     expect(alertBox.prop('status')).to.eq('success');
     expect(alertBox.prop('headline')).to.eq(
-      'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
+      'You’ve accepted the Terms and Conditions for using VA.gov health tools',
     );
-    wrapper.unmount();
-  });
-
-  it('should show a success message after acceptance', () => {
-    const wrapper = shallow(<MhvTermsAndConditions {...props} />);
-    wrapper.setState({ showCanceledMessage: true });
-    const alertBox = wrapper.find('AlertBox').first();
-    expect(alertBox.prop('status')).to.eq('warning');
-    expect(alertBox.prop('headline')).to.eq('Using Vets.gov Health Tools');
     wrapper.unmount();
   });
 
@@ -107,7 +97,6 @@ describe('<MhvTermsAndConditions>', () => {
     const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
     wrapper.setState({ isSubmitted: true });
     wrapper.setProps({ accepted: true });
-    expect(wrapper.state('showAcceptedMessage')).to.be.true;
     expect(global.window.location.replace.calledOnce).to.be.true;
     wrapper.unmount();
   });

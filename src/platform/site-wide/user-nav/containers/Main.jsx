@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import { isInProgress } from '../../../forms/helpers';
-import FormSignInModal from '../../../forms/save-in-progress/FormSignInModal';
-import { SAVE_STATUSES } from '../../../forms/save-in-progress/actions';
-import { updateLoggedInStatus } from '../../../user/authentication/actions';
-import SignInModal from '../../../user/authentication/components/SignInModal';
-import { initializeProfile } from '../../../user/profile/actions';
-import { hasSession } from '../../../user/profile/utilities';
-import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
+import { isInProgressPath } from 'platform/forms/helpers';
+import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
+import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { initializeProfile } from 'platform/user/profile/actions';
+import { hasSession } from 'platform/user/profile/utilities';
+import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
 import {
   toggleFormSignInModal,
@@ -129,14 +131,7 @@ export class Main extends React.Component {
   };
 
   signInSignUp = () => {
-    const { formAutoSavedStatus } = this.props;
-
-    const shouldConfirmLeavingForm =
-      typeof formAutoSavedStatus !== 'undefined' &&
-      formAutoSavedStatus !== SAVE_STATUSES.success &&
-      isInProgress(window.location.pathname);
-
-    if (shouldConfirmLeavingForm) {
+    if (this.props.shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
     } else {
       this.props.toggleLoginModal(true, 'header');
@@ -164,19 +159,42 @@ export class Main extends React.Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
+        {!environment.isProduction() && (
+          <SessionTimeoutModal
+            isLoggedIn={this.props.currentlyLoggedIn}
+            onExtendSession={this.props.initializeProfile}
+          />
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  currentlyLoggedIn: isLoggedIn(state),
-  formAutoSavedStatus: state.form && state.form.autoSavedStatus,
-  isProfileLoading: isProfileLoading(state),
-  isLOA3: isLOA3(state),
-  userGreeting: selectUserGreeting(state),
-  ...state.navigation,
-});
+export const mapStateToProps = state => {
+  let formAutoSavedStatus;
+  let additionalRoutes;
+  let additionalSafePaths;
+  const { form } = state;
+  if (typeof form === 'object') {
+    formAutoSavedStatus = form.autoSavedStatus;
+    additionalRoutes = form.additionalRoutes;
+    additionalSafePaths =
+      additionalRoutes && additionalRoutes.map(route => route.path);
+  }
+  const shouldConfirmLeavingForm =
+    typeof formAutoSavedStatus !== 'undefined' &&
+    formAutoSavedStatus !== SAVE_STATUSES.success &&
+    isInProgressPath(window.location.pathname, additionalSafePaths);
+
+  return {
+    currentlyLoggedIn: isLoggedIn(state),
+    isProfileLoading: isProfileLoading(state),
+    isLOA3: isLOA3(state),
+    shouldConfirmLeavingForm,
+    userGreeting: selectUserGreeting(state),
+    ...state.navigation,
+  };
+};
 
 const mapDispatchToProps = {
   toggleFormSignInModal,

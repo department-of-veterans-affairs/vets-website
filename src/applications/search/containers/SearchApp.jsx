@@ -8,6 +8,8 @@ import { formatResponseString } from '../utils';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 
+import { focusElement } from 'platform/utilities/ui';
+
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
@@ -15,6 +17,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
+
+const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -51,13 +57,19 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
-      this.writeBreadcrumb();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.search.query !== prevProps.search.query) {
-      this.writeBreadcrumb();
+    const hasNewResults =
+      prevProps.search.loading && !this.props.search.loading;
+
+    if (hasNewResults) {
+      const shouldFocusOnResults = this.props.search.searchesPerformed > 1;
+
+      if (shouldFocusOnResults) {
+        focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
+      }
     }
   }
 
@@ -95,14 +107,6 @@ class SearchApp extends React.Component {
       userInput: event.target.value,
     });
   };
-
-  writeBreadcrumb() {
-    const breadcrumbList = document.getElementById('va-breadcrumbs-list');
-    const lastCrumb = breadcrumbList.lastElementChild.children[0];
-    if (breadcrumbList && lastCrumb) {
-      lastCrumb.text = `Search Results for '${this.props.search.query}'`;
-    }
-  }
 
   renderResults() {
     const { loading, errors } = this.props.search;
@@ -159,7 +163,9 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4>Our Top Recommendations for You</h4>
+          <h4 className={SCREENREADER_FOCUS_CLASSNAME}>
+            Our Top Recommendations for You
+          </h4>
           <ul className="results-list">
             {recommendedResults.map(r =>
               this.renderWebResult(r, 'description', true),
@@ -194,10 +200,13 @@ class SearchApp extends React.Component {
 
     /* eslint-disable prettier/prettier */
     return (
-      <p>
-        Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+      <p aria-live="polite" aria-relevant="additions text">
+        Showing{' '}
+        {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of{' '}
+        {totalEntries} results
         <span className="usa-sr-only">
-          {' '}for "{this.props.router.location.query.query}"
+          {' '}
+          for "{this.props.router.location.query.query}"
         </span>
       </p>
     );
@@ -208,7 +217,7 @@ class SearchApp extends React.Component {
     const { results, loading } = this.props.search;
 
     if (loading) {
-      return <LoadingIndicator message="Loading results..." setFocus />;
+      return <LoadingIndicator message="Loading results..." />;
     }
 
     if (results && results.length > 0) {
@@ -232,7 +241,7 @@ class SearchApp extends React.Component {
     return (
       <li key={result.url} className="result-item">
         <a
-          className="result-title"
+          className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
           onClick={
             isBestBet
@@ -281,6 +290,7 @@ class SearchApp extends React.Component {
   render() {
     return (
       <div className="search-app">
+        <SearchBreadcrumbs query={this.props.search.query} />
         <div className="row">
           <div className="columns">
             <h2>Search VA.gov</h2>

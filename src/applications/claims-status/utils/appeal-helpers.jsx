@@ -289,7 +289,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             </p>
             <p>
               <a href="/disability-claims/claim-appeals/hearings">
-                Learn more about hearings.
+                Learn more about hearings
               </a>
             </p>
           </div>
@@ -348,7 +348,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
               the Board know if you’d like a hearing for your appeal.
             </p>
             <p>
-              <a href="#">Learn more about hearings.</a>
+              <a href="#">Learn more about hearings</a>
             </p>
           </div>
         ),
@@ -387,7 +387,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
               court. You have 120 days to file an appeal with CAVC, if you
               decide to do so.{' '}
               <a href="https://www.uscourts.cavc.gov/appeal.php">
-                Learn how to file an appeal with the CAVC.
+                Learn how to file an appeal with the CAVC
               </a>
             </p>
           </div>

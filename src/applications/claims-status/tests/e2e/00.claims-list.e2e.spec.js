@@ -15,7 +15,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Combined claim link
   client
-    .click('a.claims-combined')
+    .click('button.claims-combined')
     .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
   client.expect
     .element('.claims-status-upload-header')

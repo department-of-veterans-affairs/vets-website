@@ -4,7 +4,7 @@ import React from 'react';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import FormItem from './FormItem';
 import { isSIPEnabledForm } from '../helpers';
@@ -39,8 +39,8 @@ class FormList extends React.Component {
 
     return !hasVerifiedSavedForms ? null : (
       <div className="profile-section medium-12 columns">
-        <h2 className="section-header">Continue Applications</h2>
-        {forms.map(form => (
+        <h2 className="section-header">Your applications</h2>
+        {verifiedSavedForms.map(form => (
           <FormItem
             key={form.form}
             savedFormData={form}

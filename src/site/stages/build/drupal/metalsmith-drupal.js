@@ -12,7 +12,7 @@ const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
 const createHealthCareRegionListPages = require('./health-care-region');
 
-const DRUPAL_CACHE_FILENAME = 'drupal.json';
+const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
@@ -86,12 +86,10 @@ async function loadDrupal(buildOptions) {
 
     console.timeEnd(drupalTimer);
 
-    if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
-      const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-      fs.ensureDirSync(buildOptions.cacheDirectory);
-      fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupalFiles'));
-      fs.writeFileSync(drupalCache, serialized);
-    }
+    const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
+    fs.ensureDirSync(buildOptions.cacheDirectory);
+    fs.emptyDirSync(path.join(buildOptions.cacheDirectory, 'drupal'));
+    fs.writeFileSync(drupalCache, serialized);
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
@@ -105,14 +103,18 @@ async function loadDrupal(buildOptions) {
 }
 
 async function loadCachedDrupalFiles(buildOptions, files) {
-  const cachedFilesPath = path.join(buildOptions.cacheDirectory, 'drupalFiles');
+  const cachedFilesPath = path.join(
+    buildOptions.cacheDirectory,
+    'drupal/downloads',
+  );
   if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
     const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
     cachedDrupalFiles.forEach(file => {
       const relativePath = path.relative(
-        path.join(buildOptions.cacheDirectory, 'drupalFiles'),
+        path.join(buildOptions.cacheDirectory, 'drupal/downloads'),
         file,
       );
+      log(`Loaded Drupal asset from cache: ${relativePath}`);
       files[relativePath] = {
         path: relativePath,
         isDrupalAsset: true,
@@ -138,12 +140,14 @@ function getDrupalContent(buildOptions) {
         drupalData = await loadDrupal(buildOptions);
       }
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
+
       loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
+      buildOptions.drupalData = drupalData;
       done();
     } catch (err) {
-      metalsmith.metadata({ drupalError: drupalData });
+      buildOptions.drupalError = drupalData;
       log(err.stack);
       log(JSON.stringify(drupalData));
       log('Failed to pipe Drupal content into Metalsmith!');

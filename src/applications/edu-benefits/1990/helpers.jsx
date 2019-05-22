@@ -53,9 +53,9 @@ export function directDepositDescription() {
         >
           www.usdirectexpress.com
         </a>{' '}
-        or by calling <a href="tel:18003331795">1-800-333-1795</a>. To request a
+        or by calling <a href="tel:18003331795">800-333-1795</a> To request a
         waiver, contact the Department of Treasury Electronic Solution Center at{' '}
-        <a href="tel:18882242950">1-888-224-2950</a>.
+        <a href="tel:18882242950">888-224-2950</a>.
       </p>
     </div>
   );
@@ -110,8 +110,8 @@ export const benefitsRelinquishedDescription = (
   <span>
     <br />
     If you have questions or don’t understand the choice, talk to a specialist
-    at 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>
-    ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).
+    at 1-888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
+    ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
   </span>
 );
 

@@ -8,6 +8,4 @@ trap 'jobs -p; if [ $? -eq 0 ] ; then kill $(jobs -p); fi' EXIT
 
 # Fire up the test
 export WEB_PORT=3001
-"$(dirname "$0")"/../node_modules/.bin/jest "${@}"
-
-# TODO: Make this run multiple tests
+"$(dirname "$0")"/../node_modules/.bin/jest -c=config/jest-puppeteer.config.js "${@}"

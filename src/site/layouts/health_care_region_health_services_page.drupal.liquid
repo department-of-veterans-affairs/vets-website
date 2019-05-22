@@ -13,12 +13,8 @@
                 <div class="va-introtext">{{ fieldClinicalHealthServi.processed }}</div>
 
                 <div class="usa-grid usa-grid-full vads-u-margin-top--2 vads-u-margin-bottom--3">
-                    <div class="usa-width-one-third">
-                        <a href="{{ entityUrl.path }}/appointments" class="usa-button usa-button-primary">Make an appointment</a>
-                    </div>
-                    <div class="usa-width-one-third">
-                        <a href="{{ entityUrl.path }}/become-a-patient" class="usa-button usa-button-primary">Become a patient</a>
-                    </div>
+                    <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--4">{% assign basePath = entityUrl.path | regionBasePath %}
+                        {% include "src/site/facilities/facilities_health_services_buttons.drupal.liquid" with path = basePath %}</div>
                 </div>
 
                 {% if careCoordinatorPatientFamilyServices.entites.length || socialProgramsPatientFamilyServices.entities.length || healthWellnessPatientFamilyServices.entities.length || primaryCareHealthServices.entities.length || mentalHealthServices.entities.length || specialtyCareHealthServices.entities.length %}
@@ -70,7 +66,7 @@
                     <section class="wellness-patient-family-services" id="wellness-patient-family-services">
                         <h2>Health and wellness</h2>
                         {% for wellnessService in healthWellnessPatientFamilyServices.entities %}
-                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = wellnessHealthService %}
+                          {% include "src/site/facilities/health_service.drupal.liquid" with healthService = wellnessService %}
                         {% endfor %}
                     </section>
                 {% endif %}

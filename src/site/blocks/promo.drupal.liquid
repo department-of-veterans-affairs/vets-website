@@ -35,7 +35,10 @@
     <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
   {% if entity.fieldPromoLink != empty %}
     <section class="hub-promo-text">
-        <h4 class="heading"><a href="{{ entity.fieldPromoLink.entity.fieldLink.url.path }}">{{ entity.fieldPromoLink.entity.fieldLink.title }}</a></h4>
+        <h4 class="heading">
+          <a onClick="recordEvent({ event: 'nav-hub-promo' });"
+            href="{{ entity.fieldPromoLink.entity.fieldLink.0.url.path }}">{{ entity.fieldPromoLink.entity.fieldLink.0.title }}</a>
+        </h4>
         <p>{{ entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
     </section>
   {% endif %}

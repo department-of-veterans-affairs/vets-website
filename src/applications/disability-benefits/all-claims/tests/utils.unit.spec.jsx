@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import _ from '../../../../platform/utilities/data';
+import moment from 'moment';
 
 import {
   makeSchemaForNewDisabilities,
@@ -29,7 +29,7 @@ import {
   ReservesGuardDescription,
   servedAfter911,
   viewifyFields,
-  recordEventOnce,
+  activeServicePeriods,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -604,6 +604,27 @@ describe('526 helpers', () => {
       expect(viewifyFields(formData)).to.eql(viewifiedFormData);
     });
   });
+
+  describe('activeServicePeriods', () => {
+    it('should return an array of service periods with no end `to` date or a `to` date in the future', () => {
+      const inactivePeriod = { dateRange: { to: '1999-03-03' } };
+      const futurePeriod = {
+        dateRange: {
+          to: moment()
+            .add(1, 'day')
+            .format('YYYY-MM-DD'),
+        },
+      };
+      const noToDate = { dateRange: { to: undefined } };
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [inactivePeriod, futurePeriod, noToDate],
+        },
+      };
+
+      expect(activeServicePeriods(formData)).to.eql([futurePeriod, noToDate]);
+    });
+  });
 });
 
 describe('isAnswering781Questions', () => {
@@ -812,42 +833,6 @@ describe('isAnswering781aQuestions', () => {
         },
       };
       expect(hasHospitalCare(formData)).to.be.false;
-    });
-  });
-
-  describe('recordEventOnce', () => {
-    beforeEach(() => {
-      window.oldDataLayer = _.cloneDeep(window.dataLayer);
-      window.dataLayer = [];
-    });
-
-    afterEach(() => {
-      window.dataLayer = _.cloneDeep(window.oldDataLayer);
-      delete window.oldDataLayer;
-    });
-
-    const testKey = 'help-text-label';
-    const testEvent = {
-      event: 'test-event',
-      [testKey]: 'Test Event',
-    };
-
-    it('should record event if not already in dataLayer', () => {
-      // sanity check to ensure that setup worked
-      expect(window.dataLayer.length).to.equal(0);
-
-      recordEventOnce(testEvent, testKey);
-      expect(window.dataLayer.length).to.equal(1);
-    });
-
-    it('should not record duplicate events', () => {
-      // sanity check to ensure that setup worked
-      expect(window.dataLayer.length).to.equal(0);
-
-      recordEventOnce(testEvent, testKey);
-      recordEventOnce(testEvent, testKey);
-
-      expect(window.dataLayer.length).to.equal(1);
     });
   });
 });

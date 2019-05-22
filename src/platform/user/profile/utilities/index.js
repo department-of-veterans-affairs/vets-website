@@ -1,14 +1,9 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import Raven from 'raven-js';
-
-import recordEvent from '../../../monitoring/record-event';
 import {
   setRavenLoginType,
   clearRavenLoginType,
-  authnSettings,
 } from '../../authentication/utilities';
-import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
 
 import {
@@ -124,86 +119,24 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
-function compareLoginPolicy(loginPolicy) {
-  // This is experimental code related to GA that will let us determine
-  // if the backend is returning an accurate loginPolicy (service_name)
+export function setupProfileSession(userProfile) {
+  const { firstName, signIn } = userProfile;
+  const loginType = (signIn && signIn.serviceName) || null;
 
-  let attemptedLoginPolicy = sessionStorage.getItem(
-    authnSettings.PENDING_LOGIN_POLICY,
-  );
-
-  attemptedLoginPolicy =
-    attemptedLoginPolicy === 'mhv' ? 'myhealthevet' : attemptedLoginPolicy;
-
-  if (attemptedLoginPolicy === null) {
-    Raven.captureMessage(
-      "sessionStorage error: 'pendingLoginPolicy' was not stored",
-    );
-  }
-
-  if (loginPolicy !== attemptedLoginPolicy) {
-    recordEvent({
-      event: `login-mismatch-${attemptedLoginPolicy}-${loginPolicy}`,
-    });
-  }
-}
-
-function recordGAAuthEvent(loginPolicy, loa) {
-  // The payload we receive from authenticating does not specify whether
-  // the user has logged in or if they are a new user. To differentiate, we are
-  // retrieving a "pendingAuthAction" stored in localStorage when the user
-  // clicks a sign in/register button in the Sign In Modal
-
-  const pendingAuthAction = sessionStorage.getItem(
-    authnSettings.PENDING_AUTH_ACTION,
-  );
-
-  if (pendingAuthAction === 'register') {
-    // Record GA success event for the register method.
-    recordEvent({ event: `register-success-${loginPolicy}` });
-  } else if (pendingAuthAction === 'login') {
-    compareLoginPolicy(loginPolicy);
-    // Report GA success event for the login method.
-    recordEvent({ event: `login-success-${loginPolicy}` });
-  } else {
-    recordEvent({ event: `login-or-register-success-${loginPolicy}` });
-    Raven.captureMessage(
-      "sessionStorage error: 'pendingAuthAction' was not stored",
-    );
-  }
-
-  // Report out the current level of assurance for the user.
-  if (loa && loa.current) {
-    recordEvent({ event: `login-loa-current-${loa.current}` });
-  }
-}
-
-export function setupProfileSession(payload) {
-  const userData = get('data.attributes.profile', payload, {});
-  const { firstName, signIn, loa } = userData;
-
-  const loginPolicy = get('serviceName', signIn, null);
+  localStorage.setItem('hasSession', true);
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
-  if (!hasSession()) recordGAAuthEvent(loginPolicy, loa);
-
-  localStorage.setItem('hasSession', true);
-
   // Set Sentry Tag so we can associate errors with the login policy
-  setRavenLoginType(loginPolicy);
+  setRavenLoginType(loginType);
 }
 
 export function teardownProfileSession() {
   // Legacy keys (entryTime, userToken) can be removed
   // after session cookie is fully in place.
-  const sessionKeys = ['hasSession', 'userFirstName', 'entryTime', 'userToken'];
-
-  for (const key of sessionKeys) {
-    localStorage.removeItem(key);
-  }
-
+  const sessionKeys = ['hasSession', 'userFirstName', 'sessionExpiration'];
+  for (const key of sessionKeys) localStorage.removeItem(key);
   clearRavenLoginType();
 }

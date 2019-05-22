@@ -7,7 +7,6 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 module.exports = `
  fragment eventPage on NodeEvent {
     ${entityElementsFromPages}
-    entityId
     changed
     title
     fieldMedia {
@@ -30,9 +29,6 @@ module.exports = `
         value
         endDate
         endValue
-    }
-    fieldAddToCalendar {
-      fileref 
     }
     fieldAddress {
       addressLine1

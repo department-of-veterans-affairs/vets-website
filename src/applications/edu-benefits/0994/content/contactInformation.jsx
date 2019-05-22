@@ -3,8 +3,9 @@ import React from 'react';
 export const contactInfoNote = (
   <span>
     <strong>Note: </strong>
-    Any updates you make here to your contact information will also apply to
-    your other VA benefits, including compensation, pension, and education.
+    Any updates you make here to your contact information will apply to your VA
+    compensation, pension, and education benefits. The updates won't apply to
+    your VA health care records and prescriptions.
   </span>
 );
 

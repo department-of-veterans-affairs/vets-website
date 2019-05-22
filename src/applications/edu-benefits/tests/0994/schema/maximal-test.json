@@ -45,7 +45,7 @@
         "plannedStartDate": "2010-01-02"
       }
     ],
-    "view:trainingProgramsChoice": true,
+    "hasSelectedPrograms": true,
     "view:noProgramsYet": true,
     "view:contactInfoNote": {},
     "currentHighTechnologyEmployment": false,
@@ -57,8 +57,7 @@
         "dataProcessing": true,
         "computerSoftware": true,
         "informationSciences": true,
-        "mediaApplication": true,
-        "noneApply": true
+        "mediaApplication": true
       }
     },
     "highestLevelofEducation": "other",

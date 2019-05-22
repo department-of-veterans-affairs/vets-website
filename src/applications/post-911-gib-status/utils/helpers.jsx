@@ -4,10 +4,7 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import CallHRC from '../../../platform/static-data/CallHRC';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -83,17 +80,17 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
     case 'activeDuty':
       return (
         <div className="section benefit-end-date">
-          <h4>Benefit End Date</h4>
+          <h4>Benefit end date</h4>
           <div>
-            Since you are currently on active duty, your benefits don’t yet have
-            an expiration date.
+            Since you’re on active duty, your benefits don’t yet have an
+            expiration date.
           </div>
         </div>
       );
     case 'remainingEntitlement':
       return (
         <div className="section benefit-end-date">
-          <h4>Benefit End Date</h4>
+          <h4>Benefit end date</h4>
           <div>
             You have until{' '}
             <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use
@@ -110,7 +107,7 @@ export function notQualifiedWarning() {
   return (
     <div className="usa-alert usa-alert-warning usa-content not-qualified">
       <div className="usa-alert-body">
-        <h2>Currently Not Qualified</h2>
+        <h2>You don't qualify</h2>
         <span>
           <strong>
             Our records show you don’t qualify for the Post-9/11 GI Bill
@@ -127,9 +124,9 @@ export function notQualifiedWarning() {
             honorable discharge
           </li>
           <li>
-            If the information in our records is not accurate, please call us at
-            1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>
-            ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).
+            If the information in our records isn't accurate, please call us at
+            888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
+            ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </li>
         </ul>
         <h5>Resources</h5>
@@ -181,11 +178,11 @@ export function noChapter33BenefitsWarning() {
       <hr className="divider" />
       <p>
         If you have questions or need help looking up your GI Bill information,
-        please call <span className="gi-phone-nowrap">1-888-GI-BILL-1</span>(
+        please call <span className="gi-phone-nowrap">888-GI-BILL-1</span>(
         <a className="gi-phone-nowrap" href="tel:1-888-442-4551">
-          1-888-442-4551
+          888-442-4551
         </a>
-        ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).
+        ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
       </p>
     </div>
   );
@@ -211,8 +208,8 @@ export function backendErrorMessage() {
             please check back soon.
           </li>
           <li>
-            The name on your {propertyName} account doesn’t exactly match the
-            name we have in our Post-9/11 GI Bill records.
+            The name on your VA.gov account doesn’t exactly match the name we
+            have in our Post-9/11 GI Bill records.
           </li>
           <li>
             You haven’t yet applied for Post-9/11 GI Bill education benefits.
@@ -220,11 +217,7 @@ export function backendErrorMessage() {
         </ul>
         <p>
           If you think your Statement of Benefits should be here, please{' '}
-          <CallHRC>
-            call the {propertyName} Help Desk at{' '}
-            <a href="tel:18555747286">1-855-574-7286</a>. We’re here Monday
-            through Friday, 8:00 a.m. to 8:00 p.m. (ET).
-          </CallHRC>
+          <CallHRC />
         </p>
         <Link className="usa-button usa-button-primary" to="/">
           Back to Post-9/11 GI Bill
@@ -294,12 +287,12 @@ export const wizardConfig = [
       <ul>
         <li>
           <a href="/education/about-gi-bill-benefits/post-9-11/">
-            Find out if you’re eligible for Post-9/11 GI Bill benefits.
+            Find out if you’re eligible for Post-9/11 GI Bill benefits
           </a>
         </li>{' '}
         <span>or </span>
         <li>
-          <a href="/education/how-to-apply/">Apply for education benefits.</a>
+          <a href="/education/how-to-apply/">Apply for education benefits</a>
         </li>
       </ul>
     ),
@@ -309,7 +302,7 @@ export const wizardConfig = [
     type: 'veteran',
     previous: 'recentApplication',
     label:
-      'Are you a Veteran or Servicemember claiming a benefit based on your own service?',
+      'Are you a Veteran or service member claiming a benefit based on your own service?',
     options: [
       {
         label: 'Yes',
@@ -387,8 +380,8 @@ export const wizardConfig = [
             <p>
               If none of these situations apply to you, and you think your
               Statement of Benefits should be here, please call the Education
-              Call Center at 1-888-442-4551 (1-888-GI-BILL-1). We’re here Monday
-              through Friday, 8:00 a.m. to 7:00 p.m. (ET).
+              Call Center at 888-442-4551 (888-GI-BILL-1). We’re here Monday
+              through Friday, 8:00 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         }

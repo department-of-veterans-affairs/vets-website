@@ -1,45 +1,22 @@
 import React from 'react';
-import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { buildHours } from '../../facility-locator/utils/facilityHours';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
+import FacilityApiAlert from './FacilityApiAlert';
+import { connect } from 'react-redux';
 
-export default class FacilityDetailWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
-  }
-
-  componentDidMount() {
-    const facilityId = this.props.facilityId;
-    this.request = apiRequest(
-      `/facilities/va/${facilityId}`,
-      null,
-      this.handleFacilitySuccess,
-      this.handleFacilityError,
-    );
-  }
-
-  handleFacilitySuccess = facility => {
-    this.setState({
-      loading: false,
-      facility: facility.data,
-    });
-  };
-
-  handleFacilityError = () => {
-    this.setState({ error: true });
-  };
-
+export class FacilityDetailWidget extends React.Component {
   render() {
-    if (this.state.loading) {
+    if (this.props.loading || !Object.keys(this.props.facility).length) {
       return <LoadingIndicator message="Loading facility..." />;
     }
 
-    const facilityDetail = this.state.facility;
+    if (this.props.error) {
+      return <FacilityApiAlert />;
+    }
+
+    const facilityDetail = this.props.facility;
 
     // Sort and compile facility hours into a list
     const hours = facilityDetail.attributes.hours;
@@ -65,3 +42,11 @@ export default class FacilityDetailWidget extends React.Component {
     );
   }
 }
+
+const mapStateToProps = store => ({
+  facility: store.facility.data,
+  loading: store.facility.loading,
+  error: store.facility.error,
+});
+
+export default connect(mapStateToProps)(FacilityDetailWidget);

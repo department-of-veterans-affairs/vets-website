@@ -15,7 +15,6 @@ module.exports = `
   
   fragment landingPage on NodeLandingPage {
     ${entityElementsFromPages}
-    entityId
     fieldIntroText
     ${FIELD_PROMO}
     ${FIELD_RELATED_LINKS}

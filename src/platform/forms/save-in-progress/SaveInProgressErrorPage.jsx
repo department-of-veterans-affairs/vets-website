@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -17,8 +15,6 @@ import SignInLink from '../components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 // For now, this only handles loading errors, but it could feasibly be reworked
 //  to handle save errors as well if we need it to.
@@ -105,8 +101,8 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
-              We’re sorry, but we’re unable to connect to {propertyName}. Please
-              check that you’re connected to the Internet and try again.
+              We’re sorry, but we’re unable to connect to VA.gov. Please check
+              that you’re connected to the Internet and try again.
             </div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}

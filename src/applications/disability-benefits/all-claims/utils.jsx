@@ -6,7 +6,6 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
-import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
@@ -153,9 +152,12 @@ export const capitalizeEachWord = name => {
     return name.replace(/\w[^\s-]*/g, capitalizeWord);
   }
 
-  Raven.captureMessage(
-    `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
-  );
+  if (typeof name !== 'string') {
+    Raven.captureMessage(
+      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+    );
+  }
+
   return 'Unknown Condition';
 };
 
@@ -590,17 +592,7 @@ export const ancillaryFormUploadUi = (
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: TWENTY_FIVE_MB,
     createPayload: file => {
       const payload = new FormData();
@@ -774,25 +766,6 @@ export const directToCorrectForm = ({
   }
 };
 
-/**
- * Pushes an event to the Analytics dataLayer if the event doesn't already
- * exist there. If the event contains a `key` property whose value matches an
- * existing item in the dataLayer with the same key/value pair, the whole event
- * and all of its properties will be skipped.
- * @param {object} event this will get pushed to `dataLayer`.
- * @param {string} key the property in the event object to use when looking for
- *                     existing matches in the dataLayer
- */
-export const recordEventOnce = (event, key) => {
-  const alreadyRecorded =
-    window.dataLayer &&
-    !!window.dataLayer.find(item => item[key] === event[key]);
-
-  if (!alreadyRecorded) {
-    recordEvent(event);
-  }
-};
-
 export const claimingRated = formData =>
   formData.ratedDisabilities &&
   formData.ratedDisabilities.some(d => d['view:selected']);
@@ -806,3 +779,12 @@ export const hasClaimedConditions = formData =>
 
 export const hasRatedDisabilities = formData =>
   formData.ratedDisabilities && formData.ratedDisabilities.length;
+
+/**
+ * Finds active service periods—those without end dates or end dates
+ * in the future.
+ */
+export const activeServicePeriods = formData =>
+  _.get('serviceInformation.servicePeriods', formData, []).filter(
+    sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
+  );

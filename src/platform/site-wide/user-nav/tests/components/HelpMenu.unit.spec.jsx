@@ -19,9 +19,6 @@ describe('<HelpMenu>', () => {
         replace: () => {},
         pathname: '/',
       },
-      settings: {
-        brandConsolidationEnabled: true,
-      },
     };
   });
 

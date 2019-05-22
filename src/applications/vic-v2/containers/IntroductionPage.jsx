@@ -9,8 +9,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-
 const { animateScroll: scroll } = Scroll;
 
 class IntroductionPage extends React.Component {
@@ -170,16 +168,14 @@ class IntroductionPage extends React.Component {
                   <h5>Sign In and Verify Your Identity</h5>
                 </div>
                 <p>You have a choice for how you complete this application.</p>
-                <h6>
-                  Choice 1: Sign in to {siteName} and verify your identity
-                </h6>
+                <h6>Choice 1: Sign in to VA.gov and verify your identity</h6>
                 <p>
-                  Sign in to {siteName} with either your existing My HealtheVet
-                  or DS Logon account (the same one you use for eBenefits or
+                  Sign in to VA.gov with either your existing My HealtheVet or
+                  DS Logon account (the same one you use for eBenefits or
                   MilConnect) or an ID.me account.
                 </p>
                 <p>
-                  If you don’t have an account on {siteName}, you can create one
+                  If you don’t have an account on VA.gov, you can create one
                   using ID.me, our Veteran-owned, trusted technology partner
                   that provides the strongest identity verification system
                   available.
@@ -228,8 +224,8 @@ class IntroductionPage extends React.Component {
                   </p>
                   <p>
                     If you signed in using your My HealtheVet or DS Logon
-                    account, we’ll connect your account to {siteName} through
-                    ID.me. To verify your identity through ID.me, you’ll need:
+                    account, we’ll connect your account to VA.gov through ID.me.
+                    To verify your identity through ID.me, you’ll need:
                   </p>
                   {idProofingReqs}
                   <p>
@@ -338,12 +334,12 @@ class IntroductionPage extends React.Component {
         {(!signedIn || !idProofed) && (
           <p>
             <a href="/sign-in-faq/">
-              Get more information about signing in to {siteName}
+              Get more information about signing in to VA.gov
             </a>
             .
           </p>
         )}
-        <a href="/privacy">Read the {siteName} Privacy Policy</a>
+        <a href="/privacy-policy">Read the VA.gov Privacy Policy</a>
       </div>
     );
   }

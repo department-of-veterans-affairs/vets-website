@@ -443,6 +443,8 @@ describe('calculator reducer', () => {
               ],
             },
           },
+          AVGDODBAH: 400,
+          AVGBAH: 500,
         },
       },
     );
@@ -483,5 +485,112 @@ describe('calculator reducer', () => {
         numberOfStudents: 30,
       },
     ]);
+  });
+
+  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower DOD rate', () => {
+    const state = calculatorReducer(
+      {},
+      {
+        type: 'FETCH_PROFILE_SUCCEEDED',
+        payload: {
+          data: {
+            attributes: {
+              yellowRibbonPrograms: [],
+              dodBah: 1,
+              bah: 2,
+              country: 'USA',
+            },
+          },
+        },
+      },
+    );
+    expect(state).to.include({
+      giBillBenefit: 'no',
+    });
+  });
+
+  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower VA rate', () => {
+    const state = calculatorReducer(
+      {},
+      {
+        type: 'FETCH_PROFILE_SUCCEEDED',
+        payload: {
+          data: {
+            attributes: {
+              yellowRibbonPrograms: [],
+              dodBah: 2,
+              bah: 1,
+              country: 'USA',
+            },
+          },
+        },
+      },
+    );
+    expect(state).to.include({
+      giBillBenefit: 'yes',
+    });
+  });
+
+  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to VA rate', () => {
+    const state = calculatorReducer(
+      {},
+      {
+        type: 'FETCH_PROFILE_SUCCEEDED',
+        payload: {
+          data: {
+            attributes: {
+              yellowRibbonPrograms: [],
+              bah: 1,
+              country: 'USA',
+            },
+          },
+        },
+      },
+    );
+    expect(state).to.include({
+      giBillBenefit: 'yes',
+    });
+  });
+
+  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower average VA rate constant for non-USA school', () => {
+    const state = calculatorReducer(
+      {},
+      {
+        type: 'FETCH_PROFILE_SUCCEEDED',
+        payload: {
+          data: {
+            attributes: {
+              yellowRibbonPrograms: [],
+            },
+          },
+          AVGDODBAH: 500,
+          AVGBAH: 400,
+        },
+      },
+    );
+    expect(state).to.include({
+      giBillBenefit: 'yes',
+    });
+  });
+
+  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower average DOD rate constant for non-USA school', () => {
+    const state = calculatorReducer(
+      {},
+      {
+        type: 'FETCH_PROFILE_SUCCEEDED',
+        payload: {
+          data: {
+            attributes: {
+              yellowRibbonPrograms: [],
+            },
+          },
+          AVGDODBAH: 400,
+          AVGVABAH: 500,
+        },
+      },
+    );
+    expect(state).to.include({
+      giBillBenefit: 'no',
+    });
   });
 });

@@ -6,7 +6,6 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 module.exports = `
   fragment pressReleasePage on NodePressRelease {
-    entityId
     ${entityElementsFromPages}
     fieldReleaseDate {
       value

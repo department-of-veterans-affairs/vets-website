@@ -1,6 +1,6 @@
 import React from 'react';
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '../components/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
@@ -12,6 +12,9 @@ export class IntroductionPage extends React.Component {
   }
 
   render() {
+    const resBurden = '10';
+    const ombNumber = '2900-0866';
+    const expDate = '04/30/2022';
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
@@ -45,7 +48,7 @@ export class IntroductionPage extends React.Component {
                 <li>Highest level of education</li>
                 <li>Previous high-tech industry experience, if applicable</li>
                 <li>
-                  Information about the provider or training program you want to
+                  Information about the training provider or program you want to
                   attend (optional)
                 </li>
               </ul>
@@ -53,9 +56,9 @@ export class IntroductionPage extends React.Component {
                 To be eligible for VET TEC, you need to be a Veteran with at
                 least one day of unexpired education benefits. You can complete
                 the VET TEC application to see if you’re eligible for the
-                program, even if you haven’t selected the training program you’d
-                like to attend.{' '}
-                <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
+                program, even if you haven’t yet selected the training program
+                you’d like to attend.{' '}
+                <a href="https://www.benefits.va.gov/GIBILL/FGIB/VetTecTrainingProviders.asp">
                   Learn more about the programs covered under VET TEC
                 </a>
                 .
@@ -77,7 +80,7 @@ export class IntroductionPage extends React.Component {
                 <h5>Apply</h5>
               </div>
               <div>
-                <p>Complete this VET TEC application (VA Form 22-0994).</p>
+                <p>Complete this VET TEC application.</p>
                 <p>
                   After submitting the form, you’ll get a confirmation message.
                   You can print this for your records.
@@ -96,7 +99,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>
                 We usually process applications within 30 days. We'll let you
@@ -105,8 +108,8 @@ export class IntroductionPage extends React.Component {
               <p>
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
-                <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                  Learn about career counseling options.
+                <a href="/careers-employment/careerscope-skills-assessment/">
+                  Learn about career counseling options
                 </a>
               </p>
             </li>
@@ -129,13 +132,13 @@ export class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the VET TEC Application"
+          startText="Start the VET TEC application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo
-            resBurden={'##'}
-            ombNumber="####-####"
-            expDate="##/##/####"
+            resBurden={resBurden}
+            ombNumber={ombNumber}
+            expDate={expDate}
           />
         </div>
       </div>

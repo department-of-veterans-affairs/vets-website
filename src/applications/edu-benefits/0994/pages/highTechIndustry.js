@@ -1,6 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import _ from 'lodash';
-import { highTechIndustryDescription } from '../content/highTechIndustry';
+import {
+  highTechIndustryDescription,
+  highTechnologyEmploymentTypeDescription,
+} from '../content/highTechIndustry';
 
 const {
   currentHighTechnologyEmployment,
@@ -28,6 +31,8 @@ export const uiSchema = {
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
+      expandUnder: 'currentHighTechnologyEmployment',
+      expandUnderCondition: () => true,
       hideIf: formData =>
         !(
           _.get(formData, 'currentHighTechnologyEmployment', false) ||
@@ -37,7 +42,7 @@ export const uiSchema = {
     },
     currentSalary: {
       'ui:title':
-        'About how much per year do you or have you earned as a high-tech worker?',
+        'About how much a year do you or have you earned as a high-tech worker?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -50,8 +55,8 @@ export const uiSchema = {
       },
     },
     highTechnologyEmploymentType: {
-      'ui:description':
-        'Which area best describes your high-tech work experience? (Check all that apply.)',
+      'ui:title': ' ',
+      'ui:description': highTechnologyEmploymentTypeDescription,
       computerProgramming: {
         'ui:title': 'Computer programming',
       },
@@ -66,9 +71,6 @@ export const uiSchema = {
       },
       mediaApplication: {
         'ui:title': 'Media application',
-      },
-      noneApply: {
-        'ui:title': 'None of these',
       },
     },
   },
@@ -92,7 +94,6 @@ export const schema = {
             computerSoftware: { type: 'boolean' },
             informationSciences: { type: 'boolean' },
             mediaApplication: { type: 'boolean' },
-            noneApply: { type: 'boolean' },
           },
         },
       },

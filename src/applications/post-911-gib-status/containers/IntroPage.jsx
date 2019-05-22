@@ -4,17 +4,17 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import BrandConsolidationSummary from './IntroPageSummary';
+import IntroPageSummary from './IntroPageSummary';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
 const DOWNTIME_SOON_CUTOFF = 60 * 30; // 30 minutes
 const systemUpAlertHeadline = `The Post-9/11 GI Bill Benefits tool is available`;
-const systemUpAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).`;
+const systemUpAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.`;
 const downtimeAlertHeadline = `The Post-9/11 GI Bill Benefits tool is down for maintenance`;
-const downtimeAlertContent = `We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). Please check back during that time.`;
+const downtimeAlertContent = `We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
 const downtimeSoonAlertHeadline = `The Post-9/11 GI Bill Benefits tool will be down soon for maintenance`;
-const downtimeSoonAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). Please check back during that time.`;
+const downtimeSoonAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
 
 export class IntroPage extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ export class IntroPage extends React.Component {
               }
               status="success"
             />
-            <BrandConsolidationSummary />
+            <IntroPageSummary />
           </div>
         );
         break;

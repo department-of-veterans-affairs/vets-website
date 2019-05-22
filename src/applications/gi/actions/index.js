@@ -2,6 +2,7 @@ import _, { snakeCase } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { api } from '../config';
+import environment from 'platform/utilities/environment';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
@@ -177,7 +178,7 @@ export function fetchProfile(facilityCode, version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: FETCH_PROFILE_STARTED });
 
     return fetch(url, api.settings)
@@ -190,8 +191,8 @@ export function fetchProfile(facilityCode, version) {
           throw new Error(errors);
         });
       })
-      .then(payload => {
-        const institutionZIP = _.get(payload, 'data.attributes.zip');
+      .then(institution => {
+        const institutionZIP = _.get(institution, 'data.attributes.zip');
         const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
 
         return (
@@ -199,11 +200,29 @@ export function fetchProfile(facilityCode, version) {
             .then(res => res.json())
             // if there's an error from the zipRatesPayload the reducer will just use the values from the institution end point.
             .then(zipRatesPayload => {
-              withPreview(dispatch, {
-                type: FETCH_PROFILE_SUCCEEDED,
-                payload,
-                zipRatesPayload,
-              });
+              if (!environment.isProduction()) {
+                const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
+                withPreview(dispatch, {
+                  type: FETCH_PROFILE_SUCCEEDED,
+                  payload: {
+                    ...institution,
+                    AVGVABAH,
+                    AVGDODBAH,
+                  },
+                  zipRatesPayload,
+                });
+              } else {
+                const { AVGBAH, AVGDODBAH } = getState().constants.constants;
+                withPreview(dispatch, {
+                  type: FETCH_PROFILE_SUCCEEDED,
+                  payload: {
+                    ...institution,
+                    AVGBAH,
+                    AVGDODBAH,
+                  },
+                  zipRatesPayload,
+                });
+              }
             })
         );
       })

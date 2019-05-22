@@ -6,6 +6,8 @@ import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import * as bddGoBack from './bddGoBack';
+import * as bddRedirect from './bddRedirect';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
 import * as claimType from './claimType';
@@ -23,8 +25,8 @@ import * as incidentLocation from './incidentLocation';
 import * as incidentSupport from './incidentSupport';
 import * as incidentUnitAssignment from './incidentUnitAssignment';
 import * as incomeDetails from './incomeDetails';
-import * as individualsInvolved from './individualsInvolved';
 import * as individualsInvolvedFollowUp from './individualsInvolvedFollowUp';
+import * as individualsInvolved from './individualsInvolved';
 import * as individualUnemployability from './individualUnemployability';
 import * as instructionalPart1 from './instructionalPart1';
 import * as instructionalPart2 from './instructionalPart2';
@@ -38,9 +40,9 @@ import * as newDisabilities from './newDisabilities';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
+import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
 import * as pastEmploymentFormIntro from './pastEmploymentFormIntro';
 import * as pastEmploymentFormUpload from './pastEmploymentFormUpload';
-import * as pastEmploymentFormDownload from './pastEmploymentFormDownload';
 import * as paymentInformation from './paymentInformation';
 import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
@@ -49,8 +51,8 @@ import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
 import * as ptsd781aChangesIntro from './ptsd781aChangesIntro';
 import * as ptsdAdditionalEvents from './ptsdAdditionalEvents';
 import * as ptsdSecondaryAdditionalEvents from './ptsdSecondaryAdditionalEvents';
-import * as ptsdWalkthroughChoice781 from './ptsdWalkthroughChoice781';
 import * as ptsdWalkthroughChoice781a from './ptsdWalkthroughChoice781a';
+import * as ptsdWalkthroughChoice781 from './ptsdWalkthroughChoice781';
 import * as ratedDisabilities from './ratedDisabilities';
 import * as recentEarnedIncome from './recentEarnedIncome';
 import * as recentEducationTraining from './recentEducationTraining';
@@ -67,30 +69,32 @@ import * as secondaryIncidentPermissionNotice from './secondaryIncidentPermissio
 import * as secondaryIncidentUnitAssignment from './secondaryIncidentUnitAssignment';
 import * as secondaryOtherSources from './secondaryOtherSources';
 import * as secondaryOtherSourcesHelp from './secondaryOtherSourcesHelp';
-import * as secondaryUploadSources from './secondaryUploadSources';
 import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
+import * as secondaryUploadSources from './secondaryUploadSources';
 import * as separationPay from './separationPay';
 import * as servedInCombatZone from './servedInCombatZone';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
+import * as terminallyIll from './terminallyIll.js';
 import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
 import * as unemployabilityCertification from './unemployabilityCertification';
+import * as unemployabilityDates from './unemployabilityDates';
 import * as unemployabilityDisabilities from './unemployabilityDisabilities';
+import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 import * as unemployabilityFormIntro from './unemployabilityFormIntro';
+import * as unemployabilityFormUpload from './unemployabilityFormUpload';
 import * as uploadPersonalPtsdDocuments from './uploadPersonalPtsdDocuments';
 import * as uploadPtsdDocuments from './uploadPtsdDocuments';
-import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
-import * as unemployabilityFormUpload from './unemployabilityFormUpload';
+import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
+import * as verifyBdd from './verifyBdd';
 import * as workBehaviorChanges from './workBehaviorChanges';
-import * as unemployabilityDates from './unemployabilityDates';
-import * as unemployabilityDoctorCare from './unemployabilityDoctorCare';
 
 export {
   adaptiveBenefits,
@@ -101,8 +105,11 @@ export {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
+  bddGoBack,
+  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
+  claimType,
   contactInformation,
   employmentHistory,
   evidenceTypes,
@@ -135,7 +142,6 @@ export {
   pastEmploymentFormIntro,
   pastEmploymentFormDownload,
   pastEmploymentFormUpload,
-  claimType,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
@@ -170,6 +176,7 @@ export {
   summaryOfDisabilities,
   summaryOfEvidence,
   supplementalBenefits,
+  terminallyIll,
   trainingPay,
   trainingPayWaiver,
   unemployabilityAdditionalInformation,
@@ -185,5 +192,6 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
+  verifyBdd,
   workBehaviorChanges,
 };

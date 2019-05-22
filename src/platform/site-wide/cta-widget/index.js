@@ -5,11 +5,12 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
-import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
+import CallVBACenter from '../../static-data/CallVBACenter';
+import SubmitSignInForm from '../../static-data/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
-import { verify } from '../../user/authentication/utilities';
+import { logout, verify } from '../../user/authentication/utilities';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import {
   createAndUpgradeMHVAccount,
@@ -91,8 +92,8 @@ export class CallToActionWidget extends React.Component {
             If you don’t have any of those accounts, you can create one.
           </p>
         ),
-        buttonText: 'Sign In or Create an Account',
-        buttonHandler: this.openLoginModal,
+        primaryButtonText: 'Sign In or Create an Account',
+        primaryButtonHandler: this.openLoginModal,
         status: 'continue',
       };
     }
@@ -109,8 +110,8 @@ export class CallToActionWidget extends React.Component {
             give you access to your personal health information.
           </p>
         ),
-        buttonText: 'Verify Your Identity',
-        buttonHandler: verify,
+        primaryButtonText: 'Verify Your Identity',
+        primaryButtonHandler: verify,
         status: 'continue',
       };
     }
@@ -119,6 +120,25 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    if (this.props.mviDown) {
+      return {
+        heading: 'VA.gov health tools are temporarily unavailable',
+        alertText: (
+          <>
+            <p>
+              We’re sorry. We’re having trouble accessing your Veteran records.
+            </p>
+            <h5>What you can do</h5>
+            <p>
+              Please check back in a few minutes. This issue is temporary and
+              will be resolved soon.
+            </p>
+          </>
+        ),
+        status: 'error',
+      };
+    }
+
     if (this.isAccessible()) {
       return {
         heading: 'My HealtheVet will open in a new tab',
@@ -131,8 +151,8 @@ export class CallToActionWidget extends React.Component {
             will be able to open.
           </p>
         ),
-        buttonText: 'Go to My HealtheVet',
-        buttonHandler: this.goToTool,
+        primaryButtonText: 'Go to My HealtheVet',
+        primaryButtonHandler: this.goToTool,
         status: 'info',
       };
     }
@@ -149,14 +169,7 @@ export class CallToActionWidget extends React.Component {
             </p>
             <h5>What you can do</h5>
             <p>
-              You can try again later or{' '}
-              <CallVBACenter>
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
-              </CallVBACenter>
+              You can try again later or <CallVBACenter />
             </p>
           </div>
         ),
@@ -181,8 +194,8 @@ export class CallToActionWidget extends React.Component {
               can give you access to your personal health information.
             </p>
           ),
-          buttonText: 'Verify Your Identity',
-          buttonHandler: verify,
+          primaryButtonText: 'Verify Your Identity',
+          primaryButtonHandler: verify,
           status: 'continue',
         };
 
@@ -202,13 +215,7 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -227,13 +234,7 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -248,14 +249,7 @@ export class CallToActionWidget extends React.Component {
               <p>We’re sorry. We found more than one active account for you.</p>
               <h5>What you can do</h5>
               <p>
-                Please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                Please <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -270,8 +264,8 @@ export class CallToActionWidget extends React.Component {
        * case 'no_account':
        *   return {
        *     heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription`,
-       *     buttonText: 'Create a My HealtheVet Account',
-       *     buttonHandler: this.props.createAndUpgradeMHVAccount,
+       *     primaryButtonText: 'Create a My HealtheVet Account',
+       *     primaryButtonHandler: this.props.createAndUpgradeMHVAccount,
        *     status: 'continue'
        *   };
 
@@ -279,8 +273,8 @@ export class CallToActionWidget extends React.Component {
        * case 'registered':
        *   return {
        *     heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
-       *     buttonText: 'Upgrade Your Account',
-       *     buttonHandler: this.props.upgradeMHVAccount,
+       *     primaryButtonText: 'Upgrade Your Account',
+       *     primaryButtonHandler: this.props.upgradeMHVAccount,
        *     status: 'continue'
        *   };
        */
@@ -295,14 +289,7 @@ export class CallToActionWidget extends React.Component {
                 VA.gov health tools right now.
               </p>
               <p>
-                You can try again later or{' '}
-                <CallVBACenter>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </CallVBACenter>
+                You can try again later or <CallVBACenter />
               </p>
             </div>
           ),
@@ -322,13 +309,7 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm>
-                  call the VA.gov Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                  (ET).
-                </SubmitSignInForm>
+                <SubmitSignInForm />
               </p>
             </div>
           ),
@@ -354,14 +335,33 @@ export class CallToActionWidget extends React.Component {
 
     if (!accountLevel) {
       return {
-        heading: `You’ll need to create a My HealtheVet account before you can ${
+        heading: `Please create a My HealtheVet account to ${
           this._serviceDescription
         }`,
-        buttonText: 'Create a My HealtheVet Account',
-        buttonHandler:
+        alertText: (
+          <>
+            <p>
+              You’ll need to create a My HealtheVet account before you can{' '}
+              {this._serviceDescription}
+              {this._serviceDescription.endsWith('online')
+                ? '.'
+                : ' online.'}{' '}
+              This account is cost-free and secure.
+            </p>
+            <p>
+              <strong>If you already have a My HealtheVet account,</strong>{' '}
+              please sign out of VA.gov. Then sign in again with your My{' '}
+              HealtheVet username and password.
+            </p>
+          </>
+        ),
+        primaryButtonText: 'Create your free account',
+        primaryButtonHandler:
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
+        secondaryButtonText: 'Sign out of VA.gov',
+        secondaryButtonHandler: this.signOut,
         status: 'continue',
       };
     }
@@ -370,8 +370,8 @@ export class CallToActionWidget extends React.Component {
       heading: `You’ll need to upgrade your My HealtheVet account before you can ${
         this._serviceDescription
       }. It’ll only take us a minute to do this for you, and it’s free.`,
-      buttonText: 'Upgrade Your My HealtheVet Account',
-      buttonHandler:
+      primaryButtonText: 'Upgrade Your My HealtheVet Account',
+      primaryButtonHandler:
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
           : this.props.upgradeMHVAccount,
@@ -414,6 +414,11 @@ export class CallToActionWidget extends React.Component {
     }
   };
 
+  signOut = () => {
+    recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
+    logout();
+  };
+
   render() {
     const { setFocus } = this.props;
     if (this.props.profile.loading || this.props.mhvAccount.loading) {
@@ -450,12 +455,13 @@ CallToActionWidget.defaultProps = {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, /* services, */ verified } = profile;
+  const { loading, mhvAccount, /* services, */ verified, status } = profile;
   return {
     // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
     profile: { loading, verified },
     mhvAccount,
+    mviDown: status === 'SERVER_ERROR',
   };
 };
 
