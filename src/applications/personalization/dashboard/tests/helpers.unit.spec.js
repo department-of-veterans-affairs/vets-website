@@ -5,6 +5,7 @@ import {
   formLinks,
   isFormAuthorizable,
   isSIPEnabledForm,
+  presentableFormIDs,
   sipEnabledForms,
 } from '../helpers';
 
@@ -66,6 +67,22 @@ describe('profile helpers:', () => {
       sipEnabledForms.forEach(form => {
         expect(formTitles[form]).to.exist;
       });
+    });
+  });
+  describe('prefixedFormIDs', () => {
+    it('should have an entry for each verified form', () => {
+      sipEnabledForms.forEach(form => {
+        expect(presentableFormIDs[form]).to.exist;
+      });
+    });
+    it('should handle the standard case', () => {
+      expect(presentableFormIDs['22-0993']).to.equal('FORM 22-0993');
+    });
+    it('should handle VIC differently', () => {
+      expect(presentableFormIDs.VIC).to.equal('VETERAN ID CARD');
+    });
+    it('should handle Feedback Tool differently', () => {
+      expect(presentableFormIDs['FEEDBACK-TOOL']).to.equal('FEEDBACK TOOL');
     });
   });
   describe('formLinks', () => {

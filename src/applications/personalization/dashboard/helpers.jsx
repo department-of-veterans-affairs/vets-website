@@ -162,6 +162,23 @@ export const sipEnabledForms = new Set([
   'FEEDBACK-TOOL',
 ]);
 
+// A dict of presentable form IDs. Generally this is just the form ID itself
+// prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
+// exceptions to this rule right now are the FEEDBACK-TOOL and VIC.
+export const presentableFormIDs = Object.keys(formBenefits).reduce(
+  (prefixedIDs, formID) => {
+    if (formID === 'FEEDBACK-TOOL' || formID === 'complaint-tool') {
+      prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
+    } else if (formID === 'VIC') {
+      prefixedIDs[formID] = 'VETERAN ID CARD'; // eslint-disable-line no-param-reassign
+    } else {
+      prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
+    }
+    return prefixedIDs;
+  },
+  {},
+);
+
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
