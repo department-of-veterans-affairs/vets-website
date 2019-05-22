@@ -4,7 +4,6 @@ const path = require('path');
 // Edit this to add new flags
 const featureFlags = {
   FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
-  GRAPHQL_MODULE_UPDATE: 'featureGraphQLModuleUpdate',
 };
 
 // Edit this to turn flags on or off
