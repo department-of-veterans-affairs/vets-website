@@ -114,7 +114,7 @@ class IDPage extends React.Component {
   };
 
   formSubmit = ({ formData }) => {
-    recordEvent({ event: 'hca-continue-application!' });
+    recordEvent({ event: 'hca-continue-application' });
     this.props.submitIDForm(formData);
   };
 
