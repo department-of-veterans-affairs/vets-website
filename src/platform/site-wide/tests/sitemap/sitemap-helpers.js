@@ -34,7 +34,7 @@ function sitemapURLs() {
         '/sign-in-faq/',
         '/drupal/health-care/health-needs-conditions/mental-health/',
       ];
-      // Whitelist of URLs to only test against the 'section508' rule set and not
+      // Whitelist of URLs to test only against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please
       // add a comment explaining why it cannot be tested against stricter rules.
       return { urls, onlyTest508Rules };
