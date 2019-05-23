@@ -48,8 +48,9 @@ class FormPage extends React.Component {
   }
 
   onChange = formData => {
+    const { pageConfig } = this.props.route;
     let newData = formData;
-    if (this.props.route.pageConfig.showPagePerItem) {
+    if (pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
       newData = _.set(
@@ -57,6 +58,9 @@ class FormPage extends React.Component {
         formData,
         this.props.form.data,
       );
+    }
+    if (typeof pageConfig.updateFormData === 'function') {
+      newData = pageConfig.updateFormData(this.formData(), newData);
     }
     this.props.setData(newData);
   };
