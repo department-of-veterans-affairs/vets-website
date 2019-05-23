@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import ITFBanner from '../components/ITFBanner';
+import { isActiveITF } from '../utils';
 import { requestStates } from '../../../../platform/utilities/constants';
 import { itfStatuses } from '../constants';
 import {
@@ -44,8 +45,8 @@ export class ITFWrapper extends React.Component {
     }
 
     // If we've already fetched the ITFs, have none active, and haven't already called createITF, submit a new ITF
-    const hasActiveITF =
-      itf.currentITF && itf.currentITF.status === itfStatuses.active;
+    const hasActiveITF = isActiveITF(itf.currentITF);
+
     const createITFCalled = itf.creationCallState !== requestStates.notCalled;
     if (
       (itf.fetchCallState === requestStates.succeeded ||
