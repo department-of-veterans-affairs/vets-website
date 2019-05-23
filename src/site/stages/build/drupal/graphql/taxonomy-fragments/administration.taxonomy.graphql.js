@@ -10,9 +10,9 @@ const {
 
 let fieldAministrationKey;
 if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
-  fieldAministrationKey = 'FieldNodeAdministration';
-} else {
   fieldAministrationKey = 'FieldNodeLandingPageFieldAdministration';
+} else {
+  fieldAministrationKey = 'FieldNodeFieldAdministration';
 }
 
 module.exports = `
