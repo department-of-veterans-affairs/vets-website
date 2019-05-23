@@ -7,7 +7,28 @@ const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   HcaHelpers.initApplicationSubmitMock();
-  HcaHelpers.initEnrollmentStatusMock();
+  // HcaHelpers.initEnrollmentStatusMock();
+
+  // HcaHelpers.initEnrollmentStatusMock404();
+  /* eslint-disable camelcase */
+  client.mockData(
+    {
+      path: '/v0/health_care_applications/enrollment_status',
+      verb: 'get',
+      value: {
+        errors: [
+          {
+            title: 'Record not found',
+            detail: 'The record identified by could not be found',
+            code: '404',
+            status: '404',
+          },
+        ],
+      },
+    },
+    null,
+  );
+  /* eslint-enable camelcase */
 
   // Ensure introduction page renders.
   client
@@ -38,27 +59,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     client,
     '/veteran-information/personal-information',
   );
-
-  // HcaHelpers.initEnrollmentStatusMock404();
-  /* eslint-disable camelcase */
-  client.mockData(
-    {
-      path: '/v0/health_care_applications/enrollment_status',
-      verb: 'get',
-      value: {
-        errors: [
-          {
-            title: 'Record not found',
-            detail: 'The record identified by  could not be found',
-            code: '404',
-            status: '404',
-          },
-        ],
-      },
-    },
-    null,
-  );
-  /* eslint-enable camelcase */
 
   // Birth information page.
   client.expect.element('select[name="root_veteranDateOfBirthMonth"]').to.be
