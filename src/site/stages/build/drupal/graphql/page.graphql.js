@@ -17,19 +17,6 @@ const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const SPANISH_SUMMARY = '... spanishSummary';
 const ALERT_PARAGRAPH = '... alertParagraph';
-let pageAdministration;
-
-// Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
-
-if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
-  pageAdministration = 'FieldNodePageFieldAdministration';
-} else {
-  pageAdministration = 'FieldNodeAdministration';
-}
 
 module.exports = `
 
@@ -62,7 +49,7 @@ module.exports = `
     ${FIELD_ALERT} 
     ${FIELD_RELATED_LINKS}
     fieldAdministration {
-      ... on ${pageAdministration} {
+      ... on FieldNodePageFieldAdministration {
         entity {
           ... on TaxonomyTermAdministration {
             name
