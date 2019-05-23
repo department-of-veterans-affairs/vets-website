@@ -80,6 +80,16 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   };
 
+  formData = () => {
+    const { pageConfig } = this.props.route;
+    return this.props.route.pageConfig.showPagePerItem
+      ? _.get(
+          [pageConfig.arrayPath, this.props.params.index],
+          this.props.form.data,
+        )
+      : this.props.form.data;
+  };
+
   goBack = () => {
     const {
       form,
@@ -104,7 +114,7 @@ class FormPage extends React.Component {
     let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
-    let data = form.data;
+    const data = this.formData();
 
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
@@ -113,8 +123,6 @@ class FormPage extends React.Component {
         schema.properties[route.pageConfig.arrayPath].items[params.index];
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
-      // And the data should be for just the item in the array
-      data = _.get([route.pageConfig.arrayPath, params.index], data);
     }
     // It should be "safe" to check that this is the first page because it is
     // always eligible and enabled, no need to call getPreviousPagePath.
