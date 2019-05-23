@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import environment from 'platform/utilities/environment';
+import { getAverageBah } from '../utils/helpers';
 
 const getConstants = state => state.constants.constants;
 
@@ -112,12 +113,8 @@ function getDerivedAttributes(constant, eligibility, institution) {
       : its.bah;
 
   // Remove Production Flag checks when changes are expected to go live.
-  const averageBah =
-    constant.AVGDODBAH &&
-    constant.AVGDODBAH < constant.AVGBAH &&
-    !environment.isProduction()
-      ? constant.AVGDODBAH
-      : constant.AVGBAH;
+
+  const averageBah = getAverageBah(constant);
 
   return {
     serviceDischarge,

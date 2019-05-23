@@ -1,5 +1,6 @@
 const getDrupalClient = require('./api');
 const cheerio = require('cheerio');
+const { PUBLIC_URLS } = require('../../../constants/drupals');
 
 function replacePathInData(data, replacer) {
   let current = data;
@@ -48,12 +49,24 @@ function convertAssetPath(drupalInstance, url) {
 
 function updateAttr(attr, doc, client) {
   const assetsToDownload = [];
-  doc(`[${attr}^="${client.getSiteUri()}/sites"]`).each((i, el) => {
+  const usingAWS = !!PUBLIC_URLS[client.getSiteUri()];
+
+  doc(`[${attr}*="cms.va.gov/sites"]`).each((i, el) => {
     const item = doc(el);
     const srcAttr = item.attr(attr);
-    const newAssetPath = convertAssetPath(client.getSiteUri(), srcAttr);
+
+    const siteURI = srcAttr.match(
+      /http[s]{0,1}:\/\/[^.]*[.]{0,1}cms\.va\.gov/,
+    )[0];
+    const awsURI = Object.entries(PUBLIC_URLS).find(
+      entry => entry[1] === siteURI,
+    )[0];
+
+    const newAssetPath = convertAssetPath(siteURI, srcAttr);
     assetsToDownload.push({
-      src: srcAttr,
+      // urls in WYSIWYG content won't be the aws urls, they'll be cms urls
+      // this means we need to replace them with the aws urls if we're on jenkins
+      src: usingAWS ? srcAttr.replace(siteURI, awsURI) : srcAttr,
       dest: newAssetPath,
     });
 

@@ -157,16 +157,40 @@ function generateBreadCrumbs(pathString) {
   return entityUrlObj;
 }
 
+function getHubSidebar(navsArray, owner) {
+  // Get the right benefits hub sidebar
+  for (const nav of navsArray) {
+    if (nav !== null && nav.links.length) {
+      const navName = _.toLower(nav.name);
+      if (owner !== null && owner === navName) {
+        return { sidebar: nav };
+      }
+    }
+  }
+
+  // default to no menu
+  return { sidebar: {} };
+}
+
 function compilePage(page, contentData) {
   const {
     data: {
-      sidebarQuery: sidebarNav = {},
+      healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
+      recordsHubSidebarQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
     },
   } = contentData;
 
-  const sidebarNavItems = { sidebar: sidebarNav };
+  // Get page owner
+  let owner;
+  if (page.fieldAdministration) {
+    owner = _.toLower(page.fieldAdministration.entity.name);
+  }
+  // Benefits hub side navs in an array to loop through later
+  const sideNavs = [healthcareHubSidebarNav, recordsHubSidebarNav];
+  let sidebarNavItems;
+
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
   const alertItems = { alert: alertsItem };
 
@@ -240,6 +264,10 @@ function compilePage(page, contentData) {
       );
       break;
     default:
+      // Get the right benefits hub sidebar
+      sidebarNavItems = getHubSidebar(sideNavs, owner);
+
+      // Build page with correct sidebar
       pageCompiled = Object.assign(
         {},
         page,

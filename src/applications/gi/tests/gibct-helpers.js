@@ -430,7 +430,7 @@ const calculatorConstants = {
       id: '24',
       type: 'calculator_constants',
       attributes: {
-        name: 'AVGBAH',
+        name: 'AVGVABAH',
         value: 1681,
       },
     },

@@ -51,7 +51,9 @@ const NeedsVAPatient = () => {
           register as a VA patient.
         </p>
         <p>
-          <a href="">Find out how to apply for VA health care</a>
+          <a href="/health-care/how-to-apply/">
+            Find out how to apply for VA health care
+          </a>
         </p>
       </>
     ),

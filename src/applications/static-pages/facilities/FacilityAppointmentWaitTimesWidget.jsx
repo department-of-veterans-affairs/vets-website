@@ -17,7 +17,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     // find service in waitTimes object as a key
     const time = waitTimes[serviceKey];
     // return waitTimes for service
-    return time ? `${time[established ? 'established' : 'new']} days` : '';
+    return time
+      ? `${time[established ? 'established' : 'new'].toFixed(0)} days`
+      : '';
   }
 
   render() {
@@ -36,8 +38,8 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     }
 
     const facility = this.props.facility.attributes;
-    const serviceExists =
-      facility.access.health[_.camelCase(this.props.service)];
+    const service = this.props.service.split('(')[0];
+    const serviceExists = facility.access.health[_.camelCase(service)];
     // check if this health service has a wait time associated with it
     if (serviceExists) {
       return (
@@ -45,7 +47,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           <h3>Appointment wait times at this location</h3>
           <p
             id={`facility-${_.camelCase(
-              this.props.service,
+              service,
             )}-appointment-wait-times-effective-date`}
           >
             Last updated: {formatDateLong(facility.access.health.effectiveDate)}
@@ -55,28 +57,23 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
               <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
                 <p className="vads-u-margin--0">New patient</p>
                 <p
-                  id={`facility-${_.camelCase(
-                    this.props.service,
-                  )}-new-patient-wait-time`}
+                  id={`facility-${_.camelCase(service)}-new-patient-wait-time`}
                   className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
                 >
-                  {this.appointmentWaitTime(
-                    facility.access.health,
-                    this.props.service,
-                  )}
+                  {this.appointmentWaitTime(facility.access.health, service)}
                 </p>
               </div>
               <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
                 <p className="vads-u-margin--0">Existing patient</p>
                 <p
                   id={`facility-${_.camelCase(
-                    this.props.service,
+                    service,
                   )}-existing-patient-wait-time`}
                   className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
                 >
                   {this.appointmentWaitTime(
                     facility.access.health,
-                    this.props.service,
+                    service,
                     true,
                   )}
                 </p>

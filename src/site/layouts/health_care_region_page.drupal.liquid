@@ -145,17 +145,8 @@ Example data:
           <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
         </div>
 
-        <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
-          <div class="usa-width-one-third">
-            <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
-          </div>
-          <div class="usa-width-one-third">
-            <a class="usa-button" href="{{ entityUrl.path }}/">View A-Z Health Services</a>
-          </div>
-          <div class="usa-width-one-third">
-            <a class="usa-button" href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
-          </div>
-        </div>
+        <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
+            {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
 
         {% if fieldIntroText != empty %}
           <div class="va-introtext">
