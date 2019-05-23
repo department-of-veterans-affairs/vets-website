@@ -155,6 +155,30 @@ describe('526 ITFWrapper', () => {
     tree.unmount();
   });
 
+  it('should submit a new ITF if the current ITF is expired', () => {
+    const expirationDate = '2015-08-28T19:47:52.786+00:00';
+    const tree = shallow(
+      <ITFWrapper {...defaultProps}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>,
+    );
+    // Fetch succeded and expired ITF was returned
+    // This is used to catch cases where the status field is out of date
+    tree.setProps(
+      merge(defaultProps, {
+        itf: {
+          fetchCallState: requestStates.succeeded,
+          currentITF: {
+            status: 'active',
+            expirationDate,
+          },
+        },
+      }),
+    );
+    expect(createITF.called).to.be.true;
+    tree.unmount();
+  });
+
   it('should render an error message if the ITF creation failed', () => {
     const props = merge(defaultProps, {
       itf: {
