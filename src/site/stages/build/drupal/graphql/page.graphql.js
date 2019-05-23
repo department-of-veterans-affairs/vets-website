@@ -32,6 +32,19 @@ if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
   fieldAministrationKey = 'FieldNodeFieldAdministration';
 }
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
+
+let fieldAministrationKey;
+if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
+  fieldAministrationKey = 'FieldNodePageFieldAdministration';
+} else {
+  fieldAministrationKey = 'FieldNodeFieldAdministration';
+}
+
 module.exports = `
 
   fragment page on NodePage {
