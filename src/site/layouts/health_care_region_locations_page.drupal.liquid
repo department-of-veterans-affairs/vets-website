@@ -8,13 +8,6 @@
         {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
         <div class="usa-width-three-fourths">
             {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-            {% if !entityPublished %}
-                <div class="usa-alert usa-alert-info" >
-                    <div class="usa-alert-body">
-                        <p class="usa-alert-text">You are viewing a draft.</p>
-                    </div>
-                </div>
-            {% endif %}
 
             <article class="usa-content">
                 <h1>Our Locations</h1>

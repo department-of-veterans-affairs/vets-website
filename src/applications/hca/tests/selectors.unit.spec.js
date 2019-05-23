@@ -8,7 +8,8 @@ const basicEnrollmentStatusState = {
   preferredFacility: null,
   enrollmentStatus: null,
   hasServerError: false,
-  isLoading: false,
+  isLoadingApplicationStatus: false,
+  isLoadingDismissedNotification: false,
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
@@ -110,7 +111,7 @@ describe('simple top-level selectors', () => {
       };
       let isLoading = selectors.isEnrollmentStatusLoading(state);
       expect(isLoading).to.equal(false);
-      state.hcaEnrollmentStatus.isLoading = true;
+      state.hcaEnrollmentStatus.isLoadingApplicationStatus = true;
       isLoading = selectors.isEnrollmentStatusLoading(state);
       expect(isLoading).to.equal(true);
     });
@@ -192,13 +193,76 @@ describe('simple top-level selectors', () => {
       expect(isEnrolledInVAHealthCare).to.be.true;
     });
   });
+
+  describe('isInESR', () => {
+    it('returns `false` if the enrollmentStatus is not set', () => {
+      const state = {
+        hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
+      };
+      const isInESR = selectors.isInESR(state);
+      expect(isInESR).to.be.false;
+    });
+    it('returns `false` if the enrollmentStatus is noneOfTheAbove', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+        },
+      };
+      const isInESR = selectors.isInESR(state);
+      expect(isInESR).to.be.false;
+    });
+    it('returns `false` if the enrollmentStatus is canceled', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.canceledDeclined,
+        },
+      };
+      const isInESR = selectors.isInESR(state);
+      expect(isInESR).to.be.false;
+    });
+    it('returns `false` if the enrollmentStatus is deceased', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.deceased,
+        },
+      };
+      const isInESR = selectors.isInESR(state);
+      expect(isInESR).to.be.false;
+    });
+    it('returns `true` if the enrollmentStatus is enrolled', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+        },
+      };
+      const isInESR = selectors.isInESR(state);
+      expect(isInESR).to.be.true;
+    });
+    it('returns `true` if the enrollmentStatus is pending', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.pendingOther,
+        },
+      };
+      const isInESR = selectors.isInESR(state);
+      expect(isInESR).to.be.true;
+    });
+  });
 });
 
 describe('compound selectors', () => {
   describe('isLoading', () => {
     it('returns true if the enrollment status is loading', () => {
       const state = {
-        hcaEnrollmentStatus: { ...basicEnrollmentStatusState, isLoading: true },
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          isLoadingApplicationStatus: true,
+        },
         user: { ...loggedOutUserState },
       };
       const isLoading = selectors.isLoading(state);
@@ -241,7 +305,10 @@ describe('compound selectors', () => {
     });
     it('returns false if enrollment status still loading', () => {
       const state = {
-        hcaEnrollmentStatus: { ...basicEnrollmentStatusState, isLoading: true },
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          isLoadingApplicationStatus: true,
+        },
         user: { ...LOA1UserState },
       };
       const isLOA1 = selectors.isUserLOA1(state);
@@ -284,7 +351,10 @@ describe('compound selectors', () => {
     });
     it('returns true if enrollment status is loading but the user has resolved', () => {
       const state = {
-        hcaEnrollmentStatus: { ...basicEnrollmentStatusState, isLoading: true },
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          isLoadingApplicationStatus: true,
+        },
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
@@ -399,7 +469,7 @@ describe('compound selectors', () => {
       const state = {
         hcaEnrollmentStatus: {
           ...basicEnrollmentStatusState,
-          isLoading: true,
+          isLoadingApplicationStatus: true,
         },
         user: { ...LOA1UserState },
       };
