@@ -41,7 +41,6 @@ const DeactivatedMHVId = () => {
           panelName="Submit an online help request to My HealtheVet"
           borderless
         >
-          {' '}
           <p>
             Use the My HealtheVet contact form to submit a request for help
             online.
