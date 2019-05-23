@@ -207,23 +207,6 @@ $medium-phone-screen: 375px;
       flex-direction: column;
     }
 
-    .va-sidebarnav {
-      display: none;
-    }
-
-    button {
-      &.va-sidebarnav-close {
-        position: absolute;
-        right: 2px;
-        top: 2px;
-
-        &:hover,
-        &:focus {
-          background-color: $mm-gray;
-        }
-      }
-    }
-
     #menu-rule {
       border-bottom: 0;
       padding-bottom: 0;
@@ -322,10 +305,6 @@ $medium-phone-screen: 375px;
       margin-bottom: 0 !important; //hard override; what does this break elsewhere
     }
 
-    .va-sidebarnav--opened {
-      position: fixed;
-      display: block;
-    }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
       padding-right: 0.9375rem;
@@ -501,14 +480,6 @@ $medium-phone-screen: 375px;
 .va-l-detail-page > .usa-grid-full {
   padding-right: inherit;
   padding-left: inherit;
-}
-
-.left-side-nav-title {
-  color: $color-black;
-  padding-left: 1em;
-  @include media($small-desktop-screen) {
-    padding-left: 0;
-  }
 }
 
 .flex-container {
