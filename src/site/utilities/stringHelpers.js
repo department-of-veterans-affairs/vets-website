@@ -6,7 +6,6 @@ const queryParamToBeChanged = [
   'CROP_3_2',
   'CROP_2_1',
   'FieldNodeFieldSupportServices',
-  'FieldNodeFieldAdministration',
 ];
 
 // If string starts with a number prepend an underscore to it
@@ -24,9 +23,6 @@ function updateQueryString(matchedString) {
   let updatedString;
 
   switch (matchedString) {
-    case 'FieldNodeFieldAdministration':
-      updatedString = 'FieldNodeLandingPageFieldAdministration';
-      break;
     case 'FieldNodeFieldSupportServices':
       updatedString = 'FieldNodeLandingPageFieldSupportServices';
       break;
