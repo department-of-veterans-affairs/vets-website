@@ -5,7 +5,8 @@ export default function createAdditionalInfoWidget() {
     document.body.addEventListener(
       '@department-of-veterans-affairs/formation/additional-info/button-clicked',
       event => {
-        const eventName = event.dataset && event.dataset.analytics;
+        const eventName =
+          event.detail.dataset && event.detail.dataset.analytics;
         if (eventName) {
           const key = 'additional-info-expander-label';
           const analytic = {
