@@ -3,6 +3,7 @@ import { qS, qSA, removeChildNodes } from './helpers';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
 export default function createAdditionalInfoWidget() {
+  /*
   const widgets = qSA(document, '.additional-info-container');
 
   if (widgets.length) {
@@ -54,4 +55,5 @@ export default function createAdditionalInfoWidget() {
       });
     });
   }
+  */
 }
