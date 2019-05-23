@@ -32,6 +32,7 @@ import {
   TWENTY_FIVE_MB,
   USA,
   TYPO_THRESHOLD,
+  itfStatuses,
 } from './constants';
 
 /**
@@ -63,6 +64,15 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const isActiveITF = currentITF => {
+  if (currentITF) {
+    const isActive = currentITF.status === itfStatuses.active;
+    const isNotExpired = moment().isBefore(currentITF.expirationDate);
+    return isActive && isNotExpired;
+  }
+  return false;
+};
 
 export const hasGuardOrReservePeriod = formData => {
   const serviceHistory = formData.servicePeriods;
