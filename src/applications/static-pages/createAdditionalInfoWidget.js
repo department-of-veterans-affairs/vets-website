@@ -10,7 +10,7 @@ export default function createAdditionalInfoWidget() {
           const key = 'additional-info-expander-label';
           const analytic = {
             event: eventName,
-            [key]: `Additional Info - ${event.titleText}`,
+            [key]: `Additional Info - ${event.detail.titleText}`,
           };
 
           recordEventOnce(analytic, key);
