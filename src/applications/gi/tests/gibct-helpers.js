@@ -8,7 +8,7 @@ const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 function verifyDEA(client, expectedDEA) {
   client
-    .waitForElementVisible('.total-paid-to-you', Timeouts.slow)
+    .waitForElementVisible('.total-paid-to-you', Timeouts.normal)
     .assert.containsText('.total-paid-to-you', expectedDEA);
 }
 
@@ -43,6 +43,51 @@ const schools = {
       },
       links: {
         self: 'https://staging-api.vets.gov/gids/v0/institutions/10F00509',
+      },
+    },
+    {
+      id: '930511',
+      type: 'institutions',
+      attributes: {
+        name: 'AMERICAN UNIVERSITY',
+        facilityCode: '31106109',
+        type: 'PRIVATE',
+        city: 'WASHINGTON',
+        state: 'DC',
+        zip: '20016',
+        country: 'USA',
+        highestDegree: 4,
+        localeType: 'city',
+        studentCount: 432,
+        cautionFlag: null,
+        cautionFlagReason: null,
+        createdAt: '2019-01-30T21:52:37.000Z',
+        updatedAt: '2019-01-30T21:52:37.000Z',
+        address1: 'AU CENTRAL - ASBURY  BLDG 201R',
+        address2: '4400 MASSACHUSETTS  AVE NW',
+        address3: null,
+        physicalCity: 'WASHINGTON',
+        physicalState: 'DC',
+        physicalCountry: 'USA',
+        onlineOnly: false,
+        distanceLearning: true,
+        dodBah: 2367,
+        physicalZip: '20016',
+        bah: 2436,
+        tuitionInState: 41833,
+        tuitionOutOfState: 41833,
+        books: 800,
+        studentVeteran: true,
+        yr: true,
+        poe: true,
+        eightKeys: true,
+        stemOffered: true,
+        independentStudy: false,
+        priorityEnrollment: false,
+        schoolClosing: false,
+      },
+      links: {
+        self: 'https://staging-api.va.gov/v0/gi/institutions/31106109',
       },
     },
   ],
@@ -215,6 +260,134 @@ const singleSchool = {
       number: 1,
       created_at: '2017-03-22T17:06:12.737Z',
       preview: false,
+    },
+  },
+};
+
+const secondSchool = {
+  data: {
+    id: '930511',
+    type: 'institutions',
+    attributes: {
+      name: 'AMERICAN UNIVERSITY',
+      facilityCode: '31106109',
+      type: 'private',
+      city: 'WASHINGTON',
+      state: 'DC',
+      zip: '20016',
+      country: 'USA',
+      bah: 2436,
+      cross: '131159',
+      flight: false,
+      correspondence: false,
+      ope: '00143400',
+      ope6: '01434',
+      schoolSystemName: null,
+      schoolSystemCode: -2,
+      alias: null,
+      highestDegree: 4,
+      localeType: 'city',
+      address1: 'AU CENTRAL - ASBURY  BLDG 201R',
+      address2: '4400 MASSACHUSETTS  AVE NW',
+      address3: null,
+      studentCount: 432,
+      undergradEnrollment: 7094,
+      yr: true,
+      studentVeteran: true,
+      studentVeteranLink: 'http://www.auvets.com/',
+      poe: true,
+      eightKeys: true,
+      stemOffered: true,
+      dodmou: true,
+      sec702: null,
+      vetSuccessName: null,
+      vetSuccessEmail: null,
+      creditForMilTraining: false,
+      vetPoc: true,
+      studentVetGrpIpeds: true,
+      socMember: true,
+      retentionRateVeteranBa: 0.727,
+      retentionAllStudentsBa: 0.8866,
+      retentionRateVeteranOtb: 1,
+      retentionAllStudentsOtb: null,
+      persistanceRateVeteranBa: 0.909,
+      persistanceRateVeteranOtb: 1,
+      graduationRateVeteran: null,
+      graduationRateAllStudents: 0.808623233,
+      transferOutRateVeteran: null,
+      transferOutRateAllStudents: null,
+      salaryAllStudents: 55900,
+      repaymentRateAllStudents: 0.801015228,
+      avgStuLoanDebt: 252.354704,
+      calendar: 'semesters',
+      tuitionInState: 41833,
+      tuitionOutOfState: 41833,
+      books: 800,
+      onlineAll: true,
+      p911TuitionFees: 2886336.8,
+      p911Recipients: 239,
+      p911YellowRibbon: 949926.29,
+      p911YrRecipients: 132,
+      accredited: true,
+      accreditationType: 'regional',
+      accreditationStatus: null,
+      cautionFlag: null,
+      cautionFlagReason: null,
+      complaints: {
+        facilityCode: 3,
+        financialByFacCode: 2,
+        qualityByFacCode: 1,
+        refundByFacCode: 0,
+        marketingByFacCode: 0,
+        accreditationByFacCode: 0,
+        degreeRequirementsByFacCode: 1,
+        studentLoansByFacCode: 0,
+        gradesByFacCode: 0,
+        creditTransferByFacCode: 1,
+        creditJobByFacCode: null,
+        jobByFacCode: 0,
+        transcriptByFacCode: 0,
+        otherByFacCode: 0,
+        mainCampusRollUp: 3,
+        financialByOpeIdDoNotSum: 2,
+        qualityByOpeIdDoNotSum: 1,
+        refundByOpeIdDoNotSum: 0,
+        marketingByOpeIdDoNotSum: 0,
+        accreditationByOpeIdDoNotSum: 0,
+        degreeRequirementsByOpeIdDoNotSum: 1,
+        studentLoansByOpeIdDoNotSum: 0,
+        gradesByOpeIdDoNotSum: 0,
+        creditTransferByOpeIdDoNotSum: 1,
+        jobsByOpeIdDoNotSum: 0,
+        transcriptByOpeIdDoNotSum: 0,
+        otherByOpeIdDoNotSum: 0,
+      },
+      schoolClosing: false,
+      schoolClosingOn: null,
+      schoolClosingMessage: null,
+      yellowRibbonPrograms: [],
+      independentStudy: false,
+      priorityEnrollment: false,
+      createdAt: '2019-01-30T21:52:37.000Z',
+      updatedAt: '2019-01-30T21:52:37.000Z',
+      physicalCity: 'WASHINGTON',
+      physicalState: 'DC',
+      physicalCountry: 'USA',
+      onlineOnly: false,
+      distanceLearning: true,
+      dodBah: 2367,
+      physicalZip: '20016',
+      links: {
+        self: 'https://staging-api.va.gov/gids/v0/institutions/31106109',
+      },
+      bahGrandfathered: null,
+    },
+    meta: {
+      version: {
+        number: 7,
+        createdAt: '2019-01-30T21:53:24.222Z',
+        preview: false,
+      },
     },
   },
 };
@@ -474,7 +647,7 @@ const autocomplete = {
   },
 };
 
-const zipRates = {
+const zipRate1 = {
   data: {
     id: '7618',
     type: 'zipcode_rates',
@@ -485,6 +658,17 @@ const zipRates = {
       mha_rate: 2262.0,
       mha_rate_grandfathered: 2312.0,
     },
+  },
+};
+const zipRate2 = {
+  id: '7631',
+  type: 'zipcode_rates',
+  attributes: {
+    zip_code: '20016',
+    mha_code: 'DC053',
+    mha_name: 'WASHINGTON, DC METRO AREA',
+    mha_rate: 2262.0,
+    mha_rate_grandfathered: null,
   },
 };
 
@@ -503,6 +687,12 @@ function initApplicationMock() {
   });
 
   mock(null, {
+    path: '/v0/gi/institutions/31106109',
+    verb: 'get',
+    value: secondSchool,
+  });
+
+  mock(null, {
     path: '/v0/gi/calculator_constants',
     verb: 'get',
     value: calculatorConstants,
@@ -517,7 +707,13 @@ function initApplicationMock() {
   mock(null, {
     path: '/v0/gi/zipcode_rates/20002',
     verb: 'get',
-    value: zipRates,
+    value: zipRate1,
+  });
+
+  mock(null, {
+    path: '/v0/gi/zipcode_rates/20016',
+    verb: 'get',
+    value: zipRate2,
   });
 }
 
