@@ -1,14 +1,5 @@
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
-export const FILE_TYPES = [
-  'pdf',
-  'gif',
-  'tiff',
-  'tif',
-  'jpeg',
-  'jpg',
-  'bmp',
-  'txt',
-];
+export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt'];
 
 export function isNotBlank(value) {
   return value !== '';

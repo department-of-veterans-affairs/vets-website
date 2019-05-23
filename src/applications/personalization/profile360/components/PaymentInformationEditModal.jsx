@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import set from 'platform/utilities/data/set';
+
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
@@ -30,25 +32,45 @@ class PaymentInformationEditModal extends React.Component {
   onSubmit = event => {
     event.preventDefault();
 
-    const {
+    let {
       financialInstitutionRoutingNumber: routingNumber,
       accountNumber,
       accountType,
     } = this.props.fields;
 
-    const routingNumberErr = getRoutingNumberErrorMessage(
-      routingNumber.field.value,
+    routingNumber = set('field.dirty', true, routingNumber);
+    routingNumber = set(
+      'errorMessage',
+      getRoutingNumberErrorMessage(routingNumber.field.value),
+      routingNumber,
     );
-    const accountNumberErr = getAccountNumberErrorMessage(
-      accountNumber.field.value,
-    );
-    const accountTypeErr = getAccountTypeErrorMessage(accountType.value.value);
 
-    if (routingNumberErr) {
+    accountNumber = set('field.dirty', true, accountNumber);
+    accountNumber = set(
+      'errorMessage',
+      getAccountNumberErrorMessage(accountNumber.field.value),
+      accountNumber,
+    );
+
+    accountType = set('field.dirty', true, accountType);
+    accountType = set(
+      'errorMessage',
+      getAccountTypeErrorMessage(accountType.value.value),
+      accountType,
+    );
+
+    this.props.editModalFieldChanged(
+      'financialInstitutionRoutingNumber',
+      routingNumber,
+    );
+    this.props.editModalFieldChanged('accountNumber', accountNumber);
+    this.props.editModalFieldChanged('accountType', accountType);
+
+    if (routingNumber.errorMessage) {
       focusElement('[name=routing-number]');
-    } else if (accountNumberErr) {
+    } else if (accountNumber.errorMessage) {
       focusElement('[name=account-number]');
-    } else if (accountTypeErr) {
+    } else if (accountType.errorMessage) {
       focusElement('[name=account-type]');
     } else {
       this.props.onSubmit({

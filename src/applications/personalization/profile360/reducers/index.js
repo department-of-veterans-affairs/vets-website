@@ -18,21 +18,21 @@ import {
 
 const editModalFormsInitialState = {
   financialInstitutionRoutingNumber: {
-    errorMessage: '',
+    errorMessage: undefined,
     field: {
       value: '',
       dirty: false,
     },
   },
   accountNumber: {
-    errorMessage: '',
+    errorMessage: undefined,
     field: {
       value: '',
       dirty: false,
     },
   },
   accountType: {
-    errorMessage: '',
+    errorMessage: undefined,
     value: {
       value: '',
       dirty: false,
