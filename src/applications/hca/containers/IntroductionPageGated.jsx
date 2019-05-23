@@ -23,19 +23,6 @@ import {
   shouldShowLoggedOutContent,
 } from '../selectors';
 
-const onVyiBtnClick = (clickEvent, gaEventName) => {
-  // Fires recordEvent, and navigates away after GA-image request completes.
-  const linkPathname = clickEvent.target.pathname;
-
-  clickEvent.preventDefault();
-  recordEvent({
-    event: gaEventName,
-    eventCallback: function vyiBtnHitCallback() {
-      location.href = linkPathname;
-    },
-  });
-};
-
 const VerificationRequiredAlert = () => (
   <AlertBox
     content={
@@ -82,8 +69,8 @@ const VerificationRequiredAlert = () => (
           <a
             className="usa-button-primary va-button-primary"
             href="/verify"
-            onClick={e => {
-              onVyiBtnClick(e, 'verify-link-clicked');
+            onClick={() => {
+              recordEvent({ event: 'verify-link-clicked' });
             }}
           >
             Verify your identity
