@@ -10,7 +10,7 @@ export class CalculatedDisabilityRating extends React.Component {
         console.log('props ratings: ', this.props)
         return (
             <div>
-                Your rating is: {this.props.ratings}
+                Your rating is: {calculateRating(this.props.ratings)} %
             </div>
         )
     }

@@ -10,7 +10,7 @@ export default class DisabilityRatingCalculator extends React.Component {
       ratings: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRatingNameChange = this.handleRatingNameChange.bind(this);
+    this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(this);
     this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleAddRating = this.handleAddRating.bind(this);
     this.handleRemoveRating = this.handleRemoveRating.bind(this);
@@ -18,10 +18,10 @@ export default class DisabilityRatingCalculator extends React.Component {
 
 
   handleRatingChange = evt => {
-    this.setState({ rating: evt.target.value });
+    this.setState({ rating: parseInt(evt.target.value) });
   };
 
-  handleRatingNameChange = idx => evt => {
+  handleRatingCalculateChange = idx => evt => {
     const newRatings = this.state.ratings.map((rating, sidx) => {
       if (idx !== sidx) return parseInt(rating);
       return parseInt(evt.target.value);
@@ -39,7 +39,7 @@ export default class DisabilityRatingCalculator extends React.Component {
 
   handleAddRating = () => {
     console.log(this.state.ratings)
-    this.setState({ ratings: [...this.state.ratings, ''] })
+    this.setState({ ratings: [...this.state.ratings, parseInt('')] })
   };
 
   handleRemoveRating = idx => () => {
@@ -52,10 +52,9 @@ export default class DisabilityRatingCalculator extends React.Component {
     let ratingInputs = document.getElementsByClassName('ratingInput');
     let descriptionInputs = document.getElementsByClassName('descriptionInput');
     for (let i = 0; i < ratingInputs.length; i++) {
-      ratingInputs[i].value = '';
+      ratingInputs[i].value = parseInt('');
       descriptionInputs[i].value = '';
     }
-    // document.getElementsById('ratingInput').value = ''
     // this.setState({
     //   ratings: []
     // })
@@ -87,11 +86,16 @@ export default class DisabilityRatingCalculator extends React.Component {
               <div className="vads-l-col--2 vads-u-padding-right--2">
                 <input
                   type="text"
-                  pattern="[0-9]"
-                  placeholder={`rating #${idx + 1}`}
+                  min="0"
+                  // placeholder={`rating #${idx + 1}`}
                   value={rating.value}
-                  onChange={this.handleRatingNameChange(idx)}
+                  onChange={this.handleRatingCalculateChange(idx)}
                   className="ratingInput"
+                  // onKeyPress="return event.charCode >= 48"
+                  maxLength="3"
+                  min="1"
+                  max="100"
+
                 />
               </div>
               <div className="vads-l-col--8">
@@ -133,7 +137,7 @@ export default class DisabilityRatingCalculator extends React.Component {
             </div>
           </div>
         </div>
-        <p><CalculatedDisabilityRating ratings={this.state.ratings} /></p>
+        {/* <p><CalculatedDisabilityRating ratings={this.state.ratings} /></p> */}
       </div>
     );
   }

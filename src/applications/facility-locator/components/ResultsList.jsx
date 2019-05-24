@@ -31,7 +31,7 @@ class ResultsList extends Component {
 
   handlePageSelect = page => {
     const { currentQuery } = this.props;
-
+    console.log('currentQuery', currentQuery);
     this.props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
@@ -82,11 +82,11 @@ class ResultsList extends Component {
       .map(result => {
         const distance = currentLocation
           ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              result.attributes.lat,
-              result.attributes.long,
-            )
+            currentLocation.latitude,
+            currentLocation.longitude,
+            result.attributes.lat,
+            result.attributes.long,
+          )
           : null;
         return { ...result, distance };
       })
@@ -110,8 +110,8 @@ class ResultsList extends Component {
                 <SearchResult result={r} />
               </div>
             ) : (
-              <SearchResult key={r.id} result={r} />
-            );
+                <SearchResult key={r.id} result={r} />
+              );
             /* eslint-enable prettier/prettier */
           })}
         </div>

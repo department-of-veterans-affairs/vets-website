@@ -15,6 +15,9 @@ export function calculateRating(arr) {
     })
     let a, b, x;
 
+    // sortedArr.forEach(function(el) {
+    //     if (el)
+    // })
     while (sortedArr.length > 1) {
         console.log(sortedArr)
         a = 100 - sortedArr[0];
