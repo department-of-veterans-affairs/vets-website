@@ -1,4 +1,7 @@
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import set from '../../../../platform/utilities/data/set';
+import get from '../../../../platform/utilities/data/get';
+import omit from '../../../../platform/utilities/data/omit';
 import disabilityLabels from '../content/disabilityLabels';
 import {
   descriptionInfo,
@@ -113,4 +116,68 @@ export const schema = {
       },
     },
   },
+};
+
+const deleted = (oldArr, newArr) => {
+  for (let i = 0; i < newArr.length; i++) {
+    if (oldArr[i] !== newArr[i]) return oldArr[i];
+  }
+
+  // No difference found; last element must have been deleted
+  return oldArr[oldArr.length - 1];
+};
+
+const removeFromTreatedDisabilityNames = (disability, formData) => {
+  const path = 'vaTreatmentFacilities';
+  const facilities = get(path, formData);
+  if (!facilities) return formData;
+
+  return set(
+    path,
+    facilities.map(f =>
+      set(
+        'treatedDisabilityNames',
+        omit([disability.uuid], get('treatedDisabilityNames', f)),
+        f,
+      ),
+    ),
+    formData,
+  );
+};
+
+const removeFromPow = (disability, formData) => {
+  const path = 'view:isPow.powDisabilities';
+  const powDisabilities = get(path, formData);
+  if (!powDisabilities) return formData;
+
+  return set(path, omit([disability.uuid], powDisabilities), formData);
+};
+
+export const updateFormData = (oldData, newData) => {
+  const oldArr = oldData.newDisabilities;
+  const newArr = newData.newDisabilities;
+  // Sanity check
+  if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
+
+  // Disability was removed
+  if (oldArr.length > newArr.length) {
+    const deletedElement = deleted(oldArr, newArr);
+    return removeFromPow(
+      deletedElement,
+      removeFromTreatedDisabilityNames(deletedElement, newData),
+    );
+  }
+
+  // Disability was modified
+  const changedIndex = oldArr.reduce((ci, d, i) => {
+    if (ci !== undefined) return ci;
+    if (d !== newArr[i]) return i;
+    return undefined; // Pacify the linter
+  });
+  if (oldArr.length === newArr.length && changedIndex !== undefined) {
+    // Update the disability name in treatedDisabilityNames and
+    // powDisabilities _if_ it exists already
+  }
+
+  return newData;
 };
