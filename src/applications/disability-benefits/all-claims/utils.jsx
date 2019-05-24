@@ -207,11 +207,18 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
+/**
+ * Takes a string and returns another that won't break SiP when used
+ * as a property name.
+ * @param {string} str - The string to make SiP-friendly
+ * @return {string} The SiP-friendly string
+ */
+const sippableId = str => str.toLowerCase();
+
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
   return _.set(
-    // downcase value for SIP consistency
-    [`${capitalizedDisabilityName.toLowerCase()}`],
+    sippableId(disabilityName),
     { title: capitalizedDisabilityName, type: 'boolean' },
     schema,
   );
