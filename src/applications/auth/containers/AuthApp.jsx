@@ -98,16 +98,6 @@ export class AuthApp extends React.Component {
     if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  getReturnUrl = () => {
-    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL);
-
-    if (returnUrl.endsWith('/error')) {
-      return returnUrl.replace('/error', '');
-    }
-
-    return returnUrl || '';
-  };
-
   handleAuthError = error => {
     const loginType = this.props.location.query.type;
 
@@ -130,7 +120,7 @@ export class AuthApp extends React.Component {
   };
 
   redirect = () => {
-    const returnUrl = this.getReturnUrl();
+    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
     const redirectUrl =
