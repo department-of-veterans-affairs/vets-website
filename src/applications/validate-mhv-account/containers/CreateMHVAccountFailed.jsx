@@ -74,7 +74,7 @@ class CreateMHVAccountFailed extends React.Component {
                 message below:
                 <p>
                   “When I tried to sign in to use health tools on VA.gov, I
-                  received an error message telling me that the site couldn't
+                  received an error message telling me that the site couldn’t
                   create a My HealtheVet account for me.”
                 </p>
               </li>

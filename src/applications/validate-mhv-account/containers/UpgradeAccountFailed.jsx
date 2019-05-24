@@ -43,7 +43,7 @@ class UpgradeMHVAccountFailed extends Component {
             <p>
               Tell the representative that you tried to sign in to use health
               tools on VA.gov, but received an error messaging telling you that
-              we couldn't create an account for you.
+              we couldn’t create an account for you.
             </p>
           </CollapsiblePanel>
           <CollapsiblePanel
@@ -70,7 +70,7 @@ class UpgradeMHVAccountFailed extends Component {
                 message below:
                 <p>
                   “When I tried to sign in to use health tools on VA.gov, I
-                  received an error message telling me that the site couldn't
+                  received an error message telling me that the site couldn’t
                   create a My HealtheVet account for me.”
                 </p>
               </li>
