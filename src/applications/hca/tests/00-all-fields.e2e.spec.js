@@ -5,32 +5,13 @@ const testData = require('./schema/maximal-test.json');
 const ENVIRONMENTS = require('site/constants/environments');
 const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
+const vetDoBArr = testData.data.veteranDateOfBirth.split('-');
+
 module.exports = E2eHelpers.createE2eTest(client => {
   HcaHelpers.initApplicationSubmitMock();
   if (process.env.BUILDTYPE === ENVIRONMENTS.VAGOVPROD) {
     HcaHelpers.initEnrollmentStatusMock();
   }
-
-  // HcaHelpers.initEnrollmentStatusMock404();
-  /* eslint-disable camelcase */
-  client.mockData(
-    {
-      path: '/v0/health_care_applications/enrollment_status',
-      verb: 'get',
-      value: {
-        errors: [
-          {
-            title: 'Record not found',
-            detail: 'The record identified by could not be found',
-            code: '404',
-            status: '404',
-          },
-        ],
-      },
-    },
-    null,
-  );
-  /* eslint-enable camelcase */
 
   // Ensure introduction page renders.
   client
@@ -75,6 +56,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Personal Information page.
   client.expect.element('input[name="root_veteranFullName_first"]').to.be
     .visible;
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // check that id-form values have been copied.
+    client.expect
+      .element('input[name="root_veteranFullName_first"]')
+      .to.have.value.that.equals(testData.data.veteranFullName.first);
+    client.expect
+      .element('input[name="root_veteranFullName_last"]')
+      .to.have.value.that.equals(testData.data.veteranFullName.last);
+  }
   HcaHelpers.completePersonalInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
@@ -85,6 +75,21 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Birth information page.
   client.expect.element('select[name="root_veteranDateOfBirthMonth"]').to.be
     .visible;
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // check that id-form values have been copied.
+    client.expect
+      .element('select[name="root_veteranDateOfBirthMonth"]')
+      .to.have.value.that.equals(parseInt(vetDoBArr[1], 10));
+    client.expect
+      .element('select[name="root_veteranDateOfBirthDay"]')
+      .to.have.value.that.equals(parseInt(vetDoBArr[2], 10));
+    client.expect
+      .element('input[name="root_veteranDateOfBirthYear"]')
+      .to.have.value.that.equals(parseInt(vetDoBArr[0], 10));
+    client.expect
+      .element('input[name="root_veteranSocialSecurityNumber"]')
+      .to.have.value.that.equals(testData.data.veteranSocialSecurityNumber);
+  }
   HcaHelpers.completeBirthInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
