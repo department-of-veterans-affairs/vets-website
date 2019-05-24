@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 
-  GiHelpers.verifyDEA(client, '$747/mo');
+  GiHelpers.verifyAllDEA(client);
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
@@ -68,7 +68,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible(secondResult, Timeouts.slow)
     .pause(1000)
     .click(secondResult)
-    .waitForElementVisible('.profile-page', 10000000000)
+    .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 
   GiHelpers.verifyDEA(client, '$1,224/mo');
