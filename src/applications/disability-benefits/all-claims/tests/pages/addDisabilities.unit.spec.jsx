@@ -115,8 +115,6 @@ describe('Add new disabilities', () => {
       });
     });
 
-    it('should remove a deleted disability from treatedDisabilityNames and powDisabilities', () => {});
-    it('should change the property name in treatedDisabilityNames and powDisabilities when a disability name is changed', () => {});
     it('should not modify oldData', () => {
       const old = oldData();
       updateFormData(
@@ -124,6 +122,22 @@ describe('Add new disabilities', () => {
         set('newDisabilities[1]', { name: 'Something else' }, oldData()),
       );
       expect(old).to.deep.equal(oldData());
+    });
+
+    it('should change the property name in treatedDisabilityNames and powDisabilities when a disability name is changed', () => {
+      const newData = set(
+        'newDisabilities[0].name',
+        'Foo-with EXTRAz',
+        oldData(),
+      );
+      const result = updateFormData(oldData(), newData);
+      expect(
+        result.vaTreatmentFacilities[0].treatedDisabilityNames[
+          'foo-with extraz'
+        ],
+      ).to.be.true;
+      expect(result['view:isPow'].powDisabilities['foo-with extraz']).to.be
+        .true;
     });
 
     it('should remove a deleted disability from treatedDisabilityNames and powDisabilities', () => {
