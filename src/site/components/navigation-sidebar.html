@@ -21,7 +21,7 @@ Used to display a side navigation bar of pages in a collection.
   {% assign spokes = "Get benefits,Manage benefits,More resources" | split: ',' %}
 {% endif %}
 
-<nav {% if relatedPages != empty %}class="usa-width-one-fourth va-sidebarnav"{% endif %} id="va-detailpage-sidebar">
+<nav {% if relatedPages != empty %}class="usa-width-one-fourth va-sidebarnav {%  if fullWidth == true %} vads-u-width--full{% endif %}"{% endif %} id="va-detailpage-sidebar">
   <div>
     <button type="button" aria-label="Close this menu" class="va-btn-close-icon va-sidebarnav-close"></button>
 
