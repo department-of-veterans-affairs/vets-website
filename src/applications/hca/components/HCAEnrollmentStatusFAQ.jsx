@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import HCASubwayMap from '../components/HCASubwayMap';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   getFAQBlock1,
@@ -56,6 +57,7 @@ const HCAEnrollmentStatusFAQ = ({
         !showingReapplyForHealthCareContent && (
           <ReapplyTextLink
             onClick={() => {
+              recordEvent({ event: 'hca-form-reapply' });
               showReapplyContent();
             }}
           />

@@ -24,7 +24,7 @@ import {
 
 import DashboardAlert from '../components/DashboardAlert';
 import FormItem from '../components/FormItem';
-import { isSIPEnabledForm } from '../helpers';
+import { isSIPEnabledForm, sipFormSorter } from '../helpers';
 
 class YourApplications extends React.Component {
   componentDidMount() {
@@ -86,7 +86,9 @@ export const mapStateToProps = state => {
     isEnrollmentStatusLoading(state) || isLoadingDismissedNotification(state);
   const profileState = selectProfile(state);
   const { savedForms } = profileState;
-  const verifiedSavedForms = savedForms.filter(isSIPEnabledForm);
+  const verifiedSavedForms = savedForms
+    .filter(isSIPEnabledForm)
+    .sort(sipFormSorter);
   const hasVerifiedSavedForms = !!verifiedSavedForms.length;
   const hcaStatusEffectiveDate =
     hcaEnrollmentStatus.enrollmentStatusEffectiveDate;

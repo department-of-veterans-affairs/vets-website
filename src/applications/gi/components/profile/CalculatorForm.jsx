@@ -104,9 +104,10 @@ class CalculatorForm extends React.Component {
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
 
+    const inStateTuitionFeesId = 'inStateTuitionFees';
     const inStateTuitionInput = this.props.inputs.inState === 'no' && (
       <div>
-        <label htmlFor="inStateTuitionFees">
+        <label htmlFor={inStateTuitionFeesId}>
           {this.renderLearnMoreLabel({
             text: 'In-state tuition and fees per year',
             modal: 'calcInStateTuition',
@@ -114,16 +115,18 @@ class CalculatorForm extends React.Component {
         </label>
         <input
           type="text"
-          name="inStateTuitionFees"
+          name={inStateTuitionFeesId}
+          id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
           onChange={this.handleInputChange}
         />
       </div>
     );
 
+    const tuitionFeesId = 'tuitionFees';
     return (
       <div>
-        <label htmlFor="tuitionFees">
+        <label htmlFor={tuitionFeesId}>
           {this.renderLearnMoreLabel({
             text: 'Tuition and fees per year',
             modal: 'calcTuition',
@@ -131,7 +134,8 @@ class CalculatorForm extends React.Component {
         </label>
         <input
           type="text"
-          name="tuitionFees"
+          name={tuitionFeesId}
+          id={tuitionFeesId}
           value={formatCurrency(this.props.inputs.tuitionFees)}
           onChange={this.handleInputChange}
         />
@@ -142,12 +146,14 @@ class CalculatorForm extends React.Component {
 
   renderBooks() {
     if (!this.props.displayedInputs.books) return null;
+    const booksId = 'books';
     return (
       <div>
-        <label htmlFor="books">Books and supplies per year</label>
+        <label htmlFor={booksId}>Books and supplies per year</label>
         <input
           type="text"
-          name="books"
+          name={booksId}
+          id={booksId}
           value={formatCurrency(this.props.inputs.books)}
           onChange={this.handleInputChange}
         />
@@ -252,9 +258,10 @@ class CalculatorForm extends React.Component {
 
   renderScholarships() {
     if (!this.props.displayedInputs.scholarships) return null;
+    const scholarshipsId = 'scholarships';
     return (
       <div>
-        <label htmlFor="scholarships">
+        <label htmlFor={scholarshipsId}>
           {this.renderLearnMoreLabel({
             text: 'Scholarships (excluding Pell)',
             modal: 'calcScholarships',
@@ -262,7 +269,8 @@ class CalculatorForm extends React.Component {
         </label>
         <input
           type="text"
-          name="scholarships"
+          name={scholarshipsId}
+          id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
           onChange={this.handleInputChange}
         />
@@ -272,9 +280,10 @@ class CalculatorForm extends React.Component {
 
   renderTuitionAssist() {
     if (!this.props.displayedInputs.tuitionAssist) return null;
+    const tuitionAssistId = 'tuitionAssist';
     return (
       <div>
-        <label htmlFor="tuitionAssist">
+        <label htmlFor={tuitionAssistId}>
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
             modal: 'calcTuitionAssist',
@@ -282,7 +291,8 @@ class CalculatorForm extends React.Component {
         </label>
         <input
           type="text"
-          name="tuitionAssist"
+          name={tuitionAssistId}
+          id={tuitionAssistId}
           value={formatCurrency(this.props.inputs.tuitionAssist)}
           onChange={this.handleInputChange}
         />
@@ -420,12 +430,14 @@ class CalculatorForm extends React.Component {
     let amountInput;
 
     if (this.props.inputs.kickerEligible === 'yes') {
+      const kickerAmountId = 'kickerAmount';
       amountInput = (
         <div>
-          <label htmlFor="kickerAmount">How much is your kicker?</label>
+          <label htmlFor={kickerAmountId}>How much is your kicker?</label>
           <input
             type="text"
-            name="kickerAmount"
+            name={kickerAmountId}
+            id={kickerAmountId}
             value={formatCurrency(this.props.inputs.kickerAmount)}
             onChange={this.handleInputChange}
           />
@@ -505,14 +517,16 @@ class CalculatorForm extends React.Component {
     let amountInput;
 
     if (this.props.inputs.buyUp === 'yes') {
+      const buyUpAmountId = 'buyUpAmount';
       amountInput = (
         <div>
-          <label htmlFor="buyUpAmount">
+          <label htmlFor={buyUpAmountId}>
             How much did you pay toward buy-up (up to $600)?
           </label>
           <input
             type="text"
-            name="buyUpAmount"
+            name={buyUpAmountId}
+            id={buyUpAmountId}
             value={formatCurrency(this.props.inputs.buyUpAmount)}
             onChange={this.handleInputChange}
             onBlur={this.resetBuyUp}
