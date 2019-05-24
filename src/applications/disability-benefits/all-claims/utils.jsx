@@ -168,6 +168,8 @@ export const capitalizeEachWord = name => {
     );
   }
 
+  // TODO: Refactor this out; the function name doesn't imply that it
+  // would return a completely unrelated string
   return 'Unknown Condition';
 };
 
