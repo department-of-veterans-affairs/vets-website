@@ -228,7 +228,7 @@ export const makeSchemaForNewDisabilities = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) => ({
     properties: newDisabilities
-      .map(disability => capitalizeEachWord(disability.condition))
+      .map(disability => disability.condition)
       .reduce(createCheckboxSchema, {}),
   }),
 );
@@ -238,7 +238,7 @@ export const makeSchemaForRatedDisabilities = createSelector(
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
       .filter(disabilityIsSelected)
-      .map(disability => capitalizeEachWord(disability.name))
+      .map(disability => disability.name)
       .reduce(createCheckboxSchema, {}),
   }),
 );
