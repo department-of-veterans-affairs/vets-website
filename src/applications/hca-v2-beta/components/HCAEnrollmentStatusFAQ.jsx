@@ -57,7 +57,7 @@ const HCAEnrollmentStatusFAQ = ({
         !showingReapplyForHealthCareContent && (
           <ReapplyTextLink
             onClick={() => {
-              recordEvent('hca-form-reapply');
+              recordEvent({ event: 'hca-form-reapply' });
               showReapplyContent();
             }}
           />
