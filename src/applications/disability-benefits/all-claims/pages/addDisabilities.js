@@ -145,7 +145,10 @@ const removeDisability = (deletedElement, formData) => {
       facilities.map(f =>
         set(
           'treatedDisabilityNames',
-          omit([sippableId(disability.name)], get('treatedDisabilityNames', f)),
+          omit(
+            [sippableId(disability.condition)],
+            get('treatedDisabilityNames', f),
+          ),
           f,
         ),
       ),
@@ -160,7 +163,7 @@ const removeDisability = (deletedElement, formData) => {
 
     return set(
       path,
-      omit([sippableId(disability.name)], powDisabilities),
+      omit([sippableId(disability.condition)], powDisabilities),
       data,
     );
   };
@@ -173,8 +176,8 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(oldData.newDisabilities[changedIndex].name);
-  const newId = sippableId(newData.newDisabilities[changedIndex].name);
+  const oldId = sippableId(oldData.newDisabilities[changedIndex].condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex].condition);
 
   let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
