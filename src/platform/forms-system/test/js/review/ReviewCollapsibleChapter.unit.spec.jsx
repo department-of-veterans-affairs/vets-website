@@ -1,6 +1,6 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -24,6 +24,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
           editMode: false,
         },
       },
@@ -59,6 +60,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
           editMode: [false],
         },
       },
@@ -154,6 +156,7 @@ describe('<ReviewCollapsibleChapter>', () => {
             condition2: 'boolean',
           },
         },
+        uiSchema: {},
       },
       {
         pageKey: 'test2',
@@ -177,10 +180,12 @@ describe('<ReviewCollapsibleChapter>', () => {
               condition2: 'boolean',
             },
           },
+          uiSchema: {},
         },
         test2: {
           editMode: false,
           schema: {},
+          uiSchema: {},
         },
       },
       data: {
@@ -216,6 +221,7 @@ describe('<ReviewCollapsibleChapter>', () => {
             condition2: 'boolean',
           },
         },
+        uiSchema: {},
       },
       {
         pageKey: 'test2',
@@ -224,6 +230,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           condition1: true,
         },
         schema: {},
+        uiSchema: {},
       },
     ];
     const chapterKey = 'test';
@@ -238,10 +245,12 @@ describe('<ReviewCollapsibleChapter>', () => {
               condition2: 'boolean',
             },
           },
+          uiSchema: {},
         },
         test2: {
           editMode: false,
           schema: {},
+          uiSchema: {},
         },
       },
       data: {
@@ -273,6 +282,7 @@ describe('<ReviewCollapsibleChapter>', () => {
         schema: {
           properties: {},
         },
+        uiSchema: {},
       },
     ];
     const chapterKey = 'test';
@@ -285,6 +295,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
         },
       },
       data: {},
@@ -331,6 +342,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {},
           },
+          uiSchema: {},
           editMode: [false],
         },
       },
@@ -360,6 +372,108 @@ describe('<ReviewCollapsibleChapter>', () => {
           test: 2,
         },
       ],
+    });
+  });
+
+  describe('updateFormData', () => {
+    it('should be called on normal pages', () => {
+      const setData = sinon.spy();
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+          updateFormData: (oldData, newData) => ({ ...newData, bar: 'baz' }),
+        },
+      ];
+      const chapterKey = 'test';
+      const chapter = {};
+      const form = {
+        pages: {
+          test: {
+            title: '',
+            schema: {
+              type: 'object',
+              properties: {
+                foo: { type: 'string' },
+              },
+            },
+            uiSchema: {},
+            editMode: true,
+          },
+        },
+        data: {},
+      };
+
+      const tree = shallow(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={() => {}}
+          setData={setData}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      tree.find('SchemaForm').prop('onChange')({ foo: 'asdf' });
+
+      expect(setData.calledWith({ foo: 'asdf', bar: 'baz' })).to.be.true;
+
+      tree.unmount();
+    });
+
+    it('should be called on array pages', () => {
+      const setData = sinon.spy();
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+          updateFormData: (oldData, newData) => ({ ...newData, bar: 'baz' }),
+        },
+      ];
+      const chapterKey = 'test';
+      const chapter = {};
+      const form = {
+        pages: {
+          test: {
+            showPagePerItem: true,
+            arrayPath: 'testing',
+            title: '',
+            schema: {
+              properties: {},
+            },
+            uiSchema: {},
+            editMode: [true],
+          },
+        },
+        data: {
+          testing: [{}],
+        },
+      };
+
+      const tree = shallow(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={() => {}}
+          setData={setData}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      tree.find('SchemaForm').prop('onChange')({ foo: 'asdf' });
+
+      expect(setData.firstCall.args[0]).to.eql({
+        foo: 'asdf',
+        bar: 'baz',
+      });
+
+      tree.unmount();
     });
   });
 });
