@@ -87,7 +87,7 @@ describe('Add new disabilities', () => {
   describe('updateFormData', () => {
     // It's a function just to make sure we're not mutating it anywhere along the way
     const oldData = () => ({
-      newDisabilities: [{ name: 'Something with-hyphens and ALLCAPS' }],
+      newDisabilities: [{ condition: 'Something with-hyphens and ALLCAPS' }],
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
@@ -119,14 +119,14 @@ describe('Add new disabilities', () => {
       const old = oldData();
       updateFormData(
         old,
-        set('newDisabilities[1]', { name: 'Something else' }, oldData()),
+        set('newDisabilities[1]', { condition: 'Something else' }, oldData()),
       );
       expect(old).to.deep.equal(oldData());
     });
 
     it('should change the property name in treatedDisabilityNames and powDisabilities when a disability name is changed', () => {
       const newData = set(
-        'newDisabilities[0].name',
+        'newDisabilities[0].condition',
         'Foo-with EXTRAz',
         oldData(),
       );
