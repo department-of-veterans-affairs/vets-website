@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 
-  GiHelpers.verifyAllDEA(client);
+  GiHelpers.verifyAllDEAojt(client);
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 

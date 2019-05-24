@@ -12,7 +12,7 @@ function verifyDEA(client, expectedDEA) {
     .assert.containsText('.total-paid-to-you', expectedDEA);
 }
 
-function ojtVerifyAllDEA(client) {
+function verifyAllDEAojt(client) {
   for (let i = 2; i <= 30; i += 2) {
     client
       .waitForElementVisible('.total-paid-to-you', Timeouts.verySlow)
@@ -716,5 +716,5 @@ module.exports = {
   schools,
   initApplicationMock,
   verifyDEA,
-  ojtVerifyAllDEA,
+  verifyAllDEAojt,
 };
