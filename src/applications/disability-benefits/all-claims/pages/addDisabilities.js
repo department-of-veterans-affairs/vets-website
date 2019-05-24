@@ -16,6 +16,7 @@ import {
   newConditionsOnly,
   newAndIncrease,
   hasClaimedConditions,
+  sippableId,
 } from '../utils';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -118,39 +119,95 @@ export const schema = {
   },
 };
 
-const deleted = (oldArr, newArr) => {
+const indexOfChanged = (oldArr, newArr) => {
   for (let i = 0; i < newArr.length; i++) {
-    if (oldArr[i] !== newArr[i]) return oldArr[i];
+    if (oldArr[i] !== newArr[i]) return i;
   }
 
-  // No difference found; last element must have been deleted
-  return oldArr[oldArr.length - 1];
+  // No difference found
+  return undefined;
 };
 
-const removeFromTreatedDisabilityNames = (disability, formData) => {
-  const path = 'vaTreatmentFacilities';
-  const facilities = get(path, formData);
-  if (!facilities) return formData;
+const deleted = (oldArr, newArr) => {
+  const i = indexOfChanged(oldArr, newArr);
+  // If no difference was found, the last item was deleted
+  return i !== undefined ? oldArr[i] : oldArr[oldArr.length - 1];
+};
 
-  return set(
-    path,
-    facilities.map(f =>
-      set(
-        'treatedDisabilityNames',
-        omit([disability.uuid], get('treatedDisabilityNames', f)),
-        f,
+const removeDisability = (deletedElement, formData) => {
+  const removeFromTreatedDisabilityNames = (disability, data) => {
+    const path = 'vaTreatmentFacilities';
+    const facilities = get(path, data);
+    if (!facilities) return data;
+
+    return set(
+      path,
+      facilities.map(f =>
+        set(
+          'treatedDisabilityNames',
+          omit([sippableId(disability.name)], get('treatedDisabilityNames', f)),
+          f,
+        ),
       ),
-    ),
-    formData,
+      data,
+    );
+  };
+
+  const removeFromPow = (disability, data) => {
+    const path = 'view:isPow.powDisabilities';
+    const powDisabilities = get(path, data);
+    if (!powDisabilities) return data;
+
+    return set(
+      path,
+      omit([sippableId(disability.name)], powDisabilities),
+      data,
+    );
+  };
+
+  return removeFromPow(
+    deletedElement,
+    removeFromTreatedDisabilityNames(deletedElement, formData),
   );
 };
 
-const removeFromPow = (disability, formData) => {
-  const path = 'view:isPow.powDisabilities';
-  const powDisabilities = get(path, formData);
-  if (!powDisabilities) return formData;
+// Find the old name -> change to new name
+const changeDisabilityName = (oldData, newData, changedIndex) => {
+  const oldId = sippableId(oldData.newDisabilities[changedIndex].name);
+  const newId = sippableId(newData.newDisabilities[changedIndex].name);
 
-  return set(path, omit([disability.uuid], powDisabilities), formData);
+  let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
+
+  // Add in the new property with the old value
+  const facilitiesPath = 'vaTreatmentFacilities';
+  const facilities = get(facilitiesPath, result);
+  const oldFacilities = get(facilitiesPath, oldData);
+  if (facilities && oldFacilities) {
+    result = set(
+      facilitiesPath,
+      facilities.map((f, i) => {
+        const oldValue = oldFacilities[i].treatedDisabilityNames[oldId];
+        return oldValue !== undefined
+          ? set(['treatedDisabilityNames', newId], oldValue, f)
+          : f;
+      }),
+      result,
+    );
+  }
+
+  // And for the one view:isPow
+  const powDisabilitiesPath = 'view:isPow.powDisabilities';
+  const powDisabilities = get(powDisabilitiesPath, result);
+  const oldPowDisabilities = get(powDisabilitiesPath, oldData);
+  if (powDisabilities && oldPowDisabilities[oldId] !== undefined) {
+    result = set(
+      `${powDisabilitiesPath}.${newId}`,
+      oldPowDisabilities[oldId],
+      result,
+    );
+  }
+
+  return result;
 };
 
 export const updateFormData = (oldData, newData) => {
@@ -162,21 +219,15 @@ export const updateFormData = (oldData, newData) => {
   // Disability was removed
   if (oldArr.length > newArr.length) {
     const deletedElement = deleted(oldArr, newArr);
-    return removeFromPow(
-      deletedElement,
-      removeFromTreatedDisabilityNames(deletedElement, newData),
-    );
+    return removeDisability(deletedElement, newData);
   }
 
   // Disability was modified
-  const changedIndex = oldArr.reduce((ci, d, i) => {
-    if (ci !== undefined) return ci;
-    if (d !== newArr[i]) return i;
-    return undefined; // Pacify the linter
-  });
+  const changedIndex = indexOfChanged(oldArr, newArr);
   if (oldArr.length === newArr.length && changedIndex !== undefined) {
     // Update the disability name in treatedDisabilityNames and
     // powDisabilities _if_ it exists already
+    return changeDisabilityName(oldData, newData, changedIndex);
   }
 
   return newData;
