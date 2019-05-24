@@ -87,14 +87,16 @@ describe('Add new disabilities', () => {
   describe('updateFormData', () => {
     // It's a function just to make sure we're not mutating it anywhere along the way
     const oldData = () => ({
-      newDisabilities: [
-        { name: 'Something', uuid: '9238da0f1bc9316de95ab0c3f68ea35' },
-      ],
+      newDisabilities: [{ name: 'Something with-hyphens and ALLCAPS' }],
       vaTreatmentFacilities: [
-        { treatedDisabilityNames: { '9238da0f1bc9316de95ab0c3f68ea35': true } },
+        {
+          treatedDisabilityNames: {
+            'something with-hyphens and allcaps': true,
+          },
+        },
       ],
       'view:isPow': {
-        powDisabilities: { '9238da0f1bc9316de95ab0c3f68ea35': true },
+        powDisabilities: { 'something with-hyphens and allcaps': true },
       },
     });
 
