@@ -9,7 +9,7 @@ import { fetchMHVAccount } from '../../../platform/user/profile/actions';
 import { selectProfile } from '../../../platform/user/selectors';
 import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
-import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS } from './../constants';
+import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
 
 class ValidateMHVAccount extends React.Component {
   componentDidMount() {
@@ -65,10 +65,9 @@ class ValidateMHVAccount extends React.Component {
       accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
       accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED
     ) {
-      const mhvUrl = 'https://www.myhealth.va.gov/mhv-portal-web/home';
       window.location = environment.isProduction()
-        ? mhvUrl
-        : replaceWithStagingDomain(mhvUrl);
+        ? MHV_URL
+        : replaceWithStagingDomain(MHV_URL);
     } else if (accountLevel === MHV_ACCOUNT_LEVELS.BASIC) {
       router.replace('upgrade-account');
     } else {
