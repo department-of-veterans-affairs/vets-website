@@ -1,6 +1,6 @@
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
-export default function createAdditionalInfoWidget() {
+export default function subscribeAdditionalInfoAnalytics() {
   window.onload = () => {
     document.body.addEventListener(
       '@department-of-veterans-affairs/formation/additional-info/button-clicked',
