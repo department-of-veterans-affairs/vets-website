@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
+
+import set from '../../../../utilities/data/set';
 
 import { FormPage } from '../../../src/js/containers/FormPage';
 
@@ -216,6 +219,50 @@ describe('Schemaform <FormPage>', () => {
     expect(setData.firstCall.args[0]).to.eql({
       arrayProp: [{ test: 2 }],
     });
+  });
+  it('should update data using updateDataHooks', () => {
+    const setData = sinon.spy();
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'firstPage',
+        updateFormData: (oldData, newData) => set('foo', 'something', newData),
+      },
+    });
+    const form = makeForm({
+      pages: {
+        firstPage: {
+          schema: {
+            type: 'object',
+            properties: {
+              test: { type: 'string' },
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+        },
+      },
+    });
+
+    const tree = mount(
+      <FormPage
+        setData={setData}
+        form={form}
+        route={route}
+        params={{ index: 0 }}
+        location={location}
+      />,
+    );
+
+    const field = tree.find('input#root_test');
+
+    field.simulate('change', { target: { value: 'foo' } });
+
+    expect(setData.firstCall.args[0]).to.eql({
+      test: 'foo',
+      foo: 'something',
+    });
+
+    tree.unmount();
   });
   it('should update data when submitting on array page', () => {
     const setData = sinon.spy();

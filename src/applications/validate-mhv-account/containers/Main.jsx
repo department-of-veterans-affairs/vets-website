@@ -7,7 +7,7 @@ import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
 import get from '../../../platform/utilities/data/get';
 import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
-import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS } from './../constants';
+import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
 
 class Main extends React.Component {
   componentDidUpdate(prevProps) {
@@ -58,10 +58,9 @@ class Main extends React.Component {
   };
 
   redirectToMHV = () => {
-    const mhvUrl = 'https://www.myhealth.va.gov/mhv-portal-web/home';
     window.location = environment.isProduction()
-      ? mhvUrl
-      : replaceWithStagingDomain(mhvUrl);
+      ? MHV_URL
+      : replaceWithStagingDomain(MHV_URL);
   };
 
   render() {
