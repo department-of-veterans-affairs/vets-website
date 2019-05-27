@@ -50,7 +50,10 @@ export default class FacilityListWidget extends React.Component {
 
     const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
       facility => (
-        <div key={facility.id} className="usa-grid-full vads-u-margin-bottom--2p5">
+        <div
+          key={facility.id}
+          className="usa-grid-full vads-u-margin-bottom--2p5"
+        >
           <section key={facility.id} className="usa-width-one-half">
             <FacilityTitle
               facility={facility}
