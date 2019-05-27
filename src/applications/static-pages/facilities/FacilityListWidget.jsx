@@ -50,10 +50,7 @@ export default class FacilityListWidget extends React.Component {
 
     const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
       facility => (
-        <div
-          key={facility.id}
-          className="usa-grid vads-u-background-color--gray-lightest vads-u-margin-bottom--2p5 vads-u-padding-y--1p5"
-        >
+        <div key={facility.id} className="usa-grid-full vads-u-margin-bottom--2p5">
           <section key={facility.id} className="usa-width-one-half">
             <FacilityTitle
               facility={facility}
@@ -62,14 +59,6 @@ export default class FacilityListWidget extends React.Component {
             />
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
-            <div className="location-details-link">
-              <a
-                href={this.props.facilities[facility.id].entityUrl.path}
-                className="usa-button usa-button-secondary"
-              >
-                Location details <i className="fa fa-chevron-right" />
-              </a>
-            </div>
           </section>
           <section className="usa-width-one-half">
             <a
