@@ -28,11 +28,41 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   GiHelpers.searchAsDEA(client, secondResult);
 
-  GiHelpers.verifyDEA(client, 'full', '$1,224/mo');
-  GiHelpers.verifyDEA(client, 'three quarters', '$967/mo');
-  GiHelpers.verifyDEA(client, 'half', '$710/mo');
-  GiHelpers.verifyDEA(client, 'less than half', '$710/mo');
-  GiHelpers.verifyDEA(client, 'quarter', '$306/mo');
+  GiHelpers.verifyDEA(
+    client,
+    'full',
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATEFULLTIME,
+    )}/mo`,
+  );
+  GiHelpers.verifyDEA(
+    client,
+    'three quarters',
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATETHREEQUARTERS,
+    )}/mo`,
+  );
+  GiHelpers.verifyDEA(
+    client,
+    'half',
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATEONEHALF,
+    )}/mo`,
+  );
+  GiHelpers.verifyDEA(
+    client,
+    'less than half',
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATEUPTOONEHALF,
+    )}/mo`,
+  );
+  GiHelpers.verifyDEA(
+    client,
+    'quarter',
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATEUPTOONEQUARTER,
+    )}/mo`,
+  );
 
   client.end();
 });

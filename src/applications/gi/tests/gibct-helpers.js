@@ -327,9 +327,7 @@ const secondSchool = {
       locale_type: null,
       student_count: 0,
       undergrad_enrollment: null,
-      // this might be the problem
       yr: true,
-      // or this
       student_veteran: true,
       student_veteran_link: 'http://www.auvets.com/',
       poe: true,
@@ -740,6 +738,21 @@ function initApplicationMock() {
   });
 }
 
+const calculatorConstantsList = [];
+
+function formatNumber(value) {
+  const str = (+value).toString();
+  return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
+}
+
+function formatCurrency(value) {
+  return `$${formatNumber(Math.round(+value))}`;
+}
+
+calculatorConstants.data.forEach(c => {
+  calculatorConstantsList[c.attributes.name] = c.attributes.value;
+});
+
 module.exports = {
   calculatorConstants,
   schools,
@@ -747,4 +760,6 @@ module.exports = {
   verifyDEA,
   verifyAllDEAojt,
   searchAsDEA,
+  formatCurrency,
+  calculatorConstantsList,
 };
