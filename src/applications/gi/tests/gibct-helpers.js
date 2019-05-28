@@ -6,12 +6,41 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
-function verifyDEA(client, expectedDEA) {
+// Selects DEA as benefit type, searches for schools in washington dc and clicks the expected result
+function searchAsDEA(client, expectedResult) {
   client
+    .waitForElementVisible('#giBillChapter', Timeouts.slow)
+    .selectDropdown('giBillChapter', '35');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'washington dc');
+
+  client
+    .click('#search-button')
+    .waitForElementVisible('.search-page', Timeouts.normal)
+    .axeCheck('.main');
+
+  client
+    .waitForElementVisible(expectedResult, Timeouts.normal)
+    .click(expectedResult)
+    .waitForElementVisible('.profile-page', Timeouts.normal)
+    .axeCheck('.main');
+}
+
+// Verify the expected DEA housing rate for the selected "Enrolled" option
+function verifyDEA(client, enrolledOption, expectedDEA) {
+  client
+    .selectDropdown('enrolledOld', enrolledOption)
     .waitForElementVisible('.total-paid-to-you', Timeouts.normal)
     .assert.containsText('.total-paid-to-you', expectedDEA);
 }
 
+// Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
 function verifyAllDEAojt(client) {
   for (let i = 2; i <= 30; i += 2) {
     client
@@ -717,4 +746,5 @@ module.exports = {
   initApplicationMock,
   verifyDEA,
   verifyAllDEAojt,
+  searchAsDEA,
 };

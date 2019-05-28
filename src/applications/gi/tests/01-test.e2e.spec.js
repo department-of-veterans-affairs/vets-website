@@ -20,58 +20,19 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.slow)
     .axeCheck('.main');
 
-  client
-    .waitForElementVisible('#giBillChapter', Timeouts.slow)
-    .selectDropdown('giBillChapter', '35');
-
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'washington dc');
-
-  client
-    .click('#search-button')
-    .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main');
-
-  client
-    .waitForElementVisible(firstResult, Timeouts.normal)
-    .click(firstResult)
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main');
+  GiHelpers.searchAsDEA(client, firstResult);
 
   GiHelpers.verifyAllDEAojt(client);
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
-  client
-    .waitForElementVisible('#giBillChapter', Timeouts.slow)
-    .selectDropdown('giBillChapter', '35');
+  GiHelpers.searchAsDEA(client, secondResult);
 
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'washington dc');
-
-  client
-    .click('#search-button')
-    .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main');
-
-  client
-    .waitForElementVisible(secondResult, Timeouts.slow)
-    .pause(1000)
-    .click(secondResult)
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main');
-
-  GiHelpers.verifyDEA(client, '$1,224/mo');
+  GiHelpers.verifyDEA(client, 'full', '$1,224/mo');
+  GiHelpers.verifyDEA(client, 'three quarters', '$967/mo');
+  GiHelpers.verifyDEA(client, 'half', '$710/mo');
+  GiHelpers.verifyDEA(client, 'less than half', '$710/mo');
+  GiHelpers.verifyDEA(client, 'quarter', '$306/mo');
 
   client.end();
 });
