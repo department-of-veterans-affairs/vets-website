@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import DueDate from '../components/DueDate';
-import { truncateDescription } from '../utils/helpers';
+import { truncateDescription, stripHtml } from '../utils/helpers';
 
 export default class RequestedFilesInfo extends React.Component {
   render() {
@@ -28,7 +28,7 @@ export default class RequestedFilesInfo extends React.Component {
               <div className="item-container">
                 <h3 className="file-request-title">{item.displayName}</h3>
                 <p className="submission-description">
-                  {truncateDescription(item.description)}
+                  {truncateDescription(stripHtml(item.description))}
                 </p>
                 <DueDate date={item.suspenseDate} />
               </div>
@@ -55,7 +55,7 @@ export default class RequestedFilesInfo extends React.Component {
               <div className="item-container">
                 <h3 className="file-request-title">{item.displayName}</h3>
                 <p className="submission-description">
-                  {truncateDescription(item.description)}
+                  {truncateDescription(stripHtml(item.description))}
                 </p>
                 <div className="claims-optional-desc">
                   <strong>Optional</strong> - We requested this from others, but

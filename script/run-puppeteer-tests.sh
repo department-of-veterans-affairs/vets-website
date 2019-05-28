@@ -4,7 +4,7 @@
 trap 'jobs -p; if [ $? -eq 0 ] ; then kill $(jobs -p); fi' EXIT
 
 # Fire up the mock api server
-"$(dirname "$0")"/run-mockapi.sh
+"$(dirname "$0")"/run-mockapi.sh &
 
 # Fire up the test
 export WEB_PORT=3001
