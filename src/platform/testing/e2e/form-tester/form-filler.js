@@ -381,7 +381,7 @@ const fillForm = async (page, testData, testConfig, log) => {
   await page.click('input[name="privacyAgreementAccepted"]');
   await page.click('button.usa-button-primary');
 
-  // Expect the url to end with "confirmation"
+  // We should be on the confirmation page if all goes well
   if (!page.url().endsWith('confirmation')) {
     // If we can tell what the problem probably is, provide a more helpful error message
     const message = await page.$eval('.usa-alert-body', node => node.innerText);
