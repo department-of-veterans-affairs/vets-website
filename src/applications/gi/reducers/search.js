@@ -79,7 +79,7 @@ export default function(state = INITIAL_STATE, action) {
     case FILTER_TOGGLED:
       return { ...state, filterOpened: !state.filterOpened };
     case SEARCH_STARTED:
-      return { ...state, inProgress: true };
+      return { ...state, query: action.query, inProgress: true };
     case SEARCH_FAILED:
       return {
         ...state,

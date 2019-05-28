@@ -1,16 +1,16 @@
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class GiBillBreadcrumbs extends React.Component {
   render() {
-    const {
-      pathname,
-      query: { version },
-      search,
-    } = this.props.location;
-    const root = { pathname: '', query: version ? { version } : {} };
+    const { pathname, search } = this.props.location;
+    const query = this.props.query;
+    const root = {
+      pathname: '',
+      query: query && query.version ? { version: query.version } : {},
+    };
     const facilityCode = this.props.facilityCode;
 
     const crumbs = [
@@ -36,14 +36,9 @@ class GiBillBreadcrumbs extends React.Component {
     if (pathname.match(/profile/)) {
       if (this.props.includeSearch) {
         crumbs.push(
-          <button
-            type="button"
-            className="va-button-link learn-more-button"
-            onClick={browserHistory.goBack}
-            key="search-results"
-          >
+          <Link to={{ pathname: 'search', query }} key="search-results">
             Search Results
-          </button>,
+          </Link>,
         );
       }
       crumbs.push(

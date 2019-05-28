@@ -98,6 +98,7 @@ export class GiBillApp extends React.Component {
               />
             )}
             <GiBillBreadcrumbs
+              query={search.query}
               facilityCode={facilityCode}
               location={this.props.location}
               includeSearch={search.count !== null}
