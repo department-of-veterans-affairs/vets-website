@@ -135,6 +135,51 @@ const schools = {
         self: 'https://staging-api.va.gov/v0/gi/institutions/31106109',
       },
     },
+    {
+      id: '908195',
+      type: 'institutions',
+      attributes: {
+        name: 'DUBLIN CITY UNIVERSITY',
+        facilityCode: '11002174',
+        type: 'FOREIGN',
+        city: 'DUBLIN DO9 Y5NO',
+        state: null,
+        zip: null,
+        country: 'IRELAND',
+        highestDegree: 4,
+        localeType: null,
+        studentCount: 1,
+        cautionFlag: null,
+        cautionFlagReason: null,
+        createdAt: '2019-01-30T21:52:37.000Z',
+        updatedAt: '2019-01-30T21:52:37.000Z',
+        address1: 'INTERNATIONAL OFFICE',
+        address2: 'GLASNEVIN',
+        address3: null,
+        physicalCity: 'GLASNEVIN, DUBLIN 9',
+        physicalState: null,
+        physicalCountry: 'IRELAND',
+        onlineOnly: false,
+        distanceLearning: false,
+        dodBah: null,
+        physicalZip: null,
+        bah: null,
+        tuitionInState: null,
+        tuitionOutOfState: null,
+        books: null,
+        studentVeteran: null,
+        yr: false,
+        poe: false,
+        eightKeys: null,
+        stemOffered: false,
+        independentStudy: false,
+        priorityEnrollment: false,
+        schoolClosing: false,
+      },
+      links: {
+        self: 'https://staging-api.va.gov/v0/gi/institutions/11002174',
+      },
+    },
   ],
   links: {
     self:
@@ -407,6 +452,115 @@ const secondSchool = {
     },
     links: {
       self: 'https://staging-api.va.gov/gids/v0/institutions/31106109',
+    },
+  },
+  meta: {
+    version: {
+      number: 1,
+      created_at: '2019-01-30T21:53:24.222Z',
+      preview: false,
+    },
+  },
+};
+
+const foreignSchool = {
+  data: {
+    id: '908195',
+    type: 'institutions',
+    attributes: {
+      name: 'DUBLIN CITY UNIVERSITY',
+      facility_code: '11002174',
+      type: 'FOREIGN',
+      city: 'DUBLIN DO9 Y5NO',
+      state: null,
+      zip: null,
+      country: 'IRELAND',
+      bah: 1681.0,
+      dodBah: 1650.0,
+      cross: null,
+      flight: false,
+      correspondence: false,
+      ope: null,
+      ope6: null,
+      highest_degree: null,
+      locale_type: null,
+      student_count: 0,
+      undergrad_enrollment: null,
+      yr: false,
+      student_veteran: false,
+      student_veteran_link: null,
+      poe: false,
+      eight_keys: false,
+      dodmou: false,
+      sec_702: null,
+      vet_success_name: null,
+      vet_success_email: null,
+      credit_for_mil_training: null,
+      vet_poc: null,
+      student_vet_grp_ipeds: null,
+      soc_member: null,
+      retention_rate_veteran_ba: null,
+      retention_all_students_ba: null,
+      retention_rate_veteran_otb: null,
+      retention_all_students_otb: null,
+      persistance_rate_veteran_ba: null,
+      persistance_rate_veteran_otb: null,
+      graduation_rate_veteran: null,
+      graduation_rate_all_students: null,
+      transfer_out_rate_veteran: null,
+      transfer_out_rate_all_students: null,
+      salary_all_students: null,
+      repayment_rate_all_students: null,
+      avg_stu_loan_debt: null,
+      calendar: null,
+      tuition_in_state: null,
+      tuition_out_of_state: null,
+      books: null,
+      online_all: null,
+      p911_tuition_fees: 0.0,
+      p911_recipients: 0,
+      p911_yellow_ribbon: 0.0,
+      p911_yr_recipients: 0,
+      accredited: false,
+      accreditation_type: null,
+      accreditation_status: null,
+      caution_flag: false,
+      caution_flag_reason: null,
+      complaints: {
+        facility_code: 0,
+        financial_by_fac_code: 0,
+        quality_by_fac_code: 0,
+        refund_by_fac_code: 0,
+        marketing_by_fac_code: 0,
+        accreditation_by_fac_code: 0,
+        degree_requirements_by_fac_code: 0,
+        student_loans_by_fac_code: 0,
+        grades_by_fac_code: 0,
+        credit_transfer_by_fac_code: 0,
+        credit_job_by_fac_code: 0,
+        job_by_fac_code: 0,
+        transcript_by_fac_code: 0,
+        other_by_fac_code: 0,
+        main_campus_roll_up: 0,
+        financial_by_ope_id_do_not_sum: 0,
+        quality_by_ope_id_do_not_sum: 0,
+        refund_by_ope_id_do_not_sum: 0,
+        marketing_by_ope_id_do_not_sum: 0,
+        accreditation_by_ope_id_do_not_sum: 0,
+        degree_requirements_by_ope_id_do_not_sum: 0,
+        student_loans_by_ope_id_do_not_sum: 0,
+        grades_by_ope_id_do_not_sum: 0,
+        credit_transfer_by_ope_id_do_not_sum: 0,
+        jobs_by_ope_id_do_not_sum: 0,
+        transcript_by_ope_id_do_not_sum: 0,
+        other_by_ope_id_do_not_sum: 0,
+      },
+      yellowRibbonPrograms: [],
+      created_at: '2019-01-30T21:52:37.000Z',
+      updated_at: '2019-01-30T21:52:37.000Z',
+    },
+    links: {
+      self: 'https://staging-api.va.gov/gids/v0/institutions/11002174',
     },
   },
   meta: {
@@ -698,6 +852,18 @@ const zipRate2 = {
   },
 };
 
+const zipRate3 = {
+  id: null,
+  type: null,
+  attributes: {
+    zip_code: null,
+    mha_code: null,
+    mha_name: null,
+    mha_rate: null,
+    mha_rate_grandfathered: null,
+  },
+};
+
 // Create API routes
 function initApplicationMock() {
   mock(null, {
@@ -716,6 +882,12 @@ function initApplicationMock() {
     path: '/v0/gi/institutions/31106109',
     verb: 'get',
     value: secondSchool,
+  });
+
+  mock(null, {
+    path: '/v0/gi/institutions/11002174',
+    verb: 'get',
+    value: foreignSchool,
   });
 
   mock(null, {
@@ -740,6 +912,12 @@ function initApplicationMock() {
     path: '/v0/gi/zipcode_rates/20016',
     verb: 'get',
     value: zipRate2,
+  });
+
+  mock(null, {
+    path: null,
+    verb: 'get',
+    value: zipRate3,
   });
 }
 
