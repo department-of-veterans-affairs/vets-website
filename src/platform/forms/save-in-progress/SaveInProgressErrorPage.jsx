@@ -20,11 +20,8 @@ import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 //  to handle save errors as well if we need it to.
 class SaveInProgressErrorPage extends React.Component {
   componentDidMount() {
-    if (
-      this.props.loadedStatus === LOAD_STATUSES.notAttempted &&
-      document.referrer.includes('/auth/login/callback/')
-    ) {
-      this.props.router.push(this.props.location.basename);
+    if (this.props.loadedStatus === LOAD_STATUSES.notAttempted) {
+      this.props.router.replace(this.props.location.basename);
     }
   }
 
