@@ -29,6 +29,7 @@ function createOutreachAssetsData(buildSettings) {
     for (const entity of outreachAssets.entities) {
       let relativeUrl = '';
 
+      // eslint-disable-next-line
       if (!entity.fieldMedia.entity) continue;
 
       switch (entity.fieldMedia.entity.entityBundle) {
