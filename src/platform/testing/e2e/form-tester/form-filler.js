@@ -383,9 +383,13 @@ const fillForm = async (page, testData, testConfig, log) => {
 
   // Expect the url to end with "confirmation"
   if (!page.url().endsWith('confirmation')) {
-    throw new Error(
-      "Expected to be on the confirmation page. There was either an error on the review page or the submission isn't mocked.",
-    );
+    // If we can tell what the problem probably is, provide a more helpful error message
+    const message = await page.$eval('.usa-alert-body', node => node.innerText);
+    if (message.includes('an error connecting to')) {
+      throw new Error('Error submitting the form. Is the submission mocked?');
+    }
+
+    throw new Error('Error submitting the form.');
   }
 
   // Run the confirmation hook if available
