@@ -304,6 +304,18 @@ const removeForeseeOverlay = async page => searchAndDestroy(page, '.__acs');
  *  page.
  */
 const fillForm = async (page, testData, testConfig, log) => {
+  const runHook = async hook => {
+    if (typeof hook !== 'function') {
+      throw new Error(
+        `Bad testConfig: Page hook for ${page.url()} is not a function`,
+      );
+    }
+    const retVal = hook(page, testData, testConfig, log);
+    if (retVal instanceof Promise) {
+      await retVal;
+    }
+  };
+
   // We want these actions to be performed synchronously, so the await
   //  statements in the loop make sense.
   /* eslint-disable no-await-in-loop */
@@ -317,15 +329,7 @@ const fillForm = async (page, testData, testConfig, log) => {
     const url = page.url();
     const hook = _.get(`pageHooks.${parseUrl(url).path}`, testConfig);
     if (hook) {
-      if (typeof hook !== 'function') {
-        throw new Error(
-          `Bad testConfig: Page hook for ${url} is not a function`,
-        );
-      }
-      const retVal = hook(page, testData, testConfig, log);
-      if (retVal instanceof Promise) {
-        await retVal;
-      }
+      await runHook(hook);
     } else {
       await fillPage(page, testData, testConfig, log);
 
