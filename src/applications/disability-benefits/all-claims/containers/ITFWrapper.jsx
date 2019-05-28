@@ -77,7 +77,7 @@ export class ITFWrapper extends React.Component {
       // If we get here, componentDidMount or componentWillRecieveProps called fetchITF
       // While we're waiting, show the loading indicator...
       return (
-        <LoadingIndicator message="Please wait while we check your ITF status." />
+        <LoadingIndicator message="Please wait while we check to see if you have an existing Intent to File." />
       );
     } else if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
