@@ -90,6 +90,10 @@
     }
   }
 
+  section.content p:last-of-type {
+    margin-bottom: 0;
+  }
+
   @include make-status-styles(
     $status: "closed",
     $color: $color-black,

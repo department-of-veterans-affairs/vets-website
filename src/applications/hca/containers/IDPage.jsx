@@ -8,6 +8,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
@@ -114,6 +115,7 @@ class IDPage extends React.Component {
   };
 
   formSubmit = ({ formData }) => {
+    recordEvent({ event: 'hca-continue-application' });
     this.props.submitIDForm(formData);
   };
 
