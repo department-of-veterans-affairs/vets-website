@@ -32,6 +32,7 @@ import {
   TWENTY_FIVE_MB,
   USA,
   TYPO_THRESHOLD,
+  itfStatuses,
 } from './constants';
 
 /**
@@ -63,6 +64,15 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const isActiveITF = currentITF => {
+  if (currentITF) {
+    const isActive = currentITF.status === itfStatuses.active;
+    const isNotExpired = moment().isBefore(currentITF.expirationDate);
+    return isActive && isNotExpired;
+  }
+  return false;
+};
 
 export const hasGuardOrReservePeriod = formData => {
   const serviceHistory = formData.servicePeriods;
@@ -592,17 +602,7 @@ export const ancillaryFormUploadUi = (
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: TWENTY_FIVE_MB,
     createPayload: file => {
       const payload = new FormData();

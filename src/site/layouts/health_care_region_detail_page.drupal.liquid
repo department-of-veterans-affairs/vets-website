@@ -14,18 +14,10 @@
             <p>{{ fieldIntroText }}</p>
           </div>
 
-          {% if entityUrl.path = '/contact' %}
-            <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
-              <div class="usa-width-one-third">
-                <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
-              </div>
-              <div class="usa-width-one-third">
-                <a class="usa-button" href="{{ entityUrl.path }}/">View A-Z Health Services</a>
-              </div>
-              <div class="usa-width-one-third">
-                <a class="usa-button" href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
-              </div>
-            </div>
+          {% assign isContactPage = entityUrl.path | isContactPage %}
+          {% if isContactPage %}
+            <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
+                  {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
           {% endif %}
 
           {% assign widgetDelta = 1 %}

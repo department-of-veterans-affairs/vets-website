@@ -2,21 +2,35 @@ import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
+import { dismissedHCANotificationDate } from './selectors';
 
 // flip the `false` to `true` to fake the endpoint when testing locally
 const simulateServerLocally = environment.isLocalhost() && false;
 
+// action types related to calling /health_care_applications/enrollment_status
 export const FETCH_ENROLLMENT_STATUS_STARTED =
   'FETCH_ENROLLMENT_STATUS_STARTED';
 export const FETCH_ENROLLMENT_STATUS_SUCCEEDED =
   'FETCH_ENROLLMENT_STATUS_SUCCEEDED';
 export const FETCH_ENROLLMENT_STATUS_FAILED = 'FETCH_ENROLLMENT_STATUS_FAILED';
+
+// action types related to calling GET /notifications/dismissed_statuses
+export const FETCH_DISMISSED_HCA_NOTIFICATION_STARTED =
+  'FETCH_DISMISSED_HCA_NOTIFICATION_STARTED';
+export const FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED =
+  'FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED';
+export const FETCH_DISMISSED_HCA_NOTIFICATION_FAILED =
+  'FETCH_DISMISSED_HCA_NOTIFICATION_FAILED';
+
+export const SET_DISMISSED_HCA_NOTIFICATION = 'SET_DISMISSED_HCA_NOTIFICATION';
+
 export const SHOW_HCA_REAPPLY_CONTENT = 'SHOW_HCA_REAPPLY_CONTENT';
 
 export function showReapplyContent() {
   return { type: SHOW_HCA_REAPPLY_CONTENT };
 }
 
+// fake a failed call to /health_care_applications/enrollment_status
 function callFake404(dispatch) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -30,6 +44,7 @@ function callFake404(dispatch) {
   });
 }
 
+// fake a 200 call to /health_care_applications/enrollment_status
 function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -39,15 +54,17 @@ function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
     dispatch({
       type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
       data: {
-        applicationDate: '2018-01-24T00:00:00.000-06:00',
-        enrollmentDate: '2018-01-24T00:00:00.000-06:00',
+        applicationDate: '2019-04-24T00:00:00.000-06:00',
+        enrollmentDate: '2019-04-30T00:00:00.000-06:00',
         preferredFacility: '463 - CHEY6',
         parsedStatus: status,
+        effectiveDate: '2019-04-25T00:00:00.000-06:00',
       },
     });
   });
 }
 
+// actually call the /health_care_applications/enrollment_status endpoint
 function callAPI(dispatch, formData = {}) {
   const baseUrl = `/health_care_applications/enrollment_status`;
 
@@ -66,6 +83,9 @@ function callAPI(dispatch, formData = {}) {
   );
 }
 
+// make either a mocked or real call to the
+// /health_care_applications/enrollment_status endpoint, depending on the value
+// of the `simulateServerLocally` flag
 export function getEnrollmentStatus(formData) {
   return dispatch => {
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
@@ -98,10 +118,61 @@ export function getEnrollmentStatus(formData) {
       ) {
         callFake404(dispatch);
       } else {
-        callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.canceledDeclined);
+        callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
       }
     } else {
       callAPI(dispatch, formData);
+    }
+  };
+}
+
+export function getDismissedHCANotification() {
+  return dispatch => {
+    dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
+    const url = `/notifications/dismissed_statuses/form_10_10ez`;
+
+    apiRequest(
+      url,
+      null,
+      response =>
+        dispatch({
+          type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+          response,
+        }),
+      ({ errors }) =>
+        dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED, errors }),
+    );
+  };
+}
+
+export function setDismissedHCANotification(status, statusEffectiveAt) {
+  return (dispatch, getState) => {
+    const hasPreviouslyDismissedNotification = !!dismissedHCANotificationDate(
+      getState(),
+    );
+    dispatch({
+      type: SET_DISMISSED_HCA_NOTIFICATION,
+      data: statusEffectiveAt,
+    });
+    if (hasPreviouslyDismissedNotification) {
+      apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status,
+          statusEffectiveAt,
+        }),
+      });
+    } else {
+      apiRequest('/notifications/dismissed_statuses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: 'form_10_10ez',
+          status,
+          statusEffectiveAt,
+        }),
+      });
     }
   };
 }

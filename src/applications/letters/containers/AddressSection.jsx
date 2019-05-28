@@ -14,14 +14,12 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
   addressModalContent,
   addressUpdateUnavailable,
-  getStateName,
-  getZipCode,
+  formatStreetAddress,
+  formatCityStatePostal,
   inferAddressType,
-  isDomesticAddress,
   isInternationalAddress,
-  isMilitaryAddress,
-  resetDisallowedAddressFields,
   isAddressEmpty,
+  resetDisallowedAddressFields,
 } from '../utils/helpers';
 import {
   saveAddress,
@@ -280,31 +278,12 @@ export class AddressSection extends React.Component {
   render() {
     const address = this.props.savedAddress || {};
     const emptyAddress = isAddressEmpty(this.props.savedAddress);
-    // Street address: first line of address
-    const streetAddressLines = [
-      address.addressOne,
-      address.addressTwo ? `, ${address.addressTwo}` : '',
-      address.addressThree ? ` ${address.addressThree}` : '',
-    ];
-    const streetAddress = streetAddressLines.join('').toLowerCase();
 
-    // City, state, postal code: second line of address
-    const zipCode = getZipCode(address);
-    const city = address.city || '';
-    let cityStatePostal;
-    if (isDomesticAddress(address)) {
-      const state = getStateName(address.stateCode);
-      cityStatePostal = `${city}, ${state} ${zipCode}`;
-    } else if (isMilitaryAddress(address)) {
-      const militaryStateCode = address.stateCode || '';
-      cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
-    } else {
-      // Must be an international address, only show a city
-      cityStatePostal = `${city}`;
-    }
-
-    const country = isInternationalAddress(address) ? address.countryName : '';
-    const addressContentLines = { streetAddress, cityStatePostal, country };
+    const addressContentLines = {
+      streetAddress: formatStreetAddress(address),
+      cityStatePostal: formatCityStatePostal(address),
+      country: isInternationalAddress(address) ? address.countryName : '',
+    };
 
     let addressFields;
     if (this.props.isEditingAddress) {
@@ -335,6 +314,7 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
+      const { streetAddress, cityStatePostal, country } = addressContentLines;
       const displayAddress = (
         <div>
           <div className="letters-address street">{streetAddress}</div>

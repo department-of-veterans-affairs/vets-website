@@ -18,7 +18,7 @@
                     <div>{{ healthService.fieldBody.processed }}</div>
                 {% endif %}
 
-                {% if healthService.fieldLocalHealthCareService.length and localServiceDescription == empty %}
+                {% if healthService.fieldLocalHealthCareService.length > 0 %}
                     <p class="vads-u-font-weight--bold">Available at</p>
                     <ul class="usa-unstyled-list">
                         {% for location in healthService.fieldLocalHealthCareService %}
@@ -27,11 +27,6 @@
                                 <a href="{{ facility.entityUrl.path }}">{{ facility.fieldNicknameForThisFacility }}</a></li>{% endif %}
                         {% endfor %}
                     </ul>
-                {% endif %}
-
-                {% if localServiceDescription !== empty %}
-                    {{ localServiceDescription }}
-                    <div data-widget-type="facility-appointment-wait-times-widget" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}" data-service="{{ serviceTaxonomy.name | escape }}"></div>
                 {% endif %}
             </div>
         </li>

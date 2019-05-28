@@ -170,7 +170,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       )
                     }
                     onChange={formData =>
-                      this.onChange(formData, page.arrayPath, page.index)
+                      this.onChange(
+                        typeof page.updateFormData === 'function'
+                          ? page.updateFormData(form.data, formData)
+                          : formData,
+                        page.arrayPath,
+                        page.index,
+                      )
                     }
                     uploadFile={this.props.uploadFile}
                     reviewMode={!editing}
@@ -201,7 +207,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       onBlur={this.props.onBlur}
                       schema={arrayField.schema}
                       uiSchema={arrayField.uiSchema}
-                      setData={this.props.setData}
+                      setData={formData =>
+                        this.props.setData(
+                          typeof page.updateFormData === 'function'
+                            ? page.updateFormData(form.data, formData)
+                            : formData,
+                        )
+                      }
                       path={arrayField.path}
                     />
                   </div>

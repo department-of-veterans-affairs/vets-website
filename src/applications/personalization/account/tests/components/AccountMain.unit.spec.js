@@ -44,7 +44,7 @@ describe('<AccountMain/>', () => {
         n.prop('headline') ===
           'We’re having trouble matching your information to our Veteran records',
     );
-    expect(alertBox.isEmpty()).to.be.false;
+    expect(alertBox.exists()).to.be.true;
     wrapper.unmount();
   });
 });
