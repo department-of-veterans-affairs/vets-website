@@ -368,9 +368,12 @@ const fillForm = async (page, testData, testConfig, log) => {
   /* eslint-enable no-await-in-loop */
 
   // Run the review page hook if available
-  const hook = _.get(`pageHooks.${parseUrl(page.url()).path}`, testConfig);
-  if (hook) {
-    await runHook(hook);
+  const reviewHook = _.get(
+    `pageHooks.${parseUrl(page.url()).path}`,
+    testConfig,
+  );
+  if (reviewHook) {
+    await runHook(reviewHook);
   }
 
   // Submit the form
@@ -385,6 +388,13 @@ const fillForm = async (page, testData, testConfig, log) => {
   }
 
   // Run the confirmation hook if available
+  const confirmationHook = _.get(
+    `pageHooks.${parseUrl(page.url()).path}`,
+    testConfig,
+  );
+  if (confirmationHook) {
+    await runHook(confirmationHook);
+  }
 };
 
 module.exports = {
