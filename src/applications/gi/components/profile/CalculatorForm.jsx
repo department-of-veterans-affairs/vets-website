@@ -134,7 +134,7 @@ class CalculatorForm extends React.Component {
           className="va-button-link learn-more-button vads-u-margin-left--0p5"
           onClick={this.props.onShowModal.bind(this, 'calcTuition')}
         >
-          {`(Learn more)`}
+          (Learn more)
         </button>
         <input
           type="text"
