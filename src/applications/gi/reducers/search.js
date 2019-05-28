@@ -25,6 +25,7 @@ const INITIAL_STATE = {
   results: [],
   count: null,
   version: {},
+  query: null,
   pagination: {
     currentPage: 1,
     totalPages: 1,
