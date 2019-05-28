@@ -6,19 +6,20 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
 
 import {
   formDescriptions,
   formBenefits,
-} from '../../../applications/personalization/profile360/util/helpers';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
+} from 'applications/personalization/profile360/util/helpers';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 import DowntimeNotification, {
   externalServiceStatus,
-} from '../../monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from './DowntimeMessage';
 
 class SaveInProgressIntro extends React.Component {
@@ -207,11 +208,12 @@ class SaveInProgressIntro extends React.Component {
   };
 
   goToBeginning = () => {
+    recordEvent({ event: 'no-login-start-form' });
     this.props.router.push(this.getStartPage());
   };
 
   openLoginModal = () => {
-    this.props.toggleLoginModal(true);
+    this.props.toggleLoginModal(true, 'cta-form');
   };
 
   renderDowntime = (downtime, children) => {
