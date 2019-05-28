@@ -6,6 +6,10 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
+const deaEnrolledMax = 30;
+
+const deaOJTRate = 747;
+
 // Selects DEA as benefit type, searches for schools in washington dc and clicks the expected result
 function searchAsDEA(client, expectedResult) {
   client
@@ -27,6 +31,7 @@ function searchAsDEA(client, expectedResult) {
 
   client
     .waitForElementVisible(expectedResult, Timeouts.normal)
+    .pause(30)
     .click(expectedResult)
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
@@ -42,12 +47,12 @@ function verifyDEA(client, enrolledOption, expectedDEA) {
 
 // Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
 function verifyAllDEAojt(client) {
-  for (let i = 2; i <= 30; i += 2) {
+  for (let i = 2; i <= deaEnrolledMax; i += 2) {
     client
-      .waitForElementVisible('.total-paid-to-you', Timeouts.verySlow)
-      .pause(500)
+      .waitForElementVisible('.total-paid-to-you', Timeouts.normal)
+      .pause(10)
       .selectDropdown('working', i);
-    const value = Math.round((i / 30) * 747);
+    const value = Math.round((i / deaEnrolledMax) * deaOJTRate);
     client.assert.containsText('.total-paid-to-you', `$${value}/mo`);
   }
 }
