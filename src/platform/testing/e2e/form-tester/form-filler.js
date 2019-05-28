@@ -378,6 +378,12 @@ const fillForm = async (page, testData, testConfig, log) => {
   await page.click('button.usa-button-primary');
 
   // Expect the url to end with "confirmation"
+  if (!page.url().endsWith('confirmation')) {
+    throw new Error(
+      "Expected to be on the confirmation page. There was either an error on the review page or the submission isn't mocked.",
+    );
+  }
+
   // Run the confirmation hook if available
 };
 
