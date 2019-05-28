@@ -374,6 +374,9 @@ const fillForm = async (page, testData, testConfig, log) => {
   }
 
   // Submit the form
+  log('Submitting the form');
+  await page.click('button.usa-button-primary');
+
   // Expect the url to end with "confirmation"
   // Run the confirmation hook if available
 };
