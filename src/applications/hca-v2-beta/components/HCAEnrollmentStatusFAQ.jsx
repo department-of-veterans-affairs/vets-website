@@ -44,7 +44,11 @@ const HCAEnrollmentStatusFAQ = ({
   showingReapplyForHealthCareContent,
   showReapplyContent,
 }) => {
-  const reapplyAllowed = enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
+  const reapplyAllowed =
+    new Set([
+      HCA_ENROLLMENT_STATUSES.deceased,
+      HCA_ENROLLMENT_STATUSES.enrolled,
+    ]).has(enrollmentStatus) === false;
   return (
     <>
       {getFAQBlock1(enrollmentStatus)}
