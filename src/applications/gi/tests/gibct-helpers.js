@@ -795,7 +795,7 @@ const calculatorConstants = {
       type: 'calculator_constants',
       attributes: {
         name: 'AVGDODBAH',
-        value: 1600,
+        value: 1650,
       },
     },
   ],
