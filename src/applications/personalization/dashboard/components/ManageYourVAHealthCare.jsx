@@ -14,8 +14,10 @@ import {
 
 import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
+import ESRError from './ESRError';
 
 import {
+  hasServerError as hasESRServerError,
   isEnrolledInVAHealthCare,
   selectEnrollmentStatus,
 } from 'applications/hca/selectors';
@@ -44,9 +46,11 @@ const ManageYourVAHealthCare = ({
   enrollmentDate,
   isEnrolledInHealthCare,
   preferredFacility,
+  showServerError,
 }) => (
   <>
     <h2>Manage your VA health care</h2>
+    {showServerError && <ESRError />}
     <AlertBox
       content={
         <div>
@@ -100,6 +104,7 @@ const ManageYourVAHealthCare = ({
 const mapStateToProps = state => {
   const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
+  const showServerError = hasESRServerError(state);
   const {
     applicationDate,
     enrollmentDate,
@@ -111,6 +116,7 @@ const mapStateToProps = state => {
     enrollmentDate,
     isEnrolledInHealthCare,
     preferredFacility,
+    showServerError,
   };
 };
 

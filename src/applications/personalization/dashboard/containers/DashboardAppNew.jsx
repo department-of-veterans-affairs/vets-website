@@ -12,12 +12,16 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
-import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
+import {
+  hasServerError as hasESRServerError,
+  isEnrolledInVAHealthCare,
+} from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
 
-import YourApplications from '../containers/YourApplications';
+import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
+import ESRError from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
 
@@ -286,6 +290,7 @@ class DashboardAppNew extends React.Component {
       canAccessAppeals,
       profile,
       showManageYourVAHealthCare,
+      showServerError,
     } = this.props;
     const availableWidgetsCount = [
       canAccessClaims,
@@ -303,6 +308,8 @@ class DashboardAppNew extends React.Component {
             your VA benefits and communications.
           </p>
         </div>
+
+        {showServerError && <ESRError />}
 
         <PreferencesWidget />
 
@@ -348,6 +355,7 @@ const mapStateToProps = state => {
   const canAccessClaims = profileState.services.includes(
     backendServices.EVSS_CLAIMS,
   );
+  const showServerError = hasESRServerError(state);
 
   return {
     canAccessRx,
@@ -357,6 +365,7 @@ const mapStateToProps = state => {
     profile: profileState,
     showManageYourVAHealthCare:
       isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
+    showServerError,
   };
 };
 

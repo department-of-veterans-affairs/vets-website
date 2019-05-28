@@ -30,7 +30,7 @@ export function showReapplyContent() {
   return { type: SHOW_HCA_REAPPLY_CONTENT };
 }
 
-// fake a failed call to /health_care_applications/enrollment_status
+// fake a 404 response from /health_care_applications/enrollment_status
 function callFake404(dispatch) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -40,6 +40,20 @@ function callFake404(dispatch) {
     dispatch({
       type: FETCH_ENROLLMENT_STATUS_FAILED,
       errors: [{ code: '404' }],
+    });
+  });
+}
+
+// fake a 500 response from /health_care_applications/enrollment_status
+function callFake500(dispatch) {
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  }).then(() => {
+    dispatch({
+      type: FETCH_ENROLLMENT_STATUS_FAILED,
+      errors: [{ code: '500' }],
     });
   });
 }
