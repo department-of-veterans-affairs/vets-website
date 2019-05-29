@@ -32,10 +32,7 @@ describe('facilities <OtherFacilityListWidget>', () => {
       tree.update();
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
-      const facilityNameComponent = tree.find('FacilityTitle').dive();
-      const facilityName = facilityNameComponent.find(
-        'h3.vads-u-margin-bottom--2p5',
-      );
+      const facilityName = tree.find('h3.vads-u-margin-bottom--2p5');
       expect(facilityName.text()).to.contain(
         'Pittsburgh VA Medical Center-University Drive',
       );
@@ -46,7 +43,6 @@ describe('facilities <OtherFacilityListWidget>', () => {
         'University Drive CPittsburgh, PA 15240-1003',
       );
 
-      // const facilityPhoneComponent = tree.find('FacilityPhone').dive();
       const mainPhone = tree.find('.main-phone');
       expect(mainPhone.text()).to.contain('Main phone: 866-482-7488');
 
