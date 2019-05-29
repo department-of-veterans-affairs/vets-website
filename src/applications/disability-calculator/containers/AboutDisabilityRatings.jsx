@@ -22,12 +22,12 @@ export default class AboutDisabilityRatings extends React.Component {
         </ul>
         <hr />
         <h2>How we assign VA disability ratings</h2>
-        <div itemscope="" itemtype="http://schema.org/Question">
+        <div itemScope="" itemType="http://schema.org/Question">
           <p></p>
-          <h3 itemprop="name">What is a VA disability rating?</h3>
+          <h3 itemProp="name">What is a VA disability rating?</h3>
           <p></p>
-          <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
-            <div itemprop="text">
+          <div itemProp="acceptedAnswer" itemScope="" itemType="http://schema.org/Answer">
+            <div itemProp="text">
               <p>We assign you a disability rating based on the severity of your disability.
                 We express this rating as a percentage, representing how much your disability
                 decreases your overall health and ability to function.
