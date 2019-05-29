@@ -2,9 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
-import {
-  mockFacilityLocatorApiResponse,
-} from './mockFacilitiesData';
+import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
 import OtherFacilityListWidget from '../../facilities/OtherFacilityListWidget';
 
