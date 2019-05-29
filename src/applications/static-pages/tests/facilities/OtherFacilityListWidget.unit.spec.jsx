@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import {
-  mockWidgetFacilitiesList,
   mockFacilityLocatorApiResponse,
 } from './mockFacilitiesData';
 
