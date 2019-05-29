@@ -142,7 +142,7 @@ const schools = {
         name: 'DUBLIN CITY UNIVERSITY',
         facilityCode: '11002174',
         type: 'FOREIGN',
-        city: 'GLASNEVIN, DUBLIN 9',
+        city: 'DUBLIN DO9 Y5NO',
         state: null,
         zip: null,
         country: 'IRELAND',
@@ -860,15 +860,15 @@ const zipRate2 = {
 };
 
 const zipRate3 = {
-  id: null,
-  type: null,
-  attributes: {
-    zip_code: null,
-    mha_code: null,
-    mha_name: null,
-    mha_rate: null,
-    mha_rate_grandfathered: null,
-  },
+  errors: [
+    {
+      title: 'Record not found',
+      detail: 'Record with the specified code was not found',
+      code: 'GI404',
+      source: 'The record identified by null could not be found',
+      status: '404',
+    },
+  ],
 };
 
 // Create API routes

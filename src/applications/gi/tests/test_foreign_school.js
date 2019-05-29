@@ -42,8 +42,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click(
       `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
-    .waitForElementVisible('.profile-pagekshjfdg', 1000000000000000000000000)
-    .pause(100000000000000000000)
+    .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 
   client.end();
