@@ -142,7 +142,7 @@ const schools = {
         name: 'DUBLIN CITY UNIVERSITY',
         facilityCode: '11002174',
         type: 'FOREIGN',
-        city: 'DUBLIN DO9 Y5NO',
+        city: 'GLASNEVIN, DUBLIN 9',
         state: null,
         zip: null,
         country: 'IRELAND',
