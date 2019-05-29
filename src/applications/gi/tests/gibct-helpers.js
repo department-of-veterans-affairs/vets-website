@@ -86,8 +86,7 @@ function ForeignOnlineOnly(client) {
     .click(
       `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
-    .waitForElementVisible('body', 100)
-    .pause(1000)
+    .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
 
@@ -119,8 +118,7 @@ function ForeignInPersonOnly(client) {
     .click(
       `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
-    .waitForElementVisible('body', 100)
-    .pause(1000)
+    .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
 
@@ -152,8 +150,7 @@ function ForeignInPersonAndOnline(client) {
     .click(
       `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
-    .waitForElementVisible('body', 100)
-    .pause(1000)
+    .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
 

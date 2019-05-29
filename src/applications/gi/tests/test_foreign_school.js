@@ -23,6 +23,30 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   GiHelpers.ForeignOnlineOnly(client, Onlinecheck);
+  client
+    .waitForElementVisible('body', 1000)
+    .moveToElement(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      10,
+      10,
+    )
+    .waitForElementVisible(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      500,
+    )
+    .axeCheck('.main');
+
+  client
+    .click('#radio-buttons-16-0')
+    .moveToElement(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      10,
+      10,
+    )
+    .waitForElementVisible(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      500,
+    );
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
@@ -32,6 +56,30 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   GiHelpers.ForeignInPersonOnly(client, Inpersoncheck);
+  client
+    .waitForElementVisible('body', 1000)
+    .moveToElement(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      10,
+      10,
+    )
+    .waitForElementVisible(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      500,
+    )
+    .axeCheck('.main');
+
+  client
+    .click('#radio-buttons-16-0')
+    .moveToElement(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      10,
+      10,
+    )
+    .waitForElementVisible(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      500,
+    );
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
@@ -41,6 +89,30 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   GiHelpers.ForeignInPersonAndOnline(client, Inpersonandonlinecheck);
+  client
+    .waitForElementVisible('body', 1000)
+    .moveToElement(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      10,
+      10,
+    )
+    .waitForElementVisible(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      500,
+    )
+    .axeCheck('.main');
+
+  client
+    .click('#radio-buttons-16-0')
+    .moveToElement(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      10,
+      10,
+    )
+    .waitForElementVisible(
+      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
+      500,
+    );
 
   client.end();
 });
