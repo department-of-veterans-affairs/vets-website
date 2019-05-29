@@ -131,7 +131,8 @@
     "privacyAgreementAccepted": true,
     "testUploadFile": {
       "filePath": "/src/platform/testing/",
-      "fileName": "example-upload.png"
+      "fileName": "example-upload.png",
+      "fileTypeSelection": "7"
     }
   }
 }

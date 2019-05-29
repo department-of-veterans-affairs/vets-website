@@ -76,20 +76,20 @@ module.exports = E2eHelpers.createE2eTest(client => {
   if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     // check that id-form values have been copied.
     const [
-      vetDobYr,
-      vetDobMo,
-      vetDobDy,
+      vetDobYear,
+      vetDobMonth,
+      vetDobDay,
     ] = testData.data.veteranDateOfBirth.split('-');
 
     client.expect
       .element('select[name="root_veteranDateOfBirthMonth"]')
-      .to.have.value.that.equals(parseInt(vetDobMo, 10));
+      .to.have.value.that.equals(parseInt(vetDobMonth, 10));
     client.expect
       .element('select[name="root_veteranDateOfBirthDay"]')
-      .to.have.value.that.equals(parseInt(vetDobDy, 10));
+      .to.have.value.that.equals(parseInt(vetDobDay, 10));
     client.expect
       .element('input[name="root_veteranDateOfBirthYear"]')
-      .to.have.value.that.equals(parseInt(vetDobYr, 10));
+      .to.have.value.that.equals(parseInt(vetDobYear, 10));
     client.expect
       .element('input[name="root_veteranSocialSecurityNumber"]')
       .to.have.value.that.equals(testData.data.veteranSocialSecurityNumber);
@@ -161,8 +161,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
       'label[for="root_attachments"]',
       Timeouts.slow,
     );
-    E2eHelpers.nwUploadTestFile(client, testData.data.testUploadFile);
-    client.selectDropdown('root_attachments_0_attachmentId', '7');
+    E2eHelpers.uploadTestFile(client, testData.data.testUploadFile);
+    client.selectDropdown(
+      'root_attachments_0_attachmentId',
+      testData.data.testUploadFile.fileTypeSelection,
+    );
     client.expect
       .element('input#root_attachments_0_attachmentName')
       .to.have.value.that.equals(testData.data.testUploadFile.fileName);

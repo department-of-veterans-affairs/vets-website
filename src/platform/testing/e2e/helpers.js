@@ -77,7 +77,7 @@ function disableAnnouncements(client) {
   });
 }
 
-function nwUploadTestFile(client, fileData) {
+function uploadTestFile(client, fileData) {
   // For nightwatch tests.
   const fsRoot = FindRoot(Path.resolve(__dirname));
   const file = Path.resolve(fsRoot + fileData.filePath + fileData.fileName);
@@ -152,7 +152,7 @@ module.exports = {
     .API_PORT || 3000}`,
   createE2eTest,
   disableAnnouncements,
-  nwUploadTestFile,
+  uploadTestFile,
   expectNavigateAwayFrom,
   expectNavigateAwayFromExact,
   expectExactLocation,
