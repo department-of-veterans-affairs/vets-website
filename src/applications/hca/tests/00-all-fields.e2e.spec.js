@@ -5,8 +5,6 @@ const testData = require('./schema/maximal-test.json');
 const ENVIRONMENTS = require('site/constants/environments');
 const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
-const vetDoBArr = testData.data.veteranDateOfBirth.split('-');
-
 module.exports = E2eHelpers.createE2eTest(client => {
   HcaHelpers.initApplicationSubmitMock();
   if (process.env.BUILDTYPE === ENVIRONMENTS.VAGOVPROD) {
@@ -77,15 +75,21 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .visible;
   if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     // check that id-form values have been copied.
+    const [
+      vetDobYr,
+      vetDobMo,
+      vetDobDy,
+    ] = testData.data.veteranDateOfBirth.split('-');
+
     client.expect
       .element('select[name="root_veteranDateOfBirthMonth"]')
-      .to.have.value.that.equals(parseInt(vetDoBArr[1], 10));
+      .to.have.value.that.equals(parseInt(vetDobMo, 10));
     client.expect
       .element('select[name="root_veteranDateOfBirthDay"]')
-      .to.have.value.that.equals(parseInt(vetDoBArr[2], 10));
+      .to.have.value.that.equals(parseInt(vetDobDy, 10));
     client.expect
       .element('input[name="root_veteranDateOfBirthYear"]')
-      .to.have.value.that.equals(parseInt(vetDoBArr[0], 10));
+      .to.have.value.that.equals(parseInt(vetDobYr, 10));
     client.expect
       .element('input[name="root_veteranSocialSecurityNumber"]')
       .to.have.value.that.equals(testData.data.veteranSocialSecurityNumber);
