@@ -152,10 +152,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     // Military Service Documents Page.
+
     client.waitForElementVisible(
       'label[for="root_attachments"]',
       Timeouts.slow,
     );
+    E2eHelpers.nwUploadTestFile(client, testData.data.testUploadFile);
+    client.selectDropdown('root_attachments_0_attachmentId', '7');
+    client.expect
+      .element('input#root_attachments_0_attachmentName')
+      .to.have.value.that.equals(testData.data.testUploadFile.fileName);
     client.axeCheck('.main').click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/documents');
   }
