@@ -38,6 +38,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     // return calculateRating(ratings);
   };
 
+
   handleAddRating = () => {
     console.log(this.state.ratings);
     this.setState({ ratings: [...this.state.ratings, parseInt('')] });
@@ -50,20 +51,21 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   clearAll = () => {
-    const ratingInputs = document.getElementsByClassName('ratingInput');
-    const descriptionInputs = document.getElementsByClassName(
-      'descriptionInput',
-    );
-    for (let i = 0; i < ratingInputs.length; i++) {
-      ratingInputs[i].value = '';
-      descriptionInputs[i].value = '';
-    }
-    // this.setState({
-    //   ratings: []
-    // })
+    // const ratingInputs = document.getElementsByClassName('ratingInput');
+    // const descriptionInputs = document.getElementsByClassName(
+    //   'descriptionInput',
+    // );
+    // for (let i = 0; i < ratingInputs.length; i++) {
+    //   ratingInputs[i].value = '';
+    //   descriptionInputs[i].value = '';
+    // }
+    this.setState({
+      ratings: []
+    })
   };
 
   render() {
+
     return (
       <div className="disability-calculator">
         <div className="calc-header vads-u-padding-x--4">
@@ -89,11 +91,9 @@ export default class DisabilityRatingCalculator extends React.Component {
                 <input
                   type="text"
                   min="0"
-                  // placeholder={`rating #${idx + 1}`}
-                  value={rating.value}
+                  value={this.state.ratings.value}
                   onChange={this.handleRatingCalculateChange(idx)}
                   className="ratingInput"
-                  // onKeyPress="return event.charCode >= 48"
                   maxLength="3"
                   min="1"
                   max="100"
@@ -136,7 +136,6 @@ export default class DisabilityRatingCalculator extends React.Component {
             </div>
           </div>
         </div>
-        {/* <p><CalculatedDisabilityRating ratings={this.state.ratings} /></p> */}
       </div>
     );
   }
