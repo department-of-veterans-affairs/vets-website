@@ -44,6 +44,9 @@ function callFake404(dispatch) {
   });
 }
 
+/* eslint-disable no-unused-vars */
+// Disabling ESLint because it's nice to be able to use this function during
+// development and local testing
 // fake a 500 response from /health_care_applications/enrollment_status
 function callFake500(dispatch) {
   new Promise(resolve => {
@@ -57,6 +60,7 @@ function callFake500(dispatch) {
     });
   });
 }
+/* eslint-enable no-unused-vars */
 
 // fake a 200 call to /health_care_applications/enrollment_status
 function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
