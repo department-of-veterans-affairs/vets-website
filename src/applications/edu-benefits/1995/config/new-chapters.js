@@ -74,7 +74,7 @@ export const newChapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        // depends: displayActiveDutyStem,
+        depends: displayActiveDutyStem,
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
