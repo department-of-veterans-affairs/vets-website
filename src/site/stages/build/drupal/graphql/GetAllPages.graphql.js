@@ -28,7 +28,6 @@ const {
   queryParamToBeChanged,
 } = require('./../../../../utilities/stringHelpers');
 
-const libraryPage = require('./libraryPage.graphql');
 const officePage = require('./officePage.graphql');
 /**
  * Queries for all of the pages out of Drupal

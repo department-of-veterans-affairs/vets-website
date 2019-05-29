@@ -2,11 +2,6 @@
 
 {% include "src/site/includes/header.html" with drupalTags = true %}
 
-<script>
-  window.VetsGov = window.VetsGov || {};
-  window.VetsGov.outreachAssetsData = {{ outreachAssetsData }}
-</script>
-
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -28,11 +23,13 @@
         <article class="usa-content">
           <div class="usa-grid usa-grid-full">
             <h1>{{ title }}</h1>
-            {% if  title == 'Benefit Materials' %}
             <div class="vads-l-grid-container--full">
+              {% if title == 'events' %}
+              {% include 'src/site/layouts/health_care_region_events_node.drupal.liquid' %}
+              {% endif %}
+              {% if title == 'Benefit Materials' %}
               <form class="usa-form outreach-asset-form-filters">
                 <div class="vads-l-grid-container">
-
                   <div class="vads-l-row vads-u-justify-content--space-between">
                     <div class="vads-l-col--6">
                       <label for="outreach-topic">Select a topic</label>
@@ -64,34 +61,131 @@
                         id="outreach-type">
                         <option value="select">- All types -</option>
                         <option value="video">Video</option>
-                        <option value="social_share">Social share images, text, and badges</option>
-                        <option value="newsletter_content">Newsletter content</option>
-                        <option value="document">Poster, Flyer, brochure and fact sheets</option>
+                        <option value="social_share">Social share images, text,
+                          and badges</option>
+                        <option value="newsletter_content">Newsletter content
+                        </option>
+                        <option value="document">Poster, Flyer, brochure and
+                          fact sheets</option>
 
                       </select>
                     </div>
                   </div>
-
               </form>
+              {% endif %}
             </div>
+
+            {% if title == 'Benefit Materials' %}
             <div class="vads-l-grid-container--full asset-component-library"
-              id="search-entry"></div>
+              id="search-entry">
+
+              {% for entity in outreachAssetsDataArray.entities %}
+              {% if entity.fieldOffice.targetId == entityId %}
+              <div data-topic="{{entity.fieldBenefits}}"
+                {{entity.fieldBenefits | breakIntoSingles}}
+                data-type="{{entity.fieldFormat}}" data-number={{forloop.index}}
+                class="vads-l-col--6 vads-u-padding-right--4 vads-u-padding-bottom--4 asset-card show-type show-topic">
+                <div
+                  class="asset-head-wrap {{entity.fieldMedia.entity.entityBundle}}-asset-wrap">
+                  {% if entity.fieldMedia.entity.entityBundle == 'image' %}
+                  {% if entity.fieldMedia.entity.image.url %}
+                  <img src="{{entity.fieldMedia.entity.image.url}}"
+                    onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
+                  {% elsif entity.derivedFields.absoluteUrl %}
+                  <img src="{{entity.derivedFields.absoluteUrl}}"
+                    onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
+                  {% endif %}
+                  {% endif %}
+
+                  {% if entity.fieldMedia.entity.entityBundle == 'video' %}
+                  <img
+                    src="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField | videoThumbnail}}" />
+                  {% endif %}
+                </div>
+
+                <div class="asset-body-wrap">
+                  <h3 class="asset-body-header">
+                    {{entity.title| truncate: 36}}</h3>
+                  <div class="asset-body-text">
+                    {{entity.fieldDescription | truncate: 81 }}</div>
+                  {% if entity.fieldBenefits != '' %}
+                  <div class="asset-category-text capitalize-first">
+                    <strong>Category:
+                    </strong>{{entity.fieldBenefits | breakTerms}}</div>
+                  {% endif %}
+                  <div class="asset-filetype-text"><strong>File type:
+                    </strong><span
+                      class="capitalize-first">{{entity.fieldMedia.entity.entityBundle}}</span>
+                  </div>
+
+                  <div class="asset-download-trigger">
+                    {% if entity.fieldMedia.entity.entityBundle == 'document' %}
+                    {% assign url = entity.fieldMedia.entity.fieldDocument.entity.url %}
+                    {% if entity.derivedFields.absoluteUrl %}
+                    {% assign url = entity.derivedFields.absoluteUrl %}
+                    {% endif %}
+                    <a class="file-download-with-icon" target="_blank"
+                      href="{{url}}" download="{{url}}"><i
+                        class="fas fa-download vads-u-padding-right--1"></i>Download
+                      {{entity.fieldMedia.entity.entityBundle | fileType}}</a>
+                    {% endif %}
+
+                    {% if entity.fieldMedia.entity.entityBundle == 'video' %}
+                    <a class="video-link" target="_blank"
+                      href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
+                        class="fab fa-youtube vads-u-padding-right--1"></i>Go
+                      to
+                      video</a>
+                    {% endif %}
+
+                    {% if entity.fieldMedia.entity.entityBundle == 'image' %}
+                    {% assign url = entity.fieldMedia.entity.image.url %}
+                    {% if entity.derivedFields.absoluteUrl %}
+                    {% assign url = entity.derivedFields.absoluteUrl %}
+                    {% endif %}
+                    <a class="file-download-with-icon" target="_blank"
+                      href="{{url}}" download="{{url}}"><i
+                        class="fas fa-download vads-u-padding-right--1"></i>Download
+                      {{entity.fieldMedia.entity.entityBundle | fileType}}</a>
+                    {% endif %}
+
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+
           </div>
+
+          {% if title == 'Benefit Materials' %}
           <div class="va-pagination">
+            <span class="max-control">
+              <a id="first-click">First</a>
+            </span>
             <span class="va-pagination-prev">
               <a id="pager-previous-click"
-                aria-label="Load previous page undefined" tabindex="0">
-                <abbr title="Previous">Prev</abbr>
-              </a>
+                aria-label="Load previous page undefined" tabindex="0">Prev</a>
             </span>
             <div id="pager-nums-insert" class="va-pagination-inner">
+              <a id="va-pagination-active-num"
+                class="pager-item-link va-pagination-active" tabindex="0">1</a>
             </div>
             <span class="va-pagination-next">
               <a id="pager-next-click" aria-label="Load next page undefined"
                 tabindex="0">Next</a>
             </span>
+            <span class="max-control">
+              <a id="last-click">Last</a>
+            </span>
+          </div>
+          <div id="total-pages-div">
+            <div class="break-div"><i>Total assets in this collection:</i> <span
+                id="total-pages"></span></div>
           </div>
           {% endif %}
+
         </article>
 
       </div>
