@@ -289,7 +289,9 @@ export function saveAddress(address) {
           response.data.attributes.address,
         );
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
-          throw new Error("letters-address-update addresses don't match");
+          Raven.captureException(
+            new Error("letters-address-update addresses don't match"),
+          );
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
