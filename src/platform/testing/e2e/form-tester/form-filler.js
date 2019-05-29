@@ -335,10 +335,7 @@ const fillForm = async (page, testData, testConfig, log) => {
         `Bad testConfig: Page hook for ${page.url()} is not a function`,
       );
     }
-    const retVal = hook(page, testData, testConfig, log);
-    if (retVal instanceof Promise) {
-      await retVal;
-    }
+    return hook(page, testData, testConfig, log);
   };
 
   // We want these actions to be performed synchronously, so the await
