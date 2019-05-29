@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
+import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { getMedicalCenterNameByID } from './helpers';
 import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
@@ -81,7 +82,7 @@ export function getEnrollmentDetails(
   const facilityName = getMedicalCenterNameByID(preferredFacility);
   const blocks = [];
   // add "you applied on" block if the application date is valid
-  if (!isNaN(Date.parse(applicationDate))) {
+  if (isValidDateString(applicationDate)) {
     blocks.push(
       <>
         <strong>You applied on: </strong>
@@ -90,7 +91,7 @@ export function getEnrollmentDetails(
     );
   }
   // add "we enrolled you" block if the enrollment date is valid
-  if (!isNaN(Date.parse(enrollmentDate))) {
+  if (isValidDateString(enrollmentDate)) {
     blocks.push(
       <>
         <strong>We enrolled you on: </strong>
@@ -953,7 +954,10 @@ export function getAlertContent(
   const blocks = [];
 
   // start with the "You applied on" if the user isn't enrolled in health care
-  if (enrollmentStatus !== HCA_ENROLLMENT_STATUSES.enrolled) {
+  if (
+    enrollmentStatus !== HCA_ENROLLMENT_STATUSES.enrolled &&
+    isValidDateString(applicationDate)
+  ) {
     blocks.push(
       <p>
         <strong>You applied on:</strong>{' '}

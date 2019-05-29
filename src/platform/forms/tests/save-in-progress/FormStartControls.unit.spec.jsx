@@ -203,7 +203,30 @@ describe('Schemaform <FormStartControls>', () => {
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
   });
 
-  it('should not capture analytics events when starting the form', () => {
+  it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    global.window.dataLayer = [];
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        gaStartEventName={null}
+        prefillAvailable
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(global.window.dataLayer).to.eql([]);
+  });
+
+  it('should capture analytics events with the default event name when starting the form  if a custom `gaStartEventName` is not set', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
@@ -222,10 +245,14 @@ describe('Schemaform <FormStartControls>', () => {
     const formDOM = getFormDOM(tree);
     formDOM.click('.usa-button-primary');
 
-    expect(global.window.dataLayer).to.eql([]);
+    expect(global.window.dataLayer).to.eql([
+      {
+        event: 'login-successful-start-form',
+      },
+    ]);
   });
 
-  it('should capture analytics events when starting the form', () => {
+  it('should capture analytics events with a custom event name when starting the form if a custom `gaStartEventName` is set', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
