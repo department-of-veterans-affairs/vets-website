@@ -57,6 +57,105 @@ function verifyAllDEAojt(client) {
   }
 }
 
+// Search foreign school online only
+function ForeignOnlineOnly(client) {
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
+
+  client.click('#radio-buttons-2-0').axeCheck('.main');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
+    .pause(100);
+
+  client.click('#search-button').axeCheck('.main');
+
+  client
+    .waitForElementVisible('.search-result a', Timeouts.normal)
+    .pause(100)
+    .click(
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+    )
+    .waitForElementVisible('body', 100)
+    .pause(1000)
+    .axeCheck('.main');
+}
+
+// Search foreign school in person only
+function ForeignInPersonOnly(client) {
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
+
+  client.click('#radio-buttons-2-1').axeCheck('.main');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
+    .pause(100);
+
+  client.click('#search-button').axeCheck('.main');
+
+  client
+    .waitForElementVisible('.search-result a', Timeouts.normal)
+    .pause(100)
+    .click(
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+    )
+    .waitForElementVisible('body', 100)
+    .pause(1000)
+    .axeCheck('.main');
+}
+
+// Search foreign school in person and online
+function ForeignInPersonAndOnline(client) {
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
+
+  client.click('#radio-buttons-2-2').axeCheck('.main');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
+    .pause(100);
+
+  client.click('#search-button').axeCheck('.main');
+
+  client
+    .waitForElementVisible('.search-result a', Timeouts.normal)
+    .pause(100)
+    .click(
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+    )
+    .waitForElementVisible('body', 100)
+    .pause(1000)
+    .axeCheck('.main');
+}
+
 const schools = {
   data: [
     {
@@ -952,4 +1051,7 @@ module.exports = {
   searchAsDEA,
   formatCurrency,
   calculatorConstantsList,
+  ForeignOnlineOnly,
+  ForeignInPersonOnly,
+  ForeignInPersonAndOnline,
 };

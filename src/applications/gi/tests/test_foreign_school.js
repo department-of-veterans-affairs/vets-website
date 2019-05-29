@@ -2,6 +2,13 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
+const Onlinecheck =
+  '#accordion-item-26 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+const Inpersoncheck =
+  '#accordion-item-26 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+const Inpersonandonlinecheck =
+  '#accordion-item-26 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
 
@@ -15,36 +22,25 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
+  GiHelpers.ForeignOnlineOnly(client, Onlinecheck);
+
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+
   client
     .waitForElementVisible('body', Timeouts.verySlow)
-    .pause(100)
-    .axeCheck('.main ');
-
-  client
-    .click('#radio-buttons-2-0')
-    .pause(100)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
-    .pause(100);
+  GiHelpers.ForeignInPersonOnly(client, Inpersoncheck);
 
-  client.click('#search-button').axeCheck('.main');
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
   client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
-    .waitForElementVisible('.profile-pagekshjfdg', 1000000000000000000000000)
-    .pause(100000000000000000000)
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
+
+  GiHelpers.ForeignInPersonAndOnline(client, Inpersonandonlinecheck);
 
   client.end();
 });
