@@ -299,6 +299,28 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
 const removeForeseeOverlay = async page => searchAndDestroy(page, '.__acs');
 
 /**
+ * Waits until the URL changes or the timeout is reached before returning the current URL.
+ *
+ * @param {Page} page - The page from puppeteer
+ * @param {number} timeout - The maximum number of milliseconds to wait before returning
+ * @return {string} The current URL
+ */
+const nextUrl = async (page, timeout = 500) => {
+  const startingUrl = page.url();
+  const startTime = Date.now();
+
+  const timer = () => new Promise(res => setTimeout(res));
+
+  /* eslint-disable no-await-in-loop */
+  while (page.url() === startingUrl && Date.now() - startTime < timeout) {
+    await timer();
+  }
+  /* eslint-enable no-await-in-loop */
+
+  return page.url();
+};
+
+/**
  * This is the main entry point. After all the setup has been performed, this function
  *  loops through the pages, filling in all the data it can until it gets to the review
  *  page.
@@ -382,7 +404,7 @@ const fillForm = async (page, testData, testConfig, log) => {
   await page.click('button.usa-button-primary');
 
   // We should be on the confirmation page if all goes well
-  if (!page.url().endsWith('confirmation')) {
+  if (!(await nextUrl(page)).endsWith('confirmation')) {
     // If we can tell what the problem probably is, provide a more helpful error message
     try {
       const message = await page.$eval(
@@ -393,7 +415,9 @@ const fillForm = async (page, testData, testConfig, log) => {
         throw new Error('Error submitting the form. Is the submission mocked?');
       }
     } catch (e) {
-      throw new Error('Error submitting the form.');
+      throw new Error(
+        `Error submitting the form. Expected to be on the confirmation page, instead got ${page.url()}`,
+      );
     }
   }
 
