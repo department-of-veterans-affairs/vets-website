@@ -10,8 +10,8 @@ const deaEnrolledMax = 30;
 
 const deaOJTRate = 747;
 
-// Selects DEA as benefit type, searches for schools in washington dc and clicks the expected result
-function searchAsDEA(client, expectedResult) {
+// Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
+function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
   client
     .waitForElementVisible('#giBillChapter', Timeouts.slow)
     .selectDropdown('giBillChapter', '35');
@@ -32,6 +32,7 @@ function searchAsDEA(client, expectedResult) {
   client
     .waitForElementVisible(expectedResult, Timeouts.normal)
     .pause(30)
+    .assert.containsText(resultRate, expectedRate)
     .click(expectedResult)
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
