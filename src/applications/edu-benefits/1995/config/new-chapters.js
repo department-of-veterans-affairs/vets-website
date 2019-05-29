@@ -71,6 +71,7 @@ export const newChapters = {
   militaryService: {
     title: 'Military History',
     pages: {
+      // 1995-STEM related
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
@@ -81,7 +82,7 @@ export const newChapters = {
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        depends: form => !displayActiveDutyStem(form),
+        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -105,7 +106,7 @@ export const newChapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        depends: form => !displayActiveDutyStem(form),
+        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
