@@ -384,12 +384,17 @@ const fillForm = async (page, testData, testConfig, log) => {
   // We should be on the confirmation page if all goes well
   if (!page.url().endsWith('confirmation')) {
     // If we can tell what the problem probably is, provide a more helpful error message
-    const message = await page.$eval('.usa-alert-body', node => node.innerText);
-    if (message.includes('an error connecting to')) {
-      throw new Error('Error submitting the form. Is the submission mocked?');
+    try {
+      const message = await page.$eval(
+        '.usa-alert-body',
+        node => node.innerText,
+      );
+      if (message.includes('an error connecting to')) {
+        throw new Error('Error submitting the form. Is the submission mocked?');
+      }
+    } catch (e) {
+      throw new Error('Error submitting the form.');
     }
-
-    throw new Error('Error submitting the form.');
   }
 
   // Run the confirmation hook if available
