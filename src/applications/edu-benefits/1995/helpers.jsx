@@ -22,3 +22,6 @@ export function transform(formConfig, form) {
     },
   });
 }
+
+export const displayActiveDutyStem = form =>
+  form.isEnrolledStem || form.isPursuingTeachingCert;
