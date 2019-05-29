@@ -312,20 +312,15 @@ const nextUrl = async (page, options = {}) => {
     { previousUrl: page.url(), timeout: 500 },
     options,
   );
-  const startTime = Date.now();
 
-  const timer = () => new Promise(res => setTimeout(res));
+  if (page.url() !== opts.previousUrl) return page.url();
 
-  /* eslint-disable no-await-in-loop */
-  while (
-    page.url() === opts.previousUrl &&
-    Date.now() - startTime < opts.timeout
-  ) {
-    await timer();
+  try {
+    await page.waitForNavigation({ timeout: opts.timeout });
+    return page.url();
+  } catch (e) {
+    return page.url();
   }
-  /* eslint-enable no-await-in-loop */
-
-  return page.url();
 };
 
 /**
