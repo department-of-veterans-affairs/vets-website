@@ -196,7 +196,7 @@
     "uglify-js": "^3.4.0",
     "url-loader": "^0.6.2",
     "webpack": "^4.1.1",
-    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.1.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "winston": "^2.2.0"
