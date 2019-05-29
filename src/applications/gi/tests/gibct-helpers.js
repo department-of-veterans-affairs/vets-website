@@ -922,7 +922,7 @@ function initApplicationMock() {
   });
 
   mock(null, {
-    path: null,
+    path: '/v0/gi/zipcode_rates/null',
     verb: 'get',
     value: zipRate3,
   });
