@@ -302,17 +302,25 @@ const removeForeseeOverlay = async page => searchAndDestroy(page, '.__acs');
  * Waits until the URL changes or the timeout is reached before returning the current URL.
  *
  * @param {Page} page - The page from puppeteer
- * @param {number} timeout - The maximum number of milliseconds to wait before returning
+ * @param {object} options
+ * @param {number} options.timeout - The maximum number of milliseconds to wait before returning
+ * @param {string} options.previousUrl - The previous URL; used to bypass the loop if the URL already changed
  * @return {string} The current URL
  */
-const nextUrl = async (page, timeout = 500) => {
-  const startingUrl = page.url();
+const nextUrl = async (page, options = {}) => {
+  const opts = Object.assign(
+    { previousUrl: page.url(), timeout: 500 },
+    options,
+  );
   const startTime = Date.now();
 
   const timer = () => new Promise(res => setTimeout(res));
 
   /* eslint-disable no-await-in-loop */
-  while (page.url() === startingUrl && Date.now() - startTime < timeout) {
+  while (
+    page.url() === opts.previousUrl &&
+    Date.now() - startTime < opts.timeout
+  ) {
     await timer();
   }
   /* eslint-enable no-await-in-loop */
