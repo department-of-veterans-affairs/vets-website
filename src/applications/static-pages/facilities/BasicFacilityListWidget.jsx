@@ -58,7 +58,7 @@ export default class BasicFacilityListWidget extends React.Component {
             <FacilityTitle
               facility={facility}
               nickname={this.props.facilities[facility.id].nickname}
-              regionPath={this.props.path}
+              regionPath={this.props.facilities[facility.id].entityUrl.path}
             />
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
