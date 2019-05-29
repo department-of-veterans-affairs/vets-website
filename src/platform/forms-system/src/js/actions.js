@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
 import moment from 'moment';
-import { transformForSubmit, recordEvent } from './helpers';
+import { transformForSubmit } from './helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import { timeFromNow } from './utilities/date';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
@@ -190,7 +191,14 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
+export function uploadFile(
+  file,
+  uiOptions,
+  onProgress,
+  onChange,
+  onError,
+  trackingPrefix,
+) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       onChange({
@@ -242,6 +250,11 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
+        const eventName = uiOptions.gaEventName
+          ? `${trackingPrefix}${uiOptions.gaEventName}`
+          : `${trackingPrefix}file-uploaded`;
+
+        recordEvent({ event: eventName });
         onChange(fileData);
       } else {
         let errorMessage = req.statusText;
