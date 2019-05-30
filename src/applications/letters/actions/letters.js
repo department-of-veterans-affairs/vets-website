@@ -74,8 +74,8 @@ export function getLetterList(dispatch) {
       } else {
         dispatch({ type: GET_LETTERS_FAILURE });
       }
-      const lettersError = new Error('vets_letters_error_getLetterList');
-      Raven.captureException(lettersError, {
+
+      Raven.captureException(new Error('vets_letters_error_getLetterList'), {
         fingerprint: ['{{ default }}', status],
       });
       return Promise.reject();
