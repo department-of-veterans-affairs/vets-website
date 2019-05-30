@@ -154,6 +154,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     appStateData={page.appStateData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
+                    trackingPrefix={this.props.form.trackingPrefix}
                     hideHeaderRow={page.hideHeaderRow}
                     hideTitle={expandedPages.length === 1}
                     pagePerItemIndex={page.index}
@@ -207,6 +208,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       onBlur={this.props.onBlur}
                       schema={arrayField.schema}
                       uiSchema={arrayField.uiSchema}
+                      trackingPrefix={this.props.form.trackingPrefix}
                       setData={formData =>
                         this.props.setData(
                           typeof page.updateFormData === 'function'
