@@ -119,7 +119,7 @@ export const schema = {
   },
 };
 
-const indexOfChanged = (oldArr, newArr) => {
+const indexOfFirstChange = (oldArr, newArr) => {
   for (let i = 0; i < newArr.length; i++) {
     if (oldArr[i] !== newArr[i]) return i;
   }
@@ -129,7 +129,7 @@ const indexOfChanged = (oldArr, newArr) => {
 };
 
 const deleted = (oldArr, newArr) => {
-  const i = indexOfChanged(oldArr, newArr);
+  const i = indexOfFirstChange(oldArr, newArr);
   // If no difference was found, the last item was deleted
   return i !== undefined ? oldArr[i] : oldArr[oldArr.length - 1];
 };
@@ -226,7 +226,7 @@ export const updateFormData = (oldData, newData) => {
   }
 
   // Disability was modified
-  const changedIndex = indexOfChanged(oldArr, newArr);
+  const changedIndex = indexOfFirstChange(oldArr, newArr);
   if (oldArr.length === newArr.length && changedIndex !== undefined) {
     // Update the disability name in treatedDisabilityNames and
     // powDisabilities _if_ it exists already
