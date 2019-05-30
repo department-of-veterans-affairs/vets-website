@@ -13,25 +13,27 @@
     <div class="va-c-list-link-teasers">
         {% assign even = true %}
         {% for linkTeaser in paragraph.fieldVaParagraphs %}
-            {% if even %}
-                <div class="usa-grid usa-grid-full">
-            {% endif %}
-            <div class="usa-width-one-half vads-u-margin-bottom--2">
-            <a href="{{linkTeaser.entity.fieldLink.url.path}}">
-                    {{ linkTeaser.entity.fieldLink.title }}
-                </a>
-            </div>
-            {% if !even %}
+            {% for link in linkTeaser.entity.fieldLink %}
+                {% if even %}
+                    <div class="usa-grid usa-grid-full">
+                {% endif %}
+                <div class="usa-width-one-half vads-u-margin-bottom--2">
+                <a href="{{link.url.path}}">
+                        {{ link.title }}
+                    </a>
                 </div>
-            {% endif %}
-            {% if even %}
-                {% assign even = false %}
-            {% else %}
-                {% assign even = true %}
-            {% endif %}
+                {% if !even %}
+                    </div>
+                {% endif %}
+                {% if even %}
+                    {% assign even = false %}
+                {% else %}
+                    {% assign even = true %}
+                {% endif %}
+            {% endfor %}
         {% endfor %}
         {% if !even %}
-    </div>
+      </div>
     {% endif %}
 </section>
 {% endif %}
