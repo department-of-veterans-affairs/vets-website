@@ -24,8 +24,9 @@
           <div class="usa-grid usa-grid-full">
             <h1>{{ title }}</h1>
             <div class="vads-l-grid-container--full">
-              {% if title == 'events' %}
-              {% include 'src/site/layouts/health_care_region_events_node.drupal.liquid' %}
+              {{ fieldDescription }}
+              {% if title == 'Events' %}
+              {% include 'src/site/components/events_list.drupal.liquid' %}
               {% endif %}
               {% if title == 'Benefit Materials' %}
               <form class="usa-form outreach-asset-form-filters">

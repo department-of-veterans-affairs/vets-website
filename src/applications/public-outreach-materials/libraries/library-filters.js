@@ -37,83 +37,97 @@ export function libraryFilters(el) {
       }
     });
 
-    document.getElementById('va-pagination-active-num').innerText =
-      activePage === undefined ? 1 : activePage;
-
-    document.getElementById('total-pages').innerText = cards.length;
+    if (document.getElementById('va-pagination-active-num')) {
+      document.getElementById('va-pagination-active-num').innerText =
+        activePage === undefined ? 1 : activePage;
+    }
+    if (document.getElementById('total-pages')) {
+      document.getElementById('total-pages').innerText = cards.length;
+    }
   }
 
   sessionStorage.setItem('pageNum', 1);
   pageNumbers();
 
   const next = document.getElementById('pager-next-click');
-  next.addEventListener('click', libraryFilters);
+  if (next) {
+    next.addEventListener('click', libraryFilters);
+  }
 
   const prev = document.getElementById('pager-previous-click');
-  prev.addEventListener('click', libraryFilters);
+  if (prev) {
+    prev.addEventListener('click', libraryFilters);
+  }
 
   const first = document.getElementById('first-click');
-  first.addEventListener('click', libraryFilters);
+  if (first) {
+    first.addEventListener('click', libraryFilters);
+  }
 
   const last = document.getElementById('last-click');
-  last.addEventListener('click', libraryFilters);
+  if (last) {
+    last.addEventListener('click', libraryFilters);
+  }
+  if (typeItem) {
+    typeItem.addEventListener('change', () => {
+      if (typeItem.value !== 'select') {
+        [].map.call(document.querySelectorAll(`[data-type]`), element => {
+          element.classList.add('hide-type');
+        });
+        [].map.call(
+          document.querySelectorAll(`[data-type=${typeItem.value}]`),
+          element => {
+            element.classList.add('show-type');
+          },
+        );
 
-  typeItem.addEventListener('change', () => {
-    if (typeItem.value !== 'select') {
-      [].map.call(document.querySelectorAll(`[data-type]`), element => {
-        element.classList.add('hide-type');
-      });
-      [].map.call(
-        document.querySelectorAll(`[data-type=${typeItem.value}]`),
-        element => {
-          element.classList.add('show-type');
-        },
-      );
-
-      [].map.call(
-        document.querySelectorAll(`[data-type=${typeItem.value}]`),
-        element => {
+        [].map.call(
+          document.querySelectorAll(`[data-type=${typeItem.value}]`),
+          element => {
+            element.classList.remove('hide-type');
+          },
+        );
+      } else if (typeItem.value === 'select') {
+        [].map.call(document.querySelectorAll(`[data-type]`), element => {
           element.classList.remove('hide-type');
-        },
-      );
-    } else if (typeItem.value === 'select') {
-      [].map.call(document.querySelectorAll(`[data-type]`), element => {
-        element.classList.remove('hide-type');
-      });
-      [].map.call(document.querySelectorAll(`[data-type]`), element => {
-        element.classList.add('show-type');
-      });
-    }
-  });
+        });
+        [].map.call(document.querySelectorAll(`[data-type]`), element => {
+          element.classList.add('show-type');
+        });
+      }
+    });
+  }
 
   const topicItem = document.getElementById('outreach-topic');
-  topicItem.addEventListener('change', () => {
-    if (topicItem.value !== 'select') {
-      [].map.call(document.querySelectorAll(`[data-topic]`), element => {
-        element.classList.add('hide-topic');
-      });
+  if (topicItem) {
+    topicItem.addEventListener('change', () => {
+      if (topicItem.value !== 'select') {
+        [].map.call(document.querySelectorAll(`[data-topic]`), element => {
+          element.classList.add('hide-topic');
+        });
 
-      [].map.call(
-        document.querySelectorAll(`[data-${topicItem.value}]`),
-        element => {
-          element.classList.add('show-topic');
-        },
-      );
-      [].map.call(
-        document.querySelectorAll(`[data-${topicItem.value}]`),
-        element => {
+        [].map.call(
+          document.querySelectorAll(`[data-${topicItem.value}]`),
+          element => {
+            element.classList.add('show-topic');
+          },
+        );
+        [].map.call(
+          document.querySelectorAll(`[data-${topicItem.value}]`),
+          element => {
+            element.classList.remove('hide-topic');
+          },
+        );
+      } else if (topicItem.value === 'select') {
+        [].map.call(document.querySelectorAll(`[data-topic]`), element => {
           element.classList.remove('hide-topic');
-        },
-      );
-    } else if (topicItem.value === 'select') {
-      [].map.call(document.querySelectorAll(`[data-topic]`), element => {
-        element.classList.remove('hide-topic');
-      });
-      [].map.call(document.querySelectorAll(`[data-topic]`), element => {
-        element.classList.add('show-topic');
-      });
-    }
-  });
+        });
+        [].map.call(document.querySelectorAll(`[data-topic]`), element => {
+          element.classList.add('show-topic');
+        });
+      }
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', libraryFilters);

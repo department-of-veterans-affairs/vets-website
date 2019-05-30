@@ -12,6 +12,8 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
+  liquid.filters.humanizeTime = dt => moment(dt).format('LT');
+
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
