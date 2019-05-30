@@ -14,12 +14,14 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(
       this,
     );
-    // this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleAddRating = this.handleAddRating.bind(this);
     this.handleRemoveRating = this.handleRemoveRating.bind(this);
     this.ratingRef = React.createRef();
   }
 
+  handleClick = () => {
+    this.child.ratingInput.focus();
+  }
 
   handleRatingCalculateChange = idx => evt => {
     const newRatings = this.state.ratings.map((rating, sidx) => {
@@ -61,9 +63,6 @@ export default class DisabilityRatingCalculator extends React.Component {
     })
   };
 
-  // componentDidMount() {
-  //   this.ratingRef.current.focus()
-  // }
   render() {
 
     return (
@@ -84,42 +83,13 @@ export default class DisabilityRatingCalculator extends React.Component {
             </div>
             <div className="vads-l-col--8">Optional description</div>
           </div>
-          {/* <RatingRow
-            // handleRatingCalculateChange={this.handleRatingCalculateChange(idx)}
-            handleRemoveRating={this.handleRemoveRating()}
-            handleRatingChange={this.handleRatingChange(evt)}
-            value={this.state.ratings}
-          /> */}
           {this.state.ratings.map((rating, idx) => (
             <RatingRow
               handleRatingCalculateChange={this.handleRatingCalculateChange(idx)}
-              handleRemoveRating={this.handleRemoveRating(idx)}
+              // handleRemoveRating={this.handleRemoveRating(idx)}
               value={rating}
-              reference={this.ratingRef}
             />
-            // <div className="rating vads-l-row" key={idx}>
-            //   <div className="vads-l-col--2 vads-u-padding-right--2">
-            //     <input
-            //       type="text"
-            //       min="0"
-            //       value={this.state.ratings.value}
-            //       onChange={this.handleRatingCalculateChange(idx)}
-            //       className="ratingInput"
-            //       maxLength="3"
-            //       min="1"
-            //       max="100"
-            //     />
-            //   </div>
-            //   <div className="vads-l-col--8">
-            //     <input className="descriptionInput" />
-            //   </div>
-            //   <div className="vads-l-col--2">
-            //     <button type="button" onClick={this.handleRemoveRating(idx)}>
-            //       <i className="fas fa-trash-alt" />
-            //     </button>
-            //     <a onClick={this.handleRemoveRating(idx)}>Delete</a>
-            //   </div>
-            // </div>
+
           ))}
           <div className="vads-l-grid-container">
             <div className="vads-l-row">
@@ -146,6 +116,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               </div>
             </div>
           </div>
+          {/* </form> */}
         </div>
       </div>
     );
