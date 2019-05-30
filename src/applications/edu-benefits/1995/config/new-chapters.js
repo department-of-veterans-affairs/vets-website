@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
@@ -15,12 +15,16 @@ import createApplicantInformationPage from '../../../../platform/forms/pages/app
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';
+import { rogersStemScholarshipInfo } from '../content/stemInformation';
 
 const {
   benefit,
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
+  isEdithNourseRogersScholarship,
+  isEnrolledStem,
+  isPursuingTeachingCert,
 } = fullSchema1995.properties;
 
 const { educationType, serviceBefore1977 } = fullSchema1995.definitions;
@@ -61,6 +65,54 @@ export const newChapters = {
           type: 'object',
           properties: {
             benefit,
+          },
+        },
+      },
+      // related to 1995-STEM
+      stem: {
+        title: 'Education benefit',
+        path: 'benefits/stem',
+        initialData: {},
+        depends: {
+          benefit: 'chapter33',
+        },
+        uiSchema: {
+          isEdithNourseRogersScholarship: {
+            'ui:title':
+              'Are you applying for the Edith Nourse Rogers STEM Scholarship (Chapter 33)?',
+            'ui:widget': 'yesNo',
+          },
+          isEnrolledStem: {
+            'ui:title':
+              'Are you enrolled in an undergraduate STEM degree program?',
+            'ui:widget': 'yesNo',
+            'ui:options': {
+              expandUnder: 'isEdithNourseRogersScholarship',
+            },
+          },
+          isPursuingTeachingCert: {
+            'ui:title':
+              'Do you have a STEM undergraduate degree and are now pursuing a teaching certification?',
+            'ui:widget': 'yesNo',
+            'ui:options': {
+              expandUnder: 'isEdithNourseRogersScholarship',
+              hideIf: formData => _.get(formData, 'isEnrolledStem', true),
+            },
+          },
+          'view:rogersStemScholarshipInfo': {
+            'ui:description': rogersStemScholarshipInfo,
+          },
+        },
+        schema: {
+          type: 'object',
+          properties: {
+            isEdithNourseRogersScholarship,
+            isEnrolledStem,
+            isPursuingTeachingCert,
+            'view:rogersStemScholarshipInfo': {
+              type: 'object',
+              properties: {},
+            },
           },
         },
       },
