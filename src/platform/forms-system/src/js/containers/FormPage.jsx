@@ -119,9 +119,6 @@ class FormPage extends React.Component {
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
-    const formContextWithTrackingPrefix = Object.assign({}, formContext, {
-      trackingPrefix: this.props.form.trackingPrefix,
-    });
 
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
@@ -152,7 +149,8 @@ class FormPage extends React.Component {
           schema={schema}
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
-          formContext={formContextWithTrackingPrefix}
+          formContext={formContext}
+          trackingPrefix={this.props.form.trackingPrefix}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
