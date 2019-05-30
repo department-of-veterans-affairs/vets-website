@@ -1,5 +1,5 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import { rogersStemScholarshipInfo } from '../content/stemInformation';
+import { rogersStemScholarshipInfo } from '../content/stem';
 import _ from 'lodash';
 
 const {
