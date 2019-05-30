@@ -10,6 +10,7 @@ import { selectProfile } from '../../../platform/user/selectors';
 import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 class ValidateMHVAccount extends React.Component {
   componentDidMount() {
@@ -28,22 +29,25 @@ class ValidateMHVAccount extends React.Component {
     const { profile, mhvAccount, router } = this.props;
     const { accountLevel, accountState } = mhvAccount;
 
-    // LOA Checks
-    if (!profile.verified) {
+    // Verification Check
+    if (
+      !profile.verified ||
+      accountState === ACCOUNT_STATES.NEEDS_VERIFICATION
+    ) {
+      recordEvent({ event: 'register-mhv-error-needs-identity-verification' });
       router.replace('verify');
     }
 
     // MVI/MHV Checks
     if (this.props.mviDown) {
+      recordEvent({ event: 'register-mhv-error-mvi-down' });
       router.replace('error/mvi-down');
     } else if (mhvAccount.errors) {
+      recordEvent({ event: 'register-mhv-error-mhv-error' });
       router.replace('error/mhv-error');
     }
 
     switch (accountState) {
-      case ACCOUNT_STATES.NEEDS_VERIFICATION:
-        router.replace('verify');
-        return;
       case ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE:
         this.redirectToTermsAndConditions();
         return;
@@ -53,6 +57,9 @@ class ValidateMHVAccount extends React.Component {
       case ACCOUNT_STATES.REGISTER_FAILED:
       case ACCOUNT_STATES.UPGRADE_FAILED:
       case ACCOUNT_STATES.NEEDS_VA_PATIENT:
+        recordEvent({
+          event: `register-mhv-error-${accountState.replace(/_/g, '-')}`,
+        });
         router.replace(`error/${accountState.replace(/_/g, '-')}`);
         return;
       default:
@@ -76,21 +83,28 @@ class ValidateMHVAccount extends React.Component {
   };
 
   redirectToTermsAndConditions = () => {
-    const redirectQuery = { tc_redirect: '/my-health-account-validation' }; // eslint-disable-line camelcase
+    const redirectQuery = {
+      tc_redirect: '/health-care/my-health-account-validation', // eslint-disable-line camelcase
+    };
     const termsConditionsUrl = appendQuery(
       '/health-care/medical-information-terms-conditions/',
       redirectQuery,
     );
+
+    recordEvent({
+      event: 'register-mhv-error-needs-terms-acceptance',
+    });
+
     window.location = termsConditionsUrl;
   };
 
   render() {
     return (
       <div className="row">
-        <div className="vads-u-padding-bottom--5">
+        <div className="vads-u-padding--5">
           <LoadingIndicator
+            message="Loading your health information"
             setFocus
-            messsage="Loading your health account information..."
           />
         </div>
       </div>
