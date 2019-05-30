@@ -8,6 +8,7 @@ import fullSchema1995 from '../../../applications/edu-benefits/1995/config/form'
 import fullSchema5490 from '../../../applications/edu-benefits/5490/config/form';
 import fullSchema5495 from '../../../applications/edu-benefits/5495/config/form';
 import fullSchema527EZ from '../../../applications/pensions/config/form';
+import fullSchema526AllClaims from '../../../applications/disability-benefits/all-claims/config/form';
 import fullSchema530 from '../../../applications/burials/config/form';
 import fullSchema10007 from '../../../applications/pre-need/config/form';
 import fullSchema686 from '../../../applications/disability-benefits/686/config/form';
@@ -18,6 +19,7 @@ import schemas from 'vets-json-schema/dist/schemas';
 // Maps schema id to config id
 const mappedIds = [
   '10-10EZ',
+  '21-526EZ-ALLCLAIMS',
   '21-686C',
   '21P-527EZ',
   '21P-530',
@@ -34,6 +36,9 @@ const mappedIds = [
 
 const configs = [
   fullSchema1010ez,
+  // Remap the formId to match the name in vets-json-schema
+  // This should only affect the mapping in the "check all forms" test
+  { ...fullSchema526AllClaims, formId: '21-526EZ-ALLCLAIMS' },
   fullSchema686,
   fullSchema527EZ,
   fullSchema530,
@@ -51,7 +56,6 @@ const configs = [
 const excludedForms = new Set([
   '28-1900',
   '21-526EZ',
-  '21-526EZ-ALLCLAIMS', // TODO: remove this?
   '28-8832',
   '24-0296',
   '21-4142',
