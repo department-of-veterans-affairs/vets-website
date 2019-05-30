@@ -2,7 +2,7 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 export const rogersStemScholarshipInfo = (
-  <AdditionalInfo triggerText="What if I don’t have a bank account?">
+  <AdditionalInfo triggerText="What is the Edith Nourse Rogers STEM Scholarship?">
     <div>
       <p>
         The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
