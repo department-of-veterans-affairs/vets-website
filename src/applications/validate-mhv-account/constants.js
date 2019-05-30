@@ -14,3 +14,5 @@ export const MHV_ACCOUNT_LEVELS = {
   ADVANCED: 'Advanced',
   PREMIUM: 'Premium',
 };
+
+export const MHV_URL = 'https://www.myhealth.va.gov/mhv-portal-web/home';

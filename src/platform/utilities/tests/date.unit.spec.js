@@ -8,6 +8,7 @@ import {
   formatDateParsedZoneShort,
   formatDateLong,
   formatDateParsedZoneLong,
+  isValidDateString,
 } from '../date';
 
 describe('Helpers unit tests', () => {
@@ -139,6 +140,20 @@ describe('Helpers unit tests', () => {
       expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).to.equal(
         'November 12, 1995',
       );
+    });
+  });
+  describe('isValidDateString', () => {
+    it('returns `false` when passed an invalid argument', () => {
+      expect(isValidDateString()).to.be.false;
+      expect(isValidDateString(false)).to.be.false;
+      expect(isValidDateString({})).to.be.false;
+    });
+    it('returns `false` when passed a string that cannot be parsed as a date', () => {
+      expect(isValidDateString('not a date')).to.be.false;
+    });
+    it('returns `true` when passed a string that can be parsed as a date', () => {
+      expect(isValidDateString('1986-05-06')).to.be.true;
+      expect(isValidDateString('2018-01-24T00:00:00.000-06:00')).to.be.true;
     });
   });
 });

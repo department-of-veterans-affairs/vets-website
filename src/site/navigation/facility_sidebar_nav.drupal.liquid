@@ -1,8 +1,12 @@
-<nav id="va-detailpage-sidebar" data-drupal-sidebar class="va-c-facility-sidebar usa-width-one-fourth va-sidebarnav">
+<nav id="va-detailpage-sidebar" data-drupal-sidebar class="va-c-facility-sidebar usa-width-one-fourth va-sidebarnav va-c-facility-sidebar">
     <div>
         <button class="va-btn-close-icon va-sidebarnav-close" type="button" aria-label="Close this menu"></button>
         <div class="left-side-nav-title">
-            <h4>{{ facilitySidebar.name }}</h4>
+            <a href="{{ facilitySidebar.description | homePath }}" class="vads-u-display--block">
+                <h4>
+                    {{ facilitySidebar.name | facilitySidebarName }}
+                </h4>
+            </a>
         </div>
         <ul class="usa-accordion">
             {% for link in facilitySidebar.links %}

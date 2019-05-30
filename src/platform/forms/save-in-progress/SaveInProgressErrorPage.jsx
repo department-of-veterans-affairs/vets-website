@@ -19,6 +19,12 @@ import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 // For now, this only handles loading errors, but it could feasibly be reworked
 //  to handle save errors as well if we need it to.
 class SaveInProgressErrorPage extends React.Component {
+  componentDidMount() {
+    if (this.props.loadedStatus === LOAD_STATUSES.notAttempted) {
+      this.props.router.replace(this.props.location.basename);
+    }
+  }
+
   getBackButton = (primary = false) => {
     const buttonClass = primary ? 'usa-button-primary' : 'usa-button-secondary';
     return (
