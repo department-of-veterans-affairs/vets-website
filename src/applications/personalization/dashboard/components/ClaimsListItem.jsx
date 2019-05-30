@@ -24,11 +24,12 @@ function handleViewClaim() {
 
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
+  const dateRecd = moment(claim.attributes.dateFiled).format('MMMM D, YYYY');
+
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        {getClaimType(claim)} Claim – Received{' '}
-        {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
+        {getClaimType(claim)} Claim – Received {dateRecd}
       </h3>
       <p className="status">
         <span className="claim-item-label">
@@ -59,6 +60,7 @@ export default function ClaimsListItem({ claim }) {
       <Link
         className="usa-button usa-button-primary"
         href={`/track-claims/your-claims/${claim.id}/status`}
+        aria-label={`View claim received ${dateRecd}`}
         onClick={handleViewClaim}
       >
         View claim <i className="fa fa-chevron-right" />
