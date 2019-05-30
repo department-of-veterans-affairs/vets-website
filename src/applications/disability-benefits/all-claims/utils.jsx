@@ -218,7 +218,8 @@ export const sippableId = str => (str || 'blank').toLowerCase();
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
   return _.set(
-    sippableId(disabilityName),
+    // As an array like this to prevent periods in the name being interpreted as nested objects
+    [sippableId(disabilityName)],
     { title: capitalizedDisabilityName, type: 'boolean' },
     schema,
   );
