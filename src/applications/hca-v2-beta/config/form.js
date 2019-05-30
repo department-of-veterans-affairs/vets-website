@@ -582,7 +582,6 @@ const formConfig = {
                 confirmationCode: response.data.attributes.guid,
                 size: file.size,
               }),
-              gaEventName: 'document-uploaded',
               attachmentSchema: {
                 'ui:title': 'Document type',
               },
