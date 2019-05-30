@@ -20,7 +20,7 @@ const flagsByBuildtype = {
   // vagovstaging: [featureFlags.FEATURE1],
   vagovstaging: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
   // vagovprod: [featureFlags.FEATURE1],
-  vagovprod: [],
+  vagovprod: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
 };
 
 // Exported feature flag state, which can be used in code as needed
