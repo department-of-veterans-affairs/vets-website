@@ -17,9 +17,10 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
   ],
-  // vagovstaging: [featureFlags.FEATURE1],
-  vagovstaging: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
-  // vagovprod: [featureFlags.FEATURE1],
+  vagovstaging: [
+    featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
+    featureFlags.GRAPHQL_MODULE_UPDATE,
+  ],
   vagovprod: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
 };
 
