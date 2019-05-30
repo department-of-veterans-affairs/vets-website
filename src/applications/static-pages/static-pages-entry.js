@@ -9,7 +9,7 @@ import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 
 import widgetTypes from './widgetTypes';
-import createAdditionalInfoWidget from './createAdditionalInfoWidget';
+import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -43,7 +43,7 @@ Raven.context(
   },
 );
 
-createAdditionalInfoWidget();
+subscribeAdditionalInfoEvents();
 
 createApplicationStatus(store, {
   formId: '21P-527EZ',
