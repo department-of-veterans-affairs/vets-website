@@ -118,7 +118,7 @@
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "cheerio": "^1.0.0-rc.2",
-    "chokidar": "^2.0.2",
+    "chokidar": "2",
     "choma": "^1.1.0",
     "chromedriver": "^2.38.1",
     "cli-table": "^0.3.1",
@@ -196,16 +196,14 @@
     "uglify-js": "^3.4.0",
     "url-loader": "^0.6.2",
     "webpack": "^4.1.1",
-    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.1.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "winston": "^2.2.0"
   },
-  "optionalDependencies": {
-    "fsevents": "^1.0.7"
-  },
+  "optionalDependencies": {},
   "engines": {
-    "node": "8.10.0",
+    "node": "10.15.3",
     "yarn": "1.12.3"
   },
   "private": true,
