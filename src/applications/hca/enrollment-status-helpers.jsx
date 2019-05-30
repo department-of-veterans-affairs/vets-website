@@ -1024,8 +1024,8 @@ export function getAlertContent(
       break;
 
     case HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry:
-    case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
     case HCA_ENROLLMENT_STATUSES.rejectedRightEntry:
+    case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
       blocks.push(
         <p>
           Our records show that you don't have a service-connected disability,
