@@ -28,7 +28,7 @@ function createOutreachAssetsData(buildSettings) {
 
     for (const entity of outreachAssets.entities) {
       let relativeUrl = '';
-      if (entity.fieldMedia) {
+      if (entity.entityBundle) {
         switch (entity.fieldMedia.entity.entityBundle) {
           case ENTITY_BUNDLES.DOCUMENT:
             relativeUrl = entity.fieldMedia.entity.fieldDocument.entity.url;
