@@ -9,6 +9,14 @@
   }
 }
 
+// When AddressSection mounts, it calls focusElement('#content')
+// The function needs to set a tabindex so it can focus on the element
+// This triggers the [tabindex]:focus rule in USWDS which gives a golden outline
+// We don't want that outline around #content
+#content[tabindex]:focus {
+    outline: none;
+}
+
 .letters {
   h5 {
     padding-top: 1.5em;
