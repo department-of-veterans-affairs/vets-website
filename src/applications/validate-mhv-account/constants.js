@@ -9,6 +9,12 @@ export const ACCOUNT_STATES = {
   NEEDS_TERMS_ACCEPTANCE: 'needs_terms_acceptance',
 };
 
+export const ACCOUNT_STATES_ARRAY = [];
+
+Object.keys(ACCOUNT_STATES).forEach(key => {
+  ACCOUNT_STATES_ARRAY.push(ACCOUNT_STATES[key]);
+});
+
 export const MHV_ACCOUNT_LEVELS = {
   BASIC: 'Basic',
   ADVANCED: 'Advanced',
