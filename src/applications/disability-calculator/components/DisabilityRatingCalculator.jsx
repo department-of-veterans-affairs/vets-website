@@ -1,97 +1,158 @@
 import React from 'react';
-
+import { calculateRating, roundRating } from '../utils/helpers';
+import '../sass/disability-calculator.scss';
+import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
+import { RatingRow } from './RatingRow';
 
 export default class DisabilityRatingCalculator extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      ratings: [
+        {
+          rating: 0,
+          description: '',
+          canDelete: false,
+        },
+        {
+          rating: 0,
+          description: '',
+          canDelete: false,
+        },
+        {
+          rating: 0,
+          description: '',
+          canDelete: true,
+        },
+      ],
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(
+      this,
+    );
+    this.handleAddRating = this.handleAddRating.bind(this);
+    this.handleRemoveRating = this.handleRemoveRating.bind(this);
+    this.ratingRef = React.createRef();
+  }
 
-    state = {
-        ratings: []
-    }
+  handleClick = () => {
+    this.child.ratingInput.focus();
+  };
 
-    addRating() {
-        this.setState({ ratings: [...this.state.ratings, ""] })
-        console.log(this.state.ratings)
-    }
-    render() {
-        return (
-            <div className='calculator-container'>
-                <h3>VA disability rating calculator</h3>
-                <p>Use our calculator if you have more than one disability
-                    rating to determine your VA comined disability rating
-                </p>
-                <div className="vads-l-grid-container">
-                    <div className="vads-l-row">
-                        <div className="vads-l-col--3 vads-u-padding-right--2">
-                            Disability rating
-                      </div>
-                        <div className="vads-l-col--8">
-                            Optional description
-                      </div>
-                    </div>
-                    <div className="vads-l-row">
-                        <div className="vads-l-col--2 vads-u-padding-right--2">
-                            <input
-                                type="number"
-                            />
-                        </div>
-                        <div className="vads-l-col--8">
-                            <input />
-                        </div>
-                        <div className="vads-l-col--2">
-                            <button><i class="fas fa-trash-alt"></i></button> <a href="#">Delete</a>
-                        </div>
-                    </div>
-                    {
-                        this.state.ratings.map((rating, index) => {
-                            return (
-                                <div className="vads-l-row" key={index}>
-                                    <div className="vads-l-col--2 vads-u-padding-right--2">
-                                        <input value={rating} />
-                                    </div>
-                                    <div className="vads-l-col--8">
-                                        <input />
-                                    </div>
-                                    <div className="vads-l-col--2">
-                                        <button><i class="fas fa-trash-alt"></i></button> <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                    {/* </div> */}
-                    <br />
-                    <div className="vads-l-grid-container">
-                        <div className="vads-l-row">
-                            <div className="vads-l-col--3">
-                                <button onClick={(e) => this.addRating(e)}><i class="fas fa-plus-circle"></i></button><a onClick={(e) => this.addRating(e)}>Add rating</a>
-                            </div>
-                            <div className="vads-l-col--8">
+  handleChange = (e, idx) => {
+    let curRatings = this.state.ratings;
+    curRatings[idx][e.target.name] =
+      e.target.name === 'rating' ? parseInt(e.target.value) : e.target.value;
+    this.setState({ ratings: curRatings }, () => {
+      console.log(this.state);
+    });
+  };
 
-                            </div>
-                        </div>
-                        <div className="vads-l-row">
-                            <div className="vads-l-col--3 vads-u-padding-right--2">
-                                <button className="usa-button-primary">Calculate</button>
-                            </div>
-                            <div className="vads-l-col--8">
-                                <a href="#">Clear all</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p className="vads-u-font-weight--bold">This is your VA Rating:</p>
-                    <div className="ratingContainer">
-                        <p className="vads-u-font-size--h2">60%</p>
-                    </div>
-                    <p>Your actual combined disability rating is 64%/ We round this number
-                        to the nearest 10% to get your <i>VA Disability rating </i>.
-                        We round down values in 1 to 4, and round up values ending in 5 to 9.
-                    </p>
-                    <a href="#">Find your monthly amount</a>
-                </div>
+  handleRatingCalculateChange = idx => evt => {
+    const newRatings = this.state.ratings.map((rating, sidx) => {
+      if (idx !== sidx) return rating;
+      return parseInt(evt.target.value);
+    });
 
+    this.setState({ ratings: newRatings });
+    console.log('handleRatingCalculateChange ', this.state);
+  };
+
+  handleSubmit = evt => {
+    const { ratings } = this.state;
+    console.log('Your VA disability rating is ', calculateRating(ratings), '%');
+    alert(`Your VA disability rating is ${calculateRating(ratings)} %`);
+    // return calculateRating(ratings);
+  };
+
+  handleAddRating = evt => {
+    let rating = evt.target.value;
+    console.log(this.state.ratings);
+    let newRatings = [
+      ...this.state.ratings,
+      {
+        rating: 0,
+        description: '',
+        canDelete: this.state.ratings.length > 2 ? true : false,
+      },
+    ];
+    this.setState({ ratings: newRatings }, () => console.log(this.state));
+    // this.setState({ ratings: [...this.state.ratings, rating] });
+  };
+
+  handleRemoveRating = idx => () => {
+    this.setState({
+      ratings: this.state.ratings.filter((s, sidx) => idx !== sidx),
+    });
+  };
+
+  clearAll = () => {
+    let newRatings = this.state.ratings.map((rating, idx) => ({
+      rating: 0,
+      description: '',
+      canDelete: idx > 1 ? true : false,
+    }));
+    this.setState({ ratings: newRatings });
+  };
+
+  render() {
+    let ratings = this.state.ratings;
+
+    return (
+      <div className="disability-calculator">
+        <div className="calc-header vads-u-padding-x--4">
+          <h2 className="vads-u-padding-top--4">
+            VA disability rating calculator
+          </h2>
+          <p>
+            Use our calculator if you have more than one disability rating to
+            determine your VA comined disability rating
+          </p>
+        </div>
+        <div className="vads-l-grid-container">
+          <div className="vads-l-row">
+            <div className="vads-l-col--3 vads-u-padding-right--2">
+              Disability rating
             </div>
-
-        )
-    }
+            <div className="vads-l-col--8">Optional description</div>
+          </div>
+          {this.state.ratings.map((ratingObj, idx) => (
+            <RatingRow
+              handleChange={this.handleChange}
+              // handleRemoveRating={this.handleRemoveRating(idx)}
+              ratingObj={ratingObj}
+              key={idx}
+              indx={idx}
+            />
+          ))}
+          <div className="vads-l-grid-container">
+            <div className="vads-l-row">
+              <div className="vads-l-col--3">
+                <button type="button" onClick={this.handleAddRating}>
+                  <i className="fas fa-plus-circle" />
+                </button>
+                <a onClick={this.handleAddRating}>Add rating</a>
+              </div>
+              <div className="vads-l-col--8" />
+            </div>
+            <div className="vads-l-row">
+              <div className="vads-l-col--3 vads-u-padding-right--2">
+                <button
+                  onClick={evt => {
+                    this.handleSubmit(evt);
+                  }}
+                >
+                  Calculate
+                </button>
+              </div>
+              <div className="vads-l-col--8">
+                <a onClick={this.clearAll}>Clear all</a>
+              </div>
+            </div>
+          </div>
+          {/* </form> */}
+        </div>
+      </div>
+    );
+  }
 }
