@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { calculateRating, roundRating } from '../utils/helpers';
 import '../sass/disability-calculator.scss';
@@ -40,8 +41,9 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleChange = (e, idx) => {
-    let curRatings = this.state.ratings;
+    const curRatings = this.state.ratings;
     curRatings[idx][e.target.name] =
+      // eslint-disable-next-line radix
       e.target.name === 'rating' ? parseInt(e.target.value) : e.target.value;
     this.setState({ ratings: curRatings }, () => {
       console.log(this.state);
@@ -51,6 +53,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   handleRatingCalculateChange = idx => evt => {
     const newRatings = this.state.ratings.map((rating, sidx) => {
       if (idx !== sidx) return rating;
+      // eslint-disable-next-line radix
       return parseInt(evt.target.value);
     });
 
@@ -61,6 +64,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   handleSubmit = evt => {
     const { ratings } = this.state;
     console.log('Your VA disability rating is ', calculateRating(ratings), '%');
+    // eslint-disable-next-line no-alert
     alert(`Your VA disability rating is ${calculateRating(ratings)} %`);
     // return calculateRating(ratings);
   };
@@ -68,7 +72,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   handleAddRating = evt => {
     let rating = evt.target.value;
     console.log(this.state.ratings);
-    let newRatings = [
+    const newRatings = [
       ...this.state.ratings,
       {
         rating: 0,
