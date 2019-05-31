@@ -7,7 +7,7 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 
 import FormItem from './FormItem';
-import { isSIPEnabledForm } from '../helpers';
+import { isSIPEnabledForm, sipFormSorter } from '../helpers';
 
 class FormList extends React.Component {
   constructor(props) {
@@ -34,7 +34,10 @@ class FormList extends React.Component {
 
   render() {
     const { savedForms: forms } = this.props;
-    const verifiedSavedForms = forms.filter(isSIPEnabledForm);
+    // Remove non-SIP-enabled forms and then sort them by when the forms expire
+    const verifiedSavedForms = forms
+      .filter(isSIPEnabledForm)
+      .sort(sipFormSorter);
     const hasVerifiedSavedForms = !!verifiedSavedForms.length;
 
     return !hasVerifiedSavedForms ? null : (

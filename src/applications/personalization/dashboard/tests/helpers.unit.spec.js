@@ -7,6 +7,7 @@ import {
   isSIPEnabledForm,
   presentableFormIDs,
   sipEnabledForms,
+  sipFormSorter,
 } from '../helpers';
 
 import fullSchema1010ez from 'applications/hca/config/form';
@@ -33,6 +34,7 @@ import schemas from 'vets-json-schema/dist/schemas';
 const schemaToConfigIds = {
   '10-10EZ': '1010ez',
   '21-526EZ': '21-526EZ',
+  '21-526EZ-ALLCLAIMS': '21-526EZ-ALLCLAIMS',
   '21-686C': '21-686C',
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
@@ -53,13 +55,7 @@ const schemaToConfigIds = {
   vaMedicalFacilities: 'N/A',
 };
 
-const excludedForms = new Set([
-  '28-1900',
-  '28-8832',
-  '24-0296',
-  '21-4142',
-  '21-526EZ-ALLCLAIMS', // TODO: remove this when we can?
-]);
+const excludedForms = new Set(['28-1900', '28-8832', '24-0296', '21-4142']);
 
 describe('profile helpers:', () => {
   describe('formTitles', () => {
@@ -69,6 +65,7 @@ describe('profile helpers:', () => {
       });
     });
   });
+
   describe('prefixedFormIDs', () => {
     it('should have an entry for each verified form', () => {
       sipEnabledForms.forEach(form => {
@@ -85,6 +82,7 @@ describe('profile helpers:', () => {
       expect(presentableFormIDs['FEEDBACK-TOOL']).to.equal('FEEDBACK TOOL');
     });
   });
+
   describe('formLinks', () => {
     it('should have link information for each verified form', () => {
       sipEnabledForms.forEach(form => {
@@ -92,6 +90,7 @@ describe('profile helpers:', () => {
       });
     });
   });
+
   describe('isFormAuthorizable', () => {
     it('should return `true` if `authorize` is defined on the passed-in form config', () => {
       const formConfig = {
@@ -143,9 +142,119 @@ describe('profile helpers:', () => {
       expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });
   });
+
   describe('handleIncompleteInformation', () => {
     it('should push error into window if a form is missing title or link information', () => {
       expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
+    });
+  });
+
+  describe('sipFormSorter', () => {
+    const formA = {
+      form: '21P-527EZ',
+      metadata: {
+        version: 3,
+        returnUrl: '/review-and-submit',
+        savedAt: 1557507430028,
+        expiresAt: 1562691437,
+        lastUpdated: 1557507437,
+      },
+      lastUpdated: 1557507437,
+    };
+    const formB = {
+      form: '1010ez',
+      metadata: {
+        version: 6,
+        returnUrl: '/military-service/documents',
+        savedAt: 1558027285255,
+        expiresAt: 1563211286,
+        lastUpdated: 1558027286,
+      },
+      lastUpdated: 1558027286,
+    };
+    const formC = {
+      form: '22-1995-STEM',
+      metadata: {
+        version: 1,
+        returnUrl: '/personal-information/contact-information',
+        savedAt: 1558440074236,
+        expiresAt: 1563624074,
+        lastUpdated: 1558440074,
+      },
+      lastUpdated: 1558440074,
+    };
+    const invalidExpiresAt = {
+      metadata: {
+        expiresAt: 'not a number',
+      },
+    };
+    const notAForm = {
+      veteranStatus: {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      },
+    };
+    describe('unhappy path', () => {
+      it('should throw an error when no args are passed', () => {
+        expect(() => sipFormSorter()).to.throw(TypeError, 'plain object');
+      });
+      it('should throw an error when a single invalid object is passed', () => {
+        expect(() => sipFormSorter(notAForm)).to.throw(
+          TypeError,
+          'metadata.expiresAt',
+        );
+      });
+      it('should throw an error when a single valid form is passed', () => {
+        expect(() => sipFormSorter(formA)).to.throw(TypeError, 'plain object');
+      });
+      it('should throw an error when the second arg is a string', () => {
+        expect(() => sipFormSorter(formA, 'not a form')).to.throw(
+          TypeError,
+          'plain object',
+        );
+      });
+      it('should throw an error when the second arg is an array', () => {
+        expect(() => sipFormSorter(formA, [])).to.throw(
+          TypeError,
+          'plain object',
+        );
+      });
+      it('should throw an error when the second arg is a number', () => {
+        expect(() => sipFormSorter(formA, 42)).to.throw(
+          TypeError,
+          'plain object',
+        );
+      });
+      it('should throw an error when the second arg is an invalid object', () => {
+        expect(() => sipFormSorter(formA, notAForm)).to.throw(
+          TypeError,
+          'metadata.expiresAt',
+        );
+      });
+      it('should throw an error when the second arg is an empty object', () => {
+        expect(() => sipFormSorter(formA, {})).to.throw(
+          TypeError,
+          'metadata.expiresAt',
+        );
+      });
+      it('should throw an error when an arg has an invalid value for `metadata.expiresAt`', () => {
+        expect(() => sipFormSorter(formA, invalidExpiresAt)).to.throw(
+          TypeError,
+          'metadata.expiresAt',
+        );
+      });
+    });
+
+    it('should sort forms correctly when used with Array.sort', () => {
+      expect([formA].sort(sipFormSorter)).to.deep.equal([formA]);
+      expect([formA, formB].sort(sipFormSorter)).to.deep.equal([formA, formB]);
+      expect([formB, formA].sort(sipFormSorter)).to.deep.equal([formA, formB]);
+      expect([formB, formC, formA].sort(sipFormSorter)).to.deep.equal([
+        formA,
+        formB,
+        formC,
+      ]);
     });
   });
 });

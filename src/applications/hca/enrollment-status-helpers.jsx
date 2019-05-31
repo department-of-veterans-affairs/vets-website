@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
+import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { getMedicalCenterNameByID } from './helpers';
 import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
@@ -81,7 +82,7 @@ export function getEnrollmentDetails(
   const facilityName = getMedicalCenterNameByID(preferredFacility);
   const blocks = [];
   // add "you applied on" block if the application date is valid
-  if (!isNaN(Date.parse(applicationDate))) {
+  if (isValidDateString(applicationDate)) {
     blocks.push(
       <>
         <strong>You applied on: </strong>
@@ -90,7 +91,7 @@ export function getEnrollmentDetails(
     );
   }
   // add "we enrolled you" block if the enrollment date is valid
-  if (!isNaN(Date.parse(enrollmentDate))) {
+  if (isValidDateString(enrollmentDate)) {
     blocks.push(
       <>
         <strong>We enrolled you on: </strong>
@@ -935,17 +936,42 @@ export function getAlertContent(
       </p>
     </>
   );
-
-  const blocks = [];
-  // start with the "You applied on" info regardless of the enrollmentstatus
-  blocks.push(
-    <p>
-      <strong>You applied on:</strong>{' '}
-      {moment(applicationDate).format('MMMM D, YYYY')}
-    </p>,
+  // this block will be used for "final" enrollment status states: closed,
+  // rejected, enrolled, ineligible
+  const removeNotificationButton = (
+    <button
+      className="va-button-link remove-notification-link"
+      aria-label={`Dismiss health care application status notification`}
+      onClick={dismissNotification}
+    >
+      <i className="fa fa-times" />
+      <span className="remove-notification-label">
+        Remove this notification
+      </span>
+    </button>
   );
 
+  const blocks = [];
+
+  // start with the "You applied on" if the user isn't enrolled in health care
+  if (
+    enrollmentStatus !== HCA_ENROLLMENT_STATUSES.enrolled &&
+    isValidDateString(applicationDate)
+  ) {
+    blocks.push(
+      <p>
+        <strong>You applied on:</strong>{' '}
+        {moment(applicationDate).format('MMMM D, YYYY')}
+      </p>,
+    );
+  }
+
   switch (enrollmentStatus) {
+    case HCA_ENROLLMENT_STATUSES.enrolled:
+      blocks.push(removeNotificationButton);
+
+      break;
+
     case HCA_ENROLLMENT_STATUSES.ineligTrainingOnly:
       blocks.push(
         <p>
@@ -955,7 +981,9 @@ export function getAlertContent(
           months to qualify for VA health care.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
+
       break;
 
     case HCA_ENROLLMENT_STATUSES.ineligNotVerified:
@@ -966,6 +994,7 @@ export function getAlertContent(
           separation papers).
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -977,6 +1006,7 @@ export function getAlertContent(
         </p>,
         whatShouldIDo1,
         whatShouldIDo2,
+        removeNotificationButton,
       );
       break;
 
@@ -988,6 +1018,7 @@ export function getAlertContent(
           meet this service requirement.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1003,6 +1034,7 @@ export function getAlertContent(
           serving at least 24 continuous months on active duty.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1016,6 +1048,7 @@ export function getAlertContent(
           24 months all at once, without a break in service.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1028,6 +1061,7 @@ export function getAlertContent(
           24 months all at once, without a break in service.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1039,6 +1073,7 @@ export function getAlertContent(
           offer services to CHAMPVA recipients.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1049,6 +1084,7 @@ export function getAlertContent(
           needed to complete it within a year.
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1097,6 +1133,7 @@ export function getAlertContent(
           </a>
         </p>,
         whatShouldIDo1,
+        removeNotificationButton,
       );
       break;
 
@@ -1121,25 +1158,12 @@ export function getAlertContent(
     case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
     case HCA_ENROLLMENT_STATUSES.ineligOver65:
     case HCA_ENROLLMENT_STATUSES.ineligOther:
-      blocks.push(whatShouldIDo1);
+      blocks.push(whatShouldIDo1, removeNotificationButton);
       break;
 
     default:
       break;
   }
 
-  // add the Remove this notification button regardless of the enrollmentstatus
-  blocks.push(
-    <button
-      className="va-button-link remove-notification-link"
-      aria-label={`Dismiss health care application status notification`}
-      onClick={dismissNotification}
-    >
-      <i className="fa fa-times" />
-      <span className="remove-notification-label">
-        Remove this notification
-      </span>
-    </button>,
-  );
   return blocks;
 }
