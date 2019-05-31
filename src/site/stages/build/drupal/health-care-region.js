@@ -15,6 +15,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const locObj = {
     mainFacilities: page.mainFacilities,
     otherFacilities: page.otherFacilities,
+    fieldOtherVaLocations: page.fieldOtherVaLocations,
     fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
     facilitySidebar: sidebar,
     entityUrl: locEntityUrl,
