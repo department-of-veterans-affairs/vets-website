@@ -34,6 +34,7 @@ import schemas from 'vets-json-schema/dist/schemas';
 const schemaToConfigIds = {
   '10-10EZ': '1010ez',
   '21-526EZ': '21-526EZ',
+  '21-526EZ-ALLCLAIMS': '21-526EZ-ALLCLAIMS',
   '21-686C': '21-686C',
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
@@ -54,13 +55,7 @@ const schemaToConfigIds = {
   vaMedicalFacilities: 'N/A',
 };
 
-const excludedForms = new Set([
-  '28-1900',
-  '28-8832',
-  '24-0296',
-  '21-4142',
-  '21-526EZ-ALLCLAIMS', // TODO: remove this when we can?
-]);
+const excludedForms = new Set(['28-1900', '28-8832', '24-0296', '21-4142']);
 
 describe('profile helpers:', () => {
   describe('formTitles', () => {
