@@ -17,7 +17,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 import { displayActiveDutyStem } from '../helpers';
 import { benefitsLabels } from '../../utils/labels';
 
-import { activeDuty } from '../pages';
+import { stem, activeDuty } from '../pages';
 
 const {
   benefit,
@@ -65,6 +65,16 @@ export const newChapters = {
             benefit,
           },
         },
+      },
+      // related to 1995-STEM
+      stem: {
+        title: 'Education benefit',
+        path: 'benefits/stem',
+        depends: {
+          benefit: 'chapter33',
+        },
+        uiSchema: stem.uiSchema,
+        schema: stem.schema,
       },
     },
   },
