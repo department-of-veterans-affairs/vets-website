@@ -44,10 +44,6 @@ const runTest = async (page, testData, testConfig, userToken, testName) => {
     testConfig,
     getLogger(testConfig.debug, testName),
   );
-
-  // TODO: Check for unused data
-  // TODO: Submit
-  //   - Configurable; we may not always want to submit
 };
 
 /**
