@@ -14,9 +14,9 @@ function initDocumentUploadMock() {
   });
 }
 
-function initApplicationSubmitMock() {
-  mock(null, {
-    path: '/v0/21-526EZ',
+function initApplicationSubmitMock(token) {
+  mock(token, {
+    path: '/v0/disability_compensation_form/submit_all_claim',
     verb: 'post',
     value: {
       data: {

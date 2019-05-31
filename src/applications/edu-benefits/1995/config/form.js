@@ -1,6 +1,7 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
-import { transform } from '../helpers';
+import { transform as oldTransform } from '../helpers';
+import { transform } from '../submit-transformer';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -35,7 +36,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  transformForSubmit: transform,
+  transformForSubmit: environment.isProduction() ? oldTransform : transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
