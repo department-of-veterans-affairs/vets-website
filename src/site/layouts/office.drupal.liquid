@@ -20,8 +20,8 @@
         </div>
         {% endif %}
 
-        <article class="usa-content">
-          <div class="usa-grid usa-grid-full">
+        <article class="vads-l-grid-container--full">
+          <div class="vads-l-grid-container--full">
             <h1>{{ title }}</h1>
             <div class="vads-l-grid-container--full">
               {{ fieldDescription }}
@@ -32,10 +32,13 @@
               <form class="usa-form outreach-asset-form-filters">
                 <div class="vads-l-grid-container">
                   <div class="vads-l-row vads-u-justify-content--space-between">
-                    <div class="vads-l-col--6">
+                    <div class="vads-l-col--12
+                medium-screen:vads-l-col--6
+                small-desktop-screen:vads-l-col--6
+                large-screen:vads-l-col--6">
                       <label for="outreach-topic">Select a topic</label>
-                      <select class="usa-select" name="outreach-topic"
-                        id="outreach-topic">
+                      <select class="vads-u-max-width--100 usa-select"
+                        name="outreach-topic" id="outreach-topic">
                         <option value="select">- All topics -</option>
                         <option value="general">General Benefits Information
                         </option>
@@ -56,10 +59,13 @@
                         <option value="records">Records</option>
                       </select>
                     </div>
-                    <div class="vads-l-col--4">
+                    <div class="vads-l-col--12
+                medium-screen:vads-l-col--4
+                small-desktop-screen:vads-l-col--4
+                large-screen:vads-l-col--4">
                       <label for="outreach-type">View file type</label>
-                      <select class="usa-select" name="outreach-type"
-                        id="outreach-type">
+                      <select class="vads-u-max-width--100 usa-select"
+                        name="outreach-type" id="outreach-type">
                         <option value="select">- All types -</option>
                         <option value="video">Video</option>
                         <option value="social_share">Social share images, text,
@@ -85,7 +91,11 @@
               <div data-topic="{{entity.fieldBenefits}}"
                 {{entity.fieldBenefits | breakIntoSingles}}
                 data-type="{{entity.fieldFormat}}" data-number={{forloop.index}}
-                class="vads-l-col--6 vads-u-padding-right--4 vads-u-padding-bottom--4 asset-card show-type show-topic">
+                class="vads-l-col--12
+                medium-screen:vads-l-col--6
+                small-desktop-screen:vads-l-col--6
+                large-screen:vads-l-col--6
+                vads-u-padding-right--4 vads-u-padding-bottom--4 asset-card show-type show-topic">
                 <div
                   class="asset-head-wrap {{entity.fieldMedia.entity.entityBundle}}-asset-wrap">
                   {% if entity.fieldMedia.entity.entityBundle == 'image' %}
@@ -162,23 +172,31 @@
 
           {% if title == 'Benefit Materials' %}
           <div class="va-pagination">
-            <span class="max-control">
-              <a id="first-click">First</a>
+            <span class="vads-u-display--none
+              medium-screen::vads-u-display--block
+              small-desktop-screen:vads-u-display--block
+              large-screen:vads-u-display--block max-control">
+              <button class="va-button-link" id="first-click">First</button>
             </span>
             <span class="va-pagination-prev">
-              <a id="pager-previous-click"
-                aria-label="Load previous page undefined" tabindex="0">Prev</a>
+              <button class="va-button-link" id="pager-previous-click"
+                aria-label="Load previous page undefined"
+                tabindex="0">Prev</button>
             </span>
             <div id="pager-nums-insert" class="va-pagination-inner">
-              <a id="va-pagination-active-num"
-                class="pager-item-link va-pagination-active" tabindex="0">1</a>
+              <button id="va-pagination-active-num"
+                class="va-page-numbers va-pagination-active"
+                tabindex="0">1</button>
             </div>
             <span class="va-pagination-next">
-              <a id="pager-next-click" aria-label="Load next page undefined"
-                tabindex="0">Next</a>
+              <button class="va-button-link" id="pager-next-click"
+                aria-label="Load next page" tabindex="0">Next</button>
             </span>
-            <span class="max-control">
-              <a id="last-click">Last</a>
+            <span class="vads-u-display--none
+              medium-screen::vads-u-display--block
+              small-desktop-screen:vads-u-display--block
+              large-screen:vads-u-display--block max-control">
+              <button class="va-button-link" id="last-click">Last</button>
             </span>
           </div>
           <div id="total-pages-div">

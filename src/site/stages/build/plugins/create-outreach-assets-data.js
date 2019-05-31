@@ -49,10 +49,7 @@ function createOutreachAssetsData(buildSettings) {
       entity.derivedFields = { absoluteUrl, fileSize };
     }
 
-    const serializedOutreachAssets = JSON.stringify(outreachAssets, null, 2);
-
     metalsmith.metadata({
-      outreachAssetsData: serializedOutreachAssets,
       outreachAssetsDataArray: outreachAssets,
     });
 
