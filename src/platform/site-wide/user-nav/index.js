@@ -1,6 +1,6 @@
 /**
  * This application creates a widget for the
- * search, help, and sign-in header navigation on Vets.gov
+ * search, help, and sign-in header navigation on VA.gov
  *
  * @module platform/site-wide/login
  */
