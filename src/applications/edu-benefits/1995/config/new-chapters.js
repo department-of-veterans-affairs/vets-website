@@ -14,9 +14,10 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
+import { displayActiveDutyStem } from '../helpers';
 import { benefitsLabels } from '../../utils/labels';
 
-import { stem } from '../pages';
+import { stem, activeDuty } from '../pages';
 
 const {
   benefit,
@@ -49,7 +50,6 @@ export const newChapters = {
       benefitSelection: {
         title: 'Education benefit',
         path: 'benefits/eligibility',
-        initialData: {},
         uiSchema: {
           benefit: {
             'ui:widget': 'radio',
@@ -81,10 +81,18 @@ export const newChapters = {
   militaryService: {
     title: 'Military History',
     pages: {
+      // 1995-STEM related
+      activeDuty: {
+        title: 'Active Duty',
+        path: 'active-duty',
+        depends: displayActiveDutyStem,
+        uiSchema: activeDuty.uiSchema,
+        schema: activeDuty.schema,
+      },
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        initialData: {},
+        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -108,7 +116,7 @@ export const newChapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        initialData: {},
+        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
@@ -192,7 +200,6 @@ export const newChapters = {
       dependents: {
         title: 'Dependents',
         path: 'personal-information/dependents',
-        initialData: {},
         depends: {
           'view:hasServiceBefore1978': true,
         },

@@ -1,6 +1,6 @@
 # User Profile Frontend
 
-The react/redux frontend for the Vets.gov user profile.
+The react/redux frontend for the VA.gov user profile.
 
 ## Install
 
