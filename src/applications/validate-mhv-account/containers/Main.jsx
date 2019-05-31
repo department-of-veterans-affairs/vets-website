@@ -12,7 +12,7 @@ import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
 /**
  * This is the parent component for the MyHealtheVet Account validation app.
  * It handles redirects based on detected changes to accountState.  The indexRoute ('/')
- * mounts the ValidateMHVAccount component which handles re-fetching the MHV account
+ * mounts the ValidateMHVAccount component which handles refetching the MHV account
  * and redirecting in case of errors.
  */
 class Main extends React.Component {
