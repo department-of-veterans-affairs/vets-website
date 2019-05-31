@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const MessageTemplate = ({ content }) => (
   <div className="row">
-    <div className="usa-content columns medium-9 vads-u-padding--5">
+    <div className="usa-content columns medium-9">
       <h1>{content.heading}</h1>
       {content.alertContent && (
         <AlertBox

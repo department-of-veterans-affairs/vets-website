@@ -9,6 +9,12 @@ import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
 
+/**
+ * This is the parent component for the MyHealtheVet Account validation app.
+ * It handles redirects based on detected changes to accountState.  The indexRoute ('/')
+ * mounts the ValidateMHVAccount component which handles re-fetching the MHV account
+ * and redirecting in case of errors.
+ */
 class Main extends React.Component {
   componentDidUpdate(prevProps) {
     const {
@@ -29,8 +35,9 @@ class Main extends React.Component {
       }
 
       // If a successful verification originated from this flow, the user will
-      // be redirected back to '/verify' after.  Instead of showing the verify message
-      // redirect them to '/' to re-check their MHV account status
+      // be redirected back to '/health-care/my-health-account-validation/verify' after.
+      // Instead of showing the verify message, redirect them to '/' to re-check their
+      // MHV account status.
       if (pathname === '/verify' && profile.verified) {
         router.replace('/');
       }
@@ -96,7 +103,7 @@ class Main extends React.Component {
 
     return (
       <div className="row">
-        <div className="vads-u-padding-bottom--5">{content}</div>
+        <div className="vads-u-padding--5">{content}</div>
       </div>
     );
   }
