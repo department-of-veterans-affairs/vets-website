@@ -1011,6 +1011,7 @@ export function getAlertContent(
       break;
 
     case HCA_ENROLLMENT_STATUSES.ineligCitizens:
+    case HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts:
       blocks.push(
         <p>
           Our records show that you didn't serve in the U.S. military or an
@@ -1023,6 +1024,7 @@ export function getAlertContent(
       break;
 
     case HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry:
+    case HCA_ENROLLMENT_STATUSES.rejectedRightEntry:
     case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
       blocks.push(
         <p>
