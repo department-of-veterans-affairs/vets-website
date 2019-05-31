@@ -228,8 +228,20 @@ const mapStateToProps = state => {
     .concat(claimsV2Root.claims)
     .filter(c => {
       let updateDate;
+      let evssPhaseChangeDate;
+      let evssUpdatedAtDate;
       if (c.type === 'evss_claims') {
-        updateDate = c.attributes.phaseChangeDate || c.attributes.updatedAt;
+        evssPhaseChangeDate = c.attributes.phaseChangeDate;
+        evssUpdatedAtDate = c.attributes.updatedAt;
+        if (evssPhaseChangeDate && evssUpdatedAtDate) {
+          updateDate = moment(evssPhaseChangeDate).isAfter(
+            moment(evssUpdatedAtDate),
+          )
+            ? evssPhaseChangeDate
+            : evssUpdatedAtDate;
+        } else {
+          updateDate = evssPhaseChangeDate || evssUpdatedAtDate;
+        }
       } else {
         updateDate = c.attributes.updated;
       }
