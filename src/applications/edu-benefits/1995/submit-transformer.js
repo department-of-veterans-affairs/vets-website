@@ -16,11 +16,15 @@ export function transform(formConfig, form) {
         address: formData.newSchoolAddress,
       },
     };
+    return clonedData;
+  };
+
+  const fryScholarshipTransform = formData => {
     // 1995-STEM related
+    const clonedData = _.cloneDeep(formData);
     if (clonedData.benefit === 'fryScholarship') {
       clonedData.benefit = 'chapter33';
     }
-
     return clonedData;
   };
 
@@ -30,6 +34,7 @@ export function transform(formConfig, form) {
 
   const transformedData = [
     newSchoolTransform,
+    fryScholarshipTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
