@@ -112,6 +112,7 @@ class SchemaForm extends React.Component {
       uploadFile,
       hideHeaderRow,
       formContext,
+      trackingPrefix,
     } = props;
     return {
       formContext: Object.assign(
@@ -128,6 +129,7 @@ class SchemaForm extends React.Component {
           hideHeaderRow,
           uploadFile,
           onError: this.onError,
+          trackingPrefix,
         },
         formContext,
       ),
