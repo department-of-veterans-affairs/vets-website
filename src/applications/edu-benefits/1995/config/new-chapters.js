@@ -17,7 +17,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 import { displayActiveDutyStem } from '../helpers';
 import { benefitsLabels } from '../../utils/labels';
 
-import { activeDuty } from '../pages';
+import { activeDuty, benefitSelection } from '../pages';
 
 const {
   benefit,
@@ -25,6 +25,9 @@ const {
   educationObjective,
   nonVaAssistance,
 } = fullSchema1995.properties;
+
+// 1995-STEM related
+benefit.enum.splice(1, 0, 'fryScholarship');
 
 const { educationType, serviceBefore1977 } = fullSchema1995.definitions;
 
@@ -50,21 +53,8 @@ export const newChapters = {
       benefitSelection: {
         title: 'Education benefit',
         path: 'benefits/eligibility',
-        uiSchema: {
-          benefit: {
-            'ui:widget': 'radio',
-            'ui:title': 'Which benefit are you currently using?',
-            'ui:options': {
-              labels: benefitsLabels,
-            },
-          },
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            benefit,
-          },
-        },
+        uiSchema: benefitSelection.uiSchema,
+        schema: benefitSelection.schema,
       },
     },
   },

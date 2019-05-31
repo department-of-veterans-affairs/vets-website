@@ -16,6 +16,10 @@ export function transform(formConfig, form) {
         address: formData.newSchoolAddress,
       },
     };
+    // 1995-STEM related
+    if (clonedData.benefit === 'fryScholarship') {
+      clonedData.benefit = 'chapter33';
+    }
 
     return clonedData;
   };
