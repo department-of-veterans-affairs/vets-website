@@ -1,5 +1,5 @@
 /**
- * This application creates a widget for notifying users of new features on Vets.gov
+ * This application creates a widget for notifying users of new features on VA.gov
  *
  * @module platform/site-wide/announcement
  */

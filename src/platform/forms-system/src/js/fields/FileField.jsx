@@ -244,7 +244,8 @@ export default class FileField extends React.Component {
               <label
                 role="button"
                 onKeyPress={e => {
-                  if (e.key === 'Enter') {
+                  e.preventDefault();
+                  if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
                     document.getElementById(idSchema.$id).click();
                   }
                 }}

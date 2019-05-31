@@ -390,6 +390,40 @@ function initEnrollmentStatusMock(token = null) {
   });
 }
 
+function initEnrollmentStatusMock404(token = null) {
+  mock(token, {
+    path: '/v0/health_care_applications/enrollment_status',
+    verb: 'get',
+    value: {
+      errors: [
+        {
+          title: 'Record not found',
+          detail: 'The record identified by  could not be found',
+          code: '404',
+          status: '404',
+        },
+      ],
+    },
+  });
+}
+
+function initEnrollmentStatusMock500(token = null) {
+  mock(token, {
+    path: '/v0/health_care_applications/enrollment_status',
+    verb: 'get',
+    value: {
+      errors: [
+        {
+          title: 'Internal server error',
+          detail: 'Internal server error',
+          code: '500',
+          status: '500',
+        },
+      ],
+    },
+  });
+}
+
 function initSaveInProgressMock(url, client) {
   const token = Auth.getUserToken();
 
@@ -558,5 +592,7 @@ module.exports = {
   completeEntireForm,
   initApplicationSubmitMock,
   initEnrollmentStatusMock,
+  initEnrollmentStatusMock404,
+  initEnrollmentStatusMock500,
   initSaveInProgressMock,
 };
