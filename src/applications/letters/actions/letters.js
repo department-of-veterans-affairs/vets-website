@@ -74,7 +74,11 @@ export function getLetterList(dispatch) {
       } else {
         dispatch({ type: GET_LETTERS_FAILURE });
       }
-      throw new Error(`vets_letters_error_getLetterList: ${status}`);
+
+      Raven.captureException(new Error('vets_letters_error_getLetterList'), {
+        fingerprint: ['{{ default }}', status],
+      });
+      return Promise.reject();
     },
   );
 }
@@ -132,7 +136,9 @@ export function getMailingAddress() {
       response => {
         const status = getStatus(response);
         Raven.captureException(
-          new Error(`vets_letters_error_getMailingAddress: ${status}`),
+          new Error(`vets_letters_error_getMailingAddress`, {
+            fingerprint: ['{{ default }}', status],
+          }),
         );
         return dispatch(getAddressFailure());
       },
@@ -219,7 +225,9 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       response => {
         const status = getStatus(response);
         Raven.captureException(
-          new Error(`vets_letters_error_getLetterPdf_${letterType}: ${status}`),
+          new Error(`vets_letters_error_getLetterPdf_${letterType}`, {
+            fingerprint: ['{{ default }}', status],
+          }),
         );
         return dispatch(getLetterPdfFailure(letterType));
       },
@@ -281,17 +289,18 @@ export function saveAddress(address) {
           response.data.attributes.address,
         );
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
-          const mismatchError = new Error(
-            "letters-address-update addresses don't match",
+          Raven.captureException(
+            new Error("letters-address-update addresses don't match"),
           );
-          Raven.captureException(mismatchError);
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
       response => {
         const status = getStatus(response);
         Raven.captureException(
-          new Error(`vets_letters_error_saveAddress: ${status}`),
+          new Error(`vets_letters_error_saveAddress`, {
+            fingerprint: ['{{ default }}', status],
+          }),
         );
         return dispatch(saveAddressFailure());
       },
@@ -315,7 +324,9 @@ export function getAddressCountries() {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-countries-failure' });
         Raven.captureException(
-          new Error(`vets_letters_error_getAddressCountries: ${status}`),
+          new Error(`vets_letters_error_getAddressCountries`, {
+            fingerprint: ['{{ default }}', status],
+          }),
         );
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
       },
@@ -338,7 +349,9 @@ export function getAddressStates() {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-states-success' });
         Raven.captureException(
-          new Error(`vets_letters_error_getAddressStates: ${status}`),
+          new Error(`vets_letters_error_getAddressStates`, {
+            fingerprint: ['{{ default }}', status],
+          }),
         );
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
       },

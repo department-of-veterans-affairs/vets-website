@@ -22,3 +22,7 @@ export function transform(formConfig, form) {
     },
   });
 }
+
+// 1995-STEM related
+export const displayActiveDutyStem = form =>
+  form.isEnrolledStem || form.isPursuingTeachingCert;
