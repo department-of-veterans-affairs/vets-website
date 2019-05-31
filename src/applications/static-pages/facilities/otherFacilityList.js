@@ -11,9 +11,8 @@ export default async function createOtherFacilityListWidget() {
   if (widgets.length) {
     const {
       default: OtherFacilityListWidget,
-    } = await import(/* webpackChunkName: "facility-locations-list" */ './OtherFacilityListWidget');
+    } = await import(/* webpackChunkName: "other-facility-locations-list" */ './OtherFacilityListWidget');
 
-    // since these widgets are on content pages, we don't want to focus on them
     widgets.forEach(el => {
       ReactDOM.render(
         <OtherFacilityListWidget facilities={el.dataset.facilities} />,
