@@ -25,7 +25,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
 
     const appointmentWaitTimesHeader = tree.find('h3');
     expect(appointmentWaitTimesHeader.text()).to.contain(
-      'Appointment wait times at this location',
+      'Patient wait times',
     );
 
     const facilityAppointmentWaitTimesEffectiveDate = tree.find(
