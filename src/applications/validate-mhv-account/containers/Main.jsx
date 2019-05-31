@@ -13,24 +13,32 @@ class Main extends React.Component {
   componentDidUpdate(prevProps) {
     const {
       loadingProfile,
+      location,
       loggedIn,
       mhvAccount,
+      profile,
       router,
-      location,
     } = this.props;
+
+    const pathname = location.pathname;
     const prevMhvAccount = prevProps.mhvAccount;
 
-    if (prevProps.loadingProfile && !loadingProfile && !loggedIn) {
-      window.location = '/';
+    if (prevProps.loadingProfile && !loadingProfile) {
+      if (!loggedIn) {
+        window.location = '/';
+      }
+
+      // If a successful verification originated from this flow, the user will
+      // be redirected back to '/verify' after.  Instead of showing the verify message
+      // redirect them to '/' to re-check their MHV account status
+      if (pathname === '/verify' && profile.verified) {
+        router.replace('/');
+      }
     }
 
     // If accountState or accountLevel has changed, check if the user's
     // state is valid for MHV, otherwise redirect to index route to recheck
-    if (
-      location.pathname !== '/' &&
-      prevMhvAccount.loading &&
-      !mhvAccount.loading
-    ) {
+    if (pathname !== '/' && prevMhvAccount.loading && !mhvAccount.loading) {
       const { accountLevel, accountState } = mhvAccount;
       const accountLevelChanged = accountLevel !== prevMhvAccount.accountLevel;
       const accountStateChanged = accountState !== prevMhvAccount.accountState;
@@ -77,7 +85,9 @@ class Main extends React.Component {
     let content;
 
     if (location.pathname !== '/' && mhvAccountLoading) {
-      content = <LoadingIndicator setFocus />;
+      content = (
+        <LoadingIndicator message="Loading your health information" setFocus />
+      );
     } else if (!loadingProfile && loggedIn) {
       content = children;
     } else {
