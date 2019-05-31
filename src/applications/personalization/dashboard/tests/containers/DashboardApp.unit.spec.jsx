@@ -108,7 +108,7 @@ describe('<DashboardApp>', () => {
       'We’re having trouble matching your information to our Veteran records',
     );
     expect(tree.toString()).to.not.contain(
-      'Verify your identity to access more Vets.gov tools and features',
+      'Verify your identity to access more VA.gov tools and features',
     );
   });
 });
