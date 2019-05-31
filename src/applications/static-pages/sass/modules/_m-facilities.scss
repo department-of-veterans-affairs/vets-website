@@ -42,3 +42,12 @@ $duo-tone-lighten: #000000;
 .facility-satisfaction-tile {
   width: 147px;
 }
+
+// facility left nav main link color
+.facility-left-nav-main-link {
+  color: #000000;
+
+  &:visited {
+    color: #000000;
+  }
+}
