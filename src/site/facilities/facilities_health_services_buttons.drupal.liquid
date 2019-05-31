@@ -1,12 +1,14 @@
 {% comment %}
     This is used for Facility details pages and (A-Z) Health Services page
 {% endcomment %}
-<div class="usa-width-one-third">
-    <a href="/{{ path }}/make-an-appointment" class="usa-button usa-button-primary">Make an appointment</a>
-</div>
-<div class="usa-width-one-third">
-    <a href="/{{ path }}/become-a-patient" class="usa-button usa-button-primary">Become a patient</a>
-</div>
-<div class="usa-width-one-third">
-    <a  href="/{{ path }}/pharmacy" class="usa-button">Pharmacy</a>
+<div class="vads-l-row vads-u-justify-content--space-between">
+    <div class="medium-screen:vads-l-col--4 vads-l-col--12">
+        <a class="usa-button vads-u-width--full" href="/{{ path }}/make-an-appointment">Make an appointment</a>
+    </div>
+    <div class="medium-screen:vads-l-col--4 vads-l-col--12">
+        <a class="usa-button vads-u-margin-x--0 vads-u-width--full" href="/{{ path }}/become-a-patient">Become a patient</a>
+    </div>
+    <div class="medium-screen:vads-l-col--3 vads-l-col--12 vads-u-text-align--right">
+        <a class="usa-button vads-u-margin-x--0 vads-u-width--full" href="/{{ path }}/pharmacy">Pharmacy</a>
+    </div>
 </div>
