@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
