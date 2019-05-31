@@ -27,6 +27,7 @@ import './social-share-links';
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
+import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -80,6 +81,7 @@ createApplicationStatus(store, {
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 
 createFacilityListWidget();
+createOtherFacilityListWidget();
 createFacilityPage(store);
 createBasicFacilityListWidget();
 

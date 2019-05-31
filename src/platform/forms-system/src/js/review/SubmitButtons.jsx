@@ -47,13 +47,10 @@ export default function SubmitButtons(props) {
         <div className="usa-alert-body">
           <p className="schemaform-warning-header">
             <strong>
-              We’re sorry, there was an error connecting to Vets.gov.
+              We’re sorry, there was an error connecting to VA.gov.
             </strong>
           </p>
-          <p>
-            Please check your Internet connection and try again. If the problem
-            persists, please contact the Vets.gov Help Desk.
-          </p>
+          <p>Please check your Internet connection and try again.</p>
         </div>
       </div>
     );
