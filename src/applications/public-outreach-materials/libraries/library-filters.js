@@ -1,7 +1,7 @@
+const cards = document.querySelectorAll('.asset-card');
 export function libraryFilters(el) {
   sessionStorage.setItem('pageNum', 1);
   const currentPage = sessionStorage.getItem('pageNum');
-  const cards = document.querySelectorAll('.asset-card');
   const pages = Math.ceil(cards.length / 10);
   let activePage;
 
@@ -40,15 +40,26 @@ export function libraryFilters(el) {
     document.getElementById('va-pagination-active-num').innerText =
       activePage === undefined ? 1 : activePage;
   }
+}
+
+export function libraryCount() {
   if (document.getElementById('total-pages')) {
-    document.getElementById('total-pages').innerText = cards.length;
+    const numCards = document.querySelectorAll(
+      '.asset-card:not(.hide-topic):not(.hide-type)',
+    ).length;
+    if (document.getElementById('total-pages')) {
+      document.getElementById('total-pages').innerText =
+        numCards < 0 ? 0 : numCards;
+    }
   }
 }
 
 export function libraryListeners() {
   const typeItem = document.getElementById('outreach-type');
   const pagingEl = document.querySelector('.va-pagination');
-
+  if (document.getElementById('total-pages')) {
+    document.getElementById('total-pages').innerText = cards.length;
+  }
   if (pagingEl) {
     pagingEl.addEventListener('click', libraryFilters);
   }
@@ -76,6 +87,7 @@ export function libraryListeners() {
         });
       }
     });
+    typeItem.addEventListener('change', libraryCount);
   }
 
   const topicItem = document.getElementById('outreach-topic');
@@ -102,5 +114,6 @@ export function libraryListeners() {
         });
       }
     });
+    topicItem.addEventListener('change', libraryCount);
   }
 }
