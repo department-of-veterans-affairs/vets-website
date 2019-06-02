@@ -915,7 +915,7 @@ export function getAlertContent(
 ) {
   // this block will be used for almost every type of enrollmentstatus
   const whatShouldIDo1 = (
-    <p>
+    <p className="not-a-class-is-it">
       If you have questions, please call our enrollment case management team at
       1-877-222-VETS (1-877-222-8387). We’re here Monday through Friday, 8:00
       a.m. to 8:00 p.m. ET.
