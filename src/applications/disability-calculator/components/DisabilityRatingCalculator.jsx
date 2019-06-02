@@ -91,7 +91,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   clearAll = () => {
-    let newRatings = this.state.ratings.map((rating, idx) => ({
+    const newRatings = this.state.ratings.map((rating, idx) => ({
       rating: 0,
       description: '',
       canDelete: idx > 1 ? true : false,
