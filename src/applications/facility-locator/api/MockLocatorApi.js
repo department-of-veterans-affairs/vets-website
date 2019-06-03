@@ -1211,7 +1211,7 @@ export const facilityData = {
       currentPage: 1,
       perPage: 20,
       totalPages: 2,
-      totalEntries: 16,
+      totalEntries: 21,
     },
   },
 };
