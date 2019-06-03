@@ -30,16 +30,27 @@ class ResultsList extends Component {
   }
 
   handlePageSelect = page => {
-    const { currentQuery } = this.props;
-
+    // const { currentQuery } = this.props;
+    // console.log(this.props);
     this.props.searchWithBounds({
-      bounds: currentQuery.bounds,
-      facilityType: currentQuery.facilityType,
-      serviceType: currentQuery.serviceType,
+      bounds: this.props.bounds,
+      facilityType: this.props.facilityType,
+      serviceType: this.props.serviceType,
       page,
     });
+    console.log(this.props);
   };
 
+  // handlePageSelect = page => {
+  //   const { currentQuery } = this.props;
+
+  //   this.props.searchWithBounds({
+  //     bounds: currentQuery.bounds,
+  //     facilityType: currentQuery.facilityType,
+  //     serviceType: currentQuery.serviceType,
+  //     page,
+  //   });
+  // };
   render() {
     const {
       context,
