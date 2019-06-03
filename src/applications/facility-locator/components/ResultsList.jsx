@@ -38,7 +38,6 @@ class ResultsList extends Component {
       serviceType: this.props.serviceType,
       page,
     });
-    console.log(this.props);
   };
 
   // handlePageSelect = page => {
