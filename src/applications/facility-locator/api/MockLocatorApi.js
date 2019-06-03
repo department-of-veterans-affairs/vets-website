@@ -868,6 +868,96 @@ export const facilityData = {
       },
     },
     {
+      id: 'vba_3125',
+      type: 'va_facilities',
+      attributes: {
+        uniqueId: '3143w',
+        name: 'Fort Knox Outbased Office',
+        facilityType: 'va_benefits_facility',
+        classification: 'Outbased',
+        website: 'NULL',
+        lat: 39.6924384001,
+        long: -77.13654307,
+        address: {
+          mailing: {},
+          physical: {
+            zip: '22060',
+            city: 'Fort Belvoir',
+            state: 'VA',
+            address1: '34 Farrell Road',
+            address2: 'Room NS 104',
+            address3: null,
+          },
+        },
+        phone: {
+          fax: '215-991-1442',
+          main: '301-400-2463',
+        },
+        hours: {
+          friday: '7:00AM-3:30PM',
+          monday: '7:00AM-3:30PM',
+          sunday: 'Closed',
+          tuesday: '7:00AM-3:30PM',
+          saturday: 'Closed',
+          thursday: '7:00AM-3:30PM',
+          wednesday: '7:00AM-3:30PM',
+        },
+        services: {
+          benefits: {
+            other: null,
+            standard: [],
+          },
+        },
+        feedback: {},
+        access: {},
+      },
+    },
+    {
+      id: 'vba_5414w',
+      type: 'va_facilities',
+      attributes: {
+        uniqueId: '454s',
+        name: 'Fort Brooklyn Outbased Office',
+        facilityType: 'va_benefits_facility',
+        classification: 'Outbased',
+        website: 'NULL',
+        lat: 37.6924387600001,
+        long: -78.13654307,
+        address: {
+          mailing: {},
+          physical: {
+            zip: '22060',
+            city: 'Fort Belvoir',
+            state: 'VA',
+            address1: '808 Farrell Road',
+            address2: 'Room NS 104',
+            address3: null,
+          },
+        },
+        phone: {
+          fax: '215-991-1442',
+          main: '301-400-2463',
+        },
+        hours: {
+          friday: '7:00AM-3:30PM',
+          monday: '7:00AM-3:30PM',
+          sunday: 'Closed',
+          tuesday: '7:00AM-3:30PM',
+          saturday: 'Closed',
+          thursday: '7:00AM-3:30PM',
+          wednesday: '7:00AM-3:30PM',
+        },
+        services: {
+          benefits: {
+            other: null,
+            standard: [],
+          },
+        },
+        feedback: {},
+        access: {},
+      },
+    },
+    {
       id: 'vba_372d',
       type: 'va_facilities',
       attributes: {
@@ -1120,7 +1210,7 @@ export const facilityData = {
     pagination: {
       currentPage: 1,
       perPage: 20,
-      totalPages: 1,
+      totalPages: 2,
       totalEntries: 16,
     },
   },
