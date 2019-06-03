@@ -14,6 +14,7 @@ const reactWidget = require('./paragraph-fragments/reactWidget.paragraph.graphql
 const spanishSummary = require('./paragraph-fragments/spanishSummary.paragraph.graphql');
 const numberCallout = require('./paragraph-fragments/numberCallout.paragraph.graphql');
 const alertParagraph = require('./paragraph-fragments/alert.paragraph.graphql');
+const table = require('./paragraph-fragments/table.paragraph.graphql');
 
 module.exports = `
   ${alert}
@@ -30,4 +31,5 @@ module.exports = `
   ${spanishSummary}
   ${numberCallout}
   ${alertParagraph}
+  ${table}
 `;

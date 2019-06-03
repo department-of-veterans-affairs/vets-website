@@ -495,7 +495,9 @@ export function transform(formConfig, form) {
             .join(),
           underDoctorHopitalCarePast12M:
             unemployability.underDoctorsCare || unemployability.hospitalized,
-          mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+          mostEarningsInAYear: (
+            unemployability.mostEarningsInAYear || ''
+          ).toString(),
           disabilityPreventMilitaryDuties:
             unemployability.disabilityPreventMilitaryDuties === 'yes',
         },
