@@ -38,10 +38,6 @@ class ResultsList extends Component {
       serviceType: currentQuery.serviceType,
       page,
     });
-
-    this.props.updateUrlParams({
-      page,
-    });
   };
 
   render() {

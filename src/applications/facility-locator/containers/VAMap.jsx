@@ -94,6 +94,7 @@ class VAMap extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
+    let resultsPage = newQuery.currentPage;
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
@@ -104,6 +105,14 @@ class VAMap extends Component {
         context: newQuery.context,
         address: newQuery.searchString,
       });
+    }
+
+    // Reset to page 1 if zoom level changes
+    if (
+      currentQuery.zoomLevel !== newQuery.zoomLevel &&
+      currentQuery.currentPage !== 1
+    ) {
+      resultsPage = 1;
     }
 
     /*
@@ -147,6 +156,7 @@ class VAMap extends Component {
         bounds: newQuery.bounds,
         facilityType: newQuery.facilityType,
         serviceType: newQuery.serviceType,
+        page: resultsPage,
       });
     }
 
@@ -303,7 +313,6 @@ class VAMap extends Component {
     const { currentQuery } = this.props;
     this.updateUrlParams({
       address: currentQuery.searchString,
-      page: 1,
     });
 
     this.props.genBBoxFromAddress(currentQuery);
