@@ -20,23 +20,23 @@
         </div>
         {% endif %}
 
-        <article class="vads-l-grid-container--full">
-          <div class="vads-l-grid-container--full">
+        <article class="vads-l-grid-container--full--full">
+          <div class="vads-l-grid-container--full--full">
             <h1>{{ title }}</h1>
-            <div class="vads-l-grid-container--full">
+            <div class="vads-l-grid-container--full--full">
               {{ fieldDescription }}
               {% if title == 'Events' %}
               {% include 'src/site/components/events_list.drupal.liquid' %}
               {% endif %}
               {% if title == 'Benefit Materials' %}
               <form class="usa-form outreach-asset-form-filters">
-                <div class="vads-l-grid-container">
+                <div class="vads-l-grid-container--full">
                   <div class="vads-l-row vads-u-justify-content--space-between">
                     <div class="vads-l-col--12
                 medium-screen:vads-l-col--6
                 small-desktop-screen:vads-l-col--6
                 large-screen:vads-l-col--6">
-                      <label for="outreach-topic">Select a topic</label>
+                      <label class="vads-u-margin-top--0" for="outreach-topic">Select a topic</label>
                       <select class="vads-u-max-width--100 usa-select"
                         name="outreach-topic" id="outreach-topic">
                         <option value="select">- All topics -</option>
@@ -63,7 +63,7 @@
                 medium-screen:vads-l-col--4
                 small-desktop-screen:vads-l-col--4
                 large-screen:vads-l-col--4">
-                      <label for="outreach-type">View file type</label>
+                      <label class="vads-u-margin-top--0" for="outreach-type">View file type</label>
                       <select class="vads-u-max-width--100 usa-select"
                         name="outreach-type" id="outreach-type">
                         <option value="select">- All types -</option>
@@ -83,7 +83,7 @@
             </div>
 
             {% if title == 'Benefit Materials' %}
-            <div class="vads-l-grid-container--full asset-component-library"
+            <div class="vads-l-grid-container--full--full asset-component-library"
               id="search-entry">
 
               {% for entity in outreachAssetsDataArray.entities %}
@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="asset-body-wrap">
-                  <h3 class="asset-body-header">
+                  <h3 class="asset-body-header vads-u-margin-y--0">
                     {{entity.title| truncate: 36}}</h3>
                   <div class="asset-body-text">
                     {{entity.fieldDescription | truncate: 81 }}</div>
