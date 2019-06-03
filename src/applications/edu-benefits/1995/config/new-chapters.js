@@ -16,7 +16,7 @@ import createApplicantInformationPage from '../../../../platform/forms/pages/app
 import { showSchoolAddress } from '../../utils/helpers';
 import { displayActiveDutyStem } from '../helpers';
 
-import { activeDuty, benefitSelection } from '../pages';
+import { activeDuty, benefitSelection, stem } from '../pages';
 
 const {
   benefit,
@@ -54,6 +54,16 @@ export const newChapters = {
         path: 'benefits/eligibility',
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
+      },
+      // related to 1995-STEM
+      stem: {
+        title: 'Education benefit',
+        path: 'benefits/stem',
+        depends: {
+          benefit: 'chapter33',
+        },
+        uiSchema: stem.uiSchema,
+        schema: stem.schema,
       },
     },
   },

@@ -10,6 +10,12 @@ const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRe
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
+
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
@@ -85,9 +91,14 @@ module.exports = `
     }
     ${healthCareStaffBios}
     ${healthCareLocalFacilities}
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS]
+        ? 'fieldOtherVaLocations'
+        : ''
+    }
     fieldIntroTextNewsStories {
       processed
-    }
+    }    
     ${healthCareRegionNewsStories}
     fieldIntroTextEventsPage {
       processed

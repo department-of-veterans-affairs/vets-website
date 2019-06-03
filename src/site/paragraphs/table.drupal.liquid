@@ -1,0 +1,61 @@
+{% comment %}
+    Example data:
+    entity: {
+        "entityId": "3944",
+        "fieldTable": {
+            "tableValue": "Row 1 Column 1 Row 1 Column 2 Row 1 Column 3 Row 2 Column 1 Row 2 Column 2 Row 2 Column 3 Row 3 Column 1 Row 3 Column 2 Row 3 Column 3",
+            "value": {
+                "0": [
+                "Row 1 Column 1",
+                "Row 1 Column 2",
+                "Row 1 Column 3"
+                ],
+                "1": [
+                "Row 2 Column 1",
+                "Row 2 Column 2",
+                "Row 2 Column 3"
+                ],
+                "2": [
+                "Row 3 Column 1",
+                "Row 3 Column 2",
+                "Row 3 Column 3"
+                ],
+            }
+            "format": "rich_text",
+            "caption": "Test Table"
+        }
+    }
+{% endcomment %}
+
+
+<table class="va-table">
+
+    {% if entity.fieldTable.caption %}
+        <caption>{{ entity.fieldTable.caption }}</caption>
+    {% endif %}
+
+    {% for value in entity.fieldTable.value %}
+        {% if forloop.first == true %}
+            <thead>
+                <tr>
+                    {% for column in value %}
+                        {% if column %}
+                            <th>{{ column }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+        {% elsif forloop.last == false %}
+            <tbody>
+                <tr class="class">
+                    {% for column in value %}
+                        {% if column %}
+                            <td>{{ column }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        {% endif %}
+    {% endfor %}
+
+</table>

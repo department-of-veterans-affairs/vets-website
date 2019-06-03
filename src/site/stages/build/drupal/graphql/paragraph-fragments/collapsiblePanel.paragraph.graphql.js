@@ -16,6 +16,11 @@ module.exports = `
             fieldWysiwyg {
               processed
             }
+            fieldVaParagraphs {
+              entity {
+                ... table
+              }
+            }
           }
         }
       }
