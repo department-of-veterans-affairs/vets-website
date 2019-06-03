@@ -30,8 +30,6 @@ class ResultsList extends Component {
   }
 
   handlePageSelect = page => {
-    // const { currentQuery } = this.props;
-    // console.log(this.props);
     this.props.searchWithBounds({
       bounds: this.props.bounds,
       facilityType: this.props.facilityType,
@@ -40,16 +38,6 @@ class ResultsList extends Component {
     });
   };
 
-  // handlePageSelect = page => {
-  //   const { currentQuery } = this.props;
-
-  //   this.props.searchWithBounds({
-  //     bounds: currentQuery.bounds,
-  //     facilityType: currentQuery.facilityType,
-  //     serviceType: currentQuery.serviceType,
-  //     page,
-  //   });
-  // };
   render() {
     const {
       context,
