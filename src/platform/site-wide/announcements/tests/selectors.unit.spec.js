@@ -69,14 +69,30 @@ describe('selectAnnouncement', () => {
     expect(result.name).to.be.equal('dummy3');
   });
 
-  it('returns null when a matched annoucement has been dismissed', () => {
+  it('returns undefined when a matched annoucement has been dismissed', () => {
     state.announcements.dismissed.push('dummy3');
     const result = selectors.selectAnnouncement(
       state,
       config,
       '/some-route-3/',
     );
-    expect(result).to.be.null;
+    expect(result).to.be.undefined;
+  });
+
+  it('returns the next matched announcement when the first matched annoucement has been dismissed', () => {
+    state.announcements.dismissed.push('dummy3');
+
+    config.announcements.push({
+      name: 'dummy3-conflict',
+      paths: /^(\/some-route-3\/)$/,
+    });
+
+    const result = selectors.selectAnnouncement(
+      state,
+      config,
+      '/some-route-3/',
+    );
+    expect(result.name).to.be.equal('dummy3-conflict');
   });
 
   it('bypasses disabled announcements and looks instead for the next match', () => {
