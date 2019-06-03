@@ -12,9 +12,9 @@ export const RatingRow = props => {
   const indx = props.indx;
   const handleChange = props.handleChange;
   // eslint-disable-next-line no-console
-  console.log(ratingObj);
+  // console.log(ratingObj);
   return (
-    <div className="rating vads-l-row" key={Date.now()}>
+    <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
         <input
           type="text"

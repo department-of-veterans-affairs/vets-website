@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
 import { calculateRating, roundRating } from '../utils/helpers';
-import '../sass/disability-calculator.scss';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
 
@@ -20,19 +19,14 @@ export default class DisabilityRatingCalculator extends React.Component {
           description: '',
           canDelete: false,
         },
-        {
-          rating: 0,
-          description: '',
-          canDelete: true,
-        },
       ],
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(
-      this,
-    );
-    this.handleAddRating = this.handleAddRating.bind(this);
-    this.handleRemoveRating = this.handleRemoveRating.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(
+    //   this,
+    // );
+    // this.handleAddRating = this.handleAddRating.bind(this);
+    // this.handleRemoveRating = this.handleRemoveRating.bind(this);
     this.ratingRef = React.createRef();
   }
 
@@ -62,26 +56,31 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleSubmit = evt => {
-    const { ratings } = this.state;
-    console.log('Your VA disability rating is ', calculateRating(ratings), '%');
+    // const { ratings } = this.state.ratings;
+    console.log('this.state: ' + this.state.ratings);
+    console.log(
+      'Your VA disability rating is ',
+      calculateRating(this.state.ratings),
+      '%',
+    );
     // eslint-disable-next-line no-alert
-    alert(`Your VA disability rating is ${calculateRating(ratings)} %`);
+    // alert(
+    //   `Your VA disability rating is ${calculateRating(this.state.ratings)} %`,
+    // );
     // return calculateRating(ratings);
   };
 
   handleAddRating = evt => {
-    let rating = evt.target.value;
     console.log(this.state.ratings);
     const newRatings = [
       ...this.state.ratings,
       {
         rating: 0,
         description: '',
-        canDelete: this.state.ratings.length > 2 ? true : false,
+        canDelete: this.state.ratings.length > 1,
       },
     ];
     this.setState({ ratings: newRatings }, () => console.log(this.state));
-    // this.setState({ ratings: [...this.state.ratings, rating] });
   };
 
   handleRemoveRating = idx => () => {
@@ -90,13 +89,22 @@ export default class DisabilityRatingCalculator extends React.Component {
     });
   };
 
+  // clearAll = () => {
+  //   const newRatings = this.state.ratings.map((rating, idx) => ({
+  //     rating: 0,
+  //     description: '',
+  //     canDelete: idx > 1 ? true : false,
+  //   }));
+  //   this.setState({ ratings: newRatings });
+  // };
+
   clearAll = () => {
-    const newRatings = this.state.ratings.map((rating, idx) => ({
-      rating: 0,
-      description: '',
-      canDelete: idx > 1 ? true : false,
-    }));
-    this.setState({ ratings: newRatings });
+    this.setState({
+      ratings: [
+        { rating: 0, description: '', canDelete: false },
+        { rating: 0, description: '', canDelete: false },
+      ],
+    });
   };
 
   render() {
@@ -154,7 +162,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               </div>
             </div>
           </div>
-          {/* </form> */}
+          <p>Your VA disability rating is {calculateRating(ratings)} %</p>
         </div>
       </div>
     );

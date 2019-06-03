@@ -14,6 +14,7 @@ function isNaN(arr) {
     // eslint-disable-next-line no-console
     console.log('isNaN: ' + arr);
   }
+  console.log('isNaN is done: ' + arr);
   return arr;
 }
 
@@ -25,24 +26,28 @@ function checkForPercent(e) {
       element.splice(i, 1);
     }
   }
+  // eslint-disable-next-line radix
   return parseInt(element.join(''));
 }
 
-// list of ratings
-const ratingArray = [20, NaN, 30, 10];
+function pullRatingsFromState(arr) {
+  const allRatings = [];
+  arr.forEach(e => {
+    allRatings.push(e.rating);
+  });
+  return allRatings;
+}
 
-// main calculation function
-// eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
-  const checkIfRatingsAreNumbers = isNaN(arr);
+  const ratingArr = pullRatingsFromState(arr);
+  const checkIfRatingsAreNumbers = isNaN(ratingArr);
 
-  let sortedArr = checkIfRatingsAreNumbers.sort((a, b) => {
+  const sortedArr = checkIfRatingsAreNumbers.sort((a, b) => {
     return b - a;
   });
   // eslint-disable-next-line one-var
   let a, b, x;
 
-  // eslint-disable-next-line no-console
   console.log('sortedArr: ' + sortedArr);
   while (sortedArr.length > 1) {
     console.log(sortedArr);
