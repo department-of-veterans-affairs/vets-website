@@ -12,15 +12,16 @@ const helpClicked = () =>
 
 export const disabilitiesDescription = (
   <div>
-    <h5>Rated, service-connected and new disabilities</h5>
+    <h5>Rated, service-connected, and new disabilities</h5>
     <p>
       Individual unemployability is awarded based on service-connected
       disabilities.
     </p>
     <p>
-      Below are your rated, service-connected disabilities, and new disabilities
+      Below are the rated, service-connected disabilities, and new disabilities
       you’re claiming. Please choose the disability or disabilities that prevent
-      you from getting a steady job (substantially gainful employment).
+      you from getting and keeping a steady job (substantially gainful
+      employment).
     </p>
     <AdditionalInfo
       triggerText="What’s substantially gainful employment?"
@@ -45,7 +46,7 @@ export const disabilitiesDescription = (
 export const helpDescription = (
   <div>
     <p>
-      <strong>Please note:</strong> If you expect to see something that is not
+      <strong>Please note:</strong> If you expect to see something that isn’t
       included in this list or if you have other questions about your claim,
       contact: 877-222-VETS (877-222-8387), Monday – Friday, 8:00 a.m. – 8:00
       p.m. ET.
