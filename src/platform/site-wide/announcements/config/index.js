@@ -3,6 +3,7 @@ import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+import MissionAct from '../components/MissionAct';
 
 const config = {
   announcements: [
@@ -17,6 +18,11 @@ const config = {
       name: 'welcome-to-new-va',
       paths: /^\/$/,
       component: WelcomeToNewVAModal,
+    },
+    {
+      name: 'mission-act',
+      paths: /^\/$/,
+      component: MissionAct,
     },
     {
       name: 'find-benefits-intro',
