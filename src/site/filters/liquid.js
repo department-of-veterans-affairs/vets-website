@@ -197,33 +197,4 @@ module.exports = function registerFilters() {
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
   liquid.filters.isContactPage = path => path.includes('contact');
-
-  // TODO: these are totally hacky and unpredictable
-  liquid.filters.facilitySidebarName = name => {
-    if (name.toLowerCase().includes('health care')) {
-      const splitName = name.split(' ');
-      const topName = [];
-      const bottomName = [];
-      let healthFound = false;
-      splitName.forEach(word => {
-        if (healthFound) {
-          bottomName.push(word);
-        } else if (word.toLowerCase().includes('health')) {
-          healthFound = true;
-          bottomName.push(word);
-        } else {
-          topName.push(word);
-        }
-      });
-
-      return `
-        <span class="vads-u-display--block">${topName.join(' ')}</span>
-        <span class="vads-u-display--block">${bottomName.join(' ')}</span>
-      `;
-    }
-
-    return `<span class="vads-u-display--block">${name}</span>`;
-  };
-
-  liquid.filters.homePath = description => `/${description.split('/')[1]}`;
 };
