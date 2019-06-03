@@ -1036,6 +1036,16 @@ function formatCurrency(value) {
   return `$${formatNumber(Math.round(+value))}`;
 }
 
+function formatNumberHalf(value) {
+  const halfVal = value / 2;
+  const str = (+halfVal).toString();
+  return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
+}
+
+function formatCurrencyHalf(value) {
+  return `$${formatNumberHalf(Math.round(+value))}`;
+}
+
 calculatorConstants.data.forEach(c => {
   calculatorConstantsList[c.attributes.name] = c.attributes.value;
 });
@@ -1052,4 +1062,5 @@ module.exports = {
   ForeignOnlineOnly,
   ForeignInPersonOnly,
   ForeignInPersonAndOnline,
+  formatCurrencyHalf,
 };
