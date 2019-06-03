@@ -3,11 +3,11 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
 const Onlinecheck =
-  '#accordion-item-26 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+  '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
 const Inpersoncheck =
-  '#accordion-item-26 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+  '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
 const Inpersonandonlinecheck =
-  '#accordion-item-26 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+  '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
@@ -25,27 +25,22 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.ForeignOnlineOnly(client, Onlinecheck);
   client
     .waitForElementVisible('body', 1000)
-    .moveToElement(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      10,
-      10,
-    )
-    .waitForElementVisible(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      500,
+    .assert.containsText(
+      Onlinecheck,
+      `${GiHelpers.formatCurrencyHalf(
+        GiHelpers.calculatorConstantsList.AVGDODBAH,
+      )}/mo`,
     )
     .axeCheck('.main');
 
   client
     .click('#radio-buttons-16-0')
-    .moveToElement(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      10,
-      10,
-    )
-    .waitForElementVisible(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      500,
+    .pause(100)
+    .assert.containsText(
+      Onlinecheck,
+      `${GiHelpers.formatCurrencyHalf(
+        GiHelpers.calculatorConstantsList.AVGVABAH,
+      )}/mo`,
     );
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
@@ -58,27 +53,22 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.ForeignInPersonOnly(client, Inpersoncheck);
   client
     .waitForElementVisible('body', 1000)
-    .moveToElement(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      10,
-      10,
-    )
-    .waitForElementVisible(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      500,
+    .assert.containsText(
+      Inpersoncheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.calculatorConstantsList.AVGDODBAH,
+      )}/mo`,
     )
     .axeCheck('.main');
 
   client
     .click('#radio-buttons-16-0')
-    .moveToElement(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      10,
-      10,
-    )
-    .waitForElementVisible(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      500,
+    .pause(100)
+    .assert.containsText(
+      Inpersoncheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.calculatorConstantsList.AVGVABAH,
+      )}/mo`,
     );
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
@@ -91,27 +81,22 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.ForeignInPersonAndOnline(client, Inpersonandonlinecheck);
   client
     .waitForElementVisible('body', 1000)
-    .moveToElement(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      10,
-      10,
-    )
-    .waitForElementVisible(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      500,
+    .assert.containsText(
+      Inpersonandonlinecheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.calculatorConstantsList.AVGDODBAH,
+      )}/mo`,
     )
     .axeCheck('.main');
 
   client
     .click('#radio-buttons-16-0')
-    .moveToElement(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      10,
-      10,
-    )
-    .waitForElementVisible(
-      '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > h3',
-      500,
+    .pause(100)
+    .assert.containsText(
+      Inpersonandonlinecheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.calculatorConstantsList.AVGVABAH,
+      )}/mo`,
     );
 
   client.end();

@@ -1037,7 +1037,7 @@ function formatCurrency(value) {
 }
 
 function formatNumberHalf(value) {
-  const halfVal = value / 2;
+  const halfVal = Math.round(value / 2);
   const str = (+halfVal).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 }
