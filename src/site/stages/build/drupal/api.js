@@ -62,12 +62,7 @@ function getDrupalClient(buildOptions) {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        data.queryHash = crypto
-          .createHash('md5')
-          .update(JSON.stringify(args))
-          .digest('hex');
-        return data;
+        return response.json();
       }
 
       throw new Error(`HTTP error: ${response.status}: ${response.statusText}`);
