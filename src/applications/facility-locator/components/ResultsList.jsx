@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 
@@ -15,7 +16,7 @@ import { setFocus } from '../utils/helpers';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
 import SearchResult from './SearchResult';
-import LatencyIndicator from './LatencyIndicator';
+import DelayedRender from 'platform/utilities/ui/DelayedRender';
 
 class ResultsList extends Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class ResultsList extends Component {
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress
+      nextProps.inProgress !== this.props.inProgress ||
+      nextProps.searchString !== this.props.searchString
     );
   }
 
@@ -66,7 +68,14 @@ class ResultsList extends Component {
             in ${searchString}`}
             setFocus
           />
-          <LatencyIndicator />
+          <DelayedRender>
+            <AlertBox
+              isVisible
+              status="info"
+              headline="Please wait"
+              content="Your results should appear in less than a minute. Thank you for your patience."
+            />
+          </DelayedRender>
         </>
       );
     }
