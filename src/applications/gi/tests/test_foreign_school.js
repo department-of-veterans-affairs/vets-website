@@ -22,7 +22,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  GiHelpers.ForeignOnlineOnly(client, Onlinecheck);
+  // check DOD and VA rate for online only
+  GiHelpers.ForeignOnlineOnly(client);
   client
     .waitForElementVisible('body', 1000)
     .assert.containsText(
@@ -50,7 +51,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  GiHelpers.ForeignInPersonOnly(client, Inpersoncheck);
+  // check DOD and VA rate for in person only
+  GiHelpers.ForeignInPersonOnly(client);
   client
     .waitForElementVisible('body', 1000)
     .assert.containsText(
@@ -78,7 +80,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  GiHelpers.ForeignInPersonAndOnline(client, Inpersonandonlinecheck);
+  // check DOD and VA rate for In person and online
+  GiHelpers.ForeignInPersonAndOnline(client);
   client
     .waitForElementVisible('body', 1000)
     .assert.containsText(
