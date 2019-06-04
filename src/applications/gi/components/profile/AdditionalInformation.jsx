@@ -1,13 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
-  stemLabel = () =>
-    environment.isProduction()
-      ? 'STEM (Science, Technology, Engineering, and Math):'
-      : 'Rogers STEM Scholarship:';
-
   renderInstitutionSummary() {
     const it = this.props.institution;
     const isOJT = it.type.toLowerCase() === 'ojt';
@@ -121,7 +115,7 @@ export class AdditionalInformation extends React.Component {
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'stemOffered')}
             >
-              {this.stemLabel()}
+              Rogers STEM Scholarship:
             </button>
           </strong>
           &nbsp;
