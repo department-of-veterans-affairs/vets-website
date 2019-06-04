@@ -18,7 +18,7 @@
             <p>{{ fieldIntroText }}</p>
           </div>
 
-          {% if fieldAlert.length %}
+          {% if fieldAlert != empty and fieldAlert.length %}
             {% for alert in fieldAlert %}
               {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
             {% endfor %}

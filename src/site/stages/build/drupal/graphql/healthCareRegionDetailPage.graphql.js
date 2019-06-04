@@ -18,6 +18,12 @@ const REACT_WIDGET = '... reactWidget';
 const NUMBER_CALLOUT = '... numberCallout';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
+
 module.exports = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
@@ -40,7 +46,14 @@ module.exports = `
       }
     }
     ${FIELD_RELATED_LINKS}
-    ${FIELD_ALERT}
+    
+    ${
+      enabledFeatureFlags[
+        featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
+      ]
+        ? FIELD_ALERT
+        : ''
+    }
     fieldMedia {
       entity {
         entityId
