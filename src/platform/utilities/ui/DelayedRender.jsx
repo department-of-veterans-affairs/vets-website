@@ -2,7 +2,7 @@ import React from 'react';
 
 class DelayedRender extends React.Component {
   static defaultProps = {
-    threshold: 2000,
+    threshold: 4000,
   };
 
   constructor(props) {
