@@ -22,7 +22,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  // check DOD and VA rate for online only
+  // check Foreign DOD and VA rate for online only
   GiHelpers.ForeignOnlineOnly(client);
   client
     .waitForElementVisible('body', 1000)
@@ -51,7 +51,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  // check DOD and VA rate for in person only
+  // check Foreign DOD and VA rate for in person only
   GiHelpers.ForeignInPersonOnly(client);
   client
     .waitForElementVisible('body', 1000)
@@ -80,7 +80,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  // check DOD and VA rate for In person and online
+  // check Foreign DOD and VA rate for In person and online
   GiHelpers.ForeignInPersonAndOnline(client);
   client
     .waitForElementVisible('body', 1000)
@@ -98,6 +98,35 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.containsText(
       Inpersonandonlinecheck,
       `${GiHelpers.formatCurrency(
+        GiHelpers.calculatorConstantsList.AVGVABAH,
+      )}/mo`,
+    );
+
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  // check US DOD and VA rate for online only
+  GiHelpers.USOnlineOnly(client);
+  client
+    .waitForElementVisible('body', 1000)
+    .assert.containsText(
+      Onlinecheck,
+      `${GiHelpers.formatCurrencyHalf(
+        GiHelpers.calculatorConstantsList.AVGDODBAH,
+      )}/mo`,
+    )
+    .axeCheck('.main');
+
+  client
+    .click('#radio-buttons-16-0')
+    .pause(100)
+    .assert.containsText(
+      Onlinecheck,
+      `${GiHelpers.formatCurrencyHalf(
         GiHelpers.calculatorConstantsList.AVGVABAH,
       )}/mo`,
     );

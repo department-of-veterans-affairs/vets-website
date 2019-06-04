@@ -154,6 +154,102 @@ function ForeignInPersonAndOnline(client) {
     .axeCheck('.main');
 }
 
+// Search US school online only
+function USOnlineOnly(client) {
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
+
+  client.click('#radio-buttons-2-0').axeCheck('.main');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'AMTRAK-WASHINGTON DC')
+    .pause(100);
+
+  client.click('#search-button').axeCheck('.main');
+
+  client
+    .waitForElementVisible('.search-result a', Timeouts.normal)
+    .pause(100)
+    .click(
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+    )
+    .waitForElementVisible('body', 1000)
+    .axeCheck('.main');
+}
+
+// Search US school in person only
+function USInPersonOnly(client) {
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
+
+  client.click('#radio-buttons-2-1').axeCheck('.main');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'AMTRAK-WASHINGTON DC')
+    .pause(100);
+
+  client.click('#search-button').axeCheck('.main');
+
+  client
+    .waitForElementVisible('.search-result a', Timeouts.normal)
+    .pause(100)
+    .click(
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+    )
+    .waitForElementVisible('body', 1000)
+    .axeCheck('.main');
+}
+
+// Search US school in person and online
+function USInPersonAndOnline(client) {
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
+
+  client.click('#radio-buttons-2-2').axeCheck('.main');
+
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', 'AMTRAK-WASHINGTON DC')
+    .pause(100);
+
+  client.click('#search-button').axeCheck('.main');
+
+  client
+    .waitForElementVisible('.search-result a', Timeouts.normal)
+    .pause(100)
+    .click(
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+    )
+    .waitForElementVisible('body', 1000)
+    .axeCheck('.main');
+}
+
 const schools = {
   data: [
     {
@@ -1038,12 +1134,11 @@ function formatCurrency(value) {
 
 function formatNumberHalf(value) {
   const halfVal = Math.round(value / 2);
-  const str = (+halfVal).toString();
-  return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
+  return formatCurrency(halfVal);
 }
 
 function formatCurrencyHalf(value) {
-  return `$${formatNumberHalf(Math.round(+value))}`;
+  return formatNumberHalf(Math.round(+value));
 }
 
 calculatorConstants.data.forEach(c => {
@@ -1062,5 +1157,8 @@ module.exports = {
   ForeignOnlineOnly,
   ForeignInPersonOnly,
   ForeignInPersonAndOnline,
+  USOnlineOnly,
+  USInPersonOnly,
+  USInPersonAndOnline,
   formatCurrencyHalf,
 };
