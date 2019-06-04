@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import {
-  systemDownMessage,
-  unableToFindRecordWarning,
-} from '../../../platform/static-data/error-messages';
+import { systemDownMessage } from '../../../platform/static-data/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 // import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
-import { backendErrorMessage } from '../utils/helpers';
+import {
+  backendErrorMessage,
+  authenticationErrorMessage,
+} from '../utils/helpers';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -31,7 +31,7 @@ export class Main extends React.Component {
         appContent = backendErrorMessage();
         break;
       case 'backendAuthenticationError':
-        appContent = unableToFindRecordWarning;
+        appContent = authenticationErrorMessage();
         break;
       case 'noChapter33Record':
         /*
