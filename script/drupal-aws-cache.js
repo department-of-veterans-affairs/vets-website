@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const util = require('util');
 const path = require('path');
@@ -55,11 +56,19 @@ async function fetchCache(options) {
 
   const cachePath = `${cacheUrl}/${cacheKey}.tar.bz2`;
   try {
-    await downloadFile(cachePath, path.join(cacheDirectory, `${cacheKey}.tar.bz2`));
-    await decompress(path.join(cacheDirectory, `${cacheKey}.tar.bz2`), cacheDirectory);
+    await downloadFile(
+      cachePath,
+      path.join(cacheDirectory, `${cacheKey}.tar.bz2`),
+    );
+    await decompress(
+      path.join(cacheDirectory, `${cacheKey}.tar.bz2`),
+      cacheDirectory,
+    );
     console.log(`Cached stored in ${cacheDirectory}`);
-  } catch {
-    console.log(`No cached content found for that environment and query: ${cachePath}`);
+  } catch (e) {
+    console.log(
+      `No cached content found for that environment and query: ${cachePath}`,
+    );
   }
 }
 
@@ -75,7 +84,9 @@ async function createCacheFile(options) {
   const cachePath = `${cacheOutput}/${getDrupalCacheKey(cacheEnv)}.tar.bz2`;
 
   fs.ensureDirSync(cacheOutput);
-  const { stdout, stderr } = await exec(`tar -C ${cacheDirectory} -cf ${cachePath} .`);
+  const { stdout, stderr } = await exec(
+    `tar -C ${cacheDirectory} -cf ${cachePath} .`,
+  );
 
   if (stderr) {
     console.error(`Error compressing cache: ${stderr}`);
