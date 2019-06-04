@@ -21,6 +21,8 @@ export default class DisabilityRatingCalculator extends React.Component {
           canDelete: false,
         },
       ],
+      showCombinedRating: false,
+      calculatedRating: 0,
     };
     // this.handleSubmit = this.handleSubmit.bind(this);
     // this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(
@@ -58,6 +60,9 @@ export default class DisabilityRatingCalculator extends React.Component {
 
   handleSubmit = evt => {
     // const { ratings } = this.state.ratings;
+    const ratings = this.state.ratings;
+    const calcRating = calculateRating(ratings);
+
     console.log(`this.state: ${this.state.ratings}`);
     console.log(
       'Your VA disability rating is ',
@@ -69,6 +74,11 @@ export default class DisabilityRatingCalculator extends React.Component {
     //   `Your VA disability rating is ${calculateRating(this.state.ratings)} %`,
     // );
     // return calculateRating(ratings);
+    // eslint-disable-next-line no-lone-blocks
+    this.setState({
+      showCombinedRating: true,
+      calculatedRating: calcRating,
+    });
   };
 
   handleAddRating = evt => {
@@ -91,6 +101,11 @@ export default class DisabilityRatingCalculator extends React.Component {
     console.log('this is remove rating');
   };
 
+  showRating = () => {
+    this.setState({
+      showCombinedRating: true,
+    });
+  };
   // clearAll = () => {
   //   const newRatings = this.state.ratings.map((rating, idx) => ({
   //     rating: 0,
@@ -111,6 +126,7 @@ export default class DisabilityRatingCalculator extends React.Component {
 
   render() {
     const ratings = this.state.ratings;
+    const calculatedRating = this.state.calculatedRating;
 
     return (
       <div className="disability-calculator">
@@ -179,7 +195,12 @@ export default class DisabilityRatingCalculator extends React.Component {
           </div>
         </div>
 
-        <CalculatedDisabilityRating ratings={ratings} />
+        {this.state.showCombinedRating === true && (
+          <CalculatedDisabilityRating
+            ratings={ratings}
+            calculatedRating={calculatedRating}
+          />
+        )}
       </div>
     );
   }

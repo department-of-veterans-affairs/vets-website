@@ -4,13 +4,15 @@ import { calculateRating } from '../utils/helpers';
 export const CalculatedDisabilityRating = props => {
   //   console.log('props ratings: ', this.props);
   const ratings = props.ratings;
+  const calculatedRating = props.calculatedRating;
+  console.log('calculatedRating' + props);
   return (
     <div className="vads-u-padding--4">
       <p className="vads-u-font-weight--bold">
         Your VA disability rating
         <br />
         <span className="vads-u-font-weight--bold vads-u-font-size--2xl">
-          {calculateRating(ratings)} %
+          {calculatedRating} %
         </span>
       </p>
       <p>
