@@ -6,8 +6,14 @@
                     class="usa-accordion-button usa-button-unstyled"
                     aria-expanded="false"
                     aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
-            >{{ serviceTaxonomy.name }}</button>
+            >
+                {{ serviceTaxonomy.name }}
+                {% if serviceTaxonomy.fieldAlsoKnownAs %}
+                <p class="vads-u-font-weight--normal vads-u-margin-bottom--0">{{ serviceTaxonomy.fieldAlsoKnownAs }}</p>
+                {% endif %}
+            </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                {% if serviceTaxonomy.fieldCommonlyTreatedCondition %}<div><span class="vads-u-font-style--italic">Common Conditions: </span>{{ serviceTaxonomy.fieldCommonlyTreatedCondition }}</div>{% endif %}
                 {% if serviceTaxonomy.description.processed  %}<div>{{ serviceTaxonomy.description.processed }}</div>{% endif %}
 
                 {% if healthService.fieldBody.processed %}<div>{{ healthService.fieldBody.processed }}</div>{% endif %}
