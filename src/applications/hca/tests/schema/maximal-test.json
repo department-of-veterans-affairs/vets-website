@@ -128,6 +128,11 @@
       "suffix": "Jr."
     },
     "mothersMaidenName": "Smith",
-    "privacyAgreementAccepted": true
+    "privacyAgreementAccepted": true,
+    "testUploadFile": {
+      "filePath": "/src/platform/testing/",
+      "fileName": "example-upload.png",
+      "fileTypeSelection": "7"
+    }
   }
 }

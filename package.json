@@ -118,7 +118,7 @@
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "cheerio": "^1.0.0-rc.2",
-    "chokidar": "^2.0.2",
+    "chokidar": "2",
     "choma": "^1.1.0",
     "chromedriver": "^2.38.1",
     "cli-table": "^0.3.1",
@@ -149,6 +149,7 @@
     "extract-text-webpack-plugin": "next",
     "file-loader": "^1.1.11",
     "find": "^0.2.9",
+    "find-root": "^1.1.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
     "http-server": "^0.9.0",
@@ -173,6 +174,7 @@
     "node-sass": "^4.9.0",
     "null-loader": "^0.1.1",
     "nyc": "^11.1.0",
+    "path": "^0.12.7",
     "polyfill-function-prototype-bind": "0.0.1",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.14.3",
@@ -196,21 +198,19 @@
     "uglify-js": "^3.4.0",
     "url-loader": "^0.6.2",
     "webpack": "^4.1.1",
-    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.1.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "winston": "^2.2.0"
   },
-  "optionalDependencies": {
-    "fsevents": "^1.0.7"
-  },
+  "optionalDependencies": {},
   "engines": {
-    "node": "8.10.0",
+    "node": "10.15.3",
     "yarn": "1.12.3"
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^6.3.4",
+    "@department-of-veterans-affairs/formation": "^6.4.0",
     "@department-of-veterans-affairs/formation-react": "^4.6.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",

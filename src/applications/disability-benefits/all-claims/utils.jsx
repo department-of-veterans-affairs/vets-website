@@ -168,6 +168,8 @@ export const capitalizeEachWord = name => {
     );
   }
 
+  // TODO: Refactor this out; the function name doesn't imply that it
+  // would return a completely unrelated string
   return 'Unknown Condition';
 };
 
@@ -205,11 +207,19 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
+/**
+ * Takes a string and returns another that won't break SiP when used
+ * as a property name.
+ * @param {string} str - The string to make SiP-friendly
+ * @return {string} The SiP-friendly string
+ */
+export const sippableId = str => (str || 'blank').toLowerCase();
+
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
   return _.set(
-    // downcase value for SIP consistency
-    [`${capitalizedDisabilityName.toLowerCase()}`],
+    // As an array like this to prevent periods in the name being interpreted as nested objects
+    [sippableId(disabilityName)],
     { title: capitalizedDisabilityName, type: 'boolean' },
     schema,
   );
@@ -219,7 +229,7 @@ export const makeSchemaForNewDisabilities = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) => ({
     properties: newDisabilities
-      .map(disability => capitalizeEachWord(disability.condition))
+      .map(disability => disability.condition)
       .reduce(createCheckboxSchema, {}),
   }),
 );
@@ -229,7 +239,7 @@ export const makeSchemaForRatedDisabilities = createSelector(
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
       .filter(disabilityIsSelected)
-      .map(disability => capitalizeEachWord(disability.name))
+      .map(disability => disability.name)
       .reduce(createCheckboxSchema, {}),
   }),
 );

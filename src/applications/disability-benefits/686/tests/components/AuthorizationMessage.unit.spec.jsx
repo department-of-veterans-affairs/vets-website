@@ -17,7 +17,7 @@ describe('686 <AuthorizationMessage>', () => {
     const tree = mount(<AuthorizationMessage user={user} />);
 
     expect(tree.find('SystemDownView').text()).to.contain(
-      'Sorry, our system is temporarily down while we fix a few things. Please try again later.Go Back to Vets.gov',
+      'Sorry, our system is temporarily down while we fix a few things. Please try again later.Go Back to VA.gov',
     );
     tree.unmount();
   });

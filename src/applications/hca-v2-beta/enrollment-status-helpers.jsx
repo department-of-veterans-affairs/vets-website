@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
+import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { getMedicalCenterNameByID } from './helpers';
 
@@ -73,15 +74,16 @@ export function getWarningHeadline(enrollmentStatus) {
 }
 
 function getDefaultWarningStatus(applicationDate) {
-  if (isNaN(Date.parse(applicationDate))) {
-    return null;
+  if (isValidDateString(applicationDate)) {
+    return (
+      <p>
+        <strong>You applied on: </strong>
+        {moment(applicationDate).format('MMMM D, YYYY')}
+      </p>
+    );
   }
-  return (
-    <p>
-      <strong>You applied on: </strong>
-      {moment(applicationDate).format('MMMM D, YYYY')}
-    </p>
-  );
+
+  return null;
 }
 
 function getEnrolledWarningStatus(
@@ -92,7 +94,7 @@ function getEnrolledWarningStatus(
   const facilityName = getMedicalCenterNameByID(preferredFacility);
   const blocks = [];
   // add "you applied on" block if the application date is valid
-  if (!isNaN(Date.parse(applicationDate))) {
+  if (isValidDateString(applicationDate)) {
     blocks.push(
       <>
         <strong>You applied on: </strong>
@@ -101,7 +103,7 @@ function getEnrolledWarningStatus(
     );
   }
   // add "we enrolled you" block if the enrollment date is valid
-  if (!isNaN(Date.parse(enrollmentDate))) {
+  if (isValidDateString(enrollmentDate)) {
     blocks.push(
       <>
         <strong>We enrolled you on: </strong>
