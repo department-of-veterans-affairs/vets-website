@@ -122,12 +122,70 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-16-0')
+    .click('#radio-buttons-17-0')
     .pause(100)
     .assert.containsText(
       Onlinecheck,
       `${GiHelpers.formatCurrencyHalf(
         GiHelpers.calculatorConstantsList.AVGVABAH,
+      )}/mo`,
+    );
+
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  // check US DOD and VA rate for in person only
+  GiHelpers.USInPersonOnly(client);
+  client
+    .waitForElementVisible('body', 1000)
+    .assert.containsText(
+      Inpersoncheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.schools.data[1].attributes.dodBah,
+      )}/mo`,
+    )
+    .axeCheck('.main');
+
+  client
+    .click('#radio-buttons-17-0')
+    .pause(100)
+    .assert.containsText(
+      Inpersoncheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.schools.data[1].attributes.bah,
+      )}/mo`,
+    );
+
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+
+  client
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
+    .axeCheck('.main');
+
+  // check US DOD and VA rate for in person and online
+  GiHelpers.USInPersonAndOnline(client);
+  client
+    .waitForElementVisible('body', 1000)
+    .assert.containsText(
+      Inpersoncheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.schools.data[1].attributes.dodBah,
+      )}/mo`,
+    )
+    .axeCheck('.main');
+
+  client
+    .click('#radio-buttons-17-0')
+    .pause(100)
+    .assert.containsText(
+      Inpersoncheck,
+      `${GiHelpers.formatCurrency(
+        GiHelpers.schools.data[1].attributes.bah,
       )}/mo`,
     );
 

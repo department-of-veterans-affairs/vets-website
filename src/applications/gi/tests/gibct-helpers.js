@@ -171,7 +171,7 @@ function USOnlineOnly(client) {
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'AMTRAK-WASHINGTON DC')
+    .setValue('.keyword-search input[type="text"]', 'AMERICAN UNIVERSITY')
     .pause(100);
 
   client.click('#search-button').axeCheck('.main');
@@ -180,7 +180,7 @@ function USOnlineOnly(client) {
     .waitForElementVisible('.search-result a', Timeouts.normal)
     .pause(100)
     .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
@@ -203,7 +203,7 @@ function USInPersonOnly(client) {
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'AMTRAK-WASHINGTON DC')
+    .setValue('.keyword-search input[type="text"]', 'AMERICAN UNIVERSITY')
     .pause(100);
 
   client.click('#search-button').axeCheck('.main');
@@ -212,7 +212,7 @@ function USInPersonOnly(client) {
     .waitForElementVisible('.search-result a', Timeouts.normal)
     .pause(100)
     .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
@@ -235,7 +235,7 @@ function USInPersonAndOnline(client) {
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'AMTRAK-WASHINGTON DC')
+    .setValue('.keyword-search input[type="text"]', 'AMERICAN UNIVERSITY')
     .pause(100);
 
   client.click('#search-button').axeCheck('.main');
@@ -244,7 +244,7 @@ function USInPersonAndOnline(client) {
     .waitForElementVisible('.search-result a', Timeouts.normal)
     .pause(100)
     .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
+      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
     )
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
@@ -311,7 +311,7 @@ const schools = {
         distanceLearning: true,
         dodBah: 2367,
         physicalZip: '20016',
-        bah: 2436,
+        bah: 2567,
         tuitionInState: 41833,
         tuitionOutOfState: 41833,
         books: 800,
@@ -559,7 +559,7 @@ const secondSchool = {
       state: 'DC',
       zip: '20016',
       country: 'USA',
-      bah: 2436.0,
+      bah: 2567.0,
       dodBah: 2367.0,
       cross: null,
       flight: false,
