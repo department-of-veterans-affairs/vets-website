@@ -33,7 +33,7 @@ export const uiSchema = {
       },
       items: {
         name: {
-          'ui:title': "Company's Name",
+          'ui:title': "Company's name",
         },
         address: addressUISchema(
           'unemployability.appliedEmployers[:index].address',

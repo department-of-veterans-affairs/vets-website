@@ -6,7 +6,7 @@ export const instructionalPart3Description = (
     <p>
       Put the VA Claims Intake Center address listed below in{' '}
       <strong>Box 2.</strong> This is where your employer will return the form
-      after they‘ve completed their sections.
+      after they’ve completed their sections.
     </p>
     <div className="blue-bar-block">
       Department of Veterans Affairs Claims Intake Center PO Box 4444
