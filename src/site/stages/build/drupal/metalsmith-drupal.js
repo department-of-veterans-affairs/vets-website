@@ -61,10 +61,8 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
 async function loadDrupal(buildOptions) {
   const contentApi = getApiClient(buildOptions);
-  const queryHash = contentApi.getAllPagesQueryHash();
   const drupalCache = path.join(
     buildOptions.cacheDirectory,
-    queryHash,
     DRUPAL_CACHE_FILENAME,
   );
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
