@@ -28,8 +28,8 @@ class LatencyIndicator extends React.Component {
       <AlertBox
         isVisible={this.state.sufferingLatency}
         status="info"
-        headline="Unexpected wait"
-        content="Please wait, results may take a few seconds longer than normal"
+        headline="Please wait"
+        content="Your results should appear in less than a minute. Thank you for your patience."
       />
     );
   }
