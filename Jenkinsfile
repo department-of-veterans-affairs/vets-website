@@ -32,14 +32,14 @@ node('vetsgov-general-purpose') {
           }
         },
 
-        // Check package.json for known vulnerabilities
-        security: {
-          retry(3) {
-            dockerContainer.inside(commonStages.DOCKER_ARGS) {
-              sh "cd /application && npm run security-check"
-            }
-          }
-        },
+        /* // Check package.json for known vulnerabilities */
+        /* security: { */
+        /*   retry(3) { */
+        /*     dockerContainer.inside(commonStages.DOCKER_ARGS) { */
+        /*       sh "cd /application && npm run security-check" */
+        /*     } */
+        /*   } */
+        /* }, */
 
         unit: {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
