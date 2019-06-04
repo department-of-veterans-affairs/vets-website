@@ -53,6 +53,7 @@ class ValidateMHVAccount extends React.Component {
       return;
     }
 
+    // If valid account error state, record GA event
     if (ACCOUNT_STATES_SET.has(accountState)) {
       recordEvent({ event: `${gaPrefix}-${hyphenatedAccountState}` });
     }
