@@ -210,4 +210,29 @@ def archive(dockerContainer, String ref) {
   }
 }
 
+def cacheDrupalContent(dockerContainer, String ref) {
+  stage("Cache Drupal Content") {
+    // if (shouldBail()) { return }
+
+    try {
+      def archives = [:]
+
+      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+        def envName = VAGOV_BUILDTYPES.get(i)
+
+        dockerContainer.inside(DOCKER_ARGS) {
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                           usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+            sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+            sh "s3-cli put --acl-public --region us-gov-west-1 --recursive /application/.cache/content s3://vetsgov-website-builds-s3-upload"
+          }
+        }
+      }
+    } catch (error) {
+      // slackNotify()
+      throw error
+    }
+  }
+}
+
 return this;

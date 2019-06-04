@@ -95,6 +95,7 @@ node('vetsgov-general-purpose') {
   commonStages.prearchive(dockerContainer)
 
   commonStages.archive(dockerContainer, ref);
+  commonStages.cacheDrupalContent(dockerContainer);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
