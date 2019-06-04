@@ -3,13 +3,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setFocus } from '../utils/helpers';
-import { updateSearchQuery, searchWithBounds } from '../actions';
+
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import { distBetween } from '../utils/facilityDistance';
+
 import { facilityTypes } from '../config';
+
+import { distBetween } from '../utils/facilityDistance';
+import { setFocus } from '../utils/helpers';
+
+import { updateSearchQuery, searchWithBounds } from '../actions';
+
+import SearchResult from './SearchResult';
+import LatencyIndicator from './LatencyIndicator';
 
 class ResultsList extends Component {
   constructor(props) {
@@ -54,13 +60,14 @@ class ResultsList extends Component {
 
     if (inProgress) {
       return (
-        <div>
+        <>
           <LoadingIndicator
             message={`Searching for ${facilityTypeName}
             in ${searchString}`}
             setFocus
           />
-        </div>
+          <LatencyIndicator />
+        </>
       );
     }
 
