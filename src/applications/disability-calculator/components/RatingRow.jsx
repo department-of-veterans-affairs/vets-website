@@ -41,10 +41,15 @@ export const RatingRow = props => {
       <div className="vads-l-col--2">
         {ratingObj.canDelete === true && (
           <>
-            <button type="button" onClick={handleRemoveRating(indx)}>
-              <i className="fas fa-trash-alt" />
+            <button
+              type="button"
+              onClick={handleRemoveRating(indx)}
+              className="va-button-link vads-u-padding--1p5"
+            >
+              <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
+              Delete
             </button>
-            <a href="#">Delete</a>
+            <a href="#" />
           </>
         )}
       </div>

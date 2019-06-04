@@ -57,7 +57,7 @@ export default class DisabilityRatingCalculator extends React.Component {
 
   handleSubmit = evt => {
     // const { ratings } = this.state.ratings;
-    console.log('this.state: ' + this.state.ratings);
+    console.log(`this.state: ${this.state.ratings}`);
     console.log(
       'Your VA disability rating is ',
       calculateRating(this.state.ratings),
@@ -109,17 +109,20 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   render() {
-    let ratings = this.state.ratings;
+    const ratings = this.state.ratings;
 
     return (
       <div className="disability-calculator">
         <div className="calc-header vads-u-padding-x--4">
           <h2 className="vads-u-padding-top--4">
-            VA disability rating calculator
+            VA combined disability rating calculator
           </h2>
           <p>
-            Use our calculator if you have more than one disability rating to
-            determine your VA comined disability rating
+            If you have 2 or more disability ratings, use our calculator to
+            determine your combined disability rating. Enter each of your
+            disability ratings separately below. You can also add a description
+            of each for your notes, if you'd like. Then click Calculate to get
+            your combined rating.
           </p>
         </div>
         <div className="vads-l-grid-container">
@@ -138,33 +141,54 @@ export default class DisabilityRatingCalculator extends React.Component {
               indx={idx}
             />
           ))}
-          <div className="vads-l-grid-container">
-            <div className="vads-l-row">
-              <div className="vads-l-col--3">
-                <button type="button" onClick={this.handleAddRating}>
-                  <i className="fas fa-plus-circle" />
-                </button>
-                <a onClick={this.handleAddRating}>Add rating</a>
-              </div>
-              <div className="vads-l-col--8" />
+          {/* <div className="vads-l-grid-container"> */}
+          <div className="vads-l-row">
+            <div className="vads-l-col--3">
+              <button
+                className="va-button-link vads-u-text-align--left vads-u-padding-y--1p5"
+                type="button"
+                onClick={this.handleAddRating}
+              >
+                <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
+                Add rating
+              </button>
             </div>
-            <div className="vads-l-row">
-              <div className="vads-l-col--3 vads-u-padding-right--2">
-                <button
-                  onClick={evt => {
-                    this.handleSubmit(evt);
-                  }}
-                >
-                  Calculate
-                </button>
-              </div>
-              <div className="vads-l-col--8">
-                <a onClick={this.clearAll}>Clear all</a>
-              </div>
+            <div className="vads-l-col--8" />
+          </div>
+          <div className="vads-l-row">
+            <div className="vads-l-col--3 vads-u-padding-right--2">
+              <button
+                onClick={evt => {
+                  this.handleSubmit(evt);
+                }}
+              >
+                Calculate
+              </button>
+            </div>
+            <div className="vads-l-col--8">
+              <a onClick={this.clearAll}>Clear all</a>
             </div>
           </div>
-          <p>Your VA disability rating is {calculateRating(ratings)} %</p>
         </div>
+        <div className="vads-u-padding--4">
+          <p className="vads-u-font-weight--bold">
+            Your VA disability rating
+            <br />
+            <span className="vads-u-font-weight--bold vads-u-font-size--2xl">
+              {calculateRating(ratings)} %
+            </span>
+          </p>
+          <p>
+            The final combined value of your disability ratings is 64%. We round
+            this number to the nearest 10% to get your combined rating. We round
+            combined values ending in 1 to 4 down, and those ending in 5 to 9
+            up. We round down values ending in 1 to 4, and round up values
+            ending in 5 to 9.
+          </p>
+          <br />
+          <a href="#">Find your monthly payment amount</a>
+        </div>
+        {/* </div> */}
       </div>
     );
   }
