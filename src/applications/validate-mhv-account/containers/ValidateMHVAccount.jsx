@@ -12,7 +12,7 @@ import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 import {
   ACCOUNT_STATES,
-  ACCOUNT_STATES_ARRAY,
+  ACCOUNT_STATES_SET,
   MHV_ACCOUNT_LEVELS,
   MHV_URL,
 } from './../constants';
@@ -53,7 +53,7 @@ class ValidateMHVAccount extends React.Component {
       return;
     }
 
-    if (ACCOUNT_STATES_ARRAY.includes(accountState)) {
+    if (ACCOUNT_STATES_SET.has(accountState)) {
       recordEvent({ event: `${gaPrefix}-${hyphenatedAccountState}` });
     }
 
