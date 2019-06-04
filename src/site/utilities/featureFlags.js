@@ -6,6 +6,8 @@ const featureFlags = {
   FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
   GRAPHQL_MODULE_UPDATE: 'featureGraphQLModuleUpdate',
   FEATURE_FIELD_OTHER_VA_LOCATIONS: 'featureFieldOtherVaLocations',
+  FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS:
+    'featureFieldCommonlyTreatedConditions',
 };
 
 // Edit this to turn flags on or off
@@ -14,11 +16,13 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
+    featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
+    featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
