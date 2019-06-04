@@ -47,6 +47,7 @@ export default class FileField extends React.Component {
         () => {
           this.uploadRequest = null;
         },
+        this.props.formContext.trackingPrefix,
       );
     }
   };

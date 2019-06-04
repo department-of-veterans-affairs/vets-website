@@ -9,6 +9,9 @@ module.exports = `
         fieldFormat
         fieldBenefits
         fieldDescription
+        fieldOffice {
+          targetId
+        }
         fieldMedia {
           entity {
             ... on MediaImage {
