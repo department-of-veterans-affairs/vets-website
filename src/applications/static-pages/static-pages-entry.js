@@ -23,6 +23,9 @@ import './sass/static-pages.scss';
 // Social share links behavior
 import './social-share-links';
 
+// Add unique ID to H2s and H3s that aren't in WYSIWYG, Q&As, or accordion buttons
+import './addIdToSubHeadings';
+
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
