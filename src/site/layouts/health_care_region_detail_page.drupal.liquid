@@ -18,6 +18,12 @@
             <p>{{ fieldIntroText }}</p>
           </div>
 
+          {% if fieldAlert.length %}
+            {% for alert in fieldAlert %}
+              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+            {% endfor %}
+          {% endif %}
+
           {% assign isContactPage = entityUrl.path | isContactPage %}
           {% if isContactPage %}
             <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}

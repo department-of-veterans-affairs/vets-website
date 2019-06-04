@@ -6,6 +6,7 @@
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 
 const WYSIWYG = '... wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
@@ -39,6 +40,7 @@ module.exports = `
       }
     }
     ${FIELD_RELATED_LINKS}
+    ${FIELD_ALERT}
     fieldMedia {
       entity {
         entityId
