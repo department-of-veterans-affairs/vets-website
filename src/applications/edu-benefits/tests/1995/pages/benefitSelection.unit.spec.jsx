@@ -2,6 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mount } from 'enzyme';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import {
@@ -42,5 +43,17 @@ describe('Edu 1995 benefitSelection', () => {
     submitForm(form);
 
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('renders the correct amount of options for the benefit selection radio button', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
+    );
+    expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 });
