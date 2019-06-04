@@ -87,6 +87,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.setState({
       ratings: this.state.ratings.filter((s, sidx) => idx !== sidx),
     });
+    console.log('this is remove rating');
   };
 
   // clearAll = () => {
@@ -131,7 +132,7 @@ export default class DisabilityRatingCalculator extends React.Component {
           {this.state.ratings.map((ratingObj, idx) => (
             <RatingRow
               handleChange={this.handleChange}
-              // handleRemoveRating={this.handleRemoveRating(idx)}
+              handleRemoveRating={this.handleRemoveRating}
               ratingObj={ratingObj}
               key={idx}
               indx={idx}

@@ -11,8 +11,10 @@ export const RatingRow = props => {
   const ratingObj = props.ratingObj;
   const indx = props.indx;
   const handleChange = props.handleChange;
+  const handleRemoveRating = props.handleRemoveRating;
   // eslint-disable-next-line no-console
   // console.log(ratingObj);
+
   return (
     <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
@@ -39,7 +41,7 @@ export const RatingRow = props => {
       <div className="vads-l-col--2">
         {ratingObj.canDelete === true && (
           <>
-            <button type="button">
+            <button type="button" onClick={handleRemoveRating(indx)}>
               <i className="fas fa-trash-alt" />
             </button>
             <a href="#">Delete</a>
