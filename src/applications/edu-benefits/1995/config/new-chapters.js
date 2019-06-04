@@ -22,14 +22,10 @@ import {
 import { activeDuty, benefitSelection, stem } from '../pages';
 
 const {
-  benefit,
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
 } = fullSchema1995.properties;
-
-// 1995-STEM related
-benefit.enum.splice(1, 0, 'fryScholarship');
 
 const { educationType, serviceBefore1977 } = fullSchema1995.definitions;
 
