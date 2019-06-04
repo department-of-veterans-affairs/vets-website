@@ -44,7 +44,7 @@ export const RatingRow = props => {
             <button
               type="button"
               onClick={handleRemoveRating(indx)}
-              className="va-button-link vads-u-padding--1p5"
+              className="va-button-link delete-btn vads-u-padding--1p5"
             >
               <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
               Delete

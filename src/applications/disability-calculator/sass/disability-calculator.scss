@@ -4,7 +4,42 @@
 @import '~leaflet/dist/leaflet.css';
 @import '~react-tabs/style/react-tabs';
 
-
 .disability-calculator {
   background-color: $color-gray-lightest;
+
+  #add-btn {
+    padding: 12px, 0, 12px, 0;
+  }
+
+  .delete-btn {
+    &:hover {
+      padding: 12px;
+    }
+  }
 }
+
+// .add-btn:hover {
+//   background: none;
+//   border: 0;
+//   border-radius: 0;
+//   outline: 0;
+//   color: #004795;
+//   text-decoration: underline;
+//   background-color: rgba(0, 0, 0, 0.05) !important;
+//   transition-duration: 0.3s;
+//   transition-timing-function: ease-in-out;
+//   transition-property: color, background-color, border-color;
+// }
+
+// .va-button-link:hover {
+//   background: none;
+//   border: 0;
+//   border-radius: 0;
+//   outline: 0;
+//   color: #004795;
+//   text-decoration: underline;
+//   background-color: rgba(0, 0, 0, 0.05) !important;
+//   transition-duration: 0.3s;
+//   transition-timing-function: ease-in-out;
+//   transition-property: color, background-color, border-color;
+// }

@@ -3,6 +3,7 @@ import React from 'react';
 import { calculateRating, roundRating } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
+import '../sass/disability-calculator.scss';
 
 export default class DisabilityRatingCalculator extends React.Component {
   constructor() {
@@ -124,6 +125,7 @@ export default class DisabilityRatingCalculator extends React.Component {
             of each for your notes, if you'd like. Then click Calculate to get
             your combined rating.
           </p>
+          <br />
         </div>
         <div className="vads-l-grid-container">
           <div className="vads-l-row">
@@ -141,13 +143,13 @@ export default class DisabilityRatingCalculator extends React.Component {
               indx={idx}
             />
           ))}
-          {/* <div className="vads-l-grid-container"> */}
           <div className="vads-l-row">
             <div className="vads-l-col--3">
               <button
-                className="va-button-link vads-u-text-align--left vads-u-padding-y--1p5"
+                className="va-button-link vads-u-text-align--left"
                 type="button"
                 onClick={this.handleAddRating}
+                id="add-btn"
               >
                 <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
                 Add rating
@@ -155,8 +157,9 @@ export default class DisabilityRatingCalculator extends React.Component {
             </div>
             <div className="vads-l-col--8" />
           </div>
+          <br />
           <div className="vads-l-row">
-            <div className="vads-l-col--3 vads-u-padding-right--2">
+            <div className="vads-l-col--2">
               <button
                 onClick={evt => {
                   this.handleSubmit(evt);
@@ -166,7 +169,12 @@ export default class DisabilityRatingCalculator extends React.Component {
               </button>
             </div>
             <div className="vads-l-col--8">
-              <a onClick={this.clearAll}>Clear all</a>
+              <button
+                className="va-button-link clear-btn vads-u-padding-y--1p5"
+                onClick={this.clearAll}
+              >
+                Clear all
+              </button>
             </div>
           </div>
         </div>
