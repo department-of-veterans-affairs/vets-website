@@ -2,6 +2,10 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 class LatencyIndicator extends React.Component {
+  static defaultProps = {
+    latencyThreshold: 2000,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,28 +14,23 @@ class LatencyIndicator extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => {
+    this.timeoutId = setTimeout(() => {
       this.setState({ sufferingLatency: true });
-    }, 2000);
+    }, this.props.latencyThreshold);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearTimeout(this.timeoutId);
   }
 
   render() {
-    if (!this.state.sufferingLatency) {
-      return null;
-    }
-
     return (
       <AlertBox
         isVisible={this.state.sufferingLatency}
         status="info"
         headline="Unexpected wait"
-      >
-        <p>Please wait, results may take a few seconds longer than normal</p>
-      </AlertBox>
+        content="Please wait, results may take a few seconds longer than normal"
+      />
     );
   }
 }
