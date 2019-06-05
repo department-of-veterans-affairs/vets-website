@@ -117,7 +117,9 @@ export function getAppealsV2() {
             action.type = FETCH_APPEALS_ERROR;
             break;
         }
-        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+        Raven.captureException(`vets_appeals_v2_err_get_appeals`, {
+          fingerprint: ['{{default}}', status],
+        });
         return dispatch(action);
       },
     );
