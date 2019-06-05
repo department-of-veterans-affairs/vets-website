@@ -61,7 +61,9 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{this.props.name}</Link>
+                  <Link className="school-name" to={linkTo}>
+                    {this.props.name}
+                  </Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality">
@@ -89,7 +91,7 @@ export class SearchResult extends React.Component {
                     <h4>
                       <i className="fa fa-home fa-search-result" />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div className="housing-value">{housing}</div>
                     </h4>
                   </div>
                 </div>
