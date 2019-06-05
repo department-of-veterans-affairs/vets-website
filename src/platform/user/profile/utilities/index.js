@@ -138,5 +138,6 @@ export function teardownProfileSession() {
   // after session cookie is fully in place.
   const sessionKeys = ['hasSession', 'userFirstName', 'sessionExpiration'];
   for (const key of sessionKeys) localStorage.removeItem(key);
+  sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearRavenLoginType();
 }
