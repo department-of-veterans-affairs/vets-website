@@ -149,18 +149,22 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
-          try {
-            build(ref, dockerContainer, assetSource, envName, false)
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              build(ref, dockerContainer, assetSource, envName, true)
-            } else {
-              build(ref, dockerContainer, assetSource, envName, false)
-            }
+          dockerContainer.inside(DOCKER_ARGS) {
+            sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
           }
+          build(ref, dockerContainer, assetSource, envName, true)
+          // try {
+          //   build(ref, dockerContainer, assetSource, envName, false)
+          // } catch (error) {
+          //   if (!contentOnlyBuild) {
+          //     dockerContainer.inside(DOCKER_ARGS) {
+          //       sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+          //     }
+          //     build(ref, dockerContainer, assetSource, envName, true)
+          //   } else {
+          //     build(ref, dockerContainer, assetSource, envName, false)
+          //   }
+          // }
         }
       }
 
