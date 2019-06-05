@@ -11,11 +11,8 @@ export function selectAnnouncement(
   if (announcements.isInitialized) {
     announcement = config.announcements
       .filter(a => !a.disabled)
+      .filter(a => !announcements.dismissed.includes(a.name))
       .find(a => a.paths.test(path));
-
-    if (announcement && announcements.dismissed.includes(announcement.name)) {
-      announcement = null;
-    }
   }
 
   return announcement;

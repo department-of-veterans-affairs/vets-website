@@ -2,11 +2,9 @@
     <div>
         <button class="va-btn-close-icon va-sidebarnav-close" type="button" aria-label="Close this menu"></button>
         <div class="left-side-nav-title">
-            <a href="{{ facilitySidebar.description | homePath }}" class="vads-u-display--block">
-                <h4>
-                    {{ facilitySidebar.name | facilitySidebarName }}
-                </h4>
-            </a>
+            <h4>
+                {{ facilitySidebar.name }}
+            </h4>
         </div>
         <ul class="usa-accordion">
             {% for link in facilitySidebar.links %}

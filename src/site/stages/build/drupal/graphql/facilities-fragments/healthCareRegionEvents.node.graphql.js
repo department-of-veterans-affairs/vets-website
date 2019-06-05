@@ -2,7 +2,7 @@
  * The 'Health Care Local Facility' bundle of the 'Content' entity type.
  */
 
-const EVENTS_RESULTS = `  
+const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
         title
@@ -23,12 +23,12 @@ const EVENTS_RESULTS = `
           }
         }
       }
-    
+
       entityUrl {
         path
       }
     }
-  
+
 `;
 
 function queryFilter(isAll) {
