@@ -9,28 +9,43 @@ import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
 
+/**
+ * This is the parent component for the MyHealtheVet Account validation app.
+ * It handles redirects based on detected changes to accountState.  The indexRoute ('/')
+ * mounts the ValidateMHVAccount component which handles refetching the MHV account
+ * and redirecting in case of errors.
+ */
 class Main extends React.Component {
   componentDidUpdate(prevProps) {
     const {
       loadingProfile,
+      location,
       loggedIn,
       mhvAccount,
+      profile,
       router,
-      location,
     } = this.props;
+
+    const pathname = location.pathname;
     const prevMhvAccount = prevProps.mhvAccount;
 
-    if (prevProps.loadingProfile && !loadingProfile && !loggedIn) {
-      window.location = '/';
+    if (prevProps.loadingProfile && !loadingProfile) {
+      if (!loggedIn) {
+        window.location = '/';
+      }
+
+      // If a successful verification originated from this flow, the user will
+      // be redirected back to '/health-care/my-health-account-validation/verify' after.
+      // Instead of showing the verify message, redirect them to '/' to re-check their
+      // MHV account status.
+      if (pathname === '/verify' && profile.verified) {
+        router.replace('/');
+      }
     }
 
     // If accountState or accountLevel has changed, check if the user's
     // state is valid for MHV, otherwise redirect to index route to recheck
-    if (
-      location.pathname !== '/' &&
-      prevMhvAccount.loading &&
-      !mhvAccount.loading
-    ) {
+    if (pathname !== '/' && prevMhvAccount.loading && !mhvAccount.loading) {
       const { accountLevel, accountState } = mhvAccount;
       const accountLevelChanged = accountLevel !== prevMhvAccount.accountLevel;
       const accountStateChanged = accountState !== prevMhvAccount.accountState;
@@ -77,7 +92,9 @@ class Main extends React.Component {
     let content;
 
     if (location.pathname !== '/' && mhvAccountLoading) {
-      content = <LoadingIndicator setFocus />;
+      content = (
+        <LoadingIndicator message="Loading your health information" setFocus />
+      );
     } else if (!loadingProfile && loggedIn) {
       content = children;
     } else {
@@ -86,7 +103,7 @@ class Main extends React.Component {
 
     return (
       <div className="row">
-        <div className="vads-u-padding-bottom--5">{content}</div>
+        <div className="vads-u-padding--5">{content}</div>
       </div>
     );
   }
