@@ -11,6 +11,8 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { distBetween } from '../utils/facilityDistance';
 import { facilityTypes } from '../config';
 
+const timeoutErrorCode = '504';
+
 class ResultsList extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +50,7 @@ class ResultsList extends Component {
       position,
       searchString,
       results,
+      error,
       isMobile,
       pagination: { currentPage, totalPages, totalEntries },
     } = this.props;
@@ -64,6 +67,18 @@ class ResultsList extends Component {
       );
     }
 
+    if (error && error.find(err => err.code === timeoutErrorCode)) {
+      /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+      return (
+        <div
+          className="search-result-title facility-result"
+          ref={this.searchResultTitle}
+        >
+          The search has timed out, please retry your search.
+        </div>
+      );
+      /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    }
     if (!results || results.length < 1) {
       /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
       return (
@@ -157,6 +172,7 @@ function mapStateToProps(state) {
     facilityTypeName,
     inProgress,
     results: state.searchResult.results,
+    error: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
     searchString,
