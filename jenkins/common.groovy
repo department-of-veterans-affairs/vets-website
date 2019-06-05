@@ -221,11 +221,14 @@ def cacheDrupalContent(dockerContainer) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         dockerContainer.inside(DOCKER_ARGS) {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                           usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-            sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
-            sh "s3-cli sync --acl-public --region us-gov-west-1 /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/"
-          }
+          sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+        }
+      }
+
+      dockerContainer.inside(DOCKER_ARGS) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                         usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+          sh "s3-cli sync --acl-public --region us-gov-west-1 /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/"
         }
       }
     } catch (error) {
