@@ -19,16 +19,16 @@ function isNaN(arr) {
 }
 
 // helper to remove % sign from rating
-// function checkForPercent(e) {
-//   const element = String(e).split('');
-//   for (let i = element.length - 1; i >= 0; i--) {
-//     if (element[i] === '%') {
-//       element.splice(i, 1);
-//     }
-//   }
-//   // eslint-disable-next-line radix
-//   return parseInt(element.join(''));
-// }
+function checkForPercent(e) {
+  const element = String(e).split('');
+  for (let i = element.length - 1; i >= 0; i--) {
+    if (element[i] === '%') {
+      element.splice(i, 1);
+    }
+  }
+  // eslint-disable-next-line radix
+  return parseInt(element.join(''));
+}
 
 function pullRatingsFromState(arr) {
   const allRatings = [];
@@ -38,6 +38,14 @@ function pullRatingsFromState(arr) {
   return allRatings;
 }
 
+export function validateValue(e) {
+  if (!/^[0-9]+$/.test(e)) {
+    return false;
+  }
+  return true;
+}
+
+// eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
   const checkIfRatingsAreNumbers = isNaN(ratingArr);
@@ -69,3 +77,12 @@ export function calculateRating(arr) {
     return result;
   }
 }
+
+export const setFocus = selector => {
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
+  if (el) {
+    el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
+};

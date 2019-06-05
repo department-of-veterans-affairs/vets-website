@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
-import { calculateRating } from '../utils/helpers';
+import { calculateRating, validateValue, setFocus } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
 import '../sass/disability-calculator.scss';
@@ -28,9 +28,26 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingRef = React.createRef();
   }
 
+  componentDidMount() {
+    setFocus();
+  }
   handleClick = () => {
     this.child.ratingInput.focus();
   };
+
+  // handleChange = (e, idx) => {
+  //   const curRatings = this.state.ratings;
+
+  //   curRatings[idx][e.target.name] =
+  //     // eslint-disable-next-line radix
+  //     e.target.name === 'rating' ?
+  //     const ratingVal = validateValue(e.target.value)
+  //     ratingVal ?
+  //     parseInt(e.target.value) : e.target.value;
+  //   this.setState({ ratings: curRatings }, () => {
+  //     console.log(this.state);
+  //   });
+  // };
 
   handleChange = (e, idx) => {
     const curRatings = this.state.ratings;
@@ -42,18 +59,18 @@ export default class DisabilityRatingCalculator extends React.Component {
     });
   };
 
-  handleRatingCalculateChange = idx => evt => {
-    const newRatings = this.state.ratings.map((rating, sidx) => {
-      if (idx !== sidx) return rating;
-      // eslint-disable-next-line radix
-      return parseInt(evt.target.value);
-    });
+  // handleRatingCalculateChange = idx => evt => {
+  //   const newRatings = this.state.ratings.map((rating, sidx) => {
+  //     if (idx !== sidx) return rating;
+  //     // eslint-disable-next-line radix
+  //     return parseInt(evt.target.value);
+  //   });
 
-    this.setState({ ratings: newRatings });
-    console.log('handleRatingCalculateChange ', this.state);
-  };
+  //   this.setState({ ratings: newRatings });
+  //   console.log('handleRatingCalculateChange ', this.state);
+  // };
 
-  handleSubmit = evt => {
+  handleSubmit = () => {
     // const { ratings } = this.state.ratings;
     const ratings = this.state.ratings;
     const calcRating = calculateRating(ratings);
@@ -76,7 +93,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     });
   };
 
-  handleAddRating = evt => {
+  handleAddRating = () => {
     console.log(this.state.ratings);
     const newRatings = [
       ...this.state.ratings,
@@ -153,6 +170,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               ratingObj={ratingObj}
               key={idx}
               indx={idx}
+              setFocus
             />
           ))}
           <div className="vads-l-row">
@@ -170,7 +188,7 @@ export default class DisabilityRatingCalculator extends React.Component {
           </div>
           <br />
           <div className="vads-l-row">
-            <div className="vads-l-col--2">
+            <div className="vads-l-col--3">
               <button
                 onClick={evt => {
                   this.handleSubmit(evt);

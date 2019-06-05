@@ -26,7 +26,8 @@ export const RatingRow = props => {
           maxLength="3"
           value={ratingObj.rating.toString()}
           //   ref={input => (this.ratingInput = input)}
-          pattern="[\d]{5}(-[\d]{4})?"
+          // pattern="[\d]{5}(-[\d]{4})?"
+          pattern="\d+"
           name="rating"
         />
       </div>
@@ -40,7 +41,7 @@ export const RatingRow = props => {
       </div>
       <div className="vads-l-col--2">
         {ratingObj.canDelete === true && (
-          <>
+          <div>
             <button
               type="button"
               onClick={handleRemoveRating(indx)}
@@ -49,8 +50,7 @@ export const RatingRow = props => {
               <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
               Delete
             </button>
-            <a href="#" />
-          </>
+          </div>
         )}
       </div>
     </div>
