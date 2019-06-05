@@ -10,6 +10,8 @@ const deaEnrolledMax = 30;
 
 const deaOJTRate = 747;
 
+const housingRate = '#gbct_housing_allowance > div.small-6.columns.value > h5';
+
 // Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
 function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
   client
@@ -42,8 +44,8 @@ function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
 function verifyDEA(client, enrolledOption, expectedDEA) {
   client
     .selectDropdown('enrolledOld', enrolledOption)
-    .waitForElementVisible('.total-paid-to-you', Timeouts.normal)
-    .assert.containsText('.total-paid-to-you', expectedDEA);
+    .waitForElementVisible(housingRate, Timeouts.normal)
+    .assert.containsText(housingRate, expectedDEA);
 }
 
 // Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
@@ -54,7 +56,7 @@ function verifyAllDEAojt(client) {
       .pause(10)
       .selectDropdown('working', i);
     const value = Math.round((i / deaEnrolledMax) * deaOJTRate);
-    client.assert.containsText('.total-paid-to-you', `$${value}/mo`);
+    client.assert.containsText(housingRate, `$${value}/mo`);
   }
 }
 
