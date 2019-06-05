@@ -58,7 +58,7 @@ export const newChapters = {
       stem: {
         title: 'Education benefit',
         path: 'benefits/stem',
-        depends: form => displayEdithNourseRogersScholarship(form),
+        depends: displayEdithNourseRogersScholarship,
         uiSchema: stem.uiSchema,
         schema: stem.schema,
       },
