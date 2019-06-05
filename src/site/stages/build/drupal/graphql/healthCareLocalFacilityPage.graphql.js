@@ -64,6 +64,13 @@ module.exports = `
                       entityId
                       entityBundle
                       fieldAlsoKnownAs
+                      ${
+                        enabledFeatureFlags[
+                          featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
+                        ]
+                          ? 'fieldCommonlyTreatedCondition'
+                          : ''
+                      }
                       name
                       description {
                         processed

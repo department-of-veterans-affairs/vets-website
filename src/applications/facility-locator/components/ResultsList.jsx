@@ -3,13 +3,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setFocus } from '../utils/helpers';
-import { updateSearchQuery, searchWithBounds } from '../actions';
+
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import { distBetween } from '../utils/facilityDistance';
+
 import { facilityTypes } from '../config';
+
+import { distBetween } from '../utils/facilityDistance';
+import { setFocus } from '../utils/helpers';
+
+import { updateSearchQuery, searchWithBounds } from '../actions';
+
+import SearchResult from './SearchResult';
+import DelayedRender from 'platform/utilities/ui/DelayedRender';
 
 const timeoutErrorCode = '504';
 
@@ -61,8 +68,15 @@ class ResultsList extends Component {
           <LoadingIndicator
             message={`Searching for ${facilityTypeName}
             in ${searchString}`}
-            setFocus
           />
+          <DelayedRender>
+            <AlertBox
+              isVisible
+              status="info"
+              headline="Please wait"
+              content="Your results should appear in less than a minute. Thank you for your patience."
+            />
+          </DelayedRender>
         </div>
       );
     }

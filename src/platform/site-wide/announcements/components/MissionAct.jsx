@@ -5,8 +5,7 @@ export default function MissionAct({ dismiss }) {
     <div className="personalization-announcement">
       <span className="usa-label va-label-primary">New</span>{' '}
       <a onClick={dismiss} href="https://missionact.va.gov/">
-        Learn how you may be able to get non-VA care in your community with the
-        MISSION Act
+        Learn how you can get easier access to health care with the MISSION Act
       </a>
       <button
         type="button"
