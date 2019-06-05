@@ -67,7 +67,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       if (environment.isProduction()) {
         const { pathname } = window.location;
         const shouldRedirectToSessionExpired =
-          response.status === 401 && !pathname.includes('auth/login/callback');
+          response.status === 401 &&
+          !pathname.includes('auth/login/callback') &&
+          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSessionExpired) {
           window.location = '/session-expired';
