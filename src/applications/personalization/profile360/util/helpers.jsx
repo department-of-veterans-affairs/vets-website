@@ -51,7 +51,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 );
 
 export const formLinks = {
-  '21-526EZ': '/disability-benefits/apply/form-526-disability-claim/',
+  '21-526EZ': '/disability/file-disability-claim-form-21-526ez/',
   '21P-527EZ': '/pension/application/527EZ/',
   '21P-530': '/burials-and-memorials/application/530/',
   '1010ez': '/health-care/apply/application/',

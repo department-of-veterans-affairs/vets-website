@@ -1,4 +1,4 @@
-import recordEvent from '../../../monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const TOGGLE_FORM_SIGN_IN_MODAL = 'TOGGLE_FORM_SIGN_IN_MODAL';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';

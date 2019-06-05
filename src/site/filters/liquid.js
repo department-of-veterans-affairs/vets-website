@@ -12,6 +12,8 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
+  liquid.filters.humanizeTime = dt => moment(dt).format('LT');
+
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
@@ -22,6 +24,45 @@ module.exports = function registerFilters() {
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
+
+  liquid.filters.modulo = item => item % 2;
+
+  liquid.filters.fileType = data =>
+    data
+      .split('.')
+      .slice(-1)
+      .pop()
+      .toUpperCase();
+
+  liquid.filters.breakIntoSingles = data => {
+    let output = '';
+    if (data !== '') {
+      data.forEach(element => {
+        output += `data-${element} `;
+      });
+    }
+    return output;
+  };
+
+  liquid.filters.videoThumbnail = data => {
+    const string = data.split('?v=')[1];
+    return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
+  };
+
+  liquid.filters.breakTerms = data => {
+    let output = '';
+    if (data !== '') {
+      const count = data.length;
+      data.forEach((element, index) => {
+        if (index < count - 1) {
+          output += `${element}, `;
+        } else {
+          output += `${element}`;
+        }
+      });
+    }
+    return output;
+  };
 
   liquid.filters.locationUrlConvention = facility =>
     facility.fieldNicknameForThisFacility

@@ -28,18 +28,18 @@ function createOutreachAssetsData(buildSettings) {
 
     for (const entity of outreachAssets.entities) {
       let relativeUrl = '';
-
-      switch (entity.fieldMedia.entity.entityBundle) {
-        case ENTITY_BUNDLES.DOCUMENT:
-          relativeUrl = entity.fieldMedia.entity.fieldDocument.entity.url;
-          break;
-        case ENTITY_BUNDLES.IMAGE:
-          relativeUrl = entity.fieldMedia.entity.image.url;
-          break;
-        default:
-          break;
+      if (entity.entityBundle) {
+        switch (entity.fieldMedia.entity.entityBundle) {
+          case ENTITY_BUNDLES.DOCUMENT:
+            relativeUrl = entity.fieldMedia.entity.fieldDocument.entity.url;
+            break;
+          case ENTITY_BUNDLES.IMAGE:
+            relativeUrl = entity.fieldMedia.entity.image.url;
+            break;
+          default:
+            break;
+        }
       }
-
       if (!relativeUrl) continue;
 
       const noSlash = relativeUrl.slice(1);
@@ -49,12 +49,9 @@ function createOutreachAssetsData(buildSettings) {
       entity.derivedFields = { absoluteUrl, fileSize };
     }
 
-    const outreachAssetsFileName = 'generated/outreach-assets.json';
-    const serializedOutreachAssets = JSON.stringify(outreachAssets, null, 2);
-
-    files[outreachAssetsFileName] = {
-      contents: Buffer.from(serializedOutreachAssets),
-    };
+    metalsmith.metadata({
+      outreachAssetsDataArray: outreachAssets,
+    });
 
     done();
   };

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import recordEvent from 'platform/monitoring/record-event';
 
 class FormStartControls extends React.Component {
   constructor(props) {
@@ -26,12 +27,10 @@ class FormStartControls extends React.Component {
 
   captureAnalytics = () =>
     this.props.gaStartEventName &&
-    window.dataLayer.push({ event: this.props.gaStartEventName });
+    recordEvent({ event: this.props.gaStartEventName });
 
   handleLoadPrefill = () => {
     this.captureAnalytics();
-    // temp hack to fix the fact that the START button doesn't work
-    // this.goToBeginning();
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
         // TODO: where does this come from?
@@ -131,12 +130,15 @@ FormStartControls.propTypes = {
   removeInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
-  // prefillAvailable = whether the form can be pre-filled
   prefillAvailable: PropTypes.bool.isRequired,
   startPage: PropTypes.string.isRequired,
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
+};
+
+FormStartControls.defaultProps = {
+  gaStartEventName: 'login-successful-start-form',
 };
 
 export default withRouter(FormStartControls);

@@ -9,7 +9,7 @@ import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 
 import widgetTypes from './widgetTypes';
-import createAdditionalInfoWidget from './createAdditionalInfoWidget';
+import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -27,6 +27,7 @@ import './social-share-links';
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
+import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 // Set further errors to have the appropriate source tag
 Raven.setTagsContext({
@@ -43,7 +44,7 @@ Raven.context(
   },
 );
 
-createAdditionalInfoWidget();
+subscribeAdditionalInfoEvents();
 
 createApplicationStatus(store, {
   formId: '21P-527EZ',
@@ -80,6 +81,7 @@ createApplicationStatus(store, {
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 
 createFacilityListWidget();
+createOtherFacilityListWidget();
 createFacilityPage(store);
 createBasicFacilityListWidget();
 

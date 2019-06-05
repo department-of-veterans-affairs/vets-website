@@ -13,7 +13,7 @@ const VerifyIdentity = () => {
           you access to your personal health information.
         </p>
         <button
-          onClick={() => verify({ returnURL: '/my-health-account-validation' })}
+          onClick={verify}
           className="usa-button-primary va-button-primary"
         >
           Verify your identity

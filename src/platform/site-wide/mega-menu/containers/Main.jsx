@@ -47,7 +47,7 @@ export function getAuthorizedLinkData(
     myHealthLink &&
     myHealthLink.title === 'My Health'
   ) {
-    myHealthLink.href = '/my-health-account-validation/';
+    myHealthLink.href = '/health-care/my-health-account-validation/';
     myHealthLink.target = undefined;
   }
 

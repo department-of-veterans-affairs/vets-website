@@ -49,7 +49,7 @@ class ResultsList extends Component {
       searchString,
       results,
       isMobile,
-      pagination: { currentPage, totalPages },
+      pagination: { currentPage, totalPages, totalEntries },
     } = this.props;
 
     if (inProgress) {
@@ -99,7 +99,7 @@ class ResultsList extends Component {
         {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
         <p className="search-result-title" ref={this.searchResultTitle}>
           {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
-          {`${results.length} results for ${facilityTypeName} near `}
+          {`${totalEntries} results for ${facilityTypeName} near `}
           <strong>“{context}”</strong>
         </p>
         <div>
@@ -152,6 +152,7 @@ function mapStateToProps(state) {
   const facilityTypeName = facilityTypes[facilityType];
 
   return {
+    currentQuery: state.searchQuery,
     context,
     facilityTypeName,
     inProgress,
