@@ -12,23 +12,23 @@ function isNaN(arr) {
       arr.splice(i, 1);
     }
     // eslint-disable-next-line no-console
-    console.log('isNaN: ' + arr);
+    // console.log(`isNaN: ${arr}`);
   }
-  console.log('isNaN is done: ' + arr);
+  // console.log(`isNaN is done: ${arr}`);
   return arr;
 }
 
 // helper to remove % sign from rating
-function checkForPercent(e) {
-  const element = String(e).split('');
-  for (let i = element.length - 1; i >= 0; i--) {
-    if (element[i] === '%') {
-      element.splice(i, 1);
-    }
-  }
-  // eslint-disable-next-line radix
-  return parseInt(element.join(''));
-}
+// function checkForPercent(e) {
+//   const element = String(e).split('');
+//   for (let i = element.length - 1; i >= 0; i--) {
+//     if (element[i] === '%') {
+//       element.splice(i, 1);
+//     }
+//   }
+//   // eslint-disable-next-line radix
+//   return parseInt(element.join(''));
+// }
 
 function pullRatingsFromState(arr) {
   const allRatings = [];
@@ -42,13 +42,11 @@ export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
   const checkIfRatingsAreNumbers = isNaN(ratingArr);
 
-  const sortedArr = checkIfRatingsAreNumbers.sort((a, b) => {
-    return b - a;
-  });
+  const sortedArr = checkIfRatingsAreNumbers.sort((a, b) => b - a);
   // eslint-disable-next-line one-var
   let a, b, x;
 
-  console.log('sortedArr: ' + sortedArr);
+  console.log(`sortedArr: ${sortedArr}`);
   while (sortedArr.length > 1) {
     console.log(sortedArr);
     a = 100 - sortedArr[0];
@@ -63,6 +61,11 @@ export function calculateRating(arr) {
 
   if (sortedArr.length === 1) {
     const lastCalcualtedRating = sortedArr[0];
-    return roundRating(lastCalcualtedRating);
+    const result = roundRating(lastCalcualtedRating);
+    // return roundRating(lastCalcualtedRating);
+    if (result > 100) {
+      return 100;
+    }
+    return result;
   }
 }

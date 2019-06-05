@@ -1,6 +1,3 @@
-
-
-const rootReducer = {
-};
+const rootReducer = {};
 
 export default rootReducer;

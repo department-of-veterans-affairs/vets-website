@@ -1,6 +1,5 @@
 import AboutDisabilityRatings from './containers/AboutDisabilityRatings';
 
-
 const routes = {
   path: '/',
   component: AboutDisabilityRatings,

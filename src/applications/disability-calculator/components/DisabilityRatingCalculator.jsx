@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
-import { calculateRating, roundRating } from '../utils/helpers';
+import { calculateRating } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
 import '../sass/disability-calculator.scss';
@@ -24,12 +24,7 @@ export default class DisabilityRatingCalculator extends React.Component {
       showCombinedRating: false,
       calculatedRating: 0,
     };
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleRatingCalculateChange = this.handleRatingCalculateChange.bind(
-    //   this,
-    // );
-    // this.handleAddRating = this.handleAddRating.bind(this);
-    // this.handleRemoveRating = this.handleRemoveRating.bind(this);
+
     this.ratingRef = React.createRef();
   }
 
@@ -121,6 +116,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         { rating: 0, description: '', canDelete: false },
         { rating: 0, description: '', canDelete: false },
       ],
+      calculatedRating: 0,
     });
   };
 
@@ -162,10 +158,9 @@ export default class DisabilityRatingCalculator extends React.Component {
           <div className="vads-l-row">
             <div className="vads-l-col--3">
               <button
-                className="va-button-link vads-u-text-align--left"
+                className="va-button-link add-btn vads-u-text-align--left vads-u-padding-y--1p5"
                 type="button"
                 onClick={this.handleAddRating}
-                id="add-btn"
               >
                 <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
                 Add rating
