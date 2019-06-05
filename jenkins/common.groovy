@@ -224,7 +224,7 @@ def cacheDrupalContent(dockerContainer) {
           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                            usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
             sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
-            sh "s3-cli put --acl-public --region us-gov-west-1 --recursive /application/.cache/content s3://vetsgov-website-builds-s3-upload"
+            sh "s3-cli put --acl-public --region us-gov-west-1 --recursive /application/.cache/content s3://vetsgov-website-builds-s3-upload/"
           }
         }
       }
