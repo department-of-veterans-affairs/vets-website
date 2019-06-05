@@ -52,6 +52,7 @@ async function fetchCache(options) {
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
 
+  fs.ensureDirSync(cacheDirectory);
   const cacheKey = getDrupalCacheKey(cacheEnv);
 
   const cachePath = `${cacheUrl}/${cacheKey}.tar.bz2`;
