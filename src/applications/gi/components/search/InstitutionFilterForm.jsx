@@ -18,11 +18,6 @@ class InstitutionFilterForm extends React.Component {
     this.renderTypeFilter = this.renderTypeFilter.bind(this);
   }
 
-  stemLabel = () =>
-    environment.isProduction()
-      ? 'STEM (Science, Technology, Engineering, and Math)'
-      : 'Rogers STEM Scholarship';
-
   handleDropdownChange(e) {
     const { name: field, value } = e.target;
     this.props.onFilterChange(field, value);
@@ -129,7 +124,7 @@ class InstitutionFilterForm extends React.Component {
           <Checkbox
             checked={filters.stemOffered}
             name="stemOffered"
-            label={this.stemLabel()}
+            label="Rogers STEM Scholarship"
             onChange={this.handleCheckboxChange}
           />
         )}
