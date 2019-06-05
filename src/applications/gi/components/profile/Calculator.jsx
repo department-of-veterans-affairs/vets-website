@@ -15,9 +15,9 @@ import environment from 'platform/utilities/environment';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
-const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
+const CalculatorResultRow = ({ label, value, header, bold, visible, id }) =>
   visible ? (
-    <div className={classNames('row', 'calculator-result', { bold })}>
+    <div id={id} className={classNames('row', 'calculator-result', { bold })}>
       <div className="small-6 columns">
         {header ? <h5>{label}:</h5> : <div>{label}:</div>}
       </div>
