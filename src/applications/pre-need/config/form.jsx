@@ -341,7 +341,7 @@ const formConfig = {
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
-        // If not, "Sponsor‘s" precedes all the field labels.
+        // If not, "Sponsor’s" precedes all the field labels.
         applicantMilitaryHistory: {
           path: 'applicant-military-history',
           depends: isVeteran,

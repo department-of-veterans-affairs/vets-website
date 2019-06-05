@@ -222,22 +222,22 @@ class GuidancePage extends React.Component {
         {boardToSubmit.abbr !== 'DRB' && (
           <li>
             Item 8 asks for the date when you discovered the error or injustice
-            you‘re asking the Board to address. If it‘s been more than 3 years
-            since you found this error or injustice, you‘ll need to include a
+            you’re asking the Board to address. If it’s been more than 3 years
+            since you found this error or injustice, you’ll need to include a
             reason why the Board should consider your application. Examples of
-            good reasons include new evidence you‘ve found to support your
+            good reasons include new evidence you’ve found to support your
             claim, or recent changes in policy (like liberal consideration for
             PTSD, TBI, or military sexual assault or harassment). These kinds of
             reasons will make it more likely for the Board to decide in your
-            favor. The 3-year time limit isn‘t a strict rule, so don‘t let it
+            favor. The 3-year time limit isn’t a strict rule, so don’t let it
             keep you from applying if you think you have a strong case.
           </li>
         )}
         {boardToSubmit.abbr !== 'DRB' && (
           <li>
-            Item 10 asks if you‘re willing to appear in person before the Board
+            Item 10 asks if you’re willing to appear in person before the Board
             in Washington, DC. The Board rarely asks Veterans to appear in
-            person, but if you say you‘re willing to do so, it may help show how
+            person, but if you say you’re willing to do so, it may help show how
             serious you are about your case.
           </li>
         )}
@@ -248,10 +248,10 @@ class GuidancePage extends React.Component {
               Review from the Discharge Review Board (DRB). If your case is
               especially complicated and requires detailed explanation, you{' '}
               <strong>may</strong> have more success with a Personal Appearance
-              Review. Note that you‘ll have to pay your travel costs if you make
+              Review. Note that you’ll have to pay your travel costs if you make
               a personal appearance. Documentary Reviews are generally faster,
               so we recommend you begin with this type of review. Also, if
-              you‘re denied in a Documentary Review, you can then appeal through
+              you’re denied in a Documentary Review, you can then appeal through
               a Personal Appearance Review. But you can’t request Documentary
               Review after a Personal Appearance Review.
             </li>

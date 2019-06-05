@@ -75,9 +75,9 @@ function Docket({
           financial distress, or for other sufficient cause.
         </p>
         <p>
-          Advanced on the Docket appeals are prioritized so that they‘re always
+          Advanced on the Docket appeals are prioritized so that they’re always
           at the front of the line. Your appeal will be sent to a judge as soon
-          as it‘s ready for their review.
+          as it’s ready for their review.
         </p>
       </div>
     );
@@ -86,9 +86,9 @@ function Docket({
     content = (
       <p>
         Your appeal was remanded by the U.S. Court of Appeals for Veterans
-        Claims. Court Remand appeals are prioritized so that they‘re always at
+        Claims. Court Remand appeals are prioritized so that they’re always at
         the front of the line. Your appeal will be sent to a judge as soon as
-        it‘s ready for their review.
+        it’s ready for their review.
       </p>
     );
   } else {
@@ -97,7 +97,7 @@ function Docket({
       yourPlaceText = (
         <p>
           The Board is currently reviewing appeals from {docketMonthFormatted}{' '}
-          or older. Your appeal is eligible to be sent to a judge when it‘s
+          or older. Your appeal is eligible to be sent to a judge when it’s
           ready for their review.
         </p>
       );
@@ -107,7 +107,7 @@ function Docket({
           There are {total.toLocaleString()} appeals on the docket, not
           including Advanced on the Docket and Court Remand appeals. Some of
           these appeals are not ready to be sent to a judge. A judge will begin
-          work on your appeal when it‘s among the oldest appeals that are ready
+          work on your appeal when it’s among the oldest appeals that are ready
           for their review. The Board is currently reviewing appeals from{' '}
           {docketMonthFormatted} or older.
         </p>
@@ -119,7 +119,7 @@ function Docket({
           {getDocketName(amaDocket)} docket, not including Advanced on the
           Docket and Court Remand appeals. Some of these appeals are not ready
           to be sent to a judge. A judge will begin work on your appeal when
-          it‘s among the oldest appeals that are ready for their review. In
+          it’s among the oldest appeals that are ready for their review. In
           total, there are {totalAllDockets.toLocaleString()} appeals waiting at
           the Board.
         </p>
@@ -136,13 +136,13 @@ function Docket({
     content = (
       <div>
         <p>
-          The Board of Veterans’ Appeals reviews cases in the order they‘re
+          The Board of Veterans’ Appeals reviews cases in the order they’re
           received. When you{' '}
           {isLegacy
             ? 'completed a VA Form 9'
             : `requested a ${getDocketName(amaDocket)} appeal`}{' '}
           in {monthFormatted}, your appeal was added to the{' '}
-          {isLegacy ? 'Board‘s' : getDocketName(amaDocket)} docket, securing
+          {isLegacy ? 'Board’s' : getDocketName(amaDocket)} docket, securing
           your spot in line.
         </p>
         {yourPlaceText}
@@ -159,9 +159,9 @@ function Docket({
         <p>
           If you are suffering a serious illness or are in financial distress,
           or for another sufficient cause, you can apply to have your appeal{' '}
-          <strong>Advanced on the Docket</strong>. If you‘re older than 75, your
+          <strong>Advanced on the Docket</strong>. If you’re older than 75, your
           appeal will receive this status automatically. Advanced on the Docket
-          appeals are prioritized so that they‘re always at the front of the
+          appeals are prioritized so that they’re always at the front of the
           line.
         </p>
         <p>

@@ -10,16 +10,16 @@ const additionalInformationDescription = (
   <div>
     <h4>Additional Information</h4>
     <p>
-      If there is any other information you would like to provide as part of
-      your claim, please add it here.
+      If there’s any other information you’d like to give us as part of your
+      claim, please add it here.
     </p>
     <p>
-      It‘s important to tell us why your service-connected disability is the
-      reason you‘re no longer able to work. Providing specific examples will
+      It’s important to tell us why your service-connected disability is the
+      reason you’re no longer able to work. Providing specific examples will
       help us understand your claim.
     </p>
     <p>
-      If you‘ve left one or more jobs because of your service-connected
+      If you’ve left one or more jobs because of your service-connected
       disabilities, please note that.
     </p>
   </div>
