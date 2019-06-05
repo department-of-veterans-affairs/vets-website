@@ -80,34 +80,54 @@ function queryFilter(type) {
 }
 
 module.exports = `
+  featuredHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Featured services',
+  )}) {
+    ${HEALTH_SERVICES_RESULTS}
+  }
+  primaryCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Primary care (Family medicine, internal medicine)',
+  )}) {
+    ${HEALTH_SERVICES_RESULTS}
+  }
+  extendedCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Extended care and rehabilitation',
+  )}) {
+      ${HEALTH_SERVICES_RESULTS}
+  }
+  homelessHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Homeless services',
+  )}) {
+      ${HEALTH_SERVICES_RESULTS}
+  }
+  socialProgramsPatientFamilyServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Social programs and services',
+  )}) {
+      ${HEALTH_SERVICES_RESULTS}
+  }
+  genomicMedicineHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Genomic medicine/medical genetics (Genetic medicine)',
+  )}) {
+      ${HEALTH_SERVICES_RESULTS}
+  }
+  healthWellnessPatientFamilyServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Health and wellness',
+  )}) {
+      ${HEALTH_SERVICES_RESULTS}
+  }
+  mentalHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Mental and behavioral health',
+  )}) {
+    ${HEALTH_SERVICES_RESULTS}
+  }
   specialtyCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
     'Specialty care',
   )}) {
     ${HEALTH_SERVICES_RESULTS}
   }
-  primaryCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Primary care',
+  veteranCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Services for Veteran care',
   )}) {
     ${HEALTH_SERVICES_RESULTS}
   }
-  mentalHealthServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Mental health',
-  )}) {
-    ${HEALTH_SERVICES_RESULTS}
-  }
-  careCoordinatorPatientFamilyServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Care coordinators',
-  )}) {
-      ${HEALTH_SERVICES_RESULTS}
-    }
-  socialProgramsPatientFamilyServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Social programs and services',
-  )}) {
-      ${HEALTH_SERVICES_RESULTS}
-    }
-  healthWellnessPatientFamilyServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Health and wellness',
-  )}) {
-      ${HEALTH_SERVICES_RESULTS}
-    }
 `;
