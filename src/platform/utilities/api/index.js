@@ -57,6 +57,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (response.ok || response.status === 304) {
+        // Get session expiration from header
         const sessionExpiration = response.headers.get('X-Session-Expiration');
         if (sessionExpiration)
           localStorage.setItem('sessionExpiration', sessionExpiration);
