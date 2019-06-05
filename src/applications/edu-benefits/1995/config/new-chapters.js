@@ -14,13 +14,14 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import { displayActiveDutyStem } from '../helpers';
-import { benefitsLabels } from '../../utils/labels';
+import {
+  displayActiveDutyStem,
+  displayEdithNourseRogersScholarship,
+} from '../helpers';
 
-import { stem, activeDuty } from '../pages';
+import { activeDuty, benefitSelection, stem } from '../pages';
 
 const {
-  benefit,
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
@@ -50,29 +51,14 @@ export const newChapters = {
       benefitSelection: {
         title: 'Education benefit',
         path: 'benefits/eligibility',
-        uiSchema: {
-          benefit: {
-            'ui:widget': 'radio',
-            'ui:title': 'Which benefit are you currently using?',
-            'ui:options': {
-              labels: benefitsLabels,
-            },
-          },
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            benefit,
-          },
-        },
+        uiSchema: benefitSelection.uiSchema,
+        schema: benefitSelection.schema,
       },
       // related to 1995-STEM
       stem: {
         title: 'Education benefit',
         path: 'benefits/stem',
-        depends: {
-          benefit: 'chapter33',
-        },
+        depends: displayEdithNourseRogersScholarship,
         uiSchema: stem.uiSchema,
         schema: stem.schema,
       },
