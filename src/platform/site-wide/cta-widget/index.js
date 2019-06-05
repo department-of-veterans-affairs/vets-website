@@ -9,7 +9,7 @@ import CallVBACenter from '../../static-data/CallVBACenter';
 import SubmitSignInForm from '../../static-data/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
-import { logout, verify } from '../../user/authentication/utilities';
+import { logout, verify, mfa } from '../../user/authentication/utilities';
 import recordEvent from '../../../platform/monitoring/record-event';
 import {
   ACCOUNT_STATES,
@@ -120,6 +120,38 @@ export class CallToActionWidget extends React.Component {
         ),
         primaryButtonText: 'Verify Your Identity',
         primaryButtonHandler: verify,
+        status: 'continue',
+      };
+    } else if (this.props.appId === 'direct-deposit') {
+      if (!this.props.profile.multifactor) {
+        return {
+          heading: `Please set up 2-factor authentication to ${
+            this._serviceDescription
+          }`,
+          alertText: (
+            <p>
+              We’re committed to protecting your information and preventing
+              fraud. You’ll need to add an extra layer of security to your
+              account with 2-factor authentication before we can give you access
+              to your bank account information.
+            </p>
+          ),
+          primaryButtonText: 'Set up 2-factor authentication',
+          primaryButtonHandler: mfa,
+          status: 'continue',
+        };
+      }
+
+      return {
+        heading: `Go to your VA.gov profile to ${this._serviceDescription}`,
+        alertText: (
+          <p>
+            Here, you can edit your bank name as well as your account number and
+            type.
+          </p>
+        ),
+        primaryButtonText: 'Go to your profile',
+        primaryButtonHandler: this.goToProfile,
         status: 'continue',
       };
     }
@@ -436,6 +468,10 @@ export class CallToActionWidget extends React.Component {
     }
   };
 
+  goToProfile = () => {
+    window.location.pathname = '/profile';
+  };
+
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
     logout();
@@ -477,11 +513,18 @@ CallToActionWidget.defaultProps = {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, /* services, */ verified, status } = profile;
+  const {
+    loading,
+    mhvAccount,
+    /* services, */
+    verified,
+    multifactor,
+    status,
+  } = profile;
   return {
     // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
-    profile: { loading, verified },
+    profile: { loading, verified, multifactor },
     mhvAccount,
     mviDown: status === 'SERVER_ERROR',
   };

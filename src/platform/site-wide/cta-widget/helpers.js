@@ -13,6 +13,7 @@ const frontendApps = {
   LETTERS: 'letters',
   VETERAN_ID_CARD: 'vic',
   VET_TEC: 'vet-tec',
+  DIRECT_DEPOSIT: 'direct-deposit',
 };
 
 const HEALTH_TOOLS = [
@@ -225,6 +226,9 @@ export const serviceDescription = (appId, index) => {
 
     case frontendApps.VET_TEC:
       return 'apply for VET TEC';
+
+    case frontendApps.DIRECT_DEPOSIT:
+      return 'change you direct deposit information online';
 
     default:
       return 'use this service';
