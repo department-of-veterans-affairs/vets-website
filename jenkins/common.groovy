@@ -144,6 +144,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
     try {
       def builds = [:]
+      def envCached = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
@@ -153,6 +154,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
             sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
           }
           build(ref, dockerContainer, assetSource, envName, true)
+          envCached[envName] = true
           // try {
           //   build(ref, dockerContainer, assetSource, envName, false)
           // } catch (error) {
@@ -169,6 +171,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       }
 
       parallel builds
+      return envCached
     } catch (error) {
       slackNotify()
       throw error
