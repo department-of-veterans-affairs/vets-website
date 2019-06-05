@@ -26,8 +26,7 @@ class ResultsList extends Component {
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress ||
-      nextProps.searchString !== this.props.searchString
+      nextProps.inProgress !== this.props.inProgress
     );
   }
 
@@ -62,11 +61,10 @@ class ResultsList extends Component {
 
     if (inProgress) {
       return (
-        <>
+        <div>
           <LoadingIndicator
             message={`Searching for ${facilityTypeName}
             in ${searchString}`}
-            setFocus
           />
           <DelayedRender>
             <AlertBox
@@ -76,7 +74,7 @@ class ResultsList extends Component {
               content="Your results should appear in less than a minute. Thank you for your patience."
             />
           </DelayedRender>
-        </>
+        </div>
       );
     }
 
