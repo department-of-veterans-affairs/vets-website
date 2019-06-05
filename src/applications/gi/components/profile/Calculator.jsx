@@ -187,6 +187,7 @@ export class Calculator extends React.Component {
           </div>
           <div className="total-paid-to-you">
             <CalculatorResultRow
+              id="gbct_housing_allowance"
               label="Housing allowance"
               value={outputs.housingAllowance.value}
               visible={outputs.housingAllowance.visible}
