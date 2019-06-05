@@ -210,7 +210,7 @@ def archive(dockerContainer, String ref) {
   }
 }
 
-def cacheDrupalContent(dockerContainer, String ref) {
+def cacheDrupalContent(dockerContainer) {
   stage("Cache Drupal Content") {
     // if (shouldBail()) { return }
 
