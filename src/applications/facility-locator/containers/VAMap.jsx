@@ -41,8 +41,9 @@ const otherToolsLink = (
 
 const urgentCareLink = (
   <p id="urgent-care-link">
-    For Urgent Care Network Locations,&nbsp;
-    <a href="http://vaurgentcarelocator.triwest.com/">click here</a>
+    <a href="http://vaurgentcarelocator.triwest.com/">
+      Find VA-approved urgent care locations and pharmacies near you
+    </a>
   </p>
 );
 
