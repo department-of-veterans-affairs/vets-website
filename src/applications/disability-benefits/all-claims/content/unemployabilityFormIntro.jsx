@@ -20,7 +20,7 @@ export const introDescription = (
       <ol>
         <li className="process-step list-one">
           <div>
-            <h5>Answer Questions</h5>
+            <h5>Answer questions</h5>
             <p>
               First, we’ll ask you questions about your situation and how your
               service-connected disability prevents you from holding down a
