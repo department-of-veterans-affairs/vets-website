@@ -39,6 +39,14 @@ const otherToolsLink = (
   </p>
 );
 
+const urgentCareLink = (
+  <p id="urgent-care-link">
+    <a href="http://vaurgentcarelocator.triwest.com/">
+      Find VA-approved urgent care locations and pharmacies near you
+    </a>
+  </p>
+);
+
 // This isn't valid JSX 2.x, better to get used to it now
 /* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
@@ -463,7 +471,10 @@ class VAMap extends Component {
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, selectedResult } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-
+    const externalLink =
+      currentQuery.facilityType === LocationType.CC_PROVIDER
+        ? urgentCareLink
+        : otherToolsLink;
     return (
       /* eslint-disable prettier/prettier */
       <div>
@@ -486,11 +497,11 @@ class VAMap extends Component {
                 className="facility-search-results"
               >
                 <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
-                {otherToolsLink}
+                {externalLink}
               </div>
             </TabPanel>
             <TabPanel>
-              {otherToolsLink}
+              {externalLink}
               <Map
                 ref="map"
                 center={position}
@@ -534,6 +545,10 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const externalLink =
+      currentQuery.facilityType === LocationType.CC_PROVIDER
+        ? urgentCareLink
+        : otherToolsLink;
 
     return (
       /* eslint-disable prettier/prettier */
@@ -565,7 +580,7 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh' }}
           >
-            {otherToolsLink}
+            {externalLink}
             <Map
               ref="map"
               center={position}
