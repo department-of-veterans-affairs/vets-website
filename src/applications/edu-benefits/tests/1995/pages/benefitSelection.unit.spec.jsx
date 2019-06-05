@@ -16,13 +16,16 @@ describe('Edu 1995 benefitSelection', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+  it('renders the correct amount of options for the benefit selection radio button', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
     );
-
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')).to
-      .not.be.empty;
+    expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('should have no required inputs', () => {
@@ -43,17 +46,5 @@ describe('Edu 1995 benefitSelection', () => {
     submitForm(form);
 
     expect(onSubmit.called).to.be.true;
-  });
-
-  it('renders the correct amount of options for the benefit selection radio button', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-    expect(form.find('input').length).to.equal(7);
-    form.unmount();
   });
 });
