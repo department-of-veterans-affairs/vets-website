@@ -58,7 +58,7 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  commonStages.build(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
 

@@ -124,7 +124,21 @@ def setup() {
   }
 }
 
-def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
+    def buildDetails = buildDetails(envName, ref)
+    def drupalAddress = DRUPAL_ADDRESSES.get(envName)
+    def drupalCred = DRUPAL_CREDENTIALS.get(envName)
+    def drupalMode = useCache ? '' : '--pull-drupal'
+
+    withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
+      dockerContainer.inside(DOCKER_ARGS) {
+        sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
+        sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+      }
+    }
+}
+
+def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
 
@@ -134,14 +148,17 @@ def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-        def buildDetails = buildDetails(envName, ref)
-        def drupalAddress = DRUPAL_ADDRESSES.get(envName)
-        def drupalCred = DRUPAL_CREDENTIALS.get(envName)
         builds[envName] = {
-          withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
-            dockerContainer.inside(DOCKER_ARGS) {
-              sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} --pull-drupal"
-              sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+          try {
+            build(ref, dockerContainer, assetSource, envName, false)
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              build(ref, dockerContainer, assetSource, envName, true)
+            } else {
+              build(ref, dockerContainer, assetSource, envName, false)
             }
           }
         }
