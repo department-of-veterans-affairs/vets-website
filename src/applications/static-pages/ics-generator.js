@@ -7,6 +7,7 @@ export function icsCreate(calendarLink) {
     const end = addToCalendarLink.getAttribute('data-end');
     const location = addToCalendarLink.getAttribute('data-location');
     const description = addToCalendarLink.getAttribute('data-description');
+    const title = addToCalendarLink.getAttribute('data-subject');
 
     cal.addProp('VERSION', 2);
     cal.addProp('PRODID', 'VA');
@@ -18,11 +19,28 @@ export function icsCreate(calendarLink) {
     event.addProp('DTEND', end);
     cal.addComponent(event);
     const calLink = cal.toString();
-    const calURI = encodeURIComponent(calLink);
 
     // Download the ics.
+    function download(filename, text) {
+      const element = document.createElement('a');
+      element.setAttribute(
+        'href',
+        `data:text/calendar;charset=utf8,${encodeURIComponent(text)}`,
+      );
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+
     function calDown(e) {
-      window.open(`data:text/calendar;charset=utf8,${calURI}`);
+      // window.open(`data:text/calendar;charset=utf8,${calURI}`);
+      const filename = `${title}.ics`;
+      download(filename, calLink);
       e.preventDefault();
     }
 
