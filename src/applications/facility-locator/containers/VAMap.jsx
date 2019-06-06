@@ -26,7 +26,7 @@ import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
-import { facilityTypes, ccLocatorEnabled } from '../config';
+import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
@@ -619,12 +619,17 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
+          <p>
           Find VA locations near you with our facility locator tool. You can
           search for your nearest VA medical center as well as other health
           facilities, benefit offices, cemeteries,
-          {ccLocatorEnabled() && <span> community care providers, </span>}
-          and Vet Centers. You can also filter your results by service type to
+          community care providers and Vet Centers. You can also filter your results by service type to
           find locations that offer the specific service you’re looking for.
+          </p>
+          <p>
+            <strong>Need same-day care for a minor illness or injury?</strong> Search for your nearest VA health facility. Or find <a href="https://vaurgentcarelocator.triwest.com/" target="_blank" rel="noopener noreferrer">VA-approved urgent care locations and pharmacies</a> near you.
+          </p>
+
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>
