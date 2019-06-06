@@ -11,7 +11,14 @@
             <li>
                 {% assign pathArray = entityUrl.path | split: '/' %}
                 {% assign pathRoot = pathArray | get: 2 | capitalize %}
-                <button class="usa-accordion-button" aria-expanded="false"
+                {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
+
+                <button class="usa-accordion-button"
+                        {% if deepLinksString == "false" and forloop.index == 1 %}
+                            aria-expanded="true"
+                        {% else %}
+                            aria-expanded="false"
+                        {% endif %}
                     aria-controls="a{{ forloop.index }}">
                     <a href="{{ link.url.path }}"
                         onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
