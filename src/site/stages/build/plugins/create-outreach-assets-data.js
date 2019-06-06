@@ -51,6 +51,7 @@ function createOutreachAssetsData(buildSettings) {
 
     metalsmith.metadata({
       outreachAssetsDataArray: outreachAssets,
+      ...metalsmith.metadata(),
     });
 
     done();
