@@ -52,7 +52,7 @@ function verifyDEA(client, enrolledOption, expectedDEA) {
 function verifyAllDEAojt(client) {
   for (let i = 2; i <= deaEnrolledMax; i += 2) {
     client
-      .waitForElementVisible('.total-paid-to-you', Timeouts.normal)
+      .waitForElementVisible(housingRate, Timeouts.normal)
       .pause(10)
       .selectDropdown('working', i);
     const value = Math.round((i / deaEnrolledMax) * deaOJTRate);
