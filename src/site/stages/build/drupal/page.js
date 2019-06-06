@@ -177,8 +177,10 @@ function compilePage(page, contentData) {
     data: {
       healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
       recordsHubSidebarQuery: recordsHubSidebarNav = {},
+      pensionHubSidebarQuery: pensionHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
+      outreachSidebarQuery: outreachSidebarNav = {},
     },
   } = contentData;
 
@@ -188,10 +190,15 @@ function compilePage(page, contentData) {
     owner = _.toLower(page.fieldAdministration.entity.name);
   }
   // Benefits hub side navs in an array to loop through later
-  const sideNavs = [healthcareHubSidebarNav, recordsHubSidebarNav];
+  const sideNavs = [
+    healthcareHubSidebarNav,
+    recordsHubSidebarNav,
+    pensionHubSidebarNav,
+  ];
   let sidebarNavItems;
 
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
+  const outreachSidebarNavItems = { outreachSidebar: outreachSidebarNav };
   const alertItems = { alert: alertsItem };
 
   const { entityUrl, entityBundle } = page;
@@ -201,11 +208,23 @@ function compilePage(page, contentData) {
   let pageCompiled;
 
   switch (entityBundle) {
+    case 'office':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        outreachSidebarNavItems,
+        alertItems,
+        pageId,
+      );
+      break;
+
     case 'health_care_region_detail_page':
       pageCompiled = Object.assign(
         {},
         page,
         facilitySidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );
@@ -223,6 +242,7 @@ function compilePage(page, contentData) {
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );
@@ -231,6 +251,7 @@ function compilePage(page, contentData) {
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );
@@ -239,6 +260,7 @@ function compilePage(page, contentData) {
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );
@@ -249,6 +271,7 @@ function compilePage(page, contentData) {
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );
@@ -259,6 +282,7 @@ function compilePage(page, contentData) {
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );
@@ -272,6 +296,7 @@ function compilePage(page, contentData) {
         {},
         page,
         sidebarNavItems,
+        outreachSidebarNavItems,
         alertItems,
         pageId,
       );

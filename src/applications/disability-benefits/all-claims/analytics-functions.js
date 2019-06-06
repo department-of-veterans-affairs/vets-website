@@ -2,8 +2,10 @@ import { recordEventOnce } from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
 import { HOMELESSNESS_TYPES } from './constants';
 
-const objectIsEmpty = (path, formData) =>
-  Object.values(get(path, formData, {})).every(option => !option);
+const objectIsEmpty = (obj, path) =>
+  Object.values(typeof path === 'string' ? get(path, obj, {}) : obj).every(
+    option => !option,
+  );
 
 const recordMissingField = name =>
   recordEventOnce(
@@ -16,7 +18,7 @@ const recordMissingField = name =>
 
 export default {
   claimType: formData => {
-    if (objectIsEmpty('view:claimType', formData))
+    if (objectIsEmpty(formData, 'view:claimType'))
       recordMissingField(
         'Disability - Form 526EZ - Military Service - Start Date',
       );
@@ -43,7 +45,7 @@ export default {
       );
   },
   pastEmploymentFormIntro: formData => {
-    if (objectIsEmpty('view:upload4192Choice', formData))
+    if (objectIsEmpty(formData, 'view:upload4192Choice'))
       recordMissingField(
         'Disability - Form 526EZ - Past Employment Walkthrough - Choice',
       );

@@ -16,9 +16,9 @@ const supplementalBenefitsHelp = (
   <AdditionalInfo triggerText="How do these benefits affect my claim?">
     <p>
       {' '}
-      You claim for unemployability won‘t be affected if you get supplemental
-      benefits, such as Social Security disability or workers‘ compensation. VA
-      and Social Security Administration are separate agencies.
+      Your claim for unemployability won’t be affected if you get supplemental
+      benefits, such as Social Security disability or workers’ compensation. VA
+      and the Social Security Administration are separate agencies.
     </p>
     <p>
       If you have a Social Security benefit letter, you may want to upload it to
@@ -38,7 +38,7 @@ export const uiSchema = {
     },
     receiveExpectWorkersCompensation: {
       'ui:title':
-        'Do you receive, or expect to receive, workers‘ compensation benefits? ',
+        'Do you receive, or expect to receive, workers’ compensation benefits? ',
       'ui:widget': 'yesNo',
     },
     'view:supplementalBenefitsHelp': {

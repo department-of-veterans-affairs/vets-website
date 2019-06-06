@@ -250,6 +250,7 @@ class ArrayField extends React.Component {
                         appStateData={this.props.appStateData}
                         schema={itemSchema}
                         uiSchema={arrayPageConfig.uiSchema}
+                        trackingPrefix={this.props.trackingPrefix}
                         title={pageTitle}
                         hideTitle
                         name={fieldName}
@@ -290,6 +291,7 @@ class ArrayField extends React.Component {
                     appStateData={this.props.appStateData}
                     schema={itemSchema}
                     uiSchema={arrayPageConfig.uiSchema}
+                    trackingPrefix={this.props.trackingPrefix}
                     title={itemTitle}
                     name={fieldName}
                     onChange={data => this.handleSetData(index, data)}
@@ -340,6 +342,7 @@ export default ArrayField;
 ArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object,
+  trackingPrefix: PropTypes.string.required,
   pageKey: PropTypes.string.isRequired,
   path: PropTypes.array.isRequired,
   formData: PropTypes.object,

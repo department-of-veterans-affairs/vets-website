@@ -17,6 +17,7 @@ const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const SPANISH_SUMMARY = '... spanishSummary';
 const ALERT_PARAGRAPH = '... alertParagraph';
+const TABLE = '... table';
 
 // Get current feature flags
 const {
@@ -56,6 +57,7 @@ module.exports = `
         ${LIST_OF_LINK_TEASERS}
         ${REACT_WIDGET} 
         ${SPANISH_SUMMARY}
+        ${TABLE}
         ${ALERT_PARAGRAPH}
       }
     }

@@ -24,6 +24,19 @@ export const benefitsLabels = {
       </a>
     </p>
   ),
+  // 1995-STEM related
+  fryScholarship: (
+    <p>
+      Fry Scholarship (Chapter 33)
+      <br />
+      <a
+        href="/education/survivor-dependent-benefits/fry-scholarship/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
   chapter30: (
     <p>
       Montgomery GI Bill (MGIB-AD, Chapter 30)

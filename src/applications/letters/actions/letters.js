@@ -75,9 +75,12 @@ export function getLetterList(dispatch) {
         dispatch({ type: GET_LETTERS_FAILURE });
       }
 
-      Raven.captureException(new Error('vets_letters_error_getLetterList'), {
-        fingerprint: ['{{ default }}', status],
-      });
+      Raven.captureException(
+        new Error(`vets_letters_error_getLetterList ${status}`),
+        {
+          fingerprint: ['{{ default }}', status],
+        },
+      );
       return Promise.reject();
     },
   );
@@ -136,7 +139,7 @@ export function getMailingAddress() {
       response => {
         const status = getStatus(response);
         Raven.captureException(
-          new Error(`vets_letters_error_getMailingAddress`, {
+          new Error(`vets_letters_error_getMailingAddress ${status}`, {
             fingerprint: ['{{ default }}', status],
           }),
         );
@@ -225,7 +228,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       response => {
         const status = getStatus(response);
         Raven.captureException(
-          new Error(`vets_letters_error_getLetterPdf_${letterType}`, {
+          new Error(`vets_letters_error_getLetterPdf_${letterType} ${status}`, {
             fingerprint: ['{{ default }}', status],
           }),
         );
@@ -298,7 +301,7 @@ export function saveAddress(address) {
       response => {
         const status = getStatus(response);
         Raven.captureException(
-          new Error(`vets_letters_error_saveAddress`, {
+          new Error(`vets_letters_error_saveAddress ${status}`, {
             fingerprint: ['{{ default }}', status],
           }),
         );
@@ -324,7 +327,7 @@ export function getAddressCountries() {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-countries-failure' });
         Raven.captureException(
-          new Error(`vets_letters_error_getAddressCountries`, {
+          new Error(`vets_letters_error_getAddressCountries ${status}`, {
             fingerprint: ['{{ default }}', status],
           }),
         );
@@ -349,7 +352,7 @@ export function getAddressStates() {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-states-success' });
         Raven.captureException(
-          new Error(`vets_letters_error_getAddressStates`, {
+          new Error(`vets_letters_error_getAddressStates ${status}`, {
             fingerprint: ['{{ default }}', status],
           }),
         );

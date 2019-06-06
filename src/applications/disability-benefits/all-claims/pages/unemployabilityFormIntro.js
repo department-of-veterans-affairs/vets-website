@@ -12,9 +12,9 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         answerQuestions:
-          'I want to continue online with questions about my unemployability.',
+          'I want to continue online and answer questions about my unemployability.',
         upload:
-          'I already filled out a paper VA Form 21-8940 and want to upload it.',
+          'I already filled out VA Form 21-8940 in paper form and want to upload it.',
       },
     },
   },
