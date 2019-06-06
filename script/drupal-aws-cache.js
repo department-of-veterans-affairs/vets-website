@@ -1,4 +1,15 @@
 /* eslint-disable no-console */
+
+/*
+ * Script for creating and fetching cached sets of content from Drupal
+ *
+ * With no arguments, this script will create a cache file for vagovdev,
+ * based on what's currently in your drupal cache
+ *
+ * Run with --fetch to pull content from Drupal
+ *
+ * Use --buildtype to set a build type to use
+ */
 const commandLineArgs = require('command-line-args');
 const util = require('util');
 const path = require('path');
@@ -18,7 +29,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
-
 const cacheUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/content`;
 
 function downloadFile(url, dest) {
@@ -51,25 +61,21 @@ async function fetchCache(options) {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
+  const cacheKey = getDrupalCacheKey(cacheEnv);
+  const fullCacheUrl = `${cacheUrl}/${cacheKey}.tar.bz2`;
+  const downloadPath = path.join(cacheDirectory, `${cacheKey}.tar.bz2`);
 
   fs.ensureDirSync(cacheDirectory);
-  const cacheKey = getDrupalCacheKey(cacheEnv);
 
-  const cachePath = `${cacheUrl}/${cacheKey}.tar.bz2`;
   try {
-    await downloadFile(
-      cachePath,
-      path.join(cacheDirectory, `${cacheKey}.tar.bz2`),
-    );
-    await decompress(
-      path.join(cacheDirectory, `${cacheKey}.tar.bz2`),
-      cacheDirectory,
-    );
-    console.log(`Downloaded ${cachePath}`);
+    await downloadFile(fullCacheUrl, downloadPath);
+    await decompress(downloadPath, cacheDirectory);
+
+    console.log(`Downloaded ${fullCacheUrl}`);
     console.log(`Cache stored in ${cacheDirectory}`);
   } catch (e) {
     console.log(
-      `No cached content found for that environment and query: ${cachePath}`,
+      `No cached content found for that environment and query: ${fullCacheUrl}`,
     );
   }
 }
@@ -82,10 +88,10 @@ async function createCacheFile(options) {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
-
   const cachePath = `${cacheOutput}/${getDrupalCacheKey(cacheEnv)}.tar.bz2`;
 
   fs.ensureDirSync(cacheOutput);
+
   const { stdout, stderr } = await exec(
     `tar -C ${cacheDirectory} -cf ${cachePath} .`,
   );
