@@ -2,12 +2,9 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
-const Onlinecheck =
-  '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
-const Inpersoncheck =
-  '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
-const Inpersonandonlinecheck =
-  '#accordion-item-14 > div > div.usa-width-one-half.medium-6.columns.your-estimated-benefits > div.total-paid-to-you > div:nth-child(1) > div.small-6.columns.value > h5';
+const Onlinecheck = '#gbct_housing_allowance';
+const Inpersoncheck = '#gbct_housing_allowance';
+const Inpersonandonlinecheck = '#gbct_housing_allowance';
 const firstResult =
   '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 const firstResultRate =
@@ -97,7 +94,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check Foreign DOD and VA rate for online only
   GiHelpers.ForeignOnlineOnly(client);
   client
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible(Onlinecheck, 1000)
     .assert.containsText(
       Onlinecheck,
       `${GiHelpers.formatCurrencyHalf(
@@ -126,7 +123,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check Foreign DOD and VA rate for in person only
   GiHelpers.ForeignInPersonOnly(client);
   client
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible(Inpersoncheck, 1000)
     .assert.containsText(
       Inpersoncheck,
       `${GiHelpers.formatCurrency(
@@ -155,7 +152,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check Foreign DOD and VA rate for In person and online
   GiHelpers.ForeignInPersonAndOnline(client);
   client
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible(Inpersonandonlinecheck, 1000)
     .assert.containsText(
       Inpersonandonlinecheck,
       `${GiHelpers.formatCurrency(
@@ -184,7 +181,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check US DOD and VA rate for online only
   GiHelpers.USOnlineOnly(client);
   client
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible(Onlinecheck, 1000)
     .assert.containsText(
       Onlinecheck,
       `${GiHelpers.formatCurrencyHalf(
@@ -213,7 +210,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check US DOD and VA rate for in person only
   GiHelpers.USInPersonOnly(client);
   client
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible(Inpersoncheck, 1000)
     .assert.containsText(
       Inpersoncheck,
       `${GiHelpers.formatCurrency(
@@ -242,7 +239,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check US DOD and VA rate for in person and online
   GiHelpers.USInPersonAndOnline(client);
   client
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible(Inpersonandonlinecheck, 1000)
     .assert.containsText(
       Inpersoncheck,
       `${GiHelpers.formatCurrency(
