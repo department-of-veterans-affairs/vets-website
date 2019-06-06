@@ -179,7 +179,7 @@ export default class ClaimPhase extends React.Component {
       ) : null;
 
     return (
-      <li role="presentation" className={`${getClasses(phase, current)}`}>
+      <li className={`${getClasses(phase, current)}`}>
         {expandCollapseIcon}
         <h5 className="section-header">
           <button
