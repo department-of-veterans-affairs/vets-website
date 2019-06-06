@@ -95,7 +95,7 @@ node('vetsgov-general-purpose') {
     for (int i=0; i<commonStages.VAGOV_BUILDTYPES.size(); i++) {
       def envName = commonStages.VAGOV_BUILDTYPES.get(i)
       if (envsUsingDrupalCache[envName]) {
-        slackCachedContent(envName)
+        commonStages.slackCachedContent(envName)
       }
     }
   }
