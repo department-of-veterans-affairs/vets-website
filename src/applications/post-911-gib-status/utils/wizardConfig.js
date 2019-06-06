@@ -82,7 +82,7 @@ const wizardConfig = [
     previous: 'veteran',
     component: () => (
       <AlertBox
-        headline="We’re sorry. We still can’t find your Post-911 GI Bill benefit statement"
+        headline="We’re sorry. We still can’t find your Post-9/11 GI Bill benefit statement"
         content={
           <div>
             <p>

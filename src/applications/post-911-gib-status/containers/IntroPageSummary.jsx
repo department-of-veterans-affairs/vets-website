@@ -119,7 +119,7 @@ export default function IntroPageSummary() {
             <li>
               We’re still processing your education benefits application, so we
               haven’t created a record yet for you. We usually process
-              applications within 60 days. If you applied less than 60 days ago,
+              applications within 30 days. If you applied less than 30 days ago,
               please check back soon.
             </li>
             <li>
