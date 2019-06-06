@@ -12,9 +12,11 @@
                 {% assign pathArray = entityUrl.path | split: '/' %}
                 {% assign pathRoot = pathArray | get: 2 | capitalize %}
                 {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
+                {% assign deepLinksObj = deepLinksString | jsonToObj %}
+                {% assign depth = deepLinksObj.depth  %}
 
                 <button class="usa-accordion-button"
-                        {% if deepLinksString == "false" and forloop.index == 1 %}
+                        {% if deepLinksString == "false" and forloop.index == 1 and depth is null %}
                             aria-expanded="true"
                         {% else %}
                             aria-expanded="false"
