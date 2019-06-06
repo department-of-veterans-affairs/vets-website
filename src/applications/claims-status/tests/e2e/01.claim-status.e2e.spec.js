@@ -42,14 +42,14 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // timeline expand
   client
-    .click('li.list-one')
+    .click('li.list-one button')
     .waitForElementVisible('li.list-one .claims-evidence', Timeouts.slow);
   client.expect
     .element('.claims-evidence:nth-child(3) .claims-evidence-item')
     .text.equals('Your claim is closed');
   client.expect.element('.claim-older-updates').to.be.present;
   client
-    .click('li.list-one')
+    .click('li.list-one button')
     .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow)
     .axeCheck('.main');
 
