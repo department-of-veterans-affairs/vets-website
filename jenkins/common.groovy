@@ -244,7 +244,7 @@ def archive(dockerContainer, String ref) {
 
 def cacheDrupalContent(dockerContainer, envUsedCache) {
   stage("Cache Drupal Content") {
-    // if (shouldBail()) { return }
+    if (shouldBail()) { return }
 
     try {
       def archives = [:]
@@ -268,7 +268,7 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
         }
       }
     } catch (error) {
-      // slackNotify()
+      slackNotify()
       throw error
     }
   }

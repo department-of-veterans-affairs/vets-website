@@ -168,10 +168,6 @@ function getOptions(commandLineOptions) {
   deriveHostUrl(options);
   setUpFeatureFlags(options);
 
-  if (options.buildtype === 'vagovdev' && options['pull-drupal']) {
-    throw new Error('Bad build!');
-  }
-
   return options;
 }
 
