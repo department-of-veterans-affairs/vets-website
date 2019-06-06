@@ -6,17 +6,17 @@ function roundRating(num) {
 }
 
 // helper to check if value of rating is a number
-function isNaN(arr) {
-  for (let i = arr.length - 1; i >= 0; i--) {
-    if (!Number.isInteger(arr[i])) {
-      arr.splice(i, 1);
-    }
-    // eslint-disable-next-line no-console
-    // console.log(`isNaN: ${arr}`);
-  }
-  // console.log(`isNaN is done: ${arr}`);
-  return arr;
-}
+// function isNaN(arr) {
+//   for (let i = arr.length - 1; i >= 0; i--) {
+//     if (!Number.isInteger(arr[i])) {
+//       arr.splice(i, 1);
+//     }
+//     // eslint-disable-next-line no-console
+//     // console.log(`isNaN: ${arr}`);
+//   }
+//   // console.log(`isNaN is done: ${arr}`);
+//   return arr;
+// }
 
 // helper to remove % sign from rating
 function checkForPercent(e) {
@@ -48,9 +48,9 @@ export function validateValue(e) {
 // eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
-  const checkIfRatingsAreNumbers = isNaN(ratingArr);
+  // const checkIfRatingsAreNumbers = isNaN(ratingArr);
 
-  const sortedArr = checkIfRatingsAreNumbers.sort((a, b) => b - a);
+  const sortedArr = ratingArr.sort((a, b) => b - a);
   // eslint-disable-next-line one-var
   let a, b, x;
 

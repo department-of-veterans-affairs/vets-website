@@ -12,6 +12,7 @@ export const RatingRow = props => {
   const indx = props.indx;
   const handleChange = props.handleChange;
   const handleRemoveRating = props.handleRemoveRating;
+
   // eslint-disable-next-line no-console
   // console.log(ratingObj);
 
@@ -21,13 +22,13 @@ export const RatingRow = props => {
         <input
           type="text"
           min="0"
-          onChange={e => handleChange(e, indx)}
+          onChange={e => !isNaN(e.target.value) && handleChange(e, indx)}
           className="ratingInput"
-          maxLength="3"
-          value={ratingObj.rating.toString()}
+          maxLength="2"
+          value={ratingObj.rating}
           //   ref={input => (this.ratingInput = input)}
-          // pattern="[\d]{5}(-[\d]{4})?"
           pattern="\d+"
+          // pattern="/^[0-9\b]+$/;"
           name="rating"
         />
       </div>

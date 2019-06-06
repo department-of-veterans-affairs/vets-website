@@ -5,18 +5,19 @@ import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
 import '../sass/disability-calculator.scss';
 
+const re = /^[0-9\b]+$/;
 export default class DisabilityRatingCalculator extends React.Component {
   constructor() {
     super();
     this.state = {
       ratings: [
         {
-          rating: 0,
+          rating: '',
           description: '',
           canDelete: false,
         },
         {
-          rating: 0,
+          rating: '',
           description: '',
           canDelete: false,
         },
@@ -28,46 +29,56 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingRef = React.createRef();
   }
 
-  componentDidMount() {
-    setFocus();
-  }
+  // componentDidMount() {}
   handleClick = () => {
     this.child.ratingInput.focus();
   };
 
-  // handleChange = (e, idx) => {
-  //   const curRatings = this.state.ratings;
+  handleChange = (e, idx) => {
+    const curRatings = this.state.ratings;
+    let ratingValue = parseInt(e.target.value);
+    console.log(re.test(ratingValue), e.target.value);
+    if (e.target.name === 'rating' && e.target.value === '') {
+      curRatings[idx][e.target.name] = e.target.value;
+      // eslint-disable-next-line radix
+      this.setState({ ratings: curRatings }, () => {
+        console.log(this.state);
+      });
+    }
+    if (
+      (e.target.name === 'rating' && re.test(ratingValue) === false) ||
+      (e.target.name === 'rating' && e.target.value === '')
+    ) {
+      console.log('returning null');
+      return null;
+    }
+    if (e.target.name === 'description') {
+      curRatings[idx][e.target.name] = e.target.value;
+      this.setState({ ratings: curRatings }, () => {
+        console.log(this.state);
+      });
+    } else {
+      curRatings[idx][e.target.name] = ratingValue;
+      // eslint-disable-next-line radix
+      this.setState({ ratings: curRatings }, () => {
+        console.log(this.state);
+      });
+    }
+  };
 
+  // handleChange = (e, idx) => {
+
+  //   const curRatings = this.state.ratings;
+  //   const ratingValue = parseInt(e.target.value)
+  //   if (parseInt(e.target.value))
   //   curRatings[idx][e.target.name] =
-  //     // eslint-disable-next-line radix
-  //     e.target.name === 'rating' ?
-  //     const ratingVal = validateValue(e.target.value)
-  //     ratingVal ?
-  //     parseInt(e.target.value) : e.target.value;
+  //     e.target.name === 'rating' && // if e.target.name === 'rating'
+  //       ? parseInt(e.target.value)
+  //       : e.target.value;
   //   this.setState({ ratings: curRatings }, () => {
   //     console.log(this.state);
   //   });
-  // };
 
-  handleChange = (e, idx) => {
-    const curRatings = this.state.ratings;
-    curRatings[idx][e.target.name] =
-      // eslint-disable-next-line radix
-      e.target.name === 'rating' ? parseInt(e.target.value) : e.target.value;
-    this.setState({ ratings: curRatings }, () => {
-      console.log(this.state);
-    });
-  };
-
-  // handleRatingCalculateChange = idx => evt => {
-  //   const newRatings = this.state.ratings.map((rating, sidx) => {
-  //     if (idx !== sidx) return rating;
-  //     // eslint-disable-next-line radix
-  //     return parseInt(evt.target.value);
-  //   });
-
-  //   this.setState({ ratings: newRatings });
-  //   console.log('handleRatingCalculateChange ', this.state);
   // };
 
   handleSubmit = () => {
@@ -81,11 +92,6 @@ export default class DisabilityRatingCalculator extends React.Component {
       calculateRating(this.state.ratings),
       '%',
     );
-    // eslint-disable-next-line no-alert
-    // alert(
-    //   `Your VA disability rating is ${calculateRating(this.state.ratings)} %`,
-    // );
-    // return calculateRating(ratings);
     // eslint-disable-next-line no-lone-blocks
     this.setState({
       showCombinedRating: true,
@@ -134,6 +140,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         { rating: 0, description: '', canDelete: false },
       ],
       calculatedRating: 0,
+      showCombinedRating: false,
     });
   };
 
