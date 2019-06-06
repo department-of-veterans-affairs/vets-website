@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
-import { calculateRating, validateValue, setFocus } from '../utils/helpers';
+import { calculateRating } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
 import '../sass/disability-calculator.scss';
@@ -29,14 +29,13 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingRef = React.createRef();
   }
 
-  // componentDidMount() {}
   handleClick = () => {
     this.child.ratingInput.focus();
   };
 
   handleChange = (e, idx) => {
     const curRatings = this.state.ratings;
-    let ratingValue = parseInt(e.target.value);
+    const ratingValue = parseInt(e.target.value);
     console.log(re.test(ratingValue), e.target.value);
     if (e.target.name === 'rating' && e.target.value === '') {
       curRatings[idx][e.target.name] = e.target.value;
@@ -65,21 +64,6 @@ export default class DisabilityRatingCalculator extends React.Component {
       });
     }
   };
-
-  // handleChange = (e, idx) => {
-
-  //   const curRatings = this.state.ratings;
-  //   const ratingValue = parseInt(e.target.value)
-  //   if (parseInt(e.target.value))
-  //   curRatings[idx][e.target.name] =
-  //     e.target.name === 'rating' && // if e.target.name === 'rating'
-  //       ? parseInt(e.target.value)
-  //       : e.target.value;
-  //   this.setState({ ratings: curRatings }, () => {
-  //     console.log(this.state);
-  //   });
-
-  // };
 
   handleSubmit = () => {
     // const { ratings } = this.state.ratings;
@@ -124,14 +108,6 @@ export default class DisabilityRatingCalculator extends React.Component {
       showCombinedRating: true,
     });
   };
-  // clearAll = () => {
-  //   const newRatings = this.state.ratings.map((rating, idx) => ({
-  //     rating: 0,
-  //     description: '',
-  //     canDelete: idx > 1 ? true : false,
-  //   }));
-  //   this.setState({ ratings: newRatings });
-  // };
 
   clearAll = () => {
     this.setState({
@@ -177,7 +153,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               ratingObj={ratingObj}
               key={idx}
               indx={idx}
-              setFocus
+              // ref={this.ratingRef}
             />
           ))}
           <div className="vads-l-row">

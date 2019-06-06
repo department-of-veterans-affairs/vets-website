@@ -30,6 +30,7 @@ export const RatingRow = props => {
           pattern="\d+"
           // pattern="/^[0-9\b]+$/;"
           name="rating"
+          autoFocus
         />
       </div>
       <div className="vads-l-col--8">

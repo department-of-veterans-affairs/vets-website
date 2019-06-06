@@ -5,19 +5,6 @@ function roundRating(num) {
   return Math.round(ratingWithDecimal / 10) * 10;
 }
 
-// helper to check if value of rating is a number
-// function isNaN(arr) {
-//   for (let i = arr.length - 1; i >= 0; i--) {
-//     if (!Number.isInteger(arr[i])) {
-//       arr.splice(i, 1);
-//     }
-//     // eslint-disable-next-line no-console
-//     // console.log(`isNaN: ${arr}`);
-//   }
-//   // console.log(`isNaN is done: ${arr}`);
-//   return arr;
-// }
-
 // helper to remove % sign from rating
 function checkForPercent(e) {
   const element = String(e).split('');
@@ -69,20 +56,24 @@ export function calculateRating(arr) {
 
   if (sortedArr.length === 1) {
     const lastCalcualtedRating = sortedArr[0];
-    const result = roundRating(lastCalcualtedRating);
-    // return roundRating(lastCalcualtedRating);
+    let result = roundRating(lastCalcualtedRating);
+    // eslint-disable-next-line radix
+    const actualRating = parseInt(
+      Number.parseFloat(lastCalcualtedRating).toFixed(0.1),
+    );
     if (result > 100) {
-      return 100;
+      result = 100;
     }
-    return result;
+    return [result, actualRating];
   }
 }
+// first element in array is rounded rating and second element is the actual rating
 
-export const setFocus = selector => {
+export function setFocus(selector) {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
     el.setAttribute('tabIndex', -1);
     el.focus();
   }
-};
+}
