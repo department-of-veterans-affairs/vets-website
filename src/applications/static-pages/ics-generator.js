@@ -13,9 +13,9 @@ export function icsCreate(calendarLink) {
     event.addProp('UID');
     event.addProp('SUMMARY', [description]);
     event.addProp('LOCATION', [location]);
-    event.addProp('DTSTAMP', new Date(`${start} UTC`), { VALUE: 'DATE-TIME' });
-    event.addProp('DTSTART', new Date(`${start} UTC`), { VALUE: 'DATE-TIME' });
-    event.addProp('DTEND', new Date(`${end} UTC`), { VALUE: 'DATE-TIME' });
+    event.addProp('DTSTAMP', start);
+    event.addProp('DTSTART', start);
+    event.addProp('DTEND', end);
     cal.addComponent(event);
     const calLink = cal.toString();
 
