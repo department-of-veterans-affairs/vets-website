@@ -27,9 +27,10 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
       };
     case SEARCH_FAILED:
       if (action.error) {
-        // Log error with Sentry
-        // TODO: Figure out why this is causing errors so we can capture correctly
-        // captureMessage(`Locator Search Failed: ${action.error}`);
+        return {
+          ...INITIAL_STATE,
+          error: action.error,
+        };
       }
       return INITIAL_STATE;
     case CLEAR_SEARCH_RESULTS:

@@ -1,5 +1,4 @@
 import Raven from 'raven-js';
-import appendQuery from 'append-query';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
@@ -58,6 +57,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (response.ok || response.status === 304) {
+        // Get session expiration from header
         const sessionExpiration = response.headers.get('X-Session-Expiration');
         if (sessionExpiration)
           localStorage.setItem('sessionExpiration', sessionExpiration);
@@ -66,16 +66,13 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
       if (environment.isProduction()) {
         const { pathname } = window.location;
-        const shouldRedirectToLogin =
+        const shouldRedirectToSessionExpired =
           response.status === 401 &&
-          resource !== '/user' &&
-          !pathname.includes('auth/login/callback');
+          !pathname.includes('auth/login/callback') &&
+          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
-        if (shouldRedirectToLogin) {
-          const loginUrl = appendQuery(environment.BASE_URL, {
-            next: pathname,
-          });
-          window.location = loginUrl;
+        if (shouldRedirectToSessionExpired) {
+          window.location = '/session-expired';
         }
       }
 

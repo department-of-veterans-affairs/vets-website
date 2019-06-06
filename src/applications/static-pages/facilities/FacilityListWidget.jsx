@@ -52,38 +52,35 @@ export default class FacilityListWidget extends React.Component {
       facility => (
         <div
           key={facility.id}
-          className="usa-grid vads-u-background-color--gray-lightest vads-u-margin-bottom--2p5 vads-u-padding-y--1p5"
+          className="usa-grid-full vads-u-margin-bottom--2p5"
         >
           <section key={facility.id} className="usa-width-one-half">
             <FacilityTitle
               facility={facility}
               nickname={this.props.facilities[facility.id].nickname}
-              regionPath={this.props.path}
+              regionPath={this.props.facilities[facility.id].entityUrl.path}
             />
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
-            <div className="location-details-link">
-              <a
-                href={this.props.facilities[facility.id].entityUrl.path}
-                className="usa-button usa-button-secondary"
-              >
-                Location details <i className="fa fa-chevron-right" />
-              </a>
-            </div>
           </section>
           <section className="usa-width-one-half">
-            <img
-              src={
-                this.props.facilities[facility.id].derivative
-                  ? this.props.facilities[facility.id].derivative.url
-                  : ''
-              }
-              alt={
-                this.props.facilities[facility.id].alt
-                  ? this.props.facilities[facility.id].alt
-                  : ''
-              }
-            />
+            <a
+              href={this.props.facilities[facility.id].entityUrl.path}
+              aria-label={this.props.facilities[facility.id].nickname}
+            >
+              <img
+                src={
+                  this.props.facilities[facility.id].derivative
+                    ? this.props.facilities[facility.id].derivative.url
+                    : ''
+                }
+                alt={
+                  this.props.facilities[facility.id].alt
+                    ? this.props.facilities[facility.id].alt
+                    : ''
+                }
+              />
+            </a>
           </section>
         </div>
       ),

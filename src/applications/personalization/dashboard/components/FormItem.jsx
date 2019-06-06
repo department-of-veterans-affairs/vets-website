@@ -8,6 +8,7 @@ import {
   formLinks,
   formConfigs,
   isFormAuthorizable,
+  presentableFormIDs,
 } from '../helpers';
 import AuthorizationComponent from 'platform/forms/components/AuthorizationComponent';
 import DashboardAlert, {
@@ -34,11 +35,12 @@ class FormItem extends React.Component {
     } = savedFormData.metadata;
     const lastSavedDateTime = moment
       .unix(lastSaved)
-      .format('MMMM D, YYYY [at] h:m a');
+      .format('MMMM D, YYYY [at] h:mm a');
     const expirationDate = moment.unix(expirationTime).format('MMMM D, YYYY');
     const isExpired = moment.unix(expirationTime).isBefore();
     const itemTitle = `Application for ${formTitles[formId]}`;
     const isAuthorizable = isFormAuthorizable(formConfig);
+    const formIdTitle = presentableFormIDs[formId];
 
     let activeView;
     let expiredView;
@@ -119,7 +121,7 @@ class FormItem extends React.Component {
         <DashboardAlert
           status={DASHBOARD_ALERT_TYPES.inProgress}
           headline={itemTitle}
-          subheadline={formId}
+          subheadline={formIdTitle}
           statusHeadline="In progress"
         >
           <p>
@@ -184,7 +186,7 @@ class FormItem extends React.Component {
 
 FormItem.propTypes = {
   savedFormData: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func,
 };
 
 export default FormItem;

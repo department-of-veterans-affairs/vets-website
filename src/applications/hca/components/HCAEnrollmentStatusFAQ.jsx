@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import HCASubwayMap from '../components/HCASubwayMap';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   getFAQBlock1,
@@ -43,7 +44,11 @@ const HCAEnrollmentStatusFAQ = ({
   showingReapplyForHealthCareContent,
   showReapplyContent,
 }) => {
-  const reapplyAllowed = enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased;
+  const reapplyAllowed =
+    new Set([
+      HCA_ENROLLMENT_STATUSES.deceased,
+      HCA_ENROLLMENT_STATUSES.enrolled,
+    ]).has(enrollmentStatus) === false;
   return (
     <>
       {getFAQBlock1(enrollmentStatus)}
@@ -56,6 +61,7 @@ const HCAEnrollmentStatusFAQ = ({
         !showingReapplyForHealthCareContent && (
           <ReapplyTextLink
             onClick={() => {
+              recordEvent({ event: 'hca-form-reapply' });
               showReapplyContent();
             }}
           />

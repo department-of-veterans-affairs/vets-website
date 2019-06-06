@@ -1434,7 +1434,7 @@ export function getNextEvents(appeal) {
                 {appeal.type === APPEAL_TYPES.appeal && (
                   <p>
                     If you’ve changed your mind about having a hearing, you can
-                    write to the Board of Veterans‘ Appeals to withdraw your
+                    write to the Board of Veterans’ Appeals to withdraw your
                     hearing request.{' '}
                     {eligibleToSwitch
                       ? eligibleDescription

@@ -4,16 +4,37 @@ const path = require('path');
 // Edit this to add new flags
 const featureFlags = {
   FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
+  GRAPHQL_MODULE_UPDATE: 'featureGraphQLModuleUpdate',
+  FEATURE_FIELD_OTHER_VA_LOCATIONS: 'featureFieldOtherVaLocations',
+  FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS:
+    'featureFieldCommonlyTreatedConditions',
+  FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT:
+    'FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT',
 };
 
 // Edit this to turn flags on or off
 const flagsByBuildtype = {
-  localhost: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
-  vagovdev: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
-  // vagovstaging: [featureFlags.FEATURE1],
-  vagovstaging: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
-  // vagovprod: [featureFlags.FEATURE1],
-  vagovprod: [],
+  localhost: [
+    featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
+    featureFlags.GRAPHQL_MODULE_UPDATE,
+    featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
+    featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
+    featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
+  ],
+  vagovdev: [
+    featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
+    featureFlags.GRAPHQL_MODULE_UPDATE,
+    featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
+    featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
+    featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
+  ],
+  vagovstaging: [
+    featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
+    featureFlags.GRAPHQL_MODULE_UPDATE,
+    featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
+    featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
+  ],
+  vagovprod: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
 };
 
 // Exported feature flag state, which can be used in code as needed

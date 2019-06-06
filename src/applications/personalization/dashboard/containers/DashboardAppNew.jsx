@@ -16,7 +16,7 @@ import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
 
-import FormList from '../components/FormList';
+import YourApplications from '../containers/YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
@@ -285,7 +285,6 @@ class DashboardAppNew extends React.Component {
       canAccessMessaging,
       canAccessAppeals,
       profile,
-      removeSavedForm,
       showManageYourVAHealthCare,
     } = this.props;
     const availableWidgetsCount = [
@@ -307,11 +306,7 @@ class DashboardAppNew extends React.Component {
 
         <PreferencesWidget />
 
-        <FormList
-          userProfile={profile}
-          removeSavedForm={removeSavedForm}
-          savedForms={profile.savedForms}
-        />
+        <YourApplications />
 
         {!profile.verified && this.renderLOAPrompt()}
         {profile.loa.current !== 1 &&

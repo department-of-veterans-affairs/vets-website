@@ -39,7 +39,12 @@
                     {{ item.fieldTitle }}
                 </button>
                 <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="{{ !entity.fieldCollapsiblePanelExpand }}">
-                  {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
+                    {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
+
+                    {% for paragraph in item.fieldVaParagraphs %}
+                        {%  assign bundleComponent = "src/site/paragraphs/" | append: paragraph.entity.entityBundle | append: ".drupal.liquid" %}
+                        {% include {{ bundleComponent }} with entity = paragraph.entity %}
+                    {%  endfor %}
                 </div>
             </li>
         {% endfor %}

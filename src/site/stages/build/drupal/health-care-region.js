@@ -15,6 +15,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const locObj = {
     mainFacilities: page.mainFacilities,
     otherFacilities: page.otherFacilities,
+    fieldOtherVaLocations: page.fieldOtherVaLocations,
     fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
     facilitySidebar: sidebar,
     entityUrl: locEntityUrl,
@@ -32,8 +33,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Create A-Z Services Page
   const hsEntityUrl = createEntityUrlObj(drupalPagePath);
   const hsObj = {
-    careCoordinatorPatientFamilyServices:
-      page.careCoordinatorPatientFamilyServices,
     socialProgramsPatientFamilyServices:
       page.socialProgramsPatientFamilyServices,
     healthWellnessPatientFamilyServices:
@@ -41,6 +40,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     specialtyCareHealthServices: page.specialtyCareHealthServices,
     primaryCareHealthServices: page.primaryCareHealthServices,
     mentalHealthServices: page.mentalHealthServices,
+    featuredHealthServices: page.featuredHealthServices,
+    extendedCareHealthServices: page.extendedCareHealthServices,
+    homelessHealthServices: page.homelessHealthServices,
+    genomicMedicineHealthServices: page.genomicMedicineHealthServices,
+    veteranCareHealthServices: page.veteranCareHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,

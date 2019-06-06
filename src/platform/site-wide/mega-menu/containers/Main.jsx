@@ -11,7 +11,7 @@ import {
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
-import environment from '../../../utilities/environment';
+import localStorage from '../../../utilities/storage/localStorage';
 
 import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
 
@@ -43,11 +43,11 @@ export function getAuthorizedLinkData(
     replaced and this code block will be removed
   */
   if (
-    !environment.isProduction() &&
+    localStorage.getItem('enableMhvAccountValidation') === 'true' &&
     myHealthLink &&
     myHealthLink.title === 'My Health'
   ) {
-    myHealthLink.href = '/my-health-account-validation/';
+    myHealthLink.href = '/health-care/my-health-account-validation/';
     myHealthLink.target = undefined;
   }
 

@@ -112,6 +112,7 @@ export class AuthApp extends React.Component {
   };
 
   handleAuthSuccess = payload => {
+    sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const { type } = this.props.location.query;
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
@@ -256,7 +257,7 @@ export class AuthApp extends React.Component {
 
       // Session expired error
       case '005':
-        header = 'Your session expired';
+        header = 'We’ve signed you out of VA.gov';
         alertContent = (
           <p>
             We take your privacy very seriously. You didn’t take any action on

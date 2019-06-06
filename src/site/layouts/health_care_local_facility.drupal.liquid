@@ -107,17 +107,8 @@
             </div>
           {% endif %}
 
-          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--4">
-            <div class="usa-width-one-third">
-              <a class="usa-button" href="{{ entityUrl.path }}/appointments">Make an appointment</a>
-            </div>
-            <div class="usa-width-one-third">
-              <a class="usa-button" href="{{ entityUrl.path }}/">View A-Z Health Services</a>
-            </div>
-            <div class="usa-width-one-third">
-              <a class="usa-button" href="{{ entityUrl.path }}/become-a-patient">Become a patient</a>
-            </div>
-          </div>
+          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--4">{% assign basePath = entityUrl.path | regionBasePath %}
+              {% include "src/site/facilities/facilities_health_services_buttons.drupal.liquid" with path = basePath %}</div>
 
           <div class="usa-grid usa-grid-full">
 
@@ -127,13 +118,16 @@
               <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
             </div>
 
-            {% if fieldMedia.entity.image != empty %}
-              <!-- facility image -->
               <div class="usa-width-one-half">
-                {% assign image = fieldMedia.entity.image %}
-                <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                <!-- facility image -->
+                {% if fieldMedia.entity.image != empty %}
+                  {% assign image = fieldMedia.entity.image %}
+                  <a href="#" rel="noopener noreferrer" target="_blank" id="google-map-link-image">
+                    <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                  </a>
+                {% endif %}
+                <div data-widget-type="facility-map" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
               </div>
-            {% endif %}
           </div>
 
         <div class="vads-u-margin-y--2">
@@ -161,7 +155,7 @@
           {% endcapture %}
           {% unless difference contains '-' %}
             <h2 id="prepare-for-your-visit">Prepare for your visit</h2>
-            <div class="usa-accordion">
+            <div class="usa-accordion-bordered">
               <ul aria-multiselectable="false" class="usa-unstyled-list">
                 {% for accordionItem in fieldLocationServices %}
                   {% assign item = accordionItem.entity %}
@@ -185,7 +179,7 @@
                     {% for localService in fieldLocalHealthCareService %}
                         {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
                         {% if localHealthService != empty %}
-                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = localHealthService localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
+                            {% include "src/site/facilities/facility_health_service.drupal.liquid" with healthService = localHealthService localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
                         {% endif %}
                     {% endfor %}
                 </section>

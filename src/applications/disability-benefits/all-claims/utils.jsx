@@ -32,6 +32,7 @@ import {
   TWENTY_FIVE_MB,
   USA,
   TYPO_THRESHOLD,
+  itfStatuses,
 } from './constants';
 
 /**
@@ -63,6 +64,15 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const isActiveITF = currentITF => {
+  if (currentITF) {
+    const isActive = currentITF.status === itfStatuses.active;
+    const isNotExpired = moment().isBefore(currentITF.expirationDate);
+    return isActive && isNotExpired;
+  }
+  return false;
+};
 
 export const hasGuardOrReservePeriod = formData => {
   const serviceHistory = formData.servicePeriods;
@@ -158,6 +168,8 @@ export const capitalizeEachWord = name => {
     );
   }
 
+  // TODO: Refactor this out; the function name doesn't imply that it
+  // would return a completely unrelated string
   return 'Unknown Condition';
 };
 
@@ -195,11 +207,19 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
+/**
+ * Takes a string and returns another that won't break SiP when used
+ * as a property name.
+ * @param {string} str - The string to make SiP-friendly
+ * @return {string} The SiP-friendly string
+ */
+export const sippableId = str => (str || 'blank').toLowerCase();
+
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
   return _.set(
-    // downcase value for SIP consistency
-    [`${capitalizedDisabilityName.toLowerCase()}`],
+    // As an array like this to prevent periods in the name being interpreted as nested objects
+    [sippableId(disabilityName)],
     { title: capitalizedDisabilityName, type: 'boolean' },
     schema,
   );
@@ -209,7 +229,7 @@ export const makeSchemaForNewDisabilities = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) => ({
     properties: newDisabilities
-      .map(disability => capitalizeEachWord(disability.condition))
+      .map(disability => disability.condition)
       .reduce(createCheckboxSchema, {}),
   }),
 );
@@ -219,7 +239,7 @@ export const makeSchemaForRatedDisabilities = createSelector(
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
       .filter(disabilityIsSelected)
-      .map(disability => capitalizeEachWord(disability.name))
+      .map(disability => disability.name)
       .reduce(createCheckboxSchema, {}),
   }),
 );
@@ -592,17 +612,7 @@ export const ancillaryFormUploadUi = (
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: TWENTY_FIVE_MB,
     createPayload: file => {
       const payload = new FormData();

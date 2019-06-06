@@ -6,7 +6,7 @@ const medicalDescription = (
     <h4>Medical Care</h4>
     <p>
       Did you spend time in a hospital or under a doctor's care for your
-      service-connected disabilties in the past 12 months?
+      service-connected disabilities in the past 12 months?
     </p>
   </div>
 );

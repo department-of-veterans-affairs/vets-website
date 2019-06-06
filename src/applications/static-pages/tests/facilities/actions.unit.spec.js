@@ -92,7 +92,7 @@ describe('Facilities actions', () => {
             ),
           ).to.be.true;
 
-          expect(dispatch.thirdCall.args[0].type).to.equal(
+          expect(dispatch.secondCall.args[0].type).to.equal(
             FETCH_FACILITY_SUCCESS,
           );
           resetFetch();
@@ -105,7 +105,7 @@ describe('Facilities actions', () => {
     it('dispatches a failure on any failure', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
-      mockApiRequest({});
+      mockApiRequest({}, false);
 
       thunk(dispatch, getState)
         .then(() => {

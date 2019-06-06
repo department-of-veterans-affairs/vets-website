@@ -3,13 +3,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setFocus } from '../utils/helpers';
-import { updateSearchQuery, searchWithBounds } from '../actions';
+
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import { distBetween } from '../utils/facilityDistance';
+
 import { facilityTypes } from '../config';
+
+import { distBetween } from '../utils/facilityDistance';
+import { setFocus } from '../utils/helpers';
+
+import { updateSearchQuery, searchWithBounds } from '../actions';
+
+import SearchResult from './SearchResult';
+import DelayedRender from 'platform/utilities/ui/DelayedRender';
+
+const timeoutErrorCode = '504';
 
 class ResultsList extends Component {
   constructor(props) {
@@ -48,8 +57,9 @@ class ResultsList extends Component {
       position,
       searchString,
       results,
+      error,
       isMobile,
-      pagination: { currentPage, totalPages },
+      pagination: { currentPage, totalPages, totalEntries },
     } = this.props;
 
     if (inProgress) {
@@ -58,12 +68,31 @@ class ResultsList extends Component {
           <LoadingIndicator
             message={`Searching for ${facilityTypeName}
             in ${searchString}`}
-            setFocus
           />
+          <DelayedRender>
+            <AlertBox
+              isVisible
+              status="info"
+              headline="Please wait"
+              content="Your results should appear in less than a minute. Thank you for your patience."
+            />
+          </DelayedRender>
         </div>
       );
     }
 
+    if (error && error.find(err => err.code === timeoutErrorCode)) {
+      /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+      return (
+        <div
+          className="search-result-title facility-result"
+          ref={this.searchResultTitle}
+        >
+          The search has timed out, please retry your search.
+        </div>
+      );
+      /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    }
     if (!results || results.length < 1) {
       /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
       return (
@@ -99,7 +128,7 @@ class ResultsList extends Component {
         {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
         <p className="search-result-title" ref={this.searchResultTitle}>
           {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
-          {`${results.length} results for ${facilityTypeName} near `}
+          {`${totalEntries} results for ${facilityTypeName} near `}
           <strong>“{context}”</strong>
         </p>
         <div>
@@ -152,10 +181,12 @@ function mapStateToProps(state) {
   const facilityTypeName = facilityTypes[facilityType];
 
   return {
+    currentQuery: state.searchQuery,
     context,
     facilityTypeName,
     inProgress,
     results: state.searchResult.results,
+    error: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
     searchString,

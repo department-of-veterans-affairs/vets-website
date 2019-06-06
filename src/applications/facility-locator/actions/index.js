@@ -227,6 +227,7 @@ export const genBBoxFromAddress = (query) => {
               },
               bounds: minBounds,
               zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
+              currentPage: 1,
             },
           });
 

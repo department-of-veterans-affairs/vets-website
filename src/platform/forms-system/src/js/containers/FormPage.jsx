@@ -48,8 +48,9 @@ class FormPage extends React.Component {
   }
 
   onChange = formData => {
+    const { pageConfig } = this.props.route;
     let newData = formData;
-    if (this.props.route.pageConfig.showPagePerItem) {
+    if (pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
       newData = _.set(
@@ -57,6 +58,9 @@ class FormPage extends React.Component {
         formData,
         this.props.form.data,
       );
+    }
+    if (typeof pageConfig.updateFormData === 'function') {
+      newData = pageConfig.updateFormData(this.formData(), newData);
     }
     this.props.setData(newData);
   };
@@ -78,6 +82,16 @@ class FormPage extends React.Component {
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
     this.props.router.push(path);
+  };
+
+  formData = () => {
+    const { pageConfig } = this.props.route;
+    return this.props.route.pageConfig.showPagePerItem
+      ? _.get(
+          [pageConfig.arrayPath, this.props.params.index],
+          this.props.form.data,
+        )
+      : this.props.form.data;
   };
 
   goBack = () => {
@@ -104,7 +118,7 @@ class FormPage extends React.Component {
     let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
-    let data = form.data;
+    const data = this.formData();
 
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
@@ -113,8 +127,6 @@ class FormPage extends React.Component {
         schema.properties[route.pageConfig.arrayPath].items[params.index];
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
-      // And the data should be for just the item in the array
-      data = _.get([route.pageConfig.arrayPath, params.index], data);
     }
     // It should be "safe" to check that this is the first page because it is
     // always eligible and enabled, no need to call getPreviousPagePath.
@@ -138,6 +150,7 @@ class FormPage extends React.Component {
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
           formContext={formContext}
+          trackingPrefix={this.props.form.trackingPrefix}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}

@@ -68,4 +68,7 @@ module.exports = `
     recordsHubSidebarQuery: ${queryFilter('records-benefits-hub')} {
       ${SIDEBAR_QUERY}
     }
+    pensionHubSidebarQuery: ${queryFilter('pension-benefits-hub')} {
+      ${SIDEBAR_QUERY}
+    }
 `;

@@ -11,10 +11,24 @@ const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
+const outreachSidebarQuery = require('./navigation-fragments/outreachSidebar.nav.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
 const bioPage = require('./bioPage.graphql');
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
+
+// String Helpers
+const {
+  updateQueryString,
+  queryParamToBeChanged,
+} = require('./../../../../utilities/stringHelpers');
+
+const officePage = require('./officePage.graphql');
 /**
  * Queries for all of the pages out of Drupal
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
@@ -30,6 +44,7 @@ module.exports = `
   ${pressReleasePage}
   ${newsStoryPage}
   ${eventPage}
+  ${officePage}
   ${bioPage}
 
   query GetAllPages($today: String!, $onlyPublishedContent: Boolean!) {
@@ -47,13 +62,27 @@ module.exports = `
         ... pressReleasePage
         ... newsStoryPage
         ... eventPage
+        ... officePage
         ... bioPage
       }
     }
     ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}
+    ${outreachSidebarQuery}
     ${alertsQuery}
     ${outreachAssetsQuery}
   }
 `;
+
+if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
+  const query = module.exports;
+
+  let regString = '';
+  queryParamToBeChanged.forEach(param => {
+    regString += `${param}|`;
+  });
+
+  const regex = new RegExp(`${regString}`, 'g');
+  module.exports = query.replace(regex, updateQueryString);
+}

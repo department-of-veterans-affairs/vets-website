@@ -9,15 +9,15 @@ export const uploadDescription = () => (
       from holding down a steady job.
     </p>
     <br />
-    <p>Some examples of supporting documents could include:</p>
+    <p>Some examples of supporting documents include:</p>
     <ul>
-      <li>Medical Records</li>
+      <li>Medical records</li>
       <li>Social Security Administration Disability Determination</li>
       <li>Termination letters from past employers</li>
       <li>Supporting statements from coworkers or colleagues</li>
       <li>Absentee reports</li>
       <li>Your personal journal, diaries, or calendars</li>
     </ul>
-    <p>Do you have supporting documents you would like to upload?</p>
+    <p>Do you have supporting documents you’d like to upload?</p>
   </div>
 );

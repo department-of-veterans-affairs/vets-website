@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -86,8 +85,6 @@ function getDerivedAttributes(constant, eligibility, institution) {
         monthlyRate = constant.DEARATEOJT;
       } else if (isFlight) {
         monthlyRate = 0;
-      } else if (environment.isProduction()) {
-        monthlyRate = constant.DEARATE;
       } else {
         monthlyRate = constant.DEARATEFULLTIME;
       }
@@ -105,19 +102,12 @@ function getDerivedAttributes(constant, eligibility, institution) {
       monthlyRate = null;
   }
 
-  // Remove Production Flag checks when changes are expected to go live.
-  const bah =
-    its.dodBah && its.dodBah < its.bah && !environment.isProduction()
-      ? its.dodBah
-      : its.bah;
+  const bah = its.dodBah && its.dodBah < its.bah ? its.dodBah : its.bah;
 
-  // Remove Production Flag checks when changes are expected to go live.
   const averageBah =
-    constant.AVGDODBAH &&
-    constant.AVGDODBAH < constant.AVGBAH &&
-    !environment.isProduction()
+    constant.AVGDODBAH && constant.AVGDODBAH < constant.AVGVABAH
       ? constant.AVGDODBAH
-      : constant.AVGBAH;
+      : constant.AVGVABAH;
 
   return {
     serviceDischarge,

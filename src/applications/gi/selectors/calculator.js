@@ -497,7 +497,10 @@ const getDerivedValues = createSelector(
       inputs.giBillBenefit === 'yes';
 
     const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
-    const avgBah = !hasUsedGiBillBenefit ? constant.AVGDODBAH : constant.AVGBAH;
+    const avgBah = !hasUsedGiBillBenefit
+      ? constant.AVGDODBAH
+      : constant.AVGVABAH;
+
     if (useBeneficiaryLocationRate) {
       // sometimes there's no grandfathered rate for a zip code
       bah =
