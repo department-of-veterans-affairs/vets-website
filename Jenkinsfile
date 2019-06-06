@@ -65,7 +65,7 @@ node('vetsgov-general-purpose') {
   commonStages.prearchive(dockerContainer)
 
   commonStages.archive(dockerContainer, ref);
-  commonStages.cacheDrupalContent(dockerContainer);
+  commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
@@ -89,8 +89,8 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Communicate about cached Drupal content') {
-    //if (!commonStages.isDeployable()) { return }
+  stage('Slack message abount cached content') {
+    if (!commonStages.isDeployable()) { return }
 
     for (int i=0; i<commonStages.VAGOV_BUILDTYPES.size(); i++) {
       def envName = commonStages.VAGOV_BUILDTYPES.get(i)

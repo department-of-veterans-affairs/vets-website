@@ -101,7 +101,7 @@ def slackIntegrationNotify() {
 }
 
 def slackCachedContent(envName) {
-  message = "IGNORE THIS vets-website master built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
+  message = "vets-website built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
   slackSend message: message,
     color: 'warning',
     failOnError: true
@@ -132,17 +132,17 @@ def setup() {
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
-    def buildDetails = buildDetails(envName, ref)
-    def drupalAddress = DRUPAL_ADDRESSES.get(envName)
-    def drupalCred = DRUPAL_CREDENTIALS.get(envName)
-    def drupalMode = useCache ? '' : '--pull-drupal'
+  def buildDetails = buildDetails(envName, ref)
+  def drupalAddress = DRUPAL_ADDRESSES.get(envName)
+  def drupalCred = DRUPAL_CREDENTIALS.get(envName)
+  def drupalMode = useCache ? '' : '--pull-drupal'
 
-    withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
-      dockerContainer.inside(DOCKER_ARGS) {
-        sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
-        sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
-      }
+  withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
+    dockerContainer.inside(DOCKER_ARGS) {
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
+      sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
+  }
 }
 
 def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
@@ -161,6 +161,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
             build(ref, dockerContainer, assetSource, envName, false)
             envUsedCache[envName] = false
           } catch (error) {
+            // We're not using the cache for content only builds, because requesting
+            // a content only build is an attempt to refresh content from the current set
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
@@ -239,7 +241,7 @@ def archive(dockerContainer, String ref) {
   }
 }
 
-def cacheDrupalContent(dockerContainer) {
+def cacheDrupalContent(dockerContainer, envUsedCache) {
   stage("Cache Drupal Content") {
     // if (shouldBail()) { return }
 
@@ -249,8 +251,10 @@ def cacheDrupalContent(dockerContainer) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
-        dockerContainer.inside(DOCKER_ARGS) {
-          sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+        if (!envsUsedCache[envName]) {
+          dockerContainer.inside(DOCKER_ARGS) {
+            sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+          }
         }
       }
 

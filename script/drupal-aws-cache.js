@@ -65,7 +65,8 @@ async function fetchCache(options) {
       path.join(cacheDirectory, `${cacheKey}.tar.bz2`),
       cacheDirectory,
     );
-    console.log(`Cached stored in ${cacheDirectory}`);
+    console.log(`Downloaded ${cachePath}`);
+    console.log(`Cache stored in ${cacheDirectory}`);
   } catch (e) {
     console.log(
       `No cached content found for that environment and query: ${cachePath}`,
