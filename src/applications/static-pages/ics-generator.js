@@ -4,7 +4,9 @@ export function icsCreate(calendarLink) {
     const event = new ICS.VEVENT();
     const addToCalendarLink = document.getElementById('add-to-calendar-link');
     const start = addToCalendarLink.getAttribute('data-start');
+    const startDateObj = new Date(start);
     const end = addToCalendarLink.getAttribute('data-end');
+    const endDateObj = new Date(end);
     const location = addToCalendarLink.getAttribute('data-location');
     const description = addToCalendarLink.getAttribute('data-description');
     const title = addToCalendarLink.getAttribute('data-subject');
@@ -12,11 +14,12 @@ export function icsCreate(calendarLink) {
     cal.addProp('VERSION', 2);
     cal.addProp('PRODID', 'VA');
     event.addProp('UID');
-    event.addProp('SUMMARY', [description]);
+    event.addProp('SUMMARY', [title]);
+    event.addProp('DESCRIPTION', [description]);
     event.addProp('LOCATION', [location]);
-    event.addProp('DTSTAMP', start);
-    event.addProp('DTSTART', start);
-    event.addProp('DTEND', end);
+    event.addProp('DTSTAMP', startDateObj);
+    event.addProp('DTSTART', startDateObj);
+    event.addProp('DTEND', endDateObj);
     cal.addComponent(event);
     const calLink = cal.toString();
 
