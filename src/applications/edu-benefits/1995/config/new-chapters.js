@@ -14,10 +14,14 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import { benefitsLabels } from '../../utils/labels';
+import {
+  displayActiveDutyStem,
+  displayEdithNourseRogersScholarship,
+} from '../helpers';
+
+import { activeDuty, benefitSelection, stem } from '../pages';
 
 const {
-  benefit,
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
@@ -47,32 +51,34 @@ export const newChapters = {
       benefitSelection: {
         title: 'Education benefit',
         path: 'benefits/eligibility',
-        initialData: {},
-        uiSchema: {
-          benefit: {
-            'ui:widget': 'radio',
-            'ui:title': 'Which benefit are you currently using?',
-            'ui:options': {
-              labels: benefitsLabels,
-            },
-          },
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            benefit,
-          },
-        },
+        uiSchema: benefitSelection.uiSchema,
+        schema: benefitSelection.schema,
+      },
+      // related to 1995-STEM
+      stem: {
+        title: 'Education benefit',
+        path: 'benefits/stem',
+        depends: displayEdithNourseRogersScholarship,
+        uiSchema: stem.uiSchema,
+        schema: stem.schema,
       },
     },
   },
   militaryService: {
     title: 'Military History',
     pages: {
+      // 1995-STEM related
+      activeDuty: {
+        title: 'Active Duty',
+        path: 'active-duty',
+        depends: displayActiveDutyStem,
+        uiSchema: activeDuty.uiSchema,
+        schema: activeDuty.schema,
+      },
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        initialData: {},
+        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -96,7 +102,7 @@ export const newChapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        initialData: {},
+        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
@@ -180,7 +186,6 @@ export const newChapters = {
       dependents: {
         title: 'Dependents',
         path: 'personal-information/dependents',
-        initialData: {},
         depends: {
           'view:hasServiceBefore1978': true,
         },

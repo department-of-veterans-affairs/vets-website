@@ -718,7 +718,6 @@ export default {
   8918: 'hip replacement',
   8919: 'knee replacement',
   109: '2010 Presumptive Herbicide Condition',
-  111: '2010 Presumptive Herbicide Condition',
   8920: 'Adhesions - Digestive',
   8921: 'Adhesions - Gynecological',
   8922: 'Adhesions - Heart/Veins/Arteries',

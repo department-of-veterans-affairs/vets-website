@@ -6,6 +6,7 @@
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 
 const WYSIWYG = '... wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
@@ -16,6 +17,12 @@ const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const NUMBER_CALLOUT = '... numberCallout';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
+
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
 
 module.exports = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
@@ -39,6 +46,14 @@ module.exports = `
       }
     }
     ${FIELD_RELATED_LINKS}
+    
+    ${
+      enabledFeatureFlags[
+        featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
+      ]
+        ? FIELD_ALERT
+        : ''
+    }
     fieldMedia {
       entity {
         entityId

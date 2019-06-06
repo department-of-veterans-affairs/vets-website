@@ -7,7 +7,9 @@ const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   HcaHelpers.initApplicationSubmitMock();
-  HcaHelpers.initEnrollmentStatusMock();
+  if (process.env.BUILDTYPE === ENVIRONMENTS.VAGOVPROD) {
+    HcaHelpers.initEnrollmentStatusMock();
+  }
 
   // Ensure introduction page renders.
   client
@@ -25,13 +27,42 @@ module.exports = E2eHelpers.createE2eTest(client => {
     // ID Form page.
     client.expect.element('input[name="root_firstName"]').to.be.visible;
     HcaHelpers.completeIDForm(client, testData.data);
-    client.axeCheck('.main').click('.hca-id-form-wrapper .usa-button');
+    client
+      .axeCheck('.main')
+      .mockData(
+        {
+          path: '/v0/health_care_applications/enrollment_status',
+          verb: 'get',
+          value: {
+            errors: [
+              {
+                title: 'Record not found',
+                detail: 'The record identified by  could not be found',
+                code: '404',
+                status: '404',
+              },
+            ],
+          },
+          status: 404,
+        },
+        null,
+      )
+      .click('.hca-id-form-wrapper .usa-button');
     E2eHelpers.expectNavigateAwayFrom(client, '/id-form');
   }
 
   // Personal Information page.
   client.expect.element('input[name="root_veteranFullName_first"]').to.be
     .visible;
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // check that id-form values have been copied.
+    client.expect
+      .element('input[name="root_veteranFullName_first"]')
+      .to.have.value.that.equals(testData.data.veteranFullName.first);
+    client.expect
+      .element('input[name="root_veteranFullName_last"]')
+      .to.have.value.that.equals(testData.data.veteranFullName.last);
+  }
   HcaHelpers.completePersonalInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
@@ -42,6 +73,27 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Birth information page.
   client.expect.element('select[name="root_veteranDateOfBirthMonth"]').to.be
     .visible;
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // check that id-form values have been copied.
+    const [
+      vetDobYear,
+      vetDobMonth,
+      vetDobDay,
+    ] = testData.data.veteranDateOfBirth.split('-');
+
+    client.expect
+      .element('select[name="root_veteranDateOfBirthMonth"]')
+      .to.have.value.that.equals(parseInt(vetDobMonth, 10));
+    client.expect
+      .element('select[name="root_veteranDateOfBirthDay"]')
+      .to.have.value.that.equals(parseInt(vetDobDay, 10));
+    client.expect
+      .element('input[name="root_veteranDateOfBirthYear"]')
+      .to.have.value.that.equals(parseInt(vetDobYear, 10));
+    client.expect
+      .element('input[name="root_veteranSocialSecurityNumber"]')
+      .to.have.value.that.equals(testData.data.veteranSocialSecurityNumber);
+  }
   HcaHelpers.completeBirthInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
@@ -101,6 +153,25 @@ module.exports = E2eHelpers.createE2eTest(client => {
     client,
     '/military-service/additional-information',
   );
+
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    // Military Service Documents Page.
+
+    client.waitForElementVisible(
+      'label[for="root_attachments"]',
+      Timeouts.slow,
+    );
+    E2eHelpers.uploadTestFile(client, testData.data.testUploadFile);
+    client.selectDropdown(
+      'root_attachments_0_attachmentId',
+      testData.data.testUploadFile.fileTypeSelection,
+    );
+    client.expect
+      .element('input#root_attachments_0_attachmentName')
+      .to.have.value.that.equals(testData.data.testUploadFile.fileName);
+    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-service/documents');
+  }
 
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(2)',
@@ -224,7 +295,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .before(Timeouts.slow);
 
   // Submit message
-  client.expect.element('.confirmation-page-title').to.be.visible;
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
+    client.expect.element('.confirmation-page').to.be.visible;
+  } else {
+    client.expect.element('.confirmation-page-title').to.be.visible;
+  }
 
   client.axeCheck('.main');
 

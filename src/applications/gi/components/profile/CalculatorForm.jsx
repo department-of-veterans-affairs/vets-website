@@ -126,12 +126,16 @@ class CalculatorForm extends React.Component {
     const tuitionFeesId = 'tuitionFees';
     return (
       <div>
-        <label htmlFor={tuitionFeesId}>
-          {this.renderLearnMoreLabel({
-            text: 'Tuition and fees per year',
-            modal: 'calcTuition',
-          })}
+        <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
+          Tuition and fees per year
         </label>
+        <button
+          type="button"
+          className="va-button-link learn-more-button vads-u-margin-left--0p5"
+          onClick={this.props.onShowModal.bind(this, 'calcTuition')}
+        >
+          (Learn more)
+        </button>
         <input
           type="text"
           name={tuitionFeesId}

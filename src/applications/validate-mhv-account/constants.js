@@ -9,6 +9,8 @@ export const ACCOUNT_STATES = {
   NEEDS_TERMS_ACCEPTANCE: 'needs_terms_acceptance',
 };
 
+export const ACCOUNT_STATES_SET = new Set(Object.values(ACCOUNT_STATES));
+
 export const MHV_ACCOUNT_LEVELS = {
   BASIC: 'Basic',
   ADVANCED: 'Advanced',

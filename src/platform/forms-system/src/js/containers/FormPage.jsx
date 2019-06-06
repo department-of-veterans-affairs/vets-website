@@ -150,6 +150,7 @@ class FormPage extends React.Component {
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
           formContext={formContext}
+          trackingPrefix={this.props.form.trackingPrefix}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
