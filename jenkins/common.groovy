@@ -151,7 +151,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
     try {
       def builds = [:]
-      def envUsedCached = [:]
+      def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
