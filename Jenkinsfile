@@ -61,36 +61,6 @@ node('vetsgov-general-purpose') {
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
-  /* stage('Integration') { */
-  /*   if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return } */
-  /*   dir("vets-website") { */
-  /*     try { */
-  /*       parallel ( */
-  /*         e2e: { */
-  /*           sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker" */
-  /*           try { */
-  /*             sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:puppeteer:docker" */
-  /*           } catch (error) { */
-	/*       // Notify Chris and fail the build */
-  /*             commonStages.puppeteerNotification() */
-  /*             throw error */
-  /*           } */
-  /*         }, */
-  /*  */
-  /*         accessibility: { */
-  /*           sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility" */
-  /*         } */
-  /*       ) */
-  /*     } catch (error) { */
-  /*       commonStages.slackNotify() */
-  /*       throw error */
-  /*     } finally { */
-  /*       sh "docker-compose -p e2e down --remove-orphans" */
-  /*       sh "docker-compose -p accessibility down --remove-orphans" */
-  /*       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml']) */
-  /*     } */
-  /*   } */
-  /* } */
 
   commonStages.prearchive(dockerContainer)
 
