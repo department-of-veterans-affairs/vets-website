@@ -104,7 +104,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     const newRatings = [
       ...this.state.ratings,
       {
-        rating: 0,
+        rating: '',
         description: '',
         canDelete: this.state.ratings.length > 1,
       },
@@ -136,8 +136,8 @@ export default class DisabilityRatingCalculator extends React.Component {
   clearAll = () => {
     this.setState({
       ratings: [
-        { rating: 0, description: '', canDelete: false },
-        { rating: 0, description: '', canDelete: false },
+        { rating: '', description: '', canDelete: false },
+        { rating: '', description: '', canDelete: false },
       ],
       calculatedRating: 0,
       showCombinedRating: false,
