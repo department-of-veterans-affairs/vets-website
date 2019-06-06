@@ -18,7 +18,7 @@ export function icsCreate(calendarLink) {
     event.addProp('DTEND', end);
     cal.addComponent(event);
     const calLink = cal.toString();
-    const calURI = encodeURI(calLink);
+    const calURI = encodeURIComponent(calLink);
 
     // Download the ics.
     function calDown(e) {
