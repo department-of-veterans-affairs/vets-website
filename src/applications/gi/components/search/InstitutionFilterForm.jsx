@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
@@ -120,14 +119,6 @@ class InstitutionFilterForm extends React.Component {
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}
         />
-        {!environment.isProduction() && (
-          <Checkbox
-            checked={filters.stemOffered}
-            name="stemOffered"
-            label="Rogers STEM Scholarship"
-            onChange={this.handleCheckboxChange}
-          />
-        )}
         <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"
