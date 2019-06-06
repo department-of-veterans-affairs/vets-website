@@ -256,6 +256,8 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
           dockerContainer.inside(DOCKER_ARGS) {
             sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
           }
+        } else {
+          slackCachedContent(envName)
         }
       }
 

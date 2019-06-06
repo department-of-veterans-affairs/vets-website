@@ -89,17 +89,6 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Slack message abount cached content') {
-    //if (!commonStages.isDeployable()) { return }
-
-    for (int i=0; i<commonStages.VAGOV_BUILDTYPES.size(); i++) {
-      def envName = commonStages.VAGOV_BUILDTYPES.get(i)
-      if (envsUsingDrupalCache[envName]) {
-        commonStages.slackCachedContent(envName)
-      }
-    }
-  }
-
   stage('Deploy dev or staging') {
     try {
       if (!commonStages.isDeployable()) { return }
