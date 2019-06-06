@@ -23,9 +23,6 @@ import './sass/static-pages.scss';
 // Social share links behavior
 import './social-share-links';
 
-// Open first accordion in side nav by default
-import './sidenav-behavior';
-
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
