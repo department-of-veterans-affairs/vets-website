@@ -198,7 +198,7 @@ export const backendErrorMessage = (
 );
 
 export const authenticationErrorMessage = (
-  <div className="vads-u-margin-bottom--2">
+  <div id="authenticationErrorMessage" className="vads-u-margin-bottom--2">
     <div className="vads-u-margin-bottom--2">
       <h1>We’re having trouble finding your GI Bill benefit statement</h1>
 
