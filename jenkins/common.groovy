@@ -103,7 +103,7 @@ def slackIntegrationNotify() {
 def slackCachedContent(envName) {
   message = "vets-website built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
   slackSend message: message,
-    channel: 'enrique-test'
+    channel: 'enrique-test',
     color: 'warning',
     failOnError: true
 }
