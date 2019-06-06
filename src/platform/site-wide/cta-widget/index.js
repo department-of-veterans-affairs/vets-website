@@ -93,7 +93,8 @@ export class CallToActionWidget extends React.Component {
         }`,
         alertText: (
           <p>
-            Try signing in with your DS Logon, My HealtheVet, or ID.me account.
+            Try signing in with your <strong>DS Logon</strong>,
+            <strong>My HealtheVet</strong>, or <strong>ID.me</strong> account.
             If you don’t have any of those accounts, you can create one.
           </p>
         ),
