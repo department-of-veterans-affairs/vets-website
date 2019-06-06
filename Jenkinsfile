@@ -32,14 +32,14 @@ node('vetsgov-general-purpose') {
           }
         },
 
-        /* // Check package.json for known vulnerabilities */
-        /* security: { */
-        /*   retry(3) { */
-        /*     dockerContainer.inside(commonStages.DOCKER_ARGS) { */
-        /*       sh "cd /application && npm run security-check" */
-        /*     } */
-        /*   } */
-        /* }, */
+        // Check package.json for known vulnerabilities
+        security: {
+          retry(3) {
+            dockerContainer.inside(commonStages.DOCKER_ARGS) {
+              sh "cd /application && npm run security-check"
+            }
+          }
+        },
 
         unit: {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
@@ -58,7 +58,7 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
 
@@ -89,6 +89,17 @@ node('vetsgov-general-purpose') {
     }
   }
 
+  stage('Communicate about cached Drupal content') {
+    //if (!commonStages.isDeployable()) { return }
+
+    for (int i=0; i<commonStages.VAGOV_BUILDTYPES.size(); i++) {
+      def envName = commonStages.VAGOV_BUILDTYPES.get(i)
+      if (envsUsingDrupalCache[envName]) {
+        slackCachedContent(envName)
+      }
+    }
+  }
+
   stage('Deploy dev or staging') {
     try {
       if (!commonStages.isDeployable()) { return }
@@ -100,6 +111,7 @@ node('vetsgov-general-purpose') {
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
         commonStages.runDeploy('deploys/vets-website-vagovstaging', ref)
       }
+
     } catch (error) {
       commonStages.slackNotify()
       throw error

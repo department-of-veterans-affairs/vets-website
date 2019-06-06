@@ -100,6 +100,13 @@ def slackIntegrationNotify() {
     failOnError: true
 }
 
+def slackCachedContent(envName) {
+  message = "IGNORE THIS vets-website master built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
+  slackSend message: message,
+    color: 'warning',
+    failOnError: true
+}
+
 def setup() {
   stage("Setup") {
 
