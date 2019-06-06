@@ -18,10 +18,11 @@ export function icsCreate(calendarLink) {
     event.addProp('DTEND', end);
     cal.addComponent(event);
     const calLink = cal.toString();
+    const calURI = encodeURI(calLink);
 
     // Download the ics.
     function calDown(e) {
-      window.open(`data:text/calendar;charset=utf8,${calLink}`);
+      window.open(`data:text/calendar;charset=utf8,${calURI}`);
       e.preventDefault();
     }
 
