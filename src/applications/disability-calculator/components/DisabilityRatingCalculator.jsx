@@ -51,7 +51,7 @@ export default class DisabilityRatingCalculator extends React.Component {
       (e.target.name === 'rating' && e.target.value === '')
     ) {
       console.log('returning null');
-      return null;
+      return;
     }
     if (e.target.name === 'description') {
       curRatings[idx][e.target.name] = e.target.value;
