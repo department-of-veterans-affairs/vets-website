@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
@@ -17,11 +16,6 @@ class InstitutionFilterForm extends React.Component {
     this.renderProgramFilters = this.renderProgramFilters.bind(this);
     this.renderTypeFilter = this.renderTypeFilter.bind(this);
   }
-
-  stemLabel = () =>
-    environment.isProduction()
-      ? 'STEM (Science, Technology, Engineering, and Math)'
-      : 'Rogers STEM Scholarship';
 
   handleDropdownChange(e) {
     const { name: field, value } = e.target;
@@ -123,12 +117,6 @@ class InstitutionFilterForm extends React.Component {
           checked={filters.eightKeysToVeteranSuccess}
           name="eightKeysToVeteranSuccess"
           label="8 Keys to Vet Success"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.stemOffered}
-          name="stemOffered"
-          label={this.stemLabel()}
           onChange={this.handleCheckboxChange}
         />
         <Checkbox
