@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import EducationWizard from '../../components/EducationWizard';
-import { wizardConfig } from '../../utils/helpers';
+import wizardConfig from '../../utils/wizardConfig';
 
 function getQuestion(tree, name) {
   return tree
@@ -53,9 +53,9 @@ describe('<EducationWizard>', () => {
     );
 
     tree.getMountedInstance().setState({ open: true });
-    expect(getQuestion(tree, 'existingApplication')).not.to.be.undefined;
-    answerQuestion(tree, 'existingApplication', 'true');
     expect(getQuestion(tree, 'recentApplication')).not.to.be.undefined;
+    answerQuestion(tree, 'recentApplication', 'false');
+    expect(getQuestion(tree, 'veteran')).not.to.be.undefined;
   });
   it('should reset after earlier answer changed', () => {
     const tree = SkinDeep.shallowRender(
@@ -66,26 +66,14 @@ describe('<EducationWizard>', () => {
     );
 
     tree.getMountedInstance().setState({ open: true });
-    expect(getQuestion(tree, 'existingApplication')).not.to.be.undefined;
-    answerQuestion(tree, 'existingApplication', 'true');
     expect(getQuestion(tree, 'recentApplication')).not.to.be.undefined;
-    answerQuestion(tree, 'recentApplication', 'true');
-    answerQuestion(tree, 'existingApplication', 'false');
-    answerQuestion(tree, 'existingApplication', 'true');
-    expect(getQuestion(tree, 'recentApplication').props.value.value).to.be.null;
-  });
-  it('should support multiple previous values', () => {
-    const tree = SkinDeep.shallowRender(
-      <EducationWizard
-        config={wizardConfig}
-        toggleText="Troubleshoot My GI Bill Benefits"
-      />,
-    );
-
-    tree.getMountedInstance().setState({ open: true });
-    answerQuestion(tree, 'existingApplication', 'true');
     answerQuestion(tree, 'recentApplication', 'false');
+    expect(getQuestion(tree, 'veteran')).not.to.be.undefined;
     answerQuestion(tree, 'veteran', 'true');
-    expect(tree.subTree('component')).not.to.be.undefined;
+    answerQuestion(tree, 'recentApplication', 'false');
+    expect(getQuestion(tree, 'veteran').props.value.value).to.be.null;
+    answerQuestion(tree, 'recentApplication', 'true');
+    // we now expect an error message instead of the next question
+    expect(getQuestion(tree, 'veteran')).to.be.undefined;
   });
 });
