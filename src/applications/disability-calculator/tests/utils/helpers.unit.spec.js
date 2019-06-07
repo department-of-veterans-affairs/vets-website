@@ -16,20 +16,20 @@ const ratingArray = [
   },
 ];
 
-const noRatings = [
-  {
-    rating: 0,
-    description: 'arm',
-  },
-  {
-    rating: 0,
-    description: 'leg',
-  },
-  {
-    rating: 0,
-    description: 'ears',
-  },
-];
+// const noRatings = [
+//   {
+//     rating: 0,
+//     description: 'arm',
+//   },
+//   {
+//     rating: 0,
+//     description: 'leg',
+//   },
+//   {
+//     rating: 0,
+//     description: 'ears',
+//   },
+// ];
 describe('Disabilty  Caclulator helper', () => {
   it('should return an array with length of two elements', () => {
     const result = calculateRating(ratingArray);
