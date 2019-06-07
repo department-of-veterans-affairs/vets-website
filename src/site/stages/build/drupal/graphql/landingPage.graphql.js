@@ -12,7 +12,7 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const ADMIN = '...administration';
 
 module.exports = `
-  
+
   fragment landingPage on NodeLandingPage {
     ${entityElementsFromPages}
     fieldIntroText
@@ -24,10 +24,16 @@ module.exports = `
       entity {
         ...listOfLinkTeasers
       }
-    }    
-    fieldSupportServices {          
-      ...on FieldNodeFieldSupportServices {            
-        entity {      
+    }
+    fieldLinks {
+      title
+      url {
+        path
+      }
+    }
+    fieldSupportServices {
+      ...on FieldNodeFieldSupportServices {
+        entity {
           entityId
           entityBundle
           ...on NodeSupportService {
@@ -39,9 +45,9 @@ module.exports = `
                 path
               }
               title
-              options                  
+              options
             }
-            fieldPhoneNumber                
+            fieldPhoneNumber
           }
         }
       }
