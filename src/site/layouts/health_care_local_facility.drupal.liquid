@@ -176,7 +176,9 @@
             {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
                 <h2 id="health-care-offered-here">Health care offered here</h2>
                 <section class="local-health-services" id="local-health-services">
-                    {% for localService in fieldLocalHealthCareService %}
+
+                    {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name' %}
+                    {% for localService in localHealthServices %}
                         {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
                         {% if localHealthService != empty %}
                             {% include "src/site/facilities/facility_health_service.drupal.liquid" with healthService = localHealthService localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}

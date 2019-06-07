@@ -33,6 +33,7 @@ const flagsByBuildtype = {
     featureFlags.GRAPHQL_MODULE_UPDATE,
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
     featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
+    featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
   ],
   vagovprod: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
 };
