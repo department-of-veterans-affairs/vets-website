@@ -108,17 +108,17 @@ class ResultsList extends Component {
             </div>
           );
         }
-      } else {
-        return (
-          <div
-            className="search-result-title facility-result"
-            ref={this.searchResultTitle}
-          >
-            We’re sorry. We couldn’t complete your request. Please refresh the
-            page or try again later.
-          </div>
-        );
       }
+
+      return (
+        <div
+          className="search-result-title facility-result"
+          ref={this.searchResultTitle}
+        >
+          We’re sorry. We couldn’t complete your request. Please refresh the
+          page or try again later.
+        </div>
+      );
     }
 
     if (!results || results.length < 1) {
