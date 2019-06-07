@@ -359,11 +359,21 @@ export function getFAQBlock1(enrollmentStatus) {
           </h4>
           <p>
             To update your information, please submit a Health Benefits Update
-            Form (VA Form 10-10EZR).{' '}
+            Form (VA Form 10-10EZR).
+          </p>
+          <p>
             <a href="/health-care/update-health-information/">
               Find out how to submit VA Form 10-10EZR
             </a>
             .
+          </p>
+          <p>
+            Or you can update your address and other contact information in your
+            VA.gov profile. This will update your information across several VA
+            benefits and services.
+          </p>
+          <p>
+            <a href="/profile">Go to your profile to update your address</a>.
           </p>
         </>
       );
