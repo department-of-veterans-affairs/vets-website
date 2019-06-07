@@ -43,7 +43,7 @@ class LocatorApi {
               code: '408',
               }
             ]
-          })
+          });
         })
         /* eslint-enable prettier/prettier */
     });
