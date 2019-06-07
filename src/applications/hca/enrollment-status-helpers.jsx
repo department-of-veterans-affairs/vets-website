@@ -365,10 +365,6 @@ export function getFAQBlock1(enrollmentStatus) {
             </a>
             .
           </p>
-          <p>
-            <strong>Note:</strong> Please don’t submit a new VA health care
-            application to update your information.
-          </p>
         </>
       );
       break;
