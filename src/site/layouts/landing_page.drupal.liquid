@@ -83,6 +83,7 @@
                   </li>
                 </ul>
               </section>
+
               {% if fieldSupportServices != empty %}
               <section>
                 <h4>Call us</h4>
@@ -103,6 +104,32 @@
                 </ul>
               </section>
               {% endif %}
+            </div>
+          </li>
+        </ul>
+
+        <ul class="usa-accordion-bordered links">
+          <li>
+            <button class="usa-accordion-button usa-accordion-button-dark rail-heading"
+              aria-expanded="true" aria-controls="a2">
+              Not a veteran?
+            </button>
+            <div id="a2" class="usa-accordion-content" aria-hidden="false">
+            {% if fieldLinks != empty %}
+            <section>
+              <h4>Get information for:</h4>
+              <ul class="va-nav-linkslist-list links">
+                {% for link in fieldLinks %}
+                <li>
+                  <a href="{{ link.url.path }}">
+                    <span>{{ link.title }}</span>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </section>
+            {% endif %}
+
             </div>
           </li>
         </ul>
