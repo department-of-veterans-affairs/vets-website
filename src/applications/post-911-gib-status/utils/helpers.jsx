@@ -5,6 +5,8 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
 import CallHRC from '../../../platform/static-data/CallHRC';
+import EducationWizard from '../components/EducationWizard';
+import wizardConfig from './wizardConfig';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -154,259 +156,89 @@ export function notQualifiedWarning() {
   );
 }
 
-export function noChapter33BenefitsWarning() {
-  return (
-    <div id="noChapter33Benefits">
-      <header>
-        <h1>We couldn’t find your Post-9/11 GI Bill information.</h1>
-      </header>
-      <div className="usa-alert usa-alert-warning">
-        <div className="usa-alert-body">
-          <p className="usa-alert-heading">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=post-911-gi-bill-enrollment-status"
-            >
-              If you’re a dependent, please go to eBenefits to look up your GI
-              Bill information.
-            </a>
-          </p>
-        </div>
-      </div>
-      <h2>Need GI Bill help?</h2>
-      <hr className="divider" />
+export const backendErrorMessage = (
+  <div id="backendErrorMessage" className="row">
+    <div className="medium-8 columns">
+      <h3>We’re sorry. Something went wrong on our end.</h3>
       <p>
-        If you have questions or need help looking up your GI Bill information,
-        please call <span className="gi-phone-nowrap">888-GI-BILL-1</span>(
-        <a className="gi-phone-nowrap" href="tel:1-888-442-4551">
-          888-442-4551
-        </a>
-        ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
+        We’re having trouble finding your Post-9/11 GI Bill Statement of
+        Benefits right now.
       </p>
-    </div>
-  );
-}
-
-export function backendErrorMessage() {
-  return (
-    <div id="backendErrorMessage" className="row">
-      <div className="medium-8 columns">
-        <h3>We’re sorry. Something went wrong on our end.</h3>
-        <p>
-          We’re having trouble finding your Post-9/11 GI Bill Statement of
-          Benefits right now.
-        </p>
-        <p>
-          <strong>This could be for 1 of 3 reasons:</strong>
-        </p>
-        <ul>
-          <li>
-            We’re still processing your education benefits application and we
-            haven’t yet created a record for you. We usually process
-            applications within 60 days. If you applied less than 60 days ago,
-            please check back soon.
-          </li>
-          <li>
-            The name on your VA.gov account doesn’t exactly match the name we
-            have in our Post-9/11 GI Bill records.
-          </li>
-          <li>
-            You haven’t yet applied for Post-9/11 GI Bill education benefits.
-          </li>
-        </ul>
-        <p>
-          If you think your Statement of Benefits should be here, please{' '}
-          <CallHRC />
-        </p>
-        <Link className="usa-button usa-button-primary" to="/">
-          Back to Post-9/11 GI Bill
-        </Link>
-        <br />
-        <br />
-        <br />
-        <br />
-      </div>
-    </div>
-  );
-}
-
-export const wizardConfig = [
-  {
-    type: 'existingApplication',
-    previous: null,
-    label: 'Have you already applied for Post-9/11 GI Bill benefits?',
-    options: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      },
-    ],
-    isActive: () => true,
-  },
-  {
-    type: 'recentApplication',
-    previous: 'existingApplication',
-    label: 'When did you apply for benefits?',
-    options: [
-      {
-        label: 'Less than 60 days ago',
-        value: true,
-      },
-      {
-        label: 'More than 60 days ago',
-        value: false,
-      },
-    ],
-    isActive: previousValue => previousValue === true,
-  },
-  {
-    type: 'recentMessage',
-    previous: 'recentApplication',
-    component: () => (
-      <AlertBox
-        content={
-          <p>
-            It takes us about 60 days to process applications. If you applied
-            less than 60 days ago, please check back soon.
-          </p>
-        }
-        status="warning"
-      />
-    ),
-    isActive: previousValue => previousValue === true,
-  },
-  {
-    type: 'applicationLink',
-    previous: 'existingApplication',
-    component: () => (
+      <p>
+        <strong>This could be for 1 of 3 reasons:</strong>
+      </p>
       <ul>
         <li>
-          <a href="/education/about-gi-bill-benefits/post-9-11/">
-            Find out if you’re eligible for Post-9/11 GI Bill benefits
-          </a>
-        </li>{' '}
-        <span>or </span>
+          We’re still processing your education benefits application and we
+          haven’t yet created a record for you. We usually process applications
+          within 30 days. If you applied less than 30 days ago, please check
+          back soon.
+        </li>
         <li>
-          <a href="/education/how-to-apply/">Apply for education benefits</a>
+          The name on your VA.gov account doesn’t exactly match the name we have
+          in our Post-9/11 GI Bill records.
+        </li>
+        <li>
+          You haven’t yet applied for Post-9/11 GI Bill education benefits.
         </li>
       </ul>
-    ),
-    isActive: previousValue => previousValue === false,
-  },
-  {
-    type: 'veteran',
-    previous: 'recentApplication',
-    label:
-      'Are you a Veteran or service member claiming a benefit based on your own service?',
-    options: [
-      {
-        label: 'Yes',
-        value: true, // the ds component doesn't handle booleans
-      },
-      {
-        label: 'No',
-        value: false,
-      },
-    ],
-    isActive: previousValue => previousValue === false,
-  },
-  {
-    type: 'automaticEligibility',
-    previous: 'veteran',
-    label:
-      'Does your sponsor have a 100% disability rating, or are they deceased, MIA, or a POW?',
-    options: [
-      {
-        label: 'Yes',
-        value: true, // the ds component doesn't handle booleans
-      },
-      {
-        label: 'No',
-        value: false,
-      },
-    ],
-    isActive: previousValue => previousValue === false,
-  },
-  {
-    type: 'benefitsTransferred',
-    previous: 'automaticEligibility',
-    label:
-      'Has your sponsor transferred their Post-9/11 GI Bill benefits to you?',
-    options: [
-      {
-        label: 'Yes',
-        value: true, // the ds component doesn't handle booleans
-      },
-      {
-        label: 'No',
-        value: false,
-      },
-    ],
-    isActive: previousValue => previousValue === false,
-  },
-  {
-    type: 'errorMessage',
-    previous: ['veteran', 'automaticEligibility', 'benefitsTransferred'],
-    component: () => (
+      <p>
+        If you think your Statement of Benefits should be here, please{' '}
+        <CallHRC />
+      </p>
+      <Link className="usa-button usa-button-primary" to="/">
+        Back to Post-9/11 GI Bill
+      </Link>
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
+  </div>
+);
+
+export const authenticationErrorMessage = (
+  <div id="authenticationErrorMessage" className="vads-u-margin-bottom--2">
+    <div className="vads-u-margin-bottom--2">
+      <h1>We’re having trouble finding your GI Bill benefit statement</h1>
+
       <AlertBox
-        headline="We’re sorry. We can’t find your Statement of Benefits right now."
+        headline="The most common reason for this error is that you haven’t yet
+          applied for Post-9/11 GI Bill benefits"
         content={
-          <div>
+          <>
             <p>
-              If you’re having trouble accessing your benefit statement, it
-              could be for one of these reasons:
+              You need to apply for Post-9/11 GI Bill benefits before you can
+              view your GI Bill benefit statement.
             </p>
-            <ul>
-              <li>
-                We’re still processing your education benefits application and
-                we haven’t yet created a record for you. We usually process
-                applications within 60 days. If you applied less than 60 days
-                ago, please check back soon.
-              </li>
-              <li>
-                The name on your account doesn’t exactly match the name we have
-                in our Post-9/11 GI Bill records.
-              </li>
-              <li>
-                You haven’t yet applied for Post-9/11 GI Bill education
-                benefits.
-              </li>
-            </ul>
+
             <p>
-              If none of these situations apply to you, and you think your
-              Statement of Benefits should be here, please call the Education
-              Call Center at 888-442-4551 (888-GI-BILL-1). We’re here Monday
-              through Friday, 8:00 a.m. to 7:00 p.m. ET.
+              After you apply, it'll take us on average 30 days to process your
+              application. If you’re awarded GI Bill benefits, you’ll be able to
+              access and view your benefit statement.
             </p>
-          </div>
+
+            <a href="/education/how-to-apply/">
+              Find out how to apply for Post-9/11 GI Bill benefits
+            </a>
+          </>
         }
-        status="warning"
+        status="info"
+        isVisible
       />
-    ),
-    isActive: choices =>
-      choices.veteran ||
-      choices.automaticEligibility ||
-      choices.benefitsTransferred,
-  },
-  {
-    type: 'transferMessage',
-    previous: 'benefitsTransferred',
-    component: () => (
-      <AlertBox
-        content={
-          <p>
-            Your sponsor needs to transfer their Post-9/11 GI Bill benefits to
-            you before we can process your application.
-          </p>
-        }
-        status="warning"
-      />
-    ),
-    isActive: previousValue => previousValue === false,
-  },
-];
+    </div>
+    <div>
+      <h4>Have you already applied for education benefits?</h4>
+      <p>
+        There are a few situations where your Post-9/11 GI Bill benefit
+        statement might not be available even if you’ve already applied for
+        education benefits. Just answer a few questions below and we’ll try to
+        help you find out why.
+      </p>
+    </div>
+    <EducationWizard
+      config={wizardConfig}
+      toggleText="Troubleshoot My GI Bill Benefits"
+    />
+  </div>
+);

@@ -18,7 +18,7 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 
-const timeoutErrorCode = '504';
+const TIMEOUTS = new Set(['408', '504', '503']);
 
 class ResultsList extends Component {
   constructor(props) {
@@ -81,19 +81,70 @@ class ResultsList extends Component {
       );
     }
 
-    if (error && error.find(err => err.code === timeoutErrorCode)) {
-      /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-      return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
-          The search has timed out, please retry your search.
-        </div>
-      );
-      /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    if (error) {
+      // For some reason, an error can be an HTTP response, or just a string.
+      if (error.find) {
+        const timedOut = error.find(err => TIMEOUTS.has(err.code));
+        if (timedOut) {
+          return (
+            <div
+              className="search-result-title facility-result"
+              ref={this.searchResultTitle}
+            >
+              <p>We’re sorry. We couldn’t complete your request.</p>
+              <strong>To try again, please:</strong>
+              <ul className="vads-u-margin-y--1p5">
+                <li>
+                  <strong>Add a service type</strong> (like “primary care”), and
+                  select the option that best meets your needs. This will help
+                  to narrow your search.
+                </li>
+                <li>
+                  <strong>Or enter a different search term</strong> (street,
+                  city, state, or postal code).
+                </li>
+              </ul>
+              Then click <strong>Search</strong>.
+            </div>
+          );
+        }
+      } else {
+        return (
+          <div
+            className="search-result-title facility-result"
+            ref={this.searchResultTitle}
+          >
+            We’re sorry. We couldn’t complete your request. Please refresh the
+            page or try again later.
+          </div>
+        );
+      }
     }
+
     if (!results || results.length < 1) {
+      if (this.props.facilityTypeName === facilityTypes.cc_provider) {
+        return (
+          <div
+            className="search-result-title facility-result"
+            ref={this.searchResultTitle}
+          >
+            We didn't find any facilities near you. <br />
+            <strong>To try again, please:</strong>
+            <ul className="vads-u-margin-y--1p5">
+              <li>
+                <strong>Enter a different search term</strong> (street, city,
+                state, or postal code), <strong>or</strong>
+              </li>
+              <li>
+                <strong>Add a service type</strong> (like “primary care”), and
+                select the option that best meets your needs. This will help to
+                narrow your search.
+              </li>
+            </ul>
+            Then click <strong>Search</strong>.
+          </div>
+        );
+      }
       /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
       return (
         <div
@@ -106,6 +157,7 @@ class ResultsList extends Component {
       );
       /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     }
+
     const currentLocation = position;
     const sortedResults = results
       .map(result => {

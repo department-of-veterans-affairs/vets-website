@@ -10,6 +10,7 @@ const featureFlags = {
     'featureFieldCommonlyTreatedConditions',
   FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT:
     'FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT',
+  FEATURE_FIELD_LINKS: 'featureFieldLinks',
 };
 
 // Edit this to turn flags on or off
@@ -20,6 +21,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
     featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
     featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
+    featureFlags.FEATURE_FIELD_LINKS,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
@@ -27,6 +29,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
     featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
     featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
+    featureFlags.FEATURE_FIELD_LINKS,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
@@ -34,6 +37,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
     featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT,
     featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
+    featureFlags.FEATURE_FIELD_LINKS,
   ],
   vagovprod: [featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE],
 };
