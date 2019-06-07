@@ -21,7 +21,7 @@ import { recordDashboardClick } from '../helpers';
 
 import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
-import ESRError from '../components/ESRError';
+import ESRError, { ESR_ERROR_TYPES } from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
 
@@ -309,7 +309,7 @@ class DashboardAppNew extends React.Component {
           </p>
         </div>
 
-        {showServerError && <ESRError />}
+        {showServerError && <ESRError errorType={ESR_ERROR_TYPES.generic} />}
 
         <PreferencesWidget />
 

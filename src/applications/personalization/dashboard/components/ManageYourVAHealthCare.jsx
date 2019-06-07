@@ -14,7 +14,7 @@ import {
 
 import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
-import ESRError from './ESRError';
+import ESRError, { ESR_ERROR_TYPES } from './ESRError';
 
 import {
   hasServerError as hasESRServerError,
@@ -50,7 +50,7 @@ const ManageYourVAHealthCare = ({
 }) => (
   <>
     <h2>Manage your VA health care</h2>
-    {showServerError && <ESRError />}
+    {showServerError && <ESRError errorType={ESR_ERROR_TYPES.inContext} />}
     <AlertBox
       content={
         <div>
