@@ -39,7 +39,7 @@ function addUniqueIds(headingsArray) {
   });
 }
 
-export function generateHeadingIds() {
+function generateHeadingIds() {
   return (files, metalsmith, done) => {
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
