@@ -37,7 +37,14 @@ class LocatorApi {
         .then(
           data => resolve(data),
           error => reject(error)
-        );
+        ).catch(() => {
+          resolve({
+            errors: [{
+              code: '408',
+              }
+            ]
+          })
+        })
         /* eslint-enable prettier/prettier */
     });
   }
