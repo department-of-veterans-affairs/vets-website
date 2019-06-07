@@ -40,7 +40,6 @@ class ResultsList extends Component {
 
   handlePageSelect = page => {
     const { currentQuery } = this.props;
-    console.log('currentQuery', currentQuery);
     this.props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
