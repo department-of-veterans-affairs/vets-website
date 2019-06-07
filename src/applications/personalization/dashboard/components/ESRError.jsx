@@ -10,7 +10,7 @@ const headlines = {
   [ESR_ERROR_TYPES.generic]:
     'We can’t access health care enrollment information right now',
   [ESR_ERROR_TYPES.inContext]:
-    'We can’t display your VA health care enrollment information right nowWe can’t access health care enrollment information right now',
+    'We can’t display your VA health care enrollment information right now',
 };
 
 const contents = {
