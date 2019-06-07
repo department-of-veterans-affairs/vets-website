@@ -6,6 +6,7 @@ function roundRating(num) {
 }
 
 // helper to remove % sign from rating
+// eslint-disable-next-line no-unused-vars
 function checkForPercent(e) {
   const element = String(e).split('');
   for (let i = element.length - 1; i >= 0; i--) {
@@ -67,7 +68,8 @@ export function calculateRating(arr) {
     return [result, actualRating];
   }
 }
-// first element in array is rounded rating and second element is the actual rating
+// will return array with two elements. first element in array is rounded rating
+// and second element is the actual rating
 
 export function setFocus(selector) {
   const el =

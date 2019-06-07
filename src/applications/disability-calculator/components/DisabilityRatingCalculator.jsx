@@ -33,8 +33,10 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.child.ratingInput.focus();
   };
 
+  // eslint-disable-next-line consistent-return
   handleChange = (e, idx) => {
     const curRatings = this.state.ratings;
+    // eslint-disable-next-line radix
     const ratingValue = parseInt(e.target.value);
     console.log(re.test(ratingValue), e.target.value);
     if (e.target.name === 'rating' && e.target.value === '') {
