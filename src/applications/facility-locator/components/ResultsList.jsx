@@ -92,21 +92,19 @@ class ResultsList extends Component {
               ref={this.searchResultTitle}
             >
               <p>We’re sorry. We couldn’t complete your request.</p>
-              <p>
-                <strong>To try again, please:</strong>
-                <ul className="vads-u-margin-y--1p5">
-                  <li>
-                    <strong>Add a service type</strong> (like “primary care”),
-                    and select the option that best meets your needs. This will
-                    help to narrow your search.
-                  </li>
-                  <li>
-                    <strong>Or enter a different search term</strong> (street,
-                    city, state, or postal code).
-                  </li>
-                </ul>
-                Then click <strong>Search</strong>.
-              </p>
+              <strong>To try again, please:</strong>
+              <ul className="vads-u-margin-y--1p5">
+                <li>
+                  <strong>Add a service type</strong> (like “primary care”), and
+                  select the option that best meets your needs. This will help
+                  to narrow your search.
+                </li>
+                <li>
+                  <strong>Or enter a different search term</strong> (street,
+                  city, state, or postal code).
+                </li>
+              </ul>
+              Then click <strong>Search</strong>.
             </div>
           );
         }
