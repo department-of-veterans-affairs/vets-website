@@ -1,9 +1,25 @@
 const cards = document.querySelectorAll('.asset-card');
+let activePage;
+export function libraryCurrent() {
+  cards.forEach(element => {
+    const numVal = element.getAttribute('data-number');
+    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
+      element.classList.add('pager-hide');
+    } else {
+      element.classList.remove('pager-hide');
+    }
+    if (activePage === undefined) {
+      if (numVal > 10) {
+        element.classList.add('pager-hide');
+      }
+    }
+  });
+}
+
 export function libraryFilters(el) {
   sessionStorage.setItem('pageNum', 1);
   const currentPage = sessionStorage.getItem('pageNum');
   const pages = Math.ceil(cards.length / 10);
-  let activePage;
 
   if (el.srcElement.id === 'pager-next-click') {
     activePage = parseInt(currentPage, 10);
@@ -22,24 +38,11 @@ export function libraryFilters(el) {
     sessionStorage.setItem('pageNum', activePage);
   }
 
-  cards.forEach(element => {
-    const numVal = element.getAttribute('data-number');
-    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
-      element.classList.add('pager-hide');
-    } else {
-      element.classList.remove('pager-hide');
-    }
-    if (activePage === undefined) {
-      if (numVal > 10) {
-        element.classList.add('pager-hide');
-      }
-    }
-  });
-
   if (document.getElementById('va-pagination-active-num')) {
     document.getElementById('va-pagination-active-num').innerText =
       activePage === undefined ? 1 : activePage;
   }
+  libraryCurrent();
 }
 
 export function libraryCount() {
@@ -116,4 +119,5 @@ export function libraryListeners() {
     });
     topicItem.addEventListener('change', libraryCount);
   }
+  libraryCurrent();
 }
