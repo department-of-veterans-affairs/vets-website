@@ -33,7 +33,7 @@ module.exports = function registerFilters() {
       .split('.')
       .slice(-1)
       .pop()
-      .toUpperCase();
+      .toUpperCase() + data.slice(1);
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
