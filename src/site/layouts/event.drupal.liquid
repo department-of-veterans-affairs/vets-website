@@ -83,6 +83,7 @@
   {% endif %}
 {% endif %}
 <div class="interior" id="content">
+
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
         {% if entityUrl.path contains "/outreach-and-events" %}
@@ -103,6 +104,10 @@
         <article class="usa-content">
           <div class="usa-grid usa-grid-full">
             <h1>{{ title }}</h1>
+            {% if fieldMedia %}
+            <img alt="{{fieldMedia.entity.image.alt}}"
+              src="{{fieldMedia.entity.image.derivative.url}}" />
+            {% endif %}
             <div class="va-introtext">
               <p>{{ fieldDescription }}</p>
             </div>
