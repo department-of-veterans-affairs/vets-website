@@ -25,16 +25,16 @@ function createUniqueId(headingEl) {
 }
 
 function addUniqueIds(headingsArray) {
-  headingsArray.forEach(heading => {
-    const parent = heading.parentNode;
-    const isInWysiwyg = parent.classList.contains('processed-content');
-    const isInAccordionButton = parent.classList.contains(
-      'usa-accordion-button',
-    );
+  headingsArray.each(heading => {
+    const $ = cheerio.load(heading);
+    const parent = $.parent();
+    const isInWysiwyg = parent.hasClass('processed-content');
+    const isInAccordionButton = parent.hasClass('usa-accordion-button');
+
     // skip heading if it already has an id and skip heading if it's in wysiwyg content
-    if (!heading.id && !isInWysiwyg && !isInAccordionButton) {
-      const headingID = createUniqueId();
-      heading.setAttribute('id', headingID);
+    if (!$.id && !isInWysiwyg && !isInAccordionButton) {
+      const headingID = createUniqueId($);
+      $.attr('id', headingID);
     }
   });
 }
@@ -45,8 +45,8 @@ function generateHeadingIds() {
       const file = files[fileName];
 
       if (fileName.endsWith('html')) {
-        const doc = cheerio.load(file.contents);
-        const headings = Array.from(doc.querySelectorAll('h2, h3'));
+        const $ = cheerio.load(file.contents);
+        const headings = $('h2, h3');
         if (headings.length > 0) {
           addUniqueIds(headings);
         }
