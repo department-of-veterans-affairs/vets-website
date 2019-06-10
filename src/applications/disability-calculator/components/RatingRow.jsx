@@ -12,6 +12,7 @@ export const RatingRow = props => {
   const indx = props.indx;
   const handleChange = props.handleChange;
   const handleRemoveRating = props.handleRemoveRating;
+  const ratingRef = props.ratingRef;
 
   // eslint-disable-next-line no-console
   // console.log(ratingObj);
@@ -30,6 +31,7 @@ export const RatingRow = props => {
           pattern="\d+"
           // pattern="/^[0-9\b]+$/;"
           name="rating"
+          ref={ratingRef}
           // autoFocus
         />
       </div>

@@ -25,14 +25,33 @@ export default class DisabilityRatingCalculator extends React.Component {
       showCombinedRating: false,
       calculatedRating: 0,
     };
-
     this.ratingRef = React.createRef();
+    this.focus = this.focus.bind(this);
   }
 
+  componentDidMount() {
+    if (this.state.ratings === 2) {
+      setTimeout(() => {
+        this.focus();
+      }, 100);
+    }
+    this.ratingRef.current.focus();
+  }
+
+  focus = () => {
+    this.ratingRef.current.focus();
+  };
   handleClick = () => {
-    this.child.ratingInput.focus();
+    this.ratingRef.current.focus();
   };
 
+  inputFocus = () => {
+    if (this.state.ratings.length === 2) {
+      setTimeout(() => {
+        this.focus();
+      }, 100);
+    }
+  };
   // eslint-disable-next-line consistent-return
   handleChange = (e, idx) => {
     const curRatings = this.state.ratings;
@@ -96,13 +115,18 @@ export default class DisabilityRatingCalculator extends React.Component {
       },
     ];
     this.setState({ ratings: newRatings }, () => console.log(this.state));
+    setTimeout(() => {
+      this.focus();
+    }, 100);
   };
 
   handleRemoveRating = idx => () => {
     this.setState({
       ratings: this.state.ratings.filter((s, sidx) => idx !== sidx),
     });
-    console.log('this is remove rating');
+    setTimeout(() => {
+      this.focus();
+    }, 100);
   };
 
   showRating = () => {
@@ -120,6 +144,7 @@ export default class DisabilityRatingCalculator extends React.Component {
       calculatedRating: 0,
       showCombinedRating: false,
     });
+    this.focus();
   };
 
   render() {
@@ -155,7 +180,9 @@ export default class DisabilityRatingCalculator extends React.Component {
               ratingObj={ratingObj}
               key={idx}
               indx={idx}
+              ratingRef={this.ratingRef}
               // ref={this.ratingRef}
+              // autoFocus
             />
           ))}
           <div className="vads-l-row">
