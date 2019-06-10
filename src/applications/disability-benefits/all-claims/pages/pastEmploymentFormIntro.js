@@ -7,7 +7,7 @@ export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': pastEmploymentHistory,
   'view:upload4192Choice': {
-    'ui:title': 'Please tell us what you‘d like to do.',
+    'ui:title': 'Please tell us what you’d like to do.',
     'ui:options': { showFieldLabel: true },
     'ui:validations': [
       {

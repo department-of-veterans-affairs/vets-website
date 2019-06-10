@@ -44,13 +44,10 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (serviceExists) {
       return (
         <div>
-          <h3>Appointment wait times at this location</h3>
-          <p
-            id={`facility-${_.camelCase(
-              service,
-            )}-appointment-wait-times-effective-date`}
-          >
-            Last updated: {formatDateLong(facility.access.health.effectiveDate)}
+          <h3>Patient wait times</h3>
+          <p>
+            The average number of days to receive care for this service if you
+            make an appointment today.
           </p>
           <div className="usa-grid-full">
             <div className="usa-width-one-half vads-u-display--flex">
@@ -78,6 +75,21 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   )}
                 </p>
               </div>
+            </div>
+            <div className="vads-l-row">
+              <p
+                id={`facility-${_.camelCase(
+                  service,
+                )}-appointment-wait-times-effective-date`}
+              >
+                Last updated:{' '}
+                {formatDateLong(facility.access.health.effectiveDate)}
+              </p>
+              <p className="vads-u-margin--0">
+                These wait times may not always reflect the actual wait for
+                services. Call us if you would like to make an appointment or
+                have questions about accessing this service.
+              </p>
             </div>
           </div>
         </div>

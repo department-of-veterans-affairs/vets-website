@@ -22,16 +22,13 @@ function createOutreachAssetsData(buildSettings) {
       return;
     }
 
-    try {
-      const {
-        data: { outreachAssets },
-      } = drupalData;
+    const {
+      data: { outreachAssets },
+    } = drupalData;
 
-      for (const entity of outreachAssets.entities) {
-        let relativeUrl = '';
-
-        if (!entity.fieldMedia.entity) continue;
-
+    for (const entity of outreachAssets.entities) {
+      let relativeUrl = '';
+      if (entity.entityBundle) {
         switch (entity.fieldMedia.entity.entityBundle) {
           case ENTITY_BUNDLES.DOCUMENT:
             relativeUrl = entity.fieldMedia.entity.fieldDocument.entity.url;
@@ -42,25 +39,20 @@ function createOutreachAssetsData(buildSettings) {
           default:
             break;
         }
-
-        if (!relativeUrl) continue;
-
-        const noSlash = relativeUrl.slice(1);
-        const absoluteUrl = `${bucket}${relativeUrl}`;
-        const fileSize = files[noSlash].contents.byteLength;
-
-        entity.derivedFields = { absoluteUrl, fileSize };
       }
+      if (!relativeUrl) continue;
 
-      const outreachAssetsFileName = 'generated/outreach-assets.json';
-      const serializedOutreachAssets = JSON.stringify(outreachAssets, null, 2);
+      const noSlash = relativeUrl.slice(1);
+      const absoluteUrl = `${bucket}${relativeUrl}`;
+      const fileSize = files[noSlash].contents.byteLength;
 
-      files[outreachAssetsFileName] = {
-        contents: Buffer.from(serializedOutreachAssets),
-      };
-    } catch (err) {
-      // This should be added back
+      entity.derivedFields = { absoluteUrl, fileSize };
     }
+
+    metalsmith.metadata({
+      outreachAssetsDataArray: outreachAssets,
+      ...metalsmith.metadata(),
+    });
 
     done();
   };

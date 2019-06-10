@@ -17,7 +17,7 @@ const testConfig = {
   debug: true,
   setup: userToken => {
     PageHelpers.initDocumentUploadMock();
-    PageHelpers.initApplicationSubmitMock();
+    PageHelpers.initApplicationSubmitMock(userToken);
     PageHelpers.initItfMock(userToken);
     PageHelpers.initPaymentInformationMock(userToken);
   },

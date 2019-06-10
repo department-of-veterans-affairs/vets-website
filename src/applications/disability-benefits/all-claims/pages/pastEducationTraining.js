@@ -46,8 +46,8 @@ export const uiSchema = {
         'ui:validations': [validateDate],
         dates: {
           ...dateRangeUI(
-            'Beginning',
-            'Completion',
+            'From',
+            'To',
             'End of education must be after start of education',
           ),
           'ui:title': 'Dates',

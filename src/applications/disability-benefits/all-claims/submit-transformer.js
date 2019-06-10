@@ -72,7 +72,7 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 /**
- * Returns an array of disabilities pulled from ratedDisabilties, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
+ * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
 function getDisabilities(formData) {
@@ -495,7 +495,9 @@ export function transform(formConfig, form) {
             .join(),
           underDoctorHopitalCarePast12M:
             unemployability.underDoctorsCare || unemployability.hospitalized,
-          mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+          mostEarningsInAYear: (
+            unemployability.mostEarningsInAYear || ''
+          ).toString(),
           disabilityPreventMilitaryDuties:
             unemployability.disabilityPreventMilitaryDuties === 'yes',
         },

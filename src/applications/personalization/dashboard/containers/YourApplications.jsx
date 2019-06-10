@@ -120,8 +120,8 @@ YourApplications.propTypes = {
     PropTypes.shape({
       form: PropTypes.string.required,
       metadata: PropTypes.shape({
-        lastUpdated: PropTypes.string,
-        expiresAt: PropTypes.string,
+        lastUpdated: PropTypes.number,
+        expiresAt: PropTypes.number,
       }),
     }),
   ),
