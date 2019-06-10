@@ -28,12 +28,13 @@ module.exports = function registerFilters() {
 
   liquid.filters.modulo = item => item % 2;
 
-  liquid.filters.fileType = data =>
-    data
+  liquid.filters.fileType = data => {
+    const string = data
       .split('.')
       .slice(-1)
-      .pop()
-      .toUpperCase() + data.slice(1);
+      .pop();
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
