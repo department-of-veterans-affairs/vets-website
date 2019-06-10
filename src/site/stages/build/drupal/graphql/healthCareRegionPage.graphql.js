@@ -90,6 +90,9 @@ module.exports = `
       }
     }
     ${healthCareStaffBios}
+    fieldLocationsIntroBlurb {
+      processed
+    }
     ${healthCareLocalFacilities}
     ${
       enabledFeatureFlags[featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS]
