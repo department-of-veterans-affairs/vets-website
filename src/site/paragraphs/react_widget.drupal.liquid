@@ -30,6 +30,12 @@
 
 {% endcomment %}
 
+{% if reactRoot is empty %}
+  {% widgetDelta = 1 %}
+  {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
+  {% assign widgetDelta = widgetDelta | plus: 1 %}
+{% endif %}
+
   {% if entity.fieldCtaWidget %}
       <div class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
   {% else %}
