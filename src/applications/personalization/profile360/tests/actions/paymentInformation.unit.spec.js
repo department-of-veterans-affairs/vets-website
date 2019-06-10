@@ -4,10 +4,14 @@ import sinon from 'sinon';
 import * as paymentInformationActions from '../../actions/paymentInformation';
 
 let oldFetch;
+let oldGA;
 
 const setup = () => {
   oldFetch = global.fetch;
+  oldGA = global.ga;
   global.fetch = sinon.stub();
+  global.ga = sinon.stub();
+  global.ga.getAll = sinon.stub();
   global.fetch.returns(
     Promise.resolve({
       headers: { get: () => 'application/json' },
@@ -20,10 +24,20 @@ const setup = () => {
         }),
     }),
   );
+  global.ga.getAll.returns([
+    {
+      get: key => {
+        const value = key === 'clientId' ? '1234567890:0987654321' : undefined;
+
+        return value;
+      },
+    },
+  ]);
 };
 
 const teardown = () => {
   global.fetch = oldFetch;
+  global.ga = oldGA;
 };
 
 describe('actions/paymentInformation', () => {

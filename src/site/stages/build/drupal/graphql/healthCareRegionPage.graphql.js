@@ -98,7 +98,7 @@ module.exports = `
     }
     fieldIntroTextNewsStories {
       processed
-    }    
+    }
     ${healthCareRegionNewsStories}
     fieldIntroTextEventsPage {
       processed
@@ -107,7 +107,7 @@ module.exports = `
     fieldClinicalHealthCareServi {
       processed
     }
-    ${healthCareRegionHealthServices}    
+    ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {
       processed
     }

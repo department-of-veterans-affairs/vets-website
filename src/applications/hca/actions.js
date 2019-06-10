@@ -30,7 +30,7 @@ export function showReapplyContent() {
   return { type: SHOW_HCA_REAPPLY_CONTENT };
 }
 
-// fake a failed call to /health_care_applications/enrollment_status
+// fake a 404 response from /health_care_applications/enrollment_status
 function callFake404(dispatch) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -43,6 +43,24 @@ function callFake404(dispatch) {
     });
   });
 }
+
+/* eslint-disable no-unused-vars */
+// Disabling ESLint because it's nice to be able to use this function during
+// development and local testing
+// fake a 500 response from /health_care_applications/enrollment_status
+function callFake500(dispatch) {
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  }).then(() => {
+    dispatch({
+      type: FETCH_ENROLLMENT_STATUS_FAILED,
+      errors: [{ code: '500' }],
+    });
+  });
+}
+/* eslint-enable no-unused-vars */
 
 // fake a 200 call to /health_care_applications/enrollment_status
 function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
