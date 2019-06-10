@@ -1,6 +1,7 @@
 const moment = require('moment');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
+const _ = require('lodash');
 
 module.exports = function registerFilters() {
   const {
@@ -197,4 +198,7 @@ module.exports = function registerFilters() {
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
   liquid.filters.isContactPage = path => path.includes('contact');
+
+  // sort a list of objects by a certain property in the object
+  liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 };

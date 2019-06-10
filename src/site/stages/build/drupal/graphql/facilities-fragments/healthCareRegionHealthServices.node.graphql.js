@@ -75,7 +75,7 @@ const HEALTH_SERVICES_RESULTS = `
 
 function queryFilter(type) {
   return `
-    filter: {conditions: [{field: "field_service_name_and_descripti.entity.parent.entity.name", value: "${type}", operator: EQUAL}]}, sort: {field: "field_service_name_and_descripti.entity.name", direction: ASC}
+    filter: {conditions: [{field: "field_service_name_and_descripti.entity.parent.entity.name", value: "${type}", operator: EQUAL}]}
   `;
 }
 
