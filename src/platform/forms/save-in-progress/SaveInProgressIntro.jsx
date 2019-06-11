@@ -133,7 +133,7 @@ class SaveInProgressIntro extends React.Component {
       alert = buttonOnly ? (
         <>
           <button className="usa-button-primary" onClick={this.openLoginModal}>
-            Sign in to Start Your Application
+            Sign in to start your application
           </button>
           {!this.props.hideUnauthedStartLink && (
             <p>
