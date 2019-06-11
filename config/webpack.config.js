@@ -203,11 +203,16 @@ const configGenerator = (buildOptions, apps) => {
           : `[name].[contenthash]-${timestamp}.css`,
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
+  };
+
+  if (!buildOptions.watch) {
+    baseConfig.plugins.push(
       new ManifestPlugin({
         fileName: 'file-manifest.json',
       }),
-    ],
-  };
+    );
+  }
 
   if (isOptimizedBuild) {
     const bucket = BUCKETS[buildOptions.buildtype];
