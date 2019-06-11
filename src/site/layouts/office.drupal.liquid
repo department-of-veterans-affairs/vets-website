@@ -147,7 +147,8 @@
                     <a class="file-download-with-icon" target="_blank"
                       href="{{url}}" download="{{url}}"><i
                         class="fas fa-download vads-u-padding-right--1"></i>Download
-                      {{entity.fieldMedia.entity.entityBundle | fileType}}</a>
+                      {{entity.fieldMedia.entity.entityBundle | fileType}}
+                      {{url | fileExt}}</a>
                     {% endif %}
 
                     {% if entity.fieldMedia.entity.entityBundle == 'video' %}
@@ -166,7 +167,8 @@
                     <a class="file-download-with-icon" target="_blank"
                       href="{{url}}" download="{{url}}"><i
                         class="fas fa-download vads-u-padding-right--1"></i>Download
-                      {{entity.fieldMedia.entity.entityBundle | fileType}}</a>
+                      {{entity.fieldMedia.entity.entityBundle | fileType}}
+                      {{url | fileExt}}</a>
                     {% endif %}
 
                   </div>
@@ -208,8 +210,10 @@
               <button class="va-button-link" id="last-click">Last</button>
             </span>
           </div>
-        <div id="no-results"><div>No results.</div><button id="start-over">Click here to start over.</button>
-        </div>
+          <div id="no-results">
+            <div>No results.</div><button id="start-over">Click here to start
+              over.</button>
+          </div>
 
           {% endif %}
 

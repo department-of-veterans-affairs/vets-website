@@ -36,6 +36,14 @@ module.exports = function registerFilters() {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  liquid.filters.fileExt = data => {
+    const string = data
+      .split('.')
+      .slice(-1)
+      .pop();
+    return string;
+  };
+
   liquid.filters.breakIntoSingles = data => {
     let output = '';
     if (data != null) {

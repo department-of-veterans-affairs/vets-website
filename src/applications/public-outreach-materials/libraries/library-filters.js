@@ -17,6 +17,11 @@ export function libraryCurrent() {
 }
 
 export function libraryCount() {
+  if (document.getElementById('no-results')) {
+    document.getElementById('no-results').style.display = 'none';
+    document.getElementById('va-pager-div').style.display = 'flex';
+  }
+
   if (document.getElementById('total-pages')) {
     const numCards = document.querySelectorAll(
       '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
