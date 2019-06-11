@@ -45,7 +45,7 @@
 
         {% assign widgetDelta = 1 %}
         {% for block in fieldContentBlock %}
-          {% if block.entity.entityBundle == 'react_widget' and block.entity.fieldCtaWidget == false %}
+          {% if block.entity.entityBundle == 'react_widget' or block.entity.entityBundle == 'q_a_section' and block.entity.fieldCtaWidget == false %}
             {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
             {% assign block.entity.reactRoot = reactRoot %}
             {% assign widgetDelta = widgetDelta | plus: 1 %}
