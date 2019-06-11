@@ -16,7 +16,6 @@ export const RatingRow = props => {
 
   // eslint-disable-next-line no-console
   // console.log(ratingObj);
-
   return (
     <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
