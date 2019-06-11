@@ -6,7 +6,6 @@ import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
-import { connect } from 'react-redux';
 import environment from '../../../../platform/utilities/environment';
 
 class CalculatorForm extends React.Component {
@@ -474,10 +473,10 @@ class CalculatorForm extends React.Component {
   renderBeneficiaryZIP() {
     if (
       environment.isProduction() ||
-      this.props.onlineClasses === 'yes' ||
-      this.props.giBillChapter !== '33'
+      !this.props.displayedInputs.beneficiaryLocationQuestion
     )
       return null;
+
     let amountInput;
 
     if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
@@ -627,6 +626,4 @@ CalculatorForm.propTypes = {
   onInputChange: PropTypes.func,
 };
 
-const mapStateToProps = state => state.eligibility;
-
-export default connect(mapStateToProps)(CalculatorForm);
+export default CalculatorForm;
