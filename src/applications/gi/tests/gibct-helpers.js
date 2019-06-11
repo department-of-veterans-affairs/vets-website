@@ -12,6 +12,9 @@ const deaOJTRate = 747;
 
 const housingRate = '#gbct_housing_allowance > div.small-6.columns.value > h5';
 
+const schoolResult =
+  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+
 // Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
 function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
   client
@@ -82,10 +85,8 @@ function ForeignOnlineOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
+    .waitForElementVisible(schoolResult, Timeouts.normal)
+    .click(schoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -114,10 +115,8 @@ function ForeignInPersonOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
+    .waitForElementVisible(schoolResult, Timeouts.normal)
+    .click(schoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -146,10 +145,8 @@ function ForeignInPersonAndOnline(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
+    .waitForElementVisible(schoolResult, Timeouts.normal)
+    .click(schoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -178,10 +175,8 @@ function USOnlineOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
+    .waitForElementVisible(schoolResult, Timeouts.normal)
+    .click(schoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -210,10 +205,8 @@ function USInPersonOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
+    .waitForElementVisible(schoolResult, Timeouts.normal)
+    .click(schoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -242,10 +235,8 @@ function USInPersonAndOnline(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .pause(100)
-    .click(
-      `#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a`,
-    )
+    .waitForElementVisible(schoolResult, Timeouts.normal)
+    .click(schoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
