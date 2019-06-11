@@ -15,11 +15,13 @@
                     {% assign deepLinksObj = deepLinksString | jsonToObj %}
                     {% assign depth = deepLinksObj.depth  %}
                     {% assign isRoot = entityUrl.path | isRootPage %}
+                    {% assign isLocation = entityUrl.path | isLocationPage %}
 
                     <button class="usa-accordion-button"
-                            {% if deepLinksString == "false" and forloop.index == 1 and depth is null ||
-                                entityUrl.path contains "locations" and forloop.index == 1 || isRoot== true and forloop.index == 1 %}
-                                aria-expanded="true"
+                            {% if deepLinksString == "false" and depth == "" or isRoot or isLocation %}
+                                {% if forloop.index == 1 %}
+                                    aria-expanded="true"
+                                {% endif %}
                             {% else %}
                                 aria-expanded="false"
                             {% endif %}

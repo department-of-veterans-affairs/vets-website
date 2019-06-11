@@ -206,6 +206,8 @@ module.exports = function registerFilters() {
 
   liquid.filters.isContactPage = path => path.includes('contact');
 
+  liquid.filters.isLocationPage = path => path.includes('locations');
+
   // check is this is a root level page
   liquid.filters.isRootPage = path => {
     const isRoot = /^\/[\w-]+$/;
