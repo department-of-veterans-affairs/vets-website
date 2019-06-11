@@ -116,7 +116,8 @@
                         <div>{{ fieldPressReleaseFulltext.processed }}</div>
                     </section>
 
-                    {% if fieldPressReleaseContact != empty %}
+                    {% assign anyContacts = fieldPressReleaseContact.length %}
+                    {% if anyContacts > 0 %}
                         <section class="vads-u-margin-bottom--5">
                             <div class="vads-u-font-weight--bold">Media contacts</div>
                             {% for contact in fieldPressReleaseContact %}
@@ -130,7 +131,8 @@
                         </section>
                     {%  endif %}
 
-                    {% if fieldPressReleaseDownloads != empty %}
+                    {% assign anyDownloads = fieldPressReleaseDownloads.length %}
+                    {% if anyDownloads > 0 %}
                         <section class="vads-u-margin-bottom--5">
                             <div class="vads-u-font-weight--bold vads-u-margin-bottom--1p5">Download media assets</div>
                             {% for asset in fieldPressReleaseDownloads %}
@@ -151,7 +153,7 @@
                         </section>
                     {%  endif %}
 
-                    <section class="vads-u-margin-bottom--5">###</section>
+                    <section class="vads-u-margin-bottom--5 vads-u-text-align--center">###</section>
 
                     <section class="vads-u-margin-bottom--5">
                         {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}

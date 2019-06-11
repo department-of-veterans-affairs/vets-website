@@ -24,6 +24,17 @@
             {% endfor %}
           {% endif %}
 
+          {% if fieldFeaturedContent != empty and fieldFeaturedContent.length > 0 %}
+            <div class="feature">
+              {% for block in fieldFeaturedContent %}
+                {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+                {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+
           {% assign isContactPage = entityUrl.path | isContactPage %}
           {% if isContactPage %}
             <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}

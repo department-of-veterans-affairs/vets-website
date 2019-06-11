@@ -4,6 +4,7 @@ import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { LocationType } from '../constants';
 import { healthServices, benefitsServices, vetCenterServices } from '../config';
+import { focusElement } from 'platform/utilities/ui';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -30,7 +31,15 @@ class SearchControls extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType } = this.props.currentQuery;
+    const { facilityType, serviceType } = this.props.currentQuery;
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType) {
+        focusElement('#service-type-ahead-input');
+        return;
+      }
+    }
+
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
