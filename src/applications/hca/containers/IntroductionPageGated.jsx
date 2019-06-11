@@ -97,7 +97,7 @@ const LoggedOutContent = connect(
               className="va-button-link"
               onClick={() => showLoginModal(true, 'hcainfo')}
             >
-              Sign in to check your application status
+              Sign in to check your application status.
             </button>
           }
           isVisible
@@ -117,6 +117,7 @@ const LoggedOutContent = connect(
     <HCASubwayMap />
     <SaveInProgressIntro
       buttonOnly
+      prefillEnabled={route.formConfig.prefillEnabled}
       messages={route.formConfig.savedFormMessages}
       pageList={route.pageList}
       startText="Start the Health Care Application"

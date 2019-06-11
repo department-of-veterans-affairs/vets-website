@@ -108,6 +108,7 @@ const LoggedOutContent = connect(
     <HCASubwayMap />
     <SaveInProgressIntro
       buttonOnly
+      prefillEnabled={route.formConfig.prefillEnabled}
       messages={route.formConfig.savedFormMessages}
       pageList={route.pageList}
       startText="Start the Health Care Application"

@@ -81,7 +81,6 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
-          resumeOnly
         >
           Please complete the Veteran ID Card form to apply for a card.
         </SaveInProgressIntro>
@@ -307,27 +306,9 @@ class IntroductionPage extends React.Component {
               </strong>
             </div>
           )}
-        {!signedIn && (
-          <div>
-            <p>
-              <strong>
-                Sign in or create an account before you apply for a Veteran ID
-                Card.
-              </strong>
-              <button
-                className="usa-button usa-button-primary"
-                onClick={() => this.props.toggleLoginModal(true)}
-              >
-                Sign In or Create an Account
-              </button>
-            </p>
-            <strong>
-              Start the Veteran ID Card application without signing in.
-            </strong>
-          </div>
-        )}
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Veteran ID Card Application"
         />
