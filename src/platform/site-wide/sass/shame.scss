@@ -356,7 +356,7 @@ $medium-phone-screen: 375px;
 
 
   .usa-accordion-bordered {
-    &.social {
+    &.social, &.links {
       a {
         text-decoration: underline;
       }

@@ -9,7 +9,7 @@ export const recentJobApplicationsDescription = () => (
       since you became too disabled to work?
     </p>
     <p>
-      (Don’t include applications to the VA’s Compensated Work Therapy Program.)
+      (Don’t include applications to VA’s Compensated Work Therapy Program.)
     </p>
   </div>
 );

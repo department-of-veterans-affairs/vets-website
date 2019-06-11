@@ -26,7 +26,7 @@ import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
-import { facilityTypes, ccLocatorEnabled } from '../config';
+import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
@@ -35,6 +35,14 @@ const otherToolsLink = (
     Can’t find what you’re looking for?
     <a href="https://www.va.gov/directory/guide/home.asp">
       Try using our other tools to search.
+    </a>
+  </p>
+);
+
+const urgentCareLink = (
+  <p id="urgent-care-link">
+    <a href="http://vaurgentcarelocator.triwest.com/">
+      Find VA-approved urgent care locations and pharmacies near you
     </a>
   </p>
 );
@@ -463,7 +471,10 @@ class VAMap extends Component {
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, selectedResult } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-
+    const externalLink =
+      currentQuery.facilityType === LocationType.CC_PROVIDER
+        ? urgentCareLink
+        : otherToolsLink;
     return (
       /* eslint-disable prettier/prettier */
       <div>
@@ -486,11 +497,11 @@ class VAMap extends Component {
                 className="facility-search-results"
               >
                 <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
-                {otherToolsLink}
+                {externalLink}
               </div>
             </TabPanel>
             <TabPanel>
-              {otherToolsLink}
+              {externalLink}
               <Map
                 ref="map"
                 center={position}
@@ -534,6 +545,10 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const externalLink =
+      currentQuery.facilityType === LocationType.CC_PROVIDER
+        ? urgentCareLink
+        : otherToolsLink;
 
     return (
       /* eslint-disable prettier/prettier */
@@ -565,7 +580,7 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh' }}
           >
-            {otherToolsLink}
+            {externalLink}
             <Map
               ref="map"
               center={position}
@@ -604,12 +619,17 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
+          <p>
           Find VA locations near you with our facility locator tool. You can
           search for your nearest VA medical center as well as other health
           facilities, benefit offices, cemeteries,
-          {ccLocatorEnabled() && <span> community care providers, </span>}
-          and Vet Centers. You can also filter your results by service type to
+          community care providers and Vet Centers. You can also filter your results by service type to
           find locations that offer the specific service you’re looking for.
+          </p>
+          <p>
+            <strong>Need same-day care for a minor illness or injury?</strong> Search for your nearest VA health facility. Or find <a href="https://vaurgentcarelocator.triwest.com/" target="_blank" rel="noopener noreferrer">VA-approved urgent care locations and pharmacies</a> near you.
+          </p>
+
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>

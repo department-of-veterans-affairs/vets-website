@@ -6,6 +6,7 @@
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 
 const WYSIWYG = '... wysiwyg';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
@@ -17,6 +18,12 @@ const REACT_WIDGET = '... reactWidget';
 const NUMBER_CALLOUT = '... numberCallout';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
+
 module.exports = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
@@ -24,6 +31,23 @@ module.exports = `
     entityBundle
     changed
     fieldIntroText
+    ${
+      enabledFeatureFlags[
+        featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
+      ]
+        ? `
+          fieldFeaturedContent {
+            entity {
+              entityType
+              entityBundle
+              ${WYSIWYG}      
+              ${QA}        
+            }
+          }
+        `
+        : ''
+    }
+    
     fieldContentBlock {
       entity {
         entityType
@@ -39,6 +63,14 @@ module.exports = `
       }
     }
     ${FIELD_RELATED_LINKS}
+    
+    ${
+      enabledFeatureFlags[
+        featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
+      ]
+        ? FIELD_ALERT
+        : ''
+    }
     fieldMedia {
       entity {
         entityId

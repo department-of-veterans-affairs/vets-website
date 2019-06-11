@@ -6,10 +6,16 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { fetchMHVAccount } from '../../../platform/user/profile/actions';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { selectProfile } from '../../../platform/user/selectors';
 import environment from '../../../platform/utilities/environment/index';
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
-import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
+import {
+  ACCOUNT_STATES,
+  ACCOUNT_STATES_SET,
+  MHV_ACCOUNT_LEVELS,
+  MHV_URL,
+} from './../constants';
 
 class ValidateMHVAccount extends React.Component {
   componentDidMount() {
@@ -27,17 +33,29 @@ class ValidateMHVAccount extends React.Component {
   redirect = () => {
     const { profile, mhvAccount, router } = this.props;
     const { accountLevel, accountState } = mhvAccount;
+    const hyphenatedAccountState = accountState.replace(/_/g, '-');
+    const gaPrefix = 'register-mhv-error';
 
-    // LOA Checks
     if (!profile.verified) {
+      recordEvent({ event: `${gaPrefix}-needs-identity-verification` });
       router.replace('verify');
+      return;
     }
 
     // MVI/MHV Checks
     if (this.props.mviDown) {
+      recordEvent({ event: `${gaPrefix}-mvi-down` });
       router.replace('error/mvi-down');
+      return;
     } else if (mhvAccount.errors) {
+      recordEvent({ event: `${gaPrefix}-mhv-down` });
       router.replace('error/mhv-error');
+      return;
+    }
+
+    // If valid account error state, record GA event
+    if (ACCOUNT_STATES_SET.has(accountState)) {
+      recordEvent({ event: `${gaPrefix}-${hyphenatedAccountState}` });
     }
 
     switch (accountState) {
@@ -53,7 +71,7 @@ class ValidateMHVAccount extends React.Component {
       case ACCOUNT_STATES.REGISTER_FAILED:
       case ACCOUNT_STATES.UPGRADE_FAILED:
       case ACCOUNT_STATES.NEEDS_VA_PATIENT:
-        router.replace(`error/${accountState.replace(/_/g, '-')}`);
+        router.replace(`error/${hyphenatedAccountState}`);
         return;
       default:
         break;
@@ -76,7 +94,9 @@ class ValidateMHVAccount extends React.Component {
   };
 
   redirectToTermsAndConditions = () => {
-    const redirectQuery = { tc_redirect: '/my-health-account-validation' }; // eslint-disable-line camelcase
+    const redirectQuery = {
+      tc_redirect: '/health-care/my-health-account-validation', // eslint-disable-line camelcase
+    };
     const termsConditionsUrl = appendQuery(
       '/health-care/medical-information-terms-conditions/',
       redirectQuery,
@@ -89,8 +109,8 @@ class ValidateMHVAccount extends React.Component {
       <div className="row">
         <div className="vads-u-padding-bottom--5">
           <LoadingIndicator
+            message="Loading your health information"
             setFocus
-            messsage="Loading your health account information..."
           />
         </div>
       </div>
@@ -107,13 +127,10 @@ const mapStateToProps = state => {
     profile,
   };
 };
-const mapDispatchToProps = {
-  fetchMHVAccount,
-};
 
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps,
+    { fetchMHVAccount },
   )(ValidateMHVAccount),
 );
