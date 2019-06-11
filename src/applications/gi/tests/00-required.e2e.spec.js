@@ -2,9 +2,7 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
-const Onlinecheck = '#gbct_housing_allowance';
-const Inpersoncheck = '#gbct_housing_allowance';
-const Inpersonandonlinecheck = '#gbct_housing_allowance';
+const housingAllowance = '#gbct_housing_allowance';
 const firstResult =
   '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 const firstResultRate =
@@ -94,9 +92,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check Foreign DOD and VA rate for online only
   GiHelpers.ForeignOnlineOnly(client);
   client
-    .waitForElementVisible(Onlinecheck, 1000)
+    .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
-      Onlinecheck,
+      housingAllowance,
       `${GiHelpers.formatCurrencyHalf(
         GiHelpers.calculatorConstantsList.AVGDODBAH,
       )}/mo`,
@@ -107,7 +105,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#radio-buttons-16-0')
     .pause(100)
     .assert.containsText(
-      Onlinecheck,
+      housingAllowance,
       `${GiHelpers.formatCurrencyHalf(
         GiHelpers.calculatorConstantsList.AVGVABAH,
       )}/mo`,
@@ -123,9 +121,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check Foreign DOD and VA rate for in person only
   GiHelpers.ForeignInPersonOnly(client);
   client
-    .waitForElementVisible(Inpersoncheck, 1000)
+    .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
-      Inpersoncheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.calculatorConstantsList.AVGDODBAH,
       )}/mo`,
@@ -136,7 +134,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#radio-buttons-16-0')
     .pause(100)
     .assert.containsText(
-      Inpersoncheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.calculatorConstantsList.AVGVABAH,
       )}/mo`,
@@ -152,9 +150,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check Foreign DOD and VA rate for In person and online
   GiHelpers.ForeignInPersonAndOnline(client);
   client
-    .waitForElementVisible(Inpersonandonlinecheck, 1000)
+    .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
-      Inpersonandonlinecheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.calculatorConstantsList.AVGDODBAH,
       )}/mo`,
@@ -165,7 +163,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#radio-buttons-16-0')
     .pause(100)
     .assert.containsText(
-      Inpersonandonlinecheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.calculatorConstantsList.AVGVABAH,
       )}/mo`,
@@ -181,9 +179,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check US DOD and VA rate for online only
   GiHelpers.USOnlineOnly(client);
   client
-    .waitForElementVisible(Onlinecheck, 1000)
+    .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
-      Onlinecheck,
+      housingAllowance,
       `${GiHelpers.formatCurrencyHalf(
         GiHelpers.calculatorConstantsList.AVGDODBAH,
       )}/mo`,
@@ -194,7 +192,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#radio-buttons-17-0')
     .pause(100)
     .assert.containsText(
-      Onlinecheck,
+      housingAllowance,
       `${GiHelpers.formatCurrencyHalf(
         GiHelpers.calculatorConstantsList.AVGVABAH,
       )}/mo`,
@@ -210,9 +208,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check US DOD and VA rate for in person only
   GiHelpers.USInPersonOnly(client);
   client
-    .waitForElementVisible(Inpersoncheck, 1000)
+    .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
-      Inpersoncheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.schools.data[1].attributes.dodBah,
       )}/mo`,
@@ -223,7 +221,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#radio-buttons-17-0')
     .pause(100)
     .assert.containsText(
-      Inpersoncheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.schools.data[1].attributes.bah,
       )}/mo`,
@@ -239,9 +237,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check US DOD and VA rate for in person and online
   GiHelpers.USInPersonAndOnline(client);
   client
-    .waitForElementVisible(Inpersonandonlinecheck, 1000)
+    .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
-      Inpersoncheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.schools.data[1].attributes.dodBah,
       )}/mo`,
@@ -252,7 +250,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#radio-buttons-17-0')
     .pause(100)
     .assert.containsText(
-      Inpersoncheck,
+      housingAllowance,
       `${GiHelpers.formatCurrency(
         GiHelpers.schools.data[1].attributes.bah,
       )}/mo`,
