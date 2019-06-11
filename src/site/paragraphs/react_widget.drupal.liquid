@@ -34,14 +34,13 @@
       <div class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
   {% else %}
 
-    {% assign widgetDelta = 1 %}
+    {% assign widgetDelta = 10 %}
     {% if !reactRoot %}
       {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
-      {% assign block.entity.reactRoot = reactRoot %}
       {% assign widgetDelta = widgetDelta | plus: 1 %}
     {% endif %}
 
-      <div id="{{ reactRoot }}" class="static-page-widget" data-widget-type={{ entity.fieldWidgetType }}>
+      <div id="{{ reactRoot }}" data-widget-type={{ entity.fieldWidgetType }}>
         {% if entity.fieldDefaultLink != empty %}
           {% if entity.fieldButtonFormat %}
             {% assign classes = 'class="usa-button-primary va-button-primary"' %}
