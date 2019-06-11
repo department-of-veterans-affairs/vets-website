@@ -34,28 +34,35 @@ class ValidateMHVAccount extends React.Component {
     const { profile, mhvAccount, router } = this.props;
     const { accountLevel, accountState } = mhvAccount;
     const hyphenatedAccountState = accountState.replace(/_/g, '-');
-    const gaPrefix = 'register-mhv-error';
+    const gaPrefix = 'register-mhv';
 
     if (!profile.verified) {
-      recordEvent({ event: `${gaPrefix}-needs-identity-verification` });
+      recordEvent({ event: `${gaPrefix}-info-needs-identity-verification` });
       router.replace('verify');
       return;
     }
 
     // MVI/MHV Checks
     if (this.props.mviDown) {
-      recordEvent({ event: `${gaPrefix}-mvi-down` });
+      recordEvent({ event: `${gaPrefix}-error-mvi-down` });
       router.replace('error/mvi-down');
       return;
     } else if (mhvAccount.errors) {
-      recordEvent({ event: `${gaPrefix}-mhv-down` });
+      recordEvent({ event: `${gaPrefix}-error-mhv-down` });
       router.replace('error/mhv-error');
       return;
     }
 
     // If valid account error state, record GA event
     if (ACCOUNT_STATES_SET.has(accountState)) {
-      recordEvent({ event: `${gaPrefix}-${hyphenatedAccountState}` });
+      recordEvent({
+        event: `${gaPrefix}-${
+          accountState === ACCOUNT_STATES.NEEDS_VERIFICATION ||
+          accountState === ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE
+            ? 'info'
+            : 'error'
+        }-${hyphenatedAccountState}`,
+      });
     }
 
     switch (accountState) {
