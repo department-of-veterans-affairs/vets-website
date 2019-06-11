@@ -17,7 +17,7 @@ export function libraryCurrent() {
 }
 
 export function libraryCount() {
-  if (document.getElementById('total-pages') && cards.length) {
+  if (document.getElementById('total-pages')) {
     const numCards = document.querySelectorAll(
       '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
     ).length;
@@ -26,6 +26,10 @@ export function libraryCount() {
         numCards < 0 ? 0 : numCards;
     }
     document.getElementById('total-all').innerText = ` of ${cards.length}`;
+    if (numCards < 1) {
+      document.getElementById('va-pager-div').style.display = 'none';
+      document.getElementById('no-results').style.display = 'block';
+    }
   }
 }
 
@@ -62,6 +66,12 @@ export function libraryFilters(el) {
 export function libraryListeners() {
   const typeItem = document.getElementById('outreach-type');
   const pagingEl = document.querySelector('.va-pagination');
+  const reLoad = document.getElementById('start-over');
+  if (reLoad) {
+    reLoad.addEventListener('click', () => {
+      window.location.reload();
+    });
+  }
   if (document.getElementById('total-pages')) {
     document.getElementById('total-pages').innerText = cards.length;
   }
