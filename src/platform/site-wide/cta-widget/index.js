@@ -11,7 +11,10 @@ import SubmitSignInForm from '../../static-data/SubmitSignInForm';
 import { toggleLoginModal } from '../user-nav/actions';
 import { logout, verify } from '../../user/authentication/utilities';
 import recordEvent from '../../../platform/monitoring/record-event';
-import { ACCOUNT_STATES_SET } from '../../../applications/validate-mhv-account/constants';
+import {
+  ACCOUNT_STATES,
+  ACCOUNT_STATES_SET,
+} from '../../../applications/validate-mhv-account/constants';
 
 import {
   createAndUpgradeMHVAccount,
@@ -46,7 +49,7 @@ export class CallToActionWidget extends React.Component {
     this._serviceDescription = serviceDescription(appId, index);
     this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
-    this._gaPrefix = 'register-mhv-error';
+    this._gaPrefix = 'register-mhv';
   }
 
   componentDidMount() {
@@ -103,7 +106,9 @@ export class CallToActionWidget extends React.Component {
     if (this._isHealthTool) return this.getHealthToolContent();
 
     if (!this.props.profile.verified) {
-      recordEvent({ event: `${this._gaPrefix}-needs-identity-verification` });
+      recordEvent({
+        event: `${this._gaPrefix}-info-needs-identity-verification`,
+      });
       return {
         heading: `Please verify your identity to ${this._serviceDescription}`,
         alertText: (
@@ -124,7 +129,7 @@ export class CallToActionWidget extends React.Component {
 
   getHealthToolContent = () => {
     if (this.props.mviDown) {
-      recordEvent({ event: `${this._gaPrefix}-mvi-down` });
+      recordEvent({ event: `${this._gaPrefix}-error-mvi-down` });
       return {
         heading: 'VA.gov health tools are temporarily unavailable',
         alertText: (
@@ -162,7 +167,7 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.props.mhvAccount.errors) {
-      recordEvent({ event: `${this._gaPrefix}-mhv-down` });
+      recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
         alertText: (
@@ -191,12 +196,17 @@ export class CallToActionWidget extends React.Component {
     // If valid account error state, record GA event
     if (accountState && ACCOUNT_STATES_SET.has(accountState)) {
       recordEvent({
-        event: `${this._gaPrefix}-${accountState.replace(/_/g, '-')}`,
+        event: `${this._gaPrefix}-${
+          accountState === ACCOUNT_STATES.NEEDS_VERIFICATION ||
+          accountState === ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE
+            ? 'info'
+            : 'error'
+        }-${accountState.replace(/_/g, '-')}`,
       });
     }
 
     switch (accountState) {
-      case 'needs_identity_verification':
+      case ACCOUNT_STATES.NEEDS_VERIFICATION:
         return {
           heading: `Please verify your identity to ${this._serviceDescription}`,
           alertText: (
@@ -211,7 +221,7 @@ export class CallToActionWidget extends React.Component {
           status: 'continue',
         };
 
-      case 'needs_ssn_resolution':
+      case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
         return {
           heading:
             'We need to verify your identity before giving you access to your personal health information',
@@ -234,7 +244,7 @@ export class CallToActionWidget extends React.Component {
           status: 'error',
         };
 
-      case 'has_deactivated_mhv_ids':
+      case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
         return {
           heading: 'It looks like your My HealtheVet account has been disabled',
           alertText: (
@@ -253,7 +263,7 @@ export class CallToActionWidget extends React.Component {
           status: 'error',
         };
 
-      case 'has_multiple_active_mhv_ids':
+      case ACCOUNT_STATES.MULTIPLE_IDS:
         return {
           heading: 'It looks like you have more than one My HealtheVet account',
           alertText: (
@@ -291,7 +301,7 @@ export class CallToActionWidget extends React.Component {
        *   };
        */
 
-      case 'register_failed':
+      case ACCOUNT_STATES.REGISTER_FAILED:
         return {
           heading: 'There’s a problem with VA.gov health tools',
           alertText: (
@@ -308,7 +318,7 @@ export class CallToActionWidget extends React.Component {
           status: 'error',
         };
 
-      case 'upgrade_failed':
+      case ACCOUNT_STATES.UPGRADE_FAILED:
         return {
           heading: 'Something went wrong with upgrading your account',
           alertText: (
