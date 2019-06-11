@@ -90,12 +90,17 @@ class ServiceTypeAhead extends Component {
           selectedItem,
         }) => (
           <div>
-            <label {...getLabelProps()}>Service type (optional)</label>
+            <label {...getLabelProps()}>
+              Service type{' '}
+              <span className="vads-u-color--secondary-dark">(*Required)</span>
+            </label>
             <span id="service-typeahead">
               <input
                 {...getInputProps({
                   placeholder: 'Like primary care, cardiology',
                 })}
+                id="service-type-ahead-input"
+                required
               />
               {isOpen && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
