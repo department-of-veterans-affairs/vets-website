@@ -1,5 +1,5 @@
 // Staging config. Also the default config that prod and dev are based off of.
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
@@ -95,28 +95,28 @@ const configGenerator = (buildOptions, apps) => {
         },
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  minimize: isOptimizedBuild,
-                  sourceMap: enableCSSSourcemaps,
-                },
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: isOptimizedBuild,
+                sourceMap: enableCSSSourcemaps,
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  plugins: () => [require('autoprefixer')],
-                },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [require('autoprefixer')],
               },
-              {
-                loader: 'sass-loader',
-                options: { sourceMap: true },
-              },
-            ],
-          }),
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: true },
+            },
+          ],
         },
         {
           // if we want to minify these images, we could add img-loader
@@ -197,7 +197,7 @@ const configGenerator = (buildOptions, apps) => {
         __API__: JSON.stringify(buildOptions.api),
       }),
 
-      new ExtractTextPlugin({
+      new MiniCssExtractPlugin({
         filename: !isOptimizedBuild
           ? '[name].css'
           : `[name].[contenthash]-${timestamp}.css`,
