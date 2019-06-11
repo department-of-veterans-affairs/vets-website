@@ -31,10 +31,10 @@ function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
     .waitForElementVisible('.search-page', Timeouts.normal)
     .axeCheck('.main');
 
-  client
-    .waitForElementVisible(expectedResult, Timeouts.normal)
-    .pause(30)
-    .assert.containsText(resultRate, expectedRate)
+  client.expect.element(expectedResult).to.be.enabled.before(Timeouts.normal);
+
+  client.assert
+    .containsText(resultRate, expectedRate)
     .click(expectedResult)
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
@@ -51,10 +51,8 @@ function verifyDEA(client, enrolledOption, expectedDEA) {
 // Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
 function verifyAllDEAojt(client) {
   for (let i = 2; i <= deaEnrolledMax; i += 2) {
-    client
-      .waitForElementVisible(housingRate, Timeouts.normal)
-      .pause(10)
-      .selectDropdown('working', i);
+    client.expect.element(housingRate).to.be.enabled.before(Timeouts.normal);
+    client.selectDropdown('working', i);
     const value = Math.round((i / deaEnrolledMax) * deaOJTRate);
     client.assert.containsText(housingRate, `$${value}/mo`);
   }
