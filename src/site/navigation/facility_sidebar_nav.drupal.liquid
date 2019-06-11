@@ -14,10 +14,11 @@
                     {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
                     {% assign deepLinksObj = deepLinksString | jsonToObj %}
                     {% assign depth = deepLinksObj.depth  %}
+                    {% assign isRoot = entityUrl.path | isRootPage %}
 
                     <button class="usa-accordion-button"
                             {% if deepLinksString == "false" and forloop.index == 1 and depth is null ||
-                                entityUrl.path contains "locations" and forloop.index == 1 || entityUrl.path = "/pittsburgh-health-care"  and forloop.index == 1 %}
+                                entityUrl.path contains "locations" and forloop.index == 1 || isRoot== true and forloop.index == 1 %}
                                 aria-expanded="true"
                             {% else %}
                                 aria-expanded="false"
