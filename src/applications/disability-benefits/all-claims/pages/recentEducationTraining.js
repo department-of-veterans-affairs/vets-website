@@ -16,7 +16,7 @@ const {
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': unemployabilityPageTitle('Recent Education & training'),
+    'ui:title': unemployabilityPageTitle('Recent education & training'),
     receivedOtherEducationTrainingPostUnemployability: {
       'ui:title': RecentEducationTrainingTitle,
       'ui:widget': 'yesNo',

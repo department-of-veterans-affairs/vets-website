@@ -48,7 +48,7 @@ describe('Main', () => {
       availability: 'backendAuthenticationError',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
-    expect(tree.subTree('#recordNotFound')).to.be.ok;
+    expect(tree.subTree('#authenticationErrorMessage')).to.be.ok;
   });
 
   /*
@@ -61,12 +61,12 @@ describe('Main', () => {
   //   expect(tree.subTree('#noChapter33Benefits')).to.be.ok;
   // });
 
-  it('should show System Down warning when record not found', () => {
+  it('should show the authentication warning when record not found', () => {
     const props = _.merge({}, defaultProps, {
       availability: 'noChapter33Record',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
-    expect(tree.subTree('#systemDownMessage')).to.be.ok;
+    expect(tree.subTree('#authenticationErrorMessage')).to.be.ok;
   });
 
   it('should show system down message when service is unavailable', () => {

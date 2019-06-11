@@ -53,6 +53,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
   smith.use(addDrupalPrefix(BUILD_OPTIONS));
+  smith.use(createOutreachAssetsData(BUILD_OPTIONS));
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
@@ -159,7 +160,6 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(downloadDrupalAssets(BUILD_OPTIONS));
-  smith.use(createOutreachAssetsData(BUILD_OPTIONS));
 
   configureAssets(smith, BUILD_OPTIONS);
 

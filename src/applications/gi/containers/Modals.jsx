@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import environment from '../../../platform/utilities/environment';
 
 export class Modals extends React.Component {
   constructor(props) {
@@ -371,39 +370,6 @@ export class Modals extends React.Component {
   }
 
   renderProfileSummaryModals() {
-    const stemOfferedModal = (
-      <div>
-        <p>
-          The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
-          additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
-        </p>
-        <p>
-          Veterans and Fry Scholars may qualify for this scholarship if they're
-          enrolled in an undergraduate program for Science, Technology,
-          Engineering, or Math (STEM), or if they've earned a STEM degree and
-          are getting a teaching certification.
-        </p>
-        <p>
-          To learn more about the STEM Scholarship,{' '}
-          <a
-            href="https://benefits.va.gov/gibill/fgib/stem.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            visit the VBA STEM website.
-          </a>
-        </p>
-      </div>
-    );
-    const stemOfferedModalProduction = (
-      <p>
-        VA will provide up to 9 months of additional Post-9/11 GI Bill benefits
-        if you're eligible and enrolled in a Science, Technology, Engineering,
-        or Math educational program.
-      </p>
-    );
-
     return (
       <span>
         <Modal
@@ -503,9 +469,29 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('stemOffered')}
         >
           <h3>STEM</h3>
-          {environment.isProduction()
-            ? stemOfferedModalProduction
-            : stemOfferedModal}
+          <div>
+            <p>
+              The Edith Nourse Rogers STEM Scholarship provides up to 9 months
+              of additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
+            </p>
+            <p>
+              Veterans and Fry Scholars may qualify for this scholarship if
+              they're enrolled in an undergraduate program for Science,
+              Technology, Engineering, or Math (STEM), or if they've earned a
+              STEM degree and are getting a teaching certification.
+            </p>
+            <p>
+              To learn more about the STEM Scholarship,{' '}
+              <a
+                href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {' '}
+                visit the VBA STEM website.
+              </a>
+            </p>
+          </div>
         </Modal>
         <Modal
           onClose={this.props.hideModal}

@@ -339,7 +339,7 @@ const formConfig = {
               },
             },
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:title': 'Veteran’s name under whom you‘ve claimed benefits',
+              'ui:title': 'Veteran’s name under whom you’ve claimed benefits',
               'ui:options': {
                 classNames: 'schemaform-field-template',
                 hideIf: isVeteranOrNoApplications,

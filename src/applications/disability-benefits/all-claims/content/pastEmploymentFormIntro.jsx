@@ -9,7 +9,7 @@ export const pastEmploymentHistory = (
     <p>
       To help speed up this process, you can send a Request for Employment
       Information (VA Form 21-4192) to each of your employers from the last 12
-      months you worked. You‘ll need to fill out some of the form with your
+      months you worked. You’ll need to fill out some of the form with your
       details before sending it to your employer.
     </p>
     <p>

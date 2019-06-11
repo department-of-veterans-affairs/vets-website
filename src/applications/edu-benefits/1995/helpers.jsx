@@ -26,3 +26,6 @@ export function transform(formConfig, form) {
 // 1995-STEM related
 export const displayActiveDutyStem = form =>
   form.isEnrolledStem || form.isPursuingTeachingCert;
+
+export const displayEdithNourseRogersScholarship = form =>
+  form.benefit === 'chapter33' || form.benefit === 'fryScholarship';

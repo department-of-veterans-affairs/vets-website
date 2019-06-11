@@ -42,7 +42,7 @@ export const uiSchema = {
         },
         timeLostFromIllness: {
           'ui:title':
-            'How much time did you miss from work because of your disability',
+            'How much time did you miss from work because of your disability?',
         },
         mostEarningsInAMonth: currencyUI('Highest gross earnings per month'),
         inBusiness: {

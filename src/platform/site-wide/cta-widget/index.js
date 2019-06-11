@@ -11,6 +11,7 @@ import SubmitSignInForm from '../../static-data/SubmitSignInForm';
 import { toggleLoginModal } from '../user-nav/actions';
 import { logout, verify } from '../../user/authentication/utilities';
 import recordEvent from '../../../platform/monitoring/record-event';
+import { ACCOUNT_STATES_SET } from '../../../applications/validate-mhv-account/constants';
 
 import {
   createAndUpgradeMHVAccount,
@@ -45,6 +46,7 @@ export class CallToActionWidget extends React.Component {
     this._serviceDescription = serviceDescription(appId, index);
     this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
+    this._gaPrefix = 'register-mhv-error';
   }
 
   componentDidMount() {
@@ -101,6 +103,7 @@ export class CallToActionWidget extends React.Component {
     if (this._isHealthTool) return this.getHealthToolContent();
 
     if (!this.props.profile.verified) {
+      recordEvent({ event: `${this._gaPrefix}-needs-identity-verification` });
       return {
         heading: `Please verify your identity to ${this._serviceDescription}`,
         alertText: (
@@ -121,6 +124,7 @@ export class CallToActionWidget extends React.Component {
 
   getHealthToolContent = () => {
     if (this.props.mviDown) {
+      recordEvent({ event: `${this._gaPrefix}-mvi-down` });
       return {
         heading: 'VA.gov health tools are temporarily unavailable',
         alertText: (
@@ -158,6 +162,7 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.props.mhvAccount.errors) {
+      recordEvent({ event: `${this._gaPrefix}-mhv-down` });
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
         alertText: (
@@ -182,6 +187,13 @@ export class CallToActionWidget extends React.Component {
 
   getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
+
+    // If valid account error state, record GA event
+    if (accountState && ACCOUNT_STATES_SET.has(accountState)) {
+      recordEvent({
+        event: `${this._gaPrefix}-${accountState.replace(/_/g, '-')}`,
+      });
+    }
 
     switch (accountState) {
       case 'needs_identity_verification':
