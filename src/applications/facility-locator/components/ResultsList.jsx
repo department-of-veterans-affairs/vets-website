@@ -91,20 +91,27 @@ class ResultsList extends Component {
               className="search-result-title facility-result"
               ref={this.searchResultTitle}
             >
-              <p>We’re sorry. We couldn’t complete your request.</p>
-              <strong>To try again, please:</strong>
-              <ul className="vads-u-margin-y--1p5">
-                <li>
-                  <strong>Add a service type</strong> (like “primary care”), and
-                  select the option that best meets your needs. This will help
-                  to narrow your search.
-                </li>
-                <li>
-                  <strong>Or enter a different search term</strong> (street,
-                  city, state, or postal code).
-                </li>
-              </ul>
-              Then click <strong>Search</strong>.
+              <p>
+                We’re sorry. We couldn’t complete your request. We’re aware of
+                this problem, and we’re working to fix it as soon as possible.
+                Please try again later.
+              </p>
+              <p>
+                If you need care right away for a minor illness or injury, you
+                can search for your nearest VA health facility. Or find
+                <a
+                  href="https://vaurgentcarelocator.triwest.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA-approved urgent care locations and pharmacies{' '}
+                </a>{' '}
+                near you.
+              </p>
+              <p>
+                If you have a medical emergency, please go to your nearest
+                emergency room or call 911.
+              </p>
             </div>
           );
         }
@@ -129,16 +136,15 @@ class ResultsList extends Component {
             ref={this.searchResultTitle}
           >
             We didn't find any facilities near you. <br />
-            <strong>To try again, please:</strong>
+            <strong>To try again, please enter a different:</strong>
             <ul className="vads-u-margin-y--1p5">
               <li>
-                <strong>Enter a different search term</strong> (street, city,
-                state, or postal code), <strong>or</strong>
+                <strong>Search term</strong> (street, city, state, or postal
+                code), <strong>or</strong>
               </li>
               <li>
-                <strong>Add a service type</strong> (like “primary care”), and
-                select the option that best meets your needs. This will help to
-                narrow your search.
+                <strong>Service type</strong> (like “primary care”), and select
+                the option that best meets your needs
               </li>
             </ul>
             Then click <strong>Search</strong>.
