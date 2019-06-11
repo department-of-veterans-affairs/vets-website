@@ -27,6 +27,7 @@ function generateWebpackDevConfig(buildOptions) {
       ],
     },
     hot: false,
+    liveReload: false,
     port: buildOptions.port,
     publicPath: '/generated/',
     host: buildOptions.host,
