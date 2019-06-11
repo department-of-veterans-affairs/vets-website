@@ -177,6 +177,7 @@ function compilePage(page, contentData) {
     data: {
       healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
       recordsHubSidebarQuery: recordsHubSidebarNav = {},
+      pensionHubSidebarQuery: pensionHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -189,7 +190,11 @@ function compilePage(page, contentData) {
     owner = _.toLower(page.fieldAdministration.entity.name);
   }
   // Benefits hub side navs in an array to loop through later
-  const sideNavs = [healthcareHubSidebarNav, recordsHubSidebarNav];
+  const sideNavs = [
+    healthcareHubSidebarNav,
+    recordsHubSidebarNav,
+    pensionHubSidebarNav,
+  ];
   let sidebarNavItems;
 
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };

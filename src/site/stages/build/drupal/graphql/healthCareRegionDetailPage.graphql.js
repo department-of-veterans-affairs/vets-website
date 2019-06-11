@@ -31,6 +31,23 @@ module.exports = `
     entityBundle
     changed
     fieldIntroText
+    ${
+      enabledFeatureFlags[
+        featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
+      ]
+        ? `
+          fieldFeaturedContent {
+            entity {
+              entityType
+              entityBundle
+              ${WYSIWYG}      
+              ${QA}        
+            }
+          }
+        `
+        : ''
+    }
+    
     fieldContentBlock {
       entity {
         entityType
