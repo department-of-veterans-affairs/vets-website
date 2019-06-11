@@ -129,7 +129,7 @@ class IntroductionPage extends React.Component {
               </div>
               <p>
                 After we process your claim, you’ll get a notice in the mail
-                about the decision!
+                about the decision.
               </p>
             </li>
           </ol>
