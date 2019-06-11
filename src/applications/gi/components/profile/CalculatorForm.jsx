@@ -7,6 +7,7 @@ import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import { connect } from 'react-redux';
+import environment from '../../../../platform/utilities/environment';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -471,7 +472,11 @@ class CalculatorForm extends React.Component {
   }
 
   renderBeneficiaryZIP() {
-    if (this.props.onlineClasses === 'yes' || this.props.giBillChapter !== '33')
+    if (
+      environment.isProduction() ||
+      this.props.onlineClasses === 'yes' ||
+      this.props.giBillChapter !== '33'
+    )
       return null;
     let amountInput;
 
