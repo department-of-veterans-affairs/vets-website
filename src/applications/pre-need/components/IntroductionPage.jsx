@@ -24,7 +24,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for pre-need eligibility determination" />
         <p>
           Equal to VA Form 40-10007 (Application for Pre-Need Determination of
-          Eligibility for Burial in a VA National Cemetery)
+          Eligibility for Burial in a VA National Cemetery).
         </p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -156,6 +156,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the pre-need eligibility application"
