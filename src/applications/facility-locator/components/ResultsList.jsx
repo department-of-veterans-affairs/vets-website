@@ -83,7 +83,7 @@ class ResultsList extends Component {
 
     if (error) {
       // For some reason, an error can be an HTTP response, or just a string.
-      if (error.find) {
+      if (Array.isArray(error)) {
         const timedOut = error.find(err => TIMEOUTS.has(err.code));
         if (timedOut) {
           return (
@@ -122,8 +122,17 @@ class ResultsList extends Component {
           className="search-result-title facility-result"
           ref={this.searchResultTitle}
         >
-          We’re sorry. We couldn’t complete your request. Please refresh the
-          page or try again later.
+          <p>We’re sorry. We couldn’t complete your request.</p>
+          <p>
+            Please try again in a few minutes. Or, if you need care right away
+            for a minor illness or injury, search for your nearest VA health
+            facility or find [VA-approved urgent care locations and
+            pharmacies](https://vaurgentcarelocator.triwest.com/) near you.
+          </p>
+          <p>
+            If you have a medical emergency, please go to your nearest emergency
+            room or call 911.
+          </p>
         </div>
       );
     }
