@@ -126,8 +126,11 @@ class ResultsList extends Component {
           <p>
             Please try again in a few minutes. Or, if you need care right away
             for a minor illness or injury, search for your nearest VA health
-            facility or find [VA-approved urgent care locations and
-            pharmacies](https://vaurgentcarelocator.triwest.com/) near you.
+            facility or find{' '}
+            <a href="https://vaurgentcarelocator.triwest.com/">
+              VA-approved urgent care locations and pharmacies
+            </a>{' '}
+            near you.
           </p>
           <p>
             If you have a medical emergency, please go to your nearest emergency
