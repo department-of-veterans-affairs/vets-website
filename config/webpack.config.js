@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const ENVIRONMENTS = require('../src/site/constants/environments');
@@ -166,13 +166,13 @@ const configGenerator = (buildOptions, apps) => {
     },
     optimization: {
       minimizer: [
-        new UglifyJSPlugin({
-          uglifyOptions: {
+        new TerserPlugin({
+          terserOptions: {
             output: {
               beautify: false,
               comments: false,
             },
-            compress: { warnings: false },
+            warnings: false,
           },
           // cache: true,
           parallel: 3,
