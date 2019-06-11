@@ -474,8 +474,9 @@ class CalculatorForm extends React.Component {
     if (
       environment.isProduction() ||
       !this.props.displayedInputs.beneficiaryLocationQuestion
-    )
+    ) {
       return null;
+    }
 
     let amountInput;
 
