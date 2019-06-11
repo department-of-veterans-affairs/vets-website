@@ -38,10 +38,8 @@ module.exports = function registerFilters() {
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
-    if (data !== '') {
-      data.forEach(element => {
-        output += `data-${element} `;
-      });
+    if (data != null) {
+      output = `data-${data} `;
     }
     return output;
   };
@@ -53,7 +51,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.breakTerms = data => {
     let output = '';
-    if (data !== '') {
+    if (data != null) {
       const count = data.length;
       data.forEach((element, index) => {
         if (index < count - 1) {

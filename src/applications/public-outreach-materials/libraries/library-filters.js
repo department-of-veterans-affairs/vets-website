@@ -3,17 +3,30 @@ let activePage;
 export function libraryCurrent() {
   cards.forEach(element => {
     const numVal = element.getAttribute('data-number');
-    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
+    if (numVal > activePage * 12 || numVal < activePage * 12 - 11) {
       element.classList.add('pager-hide');
     } else {
       element.classList.remove('pager-hide');
     }
     if (activePage === undefined) {
-      if (numVal > 10) {
+      if (numVal > 12) {
         element.classList.add('pager-hide');
       }
     }
   });
+}
+
+export function libraryCount() {
+  if (document.getElementById('total-pages') && cards.length) {
+    const numCards = document.querySelectorAll(
+      '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
+    ).length;
+    if (document.getElementById('total-pages')) {
+      document.getElementById('total-pages').innerText =
+        numCards < 0 ? 0 : numCards;
+    }
+    document.getElementById('total-all').innerText = ` of ${cards.length}`;
+  }
 }
 
 export function libraryFilters(el) {
@@ -43,18 +56,7 @@ export function libraryFilters(el) {
       activePage === undefined ? 1 : activePage;
   }
   libraryCurrent();
-}
-
-export function libraryCount() {
-  if (document.getElementById('total-pages')) {
-    const numCards = document.querySelectorAll(
-      '.asset-card:not(.hide-topic):not(.hide-type)',
-    ).length;
-    if (document.getElementById('total-pages')) {
-      document.getElementById('total-pages').innerText =
-        numCards < 0 ? 0 : numCards;
-    }
-  }
+  libraryCount();
 }
 
 export function libraryListeners() {
@@ -84,10 +86,14 @@ export function libraryListeners() {
             element.classList.remove('hide-type');
           },
         );
+        cards.forEach(element => {
+          element.classList.remove('pager-hide');
+        });
       } else if (typeItem.value === 'select') {
         [].map.call(document.querySelectorAll(`[data-type]`), element => {
           element.classList.remove('hide-type');
         });
+        libraryCurrent();
       }
     });
     typeItem.addEventListener('change', libraryCount);
@@ -111,13 +117,18 @@ export function libraryListeners() {
             element.classList.remove('hide-topic');
           },
         );
+        cards.forEach(element => {
+          element.classList.remove('pager-hide');
+        });
       } else if (topicItem.value === 'select') {
         [].map.call(document.querySelectorAll(`[data-topic]`), element => {
           element.classList.remove('hide-topic');
         });
+        libraryCurrent();
       }
     });
     topicItem.addEventListener('change', libraryCount);
   }
   libraryCurrent();
+  libraryCount();
 }
