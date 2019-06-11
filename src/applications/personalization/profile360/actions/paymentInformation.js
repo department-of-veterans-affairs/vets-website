@@ -28,7 +28,11 @@ export function savePaymentInformation(fields) {
   return async dispatch => {
     const apiRequestOptions = {
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(fields),
+      body: JSON.stringify({
+        ...fields,
+        // eslint-disable-next-line no-undef
+        gaClientId: ga.getAll()[0].get('clientId'),
+      }),
       method: 'PUT',
       mode: 'cors',
     };

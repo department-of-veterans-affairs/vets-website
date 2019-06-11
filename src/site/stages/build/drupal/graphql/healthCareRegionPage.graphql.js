@@ -90,6 +90,9 @@ module.exports = `
       }
     }
     ${healthCareStaffBios}
+    fieldLocationsIntroBlurb {
+      processed
+    }
     ${healthCareLocalFacilities}
     ${
       enabledFeatureFlags[featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS]
@@ -98,7 +101,7 @@ module.exports = `
     }
     fieldIntroTextNewsStories {
       processed
-    }    
+    }
     ${healthCareRegionNewsStories}
     fieldIntroTextEventsPage {
       processed
@@ -107,7 +110,7 @@ module.exports = `
     fieldClinicalHealthCareServi {
       processed
     }
-    ${healthCareRegionHealthServices}    
+    ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {
       processed
     }
