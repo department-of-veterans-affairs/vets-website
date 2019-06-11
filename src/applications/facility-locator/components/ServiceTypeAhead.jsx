@@ -90,7 +90,10 @@ class ServiceTypeAhead extends Component {
           selectedItem,
         }) => (
           <div>
-            <label {...getLabelProps()}>Service type (optional)</label>
+            <label {...getLabelProps()}>
+              Service type{' '}
+              <span className="vads-u-color--secondary-dark">(*Required)</span>
+            </label>
             <span id="service-typeahead">
               <input
                 {...getInputProps({
