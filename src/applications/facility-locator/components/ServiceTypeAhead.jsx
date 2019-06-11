@@ -99,6 +99,8 @@ class ServiceTypeAhead extends Component {
                 {...getInputProps({
                   placeholder: 'Like primary care, cardiology',
                 })}
+                id="service-type-ahead-input"
+                required
               />
               {isOpen && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
