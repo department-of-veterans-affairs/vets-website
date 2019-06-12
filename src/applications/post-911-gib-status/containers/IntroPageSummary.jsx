@@ -45,6 +45,14 @@ export default function IntroPageSummary() {
             <li>Received a decision from us on your application</li>
           </ul>
           <p>
+            <strong>Note:</strong> At this time, the GI Bill benefit statement
+            isn't available online to family members and dependents. You'll need
+            to request a new Certificate of Eligibility letter to check your GI
+            Bill benefit status. To request a COE, please call the Education
+            Call Center at 888-442-4551 (888-GI-BILL-1). We’re here Monday
+            through Friday, 8:00 a.m. to 7:00 p.m. ET.
+          </p>
+          <p>
             <a href="/education/how-to-apply/">
               Find out how to apply for Post-9/11 GI Bill benefits
             </a>

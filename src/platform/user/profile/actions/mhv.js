@@ -1,5 +1,6 @@
 import { apiRequest } from '../../../utilities/api';
 import get from '../../../utilities/data/get';
+import recordEvent from '../../../monitoring/record-event';
 
 export const FETCHING_MHV_ACCOUNT = 'FETCHING_MHV_ACCOUNT';
 export const FETCH_MHV_ACCOUNT_FAILURE = 'FETCH_MHV_ACCOUNT_FAILURE';
@@ -31,11 +32,15 @@ export function fetchMHVAccount() {
 export function createMHVAccount() {
   return dispatch => {
     dispatch({ type: CREATING_MHV_ACCOUNT });
+    recordEvent({ event: 'register-mhv-create-attempt' });
 
     return apiRequest(
       baseUrl,
       { method: 'POST' },
-      ({ data }) => dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS, data }),
+      ({ data }) => {
+        recordEvent({ event: 'register-mhv-create-success' });
+        return dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS, data });
+      },
       () => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE }),
     );
   };
@@ -44,6 +49,7 @@ export function createMHVAccount() {
 export function upgradeMHVAccount() {
   return async dispatch => {
     dispatch({ type: UPGRADING_MHV_ACCOUNT });
+    recordEvent({ event: 'register-mhv-upgrade-attempt' });
 
     let mhvAccount;
     let userProfile;
@@ -58,6 +64,7 @@ export function upgradeMHVAccount() {
       if (!mhvAccount) return dispatch({ type: UPGRADE_MHV_ACCOUNT_FAILURE });
     }
 
+    recordEvent({ event: 'register-mhv-upgrade-success' });
     return dispatch({
       type: UPGRADE_MHV_ACCOUNT_SUCCESS,
       mhvAccount,
