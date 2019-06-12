@@ -50,36 +50,38 @@ Example data:
       {% assign header = "h4" %}
   {% endif %}
   <div class="vads-u-margin-bottom--2">
-  <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
-  <p>{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
-  <div class="usa-grid usa-grid-full">
-    <div class="usa-width-one-sixth">
-      <strong>When:</strong>
-    </div>
-    <div class="usa-width-five-sixths">
-        {% if date_type == "start_date_only" %}
-            <span>{{ start_date_no_time }}</span><br>
-            <span>{{ start_time }}</span>
-        {% else %}
-            {% if date_type == "same_day" %}
+      <{{ header }} class="vads-u-margin-y--2"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+      <p class="vads-u-margin-bottom--1p5">{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
+      <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--1">
+        <div class="usa-width-one-sixth vads-u-margin-right--2p5">
+          <strong>When</strong>
+        </div>
+        <div class="usa-width-five-sixths">
+            {% if date_type == "start_date_only" %}
                 <span>{{ start_date_no_time }}</span><br>
-                <span>{{ start_time }} - {{ end_time }}</span>
+                <span>{{ start_time }}</span>
             {% else %}
-                <span>{{ start_date_full }} -</span><br>
-                <span>{{ end_date_full }}</span>
+                {% if date_type == "same_day" %}
+                    <span>{{ start_date_no_time }}</span><br>
+                    <span>{{ start_time }} - {{ end_time }}</span>
+                {% else %}
+                    <span>{{ start_date_full }} -</span><br>
+                    <span>{{ end_date_full }}</span>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    </div>
-  </div>
-  <div class="usa-grid usa-grid-full">
-    <div class="usa-width-one-sixth">
-      <strong>Where:</strong>
-    </div>
-    <div class="usa-width-five-sixths">
-      <p><a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a> </p>
-      <span>{{ node.fieldLocationHumanreadable }}</span>
-    </div>
-  </div>
+        </div>
+      </div>
+      <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
+        <div class="usa-width-one-sixth vads-u-margin-right--2">
+          <strong>Where</strong>
+        </div>
+        <div class="usa-width-five-sixths vads-u-margin-left--neg0p25">
+          <p class="vads-u-margin-top--0 vads-u-margin-bottom--1" >
+              <a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a>
+          </p>
+          <span>{{ node.fieldLocationHumanreadable }}</span>
+        </div>
+      </div>
   </div>
 
 {% endif %}

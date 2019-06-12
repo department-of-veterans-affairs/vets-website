@@ -14,8 +14,8 @@ export default class FacilityAddress extends React.Component {
     }
 
     return (
-      <div>
-        <address>
+      <div className="vads-u-margin-bottom--1">
+        <address className="vads-u-margin-bottom--1">
           <div>{this.props.facility.attributes.address.physical.address1}</div>
           <div>
             {this.props.facility.attributes.address.physical.city}

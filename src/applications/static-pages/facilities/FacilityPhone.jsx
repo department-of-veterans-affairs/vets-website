@@ -14,7 +14,7 @@ export default class FacilityPhone extends React.Component {
     }
 
     return (
-      <div className="vads-u-margin-bottom--1p5">
+      <div className="vads-u-margin-bottom--0">
         <div className="main-phone">
           <strong>Main phone: </strong>
           <a
