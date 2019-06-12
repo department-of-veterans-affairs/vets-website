@@ -1,12 +1,4 @@
 node('vetsgov-general-purpose') {
-  // params.ref can either be a git commit ref or a tag
-  // If its a tag, the checkout function requires 'refs/tags/' prepended to the tag to function properly
-  if (params.ref.startsWith('vets-website')) {
-    branchName = "refs/tags/${params.ref}"
-  } else {
-    branchName = params.ref
-  }
-
   dir("vets-website") {
     checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
   }
@@ -16,7 +8,9 @@ node('vetsgov-general-purpose') {
   // Setup stage
   dockerContainer = commonStages.setup()
   // Build stage
-  commonStages.buildAll(params.ref, dockerContainer, true)
+  stage("Build") {
+    commonStages.build(params.ref, dockerContainer, params.ref, params.env, false)
+  }
   // Prearchive stage
   commonStages.prearchive(dockerContainer)
   // Archive stage
