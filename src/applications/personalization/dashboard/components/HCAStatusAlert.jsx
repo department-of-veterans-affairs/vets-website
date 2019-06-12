@@ -30,10 +30,10 @@ const HCAStatusAlert = ({ applicationDate, enrollmentStatus, onRemove }) => {
         status="warning"
       >
         <p>
-          Please confirm that you want to remove this notification from your My
-          VA dashboard. Removing it won’t affect the status of your health care
-          application in any way. But once you remove the notification, you
-          can’t add it back again.
+          Please confirm that you want to remove this notification from your{' '}
+          <strong>My VA</strong> dashboard. Removing it won’t affect the status
+          of your health care application in any way. But once you remove the
+          notification, you can’t add it back again.
         </p>
         <button
           className="usa-button-primary vads-u-margin-y--0"
