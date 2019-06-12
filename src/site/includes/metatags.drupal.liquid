@@ -18,13 +18,13 @@
 {% for tag in entityMetatags %}
     {% case tag.__typename %}
       {% when "MetaValue" %}
+<meta name="{{ tag.key }}" content="{{ tag.value }}">
+      {% when "MetaProperty" %}
         {% if tag.key == "title" %}
 <title>{{ tag.value }}</title>
         {% else %}
-<meta name="{{ tag.key }}" content="{{ tag.value }}">
-        {% endif %}
-      {% when "MetaProperty" %}
 <meta property="{{ tag.key }}" content="{{ tag.value }}">
+        {% endif %}
       {% when "MetaLink" %}
 <link rel="{{ tag.key }}" href="{{ tag.value }}">
     {% endcase %}
