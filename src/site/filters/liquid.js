@@ -28,19 +28,26 @@ module.exports = function registerFilters() {
 
   liquid.filters.modulo = item => item % 2;
 
-  liquid.filters.fileType = data =>
-    data
+  liquid.filters.fileType = data => {
+    const string = data
       .split('.')
       .slice(-1)
-      .pop()
-      .toUpperCase();
+      .pop();
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  liquid.filters.fileExt = data => {
+    const string = data
+      .split('.')
+      .slice(-1)
+      .pop();
+    return string;
+  };
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
-    if (data !== '') {
-      data.forEach(element => {
-        output += `data-${element} `;
-      });
+    if (data != null) {
+      output = `data-${data} `;
     }
     return output;
   };
@@ -52,7 +59,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.breakTerms = data => {
     let output = '';
-    if (data !== '') {
+    if (data != null) {
       const count = data.length;
       data.forEach((element, index) => {
         if (index < count - 1) {
