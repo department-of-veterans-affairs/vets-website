@@ -129,8 +129,24 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const { retentionPeriod } = this.props;
-      alert = (
+      const { buttonOnly, retentionPeriod } = this.props;
+      alert = buttonOnly ? (
+        <>
+          <button className="usa-button-primary" onClick={this.openLoginModal}>
+            Sign in to start your application
+          </button>
+          {!this.props.hideUnauthedStartLink && (
+            <p>
+              <button
+                className="va-button-link schemaform-start-button"
+                onClick={this.goToBeginning}
+              >
+                Start your application without signing in
+              </button>
+            </p>
+          )}
+        </>
+      ) : (
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
             <h3 className="usa-alert-heading">
@@ -169,7 +185,7 @@ class SaveInProgressIntro extends React.Component {
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
                   >
-                    Start your application without signing in.
+                    Start your application without signing in
                   </button>
                 </p>
               )}
@@ -263,6 +279,9 @@ class SaveInProgressIntro extends React.Component {
     const content = (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
+        {this.props.buttonOnly &&
+          !this.props.user.login.currentlyLoggedIn &&
+          this.getAlert(savedForm)}
         {this.props.user.login.currentlyLoggedIn && (
           <FormStartControls
             resumeOnly={this.props.resumeOnly}

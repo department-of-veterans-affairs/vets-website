@@ -92,9 +92,7 @@ class Main extends React.Component {
     let content;
 
     if (location.pathname !== '/' && mhvAccountLoading) {
-      content = (
-        <LoadingIndicator message="Loading your health information" setFocus />
-      );
+      content = <LoadingIndicator message="Loading..." setFocus />;
     } else if (!loadingProfile && loggedIn) {
       content = children;
     } else {
