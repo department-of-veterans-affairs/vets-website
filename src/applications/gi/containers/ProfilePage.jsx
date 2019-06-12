@@ -10,6 +10,7 @@ import { fetchProfile, setPageTitle, showModal } from '../actions';
 import AccordionItem from '../components/AccordionItem';
 import If from '../components/If';
 import HeadingSummary from '../components/profile/HeadingSummary';
+import VetTecHeadingSummary from '../components/profile/VetTecHeadingSummary';
 import Programs from '../components/profile/Programs';
 import Outcomes from '../components/profile/Outcomes';
 import Calculator from '../components/profile/Calculator';
@@ -74,61 +75,75 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      content = (
-        <div>
-          <HeadingSummary
-            institution={profile.attributes}
-            onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-            onViewWarnings={this.handleViewWarnings}
-          />
-          <div className="usa-accordion">
-            <ul>
-              <AccordionItem button="Estimate your benefits">
-                <Calculator />
-              </AccordionItem>
-              {!isOJT && (
-                <AccordionItem button="Veteran programs">
-                  <Programs
+      if (!profile.attributes.isVetTec) {
+        content = (
+          <div>
+            <VetTecHeadingSummary
+              institution={profile.attributes}
+              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
+              onViewWarnings={this.handleViewWarnings}
+            />
+          </div>
+        );
+      } else {
+        content = (
+          <div>
+            <HeadingSummary
+              institution={profile.attributes}
+              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
+              onViewWarnings={this.handleViewWarnings}
+            />
+            <div className="usa-accordion">
+              <ul>
+                <AccordionItem button="Estimate your benefits">
+                  <Calculator />
+                </AccordionItem>
+                {!isOJT && (
+                  <AccordionItem button="Veteran programs">
+                    <Programs
+                      institution={profile.attributes}
+                      onShowModal={this.props.showModal}
+                    />
+                  </AccordionItem>
+                )}
+                {!isOJT && (
+                  <AccordionItem button="Student outcomes">
+                    <If
+                      condition={
+                        !!profile.attributes.facilityCode && !!constants
+                      }
+                      comment="TODO"
+                    >
+                      <Outcomes
+                        graphing={outcomes}
+                        onShowModal={this.props.showModal}
+                      />
+                    </If>
+                  </AccordionItem>
+                )}
+                <AccordionItem
+                  button="Cautionary information"
+                  ref={c => {
+                    this._cautionaryInfo = c;
+                  }}
+                >
+                  <a name="viewWarnings" />
+                  <CautionaryInformation
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
                   />
                 </AccordionItem>
-              )}
-              {!isOJT && (
-                <AccordionItem button="Student outcomes">
-                  <If
-                    condition={!!profile.attributes.facilityCode && !!constants}
-                    comment="TODO"
-                  >
-                    <Outcomes
-                      graphing={outcomes}
-                      onShowModal={this.props.showModal}
-                    />
-                  </If>
+                <AccordionItem button="Additional information">
+                  <AdditionalInformation
+                    institution={profile.attributes}
+                    onShowModal={this.props.showModal}
+                  />
                 </AccordionItem>
-              )}
-              <AccordionItem
-                button="Cautionary information"
-                ref={c => {
-                  this._cautionaryInfo = c;
-                }}
-              >
-                <a name="viewWarnings" />
-                <CautionaryInformation
-                  institution={profile.attributes}
-                  onShowModal={this.props.showModal}
-                />
-              </AccordionItem>
-              <AccordionItem button="Additional information">
-                <AdditionalInformation
-                  institution={profile.attributes}
-                  onShowModal={this.props.showModal}
-                />
-              </AccordionItem>
-            </ul>
+              </ul>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     }
 
     return (
