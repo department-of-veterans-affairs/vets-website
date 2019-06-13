@@ -187,7 +187,7 @@ export const newChapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form =>
-          form.isEdithNourseRogersScholarship !== true &&
+          !displayActiveDutyStem(form) &&
           form['view:hasServiceBefore1978'] === true,
         uiSchema: {
           serviceBefore1977: serviceBefore1977UI,
