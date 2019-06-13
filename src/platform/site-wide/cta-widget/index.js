@@ -88,17 +88,15 @@ export class CallToActionWidget extends React.Component {
   getContent = () => {
     if (!this.props.isLoggedIn) {
       return {
-        heading: `You’ll need to sign in before you can ${
-          this._serviceDescription
-        }`,
+        heading: `Please sign in to ${this._serviceDescription}`,
         alertText: (
           <p>
-            Try signing in with your <strong>DS Logon</strong>,
-            <strong>My HealtheVet</strong>, or <strong>ID.me</strong> account.
-            If you don’t have any of those accounts, you can create one.
+            Try signing in with your <b>DS Logon</b>, <b>My HealtheVet</b>, or{' '}
+            <b>ID.me</b> account. If you don’t have any of those accounts, you{' '}
+            can create one.
           </p>
         ),
-        primaryButtonText: 'Sign In or Create an Account',
+        primaryButtonText: 'Sign in or create an account',
         primaryButtonHandler: this.openLoginModal,
         status: 'continue',
       };
@@ -119,7 +117,7 @@ export class CallToActionWidget extends React.Component {
             give you access to your personal health information.
           </p>
         ),
-        primaryButtonText: 'Verify Your Identity',
+        primaryButtonText: 'Verify your identity',
         primaryButtonHandler: verify,
         status: 'continue',
       };
