@@ -15,12 +15,12 @@
   {% endif %}
   <div class="vads-l-grid-container large-screen:vads-u-padding-x--0">
     <div class="vads-l-row vads-u-margin-x--neg2p5">
-      <div class="vads-l-col--12 medium-screen:vads-u-padding-x--2 large-screen:vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3">
+      <div class="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3">
         {% if hidesidenav === empty %}
           {% include "src/site/components/navigation-sidebar.html" with newGrid = true %}
         {% endif %}
       </div>
-      <div class="vads-l-col--12 vads-u-padding-x--2 large-screen:vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
+      <div class="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
       {% if no_article_bottom_padding %}
         <article class="usa-content new-grid vads-u-padding-bottom--0">
           <h1>{{ heading }}</h1>

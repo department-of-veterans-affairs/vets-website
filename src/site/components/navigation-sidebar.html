@@ -27,7 +27,7 @@ Used to display a side navigation bar of pages in a collection.
 
     {% if relatedPages != empty %}
       {% if relatedPages.metadata.name != empty %}
-        <div class="left-side-nav-title"><i class="icon-small white hub-icon-{{ relatedPages.metadata.hub }} hub-background-{{ relatedPages.metadata.hub }}"></i><h4>{{ relatedPages.metadata.name }}</h4></div>
+        <div class="left-side-nav-title {% if newGrid %}vads-u-padding-x--0{% endif %}"><i class="icon-small white hub-icon-{{ relatedPages.metadata.hub }} hub-background-{{ relatedPages.metadata.hub }}"></i><h4>{{ relatedPages.metadata.name }}</h4></div>
       {% endif %}
 
       {% if spoke != empty %}
