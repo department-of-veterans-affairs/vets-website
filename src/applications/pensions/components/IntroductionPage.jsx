@@ -152,6 +152,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the pension application"
           downtime={this.props.route.formConfig.downtime}

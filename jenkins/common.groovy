@@ -100,6 +100,13 @@ def slackIntegrationNotify() {
     failOnError: true
 }
 
+def slackCachedContent(envName) {
+  message = "vets-website built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
+  slackSend message: message,
+    color: 'warning',
+    failOnError: true
+}
+
 def setup() {
   stage("Setup") {
 
@@ -124,30 +131,54 @@ def setup() {
   }
 }
 
-def build(String ref, dockerContainer, Boolean contentOnlyBuild) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
+  def buildDetails = buildDetails(envName, ref)
+  def drupalAddress = DRUPAL_ADDRESSES.get(envName)
+  def drupalCred = DRUPAL_CREDENTIALS.get(envName)
+  def drupalMode = useCache ? '' : '--pull-drupal'
+
+  withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
+    dockerContainer.inside(DOCKER_ARGS) {
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
+      sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+    }
+  }
+}
+
+def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
 
     try {
       def builds = [:]
+      def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-        def buildDetails = buildDetails(envName, ref)
-        def drupalAddress = DRUPAL_ADDRESSES.get(envName)
-        def drupalCred = DRUPAL_CREDENTIALS.get(envName)
         builds[envName] = {
-          withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
-            dockerContainer.inside(DOCKER_ARGS) {
-              sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} --pull-drupal"
-              sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+          try {
+            build(ref, dockerContainer, assetSource, envName, false)
+            envUsedCache[envName] = false
+          } catch (error) {
+            // We're not using the cache for content only builds, because requesting
+            // a content only build is an attempt to refresh content from the current set
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              build(ref, dockerContainer, assetSource, envName, true)
+              envUsedCache[envName] = true
+            } else {
+              build(ref, dockerContainer, assetSource, envName, false)
+              envUsedCache[envName] = false
             }
           }
         }
       }
 
       parallel builds
+      return envUsedCache
     } catch (error) {
       slackNotify()
       throw error
@@ -203,6 +234,38 @@ def archive(dockerContainer, String ref) {
 
       parallel archives
 
+    } catch (error) {
+      slackNotify()
+      throw error
+    }
+  }
+}
+
+def cacheDrupalContent(dockerContainer, envUsedCache) {
+  stage("Cache Drupal Content") {
+    if (!isDeployable()) { return }
+
+    try {
+      def archives = [:]
+
+      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+        def envName = VAGOV_BUILDTYPES.get(i)
+
+        if (!envUsedCache[envName]) {
+          dockerContainer.inside(DOCKER_ARGS) {
+            sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+          }
+        } else {
+          slackCachedContent(envName)
+        }
+      }
+
+      dockerContainer.inside(DOCKER_ARGS) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                         usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+          sh "s3-cli sync --acl-public --region us-gov-west-1 /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/"
+        }
+      }
     } catch (error) {
       slackNotify()
       throw error

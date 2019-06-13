@@ -950,7 +950,7 @@ export function getAlertContent(
   const removeNotificationButton = (
     <button
       className="va-button-link remove-notification-link"
-      aria-label={`Dismiss health care application status notification`}
+      aria-label="Remove this notification about my healthcare application status"
       onClick={dismissNotification}
       key="dismiss-notification-button"
     >

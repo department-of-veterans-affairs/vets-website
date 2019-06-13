@@ -316,7 +316,7 @@ describe('<YourApplications>', () => {
     tree.unmount();
   });
 
-  it('should render a DashboardAlert', () => {
+  it('should render a HCAStatusAlert', () => {
     const tree = shallow(
       <YourApplications
         {...defaultProps}
@@ -325,9 +325,11 @@ describe('<YourApplications>', () => {
         hcaEnrollmentStatus={enrollmentStatus}
       />,
     );
-    const alert = tree.find('DashboardAlert');
+    const alert = tree.find('HCAStatusAlert');
     expect(alert.length).to.equal(1);
-    expect(alert.prop('headline')).to.equal('Application for health care');
+    expect(alert.prop('enrollmentStatus')).to.equal(
+      enrollmentStatus.enrollmentStatus,
+    );
     tree.unmount();
   });
 });
