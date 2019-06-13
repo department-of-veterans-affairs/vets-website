@@ -15,15 +15,9 @@ import {
   isLoadingDismissedNotification,
   selectEnrollmentStatus,
 } from 'applications/hca/selectors';
-import {
-  getAlertContent,
-  getAlertStatusHeadline,
-  getAlertStatusInfo,
-  getAlertType,
-} from 'applications/hca/enrollment-status-helpers';
 
-import DashboardAlert from '../components/DashboardAlert';
 import FormItem from '../components/FormItem';
+import HCAStatusAlert from '../components/HCAStatusAlert';
 import { isSIPEnabledForm, sipFormSorter } from '../helpers';
 
 class YourApplications extends React.Component {
@@ -32,7 +26,7 @@ class YourApplications extends React.Component {
     this.props.getDismissedHCANotification();
   }
 
-  dismissHCANotification() {
+  dismissHCANotification = () => {
     const {
       enrollmentStatus,
       enrollmentStatusEffectiveDate,
@@ -41,22 +35,7 @@ class YourApplications extends React.Component {
       enrollmentStatus,
       enrollmentStatusEffectiveDate,
     );
-  }
-
-  renderHCAStatusAlert({ applicationDate, enrollmentStatus }) {
-    return (
-      <DashboardAlert
-        status={getAlertType(enrollmentStatus)}
-        headline="Application for health care"
-        subheadline="FORM 10-10EZ"
-        statusHeadline={getAlertStatusHeadline(enrollmentStatus)}
-        statusInfo={getAlertStatusInfo(enrollmentStatus)}
-        content={getAlertContent(enrollmentStatus, applicationDate, () => {
-          this.dismissHCANotification();
-        })}
-      />
-    );
-  }
+  };
 
   render() {
     const {
@@ -74,7 +53,13 @@ class YourApplications extends React.Component {
         {savedForms.map(form => (
           <FormItem key={form.form} savedFormData={form} />
         ))}
-        {shouldRenderHCAAlert && this.renderHCAStatusAlert(hcaEnrollmentStatus)}
+        {shouldRenderHCAAlert && (
+          <HCAStatusAlert
+            applicationDate={hcaEnrollmentStatus.applicationDate}
+            enrollmentStatus={hcaEnrollmentStatus.enrollmentStatus}
+            onRemove={this.dismissHCANotification}
+          />
+        )}
       </div>
     );
   }

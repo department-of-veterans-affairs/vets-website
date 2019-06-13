@@ -110,6 +110,7 @@
           </li>
         </ul>
 
+        {% if fieldLinks != empty and fieldLinks.length > 0 %}
         <ul class="usa-accordion-bordered links">
           <li>
             <button class="usa-accordion-button usa-accordion-button-dark rail-heading"
@@ -117,7 +118,6 @@
               Not a veteran?
             </button>
             <div id="a2" class="usa-accordion-content" aria-hidden="false">
-            {% if fieldLinks != empty %}
             <section>
               <h4>Get information for:</h4>
               <ul class="va-nav-linkslist-list links">
@@ -130,11 +130,11 @@
                 {% endfor %}
               </ul>
             </section>
-            {% endif %}
 
             </div>
           </li>
         </ul>
+        {% endif %}
 
         {% if fieldAdministration != empty and fieldAdministration.entity.name != "Records benefits hub" %}
           {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}

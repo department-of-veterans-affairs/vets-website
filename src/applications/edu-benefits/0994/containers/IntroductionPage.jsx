@@ -20,7 +20,7 @@ export class IntroductionPage extends React.Component {
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
         <p>
           Equal to VA Form 22-0994 Application for Veteran Employment Through
-          Technology Education Courses (VET TEC)
+          Technology Education Courses (VET TEC).
         </p>
         <CallToActionWidget appId="vet-tec">
           <SaveInProgressIntro
@@ -130,6 +130,11 @@ export class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          hideUnauthedStartLink
+          verifyRequiredPrefill={
+            this.props.route.formConfig.verifyRequiredPrefill
+          }
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the VET TEC application"

@@ -59,7 +59,6 @@ import {
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
-import IntroductionPageGated from '../containers/IntroductionPageGated';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ConfirmationPageNew from '../containers/ConfirmationPageNew';
 import ErrorMessage from '../components/ErrorMessage';
@@ -204,19 +203,15 @@ const formConfig = {
     message: DowntimeMessage,
   },
   transformForSubmit: transform,
-  introduction: environment.isProduction()
-    ? IntroductionPage
-    : IntroductionPageGated,
-  additionalRoutes: environment.isProduction()
-    ? []
-    : [
-        {
-          path: 'id-form',
-          component: IDPage,
-          pageKey: 'id-form',
-          depends: () => !hasSession(),
-        },
-      ],
+  introduction: IntroductionPage,
+  additionalRoutes: [
+    {
+      path: 'id-form',
+      component: IDPage,
+      pageKey: 'id-form',
+      depends: () => !hasSession(),
+    },
+  ],
   confirmation: environment.isProduction()
     ? ConfirmationPage
     : ConfirmationPageNew,
@@ -569,8 +564,7 @@ const formConfig = {
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: formData =>
-            !formData['view:isUserInMvi'] && !environment.isProduction(),
+          depends: formData => !formData['view:isUserInMvi'],
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:title': 'Upload your discharge papers',
