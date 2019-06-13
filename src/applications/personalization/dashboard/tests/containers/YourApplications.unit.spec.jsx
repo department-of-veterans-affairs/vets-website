@@ -336,6 +336,7 @@ describe('<YourApplications>', () => {
           shouldRenderHCAAlert
           hcaEnrollmentStatus={enrollmentStatus}
           profileState={{ verified: true }}
+          savedForms={[sipEnabledForm]}
         />,
       );
     });
@@ -355,6 +356,12 @@ describe('<YourApplications>', () => {
         enrollmentStatus.enrollmentStatus,
       );
     });
+    it('should render the saved in progress forms', () => {
+      const formItem = tree.find('FormItem');
+      expect(formItem.length).to.equal(1);
+      expect(formItem.key()).to.equal(sipEnabledForm.form);
+      expect(formItem.prop('savedFormData')).to.deep.equal(sipEnabledForm);
+    });
   });
 
   describe('if user is not verified', () => {
@@ -369,6 +376,7 @@ describe('<YourApplications>', () => {
           getDismissedHCANotification={dismissedNotificationsSpy}
           shouldRenderContent
           profileState={{ verified: false }}
+          savedForms={[sipEnabledForm]}
         />,
       );
     });
@@ -384,6 +392,12 @@ describe('<YourApplications>', () => {
     it('should not render a HCAStatusAlert', () => {
       const alert = tree.find('HCAStatusAlert');
       expect(alert.length).to.equal(0);
+    });
+    it('should still render the saved in progress forms', () => {
+      const formItem = tree.find('FormItem');
+      expect(formItem.length).to.equal(1);
+      expect(formItem.key()).to.equal(sipEnabledForm.form);
+      expect(formItem.prop('savedFormData')).to.deep.equal(sipEnabledForm);
     });
   });
 });
