@@ -36,38 +36,41 @@
                 medium-screen:vads-l-col--6
                 small-desktop-screen:vads-l-col--6
                 large-screen:vads-l-col--6">
-                      <label class="vads-u-margin-top--0" for="outreach-topic">Select a topic</label>
+                      <label class="vads-u-margin-top--0"
+                        for="outreach-topic">Select a topic</label>
                       <select class="vads-u-max-width--100 usa-select"
                         name="outreach-topic" id="outreach-topic">
                         <option value="select">- All topics -</option>
-                        <option value="general">General Benefits Information
-                        </option>
-                        <option value="burial">Burial Benefits And Memorial
-                          Items
-                        </option>
-                        <option value="careers">Careers And Employment</option>
+                        <option value="healthcare">Health Care</option>
                         <option value="disability">Disability Compensation
                         </option>
                         <option value="education">Education And Training
                           Benefits
                         </option>
-                        <option value="family">Family member benefits</option>
-                        <option value="healthcare">Health Care</option>
+                        <option value="careers">Careers And Employment</option>
+                        <option value="pension">Pension Benefits</option>
                         <option value="housing">Housing Assistance</option>
                         <option value="insurance">Life Insurance</option>
-                        <option value="pension">Pension Benefits</option>
+                        <option value="general">General Benefits Information
+                        </option>
+                        <option value="burial">Burial Benefits And Memorial
+                          Items
+                        </option>
                         <option value="records">Records</option>
+                        <option value="service">Service Member Benefits</option>
+                        <option value="family">Family member benefits</option>
                       </select>
                     </div>
                     <div class="vads-l-col--12
                 medium-screen:vads-l-col--4
                 small-desktop-screen:vads-l-col--4
                 large-screen:vads-l-col--4">
-                      <label class="vads-u-margin-top--0" for="outreach-type">View file type</label>
+                      <label class="vads-u-margin-top--0"
+                        for="outreach-type">View file type</label>
                       <select class="vads-u-max-width--100 usa-select"
                         name="outreach-type" id="outreach-type">
                         <option value="select">- All types -</option>
-                        <option value="video">Video</option>
+                        <option value="video">Videos</option>
                         <option value="social_share">Social share images, text,
                           and badges</option>
                         <option value="newsletter_content">Newsletter content
@@ -82,10 +85,16 @@
               {% endif %}
             </div>
 
-            {% if title == 'Benefit Materials' %}
-            <div class="vads-l-grid-container--full--full asset-component-library"
+            {% if title == 'Benefit Materials' or title == 'Benefits materials' %}
+            <div
+              class="vads-l-grid-container--full--full asset-component-library"
               id="search-entry">
-
+              <div id="total-pages-div">
+                <div class="break-div">Showing
+                  <span id="total-pages"></span>
+                  <span id="total-all"></span> results
+                </div>
+              </div>
               {% for entity in outreachAssetsDataArray.entities %}
               {% if entity.fieldOffice.targetId == entityId %}
               <div data-topic="{{entity.fieldBenefits}}"
@@ -122,7 +131,7 @@
                   {% if entity.fieldBenefits != '' %}
                   <div class="asset-category-text capitalize-first">
                     <strong>Category:
-                    </strong>{{entity.fieldBenefits | breakTerms}}</div>
+                    </strong>{{entity.fieldBenefits}}</div>
                   {% endif %}
                   <div class="asset-filetype-text"><strong>File type:
                     </strong><span
@@ -138,7 +147,8 @@
                     <a class="file-download-with-icon" target="_blank"
                       href="{{url}}" download="{{url}}"><i
                         class="fas fa-download vads-u-padding-right--1"></i>Download
-                      {{entity.fieldMedia.entity.entityBundle | fileType}}</a>
+                      {{entity.fieldMedia.entity.entityBundle | fileType}}
+                      {{url | fileExt}}</a>
                     {% endif %}
 
                     {% if entity.fieldMedia.entity.entityBundle == 'video' %}
@@ -157,7 +167,8 @@
                     <a class="file-download-with-icon" target="_blank"
                       href="{{url}}" download="{{url}}"><i
                         class="fas fa-download vads-u-padding-right--1"></i>Download
-                      {{entity.fieldMedia.entity.entityBundle | fileType}}</a>
+                      {{entity.fieldMedia.entity.entityBundle | fileType}}
+                      {{url | fileExt}}</a>
                     {% endif %}
 
                   </div>
@@ -171,7 +182,7 @@
           </div>
 
           {% if title == 'Benefit Materials' %}
-          <div class="va-pagination">
+          <div class="va-pagination" id="va-pager-div">
             <span class="vads-u-display--none
               medium-screen::vads-u-display--block
               small-desktop-screen:vads-u-display--block
@@ -199,10 +210,11 @@
               <button class="va-button-link" id="last-click">Last</button>
             </span>
           </div>
-          <div id="total-pages-div">
-            <div class="break-div"><i>Total assets in this collection:</i> <span
-                id="total-pages"></span></div>
+          <div id="no-results">
+            <div>No results.</div><button id="start-over">Click here to start
+              over.</button>
           </div>
+
           {% endif %}
 
         </article>

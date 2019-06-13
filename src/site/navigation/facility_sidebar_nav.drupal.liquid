@@ -7,31 +7,34 @@
             </h4>
         </div>
         <ul class="usa-accordion">
+            {% assign isInAbout = false %}
+            {% assign lastMenu = facilitySidebar.links | last %}
+            {% assign aboutMenu = lastMenu.links | map: 'url' %}
+            {% assign isInAbout = aboutMenu | isAboutItem: entityUrl.path %}
+
             {% for link in facilitySidebar.links %}
                 <li>
-                    {% assign pathArray = entityUrl.path | split: '/' %}
-                    {% assign pathRoot = pathArray | get: 2 | capitalize %}
-                    {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
-                    {% assign deepLinksObj = deepLinksString | jsonToObj %}
-                    {% assign depth = deepLinksObj.depth  %}
+                    {% assign isRoot = entityUrl.path | isRootPage %}
+                    {% assign expanded = false %}
+
+                    {% if forloop.first == true and isRoot == true and isInAbout == false %}
+                        {% assign expanded = true %}
+                    {% endif %}
 
                     <button class="usa-accordion-button"
-                            {% if deepLinksString == "false" and forloop.index == 1 and depth is null ||
-                                entityUrl.path contains "locations" and forloop.index == 1 %}
-                                aria-expanded="true"
-                            {% else %}
-                                aria-expanded="false"
-                            {% endif %}
+                            aria-expanded="{{ expanded }}"
                             aria-controls="a{{ forloop.index }}">
                         {{ link.label }}
                     </button>
-                    <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
+
+                    <div id="a{{ forloop.index }}"
+                         class="usa-accordion-content">
                         {% if link.expanded == true %}
                             <ul class="usa-sidenav-list">
                                 {% for link in link.links %}
                                     {% if link.expanded == true %}
                                         <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
-                                            <a {% if link.url.path == entityUrl.path %} class="usa-current" {% endif %}
+                                            <a {% if  entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
                                                     href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                             <ul class="usa-sidenav-sub_list">
                                                 {% for link in link.links  %}

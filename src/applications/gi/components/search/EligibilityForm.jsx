@@ -5,12 +5,51 @@ import { showModal, hideModal, eligibilityChange } from '../../actions';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
+import environment from 'platform/utilities/environment';
 
 export class EligibilityForm extends React.Component {
   constructor(props) {
     super(props);
     this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
   }
+
+  // This will be enabled via story https://app.zenhub.com/workspaces/vft-59c95ae5fda7577a9b3184f8/issues/department-of-veterans-affairs/vets.gov-team/18639
+  cumulativeServiceOptions = () => {
+    if (environment.isProduction()) {
+      return [
+        { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
+        { value: '0.9', label: '30 months: 90% (includes BASIC)' },
+        { value: '0.8', label: '24 months: 80% (includes BASIC)' },
+        { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
+        { value: '0.6', label: '12 months: 60% (excludes BASIC)' },
+        { value: '0.5', label: '6 months: 50% (excludes BASIC)' },
+        { value: '0.4', label: '90 days: 40% (excludes BASIC)' },
+        { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
+        { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
+        {
+          value: 'service discharge',
+          label: 'Service-Connected Discharge: 100%',
+        },
+        { value: 'purple heart', label: 'Purple Heart Service: 100%' },
+      ];
+    }
+
+    return [
+      { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
+      { value: '0.9', label: '30 months: 90% (includes BASIC)' },
+      { value: '0.8', label: '24 months: 80% (includes BASIC)' },
+      { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
+      { value: '0.6', label: '6 months: 60% (excludes BASIC)' },
+      { value: '0.5', label: '90 days: 50% (excludes BASIC)' },
+      { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
+      { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
+      {
+        value: 'service discharge',
+        label: 'Service-Connected Discharge: 100%',
+      },
+      { value: 'purple heart', label: 'Purple Heart Service: 100%' },
+    ];
+  };
 
   renderLearnMoreLabel({ text, modal }) {
     return (
@@ -128,21 +167,7 @@ export class EligibilityForm extends React.Component {
             modal: 'cumulativeService',
           })}
           name="cumulativeService"
-          options={[
-            { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
-            { value: '0.9', label: '30 months: 90% (includes BASIC)' },
-            { value: '0.8', label: '24 months: 80% (includes BASIC)' },
-            { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
-            { value: '0.6', label: '6 months: 60% (excludes BASIC)' },
-            { value: '0.5', label: '90 days: 50% (excludes BASIC)' },
-            { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
-            { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
-            {
-              value: 'service discharge',
-              label: 'Service-Connected Discharge: 100%',
-            },
-            { value: 'purple heart', label: 'Purple Heart Service: 100%' },
-          ]}
+          options={this.cumulativeServiceOptions()}
           value={this.props.cumulativeService}
           alt="Cumulative Post-9/11 active duty service"
           visible={this.props.giBillChapter === '33'}

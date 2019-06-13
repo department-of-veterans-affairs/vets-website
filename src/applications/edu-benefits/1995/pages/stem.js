@@ -17,6 +17,7 @@ export const uiSchema = {
   isEnrolledStem: {
     'ui:title': 'Are you enrolled in an undergraduate STEM degree program?',
     'ui:widget': 'yesNo',
+    'ui:required': form => form.isEdithNourseRogersScholarship,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
     },
@@ -25,6 +26,8 @@ export const uiSchema = {
     'ui:title':
       'Do you have a STEM undergraduate degree and are now pursuing a teaching certification?',
     'ui:widget': 'yesNo',
+    'ui:required': form =>
+      form.isEdithNourseRogersScholarship && !form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
       hideIf: formData => _.get(formData, 'isEnrolledStem', true),
@@ -37,6 +40,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['isEdithNourseRogersScholarship'],
   properties: {
     isEdithNourseRogersScholarship,
     isEnrolledStem,

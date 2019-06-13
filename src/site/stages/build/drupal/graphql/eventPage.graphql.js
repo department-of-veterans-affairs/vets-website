@@ -53,6 +53,12 @@ module.exports = `
       processed
     }
     fieldEventCost
+    fieldEventCta
+    fieldLink {
+      url {
+        path
+      }
+    }
     fieldEventRegistrationrequired
     fieldAdditionalInformationAbo
  }
