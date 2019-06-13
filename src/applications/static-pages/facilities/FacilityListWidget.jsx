@@ -52,7 +52,7 @@ export default class FacilityListWidget extends React.Component {
       facility => (
         <div
           key={facility.id}
-          className="usa-grid-full vads-u-margin-bottom--2p5"
+          className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--5"
         >
           <section key={facility.id} className="usa-width-one-half">
             <FacilityTitle
@@ -69,6 +69,7 @@ export default class FacilityListWidget extends React.Component {
               aria-label={this.props.facilities[facility.id].nickname}
             >
               <img
+                className="region-img"
                 src={
                   this.props.facilities[facility.id].derivative
                     ? this.props.facilities[facility.id].derivative.url

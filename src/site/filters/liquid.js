@@ -197,7 +197,7 @@ module.exports = function registerFilters() {
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
-  liquid.filters.isContactPage = path => path.includes('contact');
+  liquid.filters.isPage = (path, page) => path.includes(page);
 
   // check is this is a root level page
   liquid.filters.isRootPage = path => {

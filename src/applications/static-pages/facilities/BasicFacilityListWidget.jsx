@@ -86,6 +86,10 @@ export default class BasicFacilityListWidget extends React.Component {
         </div>
       ),
     );
-    return <div className="usa-grid usa-grid-full basic-facilities-list">{facilitiesList}</div>;
+    return (
+      <div className="usa-grid usa-grid-full basic-facilities-list">
+        {facilitiesList}
+      </div>
+    );
   }
 }
