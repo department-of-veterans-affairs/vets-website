@@ -57,6 +57,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
         display: block;
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
     .asset-body-wrap {
