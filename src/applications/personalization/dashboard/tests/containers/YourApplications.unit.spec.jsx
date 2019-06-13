@@ -9,9 +9,15 @@ import {
 } from '../../containers/YourApplications';
 import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
 
+let enrollmentStatusSpy;
+let dismissedNotificationsSpy;
+
 const defaultProps = {
   getEnrollmentStatus: sinon.stub(),
   getDismissedHCANotification: sinon.stub(),
+  profileState: {
+    verified: false,
+  },
   setDismissedHCANotification: sinon.stub(),
   savedForms: [],
 };
@@ -316,20 +322,82 @@ describe('<YourApplications>', () => {
     tree.unmount();
   });
 
-  it('should render a HCAStatusAlert', () => {
-    const tree = shallow(
-      <YourApplications
-        {...defaultProps}
-        shouldRenderContent
-        shouldRenderHCAAlert
-        hcaEnrollmentStatus={enrollmentStatus}
-      />,
-    );
-    const alert = tree.find('HCAStatusAlert');
-    expect(alert.length).to.equal(1);
-    expect(alert.prop('enrollmentStatus')).to.equal(
-      enrollmentStatus.enrollmentStatus,
-    );
-    tree.unmount();
+  describe('if user is verified', () => {
+    let tree;
+    beforeEach(() => {
+      enrollmentStatusSpy = sinon.spy();
+      dismissedNotificationsSpy = sinon.spy();
+      tree = shallow(
+        <YourApplications
+          {...defaultProps}
+          getEnrollmentStatus={enrollmentStatusSpy}
+          getDismissedHCANotification={dismissedNotificationsSpy}
+          shouldRenderContent
+          shouldRenderHCAAlert
+          hcaEnrollmentStatus={enrollmentStatus}
+          profileState={{ verified: true }}
+          savedForms={[sipEnabledForm]}
+        />,
+      );
+    });
+    afterEach(() => {
+      tree.unmount();
+    });
+    it('should call the `enrollment_status` endpoint', () => {
+      expect(enrollmentStatusSpy.called).to.be.true;
+    });
+    it('should call the `dismissed_statuses` endpoint', () => {
+      expect(dismissedNotificationsSpy.called).to.be.true;
+    });
+    it('should render a HCAStatusAlert', () => {
+      const alert = tree.find('HCAStatusAlert');
+      expect(alert.length).to.equal(1);
+      expect(alert.prop('enrollmentStatus')).to.equal(
+        enrollmentStatus.enrollmentStatus,
+      );
+    });
+    it('should render the saved in progress forms', () => {
+      const formItem = tree.find('FormItem');
+      expect(formItem.length).to.equal(1);
+      expect(formItem.key()).to.equal(sipEnabledForm.form);
+      expect(formItem.prop('savedFormData')).to.deep.equal(sipEnabledForm);
+    });
+  });
+
+  describe('if user is not verified', () => {
+    let tree;
+    beforeEach(() => {
+      enrollmentStatusSpy = sinon.spy();
+      dismissedNotificationsSpy = sinon.spy();
+      tree = shallow(
+        <YourApplications
+          {...defaultProps}
+          getEnrollmentStatus={enrollmentStatusSpy}
+          getDismissedHCANotification={dismissedNotificationsSpy}
+          shouldRenderContent
+          profileState={{ verified: false }}
+          savedForms={[sipEnabledForm]}
+        />,
+      );
+    });
+    afterEach(() => {
+      tree.unmount();
+    });
+    it('should not call the `enrollment_status` endpoint', () => {
+      expect(enrollmentStatusSpy.notCalled).to.be.true;
+    });
+    it('should not call the `dismissed_statuses` endpoint', () => {
+      expect(dismissedNotificationsSpy.notCalled).to.be.true;
+    });
+    it('should not render a HCAStatusAlert', () => {
+      const alert = tree.find('HCAStatusAlert');
+      expect(alert.length).to.equal(0);
+    });
+    it('should still render the saved in progress forms', () => {
+      const formItem = tree.find('FormItem');
+      expect(formItem.length).to.equal(1);
+      expect(formItem.key()).to.equal(sipEnabledForm.form);
+      expect(formItem.prop('savedFormData')).to.deep.equal(sipEnabledForm);
+    });
   });
 });

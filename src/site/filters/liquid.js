@@ -3,6 +3,10 @@ const converter = require('number-to-words');
 const liquid = require('tinyliquid');
 const _ = require('lodash');
 
+function getPath(obj) {
+  return obj.path;
+}
+
 module.exports = function registerFilters() {
   const {
     featureFlags,
@@ -208,8 +212,16 @@ module.exports = function registerFilters() {
 
   // check is this is a root level page
   liquid.filters.isRootPage = path => {
+    const isFacilityRoot = /^(?:\/pittsburgh-health-care)+$|^(?:\/pittsburgh-health-care)\/((?!stories|events|locations|press-releases|health-services|jobs-careers).)*$/;
     const isRoot = /^\/[\w-]+$/;
-    return isRoot.test(path);
+    return isRoot.test(path) || isFacilityRoot.test(path);
+  };
+
+  // check if this is an about menu page
+  liquid.filters.isAboutItem = (menuArray, path) => {
+    const paths = _.flatMap(menuArray, getPath);
+    const inMenu = _.indexOf(paths, path);
+    return inMenu !== -1;
   };
 
   // sort a list of objects by a certain property in the object

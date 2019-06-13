@@ -157,7 +157,7 @@ class FormItem extends React.Component {
           </a>
           <button
             className="va-button-link remove-notification-link"
-            aria-label={`Dismiss ${itemTitle}`}
+            aria-label={`Remove this notification about my ${itemTitle}`}
             onClick={() => {
               this.props.toggleModal(formId);
               this.recordDashboardClick(formId, 'delete-link');
