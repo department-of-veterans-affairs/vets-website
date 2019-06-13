@@ -12,22 +12,15 @@
                     {% assign pathArray = entityUrl.path | split: '/' %}
                     {% assign pathRoot = pathArray | get: 2 | capitalize %}
                     {% assign deepLinksString = link.links | findCurrentPathDepth: entityUrl.path %}
-                    {% assign deepLinksObj = deepLinksString | jsonToObj %}
-                    {% assign depth = deepLinksObj.depth  %}
                     {% assign isRoot = entityUrl.path | isRootPage %}
                     {% assign isLocation = entityUrl.path | isLocationPage %}
 
                     <button class="usa-accordion-button"
-                            {% if deepLinksString == "false" and depth == "" or isRoot or isLocation %}
-                                {% if forloop.index == 1 %}
-                                    aria-expanded="true"
-                                {% endif %}
-                            {% else %}
-                                aria-expanded="false"
-                            {% endif %}
+                            aria-expanded="{% if forloop.first == true and isLocation == true or forloop.first == true and deepLinksString == "false" or forloop.first == true and isRoot == true %}true{% else %}false{% endif %}"
                             aria-controls="a{{ forloop.index }}">
                         {{ link.label }}
                     </button>
+
                     <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
                         {% if link.expanded == true %}
                             <ul class="usa-sidenav-list">
