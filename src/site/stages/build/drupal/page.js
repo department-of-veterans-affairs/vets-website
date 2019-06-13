@@ -147,12 +147,16 @@ function generateBreadCrumbs(pathString) {
   for (const value of pathArray) {
     trimmedValue = _.trim(value, '/');
     if (value) {
+      const dehandlized =
+        value === 'pittsburgh-health-care'
+          ? 'VA Pittsburgh health care'
+          : _.startCase(_.trim(value, '-'));
       entityUrlObj.breadcrumb.push({
         url: {
           path: `${previous}${value}`,
           routed: true,
         },
-        text: _.startCase(_.trim(value, '-')),
+        text: dehandlized,
       });
     }
     previous += `${trimmedValue}/`;
