@@ -1,5 +1,5 @@
-import backendServices from '../../user/profile/constants/backendServices';
-import environment from '../../utilities/environment';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import environment from 'platform/utilities/environment';
 
 const frontendApps = {
   HEALTH_RECORDS: 'health-records',

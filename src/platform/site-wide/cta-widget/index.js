@@ -5,25 +5,25 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallVBACenter from '../../static-data/CallVBACenter';
-import SubmitSignInForm from '../../static-data/SubmitSignInForm';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
-import { toggleLoginModal } from '../user-nav/actions';
-import { logout, verify, mfa } from '../../user/authentication/utilities';
-import recordEvent from '../../../platform/monitoring/record-event';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { logout, verify, mfa } from 'platform/user/authentication/utilities';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   ACCOUNT_STATES,
   ACCOUNT_STATES_SET,
-} from '../../../applications/validate-mhv-account/constants';
+} from 'applications/validate-mhv-account/constants';
 
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
   upgradeMHVAccount,
-} from '../../user/profile/actions';
+} from 'platform/user/profile/actions';
 
-import { isLoggedIn, selectProfile } from '../../user/selectors';
-import titleCase from '../../utilities/data/titleCase';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import titleCase from 'platform/utilities/data/titleCase';
 
 import CallToActionAlert from './CallToActionAlert';
 
