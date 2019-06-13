@@ -145,6 +145,12 @@ export const toolUrl = (appId, index) => {
         redirect: false,
       };
 
+    case frontendApps.DIRECT_DEPOSIT:
+      return {
+        url: '/profile',
+        redirect: false,
+      };
+
     default:
       return {};
   }
