@@ -212,7 +212,7 @@ module.exports = function registerFilters() {
 
   // check is this is a root level page
   liquid.filters.isRootPage = path => {
-    const isFacilityRoot = /^(?:\/pittsburgh-health-care)+$|^(?:\/pittsburgh-health-care)\/((?!stories|events|locations|press-releases|health-services).)*$/;
+    const isFacilityRoot = /^(?:\/pittsburgh-health-care)+$|^(?:\/pittsburgh-health-care)\/((?!stories|events|locations|press-releases|health-services|jobs-careers).)*$/;
     const isRoot = /^\/[\w-]+$/;
     return isRoot.test(path) || isFacilityRoot.test(path);
   };
