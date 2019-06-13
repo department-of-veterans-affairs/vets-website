@@ -1,7 +1,7 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
 
-const frontendApps = {
+export const frontendApps = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
   MESSAGING: 'messaging',
@@ -22,6 +22,7 @@ const HEALTH_TOOLS = [
   frontendApps.MESSAGING,
   frontendApps.LAB_AND_TEST_RESULTS,
   frontendApps.APPOINTMENTS,
+  frontendApps.DIRECT_DEPOSIT,
 ];
 
 const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
@@ -66,6 +67,9 @@ export const mhvToolName = appId => {
 
     case frontendApps.APPOINTMENTS:
       return 'VA Appointments';
+
+    case frontendApps.DIRECT_DEPOSIT:
+      return 'Direct Deposit';
 
     default: // Not a recognized health tool.
   }
@@ -234,7 +238,7 @@ export const serviceDescription = (appId, index) => {
       return 'apply for VET TEC';
 
     case frontendApps.DIRECT_DEPOSIT:
-      return 'change you direct deposit information online';
+      return 'change your direct deposit information online';
 
     default:
       return 'use this service';

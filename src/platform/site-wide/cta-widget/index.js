@@ -28,6 +28,7 @@ import titleCase from 'platform/utilities/data/titleCase';
 import CallToActionAlert from './CallToActionAlert';
 
 import {
+  frontendApps,
   hasRequiredMhvAccount,
   isHealthTool,
   mhvToolName,
@@ -121,38 +122,6 @@ export class CallToActionWidget extends React.Component {
         primaryButtonHandler: verify,
         status: 'continue',
       };
-    } else if (this.props.appId === 'direct-deposit') {
-      if (!this.props.profile.multifactor) {
-        return {
-          heading: `Please set up 2-factor authentication to ${
-            this._serviceDescription
-          }`,
-          alertText: (
-            <p>
-              We’re committed to protecting your information and preventing
-              fraud. You’ll need to add an extra layer of security to your
-              account with 2-factor authentication before we can give you access
-              to your bank account information.
-            </p>
-          ),
-          primaryButtonText: 'Set up 2-factor authentication',
-          primaryButtonHandler: mfa,
-          status: 'continue',
-        };
-      }
-
-      return {
-        heading: `Go to your VA.gov profile to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            Here, you can edit your bank name as well as your account number and
-            type.
-          </p>
-        ),
-        primaryButtonText: 'Go to your profile',
-        primaryButtonHandler: this.goToProfile,
-        status: 'continue',
-      };
     }
 
     return null;
@@ -218,6 +187,43 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
+    if (
+      this.props.profile.verified &&
+      this.props.appId === frontendApps.DIRECT_DEPOSIT
+    ) {
+      if (!this.props.profile.multifactor) {
+        return {
+          heading: `Please set up 2-factor authentication to ${
+            this._serviceDescription
+          }`,
+          alertText: (
+            <p>
+              We’re committed to protecting your information and preventing
+              fraud. You’ll need to add an extra layer of security to your
+              account with 2-factor authentication before we can give you access
+              to your bank account information.
+            </p>
+          ),
+          primaryButtonText: 'Set up 2-factor authentication',
+          primaryButtonHandler: mfa,
+          status: 'continue',
+        };
+      }
+
+      return {
+        heading: `Go to your VA.gov profile to ${this._serviceDescription}`,
+        alertText: (
+          <p>
+            Here, you can edit your bank name as well as your account number and
+            type.
+          </p>
+        ),
+        primaryButtonText: 'Go to your profile',
+        primaryButtonHandler: this.goToTool,
+        status: 'continue',
+      };
+    }
+
     return this.getInaccessibleHealthToolContent();
   };
 
@@ -247,7 +253,7 @@ export class CallToActionWidget extends React.Component {
               can give you access to your personal health information.
             </p>
           ),
-          primaryButtonText: 'Verify Your Identity',
+          primaryButtonText: 'Verify your identity',
           primaryButtonHandler: verify,
           status: 'continue',
         };
@@ -465,10 +471,6 @@ export class CallToActionWidget extends React.Component {
         this._popup = true;
       }
     }
-  };
-
-  goToProfile = () => {
-    window.location.pathname = '/profile';
   };
 
   signOut = () => {
