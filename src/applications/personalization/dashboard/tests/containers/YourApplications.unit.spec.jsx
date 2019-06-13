@@ -49,6 +49,7 @@ describe('mapStateToProps', () => {
     state = {
       user: {
         profile: {
+          verified: true,
           savedForms: [],
         },
       },
@@ -73,6 +74,13 @@ describe('mapStateToProps', () => {
       expect(mappedProps.hcaEnrollmentStatus).to.deep.equal(
         state.hcaEnrollmentStatus,
       );
+    });
+  });
+
+  describe('`profileState`', () => {
+    it('is the same as the `profile` on state', () => {
+      const mappedProps = mapStateToProps(state);
+      expect(mappedProps.profileState).to.deep.equal(state.user.profile);
     });
   });
 

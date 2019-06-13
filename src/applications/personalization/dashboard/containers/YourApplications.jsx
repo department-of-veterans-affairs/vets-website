@@ -110,6 +110,7 @@ export const mapStateToProps = state => {
 
   return {
     hcaEnrollmentStatus,
+    profileState,
     savedForms: verifiedSavedForms,
     shouldRenderContent,
     shouldRenderHCAAlert,
