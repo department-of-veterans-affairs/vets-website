@@ -45,10 +45,8 @@ export function calculateRating(arr) {
   if (sortedArr.length === 1) {
     const lastCalcualtedRating = sortedArr[0];
     let result = roundRating(lastCalcualtedRating);
-    // eslint-disable-next-line radix
-    const actualRating = parseInt(
-      Number.parseFloat(lastCalcualtedRating).toFixed(2),
-    );
+
+    const actualRating = Number.parseFloat(lastCalcualtedRating).toFixed(2);
     if (result > 100) {
       result = 100;
     }

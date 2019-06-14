@@ -10,25 +10,31 @@ $formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
 
 .disability-calculator {
   background-color: $color-gray-lightest;
-}
 
-.add-btn {
-  &:hover {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
+
+
+  .add-btn {
+    &:hover {
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+    }
   }
-}
 
-.clear-btn {
-  &:hover {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
+  .clear-btn {
+    &:hover {
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+    }
   }
-}
 
-.delete-btn {
-  &:hover {
-    padding: 12px !important;
+  .delete-btn {
+    &:hover {
+      padding: 12px !important;
+    }
+  }
+
+  #calculate-btn {
+    padding: 1rem 3rem;
   }
 }
 

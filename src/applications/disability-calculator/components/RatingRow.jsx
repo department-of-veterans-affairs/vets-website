@@ -3,8 +3,7 @@ import React from 'react';
 export const RatingRow = ({
   ratingObj,
   indx,
-  handleDescriptionChange,
-  handleRatingChange,
+  handleChange,
   handleRemoveRating,
   ratingRef,
 }) => {
@@ -13,7 +12,7 @@ export const RatingRow = ({
     const re = /^[0-9\b]+$/;
 
     if (re.test(val) || val === '') {
-      handleRatingChange(indx, val);
+      handleChange(indx, val.length ? Number(val) : val, 'rating');
     }
   };
 
@@ -39,7 +38,7 @@ export const RatingRow = ({
         <input
           className="descriptionInput"
           name="description"
-          onChange={e => handleDescriptionChange(indx, e.target.value)}
+          onChange={e => handleChange(indx, e.target.value, 'description')}
           value={ratingObj.description}
         />
       </div>

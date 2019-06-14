@@ -45,20 +45,13 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingRef.current.focus();
   };
 
-  handleRatingChange = (index, val) => {
+  handleRowChange = (index, val, field) => {
     const ratings = this.state.ratings;
-    ratings[index].rating = val;
-    this.setState({ ratings });
-  };
-
-  handleDescriptionChange = (index, val) => {
-    const ratings = this.state.ratings;
-    ratings[index].description = val;
+    ratings[index][field] = val;
     this.setState({ ratings });
   };
 
   handleSubmit = () => {
-    // const { ratings } = this.state.ratings;
     const ratings = this.state.ratings;
     const calcRating = calculateRating(ratings);
 
@@ -123,7 +116,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     const calculatedRating = this.state.calculatedRating;
 
     return (
-      <div className="disability-calculator">
+      <div className="disability-calculator vads-u-margin-bottom--5">
         <div className="calc-header vads-u-padding-x--4">
           <h2 className="vads-u-padding-top--4">
             VA combined disability rating calculator
@@ -146,9 +139,7 @@ export default class DisabilityRatingCalculator extends React.Component {
           </div>
           {this.state.ratings.map((ratingObj, idx) => (
             <RatingRow
-              handleRatingChange={this.handleRatingChange}
-              handleDescriptionChange={this.handleDescriptionChange}
-              handleRemoveRating={this.handleRemoveRating}
+              handleChange={this.handleRowChange}
               ratingObj={ratingObj}
               key={idx}
               indx={idx}
@@ -172,8 +163,9 @@ export default class DisabilityRatingCalculator extends React.Component {
           </div>
           <br />
           <div className="vads-l-row">
-            <div className="vads-l-col--3">
+            <div>
               <button
+                id="calculate-btn"
                 onClick={evt => {
                   this.handleSubmit(evt);
                 }}
@@ -181,7 +173,7 @@ export default class DisabilityRatingCalculator extends React.Component {
                 Calculate
               </button>
             </div>
-            <div className="vads-l-col--8">
+            <div className="vads-u-margin-left--1">
               <button
                 className="va-button-link clear-btn vads-u-padding-y--1p5"
                 onClick={this.clearAll}
