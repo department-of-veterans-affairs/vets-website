@@ -1,0 +1,43 @@
+$formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
+
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous';
+
+@import '~leaflet/dist/leaflet.css';
+@import '~react-tabs/style/react-tabs';
+
+.disability-calculator {
+  background-color: $color-gray-lightest;
+
+
+
+  .add-btn {
+    &:hover {
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+    }
+  }
+
+  .clear-btn {
+    &:hover {
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+    }
+  }
+
+  .delete-btn {
+    &:hover {
+      padding: 12px !important;
+    }
+  }
+
+  #calculate-btn {
+    padding: 1rem 3rem;
+  }
+}
+
+.usa-accordion {
+  margin-top: 16px;
+}
