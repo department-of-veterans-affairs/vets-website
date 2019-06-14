@@ -21,6 +21,7 @@ import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms
 import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
 import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
 import { outcomeNumbers } from '../selectors/outcomes';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -79,7 +80,7 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      if (!profile.attributes.vetTecProvider) {
+      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
         content = (
           <div>
             <VetTecHeadingSummary
