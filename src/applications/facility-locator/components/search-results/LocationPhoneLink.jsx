@@ -8,9 +8,9 @@ const LocationPhoneLink = ({ location }) => {
 
   if (isProvider) {
     return (
-      <div>
-        If you don’t have a referral, contact your local VA medical center
-      </div>
+      <p>
+        If you don’t have a referral, contact your local VA medical center.
+      </p>
     );
   }
 
