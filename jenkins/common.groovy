@@ -170,6 +170,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               build(ref, dockerContainer, assetSource, envName, true)
               envUsedCache[envName] = true
             } else {
+							exit 0
               build(ref, dockerContainer, assetSource, envName, false)
               envUsedCache[envName] = false
             }
