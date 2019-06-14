@@ -5,7 +5,7 @@ export default class AboutDisabilityRatings extends React.Component {
   render() {
     return (
       <div>
-        <h1>About VA disabilty ratings</h1>
+        <h1>About VA disability ratings</h1>
         <div className="va-introtext">
           <p>
             Learn about VA disability ratings and how we assign your rating. If
