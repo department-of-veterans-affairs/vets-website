@@ -89,7 +89,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         calculatedRating: 0,
         showCombinedRating: false,
       },
-      () => this.ratingInputRefs[0].focus(),
+      this.focusFirstInput,
     );
   };
 
