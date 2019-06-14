@@ -12,8 +12,15 @@ export const RatingRow = ({
     const re = /^[0-9\b]+$/;
 
     if (re.test(val) || val === '') {
-      handleChange(indx, val.length ? Number(val) : val, 'rating');
+      handleChange(indx, {
+        ...ratingObj,
+        rating: val.length ? Number(val) : val,
+      });
     }
+  };
+
+  const onDescriptionChange = e => {
+    handleChange(indx, { ...ratingObj, description: e.target.value });
   };
 
   return (
@@ -38,7 +45,7 @@ export const RatingRow = ({
         <input
           className="descriptionInput"
           name="description"
-          onChange={e => handleChange(indx, e.target.value, 'description')}
+          onChange={onDescriptionChange}
           value={ratingObj.description}
         />
       </div>

@@ -45,9 +45,9 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingRef.current.focus();
   };
 
-  handleRowChange = (index, val, field) => {
+  handleRowChange = (index, updatedRow) => {
     const ratings = this.state.ratings;
-    ratings[index][field] = val;
+    ratings[index] = updatedRow;
     this.setState({ ratings });
   };
 
@@ -61,7 +61,6 @@ export default class DisabilityRatingCalculator extends React.Component {
       calculateRating(this.state.ratings),
       '%',
     );
-    // eslint-disable-next-line no-lone-blocks
     this.setState({
       showCombinedRating: true,
       calculatedRating: calcRating,
@@ -144,8 +143,6 @@ export default class DisabilityRatingCalculator extends React.Component {
               key={idx}
               indx={idx}
               ratingRef={this.ratingRef}
-              // ref={this.ratingRef}
-              // autoFocus
             />
           ))}
           <div className="vads-l-row">
