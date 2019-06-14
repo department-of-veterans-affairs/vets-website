@@ -63,7 +63,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleAddRating = () => {
-    const newRatings = [
+    const ratings = [
       ...this.state.ratings,
       {
         rating: '',
@@ -71,7 +71,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         canDelete: this.state.ratings.length > 1,
       },
     ];
-    this.setState({ ratings: newRatings });
+    this.setState({ ratings });
     setTimeout(() => {
       this.focus();
     }, 100);
