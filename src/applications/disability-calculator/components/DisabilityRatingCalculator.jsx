@@ -5,25 +5,27 @@ import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import { RatingRow } from './RatingRow';
 import '../sass/disability-calculator.scss';
 
+const defaultRatings = [
+  {
+    rating: '',
+    description: '',
+  },
+  {
+    rating: '',
+    description: '',
+  },
+];
+
 export default class DisabilityRatingCalculator extends React.Component {
   constructor() {
     super();
+
     this.state = {
-      ratings: [
-        {
-          rating: '',
-          description: '',
-          canDelete: false,
-        },
-        {
-          rating: '',
-          description: '',
-          canDelete: false,
-        },
-      ],
+      ratings: [...defaultRatings],
       showCombinedRating: false,
       calculatedRating: 0,
     };
+
     this.ratingRef = React.createRef();
     this.focus = this.focus.bind(this);
   }
@@ -100,10 +102,7 @@ export default class DisabilityRatingCalculator extends React.Component {
 
   clearAll = () => {
     this.setState({
-      ratings: [
-        { rating: '', description: '', canDelete: false },
-        { rating: '', description: '', canDelete: false },
-      ],
+      ratings: [...defaultRatings],
       calculatedRating: 0,
       showCombinedRating: false,
     });
@@ -143,6 +142,8 @@ export default class DisabilityRatingCalculator extends React.Component {
               key={idx}
               indx={idx}
               ratingRef={this.ratingRef}
+              handleRemoveRating={this.handleRemoveRating}
+              canDelete={idx > 1}
             />
           ))}
           <div className="vads-l-row">

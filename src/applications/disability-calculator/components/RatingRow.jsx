@@ -6,6 +6,7 @@ export const RatingRow = ({
   handleChange,
   handleRemoveRating,
   ratingRef,
+  canDelete,
 }) => {
   const onRatingChange = e => {
     const val = e.target.value;
@@ -50,7 +51,7 @@ export const RatingRow = ({
         />
       </div>
       <div className="vads-l-col--2">
-        {ratingObj.canDelete === true && (
+        {canDelete && (
           <div>
             <button
               type="button"
