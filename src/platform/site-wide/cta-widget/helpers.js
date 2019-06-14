@@ -1,7 +1,7 @@
-import backendServices from '../../user/profile/constants/backendServices';
-import environment from '../../utilities/environment';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import environment from 'platform/utilities/environment';
 
-const frontendApps = {
+export const frontendApps = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
   MESSAGING: 'messaging',
@@ -13,6 +13,7 @@ const frontendApps = {
   LETTERS: 'letters',
   VETERAN_ID_CARD: 'vic',
   VET_TEC: 'vet-tec',
+  DIRECT_DEPOSIT: 'direct-deposit',
 };
 
 const HEALTH_TOOLS = [
@@ -21,6 +22,7 @@ const HEALTH_TOOLS = [
   frontendApps.MESSAGING,
   frontendApps.LAB_AND_TEST_RESULTS,
   frontendApps.APPOINTMENTS,
+  frontendApps.DIRECT_DEPOSIT,
 ];
 
 const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
@@ -65,6 +67,9 @@ export const mhvToolName = appId => {
 
     case frontendApps.APPOINTMENTS:
       return 'VA Appointments';
+
+    case frontendApps.DIRECT_DEPOSIT:
+      return 'Direct Deposit';
 
     default: // Not a recognized health tool.
   }
@@ -141,6 +146,12 @@ export const toolUrl = (appId, index) => {
       return {
         url:
           '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
+        redirect: false,
+      };
+
+    case frontendApps.DIRECT_DEPOSIT:
+      return {
+        url: '/profile',
         redirect: false,
       };
 
@@ -225,6 +236,9 @@ export const serviceDescription = (appId, index) => {
 
     case frontendApps.VET_TEC:
       return 'apply for VET TEC';
+
+    case frontendApps.DIRECT_DEPOSIT:
+      return 'change your direct deposit information online';
 
     default:
       return 'use this service';
