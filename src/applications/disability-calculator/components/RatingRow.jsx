@@ -1,28 +1,29 @@
 import React from 'react';
 
-export const RatingRow = props => {
-  // componentDidMount() {
-  //     this.ratingInput.focus()
-  // }
+export const RatingRow = ({
+  ratingObj,
+  indx,
+  handleDescriptionChange,
+  handleRatingChange,
+  handleRemoveRating,
+  ratingRef,
+}) => {
+  const onRatingChange = e => {
+    const val = e.target.value;
+    const re = /^[0-9\b]+$/;
 
-  // componentDidUpdate() {
-  //     this.ratingInput.focus()
-  // }
-  const ratingObj = props.ratingObj;
-  const indx = props.indx;
-  const handleChange = props.handleChange;
-  const handleRemoveRating = props.handleRemoveRating;
-  const ratingRef = props.ratingRef;
+    if (re.test(val) || val === '') {
+      handleRatingChange(indx, val);
+    }
+  };
 
-  // eslint-disable-next-line no-console
-  // console.log(ratingObj);
   return (
     <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
         <input
           type="text"
           min="0"
-          onChange={e => !isNaN(e.target.value) && handleChange(e, indx)}
+          onChange={onRatingChange}
           className="ratingInput"
           maxLength="2"
           value={ratingObj.rating}
@@ -38,7 +39,7 @@ export const RatingRow = props => {
         <input
           className="descriptionInput"
           name="description"
-          onChange={e => handleChange(e, indx)}
+          onChange={e => handleDescriptionChange(indx, e.target.value)}
           value={ratingObj.description}
         />
       </div>
