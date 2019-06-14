@@ -21,7 +21,10 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
 
     return (
       <div>
-        <h2 id="our-patient-satisfaction-scores">
+        <h2
+          id="our-patient-satisfaction-scores"
+          className="vads-u-margin-top--4 vads-u-font-size--lg"
+        >
           Our patient satisfaction scores
         </h2>
         <p id="facility-patient-satisfaction-scores-effective-date">
@@ -32,7 +35,7 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           of Health and Systems survey, which measures satisfaction of nearly
           150,000 Veterans across the U.S. every 6 months.
         </p>
-        <h3>Urgent care appointments at this location</h3>
+        <h3 className="vads-u-font-size--md">Urgent care appointments at this location</h3>
         <p>
           % of Veterans who say they usually or always get an appointment when
           they need care right away
@@ -64,7 +67,7 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           </div>
         </div>
 
-        <h3>Routine care appointments at this location</h3>
+        <h3 className="vads-u-font-size--md">Routine care appointments at this location</h3>
         <p>
           % of Veterans who say they usually or always get an appointment when
           they need it
