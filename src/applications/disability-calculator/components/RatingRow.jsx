@@ -28,7 +28,6 @@ const RatingRow = ({
     <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
         <input
-          id={`rating-input-${indx}`}
           type="text"
           min="0"
           onChange={onRatingChange}
