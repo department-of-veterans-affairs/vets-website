@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import { calculateRating } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
@@ -57,12 +56,6 @@ export default class DisabilityRatingCalculator extends React.Component {
     const ratings = this.state.ratings;
     const calcRating = calculateRating(ratings);
 
-    console.log(`this.state: ${this.state.ratings}`);
-    console.log(
-      'Your VA disability rating is ',
-      calculateRating(this.state.ratings),
-      '%',
-    );
     this.setState({
       showCombinedRating: true,
       calculatedRating: calcRating,
@@ -70,7 +63,6 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleAddRating = () => {
-    console.log(this.state.ratings);
     const newRatings = [
       ...this.state.ratings,
       {
@@ -79,7 +71,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         canDelete: this.state.ratings.length > 1,
       },
     ];
-    this.setState({ ratings: newRatings }, () => console.log(this.state));
+    this.setState({ ratings: newRatings });
     setTimeout(() => {
       this.focus();
     }, 100);
