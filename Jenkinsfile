@@ -12,7 +12,9 @@ node('vetsgov-general-purpose') {
 
   // Checkout vets-website code
   dir("vets-website") {
-    checkout scm
+    thing = checkout scm
+		echo "${thing}"
+		exit 1
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
