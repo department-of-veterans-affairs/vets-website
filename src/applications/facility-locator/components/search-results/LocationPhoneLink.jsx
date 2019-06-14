@@ -7,10 +7,20 @@ const LocationPhoneLink = ({ location }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
 
   if (isProvider) {
+    const { phone } = location.attributes;
     return (
-      <p>
-        If you don’t have a referral, contact your local VA medical center.
-      </p>
+      <div>
+        {renderPhoneNumber(
+          'If you have a referral',
+          'Call this facility at',
+          phone,
+          'phone',
+          true,
+        )}
+        <p>
+          If you don’t have a referral, contact your local VA medical center.
+        </p>
+      </div>
     );
   }
 
