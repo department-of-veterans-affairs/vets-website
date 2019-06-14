@@ -45,13 +45,6 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingRef.current.focus();
   };
 
-  inputFocus = () => {
-    if (this.state.ratings.length === 2) {
-      setTimeout(() => {
-        this.focus();
-      }, 100);
-    }
-  };
   // eslint-disable-next-line consistent-return
   handleChange = (e, idx) => {
     const curRatings = this.state.ratings;
