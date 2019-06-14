@@ -26,11 +26,23 @@ module.exports = function registerFilters() {
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
+  liquid.filters.unixFromDate = data => new Date(data).getTime();
+
+  liquid.filters.currentUnixFromDate = () => {
+    const time = new Date();
+    return time.getTime();
+  };
+
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
 
   liquid.filters.modulo = item => item % 2;
+
+  liquid.filters.listValue = data => {
+    const string = data.split('_').join(' ');
+    return string;
+  };
 
   liquid.filters.fileType = data => {
     const string = data
@@ -59,6 +71,41 @@ module.exports = function registerFilters() {
   liquid.filters.videoThumbnail = data => {
     const string = data.split('?v=')[1];
     return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
+  };
+
+  liquid.filters.outputLinks = data => {
+    let replacedText;
+
+    // URLs starting with http://, https://, or ftp://
+    const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
+    replacedText = data.replace(
+      replacePattern1,
+      '<a href="$1" target="_blank">$1</a>',
+    );
+
+    // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    const replacePattern2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(
+      replacePattern2,
+      '$1<a href="http://$2" target="_blank">$2</a>',
+    );
+
+    // Change email addresses to mailto:: links.
+    const replacePattern3 = /(([a-zA-Z0-9\-_.])+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(
+      replacePattern3,
+      '<a target="_blank" href="mailto:$1">$1</a>',
+    );
+
+    // Change phone to tap to dial.
+    const replacePattern4 = /(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/;
+    const number = replacedText.match(replacePattern4)[0];
+    replacedText = replacedText.replace(
+      replacePattern4,
+      `<a href="tel:${number}">Phone: ${number}</a>`,
+    );
+
+    return replacedText;
   };
 
   liquid.filters.breakTerms = data => {
