@@ -30,7 +30,7 @@ const ratingArray = [
 //     description: 'ears',
 //   },
 // ];
-describe('Disabilty  Caclulator helper', () => {
+describe('Disability  Caclulator helper', () => {
   it('should return an array with length of two elements', () => {
     const result = calculateRating(ratingArray);
     expect(result)
