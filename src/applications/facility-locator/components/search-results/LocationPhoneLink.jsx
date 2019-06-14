@@ -7,23 +7,9 @@ const LocationPhoneLink = ({ location }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
 
   if (isProvider) {
-    const { phone, schedPhone = '866-606-8198' } = location.attributes;
     return (
       <div>
-        {renderPhoneNumber(
-          'If you have a referral',
-          'Call this facility at',
-          phone,
-          'phone',
-          true,
-        )}
-        {renderPhoneNumber(
-          "If you don't have a referral",
-          'Call the VA Medical Center at',
-          schedPhone,
-          null,
-          true,
-        )}
+        If you don’t have a referral, contact your local VA medical center
       </div>
     );
   }
