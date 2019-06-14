@@ -6,20 +6,15 @@ export function focusElement(selectorOrElement, options) {
     typeof selectorOrElement === 'string'
       ? document.querySelector(selectorOrElement)
       : selectorOrElement;
-  let prevTabIdx = null;
 
   if (el) {
-    prevTabIdx = el.getAttribute('tabindex');
-    if (prevTabIdx && prevTabIdx <= 0) {
+    if (el.tabIndex === 0) {
+      el.setAttribute('tabindex', '0');
+    }
+    if (el.tabIndex < 0) {
       el.setAttribute('tabindex', '-1');
     }
     el.focus(options);
-    // restore previous tab-index to re-enable kybd-focus
-    if (prevTabIdx) {
-      el.setAttribute('tabindex', prevTabIdx);
-    } else {
-      el.removeAttribute('tabindex');
-    }
   }
 }
 

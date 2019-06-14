@@ -83,6 +83,7 @@
   {% endif %}
 {% endif %}
 <div class="interior" id="content">
+
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
         {% if entityUrl.path contains "/outreach-and-events" %}
@@ -103,6 +104,10 @@
         <article class="usa-content">
           <div class="usa-grid usa-grid-full">
             <h1>{{ title }}</h1>
+            {% if fieldMedia %}
+            <img alt="{{fieldMedia.entity.image.alt}}"
+              src="{{fieldMedia.entity.image.derivative.url}}" />
+            {% endif %}
             <div class="va-introtext">
               <p>{{ fieldDescription }}</p>
             </div>
@@ -130,19 +135,36 @@
                 </dd>
               </dl>
 
-              <dl>
+              <dl class="va-c-event-info">
                 <dt class="vads-u-font-weight--bold">Where:</dt>
                 <dd>
+                  {% if facility %}
                   <p class="vads-u-margin--0">
                     <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
                   </p>
                   <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}</p>
+                  {% else %}
+                  {% if fieldAddress.addressLine1 %}
+                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
+                  {% endif %}
+                  {% if fieldAddress.addressLine2 %}
+                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}</p>
+                  {% endif %}
+                  <p class="vads-u-margin--0">
+                    {% if fieldAddress.locality %}
+                    {{ fieldAddress.locality }}
+                    {% endif %}
+                    {% if fieldAddress.administrativeArea %}
+                    , {{ fieldAddress.administrativeArea }}
+                    {% endif %}
+                  </p>
+                  {% endif %}
                 </dd>
 
               </dl>
 
               {% if fieldEventCost %}
-                <dl>
+                <dl class="va-c-event-info">
                   <dt class="vads-u-font-weight--bold">Cost:</dt>
                   <dd>
                     <span>{{ fieldEventCost }}</span>
@@ -151,17 +173,21 @@
               {% endif %}
             </div>
 
-                        <div class="usa-width-one-half va-c-event-share">
-                            {% include "src/site/includes/social-share.drupal.liquid" %}
-                        </div>
-                    </div>
+                <div class="usa-width-one-half va-c-event-share">
+                    {% include "src/site/includes/social-share.drupal.liquid" %}
+                </div>
+            </div>
 
-          {% if fieldAdditionalInformationAbo %}
             <div class="registration">
               <p class="vads-u-font-weight--bold">Registration</p>
+              {% if fieldLink %}
+              <p><a href="{{ fieldLink.url.path }}">{{fieldEventCta | capitalize}}</a></p>
+              {% endif %}
+              {% if fieldAdditionalInformationAbo %}
               <p>{{ fieldAdditionalInformationAbo }}</p>
+              {% endif %}
             </div>
-          {% endif %}
+
 
           <div class="usa-grid usa-grid-full">
             <div class="event-description">

@@ -21,6 +21,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['isActiveDuty'],
   properties: {
     isActiveDuty,
     'view:housingPaymentInfo': {

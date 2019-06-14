@@ -99,6 +99,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           startText="Submit Your Feedback"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

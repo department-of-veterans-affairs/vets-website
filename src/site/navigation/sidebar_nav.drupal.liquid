@@ -20,7 +20,7 @@
                     {% for link in link.links %}
                         <li>
                             <button class="usa-accordion-button"
-                                    {% if deepLinksString == "false" and forloop.index == 1 %}
+                                    {% if deepLinksString == "false" and forloop.first == true %}
                                         aria-expanded="true"
                                     {% else %}
                                         aria-expanded="false"
