@@ -1,7 +1,7 @@
 import React from 'react';
 import { calculateRating } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
-import { RatingRow } from './RatingRow';
+import RatingRow from './RatingRow';
 import '../sass/disability-calculator.scss';
 
 const defaultRatings = [
@@ -25,26 +25,21 @@ export default class DisabilityRatingCalculator extends React.Component {
       calculatedRating: 0,
     };
 
-    this.ratingRef = React.createRef();
-    this.focus = this.focus.bind(this);
+    this.ratingInputRefs = [];
   }
 
   componentDidMount() {
-    if (this.state.ratings === 2) {
-      setTimeout(() => {
-        this.focus();
-      }, 100);
-    }
-    this.ratingRef.current.focus();
+    this.focusFirstInput();
   }
 
-  focus = () => {
-    this.ratingRef.current.focus();
+  setRef = ref => {
+    if (ref) this.ratingInputRefs.push(ref);
   };
 
-  handleClick = () => {
-    this.ratingRef.current.focus();
-  };
+  focusFirstInput = () => this.ratingInputRefs[0].focus();
+
+  focusLastRatingInput = () =>
+    this.ratingInputRefs[this.ratingInputRefs.length - 1].focus();
 
   handleRowChange = (index, updatedRow) => {
     const ratings = this.state.ratings;
@@ -68,22 +63,17 @@ export default class DisabilityRatingCalculator extends React.Component {
       {
         rating: '',
         description: '',
-        canDelete: this.state.ratings.length > 1,
       },
     ];
-    this.setState({ ratings });
-    setTimeout(() => {
-      this.focus();
-    }, 100);
+
+    this.setState({ ratings }, this.focusLastRatingInput);
   };
 
   handleRemoveRating = idx => () => {
-    this.setState({
-      ratings: this.state.ratings.filter((s, sidx) => idx !== sidx),
-    });
-    setTimeout(() => {
-      this.focus();
-    }, 100);
+    const ratings = this.state.ratings;
+    this.ratingInputRefs.pop();
+    ratings.splice(idx, 1);
+    this.setState({ ratings }, this.focusLastRatingInput);
   };
 
   showRating = () => {
@@ -93,12 +83,14 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   clearAll = () => {
-    this.setState({
-      ratings: [...defaultRatings],
-      calculatedRating: 0,
-      showCombinedRating: false,
-    });
-    this.focus();
+    this.setState(
+      {
+        ratings: [...defaultRatings],
+        calculatedRating: 0,
+        showCombinedRating: false,
+      },
+      () => this.ratingInputRefs[0].focus(),
+    );
   };
 
   render() {
@@ -136,6 +128,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               ratingRef={this.ratingRef}
               handleRemoveRating={this.handleRemoveRating}
               canDelete={idx > 1}
+              ref={this.setRef}
             />
           ))}
           <div className="vads-l-row">

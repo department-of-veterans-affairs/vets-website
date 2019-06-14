@@ -1,11 +1,11 @@
 import React from 'react';
 
-export const RatingRow = ({
+const RatingRow = ({
   ratingObj,
   indx,
   handleChange,
   handleRemoveRating,
-  ratingRef,
+  inputRef,
   canDelete,
 }) => {
   const onRatingChange = e => {
@@ -28,18 +28,16 @@ export const RatingRow = ({
     <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
         <input
+          id={`rating-input-${indx}`}
           type="text"
           min="0"
           onChange={onRatingChange}
           className="ratingInput"
           maxLength="2"
           value={ratingObj.rating}
-          //   ref={input => (this.ratingInput = input)}
           pattern="\d+"
-          // pattern="/^[0-9\b]+$/;"
           name="rating"
-          ref={ratingRef}
-          // autoFocus
+          ref={inputRef}
         />
       </div>
       <div className="vads-l-col--8">
@@ -67,3 +65,7 @@ export const RatingRow = ({
     </div>
   );
 };
+
+export default React.forwardRef((props, ref) => (
+  <RatingRow inputRef={ref} {...props} />
+));
