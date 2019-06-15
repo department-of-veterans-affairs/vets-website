@@ -9,12 +9,12 @@ node('vetsgov-general-purpose') {
               parameters([choice(name: "cmsEnvBuildOverride",
                                  description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
                                  choices: ["none", "dev", "staging"].join("\n"))])]);
-  def github = GitHub.connect()
+  // def github = GitHub.connect()
 	
   // Checkout vets-website code
   dir("vets-website") {
     gitStuff = checkout scm
-		status = github.getRepository('department-of-veterans-affairs/vets-website').getCommit(gitStuff.GIT_COMMIT).getLastStatus().getState()
+		status = GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').getCommit(gitStuff.GIT_COMMIT).getLastStatus().getState()
 		echo "${status}"
 		echo "${thing}"
 		exit 1
