@@ -4,7 +4,7 @@ import org.kohsuke.github.GHCommitState
 
 env.CONCURRENCY = 10
 
-
+try {
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
@@ -19,7 +19,7 @@ node('vetsgov-general-purpose') {
 		GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').createCommitStatus(gitStuff.GIT_COMMIT, GHCommitState.SUCCESS, "${BUILD_URL}", "Nice work!", "continuous-integration/jenkins/branch")
 		echo "${status}"
 		// echo "${thing}"
-		return 1
+		error("its over!")
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
@@ -143,4 +143,7 @@ node('vetsgov-general-purpose') {
       throw error
     }
   }
+}
+} finally {
+		GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').createCommitStatus(gitStuff.GIT_COMMIT, GHCommitState.SUCCESS, "${BUILD_URL}", "Nice work!", "continuous-integration/jenkins/branch")
 }
