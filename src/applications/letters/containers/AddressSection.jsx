@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import Raven from 'raven-js';
+import Sentry from '@sentry/browser';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import {
@@ -73,7 +73,7 @@ export class AddressSection extends React.Component {
       if (emptyAddress && this.props.canUpdate) {
         this.props.editAddress();
       } else if (emptyAddress && !this.props.canUpdate) {
-        Raven.captureMessage('letters_empty_address_update_not_allowed');
+        Sentry.captureMessage('letters_empty_address_update_not_allowed');
       }
     }
   }
