@@ -19,7 +19,7 @@ node('vetsgov-general-purpose') {
 		GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').createCommitStatus(gitStuff.GIT_COMMIT, GHCommitState.SUCCESS, "${BUILD_URL}", "Nice work!", "continuous-integration/jenkins/branch")
 		echo "${status}"
 		// echo "${thing}"
-		exit 1
+		return 1
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
