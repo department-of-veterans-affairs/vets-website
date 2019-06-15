@@ -14,7 +14,7 @@ node('vetsgov-general-purpose') {
   // Checkout vets-website code
   dir("vets-website") {
     gitStuff = checkout scm
-		status = github.getRepository('department-of-veterans-affairs/vets-website').getCommit(gitStuff.GIT_COMMIT).getLastStatus()
+		status = github.getRepository('department-of-veterans-affairs/vets-website').getCommit(gitStuff.GIT_COMMIT).getLastStatus().getState()
 		echo "${status}"
 		echo "${thing}"
 		exit 1
