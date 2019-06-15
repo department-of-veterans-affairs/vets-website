@@ -101,6 +101,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@sentry/browser": "^5.4.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
     "autoprefixer": "^9.5.1",
