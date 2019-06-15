@@ -15,7 +15,7 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     gitStuff = checkout scm
 		status = GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').getCommit(gitStuff.GIT_COMMIT).getLastStatus().getState()
-		GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').createCommitStatus(gitStuff.GIT_COMMIT, GHCommitState.SUCCESS, "${BUILD_URL}", "Nice work!")
+		GitHub.connect().getRepository('department-of-veterans-affairs/vets-website').createCommitStatus(gitStuff.GIT_COMMIT, SUCCESS, "${BUILD_URL}", "Nice work!")
 		echo "${status}"
 		echo "${thing}"
 		exit 1
