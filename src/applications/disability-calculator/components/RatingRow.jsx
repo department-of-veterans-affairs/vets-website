@@ -39,7 +39,7 @@ const RatingRow = ({
           ref={inputRef}
         />
       </div>
-      <div className="vads-l-col--8">
+      <div className="vads-l-col--6">
         <input
           className="descriptionInput"
           name="description"
@@ -47,7 +47,7 @@ const RatingRow = ({
           value={ratingObj.description}
         />
       </div>
-      <div className="vads-l-col--2">
+      <div className="vads-l-col--3">
         {canDelete && (
           <div>
             <button
