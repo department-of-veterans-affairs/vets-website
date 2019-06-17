@@ -25,10 +25,14 @@ const HCAStatusAlert = ({ applicationDate, enrollmentStatus, onRemove }) => {
 
   if (isShowingConfirmation) {
     return (
-      <AlertBox
-        headline="Are you sure you want to permanently remove this notification?"
-        status="warning"
-      >
+      <AlertBox status="warning">
+        <h3
+          className="usa-alert-heading"
+          tabIndex="-1"
+          ref={el => el && el.focus()}
+        >
+          Are you sure you want to permanently remove this notification?
+        </h3>
         <p>
           Please confirm that you want to remove this notification from your{' '}
           <strong>My VA</strong> dashboard. Removing it won’t affect the status
