@@ -1,8 +1,6 @@
 import React from 'react';
-// import { calculateRating } from '../utils/helpers';
 
 export const CalculatedDisabilityRating = props => {
-  // const calculatedRating = props.calculatedRating;
   const displayRating = props.calculatedRating[0];
   const actualRating = props.calculatedRating[1];
 

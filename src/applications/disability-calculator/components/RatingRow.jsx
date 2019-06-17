@@ -37,6 +37,7 @@ const RatingRow = ({
           pattern="\d+"
           name="rating"
           ref={inputRef}
+          aria-labelledby="ratingLabel"
         />
       </div>
       <div className="vads-l-col--6">
@@ -45,6 +46,7 @@ const RatingRow = ({
           name="description"
           onChange={onDescriptionChange}
           value={ratingObj.description}
+          aria-labelledby="descriptionLabel"
         />
       </div>
       <div className="vads-l-col--3">
