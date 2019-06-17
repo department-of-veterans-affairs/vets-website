@@ -87,20 +87,6 @@ module.exports = function registerFilters() {
       .split(' ')
       .join('-');
 
-  liquid.filters.paragraphsToWidgets = paragraphs =>
-    paragraphs
-      .filter(
-        paragraph =>
-          paragraph.entity.entityBundle === 'react_widget' &&
-          paragraph.entity.fieldCtaWidget === false,
-      )
-      .map((paragraph, index) => ({
-        root: `react-widget-${index + 1}`,
-        timeout: paragraph.entity.fieldTimeout,
-        loadingMessage: paragraph.entity.fieldLoadingMessage,
-        errorMessage: paragraph.entity.errorMessage,
-      }));
-
   liquid.filters.facilityIds = facilities =>
     facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
 

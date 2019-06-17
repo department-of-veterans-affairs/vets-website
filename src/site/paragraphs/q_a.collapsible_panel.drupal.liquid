@@ -31,15 +31,7 @@
           <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
             <div itemprop="text">
 
-              {% assign widgetDelta = 20 %}
-
               {% for answer in item.fieldAnswer %}
-
-                {% if answer.entity.entityBundle == 'react_widget' and answer.entity.fieldCtaWidget == false %}
-                  {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
-                  {% assign answer.entity.reactRoot = reactRoot %}
-                  {% assign widgetDelta = widgetDelta | plus: 1 %}
-                {% endif %}
 
                 {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
                   {% include {{ bundleComponent }} with entity = answer.entity %}
