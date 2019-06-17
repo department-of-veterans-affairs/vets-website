@@ -12,7 +12,6 @@ function pullRatingsFromState(arr) {
   return allRatings;
 }
 
-// eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
   const sortedArr = ratingArr.sort((a, b) => b - a);
@@ -37,6 +36,7 @@ export function calculateRating(arr) {
     }
     return [result, actualRating];
   }
+  return [undefined, undefined];
 }
 // will return array with two elements. first element in array is rounded rating
 // and second element is the actual rating
