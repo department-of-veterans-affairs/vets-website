@@ -1,5 +1,5 @@
 import React from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';

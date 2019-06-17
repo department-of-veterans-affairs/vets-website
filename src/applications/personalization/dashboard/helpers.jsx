@@ -1,5 +1,5 @@
 import React from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';

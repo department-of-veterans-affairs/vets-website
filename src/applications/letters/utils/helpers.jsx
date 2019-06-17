@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';

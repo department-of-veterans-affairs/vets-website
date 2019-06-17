@@ -1,5 +1,5 @@
 import React from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import {

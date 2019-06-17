@@ -1,6 +1,6 @@
 import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 /**

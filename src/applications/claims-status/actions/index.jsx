@@ -1,5 +1,5 @@
 import React from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';

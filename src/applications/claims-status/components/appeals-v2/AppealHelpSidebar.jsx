@@ -1,5 +1,5 @@
 import React from 'react';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
 

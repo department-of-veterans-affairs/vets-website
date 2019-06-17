@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';

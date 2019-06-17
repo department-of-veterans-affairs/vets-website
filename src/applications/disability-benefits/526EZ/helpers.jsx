@@ -1,6 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
