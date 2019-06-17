@@ -2,7 +2,29 @@ import { expect } from 'chai';
 
 import mountWidgets from '../../../site/assets/js/static-page-widgets';
 
-describe('static page widget', () => {
+const widgetContent = `
+<div data-widget-type="pension-app-status" data-widget-timeout="20">
+  <div class="loading-indicator-container">
+    <div class="loading-indicator" role="progressbar" aria-valuetext="Checking your application status."></div>
+      <span class="loading-indicator-message loading-indicator-message--normal">
+        Checking your application status.
+      </span>
+      <span class="loading-indicator-message loading-indicator-message--slow vads-u-display--none" aria-hidden="true">
+        Sorry, this is taking longer than expected.
+      </span>
+    </div>
+    <span class="static-widget-content vads-u-display--none" aria-hidden="true">
+     <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
+    </span>
+    <div class="usa-alert usa-alert-error sip-application-error vads-u-display--none" aria-hidden="true">
+     <div class="usa-alert-body">
+     <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br>Please try refreshing your browser in a few minutes.
+   </div>
+  </div>
+</div>
+`;
+
+describe.only('static page widget', () => {
   it('should display a spinner', () => {
     const widget = {
       root: 'testRoot',
