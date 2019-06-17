@@ -30,7 +30,7 @@ export function calculateRating(arr) {
     const lastCalcualtedRating = sortedArr[0];
     let result = roundRating(lastCalcualtedRating);
 
-    const actualRating = Number.parseFloat(lastCalcualtedRating).toFixed(2);
+    const actualRating = Number(parseFloat(lastCalcualtedRating).toFixed(2));
     if (result > 100) {
       result = 100;
     }
