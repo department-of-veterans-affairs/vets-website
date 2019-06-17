@@ -1,6 +1,11 @@
 const moment = require('moment');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
+const _ = require('lodash');
+
+function getPath(obj) {
+  return obj.path;
+}
 
 module.exports = function registerFilters() {
   const {
@@ -27,19 +32,26 @@ module.exports = function registerFilters() {
 
   liquid.filters.modulo = item => item % 2;
 
-  liquid.filters.fileType = data =>
-    data
+  liquid.filters.fileType = data => {
+    const string = data
       .split('.')
       .slice(-1)
-      .pop()
-      .toUpperCase();
+      .pop();
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  liquid.filters.fileExt = data => {
+    const string = data
+      .split('.')
+      .slice(-1)
+      .pop();
+    return string;
+  };
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
-    if (data !== '') {
-      data.forEach(element => {
-        output += `data-${element} `;
-      });
+    if (data != null) {
+      output = `data-${data} `;
     }
     return output;
   };
@@ -51,7 +63,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.breakTerms = data => {
     let output = '';
-    if (data !== '') {
+    if (data != null) {
       const count = data.length;
       data.forEach((element, index) => {
         if (index < count - 1) {
@@ -197,4 +209,21 @@ module.exports = function registerFilters() {
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
   liquid.filters.isContactPage = path => path.includes('contact');
+
+  // check is this is a root level page
+  liquid.filters.isRootPage = path => {
+    const isFacilityRoot = /^(?:\/pittsburgh-health-care)+$|^(?:\/pittsburgh-health-care)\/((?!stories|events|locations|press-releases|health-services|jobs-careers).)*$/;
+    const isRoot = /^\/[\w-]+$/;
+    return isRoot.test(path) || isFacilityRoot.test(path);
+  };
+
+  // check if this is an about menu page
+  liquid.filters.isAboutItem = (menuArray, path) => {
+    const paths = _.flatMap(menuArray, getPath);
+    const inMenu = _.indexOf(paths, path);
+    return inMenu !== -1;
+  };
+
+  // sort a list of objects by a certain property in the object
+  liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 };

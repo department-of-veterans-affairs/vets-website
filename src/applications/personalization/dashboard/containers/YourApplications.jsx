@@ -15,24 +15,20 @@ import {
   isLoadingDismissedNotification,
   selectEnrollmentStatus,
 } from 'applications/hca/selectors';
-import {
-  getAlertContent,
-  getAlertStatusHeadline,
-  getAlertStatusInfo,
-  getAlertType,
-} from 'applications/hca/enrollment-status-helpers';
 
-import DashboardAlert from '../components/DashboardAlert';
 import FormItem from '../components/FormItem';
+import HCAStatusAlert from '../components/HCAStatusAlert';
 import { isSIPEnabledForm, sipFormSorter } from '../helpers';
 
 class YourApplications extends React.Component {
   componentDidMount() {
-    this.props.getEnrollmentStatus();
-    this.props.getDismissedHCANotification();
+    if (this.props.profileState.verified) {
+      this.props.getEnrollmentStatus();
+      this.props.getDismissedHCANotification();
+    }
   }
 
-  dismissHCANotification() {
+  dismissHCANotification = () => {
     const {
       enrollmentStatus,
       enrollmentStatusEffectiveDate,
@@ -41,22 +37,7 @@ class YourApplications extends React.Component {
       enrollmentStatus,
       enrollmentStatusEffectiveDate,
     );
-  }
-
-  renderHCAStatusAlert({ applicationDate, enrollmentStatus }) {
-    return (
-      <DashboardAlert
-        status={getAlertType(enrollmentStatus)}
-        headline="Application for health care"
-        subheadline="FORM 10-10EZ"
-        statusHeadline={getAlertStatusHeadline(enrollmentStatus)}
-        statusInfo={getAlertStatusInfo(enrollmentStatus)}
-        content={getAlertContent(enrollmentStatus, applicationDate, () => {
-          this.dismissHCANotification();
-        })}
-      />
-    );
-  }
+  };
 
   render() {
     const {
@@ -74,11 +55,38 @@ class YourApplications extends React.Component {
         {savedForms.map(form => (
           <FormItem key={form.form} savedFormData={form} />
         ))}
-        {shouldRenderHCAAlert && this.renderHCAStatusAlert(hcaEnrollmentStatus)}
+        {shouldRenderHCAAlert && (
+          <HCAStatusAlert
+            applicationDate={hcaEnrollmentStatus.applicationDate}
+            enrollmentStatus={hcaEnrollmentStatus.enrollmentStatus}
+            onRemove={this.dismissHCANotification}
+          />
+        )}
       </div>
     );
   }
 }
+
+YourApplications.propTypes = {
+  getDismissedHCANotification: PropTypes.func.isRequired,
+  getEnrollmentStatus: PropTypes.func.isRequired,
+  setDismissedHCANotification: PropTypes.func.isRequired,
+  hcaEnrollmentStatus: PropTypes.shape({
+    enrollmentStatus: PropTypes.string,
+    applicationDate: PropTypes.string,
+  }),
+  savedForms: PropTypes.arrayOf(
+    PropTypes.shape({
+      form: PropTypes.string.required,
+      metadata: PropTypes.shape({
+        lastUpdated: PropTypes.number,
+        expiresAt: PropTypes.number,
+      }),
+    }),
+  ),
+  shouldRenderContent: PropTypes.bool.isRequired,
+  shouldRenderHCAAlert: PropTypes.bool,
+};
 
 export const mapStateToProps = state => {
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
@@ -102,31 +110,11 @@ export const mapStateToProps = state => {
 
   return {
     hcaEnrollmentStatus,
+    profileState,
     savedForms: verifiedSavedForms,
     shouldRenderContent,
     shouldRenderHCAAlert,
   };
-};
-
-YourApplications.propTypes = {
-  getDismissedHCANotification: PropTypes.func.isRequired,
-  getEnrollmentStatus: PropTypes.func.isRequired,
-  setDismissedHCANotification: PropTypes.func.isRequired,
-  hcaEnrollmentStatus: PropTypes.shape({
-    enrollmentStatus: PropTypes.string,
-    applicationDate: PropTypes.string,
-  }),
-  savedForms: PropTypes.arrayOf(
-    PropTypes.shape({
-      form: PropTypes.string.required,
-      metadata: PropTypes.shape({
-        lastUpdated: PropTypes.number,
-        expiresAt: PropTypes.number,
-      }),
-    }),
-  ),
-  shouldRenderContent: PropTypes.bool.isRequired,
-  shouldRenderHCAAlert: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

@@ -359,15 +359,21 @@ export function getFAQBlock1(enrollmentStatus) {
           </h4>
           <p>
             To update your information, please submit a Health Benefits Update
-            Form (VA Form 10-10EZR).{' '}
+            Form (VA Form 10-10EZR).
+          </p>
+          <p>
             <a href="/health-care/update-health-information/">
               Find out how to submit VA Form 10-10EZR
             </a>
             .
           </p>
           <p>
-            <strong>Note:</strong> Please don’t submit a new VA health care
-            application to update your information.
+            Or you can update your address and other contact information in your
+            VA.gov profile. This will update your information across several VA
+            benefits and services.
+          </p>
+          <p>
+            <a href="/profile">Go to your profile to update your address</a>.
           </p>
         </>
       );
@@ -944,7 +950,7 @@ export function getAlertContent(
   const removeNotificationButton = (
     <button
       className="va-button-link remove-notification-link"
-      aria-label={`Dismiss health care application status notification`}
+      aria-label="Remove this notification about my healthcare application status"
       onClick={dismissNotification}
       key="dismiss-notification-button"
     >

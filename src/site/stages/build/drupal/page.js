@@ -140,20 +140,28 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
 
 // Generate breadcrumbs from drupal page path
 function generateBreadCrumbs(pathString) {
-  const pathArray = _.split(pathString, '/');
+  const pathArray = pathString.split('/');
   const entityUrlObj = createEntityUrlObj(pathString);
+  let previous = '';
+  let trimmedValue;
   for (const value of pathArray) {
+    trimmedValue = _.trim(value, '/');
     if (value) {
+      const dehandlized =
+        value === 'pittsburgh-health-care'
+          ? 'VA Pittsburgh health care'
+          : _.startCase(_.trim(value, '-'));
       entityUrlObj.breadcrumb.push({
         url: {
-          path: `/${value}`,
+          path: `${previous}${value}`,
           routed: true,
         },
-        text: _.startCase(_.trim(value, '-')),
+        text: dehandlized,
       });
     }
+    previous += `${trimmedValue}/`;
   }
-  entityUrlObj.breadcrumb.pop();
+
   return entityUrlObj;
 }
 
@@ -177,6 +185,7 @@ function compilePage(page, contentData) {
     data: {
       healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
       recordsHubSidebarQuery: recordsHubSidebarNav = {},
+      pensionHubSidebarQuery: pensionHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -189,7 +198,11 @@ function compilePage(page, contentData) {
     owner = _.toLower(page.fieldAdministration.entity.name);
   }
   // Benefits hub side navs in an array to loop through later
-  const sideNavs = [healthcareHubSidebarNav, recordsHubSidebarNav];
+  const sideNavs = [
+    healthcareHubSidebarNav,
+    recordsHubSidebarNav,
+    pensionHubSidebarNav,
+  ];
   let sidebarNavItems;
 
   const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
@@ -200,6 +213,7 @@ function compilePage(page, contentData) {
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
+  page.entityUrl = generateBreadCrumbs(entityUrl.path);
   let pageCompiled;
 
   switch (entityBundle) {
@@ -262,7 +276,6 @@ function compilePage(page, contentData) {
       break;
     case 'event': {
       // eslint-disable-next-line no-param-reassign
-      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -273,7 +286,6 @@ function compilePage(page, contentData) {
       break;
     }
     case 'person_profile':
-      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -285,6 +297,7 @@ function compilePage(page, contentData) {
     default:
       // Get the right benefits hub sidebar
       sidebarNavItems = getHubSidebar(sideNavs, owner);
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
 
       // Build page with correct sidebar
       pageCompiled = Object.assign(
@@ -307,4 +320,5 @@ module.exports = {
   paginatePages,
   createEntityUrlObj,
   updateEntityUrlObj,
+  generateBreadCrumbs,
 };

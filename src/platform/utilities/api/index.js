@@ -57,6 +57,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (response.ok || response.status === 304) {
+        // Get session expiration from header
         const sessionExpiration = response.headers.get('X-Session-Expiration');
         if (sessionExpiration)
           localStorage.setItem('sessionExpiration', sessionExpiration);
@@ -67,8 +68,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         const { pathname } = window.location;
         const shouldRedirectToSessionExpired =
           response.status === 401 &&
-          resource !== '/user' &&
-          !pathname.includes('auth/login/callback');
+          !pathname.includes('auth/login/callback') &&
+          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSessionExpired) {
           window.location = '/session-expired';

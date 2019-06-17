@@ -6,7 +6,7 @@
         {% for link in sidebar.links %}
             {% if forloop.first == true %}
                 <div class="left-side-nav-title">
-                    <i class="icon-small white hub-icon-{{ link.label | handleize }} hub-background-{{ link.label | handleize }}"></i>
+                    <i class="icon-small white hub-icon-{{ link.label | handleize | remove: "-benefits" }} hub-background-{{ link.label | handleize | remove: "-benefits" }}"></i>
                     <h4>{{ link.label }}</h4>
                 </div>
 
@@ -19,7 +19,15 @@
                     <ul class="usa-accordion">
                     {% for link in link.links %}
                         <li>
-                            <button class="usa-accordion-button" aria-expanded="false" aria-controls="a{{ forloop.index }}">{{ link.label }}</button>
+                            <button class="usa-accordion-button"
+                                    {% if deepLinksString == "false" and forloop.first == true %}
+                                        aria-expanded="true"
+                                    {% else %}
+                                        aria-expanded="false"
+                                    {% endif %}
+                                    aria-controls="a{{ forloop.index }}">
+                                {{ link.label }}
+                            </button>
                             <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
                                 {% assign listSize = link.links | size %}
                                 {% if listSize > 0 %}

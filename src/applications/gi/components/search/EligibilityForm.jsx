@@ -13,6 +13,7 @@ export class EligibilityForm extends React.Component {
     this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
   }
 
+  // This will be enabled via story https://app.zenhub.com/workspaces/vft-59c95ae5fda7577a9b3184f8/issues/department-of-veterans-affairs/vets.gov-team/18639
   cumulativeServiceOptions = () => {
     if (environment.isProduction()) {
       return [

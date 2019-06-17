@@ -68,17 +68,16 @@ class PaymentInformation extends React.Component {
     }
 
     const { paymentInformation } = this.props;
-    const directDepositNotSetup = !get(
-      'responses[0].paymentAccount.accountNumber',
-      paymentInformation,
-    );
+    const directDepositNotSetup =
+      paymentInformation &&
+      !get('responses[0].paymentAccount.accountNumber', paymentInformation);
 
     let content = null;
 
-    if (paymentInformation.error) {
-      content = <LoadFail information="payment" />;
-    } else if (!this.props.multifactorEnabled) {
+    if (!this.props.multifactorEnabled) {
       content = <PaymentInformation2FARequired />;
+    } else if (paymentInformation.error) {
+      content = <LoadFail information="payment" />;
     } else if (directDepositNotSetup) {
       content = (
         <PaymentInformationAddLink onClick={this.props.editModalToggled} />
@@ -181,7 +180,10 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 const mapStateToProps = state => ({
   multifactorEnabled: isMultifactorEnabled(state),
   isEligible: isEvssAvailable(state),
-  isLoading: !state.vaProfile.paymentInformation,
+  isLoading:
+    isEvssAvailable(state) &&
+    isMultifactorEnabled(state) &&
+    !state.vaProfile.paymentInformation,
   paymentInformation: state.vaProfile.paymentInformation,
   paymentInformationUiState: state.vaProfile.paymentInformationUiState,
 });

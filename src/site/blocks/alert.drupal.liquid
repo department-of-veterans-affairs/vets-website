@@ -34,6 +34,12 @@
     {% if alert.fieldHelpText %}
       <p>{{ alert.fieldHelpText }}</p>
     {% endif %}
+
+    {% if expander.fieldTextExpander == empty %}
+        {{ expander.fieldWysiwyg.processed }}
+    {% endif %}
+
+
     {% if expander.fieldTextExpander %}
 
       {% comment %}

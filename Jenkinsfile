@@ -58,7 +58,7 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  commonStages.build(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
   stage('Integration') {
@@ -95,6 +95,7 @@ node('vetsgov-general-purpose') {
   commonStages.prearchive(dockerContainer)
 
   commonStages.archive(dockerContainer, ref);
+  commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
@@ -129,6 +130,7 @@ node('vetsgov-general-purpose') {
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
         commonStages.runDeploy('deploys/vets-website-vagovstaging', ref)
       }
+
     } catch (error) {
       commonStages.slackNotify()
       throw error

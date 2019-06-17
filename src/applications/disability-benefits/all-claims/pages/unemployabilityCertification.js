@@ -9,7 +9,7 @@ export const uiSchema = {
     'ui:title': unemployabilityPageTitle('Certification'),
     'view:statementsAreTrue': {
       'ui:title':
-        'I certify that because of my service-connected disabilities, I’m unable to hold down a steady job and that the statements in this claim are true and complete to the best of my knowledge and belief. I understand that these statements will be considered in deciding my eligibility for Individual Unemployability benefits.',
+        'I certify that because of my service-connected disabilities, I’m unable to hold down a steady job and that the statements in my application are true and complete to the best of my knowledge and belief. I understand that these statements will be considered in deciding my eligibility for Individual Unemployability benefits.',
       'view:statementsAreTrueAccept': {
         'ui:title': 'I accept',
       },

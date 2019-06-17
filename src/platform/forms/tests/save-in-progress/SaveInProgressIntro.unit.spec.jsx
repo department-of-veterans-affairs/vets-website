@@ -179,7 +179,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Sign in to Start Your Application',
     );
     expect(tree.find('.va-button-link').text()).to.contain(
-      'Start your application without signing in.',
+      'Start your application without signing in',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();

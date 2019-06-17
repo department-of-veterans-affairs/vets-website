@@ -2,10 +2,6 @@ import React from 'react';
 
 import CallToActionWidget from '../../../platform/site-wide/cta-widget';
 import CallHRC from '../../../platform/static-data/CallHRC';
-import environment from '../../../platform/utilities/environment';
-
-import EducationWizard from '../components/EducationWizard';
-import { wizardConfig } from '../utils/helpers';
 
 export default function IntroPageSummary() {
   return (
@@ -48,6 +44,14 @@ export default function IntroPageSummary() {
             </li>
             <li>Received a decision from us on your application</li>
           </ul>
+          <p>
+            <strong>Note:</strong> At this time, the GI Bill benefit statement
+            isn't available online to family members and dependents. You'll need
+            to request a new Certificate of Eligibility letter to check your GI
+            Bill benefit status. To request a COE, please call the Education
+            Call Center at 888-442-4551 (888-GI-BILL-1). We’re here Monday
+            through Friday, 8:00 a.m. to 7:00 p.m. ET.
+          </p>
           <p>
             <a href="/education/how-to-apply/">
               Find out how to apply for Post-9/11 GI Bill benefits
@@ -110,55 +114,42 @@ export default function IntroPageSummary() {
         itemScope
         itemType="http://schema.org/Answer"
       >
-        {!environment.isProduction() && (
-          <div className="intro-wizard" itemProp="text">
-            There are a few situations where your Post-9/11 GI Bill Statement of
-            Benefits might not be available. Answer a few questions and we’ll
-            help you find out why:
-            <EducationWizard
-              config={wizardConfig}
-              toggleText="Troubleshoot My GI Bill Benefits"
-            />
-          </div>
-        )}
-        {environment.isProduction() && (
-          <div itemProp="text">
-            <p>
-              Your Post-9/11 GI Bill Statement of Benefits might not be
-              available if one of these is true:
-            </p>
-            <ul>
-              <li>
-                The name on the account you’re signed in with doesn’t exactly
-                match the name we have in our Post-9/11 GI Bill records.
-              </li>
-              <li>
-                We’re still processing your education benefits application, so
-                we haven’t created a record yet for you. We usually process
-                applications within 60 days. If you applied less than 60 days
-                ago, please check back soon.
-              </li>
-              <li>
-                You haven’t applied yet for Post-9/11 GI Bill education
-                benefits. <br />
-                <a href="/education/how-to-apply/">
-                  Apply for education benefits
-                </a>
-                .
-              </li>
-              <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
-              <li>
-                You’re trying to access the tool during its scheduled downtime.
-                This tool is available Sunday through Friday, 6:00 a.m. to 10:00
-                p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
-              </li>
-            </ul>
-            <p>
-              If none of the above situations applies to you, and you think your
-              Statement of Benefits should be here, please <CallHRC />
-            </p>
-          </div>
-        )}
+        <div itemProp="text">
+          <p>
+            Your Post-9/11 GI Bill Statement of Benefits might not be available
+            if one of these is true:
+          </p>
+          <ul>
+            <li>
+              The name on the account you’re signed in with doesn’t exactly
+              match the name we have in our Post-9/11 GI Bill records.
+            </li>
+            <li>
+              We’re still processing your education benefits application, so we
+              haven’t created a record yet for you. We usually process
+              applications within 30 days. If you applied less than 30 days ago,
+              please check back soon.
+            </li>
+            <li>
+              You haven’t applied yet for Post-9/11 GI Bill education benefits.{' '}
+              <br />
+              <a href="/education/how-to-apply/">
+                Apply for education benefits
+              </a>
+              .
+            </li>
+            <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
+            <li>
+              You’re trying to access the tool during its scheduled downtime.
+              This tool is available Sunday through Friday, 6:00 a.m. to 10:00
+              p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
+            </li>
+          </ul>
+          <p>
+            If none of the above situations applies to you, and you think your
+            Statement of Benefits should be here, please <CallHRC />
+          </p>
+        </div>
       </div>
     </div>
   );
