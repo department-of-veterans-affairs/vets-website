@@ -41,7 +41,7 @@
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
 
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
 
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
