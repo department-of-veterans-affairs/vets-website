@@ -226,4 +226,11 @@ module.exports = function registerFilters() {
 
   // sort a list of objects by a certain property in the object
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
+
+  // get a value from a path of an object
+  liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
+
+  // get a value from a path of an object in an array
+  liquid.filters.getValueFromArrayObjPath = (entities, index, path) =>
+    _.get(entities[index], path);
 };
