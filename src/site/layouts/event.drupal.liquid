@@ -199,7 +199,7 @@ Example data:
 
           <div class="registration">
             <p class="vads-u-font-weight--bold">Registration</p>
-            {% if start_timestamp < current_timestamp %}
+            {% if start_timestamp > current_timestamp %}
             <p>This event already happened.</p>
             {% else %}
             {% if fieldLink %}
@@ -208,7 +208,7 @@ Example data:
             </p>
             {% endif %}
             {% if fieldAdditionalInformationAbo %}
-            <p>{{ fieldAdditionalInformationAbo | outputLinks }}</p>
+            <p>{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
             {% endif %}
 
             {% endif %}
