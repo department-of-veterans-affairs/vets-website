@@ -29,14 +29,14 @@ export default class DisabilityRatingCalculator extends React.Component {
   }
 
   componentDidMount() {
-    this.focusFirstInput();
+    this.focusFirstRatingInput();
   }
 
   setRef = ref => {
     if (ref) this.ratingInputRefs.push(ref);
   };
 
-  focusFirstInput = () => this.ratingInputRefs[0].focus();
+  focusFirstRatingInput = () => this.ratingInputRefs[0].focus();
 
   focusLastRatingInput = () =>
     this.ratingInputRefs[this.ratingInputRefs.length - 1].focus();
@@ -89,7 +89,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         calculatedRating: 0,
         showCombinedRating: false,
       },
-      this.focusFirstInput,
+      this.focusFirstRatingInput,
     );
   };
 
