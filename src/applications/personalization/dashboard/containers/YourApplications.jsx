@@ -22,8 +22,10 @@ import { isSIPEnabledForm, sipFormSorter } from '../helpers';
 
 class YourApplications extends React.Component {
   componentDidMount() {
-    this.props.getEnrollmentStatus();
-    this.props.getDismissedHCANotification();
+    if (this.props.profileState.verified) {
+      this.props.getEnrollmentStatus();
+      this.props.getDismissedHCANotification();
+    }
   }
 
   dismissHCANotification = () => {
@@ -65,6 +67,27 @@ class YourApplications extends React.Component {
   }
 }
 
+YourApplications.propTypes = {
+  getDismissedHCANotification: PropTypes.func.isRequired,
+  getEnrollmentStatus: PropTypes.func.isRequired,
+  setDismissedHCANotification: PropTypes.func.isRequired,
+  hcaEnrollmentStatus: PropTypes.shape({
+    enrollmentStatus: PropTypes.string,
+    applicationDate: PropTypes.string,
+  }),
+  savedForms: PropTypes.arrayOf(
+    PropTypes.shape({
+      form: PropTypes.string.required,
+      metadata: PropTypes.shape({
+        lastUpdated: PropTypes.number,
+        expiresAt: PropTypes.number,
+      }),
+    }),
+  ),
+  shouldRenderContent: PropTypes.bool.isRequired,
+  shouldRenderHCAAlert: PropTypes.bool,
+};
+
 export const mapStateToProps = state => {
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
   const isLoading =
@@ -87,31 +110,11 @@ export const mapStateToProps = state => {
 
   return {
     hcaEnrollmentStatus,
+    profileState,
     savedForms: verifiedSavedForms,
     shouldRenderContent,
     shouldRenderHCAAlert,
   };
-};
-
-YourApplications.propTypes = {
-  getDismissedHCANotification: PropTypes.func.isRequired,
-  getEnrollmentStatus: PropTypes.func.isRequired,
-  setDismissedHCANotification: PropTypes.func.isRequired,
-  hcaEnrollmentStatus: PropTypes.shape({
-    enrollmentStatus: PropTypes.string,
-    applicationDate: PropTypes.string,
-  }),
-  savedForms: PropTypes.arrayOf(
-    PropTypes.shape({
-      form: PropTypes.string.required,
-      metadata: PropTypes.shape({
-        lastUpdated: PropTypes.number,
-        expiresAt: PropTypes.number,
-      }),
-    }),
-  ),
-  shouldRenderContent: PropTypes.bool.isRequired,
-  shouldRenderHCAAlert: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

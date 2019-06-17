@@ -1,0 +1,6 @@
+{
+  "appName": "Disability Calculator",
+  "entryFile": "./disability-calculator-entry.jsx",
+  "entryName": "disability-calculator",
+  "rootUrl": "/disability/about-disability-ratings-beta"
+}
