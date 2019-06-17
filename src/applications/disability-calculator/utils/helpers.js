@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // helper function to round to nearest 10
 function roundRating(num) {
   const ratingWithDecimal = Number.parseFloat(num).toFixed(0.1);
@@ -13,12 +12,12 @@ function pullRatingsFromState(arr) {
   return allRatings;
 }
 
-// eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
   const sortedArr = ratingArr.sort((a, b) => b - a);
-  // eslint-disable-next-line one-var
-  let a, b, x;
+  let a;
+  let b;
+  let x;
 
   while (sortedArr.length > 1) {
     a = 100 - sortedArr[0];
