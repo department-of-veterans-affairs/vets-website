@@ -13,33 +13,18 @@ function pullRatingsFromState(arr) {
   return allRatings;
 }
 
-export function validateValue(e) {
-  if (!/^[0-9]+$/.test(e)) {
-    return false;
-  }
-  return true;
-}
-
 // eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
-  // const checkIfRatingsAreNumbers = isNaN(ratingArr);
-
   const sortedArr = ratingArr.sort((a, b) => b - a);
   // eslint-disable-next-line one-var
   let a, b, x;
 
-  console.log(`sortedArr: ${sortedArr}`);
   while (sortedArr.length > 1) {
-    console.log(sortedArr);
     a = 100 - sortedArr[0];
-    console.log('100 - sortedArr[0]', 100 - sortedArr[0]);
     b = (sortedArr[1] * a) / 100;
-    console.log('(sortedArr[1] * a) / 100', (sortedArr[1] * a) / 100);
     x = sortedArr[0] + b;
-    console.log('sortedArr[0] + b', sortedArr[0] + b);
     sortedArr.splice(0, 2, x);
-    console.log(sortedArr);
   }
 
   if (sortedArr.length === 1) {
@@ -55,12 +40,3 @@ export function calculateRating(arr) {
 }
 // will return array with two elements. first element in array is rounded rating
 // and second element is the actual rating
-
-export function setFocus(selector) {
-  const el =
-    typeof selector === 'string' ? document.querySelector(selector) : selector;
-  if (el) {
-    el.setAttribute('tabIndex', -1);
-    el.focus();
-  }
-}
