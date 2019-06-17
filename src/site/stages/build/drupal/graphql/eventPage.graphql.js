@@ -65,9 +65,9 @@ module.exports = `
     }
     fieldEventRegistrationrequired
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_ADDITONAL_INFO]
-        ? 'fieldAdditionalInformationAbo'
-        : 'fieldAdditionalInformationAbo {processed}'
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_ADDITIONAL_INFO]
+        ? 'fieldAdditionalInformationAbo {processed}'
+        : 'fieldAdditionalInformationAbo'
     }
  }
 `;
