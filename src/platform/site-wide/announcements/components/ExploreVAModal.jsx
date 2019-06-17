@@ -26,7 +26,7 @@ export default class VAPlusVetsModal extends React.Component {
           <img
             className="announcement-brand-consolidation-logo"
             src="/img/design/logo/va-plus-explore.png"
-            alt="VA.gov plus Vets.gov"
+            alt="VA.gov plus Explore.va.gov"
           />
         </div>
         <h3 className="announcement-title">ExploreVA is now part of VA.gov</h3>
