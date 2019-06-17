@@ -60,6 +60,8 @@ module.exports = `
       }
     }
     fieldEventRegistrationrequired
-    fieldAdditionalInformationAbo
+    fieldAdditionalInformationAbo {
+      processed
+    }
  }
 `;
