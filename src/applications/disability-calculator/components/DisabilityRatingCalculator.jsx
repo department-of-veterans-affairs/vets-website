@@ -98,7 +98,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     const calculatedRating = this.state.calculatedRating;
 
     return (
-      <div className="disability-calculator vads-u-margin-bottom--5">
+      <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest">
         <div className="calc-header vads-u-padding-x--4">
           <h2 className="vads-u-padding-top--4">
             VA combined disability rating calculator

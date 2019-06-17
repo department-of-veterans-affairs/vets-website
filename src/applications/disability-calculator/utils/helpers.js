@@ -12,6 +12,7 @@ function pullRatingsFromState(arr) {
   return allRatings;
 }
 
+// eslint-disable-next-line consistent-return
 export function calculateRating(arr) {
   const ratingArr = pullRatingsFromState(arr);
   const sortedArr = ratingArr.sort((a, b) => b - a);

@@ -9,10 +9,6 @@ $formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
 @import '~react-tabs/style/react-tabs';
 
 .disability-calculator {
-  background-color: $color-gray-lightest;
-
-
-
   .add-btn {
     &:hover {
       padding-top: 12px !important;
