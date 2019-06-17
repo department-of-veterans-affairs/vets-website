@@ -11,6 +11,15 @@ import { fetchFolder, fetchRecipients } from '../actions/messaging';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 import environment from 'platform/utilities/environment';
 
+// we want to show the new heading style on prod _only_ if we are on the
+// `dashboard2` route
+function showNewHeadingStyle() {
+  return (
+    !environment.isProduction() ||
+    window.location.pathname.indexOf('dashboard2') > -1
+  );
+}
+
 class MessagingWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessMessaging) {
@@ -87,8 +96,8 @@ class MessagingWidget extends React.Component {
 
     return (
       <div id="msg-widget">
-        {environment.isProduction() && <h2>Check secure messages</h2>}
-        {!environment.isProduction() && <h3>Check secure messages</h3>}
+        {!showNewHeadingStyle() && <h2>Check secure messages</h2>}
+        {showNewHeadingStyle() && <h3>Check secure messages</h3>}
         {content}
         <p>
           <a

@@ -43,7 +43,7 @@ export class IntroductionPage extends React.Component {
                 <strong>What if I need help filling out my application?</strong>{' '}
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/index.html">
+                <a href="/disability/get-help-filing-claim/">
                   Find an accredited representative
                 </a>
                 .
