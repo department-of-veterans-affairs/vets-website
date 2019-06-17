@@ -4,6 +4,7 @@ import PersonalizationBanner from '../components/PersonalizationBanner';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 import MissionAct from '../components/MissionAct';
+import ExploreVAModal from '../components/ExploreVAModal';
 
 const config = {
   announcements: [
@@ -12,6 +13,13 @@ const config = {
       paths: /(.)/,
       component: VAPlusVetsModal,
       disabled: !VAPlusVetsModal.isEnabled(),
+      showEverytime: true,
+    },
+    {
+      name: 'explore-va',
+      paths: /(.)/,
+      component: ExploreVAModal,
+      disabled: !ExploreVAModal.isEnabled(),
       showEverytime: true,
     },
     {
