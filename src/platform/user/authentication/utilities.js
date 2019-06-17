@@ -30,11 +30,11 @@ const loginUrl = policy => {
   }
 };
 
-export function setRavenLoginType(loginType) {
+export function setSentryLoginType(loginType) {
   Sentry.setTag('loginType', loginType);
 }
 
-export function clearRavenLoginType() {
+export function clearSentryLoginType() {
   Sentry.setTag('loginType', undefined);
 }
 
@@ -87,7 +87,7 @@ export function verify() {
 }
 
 export function logout() {
-  clearRavenLoginType();
+  clearSentryLoginType();
   return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 

@@ -1,8 +1,8 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
-  setRavenLoginType,
-  clearRavenLoginType,
+  setSentryLoginType,
+  clearSentryLoginType,
 } from '../../authentication/utilities';
 import localStorage from '../../../utilities/storage/localStorage';
 
@@ -130,7 +130,7 @@ export function setupProfileSession(userProfile) {
   if (firstName) localStorage.setItem('userFirstName', firstName);
 
   // Set Sentry Tag so we can associate errors with the login policy
-  setRavenLoginType(loginType);
+  setSentryLoginType(loginType);
 }
 
 export function teardownProfileSession() {
@@ -139,5 +139,5 @@ export function teardownProfileSession() {
   const sessionKeys = ['hasSession', 'userFirstName', 'sessionExpiration'];
   for (const key of sessionKeys) localStorage.removeItem(key);
   sessionStorage.removeItem('shouldRedirectExpiredSession');
-  clearRavenLoginType();
+  clearSentryLoginType();
 }
