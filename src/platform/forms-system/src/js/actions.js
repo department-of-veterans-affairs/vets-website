@@ -1,4 +1,4 @@
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import { transformForSubmit } from './helpers';
 import recordEvent from 'platform/monitoring/record-event';

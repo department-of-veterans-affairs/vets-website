@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';

@@ -2,7 +2,7 @@
  * Initializes error reporting to Sentry when running at a higher enviroment than localhost
  */
 
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import environment from '../utilities/environment';
 

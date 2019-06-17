@@ -1,4 +1,4 @@
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { sanitizeForm } from '../helpers';

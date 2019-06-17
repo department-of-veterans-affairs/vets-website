@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import environment from '../../../platform/utilities/environment';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';

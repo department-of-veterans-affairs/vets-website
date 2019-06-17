@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';

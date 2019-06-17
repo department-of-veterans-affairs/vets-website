@@ -1,6 +1,6 @@
 import React from 'react';
 import { get, omit, merge } from 'lodash/fp';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from '../../../platform/forms/definitions/fullName';

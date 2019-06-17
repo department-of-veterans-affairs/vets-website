@@ -1,4 +1,4 @@
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import 'isomorphic-fetch';
 
 import recordEvent from '../../monitoring/record-event';

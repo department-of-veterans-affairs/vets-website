@@ -1,4 +1,4 @@
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import { isEqual } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';

@@ -1,6 +1,6 @@
 import '../../platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';

@@ -7,7 +7,7 @@
  */
 
 import environment from '../../utilities/environment';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import { whitelistedPaths } from './whitelisted-paths';
 
 /**
