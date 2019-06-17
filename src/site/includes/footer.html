@@ -48,7 +48,7 @@
 (function() {
   var module = {};
   {% include "src/site/assets/js/static-page-widgets.js" %}
-  mountWidgets(document.querySelectorAll('[data-widget-type]'));
+  mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
 })();
 </script>
 

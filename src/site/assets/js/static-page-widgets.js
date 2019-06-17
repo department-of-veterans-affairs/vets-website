@@ -1,16 +1,6 @@
-function mountWidgets(widgets, isProduction) {
-  // six seconds is our default threshold for something being slow
-  var slowLoadingThreshold =  6000;
-
+function mountWidgets(widgets, slowLoadingThreshold) {
   [].slice
     .call(widgets)
-    .filter(function(widget) {
-      if (widget.production === false && isProduction) {
-        return false;
-      }
-
-      return true;
-    })
     .forEach(function(widget) {
       var timeout = widget.getAttribute('data-widget-timeout');
       if (timeout) {
