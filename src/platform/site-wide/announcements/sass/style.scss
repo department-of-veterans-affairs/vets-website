@@ -1,16 +1,55 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-.personalization-announcement {
-  position: fixed;
+.va-promo-banner {
   z-index: $base-layer + 1;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 8px;
-  text-align: center;
-  background-color: $color-green-lightest;
-  border: 1px solid $color-green-lighter;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  background-color: $color-gray-lightest;
+  padding: units(1);
+
+  &-type {
+    padding-right: units(1.5);
+    display: none;
+    @include media($small-screen) {
+      display: block;
+    }
+  }
+
+  &-content {
+    padding: units(0.5) 0;
+    > a {
+      margin-top: 1px;
+      display: inline-block;
+      padding: units(0.5);
+    }
+  }
+
+  &-dismiss {
+    padding: units(0.5) 0 units(0.5) units(1);
+    border-left: 1px solid $color-gray-light;
+    @include media($small-screen) {
+      border: none;
+    }
+  }
+}
+
+.personalization-announcement {
+  // position: fixed;
+  // z-index: $base-layer + 1;
+  // bottom: 0;
+  // left: 0;
+  // width: 100%;
+  // padding: 8px;
+  // text-align: center;
+  // background-color: $color-green-lightest;
+  // border: 1px solid $color-green-lighter;
+  // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.va-circular-icon {
+
 }
 
 #modal-announcement h3 {
