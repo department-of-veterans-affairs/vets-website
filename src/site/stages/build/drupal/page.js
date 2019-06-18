@@ -169,7 +169,7 @@ function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
     if (nav !== null && nav.links.length) {
-      const navName = _.toLower(nav.name);
+      const navName = _.toLower(nav.name.replace(/&/g, 'and'));
       if (owner !== null && owner === navName) {
         return { sidebar: nav };
       }
@@ -186,6 +186,7 @@ function compilePage(page, contentData) {
       healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
       recordsHubSidebarQuery: recordsHubSidebarNav = {},
       pensionHubSidebarQuery: pensionHubSidebarNav = {},
+      careersHubSidebarQuery: careersHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -202,6 +203,7 @@ function compilePage(page, contentData) {
     healthcareHubSidebarNav,
     recordsHubSidebarNav,
     pensionHubSidebarNav,
+    careersHubSidebarNav,
   ];
   let sidebarNavItems;
 

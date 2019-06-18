@@ -1,22 +1,19 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import { externalServiceStatus } from 'platform/monitoring/DowntimeNotification';
 
 function DowntimeBanner({ downtime, section }) {
   return (
     <AlertBox
       status="warning"
       isVisible
+      headline={`We can’t show your ${section} information right now.`}
       content={
-        <div>
-          <h3>We can’t show your {section} information right now.</h3>
-          <p>
-            We’re sorry. The system that handles {section} information is down
-            for maintenance right now. We hope to be finished with our work by{' '}
-            {downtime.startTime.format('MMMM Do')},{' '}
-            {downtime.endTime.format('LT')} Please check back soon.
-          </p>
-        </div>
+        <p>
+          We’re sorry. The system that handles {section} information is down for
+          maintenance right now. We hope to be finished with our work by{' '}
+          {downtime.endTime.format('MMMM Do, LT')} Please check back soon.
+        </p>
       }
     />
   );
