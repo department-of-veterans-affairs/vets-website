@@ -187,7 +187,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 }
 
 def prearchive(dockerContainer, envName) {
-	dockerContainer.inside(DOCKER_ARGS) {
+  dockerContainer.inside(DOCKER_ARGS) {
     sh "cd /application && node script/prearchive.js --buildtype=${envName}"
   }
 }
@@ -203,7 +203,7 @@ def prearchiveAll(dockerContainer) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-					prearchive(dockerContainer, envName)
+          prearchive(dockerContainer, envName)
         }
       }
 
@@ -236,7 +236,7 @@ def archiveAll(dockerContainer, String ref) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         archives[envName] = {
-					archive(dockerContainer, ref, envName)
+          archive(dockerContainer, ref, envName)
         }
       }
 
