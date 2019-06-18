@@ -71,4 +71,7 @@ module.exports = `
     pensionHubSidebarQuery: ${queryFilter('pension-benefits-hub')} {
       ${SIDEBAR_QUERY}
     }
+    careersHubSidebarQuery: ${queryFilter('careers-employment-benefits')} {
+      ${SIDEBAR_QUERY}
+    }
 `;
