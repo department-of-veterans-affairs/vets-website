@@ -20,6 +20,9 @@ if (trackErrors) {
     ],
   });
   Sentry.setTag('source', 'unknown');
+  Sentry.configureScope(scope => {
+    scope.setLevel('error');
+  });
 
   // this is for errors that happen in promises
   // it does not work locally with the webpack devtool setting we
