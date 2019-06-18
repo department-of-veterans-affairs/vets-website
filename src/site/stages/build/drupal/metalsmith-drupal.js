@@ -43,7 +43,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityUrl: { path: drupalUrl },
       entityBundle,
     } = page;
-
+    console.log(page);
     const pageCompiled = compilePage(page, contentData);
     const drupalPageDir = path.join('.', drupalUrl);
     const drupalFileName = path.join(drupalPageDir, 'index.html');
