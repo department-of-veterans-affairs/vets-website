@@ -189,7 +189,9 @@ class DashboardAppNew extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-    this.props.getEnrollmentStatus();
+    if (this.props.profile.verified) {
+      this.props.getEnrollmentStatus();
+    }
   }
 
   dismissAlertBox = name => () => {

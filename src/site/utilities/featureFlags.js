@@ -4,6 +4,8 @@ const path = require('path');
 // Edit this to add new flags
 const featureFlags = {
   FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
+  FEATURE_FIELD_ADDITIONAL_INFO: 'featureFieldAdditionalInformationAbo',
+
   GRAPHQL_MODULE_UPDATE: 'featureGraphQLModuleUpdate',
   FEATURE_FIELD_OTHER_VA_LOCATIONS: 'featureFieldOtherVaLocations',
   FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS:
@@ -17,6 +19,7 @@ const featureFlags = {
 // Edit this to turn flags on or off
 const flagsByBuildtype = {
   localhost: [
+    featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
@@ -26,6 +29,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
   ],
   vagovdev: [
+    featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,

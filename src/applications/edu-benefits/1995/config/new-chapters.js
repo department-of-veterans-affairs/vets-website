@@ -186,9 +186,9 @@ export const newChapters = {
       dependents: {
         title: 'Dependents',
         path: 'personal-information/dependents',
-        depends: {
-          'view:hasServiceBefore1978': true,
-        },
+        depends: form =>
+          !displayActiveDutyStem(form) &&
+          form['view:hasServiceBefore1978'] === true,
         uiSchema: {
           serviceBefore1977: serviceBefore1977UI,
         },
