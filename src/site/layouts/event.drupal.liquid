@@ -120,11 +120,11 @@ Example data:
           <div class="usa-grid usa-grid-full">
             <h1 class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">{{ title }}</h1>
             {% if fieldMedia %}
-                <img class="event-detail-img vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}"
+                <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}"
                   src="{{fieldMedia.entity.image.derivative.url}}" />
             {% endif %}
             <div class="va-introtext">
-              <p class="vads-u-margin-top--0 vads-u-margin-bottom--4">{{ fieldDescription }}</p>
+              <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">{{ fieldDescription }}</p>
             </div>
 
             <div class="usa-width-one-half vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--0">
@@ -189,14 +189,14 @@ Example data:
                     </dl>
                 {% endif %}
 
-                <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--1">
-                    <p class="vads-u-font-weight--bold">Registration</p>
+                <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
+                    <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
                     {% if start_timestamp > current_timestamp %}
                         <p class="vads-u-margin--0">This event already happened.</p>
                     {% else %}
                         {% if fieldLink %}
                             <p class="vads-u-margin--0"><a
-                                        href="{{ fieldLink.url.path }}"><button>{{fieldEventCta | listValue | capitalize}}</button></a>
+                                        href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
                             </p>
                         {% endif %}
                         {% if fieldAdditionalInformationAbo %}
@@ -221,7 +221,7 @@ Example data:
           <a href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all community events</a>
         </article>
 
-        <div class="last-updated usa-content">
+        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
           Last updated:
           <time
             datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>

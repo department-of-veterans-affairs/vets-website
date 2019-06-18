@@ -178,12 +178,14 @@ $duo-tone-lighten: #000000;
 
     @media all and (min-width: 768px) {
       width: 65%;
-      &.event {
+      &.event,
+      &.facility {
         width: 50%;
       }
 
       &:not(:only-child):last-child {
-        &.event {
+        &.event,
+        &.facility {
           width: 50%;
         }
         width: 32%;

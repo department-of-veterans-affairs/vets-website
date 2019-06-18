@@ -118,7 +118,7 @@
               <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
             </div>
 
-              <div class="usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2">
+              <div class="usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 facility">
                 <!-- facility image -->
                 {% if fieldMedia.entity.image != empty %}
                   {% assign image = fieldMedia.entity.image %}
@@ -198,7 +198,7 @@
           {% endif %}
 
         </article>
-        <div class="last-updated usa-content">
+        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
           Last updated:
           <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
