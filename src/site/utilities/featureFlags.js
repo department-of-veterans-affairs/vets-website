@@ -39,6 +39,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
   ],
   vagovstaging: [
+    featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
     featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS,
