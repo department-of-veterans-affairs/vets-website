@@ -86,6 +86,11 @@ async function loadDrupal(buildOptions) {
 
     console.timeEnd(drupalTimer);
 
+    if (drupalPages.errors && drupalPages.errors.length) {
+      log(JSON.stringify(drupalPages.errors, null, 2));
+      throw new Error('Drupal query returned with errors');
+    }
+
     const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
     fs.ensureDirSync(buildOptions.cacheDirectory);
     fs.emptyDirSync(path.dirname(drupalCache));
