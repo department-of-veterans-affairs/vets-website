@@ -193,3 +193,9 @@ $duo-tone-lighten: #000000;
     }
   }
 }
+
+
+// to push items at the end of an element wrapped in display: flex to the bottom
+.vads-u-margin-top--auto {
+  margin-top: auto;
+}
