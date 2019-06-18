@@ -502,4 +502,33 @@ describe('getCalculatedBenefits', () => {
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
   });
+
+  it('should calculate housing allowance using half the average DOD/VA rate if OJT and online only courses', () => {
+    const working = '30';
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        type: 'OJT',
+        working,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        onlineClasses: 'yes',
+      },
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          ...defaultState.profile.attributes,
+          type: 'ojt',
+        },
+      },
+    };
+    const ropOjt = working / 30;
+    const monthlyRateFinal =
+      (ropOjt * defaultState.constants.constants.AVGDODBAH) / 2;
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
+  });
 });
