@@ -34,7 +34,7 @@ describe('facilities <FacilityListWidget>', () => {
 
       const facilityNameComponent = tree.find('FacilityTitle').dive();
       const facilityName = facilityNameComponent.find(
-        'h3.vads-u-margin-bottom--2p5',
+        'h3',
       );
       expect(facilityName.text()).to.contain(
         'Pittsburgh VA Medical Center-University Drive',
