@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { externalServiceStatus } from 'platform/monitoring/DowntimeNotification';
 
