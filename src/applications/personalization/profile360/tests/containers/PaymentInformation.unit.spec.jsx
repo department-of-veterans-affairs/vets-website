@@ -6,6 +6,8 @@ import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
 
 import { PaymentInformation } from '../../containers/PaymentInformation';
+import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
+import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 describe('<PaymentInformation/>', () => {
   const defaultProps = {
@@ -87,14 +89,10 @@ describe('<PaymentInformation/>', () => {
 
   it('renders the payment information', () => {
     const wrapper = shallow(<PaymentInformation {...defaultProps} />);
-    const renderedText = wrapper.text();
 
-    expect(renderedText).to.contain('123', 'Account number is rendered');
-    expect(renderedText).to.contain('Checking', 'Account type is rendered');
-    expect(renderedText).to.contain(
-      'My bank',
-      'Financial insitution name is rendered',
-    );
+    expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
+    expect(wrapper.find('PaymentInformationEditModal')).to.have.lengthOf(1);
+    expect(wrapper.find(ProfileFieldHeading)).to.have.lengthOf(3);
 
     wrapper.unmount();
   });
