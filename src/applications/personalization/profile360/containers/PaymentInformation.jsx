@@ -179,10 +179,8 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          <>
-            <AdditionalInfos />
-            {content}
-          </>
+          <AdditionalInfos />
+          {content}
         </DowntimeNotification>
       </>
     );
