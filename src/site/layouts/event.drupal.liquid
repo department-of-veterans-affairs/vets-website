@@ -1,63 +1,75 @@
 {% comment %}
-    Example data:
-    {
-    "entityId": "152",
-    "entityBundle": "event",
-    "entityPublished": true,
-    "title": "Test Event",
-    "entityUrl": {
-    "breadcrumb": [
-    {
-    "url": {
-    "path": "/",
-    "routed": true
-    },
-    "text": "Home"
-    },
-    {
-    "url": {
-    "path": "/pittsburgh-health-care",
-    "routed": true
-    },
-    "text": "Pittsburgh Health Care System"
-    }
-    ],
-    "path": "/pittsburgh-health-care/events/test-event"
-    },
-    "fieldEventDate": {
-    "date": "2019-03-15 08:00:00 UTC",
-    "value": "2019-03-15T08:00:00"
-    },
-    "fieldEventDateEnd": {
-    "date": "2019-03-15 11:00:00 UTC",
-    "value": "2019-03-15T11:00:00"
-    },
-    "fieldAddress": {
-    "addressLine1": "123 Anywhere St.",
-    "addressLine2": "",
-    "locality": "Pittsburgh",
-    "administrativeArea": "PA"
-    },
-    "fieldFacilityLocation": {
-    "entity": {
-    "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
-    "fieldFacilityLocatorApiId": "VHA_646A4",
-    "entityUrl": {
-    "path": "/pittsburgh-health-care/locations/heinz-medical-center"
-    }
-    }
-    },
-    "fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
-    "fieldDescription": "This is an event to test. ",
-    "fieldBody": {
-    "processed": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dignissim vel tellus a posuere. Quisque cursus a turpis nec lobortis. Nunc sit amet massa pellentesque, dictum leo a, aliquet neque. Duis ac vulputate quam, at varius sem. Maecenas lacinia, elit quis imperdiet convallis, ligula tortor ullamcorper ante, nec venenatis tortor sapien eu est. Integer rhoncus leo quis augue hendrerit interdum. Duis ornare venenatis ornare. Aliquam quis nisl ipsum.</p>\n\n<p>Nam lobortis arcu ac maximus gravida. Nunc id odio sed nisi gravida pulvinar. Duis eleifend erat nec enim convallis, id cursus risus convallis. Phasellus et commodo turpis. Etiam augue est, sollicitudin id facilisis id, interdum quis est. Cras at ex sed est finibus fermentum. Nullam rhoncus libero vel tellus suscipit, quis eleifend elit dictum. Donec feugiat velit consequat ex mattis ornare. Praesent vel odio accumsan, blandit sapien et, euismod mauris.</p>"
-    },
-    "fieldEventCost": "8",
-    "fieldEventRegistrationrequired": false,
-    "fieldAdditionalInformationAbo": "Registration isn't required."
-    }
-    ]
-    }
+Example data:
+{
+"entityId": "152",
+"entityBundle": "event",
+"entityPublished": true,
+"title": "Test Event",
+"entityUrl": {
+"breadcrumb": [
+{
+"url": {
+"path": "/",
+"routed": true
+},
+"text": "Home"
+},
+{
+"url": {
+"path": "/pittsburgh-health-care",
+"routed": true
+},
+"text": "Pittsburgh Health Care System"
+}
+],
+"path": "/pittsburgh-health-care/events/test-event"
+},
+"fieldEventDate": {
+"date": "2019-03-15 08:00:00 UTC",
+"value": "2019-03-15T08:00:00"
+},
+"fieldEventDateEnd": {
+"date": "2019-03-15 11:00:00 UTC",
+"value": "2019-03-15T11:00:00"
+},
+"fieldAddress": {
+"addressLine1": "123 Anywhere St.",
+"addressLine2": "",
+"locality": "Pittsburgh",
+"administrativeArea": "PA"
+},
+"fieldFacilityLocation": {
+"entity": {
+"title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+"fieldFacilityLocatorApiId": "VHA_646A4",
+"entityUrl": {
+"path": "/pittsburgh-health-care/locations/heinz-medical-center"
+}
+}
+},
+"fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
+"fieldDescription": "This is an event to test. ",
+"fieldBody": {
+"processed": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  Maecenas dignissim vel tellus a posuere. Quisque cursus a turpis nec lobortis.
+  Nunc sit amet massa pellentesque, dictum leo a, aliquet neque. Duis ac
+  vulputate quam, at varius sem. Maecenas lacinia, elit quis imperdiet
+  convallis, ligula tortor ullamcorper ante, nec venenatis tortor sapien eu est.
+  Integer rhoncus leo quis augue hendrerit interdum. Duis ornare venenatis
+  ornare. Aliquam quis nisl ipsum.</p>\n\n<p>Nam lobortis arcu ac maximus
+  gravida. Nunc id odio sed nisi gravida pulvinar. Duis eleifend erat nec enim
+  convallis, id cursus risus convallis. Phasellus et commodo turpis. Etiam augue
+  est, sollicitudin id facilisis id, interdum quis est. Cras at ex sed est
+  finibus fermentum. Nullam rhoncus libero vel tellus suscipit, quis eleifend
+  elit dictum. Donec feugiat velit consequat ex mattis ornare. Praesent vel odio
+  accumsan, blandit sapien et, euismod mauris.</p>"
+},
+"fieldEventCost": "8",
+"fieldEventRegistrationrequired": false,
+"fieldAdditionalInformationAbo": "Registration isn't required."
+}
+]
+}
 {% endcomment %}
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
@@ -73,32 +85,35 @@
 {% assign start_date_full = fieldDate.value | date: "%a, %b %d, %I:%M %p" %}
 {% assign end_date_full = fieldDate.endValue | date: "%a, %b %d, %I:%M %p" %}
 
+{% assign start_timestamp = fieldDate.value | unixFromDate %}
+{% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
+
 {% if fieldDate.value != empty and fieldDate.endValue == empty %}
-  {% assign date_type = "start_date_only" %}
+{% assign date_type = "start_date_only" %}
 {% else %}
-  {% if start_date_no_time == end_date_no_time %}
-    {% assign date_type = "same_day" %}
-  {% else %}
-    {% assign date_type = "all_dates" %}
-  {% endif %}
+{% if start_date_no_time == end_date_no_time %}
+{% assign date_type = "same_day" %}
+{% else %}
+{% assign date_type = "all_dates" %}
+{% endif %}
 {% endif %}
 <div class="interior" id="content">
 
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-        {% if entityUrl.path contains "/outreach-and-events" %}
-            {% include 'src/site/navigation/outreach_sidebar_nav.drupal.liquid' with outreachSidebar %}
-        {% else %}
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
-        {% endif %}
+      {% if entityUrl.path contains "/outreach-and-events" %}
+      {% include 'src/site/navigation/outreach_sidebar_nav.drupal.liquid' with outreachSidebar %}
+      {% else %}
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+      {% endif %}
       <div class="usa-width-three-fourths">
-          {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-          {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% if !entityPublished %}
+        <div class="usa-alert usa-alert-info">
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">You are viewing a draft.</p>
           </div>
+        </div>
         {% endif %}
 
         <article class="usa-content">
@@ -118,19 +133,19 @@
                 <dt class="vads-u-font-weight--bold">When:</dt>
                 <dd>
                   {% if date_type == "start_date_only" %}
-                    <span>{{ start_date_no_time }}</span><br>
-                    <span>{{ start_time }}</span>
+                  <span>{{ start_date_no_time }}</span><br>
+                  <span>{{ start_time }}</span>
                   {% else %}
-                    {% if date_type == "same_day" %}
-                      <span>{{ start_date_no_time }}</span><br>
-                      <span>{{ start_time }}
-                        -
-                        {{ end_time }}</span>
-                    {% else %}
-                      <span>{{ start_date_full }}
-                        -</span><br>
-                      <span>{{ end_date_full }}</span>
-                    {% endif %}
+                  {% if date_type == "same_day" %}
+                  <span>{{ start_date_no_time }}</span><br>
+                  <span>{{ start_time }}
+                    -
+                    {{ end_time }}</span>
+                  {% else %}
+                  <span>{{ start_date_full }}
+                    -</span><br>
+                  <span>{{ end_date_full }}</span>
+                  {% endif %}
                   {% endif %}
                 </dd>
               </dl>
@@ -140,15 +155,19 @@
                 <dd>
                   {% if facility %}
                   <p class="vads-u-margin--0">
-                    <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
+                    <a
+                      href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
                   </p>
-                  <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}</p>
+                  <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
+                  </p>
                   {% else %}
                   {% if fieldAddress.addressLine1 %}
-                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
+                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}
+                  </p>
                   {% endif %}
                   {% if fieldAddress.addressLine2 %}
-                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}</p>
+                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}
+                  </p>
                   {% endif %}
                   <p class="vads-u-margin--0">
                     {% if fieldAddress.locality %}
@@ -164,29 +183,36 @@
               </dl>
 
               {% if fieldEventCost %}
-                <dl class="va-c-event-info">
-                  <dt class="vads-u-font-weight--bold">Cost:</dt>
-                  <dd>
-                    <span>{{ fieldEventCost }}</span>
-                  </dd>
-                </dl>
+              <dl class="va-c-event-info">
+                <dt class="vads-u-font-weight--bold">Cost:</dt>
+                <dd>
+                  <span>{{ fieldEventCost }}</span>
+                </dd>
+              </dl>
               {% endif %}
             </div>
 
-                <div class="usa-width-one-half va-c-event-share">
-                    {% include "src/site/includes/social-share.drupal.liquid" %}
-                </div>
+            <div class="usa-width-one-half va-c-event-share">
+              {% include "src/site/includes/social-share.drupal.liquid" %}
             </div>
+          </div>
 
-            <div class="registration">
-              <p class="vads-u-font-weight--bold">Registration</p>
-              {% if fieldLink %}
-              <p><a href="{{ fieldLink.url.path }}">{{fieldEventCta | capitalize}}</a></p>
-              {% endif %}
-              {% if fieldAdditionalInformationAbo %}
-              <p>{{ fieldAdditionalInformationAbo }}</p>
-              {% endif %}
-            </div>
+          <div class="registration">
+            <p class="vads-u-font-weight--bold">Registration</p>
+            {% if start_timestamp > current_timestamp %}
+            <p>This event already happened.</p>
+            {% else %}
+            {% if fieldLink %}
+            <p><a
+                href="{{ fieldLink.url.path }}"><button>{{fieldEventCta | listValue | capitalize}}</button></a>
+            </p>
+            {% endif %}
+            {% if fieldAdditionalInformationAbo %}
+            <p>{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
+            {% endif %}
+
+            {% endif %}
+          </div>
 
 
           <div class="usa-grid usa-grid-full">
@@ -200,7 +226,8 @@
 
         <div class="last-updated usa-content">
           Last updated:
-          <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          <time
+            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
       </div>
     </div>
