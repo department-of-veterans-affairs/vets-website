@@ -154,7 +154,9 @@ function getDrupalContent(buildOptions) {
     } catch (err) {
       buildOptions.drupalError = drupalData;
       log(err.stack);
-      log(JSON.stringify(drupalData));
+      if (drupalData) {
+        log(JSON.stringify(drupalData));
+      }
       log('Failed to pipe Drupal content into Metalsmith!');
       if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
         done(err);
