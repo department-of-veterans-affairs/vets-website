@@ -14,7 +14,6 @@ export const formBenefits = {
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
-  'complaint-tool': 'feedback',
   'FEEDBACK-TOOL': 'feedback',
   '21-686C': 'dependent status',
 };
