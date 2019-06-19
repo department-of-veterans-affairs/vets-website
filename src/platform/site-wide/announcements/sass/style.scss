@@ -1,29 +1,28 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .va-promo-banner {
-  background-color: $color-gray-lightest;
   z-index: $base-layer + 1;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
 
+  background-color: $color-gray-lightest;
+  color: $color-link-default;
+  font-weight: 700;
+
   &-body {
     display: table;
     width: 100%;
   }
 
-  &-content {
-    padding: units(1);
+  &-content, &-close {
     display: table-cell;
-    @include media($medium-screen) {
-      padding: units(1) 0;
-    }
+    padding: units(1);
   }
 
   &-icon {
     margin-right: units(1);
-    color: $color-link-default;
     display: none;
     @include media($medium-screen) {
       display: inline-block;
@@ -32,21 +31,23 @@
 
   &-link {
     vertical-align: middle;
+    display: inline-block;
+    text-decoration: none;
+    &:hover, &:visited {
+      background-color: transparent;
+      color: $color-link-default;
+    }
   }
 
-  &-dismiss {
-    display: table-cell;
+  &-close {
     text-align: center;
     vertical-align: middle;
-    padding: 0 units(2);
     border-left: 1px solid $color-gray-lighter;
+    padding: 0 units(2);
     @include media($medium-screen) {
       text-align: right;
       border: none;
-    }
-
-    @include media($large-screen) {
-      padding: 0;
+      padding: none;
     }
   }
 }
