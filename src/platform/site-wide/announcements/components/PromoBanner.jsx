@@ -9,9 +9,9 @@ const PROMO_BANNER_TYPES = {
 };
 
 const PROMO_BANNER_ICONS = new Map([
-  [PROMO_BANNER_TYPES.announcement, 'fas fa-bullhorn fa-stack-1x'],
-  [PROMO_BANNER_TYPES.news, 'fas fa-newspaper'],
-  [PROMO_BANNER_TYPES.emailSignup, 'fas fa-envelope'],
+  [PROMO_BANNER_TYPES.announcement, 'fa-bullhorn'],
+  [PROMO_BANNER_TYPES.news, 'fa-newspaper'],
+  [PROMO_BANNER_TYPES.emailSignup, 'fa-envelope'],
 ]);
 
 class PromoBanner extends React.Component {
