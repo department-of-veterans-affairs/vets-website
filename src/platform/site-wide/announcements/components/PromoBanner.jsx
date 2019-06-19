@@ -8,27 +8,18 @@ const PROMO_BANNER_TYPES = {
   emailSignup: 'email-signup',
 };
 
+const PROMO_BANNER_ICONS = new Map([
+  [PROMO_BANNER_TYPES.announcement, 'fas fa-bullhorn fa-stack-1x'],
+  [PROMO_BANNER_TYPES.news, 'fas fa-newspaper'],
+  [PROMO_BANNER_TYPES.emailSignup, 'fas fa-envelope'],
+]);
+
 class PromoBanner extends React.Component {
-  static propTypes = {
-    type: PropTypes.oneOf(Object.values(PROMO_BANNER_TYPES)).isRequired,
-    onClose: PropTypes.func.isRequired,
-    render: PropTypes.func,
-    href: PropTypes.string,
-    text: PropTypes.string,
-    children: PropTypes.node,
-  };
-
-  static icons = new Map([
-    [PROMO_BANNER_TYPES.announcement, 'fas fa-bullhorn fa-stack-1x'],
-    [PROMO_BANNER_TYPES.news, 'fas fa-newspaper'],
-    [PROMO_BANNER_TYPES.emailSignup, 'fas fa-envelope'],
-  ]);
-
   render() {
     const iconClasses = classnames(
       'fas',
       'fa-stack-1x',
-      PromoBanner.icons.get(this.props.type),
+      PROMO_BANNER_ICONS.get(this.props.type),
     );
 
     return (
@@ -73,6 +64,15 @@ class PromoBanner extends React.Component {
     );
   }
 }
+
+PromoBanner.propTypes = {
+  type: PropTypes.oneOf(Object.values(PROMO_BANNER_TYPES)).isRequired,
+  onClose: PropTypes.func.isRequired,
+  render: PropTypes.func,
+  href: PropTypes.string,
+  text: PropTypes.string,
+  children: PropTypes.node,
+};
 
 export default PromoBanner;
 
