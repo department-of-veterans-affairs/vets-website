@@ -23,6 +23,7 @@
 
   &-icon {
     margin-right: units(1);
+    color: $color-link-default;
     display: none;
     @include media($medium-screen) {
       display: inline-block;

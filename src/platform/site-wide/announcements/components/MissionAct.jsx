@@ -25,7 +25,7 @@ function PromoBanner({ children, destination, dismiss, type }) {
       <div className="usa-grid-full">
         <div className="va-promo-banner-body">
           <div className="va-promo-banner-content">
-            <span className="va-promo-banner-icon vads-u-color--link-default fa-stack fa-lg">
+            <span className="va-promo-banner-icon fa-stack fa-lg">
               <i className="vads-u-color--white fa fa-circle fa-stack-2x" />
               <i className={iconClasses} />
             </span>
