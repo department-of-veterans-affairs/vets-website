@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const PromoBannerTypes = {
   announcement: 'announcement',
@@ -13,27 +14,31 @@ const promoBannerIcons = new Map([
 ]);
 
 function PromoBanner({ children, destination, dismiss, type }) {
-  const icon = promoBannerIcons.get(type);
+  const iconClasses = classnames(
+    'fas',
+    'fa-stack-1x',
+    promoBannerIcons.get(type),
+  );
 
   return (
     <div className="va-promo-banner">
       <div className="usa-grid-full">
-        <div className="vads-u-display--flex">
-          <div className="va-promo-banner-type vads-u-flex--auto">
-            <span className="vads-u-color--link-default fa-stack fa-lg">
+        <div className="va-promo-banner-body">
+          <div className="va-promo-banner-content">
+            <span className="va-promo-banner-icon vads-u-color--link-default fa-stack fa-lg">
               <i className="vads-u-color--white fa fa-circle fa-stack-2x" />
-              <i className={icon} />
+              <i className={iconClasses} />
             </span>
-          </div>
-
-          <div className="va-promo-banner-content vads-u-flex--1">
-            <a href={destination} onClick={dismiss}>
+            <a
+              className="va-promo-banner-link"
+              href={destination}
+              onClick={dismiss}
+            >
               <strong>{children}</strong>{' '}
               <i className="fas fa-angle-right vads-u-margin-left--1" />
             </a>
           </div>
-
-          <div className="va-promo-banner-dismiss vads-u-flex--auto">
+          <div className="va-promo-banner-dismiss">
             <button
               type="button"
               aria-label="Dismiss this announcement"

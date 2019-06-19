@@ -1,56 +1,55 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .va-promo-banner {
+  background-color: $color-gray-lightest;
   z-index: $base-layer + 1;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: $color-gray-lightest;
-  padding: units(1);
 
-  &-type {
-    padding-right: units(1.5);
-    display: none;
-    @include media($small-screen) {
-      display: block;
-    }
+  &-body {
+    display: table;
+    width: 100%;
   }
 
   &-content {
-    padding: units(0.5) 0;
-    > a {
-      margin-top: 1px;
-      display: inline-block;
-      padding: units(0.5);
+    padding: units(1);
+    display: table-cell;
+    @include media($medium-screen) {
+      padding: units(1) 0;
     }
+  }
+
+  &-icon {
+    margin-right: units(1);
+    display: none;
+    @include media($medium-screen) {
+      display: inline-block;
+    }
+  }
+
+  &-link {
+    vertical-align: middle;
   }
 
   &-dismiss {
-    padding: units(0.5) 0 units(0.5) units(1);
-    border-left: 1px solid $color-gray-light;
-    @include media($small-screen) {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 units(2);
+    border-left: 1px solid $color-gray-lighter;
+    @include media($medium-screen) {
+      text-align: right;
       border: none;
+    }
+
+    @include media($large-screen) {
+      padding: 0;
     }
   }
 }
 
-.personalization-announcement {
-  // position: fixed;
-  // z-index: $base-layer + 1;
-  // bottom: 0;
-  // left: 0;
-  // width: 100%;
-  // padding: 8px;
-  // text-align: center;
-  // background-color: $color-green-lightest;
-  // border: 1px solid $color-green-lighter;
-  // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-
-.va-circular-icon {
-
-}
 
 #modal-announcement h3 {
   margin-top: 1.5em;
