@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -468,7 +468,7 @@ export function getStateName(stateCode) {
   const stateName = STATE_CODE_TO_NAME[stateCode];
 
   if (stateName === undefined) {
-    Raven.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
+    Sentry.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
   }
 
   return stateName || '';

@@ -1,6 +1,6 @@
 import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 /**
@@ -12,10 +12,9 @@ export default class LocationHours extends Component {
     const isValid = hours.every(time => time.isValid());
 
     if (!isValid) {
-      Raven.captureMessage('API location hours data is malformed', {
-        extra: {
-          data: this.props.location,
-        },
+      Sentry.withScope(scope => {
+        scope.setExtra('data', this.props.location);
+        Sentry.captureMessage('API location hours data is malformed');
       });
 
       return '';

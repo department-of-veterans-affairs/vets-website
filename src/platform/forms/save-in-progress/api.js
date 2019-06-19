@@ -1,4 +1,4 @@
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { sanitizeForm } from '../helpers';
@@ -21,11 +21,11 @@ export function removeFormApi(formId) {
     })
     .catch(res => {
       if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_sip_error_delete');
+        Sentry.captureException(res);
+        Sentry.captureMessage('vets_sip_error_delete');
         return Promise.resolve();
       } else if (!res.ok) {
-        Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
+        Sentry.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
       }
 
       return Promise.reject(res);
@@ -82,11 +82,10 @@ export function saveFormApi(
           event: `${trackingPrefix}sip-form-save-failed`,
         });
       } else {
-        Raven.captureException(resOrError);
-        Raven.captureMessage('vets_sip_error_save', {
-          extra: {
-            form: sanitizeForm(formData),
-          },
+        Sentry.captureException(resOrError);
+        Sentry.withScope(scope => {
+          scope.setEtxra('form', sanitizeForm(formData));
+          Sentry.captureMessage('vets_sip_error_save');
         });
         recordEvent({
           event: `${trackingPrefix}sip-form-save-failed-client`,

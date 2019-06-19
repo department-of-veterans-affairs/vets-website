@@ -1,4 +1,4 @@
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from '../../../../platform/utilities/api';
 
@@ -19,7 +19,7 @@ export function fetchITF() {
       null,
       ({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }),
       () => {
-        Raven.captureMessage('itf_fetch_failed');
+        Sentry.captureMessage('itf_fetch_failed');
         dispatch({ type: ITF_FETCH_FAILED });
       },
     );
@@ -35,7 +35,7 @@ export function createITF() {
       { method: 'POST' },
       ({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }),
       () => {
-        Raven.captureMessage('itf_creation_failed');
+        Sentry.captureMessage('itf_creation_failed');
         dispatch({ type: ITF_CREATION_FAILED });
       },
     );

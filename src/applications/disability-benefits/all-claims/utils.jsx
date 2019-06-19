@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
@@ -163,7 +163,7 @@ export const capitalizeEachWord = name => {
   }
 
   if (typeof name !== 'string') {
-    Raven.captureMessage(
+    Sentry.captureMessage(
       `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
     );
   }
@@ -199,7 +199,11 @@ export function queryForFacilities(input = '') {
         label: facility.attributes.name,
       })),
     error => {
-      Raven.captureMessage('Error querying for facilities', { input, error });
+      Sentry.withScope(scope => {
+        scope.setExtra('input', input);
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error querying for facilities');
+      });
       return [];
     },
   );

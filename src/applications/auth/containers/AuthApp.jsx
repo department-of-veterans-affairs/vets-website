@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
@@ -63,8 +63,9 @@ class AuthMetrics {
       */
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
-        Raven.captureMessage('Unrecognized auth event type', {
-          extra: { type: this.type || 'N/A' },
+        Sentry.withScope(scope => {
+          scope.setExtra('type', this.type || 'N/A');
+          Sentry.captureMessage('Unrecognized auth event type');
         });
     }
 
@@ -76,9 +77,9 @@ class AuthMetrics {
 
   reportSentryErrors = () => {
     if (!Object.keys(this.userProfile).length) {
-      Raven.captureMessage('Unexpected response for user object');
+      Sentry.captureMessage('Unexpected response for user object');
     } else if (!this.serviceName) {
-      Raven.captureMessage('Missing serviceName in user object');
+      Sentry.captureMessage('Missing serviceName in user object');
     }
   };
 
@@ -101,9 +102,10 @@ export class AuthApp extends React.Component {
   handleAuthError = error => {
     const loginType = this.props.location.query.type;
 
-    Raven.captureMessage(`User fetch error: ${error.message}`, {
-      extra: { error },
-      tags: { loginType },
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      scope.setTag('loginType', loginType);
+      Sentry.captureMessage(`User fetch error: ${error.message}`);
     });
 
     recordEvent({ event: `login-error-user-fetch` });
