@@ -41,14 +41,14 @@ const HCAStatusAlert = ({ applicationDate, enrollmentStatus, onRemove }) => {
         </p>
         <button
           className="usa-button-primary vads-u-margin-y--0"
-          aria-label="Confirm remove health care application status notification"
+          aria-label="Remove the notification of my health care application status"
           onClick={onRemove}
         >
           Remove the notification
         </button>
         <button
           className="usa-button-secondary vads-u-margin-y--0"
-          aria-label="Do not remove the health care application status notification"
+          aria-label="Cancel the removal of my the health care application status notification"
           onClick={hideConfirmation}
         >
           Cancel

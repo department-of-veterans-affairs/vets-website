@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
@@ -95,8 +95,8 @@ function checkStatus(guid) {
 
   return apiRequest(`/gi_bill_feedbacks/${guid}`, { headers }, null, res => {
     if (res instanceof Error) {
-      Raven.captureException(res);
-      Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
+      Sentry.captureException(res);
+      Sentry.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
       recordEvent({ event: `${trackingPrefix}submission-failed` });
 
       // keep polling because we know they submitted earlier

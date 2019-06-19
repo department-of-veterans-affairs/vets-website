@@ -1,5 +1,5 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -178,7 +178,7 @@ export const presentableFormIDs = Object.keys(formBenefits).reduce(
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
-    Raven.captureMessage('vets_sip_list_item_missing_info');
+    Sentry.captureMessage('vets_sip_list_item_missing_info');
     return false;
   }
   if (!sipEnabledForms.has(formNumber)) {

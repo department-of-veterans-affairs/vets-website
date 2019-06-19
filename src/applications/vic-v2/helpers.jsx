@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import recordEvent from '../../platform/monitoring/record-event';
 import { apiRequest } from '../../platform/utilities/api';
 import environment from '../../platform/utilities/environment';
@@ -86,8 +86,8 @@ function checkStatus(guid) {
 
   return apiRequest(`/vic/vic_submissions/${guid}`, { headers }, null, res => {
     if (res instanceof Error) {
-      Raven.captureException(res);
-      Raven.captureMessage('vets_vic_poll_client_error');
+      Sentry.captureException(res);
+      Sentry.captureMessage('vets_vic_poll_client_error');
 
       // keep polling because we know they submitted earlier
       // and this is likely a network error
@@ -202,7 +202,7 @@ export function submit(form, formConfig) {
         // can do about that. We will not show the card preview, but let the
         // submit go through in that case, since the backend will wait for the
         // photo to process
-        Raven.captureException(err);
+        Sentry.captureException(err);
         return null;
       })
       .then(photoSrc => {
