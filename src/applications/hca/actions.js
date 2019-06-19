@@ -5,7 +5,7 @@ import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { dismissedHCANotificationDate } from './selectors';
 
 // flip the `false` to `true` to fake the endpoint when testing locally
-const simulateServerLocally = environment.isLocalhost() && true;
+const simulateServerLocally = environment.isLocalhost() && false;
 
 // action types related to calling /health_care_applications/enrollment_status
 export const FETCH_ENROLLMENT_STATUS_STARTED =
