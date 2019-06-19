@@ -69,7 +69,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.videoThumbnail = data => {
-    const string = data.split('?v=')[1];
+    const string = data.split('v=')[1];
     return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
   };
 
