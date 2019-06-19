@@ -6,9 +6,9 @@
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       {% if entityUrl.path == "/outreach-and-events" %}
-        {% include 'src/site/navigation/outreach_sidebar_nav.drupal.liquid' with outreachSidebar %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
       {% else %}
-        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       {% endif %}
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
