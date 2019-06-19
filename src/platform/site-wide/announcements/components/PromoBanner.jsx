@@ -36,7 +36,7 @@ class PromoBanner extends React.Component {
         <div className="usa-grid-full">
           <div className="va-promo-banner-body">
             <div className="va-promo-banner-content">
-              <div className="va-promo-banner-icon">
+              <div className="va-promo-banner-content-icon">
                 <span className="fa-stack fa-lg">
                   <i className="vads-u-color--white fa fa-circle fa-stack-2x" />
                   <i className={iconClasses} />
@@ -47,7 +47,7 @@ class PromoBanner extends React.Component {
                 this.props.render()
               ) : (
                 <a
-                  className="va-promo-banner-link"
+                  className="va-promo-banner-content-link"
                   href={this.props.href}
                   onClick={this.props.onClose}
                 >

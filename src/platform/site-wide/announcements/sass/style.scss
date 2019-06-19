@@ -18,24 +18,27 @@
 
   &-content, &-close {
     display: table-cell;
+  }
+
+  &-content {
     padding: units(1);
-  }
 
-  &-icon {
-    margin-right: units(1);
-    display: none;
-    @include media($medium-screen) {
-      display: inline-block;
+    &-icon {
+      margin-right: units(1);
+      display: none;
+      @include media($medium-screen) {
+        display: inline-block;
+      }
     }
-  }
 
-  &-link {
-    vertical-align: middle;
-    display: inline-block;
-    text-decoration: none;
-    &:hover, &:visited {
-      background-color: transparent;
-      color: $color-link-default;
+    &-link {
+      vertical-align: middle;
+      display: inline-block;
+      text-decoration: none;
+      &:hover, &:visited {
+        background-color: transparent;
+        color: $color-link-default;
+      }
     }
   }
 
