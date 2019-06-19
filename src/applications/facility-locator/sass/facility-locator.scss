@@ -727,3 +727,7 @@
 .top-z {
   z-index: 1000 !important;
 }
+
+.va-nav-breadcrumbs:focus {
+  outline: 0;
+}

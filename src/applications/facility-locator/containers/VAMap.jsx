@@ -378,14 +378,14 @@ class VAMap extends Component {
     const { results } = this.props;
 
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    const linkAction = (id, isProvider = false, e) => {
-      e.preventDefault();
-      if (isProvider) {
-        this.context.router.push(`provider/${id}`);
-      } else {
-        this.context.router.push(`facility/${id}`);
-      }
-    };
+    // const linkAction = (id, isProvider = false, e) => {
+    //   e.preventDefault();
+    //   if (isProvider) {
+    //     this.context.router.push(`provider/${id}`);
+    //   } else {
+    //     this.context.router.push(`facility/${id}`);
+    //   }
+    // };
 
     return results.map(r => {
       const iconProps = {
@@ -414,7 +414,7 @@ class VAMap extends Component {
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
             <div>
-              <a onClick={linkAction.bind(this, r.id, true)}>
+              <a href={`/provider/${r.id}`}>
                 <h5>{r.attributes.name}</h5>
               </a>
               <h6>{r.attributes.orgName}</h6>
@@ -427,7 +427,7 @@ class VAMap extends Component {
             </div>
           ) : (
             <div>
-              <a onClick={linkAction.bind(this, r.id, false)}>
+              <a href={`/facility/${r.id}`}>
                 <h5>{r.attributes.name}</h5>
               </a>
               <p>
