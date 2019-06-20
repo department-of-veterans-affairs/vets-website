@@ -695,10 +695,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.6.1":
-  version "6.6.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.6.1.tgz#53f8f81f14d1266b2cbcef361a08f625e12b8838"
-  integrity sha512-FtnKzi+TrxmXi7nqlw6ecpJCbwJS6ttbOkQ9OCJaaKhbUmYHNgUDhTD8ezHvK4k0PbFx6VM7EcVnQj/rYAMb8w==
+"@department-of-veterans-affairs/formation@^6.6.2":
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.6.2.tgz#99554fb20ec22e263ea9733b2d68dbbe84444415"
+  integrity sha512-qvGUuRrtJUVb+LQBv12obFmKGJzz5jCd5UJrjUYmoYIO5mAfdqxHRjnLa6aJO6q+WegFVAYITs1hiRm3mx7+pA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
