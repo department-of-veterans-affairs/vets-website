@@ -19,7 +19,6 @@ import get from 'platform/utilities/data/get';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import { handleDowntimeForSection } from '../components/DowntimeBanner';
-import PaymentInformationAddLink from '../components/PaymentInformationAddLink';
 import LoadFail from '../components/LoadFail';
 import PaymentInformation2FARequired from '../components/PaymentInformation2FARequired';
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
@@ -103,6 +102,12 @@ class PaymentInformation extends React.Component {
     }
   }
 
+  renderSetupButton(label) {
+    return (
+      <a onClick={this.props.editModalToggled}>{`Please add your ${label}`}</a>
+    );
+  }
+
   render() {
     if (!this.props.isEligible) {
       return null;
@@ -113,9 +118,9 @@ class PaymentInformation extends React.Component {
     }
 
     const { paymentInformation } = this.props;
-    const directDepositNotSetup =
+    const directDepositIsSetUp =
       paymentInformation &&
-      !get('responses[0].paymentAccount.accountNumber', paymentInformation);
+      get('responses[0].paymentAccount.accountNumber', paymentInformation);
 
     let content = null;
 
@@ -123,38 +128,49 @@ class PaymentInformation extends React.Component {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
-    } else if (directDepositNotSetup) {
-      content = (
-        <PaymentInformationAddLink onClick={this.props.editModalToggled} />
-      );
     } else {
       const paymentAccount = paymentInformation.responses[0].paymentAccount;
 
       content = (
         <>
           <div className="vet360-profile-field">
-            <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            <ProfileFieldHeading
+              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+            >
               Bank name
             </ProfileFieldHeading>
-            {paymentAccount.financialInstitutionName}
+            {directDepositIsSetUp
+              ? paymentAccount.financialInstitutionName
+              : this.renderSetupButton('bank name')}
           </div>
           <div className="vet360-profile-field">
-            <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            <ProfileFieldHeading
+              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+            >
               Account number
             </ProfileFieldHeading>
-            {paymentAccount.accountNumber}
+            {directDepositIsSetUp
+              ? paymentAccount.accountNumber
+              : this.renderSetupButton('account number')}
           </div>
           <div className="vet360-profile-field">
-            <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            <ProfileFieldHeading
+              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+            >
               Account type
             </ProfileFieldHeading>
-            {paymentAccount.accountType}
+            {directDepositIsSetUp
+              ? paymentAccount.accountType
+              : this.renderSetupButton('account type (checking or savings)')}
           </div>
-          <p>
-            <strong>Note:</strong> If you think you’ve been the victim of bank
-            fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and
-            select 5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-          </p>
+          {directDepositIsSetUp && (
+            <p>
+              <strong>Note:</strong> If you think you’ve been the victim of bank
+              fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and
+              select 5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+            </p>
+          )}
+
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
             onSubmit={this.props.savePaymentInformation}
