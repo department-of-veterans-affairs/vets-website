@@ -32,7 +32,7 @@ export default function AccountVerification({ loa }) {
             </p>
             <p>
               <a
-                href="/faq#verifying-your-identity"
+                href="/sign-in-faq#verifying-your-identity"
                 onClick={() =>
                   recordEvent({
                     event: 'account-navigation',
