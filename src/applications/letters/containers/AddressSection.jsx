@@ -304,7 +304,10 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required
           />
-          <button className="usa-button-primary" onClick={this.saveAddress}>
+          <button
+            className="usa-button-primary update-address-button"
+            onClick={this.saveAddress}
+          >
             Update
           </button>
           <button className="usa-button-secondary" onClick={this.handleCancel}>
