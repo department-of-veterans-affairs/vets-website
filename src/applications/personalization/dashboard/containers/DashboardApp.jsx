@@ -382,4 +382,4 @@ export default withRouter(
     mapDispatchToProps,
   )(DashboardApp),
 );
-export { DashboardApp as DashboardAppNew };
+export { DashboardApp };
