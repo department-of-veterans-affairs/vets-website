@@ -1,5 +1,5 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -65,11 +65,10 @@ class SubmitController extends React.Component {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
-      Raven.captureMessage('Validation issue not displayed', {
-        extra: {
-          errors,
-          prefix: trackingPrefix,
-        },
+      Sentry.withScope(scope => {
+        scope.setExtra('errors', errors);
+        scope.setExtra('prefix', trackingPrefix);
+        Sentry.captureMessage('Validation issue not displayed');
       });
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);

@@ -28,9 +28,10 @@
   <{{ header }} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
   <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
     <div itemprop="text">
+
     {% for answer in entity.fieldAnswer %}
-        {% assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
-        {% include {{ bundleComponent }} with entity = answer.entity %}
+      {% assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
+      {% include {{ bundleComponent }} with entity = answer.entity %}
     {% endfor %}
     </div>
   </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
@@ -117,8 +117,9 @@ export function getAppealsV2() {
             action.type = FETCH_APPEALS_ERROR;
             break;
         }
-        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`, {
-          fingerprint: ['{{default}}', status],
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{default}}', status]);
+          Sentry.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         });
         return dispatch(action);
       },
@@ -185,8 +186,11 @@ export function getClaimsV2(poll = pollRequest) {
       onError: response => {
         const errorCode = getErrorStatus(response);
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
-          Raven.captureException(`vets_claims_v2_err_get_claims ${errorCode}`, {
-            fingerprint: ['{{default}}', errorCode],
+          Sentry.withScope(scope => {
+            scope.setFingerprint(['{{default}}', errorCode]);
+            Sentry.captureException(
+              `vets_claims_v2_err_get_claims ${errorCode}`,
+            );
           });
         }
         dispatch({ type: FETCH_CLAIMS_ERROR });
