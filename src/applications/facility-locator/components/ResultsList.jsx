@@ -18,7 +18,7 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 
-const TIMEOUTS = new Set(['408', '504', '503']);
+const TIMEOUTS = new Set(['408', '504', '503', '502']);
 
 class ResultsList extends Component {
   constructor(props) {
