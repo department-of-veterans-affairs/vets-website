@@ -1,4 +1,4 @@
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
@@ -58,7 +58,7 @@ export function getEnrollmentData() {
         );
       },
     ).catch(error => {
-      Raven.captureException(error);
+      Sentry.captureException(error);
       return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
     });
 }

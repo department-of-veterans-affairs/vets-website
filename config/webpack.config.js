@@ -29,7 +29,7 @@ const globalEntryFiles = {
     'react-redux',
     'redux',
     'redux-thunk',
-    'raven-js',
+    '@sentry/browser',
   ],
 };
 

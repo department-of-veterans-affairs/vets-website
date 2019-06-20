@@ -30,7 +30,9 @@
           </button>
           <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
             <div itemprop="text">
+
               {% for answer in item.fieldAnswer %}
+
                 {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
                   {% include {{ bundleComponent }} with entity = answer.entity %}
               {%  endfor %}
