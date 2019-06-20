@@ -1,6 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -203,7 +203,7 @@ export function validateDisability(disability) {
   const result = v.validate({ disabilities: [disability] }, fullSchemaIncrease);
 
   if (result.errors.find(invalidDisabilityError)) {
-    Raven.captureMessage(
+    Sentry.captureMessage(
       `vets-disability-increase-invalid-disability-prefilled: ${disability}`,
     );
     return false;
@@ -268,7 +268,7 @@ export function transformDisabilities(disabilities = []) {
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
-    Raven.captureMessage(
+    Sentry.captureMessage(
       'vets-disability-increase-no-rated-disabilities-found',
     );
     return { metadata, formData, pages };
@@ -767,7 +767,7 @@ export function fetchPaymentInformation() {
       // Return only the bit the UI cares about
       response.data.attributes.responses[0].paymentAccount,
     () => {
-      Raven.captureMessage('vets_payment_information_fetch_failure');
+      Sentry.captureMessage('vets_payment_information_fetch_failure');
       return Promise.reject();
     },
   );

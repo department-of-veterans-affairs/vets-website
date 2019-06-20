@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import environment from '../../../platform/utilities/environment';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
@@ -267,10 +267,9 @@ export function makeAuthRequest(
 
   fetch(`${environment.API_URL}${url}`, options)
     .catch(err => {
-      Raven.captureMessage(`vets_client_error: ${err.message}`, {
-        extra: {
-          error: err,
-        },
+      Sentry.withScope(scope => {
+        scope.setExtra('error', err);
+        Sentry.captureMessage(`vets_client_error: ${err.message}`);
       });
 
       return Promise.reject(err);

@@ -4,7 +4,6 @@ import {
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
 } from '../utils/actionTypes';
-// import { captureMessage } from 'raven-js';
 
 const INITIAL_STATE = {
   results: [],

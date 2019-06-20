@@ -1,6 +1,6 @@
 import '../../platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
@@ -30,19 +30,13 @@ import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 // Set further errors to have the appropriate source tag
-Raven.setTagsContext({
-  source: 'static-pages',
-});
+Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
 const store = createCommonStore(facilityReducer);
-Raven.context(
-  {
-    tags: { source: 'site-wide' },
-  },
-  () => {
-    startSitewideComponents(store);
-  },
-);
+Sentry.withScope(scope => {
+  scope.setTag('source', 'site-wide');
+  startSitewideComponents(store);
+});
 
 subscribeAdditionalInfoEvents();
 

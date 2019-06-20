@@ -186,7 +186,13 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def prearchive(dockerContainer) {
+def prearchive(dockerContainer, envName) {
+  dockerContainer.inside(DOCKER_ARGS) {
+    sh "cd /application && node script/prearchive.js --buildtype=${envName}"
+  }
+}
+
+def prearchiveAll(dockerContainer) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
@@ -197,9 +203,7 @@ def prearchive(dockerContainer) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-          dockerContainer.inside(DOCKER_ARGS) {
-            sh "cd /application && node script/prearchive.js --buildtype=${envName}"
-          }
+          prearchive(dockerContainer, envName)
         }
       }
 
@@ -211,7 +215,17 @@ def prearchive(dockerContainer) {
   }
 }
 
-def archive(dockerContainer, String ref) {
+def archive(dockerContainer, String ref, String envName) {
+  dockerContainer.inside(DOCKER_ARGS) {
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                     usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+      sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
+      sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2"
+    }
+  }
+}
+
+def archiveAll(dockerContainer, String ref) {
   stage("Archive") {
     if (shouldBail()) { return }
 
@@ -222,13 +236,7 @@ def archive(dockerContainer, String ref) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         archives[envName] = {
-          dockerContainer.inside(DOCKER_ARGS) {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                             usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-              sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
-              sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2"
-            }
-          }
+          archive(dockerContainer, ref, envName)
         }
       }
 
