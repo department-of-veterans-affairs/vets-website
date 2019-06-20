@@ -225,7 +225,7 @@ class DashboardApp extends React.Component {
             </a>
             <p>
               <a
-                href="/faq#verifying-your-identity"
+                href="/sign-in-faq#verifying-your-identity"
                 onClick={recordDashboardClick('learn-more-identity')}
               >
                 Learn about how to verify your identity
