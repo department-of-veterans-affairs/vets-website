@@ -163,9 +163,9 @@ export const capitalizeEachWord = name => {
   }
 
   if (typeof name !== 'string') {
-    Sentry.captureMessage(
-      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
-    );
+    // Sentry.captureMessage(
+    //   `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+    // );
   }
 
   // TODO: Refactor this out; the function name doesn't imply that it
