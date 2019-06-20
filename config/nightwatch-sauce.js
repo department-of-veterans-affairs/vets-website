@@ -4,7 +4,7 @@
 require('@babel/register');
 
 module.exports = {
-  src_folders: ['./src', './test'],
+  src_folders: ['./src'],
   output_folder: './logs/nightwatch',
   custom_commands_path: './src/platform/testing/e2e/nightwatch-commands',
   live_output: true,
