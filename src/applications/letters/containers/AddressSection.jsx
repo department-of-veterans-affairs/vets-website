@@ -360,7 +360,7 @@ export class AddressSection extends React.Component {
     }
 
     let addressContent;
-    let forceEnableViewLettersButton;
+    let forceEnableViewLettersButton = false;
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
     if (
