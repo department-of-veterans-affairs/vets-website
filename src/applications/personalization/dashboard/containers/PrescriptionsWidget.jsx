@@ -11,15 +11,6 @@ import CallVBACenter from 'platform/static-data/CallVBACenter';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 import environment from 'platform/utilities/environment';
 
-// we want to show the new heading style on prod _only_ if we are on the
-// `dashboard2` route
-function showNewHeadingStyle() {
-  return (
-    !environment.isProduction() ||
-    window.location.pathname.indexOf('dashboard2') > -1
-  );
-}
-
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessRx) {
@@ -63,8 +54,7 @@ class PrescriptionsWidget extends React.Component {
 
     return (
       <div id="rx-widget">
-        {!showNewHeadingStyle() && <h2>Refill Prescriptions</h2>}
-        {showNewHeadingStyle() && <h3>Refill prescriptions</h3>}
+        <h3>Refill prescriptions</h3>
         <div>{content}</div>
         <p>
           <a
