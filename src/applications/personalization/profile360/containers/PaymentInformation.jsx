@@ -19,7 +19,6 @@ import get from 'platform/utilities/data/get';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import { handleDowntimeForSection } from '../components/DowntimeBanner';
-import PaymentInformationAddLink from '../components/PaymentInformationAddLink';
 import LoadFail from '../components/LoadFail';
 import PaymentInformation2FARequired from '../components/PaymentInformation2FARequired';
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';

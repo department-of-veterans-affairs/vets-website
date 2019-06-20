@@ -7,6 +7,7 @@ import set from 'platform/utilities/data/set';
 
 import { PaymentInformation } from '../../containers/PaymentInformation';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
+import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 describe('<PaymentInformation/>', () => {
@@ -77,6 +78,8 @@ describe('<PaymentInformation/>', () => {
     );
     const wrapper = shallow(<PaymentInformation {...props} />);
 
+    expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
+    expect(wrapper.find(PaymentInformationEditModal)).to.have.lengthOf(1);
     const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
     profileFieldHeadings.forEach(node => {
       expect(node.props().onEditClick).to.equal('');
@@ -84,6 +87,7 @@ describe('<PaymentInformation/>', () => {
     wrapper.find('.vet360-profile-field').forEach(node => {
       expect(node.text()).to.contain('Please add your');
     });
+    expect(wrapper.find('p')).to.have.length(0);
 
     wrapper.unmount();
   });
@@ -99,7 +103,7 @@ describe('<PaymentInformation/>', () => {
     const wrapper = shallow(<PaymentInformation {...defaultProps} />);
 
     expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
-    expect(wrapper.find('PaymentInformationEditModal')).to.have.lengthOf(1);
+    expect(wrapper.find(PaymentInformationEditModal)).to.have.lengthOf(1);
     const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
     expect(profileFieldHeadings).to.have.lengthOf(3);
     profileFieldHeadings.forEach(node => {
@@ -108,6 +112,12 @@ describe('<PaymentInformation/>', () => {
     wrapper.find('.vet360-profile-field').forEach(node => {
       expect(node.text()).not.to.contain('Please add your');
     });
+    expect(
+      wrapper
+        .find('p')
+        .first()
+        .text(),
+    ).to.contain('If you think you’ve been the victim of bank fraud');
 
     wrapper.unmount();
   });
