@@ -29,7 +29,7 @@ export default function createEducationApplicationStatus(store, widgetType) {
             stayAfterDelete
             applyRender={() => (
               <div>
-                <h3>How do I apply?</h3>
+                <h2>How do I apply?</h2>
                 <p>
                   You can apply online right now. Just answer a few questions,
                   and we'll help you get started with the education benefits
