@@ -6,6 +6,7 @@ import moment from 'moment';
 import { loadPrescriptions } from '../actions/prescriptions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { recordDashboardClick } from '../helpers';
 import PrescriptionCard from '../components/PrescriptionCard';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
@@ -61,6 +62,7 @@ class PrescriptionsWidget extends React.Component {
             href={`${mhvBaseUrl()}/mhv-portal-web/${
               environment.isProduction() ? 'web/myhealthevet/' : ''
             }refill-prescriptions`}
+            onClick={recordDashboardClick('view-all-prescriptions')}
             rel="noopener noreferrer"
             target="_blank"
           >
