@@ -1,4 +1,4 @@
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
@@ -43,10 +43,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   return fetch(url, settings)
     .catch(err => {
-      Raven.captureMessage(`vets_client_error: ${err.message}`, {
-        extra: {
-          error: err,
-        },
+      Sentry.withScope(scope => {
+        scope.setExtra('error', err);
+        Sentry.captureMessage(`vets_client_error: ${err.message}`);
       });
 
       return Promise.reject(err);

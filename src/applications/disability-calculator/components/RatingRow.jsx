@@ -1,11 +1,11 @@
 import React from 'react';
 
-export const RatingRow = ({
+const RatingRow = ({
   ratingObj,
   indx,
   handleChange,
   handleRemoveRating,
-  ratingRef,
+  inputRef,
   canDelete,
 }) => {
   const onRatingChange = e => {
@@ -34,29 +34,28 @@ export const RatingRow = ({
           className="ratingInput"
           maxLength="2"
           value={ratingObj.rating}
-          //   ref={input => (this.ratingInput = input)}
           pattern="\d+"
-          // pattern="/^[0-9\b]+$/;"
           name="rating"
-          ref={ratingRef}
-          // autoFocus
+          ref={inputRef}
+          aria-labelledby="ratingLabel"
         />
       </div>
-      <div className="vads-l-col--8">
+      <div className="vads-l-col--6">
         <input
           className="descriptionInput"
           name="description"
           onChange={onDescriptionChange}
           value={ratingObj.description}
+          aria-labelledby="descriptionLabel"
         />
       </div>
-      <div className="vads-l-col--2">
+      <div className="vads-l-col--3">
         {canDelete && (
           <div>
             <button
               type="button"
               onClick={handleRemoveRating(indx)}
-              className="va-button-link delete-btn vads-u-padding--1p5"
+              className="va-button-link delete-btn vads-u-margin--1p5"
             >
               <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
               Delete
@@ -67,3 +66,7 @@ export const RatingRow = ({
     </div>
   );
 };
+
+export default React.forwardRef((props, ref) => (
+  <RatingRow inputRef={ref} {...props} />
+));

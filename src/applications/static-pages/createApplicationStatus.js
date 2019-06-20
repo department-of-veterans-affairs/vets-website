@@ -17,6 +17,9 @@ export default function createApplicationStatus(store, form) {
             showApplyButton={
               root.getAttribute('data-hide-apply-button') === null
             }
+            showLearnMoreLink={
+              root.getAttribute('data-widget-show-learn-more') !== null
+            }
             additionalText={form.additionalText}
             applyHeading={form.applyHeading}
             applyLink={form.applyLink}

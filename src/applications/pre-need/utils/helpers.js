@@ -1,6 +1,6 @@
 import React from 'react';
 import { get, omit, merge } from 'lodash/fp';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
@@ -423,8 +423,8 @@ export function getCemeteries() {
     })
     .catch(res => {
       if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_preneed_cemeteries_error');
+        Sentry.captureException(res);
+        Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
 
       // May change this to a reject later, depending on how we want

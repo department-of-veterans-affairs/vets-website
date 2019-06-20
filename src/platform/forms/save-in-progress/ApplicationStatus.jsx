@@ -231,7 +231,7 @@ export class ApplicationStatus extends React.Component {
               >
                 {applyText}
               </a>
-              {window.location.pathname.endsWith('eligibility/') && (
+              {this.props.showLearnMoreLink && (
                 <p>
                   <a href={applyLink}>Learn more about how to apply</a>
                 </p>
@@ -262,6 +262,7 @@ ApplicationStatus.propTypes = {
     savedForms: PropTypes.array.isRequired,
   }),
   stayAfterDelete: PropTypes.bool,
+  showLearnMoreLink: PropTypes.bool,
 };
 
 ApplicationStatus.defaultProps = {

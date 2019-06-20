@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import Decision from '../components/appeals-v2/Decision';
 
@@ -41,10 +41,9 @@ export function getTypeName(appeal) {
     case APPEAL_TYPES.appeal:
       return 'Appeal';
     default:
-      Raven.captureMessage('appeals-unknown-type', {
-        extra: {
-          type: appeal.type,
-        },
+      Sentry.withScope(scope => {
+        scope.setExtra('type', appeal.type);
+        Sentry.captureMessage('appeals-unknown-type');
       });
       return null;
   }
@@ -1045,10 +1044,9 @@ export function getEventContent(event) {
         description: '',
       };
     default:
-      Raven.captureMessage('appeals-unknown-event', {
-        extra: {
-          eventType: event.type,
-        },
+      Sentry.withScope(scope => {
+        scope.setExtra('eventType', event.type);
+        Sentry.captureMessage('appeals-unknown-event');
       });
       return null;
   }
@@ -1118,7 +1116,7 @@ export const makeDurationText = timeliness => {
     const durationError = new Error(
       'vets_appeals_v2_helpers_makeDurationText_bad_timeliness_input',
     );
-    Raven.captureException(durationError);
+    Sentry.captureException(durationError);
     return durationText;
   }
 
@@ -2073,7 +2071,10 @@ export const UNKNOWN_STATUS = 'unknown';
  */
 export const getErrorStatus = response => {
   if (response instanceof Error) {
-    Raven.captureException(response, { tags: { location: 'getStatus' } });
+    Sentry.withScope(scope => {
+      scope.setTag('location', 'getStatus');
+      Sentry.captureException(response);
+    });
   }
   return response.errors && response.errors.length
     ? response.errors[0].status
