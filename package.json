@@ -235,6 +235,8 @@
     "ismobilejs": "^0.4.0",
     "js-yaml": "^3.13.1",
     "jsonschema": "^1.1.1",
+    "launchdarkly-js-client-sdk": "^2.12.0",
+    "launchdarkly-react-client-sdk": "^2.12.0",
     "leaflet": "^1.0.3",
     "leaflet-control-geocoder": "^1.5.1",
     "local-storage-fallback": "^4.1.1",

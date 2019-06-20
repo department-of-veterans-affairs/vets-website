@@ -1,6 +1,15 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import * as LDClient from 'launchdarkly-js-client-sdk';
+import { withLDProvider, withLDConsumer } from 'launchdarkly-react-client-sdk';
+
+const user = {
+  key: Math.random()
+    .toString(36)
+    .substring(7),
+};
 
 import {
   clearAutocompleteSuggestions,
@@ -54,11 +63,27 @@ export class LandingPage extends React.Component {
   }
 
   render() {
+    const {
+      appGibctLandingPageShowPercent,
+      appGibctLandingPageShowVideo,
+    } = this.props.flags;
+
+    const ready = appGibctLandingPageShowPercent !== undefined;
+
     return (
       <span className="landing-page">
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
+            {ready && (appGibctLandingPageShowPercent ? (
+              <h2 className="vads-u-color--primary">
+                Test feature
+              </h2>
+            ) : (
+              <h2 className="vads-u-color--warning-message">
+                Test feature
+              </h2>
+            ))}
             <p className="subheading">
               Learn about education programs and compare benefits by school.
             </p>
@@ -90,7 +115,7 @@ export class LandingPage extends React.Component {
           </div>
 
           <div className="small-12 usa-width-one-third medium-4 columns">
-            <VideoSidebar />
+            {appGibctLandingPageShowVideo && <VideoSidebar />}
           </div>
         </div>
       </span>
@@ -110,9 +135,16 @@ const mapDispatchToProps = {
   updateAutocompleteSearchTerm,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(LandingPage),
+export default withLDProvider({
+  clientSideID: '5d0aa4da1b0bf6076428fc27',
+  user,
+})(
+  withLDConsumer()(
+    withRouter(
+      connect(
+        mapStateToProps,
+        mapDispatchToProps,
+      )(LandingPage),
+    ),
+  ),
 );

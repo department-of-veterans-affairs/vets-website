@@ -1785,6 +1785,11 @@ base64-js@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-0.0.8.tgz#1101e9544f4a76b1bc3b26d452ca96d7a35e7978"
 
+base64-js@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.0.tgz#cab1e6118f051095e58b5281aea8c1cd22bfc0e3"
+  integrity sha512-ccav/yGvoa80BQDljCxsmmQ3Xvx60/UpBIij5QN21W3wBi/hhIC9OoO+KLpu9IJTS9j4DRVJ3aDDF9cMSoa2lw==
+
 base64-js@^1.0.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.0.tgz#a39992d723584811982be5e290bb6a53d86700f1"
@@ -4718,6 +4723,11 @@ eyes@0.1.x:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/eyes/-/eyes-0.1.8.tgz#62cf120234c683785d902348a800ef3e0cc20bc0"
 
+fast-deep-equal@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
+  integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
+
 fast-deep-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
@@ -7158,6 +7168,32 @@ labeled-stream-splicer@^2.0.0:
     inherits "^2.0.1"
     isarray "^2.0.4"
     stream-splicer "^2.0.0"
+
+launchdarkly-js-client-sdk@^2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.12.0.tgz#ccbda15be0bed78bfe862bc7e45d4b004d0bd5f8"
+  integrity sha512-jB1wpQ6Qq2pCUKaIO1XvkXOd2+crapMmKHEOpLS+e0fGeeUwbpgMPg5GW5Kf89q84Abd/eVLSZjr4RTgjFxzgA==
+  dependencies:
+    escape-string-regexp "1.0.5"
+    launchdarkly-js-sdk-common "^2.12.0"
+
+launchdarkly-js-sdk-common@^2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-2.12.0.tgz#d276d1c799037f83f07e9df48866096f46170454"
+  integrity sha512-VsjZfjYywdMjFytXGOIBwAlTC+URLTKU7C16VvqASKG14GgodGKsGKG4dGNxB+KAJ8yOmRFgvo9kOzMG70cbCg==
+  dependencies:
+    base64-js "1.3.0"
+    fast-deep-equal "2.0.1"
+    uuid "3.3.2"
+
+launchdarkly-react-client-sdk@^2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/launchdarkly-react-client-sdk/-/launchdarkly-react-client-sdk-2.12.0.tgz#6f8962ee325758ec961afbc64b7fc965688a7d90"
+  integrity sha512-La4Vu08MOFxzq2lcKJ4J8Xr+FyRvopyTXS1PJKb20BR0JwNUykz/+vcSs7mrIwhNFNd69bWWPXZg5YN3U2Ze0Q==
+  dependencies:
+    launchdarkly-js-client-sdk "^2.12.0"
+    lodash.camelcase "^4.3.0"
+    uuid "^3.3.2"
 
 lazy-cache@^0.2.3:
   version "0.2.7"
