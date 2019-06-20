@@ -118,8 +118,13 @@
                   {% endif %}
 
                   {% if entity.fieldMedia.entity.entityBundle == 'video' %}
+                  {% if entity.fieldMedia.entity.thumbnail.derivative.url %}
+                  <img
+                    src="{{entity.fieldMedia.entity.thumbnail.derivative.url}}" />
+                  {%else%}
                   <img
                     src="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField | videoThumbnail}}" />
+                  {%endif%}
                   {% endif %}
                 </div>
 

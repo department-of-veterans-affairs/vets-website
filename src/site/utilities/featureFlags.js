@@ -5,7 +5,7 @@ const path = require('path');
 const featureFlags = {
   FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
   FEATURE_FIELD_ADDITIONAL_INFO: 'featureFieldAdditionalInformationAbo',
-
+  FEATURE_FIELD_MEDIA_IN_LIBRARY: 'featureFieldMediaInLibrary',
   GRAPHQL_MODULE_UPDATE: 'featureGraphQLModuleUpdate',
   FEATURE_FIELD_OTHER_VA_LOCATIONS: 'featureFieldOtherVaLocations',
   FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS:
