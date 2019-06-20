@@ -221,6 +221,13 @@ const getArrayInfo = (url, arrayPages = []) => {
 const getArrayData = (testData, arrayPageConfig) =>
   findData(`${arrayPageConfig.arrayPath}`, testData)[arrayPageConfig.index];
 
+const removeForeseeOverlay = async (page, log) => {
+  if (await page.$('.__acs')) {
+    log('Foresee found; destroying the overlay...');
+    await searchAndDestroy(page, '.__acs');
+  }
+};
+
 /**
  * Enters data for each field, looping until no more fields have been expanded and
  *  no more array items are available in the test data.
@@ -239,6 +246,8 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   let originalSnapshot;
   /* eslint-disable no-await-in-loop */
   do {
+    await removeForeseeOverlay(page, log);
+
     originalSnapshot = await getSnapshot(page);
     log(
       'Field list:',
@@ -296,8 +305,6 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   /* eslint-enable no-await-in-loop */
 };
 
-const removeForeseeOverlay = async page => searchAndDestroy(page, '.__acs');
-
 /**
  * Waits until the URL changes or the timeout is reached before returning the current URL.
  *
@@ -345,12 +352,11 @@ const fillForm = async (page, testData, testConfig, log) => {
     log(page.url());
     // TODO: Run axe checker
 
-    await removeForeseeOverlay(page);
-
     // If there's a page hook, run that
     const url = page.url();
     const hook = _.get(`pageHooks.${parseUrl(url).path}`, testConfig);
     if (hook) {
+      await removeForeseeOverlay(page, log);
       await runHook(hook);
     } else {
       await fillPage(page, testData, testConfig, log);
@@ -363,7 +369,6 @@ const fillForm = async (page, testData, testConfig, log) => {
       //  and we tried to enter data too fast; try again
       // NOTE: This won't trigger if the field we missed isn't required!
       if ((await nextUrl(page, { previousUrl: url })) === url) {
-        await removeForeseeOverlay(page);
         await fillPage(page, testData, testConfig, log);
         log('Clicking continue again');
         await page.click(CONTINUE_BUTTON);
