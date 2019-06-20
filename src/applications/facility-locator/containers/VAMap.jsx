@@ -2,7 +2,7 @@
 /* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
@@ -414,9 +414,9 @@ class VAMap extends Component {
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
             <div>
-              <a href={`/provider/${r.id}`}>
+              <Link to={`/provider/${r.id}`}>
                 <h5>{r.attributes.name}</h5>
-              </a>
+              </Link>
               <h6>{r.attributes.orgName}</h6>
               <p>
                 Services:{' '}
@@ -427,9 +427,9 @@ class VAMap extends Component {
             </div>
           ) : (
             <div>
-              <a href={`/facility/${r.id}`}>
+              <Link to={`/facility/${r.id}`}>
                 <h5>{r.attributes.name}</h5>
-              </a>
+              </Link>
               <p>
                 Facility type:{' '}
                 <strong>{facilityTypes[r.attributes.facilityType]}</strong>
