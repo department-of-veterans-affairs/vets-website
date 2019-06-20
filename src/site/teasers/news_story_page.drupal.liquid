@@ -28,8 +28,8 @@ Example data:
 {% endif %}
 {% assign isStoriesPage = entityUrl.path | isPage: "stories" %}
 <div class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-    <div class="usa-width-two-thirds {% if isStoriesPage %}stories-list{% endif %}">
-        <{{ header }} class="{% if isStoriesPage %}heading-level-3{% endif %} medium-screen:vads-u-margin-bottom--0p5"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+    <div class="usa-width-two-thirds">
+        <{{ header }} class="{% if isStoriesPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %} medium-screen:vads-u-margin-bottom--0p5"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
         <p class="vads-u-margin-y--0">{{ node.fieldIntroText | truncatewords: 60, "..." }}</p>
     </div>
     <div class="usa-width-one-third {% if isStoriesPage %}stories-list{% endif %} vads-u-order--first medium-screen:vads-u-order--initial vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">

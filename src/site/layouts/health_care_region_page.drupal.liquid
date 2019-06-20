@@ -234,7 +234,7 @@ Example data:
           <h3 class="vads-u-margin-bottom--2p5">Community Events</h3>
           <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           {% for event in eventTeasers.entities %}
-            <div class="usa-width-one-half event">
+            <div class="region-grid event">
             {% include "src/site/teasers/event.drupal.liquid" with node = event %}
             </div>
           {% endfor %}
