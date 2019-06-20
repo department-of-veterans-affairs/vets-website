@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -27,45 +27,35 @@ export class ConfirmationPage extends React.Component {
 
     let emailMessage;
 
-    const title = 'Your claim is pending';
     const dateTitle = 'Date submitted';
     if (data.email) {
       emailMessage = (
         <div>
-          <p>
-            Please look for an email from us letting you know when we
-            successfully receive and process your application. If your
-            application doesn’t go through for any reason, we'll also send you
-            an email letting you know.
-          </p>
-          <p>
-            If more than a week has passed since you submitted your application
-            and you haven’t heard back, please don’t apply again. Call our
-            toll-free hotline at 877-222-VETS (
-            <a href="tel:+18772228387">877-222-8387</a>
-            ).
-          </p>
+          <p>We’ll contact you by email if we:</p>
+          <ul>
+            <li>
+              Successfully receive and process your application,
+              <strong>or</strong>
+            </li>
+            <li>Can't process your application for any reason</li>
+          </ul>
         </div>
       );
     }
 
     return (
-      <div>
-        <h3 className="confirmation-page-title">{title}</h3>
+      <div className="confirmation-page">
         <p>
-          We usually process claims within <strong>a week</strong>.
-        </p>
-        {emailMessage}
-        <p>
-          We may contact you if we need more information or documents from you.
-          <br />
-          <i>Please print this page for your records.</i>
+          <strong>Please print this page for your records.</strong>
         </p>
         <div className="inset">
           <h4 className="schemaform-confirmation-claim-header">
+            Thank you for submitting your application
+          </h4>
+          <h5>
             Health Care Benefit Claim{' '}
             <span className="additional">(Form 10-10EZ)</span>
-          </h4>
+          </h5>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}
           </span>
@@ -82,18 +72,96 @@ export class ConfirmationPage extends React.Component {
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">
-            What happens after I apply?
+            How long will it take VA to make a decision on my application?
           </h4>
+          <p className="how-long">
+            We usually decide on applications within <strong>1 week</strong>.
+          </p>
+          {emailMessage}
+          <p>
+            If we need you to provide more information or documents, we’ll
+            contact you by mail.
+          </p>
+          <p>
+            <strong>
+              If we haven’t contacted you within a week after you submitted your
+              application
+            </strong>
+          </p>
+          <p>
+            Please don’t apply again. Instead, please call our toll-free hotline
+            at 877-222-VETS
+            <br />(<a href="tel:+18772228387">877-222-8387</a>
+            ). We’re here Monday through Friday, 8:00 am to 8:00 pm ET.
+          </p>
+          <h4 className="confirmation-guidance-heading">
+            How can I check the status of my application?
+          </h4>
+          <ol className="process-steps">
+            <li className="process-step list-one">
+              <p>
+                <strong>Sign in to VA.gov</strong>
+              </p>
+              <p>
+                You can sign in with your DS Logon, My HealteVet, or ID.me
+                account. If you don’t have an account, you can create one now.
+              </p>
+            </li>
+            <li className="process-step list-two">
+              <p>
+                <strong>
+                  If you haven’t yet verified your identity, complete this
+                  process when prompted
+                </strong>
+              </p>
+              <p>
+                This helps keep you information safe, and prevents fraud and
+                identity theft. If you’ve already verified your identity with
+                us, you won’t need to do this again.
+              </p>
+            </li>
+            <li className="process-step list-three">
+              <p>
+                <strong>Go to your personalized My VA homepage</strong>
+              </p>
+              <p>
+                Once you’re signed in, you can go to your homepage by clicking
+                on the <strong>My VA</strong> link near the top right of any
+                VA.gov page. You’ll find your application status information in
+                the <strong>Your Applications</strong> section of you homepage.
+              </p>
+              <p>
+                <strong>Please note: </strong>
+                Your application status may take some time to appear on our
+                homepage. If you don’t see it there right away, please check
+                back later.
+              </p>
+            </li>
+          </ol>
+          <h4 className="confirmation-guidance-heading">
+            How will I know if I’m enrolled in VA health care?
+          </h4>
+          <p>
+            If enrolled, you’ll receive a Veterans Health Benefits Handbook in
+            the mail within about 10 days.
+          </p>
+          <p>
+            We’ll also call to welcome you to the VA health care program, help
+            you with scheduling your first appointment, and answer any questions
+            you may have about your health care benefits.
+          </p>
           <p className="confirmation-guidance-message">
             <a href="/health-care/after-you-apply/">
               Find out what happens after you apply
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <h4 className="confirmation-guidance-heading">
+            What if I have more questions?
+          </h4>
           <p className="confirmation-guidance-message">
-            If you have questions, please call 877-222-VETS (
-            <a href="tel:+18772228387">877-222-8387</a>) and press 2, Monday
-            &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET.
+            Please call 877-222-VETS (
+            <a href="tel:+18772228387">877-222-8387</a>) and select 2. We're
+            here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
       </div>
