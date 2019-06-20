@@ -71,7 +71,7 @@ export const benefitChoices = [
     introduction:
       'Education benefits like the GI Bill can help you find and pay for the cost of a college or graduate degree program, or training for a specific career, trade, or industry. If you have a service-connected disability, you may also want to consider applying for vocational rehabilitation and employment services.',
     cta: {
-      link: '/education/apply',
+      link: '/education/how-to-apply',
       text: 'Apply now for education benefits',
       gaTag: 'recommendations-education-apply-now',
     },
