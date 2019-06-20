@@ -52,13 +52,13 @@ Example data:
 
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        <article class="usa-content">
-          <h1>News Releases</h1>
+        <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+          <h1 class="vads-u-margin-bottom--5">News Releases</h1>
           {% for pr in pagedItems %}
-            <section class="vads-u-margin-bottom--3">
-              <h3><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
+            <section class="vads-u-margin-bottom--4">
+              <h3 class="vads-u-margin-bottom--1p5"><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
               <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
-              <p>{{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
+              <p class="vads-u-margin-top--0">{{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
             </section>
           {% endfor %}
           {% include "src/site/includes/pagination.drupal.liquid" %}

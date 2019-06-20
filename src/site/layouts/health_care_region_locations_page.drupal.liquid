@@ -9,26 +9,23 @@
         <div class="usa-width-three-fourths">
             {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
 
-            <article class="usa-content">
-                <h1>Our Locations</h1>
-                <div class="va-introtext">
+            <article class="vads-u-width--full vads-u-padding--2 small-screen:vads-u-padding--3">
+                <h1 class="vads-u-margin-bottom--2">Our Locations</h1>
+                <div class="va-introtext vads-u-margin-bottom--0">
                     {{ fieldLocationsIntroBlurb.processed }}
                 </div>
-                <section class="locations">
-                    <h2 id="main-locations">Main locations</h2>
+                <section class="locations clearfix">
+                    <h2 id="main-locations" class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--4">Main locations</h2>
                     <div data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
-                    <h2 id="community-clinic-locations">Community clinic locations</h2>
+                    <h2 id="community-clinic-locations" class="medium-screen:vads-u-margin-bottom--4">Health clinic locations</h2>
                     <div data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | widgetFacilitiesList | escape }}"></div>
 
-                    {% if fieldOtherVaLocations != empty %}
-                        <h2 id="community-clinic-locations">Other nearby VA locations</h2>
+                    {% if fieldOtherVaLocations != empty and fieldOtherVaLocations.length %}
+                        <h2 id="community-clinic-locations" class="medium-screen:vads-u-margin-bottom--4">Other nearby VA locations</h2>
                         <div data-widget-type="other-facility-locations-list" data-facilities="{{ fieldOtherVaLocations }}"></div>
                     {% endif %}
                 </section>
             </article>
-            <div class="last-updated usa-content">
-                Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-            </div>
         </div>
     </div>
   </main>

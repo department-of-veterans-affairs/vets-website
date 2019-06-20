@@ -116,21 +116,21 @@ Example data:
         </div>
         {% endif %}
 
-        <article class="usa-content">
+        <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
           <div class="usa-grid usa-grid-full">
-            <h1>{{ title }}</h1>
+            <h1 class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">{{ title }}</h1>
             {% if fieldMedia %}
-            <img alt="{{fieldMedia.entity.image.alt}}"
-              src="{{fieldMedia.entity.image.derivative.url}}" />
+                <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}"
+                  src="{{fieldMedia.entity.image.derivative.url}}" />
             {% endif %}
             <div class="va-introtext">
-              <p>{{ fieldDescription }}</p>
+              <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">{{ fieldDescription }}</p>
             </div>
 
-            <div class="usa-width-one-half">
+            <div class="usa-width-one-half vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--0">
               {% assign facility = fieldFacilityLocation.entity %}
               <dl class="va-c-event-info">
-                <dt class="vads-u-font-weight--bold">When:</dt>
+                <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">When</dt>
                 <dd>
                   {% if date_type == "start_date_only" %}
                   <span>{{ start_date_no_time }}</span><br>
@@ -151,7 +151,7 @@ Example data:
               </dl>
 
               <dl class="va-c-event-info">
-                <dt class="vads-u-font-weight--bold">Where:</dt>
+                <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">Where</dt>
                 <dd>
                   {% if facility %}
                   <p class="vads-u-margin--0">
@@ -161,70 +161,67 @@ Example data:
                   <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
                   </p>
                   {% else %}
-                  {% if fieldAddress.addressLine1 %}
-                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}
-                  </p>
-                  {% endif %}
-                  {% if fieldAddress.addressLine2 %}
-                  <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}
-                  </p>
-                  {% endif %}
-                  <p class="vads-u-margin--0">
-                    {% if fieldAddress.locality %}
-                    {{ fieldAddress.locality }}
-                    {% endif %}
-                    {% if fieldAddress.administrativeArea %}
-                    , {{ fieldAddress.administrativeArea }}
-                    {% endif %}
-                  </p>
+                      {% if fieldAddress.addressLine1 %}
+                        <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
+                      {% endif %}
+                      {% if fieldAddress.addressLine2 %}
+                        <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}</p>
+                      {% endif %}
+                      <p class="vads-u-margin--0">
+                        {% if fieldAddress.locality %}
+                            {{ fieldAddress.locality }}
+                        {% endif %}
+                        {% if fieldAddress.administrativeArea %}
+                        , {{ fieldAddress.administrativeArea }}
+                        {% endif %}
+                      </p>
                   {% endif %}
                 </dd>
 
               </dl>
 
-              {% if fieldEventCost %}
-              <dl class="va-c-event-info">
-                <dt class="vads-u-font-weight--bold">Cost:</dt>
-                <dd>
-                  <span>{{ fieldEventCost }}</span>
-                </dd>
-              </dl>
-              {% endif %}
+                {% if fieldEventCost %}
+                    <dl class="va-c-event-info">
+                      <dt class="vads-u-font-weight--bold vads-u-margin-right--2">Cost</dt>
+                      <dd>
+                        <span>{{ fieldEventCost }}</span>
+                      </dd>
+                    </dl>
+                {% endif %}
+
+                <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
+                    <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
+                    {% if start_timestamp > current_timestamp %}
+                        <p class="vads-u-margin--0">This event already happened.</p>
+                    {% else %}
+                        {% if fieldLink %}
+                            <p class="vads-u-margin--0"><a
+                                        href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
+                            </p>
+                        {% endif %}
+                        {% if fieldAdditionalInformationAbo %}
+                            <p class="vads-u-margin--0">{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
+                        {% endif %}
+
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="usa-width-one-half va-c-event-share">
-              {% include "src/site/includes/social-share.drupal.liquid" %}
+                <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
+                    {% include "src/site/includes/social-share.drupal.liquid" %}
+                </div>
             </div>
-          </div>
-
-          <div class="registration">
-            <p class="vads-u-font-weight--bold">Registration</p>
-            {% if start_timestamp > current_timestamp %}
-            <p>This event already happened.</p>
-            {% else %}
-            {% if fieldLink %}
-            <p><a
-                href="{{ fieldLink.url.path }}"><button>{{fieldEventCta | listValue | capitalize}}</button></a>
-            </p>
-            {% endif %}
-            {% if fieldAdditionalInformationAbo %}
-            <p>{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
-            {% endif %}
-
-            {% endif %}
-          </div>
-
 
           <div class="usa-grid usa-grid-full">
             <div class="event-description">
               {{ fieldBody.processed }}
             </div>
           </div>
-
-          <a href="#">See all community events</a>
+            {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
+          <a href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all community events</a>
         </article>
 
-        <div class="last-updated usa-content">
+        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
           Last updated:
           <time
             datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>

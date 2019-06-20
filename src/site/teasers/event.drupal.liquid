@@ -49,37 +49,39 @@ Example data:
   {% if header == empty %}
       {% assign header = "h4" %}
   {% endif %}
-  <div class="vads-u-margin-bottom--2">
-  <{{ header }}><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
-  <p>{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
-  <div class="usa-grid usa-grid-full">
-    <div class="usa-width-one-sixth">
-      <strong>When:</strong>
-    </div>
-    <div class="usa-width-five-sixths">
-        {% if date_type == "start_date_only" %}
-            <span>{{ start_date_no_time }}</span><br>
-            <span>{{ start_time }}</span>
-        {% else %}
-            {% if date_type == "same_day" %}
+  <div class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
+      <{{ header }} class="vads-u-margin-top--0 vad-u-margin-bottom-1 vads-u-font-size--md medium-screen:vads-u-font-size--lg"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+      <p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
+      <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
+        <div class="vads-u-margin-right--2 when-where-width">
+          <strong>When</strong>
+        </div>
+        <div class="usa-width-five-sixths">
+            {% if date_type == "start_date_only" %}
                 <span>{{ start_date_no_time }}</span><br>
-                <span>{{ start_time }} - {{ end_time }}</span>
+                <span>{{ start_time }}</span>
             {% else %}
-                <span>{{ start_date_full }} -</span><br>
-                <span>{{ end_date_full }}</span>
+                {% if date_type == "same_day" %}
+                    <span>{{ start_date_no_time }}</span><br>
+                    <span>{{ start_time }} - {{ end_time }}</span>
+                {% else %}
+                    <span>{{ start_date_full }} -</span><br>
+                    <span>{{ end_date_full }}</span>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    </div>
-  </div>
-  <div class="usa-grid usa-grid-full">
-    <div class="usa-width-one-sixth">
-      <strong>Where:</strong>
-    </div>
-    <div class="usa-width-five-sixths">
-      <p><a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a> </p>
-      <span>{{ node.fieldLocationHumanreadable }}</span>
-    </div>
-  </div>
+        </div>
+      </div>
+      <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
+        <div class="vads-u-margin-right--2 when-where-width">
+          <strong>Where</strong>
+        </div>
+        <div class="usa-width-five-sixths">
+          <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
+              <a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a>
+          </p>
+          <span>{{ node.fieldLocationHumanreadable }}</span>
+        </div>
+      </div>
   </div>
 
 {% endif %}

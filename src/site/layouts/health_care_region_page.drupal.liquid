@@ -137,27 +137,27 @@ Example data:
         </div>
       {% endif %}
 
-      <article class="usa-content">
+      <article class="vads-u-width--full vads-u-padding--2 small-screen:vads-u-padding--3">
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
 
-        <div class="duotone darken lighten">
+        <div class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
           <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
         </div>
 
-        <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
+        <div class="usa-grid usa-grid-full vads-u-margin-y--0">{% assign basePath = entityUrl.path | regionBasePath %}
             {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
 
         {% if fieldIntroText != empty %}
           <div class="va-introtext">
-            <p>{{ fieldIntroText }}</p>
+            <p class="vads-u-margin-bottom--0">{{ fieldIntroText }}</p>
           </div>
         {% endif %}
 
         <section>
-          <h2>Locations</h2>
+          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 medium-screen:vads-u-margin-bottom--2p5">Locations</h2>
           <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/locations">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md" href="{{ entityUrl.path }}/locations">
             See all locations <i class="fa fa-chevron-right">&nbsp;</i>
           </a>
         </section>
@@ -220,26 +220,26 @@ Example data:
 
           <!-- Stories -->
         <section>
-          <h3>Community Stories</h3>
+          <h3 class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">Community Stories</h3>
           {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/stories">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/stories">
             See all community stories <i class="fa fa-chevron-right"></i>
           </a>
         </section>
 
         <!-- Events -->
         <section>
-          <h3>Community Events</h3>
-          <div class="usa-grid usa-grid-full">
+          <h3 class="vads-u-margin-bottom--2p5">Community Events</h3>
+          <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           {% for event in eventTeasers.entities %}
-            <div class="usa-width-one-half">
+            <div class="region-grid event">
             {% include "src/site/teasers/event.drupal.liquid" with node = event %}
             </div>
           {% endfor %}
           </div>
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/events">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/events">
             See all events <i class="fa fa-chevron-right"></i>
           </a>
         </section>

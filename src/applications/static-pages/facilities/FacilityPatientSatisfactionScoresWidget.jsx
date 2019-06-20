@@ -21,26 +21,28 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
 
     return (
       <div>
-        <h2 id="our-patient-satisfaction-scores">
-          Our patient satisfaction scores
+        <h2
+          id="our-patient-satisfaction-scores"
+          className="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+        >
+          Appointment access at this location
         </h2>
-        <p id="facility-patient-satisfaction-scores-effective-date">
-          Last updated: {formatDateLong(facility.feedback.health.effectiveDate)}
-        </p>
         <p>
           Veteran-reported satisfaction scores come from the Consumer Assessment
           of Health and Systems survey, which measures satisfaction of nearly
           150,000 Veterans across the U.S. every 6 months.
         </p>
-        <h3>Urgent care appointments at this location</h3>
+        <h3 className="vads-u-font-size--md">
+          Urgent care appointments at this location
+        </h3>
         <p>
-          % of Veterans who say they usually or always get an appointment when
-          they need care right away
+          Veterans who say they usually or always get an appointment when they
+          need care right away.
         </p>
         <div className="usa-grid-full">
-          <div className="usa-width-one-half vads-u-display--flex">
+          <div className="vads-u-display--flex">
             {!!facility.feedback.health.primaryCareUrgent && (
-              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
                 <p className="vads-u-margin--0">Primary care</p>
                 <p
                   id="facility-patient-satisfaction-scores-primary-urgent-score"
@@ -51,7 +53,7 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
               </div>
             )}
             {!!facility.feedback.health.specialtyCareUrgent && (
-              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
                 <p className="vads-u-margin--0">Specialty care</p>
                 <p
                   id="facility-patient-satisfaction-scores-specialty-urgent-score"
@@ -64,15 +66,17 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           </div>
         </div>
 
-        <h3>Routine care appointments at this location</h3>
+        <h3 className="vads-u-font-size--md">
+          Routine care appointments at this location
+        </h3>
         <p>
-          % of Veterans who say they usually or always get an appointment when
-          they need it
+          Veterans who say they usually or always get an appointment when they
+          need it.
         </p>
         <div className="usa-grid-full">
-          <div className="usa-width-one-half vads-u-display--flex">
+          <div className="vads-u-display--flex">
             {!!facility.feedback.health.primaryCareRoutine && (
-              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
                 <p className="vads-u-margin--0">Primary care</p>
                 <p
                   id="facility-patient-satisfaction-scores-primary-routine-score"
@@ -84,7 +88,7 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
             )}
 
             {!!facility.feedback.health.specialtyCareRoutine && (
-              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
                 <p className="vads-u-margin--0">Specialty care</p>
                 <p
                   id="facility-patient-satisfaction-scores-specialty-routine-score"
@@ -98,6 +102,9 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
             )}
           </div>
         </div>
+        <p id="facility-patient-satisfaction-scores-effective-date">
+          Last updated: {formatDateLong(facility.feedback.health.effectiveDate)}
+        </p>
       </div>
     );
   }
