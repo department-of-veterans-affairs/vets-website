@@ -42,8 +42,8 @@ $duo-tone-lighten: #000000;
 .facility-satisfaction-tile {
   width: 50%;
 
-  @include media($medium-large-screen) {
-    width: 147px;
+  @include media($small-screen) {
+    width: 144px;
   }
 }
 
@@ -126,54 +126,53 @@ $duo-tone-lighten: #000000;
   }
 }
 
-.region-list {
-  .region-grid {
-    width: 100%;
+.region-grid {
+  width: 100%;
+  padding-right: initial;
+  padding-left: initial;
+
+  &:not(:only-child):last-child {
     padding-right: initial;
     padding-left: initial;
+  }
+
+  &.stories-list {
+    width: 100%;
+  }
+
+  @include media($small-screen) {
+    width: 50%;
+    padding-right: 12px;
+    padding-left: 0;
     &:not(:only-child):last-child {
-      padding-right: initial;
-      padding-left: initial;
+      padding-right: 0;
+      padding-left: 12px;
     }
 
     &.stories-list {
       width: 100%;
     }
+  }
 
-    @include media($small-screen) {
+  @include media($medium-large-screen) {
+    width: 65%;
+    &.event,
+    &.facility {
       width: 50%;
-      padding-right: 12px;
-      padding-left: 0;
-      &:not(:only-child):last-child{
-        padding-right: 0;
-        padding-left: 12px;
-      }
-
-      &.stories-list {
-        width: 100%;
-      }
     }
 
-    @include media($medium-large-screen) {
-      width: 65%;
+    &:not(:only-child):last-child {
       &.event,
       &.facility {
         width: 50%;
       }
 
-      &:not(:only-child):last-child {
-        &.event,
-        &.facility {
-          width: 50%;
-        }
-        width: 32%;
-      }
+      width: 32%;
     }
   }
 }
 
-
 // to push items at the end of an element wrapped in display: flex to the bottom
-.vads-u-margin-top--auto {
+.va-c-margin-top--auto {
   margin-top: auto;
 }
