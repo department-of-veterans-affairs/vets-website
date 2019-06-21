@@ -10,12 +10,14 @@ let g = 1;
 
 function createUniqueId(headingEl) {
   const headingString = headingEl.text();
+  const length = 30;
   let anchor = headingString
     .trim()
     .toLowerCase()
     .replace(/[^\w\- ]+/g, '')
     .replace(/\s/g, '-')
-    .replace(/-+$/, '');
+    .replace(/-+$/, '')
+    .substring(0, length);
 
   if (usedHeaders.includes(anchor)) {
     if (!usedHeaders.includes(`${anchor}-${g}`)) {
