@@ -6,17 +6,21 @@ const cheerio = require('cheerio');
 
 const usedHeaders = [];
 
+let g = 1;
+
 function createUniqueId(headingEl) {
   const headingString = headingEl.text();
   let anchor = headingString
     .trim()
     .toLowerCase()
-    .replace(/&/g, '')
-    .replace(/\s+/g, '-');
-  if (usedHeaders.indexOf(anchor) !== -1) {
-    let i = 1;
-    while (usedHeaders.indexOf(`${anchor}-${i}`) !== -1 && i++ <= 10) {
-      anchor = `${anchor}-${i}`;
+    .replace(/[^\w\- ]+/g, '')
+    .replace(/\s/g, '-')
+    .replace(/-+$/, '');
+
+  if (usedHeaders.includes(anchor)) {
+    if (!usedHeaders.includes(`${anchor}-${g}`)) {
+      anchor = `${anchor}-${g}`;
+      g++;
     }
   }
   usedHeaders.push(anchor);
