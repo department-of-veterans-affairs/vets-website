@@ -60,7 +60,9 @@ const {
   socialSecurityNumberLastFour,
 } = fullSchema.properties;
 
-const { assistance, school } = educationDetails.properties;
+const { school } = educationDetails.properties;
+
+// Once shared schema is updated, programs and assistance can be pulled from educationDetails again
 const programs = {
   type: 'object',
   properties: {
@@ -98,6 +100,33 @@ const programs = {
       type: 'boolean',
       default: false,
       title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)',
+    },
+  },
+};
+
+const assistance = {
+  type: 'object',
+  properties: {
+    ta: {
+      type: 'boolean',
+      default: false,
+      title: 'Federal Tuition Assistance (TA)',
+    },
+    taAgr: {
+      type: 'boolean',
+      default: false,
+      title:
+        'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties',
+    },
+    myCaa: {
+      type: 'boolean',
+      default: false,
+      title: 'Military Spouse Career Advancement Accounts (MyCAA)',
+    },
+    ffa: {
+      type: 'boolean',
+      default: false,
+      title: 'Federal financial aid',
     },
   },
 };
