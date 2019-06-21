@@ -1,18 +1,20 @@
 @Library('va.gov-devops-jenkins-lib') _
 
 node('vetsgov-general-purpose') {
-	ref = params.ref
-	if (ref == "") {
-		ref = getLatestGitRef("vets-website", branch: 'master')
-	}
+  ref = params.ref
+  if (ref == "") {
+    ref = getLatestGitRef("vets-website", branch: 'master')
+  }
 
-	// check to see if build on master is running
-	is_running = jenkins.model.Jenkins.instance.getItem('testing/vets-website/master', jenkins.model.Jenkins.instance.getItem('testing')).lastBuild.building
-	if (is_running) {
-		slackSend(message:"didn't run. job already running or something failed...",
-							color: "warning",
-							channel: "#vsp-something")
-	}
+  // check to see if build on master is running
+  is_running = jenkins.model.Jenkins.instance.getItem('testing/vets-website/master', jenkins.model.Jenkins.instance.getItem('testing')).lastBuild.building
+  if (is_running) {
+    slackSend(message:"didn't run. job already running or something failed...",
+              color: "warning",
+              channel: "#vsp-something")
+
+		// TODO bail or something
+  }
 
   dir("vets-website") {
     checkout scm: [$class: 'GitSCM', branches: [[name: ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
@@ -35,9 +37,9 @@ node('vetsgov-general-purpose') {
     commonStages.archive(dockerContainer, ref, params.env)
   }
 
-	stage("Deploy Dev or Staging") {
-		if (params.env != "vagovprod" && params.deploy) {
-			commonStages.runDeploy('deploys/vets-website-${params.env}', ref)
-		}
-	}
+  stage("Deploy Dev or Staging") {
+    if (params.env != "vagovprod" && params.deploy) {
+      commonStages.runDeploy('deploys/vets-website-${params.env}', ref)
+    }
+  }
 }
