@@ -16,15 +16,11 @@ DRUPAL_CREDENTIALS = [
   'vagovprod'   : 'drupal-prod',
 ]
 
-ALL_VAGOV_BUILDTYPES = [
+VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
   'vagovprod'
 ]
-
-BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
-
-VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
 
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
@@ -153,15 +149,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def builds = [:]
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
-
-			//if (contentOnlyBuild && IS_PROD_BRANCH) {
-			if (contentOnlyBuild) {
-				sleep_counter = 0
-				while (currentBuild.previousBuild.result == null && sleep_counter < 3) {
-					sleep 60
-					sleep_counter++
-				}
-			}
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
