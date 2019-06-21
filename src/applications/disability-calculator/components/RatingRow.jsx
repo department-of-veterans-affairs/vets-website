@@ -7,6 +7,7 @@ const RatingRow = ({
   handleRemoveRating,
   inputRef,
   canDelete,
+  stateLength,
 }) => {
   const onRatingChange = e => {
     const val = e.target.value;
@@ -23,7 +24,6 @@ const RatingRow = ({
   const onDescriptionChange = e => {
     handleChange(indx, { ...ratingObj, description: e.target.value });
   };
-
   return (
     <div className="rating vads-l-row">
       <div className="vads-l-col--2 vads-u-padding-right--2">
@@ -50,18 +50,17 @@ const RatingRow = ({
         />
       </div>
       <div className="vads-l-col--3">
-        {canDelete && (
-          <div>
-            <button
-              type="button"
-              onClick={handleRemoveRating(indx)}
-              className="va-button-link delete-btn vads-u-margin--1p5"
-            >
-              <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
-              Delete
-            </button>
-          </div>
-        )}
+        <div>
+          <button
+            type="button"
+            onClick={handleRemoveRating(indx)}
+            className="va-button-link delete-btn vads-u-margin--1p5"
+            disabled={canDelete < 3}
+          >
+            <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );

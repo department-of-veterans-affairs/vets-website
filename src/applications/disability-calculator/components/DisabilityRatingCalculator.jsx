@@ -96,7 +96,6 @@ export default class DisabilityRatingCalculator extends React.Component {
   render() {
     const ratings = this.state.ratings;
     const calculatedRating = this.state.calculatedRating;
-
     return (
       <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
         <div className="calc-header vads-u-padding-x--4">
@@ -136,8 +135,8 @@ export default class DisabilityRatingCalculator extends React.Component {
               indx={idx}
               ratingRef={this.ratingRef}
               handleRemoveRating={this.handleRemoveRating}
-              canDelete={idx > 1}
               ref={this.setRef}
+              canDelete={this.state.ratings.length}
             />
           ))}
           <div className="vads-l-row">
