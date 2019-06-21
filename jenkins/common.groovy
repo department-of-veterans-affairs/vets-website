@@ -154,6 +154,15 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
 
+			//if (contentOnlyBuild && IS_PROD_BRANCH) {
+			if (contentOnlyBuild) {
+				sleep_counter = 0
+				while (currentBuild.previousBuild.result == null && sleep_counter < 3) {
+					sleep 60
+					sleep_counter++
+				}
+			}
+
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
