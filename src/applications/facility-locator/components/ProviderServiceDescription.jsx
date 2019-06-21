@@ -14,7 +14,7 @@ import React from 'react';
 const ProviderServiceDescription = ({ provider, details = false }) => {
   if (details) {
     const { specialty } = provider.attributes;
-    if (specialty.length < 1) return null;
+    if (specialty && specialty.length < 1) return null;
 
     return (
       <ul>

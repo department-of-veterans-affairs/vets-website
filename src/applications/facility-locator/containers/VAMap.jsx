@@ -377,6 +377,7 @@ class VAMap extends Component {
   renderFacilityMarkers = () => {
     const { results } = this.props;
 
+    // TODO: Remove this commented block after verified stable in Staging and Prod
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     // const linkAction = (id, isProvider = false, e) => {
     //   e.preventDefault();
