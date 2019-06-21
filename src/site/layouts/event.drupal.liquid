@@ -76,14 +76,14 @@ Example data:
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
-{% assign start_date_no_time = fieldDate.value | date: "%a, %b %d" %}
-{% assign end_date_no_time = fieldDate.endValue | date: "%a, %b %d" %}
+{% assign start_date_no_time = fieldDate.value | formatDate: "dddd, MMM D" %}
+{% assign end_date_no_time = fieldDate.endValue | formatDate: "dddd, MMM D" %}
 
-{% assign start_time = fieldDate.value | date: "%I:%M %p" %}
-{% assign end_time = fieldDate.endValue | date: "%I:%M %p" %}
+{% assign start_time = fieldDate.value | formatDate: "h:mm A" %}
+{% assign end_time = fieldDate.endValue | formatDate: "h:mm A" %}
 
-{% assign start_date_full = fieldDate.value | date: "%a, %b %d, %I:%M %p" %}
-{% assign end_date_full = fieldDate.endValue | date: "%a, %b %d, %I:%M %p" %}
+{% assign start_date_full = fieldDate.value | formatDate: "dddd, MMM D, h:mm A" %}
+{% assign end_date_full = fieldDate.endValue | formatDate: "dddd, MMM D, h:mm A" %}
 
 {% assign start_timestamp = fieldDate.value | unixFromDate %}
 {% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
