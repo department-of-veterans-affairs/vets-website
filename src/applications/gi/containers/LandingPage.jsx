@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import * as LDClient from 'launchdarkly-js-client-sdk';
+// import * as LDClient from 'launchdarkly-js-client-sdk';
 import { withLDProvider, withLDConsumer } from 'launchdarkly-react-client-sdk';
 
 const user = {
@@ -75,15 +74,12 @@ export class LandingPage extends React.Component {
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
-            {ready && (appGibctLandingPageShowPercent ? (
-              <h2 className="vads-u-color--primary">
-                Test feature
-              </h2>
-            ) : (
-              <h2 className="vads-u-color--warning-message">
-                Test feature
-              </h2>
-            ))}
+            {ready &&
+              (appGibctLandingPageShowPercent ? (
+                <h2 className="vads-u-color--primary">Test feature</h2>
+              ) : (
+                <h2 className="vads-u-color--warning-message">Test feature</h2>
+              ))}
             <p className="subheading">
               Learn about education programs and compare benefits by school.
             </p>
