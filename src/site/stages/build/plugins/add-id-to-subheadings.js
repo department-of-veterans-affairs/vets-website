@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 
 const usedHeaders = [];
 
-let g = 1;
+let currentId = 1;
 
 function createUniqueId(headingEl) {
   const headingString = headingEl.text();
@@ -20,9 +20,9 @@ function createUniqueId(headingEl) {
     .substring(0, length);
 
   if (usedHeaders.includes(anchor)) {
-    if (!usedHeaders.includes(`${anchor}-${g}`)) {
-      anchor = `${anchor}-${g}`;
-      g++;
+    if (!usedHeaders.includes(`${anchor}-${currentId}`)) {
+      anchor = `${anchor}-${currentId}`;
+      currentId++;
     }
   }
   usedHeaders.push(anchor);
