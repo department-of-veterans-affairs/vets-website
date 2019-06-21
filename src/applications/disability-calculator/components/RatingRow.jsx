@@ -7,7 +7,6 @@ const RatingRow = ({
   handleRemoveRating,
   inputRef,
   canDelete,
-  stateLength,
 }) => {
   const onRatingChange = e => {
     const val = e.target.value;
