@@ -45,7 +45,7 @@ createApplicationStatus(store, {
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/pension/how-to-apply/',
-  applyText: 'Apply for veterans pension benefits',
+  applyText: 'Apply for Veterans pension benefits',
   widgetType: widgetTypes.PENSION_APP_STATUS,
 });
 
