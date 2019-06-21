@@ -72,7 +72,6 @@ class FacilityDetail extends Component {
       );
     }
 
-    console.log('detail render');
     return (
       <div className="row facility-detail all-details">
         <div className="usa-width-two-thirds medium-8 columns">
