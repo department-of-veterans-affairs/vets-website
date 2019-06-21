@@ -1,12 +1,17 @@
 #!/bin/bash
 
 SAUCE=false
+BROWSERSTACK=false
 
 for i in "$@"
 do
 case $i in
   --sauce)
       SAUCE=true
+      shift # past argument=value
+      ;;
+  --browserstack)
+      BROWSERSTACK=true
       shift # past argument=value
       ;;
 esac
@@ -32,7 +37,6 @@ else
   export WEB_PORT=3001
 fi
 
-
 # Wait for api server and web server to begin accepting connections
 # via http://unix.stackexchange.com/questions/5277
 while ! echo exit | nc localhost ${API_PORT:-3000}; do sleep 3; done
@@ -48,7 +52,9 @@ while ! echo exit | nc localhost ${WEB_PORT:-3333}; do sleep 3; done
 
 # Execute the actual tests.
 if [ $SAUCE == true ]; then
-  yarn testcafe "saucelabs:Chrome@75.0:macOS 10.14,saucelabs:Firefox@67.0:macOS 10.14,saucelabs:Internet Explorer@11.285:Windows 10,saucelabs:MicrosoftEdge@16.16299:Windows 10,saucelabs:Safari@12.0:macOS 10.14,saucelabs:iPhone X Simulator@12.2,saucelabs:Samsung Galaxy S9 HD GoogleAPI Emulator@8.1" "${@}"
+  yarn testcafe "saucelabs:Internet Explorer@11.285:Windows 10" "${@}"
+elif [ $BROWSERSTACK == true ]; then
+  yarn testcafe "browserstack:ie@11.0:Windows 10" "${@}"
 else
   yarn testcafe chrome "${@}"
 fi
