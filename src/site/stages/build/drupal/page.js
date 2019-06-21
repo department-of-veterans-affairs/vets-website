@@ -165,6 +165,35 @@ function generateBreadCrumbs(pathString) {
   return entityUrlObj;
 }
 
+// Generate breadcrumbs from GraphQL breadcrumbs
+function generateDrupalBreadCrumbs(entityUrl) {
+  const entityUrlObj = {
+    breadcrumb: [],
+    path: entityUrl.path,
+  };
+
+  if (typeof entityUrl.breadcrumb !== 'undefined') {
+    for (const value of entityUrl.breadcrumb) {
+      if (value.text) {
+        const dehandlized =
+          value === 'pittsburgh-health-care'
+            ? 'VA Pittsburgh health care'
+            : value.text;
+
+        entityUrlObj.breadcrumb.push({
+          url: {
+            path: value.url.path,
+            routed: true,
+          },
+          text: dehandlized,
+        });
+      }
+    }
+  }
+
+  return entityUrlObj;
+}
+
 function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
@@ -299,7 +328,10 @@ function compilePage(page, contentData) {
     default:
       // Get the right benefits hub sidebar
       sidebarNavItems = getHubSidebar(sideNavs, owner);
-      page.entityUrl = generateBreadCrumbs(entityUrl.path);
+      page.entityUrl =
+        typeof entityUrl.breadcrumb !== 'undefined'
+          ? generateDrupalBreadCrumbs(entityUrl)
+          : generateBreadCrumbs(entityUrl.path);
 
       // Build page with correct sidebar
       pageCompiled = Object.assign(
