@@ -3,6 +3,25 @@ import * as Sentry from '@sentry/browser';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
+if (window) {
+  const defaultFetch = window.fetch;
+
+  window.fetch = (...args) =>
+    defaultFetch.apply(this, args).then(response => {
+      const apiURL = environment.API_URL;
+      if (
+        response.url.includes(apiURL) &&
+        (response.ok || response.status === 304)
+      ) {
+        // Get session expiration from header
+        const sessionExpiration = response.headers.get('X-Session-Expiration');
+        if (sessionExpiration)
+          localStorage.setItem('sessionExpiration', sessionExpiration);
+      }
+      return response;
+    });
+}
+
 function isJson(response) {
   const contentType = response.headers.get('Content-Type');
   return contentType && contentType.includes('application/json');
