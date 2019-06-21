@@ -1,15 +1,15 @@
 const cards = document.querySelectorAll('.asset-card');
-let activePage;
+let activePage = 1;
 export function libraryCurrent() {
   cards.forEach(element => {
     const numVal = element.getAttribute('data-number');
-    if (numVal > activePage * 12 || numVal < activePage * 12 - 11) {
+    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
       element.classList.add('pager-hide');
     } else {
       element.classList.remove('pager-hide');
     }
     if (activePage === undefined) {
-      if (numVal > 12) {
+      if (numVal > 10) {
         element.classList.add('pager-hide');
       }
     }
@@ -39,17 +39,19 @@ export function libraryCount() {
 }
 
 export function libraryFilters(el) {
-  sessionStorage.setItem('pageNum', 1);
-  const currentPage = sessionStorage.getItem('pageNum');
   const pages = Math.ceil(cards.length / 10);
 
   if (el.srcElement.id === 'pager-next-click') {
-    activePage = parseInt(currentPage, 10);
-    sessionStorage.setItem('pageNum', activePage++);
+    if (activePage !== pages) {
+      activePage = parseInt(activePage, 10);
+      sessionStorage.setItem('pageNum', activePage++);
+    }
   }
   if (el.srcElement.id === 'pager-previous-click') {
-    activePage = parseInt(currentPage, 10);
-    sessionStorage.setItem('pageNum', activePage - 1);
+    if (activePage !== 1) {
+      activePage = parseInt(activePage, 10);
+      sessionStorage.setItem('pageNum', activePage--);
+    }
   }
   if (el.srcElement.id === 'first-click') {
     activePage = 1;
