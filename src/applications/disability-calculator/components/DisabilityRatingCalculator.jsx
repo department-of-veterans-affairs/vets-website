@@ -1,5 +1,9 @@
 import React from 'react';
-import { calculateRating } from '../utils/helpers';
+import {
+  calculateRating,
+  shouldCalculate,
+  pullRatingsFromState,
+} from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import RatingRow from './RatingRow';
 import '../sass/disability-calculator.scss';
@@ -51,10 +55,12 @@ export default class DisabilityRatingCalculator extends React.Component {
     const ratings = this.state.ratings;
     const calcRating = calculateRating(ratings);
 
-    this.setState({
-      showCombinedRating: true,
-      calculatedRating: calcRating,
-    });
+    if (shouldCalculate(pullRatingsFromState(ratings))) {
+      this.setState({
+        showCombinedRating: true,
+        calculatedRating: calcRating,
+      });
+    }
   };
 
   handleAddRating = () => {
