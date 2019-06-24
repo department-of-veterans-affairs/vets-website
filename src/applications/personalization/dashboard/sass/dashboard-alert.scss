@@ -35,20 +35,8 @@
     padding: units(4);
   }
 
-  header {
-    h4 {
-      border: none;
-      font-family: $font-sans;
-      font-weight: $font-normal;
-      font-size: 1em;
-      margin: 0;
-      text-transform: uppercase;
-    }
-    h3 {
-      font-family: $font-serif;
-      font-size: 1.25em;
-      margin: 0;
-    }
+  header > .heading-desc {
+    text-transform: uppercase;
   }
 
   section.status {
