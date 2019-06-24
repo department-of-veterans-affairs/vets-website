@@ -32,7 +32,9 @@ function InvalidRoutingNumber() {
 }
 
 function hasError(errors, errorKey) {
-  return errors.some(err => err.key === errorKey);
+  return errors.some(err =>
+    err.meta.messages.some(message => message.key === errorKey),
+  );
 }
 
 export default function PaymentInformationEditModalError({ responseError }) {
