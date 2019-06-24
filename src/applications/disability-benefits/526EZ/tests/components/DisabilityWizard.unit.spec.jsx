@@ -110,7 +110,7 @@ describe('<DisabilityWizard>', () => {
       disabilityStatus: 'increase',
       currentLayout: applyGuidance,
     });
-    expect(tree.text()).to.contain('Sign In and Verify Your Identity »');
+    expect(tree.text()).to.contain('Sign in and verify your identity »');
     expect(tree.find('p').text()).to.equal(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability. To apply for a disability increase, you’ll need to sign in and verify your account.',
     );
