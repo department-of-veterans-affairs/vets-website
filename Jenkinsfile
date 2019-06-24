@@ -7,6 +7,11 @@ env.CONCURRENCY = 10
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
 
+  if (true) {
+    echo "hello"
+    return
+  }
+
   // Checkout vets-website code
   dir("vets-website") {
     checkout scm

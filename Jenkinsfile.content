@@ -1,11 +1,6 @@
 @Library('va.gov-devops-jenkins-lib') _
 
 node('vetsgov-general-purpose') {
-  if (true) {
-    echo "hello"
-    return
-  }
-
   ref = params.ref
   if (ref == "") {
     ref = getLatestGitRef("vets-website", branch: 'master')
