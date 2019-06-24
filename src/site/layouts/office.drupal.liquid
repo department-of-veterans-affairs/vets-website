@@ -129,14 +129,13 @@
                 </div>
 
                 <div class="asset-body-wrap">
-                  <h3 class="asset-body-header vads-u-margin-y--0">
+                  <i>{{entity.fieldBenefits | capitalize}}</i>
+                  <h3 class="asset-body-header vads-u-margin-y--1">
                     {{entity.title| truncate: 36}}</h3>
                   <div class="asset-body-text">
                     {{entity.fieldDescription | truncate: 81 }}</div>
                   {% if entity.fieldBenefits != '' %}
-                  <div class="asset-category-text capitalize-first">
-                    <strong>Category:
-                    </strong>{{entity.fieldBenefits}}</div>
+                  <div class="asset-category-text capitalize-first"></div>
                   {% endif %}
                   <div class="asset-filetype-text"><strong>File type:
                     </strong><span
