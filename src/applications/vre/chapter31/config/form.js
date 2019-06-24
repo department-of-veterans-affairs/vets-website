@@ -425,7 +425,7 @@ const formConfig = {
               fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
               fileTypes: ['pdf', 'jpeg', 'jpg'],
               maxSize: TWENTY_FIVE_MB,
-              buttonText: 'Upload Your Discharge Document',
+              buttonText: 'Upload your discharge document',
               createPayload: file => {
                 const payload = new FormData();
                 payload.append(

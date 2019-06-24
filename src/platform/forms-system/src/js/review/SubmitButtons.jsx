@@ -11,7 +11,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit Application"
+        buttonText="Submit application"
         buttonClass="usa-button-primary"
       />
     );
@@ -38,7 +38,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit Application"
+        buttonText="Submit application"
         buttonClass="usa-button-primary"
       />
     );
@@ -58,7 +58,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit Application"
+        buttonText="Submit application"
         buttonClass="usa-button-primary"
       />
     );
@@ -81,7 +81,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit Application"
+        buttonText="Submit application"
         buttonClass="usa-button-primary"
       />
     );

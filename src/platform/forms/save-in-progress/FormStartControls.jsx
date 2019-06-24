@@ -70,14 +70,14 @@ class FormStartControls extends React.Component {
           {!this.props.isExpired && (
             <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText="Continue Your Application"
+              buttonText="Continue your application"
               buttonClass="usa-button-primary no-text-transform"
             />
           )}
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}
-              buttonText="Start a New Application"
+              buttonText="Start a new application"
               buttonClass={
                 this.props.isExpired
                   ? 'usa-button-primary'
@@ -95,7 +95,7 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start a New Application"
+              buttonText="Start a new application"
               buttonClass="usa-button-primary"
             />
             <ProgressButton
