@@ -1,11 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import set from 'platform/utilities/data/set';
-
-import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
 import PaymentInformationEditModalError from '../../components/PaymentInformationEditModalError';
 
 describe('<PaymentInformationEditModalError />', () => {
