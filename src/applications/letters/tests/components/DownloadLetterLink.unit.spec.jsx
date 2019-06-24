@@ -27,7 +27,7 @@ describe('<DownloadLetterLink>', () => {
       <DownloadLetterLink {...defaultProps} />,
     );
     const tree = getFormDOM(component);
-    expect(tree.getElement('button').textContent).to.equal('Download Letter');
+    expect(tree.getElement('button').textContent).to.equal('Download letter');
   });
 
   it('should call getLetterPdf when clicked', () => {
