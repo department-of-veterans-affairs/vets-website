@@ -1,6 +1,11 @@
 @Library('va.gov-devops-jenkins-lib') _
 
 node('vetsgov-general-purpose') {
+  if (true) {
+    echo "hello"
+    return
+  }
+
   ref = params.ref
   if (ref == "") {
     ref = getLatestGitRef("vets-website", branch: 'master')
@@ -9,11 +14,11 @@ node('vetsgov-general-purpose') {
   // check to see if build on master is running
   is_running = jenkins.model.Jenkins.instance.getItem('testing/vets-website/master', jenkins.model.Jenkins.instance.getItem('testing')).lastBuild.building
   if (is_running) {
-    slackSend(message:"didn't run. job already running or something failed...",
+    slackSend(message:"Vetswebsite Content Build didn't build due to currently running vets-website build.",
               color: "warning",
-              channel: "#vsp-something")
+              channel: "#vsp-something") // TODO update
 
-		// TODO bail or something
+    return
   }
 
   dir("vets-website") {
