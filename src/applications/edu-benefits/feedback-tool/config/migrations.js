@@ -5,13 +5,13 @@ export default [
   // 0 > 1, convert keys to camel case
   ({ formData, metadata }) => {
     const programsKeyMap = {
-      'Post-9/11 Ch 33': 'chapter33',
-      'MGIB-AD Ch 30': 'chapter30',
-      'MGIB-SR Ch 1606': 'chapter1606',
+      'post9::11 ch 33': 'chapter33',
+      'mGIBAd ch 30': 'chapter30',
+      'mGIBSr ch 1606': 'chapter1606',
       TATU: 'tatu',
       REAP: 'reap',
-      'DEA Ch 35': 'chapter35',
-      'VRE Ch 31': 'chapter31',
+      'dea ch 35': 'chapter35',
+      'vre ch 31': 'chapter31',
     };
 
     const assistanceKeyMap = {
@@ -60,8 +60,8 @@ export default [
 
     if (typeof ffa !== 'undefined') {
       newFormData = set(
-        `educationDetails.assistance.view:ffa`,
-        ffa,
+        `educationDetails.assistance.view:ffa.ffa`,
+        ffa.ffa,
         newFormData,
       );
       delete newFormData.educationDetails.assistance['view:FFA'];
