@@ -30,7 +30,11 @@ const DashboardAlert = ({
   return (
     <div className={classes}>
       <header>
-        {subheadline && <span className="heading-desc">{subheadline}</span>}
+        {subheadline && (
+          <div className="vads-u-margin-bottom--1 heading-desc">
+            {subheadline}
+          </div>
+        )}
         <h2 className="vads-u-font-size--lg vads-u-font-family--serif vads-u-margin--0">
           {headline}
         </h2>
