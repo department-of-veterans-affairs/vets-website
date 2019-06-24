@@ -3,6 +3,11 @@ const {
   featureFlags,
   enabledFeatureFlags,
 } = require('../../../../utilities/featureFlags');
+const socialMediaFields = enabledFeatureFlags[
+  featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
+]
+  ? require('./facilities-fragments/healthCareSocialMedia.fields.graphql')
+  : '';
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -39,6 +44,7 @@ module.exports = `
         }
       }
     }
+    ${socialMediaFields}
     fieldLocalHealthCareService {
       entity {
         ... on NodeHealthCareLocalHealthService {
