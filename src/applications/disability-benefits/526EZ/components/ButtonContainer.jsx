@@ -30,7 +30,7 @@ export default function ButtonContainer(props) {
             href="/disability/how-to-file-claim"
             onClick={authenticate}
           >
-            Sign In and Verify Your Identity
+            Sign in and verify your identity
             <span className="button-icon"> »</span>
           </a>
         )}

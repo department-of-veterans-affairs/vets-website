@@ -100,7 +100,7 @@ describe('<DownloadLetterLink>', () => {
     const heading = tree.getElement('.usa-alert-heading');
     const button = tree.getElement('button');
 
-    expect(button.textContent).to.equal('Retry Download');
+    expect(button.textContent).to.equal('Retry download');
     expect(heading.textContent).to.equal('Your letter didn’t download.');
   });
 });
