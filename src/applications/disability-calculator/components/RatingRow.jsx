@@ -6,7 +6,7 @@ const RatingRow = ({
   handleChange,
   handleRemoveRating,
   inputRef,
-  canDelete,
+  disabled,
 }) => {
   const onRatingChange = e => {
     const val = e.target.value;
@@ -54,7 +54,7 @@ const RatingRow = ({
             type="button"
             onClick={handleRemoveRating(indx)}
             className="va-button-link delete-btn vads-u-margin--1p5"
-            disabled={canDelete < 3}
+            disabled={disabled}
           >
             <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
             Delete

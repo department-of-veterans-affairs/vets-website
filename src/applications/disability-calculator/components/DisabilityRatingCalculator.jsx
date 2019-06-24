@@ -144,7 +144,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               ratingRef={this.ratingRef}
               handleRemoveRating={this.handleRemoveRating}
               ref={this.setRef}
-              canDelete={this.state.ratings.length}
+              disabled={ratings.length < 3}
             />
           ))}
           <div className="vads-l-row">
