@@ -492,7 +492,7 @@ const formConfig = {
                     showFieldLabel: true,
                   },
                 },
-                'view:FFA': {
+                'view:ffa': {
                   'ui:title': 'Have you used any of these other benefits?',
                   'ui:options': {
                     showFieldLabel: true,
@@ -514,12 +514,12 @@ const formConfig = {
                     properties: {
                       'view:assistance': {
                         type: 'object',
-                        properties: omit('FFA', assistance.properties),
+                        properties: omit('ffa', assistance.properties),
                       },
-                      'view:FFA': {
+                      'view:ffa': {
                         type: 'object',
                         properties: {
-                          FFA: get('properties.FFA', assistance),
+                          ffa: get('properties.ffa', assistance),
                         },
                       },
                     },

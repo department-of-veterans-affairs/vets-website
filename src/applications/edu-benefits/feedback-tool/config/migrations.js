@@ -4,59 +4,67 @@ import set from 'platform/utilities/data/set';
 export default [
   // 0 > 1, convert keys to camel case
   ({ formData, metadata }) => {
+    const programsKeyMap = {
+      'Post-9/11 Ch 33': 'chapter33',
+      'MGIB-AD Ch 30': 'chapter30',
+      'MGIB-SR Ch 1606': 'chapter1606',
+      TATU: 'tatu',
+      REAP: 'reap',
+      'DEA Ch 35': 'chapter35',
+      'VRE Ch 31': 'chapter31',
+    };
+
+    const assistanceKeyMap = {
+      TA: 'ta',
+      'TA-AGR': 'taAgr',
+      MyCAA: 'myCaa',
+      FFA: 'ffa',
+    };
+
     let newFormData = formData;
 
     const programs = get('educationDetails.programs', formData);
-    if (programs && programs.length) {
-      Object.entries(formData.programs).forEach(([key, value]) => {
-        switch (key) {
-          case 'Post-9/11 Ch 33':
-            newFormData = set('educationDetails.programs.chapter33', value);
-            break;
-          case 'MGIB-AD Ch 30':
-            newFormData = set('educationDetails.programs.chapter30', value);
-            break;
-          case 'MGIB-SR Ch 1606':
-            newFormData = set('educationDetails.programs.chapter1606', value);
-            break;
-          case 'TATU':
-            newFormData = set('educationDetails.programs.tatu', value);
-            break;
-          case 'REAP':
-            newFormData = set('educationDetails.programs.reap', value);
-            break;
-          case 'DEA Ch 35':
-            newFormData = set('educationDetails.programs.chapter35', value);
-            break;
-          case 'VRE Ch 31':
-            newFormData = set('educationDetails.programs.chapter31', value);
-            break;
-          default:
-            break;
+    if (programs) {
+      Object.entries(programsKeyMap).forEach(([oldKey, newKey]) => {
+        if (typeof programs[oldKey] !== 'undefined') {
+          newFormData = set(
+            `educationDetails.programs.${newKey}`,
+            programs[oldKey],
+            newFormData,
+          );
+          delete newFormData.educationDetails.programs[oldKey];
         }
       });
     }
 
-    const assistance = get('educationDetails.assistance', formData);
-    if (assistance && assistance.length) {
-      Object.entries(formData.assistance).forEach(([key, value]) => {
-        switch (key) {
-          case 'TA':
-            newFormData = set('educationDetails.assistance.ta', value);
-            break;
-          case 'TA-AGR':
-            newFormData = set('educationDetails.assistance.taAgr', value);
-            break;
-          case 'MyCAA':
-            newFormData = set('educationDetails.assistance.myCaa', value);
-            break;
-          case 'FFA':
-            newFormData = set('educationDetails.assistance.ffa', value);
-            break;
-          default:
-            break;
+    const assistance = get(
+      'educationDetails.assistance.view:assistance',
+      formData,
+    );
+    if (assistance) {
+      Object.entries(assistanceKeyMap).forEach(([oldKey, newKey]) => {
+        if (typeof assistance[oldKey] !== 'undefined') {
+          newFormData = set(
+            `educationDetails.assistance.view:assistance.${newKey}`,
+            assistance[oldKey],
+            newFormData,
+          );
+          delete newFormData.educationDetails.assistance['view:assistance'][
+            oldKey
+          ];
         }
       });
+    }
+
+    const ffa = get('educationDetails.assistance.view:FFA', formData);
+
+    if (typeof ffa !== 'undefined') {
+      newFormData = set(
+        `educationDetails.assistance.view:ffa`,
+        ffa,
+        newFormData,
+      );
+      delete newFormData.educationDetails.assistance['view:FFA'];
     }
 
     return { formData: newFormData, metadata };
