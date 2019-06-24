@@ -30,7 +30,7 @@ export default function FormStartControls(props) {
               href={`/verify?next=${window.location.pathname}`}
               className="usa-button-primary verify-link"
             >
-              Verify Your Identity
+              Verify your identity
             </a>
           </div>
         )}

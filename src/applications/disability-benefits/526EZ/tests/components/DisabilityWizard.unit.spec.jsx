@@ -125,7 +125,7 @@ describe('<DisabilityWizard>', () => {
       disabilityStatus: 'increase',
       currentLayout: applyGuidance,
     });
-    expect(tree.text()).to.contain('Verify Your Identity »');
+    expect(tree.text()).to.contain('Verify your identity »');
     expect(
       tree
         .find('p')
