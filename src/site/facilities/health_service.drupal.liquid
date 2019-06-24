@@ -18,12 +18,8 @@
                     <div>{{ serviceTaxonomy.description.processed }}</div>
                 {% endif %}
 
-                {% if healthService.fieldBody.processed %}
-                    <div>{{ healthService.fieldBody.processed }}</div>
-                {% endif %}
-
                 {% if healthService.fieldLocalHealthCareService.length > 0 %}
-                    <p class="vads-u-font-weight--bold">Available at</p>
+                    <p class="vads-u-font-weight--bold vads-u-font-family--serif">Available at</p>
                     <ul class="usa-unstyled-list">
                         {% for location in healthService.fieldLocalHealthCareService %}
                             {% assign facility = location.entity.fieldFacilityLocation.entity %}
@@ -31,6 +27,10 @@
                                 <a href="{{ facility.entityUrl.path }}">{{ facility.fieldNicknameForThisFacility }}</a></li>{% endif %}
                         {% endfor %}
                     </ul>
+                {% endif %}
+
+                {% if healthService.fieldBody.processed %}
+                    <div>{{ healthService.fieldBody.processed }}</div>
                 {% endif %}
             </div>
         </li>
