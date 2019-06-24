@@ -2,7 +2,7 @@
 /* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory, Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
@@ -377,16 +377,15 @@ class VAMap extends Component {
   renderFacilityMarkers = () => {
     const { results } = this.props;
 
-    // TODO: Remove this commented block after verified stable in Staging and Prod
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    // const linkAction = (id, isProvider = false, e) => {
-    //   e.preventDefault();
-    //   if (isProvider) {
-    //     this.context.router.push(`provider/${id}`);
-    //   } else {
-    //     this.context.router.push(`facility/${id}`);
-    //   }
-    // };
+    const linkAction = (id, isProvider = false, e) => {
+      e.preventDefault();
+      if (isProvider) {
+        this.context.router.push(`provider/${id}`);
+      } else {
+        this.context.router.push(`facility/${id}`);
+      }
+    };
 
     return results.map(r => {
       const iconProps = {
@@ -415,9 +414,9 @@ class VAMap extends Component {
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
             <div>
-              <Link to={`/provider/${r.id}`}>
+              <a href={`/provider/${r.id}`} onClick={linkAction.bind(this, r.id, true)}>
                 <h5>{r.attributes.name}</h5>
-              </Link>
+              </a>
               <h6>{r.attributes.orgName}</h6>
               <p>
                 Services:{' '}
@@ -428,9 +427,9 @@ class VAMap extends Component {
             </div>
           ) : (
             <div>
-              <Link to={`/facility/${r.id}`}>
+              <a href={`/facility/${r.id}`} onClick={linkAction.bind(this, r.id, false)}>
                 <h5>{r.attributes.name}</h5>
-              </Link>
+              </a>
               <p>
                 Facility type:{' '}
                 <strong>{facilityTypes[r.attributes.facilityType]}</strong>
