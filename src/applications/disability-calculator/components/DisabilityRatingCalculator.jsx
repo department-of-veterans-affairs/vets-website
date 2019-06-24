@@ -54,8 +54,10 @@ export default class DisabilityRatingCalculator extends React.Component {
   handleSubmit = () => {
     const ratings = this.state.ratings;
     const calcRating = calculateRating(ratings);
+    const ratingArr = pullRatingsFromState(ratings);
+    const checkForTwoRatings = shouldCalculate(ratingArr);
 
-    if (shouldCalculate(pullRatingsFromState(ratings))) {
+    if (checkForTwoRatings) {
       this.setState({
         showCombinedRating: true,
         calculatedRating: calcRating,
