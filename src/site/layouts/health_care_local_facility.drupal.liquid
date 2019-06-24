@@ -175,6 +175,11 @@
             </div>
           {% endunless %}
 
+            <!-- List of links section -->
+            {% if fieldRelatedLinks != empty %}
+                {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+            {% endif %}
+
             <!-- Local Health Services -->
             {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
                 <h2 id="health-care-offered-here" class="vads-u-font-size--xl vads-u-margin-top--5">Health care offered here</h2>
@@ -192,10 +197,11 @@
 
             <div data-widget-type="facility-patient-satisfaction-scores" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
 
-          <!-- List of links section -->
-          {% if fieldRelatedLinks != empty %}
-            {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
-          {% endif %}
+
+            <!-- Social Links -->
+            {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
+                {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
+            {% endif %}
 
         </article>
         <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">

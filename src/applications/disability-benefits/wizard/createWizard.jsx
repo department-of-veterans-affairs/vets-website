@@ -35,7 +35,7 @@ export default function createDisabilityIncreaseApplicationStatus(
                     <Wizard
                       pages={pages}
                       expander
-                      buttonText="File a Disability Compensation Claim"
+                      buttonText="File a disability compensation claim"
                     />
                   </div>
                 </div>

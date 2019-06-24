@@ -189,7 +189,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     ) : (
                       <ProgressButton
                         submitButton
-                        buttonText="Update Page"
+                        buttonText="Update page"
                         buttonClass="usa-button-primary"
                       />
                     )}
