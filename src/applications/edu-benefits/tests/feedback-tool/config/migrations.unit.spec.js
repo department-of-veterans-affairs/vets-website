@@ -6,8 +6,8 @@ describe('Feedback tool migrations', () => {
     const formData = {
       educationDetails: {
         programs: {
-          'Post-9/11 Ch 33': true,
-          'MGIB-AD Ch 30': false,
+          'post9::11 ch 33': true,
+          'mGIBAd ch 30': false,
         },
       },
     };
@@ -53,14 +53,17 @@ describe('Feedback tool migrations', () => {
     const formData = {
       educationDetails: {
         assistance: {
-          'view:FFA': false,
+          'view:FFA': {
+            FFA: false,
+          },
         },
       },
     };
 
     const result = migrations[0]({ formData, metadata: {} });
 
-    expect(result.formData.educationDetails.assistance['view:ffa']).to.be.false;
+    expect(result.formData.educationDetails.assistance['view:ffa'].ffa).to.be
+      .false;
 
     expect(result.formData.educationDetails.assistance['view:FFA']).to.be
       .undefined;

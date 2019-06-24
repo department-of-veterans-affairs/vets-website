@@ -61,7 +61,7 @@ export default [
     if (typeof ffa !== 'undefined') {
       newFormData = set(
         `educationDetails.assistance.view:ffa.ffa`,
-        ffa.ffa,
+        ffa.FFA,
         newFormData,
       );
       delete newFormData.educationDetails.assistance['view:FFA'];
