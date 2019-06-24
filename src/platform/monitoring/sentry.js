@@ -34,7 +34,7 @@ if (trackErrors) {
       if (evt && evt.reason) {
         Sentry.captureException(evt.reason);
       } else {
-        Sentry.captureMessage('Unhandled promise rejection');
+        Sentry.captureException('Unhandled promise rejection');
       }
     });
   });
