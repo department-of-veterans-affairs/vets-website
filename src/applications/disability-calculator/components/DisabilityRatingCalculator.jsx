@@ -54,15 +54,11 @@ export default class DisabilityRatingCalculator extends React.Component {
   handleSubmit = () => {
     const ratings = this.state.ratings;
     const calcRating = calculateRating(ratings);
-    const ratingArr = pullRatingsFromState(ratings);
-    const checkForTwoRatings = shouldCalculate(ratingArr);
 
-    if (checkForTwoRatings) {
-      this.setState({
-        showCombinedRating: true,
-        calculatedRating: calcRating,
-      });
-    }
+    this.setState({
+      showCombinedRating: true,
+      calculatedRating: calcRating,
+    });
   };
 
   handleAddRating = () => {
@@ -104,6 +100,9 @@ export default class DisabilityRatingCalculator extends React.Component {
   render() {
     const ratings = this.state.ratings;
     const calculatedRating = this.state.calculatedRating;
+    const ratingArr = pullRatingsFromState(ratings);
+    const checkForTwoRatings = shouldCalculate(ratingArr);
+
     return (
       <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
         <div className="calc-header vads-u-padding-x--4">
@@ -168,6 +167,7 @@ export default class DisabilityRatingCalculator extends React.Component {
                 onClick={evt => {
                   this.handleSubmit(evt);
                 }}
+                disabled={!checkForTwoRatings}
               >
                 Calculate
               </button>
