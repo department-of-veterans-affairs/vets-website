@@ -244,7 +244,10 @@ function compilePage(page, contentData) {
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
-  page.entityUrl = generateBreadCrumbs(entityUrl.path);
+  page.entityUrl =
+    typeof entityUrl.breadcrumb !== 'undefined'
+      ? generateDrupalBreadCrumbs(entityUrl)
+      : generateBreadCrumbs(entityUrl.path);
   let pageCompiled;
 
   switch (entityBundle) {
@@ -328,10 +331,6 @@ function compilePage(page, contentData) {
     default:
       // Get the right benefits hub sidebar
       sidebarNavItems = getHubSidebar(sideNavs, owner);
-      page.entityUrl =
-        typeof entityUrl.breadcrumb !== 'undefined'
-          ? generateDrupalBreadCrumbs(entityUrl)
-          : generateBreadCrumbs(entityUrl.path);
 
       // Build page with correct sidebar
       pageCompiled = Object.assign(
