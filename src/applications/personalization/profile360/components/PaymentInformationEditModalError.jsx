@@ -31,25 +31,29 @@ function InvalidRoutingNumber() {
   );
 }
 
+function GenericError() {
+  return (
+    <p>
+      We’re sorry. We couldn’t update your payment information. Please try again
+      later.
+    </p>
+  );
+}
+
 function hasError(errors, errorKey) {
-  return errors.some(err => err.key === errorKey);
+  return errors.some(err =>
+    err.meta.messages.some(message => message.key === errorKey),
+  );
 }
 
 export default function PaymentInformationEditModalError({ responseError }) {
   const { errors = [] } = responseError.error;
-  let content = null;
+  let content = <GenericError />;
 
   if (hasError(errors, ACCOUNT_FLAGGED_FOR_FRAUD)) {
     content = <FlaggedAccount />;
   } else if (hasError(errors, INVALID_ROUTING_NUMBER)) {
     content = <InvalidRoutingNumber />;
-  } else {
-    content = (
-      <p>
-        We’re sorry. We couldn’t update your payment information. Please try
-        again later.
-      </p>
-    );
   }
 
   return (
