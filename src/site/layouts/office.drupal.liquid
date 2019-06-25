@@ -124,6 +124,37 @@
                 medium-head-utility
                 large-screen:vads-l-col--12
                   {{entity.fieldMedia.entity.entityBundle}}-asset-wrap">
+                    {% if entity.fieldMedia.entity.entityBundle == 'document' %}
+                    {% case entity.fieldBenefits %}
+                    {% when 'general' %}
+                    <img src="/img/hub-illustrations/records.png" />
+                    {% when 'burial' %}
+                    <img src="/img/hub-illustrations/burials.png" />
+                    {% when 'careers' %}
+                    <img src="/img/hub-illustrations/careers.png" />
+                    {% when 'disability' %}
+                    <img src="/img/hub-illustrations/disability.png" />
+                    {% when 'education' %}
+                    <img src="/img/hub-illustrations/education.png" />
+                    {% when 'family' %}
+                    <img src="/img/hub-illustrations/family-caregiver.png" />
+                    {% when 'healthcare' %}
+                    <img src="/img/hub-illustrations/health-care.png" />
+                    {% when 'housing' %}
+                    <img src="/img/hub-illustrations/housing.png" />
+                    {% when 'insurance' %}
+                    <img src="/img/hub-illustrations/life-insurance.png" />
+                    {% when 'pension' %}
+                    <img src="/img/hub-illustrations/pension.png" />
+                    {% when 'service' %}
+                    <img src="/img/hub-illustrations/service-member.png" />
+                    {% when 'records' %}
+                    <img src="/img/hub-illustrations/records.png" />
+                    {% else %}
+                    <img src="/img/hub-illustrations/records.png" />
+                    {% endcase %}
+                    {% endif %}
+
                     {% if entity.fieldMedia.entity.entityBundle == 'image' %}
                     {% if entity.fieldMedia.entity.image.url %}
                     <img src="{{entity.fieldMedia.entity.image.url}}"
