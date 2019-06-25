@@ -9,7 +9,6 @@ import ProviderServiceDescription from '../ProviderServiceDescription';
 const LocationInfoBlock = ({ location }) => {
   const { name } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
-  // eslint-disable-next-line prettier/prettier
   const distance = location.distance;
 
   return (

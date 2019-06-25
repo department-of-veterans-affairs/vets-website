@@ -30,7 +30,6 @@ class FacilityTypeDropdown extends Component {
       -- Commenting out for now as quick fix
       -- Plus side: 508 is 👍
 
-    // eslint-disable-next-line prettier/prettier
     this.setCCInfoRef = (element) => {
       this.ccInfoIcon = element;
     };
@@ -43,7 +42,6 @@ class FacilityTypeDropdown extends Component {
       }
     };
 
-    // eslint-disable-next-line prettier/prettier
     this.setCCInfoCloseRef = (element) => {
       this.ccInfoCloseBtn = element;
     };
@@ -62,7 +60,6 @@ class FacilityTypeDropdown extends Component {
     }
   }
 
-  // eslint-disable-next-line prettier/prettier
   toggleCCInfo = (e) => {
     e.preventDefault();
 
@@ -95,7 +92,6 @@ class FacilityTypeDropdown extends Component {
           isOpen,
           selectedItem,
         }) => {
-          // eslint-disable-next-line prettier/prettier
           const handleKeyDown = e => {
             // Allow blurring focus (with TAB) to close dropdown.
             if (e.keyCode === keyMap.TAB && isOpen) {

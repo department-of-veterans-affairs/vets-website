@@ -143,7 +143,6 @@ ProviderDetail.propTypes = {
   params: object.isRequired,
 };
 
-// eslint-disable-next-line prettier/prettier
 const mapStateToProps = state => ({
   location: state.searchResult.selectedResult,
   currentQuery: state.searchQuery,
