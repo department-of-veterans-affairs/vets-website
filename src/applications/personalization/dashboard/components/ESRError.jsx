@@ -26,6 +26,7 @@ const contents = {
  */
 const ESRError = ({ errorType = ESR_ERROR_TYPES.generic }) => (
   <AlertBox
+    level="2"
     content={contents[errorType]}
     headline={headlines[errorType]}
     status="error"

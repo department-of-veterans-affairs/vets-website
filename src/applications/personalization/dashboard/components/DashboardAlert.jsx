@@ -44,9 +44,9 @@ const DashboardAlert = ({
           <i />
         </div>
         <div className="vads-u-flex--1">
-          <span className="vads-u-font-size--lg vads-u-font-family--sans vads-u-font-weight--bold">
+          <div className="vads-u-line-height--3 vads-u-font-size--lg vads-u-font-family--sans vads-u-font-weight--bold">
             {statusHeadline}
-          </span>
+          </div>
           {statusInfo && <p>{statusInfo}</p>}
         </div>
       </section>
