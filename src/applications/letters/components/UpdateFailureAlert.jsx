@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UpdateFailureAlert = ({ addressObject }) => {
+const UpdateFailureAlert = ({ addressObject, recipientName }) => {
   const addressLines = Object.keys(addressObject).map(key => (
     <div className="letters-address" key={key}>
       {addressObject[key]}
@@ -16,7 +16,12 @@ const UpdateFailureAlert = ({ addressObject }) => {
             <strong>VA letters and documents are still valid</strong> even with
             your old address:
           </div>
-          <div id="warning-address-block">{addressLines}</div>
+          <div className="address-block">
+            <h5 className="letters-address">
+              {(recipientName || '').toLowerCase()}
+            </h5>
+            <div id="warning-address-block">{addressLines}</div>
+          </div>
           <div>
             <strong>
               Please continue to download your letter or document.
