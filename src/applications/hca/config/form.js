@@ -654,8 +654,7 @@ const formConfig = {
           title: 'Financial disclosure',
           uiSchema: {
             'ui:title': 'Financial disclosure',
-            'ui:description': PrefillMessage,
-            'view:textObject': { 'ui:description': financialDisclosureText },
+            'ui:description': financialDisclosureText,
             discloseFinancialInformation: {
               'ui:title': 'Do you want to provide your financial information?',
               'ui:widget': 'yesNo',
@@ -671,10 +670,6 @@ const formConfig = {
             type: 'object',
             required: ['discloseFinancialInformation'],
             properties: {
-              'view:textObject': {
-                type: 'object',
-                properties: {},
-              },
               discloseFinancialInformation,
               'view:noDiscloseWarning': emptyObjectSchema,
             },
@@ -691,11 +686,8 @@ const formConfig = {
               formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
             'ui:title': 'Spouse’s information',
-            'ui:description': PrefillMessage,
-            'view:textObject': {
-              'ui:description':
-                'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            },
+            'ui:description':
+              'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
               'ui:title': 'Spouse’s Social Security number',
@@ -744,10 +736,6 @@ const formConfig = {
               'sameAddress',
             ],
             properties: {
-              'view:textObject': {
-                type: 'object',
-                properties: {},
-              },
               spouseFullName,
               spouseSocialSecurityNumber,
               spouseDateOfBirth,
@@ -770,7 +758,6 @@ const formConfig = {
           title: 'Dependent information',
           depends: data => data.discloseFinancialInformation,
           uiSchema: {
-            'ui:description': PrefillMessage,
             'view:reportDependents': {
               'ui:title': 'Do you have any dependents to report?',
               'ui:widget': 'yesNo',
@@ -806,10 +793,7 @@ const formConfig = {
           depends: data => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
-            'ui:description': PrefillMessage,
-            'view:textObject': {
-              'ui:description': incomeDescription,
-            },
+            'ui:description': incomeDescription,
             veteranGrossIncome: _.set(
               'ui:validations',
               [validateCurrency],
@@ -888,10 +872,6 @@ const formConfig = {
               dependent: dependentIncomeSchema,
             },
             properties: {
-              'view:textObject': {
-                type: 'object',
-                properties: {},
-              },
               veteranGrossIncome,
               veteranNetIncome,
               veteranOtherIncome,
@@ -915,10 +895,7 @@ const formConfig = {
           depends: data => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
-            'ui:description': PrefillMessage,
-            'view:textObject': {
-              'ui:description': deductibleExpensesDescription,
-            },
+            'ui:description': deductibleExpensesDescription,
             deductibleMedicalExpenses: _.set(
               'ui:validations',
               [validateCurrency],
@@ -963,10 +940,6 @@ const formConfig = {
               'deductibleEducationExpenses',
             ],
             properties: {
-              'view:textObject': {
-                type: 'object',
-                properties: {},
-              },
               deductibleMedicalExpenses,
               'view:expensesIncomeWarning1': emptyObjectSchema,
               deductibleFuneralExpenses,
@@ -986,7 +959,6 @@ const formConfig = {
           title: 'Medicaid or Medicare coverage',
           initialData: {},
           uiSchema: {
-            'ui:description': PrefillMessage,
             isMedicaidEligible: {
               'ui:title': 'Are you eligible for Medicaid?',
               'ui:description': medicaidDescription,
@@ -1025,7 +997,6 @@ const formConfig = {
           title: 'Other coverage',
           uiSchema: {
             'ui:title': 'Other coverage',
-            'ui:description': PrefillMessage,
             isCoveredByHealthInsurance: {
               'ui:title':
                 'Are you covered by health insurance? (Including coverage through a spouse or another person)',
@@ -1099,7 +1070,6 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': 'VA Facility',
-            'ui:description': PrefillMessage,
             isEssentialAcaCoverage: {
               'ui:title': isEssentialAcaCoverageDescription,
             },
