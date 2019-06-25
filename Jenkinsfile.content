@@ -8,7 +8,7 @@ node('vetsgov-general-purpose') {
   }
 
   refStatusState = getGithubRefStatusState("vets-website", ref)
-  if (refStatusState != "SUCCESS") {
+  if ("${refStatusState}" != "SUCCESS") {
     slackSend(message:"Web content refresh on ${params.env} aborted due to unsuccessful vets-website-build on commit ${ref}.",
               color: "warning",
               channel: "#cms-notifications")
