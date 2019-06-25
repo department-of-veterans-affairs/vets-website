@@ -770,7 +770,6 @@ const formConfig = {
           title: 'Dependent information',
           depends: data => data.discloseFinancialInformation,
           uiSchema: {
-            'ui:title': 'Dependent information',
             'ui:description': PrefillMessage,
             'view:reportDependents': {
               'ui:title': 'Do you have any dependents to report?',
@@ -987,7 +986,6 @@ const formConfig = {
           title: 'Medicaid or Medicare coverage',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Medicaid or Medicare coverage',
             'ui:description': PrefillMessage,
             isMedicaidEligible: {
               'ui:title': 'Are you eligible for Medicaid?',
