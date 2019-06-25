@@ -57,11 +57,7 @@ describe('feedback tool benefits info', () => {
       />,
     );
 
-    selectCheckbox(
-      form,
-      'root_educationDetails_programs_Post-9/11 Ch 33',
-      true,
-    );
+    selectCheckbox(form, 'root_educationDetails_programs_chapter33', true);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
