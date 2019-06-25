@@ -1,5 +1,7 @@
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   activeDuty: 'activeduty',
+  activeDutyHasApplied: 'activeduty_has_applied',
+  activeDutyHasNotApplied: 'activeduty_has_not_applied',
   canceledDeclined: 'canceled_declined',
   closed: 'closed',
   deceased: 'deceased',

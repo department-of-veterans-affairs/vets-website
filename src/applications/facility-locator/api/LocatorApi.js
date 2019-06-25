@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-declare */
 import compact from 'lodash/compact';
 import { api } from '../config';
 
@@ -16,8 +15,13 @@ class LocatorApi {
    * @param {number} page Which page of results to start with?
    * @returns {Promise} Promise object
    */
-  // eslint-disable-next-line prettier/prettier
-  static searchWithBounds(address = null, bounds, locationType, serviceType, page) {
+  static searchWithBounds(
+    address = null,
+    bounds,
+    locationType,
+    serviceType,
+    page,
+  ) {
     const filterableLocations = ['health', 'benefits', 'cc_provider'];
     const params = compact([
       address ? `address=${address}` : null,
@@ -33,12 +37,7 @@ class LocatorApi {
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        /* eslint-disable prettier/prettier */
-        .then(
-          data => resolve(data),
-          error => reject(error)
-        );
-        /* eslint-enable prettier/prettier */
+        .then(data => resolve(data), error => reject(error));
     });
   }
 
@@ -53,12 +52,7 @@ class LocatorApi {
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        /* eslint-disable prettier/prettier */
-        .then(
-          data => resolve(data),
-          error => reject(error)
-        );
-        /* eslint-enable prettier/prettier */
+        .then(data => resolve(data), error => reject(error));
     });
   }
 
@@ -73,12 +67,7 @@ class LocatorApi {
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        /* eslint-disable prettier/prettier */
-        .then(
-          data => resolve(data),
-          error => reject(error)
-        );
-        /* eslint-enable prettier/prettier */
+        .then(data => resolve(data), error => reject(error));
     });
   }
 
@@ -91,12 +80,7 @@ class LocatorApi {
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        /* eslint-disable prettier/prettier */
-        .then(
-          data => resolve(data),
-          error => reject(error)
-        );
-        /* eslint-enable prettier/prettier */
+        .then(data => resolve(data), error => reject(error));
     });
   }
 }

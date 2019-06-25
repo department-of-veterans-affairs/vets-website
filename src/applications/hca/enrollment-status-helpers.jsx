@@ -38,9 +38,13 @@ export function getWarningHeadline(enrollmentStatus) {
         'You didn’t qualify for VA health care based on your previous application';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
       content =
-        'Our records show that you haven’t yet received your separation or retirement orders';
+        'Our records show that you’re an active-duty service member and you’ve already applied for VA health care';
+      break;
+
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
+      content = 'Our records show that you’re an active-duty service member';
       break;
 
     case HCA_ENROLLMENT_STATUSES.deceased:
@@ -163,6 +167,8 @@ export function getWarningStatus(
 export function getWarningExplanation(enrollmentStatus) {
   let content = null;
   switch (enrollmentStatus) {
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
     case HCA_ENROLLMENT_STATUSES.enrolled:
     case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
     case HCA_ENROLLMENT_STATUSES.ineligMedicare:
@@ -247,19 +253,6 @@ export function getWarningExplanation(enrollmentStatus) {
           or Purple Heart award). To qualify for VA health care, you need to
           meet at least one of these eligibility requirements in addition to
           serving at least 24 continuous months on active duty.
-        </p>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-      content = (
-        <p>
-          You can’t qualify for VA health care until you’ve received your
-          separation or retirement orders. We welcome you to apply again once
-          you’ve received your orders.{' '}
-          <a href="/HEALTHBENEFITS/apply/active_duty.asp">
-            Learn more about transitioning to VA health care
-          </a>
         </p>
       );
       break;
@@ -437,7 +430,6 @@ export function getFAQBlock1(enrollmentStatus) {
       );
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
     case HCA_ENROLLMENT_STATUSES.canceledDeclined:
     case HCA_ENROLLMENT_STATUSES.closed:
     case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
@@ -500,6 +492,63 @@ export function getFAQBlock1(enrollmentStatus) {
       );
       break;
 
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+      content = (
+        <>
+          <h4>When will I find out if I’m enrolled in VA health care?</h4>
+          <p>
+            We’ll make our final decision on your application after you've
+            separated from service.
+          </p>
+          <p>
+            If we enroll you in VA health care, the preferred VA medical center
+            you selected when you applied will contact you. You can also check
+            back here after separation to find out the current status of your
+            application.
+          </p>
+        </>
+      );
+      break;
+
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
+      content = (
+        <>
+          <h4>Can I apply for VA health care?</h4>
+          <p>
+            As an active-duty service member, you can apply for VA health care
+            if both of the below descriptions are true for you.
+          </p>
+          <p>
+            <strong>Both of these must be true:</strong>
+          </p>
+          <ul>
+            <li>You’ve received your separation orders, and</li>
+            <li>You have less than a year until your separation date</li>
+          </ul>
+          <p>
+            <strong>If you don’t meet the requirements listed above</strong>
+          </p>
+          <p>
+            Please don’t apply at this time. We welcome you to apply once you
+            meet these requirements.
+          </p>
+          <p>
+            <strong>
+              If you’ve already applied, think you've received this message in
+              error, or have any questions
+            </strong>
+          </p>
+          <p>
+            Please call our enrollment case management team at 877-222-VETS (
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
+              877-222-8387
+            </a>
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </>
+      );
+      break;
+
     default:
       break;
   }
@@ -511,6 +560,20 @@ export function getFAQBlock1(enrollmentStatus) {
 export function getFAQBlock2(enrollmentStatus) {
   let content = null;
   switch (enrollmentStatus) {
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+      content = (
+        <>
+          <h4>What should I do if I have questions about my eligibility?</h4>
+          <p>
+            Please call our enrollment case management team at 877-222-VETS (
+            <a className="help-phone-number-link" href="tel:1-877-222-8387">
+              877-222-8387
+            </a>
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </>
+      );
+      break;
     case HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge:
       content = (
         <>
@@ -557,6 +620,8 @@ export function getFAQBlock3(enrollmentStatus) {
     </>
   );
   switch (enrollmentStatus) {
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
     case HCA_ENROLLMENT_STATUSES.deceased:
     case HCA_ENROLLMENT_STATUSES.enrolled:
     case HCA_ENROLLMENT_STATUSES.ineligCHAMPVA:
@@ -668,23 +733,6 @@ export function getFAQBlock4(enrollmentStatus) {
       );
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-      content = (
-        <>
-          <h4>Can I apply again?</h4>
-          <p>
-            Yes, but we recommend waiting until you’ve received your separation
-            or retirement orders. If you’d like to talk about your options,
-            please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-        </>
-      );
-      break;
-
     case HCA_ENROLLMENT_STATUSES.closed:
     case HCA_ENROLLMENT_STATUSES.canceledDeclined:
       content = (
@@ -730,6 +778,7 @@ export function getFAQBlock4(enrollmentStatus) {
       );
       break;
 
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingUnverified:
       content = (
@@ -770,7 +819,8 @@ export function getAlertType(enrollmentStatus) {
       status = DASHBOARD_ALERT_TYPES.enrolled;
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
     case HCA_ENROLLMENT_STATUSES.closed:
       status = DASHBOARD_ALERT_TYPES.closed;
       break;
@@ -816,7 +866,8 @@ export function getAlertStatusHeadline(enrollmentStatus) {
       statusHeadline = 'Enrolled';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
     case HCA_ENROLLMENT_STATUSES.closed:
       statusHeadline = 'Closed';
       break;
@@ -885,7 +936,8 @@ export function getAlertStatusInfo(enrollmentStatus) {
         'You didn’t qualify for VA health care based on your previous application';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
       statusInfo =
         'Our records show that you haven’t yet received your separation or retirement orders';
       break;
@@ -1132,7 +1184,8 @@ export function getAlertContent(
       );
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
       blocks.push(
         <React.Fragment key="explanation">
           <p>
