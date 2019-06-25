@@ -32,9 +32,12 @@ const ReapplyContent = ({ route }) => (
   </>
 );
 
-const ReapplyTextLink = ({ onClick }) => (
+const ReapplyTextLink = ({
+  onClick,
+  linkLabel = 'Reapply for VA health care',
+}) => (
   <button className="va-button-link schemaform-start-button" onClick={onClick}>
-    Reapply for VA health care
+    {linkLabel}
   </button>
 );
 
@@ -44,6 +47,8 @@ const HCAEnrollmentStatusFAQ = ({
   showingReapplyForHealthCareContent,
   showReapplyContent,
 }) => {
+  const applyAllowed =
+    enrollmentStatus === HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied;
   const reapplyAllowed =
     new Set([
       HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied,
@@ -56,13 +61,23 @@ const HCAEnrollmentStatusFAQ = ({
       {getFAQBlock2(enrollmentStatus)}
       {getFAQBlock3(enrollmentStatus)}
       {getFAQBlock4(enrollmentStatus)}
-      {reapplyAllowed &&
+      {(reapplyAllowed || applyAllowed) &&
         showingReapplyForHealthCareContent && <ReapplyContent route={route} />}
       {reapplyAllowed &&
         !showingReapplyForHealthCareContent && (
           <ReapplyTextLink
             onClick={() => {
               recordEvent({ event: 'hca-form-reapply' });
+              showReapplyContent();
+            }}
+          />
+        )}
+      {applyAllowed &&
+        !showingReapplyForHealthCareContent && (
+          <ReapplyTextLink
+            linkLabel="Apply for VA health care"
+            onClick={() => {
+              recordEvent({ event: 'hca-form-apply' });
               showReapplyContent();
             }}
           />
