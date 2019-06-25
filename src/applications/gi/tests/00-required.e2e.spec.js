@@ -102,7 +102,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-16-0')
+    .click('#radio-buttons-15-0')
     .pause(100)
     .assert.containsText(
       housingAllowance,
@@ -120,6 +120,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // check Foreign DOD and VA rate for in person only
   GiHelpers.ForeignInPersonOnly(client);
+
   client
     .waitForElementVisible(housingAllowance, Timeouts.normal)
     .assert.containsText(
@@ -131,7 +132,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-16-0')
+    .click('#radio-buttons-15-0')
     .pause(100)
     .assert.containsText(
       housingAllowance,
@@ -160,7 +161,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-16-0')
+    .click('#radio-buttons-15-0')
     .pause(100)
     .assert.containsText(
       housingAllowance,
@@ -189,7 +190,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-17-0')
+    .click('#radio-buttons-15-0')
     .pause(100)
     .assert.containsText(
       housingAllowance,
@@ -218,7 +219,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-17-0')
+    .click('#radio-buttons-15-0')
     .pause(100)
     .assert.containsText(
       housingAllowance,
@@ -247,7 +248,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   client
-    .click('#radio-buttons-17-0')
+    .click('#radio-buttons-15-0')
     .pause(100)
     .assert.containsText(
       housingAllowance,

@@ -12,9 +12,11 @@ const deaOJTRate = 747;
 
 const housingRate = '#gbct_housing_allowance > div.small-6.columns.value > h5';
 
-const schoolResult =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+const secondResult =
+  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 
+const foreignSchoolResult =
+  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 // Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
 function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
   client
@@ -85,8 +87,8 @@ function ForeignOnlineOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(schoolResult, Timeouts.normal)
-    .click(schoolResult)
+    .waitForElementVisible(foreignSchoolResult, Timeouts.normal)
+    .click(foreignSchoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -96,28 +98,23 @@ function ForeignInPersonOnly(client) {
   client
     .waitForElementVisible('body', Timeouts.verySlow)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
-  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
-
-  client.click('#radio-buttons-2-1').axeCheck('.main');
-
-  client
+    .axeCheck('.main')
+    .waitForElementVisible('body', Timeouts.verySlow)
+    .axeCheck('.main ')
+    .click('#radio-buttons-2-1')
+    .axeCheck('.main')
     .waitForElementVisible(
       '.keyword-search input[type="text"]',
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
     .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
-    .pause(100);
-
-  client.click('#search-button').axeCheck('.main');
-
-  client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(schoolResult, Timeouts.normal)
-    .click(schoolResult)
-    .waitForElementVisible('body', 1000)
+    .pause(100)
+    .click('#search-button')
+    .axeCheck('.main')
+    .waitForElementVisible(foreignSchoolResult, Timeouts.normal)
+    .click('body')
+    .click(foreignSchoolResult)
     .axeCheck('.main');
 }
 
@@ -145,8 +142,9 @@ function ForeignInPersonAndOnline(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(schoolResult, Timeouts.normal)
-    .click(schoolResult)
+    .waitForElementVisible(foreignSchoolResult, Timeouts.verySlow)
+    .click('body')
+    .click(foreignSchoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -175,8 +173,9 @@ function USOnlineOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(schoolResult, Timeouts.normal)
-    .click(schoolResult)
+    .waitForElementVisible(foreignSchoolResult, Timeouts.normal)
+    .click('body')
+    .click(foreignSchoolResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -205,8 +204,9 @@ function USInPersonOnly(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(schoolResult, Timeouts.normal)
-    .click(schoolResult)
+    .waitForElementVisible(secondResult, Timeouts.normal)
+    .click('body')
+    .click(secondResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
@@ -235,8 +235,9 @@ function USInPersonAndOnline(client) {
 
   client
     .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(schoolResult, Timeouts.normal)
-    .click(schoolResult)
+    .waitForElementVisible(secondResult, Timeouts.normal)
+    .click('body')
+    .click(secondResult)
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
