@@ -56,5 +56,5 @@ if [ $SAUCE == true ]; then
 elif [ $BROWSERSTACK == true ]; then
   yarn testcafe "browserstack:ie@11.0:Windows 10" "${@}"
 else
-  yarn testcafe chrome "${@}"
+  yarn testcafe "${@}"
 fi
