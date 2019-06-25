@@ -1,5 +1,3 @@
-import { ccLocatorEnabled } from '../config';
-
 /**
  * Enum for the type attribute of a Facility/Provider search result
  */
@@ -39,10 +37,14 @@ export const PinNames = {
 /**
  * Defines the options available for the Location Type Dropdown
  */
-// TODO: Remove feature flag when going live
-export const LOCATION_OPTIONS = ccLocatorEnabled()
-  ? ['all', 'health', 'cc_provider', 'benefits', 'cemetery', 'vet_center']
-  : ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
+export const LOCATION_OPTIONS = [
+  LocationType.ALL,
+  LocationType.HEALTH,
+  LocationType.CC_PROVIDER,
+  LocationType.BENEFITS,
+  LocationType.CEMETARY,
+  LocationType.VET_CENTER,
+];
 
 /**
  * Defines the ± change in bounding box size for the map when changing zoom
