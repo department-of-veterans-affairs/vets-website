@@ -184,6 +184,8 @@ const attachmentsSchema = {
   },
 };
 
+// For which page needs prefill-message, check
+// vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
