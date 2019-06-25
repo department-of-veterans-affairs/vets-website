@@ -414,7 +414,7 @@ class VAMap extends Component {
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
             <div>
-              <a onClick={linkAction.bind(this, r.id, true)}>
+              <a href={`/provider/${r.id}`} onClick={linkAction.bind(this, r.id, true)}>
                 <h5>{r.attributes.name}</h5>
               </a>
               <h6>{r.attributes.orgName}</h6>
@@ -427,7 +427,7 @@ class VAMap extends Component {
             </div>
           ) : (
             <div>
-              <a onClick={linkAction.bind(this, r.id, false)}>
+              <a href={`/facility/${r.id}`} onClick={linkAction.bind(this, r.id, false)}>
                 <h5>{r.attributes.name}</h5>
               </a>
               <p>

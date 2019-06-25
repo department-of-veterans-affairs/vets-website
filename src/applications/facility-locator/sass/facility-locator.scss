@@ -125,7 +125,13 @@
     }
 
     a {
+      display: block;
       text-decoration: none;
+
+      &:focus {
+        outline: 2px solid #f9c642;
+        outline-offset: 2px;
+      }
     }
 
     p {
@@ -726,4 +732,8 @@
 
 .top-z {
   z-index: 1000 !important;
+}
+
+.va-nav-breadcrumbs:focus {
+  outline: 0;
 }
