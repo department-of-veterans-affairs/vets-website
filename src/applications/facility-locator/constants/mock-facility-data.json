@@ -1,0 +1,1031 @@
+{
+  "data": [
+    {
+      "id": "nca_s1130",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "s1130",
+        "name": "Washington State Veterans Cemetery Medical Lake",
+        "facilityType": "va_cemetery",
+        "classification": "State Cemetery",
+        "website": "http://www.dva.wa.gov/cemetery",
+        "lat": 47.5862341059396,
+        "long": -117.713961630042,
+        "address": {
+          "physical": {
+            "address1": "21702 W Espanola Rd",
+            "address2": null,
+            "address3": null,
+            "city": "Medical Lake",
+            "state": "WA",
+            "zip": "99022"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "509-299-6280",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "friday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vha_438GE",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "438GE",
+        "name": "Wagner VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Other Outpatient Services (OOS)",
+        "website": "http://www.siouxfalls.va.gov/locations/wagner.asp",
+        "lat": 43.0818390000001,
+        "long": -98.297446,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "57380-9369",
+            "city": "Wagner",
+            "state": "SD",
+            "address1": "400 West South Dakota Highway 46",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "605-384-2345 x",
+          "main": "605-384-2340 x",
+          "pharmacy": "800-316-8387 x",
+          "afterHours": "605-336-3230 x",
+          "patientAdvocate": "605-336-3230 x6688",
+          "mentalHealthClinic": "",
+          "enrollmentCoordinator": "605-373-4196 x"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-1200PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "-",
+          "sunday": "-"
+        },
+        "services": {
+          "other": [
+            "Online Scheduling"
+          ],
+          "health": [
+            {
+              "sl1": [
+                "PrimaryCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "Audiology"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "Orthopedics"
+              ],
+              "sl2": []
+            }
+          ],
+          "lastUpdated": "2019-02-12"
+        },
+        "feedback": {
+          "health": {
+            "effectiveDate": "2018-05-22",
+            "primaryCareRoutine": 0.94
+          }
+        },
+        "access": {
+          "health": {
+            "audiology": {
+              "new": null,
+              "established": 0
+            },
+            "orthopedics": {
+              "new": null,
+              "established": 0
+            },
+            "primaryCare": {
+              "new": 20,
+              "established": 7
+            },
+            "mentalHealth": {
+              "new": null,
+              "established": 5
+            },
+            "effectiveDate": "2019-02-04"
+          }
+        }
+      }
+    },
+    {
+      "id": "vha_691GE",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "691GE",
+        "name": "Los Angeles VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Multi-Specialty CBOC",
+        "website": null,
+        "lat": 34.05171284,
+        "long": -118.23874096,
+        "address": {
+          "physical": {
+            "address1": "351 East Temple Street",
+            "address2": null,
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90012-3328"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "213-253-5000 x",
+          "fax": "213-253-5510 x",
+          "afterHours": "877-252-4866 x",
+          "patientAdvocate": "213-253-2677 x24111",
+          "enrollmentCoordinator": "213-253-2677 x24033",
+          "pharmacy": "800-952-4852 x",
+          "mentalHealthClinic": "310-268-4449"
+        },
+        "hours": {
+          "monday": "700AM-530PM",
+          "tuesday": "700AM-530PM",
+          "wednesday": "700AM-530PM",
+          "thursday": "700AM-530PM",
+          "friday": "700AM-530PM",
+          "saturday": "-",
+          "sunday": "-"
+        },
+        "services": {
+          "lastUpdated": "2017-07-24",
+          "health": [
+            {
+              "sl1": [
+                "DentalServices"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "MentalHealthCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "PrimaryCare"
+              ],
+              "sl2": []
+            }
+          ]
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": "0.78",
+            "primaryCareRoutine": "0.77",
+            "effectiveDate": "2017-03-24"
+          }
+        },
+        "access": {
+          "health": {
+            "primaryCare": {
+              "new": 15,
+              "established": 3
+            },
+            "mentalHealth": {
+              "new": 12,
+              "established": 2
+            },
+            "womensHealth": {
+              "new": null,
+              "established": 9
+            },
+            "audiology": {
+              "new": 48,
+              "established": 0
+            },
+            "gastroenterology": {
+              "new": 7,
+              "established": null
+            },
+            "opthalmology": {
+              "new": 9,
+              "established": 6
+            },
+            "optometry": {
+              "new": 14,
+              "established": 5
+            },
+            "urologyClinic": {
+              "new": 23,
+              "established": 3
+            },
+            "effectiveDate": "2017-08-14"
+          }
+        }
+      }
+    },
+    {
+      "id": "vba_343o",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "343o",
+        "name": "Los Angeles Ambulatory Care Center",
+        "facilityType": "va_benefits_facility",
+        "classification": "OUTBASED",
+        "website": null,
+        "lat": 34.05171315,
+        "long": -118.2387403,
+        "address": {
+          "physical": {
+            "address1": "351 East Temple Street",
+            "address2": "Room A-444",
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90012"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "213-253-2677 Ext 24759",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "8:00AM-2:30PM",
+          "tuesday": "8:00AM-2:30PM",
+          "wednesday": "8:00AM-2:30PM",
+          "thursday": "8:00AM-2:30PM",
+          "friday": "By Appointment Only",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vba_343z",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "343z",
+        "name": "VetSuccess on Campus at Los Angeles City College",
+        "facilityType": "va_benefits_facility",
+        "classification": "VETSUCCESS ON CAMPUS",
+        "website": null,
+        "lat": 34.08751109,
+        "long": -118.2917626,
+        "address": {
+          "physical": {
+            "address1": "855 North Vermont",
+            "address2": "",
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90029"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "323-953-4000 Ext 1253",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Closed",
+          "tuesday": "Closed",
+          "wednesday": "9:00AM-4:00PM",
+          "thursday": "Closed",
+          "friday": "Closed",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vba_314y",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "314y",
+        "name": "VetSuccess on Campus at George Mason University",
+        "facilityType": "va_benefits_facility",
+        "classification": "Vetsuccess On Campus",
+        "website": "NULL",
+        "lat": 38.8350585100001,
+        "long": -77.3112389299999,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22033",
+            "city": "Fairfax",
+            "state": "VA",
+            "address1": "4400 University Drive",
+            "address2": "MS N 3A4",
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": null,
+          "main": "703-993-4464"
+        },
+        "hours": {
+          "friday": "7:30AM-5:00PM",
+          "monday": "7:30AM-5:00PM",
+          "sunday": "Closed",
+          "tuesday": "7:30AM-5:00PM",
+          "saturday": "Closed",
+          "thursday": "7:30AM-5:00PM",
+          "wednesday": "7:30AM-5:00PM"
+        },
+        "services": {
+          "benefits": {
+            "other": null,
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "nca_827",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "827",
+        "name": "Balls Bluff National Cemetery",
+        "facilityType": "va_cemetery",
+        "classification": "National Cemetery",
+        "website": "https://www.cem.va.gov/cems/nchp/ballsbluff.asp",
+        "lat": 39.1318417350001,
+        "long": -77.52753613,
+        "address": {
+          "mailing": {
+            "zip": "22701",
+            "city": "Culpeper",
+            "state": "VA",
+            "address1": "305 U.S. Ave",
+            "address2": null,
+            "address3": null
+          },
+          "physical": {
+            "zip": "22075",
+            "city": "Leesburg",
+            "state": "VA",
+            "address1": "Route 7",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "540-825-6684",
+          "main": "540-825-0027"
+        },
+        "hours": {
+          "friday": "Sunrise - Sunset",
+          "monday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset"
+        },
+        "services": {},
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "nca_872",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "872",
+        "name": "Quantico National Cemetery",
+        "facilityType": "va_cemetery",
+        "classification": "National Cemetery",
+        "website": "https://www.cem.va.gov/cems/nchp/quantico.asp",
+        "lat": 38.552491403,
+        "long": -77.357505649,
+        "address": {
+          "mailing": {
+            "zip": "22172",
+            "city": "Triangle",
+            "state": "VA",
+            "address1": "P.O. Box 10",
+            "address2": null,
+            "address3": null
+          },
+          "physical": {
+            "zip": "22172",
+            "city": "Triangle",
+            "state": "VA",
+            "address1": "18424 Joplin Rd (Route 619)",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "703-221-2185",
+          "main": "703-221-2183"
+        },
+        "hours": {
+          "friday": "Sunrise - Sunset",
+          "monday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset"
+        },
+        "services": {},
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vba_314z",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "314z",
+        "name": "VetSuccess on Campus at Northern Virginia Community College (Alexandria Campus)",
+        "facilityType": "va_benefits_facility",
+        "classification": "Vetsuccess On Campus",
+        "website": "NULL",
+        "lat": 38.8386962600001,
+        "long": -77.1117420699999,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22311",
+            "city": "Alexandria",
+            "state": "VA",
+            "address1": "3001 North Beauregard St",
+            "address2": "Bisdorf Building, Room 194",
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "703-575-4706",
+          "main": "703-323-3893"
+        },
+        "hours": {
+          "friday": "8:00AM-3:30PM",
+          "monday": "8:00AM-3:30PM",
+          "sunday": "Closed",
+          "tuesday": "8:00AM-3:30PM",
+          "saturday": "Closed",
+          "thursday": "8:00AM-3:30PM",
+          "wednesday": "8:00AM-3:30PM"
+        },
+        "services": {
+          "benefits": {
+            "other": null,
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vc_0228V",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "0228V",
+        "name": "Alexandria Vet Center",
+        "facilityType": "vet_center",
+        "classification": null,
+        "website": null,
+        "lat": 38.7678970200001,
+        "long": -77.11909822,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22310",
+            "city": "Alexandria",
+            "state": "VA",
+            "address1": "6940 South Kings Highway",
+            "address2": "Suite 204",
+            "address3": null
+          }
+        },
+        "phone": {
+          "main": "703-360-8633 x"
+        },
+        "hours": {
+          "friday": "800AM-430PM",
+          "monday": "800AM-730PM",
+          "sunday": "-",
+          "tuesday": "800AM-330PM",
+          "saturday": "-",
+          "thursday": "800AM-730PM",
+          "wednesday": "800AM-730PM"
+        },
+        "services": {},
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vha_688GA",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "688GA",
+        "name": "Fort Belvoir VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Multi-Specialty CBOC",
+        "website": null,
+        "lat": 38.7048241100001,
+        "long": -77.14011033,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22060-5285",
+            "city": "Fort Belvoir",
+            "state": "VA",
+            "address1": "9300 Dewitt Loop",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "571-231-2408 x",
+          "main": "571-231-2408 x",
+          "pharmacy": "202-745-8235 x",
+          "afterHours": "202-745-8247 x",
+          "patientAdvocate": "202-745-8588 x",
+          "mentalHealthClinic": "571-231-2408",
+          "enrollmentCoordinator": "202-745-8000 x6333"
+        },
+        "hours": {
+          "friday": "730AM-400PM",
+          "monday": "730AM-400PM",
+          "sunday": "-",
+          "tuesday": "730AM-400PM",
+          "saturday": "-",
+          "thursday": "730AM-400PM",
+          "wednesday": "730AM-400PM"
+        },
+        "services": {
+          "health": [
+            {
+              "sl1": [
+                "MentalHealthCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "PrimaryCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "EmergencyCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "WomensHealth"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "Audiology"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "Dermatology"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "Gynecology"
+              ],
+              "sl2": []
+            }
+          ],
+          "lastUpdated": "2018-08-18"
+        },
+        "feedback": {
+          "health": {
+            "effectiveDate": "2018-05-22",
+            "primaryCareUrgent": "0.74",
+            "primaryCareRoutine": "0.83"
+          }
+        },
+        "access": {
+          "health": {
+            "audiology": {
+              "new": 69,
+              "established": 13
+            },
+            "gynecology": {
+              "new": null,
+              "established": 6
+            },
+            "dermatology": {
+              "new": null,
+              "established": 0
+            },
+            "primaryCare": {
+              "new": 55,
+              "established": 3
+            },
+            "mentalHealth": {
+              "new": 34,
+              "established": 1
+            },
+            "womensHealth": {
+              "new": null,
+              "established": 6
+            },
+            "effectiveDate": "2018-08-13"
+          }
+        }
+      }
+    },
+    {
+      "id": "vba_314u",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "314u",
+        "name": "Fort Belvoir Pre-Discharge Claims Intake Site",
+        "facilityType": "va_benefits_facility",
+        "classification": null,
+        "website": "NULL",
+        "lat": 38.7011308300001,
+        "long": -77.13806455,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22060",
+            "city": "Fort Belvoir",
+            "state": "VA",
+            "address1": "9501 Farrell Road",
+            "address2": "808N Suite NS-104",
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "703-805-8089",
+          "main": "703-805-0548"
+        },
+        "hours": {
+          "friday": "Closed",
+          "monday": "8:00AM-4:00PM",
+          "sunday": "Closed",
+          "tuesday": "8:00AM-4:00PM",
+          "saturday": "Closed",
+          "thursday": "8:00AM-4:00PM",
+          "wednesday": "8:00AM-4:00PM"
+        },
+        "services": {
+          "benefits": {
+            "other": "Accepts and date stamps claims ",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vba_314w",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "314w",
+        "name": "Fort Belvoir Outbased Office",
+        "facilityType": "va_benefits_facility",
+        "classification": "Outbased",
+        "website": "NULL",
+        "lat": 38.6924387600001,
+        "long": -77.13654307,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22060",
+            "city": "Fort Belvoir",
+            "state": "VA",
+            "address1": "808 Farrell Road",
+            "address2": "Room NS 104",
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "215-991-1442",
+          "main": "301-400-2463"
+        },
+        "hours": {
+          "friday": "7:00AM-3:30PM",
+          "monday": "7:00AM-3:30PM",
+          "sunday": "Closed",
+          "tuesday": "7:00AM-3:30PM",
+          "saturday": "Closed",
+          "thursday": "7:00AM-3:30PM",
+          "wednesday": "7:00AM-3:30PM"
+        },
+        "services": {
+          "benefits": {
+            "other": null,
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vba_372d",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "372d",
+        "name": "Walter Reed National Military Medical Center",
+        "facilityType": "va_benefits_facility",
+        "classification": "Outbased",
+        "website": "NULL",
+        "lat": 39.0025918100001,
+        "long": -77.09709272,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "20889",
+            "city": "Bethesda",
+            "state": "MD",
+            "address1": "8901 Rockville Pike",
+            "address2": "Bldg 11 Room 226",
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": null,
+          "main": "301-400-2465"
+        },
+        "hours": {
+          "friday": "Closed",
+          "monday": "8:00AM-4:00PM",
+          "sunday": "Closed",
+          "tuesday": "8:00AM-4:00PM",
+          "saturday": "Closed",
+          "thursday": "8:00AM-4:00PM",
+          "wednesday": "8:00AM-4:00PM"
+        },
+        "services": {
+          "benefits": {
+            "other": "Accepts and date stamps claims ",
+            "standard": [
+              "IntegratedDisabilityEvaluationSystemAssistance",
+              "PreDischargeClaimAssistance"
+            ]
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vba_314x",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "314x",
+        "name": "Quantico Marine Base Pre-Discharge Claims Intake Site",
+        "facilityType": "va_benefits_facility",
+        "classification": null,
+        "website": "NULL",
+        "lat": 38.5185351600001,
+        "long": -77.3051058199999,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22134",
+            "city": "Quantico",
+            "state": "VA",
+            "address1": "3025 John Quick Road",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "phone": {
+          "fax": "703-432-1869",
+          "main": "703-432-1814"
+        },
+        "hours": {
+          "friday": "7:00AM-3:30PM",
+          "monday": "7:00AM-3:30PM",
+          "sunday": "Closed",
+          "tuesday": "7:00AM-3:30PM",
+          "saturday": "Closed",
+          "thursday": "7:00AM-3:30PM",
+          "wednesday": "7:00AM-3:30PM"
+        },
+        "services": {
+          "benefits": {
+            "other": null,
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "ccp_1",
+      "type": "cc_provider",
+      "attributes": {
+        "uniqueId": "1",
+        "name": "Smith, Jones MD",
+        "orgName": "Jones Family Medicine",
+        "specialty": [
+          {
+            "name": "Family Medicine",
+            "desc": "Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity."
+          }
+        ],
+        "address": {
+          "street": "820 Chesapeake Street, Southeast",
+          "appt": "",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20032-3428",
+          "full": "820 Chesapeake Street, Southeast, Washington, DC 20032-3428"
+        },
+        "email": "jones.smith@docs.gov",
+        "phone": "202-745-8685",
+        "schedPhone": "202-745-8000",
+        "fax": "202-562-8789",
+        "website": "http://example.com",
+        "prefContact": "phone",
+        "accNewPatients": true,
+        "gender": "Female",
+        "distance": 0.5,
+        "network": "TriWest",
+        "lat": 38.8292075900001,
+        "long": -76.99237091
+      }
+    },
+    {
+      "id": "ccp_2",
+      "type": "cc_provider",
+      "attributes": {
+        "uniqueId": "2",
+        "name": "Franklin Street Dentist",
+        "orgName": null,
+        "specialty": [
+          {
+            "name": "Dentistry",
+            "desc": "A dentist is a person qualified by a doctorate in dental surgery (D.D.S.) or dental medicine (D.M.D.), licensed by the state to practice dentistry, and practicing within the scope of that license. There is no difference between the two degrees: dentists who have a DMD or DDS have the same education. Universities have the prerogative to determine what degree is awarded. Both degrees use the same curriculum requirements set by the American Dental Association's Commission on Dental Accreditation. Generally, three or more years of undergraduate education plus four years of dental school is required to graduate and become a general dentist. State licensing boards accept either degree as equivalent, and both degrees allow licensed individuals to practice the same scope of general dentistry. Additional post-graduate training is required to become a dental specialist."
+          },
+          {
+            "name": "Orthodontist",
+            "desc": "That area of dentistry concerned with the supervision, guidance and correction of the growing or mature dentofacial structures, including those conditions that require movement of teeth or correction of malrelationships and malformations of their related structures and the adjustment of relationships between and among teeth and facial bones by the application of forces and/or the stimulation and redirection of functional forces within the craniofacial complex. Major responsibilities of orthodontic practice include the diagnosis, prevention, interception and treatment of all forms of malocclusion of the teeth and associated alterations in their surrounding structures; the design, application and control of functional and corrective appliances; and the guidance of the dentition and its supporting structures to attain and maintain optimum occlusal relations in physiologic and esthetic harmony among facial and cranial structures."
+          }
+        ],
+        "address": {
+          "street": "1500 Franklin Street Northeast",
+          "appt": "",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20018-2000",
+          "full": "1500 Franklin Street Northeast, Washington, DC 20018-2000"
+        },
+        "email": "franklin@dentist.med",
+        "phone": "202-636-7660",
+        "fax": "202-636-7661",
+        "website": "http://example.com",
+        "prefContact": "phone",
+        "accNewPatients": true,
+        "gender": "Male",
+        "distance": 5.15,
+        "network": "TriWest",
+        "lat": 38.925828,
+        "long": -76.9835070199999
+      }
+    },
+    {
+      "id": "ccp_3",
+      "type": "cc_provider",
+      "attributes": {
+        "uniqueId": "3",
+        "name": "University of Maryland Clinic",
+        "specialty": [
+          {
+            "name": "Vaccines",
+            "desc": "...shots..."
+          },
+          {
+            "name": "Check-ups",
+            "desc": "Physicals and whatnot..."
+          }
+        ],
+        "address": {
+          "street": "3511 University Blvd. East",
+          "appt": "",
+          "city": "Adelphi",
+          "state": "DC",
+          "zip": "20783",
+          "full": "3511 University Blvd. East, Adelphi, MD 20783"
+        },
+        "email": "clinic@uom.edu",
+        "phone": "240-684-2555",
+        "schedPhone": "866-606-8198",
+        "fax": "240-684-2301",
+        "website": "http://example.com",
+        "prefContact": "phone",
+        "accNewPatients": true,
+        "gender": "Male",
+        "distance": 5.15,
+        "network": "TriWest",
+        "lat": 38.9857684400001,
+        "long": -76.95675965
+      }
+    },
+    {
+      "id": "ccp_4",
+      "type": "cc_provider",
+      "attributes": {
+        "uniqueId": "4",
+        "name": "University of Broken Data",
+        "specialty": [
+          {
+            "name": "Bad Data",
+            "desc": "...b0rk..."
+          },
+          {
+            "name": "Eyyy Lmao",
+            "desc": "LUL IceCold..."
+          }
+        ],
+        "address": {},
+        "email": "b0rkb0rk@br0k.edu",
+        "phone": "240-123-0199",
+        "schedPhone": "866-606-8198",
+        "fax": "240-123-0198",
+        "website": "http://b0rk.org",
+        "prefContact": "phone",
+        "accNewPatients": true,
+        "gender": "Male",
+        "distance": 3.65,
+        "network": "LHASNRM",
+        "lat": 38.9857684400001,
+        "long": -76.95675965
+      }
+    }
+  ],
+  "links": {
+    "self": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1",
+    "first": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20",
+    "prev": null,
+    "next": null,
+    "last": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 20,
+      "totalPages": 1,
+      "totalEntries": 16
+    }
+  }
+}

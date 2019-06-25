@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
 
 // TODO: Remove me when done bug fixing
@@ -25,9 +24,7 @@ export const api = {
  * enable Community Care Provider Locator features of the
  * existing Facility Locator App.
  */
-export const ccLocatorEnabled = () => {
-  return true;
-};
+export const ccLocatorEnabled = () => true;
 
 /* eslint-disable camelcase */
 export const facilityTypes = {
