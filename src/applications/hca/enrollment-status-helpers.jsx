@@ -819,8 +819,6 @@ export function getAlertType(enrollmentStatus) {
       status = DASHBOARD_ALERT_TYPES.enrolled;
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
     case HCA_ENROLLMENT_STATUSES.closed:
       status = DASHBOARD_ALERT_TYPES.closed;
       break;
@@ -844,6 +842,7 @@ export function getAlertType(enrollmentStatus) {
       status = DASHBOARD_ALERT_TYPES.decision;
       break;
 
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingMt:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
@@ -866,8 +865,6 @@ export function getAlertStatusHeadline(enrollmentStatus) {
       statusHeadline = 'Enrolled';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
     case HCA_ENROLLMENT_STATUSES.closed:
       statusHeadline = 'Closed';
       break;
@@ -891,6 +888,7 @@ export function getAlertStatusHeadline(enrollmentStatus) {
       statusHeadline = 'Decision';
       break;
 
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingMt:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
@@ -936,17 +934,12 @@ export function getAlertStatusInfo(enrollmentStatus) {
         'You didn’t qualify for VA health care based on your previous application';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
-      statusInfo =
-        'Our records show that you haven’t yet received your separation or retirement orders';
-      break;
-
     case HCA_ENROLLMENT_STATUSES.closed:
       statusInfo =
         'Our records show that your application for VA health care expired';
       break;
 
+    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingUnverified:
       statusInfo = 'We’re reviewing your application';
@@ -1185,22 +1178,20 @@ export function getAlertContent(
       break;
 
     case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
       blocks.push(
         <React.Fragment key="explanation">
           <p>
-            You can’t qualify for VA health care until you’ve received your
-            separation or retirement orders. We welcome you to apply again once
-            you've received your orders.
+            We’ll make our final decision on your application after you’ve
+            separated from service.
           </p>
           <p>
-            <a href="/HEALTHBENEFITS/apply/active_duty.asp">
-              Learn more about transitioning to VA health care
-            </a>
+            If we enroll you in VA health care, the preferred VA medical center
+            you selected when you applied will contact you. You can also check
+            back here after separation to find out the current status of your
+            application.
           </p>
         </React.Fragment>,
         whatShouldIDo1,
-        removeNotificationButton,
       );
       break;
 
