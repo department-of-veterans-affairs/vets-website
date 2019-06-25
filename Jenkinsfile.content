@@ -1,13 +1,13 @@
 @Library('va.gov-devops-jenkins-lib') _
 
 node('vetsgov-general-purpose') {
-	refStatusState = ""
+  refStatusState = ""
   ref = params.ref
   if (ref == "") {
     ref = getLatestGitRef("vets-website", branch: 'master')
   }
 
-	refStatusState = getGithubRefStatusState("vets-website", ref)
+  refStatusState = getGithubRefStatusState("vets-website", ref)
   if (refStatusState != "SUCCESS") {
     slackSend(message:"Web content refresh on ${params.env} aborted due to unsuccessful vets-website-build on commit ${ref}.",
               color: "warning",
