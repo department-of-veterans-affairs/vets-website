@@ -10,7 +10,7 @@ export class KeywordSearch extends React.Component {
     super(props);
     this.handleFetchSuggestion = debounce(
       this.handleFetchSuggestion.bind(this),
-      150,
+      333,
       { trailing: true },
     );
   }
