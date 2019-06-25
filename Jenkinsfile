@@ -5,7 +5,10 @@ env.CONCURRENCY = 10
 
 
 node('vetsgov-general-purpose') {
-  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
+              parameters([choice(name: "cmsEnvBuildOverride",
+                                 description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
+                                 choices: ["none", "dev", "staging"].join("\n"))])]);
 
   // Checkout vets-website code
   dir("vets-website") {
@@ -19,6 +22,8 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Lint|Security|Unit') {
+    if (params.cmsEnvBuildOverride != 'none') { return }
+
     try {
       parallel (
         lint: {
@@ -53,7 +58,7 @@ node('vetsgov-general-purpose') {
   }
 
   // Perform a build for each build type
-  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, false)
+  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
   stage('Integration') {
