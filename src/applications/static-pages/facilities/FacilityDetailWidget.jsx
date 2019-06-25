@@ -27,10 +27,12 @@ export class FacilityDetailWidget extends React.Component {
         <section className="vads-facility-detail">
           <FacilityAddress facility={facilityDetail} />
           <FacilityPhone facility={facilityDetail} />
-          <div className="vads-u-margin-bottom--1p5">
+          <div className="vads-u-margin-bottom--0">
             <div className="clinicalhours">
-              <h3>Clinical Hours</h3>
-              <ul className="va-c-facility-hours-list">
+              <h3 className="vads-u-margin-top--2p5 vads-u-margin-bottom--1">
+                Clinical Hours
+              </h3>
+              <ul className="va-c-facility-hours-list vads-u-margin-top--0">
                 {builtHours.map((day, index) => (
                   <li key={index}>{day}</li>
                 ))}

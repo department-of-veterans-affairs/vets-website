@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
@@ -30,15 +30,12 @@ const loginUrl = policy => {
   }
 };
 
-export function setRavenLoginType(loginType) {
-  Raven.setTagsContext({ loginType });
+export function setSentryLoginType(loginType) {
+  Sentry.setTag('loginType', loginType);
 }
 
-export function clearRavenLoginType() {
-  const context = Raven.getContext(); // Note: Do not mutate context directly.
-  const tags = { ...context.tags };
-  delete tags.loginType;
-  Raven.setTagsContext(tags);
+export function clearSentryLoginType() {
+  Sentry.setTag('loginType', undefined);
 }
 
 function redirectWithGAClientId(redirectUrl) {
@@ -90,7 +87,7 @@ export function verify() {
 }
 
 export function logout() {
-  clearRavenLoginType();
+  clearSentryLoginType();
   return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 

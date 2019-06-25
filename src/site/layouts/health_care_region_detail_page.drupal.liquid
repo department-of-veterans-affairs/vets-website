@@ -6,9 +6,9 @@
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       {% if entityUrl.path == "/outreach-and-events" %}
-        {% include 'src/site/navigation/outreach_sidebar_nav.drupal.liquid' with outreachSidebar %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
       {% else %}
-        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       {% endif %}
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
@@ -35,20 +35,13 @@
           {% endif %}
 
 
-          {% assign isContactPage = entityUrl.path | isContactPage %}
+          {% assign isContactPage = entityUrl.path | isPage: "contact" %}
           {% if isContactPage %}
             <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
                   {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
           {% endif %}
 
-          {% assign widgetDelta = 1 %}
           {% for block in fieldContentBlock %}
-            {% if block.entity.entityBundle == 'react_widget' and block.entity.fieldCtaWidget == false %}
-              {% assign reactRoot = 'react-widget-' | append: widgetDelta %}
-              {% assign block.entity.reactRoot = reactRoot %}
-              {% assign widgetDelta = widgetDelta | plus: 1 %}
-            {% endif %}
-
             {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
             {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
             {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
@@ -83,7 +76,7 @@
           </div>
         {%  endif %}
 
-        <div class="last-updated usa-content">
+        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
           Last updated:
           <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>

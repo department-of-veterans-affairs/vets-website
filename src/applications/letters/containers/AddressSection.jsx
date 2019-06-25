@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import {
@@ -73,7 +73,7 @@ export class AddressSection extends React.Component {
       if (emptyAddress && this.props.canUpdate) {
         this.props.editAddress();
       } else if (emptyAddress && !this.props.canUpdate) {
-        Raven.captureMessage('letters_empty_address_update_not_allowed');
+        Sentry.captureMessage('letters_empty_address_update_not_allowed');
       }
     }
   }
@@ -271,6 +271,10 @@ export class AddressSection extends React.Component {
     });
   };
 
+  navigateToLetterList = () => {
+    this.props.router.push('/letter-list');
+  };
+
   closeAddressHelp = () => this.setState({ addressHelpVisible: false });
 
   openAddressHelp = () => this.setState({ addressHelpVisible: true });
@@ -278,6 +282,7 @@ export class AddressSection extends React.Component {
   render() {
     const address = this.props.savedAddress || {};
     const emptyAddress = isAddressEmpty(this.props.savedAddress);
+    const { location } = this.props;
 
     const addressContentLines = {
       streetAddress: formatStreetAddress(address),
@@ -299,7 +304,10 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required
           />
-          <button className="usa-button-primary" onClick={this.saveAddress}>
+          <button
+            className="usa-button-primary update-address-button"
+            onClick={this.saveAddress}
+          >
             Update
           </button>
           <button className="usa-button-secondary" onClick={this.handleCancel}>
@@ -352,6 +360,7 @@ export class AddressSection extends React.Component {
     }
 
     let addressContent;
+    let forceEnableViewLettersButton = false;
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
     if (
@@ -361,6 +370,9 @@ export class AddressSection extends React.Component {
       addressContent = (
         <div className="step-content">{addressUpdateUnavailable}</div>
       );
+      // override needed for view letters button so that users can
+      // still view letters if they end up in this terminal state
+      forceEnableViewLettersButton = true;
     } else {
       addressContent = (
         <AddressContent
@@ -372,14 +384,35 @@ export class AddressSection extends React.Component {
       );
     }
 
+    let viewLettersButton;
+    if (location.pathname === '/confirm-address') {
+      viewLettersButton = (
+        <div className="step-content">
+          <button
+            onClick={this.navigateToLetterList}
+            className="usa-button-primary view-letters-button"
+            disabled={
+              emptyAddress ||
+              (this.props.isEditingAddress && !forceEnableViewLettersButton)
+            }
+          >
+            View Letters
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <Element name="addressScrollElement" />
-        <div aria-live="polite" aria-relevant="additions">
-          {/* Warning message goes here while editing with no address on record */}
-          {emptyAddress && this.props.isEditingAddress && noAddressBanner}
-          {addressContent}
+        <div>
+          <Element name="addressScrollElement" />
+          <div aria-live="polite" aria-relevant="additions">
+            {/* Warning message goes here while editing with no address on record */}
+            {emptyAddress && this.props.isEditingAddress && noAddressBanner}
+            {addressContent}
+          </div>
         </div>
+        {viewLettersButton}
       </div>
     );
   }

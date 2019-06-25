@@ -176,7 +176,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Save time—and save your work in progress—by signing in before starting your application',
     );
     expect(tree.find('.usa-button-primary').text()).to.contain(
-      'Sign in to Start Your Application',
+      'Sign in to start your application',
     );
     expect(tree.find('.va-button-link').text()).to.contain(
       'Start your application without signing in',

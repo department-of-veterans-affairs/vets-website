@@ -26,11 +26,23 @@ module.exports = function registerFilters() {
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
+  liquid.filters.unixFromDate = data => new Date(data).getTime();
+
+  liquid.filters.currentUnixFromDate = () => {
+    const time = new Date();
+    return time.getTime();
+  };
+
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
 
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
 
   liquid.filters.modulo = item => item % 2;
+
+  liquid.filters.listValue = data => {
+    const string = data.split('_').join(' ');
+    return string;
+  };
 
   liquid.filters.fileType = data => {
     const string = data
@@ -57,8 +69,20 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.videoThumbnail = data => {
-    const string = data.split('?v=')[1];
+    const string = data.split('v=')[1];
     return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
+  };
+
+  liquid.filters.outputLinks = data => {
+    // Change phone to tap to dial.
+    const replacePattern = /(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/;
+    const number = data.match(replacePattern)[0];
+    const replacedText = data.replace(
+      replacePattern,
+      `<a href="tel:${number}">Phone: ${number}</a>`,
+    );
+
+    return replacedText;
   };
 
   liquid.filters.breakTerms = data => {
@@ -86,20 +110,6 @@ module.exports = function registerFilters() {
       .toLowerCase()
       .split(' ')
       .join('-');
-
-  liquid.filters.paragraphsToWidgets = paragraphs =>
-    paragraphs
-      .filter(
-        paragraph =>
-          paragraph.entity.entityBundle === 'react_widget' &&
-          paragraph.entity.fieldCtaWidget === false,
-      )
-      .map((paragraph, index) => ({
-        root: `react-widget-${index + 1}`,
-        timeout: paragraph.entity.fieldTimeout,
-        loadingMessage: paragraph.entity.fieldLoadingMessage,
-        errorMessage: paragraph.entity.errorMessage,
-      }));
 
   liquid.filters.facilityIds = facilities =>
     facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
@@ -208,7 +218,7 @@ module.exports = function registerFilters() {
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
-  liquid.filters.isContactPage = path => path.includes('contact');
+  liquid.filters.isPage = (path, page) => path.includes(page);
 
   // check is this is a root level page
   liquid.filters.isRootPage = path => {
@@ -226,4 +236,11 @@ module.exports = function registerFilters() {
 
   // sort a list of objects by a certain property in the object
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
+
+  // get a value from a path of an object
+  liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
+
+  // get a value from a path of an object in an array
+  liquid.filters.getValueFromArrayObjPath = (entities, index, path) =>
+    _.get(entities[index], path);
 };

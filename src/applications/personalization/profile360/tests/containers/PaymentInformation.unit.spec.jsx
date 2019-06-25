@@ -6,6 +6,9 @@ import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
 
 import { PaymentInformation } from '../../containers/PaymentInformation';
+import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
+import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
+import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 describe('<PaymentInformation/>', () => {
   const defaultProps = {
@@ -67,14 +70,25 @@ describe('<PaymentInformation/>', () => {
     wrapper.unmount();
   });
 
-  it('renders a button for initializing direct deposit if the accountNumber is empty', () => {
+  it('renders the correct content if the accountNumber is empty', () => {
     const props = set(
       'paymentInformation.responses[0].paymentAccount.accountNumber',
       '',
       defaultProps,
     );
     const wrapper = shallow(<PaymentInformation {...props} />);
-    expect(wrapper.find('PaymentInformationAddLink')).to.have.lengthOf(1);
+
+    expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
+    expect(wrapper.find(PaymentInformationEditModal)).to.have.lengthOf(1);
+    const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
+    profileFieldHeadings.forEach(node => {
+      expect(node.props().onEditClick).to.equal('');
+    });
+    wrapper.find('.vet360-profile-field').forEach(node => {
+      expect(node.text()).to.contain('Please add your');
+    });
+    expect(wrapper.find('p')).to.have.length(0);
+
     wrapper.unmount();
   });
 
@@ -87,14 +101,23 @@ describe('<PaymentInformation/>', () => {
 
   it('renders the payment information', () => {
     const wrapper = shallow(<PaymentInformation {...defaultProps} />);
-    const renderedText = wrapper.text();
 
-    expect(renderedText).to.contain('123', 'Account number is rendered');
-    expect(renderedText).to.contain('Checking', 'Account type is rendered');
-    expect(renderedText).to.contain(
-      'My bank',
-      'Financial insitution name is rendered',
-    );
+    expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
+    expect(wrapper.find(PaymentInformationEditModal)).to.have.lengthOf(1);
+    const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
+    expect(profileFieldHeadings).to.have.lengthOf(3);
+    profileFieldHeadings.forEach(node => {
+      expect(typeof node.props().onEditClick).to.equal('function');
+    });
+    wrapper.find('.vet360-profile-field').forEach(node => {
+      expect(node.text()).not.to.contain('Please add your');
+    });
+    expect(
+      wrapper
+        .find('p')
+        .first()
+        .text(),
+    ).to.contain('If you think you’ve been the victim of bank fraud');
 
     wrapper.unmount();
   });

@@ -9,7 +9,7 @@ const {
 
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
-  const sidebar = { facilitySidebar: page.facilitySidebar };
+  const sidebar = page.facilitySidebar;
 
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
@@ -48,6 +48,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     homelessHealthServices: page.homelessHealthServices,
     genomicMedicineHealthServices: page.genomicMedicineHealthServices,
     veteranCareHealthServices: page.veteranCareHealthServices,
+    otherHealthServices: page.otherHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,

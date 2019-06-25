@@ -221,7 +221,7 @@ export class ApplicationStatus extends React.Component {
           itemScope
           itemType="http://schema.org/HowToSection"
         >
-          <h3 itemProp="name">{applyHeading}</h3>
+          <h2 itemProp="name">{applyHeading}</h2>
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status">
@@ -231,7 +231,7 @@ export class ApplicationStatus extends React.Component {
               >
                 {applyText}
               </a>
-              {window.location.pathname.endsWith('eligibility/') && (
+              {this.props.showLearnMoreLink && (
                 <p>
                   <a href={applyLink}>Learn more about how to apply</a>
                 </p>
@@ -262,6 +262,7 @@ ApplicationStatus.propTypes = {
     savedForms: PropTypes.array.isRequired,
   }),
   stayAfterDelete: PropTypes.bool,
+  showLearnMoreLink: PropTypes.bool,
 };
 
 ApplicationStatus.defaultProps = {

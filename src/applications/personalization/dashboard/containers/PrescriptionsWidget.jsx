@@ -6,19 +6,11 @@ import moment from 'moment';
 import { loadPrescriptions } from '../actions/prescriptions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { recordDashboardClick } from '../helpers';
 import PrescriptionCard from '../components/PrescriptionCard';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 import environment from 'platform/utilities/environment';
-
-// we want to show the new heading style on prod _only_ if we are on the
-// `dashboard2` route
-function showNewHeadingStyle() {
-  return (
-    !environment.isProduction() ||
-    window.location.pathname.indexOf('dashboard2') > -1
-  );
-}
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
@@ -63,14 +55,14 @@ class PrescriptionsWidget extends React.Component {
 
     return (
       <div id="rx-widget">
-        {!showNewHeadingStyle() && <h2>Refill Prescriptions</h2>}
-        {showNewHeadingStyle() && <h3>Refill prescriptions</h3>}
+        <h3>Refill prescriptions</h3>
         <div>{content}</div>
         <p>
           <a
             href={`${mhvBaseUrl()}/mhv-portal-web/${
               environment.isProduction() ? 'web/myhealthevet/' : ''
             }refill-prescriptions`}
+            onClick={recordDashboardClick('view-all-prescriptions')}
             rel="noopener noreferrer"
             target="_blank"
           >

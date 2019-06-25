@@ -18,7 +18,7 @@ export default function FormStartControls(props) {
         <div>
           {UnauthenticatedAlert}
           <button className="usa-button-primary" onClick={props.authenticate}>
-            Sign In and Verify Your Identity
+            Sign in and verify your identity
           </button>
         </div>
       )}
@@ -30,7 +30,7 @@ export default function FormStartControls(props) {
               href={`/verify?next=${window.location.pathname}`}
               className="usa-button-primary verify-link"
             >
-              Verify Your Identity
+              Verify your identity
             </a>
           </div>
         )}

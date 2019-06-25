@@ -1,5 +1,5 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
 
@@ -48,6 +48,6 @@ export default function AppealHelpSidebar({ aoj }) {
     case AOJS.other:
       return null;
     default:
-      Raven.captureMessage(`appeal-status-unexpected-aoj: ${aoj}`);
+      Sentry.captureMessage(`appeal-status-unexpected-aoj: ${aoj}`);
   }
 }

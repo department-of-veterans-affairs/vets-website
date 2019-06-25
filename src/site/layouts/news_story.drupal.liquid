@@ -62,7 +62,7 @@ Example data:
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}
@@ -73,17 +73,19 @@ Example data:
                     </div>
                 {% endif %}
 
-                <article class="usa-content">
+                <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
                     <h1>{{ title }}</h1>
                     {% assign image = fieldMedia.entity.image %}
-                    <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
-                    <div class="vads-u-font-size--sm vads-u-margin-bottom--2">{{ fieldImageCaption }}</div>
-                    {% assign author = fieldAuthor.entity %}
-                    <div class="authored-by-line vads-u-margin-bottom--2">By {{ author.title }}{% if author.fieldDescription != empty %}, {{ author.fieldDescription }} {% endif %}</div>
+                    <img class="story-detail-img {% if fieldImageCaption == empty %}vads-u-margin-bottom--2p5{% else %}vads-u-margin-bottom--1{% endif %}" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
+                    <div class="vads-u-font-size--sm vads-u-margin-bottom--2p5">{{ fieldImageCaption }}</div>
+                    {% if fieldAuthor != empty and fieldAuthor.entity != empty %}
+                        {% assign author = fieldAuthor.entity %}
+                        <div class="authored-by-line vads-u-margin-bottom--0p5 vads-u-font-weight--bold">By {{ author.title }}{% if author.fieldDescription != empty %}, {{ author.fieldDescription }} {% endif %}</div>
+                    {% endif %}
                     <div class="created-line ">
                         <time datetime="{{ created | dateFromUnix: 'YYYY-MM-DD'}}">{{ created | humanizeTimestamp }}</time>
                     </div>
-                    <div class="usa-grid usa-grid-full">
+                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
                         <div class="va-introtext">
                             <p>{{ fieldIntroText }}</p>
                         </div>
@@ -91,7 +93,7 @@ Example data:
                             {{ fieldFullStory.processed }}
                         </div>
                     </div>
-                    <a href="{{ fieldOffice.entity.entityUrl.path }}/stories">See all community stories</a>
+                    <a class="vads-u-display--block vads-u-margin-bottom--7" href="{{ fieldOffice.entity.entityUrl.path }}/stories">See all community stories</a>
                 </article>
             </div>
         </div>

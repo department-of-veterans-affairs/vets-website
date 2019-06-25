@@ -1,7 +1,7 @@
 import React from 'react';
 import { calculateRating } from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
-import { RatingRow } from './RatingRow';
+import RatingRow from './RatingRow';
 import '../sass/disability-calculator.scss';
 
 const defaultRatings = [
@@ -25,26 +25,21 @@ export default class DisabilityRatingCalculator extends React.Component {
       calculatedRating: 0,
     };
 
-    this.ratingRef = React.createRef();
-    this.focus = this.focus.bind(this);
+    this.ratingInputRefs = [];
   }
 
   componentDidMount() {
-    if (this.state.ratings === 2) {
-      setTimeout(() => {
-        this.focus();
-      }, 100);
-    }
-    this.ratingRef.current.focus();
+    this.focusFirstRatingInput();
   }
 
-  focus = () => {
-    this.ratingRef.current.focus();
+  setRef = ref => {
+    if (ref) this.ratingInputRefs.push(ref);
   };
 
-  handleClick = () => {
-    this.ratingRef.current.focus();
-  };
+  focusFirstRatingInput = () => this.ratingInputRefs[0].focus();
+
+  focusLastRatingInput = () =>
+    this.ratingInputRefs[this.ratingInputRefs.length - 1].focus();
 
   handleRowChange = (index, updatedRow) => {
     const ratings = this.state.ratings;
@@ -68,22 +63,17 @@ export default class DisabilityRatingCalculator extends React.Component {
       {
         rating: '',
         description: '',
-        canDelete: this.state.ratings.length > 1,
       },
     ];
-    this.setState({ ratings });
-    setTimeout(() => {
-      this.focus();
-    }, 100);
+
+    this.setState({ ratings }, this.focusLastRatingInput);
   };
 
   handleRemoveRating = idx => () => {
-    this.setState({
-      ratings: this.state.ratings.filter((s, sidx) => idx !== sidx),
-    });
-    setTimeout(() => {
-      this.focus();
-    }, 100);
+    const ratings = this.state.ratings;
+    this.ratingInputRefs.pop();
+    ratings.splice(idx, 1);
+    this.setState({ ratings }, this.focusLastRatingInput);
   };
 
   showRating = () => {
@@ -93,12 +83,14 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   clearAll = () => {
-    this.setState({
-      ratings: [...defaultRatings],
-      calculatedRating: 0,
-      showCombinedRating: false,
-    });
-    this.focus();
+    this.setState(
+      {
+        ratings: [...defaultRatings],
+        calculatedRating: 0,
+        showCombinedRating: false,
+      },
+      this.focusFirstRatingInput,
+    );
   };
 
   render() {
@@ -106,7 +98,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     const calculatedRating = this.state.calculatedRating;
 
     return (
-      <div className="disability-calculator vads-u-margin-bottom--5">
+      <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
         <div className="calc-header vads-u-padding-x--4">
           <h2 className="vads-u-padding-top--4">
             VA combined disability rating calculator
@@ -122,10 +114,19 @@ export default class DisabilityRatingCalculator extends React.Component {
         </div>
         <div className="vads-l-grid-container">
           <div className="vads-l-row">
-            <div className="vads-l-col--3 vads-u-padding-right--2">
+            <div
+              className="vads-l-col--2 vads-u-padding-right--2"
+              id="ratingLabel"
+            >
               Disability rating
+              <span className="sr-only">Enter Disability Rating</span>
             </div>
-            <div className="vads-l-col--8">Optional description</div>
+            <div className="vads-l-col--8" id="descriptionLabel">
+              Optional description
+              <span className="sr-only">
+                Enter Optional Disability Description
+              </span>
+            </div>
           </div>
           {this.state.ratings.map((ratingObj, idx) => (
             <RatingRow
@@ -136,12 +137,13 @@ export default class DisabilityRatingCalculator extends React.Component {
               ratingRef={this.ratingRef}
               handleRemoveRating={this.handleRemoveRating}
               canDelete={idx > 1}
+              ref={this.setRef}
             />
           ))}
           <div className="vads-l-row">
             <div className="vads-l-col--3">
               <button
-                className="va-button-link add-btn vads-u-text-align--left vads-u-padding-y--1p5"
+                className="va-button-link add-btn vads-u-text-align--left vads-u-margin-y--1p5"
                 type="button"
                 onClick={this.handleAddRating}
               >
@@ -155,7 +157,7 @@ export default class DisabilityRatingCalculator extends React.Component {
           <div className="vads-l-row">
             <div>
               <button
-                id="calculate-btn"
+                className="calculate-btn"
                 onClick={evt => {
                   this.handleSubmit(evt);
                 }}
@@ -165,7 +167,7 @@ export default class DisabilityRatingCalculator extends React.Component {
             </div>
             <div className="vads-u-margin-left--1">
               <button
-                className="va-button-link clear-btn vads-u-padding-y--1p5"
+                className="va-button-link clear-btn vads-u-margin-y--1p5"
                 onClick={this.clearAll}
               >
                 Clear all

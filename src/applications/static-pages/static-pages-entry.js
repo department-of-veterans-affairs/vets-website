@@ -1,6 +1,6 @@
 import '../../platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
@@ -30,19 +30,13 @@ import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 // Set further errors to have the appropriate source tag
-Raven.setTagsContext({
-  source: 'static-pages',
-});
+Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
 const store = createCommonStore(facilityReducer);
-Raven.context(
-  {
-    tags: { source: 'site-wide' },
-  },
-  () => {
-    startSitewideComponents(store);
-  },
-);
+Sentry.withScope(scope => {
+  scope.setTag('source', 'site-wide');
+  startSitewideComponents(store);
+});
 
 subscribeAdditionalInfoEvents();
 
@@ -51,7 +45,7 @@ createApplicationStatus(store, {
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/pension/how-to-apply/',
-  applyText: 'Apply for Veterans Pension Benefits',
+  applyText: 'Apply for Veterans pension benefits',
   widgetType: widgetTypes.PENSION_APP_STATUS,
 });
 
@@ -60,7 +54,7 @@ createApplicationStatus(store, {
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/health-care/how-to-apply/',
-  applyText: 'Apply for Health Care Benefits',
+  applyText: 'Apply for health care benefits',
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 
@@ -74,7 +68,7 @@ createApplicationStatus(store, {
   formId: '21P-530',
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
-  applyText: 'Apply for Burial Benefits',
+  applyText: 'Apply for burial benefits',
   widgetType: widgetTypes.BURIALS_APP_STATUS,
 });
 

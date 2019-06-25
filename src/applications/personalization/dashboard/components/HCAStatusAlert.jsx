@@ -25,10 +25,14 @@ const HCAStatusAlert = ({ applicationDate, enrollmentStatus, onRemove }) => {
 
   if (isShowingConfirmation) {
     return (
-      <AlertBox
-        headline="Are you sure you want to permanently remove this notification?"
-        status="warning"
-      >
+      <AlertBox status="warning">
+        <h3
+          className="usa-alert-heading"
+          tabIndex="-1"
+          ref={el => el && el.focus()}
+        >
+          Are you sure you want to permanently remove this notification?
+        </h3>
         <p>
           Please confirm that you want to remove this notification from your{' '}
           <strong>My VA</strong> dashboard. Removing it won’t affect the status
@@ -37,14 +41,14 @@ const HCAStatusAlert = ({ applicationDate, enrollmentStatus, onRemove }) => {
         </p>
         <button
           className="usa-button-primary vads-u-margin-y--0"
-          aria-label="Confirm remove health care application status notification"
+          aria-label="Remove the notification of my health care application status"
           onClick={onRemove}
         >
           Remove the notification
         </button>
         <button
           className="usa-button-secondary vads-u-margin-y--0"
-          aria-label="Do not remove the health care application status notification"
+          aria-label="Cancel the removal of my the health care application status notification"
           onClick={hideConfirmation}
         >
           Cancel

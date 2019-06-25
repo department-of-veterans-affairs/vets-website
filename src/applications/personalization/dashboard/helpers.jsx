@@ -1,5 +1,5 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -58,7 +58,6 @@ export const formConfigs = {
   '22-5495': edu5495Config,
   '40-10007': preneedConfig,
   VIC: vicV2Config,
-  'complaint-tool': feedbackConfig,
   'FEEDBACK-TOOL': feedbackConfig,
 };
 
@@ -78,7 +77,6 @@ export const formBenefits = {
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
-  'complaint-tool': 'feedback',
   'FEEDBACK-TOOL': 'feedback',
   '21-686C': 'dependent status',
 };
@@ -89,7 +87,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
     formNumber = '';
   } else if (key === '1010ez') {
     formNumber = ' (10-10EZ)';
-  } else if (key === 'FEEDBACK-TOOL' || key === 'complaint-tool') {
+  } else if (key === 'FEEDBACK-TOOL') {
     formNumber = ' (GI Bill School Feedback Tool)';
   } else {
     formNumber = ` (${key})`;
@@ -116,7 +114,6 @@ export const formLinks = {
   '40-10007': `${preneedManifest.rootUrl}/`,
   // Not active, will need a new url if we start using this post WBC
   VIC: '/veteran-id-card/apply/',
-  'complaint-tool': `${feedbackManifest.rootUrl}/`,
   'FEEDBACK-TOOL': `${feedbackManifest.rootUrl}/`,
   '21-686C': `${dependentStatusManifest.rootUrl}/`,
 };
@@ -137,7 +134,6 @@ export const trackingPrefixes = {
   '22-5495': 'edu-5495-',
   '40-10007': 'preneed-',
   VIC: 'veteran-id-card-',
-  'complaint-tool': 'gi_bill_feedback',
   'FEEDBACK-TOOL': 'gi_bill_feedback',
   '21-686C': '686-',
 };
@@ -159,7 +155,6 @@ export const sipEnabledForms = new Set([
   '22-5495',
   '40-10007',
   'VIC',
-  'complaint-tool',
   'FEEDBACK-TOOL',
 ]);
 
@@ -168,7 +163,7 @@ export const sipEnabledForms = new Set([
 // exceptions to this rule right now are the FEEDBACK-TOOL and VIC.
 export const presentableFormIDs = Object.keys(formBenefits).reduce(
   (prefixedIDs, formID) => {
-    if (formID === 'FEEDBACK-TOOL' || formID === 'complaint-tool') {
+    if (formID === 'FEEDBACK-TOOL') {
       prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
     } else if (formID === 'VIC') {
       prefixedIDs[formID] = 'VETERAN ID CARD'; // eslint-disable-line no-param-reassign
@@ -183,7 +178,7 @@ export const presentableFormIDs = Object.keys(formBenefits).reduce(
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
-    Raven.captureMessage('vets_sip_list_item_missing_info');
+    Sentry.captureMessage('vets_sip_list_item_missing_info');
     return false;
   }
   if (!sipEnabledForms.has(formNumber)) {

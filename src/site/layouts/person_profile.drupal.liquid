@@ -41,7 +41,7 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}
@@ -51,20 +51,20 @@
                         </div>
                     </div>
                 {% endif %}
-                <article class="usa-content">
+                <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
 
-                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
+                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 small-screen:vads-u-display--flex small-screen:vads-u-flex-direction--row">
 
-                        <div class="usa-width-one-third">
+                        <div class="usa-width-one-third small-screen:vads-u-margin-right--3">
                             {% assign image = fieldMedia.entity.image %}
                             <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
                         </div>
 
-                        <div class="usa-width-two-thirds">
-                            <h1>{{ title }}</h1>
-                            <p class="vads-u-font-weight--bold">{{ fieldDescription }}</p>
+                        <div class="usa-width-two-thirds vads-u-display--flex vads-u-flex-direction--column">
+                            <h1 class="vads-u-font-size--xl vads-u-margin-bottom--2">{{ title }}</h1>
+                            <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-line-height--1">{{ fieldDescription }}</p>
                             {% if fieldPhotoAllowHiresDownload %}
-                                <div class="vads-u-align-content--flex-end">
+                                <div class="vads-u-align-content--flex-end va-c-margin-top--auto">
                                     <i class="va-c-social-icon fas fa-download"></i>  <a href="{{ image.url }}" download>Download full size photo</a>
                                 </div>
                             {% endif %}
@@ -74,7 +74,7 @@
 
                     {% if fieldIntroText %}
                         <div class="va-introtext vads-u-margin-bottom--2">
-                            <p>{{ fieldIntroText }}</p>
+                            <p class="va-introtext vads-u-margin-bottom--0">{{ fieldIntroText }}</p>
                         </div>
                     {% endif %}
 
@@ -86,7 +86,7 @@
 
                 </article>
 
-                <div class="last-updated usa-content">
+                <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
                     Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
                 </div>
 

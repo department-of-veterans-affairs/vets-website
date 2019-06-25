@@ -5,7 +5,7 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with facilitySidebar %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
         <div class="usa-width-three-fourths">
             {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
             <article class="usa-content">
@@ -50,6 +50,9 @@
                             {% endif %}
                             {% if veteranCareHealthServices.entities.length %}
                               <li><a href="#veteran-care-health-services">Services for Veteran care</a></li>
+                            {% endif %}
+                            {% if otherHealthServices.entities.length %}
+                                <li><a href="#other-health-services">Other services</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -141,6 +144,15 @@
                         <h2>Services for Veteran care</h2>
                         {% for veteranService in veteranCareHealthServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = veteranService %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
+
+                {% if otherHealthServices.entities.length %}
+                    <section class="veteran-care-health-services" id="other-health-services">
+                        <h2>Other services</h2>
+                        {% for otherService in otherHealthServices.entities %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = otherService %}
                         {% endfor %}
                     </section>
                 {% endif %}

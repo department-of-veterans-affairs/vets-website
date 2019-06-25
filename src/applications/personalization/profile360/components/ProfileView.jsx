@@ -33,7 +33,7 @@ class ProfileView extends React.Component {
     user: PropTypes.object,
   };
 
-  handleDowntime = (downtime, children) => {
+  handleDowntimeApproaching = (downtime, children) => {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
       return (
         <DowntimeApproaching
@@ -70,11 +70,12 @@ class ProfileView extends React.Component {
         content = (
           <DowntimeNotification
             appTitle={appTitle}
-            render={this.handleDowntime}
+            render={this.handleDowntimeApproaching}
             dependencies={[
               externalServices.emis,
-              externalServices.vet360,
+              externalServices.evss,
               externalServices.mvi,
+              externalServices.vet360,
             ]}
           >
             <div>

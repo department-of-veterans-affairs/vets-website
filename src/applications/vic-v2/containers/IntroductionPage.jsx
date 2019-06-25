@@ -164,7 +164,7 @@ class IntroductionPage extends React.Component {
             {!signedIn && (
               <li className="process-step list-two">
                 <div>
-                  <h5>Sign In and Verify Your Identity</h5>
+                  <h5>Sign in and verify your identity</h5>
                 </div>
                 <p>You have a choice for how you complete this application.</p>
                 <h6>Choice 1: Sign in to VA.gov and verify your identity</h6>
@@ -211,7 +211,7 @@ class IntroductionPage extends React.Component {
               !idProofed && (
                 <li className="process-step list-two">
                   <div>
-                    <h5>Verify Your Identity</h5>
+                    <h5>Verify your identity</h5>
                   </div>
                   <p>
                     After you gather the documents needed to apply, we suggest
@@ -298,7 +298,7 @@ class IntroductionPage extends React.Component {
                   className="usa-button usa-button-primary"
                   href="/verify?next=%2Fveteran-id-card%2Fapply"
                 >
-                  Verify Your Identity
+                  Verify your identity
                 </a>
               </p>
               <strong>

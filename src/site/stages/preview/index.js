@@ -19,6 +19,7 @@ const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
+const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 
 function createPipeline(options) {
   const BUILD_OPTIONS = getOptions(options);
@@ -119,9 +120,9 @@ function createPipeline(options) {
   smith.use(addNonceToScripts);
 
   /*
-  * This will replace links in static pages with a staging domain,
-  * if it is in the list of domains to replace
-  */
+   * This will replace links in static pages with a staging domain,
+   * if it is in the list of domains to replace
+   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteAWSUrls(BUILD_OPTIONS));
 
@@ -131,6 +132,7 @@ function createPipeline(options) {
   smith.use(createBuildSettings(BUILD_OPTIONS));
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
+  smith.use(addSubheadingsIds(BUILD_OPTIONS));
 
   // For prod builds, we need to add asset hashes, but since this is a live
   // request, we're not doing a webpack build.

@@ -52,9 +52,9 @@ export default class BasicFacilityListWidget extends React.Component {
       facility => (
         <div
           key={facility.id}
-          className="usa-width-one-whole vads-u-margin-bottom--2"
+          className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--4"
         >
-          <section className="usa-width-two-thirds">
+          <section className="region-grid usa-width-one-half">
             <FacilityTitle
               facility={facility}
               nickname={this.props.facilities[facility.id].nickname}
@@ -63,12 +63,13 @@ export default class BasicFacilityListWidget extends React.Component {
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
           </section>
-          <section className="usa-width-one-third">
+          <section className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2">
             <a
               href={this.props.facilities[facility.id].entityUrl.path}
               aria-label={this.props.facilities[facility.id].nickname}
             >
               <img
+                className="region-img"
                 src={
                   this.props.facilities[facility.id].derivative
                     ? this.props.facilities[facility.id].derivative.url
@@ -85,6 +86,10 @@ export default class BasicFacilityListWidget extends React.Component {
         </div>
       ),
     );
-    return <div className="usa-grid usa-grid-full">{facilitiesList}</div>;
+    return (
+      <div className="usa-grid usa-grid-full basic-facilities-list">
+        {facilitiesList}
+      </div>
+    );
   }
 }

@@ -17,7 +17,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
       'Back',
     );
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal(
-      'Submit Application',
+      'Submit application',
     );
   });
   it('should render pending', () => {

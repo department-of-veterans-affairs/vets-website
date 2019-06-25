@@ -1,10 +1,13 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
+import SkinDeep from 'skin-deep';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { cloneDeep } from 'lodash';
 
 import { AddressSection } from '../../containers/AddressSection';
+import { DownloadLetters } from '../../containers/DownloadLetters';
 import { ADDRESS_TYPES } from '../../utils/constants';
 
 const originalValidations = AddressSection.fieldValidations;
@@ -53,6 +56,12 @@ const defaultProps = {
   countriesAvailable: true,
   states: [],
   statesAvailable: true,
+  location: {
+    pathname: '/confirm-address',
+  },
+  router: {
+    push: sinon.spy(),
+  },
 };
 
 const emptyAddress = {
@@ -193,7 +202,9 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...defaultProps} isEditingAddress />);
 
     // Click the save button
-    tree.find('button.usa-button-primary').simulate('click');
+    tree
+      .find('button.usa-button-primary.update-address-button')
+      .simulate('click');
     expect(saveSpy.calledWith(tree.state('editableAddress'))).to.be.true;
     tree.unmount();
   });
@@ -261,7 +272,9 @@ describe('<AddressSection>', () => {
       .simulate('change', { target: { value: '' } });
 
     // Try to save
-    tree.find('button.usa-button-primary').simulate('click');
+    tree
+      .find('button.usa-button-primary.update-address-button')
+      .simulate('click');
     expect(saveSpy.called).to.be.false;
     tree.unmount();
   });
@@ -495,6 +508,28 @@ describe('<AddressSection>', () => {
           .true;
       });
       tree.unmount();
+    });
+
+    it('should render button when at /confirm-address', () => {
+      const tree = SkinDeep.shallowRender(
+        <DownloadLetters {...defaultProps} />,
+      );
+      const stepHeader = tree.dive(['StepHeader']);
+      const button = stepHeader.subTree('button');
+      expect(button).to.exist;
+    });
+
+    it('should navigate to /letter-list when button is clicked', () => {
+      const component = ReactTestUtils.renderIntoDocument(
+        <AddressSection {...defaultProps} />,
+      );
+      const button = ReactTestUtils.findRenderedDOMComponentWithClass(
+        component,
+        'view-letters-button',
+      );
+      ReactTestUtils.Simulate.click(button);
+
+      expect(defaultProps.router.push.calledWith('/letter-list')).to.be.true;
     });
   });
 });
