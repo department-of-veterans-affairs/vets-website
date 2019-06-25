@@ -4,7 +4,7 @@ node('vetsgov-general-purpose') {
   refStatusState = ""
   ref = params.ref
   if (ref == "") {
-    ref = getLatestGitRef("vets-website", branch: 'master')
+    ref = getLatestGitRef("vets-website", branch: "master")
   }
 
   refStatusState = getGithubRefStatusState("vets-website", ref)
@@ -39,7 +39,11 @@ node('vetsgov-general-purpose') {
 
   stage("Deploy Dev or Staging") {
     if (params.env != "vagovprod" && params.deploy) {
-      commonStages.runDeploy('deploys/vets-website-${params.env}', ref)
+      commonStages.runDeploy("deploys/vets-website-${params.env}", ref, true)
+
+      slackSend(message:"Web content refresh in ${params.env} completed.",
+                color: "warning",
+                channel: "#cms-notifications")
     }
   }
 }
