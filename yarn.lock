@@ -1617,6 +1617,13 @@ axe-core@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-2.6.1.tgz#28772c4f76966d373acda35b9a409299dc00d1b5"
 
+axe-testcafe@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/axe-testcafe/-/axe-testcafe-3.0.0.tgz#6bd0c6db10c45437fc29d1aba2e0fa64410b2dac"
+  integrity sha512-zcDXA5oDYQSWRJHD/WTy9P79RkrO2m/N81x3eL158/GFzLbqUW/aRE538MwoSknmglh73SXs/ChRUwxDx6AgkA==
+  dependencies:
+    chalk "^2.4.1"
+
 axobject-query@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-0.1.0.tgz#62f59dbc59c9f9242759ca349960e7a2fe3c36c0"
