@@ -6,14 +6,11 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
-const deaEnrolledMax = 30;
-const deaOJTRate = 747;
 const housingRate = '#gbct_housing_allowance > div.small-6.columns.value > h5';
 
-// Search for an institution with Ch33 Benefit type and click result
+// Search for an institution with Ch33 Benefit, select In Person or Online radio, and click result
 function searchCh33(client, inPersonOrOnlineRadio, search, result) {
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
   client
     .waitForElementVisible(
       '.keyword-search input[type="text"]',
@@ -32,7 +29,7 @@ function searchCh33(client, inPersonOrOnlineRadio, search, result) {
     .waitForElementVisible('body', 1000)
     .axeCheck('.main');
 }
-// Selects VA rate or DOD rate, Selects In Person or Online, Verifies Housing rate
+// Selects VA rate or DOD rate, Verifies Housing rate
 function verifyCh33(client, vaOrDodRadio, expectedRate) {
   client
     .waitForElementPresent(vaOrDodRadio, Timeouts.normal)
@@ -44,46 +41,29 @@ function verifyCh33(client, vaOrDodRadio, expectedRate) {
 function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
   client
     .waitForElementVisible('#giBillChapter', Timeouts.slow)
-    .selectDropdown('giBillChapter', '35');
-
-  client
+    .selectDropdown('giBillChapter', '35')
     .waitForElementVisible(
       '.keyword-search input[type="text"]',
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'washington dc');
-
-  client
+    .setValue('.keyword-search input[type="text"]', 'washington dc')
     .click('#search-button')
     .waitForElementVisible('.search-page', Timeouts.normal)
     .axeCheck('.main');
-
   client.expect.element(expectedResult).to.be.enabled.before(Timeouts.normal);
-
   client.assert
     .containsText(resultRate, expectedRate)
     .click(expectedResult)
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
 }
-
 // Verify the expected DEA housing rate for the selected "Enrolled" option
 function verifyDEA(client, enrolledOption, expectedDEA) {
   client
     .selectDropdown('enrolledOld', enrolledOption)
     .waitForElementVisible(housingRate, Timeouts.normal)
     .assert.containsText(housingRate, expectedDEA);
-}
-
-// Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
-function verifyAllDEAojt(client) {
-  for (let i = 2; i <= deaEnrolledMax; i += 2) {
-    client.expect.element(housingRate).to.be.enabled.before(Timeouts.normal);
-    client.selectDropdown('working', i);
-    const value = Math.round((i / deaEnrolledMax) * deaOJTRate);
-    client.assert.containsText(housingRate, `$${value}/mo`);
-  }
 }
 
 const schools = {
@@ -986,9 +966,9 @@ module.exports = {
   schools,
   initApplicationMock,
   verifyDEA,
-  verifyAllDEAojt,
   searchAsDEA,
   formatCurrency,
+  formatNumber,
   calculatorConstantsList,
   formatCurrencyHalf,
   searchCh33,
