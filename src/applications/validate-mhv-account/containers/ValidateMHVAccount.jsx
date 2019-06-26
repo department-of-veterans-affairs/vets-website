@@ -31,7 +31,7 @@ class ValidateMHVAccount extends React.Component {
   }
 
   redirect = () => {
-    const { profile, mhvAccount, router } = this.props;
+    const { profile, mhvAccount, router, mviStatus } = this.props;
     const { accountLevel, accountState } = mhvAccount;
     const hyphenatedAccountState = accountState.replace(/_/g, '-');
     const gaPrefix = 'register-mhv';
@@ -43,10 +43,8 @@ class ValidateMHVAccount extends React.Component {
     }
 
     // MVI/MHV Checks
-    if (this.props.mviDown) {
-      recordEvent({ event: `${gaPrefix}-error-mvi-down` });
-      router.replace('error/mvi-down');
-      return;
+    if (mviStatus !== 'OK') {
+      this.handleMviError(mviStatus);
     } else if (mhvAccount.errors) {
       recordEvent({ event: `${gaPrefix}-error-mhv-down` });
       router.replace('error/mhv-error');
@@ -100,6 +98,20 @@ class ValidateMHVAccount extends React.Component {
     }
   };
 
+  handleMviError = () => {
+    // recordEvent({ event: `${gaPrefix}-error-mvi-down` });
+    // const hyphenatedMviStatus = mviStatus.replace(/_/g, '-');
+    // router.replace(`error/mvi-${hyphenatedMviStatus}`);
+    // return;
+    // switch (status) {
+    //   case 'NOT_FOUND':
+    //   case 'NOT_AUTHORIZED':
+    //   case 'SERVER_ERROR':
+    //   default:
+    //     break;
+    // }
+  };
+
   redirectToTermsAndConditions = () => {
     const redirectQuery = {
       tc_redirect: '/health-care/my-health-account-validation', // eslint-disable-line camelcase
@@ -130,7 +142,7 @@ const mapStateToProps = state => {
   const { mhvAccount, status } = profile;
   return {
     mhvAccount,
-    mviDown: status === 'SERVER_ERROR',
+    mviStatus: status,
     profile,
   };
 };
