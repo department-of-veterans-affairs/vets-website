@@ -7,7 +7,7 @@ node('vetsgov-general-purpose') {
     ref = getLatestGitRef("vets-website", branch: "master")
   }
 
-  refStatusState = getGithubRefState("vets-website", ref)
+  refStatusState = getGithubCommitState("vets-website", ref)
   if ("${refStatusState}" != "SUCCESS") {
     slackSend(message:"Web content refresh on ${params.env} aborted due to '${refStatusState}' status on vets-website commit ${ref}.",
               color: "warning",
