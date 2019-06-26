@@ -25,22 +25,28 @@
             <h1>{{ title }}</h1>
             <div class="vads-l-grid-container--full--full">
               <div class="va-introtext">
-                <p>
+                <p class="office-show" id="office-main-description">
                   {{ fieldDescription }}
                 </p>
+                {% if fieldAssetLibraryDescription %}
+                <p class="library-show" id="office-benefits-description">
+                  {{ fieldAssetLibraryDescription }}
+                </p>
+                {% endif %}
+                {% if fieldEventListingDescription %}
+                <p class="events-show" id="office-events-description">
+                  {{ fieldEventListingDescription }}
+                </p>
+                {% endif %}
               </div>
-              {% if title == 'Events' %}
               {% include 'src/site/components/events_list.drupal.liquid' %}
-              {% endif %}
             </div>
 
-            {% if title == 'Benefit Materials' or title == 'Benefits materials' %}
             <div
-              class="vads-l-grid-container--full--full asset-component-library"
+              class="vads-l-grid-container--full--full asset-component-library library-show"
               id="search-entry">
 
-              {% if title == 'Benefit Materials' %}
-              <form class="usa-form outreach-asset-form-filters">
+              <form class="usa-form outreach-asset-form-filters library-show">
                 <div class="vads-l-row vads-u-justify-content--space-between">
                   <div class="vads-l-col--12
                                 medium-screen:vads-l-col--12
@@ -94,9 +100,6 @@
                   </div>
                 </div>
               </form>
-              {% endif %}
-
-
 
               <div id="total-pages-div">
                 <div class="break-div">Showing
@@ -229,12 +232,10 @@
               {% endif %}
               {% endfor %}
             </div>
-            {% endif %}
 
           </div>
 
-          {% if title == 'Benefit Materials' %}
-          <div class="va-pagination" id="va-pager-div">
+          <div class="va-pagination library-show" id="va-pager-div">
             <span class="vads-u-display--none
               medium-screen::vads-u-display--block
               small-desktop-screen:vads-u-display--block
@@ -262,12 +263,10 @@
               <button class="va-button-link" id="last-click">Last</button>
             </span>
           </div>
-          <div id="no-results">
+          <div class="library-show" id="no-results">
             <div>No results.</div><button id="start-over">Click here to start
               over.</button>
           </div>
-
-          {% endif %}
 
         </article>
 

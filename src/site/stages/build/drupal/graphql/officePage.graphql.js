@@ -3,6 +3,11 @@
  * Example: /pittsburgh-health-care/events/example-event
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../utilities/featureFlags');
 
 module.exports = `
  fragment officePage on NodeOffice {
@@ -10,6 +15,16 @@ module.exports = `
     changed
     title
     fieldDescription
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION]
+        ? 'fieldAssetLibraryDescription'
+        : ''
+    }
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_EVENT_LISTING_DESCRIPTION]
+        ? 'fieldEventListingDescription'
+        : ''
+    }
     reverseFieldOfficeNode {
       entities {
     ... on NodeEvent {

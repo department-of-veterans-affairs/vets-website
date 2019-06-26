@@ -16,6 +16,12 @@ export function libraryCurrent() {
   });
 }
 
+export function libraryGetQParam() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentPage = urlParams.getAll('q');
+  return currentPage[0];
+}
+
 export function libraryCount() {
   if (document.getElementById('no-results')) {
     document.getElementById('no-results').style.display = 'none';
@@ -31,9 +37,11 @@ export function libraryCount() {
         numCards < 0 ? 0 : numCards;
     }
     document.getElementById('total-all').innerText = ` of ${cards.length}`;
-    if (numCards < 1) {
+    if (numCards < 1 && document.getElementById('no-results')) {
       document.getElementById('va-pager-div').style.display = 'none';
-      document.getElementById('no-results').style.display = 'block';
+      if (libraryGetQParam() === 'benefit') {
+        document.getElementById('no-results').style.display = 'block';
+      }
     }
   }
 }
@@ -71,6 +79,26 @@ export function libraryFilters(el) {
 }
 
 export function libraryListeners() {
+  const page = libraryGetQParam();
+  let el;
+  switch (page) {
+    case 'benefit':
+      el = document.querySelectorAll('.library-show');
+      break;
+
+    case 'events':
+      el = document.querySelectorAll('.events-show');
+      break;
+
+    default:
+      el = document.querySelectorAll('.office-show');
+      break;
+  }
+  el.forEach(value => {
+    const v = value;
+    v.style.display = 'block';
+  });
+
   const typeItem = document.getElementById('outreach-type');
   const pagingEl = document.querySelector('.va-pagination');
   const reLoad = document.getElementById('start-over');
