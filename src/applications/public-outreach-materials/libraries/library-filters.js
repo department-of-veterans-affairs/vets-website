@@ -1,21 +1,5 @@
 const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
-export function libraryCurrent() {
-  cards.forEach(element => {
-    const numVal = element.getAttribute('data-number');
-    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
-      element.classList.add('pager-hide');
-    } else {
-      element.classList.remove('pager-hide');
-    }
-    if (activePage === undefined) {
-      if (numVal > 10) {
-        element.classList.add('pager-hide');
-      }
-    }
-  });
-}
-
 export function libraryGetQParam() {
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = urlParams.getAll('q');
@@ -44,6 +28,23 @@ export function libraryCount() {
       }
     }
   }
+}
+
+export function libraryCurrent() {
+  cards.forEach(element => {
+    const numVal = element.getAttribute('data-number');
+    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
+      element.classList.add('pager-hide');
+    } else {
+      element.classList.remove('pager-hide');
+    }
+    if (activePage === undefined) {
+      if (numVal > 10) {
+        element.classList.add('pager-hide');
+      }
+    }
+  });
+  libraryCount();
 }
 
 export function libraryFilters(el) {
@@ -138,7 +139,7 @@ export function libraryListeners() {
         [].map.call(document.querySelectorAll(`[data-type]`), element => {
           element.classList.remove('hide-type');
         });
-        libraryCurrent();
+        libraryCount();
       }
     });
     typeItem.addEventListener('change', libraryCount);
@@ -169,11 +170,10 @@ export function libraryListeners() {
         [].map.call(document.querySelectorAll(`[data-topic]`), element => {
           element.classList.remove('hide-topic');
         });
-        libraryCurrent();
+        libraryCount();
       }
     });
     topicItem.addEventListener('change', libraryCount);
   }
-  libraryCurrent();
   libraryCount();
 }
