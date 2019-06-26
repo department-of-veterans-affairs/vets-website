@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
+import environment from '../../../platform/utilities/environment';
+
 const levels = [
   ['newBenefit'],
   ['serviceBenefitBasedOn', 'transferredEduBenefits'],
@@ -107,7 +109,7 @@ export default class EducationWizard extends React.Component {
                   label: 'Updating my current education benefits',
                   value: 'no',
                 },
-                {
+                !environment.isProduction() && {
                   label:
                     'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
                   value: 'extend',
@@ -289,7 +291,9 @@ export default class EducationWizard extends React.Component {
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {newBenefit === 'extend' && this.getButton('1995')}
+            {!environment.isProduction() &&
+              newBenefit === 'extend' &&
+              this.getButton('1995')}
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
