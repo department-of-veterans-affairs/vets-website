@@ -2,7 +2,6 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
-const housingAllowance = '#gbct_housing_allowance';
 const firstResult =
   '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 const firstResultRate =
@@ -11,6 +10,15 @@ const secondResult =
   '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 const secondResultRate =
   '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-five-twelfths.medium-5.columns.estimated-benefits > div:nth-child(3) > div > h4 > div';
+const thirdResult =
+  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+const onlineOnlyRadio = '#radio-buttons-2-0';
+const inPersonOnlyRadio = '#radio-buttons-2-1';
+const inPersonAndOnlineRadio = '#radio-buttons-2-2';
+const vaRateRadio = '#radio-buttons-15-0';
+const dodRateRadio = '#radio-buttons-15-1';
+const vaRateRadioUS = '#radio-buttons-16-0';
+const dodRateRadioUS = '#radio-buttons-16-1';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
@@ -79,183 +87,133 @@ module.exports = E2eHelpers.createE2eTest(client => {
     )}/mo`,
   );
 
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
-  E2eHelpers.overrideSmoothScrolling(client);
-  client.timeoutsAsyncScript(2000);
-
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
   // check Foreign DOD and VA rate for online only
-  GiHelpers.ForeignOnlineOnly(client);
-  client
-    .waitForElementVisible(housingAllowance, Timeouts.normal)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrencyHalf(
-        GiHelpers.calculatorConstantsList.AVGDODBAH,
-      )}/mo`,
-    )
-    .axeCheck('.main');
-
-  client
-    .click('#radio-buttons-15-0')
-    .pause(100)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrencyHalf(
-        GiHelpers.calculatorConstantsList.AVGVABAH,
-      )}/mo`,
-    );
-
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
+  GiHelpers.searchCh33(
+    client,
+    onlineOnlyRadio,
+    'DUBLIN CITY UNIVERSITY',
+    thirdResult,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    dodRateRadio,
+    `${GiHelpers.formatCurrencyHalf(
+      GiHelpers.calculatorConstantsList.AVGDODBAH,
+    )}/mo`,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    vaRateRadio,
+    `${GiHelpers.formatCurrencyHalf(
+      GiHelpers.calculatorConstantsList.AVGVABAH,
+    )}/mo`,
+  );
 
   // check Foreign DOD and VA rate for in person only
-  GiHelpers.ForeignInPersonOnly(client);
-
-  client
-    .waitForElementVisible(housingAllowance, Timeouts.normal)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.calculatorConstantsList.AVGDODBAH,
-      )}/mo`,
-    )
-    .axeCheck('.main');
-
-  client
-    .click('#radio-buttons-15-0')
-    .pause(100)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.calculatorConstantsList.AVGVABAH,
-      )}/mo`,
-    );
-
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
+  GiHelpers.searchCh33(
+    client,
+    inPersonOnlyRadio,
+    'DUBLIN CITY UNIVERSITY',
+    thirdResult,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    dodRateRadio,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.AVGDODBAH,
+    )}/mo`,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    vaRateRadio,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.AVGVABAH,
+    )}/mo`,
+  );
 
   // check Foreign DOD and VA rate for In person and online
-  GiHelpers.ForeignInPersonAndOnline(client);
-  client
-    .waitForElementVisible(housingAllowance, Timeouts.normal)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.calculatorConstantsList.AVGDODBAH,
-      )}/mo`,
-    )
-    .axeCheck('.main');
-
-  client
-    .click('#radio-buttons-15-0')
-    .pause(100)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.calculatorConstantsList.AVGVABAH,
-      )}/mo`,
-    );
-
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
+  GiHelpers.searchCh33(
+    client,
+    inPersonAndOnlineRadio,
+    'DUBLIN CITY UNIVERSITY',
+    thirdResult,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    dodRateRadio,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.AVGDODBAH,
+    )}/mo`,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    vaRateRadio,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.AVGVABAH,
+    )}/mo`,
+  );
 
   // check US DOD and VA rate for online only
-  GiHelpers.USOnlineOnly(client);
-  client
-    .waitForElementVisible(housingAllowance, Timeouts.normal)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrencyHalf(
-        GiHelpers.calculatorConstantsList.AVGDODBAH,
-      )}/mo`,
-    )
-    .axeCheck('.main');
-
-  client
-    .click('#radio-buttons-15-0')
-    .pause(100)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrencyHalf(
-        GiHelpers.calculatorConstantsList.AVGVABAH,
-      )}/mo`,
-    );
-
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
+  GiHelpers.searchCh33(
+    client,
+    onlineOnlyRadio,
+    'AMERICAN UNIVERSITY',
+    secondResult,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    dodRateRadioUS,
+    `${GiHelpers.formatCurrencyHalf(
+      GiHelpers.calculatorConstantsList.AVGDODBAH,
+    )}/mo`,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    vaRateRadioUS,
+    `${GiHelpers.formatCurrencyHalf(
+      GiHelpers.calculatorConstantsList.AVGVABAH,
+    )}/mo`,
+  );
 
   // check US DOD and VA rate for in person only
-  GiHelpers.USInPersonOnly(client);
-  client
-    .waitForElementVisible(housingAllowance, Timeouts.normal)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.schools.data[1].attributes.dodBah,
-      )}/mo`,
-    )
-    .axeCheck('.main');
-
-  client
-    .click('#radio-buttons-15-0')
-    .pause(100)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.schools.data[1].attributes.bah,
-      )}/mo`,
-    );
-
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
+  GiHelpers.searchCh33(
+    client,
+    inPersonOnlyRadio,
+    'AMERICAN UNIVERSITY',
+    secondResult,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    dodRateRadioUS,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.schools.data[1].attributes.dodBah,
+    )}/mo`,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    vaRateRadioUS,
+    `${GiHelpers.formatCurrency(GiHelpers.schools.data[1].attributes.bah)}/mo`,
+  );
 
   // check US DOD and VA rate for in person and online
-  GiHelpers.USInPersonAndOnline(client);
-  client
-    .waitForElementVisible(housingAllowance, Timeouts.normal)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.schools.data[1].attributes.dodBah,
-      )}/mo`,
-    )
-    .axeCheck('.main');
-
-  client
-    .click('#radio-buttons-15-0')
-    .pause(100)
-    .assert.containsText(
-      housingAllowance,
-      `${GiHelpers.formatCurrency(
-        GiHelpers.schools.data[1].attributes.bah,
-      )}/mo`,
-    );
+  GiHelpers.searchCh33(
+    client,
+    inPersonAndOnlineRadio,
+    'AMERICAN UNIVERSITY',
+    secondResult,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    dodRateRadioUS,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.schools.data[1].attributes.dodBah,
+    )}/mo`,
+  );
+  GiHelpers.verifyCh33(
+    client,
+    vaRateRadioUS,
+    `${GiHelpers.formatCurrency(GiHelpers.schools.data[1].attributes.bah)}/mo`,
+  );
 
   client.end();
 });

@@ -2,21 +2,44 @@
 /* eslint quote-props: 0 */
 /* eslint quotes: 0 */
 
+const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
-
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const deaEnrolledMax = 30;
-
 const deaOJTRate = 747;
-
 const housingRate = '#gbct_housing_allowance > div.small-6.columns.value > h5';
 
-const secondResult =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+// Search for an institution with Ch33 Benefit type and click result
+function searchCh33(client, inPersonOrOnlineRadio, search, result) {
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
-const foreignSchoolResult =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+  client
+    .waitForElementVisible(
+      '.keyword-search input[type="text"]',
+      Timeouts.normal,
+    )
+    .waitForElementPresent(inPersonOrOnlineRadio, Timeouts.normal)
+    .click(inPersonOrOnlineRadio)
+    .clearValue('.keyword-search input[type="text"]')
+    .setValue('.keyword-search input[type="text"]', search)
+    .click('#search-button')
+    .waitForElementVisible('.search-page', Timeouts.normal)
+    .axeCheck('.main')
+    .waitForElementVisible(result, Timeouts.normal)
+    .click('body')
+    .click(result)
+    .waitForElementVisible('body', 1000)
+    .axeCheck('.main');
+}
+// Selects VA rate or DOD rate, Selects In Person or Online, Verifies Housing rate
+function verifyCh33(client, vaOrDodRadio, expectedRate) {
+  client
+    .waitForElementPresent(vaOrDodRadio, Timeouts.normal)
+    .click(vaOrDodRadio)
+    .waitForElementVisible(housingRate, Timeouts.normal)
+    .assert.containsText(housingRate, expectedRate);
+}
 // Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
 function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
   client
@@ -61,185 +84,6 @@ function verifyAllDEAojt(client) {
     const value = Math.round((i / deaEnrolledMax) * deaOJTRate);
     client.assert.containsText(housingRate, `$${value}/mo`);
   }
-}
-
-// Search foreign school online only
-function ForeignOnlineOnly(client) {
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
-  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
-
-  client.click('#radio-buttons-2-0').axeCheck('.main');
-
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
-    .pause(100);
-
-  client.click('#search-button').axeCheck('.main');
-
-  client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(foreignSchoolResult, Timeouts.normal)
-    .click(foreignSchoolResult)
-    .waitForElementVisible('body', 1000)
-    .axeCheck('.main');
-}
-
-// Search foreign school in person only
-function ForeignInPersonOnly(client) {
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main')
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .axeCheck('.main ')
-    .click('#radio-buttons-2-1')
-    .axeCheck('.main')
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
-    .pause(100)
-    .click('#search-button')
-    .axeCheck('.main')
-    .waitForElementVisible(foreignSchoolResult, Timeouts.normal)
-    .click('body')
-    .click(foreignSchoolResult)
-    .axeCheck('.main');
-}
-
-// Search foreign school in person and online
-function ForeignInPersonAndOnline(client) {
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
-  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
-
-  client.click('#radio-buttons-2-2').axeCheck('.main');
-
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'DUBLIN CITY UNIVERSITY')
-    .pause(100);
-
-  client.click('#search-button').axeCheck('.main');
-
-  client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(foreignSchoolResult, Timeouts.verySlow)
-    .click('body')
-    .click(foreignSchoolResult)
-    .waitForElementVisible('body', 1000)
-    .axeCheck('.main');
-}
-
-// Search US school online only
-function USOnlineOnly(client) {
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
-  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
-
-  client.click('#radio-buttons-2-0').axeCheck('.main');
-
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'AMERICAN UNIVERSITY')
-    .pause(100);
-
-  client.click('#search-button').axeCheck('.main');
-
-  client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(foreignSchoolResult, Timeouts.normal)
-    .click('body')
-    .click(foreignSchoolResult)
-    .waitForElementVisible('body', 1000)
-    .axeCheck('.main');
-}
-
-// Search US school in person only
-function USInPersonOnly(client) {
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
-  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
-
-  client.click('#radio-buttons-2-1').axeCheck('.main');
-
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'AMERICAN UNIVERSITY')
-    .pause(100);
-
-  client.click('#search-button').axeCheck('.main');
-
-  client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(secondResult, Timeouts.normal)
-    .click('body')
-    .click(secondResult)
-    .waitForElementVisible('body', 1000)
-    .axeCheck('.main');
-}
-
-// Search US school in person and online
-function USInPersonAndOnline(client) {
-  client
-    .waitForElementVisible('body', Timeouts.verySlow)
-    .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .axeCheck('.main');
-
-  client.waitForElementVisible('body', Timeouts.verySlow).axeCheck('.main ');
-
-  client.click('#radio-buttons-2-2').axeCheck('.main');
-
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'AMERICAN UNIVERSITY')
-    .pause(100);
-
-  client.click('#search-button').axeCheck('.main');
-
-  client
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .waitForElementVisible(secondResult, Timeouts.normal)
-    .click('body')
-    .click(secondResult)
-    .waitForElementVisible('body', 1000)
-    .axeCheck('.main');
 }
 
 const schools = {
@@ -1146,11 +990,7 @@ module.exports = {
   searchAsDEA,
   formatCurrency,
   calculatorConstantsList,
-  ForeignOnlineOnly,
-  ForeignInPersonOnly,
-  ForeignInPersonAndOnline,
-  USOnlineOnly,
-  USInPersonOnly,
-  USInPersonAndOnline,
   formatCurrencyHalf,
+  searchCh33,
+  verifyCh33,
 };
