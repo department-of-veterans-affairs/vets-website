@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
-import './styles.scss';
+import './sass/styles.scss';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
