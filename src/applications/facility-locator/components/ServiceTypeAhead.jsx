@@ -1,7 +1,3 @@
-/* eslint-disable arrow-body-style */
-// These are added in by Downshift so linting errors need to be ignored
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 import { func, string } from 'prop-types';
 import { connect } from 'react-redux';
@@ -37,7 +33,6 @@ class ServiceTypeAhead extends Component {
     });
   };
 
-  // eslint-disable-next-line prettier/prettier
   handleOnSelect = selectedItem => {
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
@@ -45,27 +40,20 @@ class ServiceTypeAhead extends Component {
     });
   };
 
-  // eslint-disable-next-line prettier/prettier
   optionClasses = selected => classNames('dropdown-option', { selected });
 
-  shouldShow = (input, svc) => {
-    return (
-      input.length >= 2 &&
-      svc &&
-      svc.name &&
-      svc.name
-        .trim()
-        .toLowerCase()
-        .includes(input.toLowerCase())
-    );
-  };
+  shouldShow = (input, svc) =>
+    input.length >= 2 &&
+    svc &&
+    svc.name &&
+    svc.name
+      .trim()
+      .toLowerCase()
+      .includes(input.toLowerCase());
 
   render() {
     const { defaultSelectedItem, services } = this.state;
-    // eslint-disable-next-line prettier/prettier
-    const renderService = s => {
-      return s && s.name ? s.name.trim() : '';
-    };
+    const renderService = s => (s && s.name ? s.name.trim() : '');
 
     return (
       <Downshift
@@ -90,7 +78,7 @@ class ServiceTypeAhead extends Component {
           selectedItem,
         }) => (
           <div>
-            <label {...getLabelProps()}>
+            <label {...getLabelProps()} htmlFor="service-type-ahead-input">
               Service type{' '}
               <span className="vads-u-color--secondary-dark">(*Required)</span>
             </label>
@@ -111,7 +99,6 @@ class ServiceTypeAhead extends Component {
                         key={svc.name}
                         {...getItemProps({
                           item: svc,
-                          // eslint-disable-next-line prettier/prettier
                           className: this.optionClasses(
                             index === highlightedIndex,
                           ),

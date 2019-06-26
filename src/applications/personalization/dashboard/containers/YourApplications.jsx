@@ -11,7 +11,7 @@ import {
 import {
   dismissedHCANotificationDate,
   isEnrollmentStatusLoading,
-  isInESR,
+  hasApplicationInESR,
   isLoadingDismissedNotification,
   selectEnrollmentStatus,
 } from 'applications/hca/selectors';
@@ -102,7 +102,7 @@ export const mapStateToProps = state => {
     hcaEnrollmentStatus.enrollmentStatusEffectiveDate;
   const dismissedNotificationDate = dismissedHCANotificationDate(state);
   const shouldRenderHCAAlert =
-    isInESR(state) &&
+    hasApplicationInESR(state) &&
     (!dismissedNotificationDate ||
       new Date(hcaStatusEffectiveDate) > new Date(dismissedNotificationDate));
   const shouldRenderContent =

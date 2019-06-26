@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable arrow-body-style */
 import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/mapHelpers';
@@ -24,8 +22,7 @@ import { ccLocatorEnabled } from '../config';
  *
  * @param {Object} query The current state of the Search form
  */
-// eslint-disable-next-line prettier/prettier
-export const updateSearchQuery = (query) => ({
+export const updateSearchQuery = query => ({
   type: SEARCH_QUERY_UPDATED,
   payload: { ...query },
 });
@@ -50,8 +47,7 @@ export const fetchVAFacility = (id, location = null) => {
     };
   }
 
-  // eslint-disable-next-line prettier/prettier
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
@@ -73,24 +69,57 @@ export const fetchVAFacility = (id, location = null) => {
  *
  * @param {string} id The NPI/Tax ID of a specific provider
  */
-// eslint-disable-next-line prettier/prettier
-export const fetchProviderDetail = (id) => {
-  // eslint-disable-next-line prettier/prettier
-  return async (dispatch) => {
-    dispatch({
-      type: SEARCH_STARTED,
-      payload: {
-        active: true,
-      },
-    });
+export const fetchProviderDetail = id => async dispatch => {
+  dispatch({
+    type: SEARCH_STARTED,
+    payload: {
+      active: true,
+    },
+  });
 
-    try {
-      const data = await LocatorApi.fetchProviderDetail(id);
-      dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
-    } catch (error) {
-      dispatch({ type: SEARCH_FAILED, error });
+  try {
+    const data = await LocatorApi.fetchProviderDetail(id);
+    dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
+  } catch (error) {
+    dispatch({ type: SEARCH_FAILED, error });
+  }
+};
+
+/**
+ * Handles the actual API call to get the type of locations closest to `address`
+ * and/or within the given `bounds`.
+ *
+ * @param {string=} address Address of the center-point of the search area
+ * @param {number[]} bounds Geo-coords of the bounding box of the search area
+ * @param {string} locationType (see config.js for valid types)
+ * @param {string} serviceType (see config.js for valid types)
+ * @param {number} page What page of results to request
+ * @param {Function} dispatch Redux's dispatch method
+ */
+const fetchLocations = async (
+  address = null,
+  bounds,
+  locationType,
+  serviceType,
+  page,
+  dispatch,
+) => {
+  try {
+    const data = await LocatorApi.searchWithBounds(
+      address,
+      bounds,
+      locationType,
+      serviceType,
+      page,
+    );
+    if (data.errors) {
+      dispatch({ type: SEARCH_FAILED, error: data.errors });
+    } else {
+      dispatch({ type: FETCH_LOCATIONS, payload: data });
     }
-  };
+  } catch (error) {
+    dispatch({ type: SEARCH_FAILED, error });
+  }
 };
 
 /**
@@ -100,11 +129,14 @@ export const fetchProviderDetail = (id) => {
  *
  * @param {{bounds: number[], facilityType: string, serviceType: string, page: number}}
  */
-// eslint-disable-next-line prettier/prettier
-export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
+export const searchWithBounds = ({
+  bounds,
+  facilityType,
+  serviceType,
+  page = 1,
+}) => {
   const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
-  // eslint-disable-next-line prettier/prettier
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
@@ -119,47 +151,25 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
         if (!address) {
           dispatch({
             type: SEARCH_FAILED,
-            // eslint-disable-next-line prettier/prettier
-            error: 'Reverse geocoding failed. See previous errors or network log.',
+            error:
+              'Reverse geocoding failed. See previous errors or network log.',
           });
           return;
         }
 
-        // eslint-disable-next-line prettier/prettier
-        fetchLocations(address, bounds, facilityType, serviceType, page, dispatch);
+        fetchLocations(
+          address,
+          bounds,
+          facilityType,
+          serviceType,
+          page,
+          dispatch,
+        );
       });
     } else {
-      // eslint-disable-next-line prettier/prettier
       fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
     }
   };
-};
-
-/**
- * Handles the actual API call to get the type of locations closest to `address`
- * and/or within the given `bounds`.
- *
- * @param {string=} address Address of the center-point of the search area
- * @param {number[]} bounds Geo-coords of the bounding box of the search area
- * @param {string} locationType (see config.js for valid types)
- * @param {string} serviceType (see config.js for valid types)
- * @param {number} page What page of results to request
- * @param {Function} dispatch Redux's dispatch method
- */
-// eslint-disable-next-line prettier/prettier
-const fetchLocations = async (address = null, bounds, locationType, serviceType, page, dispatch) => {
-
-  try {
-    // eslint-disable-next-line prettier/prettier
-    const data = await LocatorApi.searchWithBounds(address, bounds, locationType, serviceType, page);
-    if (data.errors) {
-      dispatch({ type: SEARCH_FAILED, error: data.errors });
-    } else {
-      dispatch({ type: FETCH_LOCATIONS, payload: data });
-    }
-  } catch (error) {
-    dispatch({ type: SEARCH_FAILED, error });
-  }
 };
 
 /**
@@ -169,8 +179,7 @@ const fetchLocations = async (address = null, bounds, locationType, serviceType,
  * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
-// eslint-disable-next-line prettier/prettier
-export const genBBoxFromAddress = (query) => {
+export const genBBoxFromAddress = query => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
@@ -180,8 +189,7 @@ export const genBBoxFromAddress = (query) => {
     };
   }
 
-  // eslint-disable-next-line prettier/prettier
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
@@ -245,25 +253,20 @@ export const genBBoxFromAddress = (query) => {
  * Preloads all services available from CC Providers
  * for the type-ahead component.
  */
-/* eslint-disable prettier/prettier */
-export const getProviderSvcs = () => {
-  return async (dispatch) => {
-    dispatch({ type: FETCH_SERVICES });
+export const getProviderSvcs = () => async dispatch => {
+  dispatch({ type: FETCH_SERVICES });
 
-    try {
-      const data = await LocatorApi.getProviderSvcs();
-      if (data.errors) {
-        dispatch({ type: FETCH_SERVICES_FAILED, error: data.errors });
-        return [];
-      }
-      // Great Success!
-      dispatch({ type: FETCH_SERVICES_DONE });
-      return data;
+  try {
+    const data = await LocatorApi.getProviderSvcs();
+    if (data.errors) {
+      dispatch({ type: FETCH_SERVICES_FAILED, error: data.errors });
+      return [];
     }
-    catch (error) {
-      dispatch({ type: FETCH_SERVICES_FAILED, error });
-      return ['Services Temporarily Unavailable'];
-    }
-  };
+    // Great Success!
+    dispatch({ type: FETCH_SERVICES_DONE });
+    return data;
+  } catch (error) {
+    dispatch({ type: FETCH_SERVICES_FAILED, error });
+    return ['Services Temporarily Unavailable'];
+  }
 };
-/* eslint-enable prettier/prettier */

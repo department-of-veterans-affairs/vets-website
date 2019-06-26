@@ -45,7 +45,7 @@ createApplicationStatus(store, {
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/pension/how-to-apply/',
-  applyText: 'Apply for Veterans Pension Benefits',
+  applyText: 'Apply for Veterans pension benefits',
   widgetType: widgetTypes.PENSION_APP_STATUS,
 });
 
@@ -54,7 +54,7 @@ createApplicationStatus(store, {
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/health-care/how-to-apply/',
-  applyText: 'Apply for Health Care Benefits',
+  applyText: 'Apply for health care benefits',
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 
@@ -68,7 +68,7 @@ createApplicationStatus(store, {
   formId: '21P-530',
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
-  applyText: 'Apply for Burial Benefits',
+  applyText: 'Apply for burial benefits',
   widgetType: widgetTypes.BURIALS_APP_STATUS,
 });
 

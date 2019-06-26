@@ -63,7 +63,7 @@ class FormList extends React.Component {
           </p>
           <ProgressButton
             onButtonClick={this.removeForm}
-            buttonText="Yes, Delete It"
+            buttonText="Yes, delete it"
             buttonClass="usa-button-primary"
           />
           <ProgressButton
