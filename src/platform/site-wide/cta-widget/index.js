@@ -5,7 +5,6 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
@@ -24,8 +23,6 @@ import {
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import titleCase from 'platform/utilities/data/titleCase';
 
-import CallToActionAlert from './CallToActionAlert';
-
 import {
   frontendApps,
   hasRequiredMhvAccount,
@@ -36,21 +33,22 @@ import {
   toolUrl,
 } from './helpers';
 
-const mviMhvDownContent = {
-  heading: 'We couldn’t connect you to our health tools',
-  alertText: (
-    <>
-      <p>
-        We're sorry. Something went wrong on our end, and we couldn't connect
-        you to our health tools.
-      </p>
-
-      <h5>What you can do</h5>
-      <p className="vads-u-margin-top--0">Please try again later.</p>
-    </>
-  ),
-  status: 'error',
-};
+import HealthToolsDown from './components/messages/HealthToolsDown';
+import SignIn from './components/messages/SignIn';
+import Verify from './components/messages/Verify';
+import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
+import MFA from './components/messages/MFA';
+import DirectDeposit from './components/messages/DirectDeposit';
+import NotAuthorized from './components/messages/mvi/NotAuthorized';
+import NotFound from './components/messages/mvi/NotFound';
+import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
+import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
+import MultipleIds from './components/messages/MultipleIds';
+import RegisterFailed from './components/messages/RegisterFailed';
+import UpgradeFailed from './components/messages/UpgradeFailed';
+import NeedsVAPatient from './components/messages/NeedsVAPatient';
+import NoMHVAccount from './components/messages/NoMHVAccount';
+import UpgradeAccount from './components/messages/UpgradeAccount';
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
@@ -103,19 +101,12 @@ export class CallToActionWidget extends React.Component {
 
   getContent = () => {
     if (!this.props.isLoggedIn) {
-      return {
-        heading: `Please sign in to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            Try signing in with your <b>DS Logon</b>, <b>My HealtheVet</b>, or{' '}
-            <b>ID.me</b> account. If you don’t have any of those accounts, you{' '}
-            can create one.
-          </p>
-        ),
-        primaryButtonText: 'Sign in or create an account',
-        primaryButtonHandler: this.openLoginModal,
-        status: 'continue',
-      };
+      return (
+        <SignIn
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.openLoginModal}
+        />
+      );
     }
 
     if (this._isHealthTool) return this.getHealthToolContent();
@@ -124,21 +115,13 @@ export class CallToActionWidget extends React.Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
-      return {
-        heading: `Please verify your identity to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            We take your privacy seriously, and we’re committed to protecting
-            your information. You’ll need to verify your identity before we can
-            give you access to your personal health information.
-          </p>
-        ),
-        primaryButtonText: 'Verify your identity',
-        primaryButtonHandler: verify,
-        status: 'continue',
-      };
+      return (
+        <Verify
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={verify}
+        />
+      );
     }
-
     return null;
   };
 
@@ -150,26 +133,18 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.isAccessible()) {
-      return {
-        heading: 'My HealtheVet will open in a new tab',
-        alertText: (
-          <p>
-            You may need to sign in again on My HealtheVet before you can use
-            the site’s {this._mhvToolName} tool. If you do, please sign in with
-            the same account you used to sign in here on VA.gov. You also may
-            need to disable your browser’s pop-up blocker so that My HealtheVet
-            will be able to open.
-          </p>
-        ),
-        primaryButtonText: 'Go to My HealtheVet',
-        primaryButtonHandler: this.goToTool,
-        status: 'info',
-      };
+      return (
+        <OpenMyHealtheVet
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.goToTool}
+          toolName={this._mhvToolName}
+        />
+      );
     }
 
     if (this.props.mhvAccount.errors) {
       recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
-      return mviMhvDownContent;
+      return <HealthToolsDown />;
     }
 
     if (
@@ -177,36 +152,20 @@ export class CallToActionWidget extends React.Component {
       this.props.appId === frontendApps.DIRECT_DEPOSIT
     ) {
       if (!this.props.profile.multifactor) {
-        return {
-          heading: `Please set up 2-factor authentication to ${
-            this._serviceDescription
-          }`,
-          alertText: (
-            <p>
-              We’re committed to protecting your information and preventing
-              fraud. You’ll need to add an extra layer of security to your
-              account with 2-factor authentication before we can give you access
-              to your bank account information.
-            </p>
-          ),
-          primaryButtonText: 'Set up 2-factor authentication',
-          primaryButtonHandler: mfa,
-          status: 'continue',
-        };
+        return (
+          <MFA
+            serviceDescription={this._serviceDescription}
+            primaryButtonHandler={mfa}
+          />
+        );
       }
 
-      return {
-        heading: `Go to your VA.gov profile to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            Here, you can edit your bank name as well as your account number and
-            type.
-          </p>
-        ),
-        primaryButtonText: 'Go to your profile',
-        primaryButtonHandler: this.goToTool,
-        status: 'continue',
-      };
+      return (
+        <DirectDeposit
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.goToTool}
+        />
+      );
     }
 
     return this.getInaccessibleHealthToolContent();
@@ -215,109 +174,11 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return {
-          heading:
-            'Verify your identity to access more VA.gov tools and features',
-          alertText: (
-            <>
-              <p>
-                When you verify your identity, you can use VA.gov to do things
-                like track your claims, refill your prescriptions, and download
-                your VA benefit letters.
-              </p>
-              <button className="usa-button-primary" onClick={verify}>
-                Verify Your Identity
-              </button>
-              <p>
-                <a href="/sign-in-faq/#how-to-verify">
-                  Learn about how to verify your identity
-                </a>
-              </p>
-            </>
-          ),
-          status: 'info',
-        };
+        return <NotAuthorized verify={verify} />;
       case 'NOT_FOUND':
-        return {
-          heading: 'We couldn’t verify your identity',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. We couldn’t match the information you provided with
-                what we have in our Veteran records. We take your privacy
-                seriously, and we’re committed to protecting your information.
-                We can’t give you access to our online health tools until we can
-                match your information and verify your identity.
-              </p>
-              <p>You can verify your identity in one of these 2 ways:</p>
-              <h5>Call the VA benefits hotline</h5>
-              <p>
-                Please call us at <a href="tel:800-827-1000">800-827-1000</a>.
-                We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If
-                you have hearing loss, call TTY: 800-829-4833.
-              </p>
-              <p>
-                When the system prompts you to give a reason for your call, say,
-                “eBenefits”.
-              </p>
-              <p>
-                <strong>We’ll then ask you to tell us:</strong>
-              </p>
-              <ul>
-                <li>
-                  Your full name. Please provide the last name you used while in
-                  service or that’s listed on your DD214 or other separation
-                  documents, even if you’ve since changed your name.
-                </li>
-                <li>Your Social Security number</li>
-                <li>Your checking or savings account number</li>
-                <li>
-                  The dollar amount of your most recent VA electronic funds
-                  transfer (EFT)
-                </li>
-              </ul>
-              <h5>Or ask us a question online</h5>
-              <p>
-                Ask us a question through our online help center, known as the
-                Inquiry Routing & Information System (IRIS).
-              </p>
-              <p>
-                <strong>Fill in the form fields as below:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Question: </strong>
-                  Type in <strong>Not in DEERS</strong>.
-                </li>
-                <li>
-                  <strong>Topic: </strong>
-                  Select <strong>Veteran not in DEERS (Add)</strong>.
-                </li>
-                <li>
-                  <strong>Inquiry type: </strong> Select{' '}
-                  <strong>Question</strong>.
-                </li>
-              </ul>
-              <p>
-                Then, complete the rest of the form and click{' '}
-                <strong>Submit</strong>.
-              </p>
-              <p>We’ll contact you within 2 to 3 days.</p>
-              <p>
-                <a
-                  href="https://iris.custhelp.va.gov/app/ask"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Go to the IRIS website question form
-                </a>
-              </p>
-            </div>
-          ),
-          status: 'error',
-        };
+        return <NotFound />;
       default:
-        return mviMhvDownContent;
+        return <HealthToolsDown />;
     }
   };
 
@@ -338,252 +199,20 @@ export class CallToActionWidget extends React.Component {
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
-        return {
-          heading: `Please verify your identity to ${this._serviceDescription}`,
-          alertText: (
-            <p>
-              We take your privacy seriously, and we’re committed to protecting
-              your information. You’ll need to verify your identity before we
-              can give you access to your personal health information.
-            </p>
-          ),
-          primaryButtonText: 'Verify your identity',
-          primaryButtonHandler: verify,
-          status: 'continue',
-        };
+        return (
+          <Verify
+            serviceDescription={this._serviceDescription}
+            primaryButtonHandler={verify}
+          />
+        );
 
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
-        return {
-          heading: 'The information you provided doesn’t match our records',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. We couldn’t match the information you provided with
-                what we have in our Veteran records. We take your privacy
-                seriously, and we’re committed to protecting your information.
-                We can’t give you access to our online health tools until we can
-                match your information and verify your identity.
-              </p>
-              <p>
-                <strong>
-                  We can help to try to match your information to our records
-                  and verify your identity:
-                </strong>
-              </p>
-              <AdditionalInfo triggerText="Call the VA benefits hotline">
-                <p>
-                  Please call us at <a href="tel:800-827-1000">800-827-1000</a>.
-                  We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-                  If you have hearing loss, call TTY: 800-829-4833.
-                </p>
-                <p>
-                  When the system prompts you to give a reason for your call,
-                  say, “eBenefits”.
-                </p>
-                <p>
-                  <strong>We’ll then ask you to tell us:</strong>
-                </p>
-                <ul>
-                  <li>
-                    Your full name. Please provide the last name you used while
-                    in service or that’s listed on your DD214 or other
-                    separation documents, even if you’ve since changed your
-                    name.
-                  </li>
-                  <li>Your Social Security number</li>
-                  <li>Your checking or savings account number</li>
-                  <li>
-                    The dollar amount of your most recent VA electronic funds
-                    transfer (EFT)
-                  </li>
-                </ul>
-              </AdditionalInfo>
-              <div className="vads-u-margin-top--1p5">
-                <AdditionalInfo triggerText="Or ask us a question online">
-                  <p>
-                    Ask us a question through our online help center, known as
-                    the Inquiry Routing & Information System (IRIS).
-                  </p>
-                  <p>
-                    <strong>Fill in the form fields as below:</strong>
-                  </p>
-                  <ul>
-                    <li>
-                      <strong>Question: </strong>
-                      Type in <strong>Not in DEERS</strong>.
-                    </li>
-                    <li>
-                      <strong>Topic: </strong>
-                      Select <strong>Veteran not in DEERS (Add)</strong>.
-                    </li>
-                    <li>
-                      <strong>Inquiry type: </strong> Select{' '}
-                      <strong>Question</strong>.
-                    </li>
-                  </ul>
-                  <p>
-                    Then, complete the rest of the form and click{' '}
-                    <strong>Submit</strong>.
-                  </p>
-                  <p>We’ll contact you within 2 to 3 days.</p>
-                  <p>
-                    <a
-                      href="https://iris.custhelp.va.gov/app/ask"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Go to the IRIS website question form
-                    </a>
-                  </p>
-                </AdditionalInfo>
-              </div>
-            </div>
-          ),
-          status: 'error',
-        };
+        return <NeedsSSNResolution />;
       case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
-        return {
-          heading: 'Your My HealtheVet account is inactive',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. Your My HealtheVet account isn’t active at this
-                time. To use our online health tools, you’ll need to contact us
-                to reactivate your account.
-              </p>
-              <p>
-                <strong>
-                  You can reactivate your account in one of these ways:
-                </strong>
-              </p>
-              <AdditionalInfo triggerText="Call the My HealtheVet help desk">
-                <p>
-                  Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
-                  here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
-                </p>
-                <p>
-                  Tell the representative that you tried to sign in to use the
-                  health tools on VA.gov, but received an error message telling
-                  you that your My HealtheVet account isn’t active.
-                </p>
-              </AdditionalInfo>
-              <div className="vads-u-margin-top--1p5">
-                <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
-                  <p>
-                    Use the My HealtheVet contact form to submit an online
-                    request for help online.
-                  </p>
-                  <p>
-                    <strong>Fill in the form fields as below:</strong>
-                  </p>
-                  <ul>
-                    <li>
-                      <strong>Topic: </strong>
-                      Select <strong>Account Login</strong>.
-                    </li>
-                    <li>
-                      <strong>Category: </strong>
-                      Select <strong>Request for Assistance</strong>.
-                    </li>
-                    <li>
-                      <strong>Comments: </strong> Type, or copy and paste, the
-                      message below:
-                      <p>
-                        “When I tried to sign in to use the health tools on
-                        VA.gov, I received an error message telling me that my
-                        My HealtheVet account isn’t active.”
-                      </p>
-                    </li>
-                  </ul>
-                  <p>
-                    Then, complete the rest of the form and click{' '}
-                    <strong>Submit</strong>.
-                  </p>
-                  <p>
-                    <a
-                      href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Go to the My HealtheVet contact form
-                    </a>
-                  </p>
-                </AdditionalInfo>
-              </div>
-            </div>
-          ),
-          status: 'error',
-        };
+        return <DeactivatedMHVIds />;
 
       case ACCOUNT_STATES.MULTIPLE_IDS:
-        return {
-          heading: 'It looks like you have more than one My HealtheVet account',
-          alertText: (
-            <div>
-              <p>We’re sorry. We found more than one active account for you.</p>
-              <p>
-                <strong>You can fix this issue in one of these ways: </strong>
-              </p>
-              <AdditionalInfo triggerText="Call the My HealtheVet help desk">
-                <p>
-                  Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
-                  here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
-                </p>
-                <p>
-                  Tell the representative that you tried to sign in to use the
-                  health tools on VA.gov, but received an error message telling
-                  you that you have more than one My HealtheVet account.
-                </p>
-              </AdditionalInfo>
-              <div className="vads-u-margin-top--1p5">
-                <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
-                  <p>
-                    Use the My HealtheVet contact form to submit an online
-                    request for help online.
-                  </p>
-                  <p>
-                    <strong>Fill in the form fields as below:</strong>
-                  </p>
-                  <ul>
-                    <li>
-                      <strong>Topic: </strong>
-                      Select <strong>Account Login</strong>.
-                    </li>
-                    <li>
-                      <strong>Category: </strong>
-                      Select <strong>Request for Assistance</strong>.
-                    </li>
-                    <li>
-                      <strong>Comments: </strong> Type, or copy and paste, the
-                      message below:
-                      <p>
-                        “When I tried to sign in to use the health tools on
-                        VA.gov, I received an error message telling me I have
-                        more than one MyHealtheVet account.”
-                      </p>
-                    </li>
-                  </ul>
-                  <p>
-                    Then, complete the rest of the form and click{' '}
-                    <strong>Submit</strong>.
-                  </p>
-                  <p>
-                    <a
-                      href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Go to the My HealtheVet contact form
-                    </a>
-                  </p>
-                </AdditionalInfo>
-              </div>
-            </div>
-          ),
-          status: 'error',
-        };
+        return <MultipleIds />;
 
       /* Handling for these states to be re-introduced after brand consolidation
        * when VA patient and T&C acceptance checks will no longer gate access, so
@@ -609,232 +238,19 @@ export class CallToActionWidget extends React.Component {
        */
 
       case ACCOUNT_STATES.REGISTER_FAILED:
-        return {
-          heading: 'We couldn’t create a MyHealtheVet account for you',
-          alertText: (
-            <>
-              <p>
-                We’re sorry. We couldn’t create a My HealtheVet account for you.
-                To use our online health tools, you’ll need to create an
-                account.
-              </p>
-              <h5>What you can do</h5>
-              <p className="vads-u-margin-top--0">Please try again.</p>
-              <button
-                className="usa-button-primary"
-                onClick={this.props.createAndUpgradeMHVAccount}
-              >
-                Try again to create your account
-              </button>
-              <p>
-                <strong>
-                  If you try again and continue to see this error, you can
-                  create a My HealtheVet account in one of these ways:
-                </strong>
-              </p>
-              <AdditionalInfo triggerText="Call the My HealtheVet help desk">
-                <p>
-                  Call us at <a href="tel:877-327-0022">877-327-0022</a>. We're
-                  here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
-                </p>
-                <p>
-                  Tell the representative that you tried to sign in to use the
-                  online health tools on VA.gov, but received an error messaging
-                  telling you that we couldn't create an account for you.
-                </p>
-              </AdditionalInfo>
-              <div className="vads-u-margin-top--1p5">
-                <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
-                  <p>
-                    Use the My HealtheVet contact form to submit an online
-                    request for help.
-                  </p>
-                  <p>
-                    <strong>Fill in the form fields as below:</strong>
-                  </p>
-                  <ul>
-                    <li>
-                      <strong>Topic: </strong>
-                      Select <strong>Account Login</strong>.
-                    </li>
-                    <li>
-                      <strong>Category: </strong>
-                      Select <strong>Request for Assistance</strong>.
-                    </li>
-                    <li>
-                      <strong>Comments: </strong> Type, or copy and paste, the
-                      message below:
-                      <p>
-                        “When I tried to sign in to use the health tools on
-                        VA.gov, I received an error message telling me that the
-                        site couldn't create a My HealtheVet account for me.”
-                      </p>
-                    </li>
-                  </ul>
-                  <p>
-                    Then, complete the rest of the form and click{' '}
-                    <strong>Submit</strong>.
-                  </p>
-                  <p>
-                    <a
-                      href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Go to the My HealtheVet contact form
-                    </a>
-                  </p>
-                </AdditionalInfo>
-              </div>
-            </>
-          ),
-          status: 'error',
-        };
+        return (
+          <RegisterFailed
+            createAndUpgradeMHVAccount={this.props.createAndUpgradeMHVAccount}
+          />
+        );
 
       case ACCOUNT_STATES.UPGRADE_FAILED:
-        return {
-          heading: 'We couldn’t upgrade your My HealtheVet account',
-          alertText: (
-            <>
-              <p>
-                We’re sorry. Something went wrong on our end while we were
-                trying to upgrade your account. You won’t be able to use VA.gov
-                health tools until we can fix the problem.
-              </p>
-              <h5>What you can do</h5>
-              <p className="vads-u-margin-top--0">Please try again.</p>
-              <button
-                className="usa-button-primary"
-                onClick={this.props.upgradeMHVAccount}
-              >
-                Try again to upgrade your account
-              </button>
-              <p>
-                <strong>
-                  If you try again and continue to see this error, you can
-                  upgrade your My HealtheVet account in one of these ways:
-                </strong>
-              </p>
-              <AdditionalInfo triggerText="Call the My HealtheVet help desk">
-                <p>
-                  Call us at <a href="tel:877-327-0022">877-327-0022</a>. We're
-                  here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
-                </p>
-                <p>
-                  Tell the representative that you tried to sign in to use the
-                  online health tools on VA.gov, but received an error messaging
-                  telling you that we couldn't create an account for you.
-                </p>
-              </AdditionalInfo>
-              <div className="vads-u-margin-top--1p5">
-                <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
-                  <p>
-                    Use the My HealtheVet contact form to submit an online
-                    request for help.
-                  </p>
-                  <p>
-                    <strong>Fill in the form fields as below:</strong>
-                  </p>
-                  <ul>
-                    <li>
-                      <strong>Topic: </strong>
-                      Select <strong>Account Login</strong>.
-                    </li>
-                    <li>
-                      <strong>Category: </strong>
-                      Select <strong>Request for Assistance</strong>.
-                    </li>
-                    <li>
-                      <strong>Comments: </strong> Type, or copy and paste, the
-                      message below:
-                      <p>
-                        “When I tried to sign in to use the health tools on
-                        VA.gov, I received an error message telling me that the
-                        site couldn't create a My HealtheVet account for me.”
-                      </p>
-                    </li>
-                  </ul>
-                  <p>
-                    Then, complete the rest of the form and click{' '}
-                    <strong>Submit</strong>.
-                  </p>
-                  <p>
-                    <a
-                      href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Go to the My HealtheVet contact form
-                    </a>
-                  </p>
-                </AdditionalInfo>
-              </div>
-            </>
-          ),
-          status: 'error',
-        };
+        return (
+          <UpgradeFailed upgradeMHVAccount={this.props.upgradeMHVAccount} />
+        );
 
       case ACCOUNT_STATES.NEEDS_VA_PATIENT:
-        return {
-          heading:
-            'We couldn’t match your information to our VA patient records',
-          alertText: (
-            <>
-              <p>
-                We’re sorry. We couldn’t find a match for you in our VA patient
-                records.
-              </p>
-              <h5>What you can do</h5>
-              <p>
-                <strong>
-                  If you’re currently registered as a patient at a VA health
-                  facility
-                </strong>
-              </p>
-              <p>
-                Call MyVA311 (<a href="tel:844-698-2311">844-698-2311</a>
-                ), and select 3 to reach your nearest VA medical center. If you
-                have hearing loss, call TTY: 711.
-              </p>
-              <p>
-                Tell the representative that you tried to sign in to use the
-                health tools on VA.gov, but you received an error message
-                telling you that the site couldn’t match your information to a
-                VA patient record.
-              </p>
-              <p>
-                <strong>
-                  If you’re enrolled in VA health care, but not currently
-                  registered as a patient at a VA health facility
-                </strong>
-              </p>
-              <p>
-                Call <a href="tel:844-698-2311">844-698-2311</a>, and select 3
-                to reach your nearest VA medical center. If you have hearing
-                loss, call TTY: 711.
-              </p>
-              <p>
-                Tell the representative that you’re enrolled in VA health care
-                and you’d like to register as a VA patient.
-              </p>
-              <p>
-                <strong>If you’re not enrolled in VA health care</strong>
-              </p>
-              <p>
-                You’ll need to apply for VA health care before you can register
-                as a VA patient.
-              </p>
-              <p>
-                <a href="/health-care/how-to-apply/">
-                  Find out how to apply for VA health care
-                </a>
-              </p>
-            </>
-          ),
-          status: 'error',
-        };
+        return <NeedsVAPatient />;
 
       default: // Handle other content outside of block.
     }
@@ -854,49 +270,29 @@ export class CallToActionWidget extends React.Component {
     };
 
     if (!accountLevel) {
-      return {
-        heading: `Please create a My HealtheVet account to ${
-          this._serviceDescription
-        }`,
-        alertText: (
-          <>
-            <p>
-              You’ll need to create a My HealtheVet account before you can{' '}
-              {this._serviceDescription}
-              {this._serviceDescription.endsWith('online')
-                ? '.'
-                : ' online.'}{' '}
-              This account is cost-free and secure.
-            </p>
-            <p>
-              <strong>If you already have a My HealtheVet account,</strong>{' '}
-              please sign out of VA.gov. Then sign in again with your My{' '}
-              HealtheVet username and password.
-            </p>
-          </>
-        ),
-        primaryButtonText: 'Create your free account',
-        primaryButtonHandler:
-          accountState === 'needs_terms_acceptance'
-            ? redirectToTermsAndConditions
-            : this.props.createAndUpgradeMHVAccount,
-        secondaryButtonText: 'Sign out of VA.gov',
-        secondaryButtonHandler: this.signOut,
-        status: 'continue',
-      };
+      return (
+        <NoMHVAccount
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={
+            accountState === 'needs_terms_acceptance'
+              ? redirectToTermsAndConditions
+              : this.props.createAndUpgradeMHVAccount
+          }
+          secondaryButtonHandler={this.signOut}
+        />
+      );
     }
 
-    return {
-      heading: `You’ll need to upgrade your My HealtheVet account before you can ${
-        this._serviceDescription
-      }. It’ll only take us a minute to do this for you, and it’s free.`,
-      primaryButtonText: 'Upgrade Your My HealtheVet Account',
-      primaryButtonHandler:
-        accountState === 'needs_terms_acceptance'
-          ? redirectToTermsAndConditions
-          : this.props.upgradeMHVAccount,
-      status: 'continue',
-    };
+    return (
+      <UpgradeAccount
+        serviceDescription={this._serviceDescription}
+        primaryButtonHandler={
+          accountState === 'needs_terms_acceptance'
+            ? redirectToTermsAndConditions
+            : this.props.upgradeMHVAccount
+        }
+      />
+    );
   };
 
   isAccessible = () => {
@@ -952,7 +348,7 @@ export class CallToActionWidget extends React.Component {
 
     const content = this.getContent();
 
-    if (content) return <CallToActionAlert {...content} />;
+    if (content) return content;
 
     if (this.props.children) return this.props.children;
 
