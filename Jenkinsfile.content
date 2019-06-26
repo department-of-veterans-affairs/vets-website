@@ -7,9 +7,9 @@ node('vetsgov-general-purpose') {
     ref = getLatestGitRef("vets-website", branch: "master")
   }
 
-  refStatusState = getGithubRefStatusState("vets-website", ref)
+  refStatusState = getGithubRefState("vets-website", ref)
   if ("${refStatusState}" != "SUCCESS") {
-    slackSend(message:"Web content refresh on ${params.env} aborted due to unsuccessful vets-website-build on commit ${ref}.",
+    slackSend(message:"Web content refresh on ${params.env} aborted due to status: '${refStatusState}' on vets-website-build on commit ${ref}.",
               color: "warning",
               channel: "#cms-notifications")
 
@@ -42,7 +42,7 @@ node('vetsgov-general-purpose') {
       commonStages.runDeploy("deploys/vets-website-${params.env}", ref, true)
 
       slackSend(message:"Web content refresh in ${params.env} completed.",
-                color: "warning",
+                color: "good",
                 channel: "#cms-notifications")
     }
   }
