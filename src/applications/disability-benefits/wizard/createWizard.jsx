@@ -24,7 +24,7 @@ export default function createDisabilityIncreaseApplicationStatus(
             stayAfterDelete
             applyRender={() => (
               <div itemScope itemType="http://schema.org/Question">
-                <h3 itemProp="name">How do I file my claim?</h3>
+                <h2 itemProp="name">How do I file my claim?</h2>
                 <div
                   itemProp="acceptedAnswer"
                   itemScope
