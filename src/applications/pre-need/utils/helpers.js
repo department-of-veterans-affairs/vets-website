@@ -13,6 +13,7 @@ import {
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
 import environment from '../../../platform/utilities/environment';
+import { fetch } from '../../../platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
