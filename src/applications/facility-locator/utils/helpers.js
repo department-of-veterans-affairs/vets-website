@@ -7,17 +7,14 @@ export const setFocus = selector => {
   }
 };
 
-/* eslint-disable arrow-body-style */
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
  * @param {Object} pos1
  * @param {Object} pos2
  */
-export const areGeocodeEqual = (pos1, pos2) => {
-  // eslint-disable-next-line prettier/prettier
-  return (pos1.latitude === pos2.latitude) && (pos1.longitude === pos2.longitude);
-};
+export const areGeocodeEqual = (pos1, pos2) =>
+  pos1.latitude === pos2.latitude && pos1.longitude === pos2.longitude;
 
 /**
  * Compares two geographic bounding boxes to determine if they are equal.
@@ -65,13 +62,11 @@ export const areBoundsEqual = (box1, box2) => {
  *
  * @param {string} urlParams A URL query string (e.g. key=value&key2=value2...)
  */
-// eslint-disable-next-line prettier/prettier
-export const urlParamStringToObj = (urlParams) => {
-  return urlParams.split('&').map(p => {
+export const urlParamStringToObj = urlParams =>
+  urlParams.split('&').map(p => {
     const [key, value] = p.split('=');
     return { [key]: value };
   });
-};
 
 /**
  * "Enum" of keyboard keys to their numerical equivalent
@@ -99,9 +94,7 @@ export const keyMap = {
  * find-locations/facility/nca_827
  */
 export const validateIdString = (urlObj, urlPrefixString) => {
-  /* eslint-disable prettier/prettier, no-useless-escape */
-  const regex = '\/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
-  /* eslint-enable prettier/prettier, no-useless-escape */
+  const regex = '/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
   const unparsedString = `${urlPrefixString}${regex}`;
   const validString = urlObj.match(unparsedString);
 

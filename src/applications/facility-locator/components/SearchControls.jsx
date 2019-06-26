@@ -11,19 +11,16 @@ class SearchControls extends Component {
     this.props.onChange({ active: false });
   };
 
-  // eslint-disable-next-line prettier/prettier
   handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
 
-  // eslint-disable-next-line prettier/prettier
   handleFacilityTypeChange = option => {
     this.props.onChange({ facilityType: option, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
-    // eslint-disable-next-line prettier/prettier
     const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
   };
@@ -68,13 +65,9 @@ class SearchControls extends Component {
         services = benefitsServices;
         break;
       case LocationType.VET_CENTER:
-        services = vetCenterServices.reduce(
-          (result, service) => {
-            result[service] = service; // eslint-disable-line no-param-reassign
-            return result;
-          },
-          { All: 'Show all facilities' },
-        );
+        services = vetCenterServices.reduce(result => result, {
+          All: 'Show all facilities',
+        });
         break;
       case LocationType.CC_PROVIDER:
         return (

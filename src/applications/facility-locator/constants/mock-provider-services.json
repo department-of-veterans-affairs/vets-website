@@ -1,0 +1,386 @@
+[
+  {
+    "specialtyCode": "103TW0100X",
+    "name": "Psychologist - Women ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Psychologist",
+    "specialization": "Women",
+    "specialtyDescription": null
+  },
+  {
+    "specialtyCode": "104100000X",
+    "name": "Social Worker ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Social Worker",
+    "specialization": null,
+    "specialtyDescription": "A social worker is a person who is qualified by a Social Work degree, and licensed, certified or registered by the state as a social worker to practice within the scope of that license. A social worker provides assistance and counseling to clients and their families who are dealing with social, emotional and environmental problems. Social work services may be rendered to individuals, families, groups, and the public."
+  },
+  {
+    "specialtyCode": "1041C0700X",
+    "name": "Social Worker - Clinical ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Social Worker",
+    "specialization": "Clinical",
+    "specialtyDescription": "A social worker who holds a master’s or doctoral degree in social work from an accredited school of social work in addition to at least two years of post-master’s supervised experience in a clinical setting. The social worker must be licensed, certified, or registered at the clinical level in the jurisdiction of practice. A clinical social worker provides direct services, including interventions focused on interpersonal interactions, intrapsychic dynamics, and life management issues. Clinical social work services are based on bio-psychosocial perspectives. Services consist of assessment, diagnosis, treatment (including psychotherapy and counseling), client-centered advocacy, consultation, evaluation, and prevention of mental illness, emotional, or behavioral disturbances."
+  },
+  {
+    "specialtyCode": "1041S0200X",
+    "name": "Social Worker - School ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Social Worker",
+    "specialization": "School",
+    "specialtyDescription": "Definition to come..."
+  },
+  {
+    "specialtyCode": "106E00000X",
+    "name": "Assistant Behavior Analyst ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Assistant Behavior Analyst",
+    "specialization": null,
+    "specialtyDescription": "An assistant behavior analyst is qualified by Behavior Analyst Certification Board certification and/or a state-issued license or credential in behavior analysis to practice under the supervision of an appropriately credentialed professional behavior analyst. An assistant behavior analyst delivers services consistent with the dimensions of applied behavior analysis and supervision requirements defined in state laws or regulations and/or national certification standards. Common services may include, but are not limited to, conducting behavioral assessments, analyzing data, writing behavior-analytic treatment plans, training and supervising others in implementation of components of treatment plans, and direct implementation of treatment plans."
+  },
+  {
+    "specialtyCode": "106H00000X",
+    "name": "Marriage & Family Therapist ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Marriage & Family Therapist",
+    "specialization": null,
+    "specialtyDescription": "A marriage and family therapist is a person with a master's degree in marriage and family therapy, or a master's or doctoral degree in a related mental health field with substantially equivalent coursework in marriage and family therapy, who receives supervised clinical experience, or a person who meets the state requirements to practice as a marriage and family therapist. A marriage and family therapist treats mental and emotional disorders within the context of marriage and family systems. A marriage and family therapist provides mental health and counseling services to individuals, couples, families, and groups."
+  },
+  {
+    "specialtyCode": "106S00000X",
+    "name": "Behavior Technician ",
+    "grouping": "Behavioral Health & Social Service Providers",
+    "classification": "Behavior Technician",
+    "specialization": null,
+    "specialtyDescription": "The behavior technician is a paraprofessional who practices under the close, ongoing supervision of a behavior analyst or assistant behavior analyst certified by the Behavior Analyst Certification Board and/or credentialed by a state (such as through licensure). The behavior technician is primarily responsible for the implementation of components of behavior-analytic treatment plans developed by the supervisor. That may include collecting data on treatment targets and conducting certain types of behavioral assessments (e.g., stimulus preference assessments). The behavior technician does not design treatment or assessment plans or procedures but provides services as assigned by the supervisor responsible for his or her work."
+  },
+  {
+    "specialtyCode": "111N00000X",
+    "name": "Chiropractor ",
+    "grouping": "Chiropractic Providers",
+    "classification": "Chiropractor",
+    "specialization": null,
+    "specialtyDescription": "A provider qualified by a Doctor of Chiropractic (D.C.), licensed by the State and who practices chiropractic medicine -that discipline within the healing arts which deals with the nervous system and its relationship to the spinal column and its interrelationship with other body systems."
+  },
+  {
+    "specialtyCode": "111NI0013X",
+    "name": "Chiropractor - Independent Medical Examiner ",
+    "grouping": "Chiropractic Providers",
+    "classification": "Chiropractor",
+    "specialization": "Independent Medical Examiner",
+    "specialtyDescription": "A special evaluator not involved with the medical care of the individual examinee that impartially evaluates the care being provided by other practitioners to clarify clinical, disability, liability or other case issues."
+  },
+  {
+    "specialtyCode": "111NI0900X",
+    "name": "Chiropractor - Internist ",
+    "grouping": "Chiropractic Providers",
+    "classification": "Chiropractor",
+    "specialization": "Internist",
+    "specialtyDescription": "The chiropractic internist may serve as a primary care physician or may see patients referred from other providers for evaluation and co-management. Evaluation is focused on the early detection of functional, nutritional, and pathological disorders. A chiropractic internist utilizes the diagnostic instruments necessary for proper examination. In cases where laboratory examination is necessary, a chiropractic internist utilizes a recognized reference laboratory facility. A chiropractic internist may manage his or her own cases or may refer to another specialist when prudent to do so. The chiropractic internist utilizes documented natural therapies, therapeutic lifestyle changes, patient education and other resources to promote patient health and avoidance of disease."
+  },
+  {
+    "specialtyCode": "111NN0400X",
+    "name": "Chiropractor - Neurology ",
+    "grouping": "Chiropractic Providers",
+    "classification": "Chiropractor",
+    "specialization": "Neurology",
+    "specialtyDescription": "Chiropractic Neurology is defined as the field of functional neurology that engages the internal - and external environment of the individual in a structured and targeted approach to affect positive changes in the nervous system and consequently the physiology and behavior of an individual. Chiropractic Neurologists are board-certified specialists in non-drug, non-surgical care for those with neurologically based health problems. There are many conditions people suffer from that are in this broad category: learning and attention disorders, headaches, vertigo, pain syndromes, developmental disorders, nerve injury, spinal cord injury, head injury or stroke, movement disorders, and many other conditions."
+  },
+  {
+    "specialtyCode": "111NN1001X",
+    "name": "Chiropractor - Nutrition ",
+    "grouping": "Chiropractic Providers",
+    "classification": "Chiropractor",
+    "specialization": "Nutrition",
+    "specialtyDescription": "Chiropractic Nutrition is that specialty within the chiropractic profession that deals with the overall factors that affect the patient's ability to maintain the manipulative correction and thus sustain better neurological integrity. The Chiropractic Nutrition Specialist will perform extensive research on the patient's previous health history, ethnicity, and any family history related to what the patient is being treated for. Patients fill out questionnaires concerning dietary and sleep patterns and previous or present symptomology. A nutrition examination would be performed to assess areas such as absorption rates, adrenal function, kidney health, lung health etc. The patient is often instructed on how to check the pH of their saliva and urine, test for the presence of Candida Albicans, etc., at home. Outside laboratory testing includes blood, urine, hair analysis, food allergy testing etc. The patient’s prescription and over the counter medications are recorded and analyzed."
+  },
+  {
+    "specialtyCode": "133NN1002X",
+    "name": "Nutritionist - Nutrition, Education ",
+    "grouping": "Dietary & Nutritional Service Providers",
+    "classification": "Nutritionist",
+    "specialization": "Nutrition, Education",
+    "specialtyDescription": "Definition to come..."
+  },
+  {
+    "specialtyCode": "133V00000X",
+    "name": "Dietitian, Registered ",
+    "grouping": "Dietary & Nutritional Service Providers",
+    "classification": "Dietitian, Registered",
+    "specialization": null,
+    "specialtyDescription": "A registered dietician (RD) is a food and nutrition expert who has successfully completed a minimum of a bachelor’s degree at a US regionally accredited university or college and course work approved by The American Dietetic Association (ADA); an ADA-accredited or approved, supervised practice program, typically 6 to 12 months in length; a national examination administered by the Commission on Dietetic Registration; and continuing professional educational requirements to maintain registration."
+  },
+  {
+    "specialtyCode": "133VN1004X",
+    "name": "Dietitian, Registered - Nutrition, Pediatric ",
+    "grouping": "Dietary & Nutritional Service Providers",
+    "classification": "Dietitian, Registered",
+    "specialization": "Nutrition, Pediatric",
+    "specialtyDescription": "Definition to come..."
+  },
+  {
+    "specialtyCode": "136A00000X",
+    "name": "Dietetic Technician, Registered ",
+    "grouping": "Dietary & Nutritional Service Providers",
+    "classification": "Dietetic Technician, Registered",
+    "specialization": null,
+    "specialtyDescription": "A person trained in food and nutrition who is an integral part of health care and foodservice management teams. A dietetic technician, registered (DTR) has successfully completed at least a two-year associate’s degree at a US regionally accredited college or university; a dietetic technician program approved by The American Dietetic Association, including 450 hours of supervised practice experience; a national examination administered by the Commission on Dietetic Registration; and continuing professional educational requirements to maintain registration."
+  },
+  {
+    "specialtyCode": "146D00000X",
+    "name": "Personal Emergency Response Attendant ",
+    "grouping": "Emergency Medical Service Providers",
+    "classification": "Personal Emergency Response Attendant",
+    "specialization": null,
+    "specialtyDescription": "Individuals that are specially trained to assist patients living at home with urgent/emergent situations. These individuals must be able to perform CPR and basic first aid and have sufficient counseling skills to allay fears and assist in working through processes necessary to resolve the crisis. Functions may include transportation to various facilities and businesses, contacting agencies to initiate remediation service or providing reassurance."
+  },
+  {
+    "specialtyCode": "146L00000X",
+    "name": "Emergency Medical Technician, Paramedic ",
+    "grouping": "Emergency Medical Service Providers",
+    "classification": "Emergency Medical Technician, Paramedic",
+    "specialization": null,
+    "specialtyDescription": "An EMT, Paramedic is an individual trained and certified to perform advanced life support (ALS) in medical emergencies based on individual state boards."
+  },
+  {
+    "specialtyCode": "146M00000X",
+    "name": "Emergency Medical Technician, Intermediate ",
+    "grouping": "Emergency Medical Service Providers",
+    "classification": "Emergency Medical Technician, Intermediate",
+    "specialization": null,
+    "specialtyDescription": "An Intermediate EMT is an individual trained and certified to perform intermediate life support treatment in medical emergencies based on individual state boards."
+  },
+  {
+    "specialtyCode": "146N00000X",
+    "name": "Emergency Medical Technician, Basic ",
+    "grouping": "Emergency Medical Service Providers",
+    "classification": "Emergency Medical Technician, Basic",
+    "specialization": null,
+    "specialtyDescription": "A Basic EMT is an individual trained and certified to perform basic life support treatment in medical emergencies based on individual state boards."
+  },
+  {
+    "specialtyCode": "152W00000X",
+    "name": "Optometrist ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": null,
+    "specialtyDescription": "Doctors of optometry (ODs) are the primary health care professionals for the eye. Optometrists examine, diagnose, treat, and manage diseases, injuries, and disorders of the visual system, the eye, and associated structures as well as identify related systemic conditions affecting the eye. An optometrist has completed pre-professional undergraduate education in a college or university and four years of professional education at a college of optometry, leading to the doctor of optometry (O.D.) degree. Some optometrists complete an optional residency in a specific area of practice. Optometrists are eye health care professionals state-licensed to diagnose and treat diseases and disorders of the eye and visual system. "
+  },
+  {
+    "specialtyCode": "152WC0802X",
+    "name": "Optometrist - Corneal and Contact Management ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": "Corneal and Contact Management",
+    "specialtyDescription": "The professional activities performed by an Optometrist related to the fitting of contact lenses to an eye, ongoing evaluation of the cornea’s ability to sustain successful contact lens wear, and treatment of any external eye or corneal condition which can affect contact lens wear."
+  },
+  {
+    "specialtyCode": "152WL0500X",
+    "name": "Optometrist - Low Vision Rehabilitation ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": "Low Vision Rehabilitation",
+    "specialtyDescription": "Optometrists who specialize in low-vision care having training to assess visual function, prescribe low-vision devices, develop treatment plans, and recommend other vision rehabilitation services."
+  },
+  {
+    "specialtyCode": "152WP0200X",
+    "name": "Optometrist - Pediatrics ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": "Pediatrics",
+    "specialtyDescription": "Optometrists who work in Pediatrics are concerned with the prevention, development, diagnosis, and treatment of visual problems in children."
+  },
+  {
+    "specialtyCode": "152WS0006X",
+    "name": "Optometrist - Sports Vision ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": "Sports Vision",
+    "specialtyDescription": "An optometrist who offers services designed to care for unique vision care needs of athletes, which may include one of more of the following services: corrective vision care unique to a specific sporting environment; protective eyewear for the prevention of sports-related injuries; vision enhancement – which may include vision therapy and techniques to improve visual skills specific to the athlete’s sport."
+  },
+  {
+    "specialtyCode": "152WV0400X",
+    "name": "Optometrist - Vision Therapy ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": "Vision Therapy",
+    "specialtyDescription": "Optometrists who specialize in vision therapy as a treatment process used to improve vision function. It includes a broad range of developmental and rehabilitative treatment programs individually prescribed to remediate specific sensory, motor and/or visual perceptual dysfunctions."
+  },
+  {
+    "specialtyCode": "152WX0102X",
+    "name": "Optometrist - Occupational Vision ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Optometrist",
+    "specialization": "Occupational Vision",
+    "specialtyDescription": "Optometrists who work in Occupational Vision, the branch of environmental optometry, consider all aspects of the relationship between work and vision, visual performances, eye safety, and health."
+  },
+  {
+    "specialtyCode": "156F00000X",
+    "name": "Technician/Technologist ",
+    "grouping": "Eye and Vision Services Providers",
+    "classification": "Technician/Technologist",
+    "specialization": null,
+    "specialtyDescription": "A broad category grouping different kinds of technologists and technicians. See individual definitions."
+  },
+  {
+    "specialtyCode": "172M00000X",
+    "name": "Mechanotherapist ",
+    "grouping": "Other Service Providers",
+    "classification": "Mechanotherapist",
+    "specialization": null,
+    "specialtyDescription": "A practitioner of mechanotherapy examines patients by verbal inquiry, examination of the musculoskeletal system by hand, and visual inspection and observation. In the treatment of patients, mechanotherapists employ the techniques of advised or supervised exercise; electrical neuromuscular stimulation; massage or manipulation; or air, water, heat, cold, sound, or infrared ray therapy."
+  },
+  {
+    "specialtyCode": "172P00000X",
+    "name": "Naprapath ",
+    "grouping": "Other Service Providers",
+    "classification": "Naprapath",
+    "specialization": null,
+    "specialtyDescription": "Naprapathy means a branch of medicine that focuses on the evaluation and treatment of neuron-muscular conditions. Doctors of naprapathy are connective tissue specialists. Education and training are defined through individual states’ licensing/certification requirements."
+  },
+  {
+    "specialtyCode": "172V00000X",
+    "name": "Community Health Worker ",
+    "grouping": "Other Service Providers",
+    "classification": "Community Health Worker",
+    "specialization": null,
+    "specialtyDescription": "Community health workers (CHW) are lay members of communities who work either for pay or as volunteers in association with the local health care system in both urban and rural environments and usually share ethnicity, language, socioeconomic status and life experiences with the community members they serve. They have been identified by many titles such as community health advisors, lay health advocates, \"promotores(as), outreach educators, community health representatives, peer health promoters, and peer health educators. CHWs offer interpretation and translation services, provide culturally appropriate health education and information, assist people in receiving the care they need, give informal counseling and guidance on health behaviors, advocate for individual and community health needs, and provide some direct services such as first aid and blood pressure screening. Some examples of these practitioners are Community Health Aides or Practitioners established under 25 USC §1616 (l) under HHS, Indian Health Service, Public Health Service."
+  },
+  {
+    "specialtyCode": "209800000X",
+    "name": "Legal Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Legal Medicine",
+    "specialization": null,
+    "specialtyDescription": "Legal Medicine is a special field of medicine that focuses on various aspects of medicine and law. Historically, the practice of legal medicine made contributions to medicine as a scientific instrument to solve criminal perplexities. Since World War II, the domain of legal medicine has broadened to include not only aspects of medical science to solve legal and criminal problems but aspects of law as it applies to medicine. Legal Medicine continues to grow as medicolegal issues like medical malpractice and liability, government regulation of health care, issues of tort reform, and moral and ethical complexities presented by technological advances become increasingly prominent. Many medical schools have implemented courses which supply medicolegal instruction for medical students, and many law schools now offer medicolegal courses. Also, dual degree programs in law and medicine have been created to assist physicians to bridge the gap between medicine and the law."
+  },
+  {
+    "specialtyCode": "173C00000X",
+    "name": "Reflexologist ",
+    "grouping": "Other Service Providers",
+    "classification": "Reflexologist",
+    "specialization": null,
+    "specialtyDescription": "Reflexologists perform a non-invasive complementary modality involving thumb and finger techniques to apply alternating pressure to the reflexes within the reflex maps of the body located on the feet, hands, and outer ears. Reflexologists apply pressure to specific areas (feet, hands, and ears) to promote a response from an area far removed from the tissue stimulated via the nervous system and acupuncture meridians. Reflexologists are recommended to complete a minimum of 200 hours of education, typically including anatomy & physiology, Reflexology theory, body systems, zones, meridians & relaxation response, ethics, business standards, and supervised practicum."
+  },
+  {
+    "specialtyCode": "173F00000X",
+    "name": "Sleep Specialist, PhD ",
+    "grouping": "Other Service Providers",
+    "classification": "Sleep Specialist, PhD",
+    "specialization": null,
+    "specialtyDescription": "Sleep medicine is a clinical specialty with a focus on clinical problems that require accurate diagnosis and treatment. The knowledge base of sleep medicine is derived from many disciplines including neuroanatomy, neurophysiology, respiratory physiology, pharmacology, psychology, psychiatry, neurology, general internal medicine, pulmonary medicine, and pediatrics as well as others."
+  },
+  {
+    "specialtyCode": "207Q00000X",
+    "name": "Family Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": null,
+    "specialtyDescription": "Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity."
+  },
+  {
+    "specialtyCode": "207QA0000X",
+    "name": "Family Medicine - Adolescent Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Adolescent Medicine",
+    "specialtyDescription": "A family medicine physician with multidisciplinary training in the unique physical, psychological and social characteristics of adolescents and their health care problems and needs."
+  },
+  {
+    "specialtyCode": "207QA0401X",
+    "name": "Family Medicine - Addiction Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Addiction Medicine",
+    "specialtyDescription": "A family medicine physician who specializes in the diagnosis and treatment of addictions."
+  },
+  {
+    "specialtyCode": "207QA0505X",
+    "name": "Family Medicine - Adult Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Adult Medicine",
+    "specialtyDescription": "Definition to come."
+  },
+  {
+    "specialtyCode": "207QB0002X",
+    "name": "Family Medicine - Obesity Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Obesity Medicine",
+    "specialtyDescription": "A physician who specializes in the treatment of obesity demonstrates competency in and a thorough understanding of the treatment of obesity and the genetic, biologic, environmental, social, and behavioral factors that contribute to obesity. The obesity medicine physician employs therapeutic interventions including diet, physical activity, behavioral change, and pharmacotherapy. The obesity medicine physician utilizes a comprehensive approach, and may include additional resources such as dietitians, exercise physiologists, mental health professionals and bariatric surgeons as indicated to achieve optimal results. Additionally, the obesity medicine physician maintains competency in providing pre- peri- and post-surgical care of bariatric surgery patients, promotes the prevention of obesity, and advocates for those who suffer from obesity."
+  },
+  {
+    "specialtyCode": "207QG0300X",
+    "name": "Family Medicine - Geriatric Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Geriatric Medicine",
+    "specialtyDescription": "A family medicine physician with special knowledge of the aging process and special skills in the diagnostic, therapeutic, preventive and rehabilitative aspects of illness in the elderly. This specialist cares for geriatric patients in the patient's home, the office, long-term care settings such as nursing homes, and the hospital."
+  },
+  {
+    "specialtyCode": "207QH0002X",
+    "name": "Family Medicine - Hospice and Palliative Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Hospice and Palliative Medicine",
+    "specialtyDescription": "A family medicine physician with special knowledge and skills to prevent and relieve the suffering experienced by patients with life-limiting illnesses. This specialist works with an interdisciplinary hospice or palliative care team to maximize quality of life while addressing physical, psychological, social and spiritual needs of both patient and family throughout the course of the disease, through the dying process, and beyond for the family. This specialist has expertise in the assessment of patients with advanced disease; the relief of distressing symptoms; the coordination of interdisciplinary patient and family-centered care in diverse venues; the use of specialized care systems including hospice; the management of the imminently dying patient; and legal and ethical decision making in end-of-life care."
+  },
+  {
+    "specialtyCode": "207QS0010X",
+    "name": "Family Medicine - Sports Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Sports Medicine",
+    "specialtyDescription": "A family medicine physician that is trained to be responsible for continuous care in the field of sports medicine, not only for the enhancement of health and fitness, but also for the prevention of injury and illness. A sports medicine physician must have knowledge and experience in the promotion of wellness and the prevention of injury. Knowledge about special areas of medicine such as exercise physiology, biomechanics, nutrition, psychology, physical rehabilitation, epidemiology, physical evaluation, injuries (treatment and prevention and referral practice) and the role of exercise in promoting a healthy lifestyle are essential to the practice of sports medicine. The sports medicine physician requires special education to provide the knowledge to improve the health care of the individual engaged in physical exercise (sports) whether as an individual or in team participation."
+  },
+  {
+    "specialtyCode": "207QS1201X",
+    "name": "Family Medicine - Sleep Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Family Medicine",
+    "specialization": "Sleep Medicine",
+    "specialtyDescription": "A Family Medicine Physician who practices Sleep Medicine is certified in the subspecialty of sleep medicine and specializes in the clinical assessment, physiologic testing, diagnosis, management and prevention of sleep and circadian rhythm disorders. Sleep specialists treat patients of any age and use multidisciplinary approaches. Disorders managed by sleep specialists include, but are not limited to, sleep related breathing disorders, insomnia, hypersomnias, circadian rhythm sleep disorders, parasomnias and sleep related movement disorders."
+  },
+  {
+    "specialtyCode": "207R00000X",
+    "name": "Internal Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Internal Medicine",
+    "specialization": null,
+    "specialtyDescription": "A physician who provides long-term, comprehensive care in the office and the hospital, managing both common and complex illness of adolescents, adults and the elderly. Internists are trained in the diagnosis and treatment of cancer, infections and diseases affecting the heart, blood, kidneys, joints and digestive, respiratory and vascular systems. They are also trained in the essentials of primary care internal medicine, which incorporates an understanding of disease prevention, wellness, substance abuse, mental health and effective treatment of common problems of the eyes, ears, skin, nervous system and reproductive organs."
+  },
+  {
+    "specialtyCode": "207RA0000X",
+    "name": "Internal Medicine - Adolescent Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Internal Medicine",
+    "specialization": "Adolescent Medicine",
+    "specialtyDescription": "An internist who specializes in adolescent medicine is a multi-disciplinary healthcare specialist trained in the unique physical, psychological and social characteristics of adolescents, their healthcare problems and needs."
+  },
+  {
+    "specialtyCode": "207RA0001X",
+    "name": "Internal Medicine - Advanced Heart Failure and Transplant Cardiology ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Internal Medicine",
+    "specialization": "Advanced Heart Failure and Transplant Cardiology",
+    "specialtyDescription": "Specialists in Advanced Heart Failure and Transplant Cardiology would participate in the inpatient and outpatient management of patients with advanced heart failure across the spectrum from consideration for high-risk cardiac surgery, cardiac transplantation, or mechanical circulatory support, to pre-and post-operative evaluation and management of patients with cardiac transplants and mechanical support devices, and end-of-life care for patients with end-stage heart failure."
+  },
+  {
+    "specialtyCode": "207RA0201X",
+    "name": "Internal Medicine - Allergy & Immunology ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Internal Medicine",
+    "specialization": "Allergy & Immunology",
+    "specialtyDescription": "An internist doctor of osteopathy that specializes in the treatment of allergy and immunologic disorders. A doctor of osteopathy that is board eligible/certified by the American Osteopathic Board of Internal Medicine can obtain a Certificate of Special Qualifications in the field of Allergy & Immunology."
+  },
+  {
+    "specialtyCode": "207RA0401X",
+    "name": "Internal Medicine - Addiction Medicine ",
+    "grouping": "Allopathic & Osteopathic Physicians",
+    "classification": "Internal Medicine",
+    "specialization": "Addiction Medicine",
+    "specialtyDescription": "An internist doctor of osteopathy that specializes in the treatment of addiction disorders. A doctor of osteopathy that is board eligible/certified by the American Osteopathic Board of Internal Medicine can obtain a Certificate of Added Qualifications in the field of Addiction Medicine."
+  }
+]
