@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import * as Sentry from '@sentry/browser';
 import recordEvent from '../../platform/monitoring/record-event';
-import { apiRequest } from '../../platform/utilities/api';
+import { apiRequest, fetch } from '../../platform/utilities/api';
 import environment from '../../platform/utilities/environment';
 import backendServices from '../../platform/user/profile/constants/backendServices';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
