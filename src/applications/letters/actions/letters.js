@@ -111,7 +111,7 @@ export function getLetterListAndBSLOptions() {
   return dispatch =>
     getLetterList(dispatch)
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch();
+      .catch(() => {});
 }
 
 export function getAddressFailure() {

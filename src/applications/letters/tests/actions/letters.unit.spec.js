@@ -278,16 +278,10 @@ describe('getLetterListAndBSLOptions', () => {
     const thunk = getLetterListAndBSLOptions();
     const dispatch = () => {};
 
-    thunk(dispatch)
-      .then(() => {
-        done(
-          new Error('getLetterList should have rejected but resolved instead'),
-        );
-      })
-      .catch(() => {
-        expect(global.fetch.callCount).to.equal(1);
-        done();
-      });
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).to.equal(1);
+      done();
+    });
   });
 });
 
