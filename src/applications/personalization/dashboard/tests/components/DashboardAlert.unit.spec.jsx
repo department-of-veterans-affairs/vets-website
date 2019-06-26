@@ -15,6 +15,7 @@ describe('<DashboardAlert />', () => {
   it('should have the expected classnames', () => {
     const wrapper = shallow(
       <DashboardAlert
+        id="alert"
         content={content}
         headline={headline}
         statusHeadline={statusHeadline}
@@ -30,6 +31,7 @@ describe('<DashboardAlert />', () => {
   it('should pass aXe check', () =>
     axeCheck(
       <DashboardAlert
+        id="alert"
         content={content}
         headline={headline}
         statusHeadline={statusHeadline}
