@@ -5,7 +5,6 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
@@ -174,7 +173,7 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return <NotAuthorized verify={verify} />;
+        return <NotAuthorized />;
       case 'NOT_FOUND':
         return <NotFound />;
       default:

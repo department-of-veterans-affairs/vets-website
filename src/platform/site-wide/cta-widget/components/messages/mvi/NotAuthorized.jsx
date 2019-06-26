@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CallToActionAlert from '../../CallToActionAlert';
+import { verify } from 'platform/user/authentication/utilities';
 
-const NotAuthorized = ({ verify }) => {
+const NotAuthorized = () => {
   const content = {
     heading: 'Verify your identity to access more VA.gov tools and features',
     alertText: (
@@ -26,10 +26,6 @@ const NotAuthorized = ({ verify }) => {
   };
 
   return <CallToActionAlert {...content} />;
-};
-
-NotAuthorized.propTypes = {
-  verify: PropTypes.func.isRequired,
 };
 
 export default NotAuthorized;
