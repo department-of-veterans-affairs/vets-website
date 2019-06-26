@@ -16,6 +16,14 @@ module.exports = `
     title
     fieldDescription
     ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_BODY]
+        ? 'fieldBody { processed }'
+        : ''
+    }
+    fieldBody {
+      processed
+    }
+    ${
       enabledFeatureFlags[featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION]
         ? 'fieldAssetLibraryDescription'
         : ''

@@ -8,8 +8,10 @@ export function libraryGetQParam() {
 
 export function libraryCount() {
   if (document.getElementById('no-results')) {
-    document.getElementById('no-results').style.display = 'none';
-    document.getElementById('va-pager-div').style.display = 'flex';
+    if (libraryGetQParam() === 'benefit') {
+      document.getElementById('no-results').style.display = 'none';
+      document.getElementById('va-pager-div').style.display = 'flex';
+    }
   }
 
   if (document.getElementById('total-pages')) {
@@ -21,9 +23,9 @@ export function libraryCount() {
         numCards < 0 ? 0 : numCards;
     }
     document.getElementById('total-all').innerText = ` of ${cards.length}`;
-    if (numCards < 1 && document.getElementById('no-results')) {
-      document.getElementById('va-pager-div').style.display = 'none';
-      if (libraryGetQParam() === 'benefit') {
+    if (libraryGetQParam() === 'benefit') {
+      if (numCards < 1 && document.getElementById('no-results')) {
+        document.getElementById('va-pager-div').style.display = 'none';
         document.getElementById('no-results').style.display = 'block';
       }
     }
@@ -44,12 +46,10 @@ export function libraryCurrent() {
       }
     }
   });
-  libraryCount();
 }
 
 export function libraryFilters(el) {
   const pages = Math.ceil(cards.length / 10);
-
   if (el.srcElement.id === 'pager-next-click') {
     if (activePage !== pages) {
       activePage = parseInt(activePage, 10);
@@ -76,7 +76,6 @@ export function libraryFilters(el) {
       activePage === undefined ? 1 : activePage;
   }
   libraryCurrent();
-  libraryCount();
 }
 
 export function libraryListeners() {
@@ -101,6 +100,7 @@ export function libraryListeners() {
   });
 
   const typeItem = document.getElementById('outreach-type');
+  const topicItem = document.getElementById('outreach-topic');
   const pagingEl = document.querySelector('.va-pagination');
   const reLoad = document.getElementById('start-over');
   if (reLoad) {
@@ -135,17 +135,17 @@ export function libraryListeners() {
         cards.forEach(element => {
           element.classList.remove('pager-hide');
         });
-      } else if (typeItem.value === 'select') {
+      } else if (typeItem.value === 'select' && topicItem.value !== 'select') {
         [].map.call(document.querySelectorAll(`[data-type]`), element => {
           element.classList.remove('hide-type');
         });
-        libraryCount();
+      } else if (typeItem.value === 'select' && topicItem.value === 'select') {
+        window.location.reload();
       }
+      libraryCount();
     });
-    typeItem.addEventListener('change', libraryCount);
   }
 
-  const topicItem = document.getElementById('outreach-topic');
   if (topicItem) {
     topicItem.addEventListener('change', () => {
       if (topicItem.value !== 'select') {
@@ -166,14 +166,17 @@ export function libraryListeners() {
         cards.forEach(element => {
           element.classList.remove('pager-hide');
         });
-      } else if (topicItem.value === 'select') {
+      } else if (topicItem.value === 'select' && typeItem.value !== 'select') {
         [].map.call(document.querySelectorAll(`[data-topic]`), element => {
           element.classList.remove('hide-topic');
         });
-        libraryCount();
+      } else if (topicItem.value === 'select' && typeItem.value === 'select') {
+        window.location.reload();
       }
+      libraryCount();
     });
-    topicItem.addEventListener('change', libraryCount);
   }
+
+  libraryCurrent();
   libraryCount();
 }
