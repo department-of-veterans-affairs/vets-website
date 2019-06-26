@@ -467,9 +467,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description': !environment.isProduction()
-              ? MilitaryPrefillMessage
-              : undefined,
+            'ui:description': MilitaryPrefillMessage,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -512,9 +510,7 @@ const formConfig = {
           title: 'Service history',
           uiSchema: {
             'ui:title': 'Service history',
-            'ui:description': !environment.isProduction()
-              ? MilitaryPrefillMessage
-              : undefined,
+            'ui:description': MilitaryPrefillMessage,
             'view:textObject': {
               'ui:description': 'Check all that apply to you.',
             },
