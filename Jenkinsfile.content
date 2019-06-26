@@ -11,7 +11,7 @@ node('vetsgov-general-purpose') {
   if ("${refStatusState}" != "SUCCESS") {
     slackSend(message:"Web content refresh on ${params.env} aborted due to '${refStatusState}' status on vets-website commit ${ref}.",
               color: "warning",
-              channel: "#cms-notifications")
+              channel: "cms-notifications")
 
     return
   }
@@ -43,7 +43,7 @@ node('vetsgov-general-purpose') {
 
       slackSend(message:"Web content refresh in ${params.env} completed.",
                 color: "good",
-                channel: "#cms-notifications")
+                channel: "cms-notifications")
     }
   }
 }
