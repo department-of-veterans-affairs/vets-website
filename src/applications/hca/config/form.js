@@ -184,6 +184,8 @@ const attachmentsSchema = {
   },
 };
 
+// For which page needs prefill-message, check
+// vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
@@ -317,6 +319,7 @@ const formConfig = {
             },
           },
           uiSchema: {
+            'ui:description': PrefillMessage,
             gender: {
               'ui:title': 'Gender',
               'ui:options': {
@@ -426,6 +429,7 @@ const formConfig = {
           title: 'Contact information',
           initialData: {},
           uiSchema: {
+            'ui:description': PrefillMessage,
             'ui:validations': [
               validateMatch('email', 'view:emailConfirmation'),
             ],
@@ -463,9 +467,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description': !environment.isProduction()
-              ? MilitaryPrefillMessage
-              : undefined,
+            'ui:description': MilitaryPrefillMessage,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -508,7 +510,10 @@ const formConfig = {
           title: 'Service history',
           uiSchema: {
             'ui:title': 'Service history',
-            'ui:description': 'Check all that apply to you.',
+            'ui:description': MilitaryPrefillMessage,
+            'view:textObject': {
+              'ui:description': 'Check all that apply to you.',
+            },
             purpleHeartRecipient: {
               'ui:title': 'Purple Heart award recipient',
             },
@@ -546,6 +551,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:textObject': {
+                type: 'object',
+                properties: {},
+              },
               purpleHeartRecipient,
               isFormerPow,
               postNov111998Combat,
@@ -608,6 +617,7 @@ const formConfig = {
           title: 'VA benefits',
           uiSchema: {
             'ui:title': 'Current compensation',
+            'ui:description': PrefillMessage,
             vaCompensationType: {
               'ui:title':
                 'Which type of VA compensation do you currently receive?',
