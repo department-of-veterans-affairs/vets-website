@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { expect } from 'chai';
 
 import DashboardAlert, {
@@ -27,15 +26,4 @@ describe('<DashboardAlert />', () => {
     ).to.equal(true);
     wrapper.unmount();
   });
-
-  it('should pass aXe check', () =>
-    axeCheck(
-      <DashboardAlert
-        id="alert"
-        content={content}
-        headline={headline}
-        statusHeadline={statusHeadline}
-        status={DASHBOARD_ALERT_TYPES.closed}
-      />,
-    ));
 });
