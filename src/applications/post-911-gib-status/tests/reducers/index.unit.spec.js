@@ -62,7 +62,7 @@ describe('post911GIBStatus reducer', () => {
     });
 
     expect(state.enrollmentData).to.be.null;
-    expect(state.availability).to.equal('unavailable');
+    expect(state.availability).to.equal('getEnrollmentDataFailure');
   });
 
   it('should handle setting the service availability', () => {

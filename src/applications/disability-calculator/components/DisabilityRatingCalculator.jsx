@@ -1,5 +1,9 @@
 import React from 'react';
-import { calculateRating } from '../utils/helpers';
+import {
+  calculateRating,
+  shouldCalculate,
+  pullRatingsFromState,
+} from '../utils/helpers';
 import { CalculatedDisabilityRating } from './CalculatedDisabilityRating';
 import RatingRow from './RatingRow';
 import '../sass/disability-calculator.scss';
@@ -96,6 +100,8 @@ export default class DisabilityRatingCalculator extends React.Component {
   render() {
     const ratings = this.state.ratings;
     const calculatedRating = this.state.calculatedRating;
+    const ratingArr = pullRatingsFromState(ratings);
+    const checkForTwoRatings = shouldCalculate(ratingArr);
 
     return (
       <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
@@ -136,8 +142,8 @@ export default class DisabilityRatingCalculator extends React.Component {
               indx={idx}
               ratingRef={this.ratingRef}
               handleRemoveRating={this.handleRemoveRating}
-              canDelete={idx > 1}
               ref={this.setRef}
+              disabled={ratings.length < 3}
             />
           ))}
           <div className="vads-l-row">
@@ -161,6 +167,7 @@ export default class DisabilityRatingCalculator extends React.Component {
                 onClick={evt => {
                   this.handleSubmit(evt);
                 }}
+                disabled={!checkForTwoRatings}
               >
                 Calculate
               </button>

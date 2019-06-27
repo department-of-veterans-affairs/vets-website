@@ -54,9 +54,9 @@ const ManageYourVAHealthCare = ({
     <AlertBox
       content={
         <div>
-          <h4 className="usa-alert-heading">
+          <h3 className="usa-alert-heading">
             You are enrolled in VA Health Care
-          </h4>
+          </h3>
           {getEnrollmentDetails(
             applicationDate,
             enrollmentDate,

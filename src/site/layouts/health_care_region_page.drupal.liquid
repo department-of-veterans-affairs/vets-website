@@ -182,7 +182,7 @@ Example data:
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta">
               <a href="/health-care/secure-messaging/">
-                <i class="fa fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                <i class="far fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
                 <span class="vads-facility-hub-cta-label">Send a secure message to your health care team <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
@@ -199,7 +199,7 @@ Example data:
             <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
 
               <a href="/health-care/schedule-view-va-appointments/">
-                <i class="fa fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                <i class="far fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
                 <span class="vads-facility-hub-cta-label">Schedule and view your appointments <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
@@ -231,7 +231,7 @@ Example data:
 
         <!-- Events -->
         <section>
-          <h3 class="vads-u-margin-bottom--2p5">Community Events</h3>
+          <h3 class="vads-u-margin-top--4 vads-u-margin-bottom--0">Community Events</h3>
           <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           {% for event in eventTeasers.entities %}
             <div class="region-grid event">
@@ -246,50 +246,7 @@ Example data:
 
         <!-- Social Links -->
         {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
-            <section class="feature vads-u-background-color--gray-lightest">
-                <h3>Get updates from us</h3>
-                <div class="va-c-list-link-teasers">
-                    {% if fieldFacebook != empty || fieldTwitter != empty %}
-                        <div class="usa-grid usa-grid-full">
-                            {% if fieldFacebook != empty %}
-                                <div class="social-links social-links-facebook usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldFacebook.url.path }}"><i class="fab fa-facebook"></i> {{ fieldFacebook.title }}</a>
-                                </div>
-                            {% endif %}
-
-                            {% if fieldTwitter != empty %}
-                                <div class="social-links social-links-twitter usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldTwitter.url.path }}"><i class="fab fa-twitter"></i> {{ fieldTwitter.title }}</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-
-                    {% if fieldFlickr != empty || fieldInstagram != empty %}
-                        <div class="usa-grid usa-grid-full">
-                            {% if fieldFlickr != empty %}
-                                <div class="social-links social-links-flickr usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldFlickr.url.path }}"><i class="fab fa-flickr"></i> {{ fieldFlickr.title }}</a>
-                                </div>
-                            {% endif %}
-
-                            {% if fieldInstagram != empty %}
-                                <div class="social-links social-links-instagram usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldInstagram.url.path }}"><i class="fab fa-instagram"></i> {{ fieldInstagram.title }}</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-
-                    {% if fieldEmailSubscription != empty %}
-                        <div class="usa-grid usa-grid-full">
-                            <div class="social-links social-links-email usa-width-one-half vads-u-margin-bottom--2">
-                                <a target="_blank" href="{{ fieldEmailSubscription.url.path }}"><i class="fas fa-envelope"></i> {{ fieldEmailSubscription.title }}</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </section>
+          {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
         {% endif %}
 
     </article>

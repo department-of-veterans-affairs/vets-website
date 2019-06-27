@@ -1,6 +1,23 @@
+@Library('va.gov-devops-jenkins-lib') _
+
 node('vetsgov-general-purpose') {
+  refStatusState = ""
+  ref = params.ref
+  if (ref == "") {
+    ref = getLatestGitRef("vets-website", branch: "master")
+  }
+
+  refStatusState = getGithubCommitState("vets-website", ref)
+  if ("${refStatusState}" != "SUCCESS") {
+    slackSend(message:"Web content refresh on ${params.env} aborted due to '${refStatusState}' status on vets-website commit ${ref}.",
+              color: "warning",
+              channel: "cms-notifications")
+
+    return
+  }
+
   dir("vets-website") {
-    checkout scm: [$class: 'GitSCM', branches: [[name: params.ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
+    checkout scm: [$class: 'GitSCM', branches: [[name: ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
@@ -9,7 +26,7 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage("Build") {
-    commonStages.build(params.ref, dockerContainer, params.ref, params.env, false)
+    commonStages.build(ref, dockerContainer, ref, params.env, false)
   }
 
   stage("Prearchive") {
@@ -17,6 +34,16 @@ node('vetsgov-general-purpose') {
   }
 
   stage("Archive") {
-    commonStages.archive(dockerContainer, params.ref, params.env)
+    commonStages.archive(dockerContainer, ref, params.env)
+  }
+
+  stage("Deploy Dev or Staging") {
+    if (params.env != "vagovprod" && params.deploy) {
+      commonStages.runDeploy("deploys/vets-website-${params.env}", ref, true)
+
+      slackSend(message:"Web content refresh in ${params.env} completed.",
+                color: "good",
+                channel: "cms-notifications")
+    }
   }
 }

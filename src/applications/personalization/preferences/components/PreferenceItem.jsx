@@ -34,13 +34,15 @@ const CallToAction = ({ cta }) => {
 const FAQItem = ({ faq }) => {
   const { title, component: FAQComponent } = faq;
   return (
-    <AdditionalInfo
-      tagName={'h5'}
-      additionalClass="benefit-faq"
-      triggerText={title}
-    >
-      <FAQComponent />
-    </AdditionalInfo>
+    <div className="preference-faq-item">
+      <AdditionalInfo
+        tagName={'h4'}
+        additionalClass="benefit-faq"
+        triggerText={title}
+      >
+        <FAQComponent />
+      </AdditionalInfo>
+    </div>
   );
 };
 

@@ -376,6 +376,7 @@ export class AddressSection extends React.Component {
     } else {
       addressContent = (
         <AddressContent
+          recipientName={this.props.recipientName}
           saveError={this.props.saveAddressError}
           addressObject={addressContentLines}
         >

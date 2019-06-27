@@ -15,7 +15,7 @@ const makeUnorderedList = questions => (
 
 const appealsQuestions = [
   {
-    href: '/disability-benefits/claims-appeal',
+    href: '/disability/file-an-appeal/',
     title: 'Find out how appeals work',
   },
   {

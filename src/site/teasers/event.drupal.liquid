@@ -27,14 +27,14 @@ Example data:
 {% endcomment %}
 {% if node != empty %}
 
-    {% assign start_date_no_time = node.fieldDate.value | date: "%a, %b %d" %}
-    {% assign end_date_no_time = node.fieldDate.endValue | date: "%a, %b %d" %}
+    {% assign start_date_no_time = node.fieldDate.value | formatDate: "dddd, MMM D" %}
+    {% assign end_date_no_time = node.fieldDate.endValue | formatDate: "dddd, MMM D" %}
 
-    {% assign start_time = node.fieldDate.value | date: "%I:%M %p" %}
-    {% assign end_time = node.fieldDate.endValue | date: "%I:%M %p" %}
+    {% assign start_time = node.fieldDate.value | formatDate: "h:mm A" %}
+    {% assign end_time = node.fieldDate.endValue | formatDate: "h:mm A" %}
 
-    {% assign start_date_full = node.fieldDate.value | date: "%a, %b %d, %I:%M %p" %}
-    {% assign end_date_full = node.fieldDate.endValue | date: "%a, %b %d, %I:%M %p" %}
+    {% assign start_date_full = node.fieldDate.value | formatDate: "dddd, MMM D, h:mm A" %}
+    {% assign end_date_full = node.fieldDate.endValue | formatDate: "dddd, MMM D, h:mm A" %}
 
     {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
         {% assign date_type = "start_date_only" %}

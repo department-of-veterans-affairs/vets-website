@@ -48,6 +48,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     homelessHealthServices: page.homelessHealthServices,
     genomicMedicineHealthServices: page.genomicMedicineHealthServices,
     veteranCareHealthServices: page.veteranCareHealthServices,
+    otherHealthServices: page.otherHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,

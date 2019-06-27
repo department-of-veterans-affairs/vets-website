@@ -14,11 +14,17 @@ export const CalculatedDisabilityRating = props => {
         </strong>
       </p>
       <p>
-        The actual combined value of your disability ratings is
-        <strong> {actualRating}%</strong>. We round this number to the nearest
-        10% to get your combined rating. We round values ending in 1 to 4 down,
-        and those ending in 5 to 9 up. We then use this VA disability rating to
-        determine your monthly disability compensation payment.
+        <strong>Note:</strong> The actual combined value of your disability
+        ratings is {actualRating}
+        %.
+      </p>
+      <p>
+        We round this value to the nearest 10% to get your VA disability rating.
+        If your value includes a decimal, please note that we don't include
+        this. We base our rounding on the whole number only. We round whole
+        numbers ending in 1 to 4 down, and those ending in 5 to 9 up. We then
+        use this VA disability rating to determine your monthly disability
+        compensation payment.
       </p>
       <a href="#">Find your monthly payment amount</a>
     </div>
