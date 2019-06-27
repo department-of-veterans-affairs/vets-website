@@ -15,7 +15,9 @@ import {
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import get from 'platform/utilities/data/get';
+import recordEvent from 'platform/monitoring/record-event';
 
+import { EDIT_TARGETS } from '../constants';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import { handleDowntimeForSection } from '../components/DowntimeBanner';
@@ -102,6 +104,40 @@ class PaymentInformation extends React.Component {
     }
   }
 
+  handleEditClick(e) {
+    const baseEventData = {
+      event: 'profile-navigation',
+      'profile-action': 'edit-link',
+    };
+
+    // Open edit modal.
+    this.props.editModalToggled();
+
+    // Push Google Analytics event
+    switch (e.currentTarget.dataset.editTarget) {
+      case EDIT_TARGETS.bankName:
+        recordEvent({
+          ...baseEventData,
+          'profile-section': 'bank-name',
+        });
+        break;
+      case EDIT_TARGETS.accountNumber:
+        recordEvent({
+          ...baseEventData,
+          'profile-section': 'account-number',
+        });
+        break;
+      case EDIT_TARGETS.accountType:
+        recordEvent({
+          ...baseEventData,
+          'profile-section': 'account-type',
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
   renderSetupButton(label) {
     return (
       <a onClick={this.props.editModalToggled}>{`Please add your ${label}`}</a>
@@ -135,7 +171,10 @@ class PaymentInformation extends React.Component {
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+              editTarget={EDIT_TARGETS.bankName}
+              onEditClick={
+                directDepositIsSetUp && this.handleEditClick.bind(this)
+              }
             >
               Bank name
             </ProfileFieldHeading>
@@ -145,7 +184,10 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+              editTarget={EDIT_TARGETS.accountNumber}
+              onEditClick={
+                directDepositIsSetUp && this.handleEditClick.bind(this)
+              }
             >
               Account number
             </ProfileFieldHeading>
@@ -155,7 +197,10 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+              editTarget={EDIT_TARGETS.accountType}
+              onEditClick={
+                directDepositIsSetUp && this.handleEditClick.bind(this)
+              }
             >
               Account type
             </ProfileFieldHeading>
