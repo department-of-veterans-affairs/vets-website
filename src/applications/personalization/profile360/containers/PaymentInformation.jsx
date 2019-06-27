@@ -104,11 +104,15 @@ class PaymentInformation extends React.Component {
     }
   }
 
-  handleEditClick(e) {
-    const baseEventData = {
+  recordProfileNavEvent(customProps) {
+    recordEvent({
       event: 'profile-navigation',
-      'profile-action': 'edit-link',
-    };
+      ...customProps,
+    });
+  }
+
+  handleEditClick(e) {
+    const gaProfileAction = 'edit-link';
 
     // Open edit modal.
     this.props.editModalToggled();
@@ -116,20 +120,20 @@ class PaymentInformation extends React.Component {
     // Push Google Analytics event
     switch (e.currentTarget.dataset.editTarget) {
       case EDIT_TARGETS.bankName:
-        recordEvent({
-          ...baseEventData,
+        this.recordProfileNavEvent({
+          'profile-action': gaProfileAction,
           'profile-section': 'bank-name',
         });
         break;
       case EDIT_TARGETS.accountNumber:
-        recordEvent({
-          ...baseEventData,
+        this.recordProfileNavEvent({
+          'profile-action': gaProfileAction,
           'profile-section': 'account-number',
         });
         break;
       case EDIT_TARGETS.accountType:
-        recordEvent({
-          ...baseEventData,
+        this.recordProfileNavEvent({
+          'profile-action': gaProfileAction,
           'profile-section': 'account-type',
         });
         break;
