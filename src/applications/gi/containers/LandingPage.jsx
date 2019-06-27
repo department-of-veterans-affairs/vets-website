@@ -12,6 +12,7 @@ import {
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
+import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -91,6 +92,7 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar />
+            <StemScholarshipNotification />
           </div>
         </div>
       </span>
