@@ -109,8 +109,14 @@ export default class EducationWizard extends React.Component {
                   label: 'Updating my current education benefits',
                   value: 'no',
                 },
-                ...(environment.isProduction()
-                  ? [{ label: 'STEM', value: 'extend' }]
+                ...(!environment.isProduction()
+                  ? [
+                      {
+                        label:
+                          'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
+                        value: 'extend',
+                      },
+                    ]
                   : []),
               ]}
               onValueChange={({ value }) =>
