@@ -28,7 +28,7 @@ class UpgradeMHVAccountFailed extends Component {
             onClick={this.props.upgradeMHVAccount}
             className="vads-u-margin-bottom--4"
           >
-            Try again to create your account
+            Try again to upgrade your account
           </button>
           <CollapsiblePanel
             panelName="Call the My HealtheVet help desk"
@@ -43,7 +43,7 @@ class UpgradeMHVAccountFailed extends Component {
             <p>
               Tell the representative that you tried to sign in to use health
               tools on VA.gov, but received an error messaging telling you that
-              we couldn’t create an account for you.
+              we couldn’t upgrade your account.
             </p>
           </CollapsiblePanel>
           <CollapsiblePanel
@@ -71,7 +71,7 @@ class UpgradeMHVAccountFailed extends Component {
                 <p>
                   “When I tried to sign in to use health tools on VA.gov, I
                   received an error message telling me that the site couldn’t
-                  create a My HealtheVet account for me.”
+                  upgrade my My HealtheVet account.”
                 </p>
               </li>
             </ul>
