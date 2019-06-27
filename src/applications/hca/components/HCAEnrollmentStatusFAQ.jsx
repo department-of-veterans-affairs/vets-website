@@ -94,6 +94,8 @@ const mapDispatchToProps = {
   showReapplyContent: showReapplyContentAction,
 };
 
+export { HCAEnrollmentStatusFAQ };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
