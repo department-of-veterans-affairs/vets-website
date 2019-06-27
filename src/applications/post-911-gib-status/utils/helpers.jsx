@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
-import CallHRC from '../../../platform/static-data/CallHRC';
 import EducationWizard from '../components/EducationWizard';
 import wizardConfig from './wizardConfig';
 
@@ -157,43 +156,23 @@ export function notQualifiedWarning() {
 }
 
 export const backendErrorMessage = (
-  <div id="backendErrorMessage" className="row">
-    <div className="medium-8 columns">
-      <h3>We’re sorry. Something went wrong on our end.</h3>
-      <p>
-        We’re having trouble finding your Post-9/11 GI Bill Statement of
-        Benefits right now.
-      </p>
-      <p>
-        <strong>This could be for 1 of 3 reasons:</strong>
-      </p>
-      <ul>
-        <li>
-          We’re still processing your education benefits application and we
-          haven’t yet created a record for you. We usually process applications
-          within 30 days. If you applied less than 30 days ago, please check
-          back soon.
-        </li>
-        <li>
-          The name on your VA.gov account doesn’t exactly match the name we have
-          in our Post-9/11 GI Bill records.
-        </li>
-        <li>
-          You haven’t yet applied for Post-9/11 GI Bill education benefits.
-        </li>
-      </ul>
-      <p>
-        If you think your Statement of Benefits should be here, please{' '}
-        <CallHRC />
-      </p>
-      <Link className="usa-button usa-button-primary" to="/">
-        Back to Post-9/11 GI Bill
-      </Link>
-      <br />
-      <br />
-      <br />
-      <br />
-    </div>
+  <div id="backendErrorMessage">
+    <h3>
+      We’re sorry. Our system isn't working right now. Please try again or check
+      back soon.
+    </h3>
+    <Link className="usa-button usa-button-primary" to="/">
+      Back to Post-9/11 GI Bill
+    </Link>
+  </div>
+);
+
+export const genericErrorMessage = (
+  <div>
+    <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
+    <Link className="usa-button usa-button-primary" to="/">
+      Back to Post-9/11 GI Bill
+    </Link>
   </div>
 );
 
