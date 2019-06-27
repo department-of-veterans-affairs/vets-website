@@ -8,7 +8,7 @@ export const StemScholarshipNotification = () => (
       <p>
         On August 1, 2019, VA is launching the Edith Nourse Rogers STEM
         Scholarship program for students training in high demand STEM (Science,
-        Technology, Engineering, and Math) programs.
+        Technology, Engineering, and Math) program.
       </p>
       <p>
         To learn more about this scholarship,{' '}
