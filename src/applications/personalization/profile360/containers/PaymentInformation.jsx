@@ -33,10 +33,18 @@ import {
 
 import featureFlags from '../featureFlags';
 
-const AdditionalInfos = () => (
+const AdditionalInfos = props => (
   <>
     <div className="vads-u-margin-bottom--2">
-      <AdditionalInfo triggerText="How do I change my direct deposit information for GI Bill and other education benefits?">
+      <AdditionalInfo
+        triggerText="How do I change my direct deposit information for GI Bill and other education benefits?"
+        onClick={() =>
+          props.recordProfileNavEvent({
+            'profile-action': props.gaProfileAction,
+            'additional-info': 'how-to-change-direct-deposit',
+          })
+        }
+      >
         <p>
           You’ll need to sign in to the eBenefits website with your Premium DS
           Logon account to change your direct deposit information for GI Bill
@@ -61,7 +69,15 @@ const AdditionalInfos = () => (
       </AdditionalInfo>
     </div>
 
-    <AdditionalInfo triggerText="What’s my bank’s routing number?">
+    <AdditionalInfo
+      triggerText="What’s my bank’s routing number?"
+      onClick={() =>
+        props.recordProfileNavEvent({
+          'event-action': props.gaProfileAction,
+          'additional-info': 'whats-bank-routing',
+        })
+      }
+    >
       <p>
         Your bank’s routing number is a 9-digit code that’s based on the U.S.
         location where your bank was opened. It’s the first set of numbers on
@@ -105,6 +121,10 @@ class PaymentInformation extends React.Component {
   }
 
   recordProfileNavEvent(customProps) {
+    if (!customProps) {
+      return;
+    }
+
     recordEvent({
       event: 'profile-navigation',
       ...customProps,
@@ -244,7 +264,10 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          <AdditionalInfos />
+          <AdditionalInfos
+            gaProfileAction="view-link"
+            recordProfileNavEvent={this.recordProfileNavEvent}
+          />
           {content}
         </DowntimeNotification>
       </>
