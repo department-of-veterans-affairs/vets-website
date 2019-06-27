@@ -14,27 +14,6 @@ const levels = [
   ['sponsorTransferredBenefits'],
 ];
 
-const newBenefitOptions = !environment.isProduction()
-  ? [
-      { label: 'Applying for a new benefit', value: 'yes' },
-      {
-        label: 'Updating my current education benefits',
-        value: 'no',
-      },
-      {
-        label:
-          'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
-        value: 'extend',
-      },
-    ]
-  : [
-      { label: 'Applying for a new benefit', value: 'yes' },
-      {
-        label: 'Updating my current education benefits',
-        value: 'no',
-      },
-    ];
-
 export default class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
@@ -124,7 +103,16 @@ export default class EducationWizard extends React.Component {
               additionalFieldsetClass="wizard-fieldset"
               name="newBenefit"
               id="newBenefit"
-              options={newBenefitOptions}
+              options={[
+                { label: 'Applying for a new benefit', value: 'yes' },
+                {
+                  label: 'Updating my current education benefits',
+                  value: 'no',
+                },
+                ...(environment.isProduction()
+                  ? [{ label: 'STEM', value: 'extend' }]
+                  : []),
+              ]}
               onValueChange={({ value }) =>
                 this.answerQuestion('newBenefit', value)
               }
