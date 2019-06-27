@@ -17,6 +17,8 @@ import {
   MHV_URL,
 } from './../constants';
 
+import { MVI_ERROR_STATES } from './../../../platform/monitoring/RequiresMVI/constants';
+
 class ValidateMHVAccount extends React.Component {
   componentDidMount() {
     this.props.fetchMHVAccount();
@@ -43,8 +45,19 @@ class ValidateMHVAccount extends React.Component {
     }
 
     // MVI/MHV Checks
-    if (mviStatus !== 'OK') {
-      this.handleMviError(mviStatus);
+    const mviErrorStatesSet = new Set(Object.values(MVI_ERROR_STATES));
+
+    if (mviStatus && mviErrorStatesSet.has(mviStatus)) {
+      const hyphenatedMviStatus = mviStatus.replace(/_/g, '-').toLowerCase();
+      recordEvent({
+        event: `${gaPrefix}-error-mvi-error-${hyphenatedMviStatus}`,
+      });
+      if (mviStatus === MVI_ERROR_STATES.NOT_AUTHORIZED) {
+        router.replace('verify');
+        return;
+      }
+      router.replace(`error/mvi-error-${hyphenatedMviStatus}`);
+      return;
     } else if (mhvAccount.errors) {
       recordEvent({ event: `${gaPrefix}-error-mhv-down` });
       router.replace('error/mhv-error');
@@ -96,20 +109,6 @@ class ValidateMHVAccount extends React.Component {
     } else {
       router.replace('error');
     }
-  };
-
-  handleMviError = () => {
-    // recordEvent({ event: `${gaPrefix}-error-mvi-down` });
-    // const hyphenatedMviStatus = mviStatus.replace(/_/g, '-');
-    // router.replace(`error/mvi-${hyphenatedMviStatus}`);
-    // return;
-    // switch (status) {
-    //   case 'NOT_FOUND':
-    //   case 'NOT_AUTHORIZED':
-    //   case 'SERVER_ERROR':
-    //   default:
-    //     break;
-    // }
   };
 
   redirectToTermsAndConditions = () => {
