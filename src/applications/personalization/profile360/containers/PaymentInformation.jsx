@@ -120,14 +120,11 @@ class PaymentInformation extends React.Component {
     }
   }
 
-  recordProfileNavEvent(customProps) {
-    if (!customProps) {
-      return;
-    }
-
+  handleDirectDepositUpdateSubmit(data) {
+    this.props.savePaymentInformation(data);
     recordEvent({
-      event: 'profile-navigation',
-      ...customProps,
+      event: 'profile-transaction',
+      'profile-section': 'direct-depost-information',
     });
   }
 
@@ -160,6 +157,17 @@ class PaymentInformation extends React.Component {
       default:
         break;
     }
+  }
+
+  recordProfileNavEvent(customProps) {
+    if (!customProps) {
+      return;
+    }
+
+    recordEvent({
+      event: 'profile-navigation',
+      ...customProps,
+    });
   }
 
   renderSetupButton(label) {
@@ -242,7 +250,7 @@ class PaymentInformation extends React.Component {
 
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
-            onSubmit={this.props.savePaymentInformation}
+            onSubmit={this.handleDirectDepositUpdateSubmit.bind(this)}
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
             fields={this.props.paymentInformationUiState.editModalForm}
