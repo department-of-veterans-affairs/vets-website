@@ -14,6 +14,27 @@ const levels = [
   ['sponsorTransferredBenefits'],
 ];
 
+const newBenefitOptions = !environment.isProduction()
+  ? [
+      { label: 'Applying for a new benefit', value: 'yes' },
+      {
+        label: 'Updating my current education benefits',
+        value: 'no',
+      },
+      {
+        label:
+          'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
+        value: 'extend',
+      },
+    ]
+  : [
+      { label: 'Applying for a new benefit', value: 'yes' },
+      {
+        label: 'Updating my current education benefits',
+        value: 'no',
+      },
+    ];
+
 export default class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
@@ -103,18 +124,7 @@ export default class EducationWizard extends React.Component {
               additionalFieldsetClass="wizard-fieldset"
               name="newBenefit"
               id="newBenefit"
-              options={[
-                { label: 'Applying for a new benefit', value: 'yes' },
-                {
-                  label: 'Updating my current education benefits',
-                  value: 'no',
-                },
-                !environment.isProduction() && {
-                  label:
-                    'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
-                  value: 'extend',
-                },
-              ]}
+              options={newBenefitOptions}
               onValueChange={({ value }) =>
                 this.answerQuestion('newBenefit', value)
               }
@@ -291,10 +301,12 @@ export default class EducationWizard extends React.Component {
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {((!environment.isProduction() && newBenefit === 'extend') ||
-              (newBenefit === 'no' &&
-                (transferredEduBenefits === 'transferred' ||
-                  transferredEduBenefits === 'own'))) &&
+            {!environment.isProduction() &&
+              newBenefit === 'extend' &&
+              this.getButton('1995')}
+            {newBenefit === 'no' &&
+              (transferredEduBenefits === 'transferred' ||
+                transferredEduBenefits === 'own') &&
               this.getButton('1995')}
             {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
