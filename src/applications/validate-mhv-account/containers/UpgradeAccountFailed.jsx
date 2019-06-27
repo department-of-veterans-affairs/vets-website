@@ -28,7 +28,7 @@ class UpgradeMHVAccountFailed extends Component {
             onClick={this.props.upgradeMHVAccount}
             className="vads-u-margin-bottom--4"
           >
-            Try again to upgrade your account
+            Try again to create your account
           </button>
           <CollapsiblePanel
             panelName="Call the My HealtheVet help desk"
