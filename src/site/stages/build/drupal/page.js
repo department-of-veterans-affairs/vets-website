@@ -144,6 +144,7 @@ function generateBreadCrumbs(pathString) {
   const entityUrlObj = createEntityUrlObj(pathString);
   let previous = '';
   let trimmedValue;
+
   for (const value of pathArray) {
     trimmedValue = _.trim(value, '/');
     if (value) {
@@ -172,14 +173,13 @@ function generateDrupalBreadCrumbs(entityUrl) {
     path: entityUrl.path,
   };
 
-  if (typeof entityUrl.breadcrumb !== 'undefined') {
+  if ('breadcrumb' in entityUrl) {
     for (const value of entityUrl.breadcrumb) {
       if (value.text) {
         const dehandlized =
-          value === 'pittsburgh-health-care'
+          value.path === '/pittsburgh-health-care'
             ? 'VA Pittsburgh health care'
             : value.text;
-
         entityUrlObj.breadcrumb.push({
           url: {
             path: value.url.path,
@@ -245,7 +245,7 @@ function compilePage(page, contentData) {
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
   page.entityUrl =
-    typeof entityUrl.breadcrumb !== 'undefined'
+    'breadcrumb' in entityUrl
       ? generateDrupalBreadCrumbs(entityUrl)
       : generateBreadCrumbs(entityUrl.path);
   let pageCompiled;
