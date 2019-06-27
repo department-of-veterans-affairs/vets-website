@@ -20,9 +20,8 @@ export default class ErrorMessage extends React.Component {
       : undefined;
 
     if (errorCode) {
-      if (errorCode.startsWith('mvi-error')) {
-        errorCode = errorCode.replace('mvi-error-', '').toUpperCase();
-
+      if (errorCode.startsWith('mvi_error')) {
+        errorCode = errorCode.replace('mvi_error_', '').toUpperCase();
         switch (errorCode) {
           case MVI_ERROR_STATES.NOT_FOUND:
             return <NeedsSSNResolution />;
