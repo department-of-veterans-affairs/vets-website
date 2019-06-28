@@ -674,129 +674,126 @@ const faqBlockReapply6 = (
   </>
 );
 
-function addKeysToChildren(children) {
-  return children.map((child, i) => (
-    <React.Fragment key={i}>{child}</React.Fragment>
+function wrapJSXInKeyedFragment(arrayOfJSX) {
+  return arrayOfJSX.map((jsx, i) => (
+    <React.Fragment key={i}>{jsx}</React.Fragment>
   ));
 }
 
 export function getFAQContent(enrollmentStatus) {
-  const faqs = {
-    [HCA_ENROLLMENT_STATUSES.activeDutyHasApplied]: addKeysToChildren([
+  const faqMap = {
+    [HCA_ENROLLMENT_STATUSES.activeDutyHasApplied]: wrapJSXInKeyedFragment([
       faqBlock8,
       faqBlock10,
       faqBlockReapply6,
     ]),
     [HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied]: faqBlock9,
-    [HCA_ENROLLMENT_STATUSES.canceledDeclined]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.canceledDeclined]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply4,
     ]),
-    [HCA_ENROLLMENT_STATUSES.closed]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.closed]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply4,
     ]),
-    [HCA_ENROLLMENT_STATUSES.enrolled]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.enrolled]: wrapJSXInKeyedFragment([
       faqBlock1,
       faqBlockReapply1,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]: wrapJSXInKeyedFragment([
       faqBlock4,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge]: addKeysToChildren([
-      faqBlock2,
-      faqBlock11,
-      faqBlockMentalHealthCare,
-      faqBlockReapply2,
-    ]),
-    [HCA_ENROLLMENT_STATUSES.ineligCitizens]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge]: wrapJSXInKeyedFragment(
+      [faqBlock2, faqBlock11, faqBlockMentalHealthCare, faqBlockReapply2],
+    ),
+    [HCA_ENROLLMENT_STATUSES.ineligCitizens]: wrapJSXInKeyedFragment([
       faqBlock2,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts]: wrapJSXInKeyedFragment([
       faqBlock2,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligGuardReserve]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligGuardReserve]: wrapJSXInKeyedFragment([
       faqBlock2,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligMedicare]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligMedicare]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime]: wrapJSXInKeyedFragment([
       faqBlock2,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligNotVerified]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligNotVerified]: wrapJSXInKeyedFragment([
       faqBlock3,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligOther]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligOther]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligOver65]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligOver65]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligRefusedCopay]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligRefusedCopay]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.ineligTrainingOnly]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.ineligTrainingOnly]: wrapJSXInKeyedFragment([
       faqBlock2,
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
-    [HCA_ENROLLMENT_STATUSES.pendingMt]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.pendingMt]: wrapJSXInKeyedFragment([
       faqBlock6,
       faqBlockReapply5,
     ]),
-    [HCA_ENROLLMENT_STATUSES.pendingOther]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.pendingOther]: wrapJSXInKeyedFragment([
       faqBlock7,
       faqBlockReapply6,
     ]),
-    [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]: wrapJSXInKeyedFragment([
       faqBlock6,
       faqBlockReapply5,
     ]),
-    [HCA_ENROLLMENT_STATUSES.pendingUnverified]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.pendingUnverified]: wrapJSXInKeyedFragment([
       faqBlock7,
       faqBlockReapply6,
     ]),
-    [HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply3,
     ]),
-    [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply3,
     ]),
-    [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]: addKeysToChildren([
+    [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
       faqBlockReapply3,
     ]),
   };
-  return faqs[enrollmentStatus];
+  return faqMap[enrollmentStatus];
 }
 
 // used by YourApplications to build a DashboardAlert depending on the user's
