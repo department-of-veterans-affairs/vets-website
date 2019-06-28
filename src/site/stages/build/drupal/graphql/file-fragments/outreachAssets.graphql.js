@@ -31,6 +31,11 @@ module.exports = `
             ... on MediaVideo {
               entityBundle
               fieldMediaVideoEmbedField
+              thumbnail {
+                derivative(style: LARGE) {
+                  url
+                }
+              }
             }
           }
         }

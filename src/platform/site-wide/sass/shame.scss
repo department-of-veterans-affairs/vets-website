@@ -1,6 +1,16 @@
 $medium-phone-screen: 375px;
 /* OVERRIDE */
 .merger {
+
+  // Begin new-grid override
+  // Overrides some default properties with a
+  // class name that makes it more clear we remove
+  // it when the work is complete.
+  .va-sidebarnav.new-grid {
+    width: 100% !important;
+  }
+  // End new-grid override
+
   .login {
     .container {
       width: 100%;
@@ -285,6 +295,12 @@ $medium-phone-screen: 375px;
       padding-right: 0.5em;
     }
 
+    .va-nav-breadcrumbs.new-grid,
+    article.new-grid {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     .va-nav-breadcrumbs {
       padding-top: 0.25em;
       padding-bottom: 0.25em;
@@ -350,6 +366,12 @@ $medium-phone-screen: 375px;
     #hub-rail {
       padding-left: 1em;
       padding-right: 1em;
+    }
+
+    .va-nav-breadcrumbs.new-grid,
+    article.new-grid {
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 
@@ -504,3 +526,4 @@ img[data-srcset] {
 .process-accordion > li {
   list-style: none !important;
 }
+

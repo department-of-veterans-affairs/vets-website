@@ -58,11 +58,11 @@ def shouldBail() {
     currentBuild.nextBuild
 }
 
-def runDeploy(jobName, ref) {
+def runDeploy(String jobName, String ref, boolean waitForDeploy) {
   build job: jobName, parameters: [
     booleanParam(name: 'notify_slack', value: true),
     stringParam(name: 'ref', value: ref),
-  ], wait: false
+  ], wait: waitForDeploy
 }
 
 def buildDetails(String buildtype, String ref) {
