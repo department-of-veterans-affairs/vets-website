@@ -15,6 +15,11 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     min-height: 450px;
     float: left;
     display: none;
+    .card-inside-wrap {
+      background: $color-gray-lightest;
+      padding: 15px;
+      height: 100%;
+    }
     &.show-type {
       display: block;
       &.hide-topic {
@@ -41,27 +46,20 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
 
     .asset-head-wrap {
-      max-width: 100%;
       height: 212px;
+      width: 100%;
       overflow: hidden;
-      background: $color-primary-alt-darkest;
       background-size: contain;
-      &.document-asset-wrap {
-        background: url(/img/megamenu/disability-illustration.png) center center;
-      }
-      &.video-asset-wrap {
-        background: url(/img/megamenu/health-care-illustration.png) center center;
-      }
+      margin-bottom: -45px;
       img {
         margin: 0 auto;
         display: block;
         width: 100%;
-        height: 100%;
+        height: 80%;
         object-fit: cover;
       }
     }
     .asset-body-wrap {
-      background: $color-gray-lightest;
       height: 250px;
       padding: 15px;
       .asset-body-text,
@@ -91,4 +89,45 @@ button.va-page-numbers {
 
 #no-results {
   display: none;
+}
+
+.events-show,
+.library-show,
+.office-show {
+  display: none;
+}
+
+/*
+Currently, necessary combination of classes in formation
+is not available to accomplish styling / layout
+needed for card tablet view (i.e., adding one class might
+cover one scenario, however, it would result in a new styling issue).
+Only way to accomplish everything required is with this method.
+*/
+@media (min-width: $medium-screen) and (max-width: $large-screen) {
+  .asset-card {
+    &.medium-card-utility {
+      margin-bottom: 25px;
+      min-height: 0;
+      height: 250px;
+      .medium-head-utility {
+        background: none;
+        max-width: none;
+        display: block;
+        float: left;
+        width: 33%;
+        height: 212px;
+        img {
+          height: 70%;
+          padding: 25px 15px 5px;
+        }
+      }
+      .medium-body-utility {
+        float: right;
+        display: block;
+        width: 66%;
+        background: none;
+      }
+    }
+  }
 }
