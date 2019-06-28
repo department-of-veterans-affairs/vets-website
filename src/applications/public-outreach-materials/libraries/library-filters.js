@@ -35,13 +35,17 @@ export function libraryCount() {
 export function libraryCurrent() {
   cards.forEach(element => {
     const numVal = element.getAttribute('data-number');
-    if (numVal > activePage * 10 || numVal < activePage * 10 - 9) {
+    const itemsPerPage = 10;
+    if (
+      numVal > activePage * itemsPerPage ||
+      numVal < activePage * itemsPerPage - 9
+    ) {
       element.classList.add('pager-hide');
     } else {
       element.classList.remove('pager-hide');
     }
     if (activePage === undefined) {
-      if (numVal > 10) {
+      if (numVal > itemsPerPage) {
         element.classList.add('pager-hide');
       }
     }
