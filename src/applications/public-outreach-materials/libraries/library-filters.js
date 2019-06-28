@@ -54,17 +54,13 @@ export function libraryCurrent() {
 
 export function libraryFilters(el) {
   const pages = Math.ceil(cards.length / 10);
-  if (el.srcElement.id === 'pager-next-click') {
-    if (activePage !== pages) {
-      activePage = parseInt(activePage, 10);
-      sessionStorage.setItem('pageNum', activePage++);
-    }
+  if (el.srcElement.id === 'pager-next-click' && activePage !== pages) {
+    activePage = parseInt(activePage, 10);
+    sessionStorage.setItem('pageNum', activePage++);
   }
-  if (el.srcElement.id === 'pager-previous-click') {
-    if (activePage !== 1) {
-      activePage = parseInt(activePage, 10);
-      sessionStorage.setItem('pageNum', activePage--);
-    }
+  if (el.srcElement.id === 'pager-previous-click' && activePage !== 1) {
+    activePage = parseInt(activePage, 10);
+    sessionStorage.setItem('pageNum', activePage--);
   }
   if (el.srcElement.id === 'first-click') {
     activePage = 1;
