@@ -10,9 +10,11 @@ Used for index pages in top-level paths (e.g. hubpages /health-care/index.html)
 <main>
   <div class="usa-grid usa-grid-full">
     <article class="usa-width-two-thirds">
-      <div class="inline hub-main-icon">
-        <i class="icon-large white hub-icon-{{hub}} hub-background-{{hub}}"></i>
-      </div>
+      {% if hub != empty %}
+        <div class="inline hub-main-icon">
+          <i class="icon-large white hub-icon-{{hub}} hub-background-{{hub}}"></i>
+        </div>
+      {% endif %}
       <div class="inline hub-main-title">
         <h1>
           {{ heading }}

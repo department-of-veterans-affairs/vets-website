@@ -2,7 +2,6 @@ import React from 'react';
 
 import { logout } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
-import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
 const recordNavUserEvent = section => () => {
   recordEvent({ event: 'nav-user', 'nav-user-section': section });
@@ -32,9 +31,7 @@ class PersonalizationDropdown extends React.Component {
         </li>
         <li>
           <a
-            href={`${mhvBaseUrl()}/mhv-portal-web/home`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/health-care/my-health-account-validation/"
             onClick={recordMyHealthEvent}
           >
             My Health

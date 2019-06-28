@@ -37,19 +37,16 @@ const DashboardAlert = ({
             {subheadline}
           </div>
         )}
-        <h2
-          id={headerId}
-          className="vads-u-font-size--lg vads-u-font-family--serif vads-u-margin--0"
-        >
+        <h3 id={headerId} className="vads-u-margin--0">
           {headline}
-        </h2>
+        </h3>
       </div>
       <section className="status vads-u-display--flex">
         <div className="status-icon-container vads-u-flex--auto">
           <i />
         </div>
         <div className="vads-u-flex--1">
-          <div className="vads-u-line-height--3 vads-u-font-size--lg vads-u-font-family--sans vads-u-font-weight--bold">
+          <div className="vads-u-line-height--3 vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--bold">
             {statusHeadline}
           </div>
           {statusInfo && <p>{statusInfo}</p>}
