@@ -85,7 +85,8 @@ const template = (props, title, content, submissionMessage, messageType) => {
           How long will it take VA to make a decision on my claim?
         </h4>
         <p className="confirmation-guidance-message">
-          We process applications in the order we receive them. The amount of time it takes us to review you claim depends on:
+          We process applications in the order we receive them. The amount of
+          time it takes us to review you claim depends on:
         </p>
         <ul>
           <li>The type of claim you filed</li>
