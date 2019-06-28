@@ -41,7 +41,7 @@ export function libraryCurrent() {
     const itemsPerPage = 10;
     if (
       numVal > activePage * itemsPerPage ||
-      numVal < activePage * itemsPerPage - 9
+      numVal <= (activePage - 1) * itemsPerPage
     ) {
       element.classList.add('pager-hide');
     } else {
