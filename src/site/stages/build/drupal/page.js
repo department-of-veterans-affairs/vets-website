@@ -166,28 +166,6 @@ function generateBreadCrumbs(pathString) {
   return entityUrlObj;
 }
 
-// Generate breadcrumbs from GraphQL breadcrumbs
-function generateDrupalBreadCrumbs(entityUrl) {
-  const entityUrlObj = {
-    breadcrumb: [],
-    path: entityUrl.path,
-  };
-
-  for (const value of entityUrl.breadcrumb) {
-    if (value.text) {
-      entityUrlObj.breadcrumb.push({
-        url: {
-          path: value.url.path,
-          routed: true,
-        },
-        text: value.text,
-      });
-    }
-  }
-
-  return entityUrlObj;
-}
-
 function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
@@ -238,10 +216,11 @@ function compilePage(page, contentData) {
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
-  page.entityUrl =
-    'breadcrumb' in entityUrl
-      ? generateDrupalBreadCrumbs(entityUrl)
-      : generateBreadCrumbs(entityUrl.path);
+
+  if (!('breadcrumb' in entityUrl)) {
+    page.entityUrl = generateBreadCrumbs(entityUrl.path);
+  }
+
   let pageCompiled;
 
   switch (entityBundle) {
