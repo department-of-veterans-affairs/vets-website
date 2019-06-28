@@ -1,5 +1,8 @@
 const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
+const benefit = 'benefit';
+const events = 'events';
+
 export function libraryGetQParam() {
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = urlParams.getAll('q');
@@ -8,7 +11,7 @@ export function libraryGetQParam() {
 
 export function libraryCount() {
   if (document.getElementById('no-results')) {
-    if (libraryGetQParam() === 'benefit') {
+    if (libraryGetQParam() === benefit) {
       document.getElementById('no-results').style.display = 'none';
       document.getElementById('va-pager-div').style.display = 'flex';
     }
@@ -23,7 +26,7 @@ export function libraryCount() {
         numCards < 0 ? 0 : numCards;
     }
     document.getElementById('total-all').innerText = ` of ${cards.length}`;
-    if (libraryGetQParam() === 'benefit') {
+    if (libraryGetQParam() === benefit) {
       if (numCards < 1 && document.getElementById('no-results')) {
         document.getElementById('va-pager-div').style.display = 'none';
         document.getElementById('no-results').style.display = 'block';
@@ -82,11 +85,11 @@ export function libraryListeners() {
   const page = libraryGetQParam();
   let el;
   switch (page) {
-    case 'benefit':
+    case benefit:
       el = document.querySelectorAll('.library-show');
       break;
 
-    case 'events':
+    case events:
       el = document.querySelectorAll('.events-show');
       break;
 
