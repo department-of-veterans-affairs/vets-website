@@ -176,16 +176,12 @@ function generateDrupalBreadCrumbs(entityUrl) {
   if ('breadcrumb' in entityUrl) {
     for (const value of entityUrl.breadcrumb) {
       if (value.text) {
-        const dehandlized =
-          value.path === '/pittsburgh-health-care'
-            ? 'VA Pittsburgh health care'
-            : value.text;
         entityUrlObj.breadcrumb.push({
           url: {
             path: value.url.path,
             routed: true,
           },
-          text: dehandlized,
+          text: value.text,
         });
       }
     }
