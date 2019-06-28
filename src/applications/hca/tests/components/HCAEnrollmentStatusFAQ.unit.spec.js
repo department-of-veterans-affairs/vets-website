@@ -100,6 +100,7 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
       });
     });
   });
+
   describe('the reapply link', () => {
     it('calls the showReapplyContent prop', () => {
       expect(showReapplyContentSpy.callCount).to.equal(0);
