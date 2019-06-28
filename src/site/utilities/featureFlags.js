@@ -28,7 +28,6 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
-    featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
