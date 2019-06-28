@@ -26,8 +26,8 @@
 {% if entity.fieldCollapsiblePanelBordered %}
     {% assign accordionClass = 'usa-accordion-bordered' %}
 {% endif %}
-<div class="{{ accordionClass }}">
-    <ul class="usa-unstyled-list" aria-multiselectable="{{ entity.fieldCollapsiblePanelMulti }}">
+<div class="{{ accordionClass }}" data-multiselectable="{{ entity.fieldCollapsiblePanelMulti }}">
+    <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
             {% assign item = accordionItem.entity %}
             <li>
