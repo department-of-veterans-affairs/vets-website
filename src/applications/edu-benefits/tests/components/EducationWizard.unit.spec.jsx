@@ -63,6 +63,12 @@ describe('<EducationWizard>', () => {
   });
   it('should show 1995 button', () => {
     const tree = SkinDeep.shallowRender(<EducationWizard />);
+    answerQuestion(tree, 'newBenefit', 'extend');
+    expect(tree.subTree('#apply-now-link').props.href.endsWith('1995')).to.be
+      .true;
+  });
+  it('should show 1995 button', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
 
     answerQuestion(tree, 'newBenefit', 'no');
     answerQuestion(tree, 'transferredEduBenefits', 'own');
