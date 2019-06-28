@@ -173,17 +173,15 @@ function generateDrupalBreadCrumbs(entityUrl) {
     path: entityUrl.path,
   };
 
-  if ('breadcrumb' in entityUrl) {
-    for (const value of entityUrl.breadcrumb) {
-      if (value.text) {
-        entityUrlObj.breadcrumb.push({
-          url: {
-            path: value.url.path,
-            routed: true,
-          },
-          text: value.text,
-        });
-      }
+  for (const value of entityUrl.breadcrumb) {
+    if (value.text) {
+      entityUrlObj.breadcrumb.push({
+        url: {
+          path: value.url.path,
+          routed: true,
+        },
+        text: value.text,
+      });
     }
   }
 
