@@ -39,12 +39,11 @@
                 </p>
                 {% endif %}
               </div>
+              {% if fieldBody.processed %}
               <div class="office-show">
-                {% if fieldBody.processed %}
                 {{ fieldBody.processed }}
-                {% endif %}
               </div>
-
+              {% endif %}
               {% include 'src/site/components/events_list.drupal.liquid' %}
             </div>
 
