@@ -120,20 +120,6 @@ class PaymentInformation extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    // Track this.props.fetchPaymentInformation success/failure.
-    const prevPmtInfo = prevProps.paymentInformation;
-    const currPmtInfo = this.props.paymentInformation;
-
-    if (!prevPmtInfo && currPmtInfo) {
-      if (currPmtInfo.error) {
-        recordEvent({ event: 'profile-get-direct-deposit-failure' });
-      } else {
-        recordEvent({ event: 'profile-get-direct-deposit-retrieved' });
-      }
-    }
-  }
-
   handleDirectDepositUpdateSubmit(data) {
     this.props.savePaymentInformation(data);
     recordEvent({
