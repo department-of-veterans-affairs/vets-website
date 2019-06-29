@@ -36,9 +36,18 @@ export function libraryCount() {
 }
 
 export function libraryCurrent() {
+  let increment = 1;
+  const itemsPerPage = 10;
+  let numVal;
   cards.forEach(element => {
-    const numVal = element.getAttribute('data-number');
-    const itemsPerPage = 10;
+    if (
+      !element.classList.contains('hide-topic') &&
+      !element.classList.contains('hide-type')
+    ) {
+      element.setAttribute('data-number', increment);
+      numVal = element.getAttribute('data-number');
+      increment++;
+    }
     if (
       numVal > activePage * itemsPerPage ||
       numVal <= (activePage - 1) * itemsPerPage
@@ -78,7 +87,43 @@ export function libraryFilters(el) {
     document.getElementById('va-pagination-active-num').innerText =
       activePage === undefined ? 1 : activePage;
   }
+  const selectSwitch = el.srcElement.id === 'outreach-type' ? 'type' : 'topic';
+
+  if (
+    el.srcElement.value &&
+    el.srcElement.value.length &&
+    el.srcElement.value !== 'select'
+  ) {
+    [].map.call(
+      document.querySelectorAll(
+        `[data-${selectSwitch}]:not([data-${selectSwitch}
+          =${el.srcElement.value}])`,
+      ),
+      element => {
+        element.classList.add(`hide-${selectSwitch}`);
+      },
+    );
+    [].map.call(
+      document.querySelectorAll(
+        `[data-${selectSwitch}=${el.srcElement.value}]`,
+      ),
+      element => {
+        element.classList.remove(`hide-${selectSwitch}`);
+      },
+    );
+    cards.forEach(element => {
+      element.classList.remove('pager-hide');
+    });
+  } else if (el.srcElement.value === 'select') {
+    [].map.call(
+      document.querySelectorAll(`[data-${selectSwitch}]`),
+      element => {
+        element.classList.remove(`hide-${selectSwitch}`);
+      },
+    );
+  }
   libraryCurrent();
+  libraryCount();
 }
 
 export function libraryListeners() {
@@ -117,69 +162,12 @@ export function libraryListeners() {
   if (pagingEl) {
     pagingEl.addEventListener('click', libraryFilters);
   }
-
-  if (typeItem) {
-    typeItem.addEventListener('change', () => {
-      if (typeItem.value !== 'select') {
-        [].map.call(
-          document.querySelectorAll(
-            `[data-type]:not([data-type=${typeItem.value}])`,
-          ),
-          element => {
-            element.classList.add('hide-type');
-          },
-        );
-        [].map.call(
-          document.querySelectorAll(`[data-type=${typeItem.value}]`),
-          element => {
-            element.classList.remove('hide-type');
-          },
-        );
-        cards.forEach(element => {
-          element.classList.remove('pager-hide');
-        });
-      } else if (typeItem.value === 'select' && topicItem.value !== 'select') {
-        [].map.call(document.querySelectorAll(`[data-type]`), element => {
-          element.classList.remove('hide-type');
-        });
-      } else if (typeItem.value === 'select' && topicItem.value === 'select') {
-        window.location.reload();
-      }
-      libraryCount();
-    });
-  }
-
   if (topicItem) {
-    topicItem.addEventListener('change', () => {
-      if (topicItem.value !== 'select') {
-        [].map.call(
-          document.querySelectorAll(
-            `[data-topic]:not([data-topic=${topicItem.value}])`,
-          ),
-          element => {
-            element.classList.add('hide-topic');
-          },
-        );
-        [].map.call(
-          document.querySelectorAll(`[data-${topicItem.value}]`),
-          element => {
-            element.classList.remove('hide-topic');
-          },
-        );
-        cards.forEach(element => {
-          element.classList.remove('pager-hide');
-        });
-      } else if (topicItem.value === 'select' && typeItem.value !== 'select') {
-        [].map.call(document.querySelectorAll(`[data-topic]`), element => {
-          element.classList.remove('hide-topic');
-        });
-      } else if (topicItem.value === 'select' && typeItem.value === 'select') {
-        window.location.reload();
-      }
-      libraryCount();
-    });
+    topicItem.addEventListener('change', libraryFilters);
   }
-
+  if (typeItem) {
+    typeItem.addEventListener('change', libraryFilters);
+  }
   libraryCurrent();
   libraryCount();
 }
