@@ -1,12 +1,20 @@
 const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
+let numCards;
 const benefit = 'benefit';
 const events = 'events';
+const pages = Math.ceil(cards.length / 10);
 
 export function libraryGetQParam() {
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = urlParams.getAll('q');
   return currentPage[0];
+}
+
+export function libraryNumCards() {
+  return document.querySelectorAll(
+    '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
+  ).length;
 }
 
 export function libraryCount() {
@@ -18,9 +26,7 @@ export function libraryCount() {
   }
 
   if (document.getElementById('total-pages')) {
-    const numCards = document.querySelectorAll(
-      '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
-    ).length;
+    numCards = libraryNumCards();
     if (document.getElementById('total-pages')) {
       document.getElementById('total-pages').innerText =
         numCards < 0 ? 0 : numCards;
@@ -64,9 +70,47 @@ export function libraryCurrent() {
   });
 }
 
+export function libraryPagerGen() {
+  numCards = libraryNumCards();
+
+  if (document.getElementById('pager-nums-insert')) {
+    const diff = pages - activePage;
+    let pagerHtml;
+
+    pagerHtml = `<button id="va-pagination-active-num" class="va-page-numbers">
+    ${activePage}</button>`;
+    if (diff > 1 && (numCards === undefined || numCards > 9)) {
+      pagerHtml += `<a class="pager-numbers" aria-label="Load page
+      ${activePage + 1}" tabindex="${activePage + 1}">${activePage + 1}</a>`;
+    }
+    if (diff > 2 && (numCards === undefined || numCards > 9)) {
+      pagerHtml += `<a class="pager-numbers"" aria-label="Load page
+      ${activePage + 2}" tabindex="${activePage + 2}">${activePage + 2}</a>`;
+    }
+    if (diff > 3 && (numCards === undefined || numCards > 9)) {
+      pagerHtml += `.... <a class="pager-numbers"" aria-label="Load page
+      ${pages}" tabindex="${pages}"> ${pages}</a>`;
+    }
+    document.getElementById('pager-nums-insert').innerHTML = pagerHtml;
+  }
+}
+
+export function libraryReset() {
+  libraryPagerGen();
+  libraryCurrent();
+  libraryCount();
+}
+
 export function libraryFilters(el) {
-  const pages = Math.ceil(cards.length / 10);
-  if (el.srcElement.id === 'pager-next-click' && activePage !== pages) {
+  if (el.srcElement.className === 'pager-numbers') {
+    activePage = el.srcElement.tabIndex;
+    sessionStorage.setItem('pageNum', el.srcElement.tabIndex);
+  }
+  if (
+    el.srcElement.id === 'pager-next-click' &&
+    activePage !== pages &&
+    (numCards === undefined || numCards > 9)
+  ) {
     activePage = parseInt(activePage, 10);
     sessionStorage.setItem('pageNum', activePage++);
   }
@@ -78,15 +122,14 @@ export function libraryFilters(el) {
     activePage = 1;
     sessionStorage.setItem('pageNum', 1);
   }
-  if (el.srcElement.id === 'last-click') {
+  if (
+    el.srcElement.id === 'last-click' &&
+    (numCards === undefined || numCards > 9)
+  ) {
     activePage = pages;
     sessionStorage.setItem('pageNum', activePage);
   }
 
-  if (document.getElementById('va-pagination-active-num')) {
-    document.getElementById('va-pagination-active-num').innerText =
-      activePage === undefined ? 1 : activePage;
-  }
   const selectSwitch = el.srcElement.id === 'outreach-type' ? 'type' : 'topic';
 
   if (
@@ -94,6 +137,8 @@ export function libraryFilters(el) {
     el.srcElement.value.length &&
     el.srcElement.value !== 'select'
   ) {
+    activePage = 1;
+    sessionStorage.setItem('pageNum', 1);
     [].map.call(
       document.querySelectorAll(
         `[data-${selectSwitch}]:not([data-${selectSwitch}
@@ -122,8 +167,7 @@ export function libraryFilters(el) {
       },
     );
   }
-  libraryCurrent();
-  libraryCount();
+  libraryReset();
 }
 
 export function libraryListeners() {
@@ -168,6 +212,5 @@ export function libraryListeners() {
   if (typeItem) {
     typeItem.addEventListener('change', libraryFilters);
   }
-  libraryCurrent();
-  libraryCount();
+  libraryReset();
 }
