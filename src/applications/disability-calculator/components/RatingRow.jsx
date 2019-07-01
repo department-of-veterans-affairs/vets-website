@@ -52,7 +52,7 @@ const RatingRow = ({
         <div>
           <button
             type="button"
-            aria-label={`Remove disability row ${indx + 1}`}
+            aria-label={`Delete disability row ${indx + 1}`}
             onClick={handleRemoveRating(indx)}
             className="va-button-link delete-btn vads-u-margin--1p5"
             disabled={disabled}
