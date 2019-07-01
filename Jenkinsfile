@@ -4,7 +4,7 @@ import org.kohsuke.github.GitHub
 env.CONCURRENCY = 10
 
 
-node('vetsgov-general-purpose') {
+node('vagov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
                                  description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
