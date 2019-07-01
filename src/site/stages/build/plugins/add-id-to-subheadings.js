@@ -40,11 +40,10 @@ function generateHeadingIds() {
         doc('h2, h3').each((i, el) => {
           const heading = doc(el);
           const parent = heading.parent();
-          const isInWysiwyg = parent.hasClass('processed-content');
           const isInAccordionButton = parent.hasClass('usa-accordion-button');
 
-          // skip heading if it already has an id and skip heading if it's in wysiwyg content
-          if (!heading.attr('id') && !isInWysiwyg && !isInAccordionButton) {
+          // skip heading if it already has an id and skip heading if it's in an accordion button
+          if (!heading.attr('id') && !isInAccordionButton) {
             const headingID = createUniqueId(heading);
             heading.attr('id', headingID);
             idAdded = true;

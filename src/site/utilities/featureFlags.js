@@ -5,7 +5,12 @@ const path = require('path');
 const featureFlags = {
   FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: 'featureFieldRegionalHealthService',
   FEATURE_FIELD_ADDITIONAL_INFO: 'featureFieldAdditionalInformationAbo',
-
+  FEATURE_FIELD_MEDIA_IN_LIBRARY: 'featureFieldMediaInLibrary',
+  FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION:
+    'featureFieldAssetLibraryDescription',
+  FEATURE_FIELD_EVENT_LISTING_DESCRIPTION:
+    'featureFieldEventListingDescription',
+  FEATURE_FIELD_BODY: 'featureFieldBody',
   GRAPHQL_MODULE_UPDATE: 'featureGraphQLModuleUpdate',
   FEATURE_FIELD_OTHER_VA_LOCATIONS: 'featureFieldOtherVaLocations',
   FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS:
@@ -20,6 +25,9 @@ const featureFlags = {
 // Edit this to turn flags on or off
 const flagsByBuildtype = {
   localhost: [
+    featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
+    featureFlags.FEATURE_FIELD_EVENT_LISTING_DESCRIPTION,
+    featureFlags.FEATURE_FIELD_BODY,
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
@@ -31,6 +39,9 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
   ],
   vagovdev: [
+    featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
+    featureFlags.FEATURE_FIELD_EVENT_LISTING_DESCRIPTION,
+    featureFlags.FEATURE_FIELD_BODY,
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,

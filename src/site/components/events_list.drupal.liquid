@@ -1,30 +1,32 @@
-{% for event in reverseFieldOfficeNode.entities%}
-<div class="vads-u-margin-bottom--2">
-  <h4><a href="{{event.entityUrl.path}}">{{event.title}}</a></h4>
-  <p>{{event.fieldDescription}}</p>
-  <div class="usa-grid usa-grid-full">
-    {% if event.fieldDate.value %}
-    <div class="usa-width-one-sixth">
-      <strong>When:</strong>
+<div class="events-listing events-show">
+  {% for event in reverseFieldOfficeNode.entities%}
+  <div class="vads-u-margin-bottom--2">
+    <h4><a href="{{event.entityUrl.path}}">{{event.title}}</a></h4>
+    <p>{{event.fieldDescription}}</p>
+    <div class="usa-grid usa-grid-full">
+      {% if event.fieldDate.value %}
+      <div class="usa-width-one-sixth">
+        <strong>When:</strong>
+      </div>
+      <div class="usa-width-five-sixths">
+        <span>{{ event.fieldDate.value | humanizeDate }}</span><br>
+        <span>{{ event.fieldDate.value | humanizeTime }} -
+          {{ event.fieldDate.endValue | humanizeTime }}</span>
+      </div>
+      {% endif %}
     </div>
-    <div class="usa-width-five-sixths">
-      <span>{{ event.fieldDate.value | humanizeDate }}</span><br>
-      <span>{{ event.fieldDate.value | humanizeTime }} -
-        {{ event.fieldDate.endValue | humanizeTime }}</span>
+    <div class="usa-grid usa-grid-full">
+      {% if event.fieldFacilityLocation.entity.entityUrl.path %}
+      <div class="usa-width-one-sixth">
+        <strong>Where:</strong>
+      </div>
+      <div class="usa-width-five-sixths">
+        <p><a
+            href="{{event.fieldFacilityLocation.entity.entityUrl.path}}">{{event.fieldFacilityLocation.entity.title}}</a>
+        </p>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
   </div>
-  <div class="usa-grid usa-grid-full">
-    {% if event.fieldFacilityLocation.entity.entityUrl.path %}
-    <div class="usa-width-one-sixth">
-      <strong>Where:</strong>
-    </div>
-    <div class="usa-width-five-sixths">
-      <p><a
-          href="{{event.fieldFacilityLocation.entity.entityUrl.path}}">{{event.fieldFacilityLocation.entity.title}}</a>
-      </p>
-    </div>
-    {% endif %}
-  </div>
+  {% endfor %}
 </div>
-{% endfor %}
