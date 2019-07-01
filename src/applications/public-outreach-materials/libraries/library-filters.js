@@ -1,9 +1,10 @@
 const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
 let numCards;
+const itemsPerPage = 10;
 const benefit = 'benefit';
 const events = 'events';
-const pages = Math.ceil(cards.length / 10);
+const pages = Math.ceil(cards.length / itemsPerPage);
 
 export function libraryGetQParam() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -43,7 +44,6 @@ export function libraryCount() {
 
 export function libraryCurrent() {
   let increment = 1;
-  const itemsPerPage = 10;
   let numVal;
   cards.forEach(element => {
     if (
@@ -76,17 +76,22 @@ export function libraryPagerGen() {
   if (document.getElementById('pager-nums-insert')) {
     const diff = pages - activePage;
     let pagerHtml;
-
+    // This is our active page / pager button.
     pagerHtml = `<button id="va-pagination-active-num" class="va-page-numbers">
     ${activePage}</button>`;
+    // If we have more than one page, add a button in front of active button.
     if (diff > 1 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `<a class="pager-numbers" aria-label="Load page
       ${activePage + 1}" tabindex="${activePage + 1}">${activePage + 1}</a>`;
     }
+    // If we have more than two pages, add second page
+    // button in front of active button.
     if (diff > 2 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `<a class="pager-numbers"" aria-label="Load page
       ${activePage + 2}" tabindex="${activePage + 2}">${activePage + 2}</a>`;
     }
+    // If we have more than three pages, add a third button and ellipses to
+    // link to last page.
     if (diff > 3 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `.... <a class="pager-numbers"" aria-label="Load page
       ${pages}" tabindex="${pages}"> ${pages}</a>`;
@@ -102,10 +107,12 @@ export function libraryReset() {
 }
 
 export function libraryFilters(el) {
+  // Grab our current page from the active pager button.
   if (el.srcElement.className === 'pager-numbers') {
     activePage = el.srcElement.tabIndex;
     sessionStorage.setItem('pageNum', el.srcElement.tabIndex);
   }
+  // Move our page forward when button clicked if we have more than one page.
   if (
     el.srcElement.id === 'pager-next-click' &&
     activePage !== pages &&
@@ -114,14 +121,17 @@ export function libraryFilters(el) {
     activePage = parseInt(activePage, 10);
     sessionStorage.setItem('pageNum', activePage++);
   }
+  // Move our page backward when button clicked if we aren't on page one.
   if (el.srcElement.id === 'pager-previous-click' && activePage !== 1) {
     activePage = parseInt(activePage, 10);
     sessionStorage.setItem('pageNum', activePage--);
   }
+  // Go back to page one regardless of page number.
   if (el.srcElement.id === 'first-click') {
     activePage = 1;
     sessionStorage.setItem('pageNum', 1);
   }
+  // Go to last page regardless of page number.
   if (
     el.srcElement.id === 'last-click' &&
     (numCards === undefined || numCards > 9)
@@ -130,6 +140,7 @@ export function libraryFilters(el) {
     sessionStorage.setItem('pageNum', activePage);
   }
 
+  // Determine which filter the user is changing for selection.
   const selectSwitch = el.srcElement.id === 'outreach-type' ? 'type' : 'topic';
 
   if (
@@ -137,8 +148,11 @@ export function libraryFilters(el) {
     el.srcElement.value.length &&
     el.srcElement.value !== 'select'
   ) {
+    // We always go back to page one when filter is selected to prevent
+    // paging conflict with filtered results.
     activePage = 1;
     sessionStorage.setItem('pageNum', 1);
+    // Show only filter match and hide the rest.
     [].map.call(
       document.querySelectorAll(
         `[data-${selectSwitch}]:not([data-${selectSwitch}
@@ -160,6 +174,7 @@ export function libraryFilters(el) {
       element.classList.remove('pager-hide');
     });
   } else if (el.srcElement.value === 'select') {
+    // If the user clicks the default select, reset the results to show all.
     [].map.call(
       document.querySelectorAll(`[data-${selectSwitch}]`),
       element => {
