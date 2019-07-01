@@ -53,9 +53,6 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
   ],
   vagovstaging: [
-    featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
-    featureFlags.FEATURE_FIELD_EVENT_LISTING_DESCRIPTION,
-    featureFlags.FEATURE_FIELD_BODY,
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
     featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE,
     featureFlags.GRAPHQL_MODULE_UPDATE,
