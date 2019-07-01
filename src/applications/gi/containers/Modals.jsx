@@ -939,10 +939,11 @@ export class Modals extends React.Component {
           <p>
             Learn more about the
             <a
-              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/#location-based"
+              href="../../../vagov-content/pages/education/about-gi-bill-benefits/post-9-11.md"
               target="_blank"
               rel="noopener noreferrer"
             >
+              {' '}
               Location-Based Housing Allowance.
             </a>
           </p>
