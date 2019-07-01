@@ -1,6 +1,6 @@
 // helper function to round to nearest 10
 function roundRating(num) {
-  const ratingWithDecimal = Number.parseFloat(num).toFixed(0.1);
+  const ratingWithDecimal = parseFloat(num).toFixed(0.1);
   return Math.round(ratingWithDecimal / 10) * 10;
 }
 

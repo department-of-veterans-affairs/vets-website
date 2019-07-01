@@ -20,3 +20,7 @@ $formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
 .usa-accordion {
   margin-top: 16px;
 }
+
+#calculated-disability-rating:focus {
+  outline: none;
+}
