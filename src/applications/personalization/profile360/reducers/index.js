@@ -102,7 +102,11 @@ function vaProfile(state = initialState, action) {
 
     case PAYMENT_INFORMATION_FETCH_FAILED:
     case PAYMENT_INFORMATION_SAVE_FAILED: {
-      let newState = set('paymentInformation', { error: true }, state);
+      let newState = set(
+        'paymentInformation',
+        { ...action.response, error: true },
+        state,
+      );
       newState = set('paymentInformationUiState.isSaving', false, state);
       return set(
         'paymentInformationUiState.responseError',
