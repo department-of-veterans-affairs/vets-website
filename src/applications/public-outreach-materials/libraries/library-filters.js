@@ -87,13 +87,13 @@ export function libraryPagerGen() {
     // If we have more than two pages, add second page
     // button in front of active button.
     if (diff > 2 && (numCards === undefined || numCards > 9)) {
-      pagerHtml += `<a class="pager-numbers"" aria-label="Load page
+      pagerHtml += `<a class="pager-numbers" aria-label="Load page
       ${activePage + 2}" tabindex="${activePage + 2}">${activePage + 2}</a>`;
     }
     // If we have more than three pages, add a third button and ellipses to
     // link to last page.
     if (diff > 3 && (numCards === undefined || numCards > 9)) {
-      pagerHtml += `.... <a class="pager-numbers"" aria-label="Load page
+      pagerHtml += `.... <a class="pager-numbers" aria-label="Load page
       ${pages}" tabindex="${pages}"> ${pages}</a>`;
     }
     document.getElementById('pager-nums-insert').innerHTML = pagerHtml;
