@@ -44,7 +44,7 @@ describe('actions/paymentInformation', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('calls fetch and dispatches FETCH_PAYMENT_INFORMATION_SUCCESS', async () => {
+  it('calls fetch and dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
     const actionCreator = paymentInformationActions.fetchPaymentInformation();
     const dispatch = sinon.spy();
 
@@ -52,7 +52,7 @@ describe('actions/paymentInformation', () => {
 
     expect(dispatch.called).to.be.true;
     expect(dispatch.firstCall.args[0].type).to.be.equal(
-      paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+      paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
     );
     expect(global.fetch.called).to.be.true;
   });
