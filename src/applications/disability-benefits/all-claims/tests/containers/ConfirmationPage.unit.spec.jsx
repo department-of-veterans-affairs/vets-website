@@ -17,11 +17,8 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     submittedAt: '2019-02-20',
   };
 
-  const testPage = status => {
-    return shallow(
-      <ConfirmationPage submissionStatus={status} {...defaultProps} />,
-    );
-  };
+  const testPage = status =>
+    shallow(<ConfirmationPage submissionStatus={status} {...defaultProps} />);
 
   it('should render success status', () => {
     const tree = testPage(submissionStatuses.succeeded);
