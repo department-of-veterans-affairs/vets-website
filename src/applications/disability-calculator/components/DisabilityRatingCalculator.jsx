@@ -125,13 +125,9 @@ export default class DisabilityRatingCalculator extends React.Component {
               id="ratingLabel"
             >
               Disability rating
-              <span className="sr-only">Enter Disability Rating</span>
             </div>
             <div className="vads-l-col--8" id="descriptionLabel">
               Optional description
-              <span className="sr-only">
-                Enter Optional Disability Description
-              </span>
             </div>
           </div>
           {this.state.ratings.map((ratingObj, idx) => (
