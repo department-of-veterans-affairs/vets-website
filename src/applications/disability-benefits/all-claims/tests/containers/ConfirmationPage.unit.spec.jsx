@@ -38,18 +38,32 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
   });
   it('should render exhausted status', () => {
     const tree = testPage(submissionStatuses.exhausted);
-    expect(tree.text()).to.contain("It's taking us longer than expected");
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain("It's taking us longer than expected");
     tree.unmount();
   });
   it('should render apiFailure status', () => {
-    testPage(
-      submissionStatuses.apiFailure,
-      "It's taking us longer than expected",
-    );
+    const tree = testPage(submissionStatuses.apiFailure);
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain("It's taking us longer than expected");
+    tree.unmount();
   });
   it('should render other status', () => {
     const tree = testPage(submissionStatuses.failed);
-    expect(tree.text()).to.contain('Something went wrong');
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain('Something went wrong');
     tree.unmount();
   });
 });
