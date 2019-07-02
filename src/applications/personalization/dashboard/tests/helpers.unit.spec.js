@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  formDescriptions,
   formTitles,
   formLinks,
   isFormAuthorizable,
@@ -62,6 +63,14 @@ describe('profile helpers:', () => {
     it('should have title information for each verified form', () => {
       sipEnabledForms.forEach(form => {
         expect(formTitles[form]).to.exist;
+      });
+    });
+  });
+
+  describe('formDescriptions', () => {
+    it('should have a description for each verified form', () => {
+      sipEnabledForms.forEach(form => {
+        expect(formDescriptions[form]).to.exist;
       });
     });
   });
