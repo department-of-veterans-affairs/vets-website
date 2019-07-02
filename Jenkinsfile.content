@@ -17,7 +17,7 @@ node('vetsgov-general-purpose') {
   }
 
   dir("vets-website") {
-    checkout scm: [$class: 'GitSCM', branches: [[name: ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
+    checkout scm: [$class: 'GitSCM', branches: [[name: ref]], userRemoteConfigs: [[credentialsId: 'va-vfs-bot', url: 'https://github.com/department-of-veterans-affairs/vets-website.git']]]
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
