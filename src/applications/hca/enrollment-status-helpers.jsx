@@ -446,21 +446,6 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock8 = (
     <>
-      <h4>When will I find out if I’m enrolled in VA health care?</h4>
-      <p>
-        We’ll make our final decision on your application after you've separated
-        from service.
-      </p>
-      <p>
-        If we enroll you in VA health care, the preferred VA medical center you
-        selected when you applied will contact you. You can also check back here
-        after separation to find out the current status of your application.
-      </p>
-    </>
-  );
-
-  const faqBlock9 = (
-    <>
       <h4>Can I apply for VA health care?</h4>
       <p>
         As an active-duty service member, you can apply for VA health care if
@@ -492,16 +477,7 @@ export function getFAQContent(enrollmentStatus) {
     </>
   );
 
-  const faqBlock10 = (
-    <>
-      <h4>What should I do if I have questions about my eligibility?</h4>
-      <p>
-        Please {callOurTeam}. {ourHours}.
-      </p>
-    </>
-  );
-
-  const faqBlock11 = (
+  const faqBlock9 = (
     <>
       <h4>
         What if I want to review my discharge status, or think I may qualify for
@@ -634,7 +610,7 @@ export function getFAQContent(enrollmentStatus) {
     </>
   );
   const faqMap = {
-    [HCA_ENROLLMENT_STATUSES.activeDuty]: faqBlock9,
+    [HCA_ENROLLMENT_STATUSES.activeDuty]: faqBlock8,
     [HCA_ENROLLMENT_STATUSES.canceledDeclined]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
@@ -654,7 +630,7 @@ export function getFAQContent(enrollmentStatus) {
       faqBlockReapply2,
     ]),
     [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge]: wrapJSXInKeyedFragment(
-      [faqBlock2, faqBlock11, faqBlockMentalHealthCare, faqBlockReapply2],
+      [faqBlock2, faqBlock9, faqBlockMentalHealthCare, faqBlockReapply2],
     ),
     [HCA_ENROLLMENT_STATUSES.ineligCitizens]: wrapJSXInKeyedFragment([
       faqBlock2,
