@@ -38,12 +38,7 @@ export function getWarningHeadline(enrollmentStatus) {
         'You didn’t qualify for VA health care based on your previous application';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-      content =
-        'Our records show that you’re an active-duty service member and you’ve already applied for VA health care';
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDuty:
       content = 'Our records show that you’re an active-duty service member';
       break;
 
@@ -167,8 +162,7 @@ export function getWarningStatus(
 export function getWarningExplanation(enrollmentStatus) {
   let content = null;
   switch (enrollmentStatus) {
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied:
+    case HCA_ENROLLMENT_STATUSES.activeDuty:
     case HCA_ENROLLMENT_STATUSES.enrolled:
     case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
     case HCA_ENROLLMENT_STATUSES.ineligMedicare:
@@ -640,12 +634,7 @@ export function getFAQContent(enrollmentStatus) {
     </>
   );
   const faqMap = {
-    [HCA_ENROLLMENT_STATUSES.activeDutyHasApplied]: wrapJSXInKeyedFragment([
-      faqBlock8,
-      faqBlock10,
-      faqBlockReapply6,
-    ]),
-    [HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied]: faqBlock9,
+    [HCA_ENROLLMENT_STATUSES.activeDuty]: faqBlock9,
     [HCA_ENROLLMENT_STATUSES.canceledDeclined]: wrapJSXInKeyedFragment([
       faqBlock5,
       faqBlockMentalHealthCare,
@@ -786,7 +775,6 @@ export function getAlertType(enrollmentStatus) {
       status = DASHBOARD_ALERT_TYPES.decision;
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingMt:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
@@ -832,7 +820,6 @@ export function getAlertStatusHeadline(enrollmentStatus) {
       statusHeadline = 'Decision';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingMt:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
@@ -883,7 +870,6 @@ export function getAlertStatusInfo(enrollmentStatus) {
         'Our records show that your application for VA health care expired';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingUnverified:
       statusInfo = 'We’re reviewing your application';
@@ -1117,24 +1103,6 @@ export function getAlertContent(
           you by mail if we need you to submit supporting documents (like your
           DD214 or other discharge papers or separation documents).
         </p>,
-        whatShouldIDo1,
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.activeDutyHasApplied:
-      blocks.push(
-        <React.Fragment key="explanation">
-          <p>
-            We’ll make our final decision on your application after you’ve
-            separated from service.
-          </p>
-          <p>
-            If we enroll you in VA health care, the preferred VA medical center
-            you selected when you applied will contact you. You can also check
-            back here after separation to find out the current status of your
-            application.
-          </p>
-        </React.Fragment>,
         whatShouldIDo1,
       );
       break;

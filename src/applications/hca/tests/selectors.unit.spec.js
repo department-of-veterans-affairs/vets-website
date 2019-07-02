@@ -212,11 +212,11 @@ describe('simple top-level selectors', () => {
       const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.false;
     });
-    it('returns `false` if the enrollmentStatus is active duty but they have not explicitly applied for health care', () => {
+    it('returns `false` if the enrollmentStatus is active duty', () => {
       const state = {
         hcaEnrollmentStatus: {
           ...basicEnrollmentStatusState,
-          enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDuty,
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
@@ -241,16 +241,6 @@ describe('simple top-level selectors', () => {
       };
       const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.false;
-    });
-    it('returns `true` if the enrollmentStatus is active duty and they have explicitly applied for health care', () => {
-      const state = {
-        hcaEnrollmentStatus: {
-          ...basicEnrollmentStatusState,
-          enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDutyHasApplied,
-        },
-      };
-      const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.true;
     });
     it('returns `true` if the enrollmentStatus is enrolled', () => {
       const state = {
