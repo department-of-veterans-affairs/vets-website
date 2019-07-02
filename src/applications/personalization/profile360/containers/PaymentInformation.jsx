@@ -17,7 +17,6 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import get from 'platform/utilities/data/get';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { EDIT_TARGETS } from '../constants';
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import { handleDowntimeForSection } from '../components/DowntimeBanner';
@@ -90,6 +89,13 @@ const AdditionalInfos = props => (
   </>
 );
 
+const recordProfileNavEvent = (customProps = {}) => {
+  recordEvent({
+    event: 'profile-navigation',
+    ...customProps,
+  });
+};
+
 class PaymentInformation extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
@@ -120,55 +126,24 @@ class PaymentInformation extends React.Component {
     }
   }
 
-  handleDirectDepositUpdateSubmit(data) {
+  handleDirectDepositUpdateSubmit = data => {
     this.props.savePaymentInformation(data);
     recordEvent({
       event: 'profile-transaction',
       'profile-section': 'direct-depost-information',
     });
-  }
+  };
 
-  handleEditClick(e) {
-    const gaProfileAction = 'edit-link';
-
+  handleEditClick = e => {
     // Open edit modal.
     this.props.editModalToggled();
 
     // Push Google Analytics event
-    switch (e.currentTarget.dataset.editTarget) {
-      case EDIT_TARGETS.bankName:
-        this.recordProfileNavEvent({
-          'profile-action': gaProfileAction,
-          'profile-section': 'bank-name',
-        });
-        break;
-      case EDIT_TARGETS.accountNumber:
-        this.recordProfileNavEvent({
-          'profile-action': gaProfileAction,
-          'profile-section': 'account-number',
-        });
-        break;
-      case EDIT_TARGETS.accountType:
-        this.recordProfileNavEvent({
-          'profile-action': gaProfileAction,
-          'profile-section': 'account-type',
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
-  recordProfileNavEvent(customProps) {
-    if (!customProps) {
-      return;
-    }
-
-    recordEvent({
-      event: 'profile-navigation',
-      ...customProps,
+    recordProfileNavEvent({
+      'profile-action': 'edit-link',
+      'profile-section': e.currentTarget.dataset.profileSection,
     });
-  }
+  };
 
   renderSetupButton(label) {
     return (
@@ -199,14 +174,16 @@ class PaymentInformation extends React.Component {
     } else {
       const paymentAccount = paymentInformation.responses[0].paymentAccount;
 
+      // Cannot use arrow-function below in jsx attribute to pass
+      // Google Analytics event property, due to babel parser error.
+      // Need to pass it to child component, then retrieve it in handleEditClick
+      // using e.target.dataSet.
       content = (
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              editTarget={EDIT_TARGETS.bankName}
-              onEditClick={
-                directDepositIsSetUp && this.handleEditClick.bind(this)
-              }
+              profileSection="bank-name"
+              onEditClick={directDepositIsSetUp && this.handleEditClick}
             >
               Bank name
             </ProfileFieldHeading>
@@ -216,10 +193,8 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              editTarget={EDIT_TARGETS.accountNumber}
-              onEditClick={
-                directDepositIsSetUp && this.handleEditClick.bind(this)
-              }
+              profileSection="account-number"
+              onEditClick={directDepositIsSetUp && this.handleEditClick}
             >
               Account number
             </ProfileFieldHeading>
@@ -229,10 +204,8 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              editTarget={EDIT_TARGETS.accountType}
-              onEditClick={
-                directDepositIsSetUp && this.handleEditClick.bind(this)
-              }
+              profileSection="account-type"
+              onEditClick={directDepositIsSetUp && this.handleEditClick}
             >
               Account type
             </ProfileFieldHeading>
@@ -250,7 +223,7 @@ class PaymentInformation extends React.Component {
 
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
-            onSubmit={this.handleDirectDepositUpdateSubmit.bind(this)}
+            onSubmit={this.handleDirectDepositUpdateSubmit}
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
             fields={this.props.paymentInformationUiState.editModalForm}

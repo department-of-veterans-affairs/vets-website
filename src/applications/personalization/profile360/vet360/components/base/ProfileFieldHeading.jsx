@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Vet360ProfileFieldHeading({ children, editTarget, onEditClick }) {
+function Vet360ProfileFieldHeading({ children, profileSection, onEditClick }) {
   return (
     <div>
       <h3 style={{ display: 'inline-block' }}>{children}</h3>{' '}
@@ -8,7 +8,7 @@ function Vet360ProfileFieldHeading({ children, editTarget, onEditClick }) {
         <button
           type="button"
           data-action="edit"
-          data-edit-target={editTarget}
+          data-profile-section={profileSection}
           onClick={onEditClick}
           className="va-button-link va-profile-btn"
         >
