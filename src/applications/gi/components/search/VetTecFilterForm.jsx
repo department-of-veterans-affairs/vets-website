@@ -2,11 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Checkbox from '../Checkbox';
-import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
-import environment from 'platform/utilities/environment';
 
-class InstitutionFilterForm extends React.Component {
+class VetTecFilterForm extends React.Component {
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
     this.props.onFilterChange(field, value);
@@ -15,24 +13,6 @@ class InstitutionFilterForm extends React.Component {
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
     this.props.onFilterChange(field, value);
-  };
-
-  renderCategoryFilter = () => {
-    const options = [
-      { value: 'ALL', label: 'All' },
-      { value: 'school', label: 'Schools only' },
-      { value: 'employer', label: 'Employers only' },
-    ];
-
-    return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.filters.category}
-        onChange={this.handleDropdownChange}
-      />
-    );
   };
 
   renderCountryFilter = () => {
@@ -79,101 +59,40 @@ class InstitutionFilterForm extends React.Component {
     );
   };
 
-  renderProgramFilters = () => {
+  renderLearningFormat = () => {
     const filters = this.props.filters;
-
     return (
       <div>
-        <p>Programs</p>
+        <p>Learning Format</p>
         <Checkbox
-          checked={filters.studentVeteranGroup}
-          name="studentVeteranGroup"
-          label="Student Vet Group"
+          checked={filters.vetTecInPerson}
+          name="inPerson"
+          label="In Person"
           onChange={this.handleCheckboxChange}
         />
         <Checkbox
-          checked={filters.yellowRibbonScholarship}
+          checked={filters.online}
           name="yellowRibbonScholarship"
           label="Yellow Ribbon"
           onChange={this.handleCheckboxChange}
         />
-        <Checkbox
-          checked={filters.principlesOfExcellence}
-          name="principlesOfExcellence"
-          label="Principles of Excellence"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.eightKeysToVeteranSuccess}
-          name="eightKeysToVeteranSuccess"
-          label="8 Keys to Vet Success"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.priorityEnrollment}
-          name="priorityEnrollment"
-          label="Priority Enrollment"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.independentStudy}
-          name="independentStudy"
-          label="Independent Study"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.onlineOnly}
-          name="onlineOnly"
-          label="Online Only"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.distanceLearning}
-          name="distanceLearning"
-          label="Distance Learning"
-          onChange={this.handleCheckboxChange}
-        />
       </div>
-    );
-  };
-
-  renderTypeFilter = () => {
-    const options = [
-      { value: 'ALL', label: 'ALL' },
-      ...Object.keys(this.props.search.facets.type).map(type => ({
-        value: type,
-        label: type,
-      })),
-    ];
-
-    return (
-      <Dropdown
-        label="Institution type"
-        name="type"
-        options={options}
-        value={this.props.filters.type}
-        alt="Filter results by institution type"
-        visible
-        onChange={this.handleDropdownChange}
-      />
     );
   };
 
   render() {
     return (
-      <div className="institution-filter-form">
-        <h2>Institution details</h2>
-        {environment.isProduction() && this.renderCategoryFilter()}
+      <div className="vettec-filter-form">
+        <h2>VET TEC Details</h2>
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
-        {this.renderProgramFilters()}
-        {this.renderTypeFilter()}
+        {this.renderLearningFormat()}
       </div>
     );
   }
 }
 
-InstitutionFilterForm.propTypes = {
+VetTecFilterForm.propTypes = {
   filters: PropTypes.shape({
     category: PropTypes.string,
     distanceLearning: PropTypes.bool,
@@ -207,6 +126,6 @@ InstitutionFilterForm.propTypes = {
   }),
 };
 
-InstitutionFilterForm.defaultProps = {};
+VetTecFilterForm.defaultProps = {};
 
-export default InstitutionFilterForm;
+export default VetTecFilterForm;

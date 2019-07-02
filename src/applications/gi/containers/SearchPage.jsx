@@ -26,13 +26,6 @@ import SearchResult from '../components/search/SearchResult';
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class SearchPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.updateSearchResults = this.updateSearchResults.bind(this);
-  }
-
   componentDidMount() {
     let title = 'Search Results';
     const searchTerm = this.props.autocomplete.term;
@@ -59,7 +52,7 @@ export class SearchPage extends React.Component {
     }
   }
 
-  updateSearchResults() {
+  updateSearchResults = () => {
     const programFilters = [
       'distanceLearning',
       'studentVeteranGroup',
@@ -94,16 +87,16 @@ export class SearchPage extends React.Component {
 
     this.props.institutionFilterChange(institutionFilter);
     this.props.fetchSearchResults(query);
-  }
+  };
 
-  handlePageSelect(page) {
+  handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
       query: { ...this.props.location.query, page },
     });
-  }
+  };
 
-  handleFilterChange(field, value) {
+  handleFilterChange = (field, value) => {
     // Translate form selections to query params.
     const query = { ...this.props.location.query, [field]: value };
 
@@ -127,7 +120,14 @@ export class SearchPage extends React.Component {
       delete query[field];
     }
     this.props.router.push({ ...this.props.location, query });
-  }
+  };
+
+  isVetTecSelected = () => this.props.filters.category === 'vettec';
+
+  keywordSearchLabel = () =>
+    this.isVetTecSelected()
+      ? 'City, school, or training provider'
+      : 'City, school, or employer';
 
   render() {
     const { search, filters } = this.props;
