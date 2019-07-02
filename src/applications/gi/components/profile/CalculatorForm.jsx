@@ -81,7 +81,6 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.giBillBenefit) {
       return null;
     }
-
     return (
       <div>
         <RadioButtons

@@ -14,10 +14,10 @@ export default function LoadingButton({
   );
   return (
     <button
+      className="usa-button"
       {...props}
       disabled={isLoading || disabled}
       onClick={onClick}
-      className="usa-button"
     >
       {contents}
     </button>
