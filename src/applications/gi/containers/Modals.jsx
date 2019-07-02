@@ -29,6 +29,81 @@ export class Modals extends React.Component {
     );
   }
 
+  productionFlag107() {
+    return environment.isProduction() ? (
+      <div>
+        <h3>Housing Allowance/BAH changes</h3>
+        <p>
+          Starting August 1, 2018, we'll determine the monthly housing allowance
+          under the Post-9/11 GI Bill based on the zip code of the campus where
+          you physically attend the majority of your classes. The location of
+          the school where you're enrolled won't be relevant.
+        </p>
+
+        <p>
+          <strong>We define "campus" as any of these locations:</strong>
+        </p>
+        <ul>
+          <li>
+            The specific campus of a school where you're taking classes (for
+            example, in the school's science center, humanities building, or
+            athletic center)
+          </li>
+          <li>
+            The physical location where you're learning in a study-abroad
+            program
+          </li>
+          <li>
+            The site of any internship, externship, practicum, or student
+            teaching
+          </li>
+        </ul>
+        <p>
+          If you first use the Post-9/11 GI Bill on or after January 1, 2018,
+          you'll receive a monthly housing allowance based directly on the
+          Department of Defense Basic Allowance for Housing (BAH).
+        </p>
+      </div>
+    ) : (
+      <div>
+        <h3>Location where you'll take classes</h3>
+        <p>
+          VA pays monthly housing allowance (MHA) based on the campus location
+          where you physically attend the majority of your classes.
+        </p>
+
+        <p>
+          <strong>A campus could include:</strong>
+        </p>
+        <ul>
+          <li>
+            A main campus: the location where the primary teaching facilities of
+            an educational institution are located
+          </li>
+          <li>
+            A branch campus: the location of an educational institution that is
+            geographically apart from and operationally independent of the main
+            campus of the educational institution
+          </li>
+          <li>
+            An extension campus: the location that is geographically apart from
+            the main or branch campus but is operationally dependent on that
+            campus for the performance of administrative tasks
+          </li>
+        </ul>
+        <p>
+          Learn more about the{' '}
+          <a
+            href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#location-based107"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Location-Based Housing Allowance.
+          </a>
+        </p>
+      </div>
+    );
+  }
   shouldDisplayModal(modal) {
     return this.props.modals.displaying === modal;
   }
@@ -912,81 +987,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
-          {environment.isProduction() ? (
-            <div>
-              <h3>Housing Allowance/BAH changes</h3>
-              <p>
-                Starting August 1, 2018, we'll determine the monthly housing
-                allowance under the Post-9/11 GI Bill based on the zip code of
-                the campus where you physically attend the majority of your
-                classes. The location of the school where you're enrolled won't
-                be relevant.
-              </p>
-
-              <p>
-                <strong>We define "campus" as any of these locations:</strong>
-              </p>
-              <ul>
-                <li>
-                  The specific campus of a school where you're taking classes
-                  (for example, in the school's science center, humanities
-                  building, or athletic center)
-                </li>
-                <li>
-                  The physical location where you're learning in a study-abroad
-                  program
-                </li>
-                <li>
-                  The site of any internship, externship, practicum, or student
-                  teaching
-                </li>
-              </ul>
-              <p>
-                If you first use the Post-9/11 GI Bill on or after January 1,
-                2018, you'll receive a monthly housing allowance based directly
-                on the Department of Defense Basic Allowance for Housing (BAH).
-              </p>
-            </div>
-          ) : (
-            <div>
-              <h3>Location where you'll take classes</h3>
-              <p>
-                VA pays monthly housing allowance (MHA) based on the campus
-                location where you physically attend the majority of your
-                classes.
-              </p>
-
-              <p>
-                <strong>A campus could include:</strong>
-              </p>
-              <ul>
-                <li>
-                  A main campus: the location where the primary teaching
-                  facilities of an educational institution are located
-                </li>
-                <li>
-                  A branch campus: the location of an educational institution
-                  that is geographically apart from and operationally
-                  independent of the main campus of the educational institution
-                </li>
-                <li>
-                  An extension campus: the location that is geographically apart
-                  from the main or branch campus but is operationally dependent
-                  on that campus for the performance of administrative tasks
-                </li>
-              </ul>
-              <p>
-                Learn more about the{' '}
-                <a
-                  href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#location-based107"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Location-Based Housing Allowance.
-                </a>
-              </p>
-            </div>
-          )}
+          {this.productionFlag107()}
         </Modal>
 
         <Modal
