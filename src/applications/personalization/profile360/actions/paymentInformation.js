@@ -26,12 +26,18 @@ export function fetchPaymentInformation() {
 
 export function savePaymentInformation(fields) {
   return async dispatch => {
+    let gaClientId;
+    try {
+      // eslint-disable-next-line no-undef
+      gaClientId = ga.getAll()[0].get('clientId');
+    } catch (e) {
+      // don't want to break submitting because of a weird GA issue
+    }
     const apiRequestOptions = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...fields,
-        // eslint-disable-next-line no-undef
-        gaClientId: ga.getAll()[0].get('clientId'),
+        gaClientId,
       }),
       method: 'PUT',
       mode: 'cors',
