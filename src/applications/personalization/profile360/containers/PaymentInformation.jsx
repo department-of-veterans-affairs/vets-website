@@ -39,7 +39,7 @@ const AdditionalInfos = props => (
         triggerText="How do I change my direct deposit information for GI Bill and other education benefits?"
         onClick={() =>
           props.recordProfileNavEvent({
-            'profile-action': props.gaProfileAction,
+            'profile-action': 'view-link',
             'additional-info': 'how-to-change-direct-deposit',
           })
         }
@@ -72,7 +72,7 @@ const AdditionalInfos = props => (
       triggerText="What’s my bank’s routing number?"
       onClick={() =>
         props.recordProfileNavEvent({
-          'event-action': props.gaProfileAction,
+          'event-action': 'view-link',
           'additional-info': 'whats-bank-routing',
         })
       }
@@ -245,10 +245,7 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          <AdditionalInfos
-            gaProfileAction="view-link"
-            recordProfileNavEvent={this.recordProfileNavEvent}
-          />
+          <AdditionalInfos recordProfileNavEvent={recordProfileNavEvent} />
           {content}
         </DowntimeNotification>
       </>
