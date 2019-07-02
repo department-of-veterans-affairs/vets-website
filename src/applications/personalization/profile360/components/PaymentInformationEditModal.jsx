@@ -174,6 +174,7 @@ class PaymentInformationEditModal extends React.Component {
 
           <button
             type="button"
+            disabled={this.props.isSaving}
             className="usa-button-secondary"
             onClick={this.props.onClose}
           >
