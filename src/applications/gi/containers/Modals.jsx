@@ -29,7 +29,7 @@ export class Modals extends React.Component {
     );
   }
 
-  productionFlag107() {
+  calcBeneficiaryLocationQuestionContent() {
     return environment.isProduction() ? (
       <div>
         <h3>Housing Allowance/BAH changes</h3>
@@ -987,7 +987,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
-          {this.productionFlag107()}
+          {this.calcBeneficiaryLocationQuestionContent()}
         </Modal>
 
         <Modal
