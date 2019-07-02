@@ -6,6 +6,7 @@ import set from 'platform/utilities/data/set';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -163,13 +164,13 @@ class PaymentInformationEditModal extends React.Component {
             required
           />
 
-          <button
+          <LoadingButton
             type="submit"
             className="usa-button-primary vads-u-width--auto"
-            disabled={this.props.isSaving}
+            isLoading={this.props.isSaving}
           >
             Update
-          </button>
+          </LoadingButton>
 
           <button
             type="button"
