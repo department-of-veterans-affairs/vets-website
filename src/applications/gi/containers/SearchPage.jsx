@@ -13,15 +13,17 @@ import {
   setPageTitle,
   toggleFilter,
   updateAutocompleteSearchTerm,
+  eligibilityChange,
+  showModal,
 } from '../actions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions } from '../../../platform/utilities/ui';
-import KeywordSearch from '../components/search/KeywordSearch';
-import EligibilityForm from '../components/search/EligibilityForm';
-import InstitutionFilterForm from '../components/search/InstitutionFilterForm';
 import SearchResult from '../components/search/SearchResult';
+import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
+import VetTecSearchForm from '../components/search/VetTecSearchForm';
+import environment from '../../../platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -129,10 +131,9 @@ export class SearchPage extends React.Component {
       ? 'City, school, or training provider'
       : 'City, school, or employer';
 
-  render() {
-    const { search, filters } = this.props;
+  searchResults = () => {
+    const { search } = this.props;
     const {
-      count,
       pagination: { currentPage, totalPages },
     } = search;
 
@@ -142,15 +143,6 @@ export class SearchPage extends React.Component {
       'usa-width-three-fourths medium-9',
       'columns',
       { opened: !search.filterOpened },
-    );
-
-    const filtersClass = classNames(
-      'filters-sidebar',
-      'small-12',
-      'usa-width-one-fourth',
-      'medium-3',
-      'columns',
-      { opened: search.filterOpened },
     );
 
     let searchResults;
@@ -213,6 +205,24 @@ export class SearchPage extends React.Component {
       );
     }
 
+    return searchResults;
+  };
+
+  render() {
+    const { search, filters } = this.props;
+    const { count } = search;
+
+    const filtersClass = classNames(
+      'filters-sidebar',
+      'small-12',
+      'usa-width-one-fourth',
+      'medium-3',
+      'columns',
+      { opened: search.filterOpened },
+    );
+
+    const searchResults = this.searchResults();
+
     return (
       <ScrollElement name="searchPage" className="search-page">
         <div className="row">
@@ -224,41 +234,49 @@ export class SearchPage extends React.Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className={filtersClass}>
-            <div className="filters-sidebar-inner">
-              {search.filterOpened && <h1>Filter your search</h1>}
-              <h2>Keywords</h2>
-              <KeywordSearch
-                autocomplete={this.props.autocomplete}
-                label="City, school, or employer"
-                location={this.props.location}
-                onClearAutocompleteSuggestions={
-                  this.props.clearAutocompleteSuggestions
-                }
-                onFetchAutocompleteSuggestions={
-                  this.props.fetchAutocompleteSuggestions
-                }
-                onFilterChange={this.handleFilterChange}
-                onUpdateAutocompleteSearchTerm={
-                  this.props.updateAutocompleteSearchTerm
-                }
-              />
-              <InstitutionFilterForm
-                search={search}
-                filters={filters}
-                onFilterChange={this.handleFilterChange}
-              />
-              <EligibilityForm />
-            </div>
-            <div className="results-button">
-              <button className="usa-button" onClick={this.props.toggleFilter}>
-                See Results
-              </button>
-            </div>
-          </div>
-          {searchResults}
-        </div>
+        {!environment.isProduction() && this.isVetTecSelected() ? (
+          <VetTecSearchForm
+            filtersClass={filtersClass}
+            search={search}
+            autocomplete={this.props.autocomplete}
+            location={this.props.location}
+            clearAutocompleteSuggestions={
+              this.props.clearAutocompleteSuggestions
+            }
+            fetchAutocompleteSuggestions={
+              this.props.fetchAutocompleteSuggestions
+            }
+            handleFilterChange={this.handleFilterChange}
+            updateAutocompleteSearchTerm={
+              this.props.updateAutocompleteSearchTerm
+            }
+            filters={filters}
+            toggleFilter={this.props.toggleFilter}
+            searchResults={searchResults}
+          />
+        ) : (
+          <InstitutionSearchForm
+            filtersClass={filtersClass}
+            search={search}
+            autocomplete={this.props.autocomplete}
+            location={this.props.location}
+            clearAutocompleteSuggestions={
+              this.props.clearAutocompleteSuggestions
+            }
+            fetchAutocompleteSuggestions={
+              this.props.fetchAutocompleteSuggestions
+            }
+            handleFilterChange={this.handleFilterChange}
+            updateAutocompleteSearchTerm={
+              this.props.updateAutocompleteSearchTerm
+            }
+            filters={filters}
+            toggleFilter={this.props.toggleFilter}
+            searchResults={searchResults}
+            eligibility={this.props.eligibility}
+            showModal={this.props.showModal}
+          />
+        )}
       </ScrollElement>
     );
   }
@@ -266,10 +284,12 @@ export class SearchPage extends React.Component {
 
 SearchPage.defaultProps = {};
 
-const mapStateToProps = state => {
-  const { autocomplete, filters, search } = state;
-  return { autocomplete, filters, search };
-};
+const mapStateToProps = state => ({
+  autocomplete: state.autocomplete,
+  filters: state.filters,
+  search: state.search,
+  eligibility: state.eligibility,
+});
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
@@ -279,6 +299,8 @@ const mapDispatchToProps = {
   setPageTitle,
   toggleFilter,
   updateAutocompleteSearchTerm,
+  eligibilityChange,
+  showModal,
 };
 
 export default withRouter(

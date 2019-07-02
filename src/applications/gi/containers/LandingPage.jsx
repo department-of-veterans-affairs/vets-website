@@ -7,6 +7,9 @@ import {
   fetchAutocompleteSuggestions,
   setPageTitle,
   updateAutocompleteSearchTerm,
+  institutionFilterChange,
+  eligibilityChange,
+  showModal,
 } from '../actions';
 
 import VideoSidebar from '../components/content/VideoSidebar';
@@ -14,6 +17,8 @@ import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
 import environment from 'platform/utilities/environment';
+import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
+import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -55,6 +60,15 @@ export class LandingPage extends React.Component {
     this.props.router.push({ pathname: 'search', query });
   }
 
+  filtersChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+
+    const filters = this.props.filters;
+    filters[field] = value;
+    this.props.institutionFilterChange(filters);
+  };
+
   render() {
     return (
       <span className="landing-page">
@@ -67,6 +81,19 @@ export class LandingPage extends React.Component {
 
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm />
+              {/* CT 116 */}
+              {!environment.isProduction() && (
+                <TypeOfInstitutionFilter
+                  category={this.props.filters.category}
+                  onChange={this.filtersChange}
+                />
+              )}
+              {/* /CT 116 */}
+              <OnlineClassesFilter
+                onlineClasses={this.props.eligibility.onlineClasses}
+                onChange={this.props.eligibilityChange}
+                showModal={this.props.showModal}
+              />
               <KeywordSearch
                 autocomplete={this.props.autocomplete}
                 location={this.props.location}
@@ -101,16 +128,20 @@ export class LandingPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { autocomplete } = state;
-  return { autocomplete };
-};
+const mapStateToProps = state => ({
+  autocomplete: state.autocomplete,
+  filters: state.filters,
+  eligibility: state.eligibility,
+});
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
   setPageTitle,
   updateAutocompleteSearchTerm,
+  institutionFilterChange,
+  eligibilityChange,
+  showModal,
 };
 
 export default withRouter(

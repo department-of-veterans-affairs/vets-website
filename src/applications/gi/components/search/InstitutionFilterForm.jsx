@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Checkbox from '../Checkbox';
-import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
-import environment from 'platform/utilities/environment';
+import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -17,23 +16,12 @@ class InstitutionFilterForm extends React.Component {
     this.props.onFilterChange(field, value);
   };
 
-  renderCategoryFilter = () => {
-    const options = [
-      { value: 'ALL', label: 'All' },
-      { value: 'school', label: 'Schools only' },
-      { value: 'employer', label: 'Employers only' },
-    ];
-
-    return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.filters.category}
-        onChange={this.handleDropdownChange}
-      />
-    );
-  };
+  renderCategoryFilter = () => (
+    <TypeOfInstitutionFilter
+      category={this.props.filters.category}
+      onChange={this.handleDropdownChange}
+    />
+  );
 
   renderCountryFilter = () => {
     const options = [
@@ -163,7 +151,7 @@ class InstitutionFilterForm extends React.Component {
     return (
       <div className="institution-filter-form">
         <h2>Institution details</h2>
-        {environment.isProduction() && this.renderCategoryFilter()}
+        {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
         {this.renderProgramFilters()}
