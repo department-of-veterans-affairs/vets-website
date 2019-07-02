@@ -24,11 +24,13 @@ export const addressUpdateUnavailable = (
   <div>
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">Address update unavailable</h4>
+        <h4 className="usa-alert-heading">
+          We're sorry. We can't update your address right now
+        </h4>
         <p className="usa-alert-text">
-          We’re sorry. We can’t update your address right now. Your{' '}
-          <strong>VA letters and documents are still valid</strong> with your
-          old address.
+          Your <strong>VA letters and documents are still valid</strong> with
+          your old address. Please continue to download your VA letter or
+          document. You can come back later and try again.
         </p>
         <br />
         <p className="usa-alert-text">
