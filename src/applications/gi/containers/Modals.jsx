@@ -665,7 +665,7 @@ export class Modals extends React.Component {
     if (!environment.isProduction()) {
       whenUsedGiBill = (
         <div>
-          <h3 className="va-modal-header-padding-top-30">
+          <h3 className="vads-u-padding-top--4">
             What is Section 501 (Monthly Housing Allowance Rate)?
           </h3>
           <p>
