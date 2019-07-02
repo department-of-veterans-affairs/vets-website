@@ -47,18 +47,18 @@ describe('actions/paymentInformation', () => {
     beforeEach(() => setup({ mockGA: true }));
     afterEach(teardown);
 
-  it('calls fetch and dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
-    const actionCreator = paymentInformationActions.fetchPaymentInformation();
-    const dispatch = sinon.spy();
+    it('calls fetch and dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
+      const actionCreator = paymentInformationActions.fetchPaymentInformation();
+      const dispatch = sinon.spy();
 
       await actionCreator(dispatch);
 
-    expect(dispatch.called).to.be.true;
-    expect(dispatch.firstCall.args[0].type).to.be.equal(
-      paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
-    );
-    expect(global.fetch.called).to.be.true;
-  });
+      expect(dispatch.called).to.be.true;
+      expect(dispatch.firstCall.args[0].type).to.be.equal(
+        paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
+      );
+      expect(global.fetch.called).to.be.true;
+    });
 
     it('calls fetch and dispatches SAVE_PAYMENT_INFORMATION', async () => {
       const actionCreator = paymentInformationActions.savePaymentInformation({
