@@ -219,9 +219,10 @@ export class CallToActionWidget extends React.Component {
           </p>
         ),
         primaryButtonText: 'Go to your profile',
-        primaryButtonHandler: this.goToTool.bind(this, {
-          event: 'nav-user-profile-cta',
-        }),
+        primaryButtonHandler: () =>
+          this.goToTool({
+            event: 'nav-user-profile-cta',
+          }),
         status: 'continue',
       };
     }
