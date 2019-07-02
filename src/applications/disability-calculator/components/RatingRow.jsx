@@ -23,8 +23,14 @@ const RatingRow = ({
   const onDescriptionChange = e => {
     handleChange(indx, { ...ratingObj, description: e.target.value });
   };
+
+  const rowId = `disability-row-${indx + 1}`;
+
   return (
     <div className="rating vads-l-row">
+      <span id={rowId} className="sr-only">
+        row {indx + 1}
+      </span>
       <div className="vads-l-col--2 vads-u-padding-right--2">
         <input
           type="text"
@@ -36,7 +42,7 @@ const RatingRow = ({
           pattern="\d+"
           name="rating"
           ref={inputRef}
-          aria-labelledby="ratingLabel"
+          aria-labelledby={`ratingLabel ${rowId}`}
         />
       </div>
       <div className="vads-l-col--6">
@@ -45,13 +51,14 @@ const RatingRow = ({
           name="description"
           onChange={onDescriptionChange}
           value={ratingObj.description}
-          aria-labelledby="descriptionLabel"
+          aria-labelledby={`descriptionLabel ${rowId}`}
         />
       </div>
       <div className="vads-l-col--3">
         <div>
           <button
             type="button"
+            aria-label={`Delete disability rating row ${indx + 1}`}
             onClick={handleRemoveRating(indx)}
             className="va-button-link delete-btn vads-u-margin--1p5"
             disabled={disabled}

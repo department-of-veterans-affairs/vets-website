@@ -11,8 +11,8 @@ describe('<PrescriptionCard />', () => {
       attributes: {
         prescriptionName: 'Test name',
         isTrackable: false,
-        refillDate: '2018-03-28T05:00:00.000Z',
-        refillSubmitDate: '2019-05-28T23:27:53.000Z',
+        refillDate: '2018-03-28T12:00:00.000Z',
+        refillSubmitDate: '2019-05-28T12:00:00.000Z',
       },
     };
 
@@ -42,8 +42,8 @@ describe('<PrescriptionCard />', () => {
       attributes: {
         prescriptionName: 'Test name',
         isTrackable: true,
-        refillDate: '2018-03-28T05:00:00.000Z',
-        refillSubmitDate: '2019-05-28T23:27:53.000Z',
+        refillDate: '2018-03-28T12:00:00.000Z',
+        refillSubmitDate: '2019-05-28T12:00:00.000Z',
       },
     };
 
@@ -64,7 +64,7 @@ describe('<PrescriptionCard />', () => {
       attributes: {
         prescriptionName: 'Test name',
         isTrackable: false,
-        refillDate: '2018-03-28T05:00:00.000Z',
+        refillDate: '2018-03-28T12:00:00.000Z',
         refillSubmitDate: null,
       },
     };
