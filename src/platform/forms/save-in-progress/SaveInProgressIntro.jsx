@@ -12,7 +12,7 @@ import _ from 'platform/utilities/data';
 import {
   formDescriptions,
   formBenefits,
-} from 'applications/personalization/profile360/util/helpers';
+} from 'applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';

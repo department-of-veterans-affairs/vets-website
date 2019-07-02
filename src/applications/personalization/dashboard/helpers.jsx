@@ -100,6 +100,23 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   return titles;
 }, {});
 
+export const formDescriptions = Object.keys(formBenefits).reduce(
+  (descriptions, key) => {
+    let formNumber;
+    if (key === VA_FORM_IDS.FORM_40_10007 || key === VA_FORM_IDS.VIC) {
+      formNumber = '';
+    } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
+      formNumber = '(10-10EZ)';
+    } else {
+      formNumber = `(${key})`;
+    }
+    const formDescription = `${formBenefits[key]} application ${formNumber}`;
+    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
+    return descriptions;
+  },
+  {},
+);
+
 export const formLinks = {
   [VA_FORM_IDS.FORM_21_526EZ]: `${disability526Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
