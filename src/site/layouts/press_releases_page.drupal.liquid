@@ -56,7 +56,7 @@ Example data:
           <h1 class="vads-u-margin-bottom--5">News Releases</h1>
           {% for pr in pagedItems %}
             <section class="vads-u-margin-bottom--4">
-              <h3 class="vads-u-margin-bottom--1p5"><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
+              <h3 class="vads-u-margin-bottom--1p5 vads-u-font-size--md medium-screen:vads-u-font-size--lg"><a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
               <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
               <p class="vads-u-margin-top--0">{{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
             </section>
