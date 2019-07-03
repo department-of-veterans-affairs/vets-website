@@ -214,7 +214,7 @@ $color-inactive: #9b9b9b;
       position: absolute;
       font-size: 1.25em;
       display: inline-block;
-      font: normal normal normal 14px/1 FontAwesome;
+      font: normal normal normal 14px/1 "Font Awesome 5 Free";
       font-size: inherit;
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
@@ -680,7 +680,7 @@ h1:focus {
   .section-complete {
     border-left: 5px solid $color-gray-lighter;
     &::before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       content: "\f00c";
       margin-top: 5px; // Aligns the check bullets to their headers better
     }
@@ -703,7 +703,7 @@ h1:focus {
     }
 
     &::before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       content: "\f067";
       color: $color-primary;
       background-color: $color-white;
@@ -714,7 +714,7 @@ h1:focus {
   .section-expanded {
     border-left: 5px solid $color-gray-lighter;
     &::before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       content: "\f068";
       color: $color-primary;
       background-color: $color-white;
@@ -1001,7 +1001,7 @@ h1:focus {
 
       .number {
         &:before {
-          font-family: FontAwesome;
+          font-family: "Font Awesome 5 Free";
           content: "\f017 "; // space added at end to keep kerning consistent
         }
       }
