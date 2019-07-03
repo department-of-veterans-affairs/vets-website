@@ -134,7 +134,7 @@ class PaymentInformationEditModal extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           <ErrorableTextInput
-            label="Routing number (9 digits)"
+            label="Routing number (Your 9-digit routing number will update your bank’s name)"
             name="routing-number"
             field={routingNumber.field}
             errorMessage={routingNumber.errorMessage}
