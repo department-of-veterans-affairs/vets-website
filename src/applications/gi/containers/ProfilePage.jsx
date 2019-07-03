@@ -80,7 +80,7 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      if (!environment.isProduction() && !profile.attributes.vetTecProvider) {
+      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
         content = (
           <div>
             <VetTecHeadingSummary
