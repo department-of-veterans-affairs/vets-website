@@ -1,5 +1,4 @@
 import formConfig from './config/form';
-import { isValidDateString } from 'platform/utilities/date';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import {
   FETCH_ENROLLMENT_STATUS_STARTED,
@@ -43,14 +42,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
         preferredFacility,
       } = action.data;
 
-      let enrollmentStatus = parsedStatus;
-      if (enrollmentStatus === HCA_ENROLLMENT_STATUSES.activeDuty) {
-        if (isValidDateString(applicationDate)) {
-          enrollmentStatus = HCA_ENROLLMENT_STATUSES.activeDutyHasApplied;
-        } else {
-          enrollmentStatus = HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied;
-        }
-      }
+      const enrollmentStatus = parsedStatus;
       const isInESR =
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
       return {

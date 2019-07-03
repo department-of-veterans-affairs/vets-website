@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import * as actions from '../actions';
 import { hcaEnrollmentStatus as reducer } from '../reducer';
-import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 describe('HCA Enrollment Status Reducer', () => {
   let state;
@@ -90,34 +89,6 @@ describe('HCA Enrollment Status Reducer', () => {
       });
       it('sets `noESRRecordFound` to `false`', () => {
         expect(reducedState.noESRRecordFound).to.be.false;
-      });
-    });
-
-    describe('if `parsedStatus` is `activeduty`', () => {
-      it('sets the enrollmentStatus to `activeduty_has_applied` when there is a valid `applicationDate`', () => {
-        action = {
-          type: actions.FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-          data: {
-            parsedStatus: 'activeduty',
-            applicationDate: '2018-12-27T00:00:00.000-06:00',
-          },
-        };
-        reducedState = reducer(state, action);
-        expect(reducedState.enrollmentStatus).to.equal(
-          HCA_ENROLLMENT_STATUSES.activeDutyHasApplied,
-        );
-      });
-      it('sets the enrollmentStatus to `activeduty_has_not_applied` when there is not a valid `applicationDate`', () => {
-        action = {
-          type: actions.FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-          data: {
-            parsedStatus: 'activeduty',
-          },
-        };
-        reducedState = reducer(state, action);
-        expect(reducedState.enrollmentStatus).to.equal(
-          HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied,
-        );
       });
     });
   });

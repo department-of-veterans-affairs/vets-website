@@ -7,9 +7,7 @@ import { HCAEnrollmentStatusFAQ } from '../../components/HCAEnrollmentStatusFAQ'
 import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
 
 const expectedOutputs = {
-  [HCA_ENROLLMENT_STATUSES.activeDutyHasApplied]:
-    '<h4>When will I find out if I’m enrolled in VA health care?</h4><p>We’ll make our final decision on your application after you&#x27;ve separated from service.</p><p>If we enroll you in VA health care, the preferred VA medical center you selected when you applied will contact you. You can also check back here after separation to find out the current status of your application.</p><h4>What should I do if I have questions about my eligibility?</h4><p>Please call our enrollment case management team at 877-222-VETS (<a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p><h4>Should I apply again?</h4><p><strong>No. We’re in the process of reviewing your current application, and submitting a new application won’t affect our decision.</strong> If you’d like to talk about your current application, please call our enrollment case management team at 877-222-VETS (<a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>).</p><p>We only recommend applying again if you’ve already worked with our enrollment case management team, and they’ve advised you to reapply.</p><button class="va-button-link schemaform-start-button">Reapply for VA health care</button>',
-  [HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied]:
+  [HCA_ENROLLMENT_STATUSES.activeDuty]:
     '<h4>Can I apply for VA health care?</h4><p>As an active-duty service member, you can apply for VA health care if both of the below descriptions are true for you.</p><p><strong>Both of these must be true:</strong></p><ul><li>You’ve received your separation orders, and</li><li>You have less than a year until your separation date</li></ul><p><strong>If you don’t meet the requirements listed above</strong></p><p>Please don’t apply at this time. We welcome you to apply once you meet these requirements.</p><p><strong>If you’ve already applied, think you&#x27;ve received this message in error, or have any questions</strong></p><p>Please call our enrollment case management team at 877-222-VETS (<a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p><button class="va-button-link schemaform-start-button">Apply for VA health care</button>',
   [HCA_ENROLLMENT_STATUSES.canceledDeclined]:
     '<h4>What should I do if I have questions about my eligibility?</h4><p>Please call our enrollment case management team at 877-222-VETS (<a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p><h4>Can I still get mental health care?</h4><p>You may still be able to access certain mental health care services even if you’re not enrolled in VA health care.</p><p><a href="/health-care/health-needs-conditions/mental-health/">Learn more about getting started with VA mental health services</a></p><h4>Can I apply again?</h4><p>Yes. If you have questions about how to complete your application, please call our enrollment case management team at 877-222-VETS (<a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>).</p><button class="va-button-link schemaform-start-button">Reapply for VA health care</button>',
@@ -66,7 +64,6 @@ describe('these tests themselves', () => {
     }).filter(
       enrollmentStatus =>
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.activeDuty &&
-        enrollmentStatus !== HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied &&
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased &&
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
     );
@@ -106,7 +103,7 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
       expect(showReapplyContentSpy.callCount).to.equal(0);
       const props = {
         ...defaultProps,
-        enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDutyHasApplied,
+        enrollmentStatus: HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime,
       };
       const wrapper = shallow(<HCAEnrollmentStatusFAQ {...props} />);
       const reapplyButton = wrapper.find('ReapplyTextLink');
