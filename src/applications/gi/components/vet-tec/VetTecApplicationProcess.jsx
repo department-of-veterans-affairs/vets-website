@@ -1,7 +1,7 @@
 import React from 'react';
 
 const VetTecApprovedPrograms = () => (
-  <div>
+  <div className="usa-width-one-whole">
     <h4>Applying to your program of choice is a two-step process:</h4>
     <p>
       First, you’ll need to apply to the Veteran Employment Through Technology
