@@ -97,22 +97,26 @@ function vaProfile(state = initialState, action) {
       );
 
     case PAYMENT_INFORMATION_FETCH_STARTED:
+      // No state-change needed to flip isLoading prop.
+      // That prop is controlled by other flags.
+      return state;
+
     case PAYMENT_INFORMATION_SAVE_STARTED:
       return set('paymentInformationUiState.isSaving', true, state);
 
     case PAYMENT_INFORMATION_FETCH_FAILED: {
-      let newState = set(
+      const newState = set(
         'paymentInformation',
         { ...action.response, error: true },
         state,
       );
-      newState = set('paymentInformationUiState.isSaving', false, state);
       return set(
         'paymentInformationUiState.responseError',
         action.response,
         newState,
       );
     }
+
     case PAYMENT_INFORMATION_SAVE_FAILED: {
       const newState = set('paymentInformationUiState.isSaving', false, state);
       return set(
