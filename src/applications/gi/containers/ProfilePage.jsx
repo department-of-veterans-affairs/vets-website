@@ -80,7 +80,7 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
+      if (!environment.isProduction() && !profile.attributes.vetTecProvider) {
         content = (
           <div>
             <VetTecHeadingSummary
@@ -99,14 +99,14 @@ export class ProfilePage extends React.Component {
                 <AccordionItem button="Estimate your benefits">
                   <Calculator />
                 </AccordionItem>
-                <AccordionItem button="Application process">
-                  <VetTecApplicationProcess
+                <AccordionItem button="Contact us">
+                  <VetTecContactInformation
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
                   />
                 </AccordionItem>
-                <AccordionItem button="Contact us">
-                  <VetTecContactInformation
+                <AccordionItem button="Application process">
+                  <VetTecApplicationProcess
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
                   />

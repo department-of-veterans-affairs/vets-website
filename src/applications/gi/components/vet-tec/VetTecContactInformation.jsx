@@ -22,10 +22,6 @@ export const VetTecContactInformation = ({ institution }) => (
           </div>
         </div>
       </div>
-      <div className="institution-codes">
-        <h3>School certifying officials</h3>
-        <div>TBD</div>
-      </div>
     </div>
     <div className="usa-width-one-half medium-6 columns">
       <div className="mailing-address">
