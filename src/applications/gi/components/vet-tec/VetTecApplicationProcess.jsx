@@ -17,7 +17,7 @@ const VetTecApprovedPrograms = () => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        Appy for VET TEC
+        Apply for VET TEC
       </a>
     </p>
     <p>
