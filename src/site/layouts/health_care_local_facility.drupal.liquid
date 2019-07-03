@@ -96,7 +96,7 @@
           </div>
         {% endif %}
 
-        <article class="vads-u-width--full vads-u-padding-x--2 small-screen:vads-u-padding-x--3 va-l-facility-detail">
+        <article class="usa-content va-l-facility-detail">
           {% if title != empty %}
             <h1>{{ title }}</h1>
           {% endif %}
@@ -204,7 +204,7 @@
             {% endif %}
 
         </article>
-        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+        <div class="last-updated usa-content">
           Last updated:
           <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
