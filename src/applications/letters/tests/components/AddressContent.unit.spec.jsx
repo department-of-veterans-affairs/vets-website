@@ -33,7 +33,7 @@ describe('<AddressContent/>', () => {
 
     expect(updateFailureAlert).to.exist;
     expect(updateFailureHeader).to.contain(
-      "We aren't able to save your udpated address",
+      "We aren't able to save your updated address",
     );
   });
 
