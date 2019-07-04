@@ -116,7 +116,7 @@ Example data:
         </div>
         {% endif %}
 
-        <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+        <article class="usa-content">
           <div class="usa-grid usa-grid-full">
             <h1 class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">{{ title }}</h1>
             {% if fieldMedia %}
@@ -221,7 +221,7 @@ Example data:
           <a href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all community events</a>
         </article>
 
-        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+        <div class="last-updated usa-content">
           Last updated:
           <time
             datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>

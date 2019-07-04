@@ -52,14 +52,14 @@ export default class OtherFacilityListWidget extends React.Component {
           className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
         >
           <section key={facility.id} className="usa-width-one-half">
-            <h3 className="vads-u-margin-bottom--1 vads-u-font-size--md">
+            <h3 className="vads-u-margin-bottom--1 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
               <a href={`/find-locations/facility/${facility.id}`}>
                 {facility.attributes.name}
               </a>
             </h3>
             <FacilityAddress facility={facility} />
             <div className="vads-u-margin-bottom--0">
-              <div className="main-phone">
+              <div className="main-phone vads-u-margin-bottom--1">
                 <strong>Main phone: </strong>
                 <a
                   href={`tel:${facility.attributes.phone.main.replace(
@@ -70,12 +70,14 @@ export default class OtherFacilityListWidget extends React.Component {
                   {facility.attributes.phone.main.replace(/[ ]?x/, '')}
                 </a>
               </div>
-              <div className="facility-type">
-                <p className="vads-u-margin--0">
-                  <strong>Facility type:</strong>
-                  {` ${facility.attributes.classification}`}
-                </p>
-              </div>
+              {facility.attributes.classification && (
+                <div className="facility-type">
+                  <p className="vads-u-margin--0">
+                    <strong>Facility type:</strong>
+                    {` ${facility.attributes.classification}`}
+                  </p>
+                </div>
+              )}
             </div>
           </section>
         </div>
