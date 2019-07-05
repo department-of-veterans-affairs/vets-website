@@ -46,6 +46,7 @@ class ErrorableCheckbox extends React.Component {
     return (
       <div className={className}>
         <input
+          aria-labelledby={this.props.ariaLabelledBy}
           aria-describedby={errorSpanId}
           checked={this.props.checked}
           id={this.inputId}
@@ -84,8 +85,22 @@ ErrorableCheckbox.propTypes = {
   name: PropTypes.string,
   /**
    * Label for the checkbox
+   * IF you have a SEPARATE HEADING (outside this component) that “labels” this
+   * checkbox, do NOT pass {<span class="usa-sr-only">...</span>} here to just
+   * visually hide this label.
+   * Instead, pass an empty string ('') here, then pass that separate heading‘s
+   * ID to ariaLabelledBy.
+   * Screen-readers read sr-only content, which would be redundant if you had a
+   * separate, external heading also serving as this component‘s “label.”
+   * E.g., see /src/applications/personalization/preferences/components/PreferenceOption.jsx
    */
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  /**
+   * Optional aria-labelledby attribute.
+   * If you have a SEPARATE HEADING (outside this component) that “labels” this
+   * checkbox, pass empty-string to label above, then pass that heading‘s ID here.
+   */
+  ariaLabelledBy: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   /**
    * Handler for when the checkbox is changed
    */
