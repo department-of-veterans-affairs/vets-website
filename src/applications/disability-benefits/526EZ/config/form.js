@@ -8,7 +8,6 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import submitFormFor from '../../all-claims/config/submitForm';
 
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
@@ -20,6 +19,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
+import ValidatedServicePeriodView from '../../all-claims/components/ValidatedServicePeriodView';
 
 import {
   uiSchema as primaryAddressUiSchema,
@@ -184,7 +184,7 @@ const formConfig = {
                 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
-                viewField: ServicePeriodView,
+                viewField: ValidatedServicePeriodView,
                 reviewMode: true,
               },
               items: {
