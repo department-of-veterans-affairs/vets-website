@@ -130,18 +130,18 @@ class PaymentInformation extends React.Component {
     this.props.savePaymentInformation(data);
     recordEvent({
       event: 'profile-transaction',
-      'profile-section': 'direct-depost-information',
+      'profile-section': 'direct-deposit-information',
     });
   };
 
-  handleEditClick = e => {
+  handleEditClick = gaProfileSection => {
     // Open edit modal.
     this.props.editModalToggled();
 
     // Push Google Analytics event
     recordProfileNavEvent({
       'profile-action': 'edit-link',
-      'profile-section': e.currentTarget.dataset.profileSection,
+      'profile-section': gaProfileSection,
     });
   };
 
@@ -182,8 +182,10 @@ class PaymentInformation extends React.Component {
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              profileSection="bank-name"
-              onEditClick={directDepositIsSetUp && this.handleEditClick}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleEditClick('bank-name'))
+              }
             >
               Bank name
             </ProfileFieldHeading>
@@ -193,8 +195,10 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              profileSection="account-number"
-              onEditClick={directDepositIsSetUp && this.handleEditClick}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleEditClick('account-number'))
+              }
             >
               Account number
             </ProfileFieldHeading>
@@ -204,8 +208,10 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              profileSection="account-type"
-              onEditClick={directDepositIsSetUp && this.handleEditClick}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleEditClick('account-type'))
+              }
             >
               Account type
             </ProfileFieldHeading>

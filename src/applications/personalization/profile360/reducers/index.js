@@ -8,7 +8,6 @@ import {
 } from '../actions';
 
 import {
-  PAYMENT_INFORMATION_FETCH_STARTED,
   PAYMENT_INFORMATION_FETCH_SUCCEEDED,
   PAYMENT_INFORMATION_FETCH_FAILED,
   PAYMENT_INFORMATION_SAVE_STARTED,
@@ -96,24 +95,14 @@ function vaProfile(state = initialState, action) {
         state,
       );
 
-    case PAYMENT_INFORMATION_FETCH_STARTED:
-      // No state-change needed to flip isLoading prop.
-      // That prop is controlled by other flags.
-      return state;
-
     case PAYMENT_INFORMATION_SAVE_STARTED:
       return set('paymentInformationUiState.isSaving', true, state);
 
     case PAYMENT_INFORMATION_FETCH_FAILED: {
-      const newState = set(
-        'paymentInformation',
-        { ...action.response, error: true },
-        state,
-      );
       return set(
-        'paymentInformationUiState.responseError',
-        action.response,
-        newState,
+        'paymentInformation',
+        { error: action.response.error || true },
+        state,
       );
     }
 
