@@ -16,28 +16,33 @@ class InstitutionSearchForm extends React.Component {
   }
 
   handleOnlineClassesChange = e => {
-    this.handleLearningFormatChange(e);
-    let onlineClasses = this.props.onlineClasses;
-    const { inPerson, online } = this.props.learningFormat;
+    // change state.learningFormat
+    const { name: field, checked: value } = e.target;
 
-    if (inPerson) {
+    const learningFormat = { ...this.state.learningFormat };
+    learningFormat[field] = value;
+
+    // update component's state
+    this.setState({ ...this.state, learningFormat });
+
+    const { inPerson, online } = learningFormat;
+    let onlineClasses = this.props.onlineClasses;
+
+    if (inPerson && !online) {
       onlineClasses = 'no';
     }
-    if (online) {
+    if (!inPerson && online) {
       onlineClasses = 'yes';
     }
     if (inPerson && online) {
       onlineClasses = 'both';
     }
-    this.props.onFilterChange('onlineClasses', onlineClasses);
-  };
-
-  handleLearningFormatChange = e => {
-    const { name: field, checked: value } = e.target;
-
-    const learningFormat = { ...this.state.learningFormat };
-    learningFormat[field] = value;
-    this.setState({ ...this.state, learningFormat });
+    this.props.eligibilityChange({
+      target: {
+        name: 'onlineClasses',
+        value: onlineClasses,
+      },
+    });
   };
 
   renderLearningFormat = () => {
@@ -56,13 +61,13 @@ class InstitutionSearchForm extends React.Component {
         <p>Learning Format</p>
         <Checkbox
           checked={this.state.learningFormat.inPerson}
-          name="inPersonLearningFormat"
+          name="inPerson"
           label={inPersonLabel}
           onChange={this.handleOnlineClassesChange}
         />
         <Checkbox
           checked={this.state.learningFormat.online}
-          name="onlineLearningFormat"
+          name="online"
           label={onlineLabel}
           onChange={this.handleOnlineClassesChange}
         />

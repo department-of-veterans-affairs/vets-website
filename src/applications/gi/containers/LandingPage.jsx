@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -49,14 +50,15 @@ export class LandingPage extends React.Component {
     const query = {
       name: value,
       version: this.props.location.query.version,
+      category: this.props.filters.category,
     };
 
-    if (!query.name) {
-      delete query.name;
-    }
-    if (!query.version) {
-      delete query.version;
-    }
+    _.forEach(query, (val, key) => {
+      if (!val || val === 'ALL') {
+        delete query[key];
+      }
+    });
+
     this.props.router.push({ pathname: 'search', query });
   }
 

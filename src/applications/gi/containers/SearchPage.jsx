@@ -255,6 +255,7 @@ export class SearchPage extends React.Component {
             searchResults={searchResults}
             eligibility={this.props.eligibility}
             showModal={this.props.showModal}
+            eligibilityChange={this.props.eligibilityChange}
           />
         ) : (
           <InstitutionSearchForm
