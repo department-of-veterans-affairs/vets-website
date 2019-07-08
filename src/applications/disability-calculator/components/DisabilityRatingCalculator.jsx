@@ -1,5 +1,9 @@
 import React from 'react';
-import { calculateRating, canCalculate, getRatings } from '../utils/helpers';
+import {
+  getRatings,
+  canCalculate,
+  calculateCombinedRating,
+} from '../utils/helpers';
 import CalculatedDisabilityRating from './CalculatedDisabilityRating';
 import RatingRow from './RatingRow';
 import '../sass/disability-calculator.scss';
@@ -51,7 +55,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     event.preventDefault();
 
     const disabilities = this.state.disabilities;
-    const calcRating = calculateRating(disabilities);
+    const calcRating = calculateCombinedRating(disabilities);
 
     this.setState({
       showCombinedRating: true,

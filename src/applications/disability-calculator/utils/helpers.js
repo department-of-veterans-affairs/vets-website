@@ -2,7 +2,11 @@ export function getRatings(disabilities) {
   return disabilities.map(disability => disability.rating);
 }
 
-export function calculateRating(disabilities) {
+export function canCalculate(ratings) {
+  return ratings.filter(r => !!r).length >= 2;
+}
+
+export function calculateCombinedRating(disabilities) {
   const ratings = getRatings(disabilities);
   const ratingsSortedDesc = ratings.sort((a, b) => b - a);
 
@@ -21,9 +25,8 @@ export function calculateRating(disabilities) {
 
   const combinedRatingRounded = Math.round(combinedRating / 10) * 10;
 
-  return [combinedRatingRounded, combinedRating];
-}
-
-export function canCalculate(ratings) {
-  return ratings.filter(r => !!r).length >= 2;
+  return {
+    exact: combinedRating,
+    rounded: combinedRatingRounded,
+  };
 }
