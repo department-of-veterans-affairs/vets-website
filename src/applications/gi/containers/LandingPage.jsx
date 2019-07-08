@@ -14,6 +14,31 @@ import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
 
+async function getFeatureFlags() {
+  /*
+  const response = await fetch('http://localhost:4242/api/client/register', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify({
+      appName: 'GIBCT',
+      instanceId: 'instanceIdXX',
+      strategies: ['default'],
+      started: new Date().toISOString(),
+      interval: 10000,
+    }),
+  });
+
+  console.log(response);
+  */
+
+  const response = await fetch('http://localhost:4242/api/client/features');
+
+  const { features } = await response.json();
+  console.log(features);
+
+  return features.map(feature => ({ [feature.name]: feature.enabled }));
+}
+
 export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +49,10 @@ export class LandingPage extends React.Component {
 
   componentDidMount() {
     this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
+
+    getFeatureFlags().then(features => {
+      console.log(features);
+    });
   }
 
   handleSubmit(event) {

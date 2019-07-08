@@ -269,6 +269,7 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "tinyliquid": "^0.2.33",
+    "unleash-client": "^3.2.6",
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",

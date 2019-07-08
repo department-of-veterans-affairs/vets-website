@@ -8418,6 +8418,11 @@ multimatch@^2.0.0, multimatch@^2.1.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
+murmurhash3js@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/murmurhash3js/-/murmurhash3js-3.0.1.tgz#3e983e5b47c2a06f43a713174e7e435ca044b998"
+  integrity sha1-Ppg+W0fCoG9DpxMXTn5DXKBEuZg=
+
 mute-stream@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
@@ -12347,6 +12352,15 @@ unique-slug@^2.0.0:
 universalify@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
+
+unleash-client@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/unleash-client/-/unleash-client-3.2.6.tgz#1d6470bbaa898b6ff0c485f36a17fea8a6c56a12"
+  integrity sha512-Lo8W99g8YZcxAUo5HqrcU+/amRtAmaQUbdd/BXC3BdT6K8VwDJuB2ZflJkNC7LHjTmof8lt6EHwfQJ9ZNPd5LQ==
+  dependencies:
+    ip "^1.1.5"
+    murmurhash3js "^3.0.1"
+    request "^2.88.0"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
