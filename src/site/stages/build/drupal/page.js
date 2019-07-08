@@ -188,6 +188,8 @@ function compilePage(page, contentData) {
       recordsHubSidebarQuery: recordsHubSidebarNav = {},
       pensionHubSidebarQuery: pensionHubSidebarNav = {},
       careersHubSidebarQuery: careersHubSidebarNav = {},
+      housingHubSidebarQuery: housingHubSidebarNav = {},
+      lifeInsuranceHubSidebarQuery: lifeInsuranceHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -205,6 +207,8 @@ function compilePage(page, contentData) {
     recordsHubSidebarNav,
     pensionHubSidebarNav,
     careersHubSidebarNav,
+    housingHubSidebarNav,
+    lifeInsuranceHubSidebarNav,
   ];
   let sidebarNavItems;
 

@@ -74,4 +74,12 @@ module.exports = `
     careersHubSidebarQuery: ${queryFilter('careers-employment-benefits')} {
       ${SIDEBAR_QUERY}
     }
+    housingHubSidebarQuery: ${queryFilter('housing-assistance-benefits')} {
+      ${SIDEBAR_QUERY}
+    }
+    lifeInsuranceHubSidebarQuery: ${queryFilter(
+      'life-insurance-benefits-hub',
+    )} {
+      ${SIDEBAR_QUERY}
+    }
 `;
