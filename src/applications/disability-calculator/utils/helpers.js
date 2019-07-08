@@ -4,12 +4,8 @@ function roundRating(num) {
   return Math.round(ratingWithDecimal / 10) * 10;
 }
 
-export function pullRatingsFromState(arr) {
-  const allRatings = [];
-  arr.forEach(e => {
-    allRatings.push(e.rating);
-  });
-  return allRatings;
+export function pullRatingsFromState(disabilities) {
+  return disabilities.map(disability => disability.rating);
 }
 
 export function calculateRating(arr) {
