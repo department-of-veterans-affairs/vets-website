@@ -20,6 +20,7 @@ class InstitutionFilterForm extends React.Component {
     <TypeOfInstitutionFilter
       category={this.props.filters.category}
       onChange={this.handleDropdownChange}
+      displayVetTecOption={false}
     />
   );
 

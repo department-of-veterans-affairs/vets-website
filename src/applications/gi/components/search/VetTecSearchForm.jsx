@@ -1,16 +1,73 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import EligibilityForm from './EligibilityForm';
-import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
+import Checkbox from '../Checkbox';
 
 class InstitutionSearchForm extends React.Component {
-  static propTypes = {
-    searchResults: PropTypes.element.isRequired,
-    filtersClass: PropTypes.string.isRequired,
-    search: PropTypes.object.isRequired,
-    filters: PropTypes.object.isRequired,
+  constructor(props) {
+    super(props);
+    const { onlineClasses } = props.eligibility;
+    this.state = {
+      learningFormat: {
+        inPerson: onlineClasses === 'no' || onlineClasses === 'both',
+        online: onlineClasses === 'yes' || onlineClasses === 'both',
+      },
+    };
+  }
+
+  handleOnlineClassesChange = e => {
+    this.handleLearningFormatChange(e);
+    let onlineClasses = this.props.onlineClasses;
+    const { inPerson, online } = this.props.learningFormat;
+
+    if (inPerson) {
+      onlineClasses = 'no';
+    }
+    if (online) {
+      onlineClasses = 'yes';
+    }
+    if (inPerson && online) {
+      onlineClasses = 'both';
+    }
+    this.props.onFilterChange('onlineClasses', onlineClasses);
+  };
+
+  handleLearningFormatChange = e => {
+    const { name: field, checked: value } = e.target;
+
+    const learningFormat = { ...this.state.learningFormat };
+    learningFormat[field] = value;
+    this.setState({ ...this.state, learningFormat });
+  };
+
+  renderLearningFormat = () => {
+    const inPersonLabel = (
+      <div>
+        In Person &nbsp; <i className="fas fa-user" />
+      </div>
+    );
+    const onlineLabel = (
+      <div>
+        Online &nbsp; <i className="fas fa-laptop" />
+      </div>
+    );
+    return (
+      <div>
+        <p>Learning Format</p>
+        <Checkbox
+          checked={this.state.learningFormat.inPerson}
+          name="inPersonLearningFormat"
+          label={inPersonLabel}
+          onChange={this.handleOnlineClassesChange}
+        />
+        <Checkbox
+          checked={this.state.learningFormat.online}
+          name="onlineLearningFormat"
+          label={onlineLabel}
+          onChange={this.handleOnlineClassesChange}
+        />
+      </div>
+    );
   };
 
   render() {
@@ -19,10 +76,10 @@ class InstitutionSearchForm extends React.Component {
         <div className={this.props.filtersClass}>
           <div className="filters-sidebar-inner">
             {this.props.search.filterOpened && <h1>Filter your search</h1>}
-            <h2>Keywords</h2>
+            <h2>Refine search</h2>
             <KeywordSearch
               autocomplete={this.props.autocomplete}
-              label="City, school, or employer"
+              label="City, school, or training provider"
               location={this.props.location}
               onClearAutocompleteSuggestions={
                 this.props.clearAutocompleteSuggestions
@@ -35,12 +92,8 @@ class InstitutionSearchForm extends React.Component {
                 this.props.updateAutocompleteSearchTerm
               }
             />
-            <InstitutionFilterForm
-              search={this.props.search}
-              filters={this.props.filters}
-              onFilterChange={this.props.handleFilterChange}
-            />
-            <EligibilityForm />
+
+            {this.renderLearningFormat()}
           </div>
           <div className="results-button">
             <button className="usa-button" onClick={this.props.toggleFilter}>

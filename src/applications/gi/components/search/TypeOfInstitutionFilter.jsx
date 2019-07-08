@@ -8,17 +8,28 @@ class TypeOfInstitutionFilter extends React.Component {
     onChange: PropTypes.func.isRequired,
   };
 
+  static defaultProps = {
+    displayVetTecOption: true,
+  };
+
   render() {
+    const options = [
+      { value: 'ALL', label: 'All' },
+      { value: 'school', label: 'Schools only' },
+      { value: 'employer', label: 'Employers only' },
+    ];
+    if (this.props.displayVetTecOption) {
+      options.push({
+        value: 'vettec',
+        label: 'VET TEC training providers only',
+      });
+    }
+
     return (
       <RadioButtons
         label="Type of institution"
         name="category"
-        options={[
-          { value: 'ALL', label: 'All' },
-          { value: 'school', label: 'Schools only' },
-          { value: 'employer', label: 'Employers only' },
-          { value: 'vettec', label: 'VET TEC training providers only' },
-        ]}
+        options={options}
         value={this.props.category}
         onChange={this.props.onChange}
       />
