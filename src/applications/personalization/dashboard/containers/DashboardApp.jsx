@@ -215,8 +215,8 @@ class DashboardApp extends React.Component {
             </h4>
             <p>
               When you verify your identity, you can use VA.gov to do things
-              like track your claims, refill your prescriptions, and download
-              your VA benefit letters.
+              like check the status of your claims and health care application,
+              refill your prescriptions, and download your VA benefit letters.
             </p>
             <a
               className="usa-button-primary"
