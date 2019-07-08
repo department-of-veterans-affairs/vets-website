@@ -6,8 +6,7 @@ export function canCalculate(ratings) {
   return ratings.filter(r => !!r).length >= 2;
 }
 
-export function calculateCombinedRating(disabilities) {
-  const ratings = getRatings(disabilities);
+export function calculateCombinedRating(ratings) {
   const ratingsSortedDesc = ratings.sort((a, b) => b - a);
 
   const combinedRating = ratingsSortedDesc.reduce(

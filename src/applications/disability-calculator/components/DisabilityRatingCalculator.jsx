@@ -53,8 +53,8 @@ export default class DisabilityRatingCalculator extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const disabilities = this.state.disabilities;
-    const calcRating = calculateCombinedRating(disabilities);
+    const ratings = getRatings(this.state.disabilities);
+    const calcRating = calculateCombinedRating(ratings);
 
     this.setState({
       showCombinedRating: true,
