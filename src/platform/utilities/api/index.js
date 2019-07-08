@@ -10,8 +10,7 @@ export function fetch(...args) {
   ) {
     return global.fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
-      // console.log(`Custom fetch: ${response.url}`);
-      // console.log('checking for session header');
+
       if (
         response.url.includes(apiURL) &&
         (response.ok || response.status === 304)
