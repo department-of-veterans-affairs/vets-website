@@ -174,10 +174,6 @@ class PaymentInformation extends React.Component {
     } else {
       const paymentAccount = paymentInformation.responses[0].paymentAccount;
 
-      // Cannot use arrow-function below in jsx attribute to pass
-      // Google Analytics event property, due to babel parser error.
-      // Need to pass it to child component, then retrieve it in handleEditClick
-      // using e.target.dataSet.
       content = (
         <>
           <div className="vet360-profile-field">
