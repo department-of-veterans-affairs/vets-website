@@ -4,23 +4,30 @@ import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
 export function fetch(...args) {
-  return global.fetch.apply(this, args).then(response => {
-    const apiURL = environment.API_URL;
-    // console.log(`Custom fetch: ${response.url}`);
-    // console.log('checking for session header');
-    if (
-      response.url.includes(apiURL) &&
-      (response.ok || response.status === 304)
-    ) {
-      // Get session expiration from header
-      const sessionExpiration = response.headers.get('X-Session-Expiration');
-      if (sessionExpiration) {
-        // console.log(`Header found.  Storing: ${sessionExpiration}`);
-        localStorage.setItem('sessionExpiration', sessionExpiration);
+  if (
+    !environment.isLocalhost() &&
+    localStorage.getItem('useCustomFetch') === 'true'
+  ) {
+    return global.fetch.apply(this, args).then(response => {
+      const apiURL = environment.API_URL;
+      // console.log(`Custom fetch: ${response.url}`);
+      // console.log('checking for session header');
+      if (
+        response.url.includes(apiURL) &&
+        (response.ok || response.status === 304)
+      ) {
+        // Get session expiration from header
+        const sessionExpiration = response.headers.get('X-Session-Expiration');
+        if (sessionExpiration) {
+          // console.log(`Header found.  Storing: ${sessionExpiration}`);
+          localStorage.setItem('sessionExpiration', sessionExpiration);
+        }
       }
-    }
-    return response;
-  });
+      return response;
+    });
+  }
+
+  return global.fetch(...args);
 }
 
 function isJson(response) {
