@@ -23,20 +23,7 @@ export function calculateRating(disabilities) {
 
   return [combinedRatingRounded, combinedRating];
 }
-// calculateRating will return array with two elements. first element in array is rounded rating
-// and second element is the actual rating
 
-// this is a validator to check if there are at least two ratings
-export function shouldCalculate(ratingsArr) {
-  const checkIfTwo = ratingsArr;
-  const returnArr = [];
-  checkIfTwo.forEach(e => {
-    if (typeof e === 'number') {
-      returnArr.push(e);
-    }
-  });
-  if (returnArr.length >= 2) {
-    return true;
-  }
-  return false;
+export function canCalculate(ratings) {
+  return ratings.filter(r => !!r).length >= 2;
 }
