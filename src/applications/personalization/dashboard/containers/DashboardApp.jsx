@@ -210,9 +210,9 @@ class DashboardApp extends React.Component {
       <AlertBox
         content={
           <div>
-            <h4 className="usa-alert-heading">
+            <h3 className="usa-alert-heading">
               Verify your identity to access more VA.gov tools and features
-            </h4>
+            </h3>
             <p>
               When you verify your identity, you can use VA.gov to do things
               like track your claims, refill your prescriptions, and download
