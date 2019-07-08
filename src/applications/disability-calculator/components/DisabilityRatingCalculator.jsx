@@ -6,7 +6,6 @@ import {
 } from '../utils/helpers';
 import CalculatedDisabilityRating from './CalculatedDisabilityRating';
 import RatingRow from './RatingRow';
-import '../sass/disability-calculator.scss';
 
 const defaultDisabilities = [
   {
