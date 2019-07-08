@@ -3,7 +3,7 @@ import React from 'react';
 import environment from '../../../../platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
-  updateFiscalYearto2018() {
+  updateFiscalYear() {
     return environment.isProduction()
       ? 'Total paid (FY 2016)'
       : 'Total paid (FY 2018)';
@@ -160,7 +160,7 @@ export class AdditionalInformation extends React.Component {
               </div>
               <div>
                 <strong>
-                  {this.updateFiscalYearto2018()}
+                  {this.updateFiscalYear()}
                   :&nbsp;
                 </strong>
                 {formatCurrency(it.p911TuitionFees)}
@@ -177,7 +177,7 @@ export class AdditionalInformation extends React.Component {
               </div>
               <div>
                 <strong>
-                  {this.updateFiscalYearto2018()}
+                  {this.updateFiscalYear()}
                   :&nbsp;
                 </strong>
                 {formatCurrency(it.p911YellowRibbon)}
@@ -235,7 +235,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>{this.updateFiscalYearto2018()}</th>
+                  <th>{this.updateFiscalYear()}</th>
                 </tr>
               </thead>
               <tbody>
