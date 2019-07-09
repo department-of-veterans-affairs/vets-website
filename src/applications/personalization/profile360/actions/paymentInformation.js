@@ -1,7 +1,12 @@
 import { getData } from '../util';
+import recordEvent from 'platform/monitoring/record-event';
 
+export const PAYMENT_INFORMATION_FETCH_STARTED =
+  'FETCH_PAYMENT_INFORMATION_STARTED';
 export const PAYMENT_INFORMATION_FETCH_SUCCEEDED =
   'FETCH_PAYMENT_INFORMATION_SUCCESS';
+export const PAYMENT_INFORMATION_FETCH_FAILED =
+  'FETCH_PAYMENT_INFORMATION_FAILED';
 
 export const PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED =
   'PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED';
@@ -17,21 +22,40 @@ export const PAYMENT_INFORMATION_SAVE_FAILED =
 
 export function fetchPaymentInformation() {
   return async dispatch => {
-    dispatch({
-      type: PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-      response: await getData('/ppiu/payment_information'),
-    });
+    dispatch({ type: PAYMENT_INFORMATION_FETCH_STARTED });
+
+    const response = await getData('/ppiu/payment_information');
+
+    if (response.error) {
+      recordEvent({ event: 'profile-get-direct-deposit-failure' });
+      dispatch({
+        type: PAYMENT_INFORMATION_FETCH_FAILED,
+        response,
+      });
+    } else {
+      recordEvent({ event: 'profile-get-direct-deposit-retrieved' });
+      dispatch({
+        type: PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+        response,
+      });
+    }
   };
 }
 
 export function savePaymentInformation(fields) {
   return async dispatch => {
+    let gaClientId;
+    try {
+      // eslint-disable-next-line no-undef
+      gaClientId = ga.getAll()[0].get('clientId');
+    } catch (e) {
+      // don't want to break submitting because of a weird GA issue
+    }
     const apiRequestOptions = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...fields,
-        // eslint-disable-next-line no-undef
-        gaClientId: ga.getAll()[0].get('clientId'),
+        gaClientId,
       }),
       method: 'PUT',
       mode: 'cors',

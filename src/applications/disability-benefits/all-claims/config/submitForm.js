@@ -1,7 +1,5 @@
-import {
-  transformForSubmit,
-  recordEvent,
-} from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig) {

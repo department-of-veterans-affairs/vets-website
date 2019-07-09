@@ -7,7 +7,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { formTitles } from '../../../applications/personalization/profile360/util/helpers';
+import { formTitles } from 'applications/personalization/dashboard/helpers';
 import FormStartControls from './FormStartControls';
 
 class FormSaved extends React.Component {

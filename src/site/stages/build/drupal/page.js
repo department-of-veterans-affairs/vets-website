@@ -144,6 +144,7 @@ function generateBreadCrumbs(pathString) {
   const entityUrlObj = createEntityUrlObj(pathString);
   let previous = '';
   let trimmedValue;
+
   for (const value of pathArray) {
     trimmedValue = _.trim(value, '/');
     if (value) {
@@ -187,6 +188,8 @@ function compilePage(page, contentData) {
       recordsHubSidebarQuery: recordsHubSidebarNav = {},
       pensionHubSidebarQuery: pensionHubSidebarNav = {},
       careersHubSidebarQuery: careersHubSidebarNav = {},
+      housingHubSidebarQuery: housingHubSidebarNav = {},
+      lifeInsuranceHubSidebarQuery: lifeInsuranceHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -204,6 +207,8 @@ function compilePage(page, contentData) {
     recordsHubSidebarNav,
     pensionHubSidebarNav,
     careersHubSidebarNav,
+    housingHubSidebarNav,
+    lifeInsuranceHubSidebarNav,
   ];
   let sidebarNavItems;
 
@@ -215,7 +220,11 @@ function compilePage(page, contentData) {
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
-  page.entityUrl = generateBreadCrumbs(entityUrl.path);
+
+  if (!('breadcrumb' in entityUrl)) {
+    page.entityUrl = generateBreadCrumbs(entityUrl.path);
+  }
+
   let pageCompiled;
 
   switch (entityBundle) {
@@ -299,7 +308,6 @@ function compilePage(page, contentData) {
     default:
       // Get the right benefits hub sidebar
       sidebarNavItems = getHubSidebar(sideNavs, owner);
-      page.entityUrl = generateBreadCrumbs(entityUrl.path);
 
       // Build page with correct sidebar
       pageCompiled = Object.assign(

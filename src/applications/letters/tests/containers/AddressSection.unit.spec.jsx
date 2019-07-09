@@ -226,7 +226,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...props} isEditingAddress />);
 
     expect(tree.find('.usa-alert-heading').text()).to.contain(
-      'Address update unavailable',
+      "We're sorry. We can't update your address right now",
     );
     tree.unmount();
   });
@@ -376,7 +376,7 @@ describe('<AddressSection>', () => {
         .find('.usa-alert-heading')
         .first()
         .text(),
-    ).to.equal('VA does not have a valid address on file for you');
+    ).to.equal("We don't have a valid address on file for you");
     tree.unmount();
   });
 
@@ -389,7 +389,7 @@ describe('<AddressSection>', () => {
         .find('.usa-alert-heading')
         .first()
         .text(),
-    ).to.equal('VA does not have a valid address on file for you');
+    ).to.equal("We don't have a valid address on file for you");
     tree.unmount();
   });
 

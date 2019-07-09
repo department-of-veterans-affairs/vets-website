@@ -219,7 +219,10 @@ export class CallToActionWidget extends React.Component {
           </p>
         ),
         primaryButtonText: 'Go to your profile',
-        primaryButtonHandler: this.goToTool,
+        primaryButtonHandler: () =>
+          this.goToTool({
+            event: 'nav-user-profile-cta',
+          }),
         status: 'continue',
       };
     }
@@ -456,9 +459,14 @@ export class CallToActionWidget extends React.Component {
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
-  goToTool = () => {
+  goToTool = gaEvent => {
     const url = this._toolUrl;
     if (!url) return;
+
+    // Optionally push Google-Analytics event.
+    if (gaEvent) {
+      recordEvent(gaEvent);
+    }
 
     if (url.startsWith('/')) {
       window.location = url;

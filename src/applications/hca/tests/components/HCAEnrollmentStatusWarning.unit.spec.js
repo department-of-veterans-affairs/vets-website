@@ -6,9 +6,7 @@ import HCAEnrollmentStatusWarning from '../../components/HCAEnrollmentStatusWarn
 import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
 
 const expectedOutputs = {
-  [HCA_ENROLLMENT_STATUSES.activeDutyHasApplied]:
-    '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">Our records show that you’re an active-duty service member and you’ve already applied for VA health care</h4><p><strong>You applied on: </strong>April 24, 2019</p></div></div></div></div>',
-  [HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied]:
+  [HCA_ENROLLMENT_STATUSES.activeDuty]:
     '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">Our records show that you’re an active-duty service member</h4><p><strong>You applied on: </strong>April 24, 2019</p></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.canceledDeclined]:
     '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">Our records show you chose to cancel or decline VA health care</h4><p><strong>You applied on: </strong>April 24, 2019</p><p>At some time in the past, we offered you enrollment in VA health care, but you declined it. Or you enrolled, but later canceled your enrollment.</p></div></div></div></div>',
