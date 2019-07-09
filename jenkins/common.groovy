@@ -26,7 +26,7 @@ BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
 
 VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
 
-DEV_BRANCH = 'master'
+DEV_BRANCH = 'claims-classifier-proto'
 STAGING_BRANCH = 'master'
 PROD_BRANCH = 'master'
 
