@@ -54,7 +54,10 @@ function initUserMock(token, level) {
               metadata: {},
             },
           ],
-          prefills_available: ['21-526EZ', VA_FORM_IDS.FORM_22_0994],
+          prefills_available: [
+            VA_FORM_IDS.FORM_21_526EZ,
+            VA_FORM_IDS.FORM_22_0994,
+          ],
           services: [
             'facilities',
             'hca',

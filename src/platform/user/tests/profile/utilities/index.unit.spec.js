@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { mapRawUserDataToState } from '../../../profile/utilities';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 /* eslint-disable camelcase */
 function createDefaultData() {
@@ -30,7 +31,7 @@ function createDefaultData() {
           metadata: {},
         },
       ],
-      prefills_available: ['21-526EZ'],
+      prefills_available: [VA_FORM_IDS.FORM_21_526EZ],
       services: [
         'facilities',
         'hca',

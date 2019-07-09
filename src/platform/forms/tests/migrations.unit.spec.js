@@ -57,7 +57,7 @@ const configs = [
 
 const excludedForms = new Set([
   '28-1900',
-  '21-526EZ',
+  VA_FORM_IDS.FORM_21_526EZ,
   '28-8832',
   '24-0296',
   '21-4142',
