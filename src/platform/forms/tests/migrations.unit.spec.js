@@ -33,7 +33,7 @@ const mappedIds = [
   '22-5490',
   '22-5495',
   '40-10007',
-  'FEEDBACK-TOOL',
+  VA_FORM_IDS.FEEDBACK_TOOL,
 ];
 
 const configs = [
