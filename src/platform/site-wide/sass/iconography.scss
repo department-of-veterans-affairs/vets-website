@@ -72,17 +72,6 @@
 );
 
 @include make-hub(
-  $hub-name: "education",
-  $icon: $fa-var-graduation-cap,
-  $color: $mint-cool-50,
-  $top-large: 11px,
-  $left-large: 8.2px,
-  $top-small: 8px,
-  $left-small: 5.5px,
-  $top-baseline: 9px
-);
-
-@include make-hub(
   $hub-name: "disability",
   $icon: $fa-var-file-alt,
   $color: $red-60,
@@ -90,6 +79,17 @@
   $left-large: 13px,
   $left-small: 10px,
   $top-small: 7px
+);
+
+@include make-hub(
+  $hub-name: "education-and-training",
+  $icon: $fa-var-graduation-cap,
+  $color: $mint-cool-50,
+  $top-large: 11px,
+  $left-large: 8.2px,
+  $top-small: 8px,
+  $left-small: 5.5px,
+  $top-baseline: 9px
 );
 
 @include make-hub(
@@ -113,7 +113,7 @@
 );
 
 @include make-hub(
-  $hub-name: "housing",
+  $hub-name: "housing-assistance",
   $icon: $fa-var-home,
   $color: $gold-50,
   $top-large: 10px,
@@ -134,7 +134,7 @@
 );
 
 @include make-hub(
-  $hub-name: "burials",
+  $hub-name: "burials-and-memorials",
   $icon: $fa-var-star,
   $color: $blue-50,
   $top-small: 7px,
