@@ -20,16 +20,6 @@ module.exports = `
         ? 'fieldBody { processed }'
         : ''
     }
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION]
-        ? 'fieldAssetLibraryDescription'
-        : ''
-    }
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_EVENT_LISTING_DESCRIPTION]
-        ? 'fieldEventListingDescription'
-        : ''
-    }
     reverseFieldOfficeNode {
       entities {
     ... on NodeEvent {
