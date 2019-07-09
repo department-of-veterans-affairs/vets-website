@@ -50,7 +50,7 @@ function initUserMock(token, level) {
           },
           in_progress_forms: [
             {
-              form: '1010ez',
+              form: VA_FORM_IDS.FORM_10_10EZ,
               metadata: {},
             },
           ],

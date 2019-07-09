@@ -51,7 +51,7 @@ createApplicationStatus(store, {
 });
 
 createApplicationStatus(store, {
-  formId: '1010ez',
+  formId: VA_FORM_IDS.FORM_10_10EZ,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/health-care/how-to-apply/',

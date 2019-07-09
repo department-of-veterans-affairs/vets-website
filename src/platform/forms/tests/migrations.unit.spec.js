@@ -75,7 +75,7 @@ describe('form migrations:', () => {
       formId => !excludedForms.has(formId),
     );
     const reformattedIds = mappedIds.slice(0);
-    reformattedIds.splice(0, 1, '1010ez');
+    reformattedIds.splice(0, 1, VA_FORM_IDS.FORM_10_10EZ);
     const includedFormIds = configs.map(form => form.formId);
     expect(new Set(allFormIds)).to.deep.equal(new Set(mappedIds));
     expect(includedFormIds).to.deep.equal(reformattedIds);

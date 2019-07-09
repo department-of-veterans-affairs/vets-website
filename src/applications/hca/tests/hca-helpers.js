@@ -2,6 +2,7 @@ const mock = require('platform/testing/e2e/mock-helpers');
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 const Auth = require('platform/testing/e2e/auth.js');
 const moment = require('moment');
+const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 function completeIDForm(client, data) {
   client
@@ -479,7 +480,7 @@ function initSaveInProgressMock(url, client) {
           },
           in_progress_forms: [
             {
-              form: '1010ez',
+              form: VA_FORM_IDS.FORM_10_10EZ,
               last_updated: 1501608808,
               metadata: {
                 last_updated: 1506792808,
