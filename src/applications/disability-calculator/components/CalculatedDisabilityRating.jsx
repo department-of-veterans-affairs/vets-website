@@ -18,21 +18,20 @@ class CalculatedDisabilityRating extends React.Component {
   }
 
   render() {
-    const displayRating = this.props.calculatedRating[0];
-    const actualRating = this.props.calculatedRating[1];
-
     return (
       <div className="vads-u-padding--4">
         <p id="calculated-disability-rating" ref={this.resultsRef}>
           <strong>Your VA disability rating</strong>
           <br />
           <strong>
-            <span className="vads-u-font-size--2xl">{displayRating} %</span>
+            <span className="vads-u-font-size--2xl">
+              {this.props.calculatedRating.rounded} %
+            </span>
           </strong>
         </p>
         <p>
           <strong>Note:</strong> The actual combined value of your disability
-          ratings is {actualRating}
+          ratings is {this.props.calculatedRating.exact}
           %.
         </p>
         <p>
@@ -43,7 +42,13 @@ class CalculatedDisabilityRating extends React.Component {
           then use this VA disability rating to determine your monthly
           disability compensation payment.
         </p>
-        <a href="#">Find your monthly payment amount</a>
+        <a
+          href="https://www.benefits.va.gov/compensation/rates-index.asp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Find your monthly payment amount
+        </a>
       </div>
     );
   }
