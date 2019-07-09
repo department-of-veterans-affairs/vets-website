@@ -1,9 +1,10 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 import * as Sentry from '@sentry/browser';
 
-import createCommonStore from '../../platform/startup/store';
-import startSitewideComponents from '../../platform/site-wide';
+import createCommonStore from 'platform/startup/store';
+import startSitewideComponents from 'platform/site-wide';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
@@ -65,7 +66,7 @@ createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 
 createApplicationStatus(store, {
-  formId: '21P-530',
+  formId: VA_FORM_IDS.FORM_21P_530,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyText: 'Apply for burial benefits',

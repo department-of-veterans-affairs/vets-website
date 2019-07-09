@@ -67,7 +67,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
                 metadata: {},
               },
               {
-                form: '21P-530',
+                form: VA_FORM_IDS.FORM_21P_530,
                 metadata: {},
               },
               {
