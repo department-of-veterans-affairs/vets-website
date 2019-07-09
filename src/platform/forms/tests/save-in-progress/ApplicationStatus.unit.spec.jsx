@@ -3,6 +3,8 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {
@@ -137,7 +139,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should render multiple forms message', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
-        formIds={new Set(['22-1990', '22-1995'])}
+        formIds={new Set(['22-1990', VA_FORM_IDS.FORM_22_1995])}
         login={{
           currentlyLoggedIn: true,
         }}
@@ -155,7 +157,7 @@ describe('schemaform <ApplicationStatus>', () => {
               },
             },
             {
-              form: '22-1995',
+              form: VA_FORM_IDS.FORM_22_1995,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')

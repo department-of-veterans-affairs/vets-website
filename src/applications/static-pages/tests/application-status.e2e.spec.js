@@ -1,6 +1,7 @@
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
-const Auth = require('../../../platform/testing/e2e/auth');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Auth = require('platform/testing/e2e/auth');
+const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 function testStatus(client, page, url) {
   client
@@ -62,7 +63,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
                 metadata: {},
               },
               {
-                form: '22-1995',
+                form: VA_FORM_IDS.FORM_22_1995,
                 metadata: {},
               },
               {
