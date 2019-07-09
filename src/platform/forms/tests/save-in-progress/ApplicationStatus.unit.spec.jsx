@@ -54,7 +54,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '21P-527EZ',
+              form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
@@ -87,7 +87,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '21P-527EZ',
+              form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
                 expiresAt: moment()
                   .add(-1, 'day')

@@ -42,7 +42,7 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 
 createApplicationStatus(store, {
-  formId: '21P-527EZ',
+  formId: VA_FORM_IDS.FORM_21P_527EZ,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/pension/how-to-apply/',
