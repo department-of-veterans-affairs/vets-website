@@ -222,7 +222,6 @@ export class SearchPage extends React.Component {
     );
 
     const searchResults = this.searchResults();
-
     return (
       <ScrollElement name="searchPage" className="search-page">
         <div className="row">

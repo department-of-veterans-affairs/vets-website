@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class OnlineClassesFilter extends React.Component {
   static propTypes = {
     onlineClasses: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     showModal: PropTypes.func.isRequired,
   };
 
