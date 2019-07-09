@@ -42,7 +42,11 @@ class CalculatedDisabilityRating extends React.Component {
           then use this VA disability rating to determine your monthly
           disability compensation payment.
         </p>
-        <a href="https://www.benefits.va.gov/compensation/rates-index.asp">
+        <a
+          href="https://www.benefits.va.gov/compensation/rates-index.asp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Find your monthly payment amount
         </a>
       </div>
