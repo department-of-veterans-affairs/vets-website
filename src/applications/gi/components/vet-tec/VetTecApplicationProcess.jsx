@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VetTecApprovedPrograms = () => (
+const VetTecApplicationProcess = () => (
   <div className="usa-width-one-whole">
     <h4>Applying to your program of choice is a two-step process:</h4>
     <p>
@@ -52,4 +52,4 @@ const VetTecApprovedPrograms = () => (
   </div>
 );
 
-export default VetTecApprovedPrograms;
+export default VetTecApplicationProcess;
