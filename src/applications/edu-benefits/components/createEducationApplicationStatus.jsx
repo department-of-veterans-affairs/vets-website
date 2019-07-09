@@ -7,7 +7,7 @@ const eduForms = new Set([
   '22-0994',
   '22-1990',
   '22-1995',
-  '22-5490',
+  VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,
   '22-1990E',
   '22-1990N',
