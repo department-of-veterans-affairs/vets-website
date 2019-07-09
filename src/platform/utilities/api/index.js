@@ -5,7 +5,7 @@ import localStorage from '../storage/localStorage';
 
 export function fetch(...args) {
   if (
-    !environment.isLocalhost() &&
+    global.fetch.displayName !== 'stub' &&
     localStorage.getItem('useCustomFetch') === 'true'
   ) {
     return global.fetch.apply(this, args).then(response => {
