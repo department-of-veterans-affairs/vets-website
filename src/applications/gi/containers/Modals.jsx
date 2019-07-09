@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import environment from '../../../platform/utilities/environment';
 
 export class Modals extends React.Component {
   constructor(props) {
@@ -29,6 +28,47 @@ export class Modals extends React.Component {
     );
   }
 
+  calcBeneficiaryLocationQuestionContent() {
+    return (
+      <div>
+        <h3>Location where you'll take classes</h3>
+        <p>
+          VA pays monthly housing allowance (MHA) based on the campus location
+          where you physically attend the majority of your classes.
+        </p>
+
+        <p>
+          <strong>A campus could include:</strong>
+        </p>
+        <ul>
+          <li>
+            A main campus: the location where the primary teaching facilities of
+            an educational institution are located
+          </li>
+          <li>
+            A branch campus: the location of an educational institution that is
+            geographically apart from and operationally independent of the main
+            campus of the educational institution
+          </li>
+          <li>
+            An extension campus: the location that is geographically apart from
+            the main or branch campus but is operationally dependent on that
+            campus for the performance of administrative tasks
+          </li>
+        </ul>
+        <p>
+          Learn more about the{' '}
+          <a
+            href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#location-based107"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Location-Based Housing Allowance.
+          </a>
+        </p>
+      </div>
+    );
+  }
   shouldDisplayModal(modal) {
     return this.props.modals.displaying === modal;
   }
@@ -661,80 +701,30 @@ export class Modals extends React.Component {
   }
 
   renderProfileCalculatorModals() {
-    let whenUsedGiBill;
-    if (!environment.isProduction()) {
-      whenUsedGiBill = (
-        <div>
-          <h3 className="vads-u-padding-top--4">
-            What is Section 501 (Monthly Housing Allowance Rate)?
-          </h3>
-          <p>
-            Effective January 1, 2018, the Post-9/11 GI Bill monthly housing
-            allowance rate will be the same as the Department of Defense’s E-5
-            with dependents Basic Allowance Housing (BAH) rate.
-          </p>
-          <ul>
-            <li>
-              Students will receive this rate if they first used their Post-9/11
-              GI Bill benefits on or after January 1, 2018.
-            </li>
-            <li>
-              If the student started using their Post-9/11 GI Bill before
-              January 1, 2018, they will continue receiving payments based on
-              the slightly higher VA rate eliminated by this change.
-            </li>
-          </ul>
-        </div>
-      );
-    } else {
-      whenUsedGiBill = (
-        <div>
-          <h3>When did you first use Post-9/11 GI Bill benefits?</h3>
-          <p>
-            Effective January 1, 2018, the Post-9/11 GI Bill basic allowance for
-            housing (BAH) is based on the Department of Defense’s E-5 with
-            dependents BAH rate.
-          </p>
-          <p>
-            You’ll receive this rate if you first used your Post-9/11 GI Bill
-            benefits for one of the following:
-          </p>
-          <ul>
-            <li>
-              Tuition, housing, or books for a term that started on or after
-              January 1, 2018, or
-            </li>
-            <li>
-              To take a licensing or certification exam and/or national test
-              before January 1, 2018, and you now want to enroll in an
-              educational program that qualifies for a housing allowance.
-            </li>
-          </ul>
-          <p>
-            Also, effective August 1, 2018, the Post-9/11 GI Bill BAH is
-            calculated based on the zip code of the campus where you physically
-            attend the majority of your classes, rather than the location of the
-            school where you’re enrolled.
-          </p>
-          <p>A campus could include:</p>
+    const whenUsedGiBill = (
+      <div>
+        <h3 className="vads-u-padding-top--4">
+          What is Section 501 (Monthly Housing Allowance Rate)?
+        </h3>
+        <p>
+          Effective January 1, 2018, the Post-9/11 GI Bill monthly housing
+          allowance rate will be the same as the Department of Defense’s E-5
+          with dependents Basic Allowance Housing (BAH) rate.
+        </p>
+        <ul>
+          <li>
+            Students will receive this rate if they first used their Post-9/11
+            GI Bill benefits on or after January 1, 2018.
+          </li>
+          <li>
+            If the student started using their Post-9/11 GI Bill before January
+            1, 2018, they will continue receiving payments based on the slightly
+            higher VA rate eliminated by this change.
+          </li>
+        </ul>
+      </div>
+    );
 
-          <ul>
-            <li>
-              The individual campus of a school where you’re taking classes (for
-              example, the school’s science center, humanities building, or
-              athletic center)
-            </li>
-            <li>
-              The physical location where you’re learning in a study abroad
-              program
-            </li>
-            <li>
-              Any internship, externship, practicum, or student teaching site
-            </li>
-          </ul>
-        </div>
-      );
-    }
     return (
       <span>
         <Modal
@@ -944,37 +934,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
-          <h3>Housing Allowance/BAH changes</h3>
-          <p>
-            Starting August 1, 2018, we'll determine the monthly housing
-            allowance under the Post-9/11 GI Bill based on the zip code of the
-            campus where you physically attend the majority of your classes. The
-            location of the school where you're enrolled won't be relevant.
-          </p>
-
-          <p>
-            <strong>We define "campus" as any of these locations:</strong>
-          </p>
-          <ul>
-            <li>
-              The specific campus of a school where you're taking classes (for
-              example, in the school’s science center, humanities building, or
-              athletic center)
-            </li>
-            <li>
-              The physical location where you're learning in a study-abroad
-              program
-            </li>
-            <li>
-              The site of any internship, externship, practicum, or student
-              teaching
-            </li>
-          </ul>
-          <p>
-            If you first use the Post-9/11 GI Bill on or after January 1, 2018,
-            you'll receive a monthly housing allowance based directly on the
-            Department of Defense Basic Allowance for Housing (BAH).
-          </p>
+          {this.calcBeneficiaryLocationQuestionContent()}
         </Modal>
 
         <Modal

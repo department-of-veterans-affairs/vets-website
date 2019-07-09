@@ -1,211 +1,28 @@
+/**
+ * The expected result of these tests came from manually determining
+ * the combined rating using the data tables located at
+ * https://www.benefits.va.gov/compensation/rates-index.asp.
+ */
+
 import { expect } from 'chai';
-import { calculateRating } from '../../utils/helpers';
+import inputs from './inputs.json';
 
-const ratingArray = [
-  {
-    rating: 30,
-    description: 'arm',
-  },
-  {
-    rating: 10,
-    description: 'leg',
-  },
-  {
-    rating: 20,
-    description: 'ears',
-  },
-];
+import { calculateCombinedRating } from '../../utils/helpers';
 
-const ratingArrayTwo = [
-  {
-    rating: 60,
-    description: 'left eye',
-  },
-  {
-    rating: 20,
-    description: 'knee',
-  },
-  {
-    rating: 40,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: 'hearing loss',
-  },
-];
+describe('Disability Calculator helpers:', () => {
+  describe('calculateCombinedRating', () => {
+    for (const input of inputs) {
+      const { ratings, combinedRating: expectedResult } = input;
 
-const ratingArrayThree = [
-  {
-    rating: 10,
-    description: 'left eye',
-  },
-  {
-    rating: 20,
-    description: 'knee',
-  },
-  {
-    rating: 40,
-    description: '',
-  },
-  {
-    rating: 90,
-    description: 'hearing loss',
-  },
-];
+      it(`should calculate a CDR of ${expectedResult.exact} (rounded to ${
+        expectedResult.rounded
+      }) from the following ratings: ${ratings.join(', ')}`, () => {
+        const result = calculateCombinedRating(ratings);
 
-const ratingArrayTens = [
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-];
-
-const ratingArrayTwenties = [
-  {
-    rating: 20,
-    description: '',
-  },
-  {
-    rating: 20,
-    description: '',
-  },
-];
-
-const ratingArraySix = [
-  {
-    rating: 80,
-    description: '',
-  },
-  {
-    rating: 10,
-    description: '',
-  },
-  {
-    rating: 40,
-    description: '',
-  },
-];
-const ratingArraySeven = [
-  {
-    rating: 90,
-    description: '',
-  },
-  {
-    rating: 90,
-    description: '',
-  },
-];
-const noRatings = [
-  {
-    rating: 0,
-    description: 'arm',
-  },
-  {
-    rating: 0,
-    description: 'leg',
-  },
-  {
-    rating: 0,
-    description: 'ears',
-  },
-];
-
-describe('Disability Caclulator helper', () => {
-  it('should return an array with length of two elements', () => {
-    const result = calculateRating(ratingArray);
-    expect(result)
-      .to.be.an('array')
-      .that.has.length(2);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(noRatings)[0];
-    expect(result).to.be.equal(0);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArray)[0];
-    const actual = calculateRating(ratingArray)[1];
-    expect(result).to.be.equal(50);
-    expect(actual).to.be.equal(49.6);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArrayTwo)[0];
-    const actual = calculateRating(ratingArrayTwo)[1];
-    expect(result).to.be.equal(80);
-    expect(actual).to.be.equal(82.72);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArrayThree)[0];
-    const actual = calculateRating(ratingArrayThree)[1];
-    expect(result).to.be.equal(100);
-    expect(actual).to.be.equal(95.68);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArrayTens)[0];
-    const actual = calculateRating(ratingArrayTens)[1];
-    expect(result).to.be.equal(70);
-    expect(actual).to.be.equal(65.13);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArrayTwenties)[0];
-    const actual = calculateRating(ratingArrayTwenties)[1];
-    expect(result).to.be.equal(40);
-    expect(actual).to.be.equal(36);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArraySix)[0];
-    const actual = calculateRating(ratingArraySix)[1];
-    expect(result).to.be.equal(90);
-    expect(actual).to.be.equal(89.2);
-  });
-
-  it('should calculate ', () => {
-    const result = calculateRating(ratingArraySeven)[0];
-    const actual = calculateRating(ratingArraySeven)[1];
-    expect(result).to.be.equal(100);
-    expect(actual).to.be.equal(99);
+        expect(result).to.have.keys(['exact', 'rounded']);
+        expect(result.exact).to.be.equal(expectedResult.exact);
+        expect(result.rounded).to.be.equal(expectedResult.rounded);
+      });
+    }
   });
 });

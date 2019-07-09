@@ -15,6 +15,6 @@ describe('Schemaform definition file', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelector('input[type="file"]')).not.to.be.null;
-    expect(formDOM.querySelector('label[role="button"]')).not.to.be.null;
+    expect(formDOM.querySelector('label>span[role="button"]')).not.to.be.null;
   });
 });

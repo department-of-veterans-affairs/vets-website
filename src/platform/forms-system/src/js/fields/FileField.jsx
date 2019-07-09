@@ -243,19 +243,22 @@ export default class FileField extends React.Component {
           !isUploading && (
             <div>
               <label
-                role="button"
-                onKeyPress={e => {
-                  e.preventDefault();
-                  if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
-                    document.getElementById(idSchema.$id).click();
-                  }
-                }}
-                tabIndex="0"
                 id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
                 className="usa-button usa-button-secondary"
               >
-                {buttonText}
+                <span
+                  role="button"
+                  onKeyPress={e => {
+                    e.preventDefault();
+                    if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
+                      document.getElementById(idSchema.$id).click();
+                    }
+                  }}
+                  tabIndex="0"
+                >
+                  {buttonText}
+                </span>
               </label>
               <input
                 type="file"

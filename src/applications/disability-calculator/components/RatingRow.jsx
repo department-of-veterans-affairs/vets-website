@@ -1,10 +1,10 @@
 import React from 'react';
 
 const RatingRow = ({
-  ratingObj,
+  disability,
   indx,
-  handleChange,
-  handleRemoveRating,
+  updateDisability,
+  removeDisability,
   inputRef,
   disabled,
 }) => {
@@ -13,15 +13,15 @@ const RatingRow = ({
     const re = /^[0-9\b]+$/;
 
     if (re.test(val) || val === '') {
-      handleChange(indx, {
-        ...ratingObj,
+      updateDisability(indx, {
+        ...disability,
         rating: val.length ? Number(val) : val,
       });
     }
   };
 
   const onDescriptionChange = e => {
-    handleChange(indx, { ...ratingObj, description: e.target.value });
+    updateDisability(indx, { ...disability, description: e.target.value });
   };
 
   const rowId = `disability-row-${indx + 1}`;
@@ -38,7 +38,7 @@ const RatingRow = ({
           onChange={onRatingChange}
           className="ratingInput"
           maxLength="2"
-          value={ratingObj.rating}
+          value={disability.rating}
           pattern="\d+"
           name="rating"
           ref={inputRef}
@@ -50,7 +50,7 @@ const RatingRow = ({
           className="descriptionInput"
           name="description"
           onChange={onDescriptionChange}
-          value={ratingObj.description}
+          value={disability.description}
           aria-labelledby={`descriptionLabel ${rowId}`}
         />
       </div>
@@ -59,7 +59,7 @@ const RatingRow = ({
           <button
             type="button"
             aria-label={`Delete disability rating row ${indx + 1}`}
-            onClick={handleRemoveRating(indx)}
+            onClick={removeDisability(indx)}
             className="va-button-link delete-btn vads-u-margin--1p5"
             disabled={disabled}
           >

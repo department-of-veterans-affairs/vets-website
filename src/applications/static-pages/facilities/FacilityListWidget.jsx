@@ -54,7 +54,10 @@ export default class FacilityListWidget extends React.Component {
           key={facility.id}
           className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
         >
-          <section key={facility.id} className="region-grid">
+          <section
+            key={facility.id}
+            className="region-grid vads-u-margin-right--2"
+          >
             <FacilityTitle
               facility={facility}
               nickname={this.props.facilities[facility.id].nickname}
