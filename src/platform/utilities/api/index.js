@@ -18,7 +18,6 @@ export function fetch(...args) {
         // Get session expiration from header
         const sessionExpiration = response.headers.get('X-Session-Expiration');
         if (sessionExpiration) {
-          // console.log(`Header found.  Storing: ${sessionExpiration}`);
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
       }
@@ -82,10 +81,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (response.ok || response.status === 304) {
-        //   // Get session expiration from header
-        //   const sessionExpiration = response.headers.get('X-Session-Expiration');
-        //   if (sessionExpiration)
-        //     localStorage.setItem('sessionExpiration', sessionExpiration);
         return data;
       }
 
