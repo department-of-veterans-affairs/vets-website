@@ -27,7 +27,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
 
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
-      <div className="small-6 usa-width-one-half medium-6 columns">
+      <div className="small-6 usa-width-one-half columns">
         <a href="/">
           <button className="usa-button-primary">Go back to VA.gov</button>
         </a>
