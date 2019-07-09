@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Element, Link } from 'react-scroll';
 
 import DowntimeNotification, {
   externalServices,
@@ -18,6 +19,36 @@ import PaymentInformation from '../containers/PaymentInformation';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
+
+const ProfileTOC = ({ militaryInformation }) => (
+  <>
+    <h2 className="vads-u-font-size--h3">On this page</h2>
+    <ul>
+      <li>
+        <Link to="contact-information" smooth duration={500}>
+          Contact information
+        </Link>
+      </li>
+      <li>
+        <Link activeClass="active" to="direct-deposit" smooth duration={500}>
+          Direct deposit information
+        </Link>
+      </li>
+      <li>
+        <Link to="personal-information" smooth duration={500}>
+          Personal information
+        </Link>
+      </li>
+      {militaryInformation && (
+        <li>
+          <Link to="military-information" smooth duration={500}>
+            Military service information
+          </Link>
+        </li>
+      )}
+    </ul>
+  </>
+);
 
 class ProfileView extends React.Component {
   static propTypes = {
@@ -85,12 +116,17 @@ class ProfileView extends React.Component {
                 hero={hero}
                 militaryInformation={militaryInformation}
               />
+              <ProfileTOC militaryInformation={militaryInformation} />
+              <Element name="contact-information" />
               <ContactInformation />
+              <Element name="direct-deposit" />
               <PaymentInformation />
+              <Element name="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}
               />
+              {militaryInformation && <Element name="military-information" />}
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}

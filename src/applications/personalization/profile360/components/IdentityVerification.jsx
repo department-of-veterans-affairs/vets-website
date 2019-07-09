@@ -1,6 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 export default function IdentityVerification({
   learnMoreClick,
