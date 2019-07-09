@@ -32,7 +32,7 @@ const mappedIds = [
   '22-1995',
   '22-5490',
   '22-5495',
-  '40-10007',
+  VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
 ];
 
