@@ -5,7 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const eduForms = new Set([
   '22-0994',
-  '22-1990',
+  VA_FORM_IDS.FORM_22_1990,
   VA_FORM_IDS.FORM_22_1995,
   VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,

@@ -106,7 +106,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
-        formIds={new Set(['22-1990'])}
+        formIds={new Set([VA_FORM_IDS.FORM_22_1990])}
         login={{
           currentlyLoggedIn: true,
         }}
@@ -116,7 +116,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '22-1990',
+              form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
@@ -139,7 +139,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should render multiple forms message', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
-        formIds={new Set(['22-1990', VA_FORM_IDS.FORM_22_1995])}
+        formIds={new Set([VA_FORM_IDS.FORM_22_1990, VA_FORM_IDS.FORM_22_1995])}
         login={{
           currentlyLoggedIn: true,
         }}
@@ -149,7 +149,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '22-1990',
+              form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
