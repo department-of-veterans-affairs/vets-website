@@ -2,6 +2,7 @@ const process = require('process');
 const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
+const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 const logoutRequestUrl = '/sessions/slo/new';
 
@@ -53,7 +54,7 @@ function initUserMock(token, level) {
               metadata: {},
             },
           ],
-          prefills_available: ['21-526EZ', '22-0994'],
+          prefills_available: ['21-526EZ', VA_FORM_IDS.FORM_22_0994],
           services: [
             'facilities',
             'hca',
