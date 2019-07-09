@@ -22,7 +22,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
-import VetTecSearchForm from '../components/search/VetTecSearchForm';
+import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import environment from '../../../platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;

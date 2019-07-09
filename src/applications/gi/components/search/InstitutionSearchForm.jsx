@@ -23,7 +23,7 @@ class InstitutionSearchForm extends React.Component {
               onFetchAutocompleteSuggestions={
                 this.props.fetchAutocompleteSuggestions
               }
-              onFilterChange={this.handleFilterChange}
+              onFilterChange={this.props.handleFilterChange}
               onUpdateAutocompleteSearchTerm={
                 this.props.updateAutocompleteSearchTerm
               }
@@ -31,7 +31,7 @@ class InstitutionSearchForm extends React.Component {
             <InstitutionFilterForm
               search={this.props.search}
               filters={this.props.filters}
-              onFilterChange={this.props.handleFilterChange}
+              handleFilterChange={this.props.handleFilterChange}
             />
             <EligibilityForm />
             <OnlineClassesFilter

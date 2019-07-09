@@ -1,9 +1,29 @@
 import React from 'react';
 
-import KeywordSearch from './KeywordSearch';
+import KeywordSearch from '../search/KeywordSearch';
 import Checkbox from '../Checkbox';
+import { DropdownFilter } from '../search/DropdownFilter';
+import PropTypes from 'prop-types';
 
-class InstitutionSearchForm extends React.Component {
+class VetTecSearchForm extends React.Component {
+  static propTypes = {
+    onlineClasses: PropTypes.string.isRequired,
+    eligibilityChange: PropTypes.func.isRequired,
+    showModal: PropTypes.func.isRequired,
+    search: PropTypes.object.isRequired,
+    filters: PropTypes.object.isRequired,
+    filtersClass: PropTypes.object.isRequired,
+    autocomplete: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    clearAutocompleteSuggestions: PropTypes.func.isRequired,
+    fetchAutocompleteSuggestions: PropTypes.func.isRequired,
+    handleFilterChange: PropTypes.func.isRequired,
+    updateAutocompleteSearchTerm: PropTypes.func.isRequired,
+    toggleFilter: PropTypes.func.isRequired,
+    searchResults: PropTypes.object.isRequired,
+    eligibility: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
     const { onlineClasses } = props.eligibility;
@@ -14,6 +34,11 @@ class InstitutionSearchForm extends React.Component {
       },
     };
   }
+
+  handleDropdownChange = e => {
+    const { name: field, value } = e.target;
+    this.props.handleFilterChange(field, value);
+  };
 
   handleOnlineClassesChange = e => {
     // change state.learningFormat
@@ -75,6 +100,40 @@ class InstitutionSearchForm extends React.Component {
     );
   };
 
+  renderCountryFilter = () => {
+    const options = this.props.search.facets.country.map(country => ({
+      value: country.name,
+      label: country.name,
+    }));
+    return (
+      <DropdownFilter
+        label="Country"
+        name="country"
+        alt="Filter results by country"
+        options={options}
+        value={this.props.filters.country}
+        handleDropdownChange={this.handleDropdownChange}
+      />
+    );
+  };
+
+  renderStateFilter = () => {
+    const options = Object.keys(this.props.search.facets.state).map(state => ({
+      value: state,
+      label: state,
+    }));
+    return (
+      <DropdownFilter
+        label="State"
+        name="state"
+        alt="Filter results by state"
+        options={options}
+        value={this.props.filters.state}
+        handleDropdownChange={this.handleDropdownChange}
+      />
+    );
+  };
+
   render() {
     return (
       <div className="row">
@@ -92,13 +151,15 @@ class InstitutionSearchForm extends React.Component {
               onFetchAutocompleteSuggestions={
                 this.props.fetchAutocompleteSuggestions
               }
-              onFilterChange={this.handleFilterChange}
+              onFilterChange={this.props.handleFilterChange}
               onUpdateAutocompleteSearchTerm={
                 this.props.updateAutocompleteSearchTerm
               }
             />
 
             {this.renderLearningFormat()}
+            {this.renderCountryFilter()}
+            {this.renderStateFilter()}
           </div>
           <div className="results-button">
             <button className="usa-button" onClick={this.props.toggleFilter}>
@@ -112,4 +173,4 @@ class InstitutionSearchForm extends React.Component {
   }
 }
 
-export default InstitutionSearchForm;
+export default VetTecSearchForm;

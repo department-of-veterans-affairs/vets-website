@@ -4,16 +4,17 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
+import { DropdownFilter } from './DropdownFilter';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
-    this.props.onFilterChange(field, value);
+    this.props.handleFilterChange(field, value);
   };
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
-    this.props.onFilterChange(field, value);
+    this.props.handleFilterChange(field, value);
   };
 
   renderCategoryFilter = () => (
@@ -25,45 +26,35 @@ class InstitutionFilterForm extends React.Component {
   );
 
   renderCountryFilter = () => {
-    const options = [
-      { value: 'ALL', label: 'ALL' },
-      ...this.props.search.facets.country.map(country => ({
-        value: country.name,
-        label: country.name,
-      })),
-    ];
-
+    const options = this.props.search.facets.country.map(country => ({
+      value: country.name,
+      label: country.name,
+    }));
     return (
-      <Dropdown
+      <DropdownFilter
         label="Country"
         name="country"
+        alt="Filter results by country"
         options={options}
         value={this.props.filters.country}
-        alt="Filter results by country"
-        visible
-        onChange={this.handleDropdownChange}
+        handleDropdownChange={this.handleDropdownChange}
       />
     );
   };
 
   renderStateFilter = () => {
-    const options = [
-      { value: 'ALL', label: 'ALL' },
-      ...Object.keys(this.props.search.facets.state).map(state => ({
-        value: state,
-        label: state,
-      })),
-    ];
-
+    const options = Object.keys(this.props.search.facets.state).map(state => ({
+      value: state,
+      label: state,
+    }));
     return (
-      <Dropdown
+      <DropdownFilter
         label="State"
         name="state"
+        alt="Filter results by state"
         options={options}
         value={this.props.filters.state}
-        alt="Filter results by state"
-        visible
-        onChange={this.handleDropdownChange}
+        handleDropdownChange={this.handleDropdownChange}
       />
     );
   };
@@ -178,7 +169,7 @@ InstitutionFilterForm.propTypes = {
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemOffered: PropTypes.bool,
   }),
-  onFilterChange: PropTypes.func,
+  handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
     category: PropTypes.object,
     distanceLearning: PropTypes.object,
