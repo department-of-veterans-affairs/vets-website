@@ -22,7 +22,7 @@ import schemas from 'vets-json-schema/dist/schemas';
 const mappedIds = [
   '10-10EZ',
   '21-526EZ-ALLCLAIMS',
-  '21-686C',
+  VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21P_527EZ,
   VA_FORM_IDS.FORM_21P_530,
   VA_FORM_IDS.FORM_22_0993,
