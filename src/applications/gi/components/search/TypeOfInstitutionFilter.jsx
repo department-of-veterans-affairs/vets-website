@@ -19,9 +19,22 @@ class TypeOfInstitutionFilter extends React.Component {
       { value: 'employer', label: 'Employers only' },
     ];
     if (this.props.displayVetTecOption) {
+      const vetTecLabel = (
+        <span>
+          VET TEC training providers only &nbsp;(
+          <a
+            href="/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn More
+          </a>
+          )
+        </span>
+      );
       options.push({
         value: 'vettec',
-        label: 'VET TEC training providers only',
+        label: vetTecLabel,
       });
     }
 

@@ -71,6 +71,11 @@ export class LandingPage extends React.Component {
     this.props.institutionFilterChange(filters);
   };
 
+  shouldDisplayTypeOfInstitution = () =>
+    !environment.isProduction() &&
+    this.props.eligibility.militaryStatus !== 'active duty' &&
+    this.props.eligibility.giBillChapter === '33';
+
   render() {
     return (
       <span className="landing-page">
@@ -84,7 +89,7 @@ export class LandingPage extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm />
               {/* CT 116 */}
-              {!environment.isProduction() && (
+              {this.shouldDisplayTypeOfInstitution() && (
                 <TypeOfInstitutionFilter
                   category={this.props.filters.category}
                   onChange={this.filtersChange}
