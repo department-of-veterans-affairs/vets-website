@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element, Link } from 'react-scroll';
 
 import DowntimeNotification, {
   externalServices,
@@ -25,25 +24,17 @@ const ProfileTOC = ({ militaryInformation }) => (
     <h2 className="vads-u-font-size--h3">On this page</h2>
     <ul>
       <li>
-        <Link to="contact-information" smooth duration={500}>
-          Contact information
-        </Link>
+        <a href="#contact-information">Contact information</a>
       </li>
       <li>
-        <Link activeClass="active" to="direct-deposit" smooth duration={500}>
-          Direct deposit information
-        </Link>
+        <a href="#direct-deposit">Direct deposit information</a>
       </li>
       <li>
-        <Link to="personal-information" smooth duration={500}>
-          Personal information
-        </Link>
+        <a href="#personal-information">Personal information</a>
       </li>
       {militaryInformation && (
         <li>
-          <Link to="military-information" smooth duration={500}>
-            Military service information
-          </Link>
+          <a href="#military-information">Military service information</a>
         </li>
       )}
     </ul>
@@ -117,16 +108,16 @@ class ProfileView extends React.Component {
                 militaryInformation={militaryInformation}
               />
               <ProfileTOC militaryInformation={militaryInformation} />
-              <Element name="contact-information" />
+              <div id="contact-information" />
               <ContactInformation />
-              <Element name="direct-deposit" />
+              <div id="direct-deposit" />
               <PaymentInformation />
-              <Element name="personal-information" />
+              <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}
               />
-              {militaryInformation && <Element name="military-information" />}
+              {militaryInformation && <div id="military-information" />}
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}
