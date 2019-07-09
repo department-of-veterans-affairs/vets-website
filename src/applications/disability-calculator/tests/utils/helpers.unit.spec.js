@@ -9,11 +9,14 @@ import inputs from './inputs.json';
 
 import { calculateCombinedRating } from '../../utils/helpers';
 
-describe('Disability Caclulator helpers', () => {
+describe('Disability Calculator helpers:', () => {
   describe('calculateCombinedRating', () => {
     for (const input of inputs) {
-      it('should calculate the correct result', () => {
-        const { ratings, combinedRating: expectedResult } = input;
+      const { ratings, combinedRating: expectedResult } = input;
+
+      it(`should calculate a CDR of ${expectedResult.exact} (rounded to ${
+        expectedResult.rounded
+      }) from the following ratings: ${ratings.join(', ')}`, () => {
         const result = calculateCombinedRating(ratings);
 
         expect(result).to.have.keys(['exact', 'rounded']);
