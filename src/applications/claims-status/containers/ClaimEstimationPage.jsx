@@ -29,7 +29,7 @@ class ClaimEstimationPage extends React.Component {
         <div className="row">
           <div className="usa-width-two-thirds medium-8 columns">
             <div>
-              <h1>How We Come Up with Your Estimated Decision Date</h1>
+              <h1>How we come up with your estimated decision date</h1>
               <p className="first-of-type">
                 We look at every claim carefully before making a decision.
                 Sometimes we can decide quickly, but more complex claims take

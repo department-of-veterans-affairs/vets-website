@@ -46,7 +46,7 @@ export default class ClaimDetailLayout extends React.Component {
                   onClose={clearNotification}
                 />
               )}
-              <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
+              <h1 className="claim-title">Your {getClaimType(claim)} claim</h1>
               {!synced && <ClaimSyncWarning olderVersion={!synced} />}
             </div>
           </div>

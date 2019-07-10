@@ -54,7 +54,7 @@ class AskVAPage extends React.Component {
                 Status details
               </Link>
               <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
-                Ask for claim decision
+                Ask for your claim decision
               </Link>
             </ClaimsBreadcrumbs>
           </div>
@@ -62,7 +62,7 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="usa-width-two-thirds medium-8 columns">
             <div>
-              <h1>Ask for your Claim Decision</h1>
+              <h1>Ask for your claim decision</h1>
               <p className="first-of-type">
                 We sent you a letter in the mail asking for more evidence to
                 support your claim. We’ll wait 30 days for your evidence. If you
