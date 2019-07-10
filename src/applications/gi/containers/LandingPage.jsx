@@ -83,7 +83,7 @@ export class LandingPage extends React.Component {
     if (!display && this.props.filters.category !== 'ALL') {
       this.filtersChange({
         target: {
-          name: '',
+          name: 'category',
           value: 'ALL',
         },
       });
