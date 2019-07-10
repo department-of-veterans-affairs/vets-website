@@ -20,6 +20,7 @@ import StemScholarshipNotification from '../components/content/StemScholarshipNo
 import environment from 'platform/utilities/environment';
 import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
+import { calculateFilters } from '../selectors/search';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -141,7 +142,7 @@ export class LandingPage extends React.Component {
 
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
-  filters: state.filters,
+  filters: calculateFilters(state.filters),
   eligibility: state.eligibility,
 });
 
