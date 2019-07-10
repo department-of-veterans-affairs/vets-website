@@ -1,7 +1,7 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
 
 const INITIAL_STATE = {
-  category: 'ALL',
+  category: 'school',
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',

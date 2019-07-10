@@ -74,22 +74,9 @@ export class LandingPage extends React.Component {
     this.props.institutionFilterChange(filters);
   };
 
-  shouldDisplayTypeOfInstitution = () => {
-    const display =
-      !environment.isProduction() &&
-      this.props.eligibility.militaryStatus !== 'active duty' &&
-      this.props.eligibility.giBillChapter === '33';
-
-    if (!display && this.props.filters.category !== 'ALL') {
-      this.filtersChange({
-        target: {
-          name: 'category',
-          value: 'ALL',
-        },
-      });
-    }
-    return display;
-  };
+  shouldDisplayTypeOfInstitution = () =>
+    this.props.eligibility.militaryStatus !== 'active duty' &&
+    this.props.eligibility.giBillChapter === '33';
 
   render() {
     return (
@@ -104,11 +91,12 @@ export class LandingPage extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm />
               {/* CT 116 */}
-              {this.shouldDisplayTypeOfInstitution() && (
+              {!environment.isProduction() && (
                 <TypeOfInstitutionFilter
                   category={this.props.filters.category}
                   onChange={this.filtersChange}
-                  displayVetTecOption
+                  eligibility={this.props.eligibility}
+                  displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
                 />
               )}
               {/* /CT 116 */}

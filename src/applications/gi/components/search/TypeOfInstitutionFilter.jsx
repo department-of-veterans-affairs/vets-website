@@ -13,12 +13,6 @@ class TypeOfInstitutionFilter extends React.Component {
     displayAllOption: false,
   };
 
-  componentDidMount() {
-    if (!this.props.displayAllOption && this.props.category === 'ALL') {
-      this.props.onChange({ target: { name: 'category', value: 'school' } });
-    }
-  }
-
   render() {
     const options = [];
 

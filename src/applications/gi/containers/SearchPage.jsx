@@ -113,10 +113,7 @@ export class SearchPage extends React.Component {
 
     const shouldRemoveFilter =
       !value ||
-      ((field === 'category' ||
-        field === 'country' ||
-        field === 'state' ||
-        field === 'type') &&
+      ((field === 'country' || field === 'state' || field === 'type') &&
         value === 'ALL');
 
     if (shouldRemoveFilter) {
