@@ -7,11 +7,8 @@ import { withRouter } from 'react-router';
 import SubmitButtons from './SubmitButtons';
 import { PreSubmitSection } from '../components/PreSubmitSection';
 import { isValidForm } from '../validation';
-import {
-  createPageListByChapter,
-  getActiveExpandedPages,
-  recordEvent,
-} from '../helpers';
+import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import { setPreSubmit, setSubmission, submitForm } from '../actions';
 
 class SubmitController extends React.Component {

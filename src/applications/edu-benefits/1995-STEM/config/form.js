@@ -4,12 +4,13 @@ import fullSchema1995Stem from 'vets-json-schema/dist/22-1995-STEM-schema.json';
 
 import { transform } from '../helpers';
 
-import * as address from '../../../../platform/forms/definitions/address';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import * as address from 'platform/forms/definitions/address';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
@@ -18,7 +19,7 @@ import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
+import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';
@@ -44,7 +45,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   trackingPrefix: 'edu-1995-STEM-',
-  formId: '22-1995-STEM',
+  formId: VA_FORM_IDS.FORM_22_1995_STEM,
   version: 1,
   prefillEnabled: true,
   savedFormMessages: {

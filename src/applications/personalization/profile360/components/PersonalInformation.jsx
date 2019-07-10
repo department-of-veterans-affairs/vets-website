@@ -1,15 +1,15 @@
 import React from 'react';
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import moment from 'moment';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-import facilityLocator from '../../../facility-locator/manifest';
+import recordEvent from 'platform/monitoring/record-event';
+import facilityLocator from 'applications/facility-locator/manifest';
 
 function Gender({ gender }) {
   let content = 'This information is not available right now.';

@@ -3,12 +3,13 @@ import _ from 'lodash/fp';
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
-import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import applicantInformation from 'platform/forms/pages/applicantInformation';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -16,11 +17,11 @@ import createSchoolSelectionPage, {
 import createDirectDepositPage from '../../pages/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import * as address from '../../../../platform/forms/definitions/address';
-import fullNameUISchema from '../../../../platform/forms/definitions/fullName';
+import * as address from 'platform/forms/definitions/address';
+import fullNameUISchema from 'platform/forms/definitions/fullName';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as personId from '../../../../platform/forms/definitions/personId';
+import * as personId from 'platform/forms/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -47,7 +48,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',
-  formId: '22-1990E',
+  formId: VA_FORM_IDS.FORM_22_1990E,
   version: 1,
   migrations: [urlMigration('/1990e')],
   prefillEnabled: true,

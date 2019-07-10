@@ -1,5 +1,5 @@
 import React from 'react';
-import facilityLocator from '../../../facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest';
 
 export default function MVIError({ facilitiesClick }) {
   return (

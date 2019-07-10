@@ -1,14 +1,13 @@
 import React from 'react';
 import {
-  calculateRating,
-  shouldCalculate,
-  pullRatingsFromState,
+  getRatings,
+  canCalculate,
+  calculateCombinedRating,
 } from '../utils/helpers';
 import CalculatedDisabilityRating from './CalculatedDisabilityRating';
 import RatingRow from './RatingRow';
-import '../sass/disability-calculator.scss';
 
-const defaultRatings = [
+const defaultDisabilities = [
   {
     rating: '',
     description: '',
@@ -24,7 +23,7 @@ export default class DisabilityRatingCalculator extends React.Component {
     super();
 
     this.state = {
-      ratings: [...defaultRatings],
+      disabilities: [...defaultDisabilities],
       showCombinedRating: false,
       calculatedRating: 0,
     };
@@ -45,15 +44,17 @@ export default class DisabilityRatingCalculator extends React.Component {
   focusLastRatingInput = () =>
     this.ratingInputRefs[this.ratingInputRefs.length - 1].focus();
 
-  handleRowChange = (index, updatedRow) => {
-    const ratings = this.state.ratings;
-    ratings[index] = updatedRow;
-    this.setState({ ratings });
+  handleDisabilityChange = (index, updatedRow) => {
+    const disabilities = this.state.disabilities;
+    disabilities[index] = updatedRow;
+    this.setState({ disabilities });
   };
 
-  handleSubmit = () => {
-    const ratings = this.state.ratings;
-    const calcRating = calculateRating(ratings);
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const ratings = getRatings(this.state.disabilities);
+    const calcRating = calculateCombinedRating(ratings);
 
     this.setState({
       showCombinedRating: true,
@@ -62,22 +63,22 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleAddRating = () => {
-    const ratings = [
-      ...this.state.ratings,
+    const disabilities = [
+      ...this.state.disabilities,
       {
         rating: '',
         description: '',
       },
     ];
 
-    this.setState({ ratings }, this.focusLastRatingInput);
+    this.setState({ disabilities }, this.focusLastRatingInput);
   };
 
-  handleRemoveRating = idx => () => {
-    const ratings = this.state.ratings;
+  handleRemoveDisability = idx => () => {
+    const disabilities = this.state.disabilities;
     this.ratingInputRefs.pop();
-    ratings.splice(idx, 1);
-    this.setState({ ratings }, this.focusLastRatingInput);
+    disabilities.splice(idx, 1);
+    this.setState({ disabilities }, this.focusLastRatingInput);
   };
 
   showRating = () => {
@@ -89,7 +90,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   clearAll = () => {
     this.setState(
       {
-        ratings: [...defaultRatings],
+        disabilities: [...defaultDisabilities],
         calculatedRating: 0,
         showCombinedRating: false,
       },
@@ -98,10 +99,10 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   render() {
-    const ratings = this.state.ratings;
+    const disabilities = this.state.disabilities;
     const calculatedRating = this.state.calculatedRating;
-    const ratingArr = pullRatingsFromState(ratings);
-    const checkForTwoRatings = shouldCalculate(ratingArr);
+    const ratings = getRatings(disabilities);
+    const canSubmit = canCalculate(ratings);
 
     return (
       <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
@@ -130,16 +131,16 @@ export default class DisabilityRatingCalculator extends React.Component {
               Optional description
             </div>
           </div>
-          {this.state.ratings.map((ratingObj, idx) => (
+          {disabilities.map((disability, idx) => (
             <RatingRow
-              handleChange={this.handleRowChange}
-              ratingObj={ratingObj}
+              disability={disability}
+              ref={this.setRef}
               key={idx}
               indx={idx}
               ratingRef={this.ratingRef}
-              handleRemoveRating={this.handleRemoveRating}
-              ref={this.setRef}
-              disabled={ratings.length < 3}
+              disabled={disabilities.length < 3}
+              updateDisability={this.handleDisabilityChange}
+              removeDisability={this.handleRemoveDisability}
             />
           ))}
           <div className="vads-l-row">
@@ -160,10 +161,8 @@ export default class DisabilityRatingCalculator extends React.Component {
             <div>
               <button
                 className="calculate-btn"
-                onClick={evt => {
-                  this.handleSubmit(evt);
-                }}
-                disabled={!checkForTwoRatings}
+                onClick={this.handleSubmit}
+                disabled={!canSubmit}
               >
                 Calculate
               </button>

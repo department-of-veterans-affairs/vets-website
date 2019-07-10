@@ -19,6 +19,28 @@ import PaymentInformation from '../containers/PaymentInformation';
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
+const ProfileTOC = ({ militaryInformation }) => (
+  <>
+    <h2 className="vads-u-font-size--h3">On this page</h2>
+    <ul>
+      <li>
+        <a href="#contact-information">Contact information</a>
+      </li>
+      <li>
+        <a href="#direct-deposit">Direct deposit information</a>
+      </li>
+      <li>
+        <a href="#personal-information">Personal information</a>
+      </li>
+      {militaryInformation && (
+        <li>
+          <a href="#military-information">Military service information</a>
+        </li>
+      )}
+    </ul>
+  </>
+);
+
 class ProfileView extends React.Component {
   static propTypes = {
     downtimeData: PropTypes.object,
@@ -85,12 +107,17 @@ class ProfileView extends React.Component {
                 hero={hero}
                 militaryInformation={militaryInformation}
               />
+              <ProfileTOC militaryInformation={militaryInformation} />
+              <div id="contact-information" />
               <ContactInformation />
+              <div id="direct-deposit" />
               <PaymentInformation />
+              <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}
               />
+              {militaryInformation && <div id="military-information" />}
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}
