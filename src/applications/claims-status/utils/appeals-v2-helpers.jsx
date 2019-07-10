@@ -584,7 +584,7 @@ export function getStatusContents(appeal, name = {}) {
             older appeal that was closest to receiving a Board decision.
           </p>
           <p>
-            Check <Link to="/your-claims">Your Claims and Appeals</Link> for the
+            Check <Link to="/your-claims">Your claims and appeals</Link> for the
             appeal that contains the issues merged from this appeal.
           </p>
         </div>
@@ -602,7 +602,7 @@ export function getStatusContents(appeal, name = {}) {
             into one of the new decision review options.
           </p>
           <p>
-            Check <Link to="/your-claims">Your Claims and Appeals</Link> for the
+            Check <Link to="/your-claims">Your claims and appeals</Link> for the
             decision review that contains the issues from this appeal, or learn
             more about{' '}
             <a href="/decision-reviews">
