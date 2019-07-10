@@ -17,7 +17,7 @@ const AlertsList = ({ alerts, appealIsActive }) => {
   );
 
   const takeActionHeader = takeActionAlertsPresent ? (
-    <h3>Take Action</h3>
+    <h3>Take action</h3>
   ) : null;
 
   const alertsList = allAlertsContent.map((alert, index) => {
