@@ -4,6 +4,8 @@ import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
 export function fetch(...args) {
+  // Only replace custom fetch if fetch is not stubbed and
+  // feature flag is enabled
   if (
     global.fetch.displayName !== 'stub' &&
     localStorage.getItem('useCustomFetch') === 'true'
