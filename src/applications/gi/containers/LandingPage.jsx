@@ -47,14 +47,17 @@ export class LandingPage extends React.Component {
   }
 
   search(value) {
+    const isVetTec = this.props.filters.category === 'vettec';
     const query = {
       name: value,
       version: this.props.location.query.version,
-      category: this.props.filters.category,
+      category: isVetTec ? null : this.props.filters.category,
+      // eslint-disable-next-line camelcase
+      vet_tec_provider: isVetTec,
     };
 
     _.forEach(query, (val, key) => {
-      if (!val || val === 'ALL') {
+      if (typeof val !== 'boolean' && (!val || val === 'ALL')) {
         delete query[key];
       }
     });

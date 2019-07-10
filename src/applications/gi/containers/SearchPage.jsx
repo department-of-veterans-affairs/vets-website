@@ -65,6 +65,7 @@ export class SearchPage extends React.Component {
       'stemOffered',
       'priorityEnrollment',
       'independentStudy',
+      'vet_tec_provider',
     ];
 
     const query = _.pick(this.props.location.query, [
@@ -124,7 +125,9 @@ export class SearchPage extends React.Component {
     this.props.router.push({ ...this.props.location, query });
   };
 
-  isVetTecSelected = () => this.props.filters.category === 'vettec';
+  isVetTecSelected = () =>
+    this.props.filters.category === 'vettec' ||
+    this.props.filters.vet_tec_provider;
 
   keywordSearchLabel = () =>
     this.isVetTecSelected()
