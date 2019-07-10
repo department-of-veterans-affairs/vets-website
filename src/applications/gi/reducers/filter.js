@@ -21,6 +21,6 @@ export default function(state = INITIAL_STATE, action) {
         ...action.filter,
       };
     default:
-      return state;
+      return { ...state };
   }
 }

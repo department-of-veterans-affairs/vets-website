@@ -9,15 +9,29 @@ class TypeOfInstitutionFilter extends React.Component {
   };
 
   static defaultProps = {
-    displayVetTecOption: true,
+    displayVetTecOption: false,
+    displayAllOption: false,
   };
 
+  componentDidMount() {
+    if (!this.props.displayAllOption && this.props.category === 'ALL') {
+      this.props.onChange({ target: { name: 'category', value: 'school' } });
+    }
+  }
+
   render() {
-    const options = [
-      { value: 'ALL', label: 'All' },
-      { value: 'school', label: 'Schools only' },
-      { value: 'employer', label: 'Employers only' },
-    ];
+    const options = [];
+
+    if (this.props.displayAllOption) {
+      options.push({
+        value: 'ALL',
+        label: 'All',
+      });
+    }
+
+    options.push({ value: 'school', label: 'Schools only' });
+    options.push({ value: 'employer', label: 'Employers only' });
+
     if (this.props.displayVetTecOption) {
       const vetTecLabel = (
         <span>

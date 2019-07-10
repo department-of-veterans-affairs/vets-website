@@ -71,10 +71,22 @@ export class LandingPage extends React.Component {
     this.props.institutionFilterChange(filters);
   };
 
-  shouldDisplayTypeOfInstitution = () =>
-    !environment.isProduction() &&
-    this.props.eligibility.militaryStatus !== 'active duty' &&
-    this.props.eligibility.giBillChapter === '33';
+  shouldDisplayTypeOfInstitution = () => {
+    const display =
+      !environment.isProduction() &&
+      this.props.eligibility.militaryStatus !== 'active duty' &&
+      this.props.eligibility.giBillChapter === '33';
+
+    if (!display) {
+      this.filtersChange({
+        target: {
+          name: '',
+          value: 'ALL',
+        },
+      });
+    }
+    return display;
+  };
 
   render() {
     return (
@@ -93,6 +105,7 @@ export class LandingPage extends React.Component {
                 <TypeOfInstitutionFilter
                   category={this.props.filters.category}
                   onChange={this.filtersChange}
+                  displayVetTecOption
                 />
               )}
               {/* /CT 116 */}
