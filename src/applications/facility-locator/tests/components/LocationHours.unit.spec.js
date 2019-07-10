@@ -115,7 +115,7 @@ describe('LocatorHours Helper Method Tests', () => {
       thursday: '800AM-430PM',
       friday: '00AM-30PM',
       saturday: '-',
-      sunday: '-',
+      sunday: 'Closed',
     };
 
     const expected = {

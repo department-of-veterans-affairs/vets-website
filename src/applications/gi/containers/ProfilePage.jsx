@@ -99,14 +99,14 @@ export class ProfilePage extends React.Component {
                 <AccordionItem button="Estimate your benefits">
                   <Calculator />
                 </AccordionItem>
-                <AccordionItem button="Application process">
-                  <VetTecApplicationProcess
+                <AccordionItem button="Contact us">
+                  <VetTecContactInformation
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
                   />
                 </AccordionItem>
-                <AccordionItem button="Contact us">
-                  <VetTecContactInformation
+                <AccordionItem button="Application process">
+                  <VetTecApplicationProcess
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
                   />

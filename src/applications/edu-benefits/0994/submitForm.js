@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
-import {
-  transformForSubmit,
-  recordEvent,
-} from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit

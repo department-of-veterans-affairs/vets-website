@@ -15,7 +15,7 @@ export default class FacilityPhone extends React.Component {
 
     return (
       <div className="vads-u-margin-bottom--0">
-        <div className="main-phone vads-u-margin-bottom--2">
+        <div className="main-phone vads-u-margin-bottom--1">
           <strong>Main phone: </strong>
           <a
             href={`tel:${this.props.facility.attributes.phone.main.replace(

@@ -6,6 +6,7 @@ import set from 'platform/utilities/data/set';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -133,7 +134,7 @@ class PaymentInformationEditModal extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           <ErrorableTextInput
-            label="Routing number (9 digits)"
+            label="Routing number (Your 9-digit routing number will update your bank’s name)"
             name="routing-number"
             field={routingNumber.field}
             errorMessage={routingNumber.errorMessage}
@@ -163,16 +164,17 @@ class PaymentInformationEditModal extends React.Component {
             required
           />
 
-          <button
+          <LoadingButton
             type="submit"
             className="usa-button-primary vads-u-width--auto"
-            disabled={this.props.isSaving}
+            isLoading={this.props.isSaving}
           >
             Update
-          </button>
+          </LoadingButton>
 
           <button
             type="button"
+            disabled={this.props.isSaving}
             className="usa-button-secondary"
             onClick={this.props.onClose}
           >

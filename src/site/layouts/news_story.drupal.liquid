@@ -73,7 +73,7 @@ Example data:
                     </div>
                 {% endif %}
 
-                <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+                <article class="usa-content">
                     <h1>{{ title }}</h1>
                     {% assign image = fieldMedia.entity.image %}
                     <img class="story-detail-img {% if fieldImageCaption == empty %}vads-u-margin-bottom--2p5{% else %}vads-u-margin-bottom--1{% endif %}" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">

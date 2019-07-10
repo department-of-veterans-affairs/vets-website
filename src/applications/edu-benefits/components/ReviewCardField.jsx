@@ -7,7 +7,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { recordEvent } from 'platform/forms-system/src/js/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 import set from '../../../platform/utilities/data/set';
