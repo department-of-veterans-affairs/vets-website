@@ -108,6 +108,19 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {it.independentStudy ? 'Yes' : 'No'}
         </div>
+        <div>
+          <strong>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'stemOffered')}
+            >
+              STEM (Science, Technology Engineering, and Math):
+            </button>
+          </strong>
+          &nbsp;
+          {it.stemOffered ? 'Yes' : 'No'}
+        </div>
       </div>
     );
   }

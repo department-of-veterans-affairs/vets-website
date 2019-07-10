@@ -12,8 +12,6 @@ import {
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
-import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
-import environment from 'platform/utilities/environment';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -93,7 +91,6 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar />
-            {!environment.isProduction() && <StemScholarshipNotification />}
           </div>
         </div>
       </span>
