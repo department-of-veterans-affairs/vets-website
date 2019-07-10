@@ -80,7 +80,7 @@ export class LandingPage extends React.Component {
       this.props.eligibility.militaryStatus !== 'active duty' &&
       this.props.eligibility.giBillChapter === '33';
 
-    if (!display) {
+    if (!display && this.props.filters.category !== 'ALL') {
       this.filtersChange({
         target: {
           name: '',
