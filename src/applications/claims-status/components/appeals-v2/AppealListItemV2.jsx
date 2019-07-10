@@ -11,15 +11,20 @@ import {
 } from '../../utils/appeals-v2-helpers';
 
 const programAreaMap = {
-  compensation: 'Disability compensation',
-  pension: 'Pension',
-  insurance: 'Insurance',
-  loan_guaranty: 'Loan guaranty', // eslint-disable-line
-  education: 'Education',
-  vre: 'Vocational rehabilitation and employment',
-  medical: 'Health care',
-  burial: 'Burial benefits',
-  fiduciary: 'Fiduciary',
+  compensation: 'disability compensation',
+  pension: 'pension',
+  insurance: 'insurance',
+  loan_guaranty: 'loan guaranty', // eslint-disable-line
+  education: 'education',
+  vre: 'vocational rehabilitation and employment',
+  medical: 'health care',
+  burial: 'burial benefits',
+  fiduciary: 'fiduciary',
+};
+
+const capitalizeWord = word => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
 };
 
 // This component is also used by the personalization application, which will pass the external flag.
@@ -83,6 +88,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       'MMMM D, YYYY',
     )}`;
   }
+  appealTitle = capitalizeWord(appealTitle);
 
   return (
     <div className="claim-list-item-container">
