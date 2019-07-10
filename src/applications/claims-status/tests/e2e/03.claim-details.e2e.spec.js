@@ -31,15 +31,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.expect
     .element('.claim-detail-label:nth-of-type(1)')
-    .text.to.equal('Claim type');
+    .text.to.equal('Claim Type');
   client.expect
     .element('.claim-detail-label:nth-of-type(2)')
     .text.to.equal('What you’ve claimed');
   client.expect
     .element('.claim-detail-label:nth-of-type(3)')
-    .text.to.equal('Date received');
+    .text.to.equal('Date Received');
   client.expect
     .element('.claim-detail-label:nth-of-type(4)')
-    .text.to.equal('Your representative for VA claims');
+    .text.to.equal('Your Representative for VA Claims');
   client.end();
 });
