@@ -9,16 +9,12 @@ $formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
 @import '~react-tabs/style/react-tabs';
 
 .disability-calculator {
-  .calculate-btn {
-    padding: 1rem 3rem;
-  }
-  .delete-btn[disabled] {
-    opacity: 0.5;
-  }
-}
-
-.usa-accordion {
-  margin-top: 16px;
+  // .calculate-btn {
+  //   padding: 1rem 3rem;
+  // }
+  // .delete-btn[disabled] {
+  //   opacity: 0.5;
+  // }
 }
 
 #calculated-disability-rating:focus {
