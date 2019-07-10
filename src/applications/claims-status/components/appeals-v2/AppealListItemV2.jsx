@@ -11,14 +11,14 @@ import {
 } from '../../utils/appeals-v2-helpers';
 
 const programAreaMap = {
-  compensation: 'Disability Compensation',
+  compensation: 'Disability compensation',
   pension: 'Pension',
   insurance: 'Insurance',
-  loan_guaranty: 'Loan Guaranty', // eslint-disable-line
+  loan_guaranty: 'Loan guaranty', // eslint-disable-line
   education: 'Education',
-  vre: 'Vocational Rehabilitation and Employment',
-  medical: 'Health Care',
-  burial: 'Burial Benefits',
+  vre: 'Vocational rehabilitation and employment',
+  medical: 'Health care',
+  burial: 'Burial benefits',
   fiduciary: 'Fiduciary',
 };
 
@@ -79,7 +79,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
   }
 
   if (requestEvent) {
-    appealTitle += ` Received ${moment(requestEvent.date).format(
+    appealTitle += ` received ${moment(requestEvent.date).format(
       'MMMM D, YYYY',
     )}`;
   }

@@ -34,12 +34,12 @@ const appealTypes = Object.values(APPEAL_TYPES);
 export function getTypeName(appeal) {
   switch (appeal.type) {
     case APPEAL_TYPES.supplementalClaim:
-      return 'Supplemental Claim';
+      return 'supplemental claim';
     case APPEAL_TYPES.higherLevelReview:
-      return 'Higher-Level Review';
+      return 'higher-level review';
     case APPEAL_TYPES.legacy:
     case APPEAL_TYPES.appeal:
-      return 'Appeal';
+      return 'appeal';
     default:
       Sentry.withScope(scope => {
         scope.setExtra('type', appeal.type);
