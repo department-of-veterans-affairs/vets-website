@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import contactInformationPage from '../../pages/contactInformation';
-import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
+import applicantInformation from 'platform/forms/pages/applicantInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -11,11 +11,12 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from '../../../../platform/forms/definitions/address';
+} from 'platform/forms/definitions/address';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
@@ -85,7 +86,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
-  formId: '22-1990',
+  formId: VA_FORM_IDS.FORM_22_1990,
   version: 1,
   migrations: [urlMigration('/1990')],
   savedFormMessages: {

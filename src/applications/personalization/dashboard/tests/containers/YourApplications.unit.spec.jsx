@@ -2,6 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   YourApplications,
@@ -23,7 +24,7 @@ const defaultProps = {
 };
 
 const sipEnabledForm = {
-  form: '1010ez',
+  form: VA_FORM_IDS.FORM_10_10EZ,
   metadata: {
     lastUpdated: '2019-04-24T00:00:00.000-06:00',
     expiresAt: '2019-07-24T00:00:00.000-06:00',

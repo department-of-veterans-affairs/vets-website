@@ -1,21 +1,22 @@
 import _ from 'lodash/fp';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import applicantInformation from 'platform/forms/pages/applicantInformation';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 
-import * as personId from '../../../../platform/forms/definitions/personId';
+import * as personId from 'platform/forms/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -38,7 +39,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5495`,
   trackingPrefix: 'edu-5495-',
-  formId: '22-5495',
+  formId: VA_FORM_IDS.FORM_22_5495,
   version: 1,
   migrations: [urlMigration('/5495')],
   prefillEnabled: true,
