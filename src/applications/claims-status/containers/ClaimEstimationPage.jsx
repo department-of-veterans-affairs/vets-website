@@ -18,10 +18,10 @@ class ClaimEstimationPage extends React.Component {
           <div className="medium-12 columns">
             <ClaimsBreadcrumbs>
               <Link to={`your-claims/${this.props.params.id}/status`}>
-                Status Details
+                Status details
               </Link>
               <Link to={`your-claims/${this.props.params.id}/claim-estimate`}>
-                Estimated Decision Date
+                Estimated decision date
               </Link>
             </ClaimsBreadcrumbs>
           </div>

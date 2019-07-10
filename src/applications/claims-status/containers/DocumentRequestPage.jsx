@@ -95,8 +95,8 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClaimsBreadcrumbs>
-                <Link to={filesPath}>Status Details</Link>
-                <Link to={itemPath}>Document Request</Link>
+                <Link to={filesPath}>Status details</Link>
+                <Link to={itemPath}>Document request</Link>
               </ClaimsBreadcrumbs>
             </div>
           </div>

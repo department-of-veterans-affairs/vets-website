@@ -124,7 +124,7 @@ export class AppealInfo extends React.Component {
           <div>
             <ClaimsBreadcrumbs>
               <Link to={`appeals/${appeal.id}`} key="claims-appeal">
-                Status Details
+                Status details
               </Link>
             </ClaimsBreadcrumbs>
           </div>

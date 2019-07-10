@@ -51,10 +51,10 @@ class AskVAPage extends React.Component {
           <div className="medium-12 columns">
             <ClaimsBreadcrumbs>
               <Link to={`your-claims/${this.props.params.id}`}>
-                Status Details
+                Status details
               </Link>
               <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
-                Ask for Claim Decision
+                Ask for claim decision
               </Link>
             </ClaimsBreadcrumbs>
           </div>
