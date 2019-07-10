@@ -1,5 +1,7 @@
+import environment from 'platform/utilities/environment';
+
 const calculateFilters = filters => {
-  if (filters.category === 'ALL') {
+  if (!environment.isProduction() && filters.category === 'ALL') {
     return {
       ...filters,
       category: 'school',

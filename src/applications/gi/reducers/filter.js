@@ -1,7 +1,8 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
+import environment from 'platform/utilities/environment';
 
 const INITIAL_STATE = {
-  category: 'school',
+  category: environment.isProduction() ? 'ALL' : 'school',
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',

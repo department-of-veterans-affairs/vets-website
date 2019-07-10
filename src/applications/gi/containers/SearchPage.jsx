@@ -126,11 +126,6 @@ export class SearchPage extends React.Component {
     this.props.filters.category === 'vettec' ||
     this.props.filters.vet_tec_provider;
 
-  keywordSearchLabel = () =>
-    this.isVetTecSelected()
-      ? 'City, school, or training provider'
-      : 'City, school, or employer';
-
   searchResults = () => {
     const { search } = this.props;
     const {
