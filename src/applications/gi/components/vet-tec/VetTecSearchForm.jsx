@@ -7,12 +7,11 @@ import PropTypes from 'prop-types';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
-    onlineClasses: PropTypes.string.isRequired,
     eligibilityChange: PropTypes.func.isRequired,
     showModal: PropTypes.func.isRequired,
     search: PropTypes.object.isRequired,
     filters: PropTypes.object.isRequired,
-    filtersClass: PropTypes.object.isRequired,
+    filtersClass: PropTypes.string.isRequired,
     autocomplete: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     clearAutocompleteSuggestions: PropTypes.func.isRequired,
@@ -51,7 +50,7 @@ class VetTecSearchForm extends React.Component {
     this.setState({ ...this.state, learningFormat });
 
     const { inPerson, online } = learningFormat;
-    let onlineClasses = this.props.onlineClasses;
+    let onlineClasses = this.props.eligibility.onlineClasses;
 
     if (inPerson && !online) {
       onlineClasses = 'no';

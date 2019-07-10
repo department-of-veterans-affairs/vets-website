@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   typeName: 'ALL',
   // eslint-disable-next-line camelcase
   vet_tec_provider: false,
+  providers: [],
 };
 
 export default function(state = INITIAL_STATE, action) {
