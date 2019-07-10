@@ -21,9 +21,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
+import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -164,31 +165,42 @@ export class SearchPage extends React.Component {
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map(result => (
-              <SearchResult
-                version={this.props.location.query.version}
-                key={result.facilityCode}
-                name={result.name}
-                facilityCode={result.facilityCode}
-                type={result.type}
-                city={result.city}
-                state={result.state}
-                zip={result.zip}
-                country={result.country}
-                cautionFlag={result.cautionFlag}
-                studentCount={result.studentCount}
-                bah={result.bah}
-                dodBah={result.dodBah}
-                schoolClosing={result.schoolClosing}
-                tuitionInState={result.tuitionInState}
-                tuitionOutOfState={result.tuitionOutOfState}
-                books={result.books}
-                studentVeteran={result.studentVeteran}
-                yr={result.yr}
-                poe={result.poe}
-                eightKeys={result.eightKeys}
-              />
-            ))}
+            {search.results.map(result => {
+              if (result.vetTecProvider) {
+                return (
+                  <VetTecSearchResult
+                    version={this.props.location.query.version}
+                    key={result.facilityCode}
+                    result={result}
+                  />
+                );
+              }
+              return (
+                <SearchResult
+                  version={this.props.location.query.version}
+                  key={result.facilityCode}
+                  name={result.name}
+                  facilityCode={result.facilityCode}
+                  type={result.type}
+                  city={result.city}
+                  state={result.state}
+                  zip={result.zip}
+                  country={result.country}
+                  cautionFlag={result.cautionFlag}
+                  studentCount={result.studentCount}
+                  bah={result.bah}
+                  dodBah={result.dodBah}
+                  schoolClosing={result.schoolClosing}
+                  tuitionInState={result.tuitionInState}
+                  tuitionOutOfState={result.tuitionOutOfState}
+                  books={result.books}
+                  studentVeteran={result.studentVeteran}
+                  yr={result.yr}
+                  poe={result.poe}
+                  eightKeys={result.eightKeys}
+                />
+              );
+            })}
           </div>
 
           <Pagination
