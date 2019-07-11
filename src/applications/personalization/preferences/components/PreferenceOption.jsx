@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableCheckbox from 'platform/forms-system/src/js/components/ErrorableCheckbox.jsx';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 export default ({ item, onChange, checked }) => {
   const itemId = item.shortTitle
