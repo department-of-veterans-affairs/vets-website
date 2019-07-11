@@ -26,7 +26,7 @@ BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
 
 VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
 
-DEV_BRANCH = 'master'
+DEV_BRANCH = 'claims-classifier-proto'
 STAGING_BRANCH = 'master'
 PROD_BRANCH = 'master'
 
@@ -58,11 +58,11 @@ def shouldBail() {
     currentBuild.nextBuild
 }
 
-def runDeploy(jobName, ref) {
+def runDeploy(String jobName, String ref, boolean waitForDeploy) {
   build job: jobName, parameters: [
     booleanParam(name: 'notify_slack', value: true),
     stringParam(name: 'ref', value: ref),
-  ], wait: false
+  ], wait: waitForDeploy
 }
 
 def buildDetails(String buildtype, String ref) {

@@ -94,12 +94,14 @@ export default class PreferenceItem extends React.Component {
               .”
             </p>
             <button
+              aria-label={`Remove ${title} content`}
               className="usa-button-primary"
               onClick={() => this.props.handleRemove(code)}
             >
               Remove
             </button>
             <button
+              aria-label={`Cancel this change and keep ${title} content`}
               className="usa-button-secondary"
               onClick={() => this.onCancelRemove(code)}
             >

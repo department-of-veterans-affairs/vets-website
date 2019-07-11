@@ -685,9 +685,9 @@
     to-fast-properties "^2.0.0"
 
 "@department-of-veterans-affairs/formation-react@^4.7.0":
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.8.0.tgz#08a561e8936f9f94d9cf0ebecf85cb9438f50a8d"
-  integrity sha512-JN/zlMOSr6lV3Cxbjcg1G+mI/R7ezBrilQegq8OexvH6y5ZI08zvjig7pReo4B7mTRVs8lQuS4vQFQ/I4voClg==
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.8.1.tgz#4e8ab9810a229caf235801628748552aad3c3427"
+  integrity sha512-89pqyJK207aT9XK22bIJC3rwOcBW/6/CE7q+5Ipg05lfDRM4Nt39JF0orG8iECCSvw1PMXmn/VC9i4a16C/j+w==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.11"
@@ -696,9 +696,9 @@
     react-transition-group "1"
 
 "@department-of-veterans-affairs/formation@^6.6.3":
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.6.3.tgz#3bb2596952331514d83c405979dbe90c2f9c0b21"
-  integrity sha512-1DtAZOO2NH+5MOZq/VDCnq0PlNpZ6S85YBfrV+4N8KHuf3HgYpC7/37jweOM3bE3EabRk91s4qz2C9kdwTzxQg==
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.7.0.tgz#2f79bb8ef7b02ea70f8cf51c63105330b4283cce"
+  integrity sha512-QWEn6Vk67HYBqEm0NFmWUU68RLvwLeZNTHh3f3SLSONIn3QCZ0XYZqX49QVTHu12dPBPYZiMJU1x+2syL7yCZQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -12517,9 +12517,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#690941f6034314c85c3a50a7e83ba83bf3334b47":
-  version "3.138.7"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#690941f6034314c85c3a50a7e83ba83bf3334b47"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bcb70014f04d4ed49fc14625d4298964f80a39c":
+  version "3.138.8"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bcb70014f04d4ed49fc14625d4298964f80a39c"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"

@@ -6,12 +6,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import HCASubwayMap from '../components/HCASubwayMap';
 import recordEvent from 'platform/monitoring/record-event';
 
-import {
-  getFAQBlock1,
-  getFAQBlock2,
-  getFAQBlock3,
-  getFAQBlock4,
-} from '../enrollment-status-helpers';
+import { getFAQContent } from '../enrollment-status-helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
 import { showReapplyContent as showReapplyContentAction } from '../actions';
 import { isShowingHCAReapplyContent } from '../selectors';
@@ -47,20 +42,16 @@ const HCAEnrollmentStatusFAQ = ({
   showingReapplyForHealthCareContent,
   showReapplyContent,
 }) => {
-  const applyAllowed =
-    enrollmentStatus === HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied;
+  const applyAllowed = enrollmentStatus === HCA_ENROLLMENT_STATUSES.activeDuty;
   const reapplyAllowed =
     new Set([
-      HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied,
+      HCA_ENROLLMENT_STATUSES.activeDuty,
       HCA_ENROLLMENT_STATUSES.deceased,
       HCA_ENROLLMENT_STATUSES.enrolled,
     ]).has(enrollmentStatus) === false;
   return (
     <>
-      {getFAQBlock1(enrollmentStatus)}
-      {getFAQBlock2(enrollmentStatus)}
-      {getFAQBlock3(enrollmentStatus)}
-      {getFAQBlock4(enrollmentStatus)}
+      {getFAQContent(enrollmentStatus)}
       {(reapplyAllowed || applyAllowed) &&
         showingReapplyForHealthCareContent && <ReapplyContent route={route} />}
       {reapplyAllowed &&
@@ -93,6 +84,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   showReapplyContent: showReapplyContentAction,
 };
+
+export { HCAEnrollmentStatusFAQ };
 
 export default connect(
   mapStateToProps,

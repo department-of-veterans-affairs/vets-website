@@ -73,7 +73,7 @@ Example data:
                     </div>
                 {% endif %}
 
-                <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+                <article class="usa-content">
                     <h1>{{ title }}</h1>
                     {% assign image = fieldMedia.entity.image %}
                     <img class="story-detail-img {% if fieldImageCaption == empty %}vads-u-margin-bottom--2p5{% else %}vads-u-margin-bottom--1{% endif %}" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
@@ -82,9 +82,12 @@ Example data:
                         {% assign author = fieldAuthor.entity %}
                         <div class="authored-by-line vads-u-margin-bottom--0p5 vads-u-font-weight--bold">By {{ author.title }}{% if author.fieldDescription != empty %}, {{ author.fieldDescription }} {% endif %}</div>
                     {% endif %}
-                    <div class="created-line ">
+                    <div class="created-line vads-u-margin-bottom--2p5">
                         <time datetime="{{ created | dateFromUnix: 'YYYY-MM-DD'}}">{{ created | humanizeTimestamp }}</time>
                     </div>
+
+                    {% include "src/site/facilities/story_social_share.drupal.liquid" %}
+
                     <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
                         <div class="va-introtext">
                             <p>{{ fieldIntroText }}</p>

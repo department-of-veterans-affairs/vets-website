@@ -32,7 +32,9 @@ describe('<AddressContent/>', () => {
     const updateFailureHeader = updateFailureAlert.subTree('h4').text();
 
     expect(updateFailureAlert).to.exist;
-    expect(updateFailureHeader).to.contain('Address update unsuccessful');
+    expect(updateFailureHeader).to.contain(
+      "We aren't able to save your updated address",
+    );
   });
 
   it('should render an <AddressBlock/> if there is no save error', () => {

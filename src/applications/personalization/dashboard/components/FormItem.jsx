@@ -43,6 +43,7 @@ class FormItem extends React.Component {
 
     const activeView = (
       <DashboardAlert
+        id={formId}
         status={DASHBOARD_ALERT_TYPES.inProgress}
         headline={itemTitle}
         subheadline={formIdTitle}
@@ -66,6 +67,7 @@ class FormItem extends React.Component {
     );
     const expiredView = (
       <DashboardAlert
+        id={formId}
         status={DASHBOARD_ALERT_TYPES.closed}
         headline={itemTitle}
         subheadline={formId}

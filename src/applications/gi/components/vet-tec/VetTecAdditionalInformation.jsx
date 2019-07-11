@@ -7,7 +7,7 @@ export const VetTecAdditionalInformation = ({
 }) => (
   <div className="additional-information row">
     <div className="usa-width-one-half medium-6 columns">
-      <div className="institution-codes">
+      <div className="institution-codes usa-width-one-whole">
         <h3>Institution codes</h3>
         <div>
           <strong>

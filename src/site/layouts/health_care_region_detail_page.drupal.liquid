@@ -35,7 +35,7 @@
           {% endif %}
 
 
-          {% assign isContactPage = entityUrl.path | isPage: "contact" %}
+          {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
           {% if isContactPage %}
             <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
                   {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
@@ -76,7 +76,7 @@
           </div>
         {%  endif %}
 
-        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+        <div class="last-updated usa-content">
           Last updated:
           <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>

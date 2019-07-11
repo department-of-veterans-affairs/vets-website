@@ -137,7 +137,7 @@ Example data:
         </div>
       {% endif %}
 
-      <article class="vads-u-width--full vads-u-padding--2 small-screen:vads-u-padding--3">
+      <article class="usa-content">
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
 
@@ -167,30 +167,30 @@ Example data:
           <h3>Manage your health online</h3>
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta">
-              <a href="/health-care/refill-track-prescriptions/">
+              <a href="/health-care/refill-track-prescriptions/" class="vads-u-height--full vads-u-width--full">
                 <i class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Refill and track your prescriptions <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                <span class="vads-facility-hub-cta-label">Refill and track your prescriptions<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
             <div class="usa-width-one-half vads-facility-hub-cta">
-            <a href="/health-care/get-medical-records/">
+            <a href="/health-care/get-medical-records/" class="vads-u-height--full vads-u-width--full">
               <i class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
-              <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button) <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button)<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
             </a>
             </div>
           </div>
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta">
-              <a href="/health-care/secure-messaging/">
-                <i class="fa fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Send a secure message to your health care team <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              <a href="/health-care/secure-messaging/" class="vads-u-height--full vads-u-width--full">
+                <i class="far fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Send a secure message to your health care team<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
             <div class="usa-width-one-half vads-facility-hub-cta">
 
-              <a href="/health-care/view-test-and-lab-results/">
+              <a href="/health-care/view-test-and-lab-results/" class="vads-u-height--full vads-u-width--full">
                 <i class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">View your lab and test results <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                <span class="vads-facility-hub-cta-label">View your lab and test results<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
 
             </div>
@@ -198,15 +198,15 @@ Example data:
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
 
-              <a href="/health-care/schedule-view-va-appointments/">
-                <i class="fa fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Schedule and view your appointments <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              <a href="/health-care/schedule-view-va-appointments/" class="vads-u-height--full vads-u-width--full">
+                <i class="far fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Schedule and view your appointments<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
-            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
-              <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/">
+            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line vads-u-border-top--0 medium-screen:vads-u-border-top--1px vads-u-border-color--primary-alt-light">
+              <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/" class="vads-u-height--full vads-u-width--full">
                 <i class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks <i class="fa fa-chevron-right vads-vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
           </div>
@@ -231,7 +231,7 @@ Example data:
 
         <!-- Events -->
         <section>
-          <h3 class="vads-u-margin-bottom--2p5">Community Events</h3>
+          <h3 class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">Community Events</h3>
           <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           {% for event in eventTeasers.entities %}
             <div class="region-grid event">

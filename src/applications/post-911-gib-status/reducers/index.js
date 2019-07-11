@@ -32,7 +32,7 @@ function post911GIBStatus(state = initialState, action) {
     case NO_CHAPTER33_RECORD_AVAILABLE:
       return set('availability', 'noChapter33Record', state);
     case GET_ENROLLMENT_DATA_FAILURE:
-      return set('availability', 'unavailable', state);
+      return set('availability', 'getEnrollmentDataFailure', state);
     case SET_SERVICE_AVAILABILITY:
       return set('serviceAvailability', action.serviceAvailability, state);
     case SET_SERVICE_UPTIME_REMAINING:

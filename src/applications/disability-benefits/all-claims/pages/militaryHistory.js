@@ -1,8 +1,8 @@
 import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -34,7 +34,7 @@ export const uiSchema = {
         'This is the military service history we have on file for you.',
       'ui:options': {
         itemName: 'Service Period',
-        viewField: ServicePeriodView,
+        viewField: ValidatedServicePeriodView,
         reviewMode: true,
       },
       items: {

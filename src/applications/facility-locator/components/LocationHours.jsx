@@ -25,7 +25,7 @@ export default class LocationHours extends Component {
 
   formatLocationHours(hours) {
     return Object.keys(hours).reduce((accum, key) => {
-      if (hours[key] === '-') {
+      if (hours[key] === '-' || hours[key] === 'Closed') {
         return { ...accum, [key]: 'Closed' };
       }
 

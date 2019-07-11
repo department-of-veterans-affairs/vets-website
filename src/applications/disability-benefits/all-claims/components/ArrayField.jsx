@@ -383,20 +383,16 @@ export default class ArrayField extends React.Component {
             return (
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse">
-                  <div className="small-9 columns">
-                    <ViewField
-                      formData={item}
-                      onEdit={() => this.handleEdit(index)}
-                    />
-                  </div>
-                  <div className="small-3 columns">
-                    <button
-                      className="usa-button-secondary float-right"
-                      onClick={() => this.handleEdit(index)}
-                    >
-                      Edit
-                    </button>
-                  </div>
+                  <ViewField
+                    formData={item}
+                    onEdit={() => this.handleEdit(index)}
+                  />
+                  <button
+                    className="usa-button-secondary float-right"
+                    onClick={() => this.handleEdit(index)}
+                  >
+                    Edit
+                  </button>
                 </div>
               </div>
             );

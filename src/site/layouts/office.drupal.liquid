@@ -24,71 +24,86 @@
           <div class="vads-l-grid-container--full--full">
             <h1>{{ title }}</h1>
             <div class="vads-l-grid-container--full--full">
-              {{ fieldDescription }}
-              {% if title == 'Events' %}
+              <div class="va-introtext">
+                <p class="office-show" id="office-main-description">
+                  {{ fieldDescription }}
+                </p>
+                {% if fieldAssetLibraryDescription %}
+                <p class="library-show" id="office-benefits-description">
+                  {{ fieldAssetLibraryDescription }}
+                </p>
+                {% endif %}
+                {% if fieldEventListingDescription %}
+                <p class="events-show" id="office-events-description">
+                  {{ fieldEventListingDescription }}
+                </p>
+                {% endif %}
+              </div>
+              {% if fieldBody.processed %}
+              <div class="office-show">
+                {{ fieldBody.processed }}
+              </div>
+              {% endif %}
               {% include 'src/site/components/events_list.drupal.liquid' %}
-              {% endif %}
-              {% if title == 'Benefit Materials' %}
-              <form class="usa-form outreach-asset-form-filters">
-                <div class="vads-l-grid-container--full">
-                  <div class="vads-l-row vads-u-justify-content--space-between">
-                    <div class="vads-l-col--12
-                medium-screen:vads-l-col--6
-                small-desktop-screen:vads-l-col--6
-                large-screen:vads-l-col--6">
-                      <label class="vads-u-margin-top--0"
-                        for="outreach-topic">Select a topic</label>
-                      <select class="vads-u-max-width--100 usa-select"
-                        name="outreach-topic" id="outreach-topic">
-                        <option value="select">- All topics -</option>
-                        <option value="healthcare">Health Care</option>
-                        <option value="disability">Disability Compensation
-                        </option>
-                        <option value="education">Education And Training
-                          Benefits
-                        </option>
-                        <option value="careers">Careers And Employment</option>
-                        <option value="pension">Pension Benefits</option>
-                        <option value="housing">Housing Assistance</option>
-                        <option value="insurance">Life Insurance</option>
-                        <option value="general">General Benefits Information
-                        </option>
-                        <option value="burial">Burial Benefits And Memorial
-                          Items
-                        </option>
-                        <option value="records">Records</option>
-                        <option value="service">Service Member Benefits</option>
-                        <option value="family">Family member benefits</option>
-                      </select>
-                    </div>
-                    <div class="vads-l-col--12
-                medium-screen:vads-l-col--4
-                small-desktop-screen:vads-l-col--4
-                large-screen:vads-l-col--4">
-                      <label class="vads-u-margin-top--0"
-                        for="outreach-type">View file type</label>
-                      <select class="vads-u-max-width--100 usa-select"
-                        name="outreach-type" id="outreach-type">
-                        <option value="select">- All types -</option>
-                        <option value="video">Videos</option>
-                        <option value="social_share">Social share images, text,
-                          and badges</option>
-                        <option value="newsletter_content">Newsletter content
-                        </option>
-                        <option value="document">Poster, Flyer, brochure and
-                          fact sheets</option>
-
-                      </select>
-                    </div>
-                  </div>
-              </form>
-              {% endif %}
             </div>
 
-            {% if title == 'Benefit Materials' or title == 'Benefits materials' %}
             <div
-              class="vads-l-grid-container--full--full asset-component-library"
+              class="vads-l-grid-container--full--full asset-component-library library-show"
               id="search-entry">
+
+              <form class="usa-form outreach-asset-form-filters library-show">
+                <div class="vads-l-row vads-u-justify-content--space-between">
+                  <div class="vads-l-col--12
+                                medium-screen:vads-l-col--12
+                                small-desktop-screen:vads-l-col--12
+                                large-screen:vads-l-col--5">
+                    <label class="vads-u-margin-top--0"
+                      for="outreach-topic">Select a topic</label>
+                    <select class="vads-u-max-width--100 usa-select"
+                      name="outreach-topic" id="outreach-topic">
+                      <option value="select">- All topics -</option>
+                      <option value="healthcare">Health Care</option>
+                      <option value="disability">Disability Compensation
+                      </option>
+                      <option value="education">Education And Training
+                        Benefits
+                      </option>
+                      <option value="careers">Careers And Employment</option>
+                      <option value="pension">Pension Benefits</option>
+                      <option value="housing">Housing Assistance</option>
+                      <option value="insurance">Life Insurance</option>
+                      <option value="general">General Benefits Information
+                      </option>
+                      <option value="burial">Burial Benefits And Memorial
+                        Items
+                      </option>
+                      <option value="records">Records</option>
+                      <option value="service">Service Member Benefits</option>
+                      <option value="family">Family member benefits</option>
+                    </select>
+                  </div>
+                  <div class="vads-l-col--12
+                medium-screen:vads-l-col--12
+                small-desktop-screen:vads-l-col--12
+                large-screen:vads-l-col--5">
+                    <label class="vads-u-margin-top--0" for="outreach-type">View
+                      file type</label>
+                    <select class="vads-u-max-width--100 usa-select"
+                      name="outreach-type" id="outreach-type">
+                      <option value="select">- All types -</option>
+                      <option value="video">Videos</option>
+                      <option value="social_share">Social share images, text,
+                        and badges</option>
+                      <option value="newsletter_content">Newsletter content
+                      </option>
+                      <option value="document">Poster, Flyer, brochure and
+                        fact sheets</option>
+
+                    </select>
+                  </div>
+                </div>
+              </form>
+
               <div id="total-pages-div">
                 <div class="break-div">Showing
                   <span id="total-pages"></span>
@@ -101,88 +116,129 @@
                 {{entity.fieldBenefits | breakIntoSingles}}
                 data-type="{{entity.fieldFormat}}" data-number={{forloop.index}}
                 class="vads-l-col--12
-                medium-screen:vads-l-col--6
-                small-desktop-screen:vads-l-col--6
+                vads-l-row
+                medium-card-utility
                 large-screen:vads-l-col--6
-                vads-u-padding-right--4 vads-u-padding-bottom--4 asset-card show-type show-topic">
-                <div
-                  class="asset-head-wrap {{entity.fieldMedia.entity.entityBundle}}-asset-wrap">
-                  {% if entity.fieldMedia.entity.entityBundle == 'image' %}
-                  {% if entity.fieldMedia.entity.image.url %}
-                  <img src="{{entity.fieldMedia.entity.image.url}}"
-                    onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
-                  {% elsif entity.derivedFields.absoluteUrl %}
-                  <img src="{{entity.derivedFields.absoluteUrl}}"
-                    onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
-                  {% endif %}
-                  {% endif %}
-
-                  {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                  <img
-                    src="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField | videoThumbnail}}" />
-                  {% endif %}
-                </div>
-
-                <div class="asset-body-wrap">
-                  <h3 class="asset-body-header vads-u-margin-y--0">
-                    {{entity.title| truncate: 36}}</h3>
-                  <div class="asset-body-text">
-                    {{entity.fieldDescription | truncate: 81 }}</div>
-                  {% if entity.fieldBenefits != '' %}
-                  <div class="asset-category-text capitalize-first">
-                    <strong>Category:
-                    </strong>{{entity.fieldBenefits}}</div>
-                  {% endif %}
-                  <div class="asset-filetype-text"><strong>File type:
-                    </strong><span
-                      class="capitalize-first">{{entity.fieldMedia.entity.entityBundle}}</span>
-                  </div>
-
-                  <div class="asset-download-trigger">
+                vads-u-padding-right--4
+                vads-u-padding-bottom--4
+                asset-card
+                show-type
+                show-topic">
+                <div class="card-inside-wrap">
+                  <div class="asset-head-wrap
+                medium-screen:vads-l-col--4
+                medium-head-utility
+                large-screen:vads-l-col--12
+                  {{entity.fieldMedia.entity.entityBundle}}-asset-wrap">
                     {% if entity.fieldMedia.entity.entityBundle == 'document' %}
-                    {% assign url = entity.fieldMedia.entity.fieldDocument.entity.url %}
-                    {% if entity.derivedFields.absoluteUrl %}
-                    {% assign url = entity.derivedFields.absoluteUrl %}
-                    {% endif %}
-                    <a class="file-download-with-icon" target="_blank"
-                      href="{{url}}" download="{{url}}"><i
-                        class="fas fa-download vads-u-padding-right--1"></i>Download
-                      {{entity.fieldMedia.entity.entityBundle | fileType}}
-                      {{url | fileExt}}</a>
-                    {% endif %}
-
-                    {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                    <a class="video-link" target="_blank"
-                      href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
-                        class="fab fa-youtube vads-u-padding-right--1"></i>Go
-                      to
-                      video</a>
+                    {% case entity.fieldBenefits %}
+                    {% when 'general' %}
+                    <img src="/img/hub-illustrations/records.png" />
+                    {% when 'burial' %}
+                    <img src="/img/hub-illustrations/burials.png" />
+                    {% when 'careers' %}
+                    <img src="/img/hub-illustrations/careers.png" />
+                    {% when 'disability' %}
+                    <img src="/img/hub-illustrations/disability.png" />
+                    {% when 'education' %}
+                    <img src="/img/hub-illustrations/education.png" />
+                    {% when 'family' %}
+                    <img src="/img/hub-illustrations/family-caregiver.png" />
+                    {% when 'healthcare' %}
+                    <img src="/img/hub-illustrations/health-care.png" />
+                    {% when 'housing' %}
+                    <img src="/img/hub-illustrations/housing.png" />
+                    {% when 'insurance' %}
+                    <img src="/img/hub-illustrations/life-insurance.png" />
+                    {% when 'pension' %}
+                    <img src="/img/hub-illustrations/pension.png" />
+                    {% when 'service' %}
+                    <img src="/img/hub-illustrations/service-member.png" />
+                    {% when 'records' %}
+                    <img src="/img/hub-illustrations/records.png" />
+                    {% else %}
+                    <img src="/img/hub-illustrations/records.png" />
+                    {% endcase %}
                     {% endif %}
 
                     {% if entity.fieldMedia.entity.entityBundle == 'image' %}
-                    {% assign url = entity.fieldMedia.entity.image.url %}
-                    {% if entity.derivedFields.absoluteUrl %}
-                    {% assign url = entity.derivedFields.absoluteUrl %}
+                    {% if entity.fieldMedia.entity.image.url %}
+                    <img src="{{entity.fieldMedia.entity.image.url}}"
+                      onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
+                    {% elsif entity.derivedFields.absoluteUrl %}
+                    <img src="{{entity.derivedFields.absoluteUrl}}"
+                      onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
                     {% endif %}
-                    <a class="file-download-with-icon" target="_blank"
-                      href="{{url}}" download="{{url}}"><i
-                        class="fas fa-download vads-u-padding-right--1"></i>Download
-                      {{entity.fieldMedia.entity.entityBundle | fileType}}
-                      {{url | fileExt}}</a>
                     {% endif %}
 
+                    {% if entity.fieldMedia.entity.entityBundle == 'video' %}
+                    {% if entity.fieldMedia.entity.thumbnail.derivative.url %}
+                    <img
+                      src="{{entity.fieldMedia.entity.thumbnail.derivative.url}}" />
+                    {%else%}
+                    <img
+                      src="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField | videoThumbnail}}" />
+                    {%endif%}
+                    {% endif %}
+                  </div>
+
+                  <div class="asset-body-wrap
+                  medium-screen:vads-l-col--8
+                  medium-body-utility
+                  large-screen:vads-l-col--12">
+                    <i>{{entity.fieldBenefits | capitalize}}</i>
+                    <h3 class="asset-body-header vads-u-margin-y--1">
+                      {{entity.title| truncate: 36}}</h3>
+                    <div class="asset-body-text">
+                      {{entity.fieldDescription | truncate: 81 }}</div>
+                    {% if entity.fieldBenefits != '' %}
+                    <div class="asset-category-text capitalize-first"></div>
+                    {% endif %}
+
+                    <div class="asset-download-trigger">
+                      {% if entity.fieldMedia.entity.entityBundle == 'document' %}
+                      {% assign url = entity.fieldMedia.entity.fieldDocument.entity.url %}
+                      {% if entity.derivedFields.absoluteUrl %}
+                      {% assign url = entity.derivedFields.absoluteUrl %}
+                      {% endif %}
+                      <a class="file-download-with-icon" target="_blank"
+                        href="{{url}}" download="{{url}}"><i
+                          class="fas fa-download vads-u-padding-right--1"></i>Download
+                        {{entity.fieldMedia.entity.entityBundle | fileType}}
+                        {{url | fileExt}}</a>
+                      {% endif %}
+
+                      {% if entity.fieldMedia.entity.entityBundle == 'video' %}
+                      <a class="video-link" target="_blank"
+                        href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
+                          class="fab fa-youtube vads-u-padding-right--1"></i>Go
+                        to
+                        video</a>
+                      {% endif %}
+
+                      {% if entity.fieldMedia.entity.entityBundle == 'image' %}
+                      {% assign url = entity.fieldMedia.entity.image.url %}
+                      {% if entity.derivedFields.absoluteUrl %}
+                      {% assign url = entity.derivedFields.absoluteUrl %}
+                      {% endif %}
+                      <a class="file-download-with-icon" target="_blank"
+                        href="{{url}}" download="{{url}}"><i
+                          class="fas fa-download vads-u-padding-right--1"></i>Download
+                        {{entity.fieldMedia.entity.entityBundle | fileType}}
+                        {{url | fileExt}}</a>
+                      {% endif %}
+
+                    </div>
                   </div>
                 </div>
               </div>
               {% endif %}
               {% endfor %}
             </div>
-            {% endif %}
 
           </div>
 
-          {% if title == 'Benefit Materials' %}
-          <div class="va-pagination" id="va-pager-div">
+          <div class="va-pagination library-show" id="va-pager-div">
             <span class="vads-u-display--none
               medium-screen::vads-u-display--block
               small-desktop-screen:vads-u-display--block
@@ -195,9 +251,6 @@
                 tabindex="0">Prev</button>
             </span>
             <div id="pager-nums-insert" class="va-pagination-inner">
-              <button id="va-pagination-active-num"
-                class="va-page-numbers va-pagination-active"
-                tabindex="0">1</button>
             </div>
             <span class="va-pagination-next">
               <button class="va-button-link" id="pager-next-click"
@@ -210,12 +263,10 @@
               <button class="va-button-link" id="last-click">Last</button>
             </span>
           </div>
-          <div id="no-results">
+          <div class="library-show" id="no-results">
             <div>No results.</div><button id="start-over">Click here to start
               over.</button>
           </div>
-
-          {% endif %}
 
         </article>
 

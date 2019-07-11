@@ -69,8 +69,10 @@ describe('Main', () => {
     expect(tree.subTree('#authenticationErrorMessage')).to.be.ok;
   });
 
-  it('should show system down message when service is unavailable', () => {
-    const props = _.merge({}, defaultProps, { availability: 'unavailable' });
+  it('should show system down message when fetching enrollment data fails', () => {
+    const props = _.merge({}, defaultProps, {
+      availability: 'getEnrollmentDataFailure',
+    });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#backendErrorMessage')).to.be.ok;
   });
