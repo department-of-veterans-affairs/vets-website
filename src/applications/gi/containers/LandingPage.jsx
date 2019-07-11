@@ -59,9 +59,12 @@ export class LandingPage extends React.Component {
     const query = {
       name: value,
       version: this.props.location.query.version,
-      category: isVetTec ? null : this.props.filters.category,
+      category:
+        environment.isProduction() || isVetTec
+          ? null
+          : this.props.filters.category,
       // eslint-disable-next-line camelcase
-      vet_tec_provider: isVetTec,
+      vet_tec_provider: environment.isProduction() ? null : isVetTec,
     };
 
     _.forEach(query, (val, key) => {
