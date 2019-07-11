@@ -7,3 +7,8 @@ export const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
 
 export const isVetTecSelected = filters =>
   filters.category === 'vettec' || filters.vet_tec_provider;
+
+export const addAllOption = options => [
+  { value: 'ALL', label: 'ALL' },
+  ...options,
+];

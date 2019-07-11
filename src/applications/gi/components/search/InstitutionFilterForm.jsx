@@ -4,7 +4,7 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
-import { DropdownFilter } from './DropdownFilter';
+import { addAllOption } from '../../utils/helpers';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -30,12 +30,13 @@ class InstitutionFilterForm extends React.Component {
       value: country.name,
       label: country.name,
     }));
+
     return (
-      <DropdownFilter
+      <Dropdown
         label="Country"
         name="country"
         alt="Filter results by country"
-        options={options}
+        options={addAllOption(options)}
         value={this.props.filters.country}
         handleDropdownChange={this.handleDropdownChange}
       />
@@ -47,12 +48,13 @@ class InstitutionFilterForm extends React.Component {
       value: state,
       label: state,
     }));
+
     return (
-      <DropdownFilter
+      <Dropdown
         label="State"
         name="state"
         alt="Filter results by state"
-        options={options}
+        options={addAllOption(options)}
         value={this.props.filters.state}
         handleDropdownChange={this.handleDropdownChange}
       />
@@ -60,7 +62,7 @@ class InstitutionFilterForm extends React.Component {
   };
 
   renderProgramFilters = () => {
-    const filters = this.props.filters;
+    const { filters } = this.props;
 
     return (
       <div>

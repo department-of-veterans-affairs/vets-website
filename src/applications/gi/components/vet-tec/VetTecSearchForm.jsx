@@ -2,8 +2,9 @@ import React from 'react';
 
 import KeywordSearch from '../search/KeywordSearch';
 import Checkbox from '../Checkbox';
-import { DropdownFilter } from '../search/DropdownFilter';
+import { addAllOption } from '../../utils/helpers';
 import PropTypes from 'prop-types';
+import Dropdown from '../Dropdown';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -79,11 +80,11 @@ class VetTecSearchForm extends React.Component {
       label: country.name,
     }));
     return (
-      <DropdownFilter
+      <Dropdown
         label="Country"
         name="country"
         alt="Filter results by country"
-        options={options}
+        options={addAllOption(options)}
         value={this.props.filters.country}
         handleDropdownChange={this.handleDropdownChange}
       />
@@ -96,11 +97,11 @@ class VetTecSearchForm extends React.Component {
       label: state,
     }));
     return (
-      <DropdownFilter
+      <Dropdown
         label="State"
         name="state"
         alt="Filter results by state"
-        options={options}
+        options={addAllOption(options)}
         value={this.props.filters.state}
         handleDropdownChange={this.handleDropdownChange}
       />
