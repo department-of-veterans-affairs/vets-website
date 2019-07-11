@@ -4,72 +4,58 @@ import { Link } from 'react-router';
 
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency } from '../../utils/helpers';
+import { renderCautionFlag, renderSchoolClosingFlag } from '../../utils/render';
 
 export class SearchResult extends React.Component {
-  constructor(props) {
-    super(props);
-    this.estimate = this.estimate.bind(this);
-  }
-
-  estimate({ qualifier, value }) {
+  estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
-    }
-    if (qualifier === null) {
-      if (value === 'N/A') return 'N/A';
+    } else if (qualifier === null) {
       return value;
     }
     return <span>{formatCurrency(value)}</span>;
-  }
+  };
 
   render() {
-    const tuition = this.estimate(this.props.estimated.tuition);
-    const housing = this.estimate(this.props.estimated.housing);
-    const books = this.estimate(this.props.estimated.books);
-    const SchoolClosingFlag = () => {
-      if (!this.props.schoolClosing) return null;
-      return (
-        <div className="caution-flag">
-          <i className="fa fa-warning" />
-          School closing
-        </div>
-      );
-    };
+    const {
+      version,
+      schoolClosing,
+      cautionFlag,
+      estimated,
+      facilityCode,
+      name,
+      city,
+      state,
+      country,
+      studentCount,
+    } = this.props;
 
-    const CautionFlag = () => {
-      if (!this.props.cautionFlag) return null;
-      return (
-        <div className="caution-flag">
-          <i className="fa fa-warning" />
-          Caution
-        </div>
-      );
-    };
+    const tuition = this.estimate(estimated.tuition);
+    const housing = this.estimate(estimated.housing);
+    const books = this.estimate(estimated.books);
 
-    const { version } = this.props;
     const linkTo = {
-      pathname: `profile/${this.props.facilityCode}`,
+      pathname: `profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
     return (
       <div className="search-result">
         <div className="outer">
-          <SchoolClosingFlag />
-          <CautionFlag />
+          {renderSchoolClosingFlag({ schoolClosing })}
+          {renderCautionFlag({ cautionFlag })}
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{this.props.name}</Link>
+                  <Link to={linkTo}>{name}</Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality">
-                    {this.props.city}, {this.props.state || this.props.country}
+                    {city}, {state || country}
                   </p>
                   <p className="count">
-                    {(+this.props.studentCount).toLocaleString()} GI Bill
-                    Students
+                    {(+studentCount).toLocaleString()} GI Bill Students
                   </p>
                 </div>
               </div>

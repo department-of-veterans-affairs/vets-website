@@ -14,7 +14,7 @@ const getRequiredAttributes = (state, props) => {
   };
 };
 
-function getDerivedAttributes(constant, eligibility, institution) {
+export function getDerivedAttributes(constant, eligibility, institution) {
   const your = eligibility;
   const its = institution;
   const chapter = Number(your.giBillChapter);
@@ -124,7 +124,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   };
 }
 
-function calculateTuition(constant, eligibility, institution, derived) {
+export function calculateTuition(constant, eligibility, institution, derived) {
   if (derived.oldGiBill) {
     return { qualifier: 'per year', value: 0 };
   }

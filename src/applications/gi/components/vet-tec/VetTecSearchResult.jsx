@@ -2,41 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { estimatedBenefits } from '../../selectors/estimator';
+import { estimatedBenefits } from '../../selectors/vetTecEstimator';
 import { formatCurrency } from '../../utils/helpers';
+import { renderCautionFlag, renderSchoolClosingFlag } from '../../utils/render';
 
 export class SearchResult extends React.Component {
-  estimate = ({ qualifier, value }) => {
-    if (qualifier === '% of instate tuition') {
-      return <span>{value}% in-state</span>;
-    }
-    if (qualifier === null) {
-      if (value === 'N/A') return 'N/A';
+  estimate = ({ qualifier, value, range }) => {
+    if (qualifier === 'per month range') {
+      return (
+        <span>
+          {formatCurrency(range.start)} - {formatCurrency(range.end)}
+        </span>
+      );
+    } else if (qualifier === null) {
       return value;
     }
     return <span>{formatCurrency(value)}</span>;
-  };
-
-  renderSchoolClosingFlag = () => {
-    const { schoolClosing } = this.props.result;
-    if (!schoolClosing) return null;
-    return (
-      <div className="caution-flag">
-        <i className="fa fa-warning" />
-        School closing
-      </div>
-    );
-  };
-
-  renderCautionFlag = () => {
-    const { cautionFlag } = this.props.result;
-    if (!cautionFlag) return null;
-    return (
-      <div className="caution-flag">
-        <i className="fa fa-warning" />
-        Caution
-      </div>
-    );
   };
 
   render() {
@@ -54,8 +35,8 @@ export class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="outer">
-          {this.renderSchoolClosingFlag()}
-          {this.renderCautionFlag()}
+          {renderSchoolClosingFlag(this.props.result)}
+          {renderCautionFlag(this.props.result)}
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
@@ -74,7 +55,7 @@ export class SearchResult extends React.Component {
                   <div className="columns">
                     <h4>
                       <i className="fa fa-graduation-cap fa-search-result" />
-                      Tuition <span>(annually):</span>
+                      Tuition
                       <div>{tuition}</div>
                     </h4>
                   </div>
@@ -103,7 +84,7 @@ export class SearchResult extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  estimated: estimatedBenefits(state, props.result),
+  estimated: estimatedBenefits(state, props),
 });
 
 const mapDispatchToProps = {};

@@ -54,13 +54,14 @@ class VetTecSearchForm extends React.Component {
 
     if (inPerson && !online) {
       onlineClasses = 'no';
-    }
-    if (!inPerson && online) {
+    } else if (!inPerson && online) {
       onlineClasses = 'yes';
-    }
-    if (inPerson && online) {
+    } else if (inPerson && online) {
       onlineClasses = 'both';
+    } else if (!inPerson && !online) {
+      onlineClasses = 'none';
     }
+
     this.props.eligibilityChange({
       target: {
         name: 'onlineClasses',
@@ -70,6 +71,8 @@ class VetTecSearchForm extends React.Component {
   };
 
   renderLearningFormat = () => {
+    const { inPerson, online } = this.state.learningFormat;
+
     const inPersonLabel = (
       <div>
         In Person &nbsp; <i className="fas fa-user" />
@@ -84,13 +87,13 @@ class VetTecSearchForm extends React.Component {
       <div>
         <p>Learning Format</p>
         <Checkbox
-          checked={this.state.learningFormat.inPerson}
+          checked={inPerson}
           name="inPerson"
           label={inPersonLabel}
           onChange={this.handleOnlineClassesChange}
         />
         <Checkbox
-          checked={this.state.learningFormat.online}
+          checked={online}
           name="online"
           label={onlineLabel}
           onChange={this.handleOnlineClassesChange}

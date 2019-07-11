@@ -20,34 +20,27 @@ import StemScholarshipNotification from '../components/content/StemScholarshipNo
 import environment from 'platform/utilities/environment';
 import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
-import { calculateFilters } from '../selectors/search';
+import { calculateFilters, calculateEligibility } from '../selectors/search';
 
 export class LandingPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.search = this.search.bind(this);
-  }
-
   componentDidMount() {
     this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.handleFilterChange('name', this.props.autocomplete.searchTerm);
-  }
+  };
 
-  handleFilterChange(field, value) {
+  handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
     if (value) {
       this.search(value);
     }
-  }
+  };
 
-  search(value) {
+  search = value => {
     const isVetTec = this.props.filters.category === 'vettec';
     const query = {
       name: value,
@@ -64,7 +57,7 @@ export class LandingPage extends React.Component {
     });
 
     this.props.router.push({ pathname: 'search', query });
-  }
+  };
 
   filtersChange = e => {
     const field = e.target.name;
@@ -143,7 +136,7 @@ export class LandingPage extends React.Component {
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
-  eligibility: state.eligibility,
+  eligibility: calculateEligibility(state.eligibility),
 });
 
 const mapDispatchToProps = {
