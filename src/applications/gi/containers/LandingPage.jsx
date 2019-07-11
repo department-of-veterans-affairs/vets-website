@@ -103,6 +103,10 @@ export class LandingPage extends React.Component {
     this.props.eligibility.militaryStatus !== 'active duty' &&
     this.props.eligibility.giBillChapter === '33';
 
+  shouldDisplayKeywordSearch = () =>
+    environment.isProduction() ||
+    (!environment.isProduction() && !isVetTecSelected(this.props.filters));
+
   render() {
     return (
       <span className="landing-page">
@@ -130,24 +134,22 @@ export class LandingPage extends React.Component {
                 onChange={this.props.eligibilityChange}
                 showModal={this.props.showModal}
               />
-              {environment.isProduction() ||
-                (!environment.isProduction() &&
-                  !isVetTecSelected(this.props.filters) && (
-                    <KeywordSearch
-                      autocomplete={this.props.autocomplete}
-                      location={this.props.location}
-                      onClearAutocompleteSuggestions={
-                        this.props.clearAutocompleteSuggestions
-                      }
-                      onFetchAutocompleteSuggestions={
-                        this.props.fetchAutocompleteSuggestions
-                      }
-                      onFilterChange={this.handleFilterChange}
-                      onUpdateAutocompleteSearchTerm={
-                        this.props.updateAutocompleteSearchTerm
-                      }
-                    />
-                  ))}
+              {this.shouldDisplayKeywordSearch() && (
+                <KeywordSearch
+                  autocomplete={this.props.autocomplete}
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={
+                    this.props.clearAutocompleteSuggestions
+                  }
+                  onFetchAutocompleteSuggestions={
+                    this.props.fetchAutocompleteSuggestions
+                  }
+                  onFilterChange={this.handleFilterChange}
+                  onUpdateAutocompleteSearchTerm={
+                    this.props.updateAutocompleteSearchTerm
+                  }
+                />
+              )}
               <button
                 className="usa-button-big"
                 type="submit"
