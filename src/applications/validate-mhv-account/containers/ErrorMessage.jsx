@@ -19,6 +19,7 @@ export default class ErrorMessage extends React.Component {
       ? params.errorCode.replace(/-/g, '_')
       : undefined;
 
+    // Capitalize in case of mvi error
     if (errorCode && errorCode.startsWith('mvi_error')) {
       errorCode = errorCode.replace('mvi_error_', '').toUpperCase();
     }
