@@ -1,6 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import SaveStatus from '../../save-in-progress/SaveStatus.jsx';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';
@@ -8,7 +9,7 @@ import { SAVE_STATUSES } from '../../save-in-progress/actions';
 describe('<SaveStatus>', () => {
   const props = {
     form: {
-      formId: '1010ez',
+      formId: VA_FORM_IDS.FORM_10_10EZ,
       lastSavedDate: 1505770055,
     },
     user: {

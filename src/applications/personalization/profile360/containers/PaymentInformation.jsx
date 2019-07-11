@@ -15,6 +15,7 @@ import {
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import get from 'platform/utilities/data/get';
+import recordEvent from 'platform/monitoring/record-event';
 
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
@@ -31,10 +32,18 @@ import {
 
 import featureFlags from '../featureFlags';
 
-const AdditionalInfos = () => (
+const AdditionalInfos = props => (
   <>
     <div className="vads-u-margin-bottom--2">
-      <AdditionalInfo triggerText="How do I change my direct deposit information for GI Bill and other education benefits?">
+      <AdditionalInfo
+        triggerText="How do I change my direct deposit information for GI Bill and other education benefits?"
+        onClick={() =>
+          props.recordProfileNavEvent({
+            'profile-action': 'view-link',
+            'additional-info': 'how-to-change-direct-deposit',
+          })
+        }
+      >
         <p>
           You’ll need to sign in to the eBenefits website with your Premium DS
           Logon account to change your direct deposit information for GI Bill
@@ -59,7 +68,15 @@ const AdditionalInfos = () => (
       </AdditionalInfo>
     </div>
 
-    <AdditionalInfo triggerText="What’s my bank’s routing number?">
+    <AdditionalInfo
+      triggerText="What’s my bank’s routing number?"
+      onClick={() =>
+        props.recordProfileNavEvent({
+          'event-action': 'view-link',
+          'additional-info': 'whats-bank-routing',
+        })
+      }
+    >
       <p>
         Your bank’s routing number is a 9-digit code that’s based on the U.S.
         location where your bank was opened. It’s the first set of numbers on
@@ -71,6 +88,13 @@ const AdditionalInfos = () => (
     </AdditionalInfo>
   </>
 );
+
+const recordProfileNavEvent = (customProps = {}) => {
+  recordEvent({
+    event: 'profile-navigation',
+    ...customProps,
+  });
+};
 
 class PaymentInformation extends React.Component {
   static propTypes = {
@@ -101,6 +125,25 @@ class PaymentInformation extends React.Component {
       this.props.fetchPaymentInformation();
     }
   }
+
+  handleDirectDepositUpdateSubmit = data => {
+    this.props.savePaymentInformation(data);
+    recordEvent({
+      event: 'profile-transaction',
+      'profile-section': 'direct-deposit-information',
+    });
+  };
+
+  handleEditClick = gaProfileSection => {
+    // Open edit modal.
+    this.props.editModalToggled();
+
+    // Push Google Analytics event
+    recordProfileNavEvent({
+      'profile-action': 'edit-link',
+      'profile-section': gaProfileSection,
+    });
+  };
 
   renderSetupButton(label) {
     return (
@@ -135,7 +178,10 @@ class PaymentInformation extends React.Component {
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleEditClick('bank-name'))
+              }
             >
               Bank name
             </ProfileFieldHeading>
@@ -145,7 +191,10 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleEditClick('account-number'))
+              }
             >
               Account number
             </ProfileFieldHeading>
@@ -155,7 +204,10 @@ class PaymentInformation extends React.Component {
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={directDepositIsSetUp && this.props.editModalToggled}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleEditClick('account-type'))
+              }
             >
               Account type
             </ProfileFieldHeading>
@@ -173,7 +225,7 @@ class PaymentInformation extends React.Component {
 
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
-            onSubmit={this.props.savePaymentInformation}
+            onSubmit={this.handleDirectDepositUpdateSubmit}
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
             fields={this.props.paymentInformationUiState.editModalForm}
@@ -195,7 +247,7 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          <AdditionalInfos />
+          <AdditionalInfos recordProfileNavEvent={recordProfileNavEvent} />
           {content}
         </DowntimeNotification>
       </>

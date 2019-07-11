@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { FormSaved } from '../../save-in-progress/FormSaved';
 
 describe('Schemaform <FormSaved>', () => {
@@ -16,7 +17,7 @@ describe('Schemaform <FormSaved>', () => {
     ],
     formConfig: {},
   };
-  const formId = '1010ez';
+  const formId = VA_FORM_IDS.FORM_10_10EZ;
   const user = () => ({
     profile: {
       prefillsAvailable: [],

@@ -42,7 +42,7 @@ class DetailsPage extends React.Component {
     if (!loading) {
       content = (
         <dl className="claim-details">
-          <dt className="claim-detail-label">Claim Type</dt>
+          <dt className="claim-detail-label">Claim type</dt>
           <dd>{claim.attributes.claimType || 'Not Available'}</dd>
           <dt className="claim-detail-label">What you’ve claimed</dt>
           <dd>
@@ -59,10 +59,10 @@ class DetailsPage extends React.Component {
               'Not Available'
             )}
           </dd>
-          <dt className="claim-detail-label">Date Received</dt>
+          <dt className="claim-detail-label">Date received</dt>
           <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
           <dt className="claim-detail-label">
-            Your Representative for VA Claims
+            Your representative for VA claims
           </dt>
           <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
         </dl>

@@ -1,0 +1,96 @@
+[
+  {
+    "ratings": [
+      10,
+      20,
+      30
+    ],
+    "combinedRating": {
+      "exact": 50,
+      "rounded": 50
+    }
+  },
+  {
+    "ratings": [
+      80,
+      20,
+      64
+    ],
+    "combinedRating": {
+      "exact": 94,
+      "rounded": 90
+    }
+  },
+  {
+    "ratings": [
+      20,
+      39,
+      30,
+      10
+    ],
+    "combinedRating": {
+      "exact": 69,
+      "rounded": 70
+    }
+  },
+  {
+    "ratings": [
+      20,
+      20
+    ],
+    "combinedRating": {
+      "exact": 36,
+      "rounded": 40
+    }
+  },
+  {
+    "ratings": [
+      20,
+      20,
+      10
+    ],
+    "combinedRating": {
+      "exact": 42,
+      "rounded": 40
+    }
+  },
+  {
+    "ratings": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "combinedRating": {
+      "exact": 65,
+      "rounded": 70
+    }
+  },
+  {
+    "ratings": [
+      90,
+      90
+    ],
+    "combinedRating": {
+      "exact": 99,
+      "rounded": 100
+    }
+  },
+  {
+    "ratings": [
+      80,
+      10,
+      40
+    ],
+    "combinedRating": {
+      "exact": 89,
+      "rounded": 90
+    }
+  }
+]

@@ -35,11 +35,11 @@
         </ul>
         {% endif %}
         {% if fieldAlert.length %}
-          {% if alert.entity is not null %}
             {% for alert in fieldAlert %}
-              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+              {% if alert.entity != empty %}
+                {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+              {% endif %}
             {% endfor %}
-          {% endif %}
         {% endif %}
         {% if fieldSpokes != empty %}
         {% for spoke in fieldSpokes %}
