@@ -133,6 +133,9 @@ export const DATA_PATHS = {
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
+export const DISABILITY_526_V2_ROOT_URL =
+  '/disability/file-disability-claim-form-21-526ez';
+
 export const VA_FORM4142_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
