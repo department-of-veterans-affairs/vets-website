@@ -310,7 +310,9 @@ export function getCompletedDate(claim) {
 }
 
 export function getClaimType(claim) {
-  return claim.attributes.claimType || 'Disability Compensation';
+  return (
+    claim.attributes.claimType || 'disability compensation'
+  ).toLowerCase();
 }
 
 export const mockData = {
