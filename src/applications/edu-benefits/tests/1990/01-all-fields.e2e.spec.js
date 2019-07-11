@@ -16,7 +16,7 @@ const test = E2eHelpers.createE2eTest(client => {
       }/education/apply-for-education-benefits/application/1990`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for education benefits: VA.gov')
+    .assert.title('Apply for education benefits | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
@@ -185,7 +185,7 @@ const test = E2eHelpers.createE2eTest(client => {
     .element('.js-test-location')
     .attribute('data-location')
     .to.not.contain('/review-and-submit')
-    .before(Timeouts.submission);
+    .before(Timeouts.slow);
 
   // Confirmation page
   client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
@@ -193,3 +193,4 @@ const test = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = test;
+module.exports['@tags'] = ['integration'];

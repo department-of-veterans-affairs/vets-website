@@ -1,6 +1,6 @@
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ExpenseField from '../components/ExpenseField';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export default {
   'ui:options': {

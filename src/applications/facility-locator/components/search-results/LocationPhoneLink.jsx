@@ -1,46 +1,14 @@
-/* eslint-disable no-use-before-define */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LocationType } from '../../constants';
 
-const LocationPhoneLink = ({ location }) => {
-  const isProvider = location.type === LocationType.CC_PROVIDER;
-
-  if (isProvider) {
-    const { phone, schedPhone = '866-606-8198' } = location.attributes;
-    return (
-      <div>
-        {renderPhoneNumber(
-          'If you have a referral',
-          'Call this facility at',
-          phone,
-          'phone',
-          true,
-        )}
-        {renderPhoneNumber(
-          "If you don't have a referral",
-          'Call the VA Medical Center at',
-          schedPhone,
-          null,
-          true,
-        )}
-      </div>
-    );
-  }
-
-  const {
-    attributes: { phone },
-  } = location;
-  return (
-    <div>
-      {renderPhoneNumber('Main Number', null, phone.main, 'phone')}
-      {renderPhoneNumber('Mental Health', null, phone.mentalHealthClinic)}
-    </div>
-  );
-};
-
-// eslint-disable-next-line prettier/prettier
-const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw', altPhone) => {
+const renderPhoneNumber = (
+  title,
+  subTitle = null,
+  phone,
+  icon = 'fw',
+  altPhone,
+) => {
   if (!phone) {
     return null;
   }
@@ -60,6 +28,38 @@ const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw', altPhone)
       >
         {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
       </a>
+    </div>
+  );
+};
+
+const LocationPhoneLink = ({ location }) => {
+  const isProvider = location.type === LocationType.CC_PROVIDER;
+
+  if (isProvider) {
+    const { phone } = location.attributes;
+    return (
+      <div>
+        {renderPhoneNumber(
+          'If you have a referral',
+          'Call this facility at',
+          phone,
+          'phone',
+          true,
+        )}
+        <p>
+          If you don’t have a referral, contact your local VA medical center.
+        </p>
+      </div>
+    );
+  }
+
+  const {
+    attributes: { phone },
+  } = location;
+  return (
+    <div>
+      {renderPhoneNumber('Main Number', null, phone.main, 'phone')}
+      {renderPhoneNumber('Mental Health', null, phone.mentalHealthClinic)}
     </div>
   );
 };

@@ -9,8 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
 import { selectProfile } from '../../selectors';
-import siteName from '../../../brand-consolidation/site-name';
-import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import {
   createMHVAccount,
@@ -21,12 +20,12 @@ import {
 /* eslint-disable camelcase */
 const INELIGIBLE_MESSAGES = {
   needs_ssn_resolution: {
-    headline: `We can’t give you access to the ${siteName} health tools`,
+    headline: `We can’t give you access to the VA.gov health tools`,
     content: (
       <div>
         <p>
           We’re sorry. We can’t match your Social Security number to our Veteran
-          records. We won’t be able to give you access to the {siteName} health
+          records. We won’t be able to give you access to the VA.gov health
           tools until we can match your information to verify your identity.
         </p>
         <p>
@@ -43,11 +42,11 @@ const INELIGIBLE_MESSAGES = {
   },
 
   needs_va_patient: {
-    headline: `We can’t give you access to the ${siteName} health tools`,
+    headline: `We can’t give you access to the VA.gov health tools`,
     content: (
       <div>
         <p>
-          We’re sorry. We can’t give you access to the {siteName} health tools
+          We’re sorry. We can’t give you access to the VA.gov health tools
           because we can’t verify that you’re a VA patient. Only patients who’ve
           received care at a VA health facility can use these tools.
         </p>
@@ -66,14 +65,14 @@ const INELIGIBLE_MESSAGES = {
     content: (
       <div>
         <p>
-          We’re sorry. We can’t give you access to the {siteName} health tools
+          We’re sorry. We can’t give you access to the VA.gov health tools
           because it looks like you already have a My HealtheVet account that’s
           been disabled.
         </p>
         <p>
-          Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY:
-          1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to
-          activate your disabled account.
+          Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
+          800-877-8339), 7:00 a.m. - 7:00 p.m. CT, and ask for help to activate
+          your disabled account.
         </p>
       </div>
     ),
@@ -86,14 +85,14 @@ const INELIGIBLE_MESSAGES = {
     content: (
       <div>
         <p>
-          We’re sorry. We can’t give you access to the {siteName} health tools
+          We’re sorry. We can’t give you access to the VA.gov health tools
           because we’ve found more than one active account for you in the My
           HealtheVet system.
         </p>
         <p>
-          Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY:
-          1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to
-          delete any extra accounts in the system.
+          Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
+          800-877-8339), 7:00 a.m. - 7:00 p.m. CT, and ask for help to delete
+          any extra accounts in the system.
         </p>
       </div>
     ),
@@ -179,8 +178,8 @@ export class MHVApp extends React.Component {
     }
 
     const alertProps = {
-      headline: `Thank you for accepting the Terms and Conditions for using ${siteName} health tools`,
-      content: <p>You can now access health tools on {siteName}.</p>,
+      headline: `Thank you for accepting the Terms and Conditions for using VA.gov health tools`,
+      content: <p>You can now access health tools on VA.gov.</p>,
       onCloseAlert: this.closeTcAcceptanceMessage,
     };
 
@@ -203,12 +202,7 @@ export class MHVApp extends React.Component {
             refresh this page
           </a>{' '}
           or try again later. If you keep having trouble, please{' '}
-          <SubmitSignInForm>
-            call the {siteName}
-            Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-            8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </SubmitSignInForm>
+          <SubmitSignInForm />
         </p>
       ),
     };
@@ -240,7 +234,7 @@ export class MHVApp extends React.Component {
         <p>
           We’re sorry. Something went wrong on our end. We can’t confirm your My
           HealtheVet account level right now. You can use most of the tools on
-          {siteName}, but you won’t be able to send secure messages or refill
+          VA.gov, but you won’t be able to send secure messages or refill
           prescriptions at this time. We’re working to fix this. Please check
           back later.
         </p>
@@ -252,7 +246,7 @@ export class MHVApp extends React.Component {
 
   renderRegisterFailedMessage() {
     const alertProps = {
-      headline: `We can’t give you access to ${siteName} health tools right now`,
+      headline: `We can’t give you access to VA.gov health tools right now`,
       content: (
         <p>
           We’re sorry. Something went wrong on our end that’s preventing you
@@ -268,16 +262,16 @@ export class MHVApp extends React.Component {
 
   renderUpgradeFailedMessage() {
     const alertProps = {
-      headline: `We can’t give you access to ${siteName} health tools right now`,
+      headline: `We can’t give you access to VA.gov health tools right now`,
       content: (
         <p>
           We’re sorry. We started the process of creating the MyHealtheVet
-          account you’ll need to access the {siteName} health tools, but
-          something went wrong on our end before we could complete it. We’ve
-          created your MyHealtheVet account, but we still need to upgrade it to
-          the security level needed to use tools that access your health-related
-          information. We’re working to fix this so you can use the tools as
-          soon as possible. Please try signing in again later.
+          account you’ll need to access the VA.gov health tools, but something
+          went wrong on our end before we could complete it. We’ve created your
+          MyHealtheVet account, but we still need to upgrade it to the security
+          level needed to use tools that access your health-related information.
+          We’re working to fix this so you can use the tools as soon as
+          possible. Please try signing in again later.
         </p>
       ),
     };

@@ -1,26 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { getNextPagePath } from 'us-forms-system/lib/js/routing';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import recordEvent from 'platform/monitoring/record-event';
+import _ from 'platform/utilities/data';
 
 import {
   formDescriptions,
   formBenefits,
-} from '../../../applications/personalization/profile360/util/helpers';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
+} from 'applications/personalization/dashboard/helpers';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 import DowntimeNotification, {
   externalServiceStatus,
-} from '../../monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from './DowntimeMessage';
 
 class SaveInProgressIntro extends React.Component {
-  getAlert(savedForm) {
+  getAlert = savedForm => {
     let alert;
     const {
       formId,
@@ -36,17 +39,17 @@ class SaveInProgressIntro extends React.Component {
     );
     if (login.currentlyLoggedIn) {
       if (savedForm) {
+        const lastUpdated =
+          savedForm.lastUpdated || _.get('metadata.lastUpdated', savedForm);
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
-          : moment.unix(savedForm.lastUpdated);
+          : moment.unix(lastUpdated);
         const expiresAt = moment.unix(savedForm.metadata.expiresAt);
         const expirationDate = expiresAt.format('MMM D, YYYY');
         const isExpired = expiresAt.isBefore();
 
         if (!isExpired) {
-          const lastSavedDateTime = moment
-            .unix(savedAt)
-            .format('M/D/YYYY [at] h:mm a');
+          const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
           alert = (
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
@@ -126,39 +129,68 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const { retentionPeriod } = this.props;
-      alert = (
-        <div>
-          <div className="usa-alert usa-alert-info schemaform-sip-alert">
-            <div className="usa-alert-body">
-              <strong>
-                If you’re signed in to your account, your application process
-                can go more smoothly. Here’s why:
-              </strong>
-              <br />
+      const { buttonOnly, retentionPeriod } = this.props;
+      alert = buttonOnly ? (
+        <>
+          <button className="usa-button-primary" onClick={this.openLoginModal}>
+            Sign in to start your application
+          </button>
+          {!this.props.hideUnauthedStartLink && (
+            <p>
+              <button
+                className="va-button-link schemaform-start-button"
+                onClick={this.goToBeginning}
+              >
+                Start your application without signing in
+              </button>
+            </p>
+          )}
+        </>
+      ) : (
+        <div className="usa-alert usa-alert-info schemaform-sip-alert">
+          <div className="usa-alert-body">
+            <h3 className="usa-alert-heading">
+              Save time—and save your work in progress—by signing in before
+              starting your application
+            </h3>
+            <div className="usa-alert-text">
+              <p>When you’re signed in to your VA.gov account:</p>
               <ul>
                 <li>
                   We can prefill part of your application based on your account
                   details.
                 </li>
                 <li>
-                  You can save your form in progress, and come back later to
-                  finish filling it out. You have {retentionPeriod} from the
-                  date you start or update your application to submit the form.
-                  After {retentionPeriod}, the form won’t be saved, and you’ll
-                  need to start over.
+                  You can save your application in progress, and come back later
+                  to finish filling it out. You’ll have {retentionPeriod} from
+                  the date you start or update your application to submit it.
+                  After {retentionPeriod}, we’ll delete the form and you’ll need
+                  to start over.
                 </li>
               </ul>
-              <br />
+              <p>
+                <strong>Note:</strong> If you sign in after you’ve started your
+                application, you won’t be able to save the information you’ve
+                already filled in.
+              </p>
               <button
-                className="va-button-link"
-                onClick={() => this.props.toggleLoginModal(true)}
+                className="usa-button-primary"
+                onClick={this.openLoginModal}
               >
-                Sign in to your account.
+                Sign in to start your application
               </button>
+              {!this.props.hideUnauthedStartLink && (
+                <p>
+                  <button
+                    className="va-button-link schemaform-start-button"
+                    onClick={this.goToBeginning}
+                  >
+                    Start your application without signing in
+                  </button>
+                </p>
+              )}
             </div>
           </div>
-          <br />
         </div>
       );
     } else if (prefillEnabled && unverifiedPrefillAlert) {
@@ -171,10 +203,7 @@ class SaveInProgressIntro extends React.Component {
               You can save this form in progress, and come back later to finish
               filling it out.
               <br />
-              <button
-                className="va-button-link"
-                onClick={() => this.props.toggleLoginModal(true)}
-              >
+              <button className="va-button-link" onClick={this.openLoginModal}>
                 Sign in to your account.
               </button>
             </div>
@@ -184,18 +213,23 @@ class SaveInProgressIntro extends React.Component {
       );
     }
     return alert;
-  }
+  };
 
   getStartPage = () => {
-    const {
-      pageList,
-      pathname,
-      saveInProgress: { formData },
-    } = this.props;
+    const { pageList, pathname, formData } = this.props;
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
     return pageList[1].path;
+  };
+
+  goToBeginning = () => {
+    recordEvent({ event: 'no-login-start-form' });
+    this.props.router.push(this.getStartPage());
+  };
+
+  openLoginModal = () => {
+    this.props.toggleLoginModal(true, 'cta-form');
   };
 
   renderDowntime = (downtime, children) => {
@@ -238,40 +272,59 @@ class SaveInProgressIntro extends React.Component {
       return null;
     }
 
+    if (this.props.startMessageOnly && !savedForm) {
+      return <div>{this.getAlert(savedForm)}</div>;
+    }
+
     const content = (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
-        <FormStartControls
-          resumeOnly={this.props.resumeOnly}
-          isExpired={isExpired}
-          messages={this.props.messages}
-          startText={this.props.startText}
-          startPage={startPage}
-          formId={this.props.formId}
-          returnUrl={this.props.returnUrl}
-          migrations={this.props.migrations}
-          prefillTransformer={this.props.prefillTransformer}
-          fetchInProgressForm={this.props.fetchInProgressForm}
-          removeInProgressForm={this.props.removeInProgressForm}
-          prefillAvailable={prefillAvailable}
-          formSaved={!!savedForm}
-          gaStartEventName={this.props.gaStartEventName}
-        />
+        {this.props.buttonOnly &&
+          !this.props.user.login.currentlyLoggedIn &&
+          this.getAlert(savedForm)}
+        {this.props.user.login.currentlyLoggedIn && (
+          <FormStartControls
+            resumeOnly={this.props.resumeOnly}
+            isExpired={isExpired}
+            messages={this.props.messages}
+            startText={this.props.startText}
+            startPage={startPage}
+            formId={this.props.formId}
+            returnUrl={this.props.returnUrl}
+            migrations={this.props.migrations}
+            prefillTransformer={this.props.prefillTransformer}
+            fetchInProgressForm={this.props.fetchInProgressForm}
+            removeInProgressForm={this.props.removeInProgressForm}
+            prefillAvailable={prefillAvailable}
+            formSaved={!!savedForm}
+            gaStartEventName={this.props.gaStartEventName}
+          />
+        )}
         {!this.props.buttonOnly && this.props.afterButtonContent}
         <br />
       </div>
     );
 
-    if (this.props.downtime && !this.props.isLoggedIn) {
-      return (
-        <DowntimeNotification
-          appTitle={this.props.formId}
-          render={this.renderDowntime}
-          dependencies={this.props.downtime.dependencies}
-        >
-          {content}
-        </DowntimeNotification>
-      );
+    // If the dependencies aren't required for pre-fill (but are required for submit),
+    // only render the downtime notification if the user isn't logged in.
+    //   If the user is logged in, they can at least save their form.
+    // If the dependencies _are_ required for pre-fill, render the downtime notification
+    // _unless_ the user has a form saved (so they don't need pre-fill).
+    if (this.props.downtime) {
+      if (
+        !this.props.isLoggedIn ||
+        (this.props.downtime.requiredForPrefill && !savedForm)
+      ) {
+        return (
+          <DowntimeNotification
+            appTitle={this.props.formId}
+            render={this.renderDowntime}
+            dependencies={this.props.downtime.dependencies}
+          >
+            {content}
+          </DowntimeNotification>
+        );
+      }
     }
 
     return content;
@@ -290,7 +343,6 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
-  saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
   retentionPeriod: PropTypes.string,
@@ -303,26 +355,31 @@ SaveInProgressIntro.propTypes = {
   unverifiedPrefillAlert: PropTypes.element,
   downtime: PropTypes.object,
   gaStartEventName: PropTypes.string,
+  startMessageOnly: PropTypes.bool,
+  hideUnauthedStartLink: PropTypes.bool,
 };
 
 SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
 };
 
-export const introSelector = getIntroState;
-
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state),
+    ...getIntroState(state),
   };
 }
 
-export default connect(mapStateToProps)(SaveInProgressIntro);
-
-export { SaveInProgressIntro };
-
-export const introActions = {
+const mapDispatchToProps = {
   fetchInProgressForm,
   removeInProgressForm,
   toggleLoginModal,
 };
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SaveInProgressIntro),
+);
+
+export { SaveInProgressIntro };

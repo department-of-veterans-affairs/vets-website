@@ -237,7 +237,7 @@ function completeDependentInfo(client, data, index) {
       'input[name="root_childPlaceOfBirth"]',
       data.dependents[index].childPlaceOfBirth,
     )
-    .fillCheckboxIf(
+    .fillCheckbox(
       'input[name="root_view:noSSN"]',
       data.dependents[index]['view:noSSN'],
     )

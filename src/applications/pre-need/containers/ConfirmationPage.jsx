@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
 
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -80,7 +78,7 @@ class ConfirmationPage extends React.Component {
               <div>PO Box 510543</div>
               <div>St. Louis, MO 63151</div>
             </div>
-            <p>Fax (toll-free): 1-855-840-8299</p>
+            <p>Fax (toll-free): 855-840-8299</p>
           </li>
         </ol>
         <div className="confirmation-guidance-container">
@@ -91,25 +89,23 @@ class ConfirmationPage extends React.Component {
             className="confirmation-guidance-message"
             href="/burials-memorials/pre-need-eligibility/after-you-apply/"
           >
-            Find out what happens after you apply.
+            Find out what happens after you apply
           </a>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <div>
             <p className="confirmation-guidance-message">
-              If you have questions, please call 1-877-222-VETS (
-              <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-                1-877-222-8387
+              If you have questions, please call 877-222-VETS (
+              <a className="help-phone-number-link" href="tel:1-877-222-8387">
+                877-222-8387
               </a>
-              ), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+              ), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </div>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
-              <button className="usa-button-primary">
-                Go Back to {propertyName}
-              </button>
+              <button className="usa-button-primary">Go back to VA.gov</button>
             </a>
           </div>
         </div>

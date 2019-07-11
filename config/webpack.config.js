@@ -1,15 +1,15 @@
 // Staging config. Also the default config that prod and dev are based off of.
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
 
-require('babel-polyfill');
+require('@babel/polyfill');
 
 const timestamp = new Date().getTime();
 
@@ -17,13 +17,10 @@ const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
 const globalEntryFiles = {
-  styleConsolidated: getAbsolutePath(
-    'src/platform/site-wide/sass/style-consolidated.scss',
-  ),
-  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
-  brandConsolidation: getAbsolutePath(
-    'src/platform/site-wide/sass/brand-consolidation.scss',
+  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  styleConsolidated: getAbsolutePath(
+    'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
   vendor: [
     getAbsolutePath('src/platform/polyfills'),
@@ -32,7 +29,7 @@ const globalEntryFiles = {
     'react-redux',
     'redux',
     'redux-thunk',
-    'raven-js',
+    '@sentry/browser',
   ],
 };
 
@@ -98,22 +95,28 @@ const configGenerator = (buildOptions, apps) => {
         },
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  minimize: isOptimizedBuild,
-                  sourceMap: enableCSSSourcemaps,
-                },
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: isOptimizedBuild,
+                sourceMap: enableCSSSourcemaps,
               },
-              {
-                loader: 'sass-loader',
-                options: { sourceMap: true },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [require('autoprefixer')],
               },
-            ],
-          }),
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: true },
+            },
+          ],
         },
         {
           // if we want to minify these images, we could add img-loader
@@ -129,7 +132,7 @@ const configGenerator = (buildOptions, apps) => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader',
+            loader: 'svg-url-loader?limit=1024',
           },
         },
         {
@@ -163,13 +166,13 @@ const configGenerator = (buildOptions, apps) => {
     },
     optimization: {
       minimizer: [
-        new UglifyJSPlugin({
-          uglifyOptions: {
+        new TerserPlugin({
+          terserOptions: {
             output: {
               beautify: false,
               comments: false,
             },
-            compress: { warnings: false },
+            warnings: false,
           },
           // cache: true,
           parallel: 3,
@@ -192,21 +195,24 @@ const configGenerator = (buildOptions, apps) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
         __API__: JSON.stringify(buildOptions.api),
-        // eslint-disable-next-line import/no-unresolved
-        __MEGAMENU_CONFIG__: JSON.stringify(require('../.cache/megamenu.json')),
       }),
 
-      new ExtractTextPlugin({
+      new MiniCssExtractPlugin({
         filename: !isOptimizedBuild
           ? '[name].css'
           : `[name].[contenthash]-${timestamp}.css`,
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
+  };
+
+  if (!buildOptions.watch) {
+    baseConfig.plugins.push(
       new ManifestPlugin({
         fileName: 'file-manifest.json',
       }),
-    ],
-  };
+    );
+  }
 
   if (isOptimizedBuild) {
     const bucket = BUCKETS[buildOptions.buildtype];

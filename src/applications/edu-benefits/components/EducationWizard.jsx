@@ -4,10 +4,13 @@ import classNames from 'classnames';
 
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
+import environment from '../../../platform/utilities/environment';
+
 const levels = [
   ['newBenefit'],
   ['serviceBenefitBasedOn', 'transferredEduBenefits'],
   ['nationalCallToService', 'sponsorDeceasedDisabledMIA'],
+  ['vetTecBenefit'],
   ['sponsorTransferredBenefits'],
 ];
 
@@ -24,10 +27,19 @@ export default class EducationWizard extends React.Component {
   }
 
   getButton(form) {
+    let url;
+    switch (form) {
+      case '0994':
+        url = `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`;
+        break;
+      default:
+        url = `/education/apply-for-education-benefits/application/${form}`;
+    }
+
     return (
       <a
         id="apply-now-link"
-        href={`/education/apply-for-education-benefits/application/${form}`}
+        href={url}
         className="usa-button va-button-primary"
       >
         Apply Now
@@ -61,6 +73,7 @@ export default class EducationWizard extends React.Component {
       transferredEduBenefits,
       sponsorDeceasedDisabledMIA,
       sponsorTransferredBenefits,
+      vetTecBenefit,
     } = this.state;
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -82,7 +95,7 @@ export default class EducationWizard extends React.Component {
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
         >
-          Find Your Education Benefits Form
+          Find your education benefits form
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
@@ -96,6 +109,15 @@ export default class EducationWizard extends React.Component {
                   label: 'Updating my current education benefits',
                   value: 'no',
                 },
+                ...(!environment.isProduction()
+                  ? [
+                      {
+                        label:
+                          'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
+                        value: 'extend',
+                      },
+                    ]
+                  : []),
               ]}
               onValueChange={({ value }) =>
                 this.answerQuestion('newBenefit', value)
@@ -116,7 +138,7 @@ export default class EducationWizard extends React.Component {
                   this.answerQuestion('serviceBenefitBasedOn', value)
                 }
                 value={{ value: serviceBenefitBasedOn }}
-                label="Are you a Veteran or Servicemember claiming a benefit based on your own service?"
+                label="Are you a Veteran or service member claiming a benefit based on your own service?"
               />
             )}
             {newBenefit === 'no' && (
@@ -164,6 +186,28 @@ export default class EducationWizard extends React.Component {
                 }
               />
             )}
+            {serviceBenefitBasedOn === 'own' &&
+              nationalCallToService === 'no' && (
+                <ErrorableRadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="vetTecBenefit"
+                  id="vetTecBenefit"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('vetTecBenefit', value)
+                  }
+                  value={{ value: vetTecBenefit }}
+                  label={
+                    <span>
+                      Are you applying for Veteran Employment Through Technology
+                      Education Courses (VET TEC)?
+                    </span>
+                  }
+                />
+              )}
             {serviceBenefitBasedOn === 'other' && (
               <ErrorableRadioButtons
                 additionalFieldsetClass="wizard-fieldset"
@@ -202,11 +246,12 @@ export default class EducationWizard extends React.Component {
                 <div className="usa-alert usa-alert-warning">
                   <div className="usa-alert-body">
                     <h4>
-                      Your application cannot be approved until your sponsor
+                      Your application can't be approved until your sponsor
                       transfers their benefits.
                     </h4>
                     <a
                       target="_blank"
+                      rel="noopener noreferrer"
                       href="https://milconnect.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits"
                     >
                       Instructions for your sponsor to transfer education
@@ -244,7 +289,15 @@ export default class EducationWizard extends React.Component {
               )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' &&
               this.getButton('1990')}
+            {newBenefit === 'yes' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'yes' &&
+              this.getButton('0994')}
+            {!environment.isProduction() &&
+              newBenefit === 'extend' &&
+              this.getButton('1995')}
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&

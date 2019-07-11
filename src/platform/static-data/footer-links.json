@@ -32,14 +32,14 @@
     "href": "https://www.mentalhealth.va.gov",
     "order": 5,
     "target": "",
-    "title": "Mental Health"
+    "title": "Mental health"
   },
   {
     "column": 1,
     "href": "https://www.va.gov/adaptivesports/",
     "order": 6,
     "target": "",
-    "title": "Adaptive Sports and Special Events"
+    "title": "Adaptive sports and special events"
   },
   {
     "column": 1,
@@ -53,14 +53,14 @@
     "href": "https://www.va.gov/vaforms/",
     "order": 1,
     "target": null,
-    "title": "Find a VA Form"
+    "title": "Find a VA form"
   },
   {
     "column": 2,
     "href": "https://www.mobile.va.gov/appstore/",
     "order": 2,
     "target": "_blank",
-    "title": "Get VA Mobile Apps"
+    "title": "Get VA mobile apps"
   },
   {
     "column": 2,
@@ -74,63 +74,56 @@
     "href": "https://www.va.gov/landing2_business.htm",
     "order": 4,
     "target": null,
-    "title": "Doing Business with VA"
-  },
-  {
-    "column": 2,
-    "href": "https://www.va.gov/finance/policy/gms.asp",
-    "order": 5,
-    "target": null,
-    "title": "Grants Management Services"
+    "title": "Doing business with VA"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/ogc/accreditation.asp",
-    "order": 6,
+    "order": 5,
     "target": null,
-    "title": "VA Claims Accreditation"
+    "title": "VA claims accreditation"
   },
   {
     "column": 2,
     "href": "https://www.accesstocare.va.gov/ourproviders/",
-    "order": 7,
+    "order": 6,
     "target": "_blank",
-    "title": "Find a VA Health Care Provider"
+    "title": "Find a VA health care provider"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/vso/",
-    "order": 8,
+    "order": 7,
     "target": null,
-    "title": "Veterans Service Organizations (VSO)"
+    "title": "Veterans Service Organizations (VSOs)"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": 9,
+    "order": 8,
     "target": null,
-    "title": "State Veterans Affairs Offices"
+    "title": "State Veterans Affairs offices"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/welcome-kit/",
-    "order": 10,
+    "order": 9,
     "target": null,
-    "title": "Print Your VA Welcome Kit"
+    "title": "Print your VA welcome kit"
   },
   {
     "column": 3,
     "href": "https://www.blogs.va.gov/VAntage/",
     "order": 1,
     "target": "_blank",
-    "title": "VAntage Point Blog"
+    "title": "VAntage Point blog"
   },
   {
     "column": 3,
     "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
     "order": 2,
     "target": "_blank",
-    "title": "Email Updates"
+    "title": "Email updates"
   },
   {
     "column": 3,
@@ -172,21 +165,21 @@
     "href": "https://www.va.gov/opa/socialmedia.asp",
     "order": 8,
     "target": null,
-    "title": "All VA Social Media"
+    "title": "All VA social media"
   },
   {
     "column": 4,
     "href": "https://www.va.gov/find-locations/",
     "order": 1,
     "target": null,
-    "title": "Find a VA Location"
+    "title": "Find a VA location"
   },
   {
     "column": 4,
     "href": "https://iris.custhelp.va.gov/app/ask",
     "order": 2,
     "target": null,
-    "title": "Ask a Question"
+    "title": "Ask a question"
   },
   {
     "column": 4,
@@ -194,7 +187,7 @@
     "href": "tel:18446982311",
     "order": 3,
     "target": null,
-    "title": "1-844-698-2311"
+    "title": "844-698-2311"
   },
   {
     "column": 4,
@@ -210,36 +203,50 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/oig/",
+    "href": "https://www.va.gov/orm/NOFEAR_Select.asp",
     "order": 2,
+    "target": null,
+    "title": "No FEAR Act Data"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "https://www.va.gov/oig/",
+    "order": 3,
     "target": null,
     "title": "Office of Inspector General"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/opa/Plain_Language.asp",
-    "order": 3,
+    "order": 4,
     "target": null,
-    "title": "Plain Language"
+    "title": "Plain language"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "https://www.va.gov/privacy-policy/",
+    "order": 5,
+    "target": null,
+    "title": "Privacy, policies, and legal information"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/privacy/",
-    "order": 4,
+    "order": 6,
     "target": null,
-    "title": "Privacy, Policies, and Legal Information"
+    "title": "VA Privacy Service office"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/scorecard/",
-    "order": 5,
+    "order": 7,
     "target": null,
-    "title": "VA.gov Scorecard"
+    "title": "VA.gov scorecard"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/veterans-portrait-project/",
-    "order": 6,
+    "order": 8,
     "target": null,
     "title": "Veterans Portrait Project"
   }

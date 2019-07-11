@@ -1,4 +1,5 @@
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
 
 export const claimExamsDescription = (
@@ -6,37 +7,42 @@ export const claimExamsDescription = (
     <p>
       After we review your disability claim and supporting evidence, we may ask
       you to have a claim exam (also known as a C&P exam) if we need more
-      information to decide your claim. We’ll use the results of this exam, in
-      addition to your evidence, to rate your disability and make a decision on
-      your claim.
+      information to decide your claim.
     </p>
-    <h4>
-      Does everyone who files a disability claim need to have a claim exam?
-    </h4>
-    <p>
-      No. We’ll ask you to have a claim exam only if we need more information to
-      decide your claim. If you’ve provided enough supporting evidence for your
-      claimed disability, we won’t ask you to have a claim exam.
-    </p>
+    <AlertBox
+      headline="You might receive a phone call from an unfamiliar number to schedule your exam"
+      content="You’ll receive a phone call from a VA third-party vendor or from VA to schedule your exam. It’s important that you answer any calls you receive after you file a disability claim."
+      status="warning"
+    />
+    <p>At this time we partner with 4 vendors:</p>
+    <ul>
+      <li>QTC Medical Services (QTC)</li>
+      <li>VetFed Resources (VetFed)</li>
+      <li>Veterans Evaluation Services (VES)</li>
+      <li>Logistics Health Inc. (LHI)</li>
+    </ul>
   </div>
 );
 
 export const claimExamsFAQ = (
-  <div>
-    <CollapsiblePanel panelName="How will you contact me if I need to have an exam?">
+  <>
+    <h4>More information about claim exams</h4>
+    <CollapsiblePanel panelName="What happens if I miss a phone call?">
       <p>
-        The staff at your local VA medical center will contact you to schedule
-        your exam. They’ll either send you a letter by mail with the date and
-        time of your exam, or call you to find a time that works for you.
+        If we’re unable to reach you by phone, we’ll schedule an appointment for
+        you and send you a letter with the date and time of your exam.
+      </p>
+      <p>
+        Please call the number provided on your appointment letter to confirm
+        your exam time and location.
       </p>
     </CollapsiblePanel>
-    <CollapsiblePanel panelName="What if I need to reschedule my exam appointment?">
+    <CollapsiblePanel panelName="Why do I need a claim exam?">
       <p>
-        If you can’t make it to your scheduled exam, let us know right away. You
-        can most likely reschedule, but this may delay a decision on your claim.
-        If you need to reschedule your exam, please call{' '}
-        <a href="tel:1-800-827-1000">1-800-827-1000</a>.
+        Not everyone who files a disability claim will need an exam. We’ll ask
+        you to have an exam only if we need more information to decide your
+        claim and to help us rate your disability.
       </p>
     </CollapsiblePanel>
-  </div>
+  </>
 );

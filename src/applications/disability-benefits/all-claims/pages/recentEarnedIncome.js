@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { grossIncomeAdditionalInfo } from '../content/recentEarnedIncome';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   unemployabilityTitle,
   unemployabilityPageTitle,

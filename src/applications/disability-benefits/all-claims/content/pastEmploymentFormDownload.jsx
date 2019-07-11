@@ -5,7 +5,7 @@ import { claimsIntakeAddress } from './itfWrapper';
 export const download4192Notice = (
   <div>
     <p>
-      <a href={VA_FORM4192_URL} target="_blank" rel="noopener">
+      <a href={VA_FORM4192_URL} target="_blank" rel="noopener noreferrer">
         Download VA Form 21-4192
       </a>
     </p>
@@ -18,10 +18,10 @@ export const download4192Notice = (
       return to this application and upload it. Or, mail the form to:
     </p>
     {claimsIntakeAddress}
-    <p>Or fax them toll-free: 1-844-531-7818</p>
+    <p>Or fax them toll-free: 844-531-7818</p>
     <p>
       If they need help completing this form, they can call Veterans Benefits
-      Assistance at 1-800-827-1000.
+      Assistance at 800-827-1000.
     </p>
   </div>
 );

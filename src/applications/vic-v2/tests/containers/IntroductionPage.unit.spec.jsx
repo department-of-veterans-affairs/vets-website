@@ -11,24 +11,22 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {},
-            profile: {
-              services: [],
-            },
+        user={{
+          login: {},
+          profile: {
+            services: [],
           },
         }}
       />,
     );
     expect(tree.find('FormTitle').exists()).to.be.true;
-    expect(tree.text()).to.contain('Sign In and Verify Your Identity');
+    expect(tree.text()).to.contain('Sign in and verify your identity');
     expect(
       tree
         .find('.list-two')
         .find('h5')
         .text(),
-    ).to.contain('Sign In and Verify Your Identity');
+    ).to.contain('Sign in and verify your identity');
     tree.unmount();
   });
   it('should render signed in and unverified', () => {
@@ -37,14 +35,12 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              services: [],
-            },
+        user={{
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [],
           },
         }}
       />,
@@ -55,7 +51,7 @@ describe('VIC <IntroducionPage>', () => {
         .find('.list-two')
         .find('h5')
         .text(),
-    ).to.contain('Verify Your Identity');
+    ).to.contain('Verify your identity');
     tree.unmount();
   });
   it('should render signed in and verified', () => {
@@ -64,14 +60,12 @@ describe('VIC <IntroducionPage>', () => {
         route={{
           formConfig: {},
         }}
-        saveInProgress={{
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              services: ['identity-proofed'],
-            },
+        user={{
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: ['identity-proofed'],
           },
         }}
       />,

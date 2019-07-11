@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -134,7 +135,7 @@ describe('Schemaform save / load actions:', () => {
     afterEach(teardown);
 
     it('dispatches a pending', done => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState)
@@ -151,7 +152,7 @@ describe('Schemaform save / load actions:', () => {
         });
     });
     it('calls the api to save the form', done => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState)
@@ -166,7 +167,7 @@ describe('Schemaform save / load actions:', () => {
         });
     });
     it('dispatches a success if the form is saved', done => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -202,7 +203,7 @@ describe('Schemaform save / load actions:', () => {
         });
     });
     it('dispatches a no-auth if the api returns a 401', done => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.reset();
       global.fetch.returns(
@@ -228,7 +229,7 @@ describe('Schemaform save / load actions:', () => {
         });
     });
     it('dispatches a failure on any other failure', done => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve(
@@ -252,7 +253,7 @@ describe('Schemaform save / load actions:', () => {
         });
     });
     it('dispatches a client failure when a network error occurs', done => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
@@ -275,7 +276,7 @@ describe('Schemaform save / load actions:', () => {
     afterEach(teardown);
 
     it('dispatches a pending', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -289,7 +290,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('attempts to fetch an in-progress form', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
@@ -299,7 +300,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a success if the form is loaded', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -320,7 +321,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a no-auth if the api returns a 401', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -337,7 +338,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a not-found if the api returns a 404', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -353,7 +354,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a not-found if the api returns an empty object', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -369,7 +370,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it("dispatches an invalid-data if the data returned from the api isn't an object", () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -386,7 +387,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it("dispatches an invalid-data if the api doesn't return valid json", () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -404,7 +405,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a failure on api response error', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -420,7 +421,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a failure on network error', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
@@ -433,7 +434,7 @@ describe('Schemaform save / load actions:', () => {
     });
     describe('prefill', () => {
       it('dispatches a no-auth if the api returns a 401', () => {
-        const thunk = fetchInProgressForm('1010ez', {}, true);
+        const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
@@ -448,7 +449,7 @@ describe('Schemaform save / load actions:', () => {
         });
       });
       it('dispatches a success if the api returns a 404', () => {
-        const thunk = fetchInProgressForm('1010ez', {}, true);
+        const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
@@ -462,7 +463,7 @@ describe('Schemaform save / load actions:', () => {
         });
       });
       it('dispatches a success if the api returns an empty object', () => {
-        const thunk = fetchInProgressForm('1010ez', {}, true);
+        const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
@@ -478,7 +479,7 @@ describe('Schemaform save / load actions:', () => {
       it('calls prefill transform when response is prefilled', () => {
         const prefillTransformer = sinon.spy();
         const thunk = fetchInProgressForm(
-          '1010ez',
+          VA_FORM_IDS.FORM_10_10EZ,
           {},
           true,
           prefillTransformer,
@@ -509,7 +510,7 @@ describe('Schemaform save / load actions:', () => {
     window.dataLayer = [];
 
     it('dispatches a start over action', () => {
-      const thunk = removeInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -522,7 +523,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('attempts to remove an in-progress form', () => {
-      const thunk = removeInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
@@ -533,7 +534,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('removes a form and fetches prefill data', () => {
-      const thunk = removeInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.reset();
       global.fetch.onCall(0).returns(
@@ -548,7 +549,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('handles remove error and fetches prefill data', () => {
-      const thunk = removeInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
@@ -563,7 +564,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('sets no-auth status if session expires', () => {
-      const thunk = removeInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({

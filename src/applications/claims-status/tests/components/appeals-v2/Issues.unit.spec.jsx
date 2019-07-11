@@ -4,17 +4,21 @@ import { shallow, mount } from 'enzyme';
 import Issues from '../../../components/appeals-v2/Issues';
 import { addStatusToIssues } from '../../../utils/appeals-v2-helpers';
 import { mockData } from '../../../utils/helpers';
+import _ from 'lodash/fp';
 
 describe('<Issues/>', () => {
-  const emptyIssues = { issues: addStatusToIssues([]) };
+  const emptyIssues = { issues: addStatusToIssues([]), isAppeal: true };
   const oneOpenIssue = {
     issues: addStatusToIssues(mockData.data[1].attributes.issues),
+    isAppeal: true,
   };
   const oneClosedIssue = {
     issues: addStatusToIssues([mockData.data[2].attributes.issues[3]]),
+    isAppeal: true,
   };
   const manyIssues = {
     issues: addStatusToIssues(mockData.data[2].attributes.issues),
+    isAppeal: true,
   };
 
   it('should render', () => {
@@ -61,6 +65,7 @@ describe('<Issues/>', () => {
   it('should render a list of open items when open items exist', () => {
     const props = {
       issues: [{ status: 'open', description: 'test open issue' }],
+      isAppeal: true,
     };
     const wrapper = mount(<Issues {...props} />);
     const panelButton = wrapper.find('.usa-accordion-button');
@@ -124,6 +129,14 @@ describe('<Issues/>', () => {
       .props();
     expect(closedPanelProps.panelName).to.equal('Closed');
     expect(closedPanelProps.startOpen).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('should use the word "review" if a Supplemental Claim or Higher-Level Review', () => {
+    const props = _.set('isAppeal', false, oneOpenIssue);
+    const wrapper = shallow(<Issues {...props} />);
+    const activePanelProps = wrapper.find('CollapsiblePanel').props();
+    expect(activePanelProps.panelName).to.equal('Currently on review');
     wrapper.unmount();
   });
 });

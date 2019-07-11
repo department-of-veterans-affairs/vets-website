@@ -120,12 +120,6 @@ class InstitutionFilterForm extends React.Component {
           onChange={this.handleCheckboxChange}
         />
         <Checkbox
-          checked={filters.stemOffered}
-          name="stemOffered"
-          label="STEM (Science, Technology, Engineering, and Math)"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"
           label="Priority Enrollment"

@@ -1,0 +1,28 @@
+{% comment %}
+    Example data:
+    {
+        "fieldTitle":"Related links",
+        "fieldVaParagraphs":[...]
+    }
+{% endcomment %}
+{% if parentFieldName === "field_spokes" %}
+    {% assign header = "h2" %}
+    {% assign headerClass = "hub-page-link-list__title" %}
+    {% assign ulClass = "hub-page-link-list" %}
+{% else %}
+    {% assign header = "h3" %}
+    {% assign headerClass = "va-nav-linkslist-heading" %}
+    {% assign ulClass = "va-nav-linkslist-list" %}
+{% endif %}
+<section class="{{ entity.parentFieldName }}">
+    <{{ header }}
+        {% if entity.fieldTitle != empty %}id="{{ entity.fieldTitle | hashReference }}"{% endif %}
+        class="{{ headerClass }}">
+        {{ entity.fieldTitle }}
+    </{{ header }}>
+    <ul class="{{ ulClass }}">
+        {% for linkTeaser in entity.fieldVaParagraphs %}
+            {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity parentFieldName = parentFieldName boldTitle = boldTitle %}
+        {% endfor %}
+    </ul>
+</section>

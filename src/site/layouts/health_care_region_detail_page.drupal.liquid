@@ -1,0 +1,88 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div class="interior" id="content">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      {% if entityUrl.path == "/outreach-and-events" %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
+      {% else %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      {% endif %}
+      <div class="usa-width-three-fourths">
+       {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        <article class="usa-content">
+          <h1>{{ title }}</h1>
+          <div class="va-introtext">
+            <p>{{ fieldIntroText }}</p>
+          </div>
+
+          {% if fieldAlert != empty and fieldAlert.length %}
+            {% for alert in fieldAlert %}
+              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+            {% endfor %}
+          {% endif %}
+
+          {% if fieldFeaturedContent != empty and fieldFeaturedContent.length > 0 %}
+            <div class="feature">
+              {% for block in fieldFeaturedContent %}
+                {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+                {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+
+          {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
+          {% if isContactPage %}
+            <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
+                  {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
+          {% endif %}
+
+          {% for block in fieldContentBlock %}
+            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+          {% endfor %}
+
+          {% if fieldMedia != empty %}
+            <section class="vads-u-margin-bottom--5">
+              <div class="vads-u-font-weight--bold vads-u-margin-bottom--1p5">Download media assets</div>
+              {% for asset in fieldMedia %}
+                {% assign a = asset.entity %}
+                <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
+                  <li>
+                    {% case a.entityBundle %}
+                  {% when 'document' %}
+                    <a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a>
+                  {% when a.entityBundle === 'image' %}
+                    <a href="{{ a.image.url }}" download>{{ a.name }}</a>
+                  {% when a.entityBundle === 'video' %}
+                    <a href="{{ a.fieldMediaVideoEmbedField }}">{{ a.name }}</a>
+                    {%  endcase %}
+                  </li>
+                </ul>
+              {% endfor %}
+            </section>
+          {%  endif %}
+
+        </article>
+
+        {% if fieldRelatedLinks and fieldRelatedLinks.entity.fieldVaParagraphs and fieldRelatedLinks.entity.fieldVaParagraphs.0.entity.fieldLink %}
+          <div class="va-nav-linkslist va-nav-linkslist--related">
+            {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}
+          </div>
+        {%  endif %}
+
+        <div class="last-updated usa-content">
+          Last updated:
+          <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

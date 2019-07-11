@@ -14,11 +14,6 @@ import { replaceDomainsInData } from '../../../utilities/environment/stagingDoma
 
 import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
 
-// The MegaMenu data is generated out of vagov-content, rather than a static JSON file.
-// During the build, the resultant link data is first written into temporary storage,
-// and then required by Webpack to be made available under __MEGAMENU_CONFIG__.
-const MEGAMENU_CONFIG = __MEGAMENU_CONFIG__;
-
 export function flagCurrentPageInTopLevelLinks(
   links = [],
   href = window.location.href,
@@ -34,8 +29,8 @@ export function flagCurrentPageInTopLevelLinks(
 
 export function getAuthorizedLinkData(
   loggedIn,
+  defaultLinks,
   authenticatedLinks = authenticatedUserLinkData,
-  defaultLinks = MEGAMENU_CONFIG,
 ) {
   return [
     ...replaceDomainsInData(defaultLinks),
@@ -99,12 +94,13 @@ export class Main extends React.Component {
   }
 }
 
-const mapStateToProps = createSelector(
-  isLoggedIn,
-  state => state.megaMenu,
-  (loggedIn, megaMenu) => {
+const mainSelector = createSelector(
+  ({ state }) => isLoggedIn(state),
+  ({ state }) => state.megaMenu,
+  ({ megaMenuData }) => megaMenuData,
+  (loggedIn, megaMenu, megaMenuData) => {
     const data = flagCurrentPageInTopLevelLinks(
-      getAuthorizedLinkData(loggedIn),
+      getAuthorizedLinkData(loggedIn, megaMenuData),
     );
 
     return {
@@ -113,6 +109,12 @@ const mapStateToProps = createSelector(
     };
   },
 );
+
+const mapStateToProps = (state, ownProps) =>
+  mainSelector({
+    state,
+    megaMenuData: ownProps.megaMenuData,
+  });
 
 const mapDispatchToProps = {
   toggleMobileDisplayHidden,

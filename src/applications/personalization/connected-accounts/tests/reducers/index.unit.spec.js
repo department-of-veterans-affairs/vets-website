@@ -60,6 +60,14 @@ describe('connectedAccounts', () => {
       type: actions.FINISHED_DELETING_CONNECTED_ACCOUNT,
       accountId: 'fake-id',
     });
+    expect(state.accounts.filter(account => !account.deleted).length).to.eq(0);
+  });
+
+  it('removes an account after alert dismissed', () => {
+    const state = reducer.connectedAccounts(loadedState, {
+      type: actions.DELETED_ACCOUNT_ALERT_DISMISSED,
+      accountId: 'fake-id',
+    });
     expect(state.accounts.length).to.eq(0);
   });
 

@@ -1,0 +1,14 @@
+{% comment %}
+  Example data:
+  entity: {
+      fieldWysiwyg: {
+          entityBundle: "wysiwyg",
+          entityType: "paragraph",
+          processed: 'Test'
+      }
+  }
+{% endcomment %}
+
+<div class="processed-content">
+    {{ entity.fieldWysiwyg.processed }}
+</div>

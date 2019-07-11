@@ -1,4 +1,4 @@
-{% if buildtype == 'localhost' %}
+{% if buildtype != 'vagovprod' %}
 <script>
   console.info('Metalsmith template generated from content:', {{ debug }});
 </script>

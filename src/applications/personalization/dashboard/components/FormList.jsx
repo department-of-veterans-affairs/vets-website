@@ -4,10 +4,10 @@ import React from 'react';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import FormItem from './FormItem';
-import { isSIPEnabledForm } from '../helpers';
+import { isSIPEnabledForm, sipFormSorter } from '../helpers';
 
 class FormList extends React.Component {
   constructor(props) {
@@ -34,13 +34,16 @@ class FormList extends React.Component {
 
   render() {
     const { savedForms: forms } = this.props;
-    const verifiedSavedForms = forms.filter(isSIPEnabledForm);
+    // Remove non-SIP-enabled forms and then sort them by when the forms expire
+    const verifiedSavedForms = forms
+      .filter(isSIPEnabledForm)
+      .sort(sipFormSorter);
     const hasVerifiedSavedForms = !!verifiedSavedForms.length;
 
     return !hasVerifiedSavedForms ? null : (
       <div className="profile-section medium-12 columns">
-        <h2 className="section-header">Continue Applications</h2>
-        {forms.map(form => (
+        <h2 className="section-header">Your applications</h2>
+        {verifiedSavedForms.map(form => (
           <FormItem
             key={form.form}
             savedFormData={form}
@@ -60,7 +63,7 @@ class FormList extends React.Component {
           </p>
           <ProgressButton
             onButtonClick={this.removeForm}
-            buttonText="Yes, Delete It"
+            buttonText="Yes, delete it"
             buttonClass="usa-button-primary"
           />
           <ProgressButton

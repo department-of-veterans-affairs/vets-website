@@ -79,7 +79,7 @@ describe('evidenceTypes', () => {
           'view:hasEvidence': true,
           'view:hasEvidenceFollowUp': {
             'view:selectableEvidenceTypes': {
-              'view:hasVAMedicalRecords': true,
+              'view:hasVaMedicalRecords': true,
             },
           },
         }}

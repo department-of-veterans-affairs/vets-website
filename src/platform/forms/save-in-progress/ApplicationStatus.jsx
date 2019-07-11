@@ -7,7 +7,7 @@ import {
   formLinks,
   formDescriptions,
   formBenefits,
-} from '../../../applications/personalization/profile360/util/helpers';
+} from 'applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
@@ -127,19 +127,19 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-primary"
                 href={`${formLinks[formId]}resume`}
               >
-                Continue Your Application
+                Continue your application
               </a>
               <button
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
-                Start a New Application
+                Start a new application
               </button>
             </p>
             {multipleForms && (
               <p className="no-bottom-margin">
                 You have more than one in-progress {formType} form.{' '}
-                <a href="/profile">
+                <a href="/my-va">
                   View and manage your forms on your Account page
                 </a>
                 .
@@ -155,7 +155,7 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
-                buttonText="Start a New Application"
+                buttonText="Start a new application"
                 buttonClass="usa-button-primary"
               />
               <ProgressButton
@@ -177,13 +177,13 @@ export class ApplicationStatus extends React.Component {
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>
-              Start a New Application
+              Start a new application
             </button>
           </p>
           {multipleForms && (
             <p className="no-bottom-margin">
               You have more than one in-progress {formType} form.{' '}
-              <a href="/profile">
+              <a href="/my-va">
                 View and manage your forms on your Account page
               </a>
               .
@@ -199,7 +199,7 @@ export class ApplicationStatus extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={() => this.removeForm(formId)}
-              buttonText="Start a New Application"
+              buttonText="Start a new application"
               buttonClass="usa-button-primary"
             />
             <ProgressButton
@@ -221,7 +221,7 @@ export class ApplicationStatus extends React.Component {
           itemScope
           itemType="http://schema.org/HowToSection"
         >
-          <h3 itemProp="name">{applyHeading}</h3>
+          <h2 itemProp="name">{applyHeading}</h2>
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status">
@@ -231,9 +231,9 @@ export class ApplicationStatus extends React.Component {
               >
                 {applyText}
               </a>
-              {window.location.pathname.endsWith('eligibility/') && (
+              {this.props.showLearnMoreLink && (
                 <p>
-                  <a href={applyLink}>Learn more about how to apply</a>.
+                  <a href={applyLink}>Learn more about how to apply</a>
                 </p>
               )}
             </div>
@@ -262,6 +262,7 @@ ApplicationStatus.propTypes = {
     savedForms: PropTypes.array.isRequired,
   }),
   stayAfterDelete: PropTypes.bool,
+  showLearnMoreLink: PropTypes.bool,
 };
 
 ApplicationStatus.defaultProps = {

@@ -1,0 +1,24 @@
+{
+  "data": {
+    "privacyAgreementAccepted": true,
+    "applicantFullName": {
+      "first": "testy",
+      "last": "mcTestFace"
+    },
+    "applicantSocialSecurityNumber": "796121200",
+    "dateOfBirth": "1933-04-05",
+    "appliedForVaEducationBenefits": false,
+    "activeDuty": true,
+    "view:phoneAndEmail": {
+      "dayTimePhone": "1234567890",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Nowhere",
+      "country": "USA",
+      "state": "MI",
+      "postalCode": "22312"
+    }
+  }
+}

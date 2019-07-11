@@ -8,7 +8,6 @@
 function getBuildSettings(options) {
   return {
     type: options.buildtype,
-    brandConsolidationEnabled: true,
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1,
@@ -32,11 +31,12 @@ function createBuildSettings(options) {
       if (!entryName) continue;
 
       const validTypes = ['string', 'boolean', 'number'];
+      const keysToSkip = new Set(['headerFooterData']);
       const frontmatter = {};
 
       for (const dataKey of Object.keys(file)) {
         const data = file[dataKey];
-        if (validTypes.includes(typeof data)) {
+        if (!keysToSkip.has(dataKey) && validTypes.includes(typeof data)) {
           frontmatter[dataKey] = data;
         }
       }

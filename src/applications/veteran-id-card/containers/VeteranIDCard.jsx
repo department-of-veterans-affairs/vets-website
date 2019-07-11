@@ -27,7 +27,8 @@ function createVicSettings() {
 }
 
 class VeteranIDCard extends React.Component {
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Once the login logic is all done...
     // This will occur even for unauthenticated users and should only occur once.
     if (this.props.user.profile.loading && !nextProps.user.profile.loading) {

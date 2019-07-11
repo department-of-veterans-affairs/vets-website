@@ -201,6 +201,11 @@ label {
   }
 }
 
+.schemaform-array-row-title:focus {
+  @include focus-gold-light-outline;
+  display: inline-block;
+}
+
 .schemaform-array-row {
   outline: none;
 }
@@ -424,7 +429,7 @@ legend.schemaform-label.schemaform-file-label {
     background-color: $color-gold-lightest;
   }
   > .va-growable-review {
-    padding: 0 1em;
+    padding: 0 1em 1em 1em;
   }
 }
 
@@ -629,4 +634,32 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-downtime-after-steps {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+// highlighted outlines for accessibility
+[role=button]:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #f9c642;
+  outline-offset: 2px;
+}
+
+.form-checkbox>input[type=checkbox]+.schemaform-label {
+  line-height: 2.4rem;
+}
+
+.form-checkbox>input[type=checkbox]+label:before {
+  margin-right: 0.6em;
+}
+
+.editable-row {
+  position: relative;
+
+  .edit-button {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
 }

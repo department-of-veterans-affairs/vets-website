@@ -500,7 +500,7 @@ describe('<PhotoField>', () => {
       'Some error',
     );
     expect(tree.find('ErrorableFileInput').props().buttonText).to.equal(
-      'Upload Photo Again',
+      'Upload photo again',
     );
     tree.unmount();
   });
@@ -619,7 +619,7 @@ describe('<PhotoField>', () => {
     );
 
     tree.setState({ previewSrc: 'testing', formData: {} });
-    tree.instance().componentWillReceiveProps({
+    tree.instance().UNSAFE_componentWillReceiveProps({
       formData: {
         file: new Blob(),
       },

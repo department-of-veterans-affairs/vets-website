@@ -1,8 +1,8 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from '../../platform/utilities/api';
 
 function checkStatus(guid) {
@@ -17,8 +17,8 @@ function checkStatus(guid) {
     null,
     res => {
       if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_burial_poll_client_error');
+        Sentry.captureException(res);
+        Sentry.captureMessage('vets_burial_poll_client_error');
 
         // keep polling because we know they submitted earlier
         // and this is likely a network error
@@ -154,7 +154,7 @@ export const burialDateWarning = (
       must be no more than 2 years from the current date. Find out if you still
       qualify.{' '}
       <a href="/burials-memorials/eligibility/" target="_blank">
-        Learn about eligibility.
+        Learn about eligibility
       </a>
     </span>
   </div>

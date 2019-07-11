@@ -4,13 +4,14 @@ import { debounce } from 'lodash';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
+import { WAIT_INTERVAL } from '../../constants';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
     super(props);
     this.handleFetchSuggestion = debounce(
       this.handleFetchSuggestion.bind(this),
-      150,
+      WAIT_INTERVAL,
       { trailing: true },
     );
   }

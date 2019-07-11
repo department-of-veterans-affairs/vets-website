@@ -1,4 +1,4 @@
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import _ from 'lodash/fp';
 import {
@@ -42,7 +42,7 @@ export const initialState = {
   letters: [],
   lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
-  fullName: {},
+  fullName: '',
   address: {},
   addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   isEditingAddress: false,
@@ -192,7 +192,7 @@ function letters(state = initialState, action) {
 
       // Log error if the countries response is not what we expect
       if (!Array.isArray(countryList) || countryList.length === 0) {
-        Raven.captureMessage(
+        Sentry.captureMessage(
           `vets_letters_unexpected_country_response: ${countryList}`,
         );
         countriesAvailable = false;
@@ -212,7 +212,7 @@ function letters(state = initialState, action) {
 
       // Log error if the states response is not what we expect
       if (!Array.isArray(stateList) || stateList.length === 0) {
-        Raven.captureMessage(
+        Sentry.captureMessage(
           `vets_letters_unexpected_state_response: ${stateList}`,
         );
         statesAvailable = false;

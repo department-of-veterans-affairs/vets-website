@@ -12,7 +12,13 @@ import {
 describe('526v2 prefill transformer', () => {
   const noTransformData = {
     metadata: { test: 'Test Metadata' },
-    formData: { testData: `This isn't getting transformed` },
+    formData: {
+      testData: `This isn't getting transformed`,
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
+    },
     pages: { testPage: 'Page 1' },
   };
 
@@ -51,6 +57,53 @@ describe('526v2 prefill transformer', () => {
         formData.disabilities[0].name,
       );
     });
+
+    it('should add claimType when no rated service-connected disabilities', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        disabilities: [
+          {
+            name: 'other disability',
+            decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected,
+          },
+        ],
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData['view:claimType']).to.deep.equal(
+        noTransformData.formData['view:claimType'],
+      );
+    });
+
+    it('should add claimType when no disabilities', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {};
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+      });
+    });
+
+    it('should not add claimType when service-connected disabilities present', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        disabilities: [
+          {
+            name: 'other disability',
+            decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected,
+          },
+        ],
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData.ratedDisabilities[0].name).to.equal(
+        formData.disabilities[0].name,
+      );
+    });
   });
 
   describe('prefillContactInformation', () => {
@@ -74,6 +127,7 @@ describe('526v2 prefill transformer', () => {
 
       const { primaryPhone, emailAddress, mailingAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
         phoneAndEmail: {
           primaryPhone,
           emailAddress,
@@ -94,6 +148,7 @@ describe('526v2 prefill transformer', () => {
         .formData;
 
       expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
         phoneAndEmail: {
           emailAddress: formData.veteran.emailAddress,
         },
@@ -123,6 +178,7 @@ describe('526v2 prefill transformer', () => {
         .formData;
       const { servicePeriods, reservesNationalGuardService } = formData;
       expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
         serviceInformation: {
           servicePeriods,
           reservesNationalGuardService,
@@ -145,6 +201,7 @@ describe('526v2 prefill transformer', () => {
         .formData;
       const { servicePeriods } = formData;
       expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
         serviceInformation: { servicePeriods },
       });
     });
@@ -169,6 +226,7 @@ describe('526v2 prefill transformer', () => {
         bankName,
       } = formData;
       expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
         'view:originalBankAccount': {
           'view:bankAccountType': bankAccountType,
           'view:bankAccountNumber': bankAccountNumber,
@@ -189,7 +247,9 @@ describe('526v2 prefill transformer', () => {
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
 
-      expect(transformedData).to.deep.equal({});
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+      });
     });
   });
 });

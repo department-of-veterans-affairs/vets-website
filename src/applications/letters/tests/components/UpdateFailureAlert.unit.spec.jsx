@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
-
-import { getFormDOM } from '../../../../platform/testing/unit/schemaform-utils';
 
 import UpdateFailureAlert from '../../components/UpdateFailureAlert';
 
@@ -16,19 +14,12 @@ const defaultProps = {
 };
 
 describe('<UpdateFailureAlert>', () => {
-  it('should render address and warning', () => {
-    // Have to wrap the stateless (function) component in <div></div> so renderIntoDocument() is happy
-    const tree = ReactTestUtils.renderIntoDocument(
-      <div>
-        <UpdateFailureAlert {...defaultProps} />
-      </div>,
-    );
-    const component = getFormDOM(tree);
+  it('should render failure message', () => {
+    const tree = mount(<UpdateFailureAlert {...defaultProps} />);
 
-    const addressBlock = component.getElement('#warning-address-block')
-      .textContent;
-    Object.keys(defaultProps.addressObject).forEach(key => {
-      expect(addressBlock).to.contain(defaultProps.addressObject[key]);
-    });
+    expect(tree.find('.usa-alert-heading').text()).to.contain(
+      "We aren't able to save your updated address",
+    );
+    tree.unmount();
   });
 });

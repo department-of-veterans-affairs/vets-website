@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-require('babel-core/register');
+require('@babel/register');
 
 module.exports = {
   src_folders: ['./src', './test'],

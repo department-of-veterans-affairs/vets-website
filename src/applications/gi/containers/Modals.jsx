@@ -28,6 +28,47 @@ export class Modals extends React.Component {
     );
   }
 
+  calcBeneficiaryLocationQuestionContent() {
+    return (
+      <div>
+        <h3>Location where you'll take classes</h3>
+        <p>
+          VA pays monthly housing allowance (MHA) based on the campus location
+          where you physically attend the majority of your classes.
+        </p>
+
+        <p>
+          <strong>A campus could include:</strong>
+        </p>
+        <ul>
+          <li>
+            A main campus: the location where the primary teaching facilities of
+            an educational institution are located
+          </li>
+          <li>
+            A branch campus: the location of an educational institution that is
+            geographically apart from and operationally independent of the main
+            campus of the educational institution
+          </li>
+          <li>
+            An extension campus: the location that is geographically apart from
+            the main or branch campus but is operationally dependent on that
+            campus for the performance of administrative tasks
+          </li>
+        </ul>
+        <p>
+          Learn more about the{' '}
+          <a
+            href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#location-based107"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Location-Based Housing Allowance.
+          </a>
+        </p>
+      </div>
+    );
+  }
   shouldDisplayModal(modal) {
     return this.props.modals.displaying === modal;
   }
@@ -50,7 +91,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('gradrates')}
         >
-          <h3>Graduation Rate</h3>
+          <h3>Graduation rate</h3>
           <p>
             The graduation rate after six years for schools that mostly award
             four-year degrees and after four years for all other schools. These
@@ -67,7 +108,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('salaries')}
         >
-          <h3>Average Salaries</h3>
+          <h3>Average salaries</h3>
           <p>
             The median earnings of former students who received federal
             financial aid, 10 years after they started school.
@@ -78,7 +119,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('repayment')}
         >
-          <h3>Repayment Rate</h3>
+          <h3>Repayment rate</h3>
           <p>
             The share of students who have repaid at least $1 of the principal
             balance on their federal loans within 3 years of leaving school.
@@ -97,7 +138,7 @@ export class Modals extends React.Component {
         >
           <h3>GI Bill students</h3>
           <p>
-            The number of Veterans, Servicemembers and family members utilizing
+            The number of Veterans, service members and family members using
             their GI Bill benefits attending this school in the last calendar
             year. This includes all chapters of the GI Bill program (e.g.,
             Post-9/11, Montgomery GI Bill, Reserve Education Assistance Program,
@@ -117,7 +158,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('vetgroups')}
         >
-          <h3>Student Veterans Group</h3>
+          <h3>Student Veterans group</h3>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
             If a school has a student Veterans group that’s not represented
@@ -136,6 +177,7 @@ export class Modals extends React.Component {
             <a
               href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
               target="_blank"
+              rel="noopener noreferrer"
             >
               "Ask a Question" page
             </a>
@@ -154,6 +196,7 @@ export class Modals extends React.Component {
               title="Post-9/11 GI Bill"
               href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Post-9/11 GI Bill
             </a>{' '}
@@ -168,16 +211,17 @@ export class Modals extends React.Component {
               title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
-              Click here for FAQs about the Yellow Ribbon Program..
+              Click here for FAQs about the Yellow Ribbon Program
             </a>
           </p>
           <p>
             Veterans and Fry Scholarship and Purple Heart recipients are
             entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active duty Servicemembers and their
+            can receive this funding. Active-duty service members and their
             spouses aren’t eligible for this program (child transferees of
-            active duty Servicemembers may be eligible if the servicemember is
+            active-duty service members may be eligible if the service member is
             qualified at the 100% rate). This information will be updated
             quarterly.
           </p>
@@ -194,10 +238,11 @@ export class Modals extends React.Component {
               title="Principles of Excellence"
               href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Principles of Excellence
             </a>{' '}
-            are guidelines for educational institutions receiving Federal
+            are guidelines for educational institutions receiving federal
             funding. Schools that agree to participate will:
           </p>
           <ul className="modal-bullets">
@@ -210,15 +255,15 @@ export class Modals extends React.Component {
               of an education program.
             </li>
             <li>
-              Provide educational plans for all Military and Veteran education
+              Provide educational plans for all military and Veteran education
               beneficiaries.
             </li>
             <li>
-              Provide accommodations for Service Members and Reservists absent
+              Provide accommodations for service members and Reservists absent
               due to service requirements.
             </li>
             <li>
-              Assign a Point of Contact for academic and financial advising.
+              Assign a point of contact for academic and financial advising.
             </li>
             <li>
               Make sure all new programs are accredited before they enroll
@@ -258,7 +303,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('priEnroll')}
         >
-          <h3>Priority Enrollment</h3>
+          <h3>Priority enrollment</h3>
           <p>
             If an Institution of Higher Learning (a college or university) has a
             system for priority enrollment that allows certain student Veterans
@@ -272,7 +317,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('onlineOnlyDistanceLearning')}
         >
-          <h3>Online and Distance Learning</h3>
+          <h3>Online and distance learning</h3>
           <p>
             <p>
               Under the GI Bill you’re eligible to receive a monthly housing
@@ -305,7 +350,7 @@ export class Modals extends React.Component {
           <h3>8 Keys to Veteran Success</h3>
           <p>
             The “8 Keys to Veterans’ Success” are steps that postsecondary
-            institutions can take to assist Veterans and Service members in
+            institutions can take to assist Veterans and service members in
             transitioning to higher education, completing their college
             programs, and obtaining career-ready skills.
           </p>
@@ -322,6 +367,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
               target="_blank"
+              rel="noopener noreferrer"
             >
               8 Keys to Veterans’ Success
             </a>{' '}
@@ -335,7 +381,7 @@ export class Modals extends React.Component {
         >
           <h3>VetSuccess on Campus (VSOC)</h3>
           <p>
-            This program supports Servicemembers, Veterans, and qualified
+            This program supports service members, Veterans, and qualified
             dependents through on-campus counseling and help overcoming
             barriers—like accommodating disabilities or getting referrals to
             health services. It's designed to help you succeed at school and get
@@ -345,18 +391,18 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
-              Download the VSOC fact sheet.
+              Download the VSOC fact sheet
             </a>
           </p>
           <p>
             <a
               href="http://www.benefits.va.gov/vocrehab/vsoc.asp"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
-              Learn more about the VSOC program.
+              Learn more about the VSOC program
             </a>
           </p>
         </Modal>
@@ -381,6 +427,7 @@ export class Modals extends React.Component {
               href="http://ope.ed.gov/accreditation/"
               id="anch_384"
               target="_blank"
+              rel="noopener noreferrer"
             >
               database
             </a>
@@ -395,6 +442,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {' '}
               about this tool
@@ -407,7 +455,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('typeAccredited')}
         >
-          <h3>Accreditation types (Regional vs. National vs. Hybrid)</h3>
+          <h3>Accreditation types (regional vs. national vs. hybrid)</h3>
           <p>
             Is the school regionally or nationally accredited at the institution
             level?
@@ -428,6 +476,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {' '}
               about this tool
@@ -439,10 +488,10 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('singleContact')}
         >
-          <h3>Single Point of Contact For Veterans</h3>
+          <h3>Single point of contact for Veterans</h3>
           <p>
             Does the school have a dedicated point of contact for support
-            services for veterans, military servicemembers, and their families?
+            services for Veterans, military service members, and their families?
           </p>
         </Modal>
 
@@ -450,7 +499,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('creditTraining')}
         >
-          <h3>Credit for Military Training</h3>
+          <h3>Credit for military training</h3>
           <p>
             Does the school offer postsecondary credit for experiences and
             military training?
@@ -461,17 +510,35 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('stemOffered')}
         >
           <h3>STEM</h3>
-          <p>
-            VA will provide up to 9 months of additional Post-9/11 GI Bill
-            benefits if you're eligible and enrolled in a Science, Technology,
-            Engineering, or Math educational program.
-          </p>
+          <div>
+            <p>
+              The Edith Nourse Rogers STEM Scholarship provides up to 9 months
+              of additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
+            </p>
+            <p>
+              Veterans and Fry Scholars may qualify for this scholarship if
+              they're enrolled in an undergraduate program for Science,
+              Technology, Engineering, or Math (STEM), or if they've earned a
+              STEM degree and are getting a teaching certification.
+            </p>
+            <p>
+              To learn more about the STEM Scholarship,{' '}
+              <a
+                href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {' '}
+                visit the VBA STEM website.
+              </a>
+            </p>
+          </div>
         </Modal>
         <Modal
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('iStudy')}
         >
-          <h3>Independent Study</h3>
+          <h3>Independent study</h3>
           <p>
             Beneficiaries may use educational assistance to access online
             learning (accredited independent study) at schools that aren’t
@@ -493,15 +560,15 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('facilityCode')}
         >
-          <h3>VA Facility Code</h3>
-          <p>Unique identifier for VA approved facilities.</p>
+          <h3>VA facility code</h3>
+          <p>Unique identifier for VA-approved facilities.</p>
         </Modal>
 
         <Modal
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('ipedsCode')}
         >
-          <h3>ED IPEDS Code</h3>
+          <h3>ED IPEDS code</h3>
           <p>
             Unique identification number assigned to postsecondary institutions
             surveyed through the Integrated Postsecondary Education Data System
@@ -513,7 +580,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('opeCode')}
         >
-          <h3>ED OPE Code</h3>
+          <h3>ED OPE code</h3>
           <p>
             Identification number used by the U.S. Department of {'Education’s'}{' '}
             Office of Postsecondary Education (OPE) to identify schools that
@@ -547,7 +614,7 @@ export class Modals extends React.Component {
             <a
               href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Heightened Cash Monitoring
             </a>
@@ -556,7 +623,7 @@ export class Modals extends React.Component {
             <a
               href="http://ope.ed.gov/accreditation/"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Accreditation
             </a>
@@ -565,16 +632,16 @@ export class Modals extends React.Component {
             <a
               href="https://www.dodmou.com/Home/Faq"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
-              DoD Probation For Military Tuition Assistance
+              DoD Probation for Military Tuition Assistance
             </a>
           </p>
           <p>
             <a
               href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Federal Trade Commission Filed Suit for Deceptive Advertising
             </a>
@@ -583,7 +650,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Settlement reached with the Federal Trade Commission (FTC)
             </a>
@@ -592,7 +659,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Suspended for 85/15 violation – Flight Program
             </a>
@@ -601,7 +668,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Denial of Recertification Application to Participate in the
               Federal Student Financial Assistance Programs
@@ -611,7 +678,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               School operating under provisional accreditation (previously
               accredited by ACICS)
@@ -622,7 +689,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               "About this Tool"
             </a>{' '}
@@ -634,6 +701,30 @@ export class Modals extends React.Component {
   }
 
   renderProfileCalculatorModals() {
+    const whenUsedGiBill = (
+      <div>
+        <h3 className="vads-u-padding-top--4">
+          What is Section 501 (Monthly Housing Allowance Rate)?
+        </h3>
+        <p>
+          Effective January 1, 2018, the Post-9/11 GI Bill monthly housing
+          allowance rate will be the same as the Department of Defense’s E-5
+          with dependents Basic Allowance Housing (BAH) rate.
+        </p>
+        <ul>
+          <li>
+            Students will receive this rate if they first used their Post-9/11
+            GI Bill benefits on or after January 1, 2018.
+          </li>
+          <li>
+            If the student started using their Post-9/11 GI Bill before January
+            1, 2018, they will continue receiving payments based on the slightly
+            higher VA rate eliminated by this change.
+          </li>
+        </ul>
+      </div>
+    );
+
     return (
       <span>
         <Modal
@@ -642,7 +733,7 @@ export class Modals extends React.Component {
         >
           <h3>Tuition and fees per year</h3>
           <p>
-            Enter the total tuition/fees you will be charged for the academic
+            Enter the total tuition/fees you'll be charged for the academic
             year.
           </p>
           <p>
@@ -653,7 +744,7 @@ export class Modals extends React.Component {
               href="http://nces.ed.gov/ipeds/datacenter/"
               id="anch_442"
               target="blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               IPEDS
             </a>
@@ -662,7 +753,7 @@ export class Modals extends React.Component {
               href="http://nces.ed.gov/collegenavigator/"
               id="anch_443"
               target="blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               College Navigator
             </a>
@@ -675,7 +766,7 @@ export class Modals extends React.Component {
                 'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'
               }
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               About This Tool
             </a>
@@ -705,9 +796,9 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
-              Click here for more information.
+              Click here for more information
             </a>
           </p>
         </Modal>
@@ -731,7 +822,7 @@ export class Modals extends React.Component {
               title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               this page.
             </a>
@@ -739,9 +830,9 @@ export class Modals extends React.Component {
           <p>
             Veterans and Fry Scholarship and Purple Heart recipients are
             entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active duty Servicemembers and their
+            can receive this funding. Active-duty service members and their
             spouses are not eligible for this program (child transferees of
-            active duty Servicemembers may be eligible if the servicemember is
+            active-duty service members may be eligible if the service member is
             qualified at the 100% rate). This information will be updated
             quarterly.
           </p>
@@ -751,35 +842,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('whenUsedGiBill')}
         >
-          <h3>When you used GI Bill before?</h3>
-          <p>
-            Effective August 1, 2018, the monthly housing under the Post-9/11 GI
-            Bill program will be calculated based on the zip code of the
-            “campus” where the student physically attends the majority of
-            classes, rather than the location of the school where the student is
-            enrolled. A campus may include:
-          </p>
-          <ul>
-            <li>
-              The individual campus of a school where the student is taking
-              classes (i.e. the school’s science center, humanities building, or
-              athletic center)
-            </li>
-            <li>
-              The physical location where a student is learning in a study
-              abroad program
-            </li>
-            <li>
-              Any internship, externship, practicum or student teaching site
-            </li>
-          </ul>
-
-          <p>
-            Those who first use Post-9/11 GI Bill on or after January 1, 2018,
-            will receive a monthly housing allowance based directly on the
-            Department of Defense basic housing allowance (BAH) for monthly
-            housing rates.
-          </p>
+          {whenUsedGiBill}
         </Modal>
 
         <Modal
@@ -826,7 +889,7 @@ export class Modals extends React.Component {
               title="For more information about MHA increases or decreases click here"
               href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -859,7 +922,7 @@ export class Modals extends React.Component {
             <a
               href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -871,37 +934,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
-          <h3>Housing Allowance/BAH changes</h3>
-          <p>
-            Starting August 1, 2018, we'll determine the monthly housing
-            allowance under the Post-9/11 GI Bill based on the zip code of the
-            campus where you physically attend the majority of your classes. The
-            location of the school where you're enrolled won't be relevant.
-          </p>
-
-          <p>
-            <strong>We define "campus" as any of these locations:</strong>
-          </p>
-          <ul>
-            <li>
-              The specific campus of a school where you're taking classes (for
-              example, in the school’s science center, humanities building, or
-              athletic center)
-            </li>
-            <li>
-              The physical location where you're learning in a study-abroad
-              program
-            </li>
-            <li>
-              The site of any internship, externship, practicum, or student
-              teaching
-            </li>
-          </ul>
-          <p>
-            If you first use the Post-9/11 GI Bill on or after January 1, 2018,
-            you'll receive a monthly housing allowance based directly on the
-            Department of Defense Basic Allowance for Housing (BAH).
-          </p>
+          {this.calcBeneficiaryLocationQuestionContent()}
         </Modal>
 
         <Modal
@@ -940,7 +973,7 @@ export class Modals extends React.Component {
             <a
               href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -952,7 +985,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('cumulativeService')}
         >
-          <h3>Cumulative Post-9/11 Service</h3>
+          <h3>Cumulative Post-9/11 service</h3>
           <p>
             The{' '}
             <a
@@ -973,7 +1006,7 @@ export class Modals extends React.Component {
             <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               this page
             </a>
@@ -988,7 +1021,7 @@ export class Modals extends React.Component {
           <h3>Completed an enlistment of (MGIB):</h3>
           <p>
             The Montgomery GI Bill – Active Duty provides education benefits to
-            Veterans and Servicemembers who have served at least two years of
+            Veterans and service members who have served at least two years of
             active duty. When using this tool, you will need to select the
             length of your original active duty enlistment obligation in order
             to get an estimate of your monthly benefit. The amount of time you
@@ -999,7 +1032,7 @@ export class Modals extends React.Component {
               href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
               id="anch_399"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>
@@ -1011,20 +1044,20 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('consecutiveService')}
         >
-          <h3>Length of Longest Active Duty Tour (REAP)</h3>
+          <h3>Length of longest active duty tour (REAP)</h3>
           <p>
             The REAP program pays benefits to eligible Reservists or Guard
             members who were called or ordered to active duty for at least 90
             consecutive days in response to a war or national emergency declared
             by the President or Congress. REAP payment amounts are based on
-            length of consecutive days of active duty service with rates
+            length of consecutive days of active-duty service with rates
             increasing at one year and again at two years of consecutive
             service. To learn more about REAP please visit &nbsp;
             <a
               href="https://www.benefits.va.gov/gibill/reap.asp"
               id="anch_403"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               https://www.benefits.va.gov/gibill/reap.asp
             </a>

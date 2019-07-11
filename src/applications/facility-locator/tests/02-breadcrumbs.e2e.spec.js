@@ -22,7 +22,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .element(
       '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
     )
-    .text.to.equal('Find Facilities & Services');
+    .text.to.equal('Find Locations');
 
   client.expect
     .element(
@@ -41,9 +41,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // check detail page with ID pattern letters_, letter, digits
   client
-    .waitForElementVisible('.facility-result a h5', Timeouts.normal)
+    .waitForElementVisible('.facility-result a h5', Timeouts.slow)
     .click('.facility-result a h5')
-    .waitForElementVisible('.facility-detail', Timeouts.slow);
+    .waitForElementVisible('.all-details', Timeouts.slow, false);
 
   client.waitForElementVisible('a[aria-current="page"', Timeouts.normal);
 

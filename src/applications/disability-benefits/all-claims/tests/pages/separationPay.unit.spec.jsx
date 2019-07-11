@@ -29,7 +29,7 @@ describe('Separation Pay', () => {
     form.unmount();
   });
 
-  it('should fail to submit if no answers provided', () => {
+  it('should submit if no answers provided', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -43,8 +43,8 @@ describe('Separation Pay', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
     form.unmount();
   });
 
@@ -56,7 +56,7 @@ describe('Separation Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasSeparationPay': false,
+          hasSeparationPay: false,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -69,7 +69,7 @@ describe('Separation Pay', () => {
     form.unmount();
   });
 
-  it('should not submit if answer is Yes but no other info provided', () => {
+  it('should submit if answer is Yes but no other info provided', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -77,7 +77,7 @@ describe('Separation Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasSeparationPay': true,
+          hasSeparationPay: true,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -85,8 +85,8 @@ describe('Separation Pay', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -97,7 +97,7 @@ describe('Separation Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasSeparationPay': true,
+          hasSeparationPay: true,
         }}
         formData={{}}
       />,

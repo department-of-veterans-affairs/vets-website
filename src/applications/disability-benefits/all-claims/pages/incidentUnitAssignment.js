@@ -1,9 +1,10 @@
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import {
   ptsdAssignmentDescription,
+  ptsdAssignmentDatesTitle,
   ptsdAssignmentDatesDescription,
 } from '../content/incidentUnitAssignment';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
@@ -23,7 +24,8 @@ export const uiSchema = index => ({
     },
     unitAssignedDates: {
       ...dateRangeUI('From', 'To', 'The date must be after Start date'),
-      'ui:title': ptsdAssignmentDatesDescription,
+      'ui:title': ptsdAssignmentDatesTitle,
+      'ui:description': ptsdAssignmentDatesDescription,
     },
   },
 });

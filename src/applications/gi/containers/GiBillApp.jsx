@@ -23,6 +23,7 @@ const Disclaimer = () => (
       help.{' '}
       <a
         target="_blank"
+        rel="noopener noreferrer"
         href="https://www.va.gov/ogc/apps/accreditation/index.asp"
       >
         Search Accredited Attorneys, Claims Agents, or Veterans Service
@@ -97,9 +98,9 @@ export class GiBillApp extends React.Component {
               />
             )}
             <GiBillBreadcrumbs
+              searchQuery={search.query}
               facilityCode={facilityCode}
               location={this.props.location}
-              includeSearch={search.count !== null}
             />
             {content}
             <AboutThisTool />

@@ -1,19 +1,19 @@
 import React from 'react';
 import { get, omit, merge } from 'lodash/fp';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import TextWidget from 'us-forms-system/lib/js/widgets/TextWidget';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
 import {
   stringifyFormReplacer,
   filterViewFields,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import environment from '../../../platform/utilities/environment';
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -51,38 +51,38 @@ export const authorizedAgentDescription = (
 
 export const veteranRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>Servicemember or Veteran</strong>. You’re
-    applying as the Servicemember or Veteran. We’ll use your military status and
-    history to decide if you qualify for burial in a VA national cemetery.
+    You’re applying as the <strong>service member or Veteran</strong>. We'll ask
+    you questions about your military status and history to determine if you
+    qualify for burial in a VA national cemetery.
   </div>
 );
 
 export const spouseRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the{' '}
-    <strong>legally married spouse or surviving spouse</strong> of the
-    Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
-    for your information as the applicant. Then, we’ll ask for your sponsor’s
-    information.
+    <strong>legally married spouse or surviving spouse</strong> of the service
+    member or Veteran who’s your sponsor. We’ll ask you questions about your
+    sponsor’s military status and history to determine if you qualify for burial
+    in a VA national cemetery.
   </div>
 );
 
 export const childRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>unmarried adult child</strong> of the
-    Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
-    for your information as the applicant. Then, we’ll ask for your sponsor’s
-    information. You’ll also need to provide supporting documents with
-    information about your disability.
+    You’re applying as the <strong>unmarried adult child</strong> of the service
+    member or Veteran who’s your sponsor. We’ll ask you questions about your
+    sponsor’s military status and history to determine if you qualify for burial
+    in a VA national cemetery. You’ll also need to provide supporting documents
+    with information about your disability.
   </div>
 );
 
 export const otherRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying on <strong>behalf</strong> of the Servicemember or Veteran
-    who’s sponsoring this application. First, we’ll ask for your information as
-    the applicant. Then, we’ll ask for the Servicemember's or Veteran's
-    information as the sponsor.
+    You’re applying on <strong>behalf</strong> of the service member or Veteran
+    who’s your sponsor. We’ll ask you questions about your sponsor’s military
+    status and history to determine if they qualify for burial in a VA national
+    cemetery.
   </div>
 );
 
@@ -341,6 +341,9 @@ export const serviceRecordsUI = {
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
+    'ui:options': {
+      ariaLabelForEditButtonOnReview: 'Service Period',
+    },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
@@ -420,8 +423,8 @@ export function getCemeteries() {
     })
     .catch(res => {
       if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_preneed_cemeteries_error');
+        Sentry.captureException(res);
+        Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
 
       // May change this to a reject later, depending on how we want

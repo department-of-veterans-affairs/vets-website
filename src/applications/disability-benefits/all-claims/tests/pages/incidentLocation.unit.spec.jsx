@@ -17,7 +17,11 @@ describe('PTSD Incident location', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
 
     expect(form.find('input').length).to.equal(1);
@@ -31,6 +35,7 @@ describe('PTSD Incident location', () => {
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
     fillData(form, 'select#root_incident0_incidentLocation_country', 'USA');
@@ -55,6 +60,7 @@ describe('PTSD Incident location', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
 

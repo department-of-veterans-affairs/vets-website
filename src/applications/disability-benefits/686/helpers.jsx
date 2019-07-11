@@ -1,7 +1,7 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import React from 'react';
 import moment from 'moment';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 // import { apiRequest } from '../../../platform/utilities/api';
 
 export const childRelationshipStatusLabels = {
@@ -177,6 +177,7 @@ export const schoolAttendanceWarning = (
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
           target="_blank"
+          rel="noopener noreferrer"
         >
           VA Form 21-674
         </a>

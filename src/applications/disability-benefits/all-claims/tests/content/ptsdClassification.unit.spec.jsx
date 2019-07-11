@@ -16,7 +16,7 @@ describe('781 getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781').incidentText).to.equal(
-      'Combat',
+      'combat',
     );
     expect(getPtsdClassification(formData, '781').incidentTitle).to.equal(
       'Combat',
@@ -31,7 +31,7 @@ describe('781 getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781').incidentText).to.equal(
-      'Non-combat',
+      'non-combat',
     );
     expect(getPtsdClassification(formData, '781').incidentTitle).to.equal(
       'Non-combat',
@@ -47,10 +47,10 @@ describe('781 getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781').incidentText).to.equal(
-      'Combat and Non-combat',
+      'combat and non-combat',
     );
     expect(getPtsdClassification(formData, '781').incidentTitle).to.equal(
-      'Combat & Non-combat',
+      'Combat & non-combat',
     );
   });
 });
@@ -64,7 +64,7 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Personal assault',
+      'personal assault',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
       'Personal assault',
@@ -79,7 +79,7 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Sexual trauma',
+      'sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
       'Sexual trauma',
@@ -95,10 +95,10 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Personal assault and Sexual trauma',
+      'personal assault and sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Personal assault & Sexual trauma',
+      'Personal assault & sexual trauma',
     );
   });
 });

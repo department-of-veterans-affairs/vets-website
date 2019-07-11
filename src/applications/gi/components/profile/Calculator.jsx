@@ -114,7 +114,7 @@ export class Calculator extends React.Component {
           <div className="link-header">
             <h5>{title}</h5>
             &nbsp;(
-            <a href={learnMoreLink} target="_blank" rel="noopener">
+            <a href={learnMoreLink} target="_blank" rel="noopener noreferrer">
               Learn more
             </a>
             )

@@ -3,15 +3,19 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import recordEvent from '../../../monitoring/record-event';
-
-import { updateLoggedInStatus } from '../../../user/authentication/actions';
-import SignInModal from '../../../user/authentication/components/SignInModal';
-import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
-import { initializeProfile } from '../../../user/profile/actions';
-import { hasSession } from '../../../user/profile/utilities';
+import { isInProgressPath } from 'platform/forms/helpers';
+import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
+import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { initializeProfile } from 'platform/user/profile/actions';
+import { hasSession } from 'platform/user/profile/utilities';
+import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
 import {
+  toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from '../../../site-wide/user-nav/actions';
@@ -19,11 +23,10 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
-
 export class Main extends React.Component {
   componentDidMount() {
-    window.addEventListener('message', this.handleLoginSuccess);
+    // Close any open modals when navigating to different routes within an app.
+    window.addEventListener('popstate', this.closeModals);
     window.addEventListener('storage', this.handleSessionChange);
     this.bindModalTriggers();
     this.bindNavbarLinks();
@@ -36,10 +39,10 @@ export class Main extends React.Component {
   }
 
   componentDidUpdate() {
-    const { currentlyLoggedIn, showLoginModal } = this.props;
-    const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
-    if (currentlyLoggedIn) this.executeRedirect();
-    if (shouldCloseLoginModal) this.props.toggleLoginModal(false);
+    if (this.props.currentlyLoggedIn) {
+      this.executeRedirect();
+      this.closeModals();
+    }
   }
 
   componentWillUnmount() {
@@ -70,14 +73,7 @@ export class Main extends React.Component {
       this.props.initializeProfile();
     } else {
       this.props.updateLoggedInStatus(false);
-      if (this.getNextParameter()) this.props.toggleLoginModal(true);
-    }
-  };
-
-  handleLoginSuccess = event => {
-    if (event.data === 'loggedIn') {
-      this.executeRedirect();
-      this.props.initializeProfile();
+      if (this.getNextParameter()) this.openLoginModal();
     }
   };
 
@@ -94,8 +90,7 @@ export class Main extends React.Component {
     const triggers = Array.from(
       document.querySelectorAll('.signin-signup-modal-trigger'),
     );
-    const openLoginModal = () => this.props.toggleLoginModal(true);
-    triggers.forEach(t => t.addEventListener('click', openLoginModal));
+    triggers.forEach(t => t.addEventListener('click', this.openLoginModal));
   };
 
   bindNavbarLinks = () => {
@@ -106,7 +101,7 @@ export class Main extends React.Component {
           const nextQuery = { next: el.getAttribute('href') };
           const nextPath = appendQuery('/', nextQuery);
           history.pushState({}, el.textContent, nextPath);
-          this.props.toggleLoginModal(true);
+          this.openLoginModal();
         }
       });
     });
@@ -118,9 +113,29 @@ export class Main extends React.Component {
     });
   };
 
-  handleCloseModal = () => {
+  closeFormSignInModal = () => {
+    this.props.toggleFormSignInModal(false);
+  };
+
+  closeLoginModal = () => {
     this.props.toggleLoginModal(false);
-    recordEvent({ event: 'login-modal-closed' });
+  };
+
+  closeModals = () => {
+    if (this.props.showFormSignInModal) this.closeFormSignInModal();
+    if (this.props.showLoginModal) this.closeLoginModal();
+  };
+
+  openLoginModal = () => {
+    this.props.toggleLoginModal(true);
+  };
+
+  signInSignUp = () => {
+    if (this.props.shouldConfirmLeavingForm) {
+      this.props.toggleFormSignInModal(true);
+    } else {
+      this.props.toggleLoginModal(true, 'header');
+    }
   };
 
   render() {
@@ -131,29 +146,58 @@ export class Main extends React.Component {
           isLoggedIn={this.props.currentlyLoggedIn}
           isMenuOpen={this.props.utilitiesMenuIsOpen}
           isProfileLoading={this.props.isProfileLoading}
+          onSignInSignUp={this.signInSignUp}
           userGreeting={this.props.userGreeting}
-          userGreetingMobile={this.props.userGreetingMobile}
-          toggleLoginModal={this.props.toggleLoginModal}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
         />
+        <FormSignInModal
+          onClose={this.closeFormSignInModal}
+          onSignIn={this.openLoginModal}
+          visible={this.props.showFormSignInModal}
+        />
         <SignInModal
-          onClose={this.handleCloseModal}
+          onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
+        {!environment.isProduction() && (
+          <SessionTimeoutModal
+            isLoggedIn={this.props.currentlyLoggedIn}
+            onExtendSession={this.props.initializeProfile}
+          />
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  currentlyLoggedIn: isLoggedIn(state),
-  isProfileLoading: isProfileLoading(state),
-  isLOA3: isLOA3(state),
-  userGreeting: selectUserGreeting(state),
-  ...state.navigation,
-});
+export const mapStateToProps = state => {
+  let formAutoSavedStatus;
+  let additionalRoutes;
+  let additionalSafePaths;
+  const { form } = state;
+  if (typeof form === 'object') {
+    formAutoSavedStatus = form.autoSavedStatus;
+    additionalRoutes = form.additionalRoutes;
+    additionalSafePaths =
+      additionalRoutes && additionalRoutes.map(route => route.path);
+  }
+  const shouldConfirmLeavingForm =
+    typeof formAutoSavedStatus !== 'undefined' &&
+    formAutoSavedStatus !== SAVE_STATUSES.success &&
+    isInProgressPath(window.location.pathname, additionalSafePaths);
+
+  return {
+    currentlyLoggedIn: isLoggedIn(state),
+    isProfileLoading: isProfileLoading(state),
+    isLOA3: isLOA3(state),
+    shouldConfirmLeavingForm,
+    userGreeting: selectUserGreeting(state),
+    ...state.navigation,
+  };
+};
 
 const mapDispatchToProps = {
+  toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,

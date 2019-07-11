@@ -1,6 +1,6 @@
 /**
  * This application creates a widget for the
- * search, help, and sign-in header navigation on Vets.gov
+ * search, help, and sign-in header navigation on VA.gov
  *
  * @module platform/site-wide/login
  */
@@ -16,10 +16,10 @@ import Main from './containers/Main';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startMegaMenuWidget(store) {
+export default function startMegaMenuWidget(data, store) {
   startReactApp(
     <Provider store={store}>
-      <Main />
+      <Main megaMenuData={data} />
     </Provider>,
     document.getElementById('mega-menu'),
   );

@@ -18,7 +18,11 @@ describe('PTSD Secondary Incident location', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
 
     expect(form.find('input').length).to.equal(1);
@@ -32,6 +36,7 @@ describe('PTSD Secondary Incident location', () => {
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
     fillData(
@@ -68,6 +73,7 @@ describe('PTSD Secondary Incident location', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
 

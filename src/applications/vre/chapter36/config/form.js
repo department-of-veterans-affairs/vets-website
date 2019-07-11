@@ -12,12 +12,12 @@ import { transform } from '../helpers';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import { validateMatch } from 'us-forms-system/lib/js/validation';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
@@ -189,7 +189,7 @@ const formConfig = {
           uiSchema: {
             'view:isVeteran': {
               'ui:title':
-                'Are you a Servicemember or Veteran applying for counseling service?',
+                'Are you a service member or Veteran applying for counseling service?',
               'ui:widget': 'yesNo',
             },
             applicantFullName: _.merge(fullNameUI, {
@@ -206,7 +206,7 @@ const formConfig = {
             }),
             applicantRelationshipToVeteran: {
               'ui:title':
-                'What is your relationship to the Servicemember or Veteran?',
+                'What is your relationship to the service member or Veteran?',
               'ui:widget': 'radio',
               'ui:required': isNotVeteran,
               'ui:options': {
@@ -339,7 +339,7 @@ const formConfig = {
               },
             },
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:title': 'Veteran’s name under whom you‘ve claimed benefits',
+              'ui:title': 'Veteran’s name under whom you’ve claimed benefits',
               'ui:options': {
                 classNames: 'schemaform-field-template',
                 hideIf: isVeteranOrNoApplications,

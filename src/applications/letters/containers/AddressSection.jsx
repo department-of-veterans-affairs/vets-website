@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import {
@@ -14,14 +14,12 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
   addressModalContent,
   addressUpdateUnavailable,
-  getStateName,
-  getZipCode,
+  formatStreetAddress,
+  formatCityStatePostal,
   inferAddressType,
-  isDomesticAddress,
   isInternationalAddress,
-  isMilitaryAddress,
-  resetDisallowedAddressFields,
   isAddressEmpty,
+  resetDisallowedAddressFields,
 } from '../utils/helpers';
 import {
   saveAddress,
@@ -30,13 +28,15 @@ import {
 } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
+import noAddressBanner from '../components/NoAddressBanner';
 
 import {
   addressOneValidations,
-  postalCodeValidations,
-  stateValidations,
   countryValidations,
   cityValidations,
+  optionalAddressValidations,
+  postalCodeValidations,
+  stateValidations,
 } from '../utils/validations';
 
 const Element = Scroll.Element;
@@ -51,20 +51,6 @@ const scrollToTop = () => {
     },
   );
 };
-
-const noAddressBanner = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">
-        VA does not have a valid address on file for you
-      </h3>
-      <div className="usa-alert-text">
-        You will need to update your address before we can provide you any
-        letters.
-      </div>
-    </div>
-  </div>
-);
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -87,7 +73,7 @@ export class AddressSection extends React.Component {
       if (emptyAddress && this.props.canUpdate) {
         this.props.editAddress();
       } else if (emptyAddress && !this.props.canUpdate) {
-        Raven.captureMessage('letters_empty_address_update_not_allowed');
+        Sentry.captureMessage('letters_empty_address_update_not_allowed');
       }
     }
   }
@@ -101,7 +87,8 @@ export class AddressSection extends React.Component {
    * will get a blank form instead of one prefilled with their existing data. This hook
    * ensures we populate the form's initial state as soon as the prop becomes available
    */
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       !this.state.hasLoadedAddress &&
       Object.keys(nextProps.savedAddress).length > 0
@@ -284,6 +271,10 @@ export class AddressSection extends React.Component {
     });
   };
 
+  navigateToLetterList = () => {
+    this.props.router.push('/letter-list');
+  };
+
   closeAddressHelp = () => this.setState({ addressHelpVisible: false });
 
   openAddressHelp = () => this.setState({ addressHelpVisible: true });
@@ -291,31 +282,13 @@ export class AddressSection extends React.Component {
   render() {
     const address = this.props.savedAddress || {};
     const emptyAddress = isAddressEmpty(this.props.savedAddress);
-    // Street address: first line of address
-    const streetAddressLines = [
-      address.addressOne,
-      address.addressTwo ? `, ${address.addressTwo}` : '',
-      address.addressThree ? ` ${address.addressThree}` : '',
-    ];
-    const streetAddress = streetAddressLines.join('').toLowerCase();
+    const { location } = this.props;
 
-    // City, state, postal code: second line of address
-    const zipCode = getZipCode(address);
-    const city = address.city || '';
-    let cityStatePostal;
-    if (isDomesticAddress(address)) {
-      const state = getStateName(address.stateCode);
-      cityStatePostal = `${city}, ${state} ${zipCode}`;
-    } else if (isMilitaryAddress(address)) {
-      const militaryStateCode = address.stateCode || '';
-      cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
-    } else {
-      // Must be an international address, only show a city
-      cityStatePostal = `${city}`;
-    }
-
-    const country = isInternationalAddress(address) ? address.countryName : '';
-    const addressContentLines = { streetAddress, cityStatePostal, country };
+    const addressContentLines = {
+      streetAddress: formatStreetAddress(address),
+      cityStatePostal: formatCityStatePostal(address),
+      country: isInternationalAddress(address) ? address.countryName : '',
+    };
 
     let addressFields;
     if (this.props.isEditingAddress) {
@@ -331,7 +304,10 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required
           />
-          <button className="usa-button-primary" onClick={this.saveAddress}>
+          <button
+            className="usa-button-primary update-address-button"
+            onClick={this.saveAddress}
+          >
             Update
           </button>
           <button className="usa-button-secondary" onClick={this.handleCancel}>
@@ -346,6 +322,7 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
+      const { streetAddress, cityStatePostal, country } = addressContentLines;
       const displayAddress = (
         <div>
           <div className="letters-address street">{streetAddress}</div>
@@ -359,8 +336,7 @@ export class AddressSection extends React.Component {
           <h5 className="letters-address">
             {(this.props.recipientName || '').toLowerCase()}
           </h5>
-          {emptyAddress && noAddressBanner}
-          {!emptyAddress && displayAddress}
+          {emptyAddress ? noAddressBanner : displayAddress}
           <button className="address-help-btn" onClick={this.openAddressHelp}>
             What is this?
           </button>
@@ -384,6 +360,7 @@ export class AddressSection extends React.Component {
     }
 
     let addressContent;
+    let forceEnableViewLettersButton = false;
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
     if (
@@ -393,9 +370,13 @@ export class AddressSection extends React.Component {
       addressContent = (
         <div className="step-content">{addressUpdateUnavailable}</div>
       );
+      // override needed for view letters button so that users can
+      // still view letters if they end up in this terminal state
+      forceEnableViewLettersButton = true;
     } else {
       addressContent = (
         <AddressContent
+          recipientName={this.props.recipientName}
           saveError={this.props.saveAddressError}
           addressObject={addressContentLines}
         >
@@ -404,14 +385,35 @@ export class AddressSection extends React.Component {
       );
     }
 
+    let viewLettersButton;
+    if (location.pathname === '/confirm-address') {
+      viewLettersButton = (
+        <div className="step-content">
+          <button
+            onClick={this.navigateToLetterList}
+            className="usa-button-primary view-letters-button"
+            disabled={
+              emptyAddress ||
+              (this.props.isEditingAddress && !forceEnableViewLettersButton)
+            }
+          >
+            View Letters
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <Element name="addressScrollElement" />
-        <div aria-live="polite" aria-relevant="additions">
-          {/* Warning message goes here while editing with no address on record */}
-          {emptyAddress && this.props.isEditingAddress && noAddressBanner}
-          {addressContent}
+        <div>
+          <Element name="addressScrollElement" />
+          <div aria-live="polite" aria-relevant="additions">
+            {/* Warning message goes here while editing with no address on record */}
+            {emptyAddress && this.props.isEditingAddress && noAddressBanner}
+            {addressContent}
+          </div>
         </div>
+        {viewLettersButton}
       </div>
     );
   }
@@ -420,6 +422,8 @@ export class AddressSection extends React.Component {
 // For testing purposes; we need to wrap the validators in spies--the same instances that are called in here
 AddressSection.fieldValidations = {
   addressOne: addressOneValidations,
+  addressTwo: optionalAddressValidations,
+  addressThree: optionalAddressValidations,
   zipCode: postalCodeValidations,
   stateCode: stateValidations,
   countryName: countryValidations,

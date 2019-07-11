@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -24,11 +24,13 @@ export const addressUpdateUnavailable = (
   <div>
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">Address update unavailable</h4>
+        <h4 className="usa-alert-heading">
+          We're sorry. We can't update your address right now
+        </h4>
         <p className="usa-alert-text">
-          We’re sorry. We can’t update your address right now. Your{' '}
-          <strong>VA letters and documents are still valid</strong> with your
-          old address.
+          Your <strong>VA letters and documents are still valid</strong> with
+          your old address. Please continue to download your VA letter or
+          document. You can come back later and try again.
         </p>
         <br />
         <p className="usa-alert-text">
@@ -56,6 +58,7 @@ export const addressModalContent = (
     </p>
     <a
       href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Learn how to update your address for all VA departments
@@ -73,6 +76,7 @@ export const recordsNotFound = (
         <p className="usa-alert-heading">
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.ebenefits.va.gov/ebenefits/download-letters"
           >
             If you’re a dependent, please go to eBenefits to look for your
@@ -87,9 +91,9 @@ export const recordsNotFound = (
       If you have questions or need help looking up your VA letters and
       documents, please call{' '}
       <a className="letters-phone-nowrap" href="tel:1-800-827-1000">
-        1-800-827-1000
+        800-827-1000
       </a>{' '}
-      from 8:00 a.m. to 7:00 pm (ET).
+      from 8:00 a.m. to 7:00 pm ET.
     </p>
   </div>
 );
@@ -132,7 +136,11 @@ const commissaryLetterContent = (
     this letter, a copy of your DD214 or other discharge papers, and your DD2765
     to a local military ID and pass office. You can schedule an appointment to
     get a Retiree Military ID card at the office or use the{' '}
-    <a target="_blank" href="https://rapids-appointments.dmdc.osd.mil/">
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://rapids-appointments.dmdc.osd.mil/"
+    >
       Rapid Appointments Scheduler
     </a>
     . The Retiree Military ID card gives you access to your local base
@@ -146,7 +154,11 @@ export const bslHelpInstructions = (
     <p>
       If your service period or disability status information is incorrect,
       please send us a message through VA’s{' '}
-      <a target="_blank" href="https://iris.custhelp.com/app/ask">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://iris.custhelp.com/app/ask"
+      >
         Inquiry Routing & Information System (IRIS)
       </a>
       . VA will respond within 5 business days.
@@ -168,9 +180,9 @@ export const letterContent = {
       insurance requirements under the Affordable Care Act (ACA). To prove that
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
-      plan. If you’ve lost your IRS Form 1095-B, please call 1-877-222-VETS (
-      <a href="tel:+18772228387">1-877-222-8387</a>
-      ), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) to request
+      plan. If you’ve lost your IRS Form 1095-B, please call 877-222-VETS (
+      <a href="tel:+18772228387">877-222-8387</a>
+      ), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET to request
       another copy.
     </div>
   ),
@@ -222,7 +234,7 @@ const benefitOptionText = {
     false: {
       veteran: (
         <div>
-          You <strong>do not have</strong> one or more service-connected
+          You <strong>don't have</strong> one or more service-connected
           disabilities.
         </div>
       ),
@@ -283,20 +295,20 @@ const benefitOptionText = {
       ),
       dependent: (
         <div>
-          The veteran <strong>was</strong> totally and permanently disabled.
+          The Veteran <strong>was</strong> totally and permanently disabled.
         </div>
       ),
     },
     false: {
       veteran: (
         <div>
-          You <strong>are not</strong> considered to be totally and permanently
+          You <strong>aren't</strong> considered to be totally and permanently
           disabled solely due to your service-connected disabilities.
         </div>
       ),
       dependent: (
         <div>
-          The veteran <strong>was not</strong> totally and permanently disabled.
+          The Veteran <strong>wasn't</strong> totally and permanently disabled.
         </div>
       ),
     },
@@ -314,7 +326,7 @@ const benefitOptionText = {
       veteran: undefined,
       dependent: (
         <div>
-          The Veteran <strong>did not</strong> die as a result of a
+          The Veteran <strong>didn't</strong> die as a result of a
           service-connected disability.
         </div>
       ),
@@ -458,7 +470,7 @@ export function getStateName(stateCode) {
   const stateName = STATE_CODE_TO_NAME[stateCode];
 
   if (stateName === undefined) {
-    Raven.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
+    Sentry.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
   }
 
   return stateName || '';
@@ -552,4 +564,44 @@ export function isAddressEmpty(address) {
       emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]),
     true,
   );
+}
+
+export function formatStreetAddress(address) {
+  let formattedAddress = '';
+
+  if (address.addressOne) {
+    const streetAddressLines = [
+      address.addressOne,
+      address.addressTwo ? `, ${address.addressTwo}` : '',
+      address.addressThree ? ` ${address.addressThree}` : '',
+    ];
+    formattedAddress = streetAddressLines.join('').toLowerCase();
+  }
+
+  return formattedAddress;
+}
+
+export function formatCityStatePostal(address) {
+  // Formats to "city, state, postal code" for the second line of an address
+  let cityStatePostal = '';
+
+  if (isAddressEmpty(address)) {
+    return cityStatePostal;
+  }
+
+  const city = address.city || '';
+  const zipCode = getZipCode(address);
+
+  if (isDomesticAddress(address)) {
+    const state = getStateName(address.stateCode);
+    cityStatePostal = `${city}, ${state} ${zipCode}`;
+  } else if (isMilitaryAddress(address)) {
+    const militaryStateCode = address.stateCode || '';
+    cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
+  } else {
+    // Must be an international address, only show a city
+    cityStatePostal = `${city}`;
+  }
+
+  return cityStatePostal;
 }

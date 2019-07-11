@@ -12,7 +12,7 @@ const resultsData = {
         classification: 'Multi-Specialty CBOC',
         website: null,
         lat: 34.05171284,
-        long: -118.23874096,
+        long: -77.52753613,
         address: {
           physical: {
             address1: '351 East Temple Street',
@@ -159,8 +159,8 @@ const resultsData = {
         facilityType: 'va_benefits_facility',
         classification: 'VETSUCCESS ON CAMPUS',
         website: null,
-        lat: 34.08751109,
-        long: -118.2917626,
+        lat: 40.17887331434698,
+        long: -99.27246093750001,
         address: {
           physical: {
             address1: '855 North Vermont',
@@ -224,13 +224,15 @@ function initApplicationMock(token) {
     value: resultsData,
   });
 
-  mock(token, {
-    path: '/v0/facilities/va/vha_691GE',
-    verb: 'get',
-    value: {
-      data: resultsData.data[0],
-    },
-  });
+  return resultsData.data.map((cur, i) =>
+    mock(token, {
+      path: `/v0/facilities/va/${resultsData.data[i].id}`,
+      verb: 'get',
+      value: {
+        data: resultsData.data[i],
+      },
+    }),
+  );
 }
 
 /**

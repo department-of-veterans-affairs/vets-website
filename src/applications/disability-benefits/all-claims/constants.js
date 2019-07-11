@@ -1,3 +1,5 @@
+import disabilityLabels from './content/disabilityLabels';
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -91,7 +93,7 @@ export const MILITARY_STATE_LABELS = [
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 export const USA = 'USA';
 
-export const ADDRESS_TYPES = {
+export const ADDRESS_PATHS = {
   mailingAddress: 'mailingAddress',
   forwardingAddress: 'forwardingAddress',
 };
@@ -122,7 +124,7 @@ export const SERVICE_CONNECTION_TYPES = {
 
 export const DATA_PATHS = {
   hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords',
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
@@ -141,7 +143,18 @@ export const TWENTY_FIVE_MB = 26214400;
 
 export const FIFTY_MB = 52428800;
 
-export const PTSD = 'ptsd';
+export const PTSD_MATCHES = [
+  'ptsd',
+  'post traumatic stress disorder',
+  'post-traumatic stress disorder',
+  'post traumatic stress',
+  'post-traumatic stress',
+];
+
+// Percent of string length used to calculate maximum levenshtein edit distance
+// E.g., for a 10-char string, we'd say the max edit distance is:
+// Math.ceil(10 x TYPO_THRESHOLD)
+export const TYPO_THRESHOLD = 0.25;
 
 // Max number of incident iterations a user can go through.
 export const PTSD_INCIDENT_ITERATION = 3;
@@ -232,3 +245,62 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources1',
   'secondaryUploadSources2',
 ];
+
+export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
+  disabilityLabels,
+).map(v => v.toLowerCase());
+
+export const PTSD_TYPES_TO_FORMS = {
+  combatNonCombat: '781',
+  personalAssaultSexualTrauma: '781a',
+};
+
+export const HELP_TEXT_CLICKED_EVENT = 'help-text-label';
+
+export const ANALYTICS_EVENTS = {
+  openedPrivateRecordsAcknowledgment: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 4142 - Private Medical Records: Read the full text',
+  },
+  openedPrivateChoiceHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 4142 - Private Medical Records: Which should I choose',
+  },
+  openedLimitedConsentHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 4142 - Private Medical Records Release: What does this mean',
+  },
+  openedPtsdTypeHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - PTSD Intro - Which should I choose',
+  },
+  openedPtsd781WalkthroughChoiceHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781 - Walkthrough Choice - Which should I choose',
+  },
+  openedPtsd781aWalkthroughChoiceHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781a - Walkthrough Choice - Which should I choose',
+  },
+  openedPtsd781IncidentDateHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781 - What if I can’t remember the date',
+  },
+  openedPtsd781aIncidentDateHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781a - What if I can’t remember the date',
+  },
+  openedPtsd781aOtherSourcesHelp: {
+    event: 'disability-526EZ-form-help-text-clicked',
+    [HELP_TEXT_CLICKED_EVENT]:
+      'Disability - Form 21-0781a - PTSD Secondary Sources - Which should I choose',
+  },
+};

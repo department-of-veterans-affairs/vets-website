@@ -1,4 +1,4 @@
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   dateFieldsDescription,
@@ -19,7 +19,7 @@ export const uiSchema = {
   'ui:description': dateDescription,
   unemployability: {
     disabilityAffectedEmploymentFullTimeDate: currentOrPastDateUI(
-      'Approximately when did you become too disabled to work? (If you don’t remember the exact date, you can give us an estimated date.)',
+      'When did you become too disabled to work? (If you don’t remember the exact date, you can give us an estimated date.)',
     ),
     lastWorkedFullTimeDate: currentOrPastDateUI(
       'When did you last work full-time?',

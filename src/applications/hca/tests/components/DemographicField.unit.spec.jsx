@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ObjectField from 'us-forms-system/lib/js/fields/ObjectField';
+import ObjectField from 'platform/forms-system/src/js/fields/ObjectField';
 
 import DemographicField from '../../components/DemographicField';
 import formConfig from '../../config/form';

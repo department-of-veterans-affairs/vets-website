@@ -1,33 +1,39 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import OMBInfo from '../components/OMBInfo';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   render() {
+    const resBurden = '10';
+    const ombNumber = '2900-0866';
+    const expDate = '04/30/2022';
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Application for Veteran Employment through Technology Education Couses (Vet Tec)" />
-        <p>Equal to VA Form 22-0994 (High Technology Program).</p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
-        />
-        <h4>Follow the steps below to apply for education benefits.</h4>
+        <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
+        <p>
+          Equal to VA Form 22-0994 Application for Veteran Employment Through
+          Technology Education Courses (VET TEC).
+        </p>
+        <CallToActionWidget appId="vet-tec">
+          <SaveInProgressIntro
+            startMessageOnly
+            verifyRequiredPrefill={
+              this.props.route.formConfig.verifyRequiredPrefill
+            }
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+          />
+        </CallToActionWidget>
+        <h4>Follow the steps below to apply for VET TEC.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -38,29 +44,33 @@ export class IntroductionPage extends React.Component {
                 <h6>To fill out this application, you’ll need your:</h6>
               </div>
               <ul>
-                <li>Social Security number (required)</li>
-                <li>Sponsor’s Social Security number (required)</li>
+                <li>Direct deposit information</li>
+                <li>Highest level of education</li>
+                <li>Previous high-tech industry experience, if applicable</li>
                 <li>
-                  Basic information about the school or training facility you
-                  want to attend
+                  Information about the training provider or program you want to
+                  attend (optional)
                 </li>
-                <li>Bank account direct deposit information</li>
-                <li>Education history</li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong>{' '}
-                An accredited representative, like a Veterans Service Officer
-                (VSO), can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/index.html">
-                  Get help filing your claim
+                To be eligible for VET TEC, you need to be a Veteran with at
+                least one day of unexpired education benefits. You can complete
+                the VET TEC application to see if you’re eligible for the
+                program, even if you haven’t yet selected the training program
+                you’d like to attend.{' '}
+                <a href="https://www.benefits.va.gov/GIBILL/FGIB/VetTecTrainingProviders.asp">
+                  Learn more about the programs covered under VET TEC
                 </a>
                 .
               </p>
-              <h6>Learn about educational programs</h6>
               <p>
-                See what benefits you’ll get at the school you want to attend.{' '}
-                <a href="/gi-bill-comparison-tool/">
-                  Use the GI Bill Comparison Tool
+                <strong>What if I need help filling out my application?</strong>{' '}
+                An accredited representative, like a Veterans Service Officer
+                (VSO), can help you with your application.
+              </p>
+              <p>
+                <a href="/disability/get-help-filing-claim/">
+                  Get help filing your claim
                 </a>
                 .
               </p>
@@ -69,25 +79,37 @@ export class IntroductionPage extends React.Component {
               <div>
                 <h5>Apply</h5>
               </div>
-              <p>Complete this education benefits form.</p>
-              <p>
-                After submitting the form, you’ll get a confirmation message.
-                You can print this for your records.
-              </p>
+              <div>
+                <p>Complete this VET TEC application.</p>
+                <p>
+                  After submitting the form, you’ll get a confirmation message.
+                  You can print this for your records.
+                </p>
+                <p>
+                  If you haven’t already applied for VA education benefits,
+                  you’ll need to fill out an Application for VA Education
+                  Benefits (VA Form 22-1990). We’ll take you to that form after
+                  you submit your VET TEC application.
+                </p>
+                <p>
+                  <strong>Note:</strong> If you already receive VA education
+                  benefits, you don’t need to fill out VA Form 22-1990 again.
+                </p>
+              </div>
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>
-                We usually process claims within 30 days. We’ll let you know by
-                mail if we need more information.
+                We usually process applications within 30 days. We'll let you
+                know by mail if we need more information.
               </p>
               <p>
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
-                <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                  Learn about career counseling options.
+                <a href="/careers-employment/careerscope-skills-assessment/">
+                  Learn about career counseling options
                 </a>
               </p>
             </li>
@@ -108,33 +130,25 @@ export class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          hideUnauthedStartLink
+          verifyRequiredPrefill={
+            this.props.route.formConfig.verifyRequiredPrefill
+          }
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
+          startText="Start the VET TEC application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018" />
+          <OMBInfo
+            resBurden={resBurden}
+            ombNumber={ombNumber}
+            expDate={expDate}
+          />
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;

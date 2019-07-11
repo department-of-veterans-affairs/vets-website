@@ -1,16 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
-
-import facilityLocator from '../../facility-locator/manifest';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -29,8 +22,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
           startText="Start the Burial Benefits Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
@@ -98,23 +89,6 @@ class IntroductionPage extends React.Component {
               <div>
                 <h5>Apply</h5>
               </div>
-              <p>
-                Complete an Application for Burial Benefits (VA Form 21P-530).
-                <br />
-                <a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">
-                  Download VA Form 21P-530
-                </a>
-                .
-              </p>
-              <p>
-                Mail the application and other paperwork to your local regional
-                benefit office.
-                <br />
-                <a href={facilityLocator.rootUrl}>
-                  Find your local regional benefit office
-                </a>
-                .
-              </p>
               <div>
                 <p>Complete this burial benefits form.</p>
                 <p>
@@ -143,11 +117,10 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"
           downtime={this.props.route.formConfig.downtime}
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020" />
@@ -157,21 +130,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };

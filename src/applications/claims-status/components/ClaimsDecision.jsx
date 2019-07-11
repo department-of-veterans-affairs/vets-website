@@ -19,7 +19,11 @@ class ClaimsDecision extends React.Component {
           packet to arrive before contacting a VA call center. If you haven’t
           received the packet with the full details of your claim decision yet,
           you can see your rating by going to your disability page in eBenefits.{' '}
-          <a href="https://www.ebenefits.va.gov" target="_blank">
+          <a
+            href="https://www.ebenefits.va.gov"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Check your disability page in eBenefits for your rating
           </a>
           .
@@ -39,8 +43,8 @@ class ClaimsDecision extends React.Component {
         </p>
         <p>
           Has your condition gotten worse since you filed your claim? You can
-          file a new claim for an increase in disability compensation.
-          <a href="/disability-benefits/apply/form-526-disability-claim/introduction">
+          file a new claim for an increase in disability compensation.{' '}
+          <a href="/disability/how-to-file-claim">
             File for a VA disability increase
           </a>
           .
@@ -54,7 +58,7 @@ class ClaimsDecision extends React.Component {
           .
         </p>
         <p>
-          Are you enrolled in VA health care? If not, you can apply now.
+          Are you enrolled in VA health care? If not, you can apply now.{' '}
           <a href="/health-care/how-to-apply/" target="_blank">
             Apply for VA health care
           </a>

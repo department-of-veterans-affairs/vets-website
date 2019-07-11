@@ -1,16 +1,93 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
-import { isFullScreenLoginEnabled } from '../../../platform/user/authentication/utilities';
-import { setupProfileSession } from '../../../platform/user/profile/utilities';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
+import { authnSettings } from '../../../platform/user/authentication/utilities';
+import {
+  hasSession,
+  setupProfileSession,
+} from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
+import get from '../../../platform/utilities/data/get';
 
-import facilityLocator from '../../facility-locator/manifest';
+const REDIRECT_IGNORE_PATTERN = new RegExp(
+  ['/auth/login/callback', '/session-expired'].join('|'),
+);
+
+class AuthMetrics {
+  constructor(type, payload) {
+    this.type = type;
+    this.payload = payload;
+    this.userProfile = get('data.attributes.profile', payload, {});
+    this.loaCurrent = get('loa.current', this.userProfile, null);
+    this.serviceName = get('signIn.serviceName', this.userProfile, null);
+  }
+
+  compareLoginPolicy = () => {
+    // This is experimental code related to GA that will let us determine
+    // if the backend is returning an accurate service_name
+
+    const attemptedLoginPolicy =
+      this.type === 'mhv' ? 'myhealthevet' : this.type;
+
+    if (this.serviceName !== attemptedLoginPolicy) {
+      recordEvent({
+        event: `login-mismatch-${attemptedLoginPolicy}-${this.serviceName}`,
+      });
+    }
+  };
+
+  recordGAAuthEvents = () => {
+    switch (this.type) {
+      case 'signup':
+        recordEvent({ event: `register-success-${this.serviceName}` });
+        break;
+      case 'mhv':
+      case 'dslogon':
+      case 'idme':
+        recordEvent({ event: `login-success-${this.serviceName}` });
+        this.compareLoginPolicy();
+        break;
+      /*
+      case 'mfa':
+        recordEvent({ event: `multifactor-success-${this.serviceName}` });
+        break;
+      case 'verify':
+        recordEvent({ event: `verify-success-${this.serviceName}` });
+        break;
+      */
+      default:
+        recordEvent({ event: `login-or-register-success-${this.serviceName}` });
+        Sentry.withScope(scope => {
+          scope.setExtra('type', this.type || 'N/A');
+          Sentry.captureMessage('Unrecognized auth event type');
+        });
+    }
+
+    // Report out the current level of assurance for the user.
+    if (this.loaCurrent) {
+      recordEvent({ event: `login-loa-current-${this.loaCurrent}` });
+    }
+  };
+
+  reportSentryErrors = () => {
+    if (!Object.keys(this.userProfile).length) {
+      Sentry.captureMessage('Unexpected response for user object');
+    } else if (!this.serviceName) {
+      Sentry.captureMessage('Missing serviceName in user object');
+    }
+  };
+
+  run = () => {
+    this.reportSentryErrors();
+    if (!hasSession()) this.recordGAAuthEvents();
+  };
+}
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -19,35 +96,40 @@ export class AuthApp extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.error) this.validateSession();
+    if (!this.state.error || hasSession()) this.validateSession();
   }
 
-  handleAuthError = () => {
+  handleAuthError = error => {
+    const loginType = this.props.location.query.type;
+
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      scope.setTag('loginType', loginType);
+      Sentry.captureMessage(`User fetch error: ${error.message}`);
+    });
+
+    recordEvent({ event: `login-error-user-fetch` });
+
     this.setState({ error: true });
   };
 
   handleAuthSuccess = payload => {
-    setupProfileSession(payload);
+    sessionStorage.setItem('shouldRedirectExpiredSession', true);
+    const { type } = this.props.location.query;
+    const authMetrics = new AuthMetrics(type, payload);
+    authMetrics.run();
+    setupProfileSession(authMetrics.userProfile);
+    this.redirect();
+  };
 
-    if (isFullScreenLoginEnabled()) {
-      const returnUrl = sessionStorage.getItem('authReturnUrl');
-      sessionStorage.removeItem('authReturnUrl');
-      window.location = returnUrl || '/';
-    } else {
-      const parent = window.opener;
-      parent.postMessage('loggedIn', environment.BASE_URL);
+  redirect = () => {
+    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+    sessionStorage.removeItem(authnSettings.RETURN_URL);
 
-      // Internet Explorer 6-11
-      const isIE = /*@cc_on!@*/ false || !!document.documentMode; // eslint-disable-line spaced-comment
-      // Edge 20+
-      const isEdge = !isIE && !!window.StyleMedia;
+    const redirectUrl =
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && returnUrl) || '/';
 
-      // Reload the parent window if the user is using IE or Edge,
-      // due to unreliable support for postMessage.
-      if (isIE || isEdge) parent.location.reload();
-
-      window.close();
-    }
+    window.location.replace(redirectUrl);
   };
 
   // Fetch the user to get the login policy and validate the session.
@@ -56,107 +138,226 @@ export class AuthApp extends React.Component {
   };
 
   renderError = () => {
-    const { code } = this.props.location.query;
-    let alertProps;
+    const { code, auth } = this.props.location.query;
+    let header = 'We couldn’t sign you in';
+    let alertContent;
+    let troubleshootingContent;
+
+    if (auth === 'fail') {
+      recordEvent({
+        event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      });
+    }
 
     switch (code) {
+      // Authorization was denied by user
       case '001':
-        alertProps = {
-          headline: 'We couldn’t complete the sign-in process',
-          content: (
-            <div>
-              <p>
-                We’re sorry. It looks like you selected "Deny" on the last page
-                when asked for your permission to share information with
-                {siteName}, so we couldn’t complete the process. To give you
-                full access to the tools on {siteName}, we need to be able to
-                share your information with the site.
-              </p>
-              <p>
-                Please try again and click “Accept” on the final page. Or, you
-                can try signing in with your premium DS Logon or premium My
-                HealtheVet account instead of identity proofing with ID.me.
-              </p>
-            </div>
-          ),
-        };
-        break;
-
-      case '002':
-      case '003':
-        alertProps = {
-          headline: 'Please update your computer’s time settings',
-          content: (
+        alertContent = (
+          <p>
+            We’re sorry. We couldn’t complete the identity verification process.
+            It looks like you selected “Deny” when we asked for your permission
+            to share your information with VA.gov. We can’t give you access to
+            all the tools on VA.gov without sharing your information with the
+            site.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
             <p>
-              We’re sorry. It looks like your computer’s clock isn’t showing the
-              right time, and that’s causing a problem in how it communicates
-              with our system. Please update your computer’s settings to the
-              current date and time, and then try again.
+              Please try again, and this time, select “Accept” on the final page
+              of the identity verification process. Or, if you don’t want to
+              verify your identity with ID.me, you can try signing in with your
+              premium DS Logon or premium My HealtheVet username and password.
             </p>
-          ),
-        };
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
+        );
         break;
 
+      // User's clock is incorrect
+      case '002':
+        header = 'Please update your computer’s time settings';
+        alertContent = (
+          <p>
+            We’re sorry. It looks like your computer’s clock isn’t showing the
+            right time, and that’s causing a problem in how it communicates with
+            our system.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              Please update your computer’s settings to the current date and
+              time, and then try again.
+            </p>
+          </>
+        );
+        break;
+
+      // Server error
+      case '003':
+        alertContent = (
+          <p>
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in. Please try signing in again.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>Please try signing in again.</strong> If you still can’t
+              sign in, please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
+        );
+        break;
+
+      // We're having trouble matching the user with MVI
       case '004':
-        alertProps = {
-          headline: 'We can’t match your information to our Veteran records',
-          content: (
-            <div>
-              <p>
-                We’re sorry. We can’t verify your identity because we can’t
-                match your information to our Veteran records.
-              </p>
-              <p>
-                Please check the information you entered and make sure it
-                matches the information in your records. If you feel you’ve
-                entered your information correctly, and it’s still not matching,
-                please contact your nearest VA medical center. Let them know you
-                need to verify the information in your records, and update it as
-                needed. The operator, or a patient advocate, can connect with
-                you with the right person who can help.
-              </p>
-              <p>
-                <a
-                  href={`${
-                    facilityLocator.rootUrl
-                  }/?facilityType=health&page=1&zoomLevel=7`}
-                >
-                  Find your nearest VA medical center.
-                </a>
-              </p>
-            </div>
-          ),
-        };
+        header = 'Please try again later';
+        alertContent = (
+          <p>
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in. Please try again later.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>Please try signing in again.</strong> If you still can’t
+              sign in, please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
+            <button onClick={this.props.openLoginModal}>
+              Try signing in again
+            </button>
+          </>
+        );
         break;
 
+      // Session expired error
       case '005':
+        header = 'We’ve signed you out of VA.gov';
+        alertContent = (
+          <p>
+            We take your privacy very seriously. You didn’t take any action on
+            VA.gov for 30 minutes, so we signed you out of the site to protect
+            your personal information.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>Please sign in again.</p>
+            <button onClick={this.props.openLoginModal}>Sign in</button>
+          </>
+        );
+        break;
+
+      // Catch all generic error
       default:
-        alertProps = {
-          headline: 'We couldn’t sign you in',
-          content: (
-            <div>
-              <p>We’re sorry. Something went wrong on our end.</p>
-              <p>
-                Please{' '}
-                <SubmitSignInForm>
-                  call the {siteName} Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>. We’re open
-                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </SubmitSignInForm>
-              </p>
-            </div>
-          ),
-        };
+        alertContent = (
+          <p>
+            We’re sorry. Something went wrong on our end, and we couldn’t sign
+            you in.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>Try taking these steps to fix the problem:</strong>
+            </p>
+            <ul>
+              <li>
+                Clear your Internet browser’s cookies and cache. Depending on
+                which browser you’re using, you’ll usually find this information
+                referred to as “Browsing Data,”, “Browsing History,” or “Website
+                Data.”
+              </li>
+              <li>
+                Make sure you have cookies enabled in your browser settings.
+                Depending on which browser you’re using, you’ll usually find
+                this information in the “Tools,” “Settings,” or
+                “Preferences” menu.
+              </li>
+              <li>
+                <p>
+                  If you’re using Internet Explorer or Microsoft Edge, and
+                  clearing your cookies and cache doesn’t fix the problem, try
+                  using Google Chrome or Mozilla Firefox as your browser
+                  instead.
+                </p>
+                <p>
+                  <a
+                    href="https://www.google.com/chrome/?brand=CHBD&gclid=Cj0KCQiAsdHhBRCwARIsAAhRhsk_uwlqzTaYptK2zKbuv-5g5Zk9V_qaKTe1Y5ptlxudmMG_Y7XqyDkaAs0HEALw_wcB&gclsrc=aw.ds"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Google Chrome
+                  </a>
+                </p>
+                <p>
+                  <a
+                    href="https://www.mozilla.org/en-US/firefox/new/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Mozilla Firefox
+                  </a>
+                </p>
+              </li>
+              <li>
+                If you’re using Chrome or Firefox and it’s not working, make
+                sure you’ve updated your browser with the latest updates.
+              </li>
+            </ul>
+            <p>
+              <strong>
+                If you’ve taken the steps above and still can’t sign in,
+              </strong>{' '}
+              please use our online form to submit a request for help.
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
+          </>
+        );
     }
 
     return (
-      <AlertBox
-        {...alertProps}
-        isVisible
-        status="error"
-        onCloseAlert={window.close}
-      />
+      <div className="usa-content columns small-12">
+        <h1>{header}</h1>
+        <AlertBox content={alertContent} isVisible status="error" />
+        <h3>What you can do:</h3>
+        {troubleshootingContent}
+      </div>
     );
   };
 
@@ -164,15 +365,18 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message={`Signing in to ${siteName}...`} />
+      <LoadingIndicator message={`Signing in to VA.gov...`} />
     );
 
-    return (
-      <div className="row">
-        <div className="small-12 columns">{view}</div>
-      </div>
-    );
+    return <div className="row vads-u-padding-y--5">{view}</div>;
   }
 }
 
-export default AuthApp;
+const mapDispatchToProps = dispatch => ({
+  openLoginModal: () => dispatch(toggleLoginModal(true)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(AuthApp);

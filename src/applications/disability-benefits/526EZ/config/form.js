@@ -1,25 +1,26 @@
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
-import submitForm from '../../all-claims/config/submitForm';
+import submitFormFor from '../../all-claims/config/submitForm';
 
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
+import ValidatedServicePeriodView from '../../all-claims/components/ValidatedServicePeriodView';
 
 import {
   uiSchema as primaryAddressUiSchema,
@@ -39,6 +40,7 @@ import {
 } from '../pages/reservesNationalGuardService';
 
 import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
+import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   transform,
@@ -60,6 +62,7 @@ import {
 import {
   hasGuardOrReservePeriod,
   queryForFacilities,
+  directToCorrectForm,
 } from '../../all-claims/utils';
 
 import {
@@ -83,9 +86,9 @@ import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 import { requireOneSelected, isInPast } from '../validations';
 import { hasMonthYear } from '../../all-claims/validations';
 
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 const {
   treatments,
@@ -116,7 +119,8 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
-  formId: '21-526EZ',
+  formId: VA_FORM_IDS.FORM_21_526EZ,
+  onFormLoaded: directToCorrectForm,
   version: 1,
   migrations: [],
   prefillTransformer,
@@ -127,8 +131,9 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
+  formSavedPage: FormSavedPage,
   transformForSubmit: transform,
-  submit: submitForm,
+  submit: submitFormFor('526-v1'),
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
@@ -180,7 +185,7 @@ const formConfig = {
                 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
-                viewField: ServicePeriodView,
+                viewField: ValidatedServicePeriodView,
                 reviewMode: true,
               },
               items: {
@@ -762,8 +767,6 @@ const formConfig = {
                       'png',
                       'gif',
                       'bmp',
-                      'tif',
-                      'tiff',
                       'txt',
                     ],
                     maxSize: FIFTY_MB,
@@ -869,7 +872,7 @@ const formConfig = {
                 hideIf: formData => _.get('standardClaim', formData),
               },
             },
-            'view:noFDCWarning': {
+            'view:noFdcWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
                 hideIf: formData => !_.get('standardClaim', formData),
@@ -884,7 +887,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:noFDCWarning': {
+              'view:noFdcWarning': {
                 type: 'object',
                 properties: {},
               },

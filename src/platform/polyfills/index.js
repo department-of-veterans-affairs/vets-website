@@ -3,7 +3,7 @@
  * @name platform/polyfills
  */
 
-import 'babel-polyfill';
+import '@babel/polyfill';
 
 import './canvas-toBlob';
 

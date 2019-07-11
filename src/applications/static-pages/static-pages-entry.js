@@ -1,134 +1,89 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
-import createCommonStore from '../../platform/startup/store';
-import startSitewideComponents from '../../platform/site-wide';
+import createCommonStore from 'platform/startup/store';
+import startSitewideComponents from 'platform/site-wide';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import './alerts-dismiss-view';
+import './ics-generator';
+import createFacilityPage from './facilities/createFacilityPage';
 
-import createAdditionalInfoWidget from './createAdditionalInfoWidget';
+import widgetTypes from './widgetTypes';
+import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
+import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
+import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
-import create526EmailForm from '../disability-benefits/526EZ/components/create526EmailForm';
-
-const pensionPages = new Set([
-  '/pension/',
-  '/pension/how-to-apply/',
-  '/pension/eligibility/',
-]);
-
-const healthcarePages = new Set([
-  '/health-care/',
-  '/health-care/how-to-apply/',
-  '/health-care/eligibility/',
-]);
-
-const ctaTools = new Set([
-  '/claim-or-appeal-status/',
-  '/health-care/get-medical-records/',
-  '/health-care/refill-track-prescriptions/',
-  '/health-care/secure-messaging/',
-  '/health-care/schedule-view-va-appointments/',
-  '/health-care/view-test-and-lab-results/',
-  '/records/download-va-letters/',
-  '/records/get-veteran-id-cards/vic/',
-]);
-
-const burialPages = new Set([
-  '/burials-memorials/',
-  '/burials-memorials/veterans-burial-allowance/',
-]);
-
-const eduPages = new Set([
-  '/education/',
-  '/education/eligibility/',
-  '/education/how-to-apply/',
-]);
-
-const eduOptOutPage = '/education/opt-out-information-sharing/';
-
-const disabilityPages = new Set([
-  '/disability/',
-  '/disability/how-to-file-claim/',
-  '/disability/eligibility/',
-]);
 
 // No-react styles.
 import './sass/static-pages.scss';
 
-// New sidebar menu
-import './sidebar-navigation.js';
+// Social share links behavior
+import './social-share-links';
+
+// Health care facility widgets
+import createFacilityListWidget from './facilities/facilityList';
+import createBasicFacilityListWidget from './facilities/basicFacilityList';
+import facilityReducer from './facilities/reducers';
+import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 // Set further errors to have the appropriate source tag
-Raven.setTagsContext({
-  source: 'static-pages',
+Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
+
+const store = createCommonStore(facilityReducer);
+Sentry.withScope(scope => {
+  scope.setTag('source', 'site-wide');
+  startSitewideComponents(store);
 });
 
-const store = createCommonStore();
-Raven.context(
-  {
-    tags: { source: 'site-wide' },
-  },
-  () => {
-    startSitewideComponents(store);
-  },
+subscribeAdditionalInfoEvents();
+
+createApplicationStatus(store, {
+  formId: VA_FORM_IDS.FORM_21P_527EZ,
+  applyHeading: 'How do I apply?',
+  additionalText: 'You can apply online right now.',
+  applyLink: '/pension/how-to-apply/',
+  applyText: 'Apply for Veterans pension benefits',
+  widgetType: widgetTypes.PENSION_APP_STATUS,
+});
+
+createApplicationStatus(store, {
+  formId: VA_FORM_IDS.FORM_10_10EZ,
+  applyHeading: 'How do I apply?',
+  additionalText: 'You can apply online right now.',
+  applyLink: '/health-care/how-to-apply/',
+  applyText: 'Apply for health care benefits',
+  widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
+});
+
+createCallToActionWidget(store, widgetTypes.CTA);
+
+createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
+
+createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
+
+createApplicationStatus(store, {
+  formId: VA_FORM_IDS.FORM_21P_530,
+  applyHeading: 'How do I apply?',
+  additionalText: 'You can apply online right now.',
+  applyText: 'Apply for burial benefits',
+  widgetType: widgetTypes.BURIALS_APP_STATUS,
+});
+
+createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
+createDisabilityRatingCalculator(
+  store,
+  widgetTypes.DISABILITY_RATING_CALCULATOR,
 );
 
-createAdditionalInfoWidget();
-
-if (pensionPages.has(location.pathname)) {
-  createApplicationStatus(store, {
-    formId: '21P-527EZ',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyLink: '/pension/how-to-apply/',
-    applyText: 'Apply for Veterans Pension Benefits',
-  });
-}
-
-if (healthcarePages.has(location.pathname)) {
-  createApplicationStatus(store, {
-    formId: '1010ez',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyLink: '/health-care/how-to-apply/',
-    applyText: 'Apply for Health Care Benefits',
-  });
-}
-
-if (ctaTools.has(location.pathname)) {
-  createCallToActionWidget(store);
-}
-
-if (eduPages.has(location.pathname)) {
-  createEducationApplicationStatus(store);
-}
-
-if (location.pathname === eduOptOutPage) {
-  createOptOutApplicationStatus(store);
-}
-
-if (burialPages.has(location.pathname)) {
-  createApplicationStatus(store, {
-    formId: '21P-530',
-    applyHeading: 'How do I apply?',
-    additionalText: 'You can apply online right now.',
-    applyText: 'Apply for Burial Benefits',
-  });
-}
-
-if (disabilityPages.has(location.pathname)) {
-  createDisabilityIncreaseApplicationStatus(store);
-}
-
-if (
-  location.pathname === '/disability-benefits/apply/form-526-disability-claim/'
-) {
-  create526EmailForm(store);
-}
+createFacilityListWidget();
+createOtherFacilityListWidget();
+createFacilityPage(store);
+createBasicFacilityListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {

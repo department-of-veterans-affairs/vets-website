@@ -10,6 +10,7 @@ export const FOOTER_COLUMNS = {
   RESOURCES: '2',
   CONNECT: '3',
   CONTACT: '4',
+  SUPERLINKS: 'bottom_rail',
 };
 
 export const FOOTER_EVENTS = {
@@ -17,22 +18,24 @@ export const FOOTER_EVENTS = {
   [FOOTER_COLUMNS.RESOURCES]: 'nav-footer-resources',
   [FOOTER_COLUMNS.CONNECT]: 'nav-footer-connect',
   [FOOTER_COLUMNS.CONTACT]: 'nav-footer-contact',
+  [FOOTER_COLUMNS.SUPERLINKS]: 'nav-footer-superlinks',
   CRISIS_LINE: 'nav-footer-crisis',
 };
 
-const renderInnerTag = (link, captureEvent) => [
-  link.label ? (
-    <span className="va-footer-link-label">{link.label}</span>
-  ) : null,
-
-  link.href ? (
-    <a href={link.href} onClick={captureEvent} target={link.target}>
-      {link.title}
-    </a>
-  ) : (
-    <span className="va-footer-link-text">{link.title}</span>
-  ),
-];
+const renderInnerTag = (link, captureEvent) => (
+  <>
+    {link.label ? (
+      <span className="va-footer-link-label">{link.label}</span>
+    ) : null}
+    {link.href ? (
+      <a href={link.href} onClick={captureEvent} target={link.target}>
+        {link.title}
+      </a>
+    ) : (
+      <span className="va-footer-link-text">{link.title}</span>
+    )}
+  </>
+);
 
 export function generateLinkItems(links, column, direction = 'asc') {
   const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
@@ -41,6 +44,24 @@ export function generateLinkItems(links, column, direction = 'asc') {
       {orderBy(links[column], 'order', direction).map(link => (
         <li key={`${link.column}-${link.order}`}>
           {renderInnerTag(link, captureEvent)}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function generateSuperLinks(groupedList) {
+  const captureEvent = () => {
+    recordEvent({ event: FOOTER_EVENTS[FOOTER_COLUMNS.SUPERLINKS] });
+  };
+
+  return (
+    <ul>
+      {orderBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
+        <li key={`${link.order}`}>
+          <a href={link.href} onClick={captureEvent} target={link.target}>
+            {link.title}
+          </a>
         </li>
       ))}
     </ul>
@@ -67,16 +88,6 @@ export function createLinkGroups(links) {
       groupedList,
       FOOTER_COLUMNS.CONTACT,
     ),
-    bottomLinks: (
-      <ul>
-        {orderBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
-          <li key={`${link.order}`}>
-            <a href={link.href} target={link.target}>
-              {link.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    ),
+    bottomLinks: generateSuperLinks(groupedList),
   };
 }

@@ -67,3 +67,14 @@ export function timeFromNow(date, userFromDate = null) {
 
   return 'a moment';
 }
+
+/**
+ * Checks if the passed-in arg is a valid date string, meaning it can be parsed
+ * by Date.parse()
+ *
+ * @param {string} dateString The string to validate
+ * @returns {boolean} If the string is a valid date string
+ */
+export function isValidDateString(dateString) {
+  return !isNaN(Date.parse(dateString));
+}

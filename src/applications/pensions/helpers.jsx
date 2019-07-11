@@ -1,8 +1,8 @@
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import environment from '../../platform/utilities/environment';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object
@@ -50,8 +50,8 @@ function checkStatus(guid) {
     })
     .catch(res => {
       if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_pension_poll_client_error');
+        Sentry.captureException(res);
+        Sentry.captureMessage('vets_pension_poll_client_error');
 
         // keep polling because we know they submitted earlier
         // and this is likely a network error
@@ -233,6 +233,7 @@ export function fileHelp({ formData }) {
             A completed Request for Approval of School Attendance (
             <a
               href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+              rel="noopener noreferrer"
               target="_blank"
             >
               VA Form 21-674
@@ -257,6 +258,7 @@ export function fileHelp({ formData }) {
           Regular Aid and Attendance (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+            rel="noopener noreferrer"
             target="_blank"
           >
             VA Form 21-2680
@@ -268,6 +270,7 @@ export function fileHelp({ formData }) {
           Claim for Aid and Attendance (
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
+            rel="noopener noreferrer"
             target="_blank"
           >
             VA Form 21-0779
@@ -286,20 +289,18 @@ export const directDepositWarning = (
     electronic funds transfer (EFT), also called direct deposit. If you don’t
     have a bank account, you must get your payment through Direct Express Debit
     MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a href="http://www.usdirectexpress.com" target="_blank">
+    <a
+      href="http://www.usdirectexpress.com"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at{' '}
-    <a href="tel:8003331795" target="_blank">
-      1-800-333-1795
-    </a>
-    . If you chose not to enroll, you must contact representatives handling
-    waiver requests for the Department of Treasury at{' '}
-    <a href="tel:8882242950" target="_blank">
-      1-888-224-2950
-    </a>
-    . They will address any questions or concerns you may have and encourage
-    your participation in EFT.
+    or by telephone at <a href="tel:8003331795">800-333-1795</a>. If you chose
+    not to enroll, you must contact representatives handling waiver requests for
+    the Department of Treasury at <a href="tel:8882242950">888-224-2950</a>.
+    They will address any questions or concerns you may have and encourage your
+    participation in EFT.
   </div>
 );
 
@@ -311,6 +312,7 @@ export const wartimeWarning = (
         an{' '}
         <a
           href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
+          rel="noopener noreferrer"
           target="_blank"
         >
           {' '}
@@ -318,7 +320,7 @@ export const wartimeWarning = (
         </a>
         . Find out if you still qualify.{' '}
         <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility.
+          Check your eligibility
         </a>
       </p>
     </div>
@@ -446,6 +448,7 @@ export const schoolAttendanceWarning = (
         a Request for Approval of School Attendance (
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+          rel="noopener noreferrer"
           target="_blank"
         >
           VA Form 21-674

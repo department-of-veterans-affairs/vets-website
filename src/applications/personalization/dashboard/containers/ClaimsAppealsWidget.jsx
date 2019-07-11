@@ -28,7 +28,9 @@ import DowntimeNotification, {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
-import AppealListItem from '../components/AppealsListItemV2';
+import AppealListItem from '../../../claims-status/components/appeals-v2/AppealListItemV2';
+
+const appealTypes = Object.values(APPEAL_TYPES);
 
 function recordDashboardClick(product) {
   return () => {
@@ -54,12 +56,13 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_TYPES.current) {
+    if (appealTypes.includes(claim.type)) {
       return (
         <AppealListItem
           key={claim.id}
           appeal={claim}
           name={this.props.fullName}
+          external
         />
       );
     }
@@ -173,7 +176,7 @@ class ClaimsAppealsWidget extends React.Component {
 
     return (
       <div id="claims-widget">
-        <h2>Track Claims</h2>
+        <h2>Track claims</h2>
         <div>
           <DowntimeNotification
             appTitle="claims"
@@ -226,7 +229,17 @@ const mapStateToProps = state => {
     .filter(c => {
       let updateDate;
       if (c.type === 'evss_claims') {
-        updateDate = c.attributes.phaseChangeDate || c.attributes.updatedAt;
+        const evssPhaseChangeDate = c.attributes.phaseChangeDate;
+        const evssDateFiled = c.attributes.dateFiled;
+        if (evssPhaseChangeDate && evssDateFiled) {
+          updateDate = moment(evssPhaseChangeDate).isAfter(
+            moment(evssDateFiled),
+          )
+            ? evssPhaseChangeDate
+            : evssDateFiled;
+        } else {
+          updateDate = evssPhaseChangeDate || evssDateFiled;
+        }
       } else {
         updateDate = c.attributes.updated;
       }

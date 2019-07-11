@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import _ from 'lodash/fp';
 
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { title10DatesRequired, isInFuture } from '../utils';
 
 const {

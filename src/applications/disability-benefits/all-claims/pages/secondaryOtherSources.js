@@ -17,7 +17,7 @@ export const uiSchema = index => ({
       'ui:widget': 'yesNo',
       'ui:options': {
         labels: {
-          Y: 'Yes, I’d like help getting supporting evidence and information',
+          Y: 'Yes, I’d like help getting supporting evidence and information.',
           N: 'No, I don’t need help with this.',
         },
       },

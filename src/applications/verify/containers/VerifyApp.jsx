@@ -7,15 +7,27 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
 import { hasSession } from '../../../platform/user/profile/utilities';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
+import SubmitSignInForm from '../../../platform/static-data/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    const { profile } = this.props;
+    const serviceName = (profile.signIn || {}).serviceName;
+
+    const signinMethodLabels = {
+      dslogon: 'DS Logon',
+      myhealthevet: 'My HealtheVet',
+    };
+
+    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
+  }
   componentDidMount() {
     if (!hasSession()) {
-      return window.location.replace('/');
+      window.location.replace('/');
+    } else {
+      recordEvent({ event: 'verify-prompt-displayed' });
     }
-    return recordEvent({ event: 'verify-prompt-displayed' });
   }
 
   componentDidUpdate(prevProps) {
@@ -35,14 +47,11 @@ export class VerifyApp extends React.Component {
   }
 
   render() {
-    if (this.props.profile.loading) {
+    const { profile } = this.props;
+
+    if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-
-    const signinMethod = {
-      dslogon: 'DS Logon',
-      myhealthevet: 'My HealtheVet',
-    };
 
     return (
       <main className="verify">
@@ -52,9 +61,7 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${signinMethod[
-                    this.props.profile.authnContext
-                  ] || 'ID.me'}`}
+                  content={`You signed in with ${this.signInMethod}`}
                   isVisible
                   status="success"
                 />
@@ -62,8 +69,8 @@ export class VerifyApp extends React.Component {
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
                   <br />
-                  <a href="/faq/#why-verify" target="_blank">
-                    Why does {siteName} verify identity?
+                  <a href="/sign-in-faq/#why-verify" target="_blank">
+                    Why does VA.gov verify identity?
                   </a>
                 </p>
                 <p>
@@ -91,11 +98,11 @@ export class VerifyApp extends React.Component {
                 </p>
                 <p>
                   <SubmitSignInForm startSentence>
-                    Call the {siteName} Help Desk at{' '}
-                    <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                    <a href="tel:18008778339">1-800-877-8339</a>
+                    Call the VA.gov Help Desk at{' '}
+                    <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
+                    <a href="tel:18008778339">800-877-8339</a>
                     <br />
-                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
                   </SubmitSignInForm>
                 </p>
               </div>

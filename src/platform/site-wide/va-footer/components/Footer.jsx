@@ -1,5 +1,4 @@
 import React from 'react';
-import links from '../../../static-data/footer-links.json';
 import { isWideScreen } from '../../../utilities/accessibility/index';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
@@ -10,7 +9,7 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 export default class Footer extends React.Component {
   constructor(props) {
     super(props);
-    this.linkObj = createLinkGroups(links);
+    this.linkObj = createLinkGroups(props.footerData);
     this.state = {
       isMobile: !isWideScreen(),
     };

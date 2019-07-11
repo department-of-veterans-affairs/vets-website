@@ -1,8 +1,7 @@
-import environment from '../../../../platform/utilities/environment';
-
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
-
-import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -10,29 +9,44 @@ import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import submitForm from '../submitForm';
 import { prefillTransformer } from '../prefill-transformer';
-import { transformForSubmit } from '../submit-transformer';
+import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import migrations from '../migrations';
+import captureEvents from '../analytics-functions';
+
+import {
+  applicantInformation,
+  bankInformation,
+  benefitsEligibility,
+  contactInformation,
+  militaryService,
+  educationCompleted,
+  highTechIndustry,
+  trainingProgramsChoice,
+  trainingProgramsInformation,
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
+  submit: submitForm,
   trackingPrefix: 'edu-0994-',
-  formId: '22-0994',
-  version: 1,
-  migrations: [],
+  formId: VA_FORM_IDS.FORM_22_0994,
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
-  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  transformForSubmit,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Apply for Vet Tec Benefits',
+  title: 'Apply for VET TEC',
   subTitle: 'Form 22-0994',
   preSubmitInfo,
   footerContent: FormFooter,
@@ -42,36 +56,37 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   chapters: {
-    // Chapter - Applicant Information
+    // Chapter - Benefits eligibility
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        // page - Applicant Information
         applicantInformation: {
           title: 'Applicant Information',
           path: 'applicant/information',
-          uiSchema: {
-            'ui:title': 'Place holder',
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
+          onContinue: captureEvents.applicantInformation,
         },
-      },
-    },
-    // Chapter - Benefits eligibility
-    benefitsEligibility: {
-      title: 'Benefits eligibility',
-      pages: {
-        // page - Already submitted 1990
+        benefitsEligibility: {
+          title: 'Applicant Information',
+          path: 'benefits-eligibility',
+          uiSchema: benefitsEligibility.uiSchema,
+          schema: benefitsEligibility.schema,
+          onContinue: captureEvents.benefitsEligibility,
+        },
       },
     },
     // Chapter - Military Service
     militaryService: {
       title: 'Military Service',
       pages: {
-        // page - Not on active duty
+        militaryService: {
+          title: 'Military Service',
+          path: 'military-service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
+          onContinue: captureEvents.militaryService,
+        },
       },
     },
     // Chapter - Education History
@@ -79,21 +94,47 @@ const formConfig = {
       title: 'Education History',
       pages: {
         // page - Highest Level of education completed
+        educationCompleted: {
+          title: 'Education History',
+          path: 'education-history',
+          uiSchema: educationCompleted.uiSchema,
+          schema: educationCompleted.schema,
+        },
       },
     },
     // Chapter - High tech work experience
     highTechWorkExp: {
-      title: 'High tech work experience',
+      title: 'Work Experience',
       pages: {
         // page - yes/no working in high-tech industry
+        highTechIndustry: {
+          title: 'High tech work experience',
+          path: 'work-experience',
+          uiSchema: highTechIndustry.uiSchema,
+          schema: highTechIndustry.schema,
+          onContinue: captureEvents.highTechWorkExp,
+        },
       },
     },
     // Chapter - Program Selection
     programSelection: {
-      title: 'Program selection',
+      title: 'Program Selection',
       pages: {
         // page - picked like to attend training programs
+        trainingProgramsChoice: {
+          title: 'Program Selection',
+          path: 'training-programs-choice',
+          uiSchema: trainingProgramsChoice.uiSchema,
+          schema: trainingProgramsChoice.schema,
+        },
         // page - interested in training programs
+        trainingProgramsInformation: {
+          title: 'Program Selection',
+          path: 'training-programs-information',
+          depends: form => form.hasSelectedPrograms === true,
+          uiSchema: trainingProgramsInformation.uiSchema,
+          schema: trainingProgramsInformation.schema,
+        },
       },
     },
     // Chapter - Personal Information
@@ -101,7 +142,20 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         // page - contact information
+        contactInformation: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+          onContinue: captureEvents.contactInformation,
+        },
         // page - banking information
+        bankInformation: {
+          title: 'Direct deposit information',
+          path: 'direct-deposit-information',
+          uiSchema: bankInformation.uiSchema,
+          schema: bankInformation.schema,
+        },
       },
     },
   },

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 import {
   getDefaultFormState,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
+import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
@@ -212,8 +212,9 @@ export default class ReviewCardField extends React.Component {
       }
 
       // Not having the right type should have been caught in the constructor, but...
-      Raven.captureMessage('ReviewCardField-bad-type-on-review', {
-        extra: `Expected object or array, got ${dataType}`,
+      Sentry.withScope(scope => {
+        scope.setExtra('message', `Expected object or array, got ${dataType}`);
+        Sentry.captureMessage('ReviewCardField-bad-type-on-review');
       });
       // Fall back to the ViewComponent
     }

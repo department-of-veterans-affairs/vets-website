@@ -57,12 +57,12 @@ export default class PhotoField extends React.Component {
       previewProcessing: false,
     };
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.detectDrag();
   }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextFormData = nextProps.formData || {};
     const prevFormData = this.props.formData || {};
 
@@ -322,7 +322,7 @@ export default class PhotoField extends React.Component {
       'schemaform-file-uploading progress-bar-container';
 
     let currentLayout = this.state.currentLayout;
-    let uploadButtonText = 'Your Photo';
+    let uploadButtonText = 'Your photo';
     let instruction;
     let description;
     let uploadControlClass = 'photo-input-container';
@@ -340,7 +340,7 @@ export default class PhotoField extends React.Component {
         );
         break;
       case layouts.cropPhoto:
-        uploadButtonText = 'a New Photo';
+        uploadButtonText = 'a new photo';
         instruction = (
           <span>
             <strong>Step 2 of 2:</strong> Fit your head and shoulders in the
@@ -516,7 +516,7 @@ export default class PhotoField extends React.Component {
               <ErrorableFileInput
                 accept={fileTypes.map(type => `.${type}`).join(',')}
                 onChange={this.onChangeScreenReader}
-                buttonText="Upload Photo Again"
+                buttonText="Upload photo again"
                 name="screenReaderFileUpload"
               />
             )}

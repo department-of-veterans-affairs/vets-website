@@ -10,6 +10,8 @@ export const ERROR_DELETING_CONNECTED_ACCOUNT =
   'ERROR_DELETING_CONNECTED_ACCOUNT';
 export const FINISHED_DELETING_CONNECTED_ACCOUNT =
   'FINISHED_DELETING_CONNECTED_ACCOUNT';
+export const DELETED_ACCOUNT_ALERT_DISMISSED =
+  'DELETED_ACCOUNT_ALERT_DISMISSED';
 
 const grantsUrl = '/profile/connected_applications';
 
@@ -38,4 +40,9 @@ export function deleteConnectedAccount(accountId) {
         dispatch({ type: ERROR_DELETING_CONNECTED_ACCOUNT, accountId, errors }),
     );
   };
+}
+
+export function dismissDeletedAccountAlert(accountId) {
+  return async dispatch =>
+    dispatch({ type: DELETED_ACCOUNT_ALERT_DISMISSED, accountId });
 }

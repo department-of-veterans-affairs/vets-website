@@ -1,6 +1,6 @@
 // import _ from 'lodash/fp';
 import React from 'react';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
   // TODO: enable this to implement the review card UI for verified users

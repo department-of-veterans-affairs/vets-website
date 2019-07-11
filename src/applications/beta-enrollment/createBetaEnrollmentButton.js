@@ -6,6 +6,16 @@ import BetaEnrollmentButton from './containers/BetaEnrollmentButton';
  * @param {string} feature the name of the service to be registered into the user's services property once the button is pressed. This service must also be registered in the API.
  * @param {*} returnUrl the URL which the user will be redirected after the service is successfully saved
  */
-export default function createBetaEnrollmentButton(feature, returnUrl) {
-  return () => <BetaEnrollmentButton feature={feature} returnUrl={returnUrl} />;
+export default function createBetaEnrollmentButton(
+  feature,
+  returnUrl,
+  buttonText,
+) {
+  return () => (
+    <BetaEnrollmentButton
+      feature={feature}
+      returnUrl={returnUrl}
+      buttonText={buttonText}
+    />
+  );
 }

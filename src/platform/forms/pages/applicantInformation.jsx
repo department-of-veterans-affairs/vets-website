@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import applicantDescription from '../components/ApplicantDescription';
 
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from '../definitions/fullName';
 import * as personId from '../definitions/personId';
 
@@ -69,7 +69,7 @@ export default function applicantInformation(schema, options) {
         relationship: {
           'ui:widget': 'radio',
           'ui:title':
-            'What’s your relationship to the Servicemember whose benefit is being transferred to you?',
+            'What’s your relationship to the service member whose benefit is being transferred to you?',
           'ui:options': {
             labels: labels.relationship || relationshipLabels,
           },

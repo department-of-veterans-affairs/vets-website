@@ -94,7 +94,7 @@ describe('<AskVAPage>', () => {
         router={router}
       />,
     );
-    tree.getMountedInstance().componentWillReceiveProps({
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       decisionRequested: true,
       getClaimDetail,
     });

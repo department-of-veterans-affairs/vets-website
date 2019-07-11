@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
   // All the king’s horses and all the king’s men
@@ -22,3 +22,10 @@ export function transform(formConfig, form) {
     },
   });
 }
+
+// 1995-STEM related
+export const displayActiveDutyStem = form =>
+  form.isEdithNourseRogersScholarship;
+
+export const displayEdithNourseRogersScholarship = form =>
+  form.benefit === 'chapter33' || form.benefit === 'fryScholarship';

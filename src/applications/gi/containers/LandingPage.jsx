@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-
 import {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
@@ -14,8 +12,8 @@ import {
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
+import environment from 'platform/utilities/environment';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -26,7 +24,7 @@ export class LandingPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setPageTitle(`GI Bill® Comparison Tool: ${propertyName}`);
+    this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
   }
 
   handleSubmit(event) {
@@ -95,6 +93,7 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar />
+            {!environment.isProduction() && <StemScholarshipNotification />}
           </div>
         </div>
       </span>

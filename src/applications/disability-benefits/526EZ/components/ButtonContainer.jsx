@@ -27,10 +27,10 @@ export default function ButtonContainer(props) {
         !isLoggedIn && (
           <a
             className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href="/disability/how-to-file-claim"
             onClick={authenticate}
           >
-            Sign In and Verify Your Identity
+            Sign in and verify your identity
             <span className="button-icon"> »</span>
           </a>
         )}
@@ -39,9 +39,9 @@ export default function ButtonContainer(props) {
         !isVerified && (
           <a
             className="usa-button-primary"
-            href="/verify?next=/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href="/verify?next=/disability/how-to-file-claim"
           >
-            Verify Your Identity
+            Verify your identity
             <span className="button-icon"> »</span>
           </a>
         )}
@@ -49,7 +49,7 @@ export default function ButtonContainer(props) {
         isVerified && (
           <a
             className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+            href="/disability/how-to-file-claim"
           >
             Apply for Claim for Increase
             <span className="button-icon"> »</span>
@@ -59,8 +59,8 @@ export default function ButtonContainer(props) {
         <a
           className="usa-button-primary"
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
-          rel="noopener"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Go to eBenefits
           <span className="button-icon"> »</span>

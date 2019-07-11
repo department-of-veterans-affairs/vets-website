@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
 
 import { FormPage } from './FormPage';
-import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
+import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 
 import SaveFormLink from '../../../../platform/forms/save-in-progress/SaveFormLink';
 import SaveStatus from '../../../../platform/forms/save-in-progress/SaveStatus';

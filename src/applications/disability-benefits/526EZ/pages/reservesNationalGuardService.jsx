@@ -2,8 +2,8 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import _ from 'lodash/fp';
 
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { ReservesGuardDescription, isInFuture } from '../../all-claims/utils';
 
 import { title10DatesRequired } from '../helpers';

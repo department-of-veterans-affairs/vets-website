@@ -96,12 +96,17 @@ class GuidancePage extends React.Component {
             your military record before your separation. But, if the PDBR finds
             that your disability rating was unjustly low, it may help you make
             your case to upgrade your discharge.{' '}
-            <a target="_blank" href="https://health.mil/PDBR">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://health.mil/PDBR"
+            >
               Learn more about PBDR reviews
             </a>
             .{' '}
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process"
             >
               Apply for a PBDR review
@@ -217,22 +222,22 @@ class GuidancePage extends React.Component {
         {boardToSubmit.abbr !== 'DRB' && (
           <li>
             Item 8 asks for the date when you discovered the error or injustice
-            you‘re asking the Board to address. If it‘s been more than 3 years
-            since you found this error or injustice, you‘ll need to include a
+            you’re asking the Board to address. If it’s been more than 3 years
+            since you found this error or injustice, you’ll need to include a
             reason why the Board should consider your application. Examples of
-            good reasons include new evidence you‘ve found to support your
+            good reasons include new evidence you’ve found to support your
             claim, or recent changes in policy (like liberal consideration for
             PTSD, TBI, or military sexual assault or harassment). These kinds of
             reasons will make it more likely for the Board to decide in your
-            favor. The 3-year time limit isn‘t a strict rule, so don‘t let it
+            favor. The 3-year time limit isn’t a strict rule, so don’t let it
             keep you from applying if you think you have a strong case.
           </li>
         )}
         {boardToSubmit.abbr !== 'DRB' && (
           <li>
-            Item 10 asks if you‘re willing to appear in person before the Board
+            Item 10 asks if you’re willing to appear in person before the Board
             in Washington, DC. The Board rarely asks Veterans to appear in
-            person, but if you say you‘re willing to do so, it may help show how
+            person, but if you say you’re willing to do so, it may help show how
             serious you are about your case.
           </li>
         )}
@@ -243,10 +248,10 @@ class GuidancePage extends React.Component {
               Review from the Discharge Review Board (DRB). If your case is
               especially complicated and requires detailed explanation, you{' '}
               <strong>may</strong> have more success with a Personal Appearance
-              Review. Note that you‘ll have to pay your travel costs if you make
+              Review. Note that you’ll have to pay your travel costs if you make
               a personal appearance. Documentary Reviews are generally faster,
               so we recommend you begin with this type of review. Also, if
-              you‘re denied in a Documentary Review, you can then appeal through
+              you’re denied in a Documentary Review, you can then appeal through
               a Personal Appearance Review. But you can’t request Documentary
               Review after a Personal Appearance Review.
             </li>
@@ -276,7 +281,7 @@ class GuidancePage extends React.Component {
           <a
             target="_blank"
             href={form.link}
-            rel="external"
+            rel="noopener noreferrer external"
             className="usa-button-primary usa-button"
             ref={el => {
               this.downloadFormBtn = el;
@@ -300,6 +305,7 @@ class GuidancePage extends React.Component {
                   cost, or ask other Veterans for recommendations.{' '}
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     href="https://www.benefits.va.gov/vso/varo.asp"
                   >
                     Find a VSO near you
@@ -330,6 +336,7 @@ class GuidancePage extends React.Component {
           Military Personnel File, or OMPF) online.{' '}
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.dpris.dod.mil/veteranaccess.html"
           >
             Get your military personnel record.
@@ -345,6 +352,7 @@ class GuidancePage extends React.Component {
           you should request the full set of records.{' '}
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.archives.gov/veterans/military-service-records"
           >
             Get your military personnel record.
@@ -447,6 +455,7 @@ class GuidancePage extends React.Component {
         requestQuestion = (
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
           >
             Find out how to request your military medical records.
@@ -472,6 +481,7 @@ class GuidancePage extends React.Component {
               submitting VA Form 10-5345 to your local VA Medical Center.{' '}
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345-fill.pdf"
               >
                 Download VA Form 10-5345.
@@ -583,7 +593,11 @@ class GuidancePage extends React.Component {
       onlineSubmissionMsg = (
         <p>
           You can also submit this information online at ACTSOnline.{' '}
-          <a target="_blank" href="http://actsonline.army.mil/">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://actsonline.army.mil/"
+          >
             Visit ACTSOnline to submit your information
           </a>
           .
@@ -665,6 +679,7 @@ class GuidancePage extends React.Component {
                     DD214. If you get a new DD214,{' '}
                     <a
                       target="_blank"
+                      rel="noopener noreferrer"
                       href="https://www.dpris.dod.mil/veteranaccess.html"
                     >
                       request a copy
@@ -678,6 +693,7 @@ class GuidancePage extends React.Component {
                     services. For now, you may still apply for VA eligibility by{' '}
                     <a
                       target="_blank"
+                      rel="noopener noreferrer"
                       href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"
                     >
                       requesting a Character of Discharge review
@@ -810,6 +826,7 @@ class GuidancePage extends React.Component {
         <li>
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"
           >
             VA Guidance on Character of Discharge Reviews
@@ -817,7 +834,11 @@ class GuidancePage extends React.Component {
         </li>
         {serviceBranch === 'army' && (
           <li>
-            <a target="_blank" href="http://arba.army.pentagon.mil">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="http://arba.army.pentagon.mil"
+            >
               Army Review Boards Agency
             </a>
           </li>
@@ -827,6 +848,7 @@ class GuidancePage extends React.Component {
             <li>
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="http://arba.army.pentagon.mil/adrb-overview.html"
               >
                 Army Discharge Review Board
@@ -838,6 +860,7 @@ class GuidancePage extends React.Component {
             <li>
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="http://arba.army.pentagon.mil/abcmr-overview.html"
               >
                 Army Board for Correction of Military Records
@@ -848,6 +871,7 @@ class GuidancePage extends React.Component {
           <li>
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx"
             >
               Naval Discharge Review Board
@@ -859,6 +883,7 @@ class GuidancePage extends React.Component {
             <li>
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="http://www.afpc.af.mil/Board-for-Correction-of-Military-Records/"
               >
                 Air Force Board for Correction of Military Records
@@ -870,6 +895,7 @@ class GuidancePage extends React.Component {
             <li>
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.uscg.mil/Resources/legal/BCMR/"
               >
                 Coast Guard Board for Correction of Military Records
@@ -881,6 +907,7 @@ class GuidancePage extends React.Component {
             <li>
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.uscg.mil/Resources/Legal/DRB.aspx/"
               >
                 Coast Guard Discharge Review Board

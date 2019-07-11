@@ -1,6 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -12,16 +12,15 @@ import {
   isValidCanPostalCode,
 } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
-import { filterViewFields } from 'us-forms-system/lib/js/helpers';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
-import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { capitalizeEachWord } from '../all-claims/utils';
-import { AddressViewField } from '../all-claims/content/contactInformation';
+import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
+import { AddressViewField, capitalizeEachWord } from '../all-claims/utils';
 
 import {
   VA_FORM4142_URL,
@@ -204,7 +203,7 @@ export function validateDisability(disability) {
   const result = v.validate({ disabilities: [disability] }, fullSchemaIncrease);
 
   if (result.errors.find(invalidDisabilityError)) {
-    Raven.captureMessage(
+    Sentry.captureMessage(
       `vets-disability-increase-invalid-disability-prefilled: ${disability}`,
     );
     return false;
@@ -269,7 +268,7 @@ export function transformDisabilities(disabilities = []) {
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
-    Raven.captureMessage(
+    Sentry.captureMessage(
       'vets-disability-increase-no-rated-disabilities-found',
     );
     return { metadata, formData, pages };
@@ -414,7 +413,7 @@ export const download4142Notice = (
       doctor.
     </p>
     <p>
-      <a href={VA_FORM4142_URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank" rel="noopener noreferrer">
         Download VA Form 21-4142
       </a>
       .<p>Please print the form, fill it out, and send it to:</p>
@@ -554,8 +553,8 @@ export const editNote = name => (
   <p>
     <strong>Note:</strong> If you need to update your {name}, please call
     Veterans Benefits Assistance at{' '}
-    <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00
-    a.m. to 9:00 p.m. (ET).
+    <a href="tel:1-800-827-1000">800-827-1000</a>, Monday through Friday, 8:00
+    a.m. to 9:00 p.m. ET.
   </p>
 );
 
@@ -737,7 +736,7 @@ export const contactInfoUpdateHelp = () => (
       please go to your profile page.
     </p>
     <p>
-      <a href="/profile">Go to my profile page</a>.
+      <a href="/profile">Go to my profile page</a>
     </p>
   </div>
 );
@@ -768,7 +767,7 @@ export function fetchPaymentInformation() {
       // Return only the bit the UI cares about
       response.data.attributes.responses[0].paymentAccount,
     () => {
-      Raven.captureMessage('vets_payment_information_fetch_failure');
+      Sentry.captureMessage('vets_payment_information_fetch_failure');
       return Promise.reject();
     },
   );
@@ -882,7 +881,11 @@ export const patientAcknowledgmentText = (
     <p>
       NOTE: For additional information regarding VA Form 21-4142, refer to the
       following website:
-      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+      <a
+        href="https://www.benefits.va.gov/privateproviders/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         https://www.benefits.va.gov/privateproviders/
       </a>
       .

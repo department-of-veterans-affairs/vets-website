@@ -1,14 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -26,16 +21,14 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
-          startText="Start the Pension Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
+          startText="Start the pension application"
         />
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
               <div>
-                <h5>Declare Your Intent to File</h5>
+                <h5>Declare your intent to file</h5>
               </div>
               <div>
                 If you’d like to submit an intent to file to set the earliest
@@ -47,7 +40,7 @@ class IntroductionPage extends React.Component {
               </div>
               <div>
                 <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf">
-                  Download VA Form 21-0966.
+                  Download VA Form 21-0966
                 </a>
               </div>
               <div>
@@ -80,7 +73,7 @@ class IntroductionPage extends React.Component {
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <h4 className="usa-alert-heading">
-                    Fully Developed Claim (FDC) Program
+                    Fully Developed Claim (FDC) program
                   </h4>
                   <div className="usa-alert-text">
                     <p>
@@ -95,7 +88,7 @@ class IntroductionPage extends React.Component {
                       href="/pension/how-to-apply/fully-developed-claim/"
                       target="_blank"
                     >
-                      Learn more about the FDC Program
+                      Learn more about the FDC program
                     </a>
                     .
                   </div>
@@ -124,7 +117,7 @@ class IntroductionPage extends React.Component {
               </p>
               <h6>Learn about Veterans pension rates</h6>
               <a href="/pension/veterans-pension-rates/" target="_blank">
-                Find out how we decide pension rates.
+                Find out how we decide pension rates
               </a>
             </li>
             <li className="process-step list-three">
@@ -141,7 +134,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div>
-                <h5>VA Review</h5>
+                <h5>VA review</h5>
               </div>
               <p>We process claims in the order we receive them.</p>
               <p>We’ll let you know by mail if we need more information.</p>
@@ -159,11 +152,10 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
-          startText="Start the Pension Application"
+          startText="Start the pension application"
           downtime={this.props.route.formConfig.downtime}
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         >
           Please complete the 21-527EZ form to apply for pension benefits.
         </SaveInProgressIntro>
@@ -175,21 +167,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };

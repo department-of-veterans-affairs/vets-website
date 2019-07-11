@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getDocketName } from '../../utils/appeals-v2-helpers';
 
-function DocketCard({ total, ahead }) {
+function DocketCard({ total, ahead, docket }) {
   const completedWidth = { width: `${((total - ahead) / total) * 100}%` };
 
   return (
@@ -33,7 +34,8 @@ function DocketCard({ total, ahead }) {
         <p>Front of docket line</p>
       </div>
       <p>
-        <strong>{total.toLocaleString()}</strong> total appeals on the docket
+        <strong>{total.toLocaleString()}</strong> total appeals on the{' '}
+        {docket ? getDocketName(docket) : ''} docket
       </p>
     </div>
   );
@@ -42,6 +44,7 @@ function DocketCard({ total, ahead }) {
 DocketCard.propTypes = {
   ahead: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
+  docket: PropTypes.string,
 };
 
 export default DocketCard;

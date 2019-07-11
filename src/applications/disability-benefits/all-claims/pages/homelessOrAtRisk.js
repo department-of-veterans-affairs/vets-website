@@ -1,7 +1,7 @@
 import _ from '../../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import merge from 'lodash/fp/merge';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 const {
   homelessOrAtRisk,
@@ -144,6 +144,15 @@ export const schema = {
         otherAtRiskHousing,
       },
     },
-    homelessnessContact,
+    homelessnessContact: {
+      ...homelessnessContact,
+      properties: {
+        ...homelessnessContact.properties,
+        // we want veterans to be able to type in anything they want, we'll
+        // sanitize their input to adhere to the pattern in vets-json-schema in
+        // the submit transformer
+        name: _.omit('pattern', homelessnessContact.properties.name),
+      },
+    },
   },
 };

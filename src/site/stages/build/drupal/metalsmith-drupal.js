@@ -1,45 +1,22 @@
-/* eslint-disable no-param-reassign, no-continue */
+/* eslint-disable no-param-reassign, no-continue, no-console */
 
 const fs = require('fs-extra');
 const path = require('path');
-const chalk = require('chalk');
+const recursiveRead = require('recursive-readdir');
 
 const ENVIRONMENTS = require('../../../constants/environments');
+const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
+const { logDrupal: log } = require('./utilities-drupal');
 const getApiClient = require('./api');
+const convertDrupalFilesToLocal = require('./assets');
+const { compilePage, createFileObj } = require('./page');
+const createHealthCareRegionListPages = require('./health-care-region');
 
-const DRUPAL_CACHE_FILENAME = 'drupal.json';
+const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
-
-const ENABLED_ENVIRONMENTS = new Set([
-  ENVIRONMENTS.LOCALHOST,
-  ENVIRONMENTS.VAGOVDEV,
-]);
-
-const DRUPAL_COLORIZED_OUTPUT = chalk.rgb(73, 167, 222);
-
-// eslint-disable-next-line no-console
-const log = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
-
-function writeDrupalIndexPage(files) {
-  log('Drupal index page written to /drupal.');
-
-  const drupalPages = Object.keys(files)
-    .filter(page => page.startsWith('drupal'))
-    .map(page => `<li><a href="/${page}">/${page}</a></li>`)
-    .join('');
-
-  const drupalIndex = `
-    <h1>The following pages were provided by Drupal:</h1>
-    <ol>${drupalPages}</ol>
-  `;
-
-  files['drupal/index.html'] = {
-    contents: Buffer.from(drupalIndex),
-  };
-}
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
@@ -57,23 +34,33 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       continue;
     }
 
+    if (!Object.keys(page).length) {
+      log('Skipping empty entity...');
+      continue;
+    }
+
     const {
-      entityUrl: { path: drupalPagePath },
+      entityUrl: { path: drupalUrl },
       entityBundle,
     } = page;
 
-    files[`drupal${drupalPagePath}/index.html`] = {
-      ...page,
-      layout: `${entityBundle}.drupal.liquid`,
-      contents: Buffer.from('<!-- Drupal-provided data -->'),
-      debug: JSON.stringify(page, null, 4),
-    };
-  }
+    const pageCompiled = compilePage(page, contentData);
+    const drupalPageDir = path.join('.', drupalUrl);
+    const drupalFileName = path.join(drupalPageDir, 'index.html');
 
-  writeDrupalIndexPage(files);
+    files[drupalFileName] = createFileObj(
+      pageCompiled,
+      `${entityBundle}.drupal.liquid`,
+    );
+
+    if (page.entityBundle === 'health_care_region_page') {
+      createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
+    }
+  }
 }
 
 async function loadDrupal(buildOptions) {
+  const contentApi = getApiClient(buildOptions);
   const drupalCache = path.join(
     buildOptions.cacheDirectory,
     DRUPAL_CACHE_FILENAME,
@@ -91,15 +78,23 @@ async function loadDrupal(buildOptions) {
   if (shouldPullDrupal) {
     log('Attempting to load Drupal content from API...');
 
-    const contentApi = getApiClient(buildOptions);
+    const drupalTimer = `${contentApi.getSiteUri()} response time: `;
+
+    console.time(drupalTimer);
 
     drupalPages = await contentApi.getAllPages();
 
-    if (buildOptions.buildtype === ENVIRONMENTS.LOCALHOST) {
-      const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-      fs.ensureDirSync(buildOptions.cacheDirectory);
-      fs.writeFileSync(drupalCache, serialized);
+    console.timeEnd(drupalTimer);
+
+    if (drupalPages.errors && drupalPages.errors.length) {
+      log(JSON.stringify(drupalPages.errors, null, 2));
+      throw new Error('Drupal query returned with errors');
     }
+
+    const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
+    fs.ensureDirSync(buildOptions.cacheDirectory);
+    fs.emptyDirSync(path.dirname(drupalCache));
+    fs.writeFileSync(drupalCache, serialized);
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
@@ -110,6 +105,28 @@ async function loadDrupal(buildOptions) {
 
   log('Drupal successfully loaded!');
   return drupalPages;
+}
+
+async function loadCachedDrupalFiles(buildOptions, files) {
+  const cachedFilesPath = path.join(
+    buildOptions.cacheDirectory,
+    'drupal/downloads',
+  );
+  if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
+    const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
+    cachedDrupalFiles.forEach(file => {
+      const relativePath = path.relative(
+        path.join(buildOptions.cacheDirectory, 'drupal/downloads'),
+        file,
+      );
+      log(`Loaded Drupal asset from cache: ${relativePath}`);
+      files[relativePath] = {
+        path: relativePath,
+        isDrupalAsset: true,
+        contents: fs.readFileSync(file),
+      };
+    });
+  }
 }
 
 function getDrupalContent(buildOptions) {
@@ -127,14 +144,22 @@ function getDrupalContent(buildOptions) {
       if (!drupalData) {
         drupalData = await loadDrupal(buildOptions);
       }
+      drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
+
+      loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
+      buildOptions.drupalData = drupalData;
       done();
     } catch (err) {
+      buildOptions.drupalError = drupalData;
+      log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
-      log('Continuing with build anyway...');
-      // done(err);
-      done();
+      if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
+        done(err);
+      } else {
+        done();
+      }
     }
   };
 }

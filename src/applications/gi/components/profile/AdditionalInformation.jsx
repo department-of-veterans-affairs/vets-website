@@ -29,7 +29,7 @@ export class AdditionalInformation extends React.Component {
       <div>
         <strong>Veterans tuition policy:</strong>
         &nbsp;
-        <a href={it.vetWebsiteLink} target="_blank" rel="noopener">
+        <a href={it.vetWebsiteLink} target="_blank" rel="noopener noreferrer">
           View policy
         </a>
       </div>
@@ -57,7 +57,7 @@ export class AdditionalInformation extends React.Component {
                   it.cross
                 }#accred`}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 See accreditors
               </a>
@@ -107,19 +107,6 @@ export class AdditionalInformation extends React.Component {
           </strong>
           &nbsp;
           {it.independentStudy ? 'Yes' : 'No'}
-        </div>
-        <div>
-          <strong>
-            <button
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={this.props.onShowModal.bind(this, 'stemOffered')}
-            >
-              STEM (Science, Technology, Engineering, and Math):
-            </button>
-          </strong>
-          &nbsp;
-          {it.stemOffered ? 'Yes' : 'No'}
         </div>
       </div>
     );

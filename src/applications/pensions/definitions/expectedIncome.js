@@ -1,5 +1,5 @@
 import { additionalSourcesUI } from './additionalSources';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export default {
   'ui:order': ['salary', 'interest', 'additionalSources'],

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { toLower } from 'lodash';
 
-import recordEvent from '../../../../../../platform/monitoring/record-event';
-import LoadingButton from './LoadingButton';
+import recordEvent from 'platform/monitoring/record-event';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 class Vet360EditModalActionButtons extends React.Component {
   constructor(props) {

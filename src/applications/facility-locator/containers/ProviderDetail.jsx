@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { object, func } from 'prop-types';
 import { fetchProviderDetail } from '../actions';
+import { focusElement } from '../../../platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
 import LocationAddress from '../components/search-results/LocationAddress';
@@ -16,9 +17,14 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
  * (currently Routed at /facilities/provider/{id})
  */
 class ProviderDetail extends Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchProviderDetail(this.props.params.id);
     window.scrollTo(0, 0);
+  }
+
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs');
   }
 
   renderFacilityInfo = () => {
@@ -100,7 +106,7 @@ class ProviderDetail extends Component {
     }
 
     return (
-      <div className="row location-detail">
+      <div className="row location-detail all-details">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>{this.renderFacilityInfo()}</div>
           <div>
@@ -137,8 +143,7 @@ ProviderDetail.propTypes = {
   params: object.isRequired,
 };
 
-// eslint-disable-next-line prettier/prettier
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   location: state.searchResult.selectedResult,
   currentQuery: state.searchQuery,
 });

@@ -1,29 +1,38 @@
 import React from 'react';
 import moment from 'moment';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit, some, lowerCase } from 'lodash';
+import { omit } from 'lodash';
+import merge from 'lodash/merge';
+import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import { validateZIP } from './validations';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import {
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from './validations';
+import ReviewCardField from './components/ReviewCardField';
 
 import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from '../../../platform/forms/definitions/address';
-
-import {
-  RESERVE_GUARD_TYPES,
-  USA,
   DATA_PATHS,
-  NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  NINE_ELEVEN,
+  PTSD_MATCHES,
+  RESERVE_GUARD_TYPES,
+  STATE_LABELS,
+  STATE_VALUES,
   TWENTY_FIVE_MB,
-  PTSD,
+  USA,
+  TYPO_THRESHOLD,
+  itfStatuses,
 } from './constants';
 
 /**
@@ -55,6 +64,15 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const isActiveITF = currentITF => {
+  if (currentITF) {
+    const isActive = currentITF.status === itfStatuses.active;
+    const isNotExpired = moment().isBefore(currentITF.expirationDate);
+    return isActive && isNotExpired;
+  }
+  return false;
+};
 
 export const hasGuardOrReservePeriod = formData => {
   const serviceHistory = formData.servicePeriods;
@@ -141,12 +159,17 @@ const capitalizeWord = word => {
  */
 export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
-    return name.replace(/\w+/g, capitalizeWord);
+    return name.replace(/\w[^\s-]*/g, capitalizeWord);
   }
 
-  Raven.captureMessage(
-    `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
-  );
+  if (typeof name !== 'string') {
+    // Sentry.captureMessage(
+    //   `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+    // );
+  }
+
+  // TODO: Refactor this out; the function name doesn't imply that it
+  // would return a completely unrelated string
   return 'Unknown Condition';
 };
 
@@ -176,7 +199,11 @@ export function queryForFacilities(input = '') {
         label: facility.attributes.name,
       })),
     error => {
-      Raven.captureMessage('Error querying for facilities', { input, error });
+      Sentry.withScope(scope => {
+        scope.setExtra('input', input);
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error querying for facilities');
+      });
       return [];
     },
   );
@@ -184,55 +211,48 @@ export function queryForFacilities(input = '') {
 
 export const disabilityIsSelected = disability => disability['view:selected'];
 
-export const addCheckboxPerDisability = (form, pageSchema) => {
-  const { ratedDisabilities, newDisabilities } = form;
-  // This shouldn't happen, but could happen if someone directly
-  // opens the right page in the form with no SiP
-  if (!ratedDisabilities && !newDisabilities) {
-    return pageSchema;
-  }
-  const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
-    ? ratedDisabilities.filter(disabilityIsSelected)
-    : [];
+/**
+ * Takes a string and returns another that won't break SiP when used
+ * as a property name.
+ * @param {string} str - The string to make SiP-friendly
+ * @return {string} The SiP-friendly string
+ */
+export const sippableId = str => (str || 'blank').toLowerCase();
 
-  const selectedNewDisabilities = Array.isArray(newDisabilities)
-    ? newDisabilities
-    : [];
-
-  // TODO: We might be able to clean this up once we know how EVSS
-  // We expect to get an array with conditions in it or no property
-  // at all.
-  const disabilitiesViews = selectedRatedDisabilities
-    .concat(selectedNewDisabilities)
-    .reduce((accum, curr) => {
-      const disabilityName = curr.name || curr.condition || '';
-      const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
-      return _.set(
-        // downcase value for SIP consistency
-        disabilityName.toLowerCase(),
-        { title: capitalizedDisabilityName, type: 'boolean' },
-        accum,
-      );
-    }, {});
-  return {
-    properties: disabilitiesViews,
-  };
+const createCheckboxSchema = (schema, disabilityName) => {
+  const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
+  return _.set(
+    // As an array like this to prevent periods in the name being interpreted as nested objects
+    [sippableId(disabilityName)],
+    { title: capitalizedDisabilityName, type: 'boolean' },
+    schema,
+  );
 };
 
-const formattedNewDisabilitiesSelector = createSelector(
+export const makeSchemaForNewDisabilities = createSelector(
   formData => formData.newDisabilities,
-  (newDisabilities = []) =>
-    newDisabilities.map(disability => capitalizeEachWord(disability.condition)),
+  (newDisabilities = []) => ({
+    properties: newDisabilities
+      .map(disability => disability.condition)
+      .reduce(createCheckboxSchema, {}),
+  }),
 );
 
-export const addCheckboxPerNewDisability = createSelector(
-  formattedNewDisabilitiesSelector,
-  newDisabilities => ({
-    properties: newDisabilities.reduce(
-      (accum, disability) => _.set(disability, { type: 'boolean' }, accum),
-      {},
-    ),
+export const makeSchemaForRatedDisabilities = createSelector(
+  formData => formData.ratedDisabilities,
+  (ratedDisabilities = []) => ({
+    properties: ratedDisabilities
+      .filter(disabilityIsSelected)
+      .map(disability => disability.name)
+      .reduce(createCheckboxSchema, {}),
   }),
+);
+
+export const makeSchemaForAllDisabilities = createSelector(
+  makeSchemaForNewDisabilities,
+  makeSchemaForRatedDisabilities,
+  (newDisabilitiesSchema, ratedDisabilitiesSchema) =>
+    merge({}, newDisabilitiesSchema, ratedDisabilitiesSchema),
 );
 
 export const hasVAEvidence = formData =>
@@ -260,108 +280,211 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
-/**
- * Creates uiSchema and schema for address widget based on params
- * @param {array} addressOmitions
- * @param {array} order
- * @param {object} fieldLabels
- */
-export function generateAddressSchemas(addressOmitions, order, fieldLabels) {
-  const addressSchemaConfig = addressSchema(fullSchema);
-  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+export const AddressViewField = ({ formData }) => {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    country,
+    state,
+    zipCode,
+  } = formData;
+  let zipString;
+  if (zipCode) {
+    const firstFive = zipCode.slice(0, 5);
+    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
+    zipString = `${firstFive}${lastChunk}`;
+  }
 
-  const locationSchema = {
-    addressUI: {
-      ...addressUIConfig,
-      'ui:order': order,
-    },
-    addressSchema: {
-      ...addressSchemaConfig,
-      properties: {
-        ...omit(addressSchemaConfig.properties, addressOmitions),
-      },
-    },
+  let lastLine;
+  if (country === USA) {
+    lastLine = `${city}, ${state} ${zipString}`;
+  } else {
+    lastLine = `${city}, ${country}`;
+  }
+  return (
+    <p className="blue-bar-block">
+      {addressLine1 && addressLine1}
+      <br />
+      {addressLine2 && addressLine2}
+      {addressLine2 && <br />}
+      {addressLine3 && addressLine3}
+      {addressLine3 && <br />}
+      {lastLine}
+    </p>
+  );
+};
+
+/**
+ * Returns the path with any ':index' substituted with the actual index.
+ * @param {string} path - The path with or without ':index'
+ * @param {number} index - The index to put in the string
+ * @return {string}
+ */
+export const pathWithIndex = (path, index) => path.replace(':index', index);
+
+/**
+ * Returns the uiSchema for addresses that use the non-common address schema as found
+ *  in the 526EZ-all-claims schema.
+ * @param {string} addressPath - The path to the address in the formData
+ * @param {string} [title] - Displayed as the card title in the card's header
+ * @param {boolean} reviewCard - Whether to display the information in a ReviewCardField or not
+ * @param {boolean} fieldsAreRequired - Whether the typical fields should be required or not
+ * @returns {object} - UI schema for an address card's content
+ */
+export const addressUISchema = (
+  addressPath,
+  title,
+  reviewCard,
+  fieldsAreRequired = true,
+) => {
+  const updateStates = (formData, currentSchema, uiSchema, index) => {
+    // Could use path (updateSchema callback param after index), but it points to `state`,
+    //  so using `addressPath` is easier
+    const currentCity = _.get(
+      `${pathWithIndex(addressPath, index)}.city`,
+      formData,
+      '',
+    )
+      .trim()
+      .toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        enum: MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS,
+      };
+    }
+
+    return {
+      enum: STATE_VALUES,
+      enumNames: STATE_LABELS,
+    };
   };
 
-  if (!addressOmitions.includes('country')) {
-    locationSchema.addressUI.country = {
-      'ui:title': fieldLabels.country,
-    };
-  }
-
-  if (!addressOmitions.includes('addressLine1')) {
-    locationSchema.addressUI.addressLine1 = {
-      'ui:title': fieldLabels.addressLine1,
-    };
-  }
-
-  if (!addressOmitions.includes('addressLine2')) {
-    locationSchema.addressUI.addressLine2 = {
-      'ui:title': fieldLabels.addressLine2,
-    };
-  }
-
-  if (!addressOmitions.includes('city')) {
-    locationSchema.addressUI.city = {
-      'ui:title': fieldLabels.city,
-    };
-  }
-
-  if (!addressOmitions.includes('state')) {
-    locationSchema.addressUI.state = {
-      'ui:title': fieldLabels.state,
-    };
-  }
-
-  if (!addressOmitions.includes('zipCode')) {
-    locationSchema.addressUI.zipCode = {
-      'ui:title': fieldLabels.zipCode,
+  return {
+    'ui:order': [
+      'country',
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode',
+    ],
+    'ui:title': title,
+    'ui:field': reviewCard && ReviewCardField,
+    'ui:options': {
+      viewComponent: AddressViewField,
+    },
+    country: {
+      'ui:title': 'Country',
+    },
+    addressLine1: {
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine2: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine3: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:validations': [
+        {
+          options: { addressPath },
+          // pathWithIndex is called in validateMilitaryCity
+          validator: validateMilitaryCity,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid city',
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': (formData, index) =>
+        fieldsAreRequired &&
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+          USA,
+      'ui:options': {
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
+        updateSchema: updateStates,
+      },
+      'ui:validations': [
+        {
+          options: { addressPath },
+          // pathWithIndex is called in validateMilitaryState
+          validator: validateMilitaryState,
+        },
+      ],
+    },
+    zipCode: {
+      'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
+      'ui:required': (formData, index) =>
+        fieldsAreRequired &&
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+          USA,
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
       },
-    };
-  }
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
+      },
+    },
+  };
+};
 
-  return locationSchema;
-}
+const ptsdAddressOmitions = [
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'postalCode',
+  'zipCode',
+];
 
-// Could be changed to use generateLocationSchemas
-export function incidentLocationSchemas() {
-  const addressOmitions = [
-    'addressLine1',
-    'addressLine2',
-    'addressLine3',
-    'postalCode',
-    'zipCode',
-  ];
-
-  const addressSchemaConfig = addressSchema(fullSchema);
-  const addressUIConfig = omit(addressUI(' '), addressOmitions);
-
+/**
+ * @param {string} addressPath - The path to the address in the formData
+ */
+export function incidentLocationUISchema(addressPath) {
+  const addressUIConfig = omit(
+    addressUISchema(addressPath, null, false, false),
+    ptsdAddressOmitions,
+  );
   return {
-    addressUI: {
-      ...addressUIConfig,
-      state: {
-        ...addressUIConfig.state,
-        'ui:title': 'State/Province',
-      },
-      additionalDetails: {
-        'ui:title':
-          'Additional details (This could include an address, landmark, military installation, or other location.)',
-        'ui:widget': 'textarea',
-      },
-      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    ...addressUIConfig,
+    state: {
+      ...addressUIConfig.state,
+      'ui:title': 'State/Province',
     },
-    addressSchema: {
-      ...addressSchemaConfig,
-      properties: {
-        ...omit(addressSchemaConfig.properties, addressOmitions),
-        additionalDetails: {
-          type: 'string',
-        },
-      },
+    additionalDetails: {
+      'ui:title':
+        'Additional details (This could include an address, landmark, military installation, or other location.)',
+      'ui:widget': 'textarea',
     },
+    'ui:order': ['country', 'state', 'city', 'additionalDetails'],
   };
 }
 
@@ -381,13 +504,35 @@ const post911Periods = createSelector(
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
 
-export const isDisabilityPtsd = disability =>
-  lowerCase(disability).includes(PTSD);
+export const isDisabilityPtsd = disability => {
+  if (!disability || typeof disability !== 'string') {
+    return false;
+  }
+
+  const strippedDisability = disability.toLowerCase().replace(/[^a-zA-Z]/g, '');
+
+  return PTSD_MATCHES.some(ptsdString => {
+    const strippedString = ptsdString.replace(/[^a-zA-Z]/g, '');
+    if (strippedString === strippedDisability) {
+      return true;
+    }
+
+    // does the veteran's input contain a string from our match list?
+    if (strippedDisability.includes(strippedString)) {
+      return true;
+    }
+
+    return (
+      fastLevenshtein.get(strippedString, strippedDisability) <
+      Math.ceil(strippedDisability.length * TYPO_THRESHOLD)
+    );
+  });
+};
 
 export const hasNewPtsdDisability = formData =>
   _.get('view:newDisabilities', formData, false) &&
-  some(_.get('newDisabilities', formData, []), item =>
-    isDisabilityPtsd(item.condition),
+  _.get('newDisabilities', formData, []).some(disability =>
+    isDisabilityPtsd(disability.condition),
   );
 
 export const needsToEnter781 = formData =>
@@ -471,17 +616,7 @@ export const ancillaryFormUploadUi = (
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: TWENTY_FIVE_MB,
     createPayload: file => {
       const payload = new FormData();
@@ -537,3 +672,143 @@ export const getAttachmentsSchema = defaultAttachmentId => {
     attachments,
   );
 };
+
+const isDateRange = ({ from, to }) => !!(from && to);
+
+const parseDate = dateString => moment(dateString, 'YYYY-MM-DD');
+
+// NOTE: Could move this to outside all-claims
+/**
+ * Checks to see if the first parameter is inside the date range (second parameter).
+ * If the first parameter is a date range, it'll return true if both dates are inside the range.
+ * @typedef {Object} DateRange
+ * @property {string} to - A date string YYYY-MM-DD
+ * @property {string} from - A date string YYYY-MM-DD
+ * ---
+ * @param {String|DateRange} inside - The date or date range to check
+ * @param {DateRange} outside - The range `inside` must fit in
+ * @param {String} inclusivity - See https://momentjs.com/docs/#/query/is-between/
+ *                               NOTE: This function defaults to inclusive dates which is different
+ *                               from moment's default
+ */
+export const isWithinRange = (inside, outside, inclusivity = '[]') => {
+  if (isDateRange(inside)) {
+    return (
+      isWithinRange(inside.to, outside, inclusivity) &&
+      isWithinRange(inside.from, outside, inclusivity)
+    );
+  }
+  if (typeof inside !== 'string') return false;
+
+  const insideDate = parseDate(inside);
+  const from = parseDate(outside.from);
+  const to = parseDate(outside.to);
+
+  return insideDate.isBetween(from, to, 'days', inclusivity);
+};
+
+// This is in here instead of validations.js because it returns a jsx element
+export const getPOWValidationMessage = servicePeriodDateRanges => (
+  <span>
+    The dates you enter must be within one of the service periods you entered.
+    <ul>
+      {servicePeriodDateRanges.map((range, index) => (
+        <li key={index}>
+          {moment(range.from).format('MMM DD, YYYY')} —{' '}
+          {moment(range.to).format('MMM DD, YYYY')}
+        </li>
+      ))}
+    </ul>
+  </span>
+);
+
+const isClaimingIncrease = formData =>
+  _.get('view:claimType.view:claimingIncrease', formData, false);
+const isClaimingNew = formData =>
+  _.get('view:claimType.view:claimingNew', formData, false);
+
+export const increaseOnly = formData =>
+  isClaimingIncrease(formData) && !isClaimingNew(formData);
+export const newConditionsOnly = formData =>
+  !isClaimingIncrease(formData) && isClaimingNew(formData);
+export const newAndIncrease = formData =>
+  isClaimingNew(formData) && isClaimingIncrease(formData);
+
+// Shouldn't be possible, but just in case this requirement is lifted later...
+export const noClaimTypeSelected = formData =>
+  !isClaimingNew(formData) && !isClaimingIncrease(formData);
+
+export const hasNewDisabilities = formData =>
+  formData['view:newDisabilities'] === true;
+
+/**
+ * The base urls for each form
+ * @readonly
+ * @enum {String}
+ */
+export const urls = {
+  v1: '/disability-benefits/apply/form-526-disability-claim',
+  v2: '/disability/file-disability-claim-form-21-526ez',
+};
+
+/**
+ * Returns whether the formData is v1 or not.
+ * This assumes that the `veteran` property of the formData will be present
+ *  only in v1 after the form is saved. The prefillTransformer should
+ *  remove this property from the v2 formData for this to work properly.
+ */
+const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
+
+/**
+ * Returns the base url of whichever form the user needs to go to.
+ *
+ * @param {Object} formData - The saved form data
+ * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
+ * @return {String} - The base url of the right form to return to
+ */
+export const getFormUrl = (formData, isPrefill) =>
+  isV1App(formData, isPrefill) ? urls.v1 : urls.v2;
+
+/**
+ * Navigates to the appropriate form (v1 or v2) based on the saved data.
+ */
+export const directToCorrectForm = ({
+  formData,
+  savedForms,
+  returnUrl,
+  formConfig,
+  router,
+}) => {
+  // If we can find the form in the savedForms array, it's not pre-filled
+  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
+  const baseUrl = getFormUrl(formData, isPrefill);
+  if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
+    // Redirect to the other app
+    window.location.assign(`${baseUrl}/resume`);
+  } else {
+    router.push(returnUrl);
+  }
+};
+
+export const claimingRated = formData =>
+  formData.ratedDisabilities &&
+  formData.ratedDisabilities.some(d => d['view:selected']);
+
+// TODO: Rename this to avoid collision with `isClaimingNew` above
+export const claimingNew = formData =>
+  formData.newDisabilities && formData.newDisabilities.some(d => d.condition);
+
+export const hasClaimedConditions = formData =>
+  claimingNew(formData) || claimingRated(formData);
+
+export const hasRatedDisabilities = formData =>
+  formData.ratedDisabilities && formData.ratedDisabilities.length;
+
+/**
+ * Finds active service periods—those without end dates or end dates
+ * in the future.
+ */
+export const activeServicePeriods = formData =>
+  _.get('serviceInformation.servicePeriods', formData, []).filter(
+    sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
+  );

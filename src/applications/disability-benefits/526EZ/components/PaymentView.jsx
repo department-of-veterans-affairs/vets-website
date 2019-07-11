@@ -52,6 +52,7 @@ const PaymentView = response => {
             <a
               href="https://www.vba.va.gov/pubs/forms/vba-24-0296-are.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Download VA Form 24-0296
             </a>
@@ -62,6 +63,7 @@ const PaymentView = response => {
             <a
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Go to eBenefits
             </a>
@@ -69,8 +71,8 @@ const PaymentView = response => {
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
-            8:00 a.m. – 9:00 p.m. (ET).
+            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday – Friday, 8:00
+            a.m. – 9:00 p.m. ET.
           </li>
         </ul>
       </div>

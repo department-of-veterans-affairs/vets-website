@@ -128,6 +128,7 @@ describe('Profile reducer', () => {
               services: ['health-records', 'rx', 'messaging'],
             },
           },
+          meta: { errors: null },
         },
       },
     );

@@ -1,4 +1,4 @@
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { validateIfHasEvidence } from '../validations';
 import get from '../../../../platform/utilities/data/get';
 
@@ -29,7 +29,7 @@ export const uiSchema = {
         atLeastOne: 'Please select at least one type of supporting evidence',
       },
       'ui:required': formData => get('view:hasEvidence', formData, false),
-      'view:hasVAMedicalRecords': { 'ui:title': 'VA medical records' },
+      'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
       'view:hasPrivateMedicalRecords': {
         'ui:title': 'Private medical records',
       },
@@ -58,7 +58,7 @@ export const schema = {
         'view:selectableEvidenceTypes': {
           type: 'object',
           properties: {
-            'view:hasVAMedicalRecords': { type: 'boolean' },
+            'view:hasVaMedicalRecords': { type: 'boolean' },
             'view:hasPrivateMedicalRecords': { type: 'boolean' },
             'view:hasOtherEvidence': { type: 'boolean' },
           },

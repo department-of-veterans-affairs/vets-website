@@ -52,7 +52,7 @@ describe('526 <FormStartControls>', () => {
     expect(tree.find('.usa-alert').text()).to.contain(
       'If you have a premium DS Logon or My HealtheVet account',
     );
-    expect(tree.find('a').text()).to.contain('Verify Your Identity');
+    expect(tree.find('a').text()).to.contain('Verify your identity');
     tree.unmount();
   });
   it('should render verified view', () => {
@@ -75,7 +75,8 @@ describe('526 <FormStartControls>', () => {
       { context: { store: {} } },
     );
 
-    expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
+    expect(tree.find('withRouter(Connect(SaveInProgressIntro))').exists()).to.be
+      .true;
     tree.unmount();
   });
 });

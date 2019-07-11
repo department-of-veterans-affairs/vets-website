@@ -82,6 +82,10 @@
     margin-bottom: 1em;
   }
 
+  label {
+    display: inline-block;
+  }
+
   input[type="checkbox"] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
@@ -167,7 +171,7 @@
 
 .itf-agreement {
   margin-top: 0;
-  
+
   &.unauthenticated {
     margin-top: 1em;
   }

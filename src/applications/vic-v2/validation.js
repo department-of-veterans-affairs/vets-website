@@ -1,4 +1,4 @@
-import { getFileError } from 'us-forms-system/lib/js/validation';
+import { getFileError } from 'platform/forms-system/src/js/validation';
 
 export default function validateFile(errors, file) {
   const error = getFileError(file);

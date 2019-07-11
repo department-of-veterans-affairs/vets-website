@@ -1,14 +1,17 @@
-import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
-import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
-import localStorage from '../../utilities/storage/localStorage';
+
+export const authnSettings = {
+  RETURN_URL: 'authReturnUrl',
+};
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
 
+const SIGNUP_URL = sessionTypeUrl('signup');
 const MHV_URL = sessionTypeUrl('mhv');
 const DSLOGON_URL = sessionTypeUrl('dslogon');
 const IDME_URL = sessionTypeUrl('idme');
@@ -27,90 +30,67 @@ const loginUrl = policy => {
   }
 };
 
-export function isFullScreenLoginEnabled() {
-  return !!localStorage.getItem('enableFullScreenLogin');
+export function setSentryLoginType(loginType) {
+  Sentry.setTag('loginType', loginType);
 }
 
-function popup(popupUrl, clickedEvent, openedEvent) {
-  recordEvent({ event: clickedEvent });
-  const popupWindow = window.open(
-    '',
-    'vets.gov-popup',
-    'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750',
-  );
-  if (popupWindow) {
-    recordEvent({ event: openedEvent });
-    popupWindow.focus();
-
-    return apiRequest(
-      popupUrl,
-      null,
-      ({ url }) => {
-        if (url) popupWindow.location = url;
-      },
-      () => {
-        popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
-      },
-    ).then(() => popupWindow);
-  }
-
-  Raven.captureMessage('Failed to open new window', {
-    extra: { url: popupUrl },
-  });
-
-  return Promise.reject(new Error('Failed to open new window'));
+export function clearSentryLoginType() {
+  Sentry.setTag('loginType', undefined);
 }
 
-function redirect(redirectUrl, clickedEvent, openedEvent) {
-  if (!isFullScreenLoginEnabled()) {
-    return popup(redirectUrl, clickedEvent, openedEvent);
-  }
+function redirectWithGAClientId(redirectUrl) {
+  try {
+    // eslint-disable-next-line no-undef
+    const trackers = ga.getAll();
 
+    // Tracking IDs for Staging and Prod
+    const vagovTrackingIds = ['UA-50123418-16', 'UA-50123418-17'];
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get('trackingId');
+      return vagovTrackingIds.includes(trackingId);
+    });
+
+    const clientId = tracker && tracker.get('clientId');
+
+    window.location = clientId
+      ? // eslint-disable-next-line camelcase
+        appendQuery(redirectUrl, { client_id: clientId })
+      : redirectUrl;
+  } catch (e) {
+    window.location = redirectUrl;
+  }
+}
+
+function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem('authReturnUrl', window.location);
-
+  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
   recordEvent({ event: clickedEvent });
 
-  return apiRequest(
-    redirectUrl,
-    null,
-    ({ url }) => {
-      if (url) {
-        recordEvent({ event: openedEvent });
-        window.location = url;
-      }
-    },
-    () => {
-      // TODO: Create a separate page or modal when failed to get the URL.
-      window.location = `${environment.BASE_URL}/auth/login/callback`;
-    },
-  );
+  if (redirectUrl.includes('idme')) {
+    redirectWithGAClientId(redirectUrl);
+  } else {
+    window.location = redirectUrl;
+  }
 }
 
 export function login(policy) {
-  return redirect(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  return redirect(loginUrl(policy), 'login-link-clicked-modal');
 }
 
 export function mfa() {
-  return redirect(
-    MFA_URL,
-    'multifactor-link-clicked',
-    'multifactor-link-opened',
-  );
+  return redirect(MFA_URL, 'multifactor-link-clicked');
 }
 
 export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return redirect(VERIFY_URL, 'verify-link-clicked');
 }
 
 export function logout() {
-  return redirect(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  clearSentryLoginType();
+  return redirect(LOGOUT_URL, 'logout-link-clicked');
 }
 
 export function signup() {
-  return redirect(
-    appendQuery(IDME_URL, { signup: true }),
-    'register-link-clicked',
-    'register-link-opened',
-  );
+  return redirect(SIGNUP_URL, 'register-link-clicked');
 }

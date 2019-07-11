@@ -22,8 +22,8 @@ class RadioButtons extends React.Component {
     super();
     this.handleChange = this.handleChange.bind(this);
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.inputId = _.uniqueId('radio-buttons-');
   }
 

@@ -5,11 +5,23 @@ export const FDCDescription = (
     <h5>Fully developed claim program</h5>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if you’ve
-      uploaded all the supporting documents or supplemental forms needed to
+      uploaded all the supporting documents or additional forms needed to
       support your claim.
     </p>
-    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
+    <a
+      href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Learn more about the FDC program
+    </a>
+    .<br />
+    <a
+      href="/disability/how-to-file-claim/evidence-needed/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View the evidence requirements for disability claims
     </a>
     .
   </div>
@@ -37,16 +49,16 @@ export const noFDCWarning = (
           standard claim process, you have up to 1 year from the date we receive
           your claim to turn in any information and evidence.
         </p>
-        <p>You can turn in your evidence 1 of 3 ways:</p>
+        <p>You can turn in your evidence in 1 of 3 ways:</p>
         <ul>
           <li>
             Visit the Claim Status tool and upload your documents under the File
-            tab. <a href="/track-claims">Track the status of your claims.</a>
+            tab. <a href="/track-claims">Track the status of your claims</a>
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
-            8:30 a.m. – 4:30 p.m. (ET).
+            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday – Friday, 8:30
+            a.m. – 4:30 p.m. ET.
           </li>
           <li>
             Save your application and return to it later when you have your

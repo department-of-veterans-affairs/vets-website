@@ -4,15 +4,18 @@ import { withRouter } from 'react-router';
 
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import recordEvent from 'platform/monitoring/record-event';
 
 class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
   }
-
-  componentWillReceiveProps = newProps => {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps = newProps => {
     if (!this.props.returnUrl && newProps.returnUrl) {
+      // TODO: Remove this; it doesn't actually run
+      // The redirect is instead done in RoutedSavableApp
       // Navigate to the last page they were on
       this.props.router.push(newProps.returnUrl);
     }
@@ -24,12 +27,10 @@ class FormStartControls extends React.Component {
 
   captureAnalytics = () =>
     this.props.gaStartEventName &&
-    window.dataLayer.push({ event: this.props.gaStartEventName });
+    recordEvent({ event: this.props.gaStartEventName });
 
   handleLoadPrefill = () => {
     this.captureAnalytics();
-    // temp hack to fix the fact that the START button doesn't work
-    // this.goToBeginning();
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
         // TODO: where does this come from?
@@ -69,14 +70,14 @@ class FormStartControls extends React.Component {
           {!this.props.isExpired && (
             <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText="Continue Your Application"
+              buttonText="Continue your application"
               buttonClass="usa-button-primary no-text-transform"
             />
           )}
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}
-              buttonText="Start a New Application"
+              buttonText="Start a new application"
               buttonClass={
                 this.props.isExpired
                   ? 'usa-button-primary'
@@ -94,7 +95,7 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start a New Application"
+              buttonText="Start a new application"
               buttonClass="usa-button-primary"
             />
             <ProgressButton
@@ -112,7 +113,7 @@ class FormStartControls extends React.Component {
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
           buttonText={this.props.startText || 'Get Started'}
-          buttonClass="usa-button-primary schemaform-start-button"
+          buttonClass="usa-button-primary va-button-primary schemaform-start-button"
           afterText="»"
         />
       </div>
@@ -129,12 +130,15 @@ FormStartControls.propTypes = {
   removeInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
-  // prefillAvailable = whether the form can be pre-filled
   prefillAvailable: PropTypes.bool.isRequired,
   startPage: PropTypes.string.isRequired,
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
+};
+
+FormStartControls.defaultProps = {
+  gaStartEventName: 'login-successful-start-form',
 };
 
 export default withRouter(FormStartControls);

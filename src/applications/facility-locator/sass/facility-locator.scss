@@ -73,6 +73,12 @@
     border-bottom: solid thin $color-gray-lightest;
   }
 
+  .search-result-title:focus {
+    @include focus-gold-light-outline(0);
+    outline-offset: 2px;
+    z-index: 3;
+  }
+
   .facility-result {
     padding: 1em;
     border-bottom: none;
@@ -119,7 +125,13 @@
     }
 
     a {
+      display: block;
       text-decoration: none;
+
+      &:focus {
+        outline: 2px solid #f9c642;
+        outline-offset: 2px;
+      }
     }
 
     p {
@@ -401,20 +413,17 @@
       text-decoration: underline;
 
       &:after {
-        font: normal normal normal 1em FontAwesome;
+        font: normal normal normal 1em 'Font Awesome 5 Free';
         content: "\F078";
         text-decoration: none;
         display: inline-block;
         padding: 0 0.5em;
+        font-weight: 900;
       }
 
       &.expanded {
         &:after {
-          font: normal normal normal 1em FontAwesome;
           content: "\F077";
-          text-decoration: none;
-          display: inline-block;
-          padding: 0 0.5em;
         }
       }
     }
@@ -662,6 +671,11 @@
   margin-right: 0 !important;
 }
 
+#urgent-care-link {
+  font-weight: bold;
+}
+
+
 #infoBubble {
   background-color: #e1f3f8;
   color: inherit;
@@ -718,4 +732,8 @@
 
 .top-z {
   z-index: 1000 !important;
+}
+
+.va-nav-breadcrumbs:focus {
+  outline: 0;
 }

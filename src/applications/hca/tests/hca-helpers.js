@@ -1,7 +1,17 @@
-const mock = require('../../../platform/testing/e2e/mock-helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
-const Auth = require('../../../platform/testing/e2e/auth.js');
+const mock = require('platform/testing/e2e/mock-helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Auth = require('platform/testing/e2e/auth.js');
 const moment = require('moment');
+const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
+
+function completeIDForm(client, data) {
+  client
+    .waitForElementVisible('input[name="root_firstName"]', Timeouts.normal)
+    .fill('input[name="root_firstName"]', data.veteranFullName.first)
+    .fill('input[name="root_lastName"]', data.veteranFullName.last)
+    .fillDate('root_dob', data.veteranDateOfBirth)
+    .fill('input[name="root_ssn"]', data.veteranSocialSecurityNumber);
+}
 
 function completePersonalInformation(client, data) {
   client
@@ -368,6 +378,53 @@ function initApplicationSubmitMock() {
   });
 }
 
+function initEnrollmentStatusMock(token = null) {
+  mock(token, {
+    path: '/v0/health_care_applications/enrollment_status',
+    verb: 'get',
+    value: {
+      applicationDate: '2018-01-24T00:00:00.000-06:00',
+      enrollmentDate: '2018-01-24T00:00:00.000-06:00',
+      preferredFacility: '987 - CHEY6',
+      parsedStatus: 'none_of_the_above',
+    },
+  });
+}
+
+function initEnrollmentStatusMock404(token = null) {
+  mock(token, {
+    path: '/v0/health_care_applications/enrollment_status',
+    verb: 'get',
+    value: {
+      errors: [
+        {
+          title: 'Record not found',
+          detail: 'The record identified by  could not be found',
+          code: '404',
+          status: '404',
+        },
+      ],
+    },
+  });
+}
+
+function initEnrollmentStatusMock500(token = null) {
+  mock(token, {
+    path: '/v0/health_care_applications/enrollment_status',
+    verb: 'get',
+    value: {
+      errors: [
+        {
+          title: 'Internal server error',
+          detail: 'Internal server error',
+          code: '500',
+          status: '500',
+        },
+      ],
+    },
+  });
+}
+
 function initSaveInProgressMock(url, client) {
   const token = Auth.getUserToken();
 
@@ -404,7 +461,9 @@ function initSaveInProgressMock(url, client) {
       data: {
         attributes: {
           profile: {
-            authn_context: 'idme',
+            sign_in: {
+              service_name: 'idme',
+            },
             email: 'fake@fake.com',
             loa: { current: 3 },
             first_name: 'Jane',
@@ -421,7 +480,7 @@ function initSaveInProgressMock(url, client) {
           },
           in_progress_forms: [
             {
-              form: '1010ez',
+              form: VA_FORM_IDS.FORM_10_10EZ,
               last_updated: 1501608808,
               metadata: {
                 last_updated: 1506792808,
@@ -451,6 +510,7 @@ function initSaveInProgressMock(url, client) {
           },
         },
       },
+      meta: { errors: null },
     },
   });
 
@@ -484,6 +544,7 @@ function initSaveInProgressMock(url, client) {
       },
     },
   });
+
   mock(token, {
     path: '/v0/in_progress_forms/1010ez',
     verb: 'put',
@@ -512,6 +573,7 @@ function initSaveInProgressMock(url, client) {
   return token;
 }
 module.exports = {
+  completeIDForm,
   completePersonalInformation,
   completeBirthInformation,
   completeDemographicInformation,
@@ -530,5 +592,8 @@ module.exports = {
   completeAdditionalInformation,
   completeEntireForm,
   initApplicationSubmitMock,
+  initEnrollmentStatusMock,
+  initEnrollmentStatusMock404,
+  initEnrollmentStatusMock500,
   initSaveInProgressMock,
 };

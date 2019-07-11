@@ -1,0 +1,8 @@
+{
+  "appName": "My Health Account Validation",
+  "entryFile": "./validate-mhv-account-entry",
+  "entryName": "my-health-account-validation",
+  "rootUrl": "/health-care/my-health-account-validation",
+  "noRouting": true,
+  "production": true
+}

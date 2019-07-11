@@ -1,4 +1,4 @@
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import get from '../../utilities/data/get';
 
 export function schema(currentSchema) {

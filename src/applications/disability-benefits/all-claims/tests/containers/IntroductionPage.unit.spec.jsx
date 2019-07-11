@@ -31,7 +31,9 @@ describe('<IntroductionPage/>', () => {
 
   it('should render 2 SiP intros', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    expect(wrapper.find('Connect(SaveInProgressIntro)').length).to.equal(2);
+    expect(
+      wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
+    ).to.equal(2);
     wrapper.unmount();
   });
 });

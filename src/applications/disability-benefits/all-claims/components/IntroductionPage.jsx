@@ -1,15 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { itfNotice } from '../content/introductionPage';
 
 class IntroductionPage extends React.Component {
@@ -26,17 +22,18 @@ class IntroductionPage extends React.Component {
           Related Compensation Benefits).
         </p>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
           retentionPeriod="1 year"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
+          downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
         <h4>
-          Follow the steps below to file a claim for disability compensation.
+          Follow the steps below to file a claim for a new or secondary
+          condition or for increased disability compensation.
         </h4>
         <div className="process schemaform-process">
           <ol>
@@ -54,24 +51,25 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>
                   VA medical records and hospital records that relate to your
-                  claimed illnesses or injuries
+                  claimed condition or that show your rated disability has
+                  gotten worse
                 </li>
                 <li>
                   Private medical records and hospital reports that relate to
-                  your claimed illnesses or injuries
+                  your claimed condition or that show your disability has gotten
+                  worse
                 </li>
                 <li>
-                  Supporting statements you’d like to provide from family
-                  members, friends, clergy members, law enforcement personnel,
-                  or those you served with that can tell us more about your
-                  claimed condition and how and when it happened
+                  Supporting statements from family, friends, coworkers, clergy,
+                  or law enforcement personnel with knowledge about how and when
+                  your disability happened or how it got worse
                 </li>
               </ul>
               <p>
-                In some cases, you may need to turn in one or more supplemental
-                forms to support your claim. For example, you’ll need to fill
-                out another form if you’re claiming a dependent or applying for
-                aid and attendance benefits.
+                In some cases, you may need to turn in one or more additional
+                forms to support your disability claim. For example, you’ll need
+                to fill out another form if you’re claiming a dependent or
+                applying for aid and attendance benefits.
                 <br />
                 <a href="/disability/how-to-file-claim/supplemental-forms/">
                   Learn what additional forms you may need to file with your
@@ -86,7 +84,7 @@ class IntroductionPage extends React.Component {
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
                 nearest regional office, please call{' '}
-                <a href="tel:18008271000">1-800-827-1000</a>.
+                <a href="tel:18008271000">800-827-1000</a>.
               </p>
               <p>
                 An accredited representative, like a Veterans Service Officer
@@ -105,12 +103,15 @@ class IntroductionPage extends React.Component {
                       <strong>Disability ratings</strong>
                     </p>
                     <p>
-                      For each disability claim, we assign a rating from 0% to
-                      100%. We base this rating on the evidence (supporting
-                      documents like doctor’s reports, X-rays, and medical test
-                      results) you turn in with your claim. In some cases we may
-                      also ask you to have an exam to help us rate your
-                      disability.
+                      For each disability we assign a rating from 0% to 100%. We
+                      base this rating on the evidence you turn in with your
+                      claim. In some cases we may also ask you to have an exam
+                      to help us rate your disability.
+                    </p>
+                    <p>
+                      Before filing a claim for increase, you might want to
+                      check to see if you’re already receiving the maximum
+                      disability rating for your condition.
                     </p>
                   </div>
                 </div>
@@ -133,9 +134,9 @@ class IntroductionPage extends React.Component {
               </div>
               <p>
                 We process applications in the order we receive them. The amount
-                of time it takes to process your claim depends how many injuries
-                or disabilities you claim and how long it takes us to gather
-                evidence needed to decide your claim.
+                of time it takes to process your claim depends on how many
+                injuries or disabilities you claim and how long it takes us to
+                gather evidence needed to decide your claim.
               </p>
             </li>
             <li className="process-step list-four">
@@ -150,13 +151,13 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           buttonOnly
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
+          downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
         <div className="omb-info--container">
@@ -168,19 +169,10 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    formId: state.form.formId,
-    saveInProgress: introSelector(state),
-  };
+  return { formId: state.form.formId };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
-
-IntroductionPage.PropTypes = {
+IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
@@ -188,17 +180,8 @@ IntroductionPage.PropTypes = {
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
-  saveInProgress: PropTypes.object.isRequired,
-  saveInProgressActions: PropTypes.shape({
-    fetchInProgressForm: PropTypes.func.isRequired,
-    removeInProgressForm: PropTypes.func.isRequired,
-    toggleLoginModal: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPage);
 
 export { IntroductionPage };

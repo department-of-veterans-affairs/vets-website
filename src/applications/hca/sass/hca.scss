@@ -9,6 +9,19 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+.confirmation-page {
+  padding-bottom: 5rem;
+}
+
+.process-steps {
+  margin-left: 0;
+  padding-left: .8em;
+
+  .process-step {
+    padding-bottom: .3em;
+  }
+}
+
 .hca-success-icon {
   color: $color-green;
   font-size: 8rem;
@@ -31,4 +44,8 @@
 .hca-tooltip-wrapper {
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+.hca-id-form-wrapper {
+  margin-top: 2em;
 }

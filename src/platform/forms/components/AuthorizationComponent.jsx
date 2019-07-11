@@ -16,7 +16,7 @@ class AuthorizationComponent extends React.Component {
     this.authorize();
   }
 
-  componentWillUpdate() {
+  componentDidUpdate() {
     this.authorize();
   }
 

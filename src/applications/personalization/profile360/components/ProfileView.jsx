@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
-import recordEvent from '../../../../platform/monitoring/record-event';
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+import recordEvent from 'platform/monitoring/record-event';
 
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
@@ -14,9 +14,32 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
+import PaymentInformation from '../containers/PaymentInformation';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
+
+const ProfileTOC = ({ militaryInformation }) => (
+  <>
+    <h2 className="vads-u-font-size--h3">On this page</h2>
+    <ul>
+      <li>
+        <a href="#contact-information">Contact information</a>
+      </li>
+      <li>
+        <a href="#direct-deposit">Direct deposit information</a>
+      </li>
+      <li>
+        <a href="#personal-information">Personal information</a>
+      </li>
+      {militaryInformation && (
+        <li>
+          <a href="#military-information">Military service information</a>
+        </li>
+      )}
+    </ul>
+  </>
+);
 
 class ProfileView extends React.Component {
   static propTypes = {
@@ -32,7 +55,7 @@ class ProfileView extends React.Component {
     user: PropTypes.object,
   };
 
-  handleDowntime = (downtime, children) => {
+  handleDowntimeApproaching = (downtime, children) => {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
       return (
         <DowntimeApproaching
@@ -69,11 +92,12 @@ class ProfileView extends React.Component {
         content = (
           <DowntimeNotification
             appTitle={appTitle}
-            render={this.handleDowntime}
+            render={this.handleDowntimeApproaching}
             dependencies={[
               externalServices.emis,
-              externalServices.vet360,
+              externalServices.evss,
               externalServices.mvi,
+              externalServices.vet360,
             ]}
           >
             <div>
@@ -83,11 +107,17 @@ class ProfileView extends React.Component {
                 hero={hero}
                 militaryInformation={militaryInformation}
               />
+              <ProfileTOC militaryInformation={militaryInformation} />
+              <div id="contact-information" />
               <ContactInformation />
+              <div id="direct-deposit" />
+              <PaymentInformation />
+              <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}
               />
+              {militaryInformation && <div id="military-information" />}
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}

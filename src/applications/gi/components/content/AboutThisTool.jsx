@@ -8,6 +8,7 @@ class AboutThisTool extends React.Component {
           <a
             href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
             target="_blank"
+            rel="noopener noreferrer"
           >
             About this Tool
           </a>

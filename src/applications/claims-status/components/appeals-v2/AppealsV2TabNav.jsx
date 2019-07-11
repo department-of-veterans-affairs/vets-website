@@ -33,7 +33,7 @@ const AppealsV2TabNav = ({ appealId }) => (
   </div>
 );
 
-AppealsV2TabNav.PropTypes = {
+AppealsV2TabNav.propTypes = {
   appealId: PropTypes.string.isRequired,
 };
 

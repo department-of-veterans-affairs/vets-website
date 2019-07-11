@@ -3,19 +3,19 @@ import _ from 'lodash/fp';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from 'us-forms-system/lib/js/validation';
+} from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from '../../platform/forms/validations';
 
 function calculateEndDate() {
-  const endDateLimit = 730;
-  const description = '2 years';
+  const endDateLimit = 1;
+  const description = '1 year';
 
   return {
     endDateLimit,
     description,
     endDate: moment()
       .endOf('day')
-      .add(endDateLimit, 'days'),
+      .add(endDateLimit, 'years'),
   };
 }
 

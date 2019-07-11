@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
+import { focusElement } from '../../../platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results/LocationAddress';
 import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
@@ -14,9 +15,14 @@ import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 
 class FacilityDetail extends Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
+  }
+
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs');
   }
 
   renderFacilityInfo() {
@@ -36,7 +42,7 @@ class FacilityDetail extends Component {
         {website &&
           website !== 'NULL' && (
             <span>
-              <a href={website} target="_blank">
+              <a href={website} target="_blank" rel="noopener noreferrer">
                 <i className="fa fa-globe" />
                 Website
               </a>
@@ -72,7 +78,7 @@ class FacilityDetail extends Component {
     }
 
     return (
-      <div className="row facility-detail">
+      <div className="row facility-detail all-details">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}

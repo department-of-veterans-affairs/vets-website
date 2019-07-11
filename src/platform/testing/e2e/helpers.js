@@ -1,4 +1,6 @@
 const Timeouts = require('./timeouts');
+const Path = require('path');
+const FindRoot = require('find-root');
 
 function overrideVetsGovApi(client) {
   client.execute(
@@ -75,6 +77,14 @@ function disableAnnouncements(client) {
   });
 }
 
+function uploadTestFile(client, fileData) {
+  // For nightwatch tests.
+  const fsRoot = FindRoot(Path.resolve(__dirname));
+  const file = Path.resolve(fsRoot + fileData.filePath + fileData.fileName);
+
+  client.setValue('input[type="file"]', file);
+}
+
 // Returns an object suitable for a nightwatch test case.
 //
 // Provides test framework maintainers a single entry point for annotating all tests with things
@@ -142,6 +152,7 @@ module.exports = {
     .API_PORT || 3000}`,
   createE2eTest,
   disableAnnouncements,
+  uploadTestFile,
   expectNavigateAwayFrom,
   expectNavigateAwayFromExact,
   expectExactLocation,

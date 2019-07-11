@@ -15,7 +15,8 @@ import { militaryStateNames } from '../utils/helpers';
  * No validation is provided through a currently stubbed isAddressValid function.
  */
 class Address extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.id = _.uniqueId('address-input-');
   }
 
@@ -97,6 +98,7 @@ class Address extends React.Component {
           onBlur={() => this.props.onBlur('addressOne')}
         />
         <ErrorableTextInput
+          errorMessage={errorMessages.addressTwo}
           label="Street address (optional)"
           name="addressTwo"
           autocomplete="address-line2"
@@ -106,6 +108,7 @@ class Address extends React.Component {
           onBlur={() => this.props.onBlur('addressTwo')}
         />
         <ErrorableTextInput
+          errorMessage={errorMessages.addressThree}
           label="Street address (optional)"
           name="addressThree"
           autocomplete="address-line3"
@@ -130,35 +133,34 @@ class Address extends React.Component {
           onBlur={() => this.props.onBlur('city')}
         />
 
-        {/* Hide the state for addresses that aren't in the US */}
+        {/* Hide the state and zip code for addresses that aren't in the US */}
         {isUSA && (
-          <ErrorableSelect
-            errorMessage={errorMessages.stateCode}
-            label="State"
-            name="state"
-            autocomplete="address-level1"
-            options={adjustedStateNames}
-            value={this.props.address.stateCode}
-            required={this.props.required}
-            onValueChange={update =>
-              this.props.onInput('stateCode', update, true)
-            }
-          />
-        )}
+          <>
+            <ErrorableSelect
+              errorMessage={errorMessages.stateCode}
+              label="State"
+              name="state"
+              autocomplete="address-level1"
+              options={adjustedStateNames}
+              value={this.props.address.stateCode}
+              required={this.props.required}
+              onValueChange={update =>
+                this.props.onInput('stateCode', update, true)
+              }
+            />
 
-        {/* Hide the zip code for addresseses that aren't in the US */}
-        {isUSA && (
-          <ErrorableTextInput
-            errorMessage={errorMessages.zipCode}
-            additionalClass="usa-input-medium"
-            label={'Zip code'}
-            name="postalCode"
-            autocomplete="postal-code"
-            value={this.props.address.zipCode}
-            required={this.props.required}
-            onValueChange={update => this.props.onInput('zipCode', update)}
-            onBlur={() => this.props.onBlur('zipCode')}
-          />
+            <ErrorableTextInput
+              errorMessage={errorMessages.zipCode}
+              additionalClass="usa-input-medium"
+              label={'Zip code'}
+              name="postalCode"
+              autocomplete="postal-code"
+              value={this.props.address.zipCode}
+              required={this.props.required}
+              onValueChange={update => this.props.onInput('zipCode', update)}
+              onBlur={() => this.props.onBlur('zipCode')}
+            />
+          </>
         )}
       </div>
     );

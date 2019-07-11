@@ -15,13 +15,4 @@ module.exports = {
 
   /** The VA.gov production environment. */
   VAGOVPROD: 'vagovprod',
-
-  /** @deprecated The Vets.gov dev environment. */
-  DEVELOPMENT: 'development',
-
-  /** @deprecated The Vets.gov staging environment. */
-  STAGING: 'staging',
-
-  /** @deprecated The Vets.gov production environment */
-  PRODUCTION: 'production',
 };

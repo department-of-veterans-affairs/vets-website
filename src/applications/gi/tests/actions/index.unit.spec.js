@@ -142,12 +142,21 @@ describe('fetchProfile', () => {
       },
     };
 
+    const constants = {
+      constants: {
+        AVGVABAH: 10,
+        AVGDODBAH: 10,
+      },
+    };
+
+    const getState = () => ({ constants });
+
     setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
     setFetchResponse(global.fetch.onSecondCall(), ZIPPayload);
 
     const dispatch = sinon.spy();
 
-    fetchProfile('12345')(dispatch);
+    fetchProfile('12345')(dispatch, getState);
 
     expect(
       dispatch.firstCall.calledWith({
@@ -159,7 +168,10 @@ describe('fetchProfile', () => {
       expect(
         dispatch.secondCall.calledWith({
           type: FETCH_PROFILE_SUCCEEDED,
-          payload: institutionPayload,
+          payload: {
+            ...institutionPayload,
+            ...constants.constants,
+          },
           zipRatesPayload: ZIPPayload,
         }),
       ).to.be.true;
@@ -214,12 +226,20 @@ describe('fetchProfile', () => {
         },
       ],
     };
+    const constants = {
+      constants: {
+        AVGVABAH: 10,
+        AVGDODBAH: 10,
+      },
+    };
+
+    const getState = () => ({ constants });
     setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
     setFetchFailure(global.fetch.onSecondCall(), ZIPPayload);
 
     const dispatch = sinon.spy();
 
-    fetchProfile('12345')(dispatch);
+    fetchProfile('12345')(dispatch, getState);
 
     expect(
       dispatch.firstCall.calledWith({
@@ -231,7 +251,10 @@ describe('fetchProfile', () => {
       expect(
         dispatch.secondCall.calledWith({
           type: FETCH_PROFILE_SUCCEEDED,
-          payload: institutionPayload,
+          payload: {
+            ...institutionPayload,
+            ...constants.constants,
+          },
           zipRatesPayload: ZIPPayload,
         }),
       ).to.be.true;

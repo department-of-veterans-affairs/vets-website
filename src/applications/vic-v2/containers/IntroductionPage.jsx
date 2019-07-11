@@ -1,18 +1,13 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
+import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { focusElement } from '../../../platform/utilities/ui';
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, {
-  introActions,
-  introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
-
-import siteName from '../../../platform/brand-consolidation/site-name';
 
 const { animateScroll: scroll } = Scroll;
 
@@ -22,10 +17,9 @@ class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { savedForms } = this.props.saveInProgress.user.profile;
-    const { formId } = this.props.saveInProgress;
-    const notPreviouslyLoggedIn = !prevProps.saveInProgress.user.login
-      .currentlyLoggedIn;
+    const { savedForms } = this.props.user.profile;
+    const { formId } = this.props.form;
+    const notPreviouslyLoggedIn = !prevProps.user.login.currentlyLoggedIn;
     if (notPreviouslyLoggedIn && hasSavedForm(savedForms, formId)) {
       focusElement('[id="2-continueButton"]', { preventScroll: true });
       scroll.scrollToTop(
@@ -43,7 +37,7 @@ class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { user } = this.props.saveInProgress;
+    const { user } = this.props;
     const idProofed =
       user.profile.services &&
       user.profile.services.some(
@@ -87,9 +81,6 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
-          resumeOnly
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         >
           Please complete the Veteran ID Card form to apply for a card.
         </SaveInProgressIntro>
@@ -173,19 +164,17 @@ class IntroductionPage extends React.Component {
             {!signedIn && (
               <li className="process-step list-two">
                 <div>
-                  <h5>Sign In and Verify Your Identity</h5>
+                  <h5>Sign in and verify your identity</h5>
                 </div>
                 <p>You have a choice for how you complete this application.</p>
-                <h6>
-                  Choice 1: Sign in to {siteName} and verify your identity
-                </h6>
+                <h6>Choice 1: Sign in to VA.gov and verify your identity</h6>
                 <p>
-                  Sign in to {siteName} with either your existing My HealtheVet
-                  or DS Logon account (the same one you use for eBenefits or
+                  Sign in to VA.gov with either your existing My HealtheVet or
+                  DS Logon account (the same one you use for eBenefits or
                   MilConnect) or an ID.me account.
                 </p>
                 <p>
-                  If you don’t have an account on {siteName}, you can create one
+                  If you don’t have an account on VA.gov, you can create one
                   using ID.me, our Veteran-owned, trusted technology partner
                   that provides the strongest identity verification system
                   available.
@@ -222,7 +211,7 @@ class IntroductionPage extends React.Component {
               !idProofed && (
                 <li className="process-step list-two">
                   <div>
-                    <h5>Verify Your Identity</h5>
+                    <h5>Verify your identity</h5>
                   </div>
                   <p>
                     After you gather the documents needed to apply, we suggest
@@ -234,8 +223,8 @@ class IntroductionPage extends React.Component {
                   </p>
                   <p>
                     If you signed in using your My HealtheVet or DS Logon
-                    account, we’ll connect your account to {siteName} through
-                    ID.me. To verify your identity through ID.me, you’ll need:
+                    account, we’ll connect your account to VA.gov through ID.me.
+                    To verify your identity through ID.me, you’ll need:
                   </p>
                   {idProofingReqs}
                   <p>
@@ -309,7 +298,7 @@ class IntroductionPage extends React.Component {
                   className="usa-button usa-button-primary"
                   href="/verify?next=%2Fveteran-id-card%2Fapply"
                 >
-                  Verify Your Identity
+                  Verify your identity
                 </a>
               </p>
               <strong>
@@ -317,59 +306,34 @@ class IntroductionPage extends React.Component {
               </strong>
             </div>
           )}
-        {!signedIn && (
-          <div>
-            <p>
-              <strong>
-                Sign in or create an account before you apply for a Veteran ID
-                Card.
-              </strong>
-              <button
-                className="usa-button usa-button-primary"
-                onClick={() =>
-                  this.props.saveInProgressActions.toggleLoginModal(true)
-                }
-              >
-                Sign In or Create an Account
-              </button>
-            </p>
-            <strong>
-              Start the Veteran ID Card application without signing in.
-            </strong>
-          </div>
-        )}
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Veteran ID Card Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
         />
         {(!signedIn || !idProofed) && (
           <p>
             <a href="/sign-in-faq/">
-              Get more information about signing in to {siteName}
+              Get more information about signing in to VA.gov
             </a>
             .
           </p>
         )}
-        <a href="/privacy">Read the {siteName} Privacy Policy</a>
+        <a href="/privacy-policy">Read the VA.gov Privacy Policy</a>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    saveInProgress: introSelector(state),
-  };
+  const { form, user } = state;
+  return { form, user };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch),
-  };
-}
+const mapDispatchToProps = {
+  toggleLoginModal,
+};
 
 export default connect(
   mapStateToProps,

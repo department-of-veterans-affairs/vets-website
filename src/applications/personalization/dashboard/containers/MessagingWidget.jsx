@@ -6,21 +6,11 @@ import { Link } from 'react-router';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectAvailableServices } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
 import { formattedDate } from '../utils/helpers';
 import { fetchInbox } from '../actions/messaging';
-
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-link',
-      'dashboard-product': product,
-    });
-  };
-}
+import { recordDashboardClick } from '../helpers';
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -96,14 +86,14 @@ class MessagingWidget extends React.Component {
 
     return (
       <div id="msg-widget">
-        <h2>Check Secure Messages</h2>
+        <h3>Check secure messages</h3>
         {content}
         <p>
           <a
-            onClick={recordDashboardClick('view-all-messages')}
             href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+            onClick={recordDashboardClick('view-all-messages')}
+            rel="noopener noreferrer"
             target="_blank"
-            rel="noopener"
           >
             View all your secure messages
           </a>

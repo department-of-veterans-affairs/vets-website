@@ -20,17 +20,14 @@ const account = {
 describe('<ConnectedApp>', () => {
   it('opening the row and clicking button opens the confirm delete modal', () => {
     const tree = SkinDeep.shallowRender(
-      <ConnectedApp
-        {...account}
-        confirmDelete={() => null}
-        propertyName="VA.gov"
-      />,
+      <ConnectedApp {...account} confirmDelete={() => null} />,
     );
 
-    const row = tree.dive(['table', 'tbody', 'tr']);
-    row.props.onClick();
+    const row = tree.dive(['.va-connected-acct-row']);
+    const toggleButton = row.subTree('.va-connected-acct-row-details-toggle');
+    toggleButton.props.onClick();
 
-    tree.subTree('button').props.onClick({ target: {} });
+    tree.subTree('.usa-button-primary').props.onClick({ target: {} });
 
     expect(tree.subTree('AccountModal').props.modalOpen).to.be.true;
   });
@@ -40,11 +37,7 @@ describe('<ConnectedApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <div>
-        <ConnectedApp
-          {...account}
-          propertyName="VA.gov"
-          confirmDelete={confirmDelete}
-        />
+        <ConnectedApp {...account} confirmDelete={confirmDelete} />
       </div>,
     );
 

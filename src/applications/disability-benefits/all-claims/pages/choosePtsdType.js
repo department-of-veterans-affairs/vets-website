@@ -1,4 +1,4 @@
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 import {
   ptsdTypeHelp,

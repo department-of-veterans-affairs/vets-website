@@ -4,33 +4,39 @@ import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { LocationType } from '../constants';
 import { healthServices, benefitsServices, vetCenterServices } from '../config';
+import { focusElement } from 'platform/utilities/ui';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
     this.props.onChange({ active: false });
   };
 
-  // eslint-disable-next-line prettier/prettier
-  handleQueryChange = (e) => {
+  handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
 
-  // eslint-disable-next-line prettier/prettier
-  handleFacilityTypeChange = (option) => {
+  handleFacilityTypeChange = option => {
     this.props.onChange({ facilityType: option, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
-    // eslint-disable-next-line prettier/prettier
-    const serviceType = (option === 'All') ? null : option;
+    const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType } = this.props.currentQuery;
+    const { facilityType, serviceType } = this.props.currentQuery;
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType) {
+        focusElement('#service-type-ahead-input');
+        return;
+      }
+    }
+
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
@@ -59,13 +65,9 @@ class SearchControls extends Component {
         services = benefitsServices;
         break;
       case LocationType.VET_CENTER:
-        services = vetCenterServices.reduce(
-          (result, service) => {
-            result[service] = service; // eslint-disable-line no-param-reassign
-            return result;
-          },
-          { All: 'Show all facilities' },
-        );
+        services = vetCenterServices.reduce(result => result, {
+          All: 'Show all facilities',
+        });
         break;
       case LocationType.CC_PROVIDER:
         return (
@@ -125,7 +127,7 @@ class SearchControls extends Component {
               htmlFor="street-city-state-zip"
               id="street-city-state-zip-label"
             >
-              Search near
+              Search city, state, or postal code
             </label>
             <input
               id="street-city-state-zip"

@@ -47,7 +47,24 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'newBenefit', 'yes');
     answerQuestion(tree, 'serviceBenefitBasedOn', 'own');
     answerQuestion(tree, 'nationalCallToService', 'no');
+    answerQuestion(tree, 'vetTecBenefit', 'no');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('1990')).to.be
+      .true;
+  });
+  it('should show 0994 button', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+
+    answerQuestion(tree, 'newBenefit', 'yes');
+    answerQuestion(tree, 'serviceBenefitBasedOn', 'own');
+    answerQuestion(tree, 'nationalCallToService', 'no');
+    answerQuestion(tree, 'vetTecBenefit', 'yes');
+    expect(tree.subTree('#apply-now-link').props.href.endsWith('0994')).to.be
+      .true;
+  });
+  it('should show 1995 button', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    answerQuestion(tree, 'newBenefit', 'extend');
+    expect(tree.subTree('#apply-now-link').props.href.endsWith('1995')).to.be
       .true;
   });
   it('should show 1995 button', () => {

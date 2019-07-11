@@ -7,7 +7,6 @@ export function AccountModal({
   modalOpen,
   onCloseModal,
   onConfirmDelete,
-  propertyName,
 }) {
   return (
     <Modal
@@ -15,12 +14,12 @@ export function AccountModal({
       cssClass="va-modal"
       id="disconnect-alert"
       onClose={onCloseModal}
-      title={`Are you sure you want to disconnect from ${appName}?`}
+      title={`Please confirm you want to disconnect from ${appName}`}
       visible={modalOpen}
     >
       <p>
-        {appName} will no longer be able to access your {propertyName} account
-        informaton. You cannot undo this action.
+        {appName} won’t be able to access your profile data once you disconnect.
+        You can’t undo this action.
       </p>
       <button className="usa-button-primary" onClick={onConfirmDelete}>
         Confirm

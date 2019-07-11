@@ -1,4 +1,4 @@
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { isEqual } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';
@@ -74,7 +74,14 @@ export function getLetterList(dispatch) {
       } else {
         dispatch({ type: GET_LETTERS_FAILURE });
       }
-      throw new Error(`vets_letters_error_getLetterList: ${status}`);
+
+      Sentry.withScope(scope => {
+        scope.setFingerprint(['{{ default }}', status]);
+        Sentry.captureException(
+          new Error(`vets_letters_error_getLetterList ${status}`),
+        );
+      });
+      return Promise.reject();
     },
   );
 }
@@ -104,7 +111,7 @@ export function getLetterListAndBSLOptions() {
   return dispatch =>
     getLetterList(dispatch)
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch(error => Raven.captureException(error));
+      .catch(() => {});
 }
 
 export function getAddressFailure() {
@@ -131,9 +138,12 @@ export function getMailingAddress() {
       },
       response => {
         const status = getStatus(response);
-        Raven.captureException(
-          new Error(`vets_letters_error_getMailingAddress: ${status}`),
-        );
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{ default }}', status]);
+          Sentry.captureException(
+            new Error(`vets_letters_error_getMailingAddress ${status}`),
+          );
+        });
         return dispatch(getAddressFailure());
       },
     );
@@ -168,16 +178,19 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
     });
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
 
+    const { userAgent } = window.navigator;
+    const iOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
+    const webkit = !!userAgent.match(/WebKit/i);
+    const isMobileSafari = iOS && webkit && !userAgent.match(/CriOS/i);
     // We handle IE10 separately but assume all other vets.gov-supported
     // browsers have blob URL support.
     // TODO: possibly want to explicitly check for blob URL support with something like
     // const blobSupported = !!(/^blob:/.exec(downloadUrl));
     const isIE = !!window.navigator.msSaveOrOpenBlob;
     const save = document.createElement('a');
-    const downloadSupported = typeof save.download !== 'undefined';
     let downloadWindow;
 
-    if (!downloadSupported && !isIE) {
+    if (isMobileSafari) {
       // Instead of giving the file a readable name and downloading
       // it directly, open it in a new window with an ugly hash URL
       // NOTE: We're opening the window here because Safari won't open
@@ -196,15 +209,18 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           } else {
             window.URL = window.URL || window.webkitURL;
             downloadUrl = window.URL.createObjectURL(blob);
-            if (downloadSupported) {
-              // Give the file a readable name if the download attribute is supported.
+
+            // Give the file a readable name if the download attribute is supported.
+            if (typeof save.download !== 'undefined') {
               save.download = letterName;
-              save.href = downloadUrl;
-              save.target = '_blank';
-              document.body.appendChild(save);
-              save.click();
-              document.body.removeChild(save);
-            } else {
+            }
+            save.href = downloadUrl;
+            save.target = '_blank';
+            document.body.appendChild(save);
+            save.click();
+            document.body.removeChild(save);
+
+            if (isMobileSafari) {
               downloadWindow.location.href = downloadUrl;
             }
           }
@@ -218,9 +234,14 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       },
       response => {
         const status = getStatus(response);
-        Raven.captureException(
-          new Error(`vets_letters_error_getLetterPdf_${letterType}: ${status}`),
-        );
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{ default }}', status]);
+          Sentry.captureException(
+            new Error(
+              `vets_letters_error_getLetterPdf_${letterType} ${status}`,
+            ),
+          );
+        });
         return dispatch(getLetterPdfFailure(letterType));
       },
     );
@@ -281,18 +302,20 @@ export function saveAddress(address) {
           response.data.attributes.address,
         );
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
-          const mismatchError = new Error(
-            "letters-address-update addresses don't match",
+          Sentry.captureException(
+            new Error("letters-address-update addresses don't match"),
           );
-          Raven.captureException(mismatchError);
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
       response => {
         const status = getStatus(response);
-        Raven.captureException(
-          new Error(`vets_letters_error_saveAddress: ${status}`),
-        );
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{ default }}', status]);
+          Sentry.captureException(
+            new Error(`vets_letters_error_saveAddress ${status}`),
+          );
+        });
         return dispatch(saveAddressFailure());
       },
     );
@@ -314,9 +337,12 @@ export function getAddressCountries() {
       response => {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-countries-failure' });
-        Raven.captureException(
-          new Error(`vets_letters_error_getAddressCountries: ${status}`),
-        );
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{ default }}', status]);
+          Sentry.captureException(
+            new Error(`vets_letters_error_getAddressCountries ${status}`),
+          );
+        });
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
       },
     );
@@ -337,9 +363,12 @@ export function getAddressStates() {
       response => {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-states-success' });
-        Raven.captureException(
-          new Error(`vets_letters_error_getAddressStates: ${status}`),
-        );
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{ default }}', status]);
+          Sentry.captureException(
+            new Error(`vets_letters_error_getAddressStates ${status}`),
+          );
+        });
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
       },
     );

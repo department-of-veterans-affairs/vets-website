@@ -15,6 +15,22 @@ describe('<ProfilePage>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
+  it('should render VET TEC institution', () => {
+    const vetTecProps = {
+      ...defaultProps,
+      showModal: () => {},
+      profile: {
+        ...defaultProps.profile,
+        attributes: {
+          vetTecProvider: true,
+          type: 'FOR PROFIT',
+        },
+      },
+    };
+    const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
+    expect(tree.subTree('VetTecHeadingSummary')).to.be.ok;
+  });
+
   it('should show LoadingState when profile is fetching', () => {
     const inProgressProps = {
       ...defaultProps,

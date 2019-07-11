@@ -24,8 +24,10 @@ describe('PTSD Assault permission notice', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(1);
+    // name, addressLine1, addressLine2, city, zipCode
+    expect(form.find('input').length).to.equal(5);
+    // country (USA), state
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 

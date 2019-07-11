@@ -2,7 +2,7 @@ import {
   createPageList,
   createFormPageList,
   createRoutes,
-} from 'us-forms-system/lib/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
@@ -15,6 +15,13 @@ export function createRoutesWithSaveInProgress(formConfig) {
     'confirmation',
     '*',
   ]);
+
+  if (Array.isArray(formConfig.additionalRoutes)) {
+    formConfig.additionalRoutes.forEach(route => {
+      protectedRoutes.add(route.path);
+    });
+  }
+
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
   const newRoutes = createRoutes(formConfig);
@@ -40,7 +47,7 @@ export function createRoutesWithSaveInProgress(formConfig) {
   if (!formConfig.disableSave) {
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'form-saved',
-      component: FormSaved,
+      component: formConfig.formSavedPage || FormSaved,
       pageList,
       formConfig,
     });

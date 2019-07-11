@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { states } from '../../../platform/forms/address';
-import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -20,6 +20,19 @@ export const benefitsLabels = {
       Post-9/11 GI Bill (Chapter 33)
       <br />
       <a href="/education/about-gi-bill-benefits/post-9-11/" target="_blank">
+        Learn more
+      </a>
+    </p>
+  ),
+  // 1995-STEM related
+  fryScholarship: (
+    <p>
+      Fry Scholarship (Chapter 33)
+      <br />
+      <a
+        href="/education/survivor-dependent-benefits/fry-scholarship/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -144,19 +157,17 @@ export const directDepositWarning = (
     isn’t an option for Chapter 32 (VEAP) recipients). If you don’t have a bank
     account, you must get your payment through Direct Express Debit MasterCard.
     To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a href="http://www.usdirectexpress.com" target="_blank">
+    <a
+      href="http://www.usdirectexpress.com"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at{' '}
-    <a href="tel:8003331795" target="_blank">
-      1-800-333-1795
-    </a>
-    . If you chose not to enroll, you must contact representatives handling
-    waiver requests for the Department of Treasury at{' '}
-    <a href="tel:8882242950" target="_blank">
-      1-888-224-2950
-    </a>
-    . They will address any questions or concerns you may have and encourage
-    your participation in EFT.
+    or by telephone at <a href="tel:8003331795">800-333-1795</a>. If you chose
+    not to enroll, you must contact representatives handling waiver requests for
+    the Department of Treasury at <a href="tel:8882242950">888-224-2950</a>.
+    They will address any questions or concerns you may have and encourage your
+    participation in EFT.
   </div>
 );

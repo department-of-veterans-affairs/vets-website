@@ -44,7 +44,8 @@ class DocumentRequestPage extends React.Component {
       scrollToTop();
     }
   }
-  componentWillReceiveProps(props) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
       this.props.router.replace(`/your-claims/${this.props.params.id}/status`);
     }
@@ -94,8 +95,8 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClaimsBreadcrumbs>
-                <Link to={filesPath}>Status Details</Link>
-                <Link to={itemPath}>Document Request</Link>
+                <Link to={filesPath}>Status details</Link>
+                <Link to={itemPath}>Document request</Link>
               </ClaimsBreadcrumbs>
             </div>
           </div>

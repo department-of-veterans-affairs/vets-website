@@ -1,5 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { recordEventOnce } from 'platform/monitoring/record-event';
+import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 const combatPtsdType = 'Combat';
 
@@ -24,19 +26,27 @@ export const nonCombatPtsdTypeLong = (
 );
 
 export const ptsdTypeHelp = (
-  <AdditionalInfo triggerText="Which should I choose?">
+  <AdditionalInfo
+    triggerText="Which should I choose?"
+    onClick={() =>
+      recordEventOnce(
+        ANALYTICS_EVENTS.openedPtsdTypeHelp,
+        HELP_TEXT_CLICKED_EVENT,
+      )
+    }
+  >
     <h4>Types of stressful events</h4>
     <h5>Combat</h5>
     <p>
       This means you participated in a fight or encounter with a military enemy
       or hostile unit or weapon. It also could mean you were present during
-      these events either as a combatant or a Servicemember supporting
+      these events either as a combatant or a service member supporting
       combatants -- for example, providing medical care to the wounded.
     </p>
     <h5>Sexual trauma</h5>
     <p>
       This means you experienced sexual harassment, sexual assault, or rape, by
-      a Servicemember or civilian, while on active duty, active duty for
+      a service member or civilian, while on active duty, active duty for
       training, or inactive duty training.
     </p>
     <h5>Personal assault</h5>

@@ -5,10 +5,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import * as addressUI from '../../../platform/forms/definitions/address.js';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 import environment from '../../../platform/utilities/environment';
 

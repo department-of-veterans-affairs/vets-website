@@ -1,15 +1,16 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
-import dataUtils from '../../../../platform/utilities/data/index';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import dataUtils from 'platform/utilities/data/index';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const { get, omit, set } = dataUtils;
 
@@ -40,6 +41,8 @@ import {
   validateMatch,
 } from '../helpers';
 
+import migrations from './migrations';
+
 const {
   address: applicantAddress,
   anonymousEmail,
@@ -58,7 +61,8 @@ const {
   socialSecurityNumberLastFour,
 } = fullSchema.properties;
 
-const { assistance, programs, school } = educationDetails.properties;
+const { school, programs, assistance } = educationDetails.properties;
+
 const {
   address: schoolAddress,
   name: schoolName,
@@ -143,8 +147,9 @@ const formConfig = {
   trackingPrefix,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'FEEDBACK-TOOL',
-  version: 0,
+  formId: VA_FORM_IDS.FEEDBACK_TOOL,
+  version: 1,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   defaultDefinitions: {
@@ -419,7 +424,7 @@ const formConfig = {
                     showFieldLabel: true,
                   },
                 },
-                'view:FFA': {
+                'view:ffa': {
                   'ui:title': 'Have you used any of these other benefits?',
                   'ui:options': {
                     showFieldLabel: true,
@@ -441,12 +446,12 @@ const formConfig = {
                     properties: {
                       'view:assistance': {
                         type: 'object',
-                        properties: omit('FFA', assistance.properties),
+                        properties: omit('ffa', assistance.properties),
                       },
-                      'view:FFA': {
+                      'view:ffa': {
                         type: 'object',
                         properties: {
-                          FFA: get('properties.FFA', assistance),
+                          ffa: get('properties.ffa', assistance),
                         },
                       },
                     },

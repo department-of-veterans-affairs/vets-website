@@ -50,6 +50,21 @@ describe('schemaform createSaveInProgressInitialState', () => {
     expect(state.initialData).to.equal(state.data);
   });
 
+  it('creates a reducer with initial additionalRoutes if they are present in the form config', () => {
+    const formConfig = {
+      additionalRoutes: [
+        {
+          path: 'route-path',
+        },
+      ],
+      chapters: {},
+    };
+    const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
+    const state = reducer(undefined, {});
+
+    expect(state.additionalRoutes).to.deep.equal([{ path: 'route-path' }]);
+  });
+
   describe('reducer', () => {
     const formConfig = {
       chapters: {

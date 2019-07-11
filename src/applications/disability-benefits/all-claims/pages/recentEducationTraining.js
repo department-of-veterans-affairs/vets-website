@@ -1,6 +1,6 @@
 import EducationTrainingField from '../components/EducationTrainingField';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { validateDate } from 'us-forms-system/lib/js/validation';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { validateDate } from 'platform/forms-system/src/js/validation';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { RecentEducationTrainingTitle } from '../content/recentEducationTraining';
 import {
@@ -16,7 +16,7 @@ const {
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   unemployability: {
-    'ui:title': unemployabilityPageTitle('Recent Education & training'),
+    'ui:title': unemployabilityPageTitle('Recent education & training'),
     receivedOtherEducationTrainingPostUnemployability: {
       'ui:title': RecentEducationTrainingTitle,
       'ui:widget': 'yesNo',

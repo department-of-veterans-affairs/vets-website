@@ -17,7 +17,7 @@ const props = {
 describe('<PreferenceOption>', () => {
   it('should render', () => {
     const component = shallow(<PreferenceOption {...props} />);
-    expect(component.html()).to.contain('Health Care');
+    expect(component.html()).to.contain('Health care');
     expect(component.html()).to.contain('Get health care coverage.');
     component.unmount();
   });

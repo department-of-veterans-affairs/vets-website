@@ -91,7 +91,11 @@ export class LetterList extends React.Component {
         <p>
           To download a letter, you’ll need the latest version of Adobe Reader.
           It’s free to download.{' '}
-          <a href="https://get.adobe.com/reader/otherversions/" target="_blank">
+          <a
+            href="https://get.adobe.com/reader/otherversions/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             Get Adobe Reader
           </a>
         </p>
@@ -121,17 +125,25 @@ export class LetterList extends React.Component {
             </a>
           </li>
           <li>
-            <a href="https://eauth.va.gov/ebenefits/coe" target="_blank">
+            <a
+              href="https://eauth.va.gov/ebenefits/coe"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               <strong>
-                Log into eBenefits to request a Certificate of Eligibility (COE)
-                for your home loan benefits.
+                Sign in to eBenefits to request a Certificate of Eligibility
+                (COE) for your home loan benefits.
               </strong>
             </a>
           </li>
           <li>
-            <a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank">
+            <a
+              href="https://eauth.va.gov/ebenefits/DPRIS"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               <strong>
-                Log into eBenefits to request a copy of your discharge or
+                Sign in to eBenefits to request a copy of your discharge or
                 separation papers (DD 214).
               </strong>
             </a>
@@ -142,8 +154,8 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday &#8211;
-            Friday, 8 a.m. &#8211; 9 p.m. (ET)
+            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday &#8211;
+            Friday, 8 a.m. &#8211; 9 p.m. ET
           </div>
         </div>
       </div>

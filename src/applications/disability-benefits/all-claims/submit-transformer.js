@@ -1,5 +1,9 @@
 import _ from '../../../platform/utilities/data';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+
+import {
+  transformForSubmit,
+  filterViewFields,
+} from 'platform/forms-system/src/js/helpers';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
@@ -12,6 +16,8 @@ import {
 } from './constants';
 
 import { disabilityIsSelected } from './utils';
+
+import disabilityLabels from './content/disabilityLabels';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -66,7 +72,7 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 /**
- * Returns an array of disabilities pulled from ratedDisabilties, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
+ * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
 function getDisabilities(formData) {
@@ -90,7 +96,7 @@ function getDisabilities(formData) {
 
 function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name ? name.toLowerCase() : '';
+  return name && name.trim();
 }
 
 function getClaimedConditionNames(formData) {
@@ -131,18 +137,32 @@ export const setActionTypes = formData => {
  *  name only gets added to the list if the property value is truthy and is in the list
  *  of conditions claimed on the application.
  *
- * @param {Object} object - The object with dynamically generated property names
- * @param {Object} formData - The whole form data; used to get claimed condition names
- * @return {Array} - An array of the property names with truthy values
- *                   NOTE: This will return all lower-cased names
+ * @param {Object} conditionContainer - The object with dynamically generated property names
+ *                                      For example, treatedDisabilityNames.
+ * @param {Array} claimedConditions - An array containing the names of conditions claimed,
+ *                                     both rated or new.
+ * @return {Array} - An array of the originally-cased property names with truthy values.
+ *                   "Originally-cased" = the case of the name in the disabilities list.
  */
-export function transformRelatedDisabilities(object, claimedConditions) {
-  return Object.keys(object)
-    .filter(
-      // The property name will be normal-cased in the object, but lower-cased in claimedConditions
-      key => object[key] && claimedConditions.includes(key.toLowerCase()),
-    )
-    .map(key => key.toLowerCase());
+export function transformRelatedDisabilities(
+  conditionContainer,
+  claimedConditions,
+) {
+  const findCondition = (list, name) =>
+    list.find(
+      // name should already be lower-case, but just in case...no pun intended
+      claimedName => claimedName.toLowerCase() === name.toLowerCase(),
+    );
+
+  return (
+    Object.keys(conditionContainer)
+      // The check box is checked
+      .filter(name => conditionContainer[name])
+      // It's in the list of claimed conditions
+      .filter(name => findCondition(claimedConditions, name))
+      // Return the name of the actual claimed condition (with the original casing)
+      .map(name => findCondition(claimedConditions, name))
+  );
 }
 
 /**
@@ -161,23 +181,6 @@ export function getFlatIncidentKeys() {
   return incidentKeys;
 }
 
-/**
- * Concatenates incident location address object into location string. This will ignore null
- *  or undefined address fields
- * @param {Object} incidentLocation location address with city, state, country, and additional details
- * @returns {String} incident location string
- */
-export function concatIncidentLocationString(incidentLocation) {
-  return [
-    incidentLocation.city,
-    incidentLocation.state,
-    incidentLocation.country,
-    incidentLocation.additionalDetails,
-  ]
-    .filter(locationField => locationField)
-    .join(', ');
-}
-
 export function getPtsdChangeText(changeFields = {}) {
   return Object.keys(changeFields)
     .filter(
@@ -190,6 +193,14 @@ export function getPtsdChangeText(changeFields = {}) {
 }
 
 export function transform(formConfig, form) {
+  // Grab ratedDisabilities before they're deleted in case the page is inactive
+  // We need to send all of these to vets-api even if the veteran doesn't apply
+  // for an increase on any of them
+  const { ratedDisabilities } = form.data;
+  const savedRatedDisabilities = ratedDisabilities
+    ? _.cloneDeep(ratedDisabilities)
+    : undefined;
+
   // Define the transformations
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
@@ -201,6 +212,13 @@ export function transform(formConfig, form) {
         ),
       ),
     );
+
+  const addBackRatedDisabilities = formData =>
+    savedRatedDisabilities
+      ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
+      : formData;
+
+  const filterRatedViewFields = formData => filterViewFields(formData);
 
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
@@ -241,6 +259,43 @@ export function transform(formConfig, form) {
         )
       : formData;
 
+  // new disabilities that match a name on our mapped list need their
+  // respective classification code added
+  const addClassificationCodeToNewDisabilities = formData => {
+    const { newDisabilities } = formData;
+    if (!newDisabilities) {
+      return formData;
+    }
+
+    const flippedDisabilityLabels = {};
+    Object.entries(disabilityLabels).forEach(([code, description]) => {
+      flippedDisabilityLabels[description.toLowerCase()] = code;
+    });
+
+    const newDisabilitiesWithClassificationCodes = newDisabilities.map(
+      disability => {
+        const { condition } = disability;
+        if (!condition) {
+          return disability;
+        }
+        const loweredDisabilityName = condition.toLowerCase();
+        return flippedDisabilityLabels[loweredDisabilityName]
+          ? _.set(
+              'classificationCode',
+              flippedDisabilityLabels[loweredDisabilityName],
+              disability,
+            )
+          : disability;
+      },
+    );
+
+    return _.set(
+      'newDisabilities',
+      newDisabilitiesWithClassificationCodes,
+      formData,
+    );
+  };
+
   // newDisabilities -> newPrimaryDisabilities & newSecondaryDisabilities
   const splitNewDisabilities = formData => {
     if (!formData.newDisabilities) {
@@ -261,6 +316,42 @@ export function transform(formConfig, form) {
       clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
     }
     delete clonedData.newDisabilities;
+    return clonedData;
+  };
+
+  // transform secondary disabilities into primary, with description appended
+  const transformSecondaryDisabilities = formData => {
+    if (!formData.newSecondaryDisabilities) {
+      return formData;
+    }
+
+    const clonedData = _.cloneDeep(formData);
+
+    const transformedSecondaries = clonedData.newSecondaryDisabilities.map(
+      sd => {
+        // prepend caused by condition to primary description
+        const descString = [
+          'Secondary to ',
+          sd.causedByDisability,
+          '\n',
+          sd.causedByDisabilityDescription,
+        ].join('');
+
+        return {
+          condition: sd.condition,
+          cause: causeTypes.NEW,
+          classificationCode: sd.classificationCode,
+          // truncate description to 400 characters
+          primaryDescription: descString.substring(0, 400),
+        };
+      },
+    );
+
+    clonedData.newPrimaryDisabilities = (
+      clonedData.newPrimaryDisabilities || []
+    ).concat(transformedSecondaries);
+
+    delete clonedData.newSecondaryDisabilities;
     return clonedData;
   };
 
@@ -298,6 +389,33 @@ export function transform(formConfig, form) {
     );
   };
 
+  /**
+   * We want veterans to be able to type in all chars in the homelessness POC
+   * name field, but we only want to send allowed characters (per schema) to
+   * vets-api
+   * @param {object} formData
+   * @returns {object} either formData, or if homelessness contact name exists,
+   * a copy of formData with the homelessness POC name sanitized
+   */
+  const sanitizeHomelessnessContact = formData => {
+    const { homelessnessContact } = formData;
+    if (!homelessnessContact || !homelessnessContact.name) {
+      return formData;
+    }
+
+    // When name is present, phoneNumber is required and vice-versa
+    // But neither field is required unless the other is present
+    const sanitizedHomelessnessContact = {
+      name: homelessnessContact.name
+        .replace(/[^a-zA-Z0-9-/' ]/g, ' ')
+        .trim()
+        .replace(/\s{2,}/g, ' '),
+      phoneNumber: homelessnessContact.phoneNumber,
+    };
+
+    return _.set('homelessnessContact', sanitizedHomelessnessContact, formData);
+  };
+
   const addForm4142 = formData => {
     if (!formData.providerFacility) {
       return formData;
@@ -326,9 +444,6 @@ export function transform(formConfig, form) {
       .map(incidentKey => ({
         ...clonedData[incidentKey],
         personalAssault: incidentKey.includes('secondary'),
-        incidentLocation: concatIncidentLocationString(
-          clonedData[incidentKey].incidentLocation,
-        ),
       }));
     incidentKeys.forEach(incidentKey => {
       delete clonedData[incidentKey];
@@ -380,7 +495,9 @@ export function transform(formConfig, form) {
             .join(),
           underDoctorHopitalCarePast12M:
             unemployability.underDoctorsCare || unemployability.hospitalized,
-          mostEarningsInAYear: unemployability.mostEarningsInAYear.toString(),
+          mostEarningsInAYear: (
+            unemployability.mostEarningsInAYear || ''
+          ).toString(),
           disabilityPreventMilitaryDuties:
             unemployability.disabilityPreventMilitaryDuties === 'yes',
         },
@@ -409,18 +526,26 @@ export function transform(formConfig, form) {
 
   // Apply the transformations
   const transformedData = [
-    setActionTypes,
     filterEmptyObjects,
+    addBackRatedDisabilities, // Must run after filterEmptyObjects
+    setActionTypes, // Must run after addBackRatedDisabilities
+    filterRatedViewFields, // Must be run after setActionTypes
     addPOWSpecialIssues,
     addPTSDCause,
+    addClassificationCodeToNewDisabilities,
     splitNewDisabilities,
+    transformSecondaryDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,
+    sanitizeHomelessnessContact,
     addForm4142,
     addForm0781,
     addForm8940,
     addFileAttachmments,
-  ].reduce((formData, transformer) => transformer(formData), form.data);
+  ].reduce(
+    (formData, transformer) => transformer(formData),
+    _.cloneDeep(form.data),
+  );
 
   return JSON.stringify({ form526: transformedData });
 }

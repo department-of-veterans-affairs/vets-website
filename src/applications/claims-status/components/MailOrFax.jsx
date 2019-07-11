@@ -11,7 +11,7 @@ export default function MailOrFax({ onClose }) {
         aria-label="Close this modal"
         onClick={onClose}
       >
-        <i className="far fa-times-circle" />
+        <i className="fas fa-times-circle" />
       </button>
       <p>
         Please upload your documents online here to help us process your claim
@@ -25,6 +25,7 @@ export default function MailOrFax({ onClose }) {
           Mail or fax them to the{' '}
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
           >
             VA Claims Intake Center.

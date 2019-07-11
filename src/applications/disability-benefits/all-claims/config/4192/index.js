@@ -10,6 +10,8 @@ import {
   pastEmploymentFormUpload,
 } from '../../pages';
 
+import captureEvents from '../../analytics-functions';
+
 import { needsToEnterUnemployability } from '../../utils';
 
 const showFormTutorial = formData =>
@@ -35,6 +37,7 @@ export default function() {
         depends: needsToEnterUnemployability,
         uiSchema: pastEmploymentFormIntro.uiSchema,
         schema: pastEmploymentFormIntro.schema,
+        onContinue: captureEvents.pastEmploymentFormIntro,
       },
       // Form Tutorial (multiple pages)
       instructionalPart1: {

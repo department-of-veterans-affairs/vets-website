@@ -16,12 +16,12 @@ import {
   saveErrors,
 } from './actions';
 
-import createSchemaFormReducer from 'us-forms-system/lib/js/state';
+import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import {
   createInitialState,
   recalculateSchemaAndData,
-} from 'us-forms-system/lib/js/state/helpers';
-import reducers from 'us-forms-system/lib/js/state/reducers';
+} from 'platform/forms-system/src/js/state/helpers';
+import reducers from 'platform/forms-system/src/js/state/reducers';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {
@@ -131,6 +131,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     migrations: formConfig.migrations,
     prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix,
+    additionalRoutes: formConfig.additionalRoutes,
   });
 }
 

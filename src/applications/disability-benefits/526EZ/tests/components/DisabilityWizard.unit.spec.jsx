@@ -95,9 +95,9 @@ describe('<DisabilityWizard>', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({ disabilityStatus: 'appeal', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Learn how to file an appeal.');
+    expect(tree.find('a').text()).to.equal('Learn how to file an appeal');
     expect(tree.find('p').text()).to.equal(
-      'If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal.',
+      'If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal',
     );
     tree.unmount();
   });
@@ -110,7 +110,7 @@ describe('<DisabilityWizard>', () => {
       disabilityStatus: 'increase',
       currentLayout: applyGuidance,
     });
-    expect(tree.text()).to.contain('Sign In and Verify Your Identity »');
+    expect(tree.text()).to.contain('Sign in and verify your identity »');
     expect(tree.find('p').text()).to.equal(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability. To apply for a disability increase, you’ll need to sign in and verify your account.',
     );
@@ -125,7 +125,7 @@ describe('<DisabilityWizard>', () => {
       disabilityStatus: 'increase',
       currentLayout: applyGuidance,
     });
-    expect(tree.text()).to.contain('Verify Your Identity »');
+    expect(tree.text()).to.contain('Verify your identity »');
     expect(
       tree
         .find('p')

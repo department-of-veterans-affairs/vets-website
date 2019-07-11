@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { civilianBenefitsLabel } from '../utils/labels';
 
 // Exported like this so we can share the fields between the formConfig and the tests.

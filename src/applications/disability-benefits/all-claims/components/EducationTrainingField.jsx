@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReviewDate } from 'us-forms-system/lib/js/helpers';
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 export default function EducationTrainingField({ formData }) {
   const { name, dates } = formData;

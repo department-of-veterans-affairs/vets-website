@@ -162,7 +162,7 @@ export function fetchSearchResults(query = {}) {
   const url = `${api.url}/institutions/search?${queryString}`;
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, name: query.name || '' });
+    dispatch({ type: SEARCH_STARTED, query });
 
     return fetch(url, api.settings)
       .then(res => res.json())
@@ -177,7 +177,7 @@ export function fetchProfile(facilityCode, version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: FETCH_PROFILE_STARTED });
 
     return fetch(url, api.settings)
@@ -190,8 +190,8 @@ export function fetchProfile(facilityCode, version) {
           throw new Error(errors);
         });
       })
-      .then(payload => {
-        const institutionZIP = _.get(payload, 'data.attributes.zip');
+      .then(institution => {
+        const institutionZIP = _.get(institution, 'data.attributes.zip');
         const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
 
         return (
@@ -199,9 +199,14 @@ export function fetchProfile(facilityCode, version) {
             .then(res => res.json())
             // if there's an error from the zipRatesPayload the reducer will just use the values from the institution end point.
             .then(zipRatesPayload => {
+              const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
               withPreview(dispatch, {
                 type: FETCH_PROFILE_SUCCEEDED,
-                payload,
+                payload: {
+                  ...institution,
+                  AVGVABAH,
+                  AVGDODBAH,
+                },
                 zipRatesPayload,
               });
             })

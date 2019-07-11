@@ -6,7 +6,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import CallVBACenter from '../../../platform/static-data/CallVBACenter';
 
 export class DownloadLetterLink extends React.Component {
   // Either download the pdf or open it in a new window, depending on the
@@ -38,7 +38,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       case DOWNLOAD_STATUSES.success:
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Letter';
+        buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
           <div className="usa-alert usa-alert-success" role="alert">
@@ -56,7 +56,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       case DOWNLOAD_STATUSES.failure:
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Retry Download';
+        buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
           <div className="usa-alert usa-alert-error" role="alert">
@@ -66,12 +66,7 @@ export class DownloadLetterLink extends React.Component {
               </h4>
               <p className="usa-alert-text">
                 Your letter isn’t available at this time. If you need help with
-                accessing your letter, please{' '}
-                <CallVBACenter>
-                  call <a href="tel:18555747286">1-855-574-7286</a>, TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
-                  Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </CallVBACenter>
+                accessing your letter, please <CallVBACenter />
               </p>
             </div>
           </div>
@@ -79,7 +74,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       default:
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Letter';
+        buttonText = 'Download letter';
         buttonDisabled = false;
     }
 

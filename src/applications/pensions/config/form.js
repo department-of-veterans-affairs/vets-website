@@ -3,16 +3,16 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { isFullDate } from '../../../platform/forms/validations';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
-import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
-
-import * as address from '../../../platform/forms/definitions/address';
-import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import { isFullDate } from 'platform/forms/validations';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import * as address from 'platform/forms/definitions/address';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   employmentDescription,
@@ -44,7 +44,7 @@ import DisabilityField from '../components/DisabilityField';
 import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -55,16 +55,16 @@ import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import createNonRequiredFullName from '../../../platform/forms/definitions/nonRequiredFullName';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import {
   validateServiceBirthDates,
@@ -195,7 +195,7 @@ const formConfig = {
   trackingPrefix: 'pensions-527EZ-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21P-527EZ',
+  formId: VA_FORM_IDS.FORM_21P_527EZ,
   version: 3,
   migrations,
   prefillEnabled: true,
@@ -228,7 +228,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           path: 'applicant/information',
@@ -268,11 +268,11 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Military history',
       pages: {
         servicePeriods: {
           path: 'military/history',
-          title: 'Service Periods',
+          title: 'Service periods',
           uiSchema: {
             'ui:title': 'Service periods',
             servicePeriods: {
@@ -348,7 +348,7 @@ const formConfig = {
         },
         general: {
           path: 'military/general',
-          title: 'General History',
+          title: 'General history',
           uiSchema: {
             'view:serveUnderOtherNames': {
               'ui:title': 'Did you serve under another name?',
@@ -452,7 +452,7 @@ const formConfig = {
         },
         powAndSeverance: {
           path: 'military/pow-severance',
-          title: 'POW Status & Severance Pay',
+          title: 'POW status & severance pay',
           uiSchema: {
             'ui:title': 'POW Status & Severance Pay',
             'ui:order': [
@@ -1341,7 +1341,7 @@ const formConfig = {
       },
     },
     financialDisclosure: {
-      title: 'Financial Disclosure',
+      title: 'Financial disclosure',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
@@ -1679,7 +1679,7 @@ const formConfig = {
       },
     },
     additionalInformation: {
-      title: 'Additional Information',
+      title: 'Additional information',
       pages: {
         directDeposit: {
           title: 'Direct deposit',
@@ -1769,7 +1769,7 @@ const formConfig = {
         },
         aidAttendance: {
           path: 'additional-information/aid-attendance',
-          title: 'Aid and Attendance and Housebound Benefits',
+          title: 'Aid and Attendance and Housebound benefits',
           uiSchema: {
             'ui:title': 'Aid and Attendance and Housebound Benefits',
             'view:evidenceInfo': {
@@ -1813,7 +1813,7 @@ const formConfig = {
           },
         },
         expedited: {
-          title: 'Fully developed claim program',
+          title: 'Fully Developed Claim program',
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': expeditedProcessDescription,

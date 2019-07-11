@@ -1,0 +1,15 @@
+.va-c-event-info {
+  display: flex;
+  flex-wrap: wrap;
+  > dt {
+    width: 45px;
+  }
+  > dd {
+    width: 75%;
+  }
+
+}
+
+.va-c-social-icon {
+  color: $color-link-default;
+}

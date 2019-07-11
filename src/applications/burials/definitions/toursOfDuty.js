@@ -1,4 +1,4 @@
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ServicePeriodView from '../../../platform/forms/components/ServicePeriodView';
 
 export default {

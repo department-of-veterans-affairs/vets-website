@@ -3,7 +3,7 @@
  * @module platform/startup
  */
 import React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
@@ -37,9 +37,7 @@ export default function startApp({
   entryName = 'unknown',
 }) {
   // Set further errors to have the appropriate source tag
-  Raven.setTagsContext({
-    source: entryName,
-  });
+  Sentry.setTag('source', entryName);
 
   const store = createCommonStore(reducer, analyticsEvents);
 
@@ -50,19 +48,16 @@ export default function startApp({
         'Root urls should not end with a slash. Check your manifest.json file and application entry file.',
       );
     }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     history = useRouterHistory(createHistory)({
       basename: url,
     });
   }
 
-  Raven.context(
-    {
-      tags: { source: 'site-wide' },
-    },
-    () => {
-      startSitewideComponents(store);
-    },
-  );
+  Sentry.withScope(scope => {
+    scope.setTag('source', 'site-wide');
+    startSitewideComponents(store);
+  });
 
   let content = component;
   if (routes) {

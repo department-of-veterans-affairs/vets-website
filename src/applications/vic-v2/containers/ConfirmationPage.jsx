@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 import moment from 'moment';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import siteName from '../../../platform/brand-consolidation/site-name';
 
 import VeteranIDCard from '../components/VeteranIDCard';
 
@@ -148,17 +147,15 @@ class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
             If you have questions, call{' '}
-            <a href="tel:+1-855-673-4357">1-855-673-4357</a>, Monday &#8211;
-            Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET). For Telecommunication
-            Relay Services, dial <a href="tel:711">711</a>.
+            <a href="tel:855-673-4357">855-673-4357</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. ET. For Telecommunication Relay
+            Services, dial <a href="tel:711">711</a>.
           </p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
-              <button className="usa-button-primary">
-                Go Back to {siteName}
-              </button>
+              <button className="usa-button-primary">Go Back to VA.gov</button>
             </a>
           </div>
         </div>

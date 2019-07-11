@@ -2,48 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import findIndex from 'lodash/fp/findIndex';
 
-import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SegmentedProgressBar from '@department-of-veterans-affairs/formation-react/SegmentedProgressBar';
 
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
-import { isAddressEmpty } from '../utils/helpers';
-
 export class DownloadLetters extends React.Component {
-  constructor() {
-    super();
-    this.navigateToLetterList = this.navigateToLetterList.bind(this);
-  }
-
-  navigateToLetterList() {
-    this.props.router.push('/letter-list');
-  }
-
   render() {
     const { children, location } = this.props;
     const currentPageIndex = findIndex(['path', location.pathname], chapters);
     const currentStep = currentPageIndex + 1;
-    const emptyAddress = isAddressEmpty(this.props.address);
-
-    let viewLettersButton;
-    if (location.pathname === '/confirm-address') {
-      viewLettersButton = (
-        <div className="step-content">
-          <button
-            onClick={this.navigateToLetterList}
-            className="usa-button-primary view-letters-button"
-            disabled={this.props.isEditingAddress || emptyAddress}
-          >
-            View Letters
-          </button>
-        </div>
-      );
-    }
 
     return (
       <div className="usa-width-three-fourths letters">
-        <FormTitle title="VA Letters and Documents" />
+        <FormTitle title="VA letters and documents" />
         <p className="va-introtext">
           To receive some benefits, Veterans need a letter proving their status.
           You can download some of these benefit letters and documents online.
@@ -55,7 +28,6 @@ export class DownloadLetters extends React.Component {
           steps="2"
         >
           {children}
-          {viewLettersButton}
         </StepHeader>
       </div>
     );

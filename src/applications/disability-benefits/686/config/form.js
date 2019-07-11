@@ -3,9 +3,9 @@ import _ from 'lodash/fp';
 
 import ErrorText from '../../components/ErrorText';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
-import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import FormFooter from 'platform/forms/components/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -13,6 +13,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import dataUtils from 'platform/utilities/data/index';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -316,7 +317,7 @@ const formConfig = {
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-686C',
+  formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: false,
   savedFormMessages: {

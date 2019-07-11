@@ -2,20 +2,21 @@ import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import * as address from '../definitions/address';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
-import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -81,7 +82,9 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
-  formId: '40-10007',
+  formId: VA_FORM_IDS.FORM_40_10007,
+  prefillEnabled: true,
+  verifyRequiredPrefill: false,
   version: 0,
   savedFormMessages: {
     notFound: 'Please start over to apply for pre-need eligibility.',
@@ -122,11 +125,11 @@ const formConfig = {
                 ssn: ssnDashesUI,
                 dateOfBirth: currentOrPastDateUI('Date of birth'),
                 relationshipToVet: {
-                  'ui:title': 'Relationship to Servicemember',
+                  'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',
                   'ui:options': {
                     labels: {
-                      1: 'I am the Servicemember/Veteran',
+                      1: 'I am the service member/Veteran',
                       2: 'Spouse or surviving spouse',
                       3: 'Unmarried adult child',
                       4: 'Other',
@@ -184,16 +187,24 @@ const formConfig = {
                   veteran: {
                     type: 'object',
                     required: ['gender', 'maritalStatus', 'militaryStatus'],
-                    properties: _.pick(
-                      [
-                        'militaryServiceNumber',
-                        'vaClaimNumber',
-                        'placeOfBirth',
-                        'gender',
-                        'maritalStatus',
-                        'militaryStatus',
-                      ],
-                      veteran.properties,
+                    properties: _.set(
+                      'militaryStatus.enum',
+                      veteran.properties.militaryStatus.enum.filter(
+                        // Doesn't make sense to have options for the
+                        // Veteran to say they're deceased
+                        opt => !['I', 'D'].includes(opt),
+                      ),
+                      _.pick(
+                        [
+                          'militaryServiceNumber',
+                          'vaClaimNumber',
+                          'placeOfBirth',
+                          'gender',
+                          'maritalStatus',
+                          'militaryStatus',
+                        ],
+                        veteran.properties,
+                      ),
                     ),
                   },
                 },
@@ -331,7 +342,7 @@ const formConfig = {
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
-        // If not, "Sponsor‘s" precedes all the field labels.
+        // If not, "Sponsor’s" precedes all the field labels.
         applicantMilitaryHistory: {
           path: 'applicant-military-history',
           depends: isVeteran,

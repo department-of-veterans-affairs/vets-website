@@ -25,21 +25,14 @@ done
 # endpoints that selenium can run against.
 
 # Ensure all running servers are terminated on script exit.
-trap 'kill $(jobs -p)' EXIT
+trap 'if [ $(jobs -p) ] ; then kill $(jobs -p); fi' EXIT
 
 BUILDTYPE=${BUILDTYPE:-vagovdev}
 
-# Check to see if we already have an API server running on port 3000
-if [ `nc -z localhost 3000; echo $?` -ne 0 ]; then
-  echo "Starting mockapi.js..."
-  node src/platform/testing/e2e/mockapi.js &
-else
-  echo "Error: Port 3000 is already in use.  If you're sure that's OK, tests will continue in 5 seconds..."
-  sleep 5;
-fi
+"$(dirname "$0")"/run-mockapi.sh &
 
 # Check to see if we already have a server running on port 3001 (as with 'npm run build')
-if [ `nc -z localhost 3001; echo $?` -ne 0 ]; then
+ if [ "$(nc -z localhost 3001; echo $?)" -ne 0 ]; then
   echo "Starting test-server.js..."
   node src/platform/testing/e2e/test-server.js --buildtype ${BUILDTYPE} &
 else

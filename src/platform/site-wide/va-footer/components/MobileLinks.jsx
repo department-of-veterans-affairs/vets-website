@@ -16,7 +16,7 @@ export default function MobileLinks({ links, visible }) {
             itemProp="name"
             aria-expanded="false"
           >
-            Contact Us
+            Contact us
           </button>
           <div
             className="usa-accordion-content va-footer-accordion-content"
@@ -33,7 +33,7 @@ export default function MobileLinks({ links, visible }) {
             itemProp="name"
             aria-expanded="false"
           >
-            Veteran Programs and Services
+            Veteran programs and services
           </button>
           <div
             className="usa-accordion-content va-footer-accordion-content"
@@ -50,7 +50,7 @@ export default function MobileLinks({ links, visible }) {
             itemProp="name"
             aria-expanded="false"
           >
-            More VA Resources
+            More VA resources
           </button>
           <div
             className="usa-accordion-content va-footer-accordion-content"
@@ -67,7 +67,7 @@ export default function MobileLinks({ links, visible }) {
             itemProp="name"
             aria-expanded="false"
           >
-            Get VA Updates
+            Get VA updates
           </button>
           <div
             className="usa-accordion-content va-footer-accordion-content"

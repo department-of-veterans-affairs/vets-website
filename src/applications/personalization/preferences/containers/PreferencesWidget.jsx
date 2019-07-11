@@ -45,8 +45,8 @@ class PreferencesWidget extends React.Component {
 
     this.state = {};
   }
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     this.props.fetchUserSelectedBenefits();
     if (!isEmpty(this.props.preferences.dashboard)) {
       this.setSelectedBenefits();
@@ -219,7 +219,7 @@ class PreferencesWidget extends React.Component {
     return (
       <div>
         <div className="title-container">
-          <h2>Find VA Benefits</h2>
+          <h2>Find VA benefits</h2>
           {isLoaded &&
             hasSelectedBenefits && (
               <Link
@@ -233,7 +233,7 @@ class PreferencesWidget extends React.Component {
                   })
                 }
               >
-                Find VA Benefits
+                Find VA benefits
               </Link>
             )}
         </div>
@@ -250,7 +250,7 @@ class PreferencesWidget extends React.Component {
             />
           )}
         </ReactCSSTransitionGroup>
-        <div ariaLive="polite">{this.renderContent()}</div>
+        <div aria-live="polite">{this.renderContent()}</div>
       </div>
     );
   }

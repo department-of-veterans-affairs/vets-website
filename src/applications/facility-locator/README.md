@@ -1,5 +1,4 @@
-Facility Locator
-================
+# Facility Locator
 
 Converting the facility locator prototype to a production-ready React app
 

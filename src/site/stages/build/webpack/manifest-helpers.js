@@ -9,13 +9,13 @@ function getAppManifests(root) {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
 
-      manifest.filePath = file;
-      manifest.entryFile = path.resolve(
-        root,
-        path.join(path.dirname(file), manifest.entryFile),
-      );
-
-      return manifest;
+      return Object.assign({}, manifest, {
+        filePath: file,
+        entryFile: path.resolve(
+          root,
+          path.join(path.dirname(file), manifest.entryFile),
+        ),
+      });
     });
 }
 

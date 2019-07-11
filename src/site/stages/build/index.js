@@ -6,33 +6,38 @@ const dateInFilename = require('metalsmith-date-in-filename');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
-const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
-const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
+const registerLiquidFilters = require('../../filters/liquid');
 const getDrupalContent = require('./drupal/metalsmith-drupal');
+const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
 const updateExternalLinks = require('./plugins/update-external-links');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
-const nonceTransformer = require('./plugins/nonceTransformer');
+const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
+const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
+const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
-const createMegaMenu = require('./plugins/create-megamenu');
+const createHeaderFooter = require('./plugins/create-header-footer');
+const createTemporaryReactPages = require('./plugins/create-react-pages');
+const downloadDrupalAssets = require('./plugins/download-drupal-assets');
+const checkForCMSUrls = require('./plugins/check-cms-urls');
+const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
+const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-  // Custom liquid filter(s)
-  liquid.filters.humanizeDate = dt =>
-    moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
+  registerLiquidFilters();
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
@@ -44,9 +49,13 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
+    enabledFeatureFlags: BUILD_OPTIONS.enabledFeatureFlags,
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
+  smith.use(addDrupalPrefix(BUILD_OPTIONS));
+  smith.use(createOutreachAssetsData(BUILD_OPTIONS));
+
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
   // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -106,6 +115,10 @@ function defaultBuild(BUILD_OPTIONS) {
     }),
   );
 
+  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
+
+  smith.use(createHeaderFooter(BUILD_OPTIONS));
+
   smith.use(
     navigation({
       navConfigs: {
@@ -127,19 +140,19 @@ function defaultBuild(BUILD_OPTIONS) {
     }),
   );
 
-  smith.use(createMegaMenu(BUILD_OPTIONS));
-
   /*
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
   */
-  smith.use(nonceTransformer);
+  smith.use(addNonceToScripts);
 
   /*
   * This will replace links in static pages with a staging domain,
   * if it is in the list of domains to replace
   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
+  smith.use(rewriteDrupalPages(BUILD_OPTIONS));
+  smith.use(createDrupalDebugPage(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.
   // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
@@ -147,12 +160,15 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createBuildSettings(BUILD_OPTIONS));
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
+  smith.use(addSubheadingsIds(BUILD_OPTIONS));
+  smith.use(downloadDrupalAssets(BUILD_OPTIONS));
 
   configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  smith.use(checkForCMSUrls(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
   smith.build(err => {

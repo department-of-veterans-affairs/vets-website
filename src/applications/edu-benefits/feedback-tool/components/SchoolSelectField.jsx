@@ -519,18 +519,21 @@ SchoolSelectField.propTypes = {
   facilityCodeSelected: PropTypes.string,
   institutionQuery: PropTypes.string,
   institutions: PropTypes.array,
-  institutionSelected: PropTypes.string,
+  institutionSelected: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
   manualSchoolEntryChecked: PropTypes.bool,
   pagesCount: PropTypes.number,
   searchInputValue: PropTypes.string,
   searchResultsCount: PropTypes.number,
   showErrors: PropTypes.bool,
-  showInstitutions: PropTypes.bool.required,
-  showInstitutionsLoading: PropTypes.bool.required,
-  showNoResultsFound: PropTypes.bool.required,
-  showPagination: PropTypes.bool.required,
-  showPaginationLoading: PropTypes.bool.required,
-  showSearchResults: PropTypes.bool.required,
+  showInstitutions: PropTypes.bool.isRequired,
+  showInstitutionsLoading: PropTypes.bool.isRequired,
+  showNoResultsFound: PropTypes.bool.isRequired,
+  showPagination: PropTypes.bool.isRequired,
+  showPaginationLoading: PropTypes.bool.isRequired,
+  showSearchResults: PropTypes.bool.isRequired,
 };
 
 SchoolSelectField.defaultProps = {

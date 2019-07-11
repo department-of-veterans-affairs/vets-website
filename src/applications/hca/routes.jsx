@@ -1,13 +1,15 @@
-import { createRoutesWithSaveInProgress } from '../../platform/forms/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import formConfig from './config/form';
 import HealthCareApp from './HealthCareApp.jsx';
 
-const route = {
+const routes = {
   path: '/',
   component: HealthCareApp,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/introduction'),
+  },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
-export default route;
+export default routes;

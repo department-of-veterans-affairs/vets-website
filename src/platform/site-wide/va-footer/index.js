@@ -1,6 +1,6 @@
 /**
  * This application creates a widget for the
- * search, help, and sign-in header navigation on Vets.gov
+ * search, help, and sign-in header navigation on VA.gov
  *
  * @module platform/site-wide/login
  */
@@ -16,9 +16,12 @@ export const footerElemementId = 'footerNav';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startVAFooter(handleFooterDidMount) {
+export default function startVAFooter(footerData, handleFooterDidMount) {
   startReactApp(
-    <Footer handleFooterDidMount={handleFooterDidMount} />,
+    <Footer
+      handleFooterDidMount={handleFooterDidMount}
+      footerData={footerData}
+    />,
     document.getElementById(footerElemementId),
   );
 }

@@ -1,24 +1,23 @@
 import React from 'react';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
 
 function GetFormHelp() {
   return (
     <div>
-      <p className="help-talk">Enrollment or Eligibility questions:</p>
+      <p className="help-talk">
+        Need help enrolling or have questions about enrollment or eligibility?
+        Call our toll-free number:
+      </p>
       <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-          1-877-222-8387
+        <a className="help-phone-number-link" href="tel:1-877-222-8387">
+          877-222-8387
         </a>
         <br />
         TTY:{' '}
-        <a className="help-phone-number-link" href="tel:+18008778339">
-          1-800-877-8339
+        <a className="help-phone-number-link" href="tel:1-800-877-8339">
+          800-877-8339
         </a>
         <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-      </p>
-      <p className="help-talk">
-        If this form isn't working right for you, please <CallHRC />
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
       </p>
     </div>
   );

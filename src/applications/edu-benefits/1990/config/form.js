@@ -3,27 +3,28 @@ import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import contactInformationPage from '../../pages/contactInformation';
-import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
+import applicantInformation from 'platform/forms/pages/applicantInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from '../../../../platform/forms/definitions/address';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+} from 'platform/forms/definitions/address';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 import createDirectDepositPage from '../../pages/directDeposit';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastMonthYearUI from 'us-forms-system/lib/js/definitions/currentOrPastMonthYear';
-import yearUI from 'us-forms-system/lib/js/definitions/year';
+import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
+import yearUI from 'platform/forms-system/src/js/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -31,8 +32,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
 
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 
 import {
   transform,
@@ -85,7 +86,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
-  formId: '22-1990',
+  formId: VA_FORM_IDS.FORM_22_1990,
   version: 1,
   migrations: [urlMigration('/1990')],
   savedFormMessages: {

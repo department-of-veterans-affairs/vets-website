@@ -8,24 +8,11 @@ import {
   recordsDescription,
   datesDescription,
 } from '../content/hospitalizationHistory';
-import { generateAddressSchemas } from '../utils';
+import { addressUISchema } from '../utils';
 
 const {
   hospitalProvidedCare,
 } = fullSchema.properties.form8940.properties.unemployability.properties;
-
-const { addressUI, addressSchema } = generateAddressSchemas(
-  ['addressLine3', 'postalCode'],
-  ['country', 'addressLine1', 'addressLine2', 'city', 'state', 'zipCode'],
-  {
-    country: 'Country',
-    addressLine1: 'Street address',
-    addressLine2: 'Street address (optional)',
-    city: 'City',
-    state: 'State',
-    zipCode: 'Postal Code',
-  },
-);
 
 export const uiSchema = {
   unemployability: {
@@ -44,7 +31,12 @@ export const uiSchema = {
         'view:hospitalAddressTitle': {
           'ui:title': 'Hospital’s address',
         },
-        address: addressUI,
+        address: addressUISchema(
+          'unemployability.hospitalProvidedCare[:index].address',
+          null,
+          false,
+          false,
+        ),
         dates: {
           'ui:title': datesDescription,
           'ui:widget': 'textarea',
@@ -68,21 +60,7 @@ export const schema = {
     unemployability: {
       type: 'object',
       properties: {
-        hospitalProvidedCare: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: hospitalProvidedCare.items.properties.name,
-              'view:hospitalAddressTitle': {
-                type: 'object',
-                properties: {},
-              },
-              address: addressSchema,
-              dates: hospitalProvidedCare.items.properties.dates,
-            },
-          },
-        },
+        hospitalProvidedCare,
         'view:recordsInfo': {
           type: 'object',
           properties: {},

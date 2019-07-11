@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import {
-  systemDownMessage,
-  unableToFindRecordWarning,
-} from '../../../platform/static-data/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
-// import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
-import { backendErrorMessage } from '../utils/helpers';
+import {
+  backendErrorMessage,
+  authenticationErrorMessage,
+  genericErrorMessage,
+} from '../utils/helpers';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -27,24 +26,16 @@ export class Main extends React.Component {
           <LoadingIndicator message="Please wait while we check if the tool is available for you." />
         );
         break;
-      case 'backendServiceError':
-        appContent = backendErrorMessage();
-        break;
       case 'backendAuthenticationError':
-        appContent = unableToFindRecordWarning;
-        break;
       case 'noChapter33Record':
-        /*
-          Temporarily replace noChapter33BenefitsWarning() with systemDown.
-          See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/7677
-        */
-        // appContent = noChapter33BenefitsWarning();
-        appContent = systemDownMessage;
+        appContent = authenticationErrorMessage;
         break;
-      case 'unavailable':
+      case 'getEnrollmentDataFailure':
+      case 'backendServiceError':
+        appContent = backendErrorMessage;
+        break;
       default:
-        // appContent = systemDownMessage;
-        appContent = backendErrorMessage();
+        appContent = genericErrorMessage;
     }
 
     return <div>{appContent}</div>;

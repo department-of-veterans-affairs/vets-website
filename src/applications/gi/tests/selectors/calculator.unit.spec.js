@@ -5,8 +5,9 @@ import { calculatorConstants } from '../gibct-helpers';
 import createCommonStore from '../../../../platform/startup/store';
 import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/calculator';
+import { formatCurrency } from '../../utils/helpers';
 
-const defaultState = createCommonStore(reducer).getState();
+let defaultState = createCommonStore(reducer).getState();
 
 defaultState.constants = {
   constants: {},
@@ -18,126 +19,177 @@ calculatorConstants.data.forEach(c => {
   defaultState.constants.constants[c.attributes.name] = c.attributes.value;
 });
 
-defaultState.profile = {
-  attributes: {
-    accreditationStatus: null,
-    accreditationType: 'regional',
-    accredited: true,
-    avgStuLoanDebt: 254.0070326,
-    bah: 2271.0,
-    books: 1000,
-    calendar: 'semesters',
-    cautionFlag: true,
-    cautionFlagReason:
-      'Settlement with U.S. Government, Heightened Cash Monitoring (Financial Responsibility)',
-    city: 'SEATTLE',
-    complaints: {
-      accreditationByFacCode: 1,
-      accreditationByOpeIdDoNotSum: 7,
-      creditJobByFacCode: null,
-      creditTransferByFacCode: 0,
-      creditTransferByOpeIdDoNotSum: 5,
-      degreeRequirementsByFacCode: 0,
-      degreeRequirementsByOpeIdDoNotSum: 10,
-      facilityCode: 1,
-      financialByFacCode: 0,
-      financialByOpeIdDoNotSum: 32,
-      gradesByFacCode: 0,
-      gradesByOpeIdDoNotSum: 2,
-      jobByFacCode: 0,
-      jobsByOpeIdDoNotSum: 7,
-      mainCampusRollUp: 56,
-      marketingByFacCode: 0,
-      marketingByOpeIdDoNotSum: 13,
-      otherByFacCode: 0,
-      otherByOpeIdDoNotSum: 11,
-      qualityByFacCode: 0,
-      qualityByOpeIdDoNotSum: 19,
-      refundByFacCode: 0,
-      refundByOpeIdDoNotSum: 8,
-      studentLoansByFacCode: 0,
-      studentLoansByOpeIdDoNotSum: 15,
-      transcriptByFacCode: 0,
-      transcriptByOpeIdDoNotSum: 2,
+defaultState = {
+  ...defaultState,
+  profile: {
+    ...defaultState.profile,
+    attributes: {
+      accreditationStatus: null,
+      accreditationType: 'regional',
+      accredited: true,
+      avgStuLoanDebt: 254.0070326,
+      bah: 2271.0,
+      books: 1000,
+      calendar: 'semesters',
+      cautionFlag: true,
+      cautionFlagReason:
+        'Settlement with U.S. Government, Heightened Cash Monitoring (Financial Responsibility)',
+      city: 'SEATTLE',
+      complaints: {
+        accreditationByFacCode: 1,
+        accreditationByOpeIdDoNotSum: 7,
+        creditJobByFacCode: null,
+        creditTransferByFacCode: 0,
+        creditTransferByOpeIdDoNotSum: 5,
+        degreeRequirementsByFacCode: 0,
+        degreeRequirementsByOpeIdDoNotSum: 10,
+        facilityCode: 1,
+        financialByFacCode: 0,
+        financialByOpeIdDoNotSum: 32,
+        gradesByFacCode: 0,
+        gradesByOpeIdDoNotSum: 2,
+        jobByFacCode: 0,
+        jobsByOpeIdDoNotSum: 7,
+        mainCampusRollUp: 56,
+        marketingByFacCode: 0,
+        marketingByOpeIdDoNotSum: 13,
+        otherByFacCode: 0,
+        otherByOpeIdDoNotSum: 11,
+        qualityByFacCode: 0,
+        qualityByOpeIdDoNotSum: 19,
+        refundByFacCode: 0,
+        refundByOpeIdDoNotSum: 8,
+        studentLoansByFacCode: 0,
+        studentLoansByOpeIdDoNotSum: 15,
+        transcriptByFacCode: 0,
+        transcriptByOpeIdDoNotSum: 2,
+      },
+      correspondence: false,
+      country: 'USA',
+      createdAt: '2017-04-15T00:58:45.542Z',
+      creditForMilTraining: true,
+      cross: '00439057',
+      dodmou: true,
+      eightKeys: true,
+      facilityCode: '21405247',
+      flight: false,
+      graduationRateAllStudents: null,
+      graduationRateVeteran: null,
+      highestDegree: 4,
+      localeType: 'city',
+      name: 'ARGOSY UNIVERSITY-SEATTLE',
+      onlineAll: true,
+      ope: '02179913',
+      ope6: '21799',
+      p911Recipients: 14,
+      p911TuitionFees: 146895.25,
+      p911YellowRibbon: 1249.92,
+      p911YrRecipients: 3,
+      persistanceRateVeteranBa: 1.0,
+      persistanceRateVeteranOtb: 0.5,
+      poe: true,
+      repaymentRateAllStudents: 0.187458943,
+      retentionAllStudentsBa: null,
+      retentionAllStudentsOtb: null,
+      retentionRateVeteranBa: 1.0,
+      retentionRateVeteranOtb: 0.5,
+      salaryAllStudents: 37000.0,
+      sec702: null,
+      socMember: true,
+      state: 'WA',
+      studentCount: 13,
+      studentVetGrpIpeds: false,
+      studentVeteran: null,
+      studentVeteranLink: null,
+      transferOutRateAllStudents: null,
+      transferOutRateVeteran: null,
+      tuitionInState: 13663,
+      tuitionOutOfState: 13663,
+      type: 'FOR PROFIT',
+      undergradEnrollment: 152,
+      updatedAt: '2017-04-15T00:58:45.542Z',
+      vetPoc: true,
+      vetSuccessEmail: null,
+      vetSuccessName: null,
+      yr: true,
+      yellowRibbonPrograms: [
+        {
+          divisionProfessionalSchool: 'division1',
+          degreeLevel: 'graduate',
+          contributionAmount: 5000,
+          numberOfStudents: 20,
+        },
+        {
+          divisionProfessionalSchool: 'division2',
+          degreeLevel: 'undergraduate',
+          contributionAmount: 5,
+          numberOfStudents: 25,
+        },
+        {
+          divisionProfessionalSchool: 'division3',
+          degreeLevel: 'undergraduate',
+          contributionAmount: 25,
+          numberOfStudents: 30,
+        },
+      ],
+      zip: '98121',
     },
-    correspondence: false,
-    country: 'USA',
-    createdAt: '2017-04-15T00:58:45.542Z',
-    creditForMilTraining: true,
-    cross: '00439057',
-    dodmou: true,
-    eightKeys: true,
-    facilityCode: '21405247',
-    flight: false,
-    graduationRateAllStudents: null,
-    graduationRateVeteran: null,
-    highestDegree: 4,
-    localeType: 'city',
-    name: 'ARGOSY UNIVERSITY-SEATTLE',
-    onlineAll: true,
-    ope: '02179913',
-    ope6: '21799',
-    p911Recipients: 14,
-    p911TuitionFees: 146895.25,
-    p911YellowRibbon: 1249.92,
-    p911YrRecipients: 3,
-    persistanceRateVeteranBa: 1.0,
-    persistanceRateVeteranOtb: 0.5,
-    poe: true,
-    repaymentRateAllStudents: 0.187458943,
-    retentionAllStudentsBa: null,
-    retentionAllStudentsOtb: null,
-    retentionRateVeteranBa: 1.0,
-    retentionRateVeteranOtb: 0.5,
-    salaryAllStudents: 37000.0,
-    sec702: null,
-    socMember: true,
-    state: 'WA',
-    studentCount: 13,
-    studentVetGrpIpeds: false,
-    studentVeteran: null,
-    studentVeteranLink: null,
-    transferOutRateAllStudents: null,
-    transferOutRateVeteran: null,
-    tuitionInState: 13663,
-    tuitionOutOfState: 13663,
-    type: 'FOR PROFIT',
-    undergradEnrollment: 152,
-    updatedAt: '2017-04-15T00:58:45.542Z',
-    vetPoc: true,
-    vetSuccessEmail: null,
-    vetSuccessName: null,
-    yr: true,
-    yellowRibbonPrograms: [
-      {
-        divisionProfessionalSchool: 'division1',
-        degreeLevel: 'graduate',
-        contributionAmount: 5000,
-        numberOfStudents: 20,
-      },
-      {
-        divisionProfessionalSchool: 'division2',
-        degreeLevel: 'undergraduate',
-        contributionAmount: 5,
-        numberOfStudents: 25,
-      },
-      {
-        divisionProfessionalSchool: 'division3',
-        degreeLevel: 'undergraduate',
-        contributionAmount: 25,
-        numberOfStudents: 30,
-      },
-    ],
-    zip: '98121',
+
+    version: {
+      createdAt: '2017-04-15T01:00:03.494Z',
+      number: 6,
+      preview: false,
+    },
+
+    inProgress: false,
+  },
+  eligibility: {
+    ...defaultState.eligibility,
+    militaryStatus: 'veteran',
+    giBillChapter: '33',
+    cumulativeService: '1.0',
+    onlineClasses: 'no',
+    spouseActiveDuty: 'no',
+    enlistmentService: '3',
+    consecutiveService: '0.8',
+    eligForPostGiBill: 'no',
+    numberOfDependents: '0',
   },
 
-  version: {
-    createdAt: '2017-04-15T01:00:03.494Z',
-    number: 6,
-    preview: false,
+  calculator: {
+    ...defaultState.calculator,
+    beneficiaryLocationQuestion: 'yes',
+    beneficiaryZIP: '',
+    inState: 'yes',
+    tuitionInState: 10981,
+    tuitionOutOfState: 27971,
+    tuitionFees: 10981,
+    inStateTuitionFees: 10981,
+    books: 1207,
+    yellowRibbonRecipient: 'no',
+    yellowRibbonAmount: 0,
+    giBillBenefit: 'no',
+    scholarships: 0,
+    tuitionAssist: 0,
+    enrolled: 'full',
+    enrolledOld: 'full',
+    calendar: 'semesters',
+    working: '30',
+    numberNontradTerms: '2',
+    lengthNontradTerms: '3',
+    kickerEligible: 'no',
+    kickerAmount: 200,
+    buyUp: 'no',
+    buyUpAmount: 600,
+    type: 'PUBLIC',
+    beneficiaryLocationBah: null,
+    beneficiaryLocationGrandfatheredBah: null,
+    yellowRibbonDegreeLevel: '',
+    yellowRibbonDivision: '',
+    yellowRibbonDegreeLevelOptions: [],
+    yellowRibbonDivisionOptions: [],
+    yellowRibbonPrograms: [],
   },
-
-  inProgress: false,
 };
 
 describe('getCalculatedBenefits', () => {
@@ -164,6 +216,13 @@ describe('getCalculatedBenefits', () => {
     const { inputs, outputs } = getCalculatedBenefits(state);
     expect(inputs.yellowRibbon).to.be.false;
     expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
+  });
+
+  it('should hide Yellow Ribbon fields when is active duty and is thirty six months plus cumulative post-9/11 active duty service', () => {
+    let state = set('eligibility.militaryStatus', 'active duty', defaultState);
+    state = set('eligibility.giBillChapter', 33, state);
+    state = set('eligibility.cumulativeService', '1.0', state);
+    expect(getCalculatedBenefits(state).inputs.yellowRibbon).to.be.false;
   });
 
   it('should show the books field for GI Bill Ch 31', () => {
@@ -274,5 +333,202 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
+  });
+
+  it('should fall back to VA rate', () => {
+    const state = set('calculator.giBillBenefit', 'no', defaultState);
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal('$2,271/mo');
+  });
+  it('should use VA rate when Post-9/11 GI Bill benefit used before 1/1/2018', () => {
+    let state = set('profile.attributes.dodBah', 2000, defaultState);
+    state = set('calculator.giBillBenefit', 'yes', state);
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal('$2,271/mo');
+  });
+  it('should use DOD rate when available', () => {
+    let state = set('profile.attributes.dodBah', 2000, defaultState);
+    state = set('calculator.giBillBenefit', 'no', state);
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal('$2,000/mo');
+  });
+
+  it('should calculate DEARATEFULLTIME housing allowance for DEA (35) if enrolledOld is full', () => {
+    let state = set('calculator.enrolledOld', 'full', defaultState);
+    state = set('eligibility.giBillChapter', '35', state);
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(
+      `${formatCurrency(defaultState.constants.constants.DEARATEFULLTIME)}/mo`,
+    );
+  });
+
+  it("should calculate DEARATETHREEQUARTERS housing allowance for DEA (35) if enrolledOld is 'three quaters'", () => {
+    let state = set('calculator.enrolledOld', 'three quarters', defaultState);
+    state = set('eligibility.giBillChapter', '35', state);
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(
+      `${formatCurrency(
+        defaultState.constants.constants.DEARATETHREEQUARTERS,
+      )}/mo`,
+    );
+  });
+
+  it('should calculate DEARATEONEHALF housing allowance for DEA (35) if enrolledOld is half', () => {
+    let state = set('calculator.enrolledOld', 'half', defaultState);
+    state = set('eligibility.giBillChapter', '35', state);
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(
+      `${formatCurrency(defaultState.constants.constants.DEARATEONEHALF)}/mo`,
+    );
+  });
+
+  it("should calculate housing allowance as DEARATEFULLTIME * 0.5 for DEA (35) if enrolledOld is 'less than half' and tuitionFeesPerTerm > totalHousingAllowance", () => {
+    let state = set('calculator.enrolledOld', 'less than half', defaultState);
+    state = set('eligibility.giBillChapter', '35', state);
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(
+      `${formatCurrency(
+        defaultState.constants.constants.DEARATEUPTOONEHALF,
+      )}/mo`,
+    );
+  });
+
+  it('should calculate housing allowance as DEARATEFULLTIME * 0.25 for DEA (35) if enrolledOld is quarter and tuitionFeesPerTerm > totalHousingAllowance', () => {
+    let state = set('calculator.enrolledOld', 'quarter', defaultState);
+    state = set('eligibility.giBillChapter', '35', state);
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(
+      `${formatCurrency(
+        defaultState.constants.constants.DEARATEUPTOONEQUARTER,
+      )}/mo`,
+    );
+  });
+
+  it("should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if enrolledOld is 'less than half' and tuitionFeesPerTerm < totalHousingAllowance", () => {
+    const tuitionFees = 4430;
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        enrolledOld: 'less than half',
+        calendar: 'semesters',
+        tuitionInState: tuitionFees,
+        tuitionOutOfState: 8600,
+        tuitionFees,
+        inStateTuitionFees: tuitionFees,
+        books: 1500,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        giBillChapter: '35',
+      },
+    };
+
+    const tuitionFeesPerTerm = tuitionFees / 2;
+    const housingAllowance = tuitionFeesPerTerm / 4.5;
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+  });
+
+  it('should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if enrolledOld is quarter and tuitionFeesPerTerm < totalHousingAllowance', () => {
+    const tuitionFees = 2500;
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        enrolledOld: 'quarter',
+        calendar: 'semesters',
+        tuitionInState: tuitionFees,
+        tuitionOutOfState: 8600,
+        tuitionFees,
+        inStateTuitionFees: tuitionFees,
+        books: 1500,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        giBillChapter: '35',
+      },
+    };
+
+    const tuitionFeesPerTerm = tuitionFees / 2;
+    const housingAllowance = tuitionFeesPerTerm / 4.5;
+
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+  });
+
+  it('should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if OJT', () => {
+    const working = '30';
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        type: 'OJT',
+        working,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        giBillChapter: '35',
+      },
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          ...defaultState.profile.attributes,
+          type: 'ojt',
+        },
+      },
+    };
+
+    const ropOjt = working / 30;
+    const monthlyRateFinal =
+      ropOjt * defaultState.constants.constants.DEARATEOJT;
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
+  });
+
+  it('should calculate housing allowance using half the average DOD/VA rate if OJT and online only courses', () => {
+    const working = '30';
+    const state = {
+      ...defaultState,
+      calculator: {
+        ...defaultState.calculator,
+        type: 'OJT',
+        working,
+      },
+      eligibility: {
+        ...defaultState.eligibility,
+        onlineClasses: 'yes',
+      },
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          ...defaultState.profile.attributes,
+          type: 'ojt',
+        },
+      },
+    };
+    const ropOjt = working / 30;
+    const monthlyRateFinal =
+      (ropOjt * defaultState.constants.constants.AVGDODBAH) / 2;
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
   });
 });

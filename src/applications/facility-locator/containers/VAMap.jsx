@@ -1,12 +1,11 @@
-/* eslint-disable react/jsx-closing-bracket-location */
-/* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
-import { mapboxClient, mapboxToken } from '../components/MapboxClient';
+import { mapboxClient } from '../components/MapboxClient';
+import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
 import { isEmpty, debounce } from 'lodash';
 import appendQuery from 'append-query';
@@ -25,7 +24,7 @@ import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
-import { facilityTypes, ccLocatorEnabled } from '../config';
+import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
@@ -38,8 +37,14 @@ const otherToolsLink = (
   </p>
 );
 
-// This isn't valid JSX 2.x, better to get used to it now
-/* eslint-disable react/jsx-boolean-value */
+const urgentCareLink = (
+  <p id="urgent-care-link">
+    <a href="http://vaurgentcarelocator.triwest.com/">
+      Find VA-approved urgent care locations and pharmacies near you
+    </a>
+  </p>
+);
+
 class VAMap extends Component {
   constructor(props) {
     super(props);
@@ -89,16 +94,17 @@ class VAMap extends Component {
       });
     }
   }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
     let resultsPage = newQuery.currentPage;
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
-        // eslint-disable-next-line prettier/prettier
-        location: `${newQuery.position.latitude},${newQuery.position.longitude}`, // don't break the string
+        location: `${newQuery.position.latitude},${
+          newQuery.position.longitude
+        }`, // don't break the string
         context: newQuery.context,
         address: newQuery.searchString,
       });
@@ -166,15 +172,13 @@ class VAMap extends Component {
     const { currentQuery: prevQuery } = prevProps;
     const updatedQuery = this.props.currentQuery;
 
-    /* eslint-disable prettier/prettier */
-    const shouldZoomOut = ( // ToTriggerNewSearch
-      (!updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress) && // search completed
+    const shouldZoomOut = // ToTriggerNewSearch
+      !updatedQuery.searchBoundsInProgress &&
+      prevQuery.searchBoundsInProgress && // search completed
       isEmpty(this.props.results) &&
       updatedQuery.bounds &&
       parseInt(updatedQuery.zoomLevel, 10) > 2 &&
-      !updatedQuery.error
-    );
-    /* eslint-enable prettier/prettier */
+      !updatedQuery.error;
 
     if (shouldZoomOut) {
       if (isMobile.any) {
@@ -232,8 +236,7 @@ class VAMap extends Component {
    *
    * @param {Object} location ReactRouter location object
    */
-  // eslint-disable-next-line prettier/prettier
-  syncStateWithLocation = (location) => {
+  syncStateWithLocation = location => {
     if (
       location.query.address &&
       this.props.currentQuery.searchString !== location.query.address &&
@@ -252,8 +255,7 @@ class VAMap extends Component {
    *
    * @param {Object} params Object containing the current search fields
    */
-  // eslint-disable-next-line prettier/prettier
-  updateUrlParams = (params) => {
+  updateUrlParams = params => {
     // TODO (bshyong): try out existing query-string npm library
     const { location, currentQuery } = this.props;
     const queryParams = {
@@ -279,8 +281,7 @@ class VAMap extends Component {
    *
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
-  // eslint-disable-next-line prettier/prettier
-  genBBoxFromCoords = (position) => {
+  genBBoxFromCoords = position => {
     mapboxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
       const coordinates = res.features[0].center;
       const placeName = res.features[0].place_name;
@@ -383,40 +384,53 @@ class VAMap extends Component {
         onClick: () => {
           const searchResult = document.getElementById(r.id);
           if (searchResult) {
-            // eslint-disable-next-line prettier/prettier
-            Array.from(document.getElementsByClassName('facility-result')).forEach(e => {
+            Array.from(
+              document.getElementsByClassName('facility-result'),
+            ).forEach(e => {
               e.classList.remove('active');
             });
             searchResult.classList.add('active');
-            // eslint-disable-next-line prettier/prettier
-            document.getElementById('searchResultsContainer').scrollTop = searchResult.offsetTop;
+            document.getElementById('searchResultsContainer').scrollTop =
+              searchResult.offsetTop;
           }
           this.props.fetchVAFacility(r.id, r);
         },
       };
 
-      /* eslint-disable prettier/prettier */
       const popupContent = (
         <div>
-          { (r.type === LocationType.CC_PROVIDER) ? (
+          {r.type === LocationType.CC_PROVIDER ? (
             <div>
-              <a onClick={linkAction.bind(this, r.id, true)}>
+              <a
+                href={`/provider/${r.id}`}
+                onClick={linkAction.bind(this, r.id, true)}
+              >
                 <h5>{r.attributes.name}</h5>
               </a>
               <h6>{r.attributes.orgName}</h6>
-              <p>Services: <strong>{r.attributes.specialty.map(s => s.name.trim()).join(', ')}</strong></p>
+              <p>
+                Services:{' '}
+                <strong>
+                  {r.attributes.specialty.map(s => s.name.trim()).join(', ')}
+                </strong>
+              </p>
             </div>
           ) : (
             <div>
-              <a onClick={linkAction.bind(this, r.id, false)}>
+              <a
+                href={`/facility/${r.id}`}
+                onClick={linkAction.bind(this, r.id, false)}
+              >
                 <h5>{r.attributes.name}</h5>
               </a>
-              <p>Facility type: <strong>{facilityTypes[r.attributes.facilityType]}</strong></p>
+              <p>
+                Facility type:{' '}
+                <strong>{facilityTypes[r.attributes.facilityType]}</strong>
+              </p>
             </div>
           )}
         </div>
       );
-      /* eslint-enable prettier/prettier */
 
       switch (r.attributes.facilityType) {
         case FacilityType.VA_HEALTH_FACILITY:
@@ -426,12 +440,14 @@ class VAMap extends Component {
         case FacilityType.VA_BENEFITS_FACILITY:
           return <BenefitsMarker {...iconProps}>{popupContent}</BenefitsMarker>;
         case FacilityType.VET_CENTER:
-          // eslint-disable-next-line prettier/prettier
-          return <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>;
+          return (
+            <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
+          );
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
-            // eslint-disable-next-line prettier/prettier
-            return <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>;
+            return (
+              <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>
+            );
           }
           return null;
         default:
@@ -443,46 +459,63 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, results, pagination, selectedResult } = this.props;
+    const { currentQuery, selectedResult } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-
+    const externalLink =
+      currentQuery.facilityType === LocationType.CC_PROVIDER
+        ? urgentCareLink
+        : otherToolsLink;
     return (
-      /* eslint-disable prettier/prettier */
       <div>
         <div className="columns small-12">
-          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch} isMobile={true} />
+          <SearchControls
+            currentQuery={currentQuery}
+            onChange={this.props.updateSearchQuery}
+            onSubmit={this.handleSearch}
+            isMobile
+          />
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
-                <ResultsList results={results} pagination={pagination} isMobile
-                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
-                {otherToolsLink}
+              <div
+                aria-live="polite"
+                aria-relevant="additions text"
+                className="facility-search-results"
+              >
+                <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
+                {externalLink}
               </div>
             </TabPanel>
             <TabPanel>
-              {otherToolsLink}
-              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}
-                zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged}
-                onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+              {externalLink}
+              <Map
+                ref="map"
+                center={position}
+                zoom={parseInt(currentQuery.zoomLevel, 10)}
+                style={{ width: '100%', maxHeight: '55vh' }}
+                scrollWheelZoom={false}
+                zoomSnap={1}
+                zoomDelta={1}
+                onMoveEnd={this.handleBoundsChanged}
+                onLoad={this.handleBoundsChanged}
+                onViewReset={this.handleBoundsChanged}
+              >
                 <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-                    <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
-                    Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-                {facilityLocatorMarkers.length > 0 &&
-                  <FeatureGroup
-                    ref="facilityMarkers">
+                  attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+                    <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
+                    Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
+                />
+                {facilityLocatorMarkers.length > 0 && (
+                  <FeatureGroup ref="facilityMarkers">
                     {facilityLocatorMarkers}
                   </FeatureGroup>
-                }
+                )}
               </Map>
-              { selectedResult && (
+              {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult result={selectedResult} />
                 </div>
@@ -491,79 +524,108 @@ class VAMap extends Component {
           </Tabs>
         </div>
       </div>
-      /* eslint-enable prettier/prettier */
     );
   };
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, results, pagination } = this.props;
+    const { currentQuery } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const externalLink =
+      currentQuery.facilityType === LocationType.CC_PROVIDER
+        ? urgentCareLink
+        : otherToolsLink;
 
     return (
-      /* eslint-disable prettier/prettier */
       <div className="desktop-container">
         <div>
-          <SearchControls currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} />
+          <SearchControls
+            currentQuery={currentQuery}
+            onChange={this.props.updateSearchQuery}
+            onSubmit={this.handleSearch}
+          />
         </div>
         <div className="row">
-          <div className="columns usa-width-one-third medium-4 small-12"
-            style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
-            <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
+          <div
+            className="columns usa-width-one-third medium-4 small-12"
+            style={{ maxHeight: '75vh', overflowY: 'auto' }}
+            id="searchResultsContainer"
+          >
+            <div
+              aria-live="polite"
+              aria-relevant="additions text"
+              className="facility-search-results"
+            >
               <div>
-                <ResultsList results={results} pagination={pagination}
-                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
+                <ResultsList updateUrlParams={this.updateUrlParams} />
               </div>
             </div>
           </div>
-          <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
-            {otherToolsLink}
-            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5}
-              zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }}
-              scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
+          <div
+            className="columns usa-width-two-thirds medium-8 small-12"
+            style={{ minHeight: '75vh' }}
+          >
+            {externalLink}
+            <Map
+              ref="map"
+              center={position}
+              zoomSnap={1}
+              zoomDelta={1}
+              zoom={parseInt(currentQuery.zoomLevel, 10)}
+              style={{ minHeight: '75vh', width: '100%' }}
+              scrollWheelZoom={false}
+              onMoveEnd={this.handleBoundsChanged}
+            >
               <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-                  <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
-                  Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-              {facilityLocatorMarkers.length > 0 &&
-                <FeatureGroup
-                  ref="facilityMarkers">
+                attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+                  <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
+                  Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
+              />
+              {facilityLocatorMarkers.length > 0 && (
+                <FeatureGroup ref="facilityMarkers">
                   {facilityLocatorMarkers}
                 </FeatureGroup>
-              }
+              )}
             </Map>
           </div>
         </div>
       </div>
-      /* eslint-enable prettier/prettier */
     );
   };
 
   render() {
     return (
-      /* eslint-disable prettier/prettier */
       <div>
         <div className="title-section">
           <h1>Find VA Locations</h1>
         </div>
 
         <div className="facility-introtext">
-          Find VA locations near you with our facility locator tool. You can search for your nearest 
-          VA medical center as well as other health facilities, benefit offices, cemeteries, 
-          { ccLocatorEnabled() && <span> community care providers, </span> }
-          and Vet Centers. You can also filter your results by service type to find 
-          locations that offer the specific service you’re looking for.
+          <p>
+            Find VA locations near you with our facility locator tool. You can
+            search for your nearest VA medical center as well as other health
+            facilities, benefit offices, cemeteries, community care providers
+            and Vet Centers. You can also filter your results by service type to
+            find locations that offer the specific service you’re looking for.
+          </p>
+          <p>
+            <strong>Need same-day care for a minor illness or injury?</strong>{' '}
+            Search for your nearest VA health facility. Or find{' '}
+            <a
+              href="https://vaurgentcarelocator.triwest.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VA-approved urgent care locations and pharmacies
+            </a>{' '}
+            near you.
+          </p>
         </div>
-        { isMobile.any
-          ? this.renderMobileView()
-          : this.renderDesktopView()
-        }
+        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>
-      /* eslint-enable prettier/prettier */
     );
   }
 }

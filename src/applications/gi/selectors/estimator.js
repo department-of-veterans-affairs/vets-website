@@ -5,10 +5,11 @@ const getConstants = state => state.constants.constants;
 const getEligibilityDetails = state => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
-  const { type, bah, country } = props;
+  const { type, bah, dodBah, country } = props;
   return {
     type: type && type.toLowerCase(),
     bah,
+    dodBah,
     country: country && country.toLowerCase(),
   };
 };
@@ -16,32 +17,34 @@ const getRequiredAttributes = (state, props) => {
 function getDerivedAttributes(constant, eligibility, institution) {
   const your = eligibility;
   const its = institution;
+  const chapter = Number(your.giBillChapter);
   let monthlyRate;
 
   const serviceDischarge = your.cumulativeService === 'service discharge';
+  const purpleHeart = your.cumulativeService === 'purple heart';
 
   // VRE and post-9/11 eligibility
-  const vre911Eligible =
-    your.giBillChapter === '31' && your.eligForPostGiBill === 'yes';
+  const vre911Eligible = chapter === 31 && your.eligForPostGiBill === 'yes';
 
   // VRE-without-post-911 eligibility
-  const onlyVRE =
-    your.giBillChapter === '31' && your.eligForPostGiBill === 'no';
+  const onlyVRE = chapter === 31 && your.eligForPostGiBill === 'no';
 
   // Determines benefits tier
   const tier =
-    vre911Eligible || serviceDischarge ? 1 : Number(your.cumulativeService);
+    vre911Eligible || serviceDischarge || purpleHeart
+      ? 1
+      : Number(your.cumulativeService);
+
+  const isFlightOrCorrespondence =
+    its.type === 'flight' || its.type === 'correspondence';
 
   const oldGiBill =
-    your.giBillChapter === '30' ||
-    your.giBillChapter === '1607' ||
-    your.giBillChapter === '1606' ||
-    your.giBillChapter === '35';
+    chapter === 30 || chapter === 1607 || chapter === 1606 || chapter === 35;
 
   // Determines whether monthly benefit can only be spent on tuition/fees
   const activeDutyThirtyOr1607 =
     your.militaryStatus === 'active duty' &&
-    (your.giBillChapter === '30' || your.giBillChapter === '1607');
+    (chapter === 30 || chapter === 1607);
   const correspondenceOrFlightUnderOldGiBill =
     (its.type === 'correspondence' || its.type === 'flight') &&
     oldGiBill === true;
@@ -53,7 +56,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   const isFlight = its.type === 'flight';
   const n = Number(your.numberOfDependents);
   const OJT = isOJT ? 'OJT' : '';
-  switch (Number(your.giBillChapter)) {
+  switch (chapter) {
     case 30:
       if (your.enlistmentService === '3') {
         monthlyRate = isOJT
@@ -83,7 +86,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
       } else if (isFlight) {
         monthlyRate = 0;
       } else {
-        monthlyRate = constant.DEARATE;
+        monthlyRate = constant.DEARATEFULLTIME;
       }
       break;
     case 31:
@@ -99,6 +102,13 @@ function getDerivedAttributes(constant, eligibility, institution) {
       monthlyRate = null;
   }
 
+  const bah = its.dodBah && its.dodBah < its.bah ? its.dodBah : its.bah;
+
+  const averageBah =
+    constant.AVGDODBAH && constant.AVGDODBAH < constant.AVGVABAH
+      ? constant.AVGDODBAH
+      : constant.AVGVABAH;
+
   return {
     serviceDischarge,
     vre911Eligible,
@@ -107,41 +117,39 @@ function getDerivedAttributes(constant, eligibility, institution) {
     oldGiBill,
     onlyTuitionFees,
     monthlyRate,
+    isFlightOrCorrespondence,
+    bah,
+    averageBah,
+    chapter,
   };
 }
 
 function calculateTuition(constant, eligibility, institution, derived) {
-  const your = eligibility;
-  const its = institution;
-  const chapter = Number(your.giBillChapter);
-  const isFlightOrCorrespondence = () =>
-    its.type === 'flight' || its.type === 'correspondence';
-
   if (derived.oldGiBill) {
     return { qualifier: 'per year', value: 0 };
   }
-  if (its.type === 'ojt') {
+  if (institution.type === 'ojt') {
     return { qualifier: null, value: 'N/A' };
   }
-  if (chapter === 31) {
-    if (isFlightOrCorrespondence()) {
+  if (derived.chapter === 31) {
+    if (derived.isFlightOrCorrespondence) {
       return { qualifier: 'per year', value: 0 };
     }
     return { qualifier: null, value: 'Full Cost' };
   }
-  if (its.type === 'flight') {
+  if (institution.type === 'flight') {
     return {
       qualifier: 'per year',
       value: Math.round(constant.FLTTFCAP * derived.tier),
     };
   }
-  if (its.type === 'correspondence') {
+  if (institution.type === 'correspondence') {
     return {
       qualifier: 'per year',
       value: Math.round(constant.CORRESPONDTFCAP * derived.tier),
     };
   }
-  if (its.type === 'public') {
+  if (institution.type === 'public') {
     return {
       qualifier: '% of instate tuition',
       value: Math.round(100 * derived.tier),
@@ -154,60 +162,47 @@ function calculateTuition(constant, eligibility, institution, derived) {
 }
 
 function calculateHousing(constant, eligibility, institution, derived) {
-  const your = eligibility;
-  const its = institution;
-  const isFlightOrCorrespondence = () =>
-    its.type === 'flight' || its.type === 'correspondence';
-
-  if (your.giBillChapter === '31' && isFlightOrCorrespondence()) {
+  if (derived.chapter === 31 && derived.isFlightOrCorrespondence) {
     return { qualifier: 'per month', value: 0 };
-  }
-  if (derived.oldGiBill && derived.onlyTuitionFees) {
-    return { qualifier: 'per month', value: Math.round(derived.monthlyRate) };
   }
   if (derived.oldGiBill || derived.onlyVRE) {
     return { qualifier: 'per month', value: Math.round(derived.monthlyRate) };
   }
-  if (your.militaryStatus === 'active duty') {
+  if (eligibility.militaryStatus === 'active duty') {
     return { qualifier: 'per month', value: 0 };
   }
-  if (your.militaryStatus === 'spouse' && your.spouseActiveDuty === 'yes') {
+  if (
+    eligibility.militaryStatus === 'spouse' &&
+    eligibility.spouseActiveDuty === 'yes'
+  ) {
     return { qualifier: 'per month', value: 0 };
   }
-  if (isFlightOrCorrespondence()) {
+  if (derived.isFlightOrCorrespondence) {
     return { qualifier: 'per month', value: 0 };
   }
-  if (its.type === 'ojt') {
+  if (eligibility.onlineClasses === 'yes') {
     return {
       qualifier: 'per month',
-      value: Math.round(derived.tier * its.bah),
+      value: Math.round((derived.tier * derived.averageBah) / 2),
     };
   }
-  if (your.onlineClasses === 'yes') {
+  if (institution.country !== 'usa') {
     return {
       qualifier: 'per month',
-      value: Math.round((derived.tier * constant.AVGBAH) / 2),
+      value: Math.round(derived.tier * derived.averageBah),
     };
   }
-  if (its.country !== 'usa') {
-    return {
-      qualifier: 'per month',
-      value: Math.round(derived.tier * constant.AVGBAH),
-    };
-  }
-  return { qualifier: 'per month', value: Math.round(derived.tier * its.bah) };
+  return {
+    qualifier: 'per month',
+    value: Math.round(derived.tier * derived.bah),
+  };
 }
 
 function calculateBooks(constant, eligibility, institution, derived) {
-  const your = eligibility;
-  const its = institution;
-  const isFlightOrCorrespondence = () =>
-    its.type === 'flight' || its.type === 'correspondence';
-
-  if (derived.oldGiBill || isFlightOrCorrespondence()) {
+  if (derived.oldGiBill || derived.isFlightOrCorrespondence) {
     return { qualifier: 'per year', value: 0 };
   }
-  if (your.giBillChapter === '31') {
+  if (derived.chapter === 31) {
     return { qualifier: null, value: 'Full Cost' };
   }
   return { qualifier: 'per year', value: derived.tier * constant.BSCAP };

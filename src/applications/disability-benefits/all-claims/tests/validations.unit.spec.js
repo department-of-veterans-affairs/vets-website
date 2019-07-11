@@ -6,7 +6,11 @@ import {
   startedAfterServicePeriod,
   oneDisabilityRequired,
   hasMonthYear,
+  validateDisabilityName,
 } from '../validations';
+
+import disabilityLabels from '../content/disabilityLabels';
+import { capitalizeEachWord } from '../utils';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -208,6 +212,31 @@ describe('526 All Claims validations', () => {
       };
       hasMonthYear(err, '1980-12-XX');
       expect(err.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateDisabilityName', () => {
+    const tooLong =
+      'et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent';
+    it('should not add error when disability is in list', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, disabilityLabels[7100]);
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability is in list but capitalization is different', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, capitalizeEachWord(disabilityLabels[7100]));
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability not in list but length OK', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, 'blah. (and, blah/blah)’- blah');
+      expect(err.addError.called).to.be.false;
+    });
+    it('should add error when disability not in list and length too long', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, tooLong);
+      expect(err.addError.calledOnce).to.be.true;
     });
   });
 });

@@ -1,0 +1,34 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+    <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+        <div class="usa-width-three-fourths">
+            {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+
+            <article class="usa-content">
+                <h1 class="vads-u-margin-bottom--2">Our Locations</h1>
+                <div class="va-introtext vads-u-margin-bottom--0">
+                    {{ fieldLocationsIntroBlurb.processed }}
+                </div>
+                <section class="locations clearfix">
+                    <h2 id="main-locations" class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--4">Main locations</h2>
+                    <div data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
+                    <h2 id="community-clinic-locations" class="medium-screen:vads-u-margin-bottom--4">Health clinic locations</h2>
+                    <div data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | widgetFacilitiesList | escape }}"></div>
+
+                    {% if fieldOtherVaLocations != empty and fieldOtherVaLocations.length %}
+                        <h2 id="community-clinic-locations" class="medium-screen:vads-u-margin-bottom--4">Other nearby VA locations</h2>
+                        <div data-widget-type="other-facility-locations-list" data-facilities="{{ fieldOtherVaLocations }}"></div>
+                    {% endif %}
+                </section>
+            </article>
+        </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

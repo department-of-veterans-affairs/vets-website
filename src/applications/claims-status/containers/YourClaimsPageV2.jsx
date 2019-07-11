@@ -35,7 +35,7 @@ import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
+const appealTypes = Object.values(APPEAL_TYPES);
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   componentDidMount() {
-    document.title = `Track Claims: ${siteName}`;
+    document.title = `Track Claims: VA.gov`;
     if (this.props.canAccessClaims) {
       this.props.getClaimsV2();
     }
@@ -74,7 +74,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_TYPES.current) {
+    if (appealTypes.includes(claim.type)) {
       return (
         <AppealListItem
           key={claim.id}
@@ -193,7 +193,7 @@ class YourClaimsPageV2 extends React.Component {
             <div className="row">
               <div className="small-12 columns">
                 <h1 className="claims-container-title">
-                  Check Your Claim or Appeal Status
+                  Check your claim or appeal status
                 </h1>
               </div>
               <div className="small-12 columns">
@@ -201,9 +201,9 @@ class YourClaimsPageV2 extends React.Component {
               </div>
             </div>
             <p>
-              <a
-                href
-                className="claims-combined"
+              <button
+                type="button"
+                className="va-button-link claims-combined"
                 onClick={evt => {
                   evt.preventDefault();
                   recordEvent({
@@ -213,7 +213,7 @@ class YourClaimsPageV2 extends React.Component {
                 }}
               >
                 Find out why we sometimes combine claims.
-              </a>
+              </button>
             </p>
             {content}
             <Modal

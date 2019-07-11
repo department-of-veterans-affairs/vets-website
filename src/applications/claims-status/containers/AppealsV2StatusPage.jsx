@@ -6,8 +6,8 @@ import {
   getStatusContents,
   getNextEvents,
   ALERT_TYPES,
-  APPEAL_STATUSES,
-  EVENT_TYPES,
+  APPEAL_ACTIONS,
+  APPEAL_TYPES,
   STATUS_TYPES,
 } from '../utils/appeals-v2-helpers';
 
@@ -27,23 +27,13 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     status,
     docket,
     incompleteHistory,
+    location,
     aod,
     active: appealIsActive,
-    type: appealType,
+    type: appealAction,
   } = appeal.attributes;
-  const currentStatus = getStatusContents(
-    status.type,
-    status.details,
-    fullName,
-  );
-  const nextEvents = getNextEvents(status.type, status.details);
-
-  // TODO: This will change. We'll be getting the date from the docket object in the api.
-  const form9Event = events.find(e => e.type === EVENT_TYPES.form9, null);
-
-  // Presumably we just won't even show the docket without this event, but that needs to be
-  //  verified first. For now, we'll just make sure form9 event exists first.
-  const form9Date = form9Event && form9Event.date;
+  const currentStatus = getStatusContents(appeal, fullName);
+  const nextEvents = getNextEvents(appeal);
 
   // Gates the What's Next and Docket chunks
   const hideDocketStatusTypes = [
@@ -52,19 +42,46 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     STATUS_TYPES.decisionInProgress,
     STATUS_TYPES.bvaDevelopment,
   ];
-  const hideDocketAppealTypes = [
-    APPEAL_STATUSES.reconsideration,
-    APPEAL_STATUSES.cue,
+  const hideDocketAppealActions = [
+    APPEAL_ACTIONS.reconsideration,
+    APPEAL_ACTIONS.cue,
+    APPEAL_ACTIONS.other,
   ];
-  const shouldShowDocket =
-    appealIsActive &&
-    !hideDocketStatusTypes.includes(status.type) &&
-    !hideDocketAppealTypes.includes(appealType);
 
-  const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
+  let shouldShowDocket;
+  let isAppeal;
+
+  switch (appeal.type) {
+    case APPEAL_TYPES.legacy:
+      shouldShowDocket =
+        appealIsActive &&
+        !hideDocketStatusTypes.includes(status.type) &&
+        !hideDocketAppealActions.includes(appealAction);
+      isAppeal = true;
+      break;
+    case APPEAL_TYPES.appeal:
+      shouldShowDocket =
+        appealIsActive &&
+        location === 'bva' &&
+        status.type !== STATUS_TYPES.decisionInProgress;
+      isAppeal = true;
+      break;
+    default:
+      shouldShowDocket = false;
+      isAppeal = false;
+  }
+
+  const afterNextAlertTypes = [
+    ALERT_TYPES.cavcOption,
+    ALERT_TYPES.amaPostDecision,
+  ];
+
+  const filteredAlerts = alerts.filter(
+    a => !afterNextAlertTypes.includes(a.type),
+  );
   const afterNextAlerts = (
     <div>
-      {alerts.filter(a => a.type === ALERT_TYPES.cavcOption).map((a, i) => {
+      {alerts.filter(a => afterNextAlertTypes.includes(a.type)).map((a, i) => {
         const alert = getAlertContent(a, appealIsActive);
         return (
           <div key={`after-next-alert-${i}`}>
@@ -85,17 +102,14 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         isClosed={!appealIsActive}
       />
       <AlertsList alerts={filteredAlerts} appealIsActive />
-      {appealIsActive && <WhatsNext nextEvents={nextEvents} />}
+      {nextEvents.events.length > 0 && <WhatsNext nextEvents={nextEvents} />}
       {shouldShowDocket && (
-        <Docket
-          {...docket}
-          aod={aod}
-          form9Date={form9Date}
-          appealType={appealType}
-        />
+        <Docket {...docket} aod={aod} appealAction={appealAction} />
       )}
       {!appealIsActive && (
-        <div className="closed-appeal-notice">This appeal is now closed</div>
+        <div className="closed-appeal-notice">
+          This {isAppeal ? 'appeal' : 'review'} is now closed
+        </div>
       )}
       {afterNextAlerts}
     </div>
@@ -111,11 +125,7 @@ AppealsV2StatusPage.propTypes = {
         type: PropTypes.string,
         details: PropTypes.object,
       }).isRequired,
-      docket: PropTypes.shape({
-        total: PropTypes.number.isRequired,
-        ahead: PropTypes.number.isRequired,
-        eta: PropTypes.string.isRequired,
-      }),
+      docket: PropTypes.object,
     }).isRequired,
   }),
   fullName: PropTypes.shape({

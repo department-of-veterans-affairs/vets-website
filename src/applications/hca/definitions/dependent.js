@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
-import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateDependentDate } from '../validation';
 
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];

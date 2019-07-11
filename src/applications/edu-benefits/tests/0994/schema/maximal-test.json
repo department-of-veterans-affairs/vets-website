@@ -1,0 +1,83 @@
+{
+  "data": {
+    "prefillBankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "*********1234",
+      "bankRoutingNumber": "*****2115",
+      "bankName": "Comerica"
+    },
+    "view:bankAccount": {
+      "bankAccount": {
+        "accountType": "checking",
+        "routingNumber": "021000021",
+        "accountNumber": "12"
+      }
+    },
+    "view:bankInfoNote": {},
+    "view:bankInfoHelpText": {},
+    "view:phoneAndEmail": {
+      "dayTimePhone": "1234567890",
+      "nightTimePhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "street": "MILITARY ADDY 3",
+      "street2": "teasdf",
+      "street3": "teasdf",
+      "city": "Nowhere",
+      "country": "USA",
+      "state": "MI",
+      "postalCode": "22312"
+    },
+    "vetTecPrograms": [
+      {
+        "providerName": "Amazon Web Services",
+        "programName": "AWS Media Services",
+        "courseType": "inPerson",
+        "plannedStartDate": "2010-01-02",
+        "locationCity": "Nowhere",
+        "locationState": "SC"
+      },
+      {
+        "providerName": "Amazon Web Services",
+        "programName": "AWS Media Services",
+        "courseType": "online",
+        "plannedStartDate": "2010-01-02"
+      }
+    ],
+    "hasSelectedPrograms": true,
+    "view:noProgramsYet": true,
+    "view:contactInfoNote": {},
+    "currentHighTechnologyEmployment": false,
+    "pastHighTechnologyEmployment": true,
+    "view:salaryEmploymentTypes": {
+      "currentSalary": "moreThanSeventyFive",
+      "highTechnologyEmploymentType": {
+        "computerProgramming": true,
+        "dataProcessing": true,
+        "computerSoftware": true,
+        "informationSciences": true,
+        "mediaApplication": true
+      }
+    },
+    "highestLevelofEducation": "other",
+    "otherEducation": "other ed",
+    "activeDuty": true,
+    "activeDutyDuringVetTec": true,
+    "view:benefitNotice": {},
+    "appliedForVaEducationBenefits": false,
+    "view:eligibilityInstructions": {},
+    "view:applicantInfo": {},
+    "applicantFullName": {
+      "first": "Greg",
+      "middle": "A",
+      "last": "Anderson"
+    },
+    "applicantGender": "M",
+    "dateOfBirth": "1933-04-05",
+    "applicantSocialSecurityNumber": "796121200",
+    "nightTimePhone": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "privacyAgreementAccepted": true
+  }
+}

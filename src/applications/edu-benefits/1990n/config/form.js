@@ -5,15 +5,16 @@ import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 import schoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import applicantInformationPage from 'platform/forms/pages/applicantInformation';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
@@ -32,7 +33,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990n`,
   trackingPrefix: 'edu-1990n-',
-  formId: '22-1990N',
+  formId: VA_FORM_IDS.FORM_22_1990N,
   version: 1,
   migrations: [urlMigration('/1990n')],
   prefillEnabled: true,

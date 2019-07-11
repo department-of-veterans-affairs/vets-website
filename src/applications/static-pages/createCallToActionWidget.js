@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-export default async function createCallToActionWidget(store) {
-  const widgets = Array.from(document.querySelectorAll('.cta-widget'));
+export default async function createCallToActionWidget(store, widgetType) {
+  const widgets = Array.from(
+    document.querySelectorAll(`[data-widget-type="${widgetType}"]`),
+  );
 
   if (widgets.length) {
     const {
