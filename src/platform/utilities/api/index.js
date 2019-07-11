@@ -4,13 +4,13 @@ import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
 export function fetchAndUpdateSessionExpiration(...args) {
-  // Only replace custom fetch if fetch is not stubbed and
-  // feature flag is enabled
+  // Only replace with custom fetch if not stubbed for testing
+  // and feature flag is enabled
   if (
-    global.fetch.displayName !== 'stub' &&
+    fetch.displayName !== 'stub' &&
     localStorage.getItem('useCustomFetch') === 'true'
   ) {
-    return global.fetch.apply(this, args).then(response => {
+    return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 
       if (
@@ -27,7 +27,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
     });
   }
 
-  return global.fetch(...args);
+  return fetch(...args);
 }
 
 function isJson(response) {
