@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -48,16 +49,15 @@ export class LandingPage extends React.Component {
   };
 
   search = value => {
-    const isVetTec = this.props.filters.category === 'vettec';
+    const { vet_tec_provider } = this.props.filters;
     const query = {
       name: value,
       version: this.props.location.query.version,
       category:
-        environment.isProduction() || isVetTec
+        environment.isProduction() || vet_tec_provider
           ? null
           : this.props.filters.category,
-      // eslint-disable-next-line camelcase
-      vet_tec_provider: environment.isProduction() ? null : isVetTec,
+      vet_tec_provider: environment.isProduction() ? null : vet_tec_provider,
     };
 
     _.forEach(query, (val, key) => {
@@ -69,18 +69,26 @@ export class LandingPage extends React.Component {
     this.props.router.push({ pathname: 'search', query });
   };
 
-  filtersChange = e => {
+  handleTypeOfInstitutionFilterChange = e => {
     const field = e.target.name;
     const value = e.target.value;
-
     const filters = this.props.filters;
+
+    if (field === 'category') {
+      filters.vet_tec_provider = value === 'vettec';
+    }
     filters[field] = value;
+
     this.props.institutionFilterChange(filters);
   };
 
   shouldDisplayTypeOfInstitution = () =>
     this.props.eligibility.militaryStatus !== 'active duty' &&
     this.props.eligibility.giBillChapter === '33';
+
+  shouldDisplayKeywordSearch = () =>
+    environment.isProduction() ||
+    (!environment.isProduction() && !isVetTecSelected(this.props.filters));
 
   render() {
     return (
@@ -98,7 +106,7 @@ export class LandingPage extends React.Component {
               {!environment.isProduction() && (
                 <TypeOfInstitutionFilter
                   category={this.props.filters.category}
-                  onChange={this.filtersChange}
+                  onChange={this.handleTypeOfInstitutionFilterChange}
                   eligibility={this.props.eligibility}
                   displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
                 />
@@ -109,24 +117,22 @@ export class LandingPage extends React.Component {
                 onChange={this.props.eligibilityChange}
                 showModal={this.props.showModal}
               />
-              {environment.isProduction() ||
-                (!environment.isProduction() &&
-                  !isVetTecSelected(this.props.filters) && (
-                    <KeywordSearch
-                      autocomplete={this.props.autocomplete}
-                      location={this.props.location}
-                      onClearAutocompleteSuggestions={
-                        this.props.clearAutocompleteSuggestions
-                      }
-                      onFetchAutocompleteSuggestions={
-                        this.props.fetchAutocompleteSuggestions
-                      }
-                      onFilterChange={this.handleFilterChange}
-                      onUpdateAutocompleteSearchTerm={
-                        this.props.updateAutocompleteSearchTerm
-                      }
-                    />
-                  ))}
+              {this.shouldDisplayKeywordSearch() && (
+                <KeywordSearch
+                  autocomplete={this.props.autocomplete}
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={
+                    this.props.clearAutocompleteSuggestions
+                  }
+                  onFetchAutocompleteSuggestions={
+                    this.props.fetchAutocompleteSuggestions
+                  }
+                  onFilterChange={this.handleFilterChange}
+                  onUpdateAutocompleteSearchTerm={
+                    this.props.updateAutocompleteSearchTerm
+                  }
+                />
+              )}
               <button
                 className="usa-button-big"
                 type="submit"

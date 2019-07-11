@@ -2,7 +2,7 @@ import { merge, set } from 'lodash/fp';
 
 import { ELIGIBILITY_CHANGED } from '../actions';
 
-export const INITIAL_STATE = Object.freeze({
+const INITIAL_STATE = Object.freeze({
   militaryStatus: 'veteran',
   giBillChapter: '33',
   cumulativeService: '1.0',
