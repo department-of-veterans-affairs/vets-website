@@ -31,7 +31,7 @@ const RatingRow = ({
       <span id={rowId} className="sr-only">
         row {indx + 1}
       </span>
-      <div className="vads-l-col--2 vads-u-padding-right--2">
+      <div className="vads-l-col--3 vads-u-padding-right--2">
         <input
           type="text"
           min="0"
