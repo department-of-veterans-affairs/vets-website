@@ -79,23 +79,13 @@ export class LandingPage extends React.Component {
   handleTypeOfInstitutionFilterChange = e => {
     const field = e.target.name;
     const value = e.target.value;
+    const filters = this.props.filters;
 
     if (field === 'category') {
-      this.props.institutionFilterChange({
-        ...this.props.filters,
-        vet_tec_provider: value === 'vettec',
-      });
+      filters.vet_tec_provider = value === 'vettec';
     }
-
-    this.filtersChange(e);
-  };
-
-  filtersChange = e => {
-    const field = e.target.name;
-    const value = e.target.value;
-
-    const filters = this.props.filters;
     filters[field] = value;
+
     this.props.institutionFilterChange(filters);
   };
 
