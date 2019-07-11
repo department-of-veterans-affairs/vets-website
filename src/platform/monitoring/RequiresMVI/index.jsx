@@ -52,7 +52,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(RequiresMVI);
+export default connect(mapStateToProps)(RequiresMVI);
