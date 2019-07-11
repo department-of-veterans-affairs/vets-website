@@ -120,12 +120,15 @@ export default class DisabilityRatingCalculator extends React.Component {
         <div className="vads-l-grid-container--full">
           <div className="vads-l-row">
             <div
-              className="vads-l-col--3 vads-u-padding-right--2"
+              className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2"
               id="ratingLabel"
             >
               Disability rating
             </div>
-            <div className="vads-l-col--9" id="descriptionLabel">
+            <div
+              className="vads-l-col--6 small-screen:vads-l-col--6"
+              id="descriptionLabel"
+            >
               Optional description
             </div>
           </div>
@@ -143,7 +146,7 @@ export default class DisabilityRatingCalculator extends React.Component {
           ))}
           <div>
             <button
-              className="va-button-link add-btn vads-u-text-align--left vads-u-margin-y--1p5"
+              className="va-button-link vads-u-text-align--left vads-u-margin-y--1p5"
               type="button"
               onClick={this.handleAddRating}
             >

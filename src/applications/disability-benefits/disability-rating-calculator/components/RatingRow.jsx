@@ -31,7 +31,7 @@ const RatingRow = ({
       <span id={rowId} className="sr-only">
         row {indx + 1}
       </span>
-      <div className="vads-l-col--3 vads-u-padding-right--2">
+      <div className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2">
         <input
           type="text"
           min="0"
@@ -45,7 +45,7 @@ const RatingRow = ({
           aria-labelledby={`ratingLabel ${rowId}`}
         />
       </div>
-      <div className="vads-l-col--6">
+      <div className="vads-l-col--6 small-screen:vads-l-col--6">
         <input
           className="descriptionInput"
           name="description"
@@ -54,7 +54,7 @@ const RatingRow = ({
           aria-labelledby={`descriptionLabel ${rowId}`}
         />
       </div>
-      <div className="vads-l-col--3">
+      <div className="vads-l-col--2 small-screen:vads-l-col--3">
         <div>
           <button
             type="button"
