@@ -23,55 +23,26 @@ class VetTecSearchForm extends React.Component {
     eligibility: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { onlineClasses } = props.eligibility;
-    this.state = {
-      learningFormat: {
-        inPerson: onlineClasses === 'no' || onlineClasses === 'both',
-        online: onlineClasses === 'yes' || onlineClasses === 'both',
-      },
-    };
-  }
-
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
     this.props.handleFilterChange(field, value);
   };
 
   handleOnlineClassesChange = e => {
-    // change state.learningFormat
     const { name: field, checked: value } = e.target;
-
-    const learningFormat = { ...this.state.learningFormat };
+    const { learningFormat } = this.props.eligibility;
     learningFormat[field] = value;
-
-    // update component's state
-    this.setState({ ...this.state, learningFormat });
-
-    const { inPerson, online } = learningFormat;
-    let onlineClasses = this.props.eligibility.onlineClasses;
-
-    if (inPerson && !online) {
-      onlineClasses = 'no';
-    } else if (!inPerson && online) {
-      onlineClasses = 'yes';
-    } else if (inPerson && online) {
-      onlineClasses = 'both';
-    } else if (!inPerson && !online) {
-      onlineClasses = 'none';
-    }
 
     this.props.eligibilityChange({
       target: {
-        name: 'onlineClasses',
-        value: onlineClasses,
+        name: 'learningFormat',
+        value: learningFormat,
       },
     });
   };
 
   renderLearningFormat = () => {
-    const { inPerson, online } = this.state.learningFormat;
+    const { inPerson, online } = this.props.eligibility.learningFormat;
 
     const inPersonLabel = (
       <div>

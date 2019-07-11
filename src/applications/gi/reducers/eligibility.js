@@ -12,6 +12,10 @@ const INITIAL_STATE = Object.freeze({
   consecutiveService: '0.8',
   eligForPostGiBill: 'no',
   numberOfDependents: '0',
+  learningFormat: {
+    inPerson: false,
+    online: false,
+  },
 });
 
 export default function(state = INITIAL_STATE, action) {

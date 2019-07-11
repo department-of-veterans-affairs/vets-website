@@ -1,5 +1,7 @@
 import environment from 'platform/utilities/environment';
 
+// ***CT 116***
+
 export const calculateFilters = filters => {
   if (!environment.isProduction()) {
     if (filters.category === 'ALL') {
@@ -17,14 +19,4 @@ export const calculateFilters = filters => {
     }
   }
   return filters;
-};
-
-export const calculateEligibility = eligibility => {
-  if (!environment.isProduction() && eligibility.onlineClasses === 'none') {
-    return {
-      ...eligibility,
-      onlineClasses: 'no',
-    };
-  }
-  return eligibility;
 };

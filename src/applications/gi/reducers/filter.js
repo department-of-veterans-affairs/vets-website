@@ -1,6 +1,7 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
 import environment from 'platform/utilities/environment';
 
+// ***CT 116***
 const INITIAL_STATE = Object.freeze({
   category: environment.isProduction() ? 'ALL' : 'school',
   type: 'ALL',

@@ -40,23 +40,20 @@ function calculateTuition(constant, eligibility, institution, derived) {
 }
 
 function calculateHousing(constant, eligibility, institution, derived) {
-  const { onlineClasses } = eligibility;
+  const { learningFormat } = eligibility;
+  const { inPerson, online } = learningFormat;
 
-  const onlineClassesOnly = onlineClasses === 'yes';
-  const inPersonClassesOnly = onlineClasses === 'no';
-  const perMonthRange = onlineClasses === 'both' || onlineClasses === 'none';
-
-  if (onlineClassesOnly) {
+  if (online && !inPerson) {
     return {
       qualifier: 'per month',
       value: Math.round(derived.onlineDodRate),
     };
-  } else if (inPersonClassesOnly) {
+  } else if (inPerson && !online) {
     return {
       qualifier: 'per month',
       value: Math.round(derived.dodZipCodeHousingRate),
     };
-  } else if (perMonthRange) {
+  } else if ((inPerson && online) || (!inPerson && !online)) {
     return {
       qualifier: 'per month range',
       range: {

@@ -237,6 +237,7 @@ export class SearchPage extends React.Component {
           </div>
         </div>
 
+        {/* /CT 116 */}
         {!environment.isProduction() && isVetTecSelected(filters) ? (
           <VetTecSearchForm
             filtersClass={filtersClass}

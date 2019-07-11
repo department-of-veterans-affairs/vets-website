@@ -21,7 +21,7 @@ import StemScholarshipNotification from '../components/content/StemScholarshipNo
 import environment from 'platform/utilities/environment';
 import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
-import { calculateFilters, calculateEligibility } from '../selectors/search';
+import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 
 export class LandingPage extends React.Component {
@@ -37,6 +37,7 @@ export class LandingPage extends React.Component {
   handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
+    // ***CT 116***
     if (environment.isProduction()) {
       if (value) {
         this.search(value);
@@ -50,6 +51,7 @@ export class LandingPage extends React.Component {
 
   search = value => {
     const { vet_tec_provider } = this.props.filters;
+    // ***CT 116***
     const query = {
       name: value,
       version: this.props.location.query.version,
@@ -72,7 +74,7 @@ export class LandingPage extends React.Component {
   handleTypeOfInstitutionFilterChange = e => {
     const field = e.target.name;
     const value = e.target.value;
-    const filters = this.props.filters;
+    const { filters } = this.props;
 
     if (field === 'category') {
       filters.vet_tec_provider = value === 'vettec';
@@ -86,9 +88,28 @@ export class LandingPage extends React.Component {
     this.props.eligibility.militaryStatus !== 'active duty' &&
     this.props.eligibility.giBillChapter === '33';
 
-  shouldDisplayKeywordSearch = () =>
+  // ***CT 116***
+  isVetTecNotSelected = () =>
     environment.isProduction() ||
     (!environment.isProduction() && !isVetTecSelected(this.props.filters));
+
+  handleEligibilityChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+
+    if (
+      (field === 'militaryStatus' && value === 'active duty') ||
+      (field === 'giBillChapter' && value !== '33')
+    ) {
+      this.props.institutionFilterChange({
+        ...this.props.filters,
+        category: 'school',
+        vet_tec_provider: false,
+      });
+    }
+
+    this.props.eligibilityChange(e);
+  };
 
   render() {
     return (
@@ -101,7 +122,9 @@ export class LandingPage extends React.Component {
             </p>
 
             <form onSubmit={this.handleSubmit}>
-              <EligibilityForm />
+              <EligibilityForm
+                eligibilityChange={this.handleEligibilityChange}
+              />
               {/* CT 116 */}
               {!environment.isProduction() && (
                 <TypeOfInstitutionFilter
@@ -112,12 +135,14 @@ export class LandingPage extends React.Component {
                 />
               )}
               {/* /CT 116 */}
-              <OnlineClassesFilter
-                onlineClasses={this.props.eligibility.onlineClasses}
-                onChange={this.props.eligibilityChange}
-                showModal={this.props.showModal}
-              />
-              {this.shouldDisplayKeywordSearch() && (
+              {this.isVetTecNotSelected() && (
+                <OnlineClassesFilter
+                  onlineClasses={this.props.eligibility.onlineClasses}
+                  onChange={this.props.eligibilityChange}
+                  showModal={this.props.showModal}
+                />
+              )}
+              {this.isVetTecNotSelected() && (
                 <KeywordSearch
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
@@ -156,7 +181,7 @@ export class LandingPage extends React.Component {
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
-  eligibility: calculateEligibility(state.eligibility),
+  eligibility: state.eligibility,
 });
 
 const mapDispatchToProps = {
