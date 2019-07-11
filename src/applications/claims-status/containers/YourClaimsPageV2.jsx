@@ -193,7 +193,7 @@ class YourClaimsPageV2 extends React.Component {
             <div className="row">
               <div className="small-12 columns">
                 <h1 className="claims-container-title">
-                  Check Your Claim or Appeal Status
+                  Check your claim or appeal status
                 </h1>
               </div>
               <div className="small-12 columns">

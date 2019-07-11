@@ -3,6 +3,7 @@ const E2eHelpers = require('./helpers');
 const Timeouts = require('../e2e/timeouts');
 const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
+const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 const logoutRequestUrl = '/sessions/slo/new';
 
@@ -50,11 +51,11 @@ function initUserMock(token, level) {
           },
           in_progress_forms: [
             {
-              form: '1010ez',
+              form: VA_FORM_IDS.FORM_10_10EZ,
               metadata: {},
             },
           ],
-          prefills_available: ['21-526EZ'],
+          prefills_available: [VA_FORM_IDS.FORM_21_526EZ],
           services: [
             'facilities',
             'hca',

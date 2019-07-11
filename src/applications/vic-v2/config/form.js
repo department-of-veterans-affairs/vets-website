@@ -2,25 +2,26 @@
 import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
-import asyncLoader from '../../../platform/utilities/ui/asyncLoader';
+import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { genderLabels } from '../../../platform/static-data/labels';
+import { genderLabels } from 'platform/static-data/labels';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import validateFile from '../validation';
 
@@ -45,7 +46,7 @@ const formConfig = {
   trackingPrefix: 'veteran-id-card-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'VIC',
+  formId: VA_FORM_IDS.VIC,
   version: 0,
   prefillEnabled: true,
   prefillTransformer,

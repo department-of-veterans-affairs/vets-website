@@ -3,16 +3,16 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { isFullDate } from '../../../platform/forms/validations';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
-import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
-
-import * as address from '../../../platform/forms/definitions/address';
-import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import { isFullDate } from 'platform/forms/validations';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import * as address from 'platform/forms/definitions/address';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   employmentDescription,
@@ -57,12 +57,12 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import createNonRequiredFullName from '../../../platform/forms/definitions/nonRequiredFullName';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
@@ -195,7 +195,7 @@ const formConfig = {
   trackingPrefix: 'pensions-527EZ-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21P-527EZ',
+  formId: VA_FORM_IDS.FORM_21P_527EZ,
   version: 3,
   migrations,
   prefillEnabled: true,
