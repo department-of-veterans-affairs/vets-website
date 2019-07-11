@@ -25,9 +25,10 @@
     {% endif %}
 {% endif %}
 <li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
-    <a href="{{linkTeaser.fieldLink.0.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
-        {% if linkTeaser.fieldLink.0.title != empty %}
-            <{{ header }} class="{{ headerClass }}">{{ linkTeaser.fieldLink.0.title }}</{{ header }}>
+    {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
+    <a href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+        {% if link.title != empty %}
+            <{{ header }} class="{{ headerClass }}">{{ link.title }}</{{ header }}>
             {% if parentFieldName === "field_spokes" %}
                 <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
             {% endif %}
