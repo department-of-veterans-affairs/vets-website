@@ -101,9 +101,9 @@ export default class DisabilityRatingCalculator extends React.Component {
     const canSubmit = canCalculate(ratings);
 
     return (
-      <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
-        <div className="calc-header vads-u-padding-x--4">
-          <h2 className="vads-u-padding-top--4">
+      <div className="disability-calculator vads-u-padding--4 vads-u-background-color--gray-lightest">
+        <div>
+          <h2 className="vads-u-margin-top--0">
             VA combined disability rating calculator
           </h2>
           <p>
@@ -113,9 +113,8 @@ export default class DisabilityRatingCalculator extends React.Component {
             of each for your notes, if you'd like. Then click Calculate to get
             your combined rating.
           </p>
-          <br />
         </div>
-        <div className="vads-l-grid-container">
+        <div className="vads-l-grid-container--full">
           <div className="vads-l-row">
             <div
               className="vads-l-col--3 vads-u-padding-right--2"
@@ -139,38 +138,31 @@ export default class DisabilityRatingCalculator extends React.Component {
               removeDisability={this.handleRemoveDisability}
             />
           ))}
-          <div className="vads-l-row">
-            <div className="vads-l-col--3">
-              <button
-                className="va-button-link add-btn vads-u-text-align--left vads-u-margin-y--1p5"
-                type="button"
-                onClick={this.handleAddRating}
-              >
-                <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
-                Add rating
-              </button>
-            </div>
-            <div className="vads-l-col--8" />
+          <div>
+            <button
+              className="va-button-link add-btn vads-u-text-align--left vads-u-margin-y--1p5"
+              type="button"
+              onClick={this.handleAddRating}
+            >
+              <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
+              Add rating
+            </button>
           </div>
-          <br />
-          <div className="vads-l-row">
-            <div>
-              <button
-                className="calculate-btn"
-                onClick={this.handleSubmit}
-                disabled={!canSubmit}
-              >
-                Calculate
-              </button>
-            </div>
-            <div className="vads-u-margin-left--1">
-              <button
-                className="va-button-link clear-btn vads-u-margin-y--1p5"
-                onClick={this.clearAll}
-              >
-                Clear all
-              </button>
-            </div>
+          <div>
+            <button
+              type="submit"
+              className="usa-button"
+              onClick={this.handleSubmit}
+              disabled={!canSubmit}
+            >
+              Calculate
+            </button>
+            <button
+              className="usa-button va-button-link vads-u-margin-y--1p5 vads-u-margin-left--2"
+              onClick={this.clearAll}
+            >
+              Clear all
+            </button>
           </div>
         </div>
 

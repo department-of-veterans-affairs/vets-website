@@ -19,7 +19,7 @@ class CalculatedDisabilityRating extends React.Component {
 
   render() {
     return (
-      <div className="vads-u-padding--4">
+      <div>
         <p id="calculated-disability-rating" ref={this.resultsRef}>
           <strong>Your VA disability rating</strong>
           <br />
