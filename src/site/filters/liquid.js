@@ -219,6 +219,17 @@ module.exports = function registerFilters() {
       : null;
   };
 
+  liquid.filters.featureSingleValueFieldLink = fieldLink => {
+    if (
+      fieldLink &&
+      enabledFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
+    ) {
+      return fieldLink[0];
+    }
+
+    return fieldLink;
+  };
+
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
