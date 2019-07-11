@@ -9,18 +9,25 @@ import NeedsVAPatient from '../components/errors/NeedsVAPatient';
 import CreateMHVAccountFailed from './CreateMHVAccountFailed';
 import UpgradeAccountFailed from './UpgradeAccountFailed';
 import { ACCOUNT_STATES } from './../constants';
+import { MVI_ERROR_STATES } from './../../../platform/monitoring/RequiresMVI/constants';
 
 export default class ErrorMessage extends React.Component {
   render() {
     const { params } = this.props;
 
-    // Replace hyphens with underscores to match ACCOUNT_STATES constants
-    const errorCode = params.errorCode
+    let errorCode = params.errorCode
       ? params.errorCode.replace(/-/g, '_')
-      : '';
+      : undefined;
+
+    // Capitalize in case of mvi error
+    if (errorCode && errorCode.startsWith('mvi_error')) {
+      errorCode = errorCode.replace('mvi_error_', '').toUpperCase();
+    }
 
     // Render error messaging based on code
     switch (errorCode) {
+      case MVI_ERROR_STATES.NOT_FOUND:
+        return <NeedsSSNResolution />;
       case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
         return <DeactivatedMHVId />;
       case ACCOUNT_STATES.MULTIPLE_IDS:
