@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const CurrentStatus = ({ title, description, isClosed }) => (
   <div className={`current-status ${isClosed ? 'closed' : ''}`}>
-    <h2>Current Status</h2>
+    <h2>Current status</h2>
     <div className="current-status-content">
       <h3>{title}</h3>
       <div>{description}</div>
