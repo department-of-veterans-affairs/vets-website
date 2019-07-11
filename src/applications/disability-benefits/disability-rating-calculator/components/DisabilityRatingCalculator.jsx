@@ -31,10 +31,6 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingInputRefs = [];
   }
 
-  componentDidMount() {
-    this.focusFirstRatingInput();
-  }
-
   setRef = ref => {
     if (ref) this.ratingInputRefs.push(ref);
   };
