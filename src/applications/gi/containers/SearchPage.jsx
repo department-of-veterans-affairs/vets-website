@@ -24,7 +24,8 @@ import SearchResult from '../components/search/SearchResult';
 import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
-import environment from 'platform/utilities/environment';
+import environment from '../../../platform/utilities/environment';
+import { isVetTecSelected } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -122,10 +123,6 @@ export class SearchPage extends React.Component {
     }
     this.props.router.push({ ...this.props.location, query });
   };
-
-  isVetTecSelected = () =>
-    this.props.filters.category === 'vettec' ||
-    this.props.filters.vet_tec_provider;
 
   searchResults = () => {
     const { search } = this.props;
@@ -240,7 +237,7 @@ export class SearchPage extends React.Component {
           </div>
         </div>
 
-        {!environment.isProduction() && this.isVetTecSelected() ? (
+        {!environment.isProduction() && isVetTecSelected(filters) ? (
           <VetTecSearchForm
             filtersClass={filtersClass}
             search={search}

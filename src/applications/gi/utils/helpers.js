@@ -1,8 +1,9 @@
-export function formatNumber(value) {
+export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
-}
+};
 
-export function formatCurrency(value) {
-  return `$${formatNumber(Math.round(+value))}`;
-}
+export const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
+
+export const isVetTecSelected = filters =>
+  filters.category === 'vettec' || filters.vet_tec_provider;

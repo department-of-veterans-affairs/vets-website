@@ -21,6 +21,7 @@ import environment from 'platform/utilities/environment';
 import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters, calculateEligibility } from '../selectors/search';
+import { isVetTecSelected } from '../utils/helpers';
 
 export class LandingPage extends React.Component {
   componentDidMount() {
@@ -35,7 +36,13 @@ export class LandingPage extends React.Component {
   handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
-    if (value) {
+    if (environment.isProduction()) {
+      if (value) {
+        this.search(value);
+      }
+    } else if (isVetTecSelected(this.props.filters)) {
+      this.search(value);
+    } else if (value) {
       this.search(value);
     }
   };
@@ -45,9 +52,12 @@ export class LandingPage extends React.Component {
     const query = {
       name: value,
       version: this.props.location.query.version,
-      category: isVetTec ? null : this.props.filters.category,
+      category:
+        environment.isProduction() || isVetTec
+          ? null
+          : this.props.filters.category,
       // eslint-disable-next-line camelcase
-      vet_tec_provider: isVetTec,
+      vet_tec_provider: environment.isProduction() ? null : isVetTec,
     };
 
     _.forEach(query, (val, key) => {
@@ -99,20 +109,24 @@ export class LandingPage extends React.Component {
                 onChange={this.props.eligibilityChange}
                 showModal={this.props.showModal}
               />
-              <KeywordSearch
-                autocomplete={this.props.autocomplete}
-                location={this.props.location}
-                onClearAutocompleteSuggestions={
-                  this.props.clearAutocompleteSuggestions
-                }
-                onFetchAutocompleteSuggestions={
-                  this.props.fetchAutocompleteSuggestions
-                }
-                onFilterChange={this.handleFilterChange}
-                onUpdateAutocompleteSearchTerm={
-                  this.props.updateAutocompleteSearchTerm
-                }
-              />
+              {environment.isProduction() ||
+                (!environment.isProduction() &&
+                  !isVetTecSelected(this.props.filters) && (
+                    <KeywordSearch
+                      autocomplete={this.props.autocomplete}
+                      location={this.props.location}
+                      onClearAutocompleteSuggestions={
+                        this.props.clearAutocompleteSuggestions
+                      }
+                      onFetchAutocompleteSuggestions={
+                        this.props.fetchAutocompleteSuggestions
+                      }
+                      onFilterChange={this.handleFilterChange}
+                      onUpdateAutocompleteSearchTerm={
+                        this.props.updateAutocompleteSearchTerm
+                      }
+                    />
+                  ))}
               <button
                 className="usa-button-big"
                 type="submit"

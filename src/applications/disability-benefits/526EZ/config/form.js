@@ -1,4 +1,4 @@
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -11,9 +11,10 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -118,7 +119,7 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
-  formId: '21-526EZ',
+  formId: VA_FORM_IDS.FORM_21_526EZ,
   onFormLoaded: directToCorrectForm,
   version: 1,
   migrations: [],

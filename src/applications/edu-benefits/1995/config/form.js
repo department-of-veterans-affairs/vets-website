@@ -5,11 +5,12 @@ import { transform } from '../submit-transformer';
 
 import { urlMigration } from '../../config/migrations';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -27,7 +28,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   trackingPrefix: 'edu-1995-',
-  formId: '22-1995',
+  formId: VA_FORM_IDS.FORM_22_1995,
   version: 1,
   migrations: [urlMigration('/1995')],
   prefillEnabled: true,

@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -190,7 +191,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
-  formId: '1010ez',
+  formId: VA_FORM_IDS.FORM_10_10EZ,
   version: 6,
   migrations,
   prefillEnabled: true,
