@@ -122,12 +122,12 @@ export default class DisabilityRatingCalculator extends React.Component {
         <div className="vads-l-grid-container">
           <div className="vads-l-row">
             <div
-              className="vads-l-col--2 vads-u-padding-right--2"
+              className="vads-l-col--3 vads-u-padding-right--2"
               id="ratingLabel"
             >
               Disability rating
             </div>
-            <div className="vads-l-col--8" id="descriptionLabel">
+            <div className="vads-l-col--9" id="descriptionLabel">
               Optional description
             </div>
           </div>

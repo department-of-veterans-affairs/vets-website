@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { SaveInProgressErrorPage } from '../../save-in-progress/SaveInProgressErrorPage';
 import { LOAD_STATUSES } from '../../save-in-progress/actions';
@@ -23,7 +24,7 @@ describe('<SaveInProgressErrorPage>', () => {
 
   const route = {
     formConfig: {
-      formId: '1010ez',
+      formId: VA_FORM_IDS.FORM_10_10EZ,
       migrations: [],
     },
   };

@@ -5,11 +5,12 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
-import dataUtils from '../../../../platform/utilities/data/index';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import dataUtils from 'platform/utilities/data/index';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const { get, omit, set } = dataUtils;
 
@@ -215,7 +216,7 @@ const formConfig = {
   trackingPrefix,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'FEEDBACK-TOOL',
+  formId: VA_FORM_IDS.FEEDBACK_TOOL,
   version: 1,
   migrations,
   prefillEnabled: true,

@@ -22,25 +22,26 @@ import {
   validateFutureDateIfExpectedGrad,
 } from 'platform/forms-system/src/js/validation';
 
-import * as address from '../../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as personId from '../../../../platform/forms/definitions/personId';
+import * as personId from 'platform/forms/definitions/personId';
 import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
-import fullNameUi from '../../../../platform/forms/definitions/fullName';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import fullNameUi from 'platform/forms/definitions/fullName';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
+import applicantInformationPage from 'platform/forms/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -51,7 +52,7 @@ import employmentHistoryPage from '../../pages/employmentHistory';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
-import createNonRequiredFullName from '../../../../platform/forms/definitions/nonRequiredFullName';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 
 const {
   benefit,
@@ -85,7 +86,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
   trackingPrefix: 'edu-5490-',
-  formId: '22-5490',
+  formId: VA_FORM_IDS.FORM_22_5490,
   version: 1,
   migrations: [urlMigration('/5490')],
   prefillEnabled: true,

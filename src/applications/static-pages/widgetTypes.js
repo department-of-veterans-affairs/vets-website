@@ -6,4 +6,5 @@ export default {
   BURIALS_APP_STATUS: 'burials-app-status',
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   DISABILITY_APP_STATUS: 'disability-app-status',
+  DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
 };
