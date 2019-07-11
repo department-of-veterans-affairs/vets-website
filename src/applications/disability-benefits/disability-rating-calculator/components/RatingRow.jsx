@@ -64,7 +64,9 @@ const RatingRow = ({
             disabled={disabled}
           >
             <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
-            Delete
+            <span className="vads-u-display--none medium-screen:vads-u-display--inline">
+              Delete
+            </span>
           </button>
         </div>
       </div>

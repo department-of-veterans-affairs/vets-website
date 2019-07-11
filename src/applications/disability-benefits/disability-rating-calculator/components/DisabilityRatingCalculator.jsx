@@ -50,6 +50,10 @@ export default class DisabilityRatingCalculator extends React.Component {
     event.preventDefault();
 
     const ratings = getRatings(this.state.disabilities);
+
+    const canSubmit = canCalculate(ratings);
+    if (!canSubmit) return;
+
     const calcRating = calculateCombinedRating(ratings);
 
     this.setState({
@@ -98,7 +102,6 @@ export default class DisabilityRatingCalculator extends React.Component {
     const disabilities = this.state.disabilities;
     const calculatedRating = this.state.calculatedRating;
     const ratings = getRatings(disabilities);
-    const canSubmit = canCalculate(ratings);
 
     return (
       <div className="disability-calculator vads-u-padding--4 vads-u-background-color--gray-lightest">
@@ -151,9 +154,8 @@ export default class DisabilityRatingCalculator extends React.Component {
           <div>
             <button
               type="submit"
-              className="usa-button"
+              className="usa-button vads-u-width--auto"
               onClick={this.handleSubmit}
-              disabled={!canSubmit}
             >
               Calculate
             </button>
