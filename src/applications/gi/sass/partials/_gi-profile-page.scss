@@ -107,6 +107,17 @@
     }
   }
 
+  .tuition-section, .housing-section {
+    .calculator-result {
+      margin-top: .5rem;
+    }
+  }
+
+  .va-payment {
+    padding-left: 1rem;
+    padding-right: 6rem;
+  }
+
   .outcomes .graph-component {
     margin: 1em auto;
     clear: both;

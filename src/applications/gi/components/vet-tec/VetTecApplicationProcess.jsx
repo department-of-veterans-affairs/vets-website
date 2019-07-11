@@ -36,7 +36,7 @@ const VetTecApplicationProcess = () => (
       </a>
     </p>
     <h4>Questions about the VET TEC program or how to apply?</h4>
-    <p>
+    <div>
       <ul>
         <li>
           Call us at 1-888-GIBILL (<a href="tel:+18884424551">1-888-442-4551</a>
@@ -48,7 +48,7 @@ const VetTecApplicationProcess = () => (
           <a href="mailto:VETTEC.VBABUF@va.gov">VETTEC.VBABUF@va.gov</a>
         </li>
       </ul>
-    </p>
+    </div>
   </div>
 );
 

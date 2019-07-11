@@ -18,6 +18,7 @@ import AdditionalInformation from '../components/profile/AdditionalInformation';
 import VetTecAdditionalInformation from '../components/vet-tec/VetTecAdditionalInformation';
 import VetTecApplicationProcess from '../components/vet-tec/VetTecApplicationProcess';
 import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms';
+import VetTecCalculator from '../components/vet-tec/VetTecCalculator';
 import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
 import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
 import { outcomeNumbers } from '../selectors/outcomes';
@@ -97,7 +98,7 @@ export class ProfilePage extends React.Component {
                   />
                 </AccordionItem>
                 <AccordionItem button="Estimate your benefits">
-                  <Calculator />
+                  <VetTecCalculator />
                 </AccordionItem>
                 <AccordionItem button="Contact us">
                   <VetTecContactInformation
