@@ -19,37 +19,29 @@ export default class ErrorMessage extends React.Component {
       ? params.errorCode.replace(/-/g, '_')
       : undefined;
 
-    if (errorCode) {
-      if (errorCode.startsWith('mvi_error')) {
-        errorCode = errorCode.replace('mvi_error_', '').toUpperCase();
-        switch (errorCode) {
-          case MVI_ERROR_STATES.NOT_FOUND:
-            return <NeedsSSNResolution />;
-          default:
-            break;
-        }
-      } else {
-        // Render error messaging based on code
-        switch (errorCode) {
-          case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
-            return <DeactivatedMHVId />;
-          case ACCOUNT_STATES.MULTIPLE_IDS:
-            return <MultipleMHVIds />;
-          case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
-            return <NeedsSSNResolution />;
-          case ACCOUNT_STATES.NEEDS_VA_PATIENT:
-            return <NeedsVAPatient />;
-          case ACCOUNT_STATES.REGISTER_FAILED:
-            return <CreateMHVAccountFailed />;
-          case ACCOUNT_STATES.UPGRADE_FAILED:
-            return <UpgradeAccountFailed />;
-          default:
-            break;
-        }
-      }
+    if (errorCode && errorCode.startsWith('mvi_error')) {
+      errorCode = errorCode.replace('mvi_error_', '').toUpperCase();
     }
 
-    return <GenericError />;
+    // Render error messaging based on code
+    switch (errorCode) {
+      case MVI_ERROR_STATES.NOT_FOUND:
+        return <NeedsSSNResolution />;
+      case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
+        return <DeactivatedMHVId />;
+      case ACCOUNT_STATES.MULTIPLE_IDS:
+        return <MultipleMHVIds />;
+      case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
+        return <NeedsSSNResolution />;
+      case ACCOUNT_STATES.NEEDS_VA_PATIENT:
+        return <NeedsVAPatient />;
+      case ACCOUNT_STATES.REGISTER_FAILED:
+        return <CreateMHVAccountFailed />;
+      case ACCOUNT_STATES.UPGRADE_FAILED:
+        return <UpgradeAccountFailed />;
+      default:
+        return <GenericError />;
+    }
   }
 }
 
