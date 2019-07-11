@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
-export function fetch(...args) {
+export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace custom fetch if fetch is not stubbed and
   // feature flag is enabled
   if (
@@ -68,7 +68,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
 
-  return fetch(url, settings)
+  return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);

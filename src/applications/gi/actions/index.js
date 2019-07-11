@@ -2,7 +2,7 @@ import _, { snakeCase } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { api } from '../config';
-import { fetch } from './../../../platform/utilities/api';
+import { fetchAndUpdateSessionExpiration as fetch } from './../../../platform/utilities/api';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
