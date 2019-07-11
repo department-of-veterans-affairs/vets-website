@@ -61,76 +61,7 @@ const {
   socialSecurityNumberLastFour,
 } = fullSchema.properties;
 
-const { school } = educationDetails.properties;
-
-// Once shared schema is updated, programs and assistance can be pulled from educationDetails again
-const programs = {
-  type: 'object',
-  properties: {
-    chapter33: {
-      type: 'boolean',
-      default: false,
-      title: 'Post-9/11 GI Bill (Chapter 33)',
-    },
-    chapter30: {
-      type: 'boolean',
-      default: false,
-      title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)',
-    },
-    chapter1606: {
-      type: 'boolean',
-      default: false,
-      title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)',
-    },
-    tatu: {
-      type: 'boolean',
-      default: false,
-      title: 'Tuition Assistance Top-Up',
-    },
-    reap: {
-      type: 'boolean',
-      default: false,
-      title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)',
-    },
-    chapter35: {
-      type: 'boolean',
-      default: false,
-      title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)',
-    },
-    chapter31: {
-      type: 'boolean',
-      default: false,
-      title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)',
-    },
-  },
-};
-
-const assistance = {
-  type: 'object',
-  properties: {
-    ta: {
-      type: 'boolean',
-      default: false,
-      title: 'Federal Tuition Assistance (TA)',
-    },
-    taAgr: {
-      type: 'boolean',
-      default: false,
-      title:
-        'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties',
-    },
-    myCaa: {
-      type: 'boolean',
-      default: false,
-      title: 'Military Spouse Career Advancement Accounts (MyCAA)',
-    },
-    ffa: {
-      type: 'boolean',
-      default: false,
-      title: 'Federal financial aid',
-    },
-  },
-};
+const { school, programs, assistance } = educationDetails.properties;
 
 const {
   address: schoolAddress,

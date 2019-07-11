@@ -84,8 +84,8 @@ class AdditionalEvidencePage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClaimsBreadcrumbs>
-                <Link to={claimsPath}>Status Details</Link>
-                <Link to={filesPath}>Additional Evidence</Link>
+                <Link to={claimsPath}>Status details</Link>
+                <Link to={filesPath}>Additional evidence</Link>
               </ClaimsBreadcrumbs>
             </div>
           </div>

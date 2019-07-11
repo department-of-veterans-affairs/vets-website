@@ -15,6 +15,7 @@ import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
+import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 
@@ -74,6 +75,10 @@ createApplicationStatus(store, {
 });
 
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
+createDisabilityRatingCalculator(
+  store,
+  widgetTypes.DISABILITY_RATING_CALCULATOR,
+);
 
 createFacilityListWidget();
 createOtherFacilityListWidget();
