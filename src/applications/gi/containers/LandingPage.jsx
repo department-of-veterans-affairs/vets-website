@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -55,16 +56,15 @@ export class LandingPage extends React.Component {
   }
 
   search(value) {
-    const isVetTec = this.props.filters.category === 'vettec';
+    const { vet_tec_provider } = this.props.filters;
     const query = {
       name: value,
       version: this.props.location.query.version,
       category:
-        environment.isProduction() || isVetTec
+        environment.isProduction() || vet_tec_provider
           ? null
           : this.props.filters.category,
-      // eslint-disable-next-line camelcase
-      vet_tec_provider: environment.isProduction() ? null : isVetTec,
+      vet_tec_provider: environment.isProduction() ? null : vet_tec_provider,
     };
 
     _.forEach(query, (val, key) => {
@@ -75,6 +75,20 @@ export class LandingPage extends React.Component {
 
     this.props.router.push({ pathname: 'search', query });
   }
+
+  handleTypeOfInstitutionFilterChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+
+    if (field === 'category') {
+      this.props.institutionFilterChange({
+        ...this.props.filters,
+        vet_tec_provider: value === 'vettec',
+      });
+    }
+
+    this.filtersChange(e);
+  };
 
   filtersChange = e => {
     const field = e.target.name;
@@ -105,7 +119,7 @@ export class LandingPage extends React.Component {
               {!environment.isProduction() && (
                 <TypeOfInstitutionFilter
                   category={this.props.filters.category}
-                  onChange={this.filtersChange}
+                  onChange={this.handleTypeOfInstitutionFilterChange}
                   eligibility={this.props.eligibility}
                   displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
                 />

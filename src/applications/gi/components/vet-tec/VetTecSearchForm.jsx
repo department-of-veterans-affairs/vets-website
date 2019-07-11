@@ -12,7 +12,7 @@ class VetTecSearchForm extends React.Component {
     showModal: PropTypes.func.isRequired,
     search: PropTypes.object.isRequired,
     filters: PropTypes.object.isRequired,
-    filtersClass: PropTypes.object.isRequired,
+    filtersClass: PropTypes.string.isRequired,
     autocomplete: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     clearAutocompleteSuggestions: PropTypes.func.isRequired,
