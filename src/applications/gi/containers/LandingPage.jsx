@@ -98,8 +98,9 @@ export class LandingPage extends React.Component {
     const value = e.target.value;
 
     if (
-      (field === 'militaryStatus' && value === 'active duty') ||
-      (field === 'giBillChapter' && value !== '33')
+      this.props.filters.category === 'vettec' &&
+      ((field === 'militaryStatus' && value === 'active duty') ||
+        (field === 'giBillChapter' && value !== '33'))
     ) {
       this.props.institutionFilterChange({
         ...this.props.filters,
