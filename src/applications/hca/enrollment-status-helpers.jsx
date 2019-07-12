@@ -67,6 +67,11 @@ export function getWarningHeadline(enrollmentStatus) {
         'Our records show you chose to cancel or decline VA health care';
       break;
 
+    case HCA_ENROLLMENT_STATUSES.nonMilitary:
+      content =
+        'We see that you are not a service member or veteran but you may have received care at a VA medical facility';
+      break;
+
     default:
       break;
   }
@@ -139,6 +144,7 @@ export function getWarningStatus(
   let content = null;
   switch (enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.deceased:
+    case HCA_ENROLLMENT_STATUSES.nonMilitary:
       content = null;
       break;
 
@@ -169,6 +175,7 @@ export function getWarningExplanation(enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.ineligOther:
     case HCA_ENROLLMENT_STATUSES.ineligOver65:
     case HCA_ENROLLMENT_STATUSES.ineligRefusedCopay:
+    case HCA_ENROLLMENT_STATUSES.nonMilitary:
       content = null;
       break;
 
@@ -497,6 +504,22 @@ export function getFAQContent(enrollmentStatus) {
     </>
   );
 
+  const faqBlock10 = (
+    <>
+      <h4>Can I apply for VA health care?</h4>
+      <p>
+        If you are not a veteran or service member who has received separation
+        papers...
+      </p>
+      <p>
+        <strong>If you are seeing this in error</strong>
+      </p>
+      <p>
+        Please {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
   const faqBlockMentalHealthCare = (
     <>
       <h4>Can I still get mental health care?</h4>
@@ -684,6 +707,7 @@ export function getFAQContent(enrollmentStatus) {
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
+    [HCA_ENROLLMENT_STATUSES.nonMilitary]: wrapJSXInKeyedFragment([faqBlock10]),
     [HCA_ENROLLMENT_STATUSES.pendingMt]: wrapJSXInKeyedFragment([
       faqBlock6,
       faqBlockReapply5,

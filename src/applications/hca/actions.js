@@ -8,7 +8,7 @@ import {
 } from './selectors';
 
 // flip the `false` to `true` to fake the endpoint when testing locally
-const simulateServerLocally = environment.isLocalhost() && false;
+const simulateServerLocally = environment.isLocalhost() && true;
 
 // action types related to calling /health_care_applications/enrollment_status
 export const FETCH_ENROLLMENT_STATUS_STARTED =
@@ -142,7 +142,7 @@ export function getEnrollmentStatus(formData) {
       ) {
         callFake404(dispatch);
       }
-      callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
+      callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.nonMilitary);
     }
     return callAPI(dispatch, formData);
   };
