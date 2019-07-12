@@ -25,25 +25,27 @@ class RatingRow extends React.Component {
     const rowId = `disability-row-${this.props.indx + 1}`;
     const containerClasses = classNames(
       'vads-u-padding-x--4 vads-u-margin-y--1',
-      this.props.disability.hasError
+      this.props.disability.errorMessage
         ? 'vads-u-border-left--4px vads-u-border-color--secondary-dark'
         : null,
     );
 
     const ratingInputClasses = classNames(
       'ratingInput',
-      this.props.disability.hasError
+      this.props.disability.errorMessage
         ? 'vads-u-border--3px vads-u-border-color--secondary-dark'
         : null,
     );
 
     return (
       <div className={containerClasses}>
-        {this.props.disability.hasError && (
+        {this.props.disability.errorMessage && (
           <>
-            <span className="usa-input-error-label">Enter a valid rating</span>
+            <span className="usa-input-error-label">
+              {this.props.disability.errorMessage.title}
+            </span>
             <span className="usa-input-error-message" role="alert">
-              VA disability ratings are given in 10% increments.
+              {this.props.disability.errorMessage.body}
             </span>
           </>
         )}

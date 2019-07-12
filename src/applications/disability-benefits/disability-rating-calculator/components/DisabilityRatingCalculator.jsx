@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getRatings,
-  isRatingValid,
+  getRatingErrorMessage,
   calculateCombinedRating,
 } from '../utils/helpers';
 import CalculatedDisabilityRating from './CalculatedDisabilityRating';
@@ -11,12 +11,12 @@ const defaultDisabilities = [
   {
     rating: '',
     description: '',
-    hasError: false,
+    errorMessage: false,
   },
   {
     rating: '',
     description: '',
-    hasError: false,
+    errorMessage: false,
   },
 ];
 
@@ -44,7 +44,7 @@ export default class DisabilityRatingCalculator extends React.Component {
 
   focusFirstInvalidInput = () => {
     const firstInvalidDisability = this.state.disabilities.findIndex(
-      d => d.hasError,
+      d => d.errorMessage,
     );
     this.ratingInputRefs[firstInvalidDisability].focus();
   };
@@ -59,10 +59,10 @@ export default class DisabilityRatingCalculator extends React.Component {
     const ratings = getRatings(this.state.disabilities);
     const disabilitiesValidated = this.state.disabilities.map(disability => ({
       ...disability,
-      hasError: !isRatingValid(disability.rating),
+      errorMessage: getRatingErrorMessage(disability.rating),
     }));
 
-    const formIsInvalid = disabilitiesValidated.some(d => d.hasError);
+    const formIsInvalid = disabilitiesValidated.some(d => d.errorMessage);
 
     if (formIsInvalid) {
       this.setState(
