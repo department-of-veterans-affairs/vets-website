@@ -32,8 +32,6 @@ export const VetTecHeadingSummary = ({ institution }) => (
 
 VetTecHeadingSummary.propTypes = {
   institution: PropTypes.object,
-  onLearnMore: PropTypes.func,
-  onViewWarnings: PropTypes.func,
 };
 
 export default VetTecHeadingSummary;

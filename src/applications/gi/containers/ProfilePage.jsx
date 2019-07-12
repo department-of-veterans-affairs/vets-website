@@ -15,12 +15,7 @@ import Outcomes from '../components/profile/Outcomes';
 import Calculator from '../components/profile/Calculator';
 import CautionaryInformation from '../components/profile/CautionaryInformation';
 import AdditionalInformation from '../components/profile/AdditionalInformation';
-import VetTecAdditionalInformation from '../components/vet-tec/VetTecAdditionalInformation';
-import VetTecApplicationProcess from '../components/vet-tec/VetTecApplicationProcess';
-import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms';
-import VetTecCalculator from '../components/vet-tec/VetTecCalculator';
-import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
-import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
+import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import { outcomeNumbers } from '../selectors/outcomes';
 import environment from 'platform/utilities/environment';
 
@@ -83,44 +78,10 @@ export class ProfilePage extends React.Component {
 
       if (!environment.isProduction() && profile.attributes.vetTecProvider) {
         content = (
-          <div>
-            <VetTecHeadingSummary
-              institution={profile.attributes}
-              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-              onViewWarnings={this.handleViewWarnings}
-            />
-            <div className="usa-accordion">
-              <ul>
-                <AccordionItem button="Approved programs">
-                  <VetTecApprovedPrograms
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Estimate your benefits">
-                  <VetTecCalculator />
-                </AccordionItem>
-                <AccordionItem button="Contact us">
-                  <VetTecContactInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Application process">
-                  <VetTecApplicationProcess
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Additional information">
-                  <VetTecAdditionalInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-              </ul>
-            </div>
-          </div>
+          <VetTecInstitutionProfile
+            institution={profile.attributes}
+            showModal={this.props.showModal}
+          />
         );
       } else {
         content = (

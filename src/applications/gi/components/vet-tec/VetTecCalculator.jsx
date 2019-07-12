@@ -6,7 +6,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
-  showModal,
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
@@ -33,7 +32,6 @@ export class VetTecCalculator extends React.Component {
           <VetTecCalculatorForm
             inputs={inputs}
             displayedInputs={displayed}
-            onShowModal={this.props.showModal}
             onInputChange={this.props.calculatorInputChange}
             onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           />
@@ -180,7 +178,6 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
-  showModal,
 };
 
 export default connect(
