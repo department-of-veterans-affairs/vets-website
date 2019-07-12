@@ -195,15 +195,11 @@ class YourClaimsPageV2 extends React.Component {
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               <h1 className="claims-container-title">
                 Check your claim or appeal status
               </h1>
               <div>{this.renderErrorMessages()}</div>
-            </div>
-          </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               <p>
                 <button
                   type="button"
