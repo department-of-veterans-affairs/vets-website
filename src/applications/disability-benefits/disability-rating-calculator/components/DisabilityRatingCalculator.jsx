@@ -123,9 +123,9 @@ export default class DisabilityRatingCalculator extends React.Component {
     return (
       <div className="disability-calculator vads-u-padding-y--4 vads-u-background-color--gray-lightest">
         <div className="vads-u-padding-x--4">
-          <h2 className="vads-u-margin-top--0">
+          <h4 className="vads-u-font-size--h2 vads-u-margin--0">
             VA combined disability rating calculator
-          </h2>
+          </h4>
           <p>
             If you have 2 or more disability ratings, use our calculator to
             determine your combined disability rating. Enter each of your
