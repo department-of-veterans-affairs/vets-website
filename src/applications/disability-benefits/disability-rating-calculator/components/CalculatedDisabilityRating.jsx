@@ -19,16 +19,17 @@ class CalculatedDisabilityRating extends React.Component {
 
   render() {
     return (
-      <div>
-        <p id="calculated-disability-rating" ref={this.resultsRef}>
-          <strong>Your VA disability rating</strong>
-          <br />
-          <strong>
-            <span className="vads-u-font-size--2xl">
-              {this.props.calculatedRating.rounded}%
-            </span>
-          </strong>
-        </p>
+      <div className="vads-u-margin-top--1">
+        <div
+          id="calculated-disability-rating"
+          ref={this.resultsRef}
+          className="vads-u-font-weight--bold"
+        >
+          <div>Your VA disability rating</div>
+          <div className="vads-u-font-size--2xl">
+            {this.props.calculatedRating.rounded}%
+          </div>
+        </div>
         <p>
           <strong>Note:</strong> The actual combined value of your disability
           ratings is {this.props.calculatedRating.exact}
