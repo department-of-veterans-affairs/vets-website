@@ -3,6 +3,33 @@ import * as Sentry from '@sentry/browser';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
+export function fetchAndUpdateSessionExpiration(...args) {
+  // Only replace with custom fetch if not stubbed for testing
+  // and feature flag is enabled
+  if (
+    fetch.displayName !== 'stub' &&
+    localStorage.getItem('useCustomFetch') === 'true'
+  ) {
+    return fetch.apply(this, args).then(response => {
+      const apiURL = environment.API_URL;
+
+      if (
+        response.url.includes(apiURL) &&
+        (response.ok || response.status === 304)
+      ) {
+        // Get session expiration from header
+        const sessionExpiration = response.headers.get('X-Session-Expiration');
+        if (sessionExpiration) {
+          localStorage.setItem('sessionExpiration', sessionExpiration);
+        }
+      }
+      return response;
+    });
+  }
+
+  return fetch(...args);
+}
+
 function isJson(response) {
   const contentType = response.headers.get('Content-Type');
   return contentType && contentType.includes('application/json');
@@ -41,7 +68,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
 
-  return fetch(url, settings)
+  return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);
@@ -56,10 +83,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (response.ok || response.status === 304) {
-        // Get session expiration from header
-        const sessionExpiration = response.headers.get('X-Session-Expiration');
-        if (sessionExpiration)
-          localStorage.setItem('sessionExpiration', sessionExpiration);
         return data;
       }
 

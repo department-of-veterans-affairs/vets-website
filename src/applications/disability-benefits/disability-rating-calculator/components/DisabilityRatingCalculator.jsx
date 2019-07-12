@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getRatings,
-  canCalculate,
+  getRatingErrorMessage,
   calculateCombinedRating,
 } from '../utils/helpers';
 import CalculatedDisabilityRating from './CalculatedDisabilityRating';
@@ -11,10 +11,12 @@ const defaultDisabilities = [
   {
     rating: '',
     description: '',
+    errorMessage: false,
   },
   {
     rating: '',
     description: '',
+    errorMessage: false,
   },
 ];
 
@@ -31,10 +33,6 @@ export default class DisabilityRatingCalculator extends React.Component {
     this.ratingInputRefs = [];
   }
 
-  componentDidMount() {
-    this.focusFirstRatingInput();
-  }
-
   setRef = ref => {
     if (ref) this.ratingInputRefs.push(ref);
   };
@@ -44,21 +42,40 @@ export default class DisabilityRatingCalculator extends React.Component {
   focusLastRatingInput = () =>
     this.ratingInputRefs[this.ratingInputRefs.length - 1].focus();
 
+  focusFirstInvalidInput = () => {
+    const firstInvalidDisability = this.state.disabilities.findIndex(
+      d => d.errorMessage,
+    );
+    this.ratingInputRefs[firstInvalidDisability].focus();
+  };
+
   handleDisabilityChange = (index, updatedRow) => {
     const disabilities = this.state.disabilities;
     disabilities[index] = updatedRow;
     this.setState({ disabilities });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-
+  handleSubmit = () => {
     const ratings = getRatings(this.state.disabilities);
-    const calcRating = calculateCombinedRating(ratings);
+    const disabilitiesValidated = this.state.disabilities.map(disability => ({
+      ...disability,
+      errorMessage: getRatingErrorMessage(disability.rating),
+    }));
+
+    const formIsInvalid = disabilitiesValidated.some(d => d.errorMessage);
+
+    if (formIsInvalid) {
+      this.setState(
+        { disabilities: disabilitiesValidated },
+        this.focusFirstInvalidInput,
+      );
+      return;
+    }
 
     this.setState({
       showCombinedRating: true,
-      calculatedRating: calcRating,
+      disabilities: disabilitiesValidated,
+      calculatedRating: calculateCombinedRating(ratings),
     });
   };
 
@@ -102,14 +119,13 @@ export default class DisabilityRatingCalculator extends React.Component {
     const disabilities = this.state.disabilities;
     const calculatedRating = this.state.calculatedRating;
     const ratings = getRatings(disabilities);
-    const canSubmit = canCalculate(ratings);
 
     return (
-      <div className="disability-calculator vads-u-margin-bottom--5 vads-u-background-color--gray-lightest vads-l-grid-container">
-        <div className="calc-header vads-u-padding-x--4">
-          <h2 className="vads-u-padding-top--4">
+      <div className="disability-calculator vads-u-padding-y--4 vads-u-background-color--gray-lightest">
+        <div className="vads-u-padding-x--4">
+          <h4 className="vads-u-font-size--h2 vads-u-margin--0">
             VA combined disability rating calculator
-          </h2>
+          </h4>
           <p>
             If you have 2 or more disability ratings, use our calculator to
             determine your combined disability rating. Enter each of your
@@ -117,73 +133,69 @@ export default class DisabilityRatingCalculator extends React.Component {
             of each for your notes, if you'd like. Then click Calculate to get
             your combined rating.
           </p>
-          <br />
-        </div>
-        <div className="vads-l-grid-container">
-          <div className="vads-l-row">
-            <div
-              className="vads-l-col--3 vads-u-padding-right--2"
-              id="ratingLabel"
-            >
-              Disability rating
-            </div>
-            <div className="vads-l-col--9" id="descriptionLabel">
-              Optional description
-            </div>
-          </div>
-          {disabilities.map((disability, idx) => (
-            <RatingRow
-              disability={disability}
-              ref={this.setRef}
-              key={idx}
-              indx={idx}
-              ratingRef={this.ratingRef}
-              disabled={disabilities.length < 3}
-              updateDisability={this.handleDisabilityChange}
-              removeDisability={this.handleRemoveDisability}
-            />
-          ))}
-          <div className="vads-l-row">
-            <div className="vads-l-col--3">
-              <button
-                className="va-button-link add-btn vads-u-text-align--left vads-u-margin-y--1p5"
-                type="button"
-                onClick={this.handleAddRating}
+          <div className="vads-l-grid-container--full">
+            <div className="vads-l-row">
+              <div
+                className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2"
+                id="ratingLabel"
               >
-                <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
-                Add rating
-              </button>
-            </div>
-            <div className="vads-l-col--8" />
-          </div>
-          <br />
-          <div className="vads-l-row">
-            <div>
-              <button
-                className="calculate-btn"
-                onClick={this.handleSubmit}
-                disabled={!canSubmit}
+                Disability rating
+              </div>
+              <div
+                className="vads-l-col--6 small-screen:vads-l-col--6"
+                id="descriptionLabel"
               >
-                Calculate
-              </button>
-            </div>
-            <div className="vads-u-margin-left--1">
-              <button
-                className="va-button-link clear-btn vads-u-margin-y--1p5"
-                onClick={this.clearAll}
-              >
-                Clear all
-              </button>
+                Optional description
+              </div>
             </div>
           </div>
         </div>
-
-        {this.state.showCombinedRating === true && (
-          <CalculatedDisabilityRating
-            ratings={ratings}
-            calculatedRating={calculatedRating}
+        {disabilities.map((disability, idx) => (
+          <RatingRow
+            disability={disability}
+            ref={this.setRef}
+            key={idx}
+            indx={idx}
+            ratingRef={this.ratingRef}
+            isDeletable={disabilities.length > 2}
+            showErrors={this.state.showCombinedRating}
+            updateDisability={this.handleDisabilityChange}
+            removeDisability={this.handleRemoveDisability}
           />
-        )}
+        ))}
+        <div className="vads-u-padding-x--4">
+          <div>
+            <button
+              className="va-button-link vads-u-text-align--left vads-u-margin-y--1p5"
+              type="button"
+              onClick={this.handleAddRating}
+            >
+              <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
+              Add rating
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="usa-button vads-u-width--auto"
+              onClick={this.handleSubmit}
+            >
+              Calculate
+            </button>
+            <button
+              className="usa-button va-button-link vads-u-margin-y--1p5 vads-u-margin-left--2"
+              onClick={this.clearAll}
+            >
+              Clear all
+            </button>
+          </div>
+          {this.state.showCombinedRating === true && (
+            <CalculatedDisabilityRating
+              ratings={ratings}
+              calculatedRating={calculatedRating}
+            />
+          )}
+        </div>
       </div>
     );
   }

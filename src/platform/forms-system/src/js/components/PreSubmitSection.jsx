@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableCheckbox from './ErrorableCheckbox';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 export function PreSubmitSection({
   onChange,
