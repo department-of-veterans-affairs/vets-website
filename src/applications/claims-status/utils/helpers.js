@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import * as Sentry from '@sentry/browser';
 
 import environment from '../../../platform/utilities/environment';
+import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';

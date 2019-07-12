@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import environment from '../../../../platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
-    return environment.isProduction()
-      ? 'Total paid (FY 2016)'
-      : 'Total paid (FY 2018)';
+    return 'Total paid (FY 2018)';
   }
   renderInstitutionSummary() {
     const it = this.props.institution;
