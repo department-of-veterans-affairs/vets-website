@@ -87,6 +87,7 @@ class VetTecSearchForm extends React.Component {
         options={addAllOption(options)}
         value={this.props.filters.country}
         handleDropdownChange={this.handleDropdownChange}
+        visible
       />
     );
   };
@@ -104,6 +105,7 @@ class VetTecSearchForm extends React.Component {
         options={addAllOption(options)}
         value={this.props.filters.state}
         handleDropdownChange={this.handleDropdownChange}
+        visible
       />
     );
   };
