@@ -97,7 +97,7 @@ export class LandingPage extends React.Component {
     const field = e.target.name;
     const value = e.target.value;
 
-    const { eligibility } = this.props;
+    const eligibility = { ...this.props.eligibility };
     eligibility[field] = value;
 
     if (
