@@ -111,6 +111,27 @@ export class LandingPage extends React.Component {
     this.props.eligibilityChange(e);
   };
 
+  handleTypeOfInstitutionFilterChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+    const filters = this.props.filters;
+
+    if (field === 'category') {
+      filters.vet_tec_provider = value === 'vettec';
+    }
+    filters[field] = value;
+
+    this.props.institutionFilterChange(filters);
+  };
+
+  shouldDisplayTypeOfInstitution = () =>
+    this.props.eligibility.militaryStatus !== 'active duty' &&
+    this.props.eligibility.giBillChapter === '33';
+
+  shouldDisplayKeywordSearch = () =>
+    environment.isProduction() ||
+    (!environment.isProduction() && !isVetTecSelected(this.props.filters));
+
   render() {
     return (
       <span className="landing-page">
