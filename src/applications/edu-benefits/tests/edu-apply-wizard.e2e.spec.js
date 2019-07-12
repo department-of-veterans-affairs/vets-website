@@ -7,9 +7,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(`${E2eHelpers.baseUrl}/education/how-to-apply/`)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title(
-      'How to apply for the GI Bill and other education benefits | Veterans Affairs',
-    )
     .waitForElementVisible('.wizard-container', Timeouts.normal)
     .click('.wizard-button')
     .waitForElementVisible('label[for="newBenefit-0"]', Timeouts.normal)

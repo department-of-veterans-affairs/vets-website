@@ -18,7 +18,6 @@ if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
         }/education/apply-for-education-benefits/application/1995-STEM`,
       )
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Veteran request for change | Veterans Affairs')
       .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
       .axeCheck('.main')
       .click('.schemaform-start-button');
