@@ -13,9 +13,9 @@ class ClaimEstimationPage extends React.Component {
   }
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="medium-12 columns">
+      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
               <Link to={`your-claims/${this.props.params.id}/status`}>
                 Status details
@@ -26,8 +26,8 @@ class ClaimEstimationPage extends React.Component {
             </ClaimsBreadcrumbs>
           </div>
         </div>
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 columns">
+        <div className="vads-l-row vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <div>
               <h1>How we come up with your estimated decision date</h1>
               <p className="first-of-type">
@@ -86,7 +86,7 @@ class ClaimEstimationPage extends React.Component {
               If you have questions, <CallVBACenter />
             </p>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
             <AskVAQuestions />
           </div>
         </div>
