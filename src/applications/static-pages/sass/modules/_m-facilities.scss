@@ -176,3 +176,9 @@ $duo-tone-lighten: #000000;
 .va-c-margin-top--auto {
   margin-top: auto;
 }
+
+.social-links {
+  &:last-child.vads-u-margin-bottom--2 {
+    margin-bottom: 0 !important;
+  }
+}
