@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .waitForElementVisible('body', Timeouts.normal)
-    .waitForElementVisible('.gi-app', Timeouts.slow)
+    .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
   client

@@ -27,13 +27,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Verify text on page
   client.expect
     .element('.claims-container h1')
-    .text.to.equal('Check Your Claim or Appeal Status');
+    .text.to.equal('Check your claim or appeal status');
 
   client.expect
     .element('.claim-list-item-header-v2')
     // .text.to.equal('Disability Compensation Claim – Received September 23, 2008');
     .text.to.equal(
-      'Claim for Disability Compensation\nReceived September 23, 2008',
+      'Claim for disability compensation\nreceived September 23, 2008',
     );
 
   // Click to detail view

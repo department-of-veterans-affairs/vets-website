@@ -2,8 +2,26 @@ export function getRatings(disabilities) {
   return disabilities.map(disability => disability.rating);
 }
 
-export function canCalculate(ratings) {
-  return ratings.filter(r => !!r).length >= 2;
+export function getRatingErrorMessage(rating) {
+  const isFactorOfTen = rating % 10 === 0;
+  const isBelowMin = rating <= 0;
+  const isBeyondMax = rating >= 100;
+
+  if (isBeyondMax) {
+    return {
+      title: '100% is the maximum disability rating',
+      body: 'You can’t receive a combined rating of more than 100%.',
+    };
+  }
+
+  if (!isFactorOfTen || isBelowMin) {
+    return {
+      title: 'Enter a valid rating',
+      body: 'Disability ratings are given in 10% increments, from 0 to 100.',
+    };
+  }
+
+  return false;
 }
 
 export function calculateCombinedRating(ratings) {

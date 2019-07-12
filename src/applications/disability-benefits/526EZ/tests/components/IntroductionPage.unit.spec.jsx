@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { IntroductionPage } from '../../components/IntroductionPage';
 
@@ -11,7 +12,7 @@ const defaultProps = {
       // need to have a saved form or else form will redirect to v2
       savedForms: [
         {
-          form: '21-526EZ',
+          form: VA_FORM_IDS.FORM_21_526EZ,
           metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
         },
       ],

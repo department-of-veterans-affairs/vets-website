@@ -23,7 +23,7 @@ export default function ClaimsListItem({ claim }) {
       <h3 className="claim-list-item-header-v2">
         Claim for {getClaimType(claim)}
         <br />
-        Received {formattedReceiptDate}
+        received {formattedReceiptDate}
       </h3>
       <div className="card-status">
         <div

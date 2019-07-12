@@ -1,7 +1,8 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from '../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
+import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 function replacer(key, value) {
