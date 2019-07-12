@@ -3,11 +3,6 @@ import React from 'react';
 import environment from '../../../../platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
-  updateFiscalYear() {
-    return environment.isProduction()
-      ? 'Total paid (FY 2016)'
-      : 'Total paid (FY 2018)';
-  }
   renderInstitutionSummary() {
     const it = this.props.institution;
     const isOJT = it.type.toLowerCase() === 'ojt';
@@ -159,10 +154,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911Recipients)}
               </div>
               <div>
-                <strong>
-                  {this.updateFiscalYear()}
-                  :&nbsp;
-                </strong>
+                <strong>Total paid (FY 2018):&nbsp;</strong>
                 {formatCurrency(it.p911TuitionFees)}
               </div>
             </div>
@@ -176,10 +168,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911YrRecipients)}
               </div>
               <div>
-                <strong>
-                  {this.updateFiscalYear()}
-                  :&nbsp;
-                </strong>
+                <strong>Total paid (FY 2018):&nbsp;</strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </div>
             </div>
@@ -235,7 +224,9 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>{this.updateFiscalYear()}</th>
+                  <th>
+                    <strong>Total paid (FY 2018)</strong>
+                  </th>
                 </tr>
               </thead>
               <tbody>
