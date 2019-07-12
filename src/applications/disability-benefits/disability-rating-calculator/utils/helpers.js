@@ -2,8 +2,11 @@ export function getRatings(disabilities) {
   return disabilities.map(disability => disability.rating);
 }
 
-export function canCalculate(ratings) {
-  return ratings.filter(r => !!r).length >= 2;
+export function isRatingValid(rating) {
+  const isFactorOfTen = rating % 10 === 0;
+  const isWithinRange = rating > 0 && rating < 100;
+
+  return isFactorOfTen && isWithinRange;
 }
 
 export function calculateCombinedRating(ratings) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getRatings,
-  canCalculate,
+  isRatingValid,
   calculateCombinedRating,
 } from '../utils/helpers';
 import CalculatedDisabilityRating from './CalculatedDisabilityRating';
@@ -11,10 +11,12 @@ const defaultDisabilities = [
   {
     rating: '',
     description: '',
+    hasError: false,
   },
   {
     rating: '',
     description: '',
+    hasError: false,
   },
 ];
 
@@ -50,15 +52,22 @@ export default class DisabilityRatingCalculator extends React.Component {
     event.preventDefault();
 
     const ratings = getRatings(this.state.disabilities);
+    const disabilitiesValidated = this.state.disabilities.map(disability => ({
+      ...disability,
+      hasError: !isRatingValid(disability.rating),
+    }));
 
-    const canSubmit = canCalculate(ratings);
-    if (!canSubmit) return;
+    const formIsInvalid = disabilitiesValidated.some(d => d.hasError);
 
-    const calcRating = calculateCombinedRating(ratings);
+    if (formIsInvalid) {
+      this.setState({ disabilities: disabilitiesValidated });
+      return;
+    }
 
     this.setState({
       showCombinedRating: true,
-      calculatedRating: calcRating,
+      disabilities: disabilitiesValidated,
+      calculatedRating: calculateCombinedRating(ratings),
     });
   };
 
@@ -104,8 +113,8 @@ export default class DisabilityRatingCalculator extends React.Component {
     const ratings = getRatings(disabilities);
 
     return (
-      <div className="disability-calculator vads-u-padding--4 vads-u-background-color--gray-lightest">
-        <div>
+      <div className="disability-calculator vads-u-padding-y--4 vads-u-background-color--gray-lightest">
+        <div className="vads-u-padding-x--4">
           <h2 className="vads-u-margin-top--0">
             VA combined disability rating calculator
           </h2>
@@ -116,34 +125,37 @@ export default class DisabilityRatingCalculator extends React.Component {
             of each for your notes, if you'd like. Then click Calculate to get
             your combined rating.
           </p>
-        </div>
-        <div className="vads-l-grid-container--full">
-          <div className="vads-l-row">
-            <div
-              className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2"
-              id="ratingLabel"
-            >
-              Disability rating
-            </div>
-            <div
-              className="vads-l-col--6 small-screen:vads-l-col--6"
-              id="descriptionLabel"
-            >
-              Optional description
+          <div className="vads-l-grid-container--full">
+            <div className="vads-l-row">
+              <div
+                className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2"
+                id="ratingLabel"
+              >
+                Disability rating
+              </div>
+              <div
+                className="vads-l-col--6 small-screen:vads-l-col--6"
+                id="descriptionLabel"
+              >
+                Optional description
+              </div>
             </div>
           </div>
-          {disabilities.map((disability, idx) => (
-            <RatingRow
-              disability={disability}
-              ref={this.setRef}
-              key={idx}
-              indx={idx}
-              ratingRef={this.ratingRef}
-              disabled={disabilities.length < 3}
-              updateDisability={this.handleDisabilityChange}
-              removeDisability={this.handleRemoveDisability}
-            />
-          ))}
+        </div>
+        {disabilities.map((disability, idx) => (
+          <RatingRow
+            disability={disability}
+            ref={this.setRef}
+            key={idx}
+            indx={idx}
+            ratingRef={this.ratingRef}
+            isDeletable={disabilities.length > 2}
+            showErrors={this.state.showCombinedRating}
+            updateDisability={this.handleDisabilityChange}
+            removeDisability={this.handleRemoveDisability}
+          />
+        ))}
+        <div className="vads-u-padding-x--4">
           <div>
             <button
               className="va-button-link vads-u-text-align--left vads-u-margin-y--1p5"
@@ -169,14 +181,13 @@ export default class DisabilityRatingCalculator extends React.Component {
               Clear all
             </button>
           </div>
+          {this.state.showCombinedRating === true && (
+            <CalculatedDisabilityRating
+              ratings={ratings}
+              calculatedRating={calculatedRating}
+            />
+          )}
         </div>
-
-        {this.state.showCombinedRating === true && (
-          <CalculatedDisabilityRating
-            ratings={ratings}
-            calculatedRating={calculatedRating}
-          />
-        )}
       </div>
     );
   }

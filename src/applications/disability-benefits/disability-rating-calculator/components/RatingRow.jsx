@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 class RatingRow extends React.Component {
   onRatingChange = e => {
@@ -22,48 +23,77 @@ class RatingRow extends React.Component {
 
   render() {
     const rowId = `disability-row-${this.props.indx + 1}`;
+    const containerClasses = classNames(
+      'vads-u-padding-x--4 vads-u-margin-y--1',
+      this.props.disability.hasError
+        ? 'vads-u-border-left--4px vads-u-border-color--secondary-dark'
+        : null,
+    );
+
+    const ratingInputClasses = classNames(
+      'ratingInput',
+      this.props.disability.hasError
+        ? 'vads-u-border--3px vads-u-border-color--secondary-dark'
+        : null,
+    );
 
     return (
-      <div className="rating vads-l-row">
-        <span id={rowId} className="sr-only">
-          row {this.props.indx + 1}
-        </span>
-        <div className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2">
-          <input
-            type="number"
-            className="ratingInput"
-            name="rating"
-            min="10"
-            max="99"
-            ref={this.props.inputRef}
-            onChange={this.onRatingChange}
-            value={this.props.disability.rating}
-            aria-labelledby={`ratingLabel ${rowId}`}
-          />
-        </div>
-        <div className="vads-l-col--6 small-screen:vads-l-col--6">
-          <input
-            className="descriptionInput"
-            name="description"
-            onChange={this.onDescriptionChange}
-            value={this.props.disability.description}
-            aria-labelledby={`descriptionLabel ${rowId}`}
-          />
-        </div>
-        <div className="vads-l-col--2 small-screen:vads-l-col--3">
-          <div>
-            <button
-              type="button"
-              aria-label={`Delete disability rating row ${this.props.indx + 1}`}
-              onClick={this.props.removeDisability(this.props.indx)}
-              className="va-button-link usa-button vads-u-margin--1p5"
-              disabled={this.props.disabled}
-            >
-              <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
-              <span className="vads-u-display--none medium-screen:vads-u-display--inline">
-                Delete
-              </span>
-            </button>
+      <div className={containerClasses}>
+        {this.props.disability.hasError && (
+          <>
+            <span className="usa-input-error-label">
+              Invalid disability rating
+            </span>
+            <span className="usa-input-error-message" role="alert">
+              VA disability ratings are given in 10% increments, from 0 to 100.
+            </span>
+          </>
+        )}
+        <div className="vads-l-grid-container--full">
+          <div className="rating vads-l-row">
+            <span id={rowId} className="sr-only">
+              row {this.props.indx + 1}
+            </span>
+            <div className="vads-l-col--4 small-screen:vads-l-col--3 vads-u-padding-right--2">
+              <input
+                type="number"
+                className={ratingInputClasses}
+                name="rating"
+                min="10"
+                max="99"
+                step="10"
+                ref={this.props.inputRef}
+                onChange={this.onRatingChange}
+                value={this.props.disability.rating}
+                aria-labelledby={`ratingLabel ${rowId}`}
+              />
+            </div>
+            <div className="vads-l-col--6 small-screen:vads-l-col--6">
+              <input
+                className="descriptionInput"
+                name="description"
+                onChange={this.onDescriptionChange}
+                value={this.props.disability.description}
+                aria-labelledby={`descriptionLabel ${rowId}`}
+              />
+            </div>
+            <div className="vads-l-col--2 small-screen:vads-l-col--3">
+              <div>
+                <button
+                  type="button"
+                  aria-label={`Delete disability rating row ${this.props.indx +
+                    1}`}
+                  className="va-button-link usa-button vads-u-margin--1p5"
+                  onClick={this.props.removeDisability(this.props.indx)}
+                  disabled={!this.props.isDeletable}
+                >
+                  <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
+                  <span className="vads-u-display--none medium-screen:vads-u-display--inline">
+                    Delete
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
