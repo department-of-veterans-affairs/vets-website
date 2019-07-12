@@ -7,7 +7,7 @@
 import { expect } from 'chai';
 import inputs from './inputs.json';
 
-import { calculateCombinedRating } from '../../utils/helpers';
+import { calculateCombinedRating, isRatingValid } from '../../utils/helpers';
 
 describe('Disability Calculator helpers:', () => {
   describe('calculateCombinedRating', () => {
@@ -22,6 +22,25 @@ describe('Disability Calculator helpers:', () => {
         expect(result).to.have.keys(['exact', 'rounded']);
         expect(result.exact).to.be.equal(expectedResult.exact);
         expect(result.rounded).to.be.equal(expectedResult.rounded);
+      });
+    }
+  });
+
+  describe('isRatingValid', () => {
+    const validRatings = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+    const invalidRatings = [-1, 5, 11, 100, 101, 123];
+
+    for (const rating of validRatings) {
+      it(`accepts ${rating} as valid input`, () => {
+        const result = isRatingValid(rating);
+        expect(result).to.be.true;
+      });
+    }
+
+    for (const rating of invalidRatings) {
+      it(`rejects ${rating} as valid input`, () => {
+        const result = isRatingValid(rating);
+        expect(result).to.be.false;
       });
     }
   });
