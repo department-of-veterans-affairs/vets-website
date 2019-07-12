@@ -8,7 +8,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import SidebarRightLayout from './SidebarRightLayout';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
@@ -26,11 +25,6 @@ export default class ClaimDetailLayout extends React.Component {
     } = this.props;
     const tabs = ['Status', 'Files', 'Details'];
     const claimsPath = `your-claims/${id}`;
-    const breadcrumbs = (
-      <ClaimsBreadcrumbs>
-        <Link to={claimsPath}>Status details</Link>
-      </ClaimsBreadcrumbs>
-    );
 
     let bodyContent;
     let headingContent;
@@ -47,11 +41,6 @@ export default class ClaimDetailLayout extends React.Component {
           )}
           <h1 className="claim-title">Your {getClaimType(claim)} claim</h1>
           {!synced && <ClaimSyncWarning olderVersion={!synced} />}
-        </>
-      );
-
-      bodyContent = (
-        <div className="claim-container">
           <div className="claim-contentions">
             <h6 className="claim-contentions-header">What you’ve claimed:</h6>
             <span>
@@ -74,6 +63,11 @@ export default class ClaimDetailLayout extends React.Component {
               </span>
             ) : null}
           </div>
+        </>
+      );
+
+      bodyContent = (
+        <div className="claim-container">
           <TabNav id={this.props.claim.id} />
           {tabs.map(tab => (
             <div
@@ -106,12 +100,30 @@ export default class ClaimDetailLayout extends React.Component {
     return (
       <div>
         <div name="topScrollElement" />
-        <SidebarRightLayout
-          heading={headingContent}
-          body={bodyContent}
-          sidebar={<AskVAQuestions />}
-          breadcrumbs={breadcrumbs}
-        />
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <ClaimsBreadcrumbs>
+                <Link to={claimsPath}>Status details</Link>
+              </ClaimsBreadcrumbs>
+            </div>
+          </div>
+          {!!headingContent && (
+            <div className="vads-l-row vads-u-margin-x--neg2p5">
+              <div className="vads-l-col--12 vads-u-padding-x--2p5">
+                {headingContent}
+              </div>
+            </div>
+          )}
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              {bodyContent}
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
+              <AskVAQuestions />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
