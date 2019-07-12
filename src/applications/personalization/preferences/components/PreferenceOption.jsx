@@ -18,7 +18,6 @@ export default ({ item, onChange, checked }) => {
         <ErrorableCheckbox
           name={item.code}
           checked={checked}
-          label=""
           ariaLabelledBy={`itemTitle${itemId}`}
           onValueChange={() => onChange(item.code, !checked)}
         />
