@@ -26,7 +26,7 @@ class CalculatedDisabilityRating extends React.Component {
           className="vads-u-font-weight--bold"
         >
           <div>Your VA disability rating</div>
-          <div className="vads-u-font-size--2xl">
+          <div className="vads-u-font-size--2xl vads-u-line-height--1">
             {this.props.calculatedRating.rounded}%
           </div>
         </div>
