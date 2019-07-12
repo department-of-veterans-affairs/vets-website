@@ -35,3 +35,5 @@ const PaymentInformationTOCItemContainer = connect(mapStateToProps)(
 );
 
 export default PaymentInformationTOCItemContainer;
+
+export { PaymentInformationTOCItem };
