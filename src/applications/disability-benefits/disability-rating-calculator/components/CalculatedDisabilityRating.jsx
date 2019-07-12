@@ -25,7 +25,7 @@ class CalculatedDisabilityRating extends React.Component {
           <br />
           <strong>
             <span className="vads-u-font-size--2xl">
-              {this.props.calculatedRating.rounded} %
+              {this.props.calculatedRating.rounded}%
             </span>
           </strong>
         </p>
