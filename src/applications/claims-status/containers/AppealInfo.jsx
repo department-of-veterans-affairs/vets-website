@@ -24,6 +24,11 @@ import {
 } from '../utils/appeals-v2-helpers';
 import CallVBACenter from '../../../platform/static-data/CallVBACenter';
 
+const capitalizeWord = word => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
+};
+
 const appealsDownMessage = (
   <div className="row" id="appealsDownMessage">
     <div className="small-12 columns">
@@ -86,10 +91,10 @@ export class AppealInfo extends React.Component {
       event => event.type === requestEventType,
     );
 
-    let appealTitle = getTypeName(this.props.appeal);
+    let appealTitle = capitalizeWord(getTypeName(this.props.appeal));
 
     if (requestEvent) {
-      appealTitle += ` Received ${moment(requestEvent.date).format(
+      appealTitle += ` received ${moment(requestEvent.date).format(
         'MMMM YYYY',
       )}`;
     }
@@ -124,7 +129,7 @@ export class AppealInfo extends React.Component {
           <div>
             <ClaimsBreadcrumbs>
               <Link to={`appeals/${appeal.id}`} key="claims-appeal">
-                Status Details
+                Status details
               </Link>
             </ClaimsBreadcrumbs>
           </div>

@@ -34,7 +34,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .element(
       '.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]',
     )
-    .text.to.equal('Estimated Decision Date');
+    .text.to.equal('Estimated decision date');
   client.expect
     .element(
       '.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]',
