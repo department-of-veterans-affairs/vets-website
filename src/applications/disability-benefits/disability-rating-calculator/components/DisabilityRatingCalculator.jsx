@@ -42,15 +42,20 @@ export default class DisabilityRatingCalculator extends React.Component {
   focusLastRatingInput = () =>
     this.ratingInputRefs[this.ratingInputRefs.length - 1].focus();
 
+  focusFirstInvalidInput = () => {
+    const firstInvalidDisability = this.state.disabilities.findIndex(
+      d => d.hasError,
+    );
+    this.ratingInputRefs[firstInvalidDisability].focus();
+  };
+
   handleDisabilityChange = (index, updatedRow) => {
     const disabilities = this.state.disabilities;
     disabilities[index] = updatedRow;
     this.setState({ disabilities });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-
+  handleSubmit = () => {
     const ratings = getRatings(this.state.disabilities);
     const disabilitiesValidated = this.state.disabilities.map(disability => ({
       ...disability,
@@ -60,7 +65,10 @@ export default class DisabilityRatingCalculator extends React.Component {
     const formIsInvalid = disabilitiesValidated.some(d => d.hasError);
 
     if (formIsInvalid) {
-      this.setState({ disabilities: disabilitiesValidated });
+      this.setState(
+        { disabilities: disabilitiesValidated },
+        this.focusFirstInvalidInput,
+      );
       return;
     }
 
@@ -168,7 +176,7 @@ export default class DisabilityRatingCalculator extends React.Component {
           </div>
           <div>
             <button
-              type="submit"
+              type="button"
               className="usa-button vads-u-width--auto"
               onClick={this.handleSubmit}
             >
