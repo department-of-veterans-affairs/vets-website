@@ -84,9 +84,9 @@ export class LandingPage extends React.Component {
     this.props.institutionFilterChange(filters);
   };
 
-  shouldDisplayTypeOfInstitution = () =>
-    this.props.eligibility.militaryStatus !== 'active duty' &&
-    this.props.eligibility.giBillChapter === '33';
+  shouldDisplayTypeOfInstitution = (eligibility = this.props.eligibility) =>
+    eligibility.militaryStatus !== 'active duty' &&
+    eligibility.giBillChapter === '33';
 
   // ***CT 116***
   isVetTecNotSelected = () =>
@@ -97,9 +97,12 @@ export class LandingPage extends React.Component {
     const field = e.target.name;
     const value = e.target.value;
 
+    const { eligibility } = this.props;
+    eligibility[field] = value;
+
     if (
-      (field === 'militaryStatus' && value === 'active duty') ||
-      (field === 'giBillChapter' && value !== '33')
+      (field === 'militaryStatus' || field === 'giBillChapter') &&
+      !this.shouldDisplayTypeOfInstitution(eligibility)
     ) {
       this.props.institutionFilterChange({
         ...this.props.filters,

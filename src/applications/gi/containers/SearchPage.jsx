@@ -262,29 +262,29 @@ export class SearchPage extends React.Component {
             eligibilityChange={this.props.eligibilityChange}
           />
         ) : (
-            <InstitutionSearchForm
-              filtersClass={filtersClass}
-              search={search}
-              autocomplete={this.props.autocomplete}
-              location={this.props.location}
-              clearAutocompleteSuggestions={
-                this.props.clearAutocompleteSuggestions
-              }
-              fetchAutocompleteSuggestions={
-                this.props.fetchAutocompleteSuggestions
-              }
-              handleFilterChange={this.handleFilterChange}
-              updateAutocompleteSearchTerm={
-                this.props.updateAutocompleteSearchTerm
-              }
-              filters={filters}
-              toggleFilter={this.props.toggleFilter}
-              searchResults={searchResults}
-              eligibility={this.props.eligibility}
-              showModal={this.props.showModal}
-              eligibilityChange={this.props.eligibilityChange}
-            />
-          )}
+          <InstitutionSearchForm
+            filtersClass={filtersClass}
+            search={search}
+            autocomplete={this.props.autocomplete}
+            location={this.props.location}
+            clearAutocompleteSuggestions={
+              this.props.clearAutocompleteSuggestions
+            }
+            fetchAutocompleteSuggestions={
+              this.props.fetchAutocompleteSuggestions
+            }
+            handleFilterChange={this.handleFilterChange}
+            updateAutocompleteSearchTerm={
+              this.props.updateAutocompleteSearchTerm
+            }
+            filters={filters}
+            toggleFilter={this.props.toggleFilter}
+            searchResults={searchResults}
+            eligibility={this.props.eligibility}
+            showModal={this.props.showModal}
+            eligibilityChange={this.props.eligibilityChange}
+          />
+        )}
       </ScrollElement>
     );
   }

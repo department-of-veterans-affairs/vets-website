@@ -6,18 +6,6 @@ import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
 
 class InstitutionSearchForm extends React.Component {
-  constructor(props) {
-    super(props);
-    if (this.props.eligibility.onlineClasses === 'none') {
-      this.props.eligibilityChange({
-        target: {
-          field: 'onlineClasses',
-          value: 'no',
-        },
-      });
-    }
-  }
-
   render() {
     return (
       <div className="row">
