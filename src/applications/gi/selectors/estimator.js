@@ -124,7 +124,7 @@ export function getDerivedAttributes(constant, eligibility, institution) {
   };
 }
 
-export function calculateTuition(constant, eligibility, institution, derived) {
+function calculateTuition(constant, eligibility, institution, derived) {
   if (derived.oldGiBill) {
     return { qualifier: 'per year', value: 0 };
   }
