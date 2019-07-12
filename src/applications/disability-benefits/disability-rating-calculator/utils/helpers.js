@@ -4,7 +4,7 @@ export function getRatings(disabilities) {
 
 export function isRatingValid(rating) {
   const isFactorOfTen = rating % 10 === 0;
-  const isWithinRange = rating >= 0 && rating < 100;
+  const isWithinRange = rating > 0 && rating < 100;
 
   return isFactorOfTen && isWithinRange;
 }

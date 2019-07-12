@@ -27,8 +27,8 @@ describe('Disability Calculator helpers:', () => {
   });
 
   describe('isRatingValid', () => {
-    const validRatings = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
-    const invalidRatings = [-1, 5, 11, 100, 101, 123];
+    const validRatings = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+    const invalidRatings = [0, -1, 5, 11, 100, 101, 123];
 
     for (const rating of validRatings) {
       it(`accepts ${rating} as valid input`, () => {

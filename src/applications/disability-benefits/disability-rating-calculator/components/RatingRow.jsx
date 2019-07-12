@@ -41,11 +41,9 @@ class RatingRow extends React.Component {
       <div className={containerClasses}>
         {this.props.disability.hasError && (
           <>
-            <span className="usa-input-error-label">
-              Invalid disability rating
-            </span>
+            <span className="usa-input-error-label">Enter a valid rating</span>
             <span className="usa-input-error-message" role="alert">
-              VA disability ratings are given in 10% increments, from 0 to 100.
+              VA disability ratings are given in 10% increments.
             </span>
           </>
         )}
