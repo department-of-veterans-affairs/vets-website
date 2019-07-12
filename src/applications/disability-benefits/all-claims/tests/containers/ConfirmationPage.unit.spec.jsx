@@ -17,30 +17,53 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     submittedAt: '2019-02-20',
   };
 
-  const testPage = (status, text) => {
-    const tree = shallow(
-      <ConfirmationPage submissionStatus={status} {...defaultProps} />,
-    );
-
-    expect(tree.text()).to.contain(text);
-
-    tree.unmount();
-  };
+  const testPage = status =>
+    shallow(<ConfirmationPage submissionStatus={status} {...defaultProps} />);
 
   it('should render success status', () => {
-    testPage(submissionStatuses.succeeded, 'Claim ID number');
+    const tree = testPage(submissionStatuses.succeeded);
+    expect(tree.text()).to.contain('Claim ID number');
+    tree.unmount();
   });
 
   it('should render retry status', () => {
-    testPage(submissionStatuses.retry, 'Confirmation number');
+    const tree = testPage(submissionStatuses.retry);
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain("It's taking us longer than expected");
+    tree.unmount();
   });
   it('should render exhausted status', () => {
-    testPage(submissionStatuses.exhausted, 'Confirmation number');
+    const tree = testPage(submissionStatuses.exhausted);
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain("It's taking us longer than expected");
+    tree.unmount();
   });
   it('should render apiFailure status', () => {
-    testPage(submissionStatuses.apiFailure, 'Confirmation number');
+    const tree = testPage(submissionStatuses.apiFailure);
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain("It's taking us longer than expected");
+    tree.unmount();
   });
   it('should render other status', () => {
-    testPage(submissionStatuses.failed, 'Something went wrong on our end');
+    const tree = testPage(submissionStatuses.failed);
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .text(),
+    ).to.contain('Something went wrong');
+    tree.unmount();
   });
 });
