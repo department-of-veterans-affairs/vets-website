@@ -1,11 +1,12 @@
 import React from 'react';
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 import { pageNames } from './pageList';
 
 const FileClaimPage = () => (
   <div>
     <p>
       <a
-        href="/disability/file-disability-claim-form-21-526ez/introduction"
+        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
         className="usa-button-primary va-button-primary"
       >
         File a disability compensation claim

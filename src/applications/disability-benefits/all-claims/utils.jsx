@@ -11,6 +11,7 @@ import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
 import {
   validateMilitaryCity,
   validateMilitaryState,
@@ -20,6 +21,7 @@ import ReviewCardField from './components/ReviewCardField';
 
 import {
   DATA_PATHS,
+  DISABILITY_526_V2_ROOT_URL,
   HOMELESSNESS_TYPES,
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
@@ -747,8 +749,8 @@ export const hasNewDisabilities = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: '/disability-benefits/apply/form-526-disability-claim',
-  v2: '/disability/file-disability-claim-form-21-526ez',
+  v1: disability526Manifest.rootUrl,
+  v2: DISABILITY_526_V2_ROOT_URL,
 };
 
 /**
