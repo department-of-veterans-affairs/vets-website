@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/browser';
-import 'isomorphic-fetch';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
 import environment from '../../utilities/environment';
+import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
 import { sanitizeForm } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';

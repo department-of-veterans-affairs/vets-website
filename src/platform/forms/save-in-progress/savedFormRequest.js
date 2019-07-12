@@ -1,6 +1,7 @@
 import merge from 'lodash/fp/merge';
 
 import environment from '../../utilities/environment';
+import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');
