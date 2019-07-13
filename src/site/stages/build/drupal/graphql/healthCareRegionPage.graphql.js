@@ -64,12 +64,28 @@ module.exports = `
       }
       title
     }
-    fieldEmailSubscription {
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
+        ? 'fieldLinks'
+        : 'fieldEmailSubscription'
+    } {
       url {
         path
       }
       title
-    }
+    }    
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
+        ? `
+        fieldOperatingStatus {
+          url {
+            path
+          }
+          title
+        }        
+        `
+        : ''
+    } 
     allPressReleaseTeasers: reverseFieldOfficeNode(filter: {
       conditions: [
         { field: "type", value: "press_release"}
