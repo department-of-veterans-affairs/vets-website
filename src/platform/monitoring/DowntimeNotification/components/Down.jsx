@@ -7,8 +7,7 @@ export function DownMessaging({ endTime, appTitle }) {
     return (
       <p>
         We’re making some updates to the {appTitle}. We’re sorry it’s not
-        working right now, and we hope to be finished by{' '}
-        {endTime.format('MMMM Do, LT')} Please check back soon.
+        working right now. Please check back soon.
       </p>
     );
   }
