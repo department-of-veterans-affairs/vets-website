@@ -38,7 +38,8 @@ class InstitutionFilterForm extends React.Component {
         alt="Filter results by country"
         options={addAllOption(options)}
         value={this.props.filters.country}
-        handleDropdownChange={this.handleDropdownChange}
+        onChange={this.handleDropdownChange}
+        visible
       />
     );
   };
@@ -56,7 +57,8 @@ class InstitutionFilterForm extends React.Component {
         alt="Filter results by state"
         options={addAllOption(options)}
         value={this.props.filters.state}
-        handleDropdownChange={this.handleDropdownChange}
+        onChange={this.handleDropdownChange}
+        visible
       />
     );
   };

@@ -33,7 +33,7 @@ class InstitutionSearchForm extends React.Component {
               filters={this.props.filters}
               handleFilterChange={this.props.handleFilterChange}
             />
-            <EligibilityForm />
+            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
             <OnlineClassesFilter
               onlineClasses={this.props.eligibility.onlineClasses}
               onChange={this.props.eligibilityChange}
