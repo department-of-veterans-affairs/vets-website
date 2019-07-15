@@ -6,9 +6,13 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
 
+const params = { id: 1 };
+
 describe('<DocumentRequestPage>', () => {
   it('should render loading div', () => {
-    const tree = SkinDeep.shallowRender(<DocumentRequestPage loading />);
+    const tree = SkinDeep.shallowRender(
+      <DocumentRequestPage params={params} loading />,
+    );
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
     expect(tree.everySubTree('.claim-container')).to.be.empty;
   });
@@ -26,6 +30,7 @@ describe('<DocumentRequestPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
+        params={params}
         trackedItem={trackedItem}
         claim={claim}
         message={message}
@@ -50,6 +55,7 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
+        params={params}
         trackedItem={trackedItem}
         claim={claim}
         clearNotification={clearNotification}
@@ -77,6 +83,7 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
+        params={params}
         trackedItem={trackedItem}
         claim={claim}
         uploadComplete
@@ -98,7 +105,11 @@ describe('<DocumentRequestPage>', () => {
       attributes: {},
     };
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage claim={claim} trackedItem={trackedItem} />,
+      <DocumentRequestPage
+        params={params}
+        claim={claim}
+        trackedItem={trackedItem}
+      />,
     );
     expect(tree.subTree('DueDate')).not.to.be.false;
     expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
@@ -113,7 +124,11 @@ describe('<DocumentRequestPage>', () => {
       attributes: {},
     };
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage claim={claim} trackedItem={trackedItem} />,
+      <DocumentRequestPage
+        params={params}
+        claim={claim}
+        trackedItem={trackedItem}
+      />,
     );
     expect(tree.subTree('.optional-upload')).not.to.be.false;
   });
@@ -129,6 +144,7 @@ describe('<DocumentRequestPage>', () => {
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
+        params={params}
         claim={claim}
         trackedItem={trackedItem}
         submitFiles={onSubmit}
@@ -152,6 +168,7 @@ describe('<DocumentRequestPage>', () => {
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <DocumentRequestPage
+        params={params}
         claim={claim}
         files={[]}
         uploadField={{ value: null, dirty: false }}
@@ -176,7 +193,7 @@ describe('<DocumentRequestPage>', () => {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    const params = {
+    const parameters = {
       id: 339,
     };
     const getClaimDetail = sinon.spy();
@@ -190,7 +207,7 @@ describe('<DocumentRequestPage>', () => {
         uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
         router={router}
-        params={params}
+        params={parameters}
         getClaimDetail={getClaimDetail}
         resetUploads={resetUploads}
       />,

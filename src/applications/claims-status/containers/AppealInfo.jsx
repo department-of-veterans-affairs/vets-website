@@ -112,6 +112,7 @@ export class AppealInfo extends React.Component {
       children,
     } = this.props;
     let appealContent;
+    let claimHeading;
 
     // Availability is determined by whether or not the API returned an appeals array
     // for this user. However, it doesn't speak to whether the appeal that's been
@@ -119,45 +120,22 @@ export class AppealInfo extends React.Component {
     // AVAILABLE status as well as whether or not the appeal exists.
     if (appealsLoading) {
       appealContent = (
-        <LoadingIndicator message="Please wait while we load your appeal..." />
+        <div className="vads-u-margin-bottom--2p5">
+          <LoadingIndicator message="Please wait while we load your appeal..." />
+        </div>
       );
     } else if (appealsAvailability === AVAILABLE && appeal) {
       // Maybe could simplify this to just check if (appeal) instead
-      const claimHeading = this.createHeading();
+      claimHeading = this.createHeading();
       appealContent = (
-        <div>
-          <div>
-            <ClaimsBreadcrumbs>
-              <Link to={`appeals/${appeal.id}`} key="claims-appeal">
-                Status details
-              </Link>
-            </ClaimsBreadcrumbs>
+        <>
+          <AppealsV2TabNav appealId={params.id} />
+          <div className="va-tab-content va-appeals-content">
+            {React.Children.map(children, child =>
+              React.cloneElement(child, { appeal, fullName }),
+            )}
           </div>
-          <div className="row">
-            <AppealHeader
-              heading={claimHeading}
-              lastUpdated={appeal.attributes.updated}
-            />
-          </div>
-          <div className="row">
-            <div className="medium-8 columns">
-              <AppealsV2TabNav appealId={params.id} />
-              <div className="va-tab-content va-appeals-content">
-                {React.Children.map(children, child =>
-                  React.cloneElement(child, { appeal, fullName }),
-                )}
-              </div>
-            </div>
-            <div className="medium-4 columns help-sidebar">
-              {appeal && (
-                <AppealHelpSidebar
-                  location={appeal.attributes.location}
-                  aoj={appeal.attributes.aoj}
-                />
-              )}
-            </div>
-          </div>
-        </div>
+        </>
       );
     } else if (appealsAvailability === AVAILABLE && !appeal) {
       // Yes, we have your appeals. No, the one you requested isn't one of them.
@@ -173,7 +151,47 @@ export class AppealInfo extends React.Component {
       appealContent = appealsDownMessage;
     }
 
-    return appealContent;
+    return (
+      <div>
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <ClaimsBreadcrumbs>
+                <Link
+                  to={`appeals/${this.props.params.id}`}
+                  key="claims-appeal"
+                >
+                  Status details
+                </Link>
+              </ClaimsBreadcrumbs>
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              {!!(claimHeading && appeal) && (
+                <AppealHeader
+                  heading={claimHeading}
+                  lastUpdated={appeal.attributes.updated}
+                />
+              )}
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              {appealContent}
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
+              {appeal && (
+                <AppealHelpSidebar
+                  location={appeal.attributes.location}
+                  aoj={appeal.attributes.aoj}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
