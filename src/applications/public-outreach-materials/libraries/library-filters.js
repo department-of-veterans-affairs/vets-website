@@ -2,15 +2,7 @@ const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
 let numCards;
 const itemsPerPage = 10;
-const benefit = 'benefit';
-const events = 'events';
 const pages = Math.ceil(cards.length / itemsPerPage);
-
-export function libraryGetQParam() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const currentPage = urlParams.getAll('q');
-  return currentPage[0];
-}
 
 export function libraryNumCards() {
   return document.querySelectorAll(
@@ -20,10 +12,8 @@ export function libraryNumCards() {
 
 export function libraryCount() {
   if (document.getElementById('no-results')) {
-    if (libraryGetQParam() === benefit) {
-      document.getElementById('no-results').style.display = 'none';
-      document.getElementById('va-pager-div').style.display = 'flex';
-    }
+    document.getElementById('no-results').style.display = 'none';
+    document.getElementById('va-pager-div').style.display = 'flex';
   }
 
   if (document.getElementById('total-pages')) {
@@ -33,11 +23,9 @@ export function libraryCount() {
         numCards < 0 ? 0 : numCards;
     }
     document.getElementById('total-all').innerText = ` of ${cards.length}`;
-    if (libraryGetQParam() === benefit) {
-      if (numCards < 1 && document.getElementById('no-results')) {
-        document.getElementById('va-pager-div').style.display = 'none';
-        document.getElementById('no-results').style.display = 'block';
-      }
+    if (numCards < 1 && document.getElementById('no-results')) {
+      document.getElementById('va-pager-div').style.display = 'none';
+      document.getElementById('no-results').style.display = 'block';
     }
   }
 }
@@ -186,26 +174,6 @@ export function libraryFilters(el) {
 }
 
 export function libraryListeners() {
-  const page = libraryGetQParam();
-  let el;
-  switch (page) {
-    case benefit:
-      el = document.querySelectorAll('.library-show');
-      break;
-
-    case events:
-      el = document.querySelectorAll('.events-show');
-      break;
-
-    default:
-      el = document.querySelectorAll('.office-show');
-      break;
-  }
-  el.forEach(value => {
-    const v = value;
-    v.style.display = 'block';
-  });
-
   const typeItem = document.getElementById('outreach-type');
   const topicItem = document.getElementById('outreach-topic');
   const pagingEl = document.querySelector('.va-pagination');
