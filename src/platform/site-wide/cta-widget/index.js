@@ -5,9 +5,6 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
@@ -25,8 +22,6 @@ import {
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import titleCase from 'platform/utilities/data/titleCase';
 
-import CallToActionAlert from './CallToActionAlert';
-
 import {
   frontendApps,
   hasRequiredMhvAccount,
@@ -36,6 +31,23 @@ import {
   serviceDescription,
   toolUrl,
 } from './helpers';
+
+import HealthToolsDown from './components/messages/HealthToolsDown';
+import SignIn from './components/messages/SignIn';
+import Verify from './components/messages/Verify';
+import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
+import MFA from './components/messages/MFA';
+import DirectDeposit from './components/messages/DirectDeposit';
+import NotAuthorized from './components/messages/mvi/NotAuthorized';
+import NotFound from './components/messages/mvi/NotFound';
+import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
+import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
+import MultipleIds from './components/messages/MultipleIds';
+import RegisterFailed from './components/messages/RegisterFailed';
+import UpgradeFailed from './components/messages/UpgradeFailed';
+import NeedsVAPatient from './components/messages/NeedsVAPatient';
+import NoMHVAccount from './components/messages/NoMHVAccount';
+import UpgradeAccount from './components/messages/UpgradeAccount';
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
@@ -88,19 +100,12 @@ export class CallToActionWidget extends React.Component {
 
   getContent = () => {
     if (!this.props.isLoggedIn) {
-      return {
-        heading: `Please sign in to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            Try signing in with your <b>DS Logon</b>, <b>My HealtheVet</b>, or{' '}
-            <b>ID.me</b> account. If you don’t have any of those accounts, you{' '}
-            can create one.
-          </p>
-        ),
-        primaryButtonText: 'Sign in or create an account',
-        primaryButtonHandler: this.openLoginModal,
-        status: 'continue',
-      };
+      return (
+        <SignIn
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.openLoginModal}
+        />
+      );
     }
 
     if (this._isHealthTool) return this.getHealthToolContent();
@@ -109,82 +114,36 @@ export class CallToActionWidget extends React.Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
-      return {
-        heading: `Please verify your identity to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            We take your privacy seriously, and we’re committed to protecting
-            your information. You’ll need to verify your identity before we can
-            give you access to your personal health information.
-          </p>
-        ),
-        primaryButtonText: 'Verify your identity',
-        primaryButtonHandler: verify,
-        status: 'continue',
-      };
+      return (
+        <Verify
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={verify}
+        />
+      );
     }
-
     return null;
   };
 
   getHealthToolContent = () => {
-    if (this.props.mviDown) {
-      recordEvent({ event: `${this._gaPrefix}-error-mvi-down` });
-      return {
-        heading: 'VA.gov health tools are temporarily unavailable',
-        alertText: (
-          <>
-            <p>
-              We’re sorry. We’re having trouble accessing your Veteran records.
-            </p>
-            <h5>What you can do</h5>
-            <p>
-              Please check back in a few minutes. This issue is temporary and
-              will be resolved soon.
-            </p>
-          </>
-        ),
-        status: 'error',
-      };
+    const MviErrorStatuses = ['SERVER_ERROR', 'NOT_FOUND', 'NOT_AUTHORIZED'];
+
+    if (MviErrorStatuses.includes(this.props.mviStatus)) {
+      return this.getMviErrorContent();
     }
 
     if (this.isAccessible()) {
-      return {
-        heading: 'My HealtheVet will open in a new tab',
-        alertText: (
-          <p>
-            You may need to sign in again on My HealtheVet before you can use
-            the site’s {this._mhvToolName} tool. If you do, please sign in with
-            the same account you used to sign in here on VA.gov. You also may
-            need to disable your browser’s pop-up blocker so that My HealtheVet
-            will be able to open.
-          </p>
-        ),
-        primaryButtonText: 'Go to My HealtheVet',
-        primaryButtonHandler: this.goToTool,
-        status: 'info',
-      };
+      return (
+        <OpenMyHealtheVet
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.goToTool}
+          toolName={this._mhvToolName}
+        />
+      );
     }
 
     if (this.props.mhvAccount.errors) {
       recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
-      return {
-        heading: 'Some VA.gov health tools aren’t working right now',
-        alertText: (
-          <div>
-            <p>
-              We’re sorry. Something went wrong on our end while looking up your
-              account. You may not be able to use some VA.gov health tools until
-              we can figure out what’s wrong.
-            </p>
-            <h5>What you can do</h5>
-            <p>
-              You can try again later or <CallVBACenter />
-            </p>
-          </div>
-        ),
-        status: 'error',
-      };
+      return <HealthToolsDown />;
     }
 
     if (
@@ -192,42 +151,38 @@ export class CallToActionWidget extends React.Component {
       this.props.appId === frontendApps.DIRECT_DEPOSIT
     ) {
       if (!this.props.profile.multifactor) {
-        return {
-          heading: `Please set up 2-factor authentication to ${
-            this._serviceDescription
-          }`,
-          alertText: (
-            <p>
-              We’re committed to protecting your information and preventing
-              fraud. You’ll need to add an extra layer of security to your
-              account with 2-factor authentication before we can give you access
-              to your bank account information.
-            </p>
-          ),
-          primaryButtonText: 'Set up 2-factor authentication',
-          primaryButtonHandler: mfa,
-          status: 'continue',
-        };
+        return (
+          <MFA
+            serviceDescription={this._serviceDescription}
+            primaryButtonHandler={mfa}
+          />
+        );
       }
 
-      return {
-        heading: `Go to your VA.gov profile to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            Here, you can edit your bank name as well as your account number and
-            type.
-          </p>
-        ),
-        primaryButtonText: 'Go to your profile',
-        primaryButtonHandler: () =>
-          this.goToTool({
-            event: 'nav-user-profile-cta',
-          }),
-        status: 'continue',
-      };
+      return (
+        <DirectDeposit
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={() =>
+            this.goToTool({
+              event: 'nav-user-profile-cta',
+            })
+          }
+        />
+      );
     }
 
     return this.getInaccessibleHealthToolContent();
+  };
+
+  getMviErrorContent = () => {
+    switch (this.props.mviStatus) {
+      case 'NOT_AUTHORIZED':
+        return <NotAuthorized />;
+      case 'NOT_FOUND':
+        return <NotFound />;
+      default:
+        return <HealthToolsDown />;
+    }
   };
 
   getInaccessibleHealthToolContent = () => {
@@ -247,76 +202,20 @@ export class CallToActionWidget extends React.Component {
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
-        return {
-          heading: `Please verify your identity to ${this._serviceDescription}`,
-          alertText: (
-            <p>
-              We take your privacy seriously, and we’re committed to protecting
-              your information. You’ll need to verify your identity before we
-              can give you access to your personal health information.
-            </p>
-          ),
-          primaryButtonText: 'Verify your identity',
-          primaryButtonHandler: verify,
-          status: 'continue',
-        };
+        return (
+          <Verify
+            serviceDescription={this._serviceDescription}
+            primaryButtonHandler={verify}
+          />
+        );
 
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
-        return {
-          heading:
-            'We need to verify your identity before giving you access to your personal health information',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. We can’t match the information you provided with
-                what we have in our Veteran records. We take your privacy
-                seriously, and we’re committed to protecting your information.
-                You won’t be able to access VA.gov health tools until we match
-                your information and verify your identity.
-              </p>
-              <h5>What you can do</h5>
-              <p>
-                If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm />
-              </p>
-            </div>
-          ),
-          status: 'error',
-        };
-
+        return <NeedsSSNResolution />;
       case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
-        return {
-          heading: 'It looks like your My HealtheVet account has been disabled',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. You won’t be able to access VA.gov health tools
-                until we reactivate your My HealtheVet account.
-              </p>
-              <h5>What you can do</h5>
-              <p>
-                If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm />
-              </p>
-            </div>
-          ),
-          status: 'error',
-        };
+        return <DeactivatedMHVIds />;
 
       case ACCOUNT_STATES.MULTIPLE_IDS:
-        return {
-          heading: 'It looks like you have more than one My HealtheVet account',
-          alertText: (
-            <div>
-              <p>We’re sorry. We found more than one active account for you.</p>
-              <h5>What you can do</h5>
-              <p>
-                Please <SubmitSignInForm />
-              </p>
-            </div>
-          ),
-          status: 'error',
-        };
+        return <MultipleIds />;
 
       /* Handling for these states to be re-introduced after brand consolidation
        * when VA patient and T&C acceptance checks will no longer gate access, so
@@ -342,41 +241,19 @@ export class CallToActionWidget extends React.Component {
        */
 
       case ACCOUNT_STATES.REGISTER_FAILED:
-        return {
-          heading: 'There’s a problem with VA.gov health tools',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. Something went wrong on our end that’s affecting
-                VA.gov health tools right now.
-              </p>
-              <p>
-                You can try again later or <CallVBACenter />
-              </p>
-            </div>
-          ),
-          status: 'error',
-        };
+        return (
+          <RegisterFailed
+            createAndUpgradeMHVAccount={this.props.createAndUpgradeMHVAccount}
+          />
+        );
 
       case ACCOUNT_STATES.UPGRADE_FAILED:
-        return {
-          heading: 'Something went wrong with upgrading your account',
-          alertText: (
-            <div>
-              <p>
-                We’re sorry. Something went wrong on our end while we were
-                trying to upgrade your account. You won’t be able to use VA.gov
-                health tools until we can fix the problem.
-              </p>
-              <h5>What you can do</h5>
-              <p>
-                If you feel you’ve entered your information correctly, please{' '}
-                <SubmitSignInForm />
-              </p>
-            </div>
-          ),
-          status: 'error',
-        };
+        return (
+          <UpgradeFailed upgradeMHVAccount={this.props.upgradeMHVAccount} />
+        );
+
+      case ACCOUNT_STATES.NEEDS_VA_PATIENT:
+        return <NeedsVAPatient />;
 
       default: // Handle other content outside of block.
     }
@@ -396,49 +273,29 @@ export class CallToActionWidget extends React.Component {
     };
 
     if (!accountLevel) {
-      return {
-        heading: `Please create a My HealtheVet account to ${
-          this._serviceDescription
-        }`,
-        alertText: (
-          <>
-            <p>
-              You’ll need to create a My HealtheVet account before you can{' '}
-              {this._serviceDescription}
-              {this._serviceDescription.endsWith('online')
-                ? '.'
-                : ' online.'}{' '}
-              This account is cost-free and secure.
-            </p>
-            <p>
-              <strong>If you already have a My HealtheVet account,</strong>{' '}
-              please sign out of VA.gov. Then sign in again with your My{' '}
-              HealtheVet username and password.
-            </p>
-          </>
-        ),
-        primaryButtonText: 'Create your free account',
-        primaryButtonHandler:
-          accountState === 'needs_terms_acceptance'
-            ? redirectToTermsAndConditions
-            : this.props.createAndUpgradeMHVAccount,
-        secondaryButtonText: 'Sign out of VA.gov',
-        secondaryButtonHandler: this.signOut,
-        status: 'continue',
-      };
+      return (
+        <NoMHVAccount
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={
+            accountState === 'needs_terms_acceptance'
+              ? redirectToTermsAndConditions
+              : this.props.createAndUpgradeMHVAccount
+          }
+          secondaryButtonHandler={this.signOut}
+        />
+      );
     }
 
-    return {
-      heading: `You’ll need to upgrade your My HealtheVet account before you can ${
-        this._serviceDescription
-      }. It’ll only take us a minute to do this for you, and it’s free.`,
-      primaryButtonText: 'Upgrade Your My HealtheVet Account',
-      primaryButtonHandler:
-        accountState === 'needs_terms_acceptance'
-          ? redirectToTermsAndConditions
-          : this.props.upgradeMHVAccount,
-      status: 'continue',
-    };
+    return (
+      <UpgradeAccount
+        serviceDescription={this._serviceDescription}
+        primaryButtonHandler={
+          accountState === 'needs_terms_acceptance'
+            ? redirectToTermsAndConditions
+            : this.props.upgradeMHVAccount
+        }
+      />
+    );
   };
 
   isAccessible = () => {
@@ -499,7 +356,7 @@ export class CallToActionWidget extends React.Component {
 
     const content = this.getContent();
 
-    if (content) return <CallToActionAlert {...content} />;
+    if (content) return content;
 
     if (this.props.children) return this.props.children;
 
@@ -535,7 +392,7 @@ const mapStateToProps = state => {
     isLoggedIn: isLoggedIn(state),
     profile: { loading, verified, multifactor },
     mhvAccount,
-    mviDown: status === 'SERVER_ERROR',
+    mviStatus: status,
   };
 };
 

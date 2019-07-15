@@ -199,7 +199,7 @@
 
 
             <!-- Social Links -->
-            {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
+            {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
                 {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
             {% endif %}
 

@@ -20,6 +20,8 @@ const featureFlags = {
   FEATURE_FIELD_LINKS: 'featureFieldLinks',
   FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT: 'fieldFeaturedContent',
   FEATURE_LOCAL_FACILITY_GET_IN_TOUCH: 'featureLocalFacilityGetInTouch',
+  FEATURE_SINGLE_VALUE_FIELD_LINK: 'featureSingleValueFieldLink',
+  FEATURE_REGION_PAGE_LINKS: 'featureRegionPageLinks',
 };
 
 // Edit this to turn flags on or off
@@ -37,6 +39,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
+    featureFlags.FEATURE_REGION_PAGE_LINKS,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
@@ -51,6 +54,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
+    featureFlags.FEATURE_REGION_PAGE_LINKS,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -61,6 +65,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
+    featureFlags.FEATURE_REGION_PAGE_LINKS,
   ],
   vagovprod: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -71,6 +76,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS,
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
+    featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK,
   ],
 };
 

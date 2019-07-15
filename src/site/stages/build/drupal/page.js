@@ -229,6 +229,8 @@ function compilePage(page, contentData) {
 
   switch (entityBundle) {
     case 'office':
+    case 'publication_listing':
+    case 'event_listing':
       pageCompiled = Object.assign(
         {},
         page,

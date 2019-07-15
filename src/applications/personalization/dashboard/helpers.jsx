@@ -23,7 +23,7 @@ import edu0993Manifest from 'applications/edu-benefits/0993/manifest.json';
 import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
-import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 
 import hcaConfig from 'applications/hca/config/form.js';
 import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
@@ -118,7 +118,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 );
 
 export const formLinks = {
-  [VA_FORM_IDS.FORM_21_526EZ]: `${disability526Manifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_21_526EZ]: `${DISABILITY_526_V2_ROOT_URL}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
