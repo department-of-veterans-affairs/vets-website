@@ -125,7 +125,7 @@ export class SearchPage extends React.Component {
   };
 
   searchResults = () => {
-    const { search } = this.props;
+    const { search, filters } = this.props;
     const {
       pagination: { currentPage, totalPages },
     } = search;
@@ -163,7 +163,8 @@ export class SearchPage extends React.Component {
           {filterButton}
           <div>
             {search.results.map(result => {
-              if (result.vetTecProvider) {
+              // ***CT 116***
+              if (!environment.isProduction() && isVetTecSelected(filters)) {
                 return (
                   <VetTecSearchResult
                     version={this.props.location.query.version}
