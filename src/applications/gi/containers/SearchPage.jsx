@@ -67,7 +67,7 @@ export class SearchPage extends React.Component {
       'stemOffered',
       'priorityEnrollment',
       'independentStudy',
-      'vet_tec_provider',
+      'vetTecProvider',
     ];
 
     const query = _.pick(this.props.location.query, [
