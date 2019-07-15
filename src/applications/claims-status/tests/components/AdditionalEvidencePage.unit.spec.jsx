@@ -6,9 +6,13 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
 
+const params = { id: 1 };
+
 describe('<AdditionalEvidencePage>', () => {
   it('should render loading div', () => {
-    const tree = SkinDeep.shallowRender(<AdditionalEvidencePage loading />);
+    const tree = SkinDeep.shallowRender(
+      <AdditionalEvidencePage params={params} loading />,
+    );
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
   it('should render upload error alert', () => {
@@ -23,7 +27,11 @@ describe('<AdditionalEvidencePage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePage claim={claim} message={message} />,
+      <AdditionalEvidencePage
+        params={params}
+        claim={claim}
+        message={message}
+      />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
@@ -41,6 +49,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
+        params={params}
         claim={claim}
         clearNotification={clearNotification}
         message={message}
@@ -64,6 +73,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
+        params={params}
         claim={claim}
         uploadComplete
         clearNotification={clearNotification}
@@ -83,6 +93,7 @@ describe('<AdditionalEvidencePage>', () => {
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
+        params={params}
         claim={claim}
         files={files}
         submitFiles={onSubmit}
@@ -102,6 +113,7 @@ describe('<AdditionalEvidencePage>', () => {
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <AdditionalEvidencePage
+        params={params}
         claim={claim}
         files={[]}
         uploadField={{ value: null, dirty: false }}
@@ -125,6 +137,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
+        params={params}
         claim={claim}
         files={[]}
         uploadComplete

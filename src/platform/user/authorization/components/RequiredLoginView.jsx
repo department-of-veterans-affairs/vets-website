@@ -119,12 +119,18 @@ class RequiredLoginView extends React.Component {
 
     if (user.profile.loading) {
       return (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <div className="vads-u-margin-y--5">
+          <LoadingIndicator setFocus message="Loading your information..." />
+        </div>
       );
     }
 
     if (this.shouldSignIn()) {
-      return <LoadingIndicator setFocus message="Redirecting to login..." />;
+      return (
+        <div className="vads-u-margin-y--5">
+          <LoadingIndicator setFocus message="Redirecting to login..." />;
+        </div>
+      );
     }
 
     if (verify) {
