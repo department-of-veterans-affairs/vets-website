@@ -1,3 +1,5 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 .gi-app .search-page {
 
   .filters-sidebar {
@@ -143,6 +145,22 @@
       margin: 1em 0 0 1em;
 
       i.fa {
+        margin-right: 0.4em;
+      }
+    }
+
+    .preferred-flag {
+      text-align: right;
+      border-radius: 3px 3px 3px 3px;
+      font-size: 0.9em;
+      font-weight: bold;
+      padding-top: 1em;
+      padding-bottom: .25em;
+      padding-right: 1.5em;
+      margin: 1em 0 0 1em;
+
+      i.fa {
+        color: $color-gold;
         margin-right: 0.4em;
       }
     }

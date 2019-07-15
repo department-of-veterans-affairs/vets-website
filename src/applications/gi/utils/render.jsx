@@ -21,3 +21,14 @@ export const renderCautionFlag = result => {
     </div>
   );
 };
+
+export const renderPreferredProviderFlag = result => {
+    const { preferredProvider } = result;
+    if (!preferredProvider) return null;
+    return (
+        <div className="preferred-flag">
+            <i className="fa fa-star color-gold" />
+            Preferred Provider
+        </div>
+    );
+};
