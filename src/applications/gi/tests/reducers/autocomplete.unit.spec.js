@@ -8,9 +8,6 @@ const initialState = {
   searchTerm: '',
   facilityCode: null,
   suggestions: [],
-  query: {
-    name: null,
-  },
 };
 
 describe('autocomplete reducer', () => {
@@ -91,7 +88,9 @@ describe('autocomplete reducer', () => {
   it('should handle search starting', () => {
     const state = autocompleteReducer(initialState, {
       type: 'SEARCH_STARTED',
-      name: 'newSearchTerm',
+      query: {
+        name: 'newSearchTerm',
+      },
     });
 
     expect(state.searchTerm).to.eql('newSearchTerm');
