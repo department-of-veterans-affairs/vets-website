@@ -8,6 +8,9 @@ const initialState = {
   searchTerm: '',
   facilityCode: null,
   suggestions: [],
+  query: {
+    name: null,
+  },
 };
 
 describe('autocomplete reducer', () => {
