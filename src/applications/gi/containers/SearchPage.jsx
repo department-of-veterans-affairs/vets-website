@@ -102,11 +102,13 @@ export class SearchPage extends React.Component {
   };
 
   handleFilterChange = (field, value) => {
+    const { location, search, router } = this.props;
+
     // Translate form selections to query params.
-    const query = { ...this.props.location.query, [field]: value };
+    const query = { ...location.query, [field]: value };
 
     // Don’t update the route if the query hasn’t changed.
-    if (_.isEqual(query, this.props.location.query)) {
+    if (_.isEqual(query, location.query) || search.inProgress) {
       return;
     }
 
@@ -121,7 +123,7 @@ export class SearchPage extends React.Component {
     if (shouldRemoveFilter) {
       delete query[field];
     }
-    this.props.router.push({ ...this.props.location, query });
+    router.push({ ...location, query });
   };
 
   searchResults = () => {
@@ -138,8 +140,6 @@ export class SearchPage extends React.Component {
       { opened: !search.filterOpened },
     );
 
-    let searchResults;
-
     // Filter button on mobile.
     const filterButton = (
       <button
@@ -150,73 +150,60 @@ export class SearchPage extends React.Component {
       </button>
     );
 
-    if (search.inProgress) {
-      searchResults = (
-        <div className={resultsClass}>
-          {filterButton}
-          <LoadingIndicator message="Loading search results..." />
-        </div>
-      );
-    } else {
-      searchResults = (
-        <div className={resultsClass}>
-          {filterButton}
-          <div>
-            {search.results.map(result => {
-              // ***CT 116***
-              if (!environment.isProduction() && isVetTecSelected(filters)) {
-                return (
-                  <VetTecSearchResult
-                    version={this.props.location.query.version}
-                    key={result.facilityCode}
-                    result={result}
-                  />
-                );
-              }
+    return (
+      <div className={resultsClass}>
+        {filterButton}
+        <div>
+          {search.results.map(result => {
+            // ***CT 116***
+            if (!environment.isProduction() && isVetTecSelected(filters)) {
               return (
-                <SearchResult
+                <VetTecSearchResult
                   version={this.props.location.query.version}
                   key={result.facilityCode}
-                  name={result.name}
-                  facilityCode={result.facilityCode}
-                  type={result.type}
-                  city={result.city}
-                  state={result.state}
-                  zip={result.zip}
-                  country={result.country}
-                  cautionFlag={result.cautionFlag}
-                  studentCount={result.studentCount}
-                  bah={result.bah}
-                  dodBah={result.dodBah}
-                  schoolClosing={result.schoolClosing}
-                  tuitionInState={result.tuitionInState}
-                  tuitionOutOfState={result.tuitionOutOfState}
-                  books={result.books}
-                  studentVeteran={result.studentVeteran}
-                  yr={result.yr}
-                  poe={result.poe}
-                  eightKeys={result.eightKeys}
+                  result={result}
                 />
               );
-            })}
-          </div>
-
-          <Pagination
-            onPageSelect={this.handlePageSelect.bind(this)}
-            page={currentPage}
-            pages={totalPages}
-          />
+            }
+            return (
+              <SearchResult
+                version={this.props.location.query.version}
+                key={result.facilityCode}
+                name={result.name}
+                facilityCode={result.facilityCode}
+                type={result.type}
+                city={result.city}
+                state={result.state}
+                zip={result.zip}
+                country={result.country}
+                cautionFlag={result.cautionFlag}
+                studentCount={result.studentCount}
+                bah={result.bah}
+                dodBah={result.dodBah}
+                schoolClosing={result.schoolClosing}
+                tuitionInState={result.tuitionInState}
+                tuitionOutOfState={result.tuitionOutOfState}
+                books={result.books}
+                studentVeteran={result.studentVeteran}
+                yr={result.yr}
+                poe={result.poe}
+                eightKeys={result.eightKeys}
+              />
+            );
+          })}
         </div>
-      );
-    }
 
-    return searchResults;
+        <Pagination
+          onPageSelect={this.handlePageSelect.bind(this)}
+          page={currentPage}
+          pages={totalPages}
+        />
+      </div>
+    );
   };
 
-  render() {
+  renderSearchForm = () => {
     const { search, filters } = this.props;
-    const { count } = search;
-
     const filtersClass = classNames(
       'filters-sidebar',
       'small-12',
@@ -225,67 +212,66 @@ export class SearchPage extends React.Component {
       'columns',
       { opened: search.filterOpened },
     );
-
     const searchResults = this.searchResults();
+
+    if (search.inProgress) {
+      return <LoadingIndicator message="Loading search results..." />;
+    } else if (!environment.isProduction() && isVetTecSelected(filters)) {
+      // ***CT 116***
+      return (
+        <VetTecSearchForm
+          filtersClass={filtersClass}
+          search={search}
+          autocomplete={this.props.autocomplete}
+          location={this.props.location}
+          clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+          fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+          handleFilterChange={this.handleFilterChange}
+          updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
+          filters={filters}
+          toggleFilter={this.props.toggleFilter}
+          searchResults={searchResults}
+          eligibility={this.props.eligibility}
+          showModal={this.props.showModal}
+          eligibilityChange={this.props.eligibilityChange}
+        />
+      );
+    }
+
+    return (
+      <InstitutionSearchForm
+        filtersClass={filtersClass}
+        search={search}
+        autocomplete={this.props.autocomplete}
+        location={this.props.location}
+        clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+        handleFilterChange={this.handleFilterChange}
+        updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
+        filters={filters}
+        toggleFilter={this.props.toggleFilter}
+        searchResults={searchResults}
+        eligibility={this.props.eligibility}
+        showModal={this.props.showModal}
+        eligibilityChange={this.props.eligibilityChange}
+      />
+    );
+  };
+
+  render() {
+    const { inProgress, count } = this.props.search;
+
     return (
       <ScrollElement name="searchPage" className="search-page">
         <div className="row">
           <div className="column">
             <h1>
-              {!search.inProgress && `${(count || 0).toLocaleString()} `}
+              {!inProgress && `${(count || 0).toLocaleString()} `}
               Search Results
             </h1>
           </div>
         </div>
-
-        {/* /CT 116 */}
-        {!environment.isProduction() && isVetTecSelected(filters) ? (
-          <VetTecSearchForm
-            filtersClass={filtersClass}
-            search={search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        ) : (
-          <InstitutionSearchForm
-            filtersClass={filtersClass}
-            search={search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        )}
+        {this.renderSearchForm()}
       </ScrollElement>
     );
   }
