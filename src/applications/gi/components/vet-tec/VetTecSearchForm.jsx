@@ -8,7 +8,6 @@ import Dropdown from '../Dropdown';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
-    onlineClasses: PropTypes.string.isRequired,
     eligibilityChange: PropTypes.func.isRequired,
     showModal: PropTypes.func.isRequired,
     search: PropTypes.object.isRequired,
@@ -25,53 +24,27 @@ class VetTecSearchForm extends React.Component {
     eligibility: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { onlineClasses } = props.eligibility;
-    this.state = {
-      learningFormat: {
-        inPerson: onlineClasses === 'no' || onlineClasses === 'both',
-        online: onlineClasses === 'yes' || onlineClasses === 'both',
-      },
-    };
-  }
-
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
     this.props.handleFilterChange(field, value);
   };
 
   handleOnlineClassesChange = e => {
-    // change state.learningFormat
     const { name: field, checked: value } = e.target;
-
-    const learningFormat = { ...this.state.learningFormat };
+    const { learningFormat } = this.props.eligibility;
     learningFormat[field] = value;
 
-    // update component's state
-    this.setState({ ...this.state, learningFormat });
-
-    const { inPerson, online } = learningFormat;
-    let onlineClasses = this.props.onlineClasses;
-
-    if (inPerson && !online) {
-      onlineClasses = 'no';
-    }
-    if (!inPerson && online) {
-      onlineClasses = 'yes';
-    }
-    if (inPerson && online) {
-      onlineClasses = 'both';
-    }
     this.props.eligibilityChange({
       target: {
-        name: 'onlineClasses',
-        value: onlineClasses,
+        name: 'learningFormat',
+        value: learningFormat,
       },
     });
   };
 
   renderLearningFormat = () => {
+    const { inPerson, online } = this.props.eligibility.learningFormat;
+
     const inPersonLabel = (
       <div>
         In Person &nbsp; <i className="fas fa-user" />
@@ -86,13 +59,13 @@ class VetTecSearchForm extends React.Component {
       <div>
         <p>Learning Format</p>
         <Checkbox
-          checked={this.state.learningFormat.inPerson}
+          checked={inPerson}
           name="inPerson"
           label={inPersonLabel}
           onChange={this.handleOnlineClassesChange}
         />
         <Checkbox
-          checked={this.state.learningFormat.online}
+          checked={online}
           name="online"
           label={onlineLabel}
           onChange={this.handleOnlineClassesChange}
@@ -113,7 +86,8 @@ class VetTecSearchForm extends React.Component {
         alt="Filter results by country"
         options={addAllOption(options)}
         value={this.props.filters.country}
-        handleDropdownChange={this.handleDropdownChange}
+        onChange={this.handleDropdownChange}
+        visible
       />
     );
   };
@@ -130,7 +104,8 @@ class VetTecSearchForm extends React.Component {
         alt="Filter results by state"
         options={addAllOption(options)}
         value={this.props.filters.state}
-        handleDropdownChange={this.handleDropdownChange}
+        onChange={this.handleDropdownChange}
+        visible
       />
     );
   };
