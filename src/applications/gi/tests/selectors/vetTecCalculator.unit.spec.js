@@ -116,7 +116,7 @@ describe('getCalculatedBenefits', () => {
 
   it('should calculate onlineRate as AVGDODBAH constant', () => {
     expect(getCalculatedBenefits(defaultState).outputs.onlineRate).to.equal(
-      '$1,600/mo',
+      '$800/mo',
     );
   });
 

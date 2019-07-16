@@ -37,7 +37,7 @@ export const getCalculatedBenefits = createSelector(
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
         outOfPocketTuitionFees: 'TBD',
         inPersonRate: `${formatCurrency(institution.dodBah)}/mo`,
-        onlineRate: `${formatCurrency(constants.AVGDODBAH)}/mo`,
+        onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}/mo`,
       },
     };
   },
