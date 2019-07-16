@@ -174,4 +174,26 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 }
 
-module.exports = createHealthCareRegionListPages;
+// Adds the social media links and email subscription links
+// for local facility page and region detail page entity types from their respective region page
+function addGetUpdatesFields(page, pages) {
+  const regionPage = pages.find(
+    p =>
+      // Finds the region page based on the second link url
+      // If the url matches the region page's entityUrl.path, it is the base region page for this page
+      // Note: this is done this way because a NodeHealthCareRegionDetailPage has no association field to a NodeHealthCareRegionPage
+      p.entityUrl
+        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+        : false,
+  );
+
+  if (regionPage) {
+    page.fieldFacebook = regionPage.fieldFacebook;
+    page.fieldTwitter = regionPage.fieldTwitter;
+    page.fieldFlickr = regionPage.fieldFlickr;
+    page.fieldInstagram = regionPage.fieldInstagram;
+    page.fieldLinks = regionPage.fieldLinks;
+  }
+}
+
+module.exports = { createHealthCareRegionListPages, addGetUpdatesFields };

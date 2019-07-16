@@ -113,7 +113,7 @@ export default class EducationWizard extends React.Component {
                   ? [
                       {
                         label:
-                          'Extending my benefit using Edith Nourse Rogers STEM Scholarship',
+                          'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
                         value: 'extend',
                       },
                     ]

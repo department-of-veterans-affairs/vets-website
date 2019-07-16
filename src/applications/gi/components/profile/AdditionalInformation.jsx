@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export class AdditionalInformation extends React.Component {
+  updateFiscalYear() {
+    return 'Total paid (FY 2018)';
+  }
   renderInstitutionSummary() {
     const it = this.props.institution;
     const isOJT = it.type.toLowerCase() === 'ojt';
@@ -166,7 +169,10 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911Recipients)}
               </div>
               <div>
-                <strong>Total paid (FY 2016):&nbsp;</strong>
+                <strong>
+                  {this.updateFiscalYear()}
+                  :&nbsp;
+                </strong>
                 {formatCurrency(it.p911TuitionFees)}
               </div>
             </div>
@@ -180,7 +186,10 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911YrRecipients)}
               </div>
               <div>
-                <strong>Total paid (FY 2016):&nbsp;</strong>
+                <strong>
+                  {this.updateFiscalYear()}
+                  :&nbsp;
+                </strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </div>
             </div>
@@ -236,7 +245,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>Total paid (FY 2016)</th>
+                  <th>{this.updateFiscalYear()}</th>
                 </tr>
               </thead>
               <tbody>

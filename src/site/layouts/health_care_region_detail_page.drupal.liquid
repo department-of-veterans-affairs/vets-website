@@ -68,13 +68,19 @@
             </section>
           {%  endif %}
 
-        </article>
+          {% if fieldRelatedLinks and fieldRelatedLinks.entity.fieldVaParagraphs and fieldRelatedLinks.entity.fieldVaParagraphs.0.entity.fieldLink %}
+            <div class="va-nav-linkslist va-nav-linkslist--related">
+              {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}
+            </div>
+          {%  endif %}
 
-        {% if fieldRelatedLinks and fieldRelatedLinks.entity.fieldVaParagraphs and fieldRelatedLinks.entity.fieldVaParagraphs.0.entity.fieldLink %}
-          <div class="va-nav-linkslist va-nav-linkslist--related">
-            {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}
-          </div>
-        {%  endif %}
+          <!-- Social Links -->
+          {% if isContactPage %}
+            {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
+              {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
+            {% endif %}
+          {% endif %}
+        </article>
 
         <div class="last-updated usa-content">
           Last updated:

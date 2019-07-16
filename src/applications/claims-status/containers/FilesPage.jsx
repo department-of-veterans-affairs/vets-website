@@ -44,8 +44,8 @@ class FilesPage extends React.Component {
   }
   setTitle() {
     document.title = this.props.loading
-      ? 'Files - Your Claim'
-      : `Files - Your ${getClaimType(this.props.claim)} Claim`;
+      ? 'Files - Your claim'
+      : `Files - Your ${getClaimType(this.props.claim)} claim`;
   }
   render() {
     const { claim, loading, message, synced } = this.props;

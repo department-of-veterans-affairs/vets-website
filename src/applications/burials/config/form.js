@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,15 +25,16 @@ import {
   allowanceLabels,
 } from '../labels.jsx';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { isFullDate } from '../../../platform/forms/validations';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
-import environment from '../../../platform/utilities/environment';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import { isFullDate } from 'platform/forms/validations';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
+import FormFooter from 'platform/forms/components/FormFooter';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import * as address from '../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -103,7 +104,7 @@ const formConfig = {
   trackingPrefix: 'burials-530-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21P-530',
+  formId: VA_FORM_IDS.FORM_21P_530,
   version: 2,
   migrations,
   prefillEnabled: true,

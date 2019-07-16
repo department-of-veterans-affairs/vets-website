@@ -7,6 +7,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
@@ -15,6 +16,7 @@ import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 import PaymentInformation from '../containers/PaymentInformation';
+import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
@@ -26,9 +28,7 @@ const ProfileTOC = ({ militaryInformation }) => (
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      <li>
-        <a href="#direct-deposit">Direct deposit information</a>
-      </li>
+      {!environment.isProduction() && <PaymentInformationTOCItem />}
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
