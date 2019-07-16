@@ -6,6 +6,7 @@ const NEWS_STORIES_RESULTS = `
   entities {
     ... on NodeNewsStory {
       title
+      fieldFeatured
       fieldIntroText
       fieldMedia {
         entity {

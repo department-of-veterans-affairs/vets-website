@@ -1,8 +1,7 @@
-import environment from '../../../../platform/utilities/environment';
-
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
-
-import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -34,7 +33,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
   submit: submitForm,
   trackingPrefix: 'edu-0994-',
-  formId: '22-0994',
+  formId: VA_FORM_IDS.FORM_22_0994,
   version: migrations.length,
   migrations,
   prefillEnabled: true,

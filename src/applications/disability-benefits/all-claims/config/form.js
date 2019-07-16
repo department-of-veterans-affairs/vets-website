@@ -1,7 +1,8 @@
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -131,7 +132,7 @@ const formConfig = {
     requiredForPrefill: true,
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
-  formId: '21-526EZ',
+  formId: VA_FORM_IDS.FORM_21_526EZ,
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,

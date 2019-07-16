@@ -1,7 +1,9 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
+import environment from 'platform/utilities/environment';
 
-const INITIAL_STATE = {
-  category: 'ALL',
+// ***CT 116***
+const INITIAL_STATE = Object.freeze({
+  category: environment.isProduction() ? 'ALL' : 'school',
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',
@@ -11,7 +13,9 @@ const INITIAL_STATE = {
   eightKeysToVeteranSuccess: false,
   stemOffered: false,
   typeName: 'ALL',
-};
+  // eslint-disable-next-line camelcase
+  vet_tec_provider: false,
+});
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -21,6 +25,6 @@ export default function(state = INITIAL_STATE, action) {
         ...action.filter,
       };
     default:
-      return state;
+      return { ...state };
   }
 }

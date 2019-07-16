@@ -8,7 +8,7 @@ export default function AdditionalEvidenceItem({ item }) {
   const itemDate = getItemDate(item);
   return (
     <div className="submitted-file-list-item">
-      <h3 className="submission-file-type additional-evidence">
+      <h3 className="vads-u-padding-bottom--0 vads-u-margin-bottom--0 submission-file-type additional-evidence">
         Additional evidence
       </h3>
       <p className="submission-description">

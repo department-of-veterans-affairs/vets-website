@@ -2,95 +2,69 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Checkbox from '../Checkbox';
-import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
+import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
+import { addAllOption } from '../../utils/helpers';
 
 class InstitutionFilterForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-    this.renderCategoryFilter = this.renderCategoryFilter.bind(this);
-    this.renderCountryFilter = this.renderCountryFilter.bind(this);
-    this.renderStateFilter = this.renderStateFilter.bind(this);
-    this.renderProgramFilters = this.renderProgramFilters.bind(this);
-    this.renderTypeFilter = this.renderTypeFilter.bind(this);
-  }
-
-  handleDropdownChange(e) {
+  handleDropdownChange = e => {
     const { name: field, value } = e.target;
-    this.props.onFilterChange(field, value);
-  }
+    this.props.handleFilterChange(field, value);
+  };
 
-  handleCheckboxChange(e) {
+  handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
-    this.props.onFilterChange(field, value);
-  }
+    this.props.handleFilterChange(field, value);
+  };
 
-  renderCategoryFilter() {
-    const options = [
-      { value: 'ALL', label: 'All' },
-      { value: 'school', label: 'Schools only' },
-      { value: 'employer', label: 'Employers only' },
-    ];
+  renderCategoryFilter = () => (
+    <TypeOfInstitutionFilter
+      category={this.props.filters.category}
+      onChange={this.handleDropdownChange}
+      displayAllOption
+    />
+  );
 
-    return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.filters.category}
-        onChange={this.handleDropdownChange}
-      />
-    );
-  }
-
-  renderCountryFilter() {
-    const options = [
-      { value: 'ALL', label: 'ALL' },
-      ...this.props.search.facets.country.map(country => ({
-        value: country.name,
-        label: country.name,
-      })),
-    ];
+  renderCountryFilter = () => {
+    const options = this.props.search.facets.country.map(country => ({
+      value: country.name,
+      label: country.name,
+    }));
 
     return (
       <Dropdown
         label="Country"
         name="country"
-        options={options}
-        value={this.props.filters.country}
         alt="Filter results by country"
-        visible
+        options={addAllOption(options)}
+        value={this.props.filters.country}
         onChange={this.handleDropdownChange}
+        visible
       />
     );
-  }
+  };
 
-  renderStateFilter() {
-    const options = [
-      { value: 'ALL', label: 'ALL' },
-      ...Object.keys(this.props.search.facets.state).map(state => ({
-        value: state,
-        label: state,
-      })),
-    ];
+  renderStateFilter = () => {
+    const options = Object.keys(this.props.search.facets.state).map(state => ({
+      value: state,
+      label: state,
+    }));
 
     return (
       <Dropdown
         label="State"
         name="state"
-        options={options}
-        value={this.props.filters.state}
         alt="Filter results by state"
-        visible
+        options={addAllOption(options)}
+        value={this.props.filters.state}
         onChange={this.handleDropdownChange}
+        visible
       />
     );
-  }
+  };
 
-  renderProgramFilters() {
-    const filters = this.props.filters;
+  renderProgramFilters = () => {
+    const { filters } = this.props;
 
     return (
       <div>
@@ -145,9 +119,9 @@ class InstitutionFilterForm extends React.Component {
         />
       </div>
     );
-  }
+  };
 
-  renderTypeFilter() {
+  renderTypeFilter = () => {
     const options = [
       { value: 'ALL', label: 'ALL' },
       ...Object.keys(this.props.search.facets.type).map(type => ({
@@ -167,7 +141,7 @@ class InstitutionFilterForm extends React.Component {
         onChange={this.handleDropdownChange}
       />
     );
-  }
+  };
 
   render() {
     return (
@@ -199,7 +173,7 @@ InstitutionFilterForm.propTypes = {
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemOffered: PropTypes.bool,
   }),
-  onFilterChange: PropTypes.func,
+  handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
     category: PropTypes.object,
     distanceLearning: PropTypes.object,
