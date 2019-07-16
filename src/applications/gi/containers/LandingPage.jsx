@@ -25,25 +25,19 @@ import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 
 export class LandingPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.search = this.search.bind(this);
-  }
-
   componentDidMount() {
     this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.handleFilterChange('name', this.props.autocomplete.searchTerm);
-  }
+  };
 
-  handleFilterChange(field, value) {
+  handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
+    // ***CT 116***
     if (environment.isProduction()) {
       if (value) {
         this.search(value);
@@ -53,10 +47,11 @@ export class LandingPage extends React.Component {
     } else if (value) {
       this.search(value);
     }
-  }
+  };
 
-  search(value) {
+  search = value => {
     const { vet_tec_provider } = this.props.filters;
+    // ***CT 116***
     const query = {
       name: value,
       version: this.props.location.query.version,
@@ -74,7 +69,48 @@ export class LandingPage extends React.Component {
     });
 
     this.props.router.push({ pathname: 'search', query });
-  }
+  };
+
+  handleTypeOfInstitutionFilterChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+    const { filters } = this.props;
+
+    if (field === 'category') {
+      filters.vet_tec_provider = value === 'vettec';
+    }
+    filters[field] = value;
+
+    this.props.institutionFilterChange(filters);
+  };
+
+  shouldDisplayTypeOfInstitution = () =>
+    this.props.eligibility.militaryStatus !== 'active duty' &&
+    this.props.eligibility.giBillChapter === '33';
+
+  // ***CT 116***
+  isVetTecNotSelected = () =>
+    environment.isProduction() ||
+    (!environment.isProduction() && !isVetTecSelected(this.props.filters));
+
+  handleEligibilityChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+
+    if (
+      this.props.filters.category === 'vettec' &&
+      ((field === 'militaryStatus' && value === 'active duty') ||
+        (field === 'giBillChapter' && value !== '33'))
+    ) {
+      this.props.institutionFilterChange({
+        ...this.props.filters,
+        category: 'school',
+        vet_tec_provider: false,
+      });
+    }
+
+    this.props.eligibilityChange(e);
+  };
 
   handleTypeOfInstitutionFilterChange = e => {
     const field = e.target.name;
@@ -108,7 +144,9 @@ export class LandingPage extends React.Component {
             </p>
 
             <form onSubmit={this.handleSubmit}>
-              <EligibilityForm />
+              <EligibilityForm
+                eligibilityChange={this.handleEligibilityChange}
+              />
               {/* CT 116 */}
               {!environment.isProduction() && (
                 <TypeOfInstitutionFilter
@@ -119,12 +157,14 @@ export class LandingPage extends React.Component {
                 />
               )}
               {/* /CT 116 */}
-              <OnlineClassesFilter
-                onlineClasses={this.props.eligibility.onlineClasses}
-                onChange={this.props.eligibilityChange}
-                showModal={this.props.showModal}
-              />
-              {this.shouldDisplayKeywordSearch() && (
+              {this.isVetTecNotSelected() && (
+                <OnlineClassesFilter
+                  onlineClasses={this.props.eligibility.onlineClasses}
+                  onChange={this.props.eligibilityChange}
+                  showModal={this.props.showModal}
+                />
+              )}
+              {this.isVetTecNotSelected() && (
                 <KeywordSearch
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}

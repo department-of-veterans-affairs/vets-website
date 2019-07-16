@@ -186,59 +186,60 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     return (
-      <div className="claims-container">
-        <ClaimsBreadcrumbs />
-        <div className="row">
-          <div className="small-12 usa-width-two-thirds medium-8 columns">
-            <div className="row">
-              <div className="small-12 columns">
-                <h1 className="claims-container-title">
-                  Check your claim or appeal status
-                </h1>
-              </div>
-              <div className="small-12 columns">
-                {this.renderErrorMessages()}
-              </div>
+      <div>
+        <div name="topScrollElement" />
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <ClaimsBreadcrumbs />
             </div>
-            <p>
-              <button
-                type="button"
-                className="va-button-link claims-combined"
-                onClick={evt => {
-                  evt.preventDefault();
-                  recordEvent({
-                    event: 'claims-consolidated-modal',
-                  });
-                  this.props.showConsolidatedMessage(true);
-                }}
-              >
-                Find out why we sometimes combine claims.
-              </button>
-            </p>
-            {content}
-            <Modal
-              onClose={() => true}
-              visible={this.props.consolidatedModal}
-              hideCloseButton
-              id="consolidated-claims"
-              contents={
-                <ConsolidatedClaims
-                  onClose={() => this.props.showConsolidatedMessage(false)}
-                />
-              }
-            />
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-            <FeaturesWarning />
-            <AskVAQuestions />
-            <div>
-              <h2 className="help-heading">Can’t find your appeal?</h2>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <h1 className="claims-container-title">
+                Check your claim or appeal status
+              </h1>
+              <div>{this.renderErrorMessages()}</div>
               <p>
-                If you submitted a Notice of Disagreement for an appeal within
-                the last 3 months, VA might still be processing your appeal. For
-                more information, contact your Veterans Service Organization or
-                representative.
+                <button
+                  type="button"
+                  className="va-button-link claims-combined"
+                  onClick={evt => {
+                    evt.preventDefault();
+                    recordEvent({
+                      event: 'claims-consolidated-modal',
+                    });
+                    this.props.showConsolidatedMessage(true);
+                  }}
+                >
+                  Find out why we sometimes combine claims.
+                </button>
               </p>
+              <Modal
+                onClose={() => true}
+                visible={this.props.consolidatedModal}
+                hideCloseButton
+                id="consolidated-claims"
+                contents={
+                  <ConsolidatedClaims
+                    onClose={() => this.props.showConsolidatedMessage(false)}
+                  />
+                }
+              />
+              {content}
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
+              <FeaturesWarning />
+              <AskVAQuestions />
+              <div>
+                <h2 className="help-heading">Can’t find your appeal?</h2>
+                <p>
+                  If you submitted a Notice of Disagreement for an appeal within
+                  the last 3 months, VA might still be processing your appeal.
+                  For more information, contact your Veterans Service
+                  Organization or representative.
+                </p>
+              </div>
             </div>
           </div>
         </div>

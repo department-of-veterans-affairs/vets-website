@@ -1,6 +1,8 @@
 import environment from 'platform/utilities/environment';
 
-const calculateFilters = filters => {
+// ***CT 116***
+
+export const calculateFilters = filters => {
   if (!environment.isProduction()) {
     if (filters.category === 'ALL') {
       return {
@@ -18,5 +20,3 @@ const calculateFilters = filters => {
   }
   return filters;
 };
-
-export { calculateFilters };

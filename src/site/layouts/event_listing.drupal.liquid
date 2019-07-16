@@ -1,5 +1,5 @@
-{% include "src/site/includes/header.html" with drupalTags = true %}
 
+{% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -23,15 +23,13 @@
             <h1>{{ title }}</h1>
             <div class="vads-l-grid-container--full">
               <div class="va-introtext">
-                <p class="office-show" id="office-main-description">
-                  {{ fieldDescription }}
+                {% if fieldEventListingDescription %}
+                <p class="events-show" id="office-events-description">
+                  {{ fieldIntroText }}
                 </p>
+                {% endif %}
               </div>
-              {% if fieldBody.processed %}
-              <div class="office-show">
-                {{ fieldBody.processed }}
-              </div>
-              {% endif %}
+              {% include 'src/site/components/events_list.drupal.liquid' %}
             </div>
           </div>
         </article>

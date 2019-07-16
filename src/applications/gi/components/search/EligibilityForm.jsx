@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { showModal, hideModal, eligibilityChange } from '../../actions';
+import { showModal, hideModal } from '../../actions';
 
 import Dropdown from '../Dropdown';
 import environment from 'platform/utilities/environment';
@@ -241,7 +241,6 @@ const mapStateToProps = state => state.eligibility;
 const mapDispatchToProps = {
   showModal,
   hideModal,
-  eligibilityChange,
 };
 
 export default connect(

@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { formatCurrency } from '../utils/helpers';
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
