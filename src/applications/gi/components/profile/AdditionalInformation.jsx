@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import environment from '../../../../platform/utilities/environment';
+
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
     return 'Total paid (FY 2018)';
@@ -111,19 +113,21 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {it.independentStudy ? 'Yes' : 'No'}
         </div>
-        <div>
-          <strong>
-            <button
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={this.props.onShowModal.bind(this, 'stemOffered')}
-            >
-              STEM (Science, Technology Engineering, and Math):
-            </button>
-          </strong>
-          &nbsp;
-          {it.stemOffered ? 'Yes' : 'No'}
-        </div>
+        {environment.isProduction() && (
+          <div>
+            <strong>
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'stemOffered')}
+              >
+                STEM (Science, Technology Engineering, and Math):
+              </button>
+            </strong>
+            &nbsp;
+            {it.stemOffered ? 'Yes' : 'No'}
+          </div>
+        )}
       </div>
     );
   }
