@@ -27,7 +27,7 @@ export const renderPreferredProviderFlag = result => {
   if (!preferredProvider) return null;
   return (
     <div className="preferred-flag">
-      <i className="fa fa-star color-gold" />
+      <i className="fa fa-star vads-u-color--gold" />
       Preferred Provider
     </div>
   );
