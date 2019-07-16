@@ -23,13 +23,16 @@
         <div class="va-introtext">
           <p>{{ fieldIntroText }}</p>
         </div>
-
         {% if fieldAlert.length %}
-            {% for alert in fieldAlert %}
-              {% if alert.entity != empty %}
-                {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
-              {% endif %}
-            {% endfor %}
+          {% for alert in fieldAlert %}
+            {% if alert.entity != empty %}
+              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% if fieldAlert.entity != empty %}
+            {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+          {% endif %}
         {% endif %}
 
         {% assign featureCount = fieldFeaturedContent | size  %}

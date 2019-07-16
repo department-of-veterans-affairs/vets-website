@@ -453,12 +453,6 @@ $color-inactive: #9b9b9b;
   }
 }
 
-.claims-optional-desc {
-  font-size: 0.9em;
-  line-height: 0.3em;
-  margin-top: 5px;
-}
-
 h1:focus {
   outline: none;
 }
@@ -951,6 +945,7 @@ h1:focus {
   font-size: 1.15em;
   line-height: 1.5;
   padding-bottom: 0;
+  margin-top: 0;
 }
 
 .file-request-list-item-optional {
