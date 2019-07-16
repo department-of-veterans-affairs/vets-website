@@ -113,7 +113,7 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {it.independentStudy ? 'Yes' : 'No'}
         </div>
-        {environment.isProduction() && (
+        {!environment.isProduction() && (
           <div>
             <strong>
               <button

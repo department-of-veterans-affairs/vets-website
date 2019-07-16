@@ -95,7 +95,7 @@ class InstitutionFilterForm extends React.Component {
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}
         />
-        {environment.isProduction() && (
+        {!environment.isProduction() && (
           <Checkbox
             checked={filters.stemOffered}
             name="stemOffered"
