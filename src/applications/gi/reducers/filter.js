@@ -13,8 +13,7 @@ const INITIAL_STATE = Object.freeze({
   eightKeysToVeteranSuccess: false,
   stemOffered: false,
   typeName: 'ALL',
-  // eslint-disable-next-line camelcase
-  vet_tec_provider: false,
+  vetTecProvider: false,
 });
 
 export default function(state = INITIAL_STATE, action) {

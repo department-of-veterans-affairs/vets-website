@@ -32,6 +32,12 @@ module.exports = `
     changed
     fieldIntroText
     ${
+      enabledFeatureFlags[featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC]
+        ? 'fieldTableOfContentsBoolean'
+        : ''
+    }
+    
+    ${
       enabledFeatureFlags[
         featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
       ]
