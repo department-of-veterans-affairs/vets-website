@@ -6,7 +6,7 @@ import { FacilityPatientSatisfactionScoresWidget } from '../../facilities/Facili
 
 describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
   it('should render loading', () => {
-    const tree = shallow(<FacilityPatientSatisfactionScoresWidget loading />);
+    const tree = shallow(<FacilityPatientSatisfactionScoresWidget loading/>);
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     tree.unmount();
@@ -21,11 +21,6 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
     );
 
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
-
-    const satisfactionScoresHeader = tree.find('h2');
-    expect(satisfactionScoresHeader.text()).to.contain(
-      'Appointment access at this location',
-    );
 
     const facilityPatientSatisfactionScoresEffectiveDate = tree.find(
       '#facility-patient-satisfaction-scores-effective-date',
