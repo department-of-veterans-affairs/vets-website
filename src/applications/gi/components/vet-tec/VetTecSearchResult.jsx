@@ -4,7 +4,11 @@ import { Link } from 'react-router';
 
 import { estimatedBenefits } from '../../selectors/vetTecEstimator';
 import { formatCurrency } from '../../utils/helpers';
-import { renderCautionFlag, renderSchoolClosingFlag } from '../../utils/render';
+import {
+  renderCautionFlag,
+  renderSchoolClosingFlag,
+  renderPreferredProviderFlag,
+} from '../../utils/render';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value, range }) => {
@@ -37,6 +41,7 @@ export class SearchResult extends React.Component {
         <div className="outer">
           {renderSchoolClosingFlag(this.props.result)}
           {renderCautionFlag(this.props.result)}
+          {renderPreferredProviderFlag(this.props.result)}
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
