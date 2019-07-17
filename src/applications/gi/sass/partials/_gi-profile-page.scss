@@ -73,6 +73,12 @@
         padding: 0;
       }
     }
+
+    .out-of-pocket-tuition {
+      h5 {
+        font-family: "Source Sans Pro", sans-serif;
+      }
+    }
   }
 
   .programs.row {
@@ -113,9 +119,11 @@
     }
   }
 
-  .va-payment {
-    padding-left: 1rem;
-    padding-right: 6rem;
+  @media screen and (min-width: $medium-screen) {    
+    .va-payment {
+      padding-left: 1rem;
+      padding-right: 6rem;
+    }
   }
 
   .outcomes .graph-component {

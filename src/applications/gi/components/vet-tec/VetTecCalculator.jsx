@@ -101,7 +101,7 @@ export class VetTecCalculator extends React.Component {
         </div>
       </div>
 
-      <div className="row calculator-result">
+      <div className="row calculator-result out-of-pocket-tuition">
         <div className="small-6 columns">
           <h5>Out of pocket tuition:</h5>
         </div>
