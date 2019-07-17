@@ -52,7 +52,7 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link className="vads-u-color--base vads-u-font-family--sans" to={linkTo}>{name}</Link>
+                  <Link className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--md" to={linkTo}>{name}</Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p>
