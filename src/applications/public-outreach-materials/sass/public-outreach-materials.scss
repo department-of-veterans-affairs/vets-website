@@ -9,7 +9,9 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   max-width: 95%;
   margin-bottom: 25px;
 }
-
+.va-sidebarnav .left-side-nav-title h4 {
+  width: 100%;
+}
 .asset-component-library {
   .asset-card {
     min-height: 450px;
