@@ -18,10 +18,24 @@
             <p>{{ fieldIntroText }}</p>
           </div>
 
+          {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
+          {% if isContactPage %}
+            <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
+              {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
+          {% endif %}
+
           {% if fieldAlert != empty and fieldAlert.length %}
             {% for alert in fieldAlert %}
               {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
             {% endfor %}
+          {% endif %}
+
+
+          {% if fieldTableOfContentsBoolean != empty and fieldTableOfContentsBoolean %}
+            <section id="table-of-contents">
+              <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+              <ul class="usa-unstyled-list"></ul>
+            </section>
           {% endif %}
 
           {% if fieldFeaturedContent != empty and fieldFeaturedContent.length > 0 %}
@@ -32,20 +46,6 @@
                 {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
               {% endfor %}
             </div>
-          {% endif %}
-
-
-          {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
-          {% if isContactPage %}
-            <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
-                  {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
-          {% endif %}
-
-          {% if fieldTableOfContentsBoolean != empty and fieldTableOfContentsBoolean %}
-            <section id="table-of-contents">
-              <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
-              <ul class="usa-unstyled-list"></ul>
-            </section>
           {% endif %}
 
           {% for block in fieldContentBlock %}
