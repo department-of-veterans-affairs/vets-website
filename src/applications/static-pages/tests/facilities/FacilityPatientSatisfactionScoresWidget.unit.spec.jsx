@@ -6,7 +6,7 @@ import { FacilityPatientSatisfactionScoresWidget } from '../../facilities/Facili
 
 describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
   it('should render loading', () => {
-    const tree = shallow(<FacilityPatientSatisfactionScoresWidget loading/>);
+    const tree = shallow(<FacilityPatientSatisfactionScoresWidget loading />);
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     tree.unmount();
