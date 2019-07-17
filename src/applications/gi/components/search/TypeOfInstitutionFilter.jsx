@@ -12,7 +12,6 @@ class TypeOfInstitutionFilter extends React.Component {
     displayVetTecOption: false,
     displayAllOption: false,
   };
-
   render() {
     const options = [];
 
@@ -38,6 +37,15 @@ class TypeOfInstitutionFilter extends React.Component {
             Learn More
           </a>
           )
+          {this.props.category === 'vettec' && (
+            <span className="vettec-logo">
+              <img
+                src="/img/design/logo/vet-tec-logo.svg"
+                alt="Vet Tec Logo"
+                width="200px"
+              />
+            </span>
+          )}
         </span>
       );
       options.push({
