@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -50,16 +49,16 @@ export class LandingPage extends React.Component {
   };
 
   search = value => {
-    const { vet_tec_provider } = this.props.filters;
+    const { vetTecProvider } = this.props.filters;
     // ***CT 116***
     const query = {
       name: value,
       version: this.props.location.query.version,
       category:
-        environment.isProduction() || vet_tec_provider
+        environment.isProduction() || vetTecProvider
           ? null
           : this.props.filters.category,
-      vet_tec_provider: environment.isProduction() ? null : vet_tec_provider,
+      vetTecProvider: environment.isProduction() ? null : vetTecProvider,
     };
 
     _.forEach(query, (val, key) => {
@@ -77,7 +76,7 @@ export class LandingPage extends React.Component {
     const { filters } = this.props;
 
     if (field === 'category') {
-      filters.vet_tec_provider = value === 'vettec';
+      filters.vetTecProvider = value === 'vettec';
     }
     filters[field] = value;
 
@@ -105,7 +104,7 @@ export class LandingPage extends React.Component {
       this.props.institutionFilterChange({
         ...this.props.filters,
         category: 'school',
-        vet_tec_provider: false,
+        vetTecProvider: false,
       });
     }
 
@@ -118,7 +117,7 @@ export class LandingPage extends React.Component {
     const filters = this.props.filters;
 
     if (field === 'category') {
-      filters.vet_tec_provider = value === 'vettec';
+      filters.vetTecProvider = value === 'vettec';
     }
     filters[field] = value;
 
