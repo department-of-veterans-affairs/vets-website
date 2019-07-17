@@ -116,50 +116,65 @@
                     {% if entity.fieldMedia.entity.entityBundle == 'document' %}
                     {% case entity.fieldBenefits %}
                     {% when 'general' %}
-                    <img src="/img/hub-illustrations/records.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/records.png" />
                     {% when 'burial' %}
-                    <img src="/img/hub-illustrations/burials.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/burials.png" />
                     {% when 'careers' %}
-                    <img src="/img/hub-illustrations/careers.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/careers.png" />
                     {% when 'disability' %}
-                    <img src="/img/hub-illustrations/disability.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/disability.png" />
                     {% when 'education' %}
-                    <img src="/img/hub-illustrations/education.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/education.png" />
                     {% when 'family' %}
-                    <img src="/img/hub-illustrations/family-caregiver.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/family-caregiver.png" />
                     {% when 'healthcare' %}
-                    <img src="/img/hub-illustrations/health-care.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/health-care.png" />
                     {% when 'housing' %}
-                    <img src="/img/hub-illustrations/housing.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/housing.png" />
                     {% when 'insurance' %}
-                    <img src="/img/hub-illustrations/life-insurance.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/life-insurance.png" />
                     {% when 'pension' %}
-                    <img src="/img/hub-illustrations/pension.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/pension.png" />
                     {% when 'service' %}
-                    <img src="/img/hub-illustrations/service-member.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/service-member.png" />
                     {% when 'records' %}
-                    <img src="/img/hub-illustrations/records.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/records.png" />
                     {% else %}
-                    <img src="/img/hub-illustrations/records.png" />
+                    <img alt="{{entity.title | truncate: 36}}"
+                      src="/img/hub-illustrations/records.png" />
                     {% endcase %}
                     {% endif %}
 
                     {% if entity.fieldMedia.entity.entityBundle == 'image' %}
                     {% if entity.fieldMedia.entity.image.url %}
                     <img src="{{entity.fieldMedia.entity.image.url}}"
+                      alt="{{entity.fieldMedia.entity.image.alt}}"
                       onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
                     {% elsif entity.derivedFields.absoluteUrl %}
-                    <img src="{{entity.derivedFields.absoluteUrl}}"
+                    <img alt="{{entity.fieldMedia.entity.image.alt}}"
+                      src="{{entity.derivedFields.absoluteUrl}}"
                       onerror="this.onerror=null;this.src='https://via.placeholder.com/318x212';" />
                     {% endif %}
                     {% endif %}
 
                     {% if entity.fieldMedia.entity.entityBundle == 'video' %}
                     {% if entity.fieldMedia.entity.thumbnail.derivative.url %}
-                    <img
+                    <img alt="{{entity.title | truncate: 36}}"
                       src="{{entity.fieldMedia.entity.thumbnail.derivative.url}}" />
                     {%else%}
-                    <img
+                    <img alt="{{entity.title | truncate: 36}}"
                       src="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField | videoThumbnail}}" />
                     {%endif%}
                     {% endif %}
