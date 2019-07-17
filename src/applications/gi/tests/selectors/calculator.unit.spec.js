@@ -88,7 +88,6 @@ defaultState = {
       persistanceRateVeteranBa: 1.0,
       persistanceRateVeteranOtb: 0.5,
       poe: true,
-      preferredProvider: false,
       repaymentRateAllStudents: 0.187458943,
       retentionAllStudentsBa: null,
       retentionAllStudentsOtb: null,

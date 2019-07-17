@@ -17,15 +17,15 @@ export const VetTecHeadingSummary = ({ institution }) => (
       <h1>{institution.name}</h1>
       <div>
         <div className="usa-width-one-half medium-6 small-12 column">
-            <IconWithInfo
-                icon="star vads-u-color--gold"
-                present={
-                    institution.preferredProvider &&
-                    institution.preferredProvider === true
-                }
-            >
-                Preferred provider (<a>Learn more</a>)
-            </IconWithInfo>
+          <IconWithInfo
+            icon="star vads-u-color--gold"
+            present={
+              institution.preferredProvider &&
+              institution.preferredProvider === true
+            }
+          >
+            Preferred provider (<a>Learn more</a>)
+          </IconWithInfo>
           {institution.city &&
             institution.country && (
               <IconWithInfo icon="map-marker">
