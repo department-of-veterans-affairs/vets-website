@@ -38,7 +38,7 @@ class TypeOfInstitutionFilter extends React.Component {
           </a>
           )
           {this.props.category === 'vettec' && (
-            <span className="vettec-logo">
+            <span>
               <img
                 src="/img/design/logo/vet-tec-logo.svg"
                 alt="Vet Tec Logo"
