@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import { selectUser } from '../../../../platform/user/selectors';
-import { focusElement } from '../../../../platform/utilities/ui';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import { selectUser } from 'platform/user/selectors';
+import { focusElement } from 'platform/utilities/ui';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import {

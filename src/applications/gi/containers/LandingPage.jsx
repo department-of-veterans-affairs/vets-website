@@ -192,7 +192,7 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar />
-            {!environment.isProduction() && <StemScholarshipNotification />}
+            <StemScholarshipNotification />
           </div>
         </div>
       </span>
