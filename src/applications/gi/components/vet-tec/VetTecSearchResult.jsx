@@ -39,17 +39,28 @@ export class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="outer">
-          {renderSchoolClosingFlag(this.props.result)}
-          {renderCautionFlag(this.props.result)}
-          {renderPreferredProviderFlag(this.props.result)}
+          <div className="row">
+            <div className="small-12 usa-width-five-twelfths medium-5 columns">
+              {renderSchoolClosingFlag(this.props.result)}
+              {renderCautionFlag(this.props.result)}
+            </div>
+            <div className="small-12 usa-width-five-twelfths medium-5 columns">
+              {renderPreferredProviderFlag(this.props.result)}
+            </div>
+          </div>
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{name}</Link>
+                  <Link
+                    className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--md"
+                    to={linkTo}
+                  >
+                    {name}
+                  </Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
-                  <p className="locality">
+                  <p>
                     {city}, {state || country}
                   </p>
                 </div>
