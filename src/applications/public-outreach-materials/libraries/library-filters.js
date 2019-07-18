@@ -78,19 +78,19 @@ export function libraryPagerGen() {
     // If we have more than one page, add a button in front of active button.
     if (diff > 1 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `<a class="pager-numbers" aria-label="Load page
-      ${activePage + 1}" tabindex="${activePage + 1}">${activePage + 1}</a>`;
+      ${activePage + 1}">${activePage + 1}</a>`;
     }
     // If we have more than two pages, add second page
     // button in front of active button.
     if (diff > 2 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `<a class="pager-numbers" aria-label="Load page
-      ${activePage + 2}" tabindex="${activePage + 2}">${activePage + 2}</a>`;
+      ${activePage + 2}">${activePage + 2}</a>`;
     }
     // If we have more than three pages, add a third button and ellipses to
     // link to last page.
     if (diff > 3 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `.... <a class="pager-numbers" aria-label="Load page
-      ${pages}" tabindex="${pages}"> ${pages}</a>`;
+      ${pages}"> ${pages}</a>`;
     }
     document.getElementById('pager-nums-insert').innerHTML = pagerHtml;
   }
@@ -105,8 +105,8 @@ export function libraryReset() {
 export function libraryFilters(el) {
   // Grab our current page from the active pager button.
   if (el.srcElement.className === 'pager-numbers') {
-    activePage = el.srcElement.tabIndex;
-    sessionStorage.setItem('pageNum', el.srcElement.tabIndex);
+    activePage = parseInt(el.srcElement.text, 10);
+    sessionStorage.setItem('pageNum', parseInt(el.srcElement.text, 10));
   }
   // Move our page forward when button clicked if we have more than one page.
   if (
