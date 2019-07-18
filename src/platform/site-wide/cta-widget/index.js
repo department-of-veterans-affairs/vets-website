@@ -159,21 +159,16 @@ export class CallToActionWidget extends React.Component {
         );
       }
 
-      return {
-        heading: `Go to your VA.gov profile to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            Here, you can edit your bank name as well as your account number and
-            type.
-          </p>
-        ),
-        primaryButtonText: 'Go to your profile',
-        primaryButtonHandler: () =>
-          this.goToTool({
-            event: 'nav-user-profile-cta',
-          }),
-        status: 'continue',
-      };
+      return (
+        <DirectDeposit
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={() =>
+            this.goToTool({
+              event: 'nav-user-profile-cta',
+            })
+          }
+        />
+      );
     }
 
     return this.getInaccessibleHealthToolContent();
