@@ -1,7 +1,5 @@
 import React from 'react';
 
-import VetTecLogo from '../../../../site/assets/img/logo/vet-tec-logo.png';
-
 export const AdditionalResourcesLinks = () => (
   <div>
     <p>
@@ -41,20 +39,7 @@ export const AdditionalResourcesLinks = () => (
 
 const AdditionalResources = () => (
   <div className="additional-resources usa-width-one-third medium-4 small-12 column">
-    <div style={{ textAlign: 'right' }}>
-      <img
-        style={{
-          height: '85px',
-          width: '179px',
-          paddingBottom: '8px',
-        }}
-        src={VetTecLogo}
-        alt="Vet Tec Logo"
-      />
-    </div>
-    <h4 style={{ margin: 0 }} className="highlight">
-      Additional Resources
-    </h4>
+    <h4 className="highlight">Additional Resources</h4>
     <AdditionalResourcesLinks />
   </div>
 );
