@@ -44,6 +44,7 @@ class TypeOfInstitutionFilter extends React.Component {
                 src="/img/logo/vet-tec-logo.png"
                 alt="Vet Tec Logo"
                 width="179px"
+                height="85px"
               />
             </span>
           )}
