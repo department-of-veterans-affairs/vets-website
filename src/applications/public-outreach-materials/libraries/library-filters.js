@@ -3,7 +3,7 @@ let activePage = 1;
 let numCards;
 let numActiveCards;
 const itemsPerPage = 10;
-const pages = Math.ceil(cards.length / itemsPerPage);
+let pages = Math.ceil(cards.length / itemsPerPage);
 
 export function libraryNumCards() {
   return document.querySelectorAll(
@@ -67,8 +67,8 @@ export function libraryCurrent() {
 }
 
 export function libraryPagerGen() {
-  numCards = libraryNumCards();
-
+  numCards = libraryNumActiveCards();
+  pages = Math.ceil(numCards / itemsPerPage);
   if (document.getElementById('pager-nums-insert')) {
     const diff = pages - activePage;
     let pagerHtml;
