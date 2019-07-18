@@ -18,6 +18,7 @@ module.exports = `
               entityBundle
               image {
                 url
+                alt
               }
             }
             ... on MediaDocument {

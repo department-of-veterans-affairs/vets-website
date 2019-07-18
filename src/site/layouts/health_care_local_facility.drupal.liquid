@@ -110,6 +110,11 @@
           <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--6">{% assign basePath = entityUrl.path | regionBasePath %}
               {% include "src/site/facilities/facilities_health_services_buttons.drupal.liquid" with path = basePath %}</div>
 
+            <section id="table-of-contents" class="vads-u-margin-bottom--5">
+                <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+                <ul class="usa-unstyled-list"></ul>
+            </section>
+
           <div class="region-list usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5">
 
             <!-- facility details from api -->
@@ -129,25 +134,6 @@
                 <div data-widget-type="facility-map" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
               </div>
           </div>
-
-        <div class="vads-u-margin-bottom--4 small-screen:vads-u-margin-bottom--7">
-            <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
-            <ul class="usa-unstyled-list">
-                {% if fieldLocationServices != empty and fieldLocationServices.length %}
-                    <li class="vads-u-margin-bottom--2">
-                        <a class="vads-u-text-decoration--none" href="#prepare-for-your-visit"><i class="fas fa-level-down-alt"></i> Prepare for your visit</a>
-                    </li>
-                {% endif %}
-                {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
-                    <li class="vads-u-margin-bottom--2">
-                        <a class="vads-u-text-decoration--none" href="#health-care-offered-here"><i class="fas fa-level-down-alt"></i> Health care offered here</a>
-                    </li>
-                {% endif %}
-                <li class="vads-u-margin-bottom--2">
-                    <a class="vads-u-text-decoration--none" href="#our-patient-satisfaction-scores"><i class="fas fa-level-down-alt"></i> Appointment access at this location</a>
-                </li>
-            </ul>
-        </div>
 
           <!-- Location services section -->
           {% capture difference %}
@@ -195,6 +181,12 @@
                 </section>
             {% endif %}
 
+            <h2
+                    id="our-patient-satisfaction-scores"
+                    class="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+            >
+                Appointment access at this location
+            </h2>
             <div data-widget-type="facility-patient-satisfaction-scores" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
 
 

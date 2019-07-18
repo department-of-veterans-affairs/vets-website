@@ -21,12 +21,6 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
 
     return (
       <div>
-        <h2
-          id="our-patient-satisfaction-scores"
-          className="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
-        >
-          Appointment access at this location
-        </h2>
         <p>
           Veteran-reported satisfaction scores come from the Consumer Assessment
           of Health and Systems survey, which measures satisfaction of nearly
