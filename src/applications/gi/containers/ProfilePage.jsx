@@ -21,6 +21,7 @@ import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms
 import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
 import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
 import { outcomeNumbers } from '../selectors/outcomes';
+import VetTecLogo from '../../../site/assets/img/logo/vet-tec-logo.png';
 import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -124,6 +125,19 @@ export class ProfilePage extends React.Component {
       } else {
         content = (
           <div>
+            <div
+              className="vads-u-display--block small-screen:vads-u-display--none"
+              style={{ paddingTop: '16px', paddingBottom: '12px' }}
+            >
+              <img
+                style={{
+                  height: '85px',
+                  width: '179px',
+                }}
+                src={VetTecLogo}
+                alt="Vet Tec Logo"
+              />
+            </div>
             <HeadingSummary
               institution={profile.attributes}
               onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
