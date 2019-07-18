@@ -3,10 +3,9 @@ import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 
-const IconWithInfo = ({ icon, children }) => (
+const IconWithInfo = ({ icon, iconClassName, children }) => (
   <p className="icon-with-info">
-    <i className={`fa fa-${icon}`} />
-    &nbsp;
+    <i className={`fa fa-${icon} ${iconClassName}`} />
     {children}
   </p>
 );
@@ -18,7 +17,8 @@ export const VetTecHeadingSummary = ({ institution }) => (
       <div>
         <div className="usa-width-one-half medium-6 small-12 column">
           <IconWithInfo
-            icon="star vads-u-color--gold"
+            icon="star"
+            iconClassName="vads-u-color--gold"
             present={
               institution.preferredProvider &&
               institution.preferredProvider === true
