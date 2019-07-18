@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import VetTecLogo from '../../../site/assets/img/logo/vet-tec-logo.png';
 
 import {
   clearAutocompleteSuggestions,
@@ -232,12 +233,52 @@ export class SearchPage extends React.Component {
     const searchResults = this.searchResults();
     return (
       <ScrollElement name="searchPage" className="search-page">
+        <div
+          className="vads-u-display--block small-screen:vads-u-display--none"
+          style={{ paddingTop: '16px', paddingBottom: '12px' }}
+        >
+          <img
+            style={{
+              height: '85px',
+              width: '179px',
+            }}
+            src={VetTecLogo}
+            alt="Vet Tec Logo"
+          />
+        </div>
         <div className="row">
           <div className="column">
-            <h1>
-              {!search.inProgress && `${(count || 0).toLocaleString()} `}
-              Search Results
-            </h1>
+            <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+              <div className="vads-l-col--10 site-grid-example">
+                <h1>
+                  {!search.inProgress && `${(count || 0).toLocaleString()} `}
+                  Search Results
+                </h1>
+              </div>
+              <div className="vads-l-col--2 site-grid-example">
+                <div
+                  className="vads-u-display--none small-screen:vads-u-display--block"
+                  style={{ marginTop: '-32px', marginBottom: '16px' }}
+                >
+                  <img
+                    style={{
+                      height: '85px',
+                      width: '179px',
+                    }}
+                    src={VetTecLogo}
+                    alt="Vet Tec Logo"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* *** */}
+            {/* *** */}
+            {/* *** */}
+
+            {/* *** */}
+            {/* *** */}
+            {/* *** */}
           </div>
         </div>
 
