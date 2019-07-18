@@ -3,12 +3,15 @@ import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 
-const IconWithInfo = ({ icon, iconClassName, children }) => (
-  <p className="icon-with-info">
-    <i className={`fa fa-${icon} ${iconClassName}`} />
-    {children}
-  </p>
-);
+const IconWithInfo = ({ icon, iconClassName, children, present }) => {
+  if (!present) return null;
+  return (
+    <p className="icon-with-info">
+      <i className={`fa fa-${icon} ${iconClassName}`} />
+      {children}
+    </p>
+  );
+};
 
 export const VetTecHeadingSummary = ({ institution }) => (
   <div className="heading row">
@@ -28,7 +31,11 @@ export const VetTecHeadingSummary = ({ institution }) => (
           </IconWithInfo>
           {institution.city &&
             institution.country && (
-              <IconWithInfo icon="map-marker">
+              <IconWithInfo
+                icon="map-marker"
+                present={institution.city && institution.country}
+              >
+                &nbsp;
                 {institution.city}, {institution.state || institution.country}
               </IconWithInfo>
             )}
