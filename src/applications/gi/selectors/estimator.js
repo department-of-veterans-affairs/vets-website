@@ -14,7 +14,7 @@ const getRequiredAttributes = (state, props) => {
   };
 };
 
-function getDerivedAttributes(constant, eligibility, institution) {
+export function getDerivedAttributes(constant, eligibility, institution) {
   const your = eligibility;
   const its = institution;
   const chapter = Number(your.giBillChapter);

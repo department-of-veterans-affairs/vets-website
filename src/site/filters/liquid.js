@@ -77,15 +77,16 @@ module.exports = function registerFilters() {
     // Change phone to tap to dial.
     const replacePattern = /(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/;
 
-    if (data) {
-      const number = data.match(replacePattern);
+    if (data.match(replacePattern)) {
+      const number = data.match(replacePattern)[0];
       const replacedText = data.replace(
         replacePattern,
-        `<a href="tel:${number}">Phone: ${number}</a>`,
+        `<a target="_blank" href="tel:${number}">Phone: ${number}</a>`,
       );
 
       return replacedText;
     }
+
     return data;
   };
 
@@ -217,6 +218,17 @@ module.exports = function registerFilters() {
     return entity && entity.fieldClinicalHealthServices
       ? entity.fieldClinicalHealthServices[0].entity
       : null;
+  };
+
+  liquid.filters.featureSingleValueFieldLink = fieldLink => {
+    if (
+      fieldLink &&
+      enabledFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
+    ) {
+      return fieldLink[0];
+    }
+
+    return fieldLink;
   };
 
   // used to get a base url path of a health care region from entityUrl.path

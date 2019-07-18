@@ -1,0 +1,7 @@
+#calculated-disability-rating:focus {
+  outline: none;
+}
+
+input[name=rating]::-ms-clear {
+  display: none;
+}

@@ -125,7 +125,7 @@ class AppealStatusPage extends React.Component {
         <div className="row">
           <div>
             <h1 className="claims-container-title">
-              Your Compensation Appeal Status
+              Your compensation appeal status
             </h1>
             <p>
               This information is accurate as of{' '}

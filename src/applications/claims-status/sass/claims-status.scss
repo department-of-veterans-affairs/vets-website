@@ -25,7 +25,7 @@ $color-inactive: #9b9b9b;
 .claims-status-content {
   .help-sidebar {
     // Line up the bottom border under "Need help?" with the tab list bottom border
-    margin-top: calc(3rem - 16px);
+    margin-top: calc(3rem - 10px);
     margin-bottom: 50px;
 
     & > div {
@@ -453,12 +453,6 @@ $color-inactive: #9b9b9b;
   }
 }
 
-.claims-optional-desc {
-  font-size: 0.9em;
-  line-height: 0.3em;
-  margin-top: 5px;
-}
-
 h1:focus {
   outline: none;
 }
@@ -569,6 +563,8 @@ h1:focus {
     margin: inherit;
     padding: inherit;
     z-index: inherit;
+    text-align: left;
+    padding-top: 0;
   }
 
   .section-header-button:focus {
@@ -949,6 +945,7 @@ h1:focus {
   font-size: 1.15em;
   line-height: 1.5;
   padding-bottom: 0;
+  margin-top: 0;
 }
 
 .file-request-list-item-optional {

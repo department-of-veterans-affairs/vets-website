@@ -13,6 +13,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import dataUtils from 'platform/utilities/data/index';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -316,7 +317,7 @@ const formConfig = {
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-686C',
+  formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: false,
   savedFormMessages: {

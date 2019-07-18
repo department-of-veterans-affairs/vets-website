@@ -383,7 +383,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: 'Awesome',
         },
       };
-      expect(getClaimType(claim)).to.equal('Awesome');
+      expect(getClaimType(claim)).to.equal('awesome');
     });
     it('should return the default claim type', () => {
       const claim = {
@@ -391,7 +391,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: undefined,
         },
       };
-      expect(getClaimType(claim)).to.equal('Disability Compensation');
+      expect(getClaimType(claim)).to.equal('disability compensation');
     });
   });
 

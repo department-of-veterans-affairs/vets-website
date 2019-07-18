@@ -16,7 +16,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
       }/education/apply-for-education-benefits/application/5495`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Dependents request for change | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');

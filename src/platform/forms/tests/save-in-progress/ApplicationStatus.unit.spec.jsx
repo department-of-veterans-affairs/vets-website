@@ -3,6 +3,8 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {
@@ -52,7 +54,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '21P-527EZ',
+              form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
@@ -85,7 +87,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '21P-527EZ',
+              form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
                 expiresAt: moment()
                   .add(-1, 'day')
@@ -104,7 +106,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
-        formIds={new Set(['22-1990'])}
+        formIds={new Set([VA_FORM_IDS.FORM_22_1990])}
         login={{
           currentlyLoggedIn: true,
         }}
@@ -114,7 +116,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '22-1990',
+              form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
@@ -137,7 +139,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should render multiple forms message', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
-        formIds={new Set(['22-1990', '22-1995'])}
+        formIds={new Set([VA_FORM_IDS.FORM_22_1990, VA_FORM_IDS.FORM_22_1995])}
         login={{
           currentlyLoggedIn: true,
         }}
@@ -147,7 +149,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [
             {
-              form: '22-1990',
+              form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
@@ -155,7 +157,7 @@ describe('schemaform <ApplicationStatus>', () => {
               },
             },
             {
-              form: '22-1995',
+              form: VA_FORM_IDS.FORM_22_1995,
               metadata: {
                 expiresAt: moment()
                   .add(1, 'day')
