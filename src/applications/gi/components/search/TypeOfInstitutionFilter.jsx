@@ -34,15 +34,16 @@ class TypeOfInstitutionFilter extends React.Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn More
+            Learn More) <br />
           </a>
-          )
           {this.props.category === 'vettec' && (
-            <span>
+            <span className="vads-u-margin-x--neg5">
+              {' '}
               <img
-                src="/img/design/logo/vet-tec-logo.svg"
+                className="vads-u-padding-top--3"
+                src="/img/logo/vet-tec-logo.png"
                 alt="Vet Tec Logo"
-                width="200px"
+                width="179px"
               />
             </span>
           )}
