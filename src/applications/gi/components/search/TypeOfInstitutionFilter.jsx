@@ -34,7 +34,8 @@ class TypeOfInstitutionFilter extends React.Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn More) <br />
+            Learn More)
+            <br />
           </a>
           {this.props.category === 'vettec' && (
             <span className="vads-u-margin-x--neg5">
