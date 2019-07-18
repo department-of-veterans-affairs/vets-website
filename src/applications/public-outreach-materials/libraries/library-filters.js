@@ -1,12 +1,19 @@
 const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
 let numCards;
+let numActiveCards;
 const itemsPerPage = 10;
 const pages = Math.ceil(cards.length / itemsPerPage);
 
 export function libraryNumCards() {
   return document.querySelectorAll(
     '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
+  ).length;
+}
+
+export function libraryNumActiveCards() {
+  return document.querySelectorAll(
+    '.asset-card:not(.hide-topic):not(.hide-type)',
   ).length;
 }
 
@@ -22,7 +29,8 @@ export function libraryCount() {
       document.getElementById('total-pages').innerText =
         numCards < 0 ? 0 : numCards;
     }
-    document.getElementById('total-all').innerText = ` of ${cards.length}`;
+    numActiveCards = libraryNumActiveCards();
+    document.getElementById('total-all').innerText = ` of ${numActiveCards}`;
     if (numCards < 1 && document.getElementById('no-results')) {
       document.getElementById('va-pager-div').style.display = 'none';
       document.getElementById('no-results').style.display = 'block';
