@@ -231,21 +231,25 @@ export class SearchPage extends React.Component {
     );
 
     const searchResults = this.searchResults();
+
     return (
       <ScrollElement name="searchPage" className="search-page">
-        <div
-          className="vads-u-display--block small-screen:vads-u-display--none"
-          style={{ paddingTop: '16px', paddingBottom: '12px' }}
-        >
-          <img
-            style={{
-              height: '85px',
-              width: '179px',
-            }}
-            src={VetTecLogo}
-            alt="Vet Tec Logo"
-          />
-        </div>
+        {!environment.isProduction() &&
+          isVetTecSelected(filters) && (
+            <div
+              className="vads-u-display--block small-screen:vads-u-display--none"
+              style={{ paddingTop: '16px', paddingBottom: '12px' }}
+            >
+              <img
+                style={{
+                  height: '85px',
+                  width: '179px',
+                }}
+                src={VetTecLogo}
+                alt="Vet Tec Logo"
+              />
+            </div>
+          )}
         <div className="row">
           <div className="column">
             <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
@@ -260,14 +264,17 @@ export class SearchPage extends React.Component {
                   className="vads-u-display--none small-screen:vads-u-display--block"
                   style={{ marginTop: '-32px', marginBottom: '16px' }}
                 >
-                  <img
-                    style={{
-                      height: '85px',
-                      width: '179px',
-                    }}
-                    src={VetTecLogo}
-                    alt="Vet Tec Logo"
-                  />
+                  {!environment.isProduction() &&
+                    isVetTecSelected(filters) && (
+                      <img
+                        style={{
+                          height: '85px',
+                          width: '179px',
+                        }}
+                        src={VetTecLogo}
+                        alt="Vet Tec Logo"
+                      />
+                    )}
                 </div>
               </div>
             </div>
