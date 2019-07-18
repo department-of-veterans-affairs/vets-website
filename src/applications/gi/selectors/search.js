@@ -11,7 +11,7 @@ export const calculateFilters = filters => {
       };
     }
 
-    if (filters.vet_tec_provider) {
+    if (filters.vetTecProvider) {
       return {
         ...filters,
         category: 'vettec',
