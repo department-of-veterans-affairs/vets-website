@@ -80,10 +80,22 @@ export class ProfilePage extends React.Component {
       content = <LoadingIndicator message="Loading your profile..." />;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
-
       if (!environment.isProduction() && profile.attributes.vetTecProvider) {
         content = (
           <div>
+            <div
+              className="vads-u-display--block small-screen:vads-u-display--none"
+              style={{ paddingTop: '16px', paddingBottom: '12px' }}
+            >
+              <img
+                style={{
+                  height: '85px',
+                  width: '179px',
+                }}
+                src={VetTecLogo}
+                alt="Vet Tec Logo"
+              />
+            </div>
             <VetTecHeadingSummary
               institution={profile.attributes}
               onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
@@ -125,23 +137,6 @@ export class ProfilePage extends React.Component {
       } else {
         content = (
           <div>
-            {profile.attributes.vetTecProvider &&
-              !environment.isProduction() && (
-                <div
-                  className="vads-u-display--block small-screen:vads-u-display--none"
-                  style={{ paddingTop: '16px', paddingBottom: '12px' }}
-                >
-                  <img
-                    style={{
-                      height: '85px',
-                      width: '179px',
-                    }}
-                    src={VetTecLogo}
-                    alt="Vet Tec Logo"
-                  />
-                </div>
-              )}
-
             <HeadingSummary
               institution={profile.attributes}
               onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
