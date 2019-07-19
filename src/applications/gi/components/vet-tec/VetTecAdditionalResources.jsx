@@ -1,7 +1,5 @@
 import React from 'react';
 
-import VetTecLogo from 'site/assets/img/logo/vet-tec-logo.png';
-
 export const VetTecAdditionalResourcesLinks = () => (
   <div>
     <p>
@@ -36,7 +34,11 @@ export const VetTecAdditionalResourcesLinks = () => (
 const VetTecAdditionalResources = () => (
   <div className="additional-resources usa-width-one-third medium-4 small-12 column">
     <div className="vettec-logo-container">
-      <img className="vettec-logo" src={VetTecLogo} alt="Vet Tec Logo" />
+      <img
+        className="vettec-logo"
+        src={require('site/assets/img/logo/vet-tec-logo.png')}
+        alt="Vet Tec Logo"
+      />
     </div>
     <h4 className="highlight vettec-additional-resources-header">
       Additional Resources

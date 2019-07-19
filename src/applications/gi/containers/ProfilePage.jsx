@@ -21,7 +21,6 @@ import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms
 import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
 import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
 import { outcomeNumbers } from '../selectors/outcomes';
-import VetTecLogo from 'site/assets/img/logo/vet-tec-logo.png';
 import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -86,7 +85,7 @@ export class ProfilePage extends React.Component {
             <div className="vads-u-display--block small-screen:vads-u-display--none vettec-mobile-logo-container">
               <img
                 className="vettec-mobile-logo"
-                src={VetTecLogo}
+                src={require('site/assets/img/logo/vet-tec-logo.png')}
                 alt="Vet Tec Logo"
               />
             </div>
