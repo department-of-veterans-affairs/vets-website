@@ -19,9 +19,9 @@ import {
 
 describe('Profile reducer', () => {
   describe('initial state', () => {
-    it('should set mhvAccount.loading to true', () => {
+    it('should set mhvAccount.loading to false', () => {
       const state = reducer(undefined, { type: 'not a valid event type' });
-      expect(state.mhvAccount.loading).to.be.true;
+      expect(state.mhvAccount.loading).to.be.false;
     });
   });
 
