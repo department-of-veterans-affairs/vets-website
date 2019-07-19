@@ -41,7 +41,6 @@ export const VetTecContactInformation = ({ institution }) => (
 
 VetTecContactInformation.propTypes = {
   institution: PropTypes.object,
-  onShowModal: PropTypes.func,
 };
 
 export default VetTecContactInformation;

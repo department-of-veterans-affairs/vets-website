@@ -35,6 +35,8 @@ const INITIAL_STATE = {
   kickerAmount: 200,
   buyUp: 'no',
   buyUpAmount: 600,
+  vetTecTuitionFees: null,
+  vetTecScholarships: null,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -52,6 +54,8 @@ export default function(state = INITIAL_STATE, action) {
         'tuitionAssist',
         'kickerAmount',
         'buyUpAmount',
+        'vetTecTuitionFees',
+        'vetTecScholarships',
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {

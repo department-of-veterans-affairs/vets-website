@@ -345,10 +345,7 @@ export class CallToActionWidget extends React.Component {
 
   render() {
     const { setFocus } = this.props;
-    if (
-      this.props.profile.loading ||
-      (this._isHealthTool && this.props.mhvAccount.loading)
-    ) {
+    if (this.props.profile.loading || this.props.mhvAccount.loading) {
       return (
         <LoadingIndicator
           setFocus={setFocus}
