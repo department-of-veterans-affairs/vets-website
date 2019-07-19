@@ -82,10 +82,6 @@
     }
 
     .calculator-result {
-      .value {
-        text-align: right;
-      }
-
       &.bold {
         font-weight: bold;
       }
@@ -125,6 +121,12 @@
   .per-term-section {
     & + .per-term-section {
       margin-top: 1.5rem;
+    }
+  }
+
+  .tuition-section, .housing-section {
+    .calculator-result {
+      margin-top: .5rem;
     }
   }
 
