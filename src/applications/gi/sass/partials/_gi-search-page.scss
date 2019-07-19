@@ -1,5 +1,4 @@
 .gi-app .search-page {
-
   .filters-sidebar {
     h2 {
       font-size: 1.15em;
@@ -9,7 +8,8 @@
       margin-top: 1em;
     }
 
-    .institution-filter-form, .eligibility-form {
+    .institution-filter-form,
+    .eligibility-form {
       margin-top: 1.5em;
     }
 
@@ -36,7 +36,8 @@
     }
   }
 
-  .filter-button, .results-button {
+  .filter-button,
+  .results-button {
     display: none;
 
     @include media-maxwidth($small-screen) {
@@ -87,7 +88,7 @@
 
     h2 {
       font-size: 1.35em;
-      margin-bottom: .8rem;
+      margin-bottom: 0.8rem;
       padding-bottom: 0;
       margin-top: 0;
       a {
@@ -111,7 +112,8 @@
     }
 
     .estimated-benefits {
-      h3, h4 {
+      h3,
+      h4 {
         margin-top: 0;
         font-size: 1em;
         font-family: $font-sans;
@@ -150,7 +152,7 @@
       text-align: right;
       font-size: 0.9em;
       font-weight: bold;
-      padding-bottom: .25em;
+      padding-bottom: 0.25em;
       padding-right: 1.5em;
       margin: 1em 0 0 1em;
       border-radius: 3px 3px 3px 3px;
@@ -159,6 +161,25 @@
         margin-right: 0.4em;
       }
     }
+  }
 
+  .vettec-logo-container {
+    margin-top: -32px;
+    margin-bottom: 16px;
+  }
+
+  .vettec-logo {
+    height: 85px;
+    width: 179px;
+  }
+
+  .vettec-mobile-logo-container {
+    padding-top: 16px;
+    padding-bottom: 12px;
+  }
+
+  .vettec-mobile-logo {
+    height: 60px;
+    width: 126px;
   }
 }
