@@ -35,18 +35,10 @@ export const VetTecAdditionalResourcesLinks = () => (
 
 const VetTecAdditionalResources = () => (
   <div className="additional-resources usa-width-one-third medium-4 small-12 column">
-    <div style={{ textAlign: 'right' }}>
-      <img
-        style={{
-          height: '85px',
-          width: '179px',
-          paddingBottom: '8px',
-        }}
-        src={VetTecLogo}
-        alt="Vet Tec Logo"
-      />
+    <div className="vettec-logo-container">
+      <img className="vettec-logo" src={VetTecLogo} alt="Vet Tec Logo" />
     </div>
-    <h4 style={{ margin: 0 }} className="highlight">
+    <h4 className="highlight vettec-additional-resources-header">
       Additional Resources
     </h4>
     <VetTecAdditionalResourcesLinks />
