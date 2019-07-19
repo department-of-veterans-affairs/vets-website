@@ -46,24 +46,22 @@
                     <select class="vads-u-max-width--100 usa-select"
                       name="outreach-topic" id="outreach-topic">
                       <option value="select">- All topics -</option>
-                      <option value="healthcare">Health Care</option>
-                      <option value="disability">Disability Compensation
+                      <option value="healthcare">Health care</option>
+                      <option value="disability">Disability
                       </option>
-                      <option value="education">Education And Training
-                        Benefits
+                      <option value="education">Education and training
                       </option>
-                      <option value="careers">Careers And Employment</option>
-                      <option value="pension">Pension Benefits</option>
-                      <option value="housing">Housing Assistance</option>
-                      <option value="insurance">Life Insurance</option>
-                      <option value="general">General Benefits Information
-                      </option>
-                      <option value="burial">Burial Benefits And Memorial
-                        Items
+                      <option value="careers">Careers and employment</option>
+                      <option value="pension">Pension</option>
+                      <option value="housing">Housing assistance</option>
+                      <option value="insurance">Life insurance</option>
+                      <option value="burial">Burials and memorials
                       </option>
                       <option value="records">Records</option>
-                      <option value="service">Service Member Benefits</option>
+                      <option value="service">Service member benefits</option>
                       <option value="family">Family member benefits</option>
+                      <option value="general">General benefits information
+                      </option>
                     </select>
                   </div>
                   <div class="vads-l-col--12
@@ -192,7 +190,7 @@
                   medium-screen:vads-l-col--8
                   medium-body-utility
                   large-screen:vads-l-col--12">
-                    <i>{{entity.fieldBenefits | capitalize}}</i>
+                    <i>{{entity.fieldBenefits | benefitTerms}}</i>
                     <h3 class="asset-body-header vads-u-margin-y--1">
                       {{entity.title| truncate: 36}}</h3>
                     <div class="asset-body-text">
