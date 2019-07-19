@@ -80,7 +80,7 @@ export class ProfilePage extends React.Component {
       content = <LoadingIndicator message="Loading your profile..." />;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
-      if (!environment.isProduction() && !profile.attributes.vetTecProvider) {
+      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
         content = (
           <div>
             <div className="vads-u-display--block small-screen:vads-u-display--none vettec-mobile-logo-container">
