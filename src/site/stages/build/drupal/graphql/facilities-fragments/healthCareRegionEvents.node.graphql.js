@@ -2,6 +2,12 @@
  * The 'Health Care Local Facility' bundle of the 'Content' entity type.
  */
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../../utilities/featureFlags');
+
 const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
@@ -23,7 +29,11 @@ const EVENTS_RESULTS = `
           }
         }
       }
-
+      ${
+        enabledFeatureFlags[featureFlags.FEATURE_LISTING_FEATURED_CONTENT]
+          ? 'fieldFeatured fieldOrder'
+          : ''
+      }
       entityUrl {
         path
       }
