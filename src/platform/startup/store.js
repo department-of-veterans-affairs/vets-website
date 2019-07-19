@@ -5,15 +5,17 @@
  */
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+
+import buildSettings from '../monitoring/BuildSettings/reducer';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
+import externalServiceStatuses from '../monitoring/external-services/reducer';
 import announcements from '../site-wide/announcements/reducers';
+import megaMenu from '../site-wide/mega-menu/reducers';
 import navigation from '../site-wide/user-nav/reducers';
 import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
-import buildSettings from '../monitoring/BuildSettings/reducer';
-import megaMenu from '../site-wide/mega-menu/reducers';
-import createAnalyticsMiddleware from './analytics-middleware';
 import environment from '../utilities/environment';
+import createAnalyticsMiddleware from './analytics-middleware';
 
 const brandConsolidatedReducers = {
   megaMenu,
@@ -24,11 +26,12 @@ const brandConsolidatedReducers = {
  * @type {object}
  */
 export const commonReducer = {
-  user: combineReducers({ login, profile }),
-  navigation,
-  scheduledDowntime,
   announcements,
   buildSettings,
+  externalServiceStatuses,
+  navigation,
+  scheduledDowntime,
+  user: combineReducers({ login, profile }),
   ...brandConsolidatedReducers,
 };
 
