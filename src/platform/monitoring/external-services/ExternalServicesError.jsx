@@ -23,13 +23,13 @@ class ExternalServicesError extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.loading && !this.props.statuses) {
+    if (this.props.shouldGetBackendStatuses) {
       this.props.getBackendStatuses();
     }
   }
 
   /**
-   * Checks whether a service is a dependency and if it's operational.
+   * Checks whether a service is a dependency and operational.
    * @param {Object} service - The service to be checked.
    * @param {string} service.serviceId - The service's human readable ID.
    * @param {string} service.status - The service's status.
@@ -50,12 +50,15 @@ class ExternalServicesError extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   const { loading, statuses } = state.externalServiceStatuses;
-  return { loading, statuses };
+  const shouldGetBackendStatuses = !loading && !statuses;
+  return { shouldGetBackendStatuses, statuses };
 };
 
 const mapDispatchToProps = { getBackendStatuses };
+
+export { ExternalServicesError };
 
 export default connect(
   mapStateToProps,
