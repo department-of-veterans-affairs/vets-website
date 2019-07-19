@@ -74,7 +74,7 @@ export class VetTecCalculator extends React.Component {
         </div>
       </div>
 
-      <div className="row vads-u-margin-top--0p5 va-payment">
+      <div className="row vads-u-margin-top--0p5 medium-screen:vads-u-padding-left--1 medium-screen:vads-u-padding-right--7">
         <div className="small-9 columns">
           <div>Upon enrollment in program (25%):</div>
         </div>
@@ -83,7 +83,7 @@ export class VetTecCalculator extends React.Component {
         </div>
       </div>
 
-      <div className="row vads-u-margin-top--0p5 va-payment">
+      <div className="row vads-u-margin-top--0p5 medium-screen:vads-u-padding-left--1 medium-screen:vads-u-padding-right--7">
         <div className="small-9 columns">
           <div>Upon completion of program (25%):</div>
         </div>
@@ -92,7 +92,7 @@ export class VetTecCalculator extends React.Component {
         </div>
       </div>
 
-      <div className="row vads-u-margin-top--0p5 va-payment">
+      <div className="row vads-u-margin-top--0p5 medium-screen:vads-u-padding-left--1 medium-screen:vads-u-padding-right--7">
         <div className="small-9 columns">
           <div>Upon employment (50%):</div>
         </div>
