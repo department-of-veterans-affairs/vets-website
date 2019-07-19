@@ -38,7 +38,7 @@ const initialState = {
     accountLevel: null,
     accountState: null,
     errors: null,
-    loading: true,
+    loading: false,
     termsAndConditionsAccepted: false,
   },
   vet360: {},
