@@ -42,25 +42,25 @@ export class VetTecCalculator extends React.Component {
 
   renderTuitionSection = outputs => (
     <div className="tuition-section">
-      <div className="row calculator-result">
+      <div className="row vads-u-margin-top--0p5">
         <div className="small-6 columns">
           <h5>Tuition & fees:</h5>
         </div>
-        <div className="small-6 columns value">
+        <div className="small-6 columns vads-u-text-align--right">
           <h5>{outputs.vetTecTuitionFees}</h5>
         </div>
       </div>
 
-      <div className="row calculator-result">
+      <div className="row vads-u-margin-top--0p5">
         <div className="small-6 columns">
           <div>Your scholarships:</div>
         </div>
-        <div className="small-6 columns value">
+        <div className="small-6 columns vads-u-text-align--right">
           <div>{outputs.vetTecScholarships}</div>
         </div>
       </div>
 
-      <div className="row calculator-result">
+      <div className="row vads-u-margin-top--0p5">
         <div className="small-8 columns">
           <div>
             VA pays to provider:{' '}
@@ -69,44 +69,46 @@ export class VetTecCalculator extends React.Component {
             </a>
           </div>
         </div>
-        <div className="small-4 columns value">
+        <div className="small-4 columns vads-u-text-align--right">
           <div>{outputs.vaPaysToProvider}</div>
         </div>
       </div>
 
-      <div className="row calculator-result va-payment">
+      <div className="row vads-u-margin-top--0p5 va-payment">
         <div className="small-9 columns">
           <div>Upon enrollment in program (25%):</div>
         </div>
-        <div className="small-3 columns value">
+        <div className="small-3 columns vads-u-text-align--right">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
 
-      <div className="row calculator-result va-payment">
+      <div className="row vads-u-margin-top--0p5 va-payment">
         <div className="small-9 columns">
           <div>Upon completion of program (25%):</div>
         </div>
-        <div className="small-3 columns value">
+        <div className="small-3 columns vads-u-text-align--right">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
 
-      <div className="row calculator-result va-payment">
+      <div className="row vads-u-margin-top--0p5 va-payment">
         <div className="small-9 columns">
           <div>Upon employment (50%):</div>
         </div>
-        <div className="small-3 columns value">
+        <div className="small-3 columns vads-u-text-align--right">
           <div>{outputs.halfVetTecPayment}</div>
         </div>
       </div>
 
-      <div className="row calculator-result out-of-pocket-tuition">
+      <div className="row vads-u-margin-top--0p5">
         <div className="small-6 columns">
-          <h5>Out of pocket tuition:</h5>
+          <h5 className="vads-u-font-family--sans">Out of pocket tuition:</h5>
         </div>
-        <div className="small-6 columns value">
-          <h5>{outputs.outOfPocketTuitionFees}</h5>
+        <div className="small-6 columns vads-u-text-align--right">
+          <h5 className="vads-u-font-family--sans">
+            {outputs.outOfPocketTuitionFees}
+          </h5>
         </div>
       </div>
     </div>
@@ -125,7 +127,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>In person rate:</div>
         </div>
-        <div className="small-4 columns value">
+        <div className="small-4 columns">
           <div>{outputs.inPersonRate}</div>
         </div>
       </div>
@@ -134,7 +136,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>Online rate:</div>
         </div>
-        <div className="small-4 columns value">
+        <div className="small-4 columns">
           <div>{outputs.onlineRate}</div>
         </div>
       </div>

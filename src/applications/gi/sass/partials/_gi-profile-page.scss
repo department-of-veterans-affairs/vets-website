@@ -61,22 +61,12 @@
     }
 
     .calculator-result {
-      .value {
-        text-align: right;
-      }
-
       &.bold {
         font-weight: bold;
       }
 
       h5 {
         padding: 0;
-      }
-    }
-
-    .out-of-pocket-tuition {
-      h5 {
-        font-family: "Source Sans Pro", sans-serif;
       }
     }
   }
