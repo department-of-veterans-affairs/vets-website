@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VetTecLogo from '../../../../site/assets/img/logo/vet-tec-logo.png';
+import VetTecLogo from 'site/assets/img/logo/vet-tec-logo.png';
 
 export const VetTecAdditionalResourcesLinks = () => (
   <div>

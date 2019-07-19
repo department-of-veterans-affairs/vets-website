@@ -21,7 +21,7 @@ import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms
 import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
 import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
 import { outcomeNumbers } from '../selectors/outcomes';
-import VetTecLogo from '../../../site/assets/img/logo/vet-tec-logo.png';
+import VetTecLogo from 'site/assets/img/logo/vet-tec-logo.png';
 import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -80,7 +80,7 @@ export class ProfilePage extends React.Component {
       content = <LoadingIndicator message="Loading your profile..." />;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
-      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
+      if (!environment.isProduction() && !profile.attributes.vetTecProvider) {
         content = (
           <div>
             <div className="vads-u-display--block small-screen:vads-u-display--none vettec-mobile-logo-container">
