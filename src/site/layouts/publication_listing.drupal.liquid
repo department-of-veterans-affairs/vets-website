@@ -205,7 +205,7 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a class="file-download-with-icon" target="_blank"
+                      <a alt="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
                           class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.fieldDocument.entity.filesize | fileSize}})
@@ -213,7 +213,7 @@
                       {% endif %}
 
                       {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                      <a class="video-link" target="_blank"
+                      <a alt="View {{entity.title}}" class="video-link" target="_blank"
                         href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
                           class="fas fa-play-circle vads-u-padding-right--1"></i>Go
                         to
@@ -225,7 +225,7 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a class="file-download-with-icon" target="_blank"
+                      <a alt="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
                           class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.image.entity.filesize | fileSize}})
@@ -256,7 +256,7 @@
             </span>
             <span class="va-pagination-prev">
               <button class="va-button-link" id="pager-previous-click"
-                aria-label="Load previous page undefined"
+                aria-label="Load previous page"
                 tabindex="0">Prev</button>
             </span>
             <div id="pager-nums-insert" class="va-pagination-inner">
