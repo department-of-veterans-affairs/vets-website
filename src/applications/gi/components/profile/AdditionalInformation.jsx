@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
