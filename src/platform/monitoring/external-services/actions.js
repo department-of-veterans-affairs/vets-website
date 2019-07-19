@@ -16,5 +16,5 @@ export function getBackendStatuses() {
       ({ data }) => dispatch({ type: FETCH_BACKEND_STATUSES_SUCCESS, data }),
       () => dispatch({ type: FETCH_BACKEND_STATUSES_FAILURE }),
     );
-  }
-};
+  };
+}

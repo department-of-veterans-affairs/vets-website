@@ -59,5 +59,5 @@ const mapDispatchToProps = { getBackendStatuses };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ExternalServicesError);

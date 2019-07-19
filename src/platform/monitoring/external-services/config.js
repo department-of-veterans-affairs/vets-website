@@ -27,4 +27,3 @@ export const EXTERNAL_SERVICES = {
   // Veteran ID Card v1
   vic: 'vic',
 };
-
