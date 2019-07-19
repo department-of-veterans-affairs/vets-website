@@ -17,6 +17,9 @@ module.exports = `
             ... on MediaImage {
               entityBundle
               image {
+                entity{
+                  filesize
+                }
                 url
                 alt
               }
@@ -25,6 +28,7 @@ module.exports = `
               entityBundle
               fieldDocument {
                 entity {
+                  filesize
                   url
                 }
               }

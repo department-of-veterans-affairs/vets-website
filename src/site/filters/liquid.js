@@ -44,13 +44,7 @@ module.exports = function registerFilters() {
     return string;
   };
 
-  liquid.filters.fileType = data => {
-    const string = data
-      .split('.')
-      .slice(-1)
-      .pop();
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+  liquid.filters.fileSize = data => `${(data / 1000000).toFixed(2)}MB`;
 
   liquid.filters.fileExt = data => {
     const string = data

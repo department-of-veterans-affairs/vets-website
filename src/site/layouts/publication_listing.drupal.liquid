@@ -207,9 +207,9 @@
                       {% endif %}
                       <a class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
-                          class="fas fa-download vads-u-padding-right--1"></i>Download
-                        {{entity.fieldMedia.entity.entityBundle | fileType}}
-                        {{url | fileExt}}</a>
+                          class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
+                        ({{entity.fieldMedia.entity.fieldDocument.entity.filesize | fileSize}})
+                        </a>
                       {% endif %}
 
                       {% if entity.fieldMedia.entity.entityBundle == 'video' %}
@@ -227,9 +227,9 @@
                       {% endif %}
                       <a class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
-                          class="fas fa-download vads-u-padding-right--1"></i>Download
-                        {{entity.fieldMedia.entity.entityBundle | fileType}}
-                        {{url | fileExt}}</a>
+                          class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
+                        ({{entity.fieldMedia.entity.image.entity.filesize | fileSize}})
+                        </a>
                       {% endif %}
 
                     </div>
