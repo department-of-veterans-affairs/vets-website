@@ -58,13 +58,27 @@ class TypeOfInstitutionFilter extends React.Component {
     }
 
     return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.category}
-        onChange={this.props.onChange}
-      />
+      <div>
+        <RadioButtons
+          label="Type of institution"
+          name="category"
+          options={options}
+          value={this.props.category}
+          onChange={this.props.onChange}
+        />
+        {this.props.category === 'vettec' && (
+          <span className="vads-u-margin-x--neg1">
+            {' '}
+            <img
+              className="vads-u-padding-top--3"
+              src="/img/logo/vet-tec-logo.png"
+              alt="Vet Tec Logo"
+              width="179px"
+              height="85px"
+            />
+          </span>
+        )}
+      </div>
     );
   }
 }
