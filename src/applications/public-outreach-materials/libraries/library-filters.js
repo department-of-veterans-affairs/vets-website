@@ -47,6 +47,11 @@ export function libraryCurrent() {
       !element.classList.contains('hide-type')
     ) {
       element.setAttribute('data-number', increment);
+      if (increment % 2 !== 0) {
+        element.classList.add('large-screen:vads-u-margin-right--3');
+      } else {
+        element.classList.remove('large-screen:vads-u-margin-right--3');
+      }
       numVal = element.getAttribute('data-number');
       increment++;
     }
