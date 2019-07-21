@@ -19,15 +19,16 @@
                         <li>
                             {% assign isRoot = entityUrl.path | isRootPage %}
                             {% assign expanded = false %}
+                            {% assign activeItem = path | prepend: "/" %}
 
                             {% if forloop.first == true and isRoot == true and isInAbout == false %}
                                 {% assign expanded = true %}
                             {% endif %}
-                            
+
                             <button class="usa-accordion-button"
                                     {% if link.links.length == 0 %} style="background-image:none;" {% endif %}
                                     aria-expanded="{{ expanded }}" aria-controls="a{{ forloop.index }}">
-                                {% if link.links.length == 0 %}
+                                {% if link.links.length == 0 and link.url.path != activeItem %}
                                     <a href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                 {% else %}
                                     {{ link.label }}

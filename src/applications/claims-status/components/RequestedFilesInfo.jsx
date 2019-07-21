@@ -57,7 +57,7 @@ export default class RequestedFilesInfo extends React.Component {
                 <p className="submission-description">
                   {truncateDescription(stripHtml(item.description))}
                 </p>
-                <div className="claims-optional-desc">
+                <div className="vads-u-margin-top--0p5 vads-u-font-size--sm">
                   <strong>Optional</strong> - We requested this from others, but
                   you may upload it if you have it.
                 </div>

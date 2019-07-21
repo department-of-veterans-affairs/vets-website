@@ -1,42 +1,57 @@
-<section class="feature vads-u-background-color--gray-lightest vads-u-margin-top--4 small-screen:vads-u-margin-top--6 vads-u-padding-x--2 small-screen:vads-u-padding-x--4 vads-u-padding-y--3">
-    <h3>Get updates from us</h3>
-    <div class="va-c-list-link-teasers">
-        {% if fieldFacebook != empty || fieldTwitter != empty %}
-            <div class="usa-grid usa-grid-full">
-                {% if fieldFacebook != empty %}
-                    <div class="social-links social-links-facebook usa-width-one-half vads-u-margin-bottom--2">
-                        <a target="_blank" href="{{ fieldFacebook.url.path }}"><i class="fab fa-facebook vads-u-text-decoration--none vads-u-margin-right--0p5"></i>{{ fieldFacebook.title }}</a>
+<section class="feature vads-u-background-color--gray-lightest vads-u-margin-top--4 small-screen:vads-u-margin-top--6 vads-u-padding-x--3 vads-u-padding-y--2p5">
+    <h3 class="vads-u-margin-bottom--2">Get updates from VA Pittsburgh</h3>
+    <div class="va-c-list-link-teasers usa-grid usa-grid-full">
+        {% if fieldLinks != empty and fieldLinks.length %}
+            <div class="usa-width-one-half social-links">
+                {% for link in fieldLinks %}
+                    <div class="social-links-email vads-u-margin-bottom--2">
+                        <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ link.url.path }}">
+                            <i class="fas fa-envelope vads-u-margin-right--1"></i>
+                            <span class="vads-u-text-decoration--underline">{{ link.title }}</span>
+                        </a>
                     </div>
-                {% endif %}
-
-                {% if fieldTwitter != empty %}
-                    <div class="social-links social-links-twitter usa-width-one-half vads-u-margin-bottom--2">
-                        <a target="_blank" href="{{ fieldTwitter.url.path }}"><i class="fab fa-twitter vads-u-text-decoration--none vads-u-margin-right--0p5"></i>{{ fieldTwitter.title }}</a>
-                    </div>
-                {% endif %}
+                {% endfor %}
             </div>
         {% endif %}
 
-        {% if fieldFlickr != empty || fieldInstagram != empty %}
-            <div class="usa-grid usa-grid-full">
-                {% if fieldFlickr != empty %}
-                    <div class="social-links social-links-flickr usa-width-one-half vads-u-margin-bottom--2">
-                        <a target="_blank" href="{{ fieldFlickr.url.path }}"><i class="fab fa-flickr vads-u-text-decoration--none vads-u-margin-right--0p5"></i>{{ fieldFlickr.title }}</a>
-                    </div>
-                {% endif %}
 
-                {% if fieldInstagram != empty %}
-                    <div class="social-links social-links-instagram usa-width-one-half vads-u-margin-bottom--2">
-                        <a target="_blank" href="{{ fieldInstagram.url.path }}"><i class="fab fa-instagram vads-u-text-decoration--none vads-u-margin-right--0p5"></i>{{ fieldInstagram.title }}</a>
-                    </div>
-                {% endif %}
-            </div>
-        {% endif %}
+        {% if fieldFacebook != empty || fieldTwitter != empty || fieldFlickr != empty || fieldInstagram != empty %}
+            <div class="usa-width-one-half social-links">
+                <div class="">
+                    {% if fieldFacebook != empty %}
+                        <div class="social-links social-links-facebook vads-u-margin-bottom--2">
+                            <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ fieldFacebook.url.path }}">
+                                <i class="fab fa-facebook-square vads-u-margin-right--1"></i>
+                                <span class="vads-u-text-decoration--underline">{{ fieldFacebook.title }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
 
-        {% if fieldEmailSubscription != empty %}
-            <div class="usa-grid usa-grid-full">
-                <div class="social-links social-links-email usa-width-one-half vads-u-margin-bottom--2">
-                    <a target="_blank" href="{{ fieldEmailSubscription.url.path }}"><i class="fas fa-envelope vads-u-text-decoration--none vads-u-margin-right--0p5" ></i>{{ fieldEmailSubscription.title }}</a>
+                    {% if fieldTwitter != empty %}
+                        <div class="social-links social-links-twitter vads-u-margin-bottom--2">
+                            <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ fieldTwitter.url.path }}">
+                                <i class="fab fa-twitter vads-u-text-decoration--none vads-u-margin-right--1"></i>
+                                <span class="vads-u-text-decoration--underline">{{ fieldTwitter.title }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if fieldFlickr != empty %}
+                        <div class="social-links social-links-flickr vads-u-margin-bottom--2">
+                            <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ fieldFlickr.url.path }}">
+                                <i class="fab fa-flickr vads-u-text-decoration--none vads-u-margin-right--1"></i>
+                                <span class="vads-u-text-decoration--underline">{{ fieldFlickr.title }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if fieldInstagram != empty %}
+                        <div class="social-links social-links-instagram vads-u-margin-bottom--2">
+                            <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ fieldInstagram.url.path }}">
+                                <i class="fab fa-instagram vads-u-text-decoration--none vads-u-margin-right--1"></i>
+                                <span class="vads-u-text-decoration--underline">{{ fieldInstagram.title }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}

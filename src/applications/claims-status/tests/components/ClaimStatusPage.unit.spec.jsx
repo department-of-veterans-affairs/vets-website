@@ -5,6 +5,8 @@ import sinon from 'sinon';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
 
+const params = { id: 1 };
+
 describe('<ClaimStatusPage>', () => {
   it('should render page with no alerts and a timeline', () => {
     const claim = {
@@ -23,7 +25,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
     expect(tree.subTree('ClaimsDecision')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).not.to.be.false;
@@ -45,7 +49,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.subTree('ClaimsDecision')).to.be.false;
     expect(tree.subTree('ClaimComplete')).not.to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
@@ -67,7 +73,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.subTree('ClaimsDecision')).not.to.be.false;
     expect(tree.subTree('ClaimComplete')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
@@ -89,7 +97,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.subTree('NeedFilesFromYou')).not.to.be.false;
   });
   it('should not render need files from you when closed', () => {
@@ -109,7 +119,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
   });
   it('should not render files needed from you when decision letter sent', () => {
@@ -129,7 +141,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
   });
   it('should render claims decision alert', () => {
@@ -148,7 +162,9 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.everySubTree('ClaimsDecision')).not.to.be.empty;
   });
   it('should not render timeline without a phase', () => {
@@ -167,14 +183,16 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimStatusPage claim={claim} params={params} />,
+    );
     expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
   });
   it('should render empty content when loading', () => {
     const claim = {};
 
     const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage loading claim={claim} />,
+      <ClaimStatusPage loading claim={claim} params={params} />,
     );
     expect(tree.props.children).to.be.null;
   });
@@ -184,6 +202,7 @@ describe('<ClaimStatusPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage
         loading
+        params={params}
         message={{ title: 'Test', body: 'Body' }}
         claim={claim}
       />,
@@ -204,6 +223,7 @@ describe('<ClaimStatusPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage
+        params={params}
         clearNotification={clearNotification}
         message={message}
         claim={claim}
@@ -227,6 +247,7 @@ describe('<ClaimStatusPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage
+        params={params}
         clearNotification={clearNotification}
         message={message}
         claim={claim}

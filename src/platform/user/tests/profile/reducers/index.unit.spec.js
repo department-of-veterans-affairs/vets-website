@@ -18,6 +18,13 @@ import {
 } from '../../../profile/actions';
 
 describe('Profile reducer', () => {
+  describe('initial state', () => {
+    it('should set mhvAccount.loading to false', () => {
+      const state = reducer(undefined, { type: 'not a valid event type' });
+      expect(state.mhvAccount.loading).to.be.false;
+    });
+  });
+
   it('should set loading to false when profile is done loading', () => {
     const state = reducer({}, { type: PROFILE_LOADING_FINISHED });
     expect(state.loading).to.be.false;

@@ -39,7 +39,7 @@ Once you have the site set up locally, these are some common commands you might 
 | get the latest json schema               | `npm run update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit. |
 | check test coverage                      | `npm run test:coverage`                  |
 | run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
-| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype=vagovprod --analyzer`                  |
+| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- --buildtype=vagovprod --analyzer`. Note that if you get an error like `FetchError: request to http://prod.cms.va.gov/graphql failed` you need to be on the SOCKS proxy                  |
 | load the analyzer tool on a stats file  | `npm run analyze`                  |
 
 ## Supported Browsers

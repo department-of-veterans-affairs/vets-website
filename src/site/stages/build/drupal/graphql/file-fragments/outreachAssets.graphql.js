@@ -17,13 +17,18 @@ module.exports = `
             ... on MediaImage {
               entityBundle
               image {
+                entity{
+                  filesize
+                }
                 url
+                alt
               }
             }
             ... on MediaDocument {
               entityBundle
               fieldDocument {
                 entity {
+                  filesize
                   url
                 }
               }
