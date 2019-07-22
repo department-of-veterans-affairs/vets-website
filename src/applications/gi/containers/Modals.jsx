@@ -1002,6 +1002,7 @@ export class Modals extends React.Component {
               <a
                 href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 {' '}
                 Learn more about VET TEC

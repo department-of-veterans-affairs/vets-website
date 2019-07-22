@@ -79,8 +79,6 @@ export class LandingPage extends React.Component {
       filters.vetTecProvider = value === 'vettec';
 
       if (filters.vetTecProvider) {
-        console.log('c');
-
         this.props.updateAutocompleteSearchTerm('');
       }
     }
