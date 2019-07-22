@@ -8,10 +8,20 @@ const {
   enabledFeatureFlags,
 } = require('./../../../../../utilities/featureFlags');
 
+let featured;
+let order;
+
+if (enabledFeatureFlags[featureFlags.FEATURE_LISTING_FEATURED_CONTENT]) {
+  featured = 'fieldFeatured';
+  order = 'fieldOrder';
+}
+
 const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
         title
+        ${featured}
+        ${order}
         fieldDate {
             startDate
             value
@@ -29,11 +39,7 @@ const EVENTS_RESULTS = `
           }
         }
       }
-      ${
-        enabledFeatureFlags[featureFlags.FEATURE_LISTING_FEATURED_CONTENT]
-          ? 'fieldFeatured fieldOrder'
-          : ''
-      }
+
       entityUrl {
         path
       }
