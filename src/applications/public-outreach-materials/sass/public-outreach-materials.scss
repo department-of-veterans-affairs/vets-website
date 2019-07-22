@@ -128,7 +128,7 @@ Only way to accomplish everything required is with this method.
         height: 212px;
         img {
           height: 70%;
-          padding: 25px 15px 5px;
+          padding: 5px;
         }
       }
       .medium-body-utility {
@@ -136,6 +136,7 @@ Only way to accomplish everything required is with this method.
         display: block;
         width: 66%;
         background: none;
+        padding-top: 0 !important;
       }
     }
   }
