@@ -37,18 +37,6 @@ class TypeOfInstitutionFilter extends React.Component {
             Learn More)
             <br />
           </a>
-          {this.props.category === 'vettec' && (
-            <span className="vads-u-margin-x--neg5">
-              {' '}
-              <img
-                className="vads-u-padding-top--3"
-                src="/img/logo/vet-tec-logo.png"
-                alt="Vet Tec Logo"
-                width="179px"
-                height="85px"
-              />
-            </span>
-          )}
         </span>
       );
       options.push({
@@ -58,13 +46,35 @@ class TypeOfInstitutionFilter extends React.Component {
     }
 
     return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.category}
-        onChange={this.props.onChange}
-      />
+      <div>
+        <RadioButtons
+          label="Type of institution"
+          name="category"
+          options={options}
+          value={this.props.category}
+          onChange={this.props.onChange}
+        />
+        {this.props.category === 'vettec' && (
+          <div>
+            {/* full size */}
+            <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
+              <img
+                className="vettec-logo vads-u-padding-top--0p5 vads-u-margin-bottom--neg1"
+                src="/img/logo/vet-tec-logo.png"
+                alt="Vet Tec Logo"
+              />
+            </span>
+            {/* mobile size */}
+            <span className="vads-u-margin-bottom--1  vads-u-display--block small-screen:vads-u-display--none">
+              <img
+                className="vettec-mobile-logo"
+                src="/img/logo/vet-tec-logo.png"
+                alt="Vet Tec Logo"
+              />
+            </span>
+          </div>
+        )}
+      </div>
     );
   }
 }

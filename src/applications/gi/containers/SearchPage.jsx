@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import VetTecLogo from '../../../site/assets/img/logo/vet-tec-logo.png';
 
 import {
   clearAutocompleteSuggestions,
@@ -227,6 +226,7 @@ export class SearchPage extends React.Component {
       'usa-width-one-fourth',
       'medium-3',
       'columns',
+      'mobile-vettec-logo',
       { opened: search.filterOpened },
     );
 
@@ -234,100 +234,94 @@ export class SearchPage extends React.Component {
 
     return (
       <ScrollElement name="searchPage" className="search-page">
-        {!environment.isProduction() &&
-          isVetTecSelected(filters) && (
-            <div
-              className="vads-u-display--block small-screen:vads-u-display--none"
-              style={{ paddingTop: '16px', paddingBottom: '12px' }}
-            >
+        {/* /CT 116 */}
+        {!environment.isProduction() && isVetTecSelected(filters) ? (
+          <div>
+            <div className="vads-u-display--block small-screen:vads-u-display--none vettec-mobile-logo-container">
               <img
-                style={{
-                  height: '85px',
-                  width: '179px',
-                }}
-                src={VetTecLogo}
+                className="vettec-mobile-logo"
+                src={require('site/assets/img/logo/vet-tec-logo.png')}
                 alt="Vet Tec Logo"
               />
             </div>
-          )}
-        <div className="row">
-          <div className="column">
-            <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
-              <div className="vads-l-col--10 site-grid-example">
+            <div className="row">
+              <div className="column">
+                <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+                  <div className="vads-l-col--10 site-grid-example">
+                    <h1>
+                      {!search.inProgress &&
+                        `${(count || 0).toLocaleString()} `}
+                      Search Results
+                    </h1>
+                  </div>
+                  <div className="vads-l-col--2 site-grid-example">
+                    <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
+                      <img
+                        className="vettec-logo"
+                        src={require('site/assets/img/logo/vet-tec-logo.png')}
+                        alt="Vet Tec Logo"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <VetTecSearchForm
+              filtersClass={filtersClass}
+              search={search}
+              autocomplete={this.props.autocomplete}
+              location={this.props.location}
+              clearAutocompleteSuggestions={
+                this.props.clearAutocompleteSuggestions
+              }
+              fetchAutocompleteSuggestions={
+                this.props.fetchAutocompleteSuggestions
+              }
+              handleFilterChange={this.handleFilterChange}
+              updateAutocompleteSearchTerm={
+                this.props.updateAutocompleteSearchTerm
+              }
+              filters={filters}
+              toggleFilter={this.props.toggleFilter}
+              searchResults={searchResults}
+              eligibility={this.props.eligibility}
+              showModal={this.props.showModal}
+              eligibilityChange={this.props.eligibilityChange}
+            />
+          </div>
+        ) : (
+          <div>
+            <div className="row">
+              <div className="column">
                 <h1>
                   {!search.inProgress && `${(count || 0).toLocaleString()} `}
                   Search Results
                 </h1>
               </div>
-              <div className="vads-l-col--2 site-grid-example">
-                <div
-                  className="vads-u-display--none small-screen:vads-u-display--block"
-                  style={{ marginTop: '-32px', marginBottom: '16px' }}
-                >
-                  {!environment.isProduction() &&
-                    isVetTecSelected(filters) && (
-                      <img
-                        style={{
-                          height: '85px',
-                          width: '179px',
-                        }}
-                        src={VetTecLogo}
-                        alt="Vet Tec Logo"
-                      />
-                    )}
-                </div>
-              </div>
             </div>
+            <InstitutionSearchForm
+              filtersClass={filtersClass}
+              search={search}
+              autocomplete={this.props.autocomplete}
+              location={this.props.location}
+              clearAutocompleteSuggestions={
+                this.props.clearAutocompleteSuggestions
+              }
+              fetchAutocompleteSuggestions={
+                this.props.fetchAutocompleteSuggestions
+              }
+              handleFilterChange={this.handleFilterChange}
+              updateAutocompleteSearchTerm={
+                this.props.updateAutocompleteSearchTerm
+              }
+              filters={filters}
+              toggleFilter={this.props.toggleFilter}
+              searchResults={searchResults}
+              eligibility={this.props.eligibility}
+              showModal={this.props.showModal}
+              eligibilityChange={this.props.eligibilityChange}
+            />
           </div>
-        </div>
-
-        {/* /CT 116 */}
-        {!environment.isProduction() && isVetTecSelected(filters) ? (
-          <VetTecSearchForm
-            filtersClass={filtersClass}
-            search={search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        ) : (
-          <InstitutionSearchForm
-            filtersClass={filtersClass}
-            search={search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
         )}
       </ScrollElement>
     );
