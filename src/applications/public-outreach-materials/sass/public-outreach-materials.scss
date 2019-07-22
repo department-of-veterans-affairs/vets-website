@@ -11,11 +11,15 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 }
 .asset-component-library {
   .asset-card {
-    min-height: 450px;
+    height: 388px;
     float: left;
     display: none;
 
+    @media (min-width: $medium-screen) {
+      height: 184px;
+    }
     @media (min-width: $large-screen) {
+      height: 388px;
       &.large-screen\:vads-l-col--6 {
         max-width: 48.35%;
       }
@@ -42,6 +46,15 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       &.pager-hide {
         display: none;
       }
+      @media (min-width: $medium-screen) {
+        //height: 224px;
+        height: 100%;
+      }
+
+      @media (min-width: $large-screen) {
+        height: 388px;
+      }
+
     }
     &.hide-topic {
       display: none;
@@ -51,28 +64,27 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
 
     .asset-head-wrap {
-      height: 212px;
+      height: 148px;
       width: 100%;
       overflow: hidden;
       background-size: contain;
-      margin-bottom: -45px;
       img {
-        margin: 0 auto;
+        margin: 0;
         display: block;
         width: 100%;
-        height: 80%;
+        height: 148px;
         object-fit: cover;
       }
     }
     .asset-body-wrap {
-      height: 250px;
+      height: 214px;
 
       @media (min-width: $medium-screen) {
         height: 100%;
       }
 
       @media (min-width: $large-screen) {
-        height: 250px;
+        height: 214px;
       }
 
       .asset-body-text,
@@ -125,10 +137,9 @@ Only way to accomplish everything required is with this method.
         display: block;
         float: left;
         width: 33%;
-        height: 212px;
+        height: 100%;
         img {
-          height: 70%;
-          padding: 5px;
+          height: 110px;
         }
       }
       .medium-body-utility {
