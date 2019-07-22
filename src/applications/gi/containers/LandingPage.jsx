@@ -79,6 +79,8 @@ export class LandingPage extends React.Component {
       filters.vetTecProvider = value === 'vettec';
 
       if (filters.vetTecProvider) {
+        console.log('c');
+
         this.props.updateAutocompleteSearchTerm('');
       }
     }
@@ -135,6 +137,7 @@ export class LandingPage extends React.Component {
               {!environment.isProduction() && (
                 <TypeOfInstitutionFilter
                   category={this.props.filters.category}
+                  showModal={this.props.showModal}
                   onChange={this.handleTypeOfInstitutionFilterChange}
                   eligibility={this.props.eligibility}
                   displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
