@@ -1,6 +1,7 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
+import { isVetTecSelected } from '../../utils/helpers';
 
 class TypeOfInstitutionFilter extends React.Component {
   static propTypes = {
@@ -54,7 +55,7 @@ class TypeOfInstitutionFilter extends React.Component {
           value={this.props.category}
           onChange={this.props.onChange}
         />
-        {this.props.category === 'vettec' && (
+        {isVetTecSelected(this.props) && (
           <div>
             {/* full size */}
             <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
