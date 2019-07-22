@@ -86,7 +86,6 @@ export class Modals extends React.Component {
             the institution after their freshman year.
           </p>
         </Modal>
-
         <Modal
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('gradrates')}
@@ -103,7 +102,6 @@ export class Modals extends React.Component {
             is using benefits.
           </p>
         </Modal>
-
         <Modal
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('salaries')}
@@ -114,7 +112,6 @@ export class Modals extends React.Component {
             financial aid, 10 years after they started school.
           </p>
         </Modal>
-
         <Modal
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('repayment')}
@@ -125,6 +122,17 @@ export class Modals extends React.Component {
             balance on their federal loans within 3 years of leaving school.
           </p>
         </Modal>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('preferredProviders')}
+        >
+          <h3>Preferred training providers</h3>
+          <p>
+            A provider is “preferred” if the training facility agrees to refund
+            tuition and fees to VA if the student completes the program and
+            doesn't find meaningful employment within 180 days.
+          </p>
+        </Modal>{' '}
       </span>
     );
   }

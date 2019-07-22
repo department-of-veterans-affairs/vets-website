@@ -10,7 +10,7 @@ import VetTecContactInformation from './VetTecContactInformation';
 
 const VetTecInstitutionProfile = ({ institution, showModal }) => (
   <div>
-    <VetTecHeadingSummary institution={institution} />
+    <VetTecHeadingSummary institution={institution} showModal={showModal} />
     <div className="usa-accordion">
       <ul>
         <AccordionItem button="Approved programs">
