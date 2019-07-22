@@ -33,7 +33,16 @@ export const VetTecAdditionalResourcesLinks = () => (
 
 const VetTecAdditionalResources = () => (
   <div className="additional-resources usa-width-one-third medium-4 small-12 column">
-    <h4 className="highlight">Additional Resources</h4>
+    <div className="vettec-logo-container">
+      <img
+        className="vettec-logo"
+        src={require('site/assets/img/logo/vet-tec-logo.png')}
+        alt="Vet Tec Logo"
+      />
+    </div>
+    <h4 className="highlight vettec-additional-resources-header">
+      Additional Resources
+    </h4>
     <VetTecAdditionalResourcesLinks />
   </div>
 );
