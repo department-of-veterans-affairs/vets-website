@@ -8,20 +8,20 @@ const {
   enabledFeatureFlags,
 } = require('./../../../../../utilities/featureFlags');
 
-let featured;
-let order;
+let featuredContent;
 
 if (enabledFeatureFlags[featureFlags.FEATURE_LISTING_FEATURED_CONTENT]) {
-  featured = 'fieldFeatured';
-  order = 'fieldOrder';
+  featuredContent = `
+    fieldFeatured
+    fieldOrder
+  `;
 }
 
 const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
         title
-        ${featured}
-        ${order}
+        ${featuredContent}
         fieldDate {
             startDate
             value

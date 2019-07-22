@@ -50,6 +50,49 @@ Example data:
       {% assign header = "h4" %}
   {% endif %}
   {% assign isEventsPage = entityUrl.path | isPage: "events" %}
+{% if node.fieldFeatured == true and node.fieldOrder == 0 %}
+    <div id="featured-content" class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-border-left--7px vads-u-border-color--primary-alt-lightest">
+        <div class="usa-width-one-whole xsmall-screen:vads-u-padding-left--1p5">
+            <span class="vads-u-font-weight--bold vads-u-display--block">In the spotlight at {{ regionOrOffice | remove: "health care" }}</span>
+            <h2 class="vads-u-margin-y--1"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></h2>
+            <p class="vads-u-margin-y--0">{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
+            <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
+                <div class="vads-u-margin-right--2 when-where-width">
+                    <strong>When</strong>
+                </div>
+                <div class="usa-width-five-sixths">
+                    {% if date_type == "start_date_only" %}
+                        <span>{{ start_date_no_time }}</span><br>
+                        <span>{{ start_time }}</span>
+                    {% else %}
+                        {% if date_type == "same_day" %}
+                            <span>{{ start_date_no_time }}</span><br>
+                            <span>{{ start_time }} - {{ end_time }}</span>
+                        {% else %}
+                            <span>{{ start_date_full }} -</span><br>
+                            <span>{{ end_date_full }}</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
+                <div class="vads-u-margin-right--2 when-where-width">
+                    <strong>Where</strong>
+                </div>
+                <div class="usa-width-five-sixths">
+                    {% if node.fieldFacilityLocation != empty %}
+                        <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                            <a href="{{ node.fieldFacilityLocation.entity.entityUrl.page }}">{{ node.fieldFacilityLocation.entity.title }}</a>
+                        </p>
+                    {% endif %}
+                    {% if node.fieldLocationHumanreadable != empty %}
+                        <span>{{ node.fieldLocationHumanreadable }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
   <div class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
       <{{ header }} class="vads-u-margin-top--0 vad-u-margin-bottom-1 {% if isEventsPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %}"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
       <p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">{{ node.fieldDescription | truncatewords: 60, "..." }}</p>

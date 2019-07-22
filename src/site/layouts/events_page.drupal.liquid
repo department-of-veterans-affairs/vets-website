@@ -59,7 +59,8 @@ Example data:
           <div class="va-introtext vads-u-margin-bottom--6">
             {{ fieldIntroTextEventsPage.processed }}
           </div>
-          {% for event in pagedItems %}
+          {% assign sortedItems = pagedItems | sort_by: 'fieldFeatured', 'desc'  %}
+          {% for event in sortedItems %}
             <div class="usa-width-two-thirds">
               {% include "src/site/teasers/event.drupal.liquid" with node = event %}
             </div>

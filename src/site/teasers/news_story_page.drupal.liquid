@@ -30,7 +30,7 @@ Example data:
 
 {% if node.fieldFeatured == true %}
 <div id="featured-content" class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-border-left--7px vads-u-border-color--primary-alt-lightest">
-    <div class="usa-width-one-half medium-screen:vads-u-padding-left--2">
+    <div class="usa-width-one-half xsmall-screen:vads-u-padding-left--1p5">
         <span class="vads-u-font-weight--bold vads-u-display--block">In the spotlight at {{ regionOrOffice | remove: "health care" }}</span>
         <h2 class="vads-u-margin-y--1"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></h2>
         <p class="vads-u-margin-y--0">{{ node.fieldIntroText | truncatewords: 60, "..." }}</p>
