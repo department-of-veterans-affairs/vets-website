@@ -68,7 +68,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       width: 100%;
       overflow: hidden;
       background-size: contain;
-      //margin-bottom: -45px;
       img {
         margin: 0;
         display: block;
@@ -138,14 +137,9 @@ Only way to accomplish everything required is with this method.
         display: block;
         float: left;
         width: 33%;
-        //height: 212px;
         height: 100%;
-        //height: initial;
         img {
           height: 110px;
-          //width: 196px;
-          //height: 70%;
-          //padding: 5px;
         }
       }
       .medium-body-utility {
