@@ -10,6 +10,11 @@ class VetTecFilterBy extends React.Component {
     handleFilterChange: PropTypes.func.isRequired,
   };
 
+  handleFilterChange = e => {
+    const { name: field, checked: value } = e.target;
+    this.props.handleFilterChange(field, value);
+  };
+
   renderPreferredProviderLabel = () => {
     const label = (
       <div className="preferred-flag">
@@ -26,15 +31,14 @@ class VetTecFilterBy extends React.Component {
   };
 
   render() {
-    const { vetTec } = this.props.filters;
     return (
       <div>
         <p>Filter by</p>
         <Checkbox
-          checked={vetTec.preferredProvider}
-          name="inPerson"
+          checked={this.props.filters.preferredProvider}
+          name="preferredProvider"
           label={this.renderPreferredProviderLabel()}
-          onChange={this.props.handleFilterChange}
+          onChange={this.handleFilterChange}
         />
       </div>
     );

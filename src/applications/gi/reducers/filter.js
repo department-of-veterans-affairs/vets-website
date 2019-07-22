@@ -14,9 +14,7 @@ const INITIAL_STATE = Object.freeze({
   stemOffered: false,
   typeName: 'ALL',
   vetTecProvider: false,
-  vetTec: {
-    preferredProvider: false,
-  },
+  preferredProvider: false,
 });
 
 export default function(state = INITIAL_STATE, action) {
