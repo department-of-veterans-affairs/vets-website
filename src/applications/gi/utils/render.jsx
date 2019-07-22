@@ -32,3 +32,17 @@ export const renderPreferredProviderFlag = result => {
     </div>
   );
 };
+
+export const renderLearnMoreLabel = ({ text, modal, showModal, component }) => (
+  <span>
+    {text} (
+    <button
+      type="button"
+      className="va-button-link learn-more-button"
+      onClick={showModal.bind(component, modal)}
+    >
+      Learn more
+    </button>
+    )
+  </span>
+);

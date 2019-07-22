@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { showModal, hideModal } from '../../actions';
+import { renderLearnMoreLabel } from '../../utils/render';
 
 import Dropdown from '../Dropdown';
 import environment from 'platform/utilities/environment';
@@ -45,19 +46,13 @@ export class EligibilityForm extends React.Component {
     ];
   };
 
-  renderLearnMoreLabel = ({ text, modal }) => (
-    <span>
-      {text} (
-      <button
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={this.props.showModal.bind(this, modal)}
-      >
-        Learn more
-      </button>
-      )
-    </span>
-  );
+  renderLearnMoreLabel = ({ text, modal }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   render() {
     return (
