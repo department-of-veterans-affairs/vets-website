@@ -28,7 +28,7 @@ Example data:
 {% endif %}
 {% assign isStoriesPage = entityUrl.path | isPage: "stories" %}
 
-{% if node.fieldFeatured == true %}
+{% if node.fieldFeatured == true and node.fieldOrder == 0 %}
 <div id="featured-content" class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-border-left--7px vads-u-border-color--primary-alt-lightest">
     <div class="usa-width-one-half xsmall-screen:vads-u-padding-left--1p5">
         <span class="vads-u-font-weight--bold vads-u-display--block">In the spotlight at {{ regionOrOffice | remove: "health care" }}</span>

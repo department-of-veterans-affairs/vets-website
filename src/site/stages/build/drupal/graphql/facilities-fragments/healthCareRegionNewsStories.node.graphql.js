@@ -2,11 +2,26 @@
  * The 'Health Care Local Facility' bundle of the 'Content' entity type.
  */
 
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('./../../../../../utilities/featureFlags');
+
+let featuredContent;
+
+if (enabledFeatureFlags[featureFlags.FEATURE_LISTING_FEATURED_CONTENT]) {
+  featuredContent = `
+    fieldOrder
+  `;
+}
+
 const NEWS_STORIES_RESULTS = `
   entities {
     ... on NodeNewsStory {
       title
       fieldFeatured
+      ${featuredContent}
       fieldIntroText
       fieldMedia {
         entity {
