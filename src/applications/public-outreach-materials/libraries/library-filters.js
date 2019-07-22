@@ -1,12 +1,19 @@
 const cards = document.querySelectorAll('.asset-card');
 let activePage = 1;
 let numCards;
+let numActiveCards;
 const itemsPerPage = 10;
-const pages = Math.ceil(cards.length / itemsPerPage);
+let pages = Math.ceil(cards.length / itemsPerPage);
 
 export function libraryNumCards() {
   return document.querySelectorAll(
     '.asset-card:not(.pager-hide):not(.hide-topic):not(.hide-type)',
+  ).length;
+}
+
+export function libraryNumActiveCards() {
+  return document.querySelectorAll(
+    '.asset-card:not(.hide-topic):not(.hide-type)',
   ).length;
 }
 
@@ -22,7 +29,8 @@ export function libraryCount() {
       document.getElementById('total-pages').innerText =
         numCards < 0 ? 0 : numCards;
     }
-    document.getElementById('total-all').innerText = ` of ${cards.length}`;
+    numActiveCards = libraryNumActiveCards();
+    document.getElementById('total-all').innerText = ` of ${numActiveCards}`;
     if (numCards < 1 && document.getElementById('no-results')) {
       document.getElementById('va-pager-div').style.display = 'none';
       document.getElementById('no-results').style.display = 'block';
@@ -39,6 +47,11 @@ export function libraryCurrent() {
       !element.classList.contains('hide-type')
     ) {
       element.setAttribute('data-number', increment);
+      if (increment % 2 !== 0) {
+        element.classList.add('large-screen:vads-u-margin-right--3');
+      } else {
+        element.classList.remove('large-screen:vads-u-margin-right--3');
+      }
       numVal = element.getAttribute('data-number');
       increment++;
     }
@@ -59,8 +72,8 @@ export function libraryCurrent() {
 }
 
 export function libraryPagerGen() {
-  numCards = libraryNumCards();
-
+  numCards = libraryNumActiveCards();
+  pages = Math.ceil(numCards / itemsPerPage);
   if (document.getElementById('pager-nums-insert')) {
     const diff = pages - activePage;
     let pagerHtml;
@@ -70,19 +83,19 @@ export function libraryPagerGen() {
     // If we have more than one page, add a button in front of active button.
     if (diff > 1 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `<a class="pager-numbers" aria-label="Load page
-      ${activePage + 1}" tabindex="${activePage + 1}">${activePage + 1}</a>`;
+      ${activePage + 1}">${activePage + 1}</a>`;
     }
     // If we have more than two pages, add second page
     // button in front of active button.
     if (diff > 2 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `<a class="pager-numbers" aria-label="Load page
-      ${activePage + 2}" tabindex="${activePage + 2}">${activePage + 2}</a>`;
+      ${activePage + 2}">${activePage + 2}</a>`;
     }
     // If we have more than three pages, add a third button and ellipses to
     // link to last page.
     if (diff > 3 && (numCards === undefined || numCards > 9)) {
       pagerHtml += `.... <a class="pager-numbers" aria-label="Load page
-      ${pages}" tabindex="${pages}"> ${pages}</a>`;
+      ${pages}"> ${pages}</a>`;
     }
     document.getElementById('pager-nums-insert').innerHTML = pagerHtml;
   }
@@ -97,8 +110,8 @@ export function libraryReset() {
 export function libraryFilters(el) {
   // Grab our current page from the active pager button.
   if (el.srcElement.className === 'pager-numbers') {
-    activePage = el.srcElement.tabIndex;
-    sessionStorage.setItem('pageNum', el.srcElement.tabIndex);
+    activePage = parseInt(el.srcElement.text, 10);
+    sessionStorage.setItem('pageNum', parseInt(el.srcElement.text, 10));
   }
   // Move our page forward when button clicked if we have more than one page.
   if (
