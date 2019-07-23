@@ -14,7 +14,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
 
   render() {
     const options = [
-      { value: 'school', label: 'Schools only' },
+      { value: 'school', label: 'Schools' },
       {
         value: 'employer',
         label: 'Employers (On-the-job training [OJT], apprenticeships)',
