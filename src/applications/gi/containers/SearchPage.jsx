@@ -78,7 +78,7 @@ export class SearchPage extends React.Component {
       'preferredProvider',
     ];
 
-    const query = _.pick(this.props.location.query, [...validQueryParams]);
+    const query = _.pick(this.props.location.query, validQueryParams);
 
     // Update form selections based on query.
     const institutionFilter = _.omit(query, ['page', 'name']);
