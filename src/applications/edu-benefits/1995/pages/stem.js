@@ -11,7 +11,7 @@ const {
 export const uiSchema = {
   isEdithNourseRogersScholarship: {
     'ui:title':
-      'Are you applying for the Edith Nourse Rogers STEM Scholarship (Chapter 33)?',
+      'Are you applying for the Edith Nourse Rogers STEM Scholarship?',
     'ui:widget': 'yesNo',
   },
   isEnrolledStem: {
