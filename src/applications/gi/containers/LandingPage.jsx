@@ -18,7 +18,7 @@ import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
 import environment from 'platform/utilities/environment';
-import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
+import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
@@ -133,7 +133,7 @@ export class LandingPage extends React.Component {
               />
               {/* CT 116 */}
               {!environment.isProduction() && (
-                <TypeOfInstitutionFilter
+                <LandingPageTypeOfInstitutionFilter
                   category={this.props.filters.category}
                   showModal={this.props.showModal}
                   onChange={this.handleTypeOfInstitutionFilterChange}

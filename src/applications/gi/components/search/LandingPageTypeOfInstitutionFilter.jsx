@@ -2,7 +2,7 @@ import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 
-class TypeOfInstitutionFilter extends React.Component {
+class LandingPageTypeOfInstitutionFilter extends React.Component {
   static propTypes = {
     category: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -10,23 +10,16 @@ class TypeOfInstitutionFilter extends React.Component {
 
   static defaultProps = {
     displayVetTecOption: false,
-    displayAllOption: false,
   };
+
   render() {
-    const options = [];
-
-    if (this.props.displayAllOption) {
-      options.push({
-        value: 'ALL',
-        label: 'All',
-      });
-    }
-
-    options.push({ value: 'school', label: 'Schools only' });
-    options.push({
-      value: 'employer',
-      label: 'Employers (On-the-job training [OJT], apprenticeships)',
-    });
+    const options = [
+      { value: 'school', label: 'Schools only' },
+      {
+        value: 'employer',
+        label: 'Employers (On-the-job training [OJT], apprenticeships)',
+      },
+    ];
 
     if (this.props.displayVetTecOption) {
       const vetTecLabel = (
@@ -68,4 +61,4 @@ class TypeOfInstitutionFilter extends React.Component {
   }
 }
 
-export default TypeOfInstitutionFilter;
+export default LandingPageTypeOfInstitutionFilter;
