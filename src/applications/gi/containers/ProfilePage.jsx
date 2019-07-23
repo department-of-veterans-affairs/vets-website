@@ -75,7 +75,6 @@ export class ProfilePage extends React.Component {
       content = <LoadingIndicator message="Loading your profile..." />;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
-
       if (!environment.isProduction() && profile.attributes.vetTecProvider) {
         content = (
           <VetTecInstitutionProfile
