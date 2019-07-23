@@ -196,6 +196,7 @@ class DashboardApp extends React.Component {
     if (this.props.profile.verified) {
       this.props.getEnrollmentStatus();
     }
+    document.getElementById('dashboard-title').focus();
   }
 
   dismissAlertBox = name => () => {
@@ -307,7 +308,9 @@ class DashboardApp extends React.Component {
 
     const view = (
       <>
-        <h1 id="dashboard-title">My VA</h1>
+        <h1 id="dashboard-title" tabIndex="-1">
+          My VA
+        </h1>
         <div className="va-introtext">
           <p>
             Access the tools and information you’ll need to track and manage
