@@ -43,7 +43,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     specialtyCareHealthServices: page.specialtyCareHealthServices,
     primaryCareHealthServices: page.primaryCareHealthServices,
     mentalHealthServices: page.mentalHealthServices,
-    featuredHealthServices: page.featuredHealthServices,
     extendedCareHealthServices: page.extendedCareHealthServices,
     homelessHealthServices: page.homelessHealthServices,
     genomicMedicineHealthServices: page.genomicMedicineHealthServices,

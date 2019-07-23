@@ -113,12 +113,14 @@
                     </div>
                 {% endif %}
 
-                {% if featuredHealthServices.entities.length %}
+                {% if featuredContentHealthServices.length %}
                     <section class="featured-services" id="featured-services">
-                        <h2>Featured Services</h2>
-                        {% for featuredService in featuredHealthServices.entities %}
-                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = featuredService %}
-                        {% endfor %}
+                        <h3>In the spotlight at {{ regionOrOffice | remove: "health care" }}</h3>
+                        <ul class="va-c-list-link-teasers">
+                            {% for featuredService in featuredContentHealthServices %}
+                                {% include "src/site/paragraphs/linkTeaser.drupal.liquid" with linkTeaser = featuredService.entity %}
+                            {% endfor %}
+                        </ul>
                     </section>
                 {% endif %}
 
