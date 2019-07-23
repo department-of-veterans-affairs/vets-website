@@ -10,6 +10,13 @@ import VetTecContactInformation from './VetTecContactInformation';
 
 const VetTecInstitutionProfile = ({ institution, showModal }) => (
   <div>
+    <div className="vads-u-display--block small-screen:vads-u-display--none vettec-mobile-logo-container">
+      <img
+        className="vettec-mobile-logo"
+        src={require('site/assets/img/logo/vet-tec-logo.png')}
+        alt="Vet Tec Logo"
+      />
+    </div>
     <VetTecHeadingSummary institution={institution} />
     <div className="usa-accordion">
       <ul>

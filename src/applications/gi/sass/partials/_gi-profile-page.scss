@@ -1,4 +1,24 @@
 .gi-app .profile-page {
+  .vettec-logo-container {
+    text-align: right;
+  }
+  .vettec-logo {
+    height: 85px;
+    width: 179px;
+    padding-bottom: 8px;
+  }
+  .vettec-additional-resources-header {
+    margin: 0;
+  }
+
+  .vettec-mobile-logo-container {
+    padding-top: 16px;
+    padding-bottom: 12px;
+  }
+  .vettec-mobile-logo {
+    height: 60px;
+    width: 126px;
+  }
 
   h3 {
     font-size: 1.35em;
@@ -9,12 +29,13 @@
   }
 
   .link-header {
-    h3, h5 {
+    h3,
+    h5 {
       display: inline-block;
       padding: 0;
     }
 
-    padding-bottom: .5em;
+    padding-bottom: 0.5em;
   }
 
   .caution-flag {
@@ -123,7 +144,6 @@
   }
 
   .cautionary-information {
-
     .table {
       table {
         margin: 1em 0;
