@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { FeatureToggle } from 'platform/utilities/feature-toggles';
 
 import {
   clearAutocompleteSuggestions,
@@ -120,6 +121,9 @@ export class LandingPage extends React.Component {
   render() {
     return (
       <span className="landing-page">
+        <FeatureToggle notProduction>
+          <span>test</span>
+        </FeatureToggle>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>

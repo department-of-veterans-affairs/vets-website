@@ -45,7 +45,7 @@ function ToggleProvider(props) {
 
 const initialToggleValues = makeEnvironmentToggleValues();
 
-const withToggleProvider = (
+const withFeatureToggleProvider = (
   WrappedComponent,
   toggleValues = initialToggleValues,
 ) => props => (
@@ -54,7 +54,7 @@ const withToggleProvider = (
   </ToggleProvider>
 );
 
-const Toggle = ({ children, ...props }) => {
+const FeatureToggle = ({ children, ...props }) => {
   const toggles = Object.keys(props);
 
   return (
@@ -84,4 +84,4 @@ const Toggle = ({ children, ...props }) => {
   );
 };
 
-export { withToggleProvider, Toggle };
+export { withFeatureToggleProvider, FeatureToggle };
