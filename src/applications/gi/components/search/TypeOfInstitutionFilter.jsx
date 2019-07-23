@@ -13,10 +13,12 @@ class TypeOfInstitutionFilter extends React.Component {
     displayVetTecOption: false,
     displayAllOption: false,
   };
-  render() {
-    const options = [];
 
-    if (this.props.displayAllOption) {
+  options = () => {
+    const options = [];
+    const { displayAllOption, displayVetTecOption } = this.props;
+
+    if (displayAllOption) {
       options.push({
         value: 'ALL',
         label: 'All',
@@ -26,7 +28,7 @@ class TypeOfInstitutionFilter extends React.Component {
     options.push({ value: 'school', label: 'Schools only' });
     options.push({ value: 'employer', label: 'Employers only' });
 
-    if (this.props.displayVetTecOption) {
+    if (displayVetTecOption) {
       const vetTecLabel = (
         <span>
           VET TEC training providers only &nbsp;(
@@ -45,36 +47,46 @@ class TypeOfInstitutionFilter extends React.Component {
         label: vetTecLabel,
       });
     }
+    return options;
+  };
 
+  renderLogo = () => {
+    if (isVetTecSelected(this.props)) {
+      return (
+        <div>
+          {/* full size */}
+          <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
+            <img
+              className="vettec-logo vads-u-padding-top--0p5 vads-u-margin-bottom--neg1"
+              src="/img/logo/vet-tec-logo.png"
+              alt="Vet Tec Logo"
+            />
+          </span>
+          {/* mobile size */}
+          <span className="vads-u-margin-bottom--1  vads-u-display--block small-screen:vads-u-display--none">
+            <img
+              className="vettec-mobile-logo"
+              src="/img/logo/vet-tec-logo.png"
+              alt="Vet Tec Logo"
+            />
+          </span>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  render() {
     return (
       <div>
         <RadioButtons
           label="Type of institution"
           name="category"
-          options={options}
+          options={this.options()}
           value={this.props.category}
           onChange={this.props.onChange}
         />
-        {isVetTecSelected(this.props) && (
-          <div>
-            {/* full size */}
-            <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
-              <img
-                className="vettec-logo vads-u-padding-top--0p5 vads-u-margin-bottom--neg1"
-                src="/img/logo/vet-tec-logo.png"
-                alt="Vet Tec Logo"
-              />
-            </span>
-            {/* mobile size */}
-            <span className="vads-u-margin-bottom--1  vads-u-display--block small-screen:vads-u-display--none">
-              <img
-                className="vettec-mobile-logo"
-                src="/img/logo/vet-tec-logo.png"
-                alt="Vet Tec Logo"
-              />
-            </span>
-          </div>
-        )}
+        {this.renderLogo()}
       </div>
     );
   }
