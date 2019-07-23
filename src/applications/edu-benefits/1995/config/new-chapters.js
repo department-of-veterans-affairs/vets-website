@@ -14,10 +14,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import {
-  displayActiveDutyStem,
-  displayEdithNourseRogersScholarship,
-} from '../helpers';
+import { displayActiveDutyStem } from '../helpers';
 
 import { activeDuty, benefitSelection, stem } from '../pages';
 
@@ -58,7 +55,6 @@ export const newChapters = {
       stem: {
         title: 'Education benefit',
         path: 'benefits/stem',
-        depends: displayEdithNourseRogersScholarship,
         uiSchema: stem.uiSchema,
         schema: stem.schema,
       },

@@ -40,7 +40,7 @@ const AdditionalInfos = props => (
         onClick={() =>
           props.recordProfileNavEvent({
             'profile-action': 'view-link',
-            'additional-info': 'how-to-change-direct-deposit',
+            'profile-section': 'how-to-change-direct-deposit',
           })
         }
       >
@@ -72,8 +72,8 @@ const AdditionalInfos = props => (
       triggerText="What’s my bank’s routing number?"
       onClick={() =>
         props.recordProfileNavEvent({
-          'event-action': 'view-link',
-          'additional-info': 'whats-bank-routing',
+          'profile-action': 'view-link',
+          'profile-section': 'whats-bank-routing',
         })
       }
     >

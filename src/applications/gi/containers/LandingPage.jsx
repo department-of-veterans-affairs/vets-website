@@ -77,6 +77,10 @@ export class LandingPage extends React.Component {
 
     if (field === 'category') {
       filters.vetTecProvider = value === 'vettec';
+
+      if (filters.vetTecProvider) {
+        this.props.updateAutocompleteSearchTerm('');
+      }
     }
     filters[field] = value;
 
@@ -111,19 +115,6 @@ export class LandingPage extends React.Component {
     }
 
     this.props.eligibilityChange(e);
-  };
-
-  handleTypeOfInstitutionFilterChange = e => {
-    const field = e.target.name;
-    const value = e.target.value;
-    const filters = this.props.filters;
-
-    if (field === 'category') {
-      filters.vetTecProvider = value === 'vettec';
-    }
-    filters[field] = value;
-
-    this.props.institutionFilterChange(filters);
   };
 
   render() {

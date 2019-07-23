@@ -6,6 +6,8 @@ import Dropdown from '../Dropdown';
 import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
 import { addAllOption } from '../../utils/helpers';
 
+import environment from '../../../../platform/utilities/environment';
+
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
@@ -93,6 +95,14 @@ class InstitutionFilterForm extends React.Component {
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}
         />
+        {!environment.isProduction() && (
+          <Checkbox
+            checked={filters.stemOffered}
+            name="stemOffered"
+            label="STEM (Science, Technology, Engineering, and Math)"
+            onChange={this.handleCheckboxChange}
+          />
+        )}
         <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"

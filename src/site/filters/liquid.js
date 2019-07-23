@@ -44,13 +44,7 @@ module.exports = function registerFilters() {
     return string;
   };
 
-  liquid.filters.fileType = data => {
-    const string = data
-      .split('.')
-      .slice(-1)
-      .pop();
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+  liquid.filters.fileSize = data => `${(data / 1000000).toFixed(2)}MB`;
 
   liquid.filters.fileExt = data => {
     const string = data
@@ -101,6 +95,53 @@ module.exports = function registerFilters() {
           output += `${element}`;
         }
       });
+    }
+    return output;
+  };
+  liquid.filters.benefitTerms = data => {
+    let output = 'General benefits information';
+    if (data != null) {
+      switch (data) {
+        case 'general':
+          output = 'General benefits information';
+          break;
+        case 'burial':
+          output = 'Burials and memorials';
+          break;
+        case 'careers':
+          output = 'Careers and employment';
+          break;
+        case 'disability':
+          output = 'Disability';
+          break;
+        case 'education':
+          output = 'Education and training';
+          break;
+        case 'family':
+          output = 'Family member benefits';
+          break;
+        case 'healthcare':
+          output = 'Health care';
+          break;
+        case 'housing':
+          output = 'Housing assistance';
+          break;
+        case 'insurance':
+          output = 'Life insurance';
+          break;
+        case 'pension':
+          output = 'Pension';
+          break;
+        case 'service':
+          output = 'Service member benefits';
+          break;
+        case 'records':
+          output = 'Records';
+          break;
+        default:
+          output = 'General benefits information';
+          break;
+      }
     }
     return output;
   };

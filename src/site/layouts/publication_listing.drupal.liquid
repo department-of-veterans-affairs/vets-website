@@ -18,7 +18,7 @@
         </div>
         {% endif %}
 
-        <article class="vads-l-grid-container--full">
+        <article class="usa-content vads-l-grid-container--full">
           <div class="vads-l-grid-container--full">
             <h1>{{ title }}</h1>
             <div class="vads-l-grid-container--full">
@@ -34,43 +34,43 @@
               class="vads-l-grid-container--full asset-component-library library-show"
               id="search-entry">
 
-              <form class="usa-form outreach-asset-form-filters library-show">
+              <form class="usa-form outreach-asset-form-filters library-show vads-u-max-width--100 vads-u-padding-y--3 vads-u-padding-x--1p5 vads-u-margin-bottom--2">
                 <div class="vads-l-row vads-u-justify-content--space-between">
                   <div class="vads-l-col--12
                                 medium-screen:vads-l-col--12
                                 small-desktop-screen:vads-l-col--12
-                                large-screen:vads-l-col--5">
+                                large-screen:vads-l-col--6
+                                vads-u-padding-x--1p5">
                     <label class="vads-u-margin-top--0"
                       for="outreach-topic">Select a topic</label>
                     <select class="vads-u-max-width--100 usa-select"
                       name="outreach-topic" id="outreach-topic">
                       <option value="select">- All topics -</option>
-                      <option value="healthcare">Health Care</option>
-                      <option value="disability">Disability Compensation
+                      <option value="healthcare">Health care</option>
+                      <option value="disability">Disability
                       </option>
-                      <option value="education">Education And Training
-                        Benefits
+                      <option value="education">Education and training
                       </option>
-                      <option value="careers">Careers And Employment</option>
-                      <option value="pension">Pension Benefits</option>
-                      <option value="housing">Housing Assistance</option>
-                      <option value="insurance">Life Insurance</option>
-                      <option value="general">General Benefits Information
-                      </option>
-                      <option value="burial">Burial Benefits And Memorial
-                        Items
+                      <option value="careers">Careers and employment</option>
+                      <option value="pension">Pension</option>
+                      <option value="housing">Housing assistance</option>
+                      <option value="insurance">Life insurance</option>
+                      <option value="burial">Burials and memorials
                       </option>
                       <option value="records">Records</option>
-                      <option value="service">Service Member Benefits</option>
+                      <option value="service">Service member benefits</option>
                       <option value="family">Family member benefits</option>
+                      <option value="general">General benefits information
+                      </option>
                     </select>
                   </div>
                   <div class="vads-l-col--12
                 medium-screen:vads-l-col--12
                 small-desktop-screen:vads-l-col--12
-                large-screen:vads-l-col--5">
-                    <label class="vads-u-margin-top--0" for="outreach-type">View
-                      file type</label>
+                large-screen:vads-l-col--6
+                vads-u-padding-x--1p5
+                ">
+                    <label class="vads-u-margin-top--0" for="outreach-type">Select file type</label>
                     <select class="vads-u-max-width--100 usa-select"
                       name="outreach-type" id="outreach-type">
                       <option value="select">- All types -</option>
@@ -87,14 +87,17 @@
                 </div>
               </form>
 
-              <div id="total-pages-div">
+              <div id="total-pages-div" class="vads-u-margin-bottom--1">
                 <div class="break-div">Showing
                   <span id="total-pages"></span>
                   <span id="total-all"></span> results
                 </div>
               </div>
+              {% assign even = true %}
               {% for entity in outreachAssetsDataArray.entities %}
               {% if entity.fieldOffice.targetId == fieldOffice.targetId %}
+
+
               <div data-topic="{{entity.fieldBenefits}}"
                 {{entity.fieldBenefits | breakIntoSingles}}
                 data-type="{{entity.fieldFormat}}" data-number={{forloop.index}}
@@ -102,12 +105,12 @@
                 vads-l-row
                 medium-card-utility
                 large-screen:vads-l-col--6
-                vads-u-padding-right--4
-                vads-u-padding-bottom--4
+                {% if even %} large-screen:vads-u-margin-right--3 {% endif %}
+                vads-u-margin-bottom--3
                 asset-card
                 show-type
                 show-topic">
-                <div class="card-inside-wrap">
+                <div class="card-inside-wrap clearfix vads-u-padding--3">
                   <div class="asset-head-wrap
                 medium-screen:vads-l-col--4
                 medium-head-utility
@@ -181,35 +184,40 @@
                   </div>
 
                   <div class="asset-body-wrap
+                  vads-u-display--flex
+                  vads-u-flex-direction--column
+                  vads-u-padding-top--1p5
+                  medium-screen:vads-u-padding-left--3
+                  large-screen:vads-u-padding-left--0
                   medium-screen:vads-l-col--8
                   medium-body-utility
                   large-screen:vads-l-col--12">
-                    <i>{{entity.fieldBenefits | capitalize}}</i>
+                    <i>{{entity.fieldBenefits | benefitTerms}}</i>
                     <h3 class="asset-body-header vads-u-margin-y--1">
                       {{entity.title| truncate: 36}}</h3>
                     <div class="asset-body-text">
                       {{entity.fieldDescription | truncate: 81 }}</div>
-                    {% if entity.fieldBenefits != '' %}
-                    <div class="asset-category-text capitalize-first"></div>
-                    {% endif %}
 
-                    <div class="asset-download-trigger">
+
+                    <div class="asset-download-trigger va-c-margin-top--auto vads-u-margin-bottom--3
+                  medium-screen:vads-u-margin-bottom--0
+                  large-screen:vads-u-margin-bottom--3">
                       {% if entity.fieldMedia.entity.entityBundle == 'document' %}
                       {% assign url = entity.fieldMedia.entity.fieldDocument.entity.url %}
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
-                          class="fas fa-download vads-u-padding-right--1"></i>Download
-                        {{entity.fieldMedia.entity.entityBundle | fileType}}
-                        {{url | fileExt}}</a>
+                          class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
+                        ({{entity.fieldMedia.entity.fieldDocument.entity.filesize | fileSize}})
+                        </a>
                       {% endif %}
 
                       {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                      <a class="video-link" target="_blank"
+                      <a aria-label="View {{entity.title}}" class="video-link" target="_blank"
                         href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
-                          class="fab fa-youtube vads-u-padding-right--1"></i>Go
+                          class="fas fa-play-circle vads-u-padding-right--1"></i>Go
                         to
                         video</a>
                       {% endif %}
@@ -219,11 +227,11 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
-                          class="fas fa-download vads-u-padding-right--1"></i>Download
-                        {{entity.fieldMedia.entity.entityBundle | fileType}}
-                        {{url | fileExt}}</a>
+                          class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
+                        ({{entity.fieldMedia.entity.image.entity.filesize | fileSize}})
+                        </a>
                       {% endif %}
 
                     </div>
@@ -231,8 +239,14 @@
                 </div>
               </div>
               {% endif %}
-              {% endfor %}
-            </div>
+
+            {% if even %}
+              {% assign even = false %}
+            {% else %}
+              {% assign even = true %}
+            {% endif %}
+            {% endfor %}
+
           </div>
 
           <div class="va-pagination library-show" id="va-pager-div">
@@ -244,7 +258,7 @@
             </span>
             <span class="va-pagination-prev">
               <button class="va-button-link" id="pager-previous-click"
-                aria-label="Load previous page undefined"
+                aria-label="Load previous page"
                 tabindex="0">Prev</button>
             </span>
             <div id="pager-nums-insert" class="va-pagination-inner">
@@ -261,8 +275,7 @@
             </span>
           </div>
           <div class="library-show" id="no-results">
-            <div>No results.</div><button id="start-over">Click here to start
-              over.</button>
+            <div><p><b>Select a different topic or file type</b></p></div>
           </div>
 
         </article>
