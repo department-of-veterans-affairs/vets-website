@@ -228,24 +228,20 @@ export class SearchPage extends React.Component {
             alt="Vet Tec Logo"
           />
         </div>
-        <div className="row">
-          <div className="column">
-            <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
-              <div className="vads-l-col--10">
-                <h1>
-                  {!search.inProgress && `${(count || 0).toLocaleString()} `}
-                  Search Results
-                </h1>
-              </div>
-              <div className="vads-l-col--2">
-                <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
-                  <img
-                    className="vettec-logo"
-                    src={require('site/assets/img/logo/vet-tec-logo.png')}
-                    alt="Vet Tec Logo"
-                  />
-                </div>
-              </div>
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+          <div className="vads-l-col--10">
+            <h1>
+              {!search.inProgress && `${(count || 0).toLocaleString()} `}
+              Search Results
+            </h1>
+          </div>
+          <div className="vads-l-col--2">
+            <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
+              <img
+                className="vettec-logo"
+                src={require('site/assets/img/logo/vet-tec-logo.png')}
+                alt="Vet Tec Logo"
+              />
             </div>
           </div>
         </div>
@@ -274,14 +270,10 @@ export class SearchPage extends React.Component {
     const { count } = search;
     return (
       <div>
-        <div className="row">
-          <div className="column">
-            <h1>
-              {!search.inProgress && `${(count || 0).toLocaleString()} `}
-              Search Results
-            </h1>
-          </div>
-        </div>
+        <h1>
+          {!search.inProgress && `${(count || 0).toLocaleString()} `}
+          Search Results
+        </h1>
         <InstitutionSearchForm
           filtersClass={filtersClass}
           search={search}
