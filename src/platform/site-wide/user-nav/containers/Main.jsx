@@ -6,6 +6,7 @@ import URLSearchParams from 'url-search-params';
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
+import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
@@ -18,7 +19,7 @@ import {
   toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
-} from '../../../site-wide/user-nav/actions';
+} from 'platform/site-wide/user-nav/actions';
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
@@ -134,6 +135,10 @@ export class Main extends React.Component {
     if (this.props.shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
     } else {
+      // Make only one upfront request to get all backend statuses to prevent
+      // each identity dependency's warning banner from making duplicate
+      // requests when the sign-in modal renders.
+      this.props.getBackendStatuses();
       this.props.toggleLoginModal(true, 'header');
     }
   };
@@ -197,11 +202,12 @@ export const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  getBackendStatuses,
+  initializeProfile,
   toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
-  initializeProfile,
 };
 
 export default connect(
