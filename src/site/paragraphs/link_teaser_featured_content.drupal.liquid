@@ -1,7 +1,7 @@
 <li class="vads-u-background-color--primary-alt-lightest usa-width-one-third vads-u-padding-y--1p5 vads-u-padding-x--1p5">
     {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
     {% if link.title != empty %}
-        <h4 class="va-nav-linkslist-title">{{ link.title }}</h4>
+        <b>{{ link.title }}</b>
         <hr class="vads-u-margin-y--1p5 vads-u-border-color--primary" style="width:30%;">
     {% endif %}
     {% if linkTeaser.fieldLinkSummary != empty %}
