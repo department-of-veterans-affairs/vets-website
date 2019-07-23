@@ -130,20 +130,22 @@ class PaymentInformation extends React.Component {
     this.props.savePaymentInformation(data);
   };
 
-  handleEditClick = gaProfileSection => {
-    // Open edit modal.
+  handleLinkClick = (linkType, gaProfileSection) => {
+    // Open modal.
     this.props.editModalToggled();
 
     // Push Google Analytics event
     recordProfileNavEvent({
-      'profile-action': 'edit-link',
+      'profile-action': linkType === 'add' ? 'add-link' : 'edit-link',
       'profile-section': gaProfileSection,
     });
   };
 
   renderSetupButton(label) {
     return (
-      <a onClick={this.props.editModalToggled}>{`Please add your ${label}`}</a>
+      <a
+        onClick={() => this.handleLinkClick('add', label)}
+      >{`Please add your ${label}`}</a>
     );
   }
 
@@ -176,7 +178,7 @@ class PaymentInformation extends React.Component {
             <ProfileFieldHeading
               onEditClick={
                 directDepositIsSetUp &&
-                (() => this.handleEditClick('bank-name'))
+                (() => this.handleLinkClick('edit', 'bank-name'))
               }
             >
               Bank name
@@ -189,7 +191,7 @@ class PaymentInformation extends React.Component {
             <ProfileFieldHeading
               onEditClick={
                 directDepositIsSetUp &&
-                (() => this.handleEditClick('account-number'))
+                (() => this.handleLinkClick('edit', 'account-number'))
               }
             >
               Account number
@@ -202,7 +204,7 @@ class PaymentInformation extends React.Component {
             <ProfileFieldHeading
               onEditClick={
                 directDepositIsSetUp &&
-                (() => this.handleEditClick('account-type'))
+                (() => this.handleLinkClick('edit', 'account-type'))
               }
             >
               Account type
