@@ -20,7 +20,7 @@ class SearchResultTypeOfInstitutionFilter extends React.Component {
       },
       {
         value: 'employer',
-        label: 'Employers (OJT, apprenticeships)',
+        label: 'Employers only(OJT, apprenticeships)',
       },
     ];
 
