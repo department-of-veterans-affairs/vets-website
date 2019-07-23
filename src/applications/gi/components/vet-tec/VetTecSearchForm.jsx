@@ -142,9 +142,9 @@ class VetTecSearchForm extends React.Component {
               }
             />
 
-            {this.renderLearningFormat()}
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
+            {this.renderLearningFormat()}
             {this.renderFilterBy()}
           </div>
           <div className="results-button">
