@@ -18,7 +18,7 @@ class VetTecCalculatorForm extends React.Component {
     this.props.onInputChange({ field, value });
   };
 
-  renderScholarships = () => (
+  renderScholarships = onShowModal => (
     <div>
       <label
         htmlFor="vetTecScholarships"
@@ -26,9 +26,7 @@ class VetTecCalculatorForm extends React.Component {
       >
         Scholarships (excluding Pell)
       </label>{' '}
-      <a href="" target="_blank" rel="noopener noreferrer">
-        (Learn more)
-      </a>
+      <a onClick={() => onShowModal('scholarships')}>(Learn more)</a>
       <input
         type="text"
         name="vetTecScholarships"
@@ -38,7 +36,7 @@ class VetTecCalculatorForm extends React.Component {
     </div>
   );
 
-  renderTuitionFees = () => (
+  renderTuitionFees = onShowModal => (
     <div>
       <label
         htmlFor="vetTecTuitionFees"
@@ -46,9 +44,7 @@ class VetTecCalculatorForm extends React.Component {
       >
         Tuition and fees for program
       </label>{' '}
-      <a href="" target="_blank" rel="noopener noreferrer">
-        (Learn more)
-      </a>
+      <a onClick={() => onShowModal('tuitionAndFees')}>(Learn more)</a>
       <input
         type="text"
         name="vetTecTuitionFees"
@@ -62,11 +58,11 @@ class VetTecCalculatorForm extends React.Component {
     return (
       <div className="calculator-form">
         <p>
-          If you need to modify your tuition and fees or include a scholarship,
-          you can do so below.
+          Use the fields below to modify your tuition and fees or to include a
+          scholarship.
         </p>
-        {this.renderTuitionFees()}
-        {this.renderScholarships()}
+        {this.renderTuitionFees(this.props.onShowModal)}
+        {this.renderScholarships(this.props.onShowModal)}
       </div>
     );
   }

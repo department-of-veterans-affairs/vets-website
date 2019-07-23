@@ -17,18 +17,18 @@ const VetTecInstitutionProfile = ({ institution, showModal }) => (
           <VetTecApprovedPrograms institution={institution} />
         </AccordionItem>
         <AccordionItem button="Estimate your benefits">
-          <VetTecCalculator />
-        </AccordionItem>
-        <AccordionItem button="Contact us">
-          <VetTecContactInformation institution={institution} />
+          <VetTecCalculator showModal={showModal} />
         </AccordionItem>
         <AccordionItem button="Application process">
           <VetTecApplicationProcess />
         </AccordionItem>
+        <AccordionItem button="Contact us">
+          <VetTecContactInformation institution={institution} />
+        </AccordionItem>
         <AccordionItem button="Additional information">
           <VetTecAdditionalInformation
             institution={institution}
-            onShowModal={showModal}
+            showModal={showModal}
           />
         </AccordionItem>
       </ul>
