@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const testFeatureToggleContext = {
   appGibctLandingPageShowPercent: true,
@@ -10,43 +10,55 @@ const testUpdate = () => ({
   appGibctLandingPageShowVideo: true,
 });
 
-const TogglesContext = React.createContext(testFeatureToggleContext);
+const ToggleContext = React.createContext(testFeatureToggleContext);
 
-const withToggleConsumer = TogglesContext.Consumer;
-const makeWithToggleProvider = ({
-  initialToggleValues = {},
-  subscribeToUpdateToggles,
-  unsubscribeToUpdateToggles = () => {},
-}) => WrappedComponent => {
+function ToggleProvider(props) {
+  const {
+    children,
+    initialToggleValues,
+    subscribeToUpdateToggles = () => {},
+    unsubscribeToUpdateToggles = () => {},
+  } = props;
+
   const [toggleValues, setToggleValues] = useState(initialToggleValues);
 
   function handleToggleValuesUpdate(newToggleValues) {
     setToggleValues(newToggleValues);
   }
 
-  useEffect(() => {
-    subscribeToUpdateToggles(handleToggleValuesUpdate);
+  useEffect(
+    () => {
+      subscribeToUpdateToggles(handleToggleValuesUpdate);
 
-    return () => unsubscribeToUpdateToggles();
-  });
+      return () => unsubscribeToUpdateToggles();
+    },
+    [toggleValues, subscribeToUpdateToggles, unsubscribeToUpdateToggles],
+  );
 
   return (
-    <TogglesContext.Provider value={toggleValues}>
-      <WrappedComponent {...this.props} />
-    </TogglesContext.Provider>
+    <ToggleContext.Provider value={toggleValues}>
+      {children}
+    </ToggleContext.Provider>
+  );
+}
+
+const withToggleProvider = WrappedComponent => props => (
+  <ToggleProvider initialToggleValues={testFeatureToggleContext}>
+    <WrappedComponent {...props} />
+  </ToggleProvider>
+);
+
+const Toggle = ({ children, ...props }) => {
+  const toggles = Object.keys(props);
+
+  return (
+    <ToggleContext.Consumer>
+      {toggleValues => {
+        const showChildren = toggles.find(toggle => toggleValues[toggle]);
+        return showChildren ? children : null;
+      }}
+    </ToggleContext.Consumer>
   );
 };
 
-const withToggleProvider = makeWithToggleProvider({
-  subscribeToUpdateToggles: testUpdate,
-  initialToggleValues: testFeatureToggleContext,
-});
-
-// component that maintains the state of the feature flags
-// pushes it as prop value onto the context thing
-// subscribes to changes from the client - provides a prop for updating the state
-//
-
-TogglesContext.Provider;
-
-export { withToggleConsumer, withToggleProvider };
+export { withToggleProvider, Toggle };
