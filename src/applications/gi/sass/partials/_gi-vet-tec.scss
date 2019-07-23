@@ -1,12 +1,17 @@
 .gi-app {
   .vettec-logo {
-    height: 7.083em;
-    width: 14.917em;
+    height: 70px;	
+    width: 146px;	
   }
-  .vettec-mobile-logo {
-    height: 5.833em;
-    width: 12.167em;
+
+  // this will only affect wide screens
+  @media screen and (min-width: 481px) {
+    .vettec-logo {	
+      height: 85px;	
+      width: 179px;	
+    }	
   }
+  
   .vettec-logo-container {
     text-align: right;
   }

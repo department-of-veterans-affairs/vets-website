@@ -2,6 +2,7 @@ import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 import { isVetTecSelected } from '../../utils/helpers';
+import classNames from 'classnames';
 
 class TypeOfInstitutionFilter extends React.Component {
   static propTypes = {
@@ -51,21 +52,24 @@ class TypeOfInstitutionFilter extends React.Component {
   };
 
   renderLogo = () => {
+    const spanClasses = classNames(
+      'vads-u-margin-bottom--1',
+      'small-screen:vads-u-margin-x--neg1',
+      'small-screen:vads-u-margin-bottom--neg1',
+    );
+
+    const imgClasses = classNames(
+      'vettec-logo',
+      'small-screen:vads-u-padding-top--0p5',
+      'small-screen:vads-u-margin-bottom--neg1',
+    );
+
     if (isVetTecSelected(this.props)) {
       return (
         <div>
-          {/* full size */}
-          <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
+          <span className={spanClasses}>
             <img
-              className="vettec-logo vads-u-padding-top--0p5 vads-u-margin-bottom--neg1"
-              src="/img/logo/vet-tec-logo.png"
-              alt="Vet Tec Logo"
-            />
-          </span>
-          {/* mobile size */}
-          <span className="vads-u-margin-bottom--1  vads-u-display--block small-screen:vads-u-display--none">
-            <img
-              className="vettec-mobile-logo"
+              className={imgClasses}
               src="/img/logo/vet-tec-logo.png"
               alt="Vet Tec Logo"
             />
