@@ -50,6 +50,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     veteranCareHealthServices: page.veteranCareHealthServices,
     otherHealthServices: page.otherHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+    featuredContentHealthServices: page.fieldFeaturedContentHealthser,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,
     alert: page.alert,
