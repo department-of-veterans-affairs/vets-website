@@ -68,7 +68,7 @@ describe('<LandingPage>', () => {
     );
 
     const vetTecOption = tree
-      .find('TypeOfInstitutionFilter')
+      .find('LandingPageTypeOfInstitutionFilter')
       .find('RadioButtons')
       .find('span');
 

@@ -22,6 +22,7 @@ import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPage
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class LandingPage extends React.Component {
   componentDidMount() {
@@ -79,6 +80,11 @@ export class LandingPage extends React.Component {
       filters.vetTecProvider = value === 'vettec';
 
       if (filters.vetTecProvider) {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'typeOfInstitution',
+          'gibct-form-value': 'radioButtonLabel',
+        });
         this.props.updateAutocompleteSearchTerm('');
       }
     }
