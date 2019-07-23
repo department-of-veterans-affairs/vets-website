@@ -126,7 +126,11 @@ module.exports = `
     fieldClinicalHealthCareServi {
       processed
     }
-    ${healthCareRegionFeaturedHealthServices}
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT]
+        ? healthCareRegionFeaturedHealthServices
+        : ''
+    }
     ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {
       processed
