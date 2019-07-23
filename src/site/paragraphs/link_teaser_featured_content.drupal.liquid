@@ -1,12 +1,13 @@
-<li class="vads-u-background-color--primary-alt-lightest usa-width-one-third vads-u-padding-y--1p5 vads-u-padding-x--1">
+<li class="vads-u-background-color--primary-alt-lightest usa-width-one-third vads-u-padding-y--1p5 vads-u-padding-x--1p5">
     {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
     {% if link.title != empty %}
         <h4 class="va-nav-linkslist-title">{{ link.title }}</h4>
+        <hr class="vads-u-margin-y--1p5 vads-u-border-color--primary" style="width:30%;">
     {% endif %}
     {% if linkTeaser.fieldLinkSummary != empty %}
         <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
     {% endif %}
-    <a href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
-        <span>Read More <i class="fa fa-chevron-right"></i></span>
+    <a class="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none" href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+        <span>Read More <i class="fa fa-chevron-right vads-facility-hub-cta-arrow"></i></span>
     </a>
 </li>
