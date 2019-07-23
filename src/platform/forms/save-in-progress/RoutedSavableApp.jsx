@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { withToggleProvider } from 'platform/utilities/toggles';
 
 import {
   LOAD_STATUSES,
@@ -277,10 +278,12 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    getSaveInProgressState,
-    mapDispatchToProps,
-  )(RoutedSavableApp),
+  withToggleProvider(
+    connect(
+      getSaveInProgressState,
+      mapDispatchToProps,
+    )(RoutedSavableApp),
+  ),
 );
 
 export { RoutedSavableApp };

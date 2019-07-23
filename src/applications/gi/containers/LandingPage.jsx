@@ -13,11 +13,6 @@ import {
   showModal,
 } from '../actions';
 
-import {
-  withToggleProvider,
-  Toggle,
-} from 'platform/utilities/toggles/toggles-context';
-
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
@@ -123,12 +118,8 @@ export class LandingPage extends React.Component {
   };
 
   render() {
-
     return (
       <span className="landing-page">
-        <Toggle appGibctLandingPageShowPercent>
-          <span>test</span>
-        </Toggle>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
@@ -209,11 +200,9 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default withToggleProvider(
-  withRouter(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(LandingPage),
-  ),
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(LandingPage),
 );
