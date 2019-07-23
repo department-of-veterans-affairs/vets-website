@@ -130,7 +130,7 @@ export class Modals extends React.Component {
           <p>
             A provider is “preferred” if the training facility agrees to refund
             tuition and fees to VA if the student completes the program and
-            doesn't find meaningful employment within 180 days.
+            doesn’t find meaningful employment within 180 days.
           </p>
         </Modal>
         <Modal
@@ -143,13 +143,13 @@ export class Modals extends React.Component {
             training provider.
           </p>
           <p>
-            If you're participating in a VET TEC program, you'll have the same
+            If you’re participating in a VET TEC program, you’ll have the same
             annual tuition and fees cap as students attending a private
             institution under the Post-9/11 GI Bill. If your tuition and fees
-            exceed that cap, you'll be responsible for paying those.
+            exceed that cap, you’ll be responsible for paying those.
           </p>
           <p>
-            Preferred Provider training programs aren't subject to a cap on
+            Preferred Provider training programs aren’t subject to a cap on
             tuition and fees.
           </p>
         </Modal>
