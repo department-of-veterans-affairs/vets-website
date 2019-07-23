@@ -128,10 +128,6 @@ class PaymentInformation extends React.Component {
 
   handleDirectDepositUpdateSubmit = data => {
     this.props.savePaymentInformation(data);
-    recordEvent({
-      event: 'profile-transaction',
-      'profile-section': 'direct-deposit-information',
-    });
   };
 
   handleEditClick = gaProfileSection => {
