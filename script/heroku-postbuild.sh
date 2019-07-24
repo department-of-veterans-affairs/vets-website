@@ -11,4 +11,4 @@ git clone --depth=1 https://github.com/department-of-veterans-affairs/vagov-cont
 cd ${vagov_apps_dir}
 
 # build the site as usual
-npm run build --  --entry static-pages --content-directory ${vagov_content_dir}/pages
+npm run build -- --content-directory ${vagov_content_dir}/pages
