@@ -2,14 +2,10 @@
   .vettec-logo {
     height: 70px;	
     width: 146px;	
-  }
-
-  // this will only affect wide screens
-  @media screen and (min-width: 481px) {
-    .vettec-logo {	
+    @include media($medium-screen) {
       height: 85px;	
       width: 179px;	
-    }	
+    }
   }
   
   .vettec-logo-container {
