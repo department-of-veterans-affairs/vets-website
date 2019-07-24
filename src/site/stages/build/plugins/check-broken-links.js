@@ -49,7 +49,9 @@ function checkBrokenLinks(buildOptions) {
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
-      warn: buildOptions.buildtype !== ENVIRONMENTS.VAGOVPROD,
+      warn: ![ENVIRONMENTS.VAGOVPROD, ENVIRONMENTS.VAGOVSTAGING].includes(
+        buildOptions.buildtype,
+      ),
       allowRegex: ignoreLinks,
     });
 
