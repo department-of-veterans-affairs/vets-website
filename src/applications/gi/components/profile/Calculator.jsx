@@ -59,7 +59,6 @@ export class Calculator extends React.Component {
           className="usa-button-secondary"
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
-          {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
         {expanded ? (
           <div className="form-expanding-group-open">
