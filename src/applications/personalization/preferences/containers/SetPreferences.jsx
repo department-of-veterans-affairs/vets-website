@@ -7,6 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import get from 'platform/utilities/data/get';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from 'platform/utilities/ui';
 
 import PreferenceOption from '../components/PreferenceOption';
 import { benefitChoices, didJustSave } from '../helpers';
@@ -30,7 +31,7 @@ class SetPreferences extends React.Component {
   }
 
   componentDidMount() {
-    document.getElementById('dashboard-title').focus();
+    focusElement('#dashboard-title');
   }
 
   // if the preferences are saved successfully, then redirect to home

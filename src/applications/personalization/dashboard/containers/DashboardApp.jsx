@@ -9,6 +9,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectProfile } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
+import { focusElement } from 'platform/utilities/ui';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
@@ -196,7 +197,7 @@ class DashboardApp extends React.Component {
     if (this.props.profile.verified) {
       this.props.getEnrollmentStatus();
     }
-    document.getElementById('dashboard-title').focus();
+    focusElement('#dashboard-title');
   }
 
   dismissAlertBox = name => () => {
