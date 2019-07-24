@@ -10,5 +10,8 @@ git clone --depth=1 https://github.com/department-of-veterans-affairs/vagov-cont
 # cd back to the apps
 cd ${vagov_apps_dir}
 
+# Pull Drupal content from S3
+node script/drupal-aws-cache.js --fetch
+
 # build the site as usual
-npm run build -- --content-directory ${vagov_content_dir}/pages
+npm run build -- --content-directory ${vagov_content_dir}/pages --entry=auth
