@@ -8,6 +8,7 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  eligibilityChange,
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
@@ -58,10 +59,11 @@ export class Calculator extends React.Component {
           className="usa-button-secondary"
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
+          {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
         {expanded ? (
           <div className="form-expanding-group-open">
-            <EligibilityForm />
+            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
           </div>
         ) : null}
       </div>
@@ -220,6 +222,7 @@ const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  eligibilityChange,
 };
 
 export default connect(
