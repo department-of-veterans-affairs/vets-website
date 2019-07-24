@@ -26,7 +26,11 @@ function checkForCMSUrls(BUILD_OPTIONS) {
       );
       console.log(filesWithBadUrls.join('\n'));
 
-      if (BUILD_OPTIONS.buildtype === ENVIRONMENTS.VAGOVPROD) {
+      if (
+        [ENVIRONMENTS.VAGOVPROD, ENVIRONMENTS.VAGOVSTAGING].includes(
+          BUILD_OPTIONS.buildtype,
+        )
+      ) {
         throw new Error('Pages found that reference internal CMS urls');
       }
     }
