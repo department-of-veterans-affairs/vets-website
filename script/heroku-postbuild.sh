@@ -14,4 +14,4 @@ cd ${vagov_apps_dir}
 node script/drupal-aws-cache.js --fetch
 
 # build the site as usual
-npm run build -- --content-directory ${vagov_content_dir}/pages --entry=auth
+API_URL=https://dev-api.va.gov npm run build
