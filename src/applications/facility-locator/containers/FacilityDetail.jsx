@@ -25,6 +25,16 @@ class FacilityDetail extends Component {
     focusElement('.va-nav-breadcrumbs');
   }
 
+  componentDidUpdate(prevProps) {
+    const facilityJustLoaded = !prevProps.facility && this.props.facility;
+
+    if (facilityJustLoaded) {
+      document.title = `${
+        this.props.facility.attributes.name
+      } | Veterans Affairs`;
+    }
+  }
+
   renderFacilityInfo() {
     const { facility } = this.props;
     const { name, website } = facility.attributes;

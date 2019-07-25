@@ -27,6 +27,16 @@ class ProviderDetail extends Component {
     focusElement('.va-nav-breadcrumbs');
   }
 
+  componentDidUpdate() {
+    const providerJustLoaded = !prevProps.location && this.props.location;
+
+    if (providerJustLoaded) {
+      document.title = `${
+        this.props.location.attributes.name
+      } | Veterans Affairs`;
+    }
+  }
+
   renderFacilityInfo = () => {
     const { location } = this.props;
     const { name, orgName, website, fax, email } = location.attributes;
