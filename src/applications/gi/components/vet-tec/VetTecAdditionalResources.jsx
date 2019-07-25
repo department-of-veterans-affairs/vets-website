@@ -3,6 +3,11 @@ import React from 'react';
 export const VetTecAdditionalResourcesLinks = () => (
   <div>
     <p>
+      <a href="https://va.careerscope.net/gibill" rel="nofollow">
+        Get started with CareerScope
+      </a>
+    </p>
+    <p>
       <a
         href="/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
         target="_blank"
