@@ -22,7 +22,10 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
         <a href="{{group.url}}">{{group.admin}}</a>
       </h4>
       {% endif %}
+
       {% if group.subsections.length > 0 %}
+
+        {% assign navPath = group.heading %}
 
         {% for subs in group.subsections %}
 
@@ -35,10 +38,13 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
             {% if subs.subhead == 'Follow us' %}
               {% assign is_social_media_links = true %}
             {% endif %}
+
+
             {% for link in subs.links %}
               {% if link.url != empty %}
                 <li>
                   <a href="{{link.url}}"
+                    onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': '{{ navPath }}' });"
                     {% if link.external == true %}
                       target="_blank" rel="noopener noreferrer"
                     {% endif %}

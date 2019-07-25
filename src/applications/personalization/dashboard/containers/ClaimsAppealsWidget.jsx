@@ -15,7 +15,6 @@ import {
   getAppealsV2,
   getClaimsV2,
 } from 'applications/claims-status/actions/index.jsx';
-import { scrollToTop } from 'applications/claims-status/utils/page';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ClaimsUnavailable from 'applications/claims-status/components/ClaimsUnavailable';
@@ -51,8 +50,6 @@ class ClaimsAppealsWidget extends React.Component {
     if (this.props.canAccessAppeals) {
       this.props.getAppealsV2();
     }
-
-    scrollToTop();
   }
 
   renderListItem(claim) {

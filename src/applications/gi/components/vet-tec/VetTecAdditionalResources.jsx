@@ -3,6 +3,11 @@ import React from 'react';
 export const VetTecAdditionalResourcesLinks = () => (
   <div>
     <p>
+      <a href="https://va.careerscope.net/gibill" rel="nofollow">
+        Get started with CareerScope
+      </a>
+    </p>
+    <p>
       <a
         href="/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
         target="_blank"
@@ -33,16 +38,7 @@ export const VetTecAdditionalResourcesLinks = () => (
 
 const VetTecAdditionalResources = () => (
   <div className="additional-resources usa-width-one-third medium-4 small-12 column">
-    <div className="vettec-logo-container">
-      <img
-        className="vettec-logo"
-        src={require('site/assets/img/logo/vet-tec-logo.png')}
-        alt="Vet Tec Logo"
-      />
-    </div>
-    <h4 className="highlight vettec-additional-resources-header">
-      Additional Resources
-    </h4>
+    <h4 className="highlight">Additional Resources</h4>
     <VetTecAdditionalResourcesLinks />
   </div>
 );

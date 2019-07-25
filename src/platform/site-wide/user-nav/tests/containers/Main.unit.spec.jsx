@@ -21,6 +21,7 @@ describe('<Main>', () => {
       help: false,
       account: false,
     },
+    getBackendStatuses: sinon.spy(),
     toggleFormSignInModal: sinon.spy(),
     toggleLoginModal: sinon.spy(),
     toggleSearchHelpUserMenu: sinon.spy(),
@@ -37,6 +38,7 @@ describe('<Main>', () => {
   });
 
   afterEach(() => {
+    props.getBackendStatuses.reset();
     props.toggleFormSignInModal.reset();
     props.toggleLoginModal.reset();
     props.toggleSearchHelpUserMenu.reset();
@@ -146,15 +148,16 @@ describe('<Main>', () => {
   it('should show the login modal when the sign-in button is clicked', () => {
     const wrapper = shallow(<Main {...props} />);
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.getBackendStatuses.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
-
     wrapper.unmount();
   });
 
   it('should show the modal to confirm leaving an in-progress form', () => {
     const wrapper = shallow(<Main {...props} shouldConfirmLeavingForm />);
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.getBackendStatuses.calledOnce).to.be.false;
     expect(props.toggleFormSignInModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledOnce).to.be.false;
     expect(props.toggleFormSignInModal.calledWith(true)).to.be.true;
@@ -169,6 +172,7 @@ describe('<Main>', () => {
       <Main {...props} formAutoSavedStatus="not-attempted" />,
     );
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.getBackendStatuses.calledOnce).to.be.true;
     expect(props.toggleFormSignInModal.calledOnce).to.be.false;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledWith(true)).to.be.true;
@@ -188,6 +192,7 @@ describe('<Main>', () => {
       />,
     );
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.getBackendStatuses.calledOnce).to.be.true;
     expect(props.toggleFormSignInModal.calledOnce).to.be.false;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledWith(true)).to.be.true;
