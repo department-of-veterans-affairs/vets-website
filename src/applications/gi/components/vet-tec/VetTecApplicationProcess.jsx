@@ -39,7 +39,7 @@ const VetTecApplicationProcess = () => (
       <ul>
         <li>
           Call us at 1-888-GIBILL (<a href="tel:+18884424551">1-888-442-4551</a>
-          ). We’re here Monday through Friday, 8:00a.m. to 7:00 p.m. ET If you
+          ). We’re here Monday through Friday, 8:00a.m. to 7:00 p.m. ET. If you
           have hearing loss, call TYY:711.
         </li>
         <li>

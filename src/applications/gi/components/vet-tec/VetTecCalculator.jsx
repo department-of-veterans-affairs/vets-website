@@ -128,7 +128,7 @@ export class VetTecCalculator extends React.Component {
   renderHousingSection = (outputs, showModal) => (
     <div className="housing-section">
       <div className="link-header">
-        <h5>Housing Allowance:</h5>{' '}
+        <h5>Housing allowance</h5>{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
