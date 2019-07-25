@@ -27,7 +27,7 @@ class ProviderDetail extends Component {
     focusElement('.va-nav-breadcrumbs');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const providerJustLoaded = !prevProps.location && this.props.location;
 
     if (providerJustLoaded) {
