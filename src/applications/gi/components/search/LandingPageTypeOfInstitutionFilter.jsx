@@ -13,13 +13,13 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
   };
 
   render() {
-    const options = [{ value: 'school', label: 'Schools only' }];
-
-    options.push({ value: 'school', label: 'Schools only' });
-    options.push({
-      value: 'employer',
-      label: 'Employers (On-the-job training [OJT], apprenticeships)',
-    });
+    const options = [
+      { value: 'school', label: 'Schools' },
+      {
+        value: 'employer',
+        label: 'Employers (On-the-job training [OJT], apprenticeships)',
+      },
+    ];
     if (this.props.displayVetTecOption) {
       const vetTecLabel = (
         <span>

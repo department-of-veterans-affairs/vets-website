@@ -76,15 +76,16 @@ export class LandingPage extends React.Component {
     const value = e.target.value;
     const { filters } = this.props;
 
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'typeOfInstitution',
+      'gibct-form-value': 'radioButtonLabel',
+    });
+
     if (field === 'category') {
       filters.vetTecProvider = value === 'vettec';
 
       if (filters.vetTecProvider) {
-        recordEvent({
-          event: 'gibct-form-change',
-          'gibct-form-field': 'typeOfInstitution',
-          'gibct-form-value': 'radioButtonLabel',
-        });
         this.props.updateAutocompleteSearchTerm('');
       }
     }
