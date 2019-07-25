@@ -57,7 +57,14 @@ export class SearchPage extends React.Component {
   }
 
   updateSearchResults = () => {
-    const programFilters = [
+    const validQueryParams = [
+      'version',
+      'page',
+      'name',
+      'category',
+      'country',
+      'state',
+      'type',
       'distanceLearning',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
@@ -68,24 +75,16 @@ export class SearchPage extends React.Component {
       'priorityEnrollment',
       'independentStudy',
       'vetTecProvider',
+      'preferredProvider',
     ];
 
-    const query = _.pick(this.props.location.query, [
-      'version',
-      'page',
-      'name',
-      'category',
-      'country',
-      'state',
-      'type',
-      ...programFilters,
-    ]);
+    const query = _.pick(this.props.location.query, validQueryParams);
 
     // Update form selections based on query.
     const institutionFilter = _.omit(query, ['page', 'name']);
 
     // Convert string to bool for params associated with checkboxes.
-    programFilters.forEach(filterKey => {
+    validQueryParams.forEach(filterKey => {
       const filterValue = institutionFilter[filterKey];
       institutionFilter[filterKey] = filterValue === 'true';
     });
