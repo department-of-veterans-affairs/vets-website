@@ -3,7 +3,7 @@ import React from 'react';
 
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
-import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
+import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
 import { addAllOption } from '../../utils/helpers';
 
 import environment from '../../../../platform/utilities/environment';
@@ -20,7 +20,7 @@ class InstitutionFilterForm extends React.Component {
   };
 
   renderCategoryFilter = () => (
-    <TypeOfInstitutionFilter
+    <SearchResultTypeOfInstitutionFilter
       category={this.props.filters.category}
       onChange={this.handleDropdownChange}
       displayAllOption

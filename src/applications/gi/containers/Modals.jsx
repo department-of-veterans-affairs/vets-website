@@ -1025,6 +1025,37 @@ export class Modals extends React.Component {
 
       <Modal
         onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('VET TEC')}
+      >
+        <div>
+          <div>
+            <strong>
+              <h3>VET TEC</h3>
+            </strong>
+          </div>
+
+          <p>
+            Veteran Employment Through Technology Education Courses (VET TEC) is
+            a 5-year pilot program that matches Veterans with high-tech training
+            providers. Veterans can start or advance their career in the
+            high-tech industry with a training program that’ll take months—or
+            just weeks—to complete.
+          </p>
+          <p>
+            <a
+              href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {' '}
+              Learn more about VET TEC
+            </a>
+          </p>
+        </div>
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
