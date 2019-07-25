@@ -18,10 +18,11 @@ import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
 import environment from 'platform/utilities/environment';
-import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
+import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class LandingPage extends React.Component {
   componentDidMount() {
@@ -74,6 +75,12 @@ export class LandingPage extends React.Component {
     const field = e.target.name;
     const value = e.target.value;
     const { filters } = this.props;
+
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'typeOfInstitution',
+      'gibct-form-value': 'radioButtonLabel',
+    });
 
     if (field === 'category') {
       filters.vetTecProvider = value === 'vettec';
@@ -133,8 +140,9 @@ export class LandingPage extends React.Component {
               />
               {/* CT 116 */}
               {!environment.isProduction() && (
-                <TypeOfInstitutionFilter
+                <LandingPageTypeOfInstitutionFilter
                   category={this.props.filters.category}
+                  showModal={this.props.showModal}
                   onChange={this.handleTypeOfInstitutionFilterChange}
                   eligibility={this.props.eligibility}
                   displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
