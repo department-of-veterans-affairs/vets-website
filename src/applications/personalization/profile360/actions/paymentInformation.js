@@ -70,7 +70,8 @@ export function savePaymentInformation(fields) {
 
     if (response.error) {
       recordEvent({
-        event: 'profile-transaction-failure',
+        event: 'profile-edit-failure',
+        'profile-action': 'save-failure',
         'profile-section': 'direct-deposit-information',
       });
       dispatch({
@@ -79,7 +80,7 @@ export function savePaymentInformation(fields) {
       });
     } else {
       recordEvent({
-        event: 'profile-transaction-success',
+        event: 'profile-transaction',
         'profile-section': 'direct-deposit-information',
       });
       dispatch({

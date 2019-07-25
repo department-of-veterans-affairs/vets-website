@@ -90,7 +90,11 @@ export function refreshTransaction(
         const forceCacheClear = true;
         await dispatch(refreshProfile(forceCacheClear));
         dispatch(clearTransaction(transactionRefreshed));
-        recordEvent({ event: 'profile-saved' });
+        recordEvent({
+          event: 'profile-saved',
+          'profile-action': 'save-success',
+          'profile-section': analyticsSectionName,
+        });
       } else {
         dispatch({
           type: VET360_TRANSACTION_UPDATED,
