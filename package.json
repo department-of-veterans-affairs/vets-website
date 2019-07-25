@@ -101,6 +101,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.3.0",
     "@sentry/browser": "^5.4.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
@@ -205,7 +206,8 @@
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.5.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "yo": "^3.1.0"
   },
   "optionalDependencies": {},
   "engines": {
