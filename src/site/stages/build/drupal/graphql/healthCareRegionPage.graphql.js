@@ -73,7 +73,7 @@ module.exports = `
         path
       }
       title
-    }    
+    }
     ${
       enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
         ? `
@@ -82,10 +82,18 @@ module.exports = `
             path
           }
           title
-        }        
+        }
         `
         : ''
-    } 
+    }
+    reverseFieldRegionPageNode(limit: 100000, filter:{conditions:[{field: "type", value: "health_care_local_facility"}]}) {
+      entities {
+        ... on NodeHealthCareLocalFacility {
+          title
+          fieldOperatingStatusFacility
+        }
+      }
+    }
     allPressReleaseTeasers: reverseFieldOfficeNode(filter: {
       conditions: [
         { field: "type", value: "press_release"}
