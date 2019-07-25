@@ -13,7 +13,7 @@ const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   );
 };
 
-export const VetTecHeadingSummary = ({ institution }) => (
+export const VetTecHeadingSummary = ({ institution, showModal }) => (
   <div className="heading row">
     <div className="usa-width-two-thirds medium-8 small-12 column">
       <h1>{institution.name}</h1>
@@ -27,7 +27,8 @@ export const VetTecHeadingSummary = ({ institution }) => (
               institution.preferredProvider === true
             }
           >
-            Preferred provider (<a>Learn more</a>)
+            Preferred provider (
+            <a onClick={() => showModal('preferredProviders')}>Learn more</a>)
           </IconWithInfo>
           {institution.city &&
             institution.country && (
@@ -48,6 +49,7 @@ export const VetTecHeadingSummary = ({ institution }) => (
 
 VetTecHeadingSummary.propTypes = {
   institution: PropTypes.object,
+  showModal: PropTypes.func,
 };
 
 export default VetTecHeadingSummary;

@@ -43,7 +43,6 @@ export class Modals extends React.Component {
       </p>
     </div>
   );
-
   shouldDisplayModal = modal => this.props.modals.displaying === modal;
 
   renderProfilePageModals = () => (
@@ -58,7 +57,6 @@ export class Modals extends React.Component {
           institution after their freshman year.
         </p>
       </Modal>
-
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('gradrates')}
@@ -75,7 +73,6 @@ export class Modals extends React.Component {
           is using benefits.
         </p>
       </Modal>
-
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('salaries')}
@@ -86,7 +83,6 @@ export class Modals extends React.Component {
           aid, 10 years after they started school.
         </p>
       </Modal>
-
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('repayment')}
@@ -95,6 +91,94 @@ export class Modals extends React.Component {
         <p>
           The share of students who have repaid at least $1 of the principal
           balance on their federal loans within 3 years of leaving school.
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('preferredProviders')}
+      >
+        <h3>Preferred training providers</h3>
+        <p>
+          A provider is “preferred” if the training facility agrees to refund
+          tuition and fees to VA if the student completes the program and
+          doesn’t find meaningful employment within 180 days.
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('tuitionAndFees')}
+      >
+        <h3>Tuition and fees</h3>
+        <p>
+          VA pays all tuition and fees for the VET TEC program directly to the
+          training provider.
+        </p>
+        <p>
+          If you’re participating in a VET TEC program, you’ll have the same
+          annual tuition and fees cap as students attending a private
+          institution under the Post-9/11 GI Bill. If your tuition and fees
+          exceed that cap, you’ll be responsible for paying those.
+        </p>
+        <p>
+          Preferred Provider training programs aren’t subject to a cap on
+          tuition and fees.
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('scholarships')}
+      >
+        <h3>Scholarships</h3>
+        <p>
+          Are you receiving any scholarships or grants that go directly to pay
+          your tuition or fees for this program? If so, add that number here.
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('payToProvider')}
+      >
+        <h3>VA pays to provider</h3>
+        <p>
+          To help ensure that Veterans find jobs, VA pays VET TEC training
+          providers in three installments based on the progress and success of
+          their Veteran students.
+        </p>
+        <p>
+          Training providers receive:
+          <ul>
+            <li>
+              An initial 25 percent of tuition and fees when the Veteran enrolls
+              and begins attending the program{' '}
+            </li>
+            <li>
+              Another 25 percent when the Veteran completes their training
+            </li>
+            <li>
+              The remaining 50 percent once the Veteran secures meaningful
+              employment in their field of study
+            </li>
+          </ul>
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('housingAllowance')}
+      >
+        <h3>Housing allowance</h3>
+        <p>
+          If you attend your training program in person, your housing stipend
+          will be equal to the monthly military Basic Allowance for Housing
+          (BAH) for an E-5 with dependents. This is based on the zip code where
+          you attend your training.
+        </p>
+        <p>
+          If you participate in an online program, your stipend will be half of
+          the BAH national average for an E-5 with dependents.
+        </p>
+        <p>
+          <strong>Note:</strong> If you don’t attend a training for a full
+          month, we’ll prorate your housing payment for the days you train.
         </p>
       </Modal>
     </span>
@@ -1045,7 +1129,6 @@ export class Modals extends React.Component {
     return (
       <span>
         {this.renderLandingPageModals()}
-        {this.renderVetTecSearchResultsModals()}
         {this.renderProfilePageModals()}
         {this.renderProfileSchoolHeaderModals()}
         {this.renderProfileVeteranSummaryModals()}
@@ -1053,6 +1136,7 @@ export class Modals extends React.Component {
         {this.renderProfileHistoryModals()}
         {this.renderProfileCautionFlagModals()}
         {this.renderProfileCalculatorModals()}
+        {this.renderVetTecSearchResultsModals()}
       </span>
     );
   }

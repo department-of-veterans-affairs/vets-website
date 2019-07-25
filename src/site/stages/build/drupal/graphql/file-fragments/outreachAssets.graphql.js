@@ -1,5 +1,5 @@
 module.exports = `
-  outreachAssets: nodeQuery(filter: {conditions: [{field: "type", value: "outreach_asset"}]}, limit: 10000) {
+  outreachAssets: nodeQuery(filter: {conditions: [{field: "type", value: "outreach_asset", field: "status", value: ["1"], enabled: $onlyPublishedContent}]}, limit: 10000) {
     entities {
       ... on NodeOutreachAsset {
         entityId
