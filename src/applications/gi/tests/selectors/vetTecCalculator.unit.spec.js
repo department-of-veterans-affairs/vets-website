@@ -49,7 +49,7 @@ describe('getCalculatedBenefits', () => {
   it('should default vetTecScholarships to "TBD"', () => {
     expect(
       getCalculatedBenefits(defaultState).outputs.vetTecScholarships,
-    ).to.equal('TBD');
+    ).to.equal('$0');
   });
 
   it('should default vaPaysToProvider to "TBD"', () => {
@@ -80,7 +80,7 @@ describe('getCalculatedBenefits', () => {
     const state = set('calculator.vetTecTuitionFees', '100', defaultState);
     const calculatedBenefits = getCalculatedBenefits(state);
     expect(calculatedBenefits.outputs.vetTecTuitionFees).to.equal('$100');
-    expect(calculatedBenefits.outputs.vetTecScholarships).to.equal('TBD');
+    expect(calculatedBenefits.outputs.vetTecScholarships).to.equal('$0');
     expect(calculatedBenefits.outputs.vaPaysToProvider).to.equal('$100');
     expect(calculatedBenefits.outputs.quarterVetTecPayment).to.equal('$25');
     expect(calculatedBenefits.outputs.halfVetTecPayment).to.equal('$50');
