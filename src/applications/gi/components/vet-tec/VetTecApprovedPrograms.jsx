@@ -3,8 +3,7 @@ import React from 'react';
 export const VetTecApprovedPrograms = () => (
   <div>
     <p>
-      Program data will soon be available for this provider. Learn more about
-      VET TEC programs.{' '}
+      Program data will be available for this provider soon.{' '}
       <a
         href={
           '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/'

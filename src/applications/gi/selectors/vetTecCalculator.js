@@ -31,7 +31,7 @@ export const getCalculatedBenefits = createSelector(
     return {
       outputs: {
         vetTecTuitionFees: formatCurrencyNullTBD(inputs.vetTecTuitionFees),
-        vetTecScholarships: formatCurrencyNullTBD(inputs.vetTecScholarships),
+        vetTecScholarships: formatCurrency(inputs.vetTecScholarships),
         vaPaysToProvider: formatCurrencyNullTBD(paysToProviderValue),
         quarterVetTecPayment: formatCurrencyNullTBD(quarterPaysToProviderValue),
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
