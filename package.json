@@ -164,6 +164,7 @@
     "jsonschema": "^1.1.1",
     "libxmljs": "^0.19.5",
     "metalsmith-assets": "^0.1.0",
+    "metalsmith-broken-link-checker": "file:node_modules/metalsmith-broken-link-checker",
     "metalsmith-date-in-filename": "^0.0.14",
     "metalsmith-watch": "^1.0.3",
     "mini-css-extract-plugin": "^0.7.0",
