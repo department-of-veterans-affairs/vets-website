@@ -1013,7 +1013,7 @@ export class Modals extends React.Component {
           For detailed information on eligibility requirements and general
           program benefits, visit{' '}
           <a
-            href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
+            href="/education/eligibility/"
             target="_blank"
             rel="noopener noreferrer"
           >
