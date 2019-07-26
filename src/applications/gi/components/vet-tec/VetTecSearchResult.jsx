@@ -55,7 +55,9 @@ export class SearchResult extends React.Component {
               </div>
               <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
                 {renderPreferredProviderFlag(this.props.result)}
-                <h3 className="vads-u-padding-top--1p5">You may be eligible for up to:</h3>
+                <h3 className="vads-u-padding-top--1p5">
+                  You may be eligible for up to:
+                </h3>
                 <div className="row">
                   <div className="columns">
                     <h4>
