@@ -79,7 +79,7 @@ export class LandingPage extends React.Component {
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': 'typeOfInstitution',
-      'gibct-form-value': 'radioButtonLabel',
+      'gibct-form-value': value,
     });
 
     if (field === 'category') {
