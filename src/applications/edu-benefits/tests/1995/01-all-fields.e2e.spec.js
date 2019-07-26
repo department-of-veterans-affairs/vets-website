@@ -2,7 +2,7 @@ const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const EduHelpers = require('../1990/edu-helpers');
 const Edu1995Helpers = require('./edu-1995-helpers');
-const testData = require('./schema/maximal-test.json');
+const testData = require('./schema/e2e-maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
