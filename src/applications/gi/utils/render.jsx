@@ -24,7 +24,7 @@ export const renderCautionFlag = result => {
 
 export const renderPreferredProviderFlag = result => {
   const { preferredProvider } = result;
-  if (!preferredProvider) return null;
+  if (!preferredProvider) return <br />;
   return (
     <div className="preferred-flag">
       <i className="fa fa-star vads-u-color--gold" />
