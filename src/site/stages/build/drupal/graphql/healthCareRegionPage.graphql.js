@@ -90,7 +90,13 @@ module.exports = `
       entities {
         ... on NodeHealthCareLocalFacility {
           title
-          fieldOperatingStatusFacility
+          ${
+            enabledFeatureFlags[
+              featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
+            ]
+              ? 'fieldOperatingStatusFacility'
+              : ''
+          }
         }
       }
     }

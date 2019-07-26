@@ -21,7 +21,6 @@ module.exports = `
         ? 'fieldOperatingStatusFacility'
         : ''
     }
-    fieldOperatingStatusFacility
     fieldLocationServices {
       entity {
         ... on ParagraphHealthCareLocalFacilityServi {
