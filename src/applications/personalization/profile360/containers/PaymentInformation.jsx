@@ -141,10 +141,10 @@ class PaymentInformation extends React.Component {
     });
   };
 
-  renderSetupButton(label) {
+  renderSetupButton(label, gaProfileSection) {
     return (
       <a
-        onClick={() => this.handleLinkClick('add', label)}
+        onClick={() => this.handleLinkClick('add', gaProfileSection)}
       >{`Please add your ${label}`}</a>
     );
   }
@@ -177,41 +177,44 @@ class PaymentInformation extends React.Component {
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                !directDepositIsSetUp &&
                 (() => this.handleLinkClick('edit', 'bank-name'))
               }
             >
               Bank name
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {!directDepositIsSetUp
               ? paymentAccount.financialInstitutionName
-              : this.renderSetupButton('bank name')}
+              : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                !directDepositIsSetUp &&
                 (() => this.handleLinkClick('edit', 'account-number'))
               }
             >
               Account number
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {!directDepositIsSetUp
               ? paymentAccount.accountNumber
-              : this.renderSetupButton('account number')}
+              : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                !directDepositIsSetUp &&
                 (() => this.handleLinkClick('edit', 'account-type'))
               }
             >
               Account type
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {!directDepositIsSetUp
               ? paymentAccount.accountType
-              : this.renderSetupButton('account type (checking or savings)')}
+              : this.renderSetupButton(
+                  'account type (checking or savings)',
+                  'account-type',
+                )}
           </div>
           {directDepositIsSetUp && (
             <p>
