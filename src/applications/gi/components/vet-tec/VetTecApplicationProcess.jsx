@@ -1,7 +1,7 @@
 import React from 'react';
 
 const VetTecApplicationProcess = () => (
-  <div className="usa-width-one-whole">
+  <div className="columns vads-u-margin-top--neg1p5 vads-u-margin-x--neg1p5">
     <h4>Enrolling in VET TEC is a two-step process:</h4>
     <p>
       First, you’ll need to apply for Veteran Employment Through Technology
@@ -36,7 +36,7 @@ const VetTecApplicationProcess = () => (
     </p>
     <h4>Have questions about the VET TEC program or how to apply?</h4>
     <div>
-      <ul>
+      <ul className="vet-tec-application-process-list">
         <li>
           Call us at 1-888-GIBILL (<a href="tel:+18884424551">1-888-442-4551</a>
           ). We’re here Monday through Friday, 8:00a.m. to 7:00 p.m. ET. If you
