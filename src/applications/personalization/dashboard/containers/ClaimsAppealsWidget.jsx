@@ -15,7 +15,6 @@ import {
   getAppealsV2,
   getClaimsV2,
 } from 'applications/claims-status/actions/index.jsx';
-import recordEvent from 'platform/monitoring/record-event';
 
 import ClaimsUnavailable from 'applications/claims-status/components/ClaimsUnavailable';
 import AppealsUnavailable from 'applications/claims-status/components/AppealsUnavailable';
@@ -26,20 +25,11 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import { recordDashboardClick } from '../helpers';
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../../../claims-status/components/appeals-v2/AppealListItemV2';
 
 const appealTypes = Object.values(APPEAL_TYPES);
-
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-link',
-      'dashboard-product': product,
-    });
-  };
-}
 
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
