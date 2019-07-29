@@ -28,13 +28,19 @@ class ProviderDetail extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const providerJustLoaded = !prevProps.location && this.props.location;
+    const justLoaded =
+      prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
 
-    if (providerJustLoaded) {
+    if (justLoaded) {
+      this.__previousDocTitle = document.title;
       document.title = `${
         this.props.location.attributes.name
       } | Veterans Affairs`;
     }
+  }
+
+  componentWillUnmount() {
+    document.title = this.__previousDocTitle;
   }
 
   renderFacilityInfo = () => {

@@ -26,13 +26,19 @@ class FacilityDetail extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const facilityJustLoaded = !prevProps.facility && this.props.facility;
+    const justLoaded =
+      prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
 
-    if (facilityJustLoaded) {
+    if (justLoaded) {
+      this.__previousDocTitle = document.title;
       document.title = `${
         this.props.facility.attributes.name
       } | Veterans Affairs`;
     }
+  }
+
+  componentWillUnmount() {
+    document.title = this.__previousDocTitle;
   }
 
   renderFacilityInfo() {
