@@ -16,6 +16,7 @@ import {
   getClaimsV2,
 } from 'applications/claims-status/actions/index.jsx';
 
+import AppealListItem from 'applications/claims-status/components/appeals-v2/AppealListItemV2';
 import ClaimsUnavailable from 'applications/claims-status/components/ClaimsUnavailable';
 import AppealsUnavailable from 'applications/claims-status/components/AppealsUnavailable';
 import ClaimsAppealsUnavailable from 'applications/claims-status/components/ClaimsAppealsUnavailable';
@@ -27,7 +28,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { recordDashboardClick } from '../helpers';
 import ClaimsListItem from '../components/ClaimsListItem';
-import AppealListItem from '../../../claims-status/components/appeals-v2/AppealListItemV2';
 
 const appealTypes = Object.values(APPEAL_TYPES);
 
