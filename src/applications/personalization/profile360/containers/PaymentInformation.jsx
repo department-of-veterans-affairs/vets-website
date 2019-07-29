@@ -141,10 +141,10 @@ class PaymentInformation extends React.Component {
     });
   };
 
-  renderSetupButton(label) {
+  renderSetupButton(label, gaProfileSection) {
     return (
       <a
-        onClick={() => this.handleLinkClick('add', label)}
+        onClick={() => this.handleLinkClick('add', gaProfileSection)}
       >{`Please add your ${label}`}</a>
     );
   }
@@ -185,7 +185,7 @@ class PaymentInformation extends React.Component {
             </ProfileFieldHeading>
             {directDepositIsSetUp
               ? paymentAccount.financialInstitutionName
-              : this.renderSetupButton('bank name')}
+              : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
@@ -198,7 +198,7 @@ class PaymentInformation extends React.Component {
             </ProfileFieldHeading>
             {directDepositIsSetUp
               ? paymentAccount.accountNumber
-              : this.renderSetupButton('account number')}
+              : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
@@ -211,7 +211,10 @@ class PaymentInformation extends React.Component {
             </ProfileFieldHeading>
             {directDepositIsSetUp
               ? paymentAccount.accountType
-              : this.renderSetupButton('account type (checking or savings)')}
+              : this.renderSetupButton(
+                  'account type (checking or savings)',
+                  'account-type',
+                )}
           </div>
           {directDepositIsSetUp && (
             <p>
