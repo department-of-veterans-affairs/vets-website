@@ -41,6 +41,7 @@ Once you have the site set up locally, these are some common commands you might 
 | run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
 | generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- --buildtype=vagovprod --analyzer`. Note that if you get an error like `FetchError: request to http://prod.cms.va.gov/graphql failed` you need to be on the SOCKS proxy                  |
 | load the analyzer tool on a stats file  | `npm run analyze`                  |
+| add a new React app | `npm run new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) sibling to `vets-website`) |
 
 ## Supported Browsers
 
