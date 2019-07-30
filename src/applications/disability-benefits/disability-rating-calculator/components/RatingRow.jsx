@@ -50,7 +50,7 @@ class RatingRow extends React.Component {
           </>
         )}
         <div className="vads-l-grid-container--full">
-          <div className="rating vads-l-row">
+          <div className={`rating row-${this.props.indx + 1} vads-l-row`}>
             <span id={rowId} className="sr-only">
               row {this.props.indx + 1}
             </span>
