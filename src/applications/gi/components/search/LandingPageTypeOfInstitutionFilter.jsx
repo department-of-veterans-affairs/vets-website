@@ -28,18 +28,6 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
             Learn More)
             <br />
           </a>
-          {this.props.category === 'vettec' && (
-            <span className="vads-u-margin-x--neg5">
-              {' '}
-              <img
-                className="vads-u-padding-top--3"
-                src="/img/logo/vet-tec-logo.png"
-                alt="Vet Tec Logo"
-                width="179px"
-                height="85px"
-              />
-            </span>
-          )}
         </span>
       );
       options.push({
