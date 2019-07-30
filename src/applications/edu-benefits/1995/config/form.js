@@ -2,6 +2,7 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import { transform as oldTransform } from '../helpers';
 import { transform } from '../submit-transformer';
+import { prefillTransformer } from '../prefill-transformer';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -32,6 +33,7 @@ const formConfig = {
   version: 1,
   migrations: [urlMigration('/1995')],
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:

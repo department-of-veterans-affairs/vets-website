@@ -4,8 +4,8 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
-
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
+const healthCareRegionFeaturedHealthServices = require('./facilities-fragments/healthCareRegionFeaturedHealthServces.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
@@ -125,6 +125,11 @@ module.exports = `
     ${healthCareRegionEvents}
     fieldClinicalHealthCareServi {
       processed
+    }
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT]
+        ? healthCareRegionFeaturedHealthServices
+        : ''
     }
     ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {

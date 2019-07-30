@@ -69,11 +69,20 @@ export function savePaymentInformation(fields) {
     );
 
     if (response.error) {
+      recordEvent({
+        event: 'profile-edit-failure',
+        'profile-action': 'save-failure',
+        'profile-section': 'direct-deposit-information',
+      });
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_FAILED,
         response,
       });
     } else {
+      recordEvent({
+        event: 'profile-transaction',
+        'profile-section': 'direct-deposit-information',
+      });
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_SUCCEEDED,
         response,

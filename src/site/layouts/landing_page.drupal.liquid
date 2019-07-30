@@ -2,7 +2,7 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
-<div id="content" class="interior">
+<div id="content" class="interior">   
   <main>
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
@@ -85,7 +85,8 @@
                 <h4>Message us</h4>
                 <ul class="va-nav-linkslist-list social">
                   <li>
-                    <a href="https://iris.custhelp.va.gov/app/ask">
+                    <a href="https://iris.custhelp.va.gov/app/ask"
+                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Ask questions' });">
                       Ask a question online
                     </a>
                   </li>
@@ -100,7 +101,8 @@
                   {% assign service = supportService.entity %}
                   <li>
                     {% if service.fieldPhoneNumber %}
-                    <a href="{{ service.fieldLink.url.path }}">
+                    <a href="{{ service.fieldLink.url.path }}"
+                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Ask questions' });">
                       <span>{{ service.title }}</span><br>
                       <span>{{ service.fieldPhoneNumber }}</span>
                     </a>
@@ -129,7 +131,8 @@
               <ul class="va-nav-linkslist-list links">
                 {% for link in fieldLinks %}
                 <li>
-                  <a href="{{ link.url.path }}">
+                  <a href="{{ link.url.path }}"
+                    onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Not a Veteran?' });">
                     <span>{{ link.title }}</span>
                   </a>
                 </li>

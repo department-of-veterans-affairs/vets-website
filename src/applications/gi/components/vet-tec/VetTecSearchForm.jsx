@@ -5,6 +5,7 @@ import Checkbox from '../Checkbox';
 import { addAllOption } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
+import VetTecFilterBy from './VetTecFilterBy';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -110,6 +111,14 @@ class VetTecSearchForm extends React.Component {
     );
   };
 
+  renderFilterBy = () => (
+    <VetTecFilterBy
+      showModal={this.props.showModal}
+      filters={this.props.filters}
+      handleFilterChange={this.props.handleFilterChange}
+    />
+  );
+
   render() {
     return (
       <div className="row">
@@ -133,9 +142,10 @@ class VetTecSearchForm extends React.Component {
               }
             />
 
-            {this.renderLearningFormat()}
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
+            {this.renderLearningFormat()}
+            {this.renderFilterBy()}
           </div>
           <div className="results-button">
             <button className="usa-button" onClick={this.props.toggleFilter}>

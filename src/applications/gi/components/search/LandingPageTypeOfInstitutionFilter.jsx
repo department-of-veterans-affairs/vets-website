@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { isVetTecSelected } from '../../utils/helpers';
 import classNames from 'classnames';
 
-class TypeOfInstitutionFilter extends React.Component {
+class LandingPageTypeOfInstitutionFilter extends React.Component {
   static propTypes = {
     category: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -12,7 +12,6 @@ class TypeOfInstitutionFilter extends React.Component {
 
   static defaultProps = {
     displayVetTecOption: false,
-    displayAllOption: false,
   };
 
   options = () => {
@@ -33,11 +32,7 @@ class TypeOfInstitutionFilter extends React.Component {
       const vetTecLabel = (
         <span>
           VET TEC training providers only &nbsp;(
-          <a
-            href="/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a onClick={() => this.props.showModal('VET TEC')}>
             Learn More)
             <br />
           </a>
@@ -96,4 +91,4 @@ class TypeOfInstitutionFilter extends React.Component {
   }
 }
 
-export default TypeOfInstitutionFilter;
+export default LandingPageTypeOfInstitutionFilter;
