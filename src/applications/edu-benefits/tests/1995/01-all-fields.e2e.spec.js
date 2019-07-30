@@ -38,6 +38,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
+  // STEM page
+  client.waitForElementVisible(
+    'label[for="root_isEdithNourseRogersScholarshipYes"',
+    Timeouts.slow,
+  );
+  Edu1995Helpers.completeStemSelection(client);
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/benefits/stem');
+
   // Service periods page.
   client.waitForElementVisible(
     'label[for="root_view:newServiceYes"]',
@@ -54,7 +63,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   Edu1995Helpers.completeMilitaryService(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
+  E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
   // New school page.
   client.waitForElementVisible(
