@@ -49,7 +49,7 @@ class PersonalizationDropdown extends React.Component {
         </li>
         <li>
           <a href="/notification" onClick={recordAccountEvent}>
-            Notification
+            Health Notifications
           </a>
         </li>
         <li>
