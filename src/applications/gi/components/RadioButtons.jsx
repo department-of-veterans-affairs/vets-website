@@ -18,50 +18,16 @@ import ExpandingGroup from '@department-of-veterans-affairs/formation-react/Expa
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class RadioButtons extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-  }
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
     this.inputId = _.uniqueId('radio-buttons-');
   }
 
-  handleChange(domEvent) {
+  handleChange = domEvent => {
     this.props.onChange(domEvent);
-  }
+  };
 
-  render() {
-    // TODO: extract error logic into a utility function
-    // Calculate error state.
-    let errorSpan = '';
-    let errorSpanId = undefined;
-    if (this.props.errorMessage) {
-      errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = (
-        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-          <span className="sr-only">Error</span> {this.props.errorMessage}
-        </span>
-      );
-    }
-
-    // Addes ToolTip if text is provided.
-    let toolTip;
-    if (this.props.toolTipText) {
-      toolTip = (
-        <ToolTip
-          tabIndex={this.props.tabIndex}
-          toolTipText={this.props.toolTipText}
-        />
-      );
-    }
-
-    // Calculate required.
-    let requiredSpan = undefined;
-    if (this.props.required) {
-      requiredSpan = <span className="form-required-span">*</span>;
-    }
-
+  renderOptions = () => {
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value;
     const optionElements = options.map((obj, index) => {
@@ -121,6 +87,40 @@ class RadioButtons extends React.Component {
       return output;
     });
 
+    return <fieldset>{optionElements}</fieldset>;
+  };
+
+  render() {
+    // TODO: extract error logic into a utility function
+    // Calculate error state.
+    let errorSpan = '';
+    let errorSpanId = undefined;
+    if (this.props.errorMessage) {
+      errorSpanId = `${this.inputId}-error-message`;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
+    }
+
+    // Addes ToolTip if text is provided.
+    let toolTip;
+    if (this.props.toolTipText) {
+      toolTip = (
+        <ToolTip
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}
+        />
+      );
+    }
+
+    // Calculate required.
+    let requiredSpan = undefined;
+    if (this.props.required) {
+      requiredSpan = <span className="form-required-span">*</span>;
+    }
+
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <label
@@ -133,7 +133,7 @@ class RadioButtons extends React.Component {
           {requiredSpan}
         </label>
         {errorSpan}
-        {optionElements}
+        {this.renderOptions()}
         {toolTip}
       </div>
     );
