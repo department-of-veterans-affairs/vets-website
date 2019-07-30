@@ -19,7 +19,7 @@
 
                 <div>{{ localServiceDescription }}</div>
 
-                <div data-widget-type="facility-appointment-wait-times-widget" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}" data-service="{{ serviceTaxonomy.name | escape }}"></div>
+                <div data-widget-type="facility-appointment-wait-times-widget" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}" data-service="{{ serviceTaxonomy | healthServiceApiId | escape }}"></div>
 
                 {% if healthService.fieldBody.processed %}<div>{{ healthService.fieldBody.processed }}</div>{% endif %}
             </div>
