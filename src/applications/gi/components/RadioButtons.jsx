@@ -87,12 +87,7 @@ class RadioButtons extends React.Component {
       return output;
     });
 
-    return (
-      <fieldset>
-        <legend className="vads-u-display--none">{this.props.name}</legend>
-        {optionElements}
-      </fieldset>
-    );
+    return optionElements;
   };
 
   render() {
@@ -128,18 +123,24 @@ class RadioButtons extends React.Component {
 
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
-        <label
-          className={
-            this.props.errorMessage ? 'usa-input-error-label' : undefined
-          }
-          htmlFor={this.inputId}
-        >
-          {this.props.label}
-          {requiredSpan}
-        </label>
-        {errorSpan}
-        {this.renderOptions()}
-        {toolTip}
+        <fieldset>
+          <div>
+            <legend
+              id={`${this.inputId}-legend`}
+              className={
+                this.props.errorMessage
+                  ? 'usa-input-error-label'
+                  : 'gibct-legend'
+              }
+            >
+              {this.props.label}
+              {requiredSpan}
+            </legend>
+            {errorSpan}
+            {this.renderOptions()}
+            {toolTip}
+          </div>
+        </fieldset>
       </div>
     );
   }
