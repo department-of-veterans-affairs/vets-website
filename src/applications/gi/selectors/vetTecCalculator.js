@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createSelector } from 'reselect';
 import { formatCurrency } from '../utils/helpers';
 
@@ -14,7 +15,7 @@ export const getCalculatedBenefits = createSelector(
   getInstitution,
   (inputs, constants, institution) => {
     const inputsNull =
-      inputs.vetTecTuitionFees === null && inputs.vetTecScholarships === null;
+      inputs.vetTecTuitionFees === null || inputs.vetTecTuitionFees === 0;
 
     const paysToProviderValue = inputsNull
       ? null
@@ -28,14 +29,38 @@ export const getCalculatedBenefits = createSelector(
       ? null
       : paysToProviderValue * 0.5;
 
+    const determineOutOfPocketFees = () => {
+      let oop;
+      if (inputs.vetTecTuitionFees === null || inputs.vetTecTuitionFees === 0) {
+        oop = null;
+      } else if (institution.preferredProvider) {
+        oop = 0;
+      } else if (inputs.vetTecTuitionFees > constants.TFCAP) {
+        oop =
+          inputs.vetTecTuitionFees -
+          constants.TFCAP -
+          inputs.vetTecScholarships;
+        if (oop < 0) {
+          oop = 0;
+        }
+      } else {
+        oop = 0;
+      }
+      return oop;
+    };
+
     return {
       outputs: {
-        vetTecTuitionFees: formatCurrencyNullTBD(inputs.vetTecTuitionFees),
+        vetTecTuitionFees: formatCurrencyNullTBD(
+          inputs.vetTecTuitionFees === 0 ? null : inputs.vetTecTuitionFees,
+        ),
         vetTecScholarships: formatCurrency(inputs.vetTecScholarships),
         vaPaysToProvider: formatCurrencyNullTBD(paysToProviderValue),
         quarterVetTecPayment: formatCurrencyNullTBD(quarterPaysToProviderValue),
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
-        outOfPocketTuitionFees: 'TBD',
+        outOfPocketTuitionFees: formatCurrencyNullTBD(
+          determineOutOfPocketFees(),
+        ),
         inPersonRate: `${formatCurrency(institution.dodBah)}/mo`,
         onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}/mo`,
       },
