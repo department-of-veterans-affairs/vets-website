@@ -142,7 +142,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>In person rate:</div>
         </div>
-        <div className="small-4 columns">
+        <div className="small-4 columns vads-u-text-align--right">
           <div>{outputs.inPersonRate}</div>
         </div>
       </div>
@@ -151,7 +151,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>Online rate:</div>
         </div>
-        <div className="small-4 columns">
+        <div className="small-4 columns vads-u-text-align--right">
           <div>{outputs.onlineRate}</div>
         </div>
       </div>
