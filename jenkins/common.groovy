@@ -5,9 +5,9 @@ DRUPAL_MAPPING = [
 ]
 
 DRUPAL_ADDRESSES = [
-  'vagovdev'    : 'http://internal-dev-vagovcms-3000-552087943.us-gov-west-1.elb.amazonaws.com',
-  'vagovstaging': 'http://internal-stg-vagovcms-3000-521598752.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'   : 'http://internal-prod-vagovcms-3001-2053888503.us-gov-west-1.elb.amazonaws.com',
+  'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
+  'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
+  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
 ]
 
 DRUPAL_CREDENTIALS = [
