@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     'label[for="root_isEdithNourseRogersScholarshipYes"',
     Timeouts.slow,
   );
-  EduHelpers.completeStemSelection(client);
+  Edu1995Helpers.completeStemSelection(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/stem');
 
