@@ -24,7 +24,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
       const vetTecLabel = (
         <span>
           VET TEC training providers only &nbsp;(
-          <a onClick={() => this.props.showModal('VET TEC')}>
+          <a onClick={() => this.props.showModal('vetTec')}>
             Learn More)
             <br />
           </a>

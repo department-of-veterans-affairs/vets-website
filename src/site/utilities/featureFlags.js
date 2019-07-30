@@ -23,6 +23,9 @@ const featureFlags = {
   FEATURE_SINGLE_VALUE_FIELD_LINK: 'featureSingleValueFieldLink',
   FEATURE_REGION_PAGE_LINKS: 'featureRegionPageLinks',
   FEATURE_REGION_DETAIL_PAGE_TOC: 'featureRegionDetailPageTOC',
+  FEATURE_FEATURED_HEALTH_SERVICE_CONTENT:
+    'featureFeaturedHealthServiceContent',
+  FEATURE_FIELD_OPERATING_STATUS_FACILITY: 'fieldOperatingStatusFacility',
 };
 
 // Edit this to turn flags on or off
@@ -42,6 +45,8 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
+    featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
+    featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
@@ -58,6 +63,8 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
+    featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
+    featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -70,6 +77,9 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
+    featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
+    featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
+    featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
   ],
   vagovprod: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,

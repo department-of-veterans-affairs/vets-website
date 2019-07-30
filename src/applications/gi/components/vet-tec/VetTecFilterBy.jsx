@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../Checkbox';
 import { renderLearnMoreLabel } from '../../utils/render';
+import recordEvent from 'platform/monitoring/record-event';
 
 class VetTecFilterBy extends React.Component {
   static propTypes = {
@@ -12,6 +13,11 @@ class VetTecFilterBy extends React.Component {
 
   handleFilterChange = e => {
     const { name: field, checked: value } = e.target;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'preferredProvider',
+      'gibct-form-value': value,
+    });
     this.props.handleFilterChange(field, value);
   };
 

@@ -128,26 +128,24 @@ class PaymentInformation extends React.Component {
 
   handleDirectDepositUpdateSubmit = data => {
     this.props.savePaymentInformation(data);
-    recordEvent({
-      event: 'profile-transaction',
-      'profile-section': 'direct-deposit-information',
-    });
   };
 
-  handleEditClick = gaProfileSection => {
-    // Open edit modal.
+  handleLinkClick = (linkType, gaProfileSection) => {
+    // Open modal.
     this.props.editModalToggled();
 
     // Push Google Analytics event
     recordProfileNavEvent({
-      'profile-action': 'edit-link',
+      'profile-action': linkType === 'add' ? 'add-link' : 'edit-link',
       'profile-section': gaProfileSection,
     });
   };
 
-  renderSetupButton(label) {
+  renderSetupButton(label, gaProfileSection) {
     return (
-      <a onClick={this.props.editModalToggled}>{`Please add your ${label}`}</a>
+      <a
+        onClick={() => this.handleLinkClick('add', gaProfileSection)}
+      >{`Please add your ${label}`}</a>
     );
   }
 
@@ -180,40 +178,43 @@ class PaymentInformation extends React.Component {
             <ProfileFieldHeading
               onEditClick={
                 directDepositIsSetUp &&
-                (() => this.handleEditClick('bank-name'))
+                (() => this.handleLinkClick('edit', 'bank-name'))
               }
             >
               Bank name
             </ProfileFieldHeading>
             {directDepositIsSetUp
               ? paymentAccount.financialInstitutionName
-              : this.renderSetupButton('bank name')}
+              : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
                 directDepositIsSetUp &&
-                (() => this.handleEditClick('account-number'))
+                (() => this.handleLinkClick('edit', 'account-number'))
               }
             >
               Account number
             </ProfileFieldHeading>
             {directDepositIsSetUp
               ? paymentAccount.accountNumber
-              : this.renderSetupButton('account number')}
+              : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
                 directDepositIsSetUp &&
-                (() => this.handleEditClick('account-type'))
+                (() => this.handleLinkClick('edit', 'account-type'))
               }
             >
               Account type
             </ProfileFieldHeading>
             {directDepositIsSetUp
               ? paymentAccount.accountType
-              : this.renderSetupButton('account type (checking or savings)')}
+              : this.renderSetupButton(
+                  'account type (checking or savings)',
+                  'account-type',
+                )}
           </div>
           {directDepositIsSetUp && (
             <p>

@@ -1025,7 +1025,7 @@ export class Modals extends React.Component {
 
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('VET TEC')}
+        visible={this.shouldDisplayModal('vetTec')}
       >
         <div>
           <div>
