@@ -48,6 +48,11 @@ class PersonalizationDropdown extends React.Component {
           </a>
         </li>
         <li>
+          <a href="/notification" onClick={recordAccountEvent}>
+            Notification
+          </a>
+        </li>
+        <li>
           <a href="#" onClick={this.signOut}>
             Sign Out
           </a>
