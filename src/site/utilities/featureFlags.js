@@ -74,6 +74,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
+    featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
     featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
   ],
   vagovprod: [
