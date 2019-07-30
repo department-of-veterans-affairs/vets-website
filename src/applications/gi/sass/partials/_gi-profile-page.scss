@@ -183,9 +183,8 @@
     }
   }
 
-  .vettec-logo {
-    @include media($medium-screen) {
-      padding-bottom: 8px;
-    }
+  .vettec-logo-container {
+    padding-top: 0.3em;
+    padding-bottom: 0.5em;
   }
 }
