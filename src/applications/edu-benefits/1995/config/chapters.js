@@ -26,7 +26,7 @@ const {
 
 const { educationType, serviceBefore1977 } = fullSchema1995.definitions;
 
-export const newChapters = {
+export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {

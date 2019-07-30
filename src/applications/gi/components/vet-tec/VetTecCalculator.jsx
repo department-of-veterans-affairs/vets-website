@@ -9,6 +9,7 @@ import {
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
+import PropTypes from 'prop-types';
 
 export class VetTecCalculator extends React.Component {
   constructor(props) {
@@ -27,20 +28,35 @@ export class VetTecCalculator extends React.Component {
     } = this.props;
 
     return (
-      <div className="calculator-inputs">
+      <div className="calculator-inputs vads-u-margin-x--neg1p5">
         <div className="form-expanding-group-open">
           <VetTecCalculatorForm
             inputs={inputs}
             displayedInputs={displayed}
             onInputChange={this.props.calculatorInputChange}
             onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+            onShowModal={this.props.showModal}
           />
         </div>
       </div>
     );
   };
 
-  renderTuitionSection = outputs => (
+  renderScholarshipBenefitSection = outputs => {
+    if (outputs.vetTecScholarships === '$0') return null;
+    return (
+      <div className="row vads-u-margin-top--0p5">
+        <div className="small-6 columns">
+          <div>Your scholarships:</div>
+        </div>
+        <div className="small-6 columns vads-u-text-align--right">
+          <div>{outputs.vetTecScholarships}</div>
+        </div>
+      </div>
+    );
+  };
+
+  renderTuitionSection = (outputs, showModal) => (
     <div className="tuition-section">
       <div className="row vads-u-margin-top--0p5">
         <div className="small-6 columns">
@@ -50,21 +66,16 @@ export class VetTecCalculator extends React.Component {
           <h5>{outputs.vetTecTuitionFees}</h5>
         </div>
       </div>
-
-      <div className="row vads-u-margin-top--0p5">
-        <div className="small-6 columns">
-          <div>Your scholarships:</div>
-        </div>
-        <div className="small-6 columns vads-u-text-align--right">
-          <div>{outputs.vetTecScholarships}</div>
-        </div>
-      </div>
-
+      {this.renderScholarshipBenefitSection(outputs)}
       <div className="row vads-u-margin-top--0p5">
         <div className="small-8 columns">
           <div>
             VA pays to provider:{' '}
-            <a href="" target="_blank" rel="noopener noreferrer">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => showModal('payToProvider')}
+            >
               (Learn more)
             </a>
           </div>
@@ -73,30 +84,27 @@ export class VetTecCalculator extends React.Component {
           <div>{outputs.vaPaysToProvider}</div>
         </div>
       </div>
-
-      <div className="row vads-u-margin-top--0p5 medium-screen:vads-u-padding-left--1 medium-screen:vads-u-padding-right--7">
-        <div className="small-9 columns">
+      <div className="row vads-u-margin-top--0p5 vads-u-padding-left--1 small-screen:vads-u-padding-right--7">
+        <div className="small-7 small-screen:small-9 columns">
           <div>Upon enrollment in program (25%):</div>
         </div>
-        <div className="small-3 columns vads-u-text-align--right">
+        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
-
-      <div className="row vads-u-margin-top--0p5 medium-screen:vads-u-padding-left--1 medium-screen:vads-u-padding-right--7">
-        <div className="small-9 columns">
+      <div className="row vads-u-margin-top--0p5 vads-u-padding-left--1 small-screen:vads-u-padding-right--7">
+        <div className="small-7 small-screen:small-9 columns">
           <div>Upon completion of program (25%):</div>
         </div>
-        <div className="small-3 columns vads-u-text-align--right">
+        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
-
-      <div className="row vads-u-margin-top--0p5 medium-screen:vads-u-padding-left--1 medium-screen:vads-u-padding-right--7">
-        <div className="small-9 columns">
+      <div className="row vads-u-margin-top--0p5 vads-u-padding-left--1 small-screen:vads-u-padding-right--7">
+        <div className="small-7 small-screen:small-9 columns">
           <div>Upon employment (50%):</div>
         </div>
-        <div className="small-3 columns vads-u-text-align--right">
+        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value">
           <div>{outputs.halfVetTecPayment}</div>
         </div>
       </div>
@@ -114,11 +122,15 @@ export class VetTecCalculator extends React.Component {
     </div>
   );
 
-  renderHousingSection = outputs => (
+  renderHousingSection = (outputs, showModal) => (
     <div className="housing-section">
       <div className="link-header">
-        <h5>Housing Allowance:</h5>{' '}
-        <a href="" target="_blank" rel="noopener noreferrer">
+        <h5>Housing allowance</h5>{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => showModal('housingAllowance')}
+        >
           (Learn more)
         </a>
       </div>
@@ -127,7 +139,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>In person rate:</div>
         </div>
-        <div className="small-4 columns">
+        <div className="small-4 columns vads-u-text-align--right">
           <div>{outputs.inPersonRate}</div>
         </div>
       </div>
@@ -136,7 +148,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>Online rate:</div>
         </div>
-        <div className="small-4 columns">
+        <div className="small-4 columns vads-u-text-align--right">
           <div>{outputs.onlineRate}</div>
         </div>
       </div>
@@ -148,24 +160,25 @@ export class VetTecCalculator extends React.Component {
       return <LoadingIndicator message="Loading your estimated benefits..." />;
     }
     const { outputs } = this.props.calculated;
+    const { showModal } = this.props;
     return (
-      <div className="row calculate-your-benefits">
-        <div className="usa-width-five-twelfths medium-5 columns">
-          {this.renderCalculatorForm()}
-        </div>
+      <div className="vads-l-row calculate-your-benefits">
+        <div className="medium-5 columns">{this.renderCalculatorForm()}</div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
-          <h3>Your estimated benefits</h3>
-          <i>(Tuition & fees data will soon be available)</i>
-          {this.renderTuitionSection(outputs)}
-          <hr />
-          {this.renderHousingSection(outputs)}
-        </div>
-        <div className="medium-7 columns">
-          <p>
-            <strong>Note:</strong> Your GI Bill benefit days remaining will not
-            be used by VET TEC.
-          </p>
+        <div className="medium-6 columns vads-u-margin-left--2 vads-u-margin-right--neg2">
+          <div className="your-estimated-benefits">
+            <h3>Your estimated benefits</h3>
+            <i>Tuition and fees data will be available soon.</i>
+            {this.renderTuitionSection(outputs, showModal)}
+            <hr />
+            {this.renderHousingSection(outputs, showModal)}
+          </div>
+          <div>
+            <p>
+              <strong>Note:</strong> Your VET TEC training won't count against
+              your GI Bill entitlement.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -180,6 +193,10 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
+};
+
+VetTecCalculator.propTypes = {
+  showModal: PropTypes.func,
 };
 
 export default connect(

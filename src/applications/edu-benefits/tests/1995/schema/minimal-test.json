@@ -1,24 +1,34 @@
 {
   "data": {
-    "privacyAgreementAccepted": true,
+    "veteranAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Test",
+      "country": "USA",
+      "state": "TN",
+      "postalCode": "22312"
+    },
+    "view:otherContactInfo": {
+      "email": "test2@test1.net",
+      "view:confirmEmail": "test2@test1.net"
+    },
+    "newSchoolName": "Test",
+    "educationType": "correspondence",
+    "newSchoolAddress": {
+      "country": "USA"
+    },
+    "isEdithNourseRogersScholarship": false,
+    "view:rogersStemScholarshipInfo": {},
     "veteranFullName": {
       "first": "asdf",
       "last": "asdf"
     },
     "veteranSocialSecurityNumber": "123333333",
-    "newSchoolAddress": {
-      "country": "USA"
-    },
     "oldSchool": {
       "address": {
         "country": "USA"
       }
     },
-    "veteranAddress": {
-      "country": "USA"
-    },
-    "view:otherContactInfo": {},
     "serviceBefore1977": {},
-    "bankAccount": {}
+    "privacyAgreementAccepted": true
   }
 }

@@ -7,6 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import get from 'platform/utilities/data/get';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from 'platform/utilities/ui';
 
 import PreferenceOption from '../components/PreferenceOption';
 import { benefitChoices, didJustSave } from '../helpers';
@@ -27,6 +28,10 @@ class SetPreferences extends React.Component {
   UNSAFE_componentWillMount() {
     this.props.fetchAvailableBenefits();
     this.props.fetchUserSelectedBenefits();
+  }
+
+  componentDidMount() {
+    focusElement('#dashboard-title');
   }
 
   // if the preferences are saved successfully, then redirect to home
@@ -148,7 +153,9 @@ class SetPreferences extends React.Component {
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
-          <h1 id="dashboard-title">Find VA benefits</h1>
+          <h1 id="dashboard-title" tabIndex="-1">
+            Find VA benefits
+          </h1>
           <p className="va-introtext">
             Tell us which benefits you’re interested in, so we can help you
             apply. Select one or more of the types of benefits below, and we’ll

@@ -24,7 +24,7 @@ export const renderCautionFlag = result => {
 
 export const renderPreferredProviderFlag = result => {
   const { preferredProvider } = result;
-  if (!preferredProvider) return null;
+  if (!preferredProvider) return <br />;
   return (
     <div className="preferred-flag">
       <i className="fa fa-star vads-u-color--gold" />
@@ -32,3 +32,17 @@ export const renderPreferredProviderFlag = result => {
     </div>
   );
 };
+
+export const renderLearnMoreLabel = ({ text, modal, showModal, component }) => (
+  <span>
+    {text} (
+    <button
+      type="button"
+      className="va-button-link learn-more-button"
+      onClick={showModal.bind(component, modal)}
+    >
+      Learn more
+    </button>
+    )
+  </span>
+);
