@@ -162,6 +162,9 @@ function completeBenefitsSelection(client, data) {
   }
 }
 
+function completeStemSelection(client) {
+  client.click('input[id="root_isEdithNourseRogersScholarshipNo"]');
+}
 /**
  * Completes the service periods page.
  *
@@ -409,4 +412,5 @@ module.exports = {
   completeDirectDeposit,
   completeSchoolSelection,
   completeEmploymentHistory,
+  completeStemSelection,
 };
