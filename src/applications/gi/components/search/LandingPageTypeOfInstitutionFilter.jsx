@@ -55,6 +55,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
 
     const imgClasses = classNames(
       'vettec-logo',
+      'vads-u-padding-bottom--1',
       'small-screen:vads-u-padding-top--0p5',
       'small-screen:vads-u-margin-bottom--neg1',
     );
