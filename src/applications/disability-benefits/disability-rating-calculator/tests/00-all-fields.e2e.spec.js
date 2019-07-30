@@ -11,18 +11,29 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(`${E2eHelpers.baseUrl}/disability/about-disability-ratings-beta/`)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('How VA Assigns Disability Ratings | Veterans Affairs')
-    .waitForElementVisible('.usa-content > h1:first-child', Timeouts.slow)
-    .assert.containsText(
-      '.usa-content > h1:first-child',
-      'How VA assigns disability ratings',
-    );
+    .assert.title('How VA Assigns Disability Ratings | Veterans Affairs');
+  // console.log('Now on /about-disability-ratings-beta');
 
-  // Fill-out ratings & check result/error.
+  // Test row deletion.
+  // TODO: Cover edge-case for deleting AFTER calculating combined rating.
+  // console.log('TESTING RATING-ROW DELECTION..................................');
+  client
+    .waitForElementPresent('.btn-add', Timeouts.slow)
+    .expect.element('.btn-add').to.be.visible;
+  DrcE2eHelpers.fillRatings(client, inputs[0]);
+  client.expect
+    .element('.row-1 .btn-delete')
+    .to.be.active.before(100)
+    .click('.row-2 .btn-delete')
+    .expect.elements('.ratingInput')
+    .count.to.equal(2);
+
+  // Test combined-rating calculations / input error.
+  // console.log('TESTING COMBINED-RATING CALCULATIONS / INPUT ERRORS...........');
   for (const input of inputs) {
     client
-      .waitForElementVisible('.rating.row-1', Timeouts.normal)
-      .expect.element('.rating.row-1 .ratingInput').to.be.visible;
+      .waitForElementVisible('.rating.row-2', Timeouts.normal)
+      .expect.element('.rating.row-2 .ratingInput').to.be.visible;
 
     DrcE2eHelpers.fillRatings(client, input);
     client
@@ -30,13 +41,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
       .click('.btn-calculate');
 
     if (DrcE2eHelpers.ratingsAreAllRounded(input.ratings)) {
-      // Check result.
+      // Check calculation -- ratings are all rounded.
       client
         .waitForElementVisible('.combined-rating', Timeouts.slow)
         .expect.element('.combined-rating')
         .text.to.contain(input.combinedRating.rounded.toString());
     } else {
-      // Check error.
+      // Check error -- ratings are not all rounded.
       client.expect
         .element('.usa-input-error-message')
         .to.be.visible.before(1000);
