@@ -3,5 +3,5 @@
 #  @department-of-veterans-affairs/frontend-review-group will be requested for
 # review when someone opens a pull request.
 
-*       @department-of-veterans-affairs/frontend-review-group
+*       @department-of-veterans-affairs/frontend-review-group @department-of-veterans-affairs/ad-hoc-devops
 
