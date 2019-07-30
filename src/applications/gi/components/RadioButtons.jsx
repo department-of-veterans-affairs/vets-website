@@ -87,7 +87,12 @@ class RadioButtons extends React.Component {
       return output;
     });
 
-    return <fieldset>{optionElements}</fieldset>;
+    return (
+      <fieldset>
+        <legend className="vads-u-display--none">{this.props.name}</legend>
+        {optionElements}
+      </fieldset>
+    );
   };
 
   render() {
