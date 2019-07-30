@@ -70,14 +70,15 @@ export class VetTecCalculator extends React.Component {
       <div className="row vads-u-margin-top--0p5">
         <div className="small-8 columns">
           <div>
-            VA pays to provider:{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
+            <span id="pay-to-provider-span">VA pays to provider:</span>
+            <button
+              aria-labelledby="pay-to-provider-span"
+              type="button"
+              className="va-button-link learn-more-button"
               onClick={() => showModal('payToProvider')}
             >
               (Learn more)
-            </a>
+            </button>
           </div>
         </div>
         <div className="small-4 columns vads-u-text-align--right">
@@ -128,14 +129,15 @@ export class VetTecCalculator extends React.Component {
   renderHousingSection = (outputs, showModal) => (
     <div className="housing-section">
       <div className="link-header">
-        <h5>Housing Allowance:</h5>{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
+        <h5 id="housing-allowance-header">Housing Allowance:</h5>{' '}
+        <button
+          aria-labelledby="housing-allowance-header"
+          type="button"
+          className="va-button-link learn-more-button"
           onClick={() => showModal('housingAllowance')}
         >
           (Learn more)
-        </a>
+        </button>
       </div>
 
       <div className="row calculator-result">

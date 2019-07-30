@@ -27,8 +27,15 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => (
               institution.preferredProvider === true
             }
           >
-            Preferred provider (
-            <a onClick={() => showModal('preferredProviders')}>Learn more</a>)
+            <span id="preferred-provider-span">Preferred provider </span>
+            <button
+              aria-labelledby="preferred-provider-span"
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={() => showModal('preferredProviders')}
+            >
+              (Learn more)
+            </button>
           </IconWithInfo>
           {institution.city &&
             institution.country && (
