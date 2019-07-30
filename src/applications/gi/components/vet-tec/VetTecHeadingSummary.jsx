@@ -27,9 +27,9 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => (
               institution.preferredProvider === true
             }
           >
-            <span id="preferred-provider-span">Preferred provider </span>
+            <span>Preferred provider </span>
             <button
-              aria-labelledby="preferred-provider-span"
+              aria-label="preferred provider learn more"
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('preferredProviders')}

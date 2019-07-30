@@ -70,9 +70,9 @@ export class VetTecCalculator extends React.Component {
       <div className="row vads-u-margin-top--0p5">
         <div className="small-8 columns">
           <div>
-            <span id="pay-to-provider-span">VA pays to provider:</span>
+            <span>VA pays to provider:</span>
             <button
-              aria-labelledby="pay-to-provider-span"
+              aria-label="pay to provider learn more"
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('payToProvider')}
@@ -129,9 +129,9 @@ export class VetTecCalculator extends React.Component {
   renderHousingSection = (outputs, showModal) => (
     <div className="housing-section">
       <div className="link-header">
-        <h5 id="housing-allowance-header">Housing Allowance:</h5>{' '}
+        <h5>Housing Allowance:</h5>{' '}
         <button
-          aria-labelledby="housing-allowance-header"
+          aria-label="housing allowance learn more"
           type="button"
           className="va-button-link learn-more-button"
           onClick={() => showModal('housingAllowance')}
