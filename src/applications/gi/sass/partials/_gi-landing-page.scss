@@ -15,5 +15,12 @@
     padding: 0;
   }
 
-
+  .vettec-logo {
+    height: 70px;	
+    width: 146px;	
+    @include media($medium-screen) {
+      height: 85px;	
+      width: 179px;	
+    }
+  }
 }

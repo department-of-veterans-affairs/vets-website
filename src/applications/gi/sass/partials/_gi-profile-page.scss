@@ -182,4 +182,10 @@
       }
     }
   }
+
+  .vettec-logo {
+    @include media($medium-screen) {
+      padding-bottom: 8px;
+    }
+  }
 }

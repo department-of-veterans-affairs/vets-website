@@ -227,9 +227,9 @@ export class SearchPage extends React.Component {
     const { count } = search;
     return (
       <div>
-        <div className="vads-u-display--block small-screen:vads-u-display--none vettec-mobile-logo-container">
+        <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
           <img
-            className="vettec-mobile-logo"
+            className="vettec-logo"
             src={require('site/assets/img/logo/vet-tec-logo.png')}
             alt="Vet Tec Logo"
           />
