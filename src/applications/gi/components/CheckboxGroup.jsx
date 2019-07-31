@@ -6,13 +6,8 @@ import _ from 'lodash';
  * A radio button group with a label.
  *
  * `label` - String for the group field label.
- * `name` - String for the name attribute.
- * `toolTipText` - String with help text for user.
- * `tabIndex` - Number for keyboard tab order.
  * `options` - Array of options to populate group.
- * `required` - is this field required.
- * `value` - string. Value of the select field.
- * `onValueChange` - a function with this prototype: (newValue)
+ * `onChange` - a function with this prototype: (newValue)
  */
 class CheckboxGroup extends React.Component {
   // eslint-disable-next-line
@@ -72,19 +67,16 @@ class CheckboxGroup extends React.Component {
 
 CheckboxGroup.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
-      PropTypes.string,
       PropTypes.shape({
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-        additional: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        name: PropTypes.oneOfType([PropTypes.string, PropTypes.string]),
       }),
     ]),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  required: PropTypes.bool,
 };
 
 export default CheckboxGroup;
