@@ -58,10 +58,12 @@ class RadioButtons extends React.Component {
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            aria-labelledby={`${this.inputId}-legend`}
-            aria-label={optionLabel}
+            aria-labelledby={`${this.inputId}-legend ${
+              this.props.name
+            }-${index}-label`}
           />
           <label
+            id={`${this.props.name}-${index}-label`}
             name={`${this.props.name}-${index}-label`}
             htmlFor={`${this.inputId}-${index}`}
           >
