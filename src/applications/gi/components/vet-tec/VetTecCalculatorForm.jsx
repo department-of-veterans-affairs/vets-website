@@ -30,6 +30,7 @@ class VetTecCalculatorForm extends React.Component {
       <input
         type="text"
         name="vetTecScholarships"
+        aria-label="vetTecScholarships"
         value={formatCurrency(this.props.inputs.vetTecScholarships)}
         onChange={this.handleInputChange}
       />
@@ -48,6 +49,7 @@ class VetTecCalculatorForm extends React.Component {
       <input
         type="text"
         name="vetTecTuitionFees"
+        aria-label="vetTecTuitionFees"
         value={formatCurrency(this.props.inputs.vetTecTuitionFees)}
         onChange={this.handleInputChange}
       />

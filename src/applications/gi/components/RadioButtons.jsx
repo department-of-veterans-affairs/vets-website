@@ -85,7 +85,6 @@ class RadioButtons extends React.Component {
           className="form-radio-buttons"
         >
           <input
-            autoComplete="false"
             checked={checked}
             id={`${this.inputId}-${index}`}
             name={this.props.name}
