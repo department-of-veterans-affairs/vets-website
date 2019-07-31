@@ -14,53 +14,47 @@ export const getCalculatedBenefits = createSelector(
   getConstants,
   getInstitution,
   (inputs, constants, institution) => {
-    const vetTecTuitionInputNull =
-      inputs.vetTecTuitionFees === null || inputs.vetTecTuitionFees === 0;
+    const { vetTecTuitionFees, vetTecScholarships } = inputs;
 
-    const paysToProviderValue = vetTecTuitionInputNull
+    const inputsNull = vetTecTuitionFees === null || vetTecTuitionFees === 0;
+
+    const paysToProviderValue = inputsNull
       ? null
-      : Math.max(inputs.vetTecTuitionFees - inputs.vetTecScholarships, 0);
+      : Math.max(vetTecTuitionFees - vetTecScholarships, 0);
 
-    const quarterPaysToProviderValue = vetTecTuitionInputNull
+    const quarterPaysToProviderValue = inputsNull
       ? null
       : paysToProviderValue * 0.25;
 
-    const halfPaysToProviderValue = vetTecTuitionInputNull
+    const halfPaysToProviderValue = inputsNull
       ? null
       : paysToProviderValue * 0.5;
 
-    const determineOutOfPocketFees = () => {
-      let outOfPocketFees;
-      if (vetTecTuitionInputNull) {
-        outOfPocketFees = null;
-      } else if (institution.preferredProvider) {
-        outOfPocketFees = 0;
-      } else if (inputs.vetTecTuitionFees > constants.TFCAP) {
-        outOfPocketFees =
-          inputs.vetTecTuitionFees -
-          constants.TFCAP -
-          inputs.vetTecScholarships;
-        if (outOfPocketFees < 0) {
-          outOfPocketFees = 0;
-        }
-      } else {
+    let outOfPocketFees = 0;
+    if (inputsNull) {
+      outOfPocketFees = null;
+    } else if (institution.preferredProvider) {
+      outOfPocketFees = 0;
+    } else if (vetTecTuitionFees > constants.TFCAP) {
+      outOfPocketFees =
+        vetTecTuitionFees - constants.TFCAP - vetTecScholarships;
+      if (outOfPocketFees < 0) {
         outOfPocketFees = 0;
       }
-      return outOfPocketFees;
-    };
+    } else if (vetTecTuitionFees <= constants.TFCAP) {
+      outOfPocketFees = 0;
+    }
 
     return {
       outputs: {
         vetTecTuitionFees: formatCurrencyNullTBD(
-          inputs.vetTecTuitionFees === 0 ? null : inputs.vetTecTuitionFees,
+          vetTecTuitionFees === 0 ? null : vetTecTuitionFees,
         ),
-        vetTecScholarships: formatCurrency(inputs.vetTecScholarships),
+        vetTecScholarships: formatCurrency(vetTecScholarships),
         vaPaysToProvider: formatCurrencyNullTBD(paysToProviderValue),
         quarterVetTecPayment: formatCurrencyNullTBD(quarterPaysToProviderValue),
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
-        outOfPocketTuitionFees: formatCurrencyNullTBD(
-          determineOutOfPocketFees(),
-        ),
+        outOfPocketTuitionFees: formatCurrencyNullTBD(outOfPocketFees),
         inPersonRate: `${formatCurrency(institution.dodBah)}/mo`,
         onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}/mo`,
       },
