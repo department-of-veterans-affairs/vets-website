@@ -16,6 +16,11 @@ module.exports = `
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
     fieldIntroText
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY]
+        ? 'fieldOperatingStatusFacility'
+        : ''
+    }
     fieldLocationServices {
       entity {
         ... on ParagraphHealthCareLocalFacilityServi {
@@ -90,7 +95,7 @@ module.exports = `
                       }
                     }
                   }
-                }    
+                }
               }
             }
           }
