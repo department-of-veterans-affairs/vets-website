@@ -1,15 +1,16 @@
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts.js');
-// const DrcHelpers = require('../utils/helpers.js');
-// const ENVIRONMENTS = require('site/constants/environments');
-// const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
+const ENVIRONMENTS = require('site/constants/environments');
+
 const inputs = require('./utils/inputs.json');
 const DrcE2eHelpers = require('./drc-helpers.js');
+
+const drcPagePath = '/disability/about-disability-ratings-beta/';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   // Navigate to beta-page.
   client
-    .openUrl(`${E2eHelpers.baseUrl}/disability/about-disability-ratings-beta/`)
+    .openUrl(`${E2eHelpers.baseUrl}${drcPagePath}`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('How VA Assigns Disability Ratings | Veterans Affairs');
 
@@ -62,3 +63,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
+
+module.exports['@disabled'] =
+  process.env.BUILDTYPE === ENVIRONMENTS.VAGOVPROD &&
+  drcPagePath.contains('-beta');
