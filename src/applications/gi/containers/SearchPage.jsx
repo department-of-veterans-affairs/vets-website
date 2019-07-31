@@ -109,7 +109,11 @@ export class SearchPage extends React.Component {
 
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
-    const query = { ...this.props.location.query, [field]: value };
+    const query = {
+      ...this.props.location.query,
+      [field]: value,
+      name: this.props.autocomplete.searchTerm,
+    };
 
     // Don’t update the route if the query hasn’t changed.
     if (
