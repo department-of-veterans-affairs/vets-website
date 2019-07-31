@@ -9,6 +9,7 @@ const {
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 
 const WYSIWYG = '... wysiwyg';
+const STAFF = '... staffProfile';
 const COLLAPSIBLE_PANEL = '... collapsiblePanel';
 const PROCESS = '... process';
 const QA_SECTION = '... qaSection';
@@ -36,7 +37,7 @@ module.exports = `
         ? 'fieldTableOfContentsBoolean'
         : ''
     }
-    
+
     ${
       enabledFeatureFlags[
         featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
@@ -46,18 +47,19 @@ module.exports = `
             entity {
               entityType
               entityBundle
-              ${WYSIWYG}      
-              ${QA}        
+              ${WYSIWYG}
+              ${QA}
             }
           }
         `
         : ''
     }
-    
+
     fieldContentBlock {
       entity {
         entityType
         entityBundle
+        ${STAFF}
         ${WYSIWYG}
         ${COLLAPSIBLE_PANEL}
         ${PROCESS}
@@ -69,7 +71,7 @@ module.exports = `
       }
     }
     ${FIELD_RELATED_LINKS}
-    
+
     ${
       enabledFeatureFlags[
         featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
@@ -87,19 +89,19 @@ module.exports = `
             entity {
               ...on File {
                 filename
-                url          
+                url
               }
             }
           }
-        }   
-        ...on MediaImage {        
-          image {          
+        }
+        ...on MediaImage {
+          image {
             alt
             url
           }
         }
         ...on MediaVideo {
-          fieldMediaVideoEmbedField        
+          fieldMediaVideoEmbedField
         }
       }
     }
