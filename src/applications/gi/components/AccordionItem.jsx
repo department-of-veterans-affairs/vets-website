@@ -9,9 +9,6 @@ class AccordionItem extends React.Component {
     this.state = {
       expanded: props.expanded,
     };
-  }
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
     this.id = _.uniqueId('accordion-item-');
   }
 

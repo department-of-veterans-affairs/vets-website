@@ -3,15 +3,15 @@ import React from 'react';
 import _ from 'lodash';
 
 /**
- * A radio button group with a label.
+ * A checkbox group with a label.
  *
  * `label` - String for the group field label.
  * `options` - Array of options to populate group.
  * `onChange` - a function with this prototype: (newValue)
  */
 class CheckboxGroup extends React.Component {
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
+  constructor(props) {
+    super(props);
     this.inputId = _.uniqueId('checkbox-group-');
   }
 
@@ -20,7 +20,7 @@ class CheckboxGroup extends React.Component {
   };
 
   renderOptions = () => {
-    const options = _.isArray(this.props.options) ? this.props.options : [];
+    const options = Array.isArray(this.props.options) ? this.props.options : [];
     const optionElements = options.map((option, index) => {
       const { checked, label, name } = option;
       return (
@@ -31,12 +31,10 @@ class CheckboxGroup extends React.Component {
             name={name}
             type="checkbox"
             onChange={this.props.onChange}
-            aria-labelledby={`${this.inputId}-legend ${
-              this.props.name
-            }-${index}-label`}
+            aria-labelledby={`${this.inputId}-legend ${name}-${index}-label`}
           />
           <label
-            id={`${this.props.name}-${index}-label`}
+            id={`${name}-${index}-label`}
             name={`${name}-label`}
             htmlFor={`${this.inputId}-${index}`}
           >

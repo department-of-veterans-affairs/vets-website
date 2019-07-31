@@ -70,14 +70,15 @@ export class VetTecCalculator extends React.Component {
       <div className="row vads-u-margin-top--0p5">
         <div className="small-8 columns">
           <div>
-            VA pays to provider:{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
+            <span>VA pays to provider: </span>
+            <button
+              aria-label="pay to provider learn more"
+              type="button"
+              className="va-button-link learn-more-button"
               onClick={() => showModal('payToProvider')}
             >
               (Learn more)
-            </a>
+            </button>
           </div>
         </div>
         <div className="small-4 columns vads-u-text-align--right">
@@ -126,13 +127,14 @@ export class VetTecCalculator extends React.Component {
     <div className="housing-section">
       <div className="link-header">
         <h5>Housing allowance</h5>{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          aria-label="housing allowance learn more"
+          type="button"
+          className="va-button-link learn-more-button"
           onClick={() => showModal('housingAllowance')}
         >
           (Learn more)
-        </a>
+        </button>
       </div>
 
       <div className="row calculator-result">

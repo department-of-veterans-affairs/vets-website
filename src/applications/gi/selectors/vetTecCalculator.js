@@ -13,12 +13,13 @@ export const getCalculatedBenefits = createSelector(
   getConstants,
   getInstitution,
   (inputs, constants, institution) => {
-    const inputsNull =
-      inputs.vetTecTuitionFees === null && inputs.vetTecScholarships === null;
+    const { vetTecTuitionFees, vetTecScholarships } = inputs;
+
+    const inputsNull = vetTecTuitionFees === null || vetTecTuitionFees === 0;
 
     const paysToProviderValue = inputsNull
       ? null
-      : Math.max(inputs.vetTecTuitionFees - inputs.vetTecScholarships, 0);
+      : Math.max(vetTecTuitionFees - vetTecScholarships, 0);
 
     const quarterPaysToProviderValue = inputsNull
       ? null
@@ -28,14 +29,32 @@ export const getCalculatedBenefits = createSelector(
       ? null
       : paysToProviderValue * 0.5;
 
+    let outOfPocketFees = 0;
+    if (inputsNull) {
+      outOfPocketFees = null;
+    } else if (institution.preferredProvider) {
+      outOfPocketFees = 0;
+    } else if (
+      !institution.preferredProvider &&
+      vetTecTuitionFees > constants.TFCAP
+    ) {
+      outOfPocketFees =
+        vetTecTuitionFees - constants.TFCAP - vetTecScholarships;
+      if (outOfPocketFees < 0) {
+        outOfPocketFees = 0;
+      }
+    }
+
     return {
       outputs: {
-        vetTecTuitionFees: formatCurrencyNullTBD(inputs.vetTecTuitionFees),
-        vetTecScholarships: formatCurrency(inputs.vetTecScholarships),
+        vetTecTuitionFees: formatCurrencyNullTBD(
+          vetTecTuitionFees === 0 ? null : vetTecTuitionFees,
+        ),
+        vetTecScholarships: formatCurrency(vetTecScholarships),
         vaPaysToProvider: formatCurrencyNullTBD(paysToProviderValue),
         quarterVetTecPayment: formatCurrencyNullTBD(quarterPaysToProviderValue),
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
-        outOfPocketTuitionFees: 'TBD',
+        outOfPocketTuitionFees: formatCurrencyNullTBD(outOfPocketFees),
         inPersonRate: `${formatCurrency(institution.dodBah)}/mo`,
         onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}/mo`,
       },

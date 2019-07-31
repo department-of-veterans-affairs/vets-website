@@ -22,9 +22,6 @@ class Checkbox extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
-  }
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
     this.inputId = _.uniqueId('errorable-checkbox-');
   }
 
