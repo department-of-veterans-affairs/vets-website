@@ -3,7 +3,7 @@
  *
  */
 module.exports = `
-  fragment wysiwyg on ParagraphWysiwyg {      
+  fragment wysiwyg on ParagraphWysiwyg {
       fieldWysiwyg {
         processed
       }
