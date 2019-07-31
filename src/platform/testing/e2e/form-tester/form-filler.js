@@ -1,8 +1,6 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
 
-const { searchAndDestroy } = require('./util');
-
 const FIELD_SELECTOR = 'input, select, textarea';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
 const ARRAY_ITEM_SELECTOR =
@@ -221,13 +219,6 @@ const getArrayInfo = (url, arrayPages = []) => {
 const getArrayData = (testData, arrayPageConfig) =>
   findData(`${arrayPageConfig.arrayPath}`, testData)[arrayPageConfig.index];
 
-const removeForeseeOverlay = async (page, log) => {
-  if (await page.$('.__acs')) {
-    log('Foresee found; destroying the overlay...');
-    await searchAndDestroy(page, '.__acs');
-  }
-};
-
 /**
  * Enters data for each field, looping until no more fields have been expanded and
  *  no more array items are available in the test data.
@@ -246,8 +237,6 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   let originalSnapshot;
   /* eslint-disable no-await-in-loop */
   do {
-    await removeForeseeOverlay(page, log);
-
     originalSnapshot = await getSnapshot(page);
     log(
       'Field list:',
@@ -356,7 +345,6 @@ const fillForm = async (page, testData, testConfig, log) => {
     const url = page.url();
     const hook = _.get(`pageHooks.${parseUrl(url).path}`, testConfig);
     if (hook) {
-      await removeForeseeOverlay(page, log);
       await runHook(hook);
     } else {
       await fillPage(page, testData, testConfig, log);
