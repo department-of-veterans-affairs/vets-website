@@ -182,3 +182,17 @@ $duo-tone-lighten: #000000;
     margin-bottom: 0 !important;
   }
 }
+
+// featured services
+.featured-services-list-item {
+  width: 100%;
+  margin-right: 16px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media($medium-screen){
+    width: 33%;
+  }
+}
