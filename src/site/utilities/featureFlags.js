@@ -27,6 +27,7 @@ const featureFlags = {
     'featureFeaturedHealthServiceContent',
   FEATURE_FIELD_OPERATING_STATUS_FACILITY: 'fieldOperatingStatusFacility',
   FEATURE_FIELD_COMPLETE_BIOGRAPHY: 'fieldCompleteBiography',
+  FEATURE_HEALTH_SERVICE_API_ID: 'featureHealthServiceApiId',
 };
 
 // Edit this to turn flags on or off
@@ -49,6 +50,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
     featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
     featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY,
+    featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
@@ -68,6 +70,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
     featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
     featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY,
+    featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -84,6 +87,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
     featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
     featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY,
+    featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
   ],
   vagovprod: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
