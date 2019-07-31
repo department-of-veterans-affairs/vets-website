@@ -44,7 +44,7 @@ export class LandingPage extends React.Component {
   };
 
   search = value => {
-    const { vetTecProvider, location, filters } = this.props.filters;
+    const { vetTecProvider, location, filters } = this.props;
     const query = {
       name: value,
       version: location.query.version,
