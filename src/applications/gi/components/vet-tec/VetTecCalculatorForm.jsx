@@ -23,14 +23,22 @@ class VetTecCalculatorForm extends React.Component {
       <label
         htmlFor="vetTecScholarships"
         className="vads-u-display--inline-block"
+        id="scholarships-label"
       >
         Scholarships (excluding Pell)
       </label>{' '}
-      <a onClick={() => onShowModal('scholarships')}>(Learn more)</a>
+      <button
+        aria-label="scholarships (excluding Pell) learn more"
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={() => onShowModal('scholarships')}
+      >
+        (Learn more)
+      </button>
       <input
+        aria-labelledby="scholarships-label"
         type="text"
         name="vetTecScholarships"
-        aria-label="vetTecScholarships"
         value={formatCurrency(this.props.inputs.vetTecScholarships)}
         onChange={this.handleInputChange}
       />
@@ -42,14 +50,23 @@ class VetTecCalculatorForm extends React.Component {
       <label
         htmlFor="vetTecTuitionFees"
         className="vads-u-display--inline-block"
+        id="tuition-fees-label"
       >
+        {' '}
         Tuition and fees for program
       </label>{' '}
-      <a onClick={() => onShowModal('tuitionAndFees')}>(Learn more)</a>
+      <button
+        aria-label="tuition and fees learn more"
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={() => onShowModal('tuitionAndFees')}
+      >
+        (Learn more)
+      </button>
       <input
+        aria-labelledby="tuition-fees-label"
         type="text"
         name="vetTecTuitionFees"
-        aria-label="vetTecTuitionFees"
         value={formatCurrency(this.props.inputs.vetTecTuitionFees)}
         onChange={this.handleInputChange}
       />
