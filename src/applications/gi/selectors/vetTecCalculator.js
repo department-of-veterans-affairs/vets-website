@@ -14,39 +14,39 @@ export const getCalculatedBenefits = createSelector(
   getConstants,
   getInstitution,
   (inputs, constants, institution) => {
-    const inputsNull =
+    const vetTecTuitionInputNull =
       inputs.vetTecTuitionFees === null || inputs.vetTecTuitionFees === 0;
 
-    const paysToProviderValue = inputsNull
+    const paysToProviderValue = vetTecTuitionInputNull
       ? null
       : Math.max(inputs.vetTecTuitionFees - inputs.vetTecScholarships, 0);
 
-    const quarterPaysToProviderValue = inputsNull
+    const quarterPaysToProviderValue = vetTecTuitionInputNull
       ? null
       : paysToProviderValue * 0.25;
 
-    const halfPaysToProviderValue = inputsNull
+    const halfPaysToProviderValue = vetTecTuitionInputNull
       ? null
       : paysToProviderValue * 0.5;
 
     const determineOutOfPocketFees = () => {
-      let oop;
-      if (inputs.vetTecTuitionFees === null || inputs.vetTecTuitionFees === 0) {
-        oop = null;
+      let outOfPocketFees;
+      if (vetTecTuitionInputNull) {
+        outOfPocketFees = null;
       } else if (institution.preferredProvider) {
-        oop = 0;
+        outOfPocketFees = 0;
       } else if (inputs.vetTecTuitionFees > constants.TFCAP) {
-        oop =
+        outOfPocketFees =
           inputs.vetTecTuitionFees -
           constants.TFCAP -
           inputs.vetTecScholarships;
-        if (oop < 0) {
-          oop = 0;
+        if (outOfPocketFees < 0) {
+          outOfPocketFees = 0;
         }
       } else {
-        oop = 0;
+        outOfPocketFees = 0;
       }
-      return oop;
+      return outOfPocketFees;
     };
 
     return {
