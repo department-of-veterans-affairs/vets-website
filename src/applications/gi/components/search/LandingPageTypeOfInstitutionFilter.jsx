@@ -36,20 +36,11 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
           ){' '}
         </span>
       );
-      const additional = (
-        <img
-          src="/img/logo/vet-tec-logo.png"
-          alt="Vet Tec Logo"
-          width="179px"
-          height="85px"
-        />
-      );
 
       options.push({
         value: 'vettec',
         label: 'VET TEC training providers only',
         learnMore: vetTecLabel,
-        additional,
       });
     }
 
