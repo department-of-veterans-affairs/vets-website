@@ -62,7 +62,7 @@ export class SearchResult extends React.Component {
                   <div className="columns">
                     <h4>
                       <i className="fa fa-graduation-cap fa-search-result" />
-                      Tuition <span>(annually):</span>
+                      Tuition:
                       <div>{tuition}</div>
                     </h4>
                   </div>

@@ -71,7 +71,7 @@ module.exports = `
                 }
                 fieldServiceNameAndDescripti {
                   entity {
-                    ... on TaxonomyTermHealthCareServiceTaxonomy {
+                    ... on TaxonomyTermHealthCareServiceTaxonomy {                    
                       entityId
                       entityBundle
                       fieldAlsoKnownAs
@@ -92,6 +92,13 @@ module.exports = `
                             name
                           }
                         }
+                      }
+                      ${
+                        enabledFeatureFlags[
+                          featureFlags.FEATURE_HEALTH_SERVICE_API_ID
+                        ]
+                          ? 'fieldHealthServiceApiId'
+                          : ''
                       }
                     }
                   }

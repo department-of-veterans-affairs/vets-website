@@ -48,7 +48,7 @@ class VetTecSearchForm extends React.Component {
 
     const inPersonLabel = (
       <div>
-        In Person &nbsp; <i className="fas fa-user" />
+        In person &nbsp; <i className="fas fa-user" />
       </div>
     );
     const onlineLabel = (
@@ -58,7 +58,7 @@ class VetTecSearchForm extends React.Component {
     );
     return (
       <div>
-        <p>Learning Format</p>
+        <p>Learning format</p>
         <Checkbox
           checked={inPerson}
           name="inPerson"

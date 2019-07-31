@@ -91,9 +91,9 @@ describe('getCalculatedBenefits', () => {
     const calculatedBenefits = getCalculatedBenefits(state);
     expect(calculatedBenefits.outputs.vetTecTuitionFees).to.equal('TBD');
     expect(calculatedBenefits.outputs.vetTecScholarships).to.equal('$100');
-    expect(calculatedBenefits.outputs.vaPaysToProvider).to.equal('$0');
-    expect(calculatedBenefits.outputs.quarterVetTecPayment).to.equal('$0');
-    expect(calculatedBenefits.outputs.halfVetTecPayment).to.equal('$0');
+    expect(calculatedBenefits.outputs.vaPaysToProvider).to.equal('TBD');
+    expect(calculatedBenefits.outputs.quarterVetTecPayment).to.equal('TBD');
+    expect(calculatedBenefits.outputs.halfVetTecPayment).to.equal('TBD');
   });
 
   it('should correctly calculate and format fields based on vetTecScholarships and vetTecTuitionFees', () => {

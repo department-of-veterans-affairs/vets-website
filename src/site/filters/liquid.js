@@ -300,4 +300,15 @@ module.exports = function registerFilters() {
   // get a value from a path of an object in an array
   liquid.filters.getValueFromArrayObjPath = (entities, index, path) =>
     _.get(entities[index], path);
+
+  // needed until all environments have the "Health Service API ID" feature flag
+  // when this is no longer needed, simply use
+  // `serviceTaxonomy.fieldHealthServiceApiId` as the
+  // `data-service` prop for the
+  // react component `facility-appointment-wait-times-widget`
+  // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
+  liquid.filters.healthServiceApiId = serviceTaxonomy =>
+    enabledFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
+      ? serviceTaxonomy.fieldHealthServiceApiId
+      : serviceTaxonomy.name;
 };
