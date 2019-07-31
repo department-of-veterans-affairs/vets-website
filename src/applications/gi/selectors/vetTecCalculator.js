@@ -35,14 +35,15 @@ export const getCalculatedBenefits = createSelector(
       outOfPocketFees = null;
     } else if (institution.preferredProvider) {
       outOfPocketFees = 0;
-    } else if (vetTecTuitionFees > constants.TFCAP) {
+    } else if (
+      !institution.preferredProvider &&
+      vetTecTuitionFees > constants.TFCAP
+    ) {
       outOfPocketFees =
         vetTecTuitionFees - constants.TFCAP - vetTecScholarships;
       if (outOfPocketFees < 0) {
         outOfPocketFees = 0;
       }
-    } else if (vetTecTuitionFees <= constants.TFCAP) {
-      outOfPocketFees = 0;
     }
 
     return {
