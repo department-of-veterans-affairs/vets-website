@@ -30,7 +30,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
             className="va-button-link learn-more-button"
             onClick={() => this.props.showModal('vetTec')}
           >
-            (Learn More)
+            (Learn more)
           </button>
           {this.props.category === 'vettec' && (
             <span className="vads-u-margin-x--neg5">
