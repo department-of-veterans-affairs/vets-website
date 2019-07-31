@@ -10,6 +10,8 @@ const PERSON_PROFILE_RESULTS = `
       fieldNameFirst
       fieldLastName
       fieldSuffix
+      fieldEmailAddress
+      fieldPhoneNumber
       fieldDescription
       fieldOffice {
         entity {
@@ -26,7 +28,7 @@ const PERSON_PROFILE_RESULTS = `
               alt
               title
               url
-              derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
+              derivative(style: CROP32) {
                 url
                 width
                 height

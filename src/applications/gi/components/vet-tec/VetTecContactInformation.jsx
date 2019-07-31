@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const VetTecContactInformation = ({ institution }) => (
-  <div className="additional-information row">
+  <div className="additional-information row vads-u-margin-y--1">
     <div className="usa-width-one-half medium-6 columns">
       <div className="physical-address usa-width-one-whole">
         <h3>Physical address</h3>

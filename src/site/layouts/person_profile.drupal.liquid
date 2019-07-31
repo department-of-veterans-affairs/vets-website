@@ -61,15 +61,51 @@
                         </div>
 
                         <div class="usa-width-two-thirds vads-u-display--flex vads-u-flex-direction--column">
-                            <h1 class="vads-u-font-size--xl vads-u-margin-bottom--2">{{ title }}</h1>
-                            <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-line-height--1">{{ fieldDescription }}</p>
-                            {% if fieldPhotoAllowHiresDownload %}
-                                <div class="vads-u-align-content--flex-end va-c-margin-top--auto">
-                                    <i class="va-c-social-icon fas fa-download"></i>  <a href="{{ image.url }}" download>Download full size photo</a>
-                                </div>
+                            <h1 class="
+                            vads-u-font-size--xl
+                            vads-u-margin-bottom--0p5">
+                                {{ title }}
+                                {% if fieldSuffix %}
+                                {{ fieldSuffix }}
+                                {% endif %}
+                            </h1>
+                            {% if fieldDescription %}
+                            <p class="
+                            vads-u-font-weight--normal
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5
+                            vads-u-font-family--serif
+                            vads-u-font-size--lg">
+                                {{ fieldDescription }}</p>
+                            {% endif %}
+                            {% if fieldOffice.entity.entityLabel %}
+                            <p class="
+                            vads-u-font-weight--normal
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5
+                            vads-u-font-family--serif
+                            vads-u-font-size--lg">
+                                {{ fieldOffice.entity.entityLabel }}
+                            </p>
+                            {% endif %}
+                            {% if fieldEmailAddress %}
+                            <p class="
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5">
+                                <span class="vads-u-font-weight--bold">Email:</span> <a target="blank"
+                                    href="{{ fieldEmailAddress }}">{{ fieldEmailAddress }}</a>
+                            </p>
+                            {% endif %}
+                            {% if fieldPhoneNumber %}
+                            <p class="
+                            vads-u-font-weight--bold
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5">
+                                <span class="vads-u-font-weight--bold">Phone:</span> <a
+                                    href="tel:{{ fieldPhoneNumber }}">{{ fieldPhoneNumber }}</a>
+                            </p>
                             {% endif %}
                         </div>
-
                     </div>
 
                     {% if fieldIntroText %}
@@ -83,7 +119,18 @@
                         {{ fieldBody.processed }}
                     </div>
                     {% endif %}
-
+                    {% if fieldPhotoAllowHiresDownload %}
+                    <div class="vads-u-align-content--flex-end va-c-margin-top--auto vads-u-margin-bottom--2">
+                        <i class="va-c-social-icon fas fa-download"></i> <a href="{{ image.url }}"
+                            download>Download full size photo</a>
+                    </div>
+                    {% endif %}
+                    {% if fieldCompleteBiography %}
+                    <div class="vads-u-align-content--flex-end va-c-margin-top--auto vads-u-margin-bottom--2">
+                        <i class="va-c-social-icon fas fa-download"></i> <a href="{{ fieldCompleteBiography.entity.url }}"
+                            download>Download full bio (PDF)</a>
+                    </div>
+                    {% endif %}
                 </article>
 
                 <div class="last-updated usa-content">

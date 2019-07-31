@@ -16,6 +16,11 @@ module.exports = `
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
     fieldIntroText
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY]
+        ? 'fieldOperatingStatusFacility'
+        : ''
+    }
     fieldLocationServices {
       entity {
         ... on ParagraphHealthCareLocalFacilityServi {
@@ -66,7 +71,7 @@ module.exports = `
                 }
                 fieldServiceNameAndDescripti {
                   entity {
-                    ... on TaxonomyTermHealthCareServiceTaxonomy {
+                    ... on TaxonomyTermHealthCareServiceTaxonomy {                    
                       entityId
                       entityBundle
                       fieldAlsoKnownAs
@@ -88,9 +93,16 @@ module.exports = `
                           }
                         }
                       }
+                      ${
+                        enabledFeatureFlags[
+                          featureFlags.FEATURE_HEALTH_SERVICE_API_ID
+                        ]
+                          ? 'fieldHealthServiceApiId'
+                          : ''
+                      }
                     }
                   }
-                }    
+                }
               }
             }
           }

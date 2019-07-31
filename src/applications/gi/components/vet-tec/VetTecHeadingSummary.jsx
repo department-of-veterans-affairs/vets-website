@@ -27,7 +27,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => (
               institution.preferredProvider === true
             }
           >
-            <span>Preferred provider </span>
+            <span>Preferred Provider </span>
             <button
               aria-label="preferred provider learn more"
               type="button"

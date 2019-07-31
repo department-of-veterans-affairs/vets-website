@@ -20,7 +20,7 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
       <div className="small-6 columns">
         {header ? <h5>{label}:</h5> : <div>{label}:</div>}
       </div>
-      <div className="small-6 columns value">
+      <div className="small-6 columns vads-u-text-align--right">
         {header ? <h5>{value}</h5> : <div>{value}</div>}
       </div>
     </div>

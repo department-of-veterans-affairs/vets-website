@@ -5,7 +5,7 @@ export const VetTecAdditionalInformation = ({
   institution: { facilityCode },
   showModal,
 }) => (
-  <div className="additional-information row">
+  <div className="additional-information row vads-u-margin-top--1">
     <div className="usa-width-one-half medium-6 columns">
       <div className="institution-codes usa-width-one-whole">
         <h3>Institution codes</h3>

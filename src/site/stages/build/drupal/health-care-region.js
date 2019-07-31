@@ -11,6 +11,30 @@ const {
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
 
+  // Create the top-level facilities status page for Health Care Regions
+  const statusEntityUrl = createEntityUrlObj(drupalPagePath);
+  const statusObj = {
+    mainFacilities: page.reverseFieldRegionPageNode,
+    facilitySidebar: sidebar,
+    entityUrl: statusEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+
+  const statusPage = updateEntityUrlObj(
+    statusObj,
+    drupalPagePath,
+    'Operating status',
+  );
+  const statusPath = statusPage.entityUrl.path;
+  statusPage.regionOrOffice = page.title;
+  statusPage.entityUrl = generateBreadCrumbs(statusPath);
+
+  files[`${drupalPagePath}/status/index.html`] = createFileObj(
+    statusPage,
+    'health_care_facility_status.drupal.liquid',
+  );
+
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
@@ -43,13 +67,13 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     specialtyCareHealthServices: page.specialtyCareHealthServices,
     primaryCareHealthServices: page.primaryCareHealthServices,
     mentalHealthServices: page.mentalHealthServices,
-    featuredHealthServices: page.featuredHealthServices,
     extendedCareHealthServices: page.extendedCareHealthServices,
     homelessHealthServices: page.homelessHealthServices,
     genomicMedicineHealthServices: page.genomicMedicineHealthServices,
     veteranCareHealthServices: page.veteranCareHealthServices,
     otherHealthServices: page.otherHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+    featuredContentHealthServices: page.fieldFeaturedContentHealthser,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,
     alert: page.alert,
