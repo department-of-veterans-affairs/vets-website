@@ -83,9 +83,10 @@ class RatingRow extends React.Component {
                   type="button"
                   aria-label={`Delete disability rating row ${this.props.indx +
                     1}`}
-                  className="btn-delete va-button-link usa-button vads-u-margin--1p5"
+                  className="va-button-link usa-button vads-u-margin--1p5"
                   onClick={this.props.removeDisability(this.props.indx)}
                   disabled={!this.props.isDeletable}
+                  data-e2e="delete"
                 >
                   <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
                   <span className="vads-u-display--none medium-screen:vads-u-display--inline">

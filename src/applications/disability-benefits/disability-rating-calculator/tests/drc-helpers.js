@@ -1,7 +1,11 @@
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 function addRatingRow(client) {
-  client.waitForElementVisible('.btn-add', Timeouts.normal).click('.btn-add');
+  const addRowBtnSelector = 'button[data-e2e=add]';
+
+  client
+    .waitForElementVisible(addRowBtnSelector, Timeouts.normal)
+    .click(addRowBtnSelector);
 }
 
 function fillRatings(client, input) {
