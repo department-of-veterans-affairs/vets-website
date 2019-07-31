@@ -38,6 +38,9 @@ const runTest = async (page, testData, testConfig, userToken, testName) => {
     await page.goto(`${baseUrl}${testConfig.url}`);
   }
 
+  // Hide Foresee
+  await page.addStyleTag({ content: '.__acs { display: none !important; }' });
+
   await fillForm(
     page,
     testData,
