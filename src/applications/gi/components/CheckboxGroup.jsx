@@ -71,7 +71,7 @@ CheckboxGroup.propTypes = {
     PropTypes.oneOfType([
       PropTypes.shape({
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
         name: PropTypes.oneOfType([PropTypes.string, PropTypes.string]),
       }),
     ]),

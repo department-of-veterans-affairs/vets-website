@@ -73,34 +73,6 @@ class VetTecSearchForm extends React.Component {
         onChange={this.handleOnlineClassesChange}
       />
     );
-
-    // const inPersonLabel = (
-    //   <div>
-    //     In Person &nbsp; <i className="fas fa-user" />
-    //   </div>
-    // );
-    // const onlineLabel = (
-    //   <div>
-    //     Online &nbsp; <i className="fas fa-laptop" />
-    //   </div>
-    // );
-    // return (
-    //   <div>
-    //     <p>Learning Format</p>
-    //     <Checkbox
-    //       checked={inPerson}
-    //       name="inPerson"
-    //       label={inPersonLabel}
-    //       onChange={this.handleOnlineClassesChange}
-    //     />
-    //     <Checkbox
-    //       checked={online}
-    //       name="online"
-    //       label={onlineLabel}
-    //       onChange={this.handleOnlineClassesChange}
-    //     />
-    //   </div>
-    // );
   };
 
   renderCountryFilter = () => {
