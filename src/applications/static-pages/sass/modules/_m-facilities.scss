@@ -184,7 +184,7 @@ $duo-tone-lighten: #000000;
 }
 
 // featured services
-.featured-services-list-item {
+.featured-content-list-item {
   width: 100%;
   margin-right: 16px;
 
@@ -195,4 +195,8 @@ $duo-tone-lighten: #000000;
   @include media($medium-screen){
     width: 33%;
   }
+}
+
+.featured-content-hr {
+  width: 40px;
 }

@@ -1,8 +1,8 @@
-<li class="featured-services-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
+<li class="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
     {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
     {% if link.title != empty %}
         <b>{{ link.title }}</b>
-        <hr class="vads-u-margin-y--1p5 vads-u-border-color--primary" style="width:30%;">
+        <hr class="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary">
     {% endif %}
     {% if linkTeaser.fieldLinkSummary != empty %}
         <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
