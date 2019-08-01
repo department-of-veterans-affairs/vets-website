@@ -182,3 +182,21 @@ $duo-tone-lighten: #000000;
     margin-bottom: 0 !important;
   }
 }
+
+// featured content
+.featured-content-list-item {
+  width: 100%;
+  margin-right: 1em;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media($medium-screen){
+    width: 33%;
+  }
+}
+
+.featured-content-hr {
+  width: 40px;
+}
