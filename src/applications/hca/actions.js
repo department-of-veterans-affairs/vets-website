@@ -2,7 +2,10 @@ import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
-import { dismissedHCANotificationDate } from './selectors';
+import {
+  dismissedHCANotificationDate,
+  isEnrollmentStatusLoading,
+} from './selectors';
 
 // flip the `false` to `true` to fake the endpoint when testing locally
 const simulateServerLocally = environment.isLocalhost() && false;
@@ -105,7 +108,10 @@ function callAPI(dispatch, formData = {}) {
 // /health_care_applications/enrollment_status endpoint, depending on the value
 // of the `simulateServerLocally` flag
 export function getEnrollmentStatus(formData) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    if (isEnrollmentStatusLoading(getState())) {
+      return;
+    }
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
     /*
     When hitting the API locally, we cannot get responses other than 500s from

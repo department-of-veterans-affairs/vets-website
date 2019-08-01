@@ -22,29 +22,25 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
     ];
     if (this.props.displayVetTecOption) {
       const vetTecLabel = (
-        <span>
-          VET TEC training providers only &nbsp;(
-          <a onClick={() => this.props.showModal('vetTec')}>
-            Learn More)
-            <br />
-          </a>
-          {this.props.category === 'vettec' && (
-            <span className="vads-u-margin-x--neg5">
-              {' '}
-              <img
-                className="vads-u-padding-top--3"
-                src="/img/logo/vet-tec-logo.png"
-                alt="Vet Tec Logo"
-                width="179px"
-                height="85px"
-              />
-            </span>
-          )}
+        <span className="vads-u-padding-top--1 vads-u-margin-left--0p5">
+          {' '}
+          (
+          <button
+            aria-label="VET TEC training providers only learn more"
+            type="button"
+            className="va-button-link learn-more-button"
+            onClick={() => this.props.showModal('vetTec')}
+          >
+            Learn more
+          </button>
+          ){' '}
         </span>
       );
+
       options.push({
         value: 'vettec',
-        label: vetTecLabel,
+        label: 'VET TEC training providers only',
+        learnMore: vetTecLabel,
       });
     }
 

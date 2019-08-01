@@ -1,7 +1,7 @@
 import React from 'react';
 
 import KeywordSearch from '../search/KeywordSearch';
-import Checkbox from '../Checkbox';
+import CheckboxGroup from '../CheckboxGroup';
 import { addAllOption } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
@@ -46,32 +46,32 @@ class VetTecSearchForm extends React.Component {
   renderLearningFormat = () => {
     const { inPerson, online } = this.props.eligibility.learningFormat;
 
-    const inPersonLabel = (
-      <div>
-        In Person &nbsp; <i className="fas fa-user" />
-      </div>
-    );
-    const onlineLabel = (
-      <div>
-        Online &nbsp; <i className="fas fa-laptop" />
-      </div>
-    );
+    const options = [
+      {
+        name: 'inPerson',
+        label: (
+          <div>
+            In Person &nbsp; <i className="fas fa-user" />
+          </div>
+        ),
+        checked: inPerson,
+      },
+      {
+        name: 'online',
+        label: (
+          <div>
+            Online &nbsp; <i className="fas fa-laptop" />
+          </div>
+        ),
+        checked: online,
+      },
+    ];
     return (
-      <div>
-        <p>Learning Format</p>
-        <Checkbox
-          checked={inPerson}
-          name="inPerson"
-          label={inPersonLabel}
-          onChange={this.handleOnlineClassesChange}
-        />
-        <Checkbox
-          checked={online}
-          name="online"
-          label={onlineLabel}
-          onChange={this.handleOnlineClassesChange}
-        />
-      </div>
+      <CheckboxGroup
+        label="Learning Format"
+        options={options}
+        onChange={this.handleOnlineClassesChange}
+      />
     );
   };
 

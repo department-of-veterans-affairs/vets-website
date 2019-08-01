@@ -3,9 +3,46 @@
  *
  */
 module.exports = `
-  fragment wysiwyg on ParagraphWysiwyg {
-      fieldWysiwyg {
-        processed
+  fragment staffProfile on ParagraphStaffProfile {
+    queryFieldStaffProfile {
+      entities {
+        ...on NodePersonProfile {
+        entityUrl {
+          path
+        }
+        fieldNameFirst
+        fieldLastName
+        fieldSuffix
+        fieldDescription
+        fieldEmailAddress
+        fieldPhoneNumber
+
+        fieldOffice {
+          entity {
+            entityLabel
+            entityType
+          }
+        }
+
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                url
+                derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+
       }
+    }
   }
+}
 `;
