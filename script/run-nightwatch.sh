@@ -34,7 +34,7 @@ BUILDTYPE=${BUILDTYPE:-vagovdev}
 # Check to see if we already have a server running on port 3001 (as with 'npm run build')
  if [ "$(nc -z localhost 3001; echo $?)" -ne 0 ]; then
   echo "Starting test-server.js..."
-  node src/platform/testing/e2e/test-server.js --buildtype ${BUILDTYPE} &
+  node script/run-test-server.js --buildtype ${BUILDTYPE} &
 else
   echo "Using webpack-dev-server as test server on port 3001"
   export WEB_PORT=3001
