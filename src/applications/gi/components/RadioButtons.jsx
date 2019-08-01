@@ -18,8 +18,8 @@ import ExpandingGroup from '@department-of-veterans-affairs/formation-react/Expa
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class RadioButtons extends React.Component {
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
+  constructor(props) {
+    super(props);
     this.inputId = _.uniqueId('radio-buttons-');
   }
 
@@ -56,7 +56,6 @@ class RadioButtons extends React.Component {
         >
           <input
             className="gids-radio-buttons-input"
-            autoComplete="false"
             checked={checked}
             id={`${this.inputId}-${index}`}
             name={this.props.name}
