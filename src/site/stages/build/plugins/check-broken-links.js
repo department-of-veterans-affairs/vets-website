@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign, no-console, no-continue */
 const ENVIRONMENTS = require('../../../constants/environments');
-// const createBrokenLinkChecker = require('metalsmith-broken-link-checker');
 const cheerio = require('cheerio');
 const path = require('path');
 const url = require('url');
