@@ -1,60 +1,152 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-console, no-continue */
 const ENVIRONMENTS = require('../../../constants/environments');
-const createBrokenLinkChecker = require('metalsmith-broken-link-checker');
+// const createBrokenLinkChecker = require('metalsmith-broken-link-checker');
 const cheerio = require('cheerio');
+const path = require('path');
+const url = require('url');
 
-const lazyImageFiles = [];
+function isBrokenLink(link, pagePath, allPaths) {
+  const parsed = url.parse(link);
+  const isExternal = !!parsed.protocol;
 
-function addLazySrcAttribute(file, fileName) {
-  // if we have lazy images, they don't have a src attr,
-  // so we need to add one for the blc
-  if (file.contents.includes('data-src=')) {
-    lazyImageFiles.push(fileName);
-    const doc = cheerio.load(file.contents);
-    doc('img[data-src]').each((i, el) => {
-      doc(el).attr('src', doc(el).attr('data-src'));
-    });
-    file.contents = doc.html();
+  if (isExternal) return false;
+
+  if (parsed.pathname === null) {
+    const isAnchorLink = !!parsed.hash;
+    if (isAnchorLink) {
+      return false;
+    }
+
+    return true;
   }
+
+  let filePath = parsed.pathname;
+
+  if (path.isAbsolute(filePath)) {
+    filePath = path.join('.', filePath);
+  } else {
+    filePath = path.join(pagePath, filePath);
+  }
+
+  if (!path.extname(filePath)) {
+    filePath = path.join(filePath, 'index.html');
+  }
+
+  return !allPaths.has(filePath);
 }
 
-function removeLazySrcAttribute(files) {
-  // Go back and remove the src attr we added
-  lazyImageFiles.forEach(fileName => {
-    const file = files[fileName];
-    const doc = cheerio.load(file.contents);
-    doc('img[data-src]').each((i, el) => {
-      doc(el).attr('src', null);
-    });
-    file.contents = doc.html();
+function getBrokenLinks(file, allPaths) {
+  const $ = cheerio.load(file.contents);
+  const elements = $('a, img');
+  const currentPath = file.path;
+
+  const linkErrors = [];
+
+  elements.each((index, node) => {
+    const $node = $(node);
+
+    let target = null;
+
+    if ($node.is('a')) {
+      const namedAnchor = !!$node.prop('name');
+
+      target = $node.attr('href');
+
+      if (!target && namedAnchor) {
+        return;
+      }
+    }
+
+    if ($node.is('img')) {
+      target = $node.attr('src') || $node.attr('data-src');
+    }
+
+    const isBroken = isBrokenLink(target, currentPath, allPaths);
+
+    if (isBroken) {
+      const html = cheerio.html($node);
+      linkErrors.push({
+        html,
+        target,
+      });
+    }
   });
+
+  return linkErrors;
+}
+
+function applyIgnoredRoutes(brokenPages, files) {
+  const reactLandingPages = Object.keys(files)
+    .map(fileName => files[fileName])
+    .filter(file => !!file.entryname)
+    .map(file => file.path);
+
+  brokenPages = brokenPages.filter(brokenPage => {
+    brokenPage.linkErrors = brokenPage.linkErrors
+      .filter(linkError => !linkError.target.endsWith('.asp'))
+      .filter(linkError =>
+        reactLandingPages.some(reactPath =>
+          linkError.target.startsWith(reactPath),
+        ),
+      );
+
+    return brokenPage.linkErrors.length > 0;
+  });
+
+  return brokenPages;
 }
 
 function checkBrokenLinks(buildOptions) {
   return (files, metalsmith, done) => {
-    const ignorePaths = [];
+    const fileNames = Object.keys(files);
+    const allPaths = new Set(fileNames);
 
-    for (const fileName of Object.keys(files)) {
+    let brokenPages = [];
+
+    for (const fileName of fileNames) {
+      const isHtml = path.extname(fileName) === '.html';
+      if (!isHtml) continue;
+
       const file = files[fileName];
+      const linkErrors = getBrokenLinks(file, allPaths);
 
-      const { entryname, path } = file;
-
-      const isApp = !!entryname;
-      if (isApp) ignorePaths.push(path);
-      addLazySrcAttribute(file, fileName);
+      if (linkErrors.length > 0) {
+        brokenPages.push({
+          path: file.path,
+          linkErrors,
+        });
+      }
     }
 
-    const ignoreGlobs = ignorePaths.map(path => `${path}(.*)`);
-    ignoreGlobs.push('\\.asp');
-    const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
-    const brokenLinkChecker = createBrokenLinkChecker({
-      allowRedirects: true,
-      warn: buildOptions.buildtype !== ENVIRONMENTS.VAGOVPROD,
-      allowRegex: ignoreLinks,
-    });
+    brokenPages = applyIgnoredRoutes(brokenPages, files);
 
-    brokenLinkChecker(files);
-    removeLazySrcAttribute(files);
+    if (brokenPages.length > 0) {
+      const brokenLinkCount = brokenPages.reduce(
+        (sum, page) => sum + page.linkErrors.length,
+        0,
+      );
+      const separator = '\n\n---\n\n';
+      const header = `${separator}There are ${brokenLinkCount} broken links!${separator}`;
+
+      const body = brokenPages
+        .map(brokenPage => {
+          let pageChunk = `There are ${
+            brokenPage.linkErrors.length
+          } broken links on ${brokenPage.path}:\n\n`;
+          pageChunk += brokenPage.linkErrors.map(link => link.html).join('\n');
+          return pageChunk;
+        })
+        .join(separator);
+
+      const errorOutput = header + body + separator;
+
+      if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
+        done(errorOutput);
+        return;
+      }
+      console.log(errorOutput);
+    }
+
     done();
   };
 }
