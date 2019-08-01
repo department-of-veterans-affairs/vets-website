@@ -22,7 +22,7 @@ const ReapplyContent = ({ route }) => (
       downtime={route.formConfig.downtime}
     />
     <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-      <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
+      <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="12/31/2020" />
     </div>
   </>
 );
