@@ -56,7 +56,6 @@ class RadioButtons extends React.Component {
         >
           <input
             className="gids-radio-buttons-input"
-            autoComplete="false"
             checked={checked}
             id={`${this.inputId}-${index}`}
             name={this.props.name}
