@@ -1,19 +1,21 @@
 import { Selector } from 'testcafe';
-import { axeCheck, createReport } from 'axe-testcafe';
 
-import { baseUrl } from '../../../platform/testing/e2e/helpers';
+import {
+  BASE_URL,
+  axeCheck,
+} from '../../../platform/testing/e2e/testcafe/helpers';
 
-fixture('Facility Locator').page(`${baseUrl}/find-locations/`);
+fixture('Facility Locator').page(`${BASE_URL}/find-locations/`);
 
 test('Search facility and view details', async t => {
-  const { violations } = await axeCheck(t);
-
+  await axeCheck(t);
   await t
     .typeText('input[name="street-city-state-zip"]', 'Seattle, WA')
-    .click('input[type="submit"]')
+    .click('input[type="submit"]');
+  await axeCheck(t);
+  await t
     .click('.facility-result a h5')
     .expect(Selector('.all-details').exists)
-    .ok()
-    .expect(violations.length === 0)
-    .ok(createReport(violations));
+    .ok();
+  await axeCheck(t);
 });
