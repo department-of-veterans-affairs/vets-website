@@ -1,0 +1,6 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+#  @department-of-veterans-affairs/frontend-review-group will be requested for
+# review when someone opens a pull request.
+
+*       @department-of-veterans-affairs/frontend-review-group

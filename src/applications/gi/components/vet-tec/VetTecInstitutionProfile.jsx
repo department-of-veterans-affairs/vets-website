@@ -13,7 +13,7 @@ const VetTecInstitutionProfile = ({ institution, showModal }) => (
     <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
       <img
         className="vettec-logo"
-        src={require('site/assets/img/logo/vet-tec-logo.png')}
+        src="/img/logo/vet-tec-logo.png"
         alt="Vet Tec Logo"
       />
     </div>
@@ -29,7 +29,7 @@ const VetTecInstitutionProfile = ({ institution, showModal }) => (
         <AccordionItem button="Application process">
           <VetTecApplicationProcess />
         </AccordionItem>
-        <AccordionItem button="Contact us">
+        <AccordionItem button="Contact details">
           <VetTecContactInformation institution={institution} />
         </AccordionItem>
         <AccordionItem button="Additional information">

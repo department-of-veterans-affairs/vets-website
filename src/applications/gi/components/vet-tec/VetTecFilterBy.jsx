@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '../Checkbox';
+import CheckboxGroup from '../CheckboxGroup';
 import { renderLearnMoreLabel } from '../../utils/render';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -37,14 +37,20 @@ class VetTecFilterBy extends React.Component {
   };
 
   render() {
+    const options = [
+      {
+        name: 'preferredProvider',
+        checked: this.props.filters.preferredProvider,
+        label: this.renderPreferredProviderLabel(),
+      },
+    ];
+
     return (
       <div>
-        <p>Filter by</p>
-        <Checkbox
-          checked={this.props.filters.preferredProvider}
-          name="preferredProvider"
-          label={this.renderPreferredProviderLabel()}
+        <CheckboxGroup
+          label="Filter by"
           onChange={this.handleFilterChange}
+          options={options}
         />
       </div>
     );

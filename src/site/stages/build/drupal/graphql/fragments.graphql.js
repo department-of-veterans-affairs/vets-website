@@ -1,5 +1,6 @@
 const { alert } = require('./block-fragments/alert.block.graphql');
 const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
+const staffProfile = require('./paragraph-fragments/staffProfile.paragraph.graphql');
 const {
   listOfLinkTeasers,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
@@ -19,6 +20,7 @@ const table = require('./paragraph-fragments/table.paragraph.graphql');
 module.exports = `
   ${alert}
   ${collapsiblePanel}
+  ${staffProfile}
   ${linkTeaser}
   ${listOfLinkTeasers}
   ${process}

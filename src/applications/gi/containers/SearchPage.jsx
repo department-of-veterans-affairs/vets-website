@@ -109,7 +109,11 @@ export class SearchPage extends React.Component {
 
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
-    const query = { ...this.props.location.query, [field]: value };
+    const query = {
+      ...this.props.location.query,
+      [field]: value,
+      name: this.props.autocomplete.searchTerm,
+    };
 
     // Don’t update the route if the query hasn’t changed.
     if (
@@ -245,7 +249,7 @@ export class SearchPage extends React.Component {
             <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
               <img
                 className="vettec-logo"
-                src={require('site/assets/img/logo/vet-tec-logo.png')}
+                src="/site/assets/img/logo/vet-tec-logo.png"
                 alt="Vet Tec Logo"
               />
             </div>

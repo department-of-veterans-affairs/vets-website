@@ -88,9 +88,14 @@ function completeDependents(client) {
     .click('input#root_serviceBefore1977_parentDependentYes');
 }
 
+function completeStemSelection(client) {
+  client.click('input[id="root_isEdithNourseRogersScholarshipNo"]');
+}
+
 module.exports = {
   completeMilitaryService,
   completeNewSchool,
   completeOldSchool,
   completeDependents,
+  completeStemSelection,
 };

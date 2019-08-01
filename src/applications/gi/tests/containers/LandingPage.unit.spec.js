@@ -72,9 +72,7 @@ describe('<LandingPage>', () => {
       .find('RadioButtons')
       .find('span');
 
-    expect(vetTecOption.text()).to.equal(
-      'VET TEC training providers only  (Learn More)',
-    );
+    expect(vetTecOption.text()).to.equal(' (Learn more) ');
     tree.unmount();
   });
 });

@@ -1,8 +1,6 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
-import { isVetTecSelected } from '../../utils/helpers';
-import classNames from 'classnames';
 
 class LandingPageTypeOfInstitutionFilter extends React.Component {
   static propTypes = {
@@ -14,80 +12,56 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
     displayVetTecOption: false,
   };
 
-  options = () => {
-    const options = [];
-    const { displayAllOption, displayVetTecOption } = this.props;
-
-    if (displayAllOption) {
-      options.push({
-        value: 'ALL',
-        label: 'All',
-      });
-    }
-
-    options.push({ value: 'school', label: 'Schools only' });
-    options.push({ value: 'employer', label: 'Employers only' });
-
-    if (displayVetTecOption) {
+  render() {
+    const options = [
+      { value: 'school', label: 'Schools' },
+      {
+        value: 'employer',
+        label: 'Employers (On-the-job training [OJT], apprenticeships)',
+      },
+    ];
+    if (this.props.displayVetTecOption) {
       const vetTecLabel = (
-        <span>
-          VET TEC training providers only &nbsp;(
-          <a onClick={() => this.props.showModal('VET TEC')}>
-            Learn More)
-            <br />
-          </a>
+        <span className="vads-u-padding-top--1 vads-u-margin-left--0p5">
+          {' '}
+          (
+          <button
+            aria-label="VET TEC training providers only learn more"
+            type="button"
+            className="va-button-link learn-more-button"
+            onClick={() => this.props.showModal('vetTec')}
+          >
+            Learn more
+          </button>
+          ){' '}
+        </span>
+      );
+
+      const vetTecLogo = (
+        <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
+          <img
+            className="vettec-logo vads-u-padding-top--0p5 vads-u-margin-bottom--neg1"
+            src="/img/logo/vet-tec-logo.png"
+            alt="Vet Tec Logo"
+          />
         </span>
       );
       options.push({
         value: 'vettec',
-        label: vetTecLabel,
+        label: 'VET TEC training providers only',
+        learnMore: vetTecLabel,
+        additional: vetTecLogo,
       });
     }
-    return options;
-  };
 
-  renderLogo = () => {
-    const spanClasses = classNames(
-      'vads-u-margin-bottom--1',
-      'small-screen:vads-u-margin-x--neg1',
-      'small-screen:vads-u-margin-bottom--neg1',
-    );
-
-    const imgClasses = classNames(
-      'vettec-logo',
-      'vads-u-padding-bottom--1',
-      'small-screen:vads-u-padding-top--0p5',
-      'small-screen:vads-u-margin-bottom--neg1',
-    );
-
-    if (isVetTecSelected(this.props)) {
-      return (
-        <div>
-          <span className={spanClasses}>
-            <img
-              className={imgClasses}
-              src="/img/logo/vet-tec-logo.png"
-              alt="Vet Tec Logo"
-            />
-          </span>
-        </div>
-      );
-    }
-    return null;
-  };
-
-  render() {
     return (
-      <div>
-        <RadioButtons
-          label="Type of institution"
-          name="category"
-          options={this.options()}
-          value={this.props.category}
-          onChange={this.props.onChange}
-        />
-        {this.renderLogo()}
-      </div>
+      <RadioButtons
+        label="Type of institution"
+        name="category"
+        options={options}
+        value={this.props.category}
+        onChange={this.props.onChange}
+      />
     );
   }
 }
