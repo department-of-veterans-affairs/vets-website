@@ -1,3 +1,5 @@
+"use strict"; // eslint-disable-line
+
 const commandLineArgs = require('command-line-args');
 
 const ENVIRONMENTS = require('../src/site/constants/environments');
@@ -11,10 +13,11 @@ const optionDefinitions = [
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
+
 const options = commandLineArgs(optionDefinitions);
 
 if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
-testServer(options.buildType, options.host, options.port);
+testServer(options.buildtype, options.host, options.port);
