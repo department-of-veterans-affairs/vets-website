@@ -70,9 +70,9 @@ describe('<LandingPage>', () => {
     const vetTecOption = tree
       .find('LandingPageTypeOfInstitutionFilter')
       .find('RadioButtons')
-      .find('span');
-
-    expect(vetTecOption.text()).to.equal(' (Learn more) ');
+      .find('span')
+      .find('button');
+    expect(vetTecOption.text()).to.equal('Learn more');
     tree.unmount();
   });
 });
