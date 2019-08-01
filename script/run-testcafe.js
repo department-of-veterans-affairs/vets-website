@@ -17,7 +17,7 @@ const ENVIRONMENTS = require('../src/site/constants/environments');
     const runner = testcafe.createRunner();
 
     const failedCount = await runner
-      .src(['src/**/*.testcafe.e2e.spec.js'])
+      .src(['src/**/*.testcafe.spec.js'])
       .browsers(['chrome'])
       .run();
 
