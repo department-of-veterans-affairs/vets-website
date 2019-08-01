@@ -286,6 +286,10 @@ module.exports = function registerFilters() {
 
   // check if this is an about menu page
   liquid.filters.isAboutItem = (menuArray, path) => {
+    const outreachPattern = new RegExp('outreach');
+    if (outreachPattern.test(path)) {
+      return false;
+    }
     const paths = _.flatMap(menuArray, getPath);
     const inMenu = _.indexOf(paths, path);
     return inMenu !== -1;
