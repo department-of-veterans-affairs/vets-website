@@ -1,7 +1,7 @@
 .gi-app .profile-page {
-
   h3 {
     font-size: 1.35em;
+    margin-top: 0;
   }
 
   .usa-accordion {
@@ -9,12 +9,13 @@
   }
 
   .link-header {
-    h3, h5 {
+    h3,
+    h5 {
       display: inline-block;
       padding: 0;
     }
 
-    padding-bottom: .5em;
+    padding-bottom: 0.5em;
   }
 
   .caution-flag {
@@ -61,10 +62,6 @@
     }
 
     .calculator-result {
-      .value {
-        text-align: right;
-      }
-
       &.bold {
         font-weight: bold;
       }
@@ -107,6 +104,13 @@
     }
   }
 
+  .tuition-section,
+  .housing-section {
+    .calculator-result {
+      margin-top: 0.5rem;
+    }
+  }
+
   .outcomes .graph-component {
     margin: 1em auto;
     clear: both;
@@ -121,7 +125,6 @@
   }
 
   .cautionary-information {
-
     .table {
       table {
         margin: 1em 0;
@@ -178,6 +181,12 @@
       .historical-information.table {
         display: none;
       }
+    }
+  }
+
+  .vet-tec-application-process-list {
+    li {
+      list-style: square;
     }
   }
 }

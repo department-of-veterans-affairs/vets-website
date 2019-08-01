@@ -12,55 +12,115 @@
                 <h1>Our health services</h1>
                 <div class="va-introtext">{{ fieldClinicalHealthServi.processed }}</div>
 
-                <div class="usa-grid usa-grid-full vads-u-margin-top--2 vads-u-margin-bottom--3">
-                    <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--4">{% assign basePath = entityUrl.path | regionBasePath %}
+                <div class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4">
+                    <div class="usa-grid usa-grid-full vads-u-margin-y--0 vads-u-margin-bottom--0">{% assign basePath = entityUrl.path | regionBasePath %}
                         {% include "src/site/facilities/facilities_health_services_buttons.drupal.liquid" with path = basePath %}</div>
                 </div>
 
                 {% if socialProgramsPatientFamilyServices.entities.length || healthWellnessPatientFamilyServices.entities.length || primaryCareHealthServices.entities.length || mentalHealthServices.entities.length || specialtyCareHealthServices.entities.length %}
-                    <div class="usa-grid usa-grid-full vads-u-margin-top--1p5">
-                        <h3>On this page</h3>
-                        <ul>
+                    <div class="usa-grid usa-grid-full vads-u-margin-top--0">
+                        <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+                        <ul class="usa-unstyled-list">
                             {% if featuredHealthServices.entities.length %}
-                                <li><a href="#featured-services">Featured services</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#featured-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Featured services
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if primaryCareHealthServices.entities.length %}
-                                <li><a href="#primary-health-services">Primary care (Family medicine, internal medicine)</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#primary-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Primary care (Family medicine, internal medicine)
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if extendedCareHealthServices.entities.length %}
-                                <li><a href="#extended-care-health-services">Extended care and rehabilitation</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#extended-care-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Extended care and rehabilitation
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if homelessHealthServices.entities.length %}
-                                <li><a href="#homeless-health-services">Homeless services</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#homeless-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Homeless services
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if socialProgramsPatientFamilyServices.entities.length %}
-                                <li><a href="#social-patient-family-services">Social programs and services</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#social-patient-family-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Social programs and services
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if genomicMedicineHealthServices.entities.length %}
-                                <li><a href="#genomic-medicine-health-services">Genomic medicine/medical genetics (Genetic medicine)</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#genomic-medicine-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Genomic medicine/medical genetics (Genetic medicine)
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if healthWellnessPatientFamilyServices.entities.length %}
-                                <li><a href="#wellness-patient-family-services">Health and wellness</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#wellness-patient-family-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Health and wellness
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if mentalHealthServices.entities.length %}
-                                <li><a href="#mental-health-services">Mental and behavioral health</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#mental-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Mental and behavioral health
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if specialtyCareHealthServices.entities.length %}
-                                <li><a href="#specialty-health-services">Specialty care</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#specialty-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Specialty care
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if veteranCareHealthServices.entities.length %}
-                              <li><a href="#veteran-care-health-services">Services for Veteran care</a></li>
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#veteran-care-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Services for Veteran care
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if otherHealthServices.entities.length %}
+                                <li class="vads-u-margin-bottom--2">
+                                    <a href="#other-health-services" class="vads-u-text-decoration--none">
+                                        <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+                                        Other services
+                                    </a>
+                                </li>
                             {% endif %}
                         </ul>
                     </div>
                 {% endif %}
 
-                {% if featuredHealthServices.entities.length %}
+                {% if featuredContentHealthServices.length %}
                     <section class="featured-services" id="featured-services">
-                        <h2>Featured Services</h2>
-                        {% for featuredService in featuredHealthServices.entities %}
-                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = featuredService %}
-                        {% endfor %}
+                        <h3>In the spotlight at {{ regionOrOffice | remove: "health care" }}</h3>
+                        <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4">
+                            {% for featuredService in featuredContentHealthServices %}
+                                {% include "src/site/paragraphs/link_teaser_featured_content.drupal.liquid" with linkTeaser = featuredService.entity %}
+                            {% endfor %}
+                        </ul>
                     </section>
                 {% endif %}
 
@@ -141,6 +201,15 @@
                         <h2>Services for Veteran care</h2>
                         {% for veteranService in veteranCareHealthServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = veteranService %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
+
+                {% if otherHealthServices.entities.length %}
+                    <section class="veteran-care-health-services" id="other-health-services">
+                        <h2>Other services</h2>
+                        {% for otherService in otherHealthServices.entities %}
+                            {% include "src/site/facilities/health_service.drupal.liquid" with healthService = otherService %}
                         {% endfor %}
                     </section>
                 {% endif %}

@@ -7,6 +7,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
@@ -15,9 +16,30 @@ import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 import PaymentInformation from '../containers/PaymentInformation';
+import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
+
+const ProfileTOC = ({ militaryInformation }) => (
+  <>
+    <h2 className="vads-u-font-size--h3">On this page</h2>
+    <ul>
+      <li>
+        <a href="#contact-information">Contact information</a>
+      </li>
+      {!environment.isProduction() && <PaymentInformationTOCItem />}
+      <li>
+        <a href="#personal-information">Personal information</a>
+      </li>
+      {militaryInformation && (
+        <li>
+          <a href="#military-information">Military service information</a>
+        </li>
+      )}
+    </ul>
+  </>
+);
 
 class ProfileView extends React.Component {
   static propTypes = {
@@ -85,12 +107,17 @@ class ProfileView extends React.Component {
                 hero={hero}
                 militaryInformation={militaryInformation}
               />
+              <ProfileTOC militaryInformation={militaryInformation} />
+              <div id="contact-information" />
               <ContactInformation />
+              <div id="direct-deposit" />
               <PaymentInformation />
+              <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}
               />
+              {militaryInformation && <div id="military-information" />}
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}

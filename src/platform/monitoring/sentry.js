@@ -23,19 +23,4 @@ if (trackErrors) {
   Sentry.configureScope(scope => {
     scope.setLevel('error');
   });
-
-  // this is for errors that happen in promises
-  // it does not work locally with the webpack devtool setting we
-  // use but does with the one we use in prod/staging
-  window.addEventListener('unhandledrejection', evt => {
-    Sentry.withScope(scope => {
-      scope.setExtra('evt', evt);
-
-      if (evt && evt.reason) {
-        Sentry.captureException(evt.reason);
-      } else {
-        Sentry.captureMessage('Unhandled promise rejection');
-      }
-    });
-  });
 }

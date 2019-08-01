@@ -8,6 +8,7 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  eligibilityChange,
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
@@ -19,7 +20,7 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
       <div className="small-6 columns">
         {header ? <h5>{label}:</h5> : <div>{label}:</div>}
       </div>
-      <div className="small-6 columns value">
+      <div className="small-6 columns vads-u-text-align--right">
         {header ? <h5>{value}</h5> : <div>{value}</div>}
       </div>
     </div>
@@ -61,7 +62,7 @@ export class Calculator extends React.Component {
         </button>
         {expanded ? (
           <div className="form-expanding-group-open">
-            <EligibilityForm />
+            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
           </div>
         ) : null}
       </div>
@@ -220,6 +221,7 @@ const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  eligibilityChange,
 };
 
 export default connect(

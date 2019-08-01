@@ -44,13 +44,7 @@ module.exports = function registerFilters() {
     return string;
   };
 
-  liquid.filters.fileType = data => {
-    const string = data
-      .split('.')
-      .slice(-1)
-      .pop();
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+  liquid.filters.fileSize = data => `${(data / 1000000).toFixed(2)}MB`;
 
   liquid.filters.fileExt = data => {
     const string = data
@@ -69,20 +63,25 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.videoThumbnail = data => {
-    const string = data.split('?v=')[1];
+    const string = data.split('v=')[1];
     return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
   };
 
   liquid.filters.outputLinks = data => {
     // Change phone to tap to dial.
     const replacePattern = /(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/;
-    const number = data.match(replacePattern)[0];
-    const replacedText = data.replace(
-      replacePattern,
-      `<a href="tel:${number}">Phone: ${number}</a>`,
-    );
 
-    return replacedText;
+    if (data.match(replacePattern)) {
+      const number = data.match(replacePattern)[0];
+      const replacedText = data.replace(
+        replacePattern,
+        `<a target="_blank" href="tel:${number}">Phone: ${number}</a>`,
+      );
+
+      return replacedText;
+    }
+
+    return data;
   };
 
   liquid.filters.breakTerms = data => {
@@ -99,6 +98,53 @@ module.exports = function registerFilters() {
     }
     return output;
   };
+  liquid.filters.benefitTerms = data => {
+    let output = 'General benefits information';
+    if (data != null) {
+      switch (data) {
+        case 'general':
+          output = 'General benefits information';
+          break;
+        case 'burial':
+          output = 'Burials and memorials';
+          break;
+        case 'careers':
+          output = 'Careers and employment';
+          break;
+        case 'disability':
+          output = 'Disability';
+          break;
+        case 'education':
+          output = 'Education and training';
+          break;
+        case 'family':
+          output = 'Family member benefits';
+          break;
+        case 'healthcare':
+          output = 'Health care';
+          break;
+        case 'housing':
+          output = 'Housing assistance';
+          break;
+        case 'insurance':
+          output = 'Life insurance';
+          break;
+        case 'pension':
+          output = 'Pension';
+          break;
+        case 'service':
+          output = 'Service member benefits';
+          break;
+        case 'records':
+          output = 'Records';
+          break;
+        default:
+          output = 'General benefits information';
+          break;
+      }
+    }
+    return output;
+  };
 
   liquid.filters.locationUrlConvention = facility =>
     facility.fieldNicknameForThisFacility
@@ -110,20 +156,6 @@ module.exports = function registerFilters() {
       .toLowerCase()
       .split(' ')
       .join('-');
-
-  liquid.filters.paragraphsToWidgets = paragraphs =>
-    paragraphs
-      .filter(
-        paragraph =>
-          paragraph.entity.entityBundle === 'react_widget' &&
-          paragraph.entity.fieldCtaWidget === false,
-      )
-      .map((paragraph, index) => ({
-        root: `react-widget-${index + 1}`,
-        timeout: paragraph.entity.fieldTimeout,
-        loadingMessage: paragraph.entity.fieldLoadingMessage,
-        errorMessage: paragraph.entity.errorMessage,
-      }));
 
   liquid.filters.facilityIds = facilities =>
     facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
@@ -229,10 +261,21 @@ module.exports = function registerFilters() {
       : null;
   };
 
+  liquid.filters.featureSingleValueFieldLink = fieldLink => {
+    if (
+      fieldLink &&
+      enabledFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
+    ) {
+      return fieldLink[0];
+    }
+
+    return fieldLink;
+  };
+
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
-  liquid.filters.isContactPage = path => path.includes('contact');
+  liquid.filters.isPage = (path, page) => path.includes(page);
 
   // check is this is a root level page
   liquid.filters.isRootPage = path => {
@@ -250,4 +293,22 @@ module.exports = function registerFilters() {
 
   // sort a list of objects by a certain property in the object
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
+
+  // get a value from a path of an object
+  liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
+
+  // get a value from a path of an object in an array
+  liquid.filters.getValueFromArrayObjPath = (entities, index, path) =>
+    _.get(entities[index], path);
+
+  // needed until all environments have the "Health Service API ID" feature flag
+  // when this is no longer needed, simply use
+  // `serviceTaxonomy.fieldHealthServiceApiId` as the
+  // `data-service` prop for the
+  // react component `facility-appointment-wait-times-widget`
+  // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
+  liquid.filters.healthServiceApiId = serviceTaxonomy =>
+    enabledFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
+      ? serviceTaxonomy.fieldHealthServiceApiId
+      : serviceTaxonomy.name;
 };

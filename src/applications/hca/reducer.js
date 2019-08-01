@@ -35,12 +35,14 @@ export function hcaEnrollmentStatus(state = initialState, action) {
 
     case FETCH_ENROLLMENT_STATUS_SUCCEEDED: {
       const {
-        parsedStatus: enrollmentStatus,
+        parsedStatus,
         applicationDate,
         effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
       } = action.data;
+
+      const enrollmentStatus = parsedStatus;
       const isInESR =
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
       return {

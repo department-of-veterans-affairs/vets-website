@@ -44,16 +44,13 @@
     });
   }
 </script>
-{% if widgets %}
 <script type="text/javascript">
 (function() {
-  var widgets = {{ widgets | json }};
   var module = {};
   {% include "src/site/assets/js/static-page-widgets.js" %}
-  mountWidgets(widgets);
+  mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
 })();
 </script>
-{% endif %}
 
 {% include "src/site/includes/survey-tools.html" %}
 

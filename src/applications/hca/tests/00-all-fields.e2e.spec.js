@@ -289,11 +289,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .before(Timeouts.slow);
 
   // Submit message
-  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
-    client.expect.element('.confirmation-page').to.be.visible;
-  } else {
-    client.expect.element('.confirmation-page-title').to.be.visible;
-  }
+  client.expect.element('.confirmation-page').to.be.visible;
 
   client.axeCheck('.main');
 

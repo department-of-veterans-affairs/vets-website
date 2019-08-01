@@ -3,18 +3,18 @@ import React from 'react';
 
 export const VetTecAdditionalInformation = ({
   institution: { facilityCode },
-  onShowModal,
+  showModal,
 }) => (
-  <div className="additional-information row">
+  <div className="additional-information row vads-u-margin-top--1">
     <div className="usa-width-one-half medium-6 columns">
-      <div className="institution-codes">
+      <div className="institution-codes usa-width-one-whole">
         <h3>Institution codes</h3>
         <div>
           <strong>
             <button
               type="button"
               className="va-button-link learn-more-button"
-              onClick={onShowModal.bind(this, 'facilityCode')}
+              onClick={() => showModal('facilityCode')}
             >
               VA facility code:
             </button>
@@ -29,7 +29,7 @@ export const VetTecAdditionalInformation = ({
 
 VetTecAdditionalInformation.propTypes = {
   institution: PropTypes.object,
-  onShowModal: PropTypes.func,
+  showModal: PropTypes.func,
 };
 
 export default VetTecAdditionalInformation;

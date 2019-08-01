@@ -29,7 +29,7 @@ describe('facilities <OtherFacilityListWidget>', () => {
       tree.update();
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
-      const facilityName = tree.find('h3.vads-u-margin-bottom--2p5');
+      const facilityName = tree.find('h3');
       expect(facilityName.text()).to.contain(
         'Pittsburgh VA Medical Center-University Drive',
       );

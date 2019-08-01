@@ -38,7 +38,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       case DOWNLOAD_STATUSES.success:
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Letter';
+        buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
           <div className="usa-alert usa-alert-success" role="alert">
@@ -56,7 +56,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       case DOWNLOAD_STATUSES.failure:
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Retry Download';
+        buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
           <div className="usa-alert usa-alert-error" role="alert">
@@ -74,7 +74,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       default:
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Letter';
+        buttonText = 'Download letter';
         buttonDisabled = false;
     }
 

@@ -8,17 +8,8 @@ import { formattedDate } from '../utils/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { fetchFolder, fetchRecipients } from '../actions/messaging';
+import { recordDashboardClick } from '../helpers';
 import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
-import environment from 'platform/utilities/environment';
-
-// we want to show the new heading style on prod _only_ if we are on the
-// `dashboard2` route
-function showNewHeadingStyle() {
-  return (
-    !environment.isProduction() ||
-    window.location.pathname.indexOf('dashboard2') > -1
-  );
-}
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -96,12 +87,12 @@ class MessagingWidget extends React.Component {
 
     return (
       <div id="msg-widget">
-        {!showNewHeadingStyle() && <h2>Check secure messages</h2>}
-        {showNewHeadingStyle() && <h3>Check secure messages</h3>}
+        <h3>Check secure messages</h3>
         {content}
         <p>
           <a
             href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
+            onClick={recordDashboardClick('view-all-messages')}
             rel="noopener noreferrer"
             target="_blank"
           >

@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const eduForms = new Set([
-  '22-0994',
-  '22-1990',
-  '22-1995',
-  '22-5490',
-  '22-5495',
-  '22-1990E',
-  '22-1990N',
+  VA_FORM_IDS.FORM_22_0994,
+  VA_FORM_IDS.FORM_22_1990,
+  VA_FORM_IDS.FORM_22_1995,
+  VA_FORM_IDS.FORM_22_5490,
+  VA_FORM_IDS.FORM_22_5495,
+  VA_FORM_IDS.FORM_22_1990E,
+  VA_FORM_IDS.FORM_22_1990N,
 ]);
 
 export default function createEducationApplicationStatus(store, widgetType) {
@@ -29,7 +30,7 @@ export default function createEducationApplicationStatus(store, widgetType) {
             stayAfterDelete
             applyRender={() => (
               <div>
-                <h3>How do I apply?</h3>
+                <h2>How do I apply?</h2>
                 <p>
                   You can apply online right now. Just answer a few questions,
                   and we'll help you get started with the education benefits

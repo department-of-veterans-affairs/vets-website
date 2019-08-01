@@ -97,38 +97,38 @@ node('vetsgov-general-purpose') {
   commonStages.archiveAll(dockerContainer, ref);
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
-  stage('Review') {
-    if (commonStages.shouldBail()) {
-      currentBuild.result = 'ABORTED'
-      return
-    }
-
-    try {
-      if (!commonStages.isReviewable()) {
-        return
-      }
-      build job: 'deploys/vets-review-instance-deploy', parameters: [
-        stringParam(name: 'devops_branch', value: 'master'),
-        stringParam(name: 'api_branch', value: 'master'),
-        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-        stringParam(name: 'source_repo', value: 'vets-website'),
-      ], wait: false
-    } catch (error) {
-      commonStages.slackNotify()
-      throw error
-    }
-  }
+//  stage('Review') {
+//    if (commonStages.shouldBail()) {
+//      currentBuild.result = 'ABORTED'
+//      return
+//    }
+//
+//    try {
+//      if (!commonStages.isReviewable()) {
+//        return
+//      }
+//      build job: 'deploys/vets-review-instance-deploy', parameters: [
+//        stringParam(name: 'devops_branch', value: 'master'),
+//        stringParam(name: 'api_branch', value: 'master'),
+//        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+//        stringParam(name: 'source_repo', value: 'vets-website'),
+//      ], wait: false
+//    } catch (error) {
+//      commonStages.slackNotify()
+//      throw error
+//    }
+//  }
 
   stage('Deploy dev or staging') {
     try {
       if (!commonStages.isDeployable()) { return }
 
       if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
-        commonStages.runDeploy('deploys/vets-website-vagovdev', ref)
+        commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
       }
 
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
-        commonStages.runDeploy('deploys/vets-website-vagovstaging', ref)
+        commonStages.runDeploy('deploys/vets-website-vagovstaging', ref, false)
       }
 
     } catch (error) {

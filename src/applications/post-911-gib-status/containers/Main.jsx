@@ -7,6 +7,7 @@ import { getEnrollmentData } from '../actions/post-911-gib-status';
 import {
   backendErrorMessage,
   authenticationErrorMessage,
+  genericErrorMessage,
 } from '../utils/helpers';
 
 export class Main extends React.Component {
@@ -29,10 +30,12 @@ export class Main extends React.Component {
       case 'noChapter33Record':
         appContent = authenticationErrorMessage;
         break;
-      case 'unavailable':
+      case 'getEnrollmentDataFailure':
       case 'backendServiceError':
-      default:
         appContent = backendErrorMessage;
+        break;
+      default:
+        appContent = genericErrorMessage;
     }
 
     return <div>{appContent}</div>;

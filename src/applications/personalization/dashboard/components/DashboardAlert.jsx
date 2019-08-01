@@ -18,6 +18,7 @@ const DashboardAlert = ({
   statusHeadline,
   statusInfo,
   subheadline,
+  id,
 }) => {
   const classes = classNames(
     'dashboard-alert',
@@ -26,19 +27,28 @@ const DashboardAlert = ({
   );
 
   const alertContent = content || children;
+  const headerId = `dashboard-alert-header-${id}`;
 
   return (
-    <div className={classes}>
-      <header>
-        {subheadline && <h4>{subheadline}</h4>}
-        <h3>{headline}</h3>
-      </header>
+    <div aria-labelledby={headerId} role="region" className={classes}>
+      <div>
+        {subheadline && (
+          <div className="vads-u-margin-bottom--1 heading-desc">
+            {subheadline}
+          </div>
+        )}
+        <h3 id={headerId} className="vads-u-margin--0">
+          {headline}
+        </h3>
+      </div>
       <section className="status vads-u-display--flex">
         <div className="status-icon-container vads-u-flex--auto">
           <i />
         </div>
         <div className="vads-u-flex--1">
-          <h3>{statusHeadline}</h3>
+          <div className="vads-u-line-height--3 vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--bold">
+            {statusHeadline}
+          </div>
           {statusInfo && <p>{statusInfo}</p>}
         </div>
       </section>
@@ -61,7 +71,7 @@ DashboardAlert.propTypes = {
   /**
    * Main headline at the top of the alert
    */
-  headline: PropTypes.string,
+  headline: PropTypes.string.isRequired,
 
   /**
    * Headline for the status section of the alert, below the main `headline`
@@ -77,6 +87,11 @@ DashboardAlert.propTypes = {
    * Main subheadline that sits _above_ the `headline` in smaller text
    */
   subheadline: PropTypes.string,
+
+  /**
+   * Unique id for the alert, used to construct ids used by aria attributes
+   */
+  id: PropTypes.string.isRequired,
 };
 
 export default DashboardAlert;

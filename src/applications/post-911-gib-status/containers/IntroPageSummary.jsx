@@ -1,7 +1,7 @@
 import React from 'react';
 
-import CallToActionWidget from '../../../platform/site-wide/cta-widget';
-import CallHRC from '../../../platform/static-data/CallHRC';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallHRC from 'platform/static-data/CallHRC';
 
 export default function IntroPageSummary() {
   return (

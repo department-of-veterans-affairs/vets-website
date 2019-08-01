@@ -54,21 +54,29 @@ const ManageYourVAHealthCare = ({
     <AlertBox
       content={
         <div>
-          <h4 className="usa-alert-heading">
+          <h3 className="usa-alert-heading">
             You are enrolled in VA Health Care
-          </h4>
+          </h3>
           {getEnrollmentDetails(
             applicationDate,
             enrollmentDate,
             preferredFacility,
           )}
           <p>
-            <a href="/health-care/about-va-health-benefits/#health-about-basic">
+            <a
+              href="/health-care/about-va-health-benefits/#health-about-basic"
+              onClick={recordDashboardClick('learn-more-va-health-benefits')}
+            >
               Learn more about your VA health benefits
             </a>
           </p>
           <p>
-            <a href="/find-locations/">Find your nearest VA health facility</a>
+            <a
+              href="/find-locations/"
+              onClick={recordDashboardClick('find-nearest-va-health-facility')}
+            >
+              Find your nearest VA health facility
+            </a>
           </p>
         </div>
       }

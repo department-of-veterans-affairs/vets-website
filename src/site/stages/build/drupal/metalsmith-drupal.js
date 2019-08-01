@@ -10,7 +10,11 @@ const { logDrupal: log } = require('./utilities-drupal');
 const getApiClient = require('./api');
 const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
-const createHealthCareRegionListPages = require('./health-care-region');
+const {
+  createHealthCareRegionListPages,
+  addGetUpdatesFields,
+} = require('./health-care-region');
+const { addHubIconField } = require('./benefit-hub');
 
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
@@ -47,6 +51,19 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     const pageCompiled = compilePage(page, contentData);
     const drupalPageDir = path.join('.', drupalUrl);
     const drupalFileName = path.join(drupalPageDir, 'index.html');
+
+    switch (page.entityBundle) {
+      case 'health_care_local_facility':
+        addGetUpdatesFields(pageCompiled, pages);
+        break;
+      case 'health_care_region_detail_page':
+        addGetUpdatesFields(pageCompiled, pages);
+        break;
+      case 'page':
+        addHubIconField(pageCompiled, pages);
+        break;
+      default:
+    }
 
     files[drupalFileName] = createFileObj(
       pageCompiled,

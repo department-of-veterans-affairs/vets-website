@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -7,51 +8,121 @@ import {
   fetchAutocompleteSuggestions,
   setPageTitle,
   updateAutocompleteSearchTerm,
+  institutionFilterChange,
+  eligibilityChange,
+  showModal,
 } from '../actions';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
+import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
+import environment from 'platform/utilities/environment';
+import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
+import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
+import { calculateFilters } from '../selectors/search';
+import { isVetTecSelected } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class LandingPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.search = this.search.bind(this);
-  }
-
   componentDidMount() {
     this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.handleFilterChange('name', this.props.autocomplete.searchTerm);
-  }
+  };
 
-  handleFilterChange(field, value) {
+  handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
-    if (value) {
+    // ***CT 116***
+    if (environment.isProduction()) {
+      if (value) {
+        this.search(value);
+      }
+    } else if (isVetTecSelected(this.props.filters)) {
+      this.search(value);
+    } else if (value) {
       this.search(value);
     }
-  }
+  };
 
-  search(value) {
+  search = value => {
+    const { vetTecProvider } = this.props.filters;
+    // ***CT 116***
     const query = {
       name: value,
       version: this.props.location.query.version,
+      category:
+        environment.isProduction() || vetTecProvider
+          ? null
+          : this.props.filters.category,
+      vetTecProvider: environment.isProduction() ? null : vetTecProvider,
     };
 
-    if (!query.name) {
-      delete query.name;
-    }
-    if (!query.version) {
-      delete query.version;
-    }
+    _.forEach(query, (val, key) => {
+      if (typeof val !== 'boolean' && (!val || val === 'ALL')) {
+        delete query[key];
+      }
+    });
+
     this.props.router.push({ pathname: 'search', query });
-  }
+  };
+
+  handleTypeOfInstitutionFilterChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+    const { filters } = this.props;
+
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'typeOfInstitution',
+      'gibct-form-value': value,
+    });
+
+    if (field === 'category') {
+      filters.vetTecProvider = value === 'vettec';
+
+      if (filters.vetTecProvider) {
+        this.props.updateAutocompleteSearchTerm('');
+      }
+    }
+    filters[field] = value;
+
+    this.props.institutionFilterChange(filters);
+  };
+
+  shouldDisplayTypeOfInstitution = (eligibility = this.props.eligibility) =>
+    eligibility.militaryStatus === 'veteran' &&
+    eligibility.giBillChapter === '33';
+
+  // ***CT 116***
+  isVetTecNotSelected = () =>
+    environment.isProduction() ||
+    (!environment.isProduction() && !isVetTecSelected(this.props.filters));
+
+  handleEligibilityChange = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+
+    const eligibility = { ...this.props.eligibility };
+    eligibility[field] = value;
+
+    if (
+      this.props.filters.category === 'vettec' &&
+      !this.shouldDisplayTypeOfInstitution(eligibility)
+    ) {
+      this.props.institutionFilterChange({
+        ...this.props.filters,
+        category: 'school',
+        vetTecProvider: false,
+      });
+    }
+
+    this.props.eligibilityChange(e);
+  };
 
   render() {
     return (
@@ -64,21 +135,43 @@ export class LandingPage extends React.Component {
             </p>
 
             <form onSubmit={this.handleSubmit}>
-              <EligibilityForm />
-              <KeywordSearch
-                autocomplete={this.props.autocomplete}
-                location={this.props.location}
-                onClearAutocompleteSuggestions={
-                  this.props.clearAutocompleteSuggestions
-                }
-                onFetchAutocompleteSuggestions={
-                  this.props.fetchAutocompleteSuggestions
-                }
-                onFilterChange={this.handleFilterChange}
-                onUpdateAutocompleteSearchTerm={
-                  this.props.updateAutocompleteSearchTerm
-                }
+              <EligibilityForm
+                eligibilityChange={this.handleEligibilityChange}
               />
+              {/* CT 116 */}
+              {!environment.isProduction() && (
+                <LandingPageTypeOfInstitutionFilter
+                  category={this.props.filters.category}
+                  showModal={this.props.showModal}
+                  onChange={this.handleTypeOfInstitutionFilterChange}
+                  eligibility={this.props.eligibility}
+                  displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
+                />
+              )}
+              {/* /CT 116 */}
+              {this.isVetTecNotSelected() && (
+                <OnlineClassesFilter
+                  onlineClasses={this.props.eligibility.onlineClasses}
+                  onChange={this.props.eligibilityChange}
+                  showModal={this.props.showModal}
+                />
+              )}
+              {this.isVetTecNotSelected() && (
+                <KeywordSearch
+                  autocomplete={this.props.autocomplete}
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={
+                    this.props.clearAutocompleteSuggestions
+                  }
+                  onFetchAutocompleteSuggestions={
+                    this.props.fetchAutocompleteSuggestions
+                  }
+                  onFilterChange={this.handleFilterChange}
+                  onUpdateAutocompleteSearchTerm={
+                    this.props.updateAutocompleteSearchTerm
+                  }
+                />
+              )}
               <button
                 className="usa-button-big"
                 type="submit"
@@ -91,6 +184,7 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar />
+            <StemScholarshipNotification />
           </div>
         </div>
       </span>
@@ -98,16 +192,20 @@ export class LandingPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { autocomplete } = state;
-  return { autocomplete };
-};
+const mapStateToProps = state => ({
+  autocomplete: state.autocomplete,
+  filters: calculateFilters(state.filters),
+  eligibility: state.eligibility,
+});
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
   setPageTitle,
   updateAutocompleteSearchTerm,
+  institutionFilterChange,
+  eligibilityChange,
+  showModal,
 };
 
 export default withRouter(

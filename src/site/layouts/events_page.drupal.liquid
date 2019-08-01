@@ -60,7 +60,9 @@ Example data:
             {{ fieldIntroTextEventsPage.processed }}
           </div>
           {% for event in pagedItems %}
+            <div class="usa-width-two-thirds">
               {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+            </div>
           {% endfor %}
           {% include "src/site/includes/pagination.drupal.liquid" %}
         </article>

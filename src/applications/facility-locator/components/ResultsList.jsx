@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -167,7 +166,6 @@ class ResultsList extends Component {
           </div>
         );
       }
-      /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
       return (
         <div
           className="search-result-title facility-result"
@@ -177,7 +175,6 @@ class ResultsList extends Component {
           (Street, City, State or Zip) and click search to find facilities.
         </div>
       );
-      /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     }
 
     const currentLocation = position;
@@ -193,30 +190,25 @@ class ResultsList extends Component {
           : null;
         return { ...result, distance };
       })
-      .sort((resultA, resultB) => {
-        return resultA.distance - resultB.distance;
-      });
+      .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
     return (
       <div>
-        {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
         <p className="search-result-title" ref={this.searchResultTitle}>
-          {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
           {`${totalEntries} results for ${facilityTypeName} near `}
           <strong>“{context}”</strong>
         </p>
         <div>
-          {sortedResults.map(r => {
-            /* eslint-disable prettier/prettier */
-            return isMobile ? (
-              <div key={r.id} className="mobile-search-result">
-                <SearchResult result={r} />
-              </div>
-            ) : (
-              <SearchResult key={r.id} result={r} />
-            );
-            /* eslint-enable prettier/prettier */
-          })}
+          {sortedResults.map(
+            r =>
+              isMobile ? (
+                <div key={r.id} className="mobile-search-result">
+                  <SearchResult result={r} />
+                </div>
+              ) : (
+                <SearchResult key={r.id} result={r} />
+              ),
+          )}
         </div>
         <Pagination
           onPageSelect={this.handlePageSelect}

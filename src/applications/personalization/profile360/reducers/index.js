@@ -9,6 +9,7 @@ import {
 
 import {
   PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+  PAYMENT_INFORMATION_FETCH_FAILED,
   PAYMENT_INFORMATION_SAVE_STARTED,
   PAYMENT_INFORMATION_SAVE_SUCCEEDED,
   PAYMENT_INFORMATION_SAVE_FAILED,
@@ -96,6 +97,14 @@ function vaProfile(state = initialState, action) {
 
     case PAYMENT_INFORMATION_SAVE_STARTED:
       return set('paymentInformationUiState.isSaving', true, state);
+
+    case PAYMENT_INFORMATION_FETCH_FAILED: {
+      return set(
+        'paymentInformation',
+        { error: action.response.error || true },
+        state,
+      );
+    }
 
     case PAYMENT_INFORMATION_SAVE_FAILED: {
       const newState = set('paymentInformationUiState.isSaving', false, state);

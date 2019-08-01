@@ -11,6 +11,30 @@ const {
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
 
+  // Create the top-level facilities status page for Health Care Regions
+  const statusEntityUrl = createEntityUrlObj(drupalPagePath);
+  const statusObj = {
+    mainFacilities: page.reverseFieldRegionPageNode,
+    facilitySidebar: sidebar,
+    entityUrl: statusEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+
+  const statusPage = updateEntityUrlObj(
+    statusObj,
+    drupalPagePath,
+    'Operating status',
+  );
+  const statusPath = statusPage.entityUrl.path;
+  statusPage.regionOrOffice = page.title;
+  statusPage.entityUrl = generateBreadCrumbs(statusPath);
+
+  files[`${drupalPagePath}/status/index.html`] = createFileObj(
+    statusPage,
+    'health_care_facility_status.drupal.liquid',
+  );
+
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
@@ -43,12 +67,13 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     specialtyCareHealthServices: page.specialtyCareHealthServices,
     primaryCareHealthServices: page.primaryCareHealthServices,
     mentalHealthServices: page.mentalHealthServices,
-    featuredHealthServices: page.featuredHealthServices,
     extendedCareHealthServices: page.extendedCareHealthServices,
     homelessHealthServices: page.homelessHealthServices,
     genomicMedicineHealthServices: page.genomicMedicineHealthServices,
     veteranCareHealthServices: page.veteranCareHealthServices,
+    otherHealthServices: page.otherHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+    featuredContentHealthServices: page.fieldFeaturedContentHealthser,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,
     alert: page.alert,
@@ -173,4 +198,26 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 }
 
-module.exports = createHealthCareRegionListPages;
+// Adds the social media links and email subscription links
+// for local facility page and region detail page entity types from their respective region page
+function addGetUpdatesFields(page, pages) {
+  const regionPage = pages.find(
+    p =>
+      // Finds the region page based on the second link url
+      // If the url matches the region page's entityUrl.path, it is the base region page for this page
+      // Note: this is done this way because a NodeHealthCareRegionDetailPage has no association field to a NodeHealthCareRegionPage
+      p.entityUrl
+        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+        : false,
+  );
+
+  if (regionPage) {
+    page.fieldFacebook = regionPage.fieldFacebook;
+    page.fieldTwitter = regionPage.fieldTwitter;
+    page.fieldFlickr = regionPage.fieldFlickr;
+    page.fieldInstagram = regionPage.fieldInstagram;
+    page.fieldLinks = regionPage.fieldLinks;
+  }
+}
+
+module.exports = { createHealthCareRegionListPages, addGetUpdatesFields };

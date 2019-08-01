@@ -33,7 +33,23 @@
   {% if entity.fieldCtaWidget %}
       <div class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
   {% else %}
-      <div id="{{ reactRoot }}" class="static-page-widget" data-widget-type={{ entity.fieldWidgetType }}>
+    <div
+      data-widget-type={{ entity.fieldWidgetType }}
+      {% if entityUrl.path contains "/eligibility" %}data-widget-show-learn-more{% endif %}
+      data-widget-timeout="{{entity.fieldTimeout}}">
+      <div class="loading-indicator-container">
+        <div class="loading-indicator" role="progressbar" aria-valuetext="{{ entity.fieldLoadingMessage }}"></div>
+        <span
+          class="loading-indicator-message loading-indicator-message--normal">
+          {{ entity.fieldLoadingMessage }}
+        </span>
+        <span 
+          class="loading-indicator-message loading-indicator-message--slow vads-u-display--none" 
+          aria-hidden="true">
+          Sorry, this is taking longer than expected.
+        </span>
+      </div>
+      <span class="static-widget-content vads-u-display--none" aria-hidden="true">
         {% if entity.fieldDefaultLink != empty %}
           {% if entity.fieldButtonFormat %}
             {% assign classes = 'class="usa-button-primary va-button-primary"' %}
@@ -42,5 +58,13 @@
           {% endif %}
           <a href="{{ entity.fieldDefaultLink.url.path }}" {{ classes }}>{{ entity.fieldDefaultLink.title }}</a>
         {% endif %}
-      </div>
+      </span>
+      {% if entity.fieldErrorMessage != empty %}
+        <div class="usa-alert usa-alert-error sip-application-error vads-u-display--none" aria-hidden="true">
+          <div class="usa-alert-body">
+            {{ entity.fieldErrorMessage.value }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
   {% endif %}

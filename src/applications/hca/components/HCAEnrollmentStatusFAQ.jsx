@@ -6,12 +6,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import HCASubwayMap from '../components/HCASubwayMap';
 import recordEvent from 'platform/monitoring/record-event';
 
-import {
-  getFAQBlock1,
-  getFAQBlock2,
-  getFAQBlock3,
-  getFAQBlock4,
-} from '../enrollment-status-helpers';
+import { getFAQContent } from '../enrollment-status-helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
 import { showReapplyContent as showReapplyContentAction } from '../actions';
 import { isShowingHCAReapplyContent } from '../selectors';
@@ -32,9 +27,12 @@ const ReapplyContent = ({ route }) => (
   </>
 );
 
-const ReapplyTextLink = ({ onClick }) => (
+const ReapplyTextLink = ({
+  onClick,
+  linkLabel = 'Reapply for VA health care',
+}) => (
   <button className="va-button-link schemaform-start-button" onClick={onClick}>
-    Reapply for VA health care
+    {linkLabel}
   </button>
 );
 
@@ -44,24 +42,33 @@ const HCAEnrollmentStatusFAQ = ({
   showingReapplyForHealthCareContent,
   showReapplyContent,
 }) => {
+  const applyAllowed = enrollmentStatus === HCA_ENROLLMENT_STATUSES.activeDuty;
   const reapplyAllowed =
     new Set([
+      HCA_ENROLLMENT_STATUSES.activeDuty,
       HCA_ENROLLMENT_STATUSES.deceased,
       HCA_ENROLLMENT_STATUSES.enrolled,
     ]).has(enrollmentStatus) === false;
   return (
     <>
-      {getFAQBlock1(enrollmentStatus)}
-      {getFAQBlock2(enrollmentStatus)}
-      {getFAQBlock3(enrollmentStatus)}
-      {getFAQBlock4(enrollmentStatus)}
-      {reapplyAllowed &&
+      {getFAQContent(enrollmentStatus)}
+      {(reapplyAllowed || applyAllowed) &&
         showingReapplyForHealthCareContent && <ReapplyContent route={route} />}
       {reapplyAllowed &&
         !showingReapplyForHealthCareContent && (
           <ReapplyTextLink
             onClick={() => {
               recordEvent({ event: 'hca-form-reapply' });
+              showReapplyContent();
+            }}
+          />
+        )}
+      {applyAllowed &&
+        !showingReapplyForHealthCareContent && (
+          <ReapplyTextLink
+            linkLabel="Apply for VA health care"
+            onClick={() => {
+              recordEvent({ event: 'hca-form-apply' });
               showReapplyContent();
             }}
           />
@@ -77,6 +84,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   showReapplyContent: showReapplyContentAction,
 };
+
+export { HCAEnrollmentStatusFAQ };
 
 export default connect(
   mapStateToProps,

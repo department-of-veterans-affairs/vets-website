@@ -15,6 +15,8 @@ const outreachSidebarQuery = require('./navigation-fragments/outreachSidebar.nav
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
 const bioPage = require('./bioPage.graphql');
+const benefitListingPage = require('./benefitListingPage.graphql');
+const eventListingPage = require('./eventListingPage.graphql');
 
 // Get current feature flags
 const {
@@ -46,9 +48,11 @@ module.exports = `
   ${eventPage}
   ${officePage}
   ${bioPage}
+  ${benefitListingPage}
+  ${eventListingPage}
 
   query GetAllPages($today: String!, $onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 500, filter: {
+    nodeQuery(limit: 2000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent }
       ]
@@ -64,6 +68,8 @@ module.exports = `
         ... eventPage
         ... officePage
         ... bioPage
+        ... benefitListingPage
+        ... eventListingPage
       }
     }
     ${icsFileQuery}

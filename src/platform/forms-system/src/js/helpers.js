@@ -654,16 +654,6 @@ export function omitRequired(schema) {
   return newSchema;
 }
 
-/**
- * Helper function for reporting events to Google Analytics. An alias for window.dataLayer.push.
- * @module platform/monitoring/record-event
- * @see https://developers.google.com/tag-manager/devguide
- * @param {object} data - The event data that will be sent to GA.
- */
-export function recordEvent(data) {
-  return window.dataLayer && window.dataLayer.push(data);
-}
-
 /*
  * Normal transform for schemaform data
  */

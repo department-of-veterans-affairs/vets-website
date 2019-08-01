@@ -39,6 +39,12 @@
     }
   }
 
+  .usa-alert {
+    .address-block h5 {
+      margin-top: 0.5rem;
+    }
+  }
+
   .address-block {
     background-color: $color-gray-lightest;
     padding: 1em;

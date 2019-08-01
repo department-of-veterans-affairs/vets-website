@@ -3,6 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
@@ -24,7 +25,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
               expiresAt: moment().unix() + 2000,
@@ -74,11 +75,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
-        prefillsAvailable: ['1010ez'],
+        prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
       },
       login: {
         currentlyLoggedIn: true,
@@ -106,7 +107,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -145,7 +146,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -176,7 +177,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Save time—and save your work in progress—by signing in before starting your application',
     );
     expect(tree.find('.usa-button-primary').text()).to.contain(
-      'Sign in to Start Your Application',
+      'Sign in to start your application',
     );
     expect(tree.find('.va-button-link').text()).to.contain(
       'Start your application without signing in',
@@ -219,7 +220,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [],
-        prefillsAvailable: ['1010ez'],
+        prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
       },
       login: {
         currentlyLoggedIn: true,
@@ -251,7 +252,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -289,7 +290,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -323,7 +324,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() },
           },
         ],
@@ -358,7 +359,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -397,7 +398,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -435,7 +436,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],
@@ -474,7 +475,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       profile: {
         savedForms: [
           {
-            form: '1010ez',
+            form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
           },
         ],

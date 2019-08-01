@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
+import { focusElement } from '../../../platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results/LocationAddress';
 import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
@@ -18,6 +19,26 @@ class FacilityDetail extends Component {
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
+  }
+
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs');
+  }
+
+  componentDidUpdate(prevProps) {
+    const justLoaded =
+      prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
+
+    if (justLoaded) {
+      this.__previousDocTitle = document.title;
+      document.title = `${
+        this.props.facility.attributes.name
+      } | Veterans Affairs`;
+    }
+  }
+
+  componentWillUnmount() {
+    document.title = this.__previousDocTitle;
   }
 
   renderFacilityInfo() {

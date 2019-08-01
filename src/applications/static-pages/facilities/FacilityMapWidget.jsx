@@ -75,7 +75,7 @@ export class FacilityMapWidget extends React.Component {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={mapUrl} alt="Static map" />
+          <img className="facility-img" src={mapUrl} alt="Static map" />
         </a>
       </div>
     );

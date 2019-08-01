@@ -141,23 +141,23 @@ Example data:
         <h1>{{ title }}</h1>
         {% assign image = fieldMedia.entity.image %}
 
-        <div class="duotone darken lighten">
+        <div class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
           <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
         </div>
 
-        <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
+        <div class="usa-grid usa-grid-full vads-u-margin-y--0">{% assign basePath = entityUrl.path | regionBasePath %}
             {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
 
         {% if fieldIntroText != empty %}
           <div class="va-introtext">
-            <p>{{ fieldIntroText }}</p>
+            <p class="vads-u-margin-bottom--0">{{ fieldIntroText }}</p>
           </div>
         {% endif %}
 
         <section>
-          <h2>Locations</h2>
+          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 medium-screen:vads-u-margin-bottom--2p5">Locations</h2>
           <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/locations">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md" href="{{ entityUrl.path }}/locations">
             See all locations <i class="fa fa-chevron-right">&nbsp;</i>
           </a>
         </section>
@@ -167,30 +167,30 @@ Example data:
           <h3>Manage your health online</h3>
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta">
-              <a href="/health-care/refill-track-prescriptions/">
+              <a href="/health-care/refill-track-prescriptions/" class="vads-u-height--full vads-u-width--full">
                 <i class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Refill and track your prescriptions <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                <span class="vads-facility-hub-cta-label">Refill and track your prescriptions<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
             <div class="usa-width-one-half vads-facility-hub-cta">
-            <a href="/health-care/get-medical-records/">
+            <a href="/health-care/get-medical-records/" class="vads-u-height--full vads-u-width--full">
               <i class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
-              <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button) <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button)<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
             </a>
             </div>
           </div>
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta">
-              <a href="/health-care/secure-messaging/">
-                <i class="fa fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Send a secure message to your health care team <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              <a href="/health-care/secure-messaging/" class="vads-u-height--full vads-u-width--full">
+                <i class="far fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Send a secure message to your health care team<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
             <div class="usa-width-one-half vads-facility-hub-cta">
 
-              <a href="/health-care/view-test-and-lab-results/">
+              <a href="/health-care/view-test-and-lab-results/" class="vads-u-height--full vads-u-width--full">
                 <i class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">View your lab and test results <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                <span class="vads-facility-hub-cta-label">View your lab and test results<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
 
             </div>
@@ -198,15 +198,15 @@ Example data:
           <div class="usa-grid usa-grid-full">
             <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
 
-              <a href="/health-care/schedule-view-va-appointments/">
-                <i class="fa fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Schedule and view your appointments <i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+              <a href="/health-care/schedule-view-va-appointments/" class="vads-u-height--full vads-u-width--full">
+                <i class="far fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                <span class="vads-facility-hub-cta-label">Schedule and view your appointments<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
-            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line">
-              <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/">
+            <div class="usa-width-one-half vads-facility-hub-cta vads-facility-hub-cta-last-line vads-u-border-top--0 medium-screen:vads-u-border-top--1px vads-u-border-color--primary-alt-light">
+              <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/" class="vads-u-height--full vads-u-width--full">
                 <i class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
-                <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks <i class="fa fa-chevron-right vads-vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
               </a>
             </div>
           </div>
@@ -220,76 +220,33 @@ Example data:
 
           <!-- Stories -->
         <section>
-          <h3>Community Stories</h3>
+          <h3 class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">Community Stories</h3>
           {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/stories">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/stories">
             See all community stories <i class="fa fa-chevron-right"></i>
           </a>
         </section>
 
         <!-- Events -->
         <section>
-          <h3>Community Events</h3>
-          <div class="usa-grid usa-grid-full">
+          <h3 class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">Community Events</h3>
+          <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           {% for event in eventTeasers.entities %}
-            <div class="usa-width-one-half">
+            <div class="region-grid event">
             {% include "src/site/teasers/event.drupal.liquid" with node = event %}
             </div>
           {% endfor %}
           </div>
-          <a class="usa-button usa-button-secondary vads-facility-hub-button" href="{{ entityUrl.path }}/events">
+          <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/events">
             See all events <i class="fa fa-chevron-right"></i>
           </a>
         </section>
 
         <!-- Social Links -->
         {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
-            <section class="feature vads-u-background-color--gray-lightest">
-                <h3>Get updates from us</h3>
-                <div class="va-c-list-link-teasers">
-                    {% if fieldFacebook != empty || fieldTwitter != empty %}
-                        <div class="usa-grid usa-grid-full">
-                            {% if fieldFacebook != empty %}
-                                <div class="social-links social-links-facebook usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldFacebook.url.path }}"><i class="fab fa-facebook"></i> {{ fieldFacebook.title }}</a>
-                                </div>
-                            {% endif %}
-
-                            {% if fieldTwitter != empty %}
-                                <div class="social-links social-links-twitter usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldTwitter.url.path }}"><i class="fab fa-twitter"></i> {{ fieldTwitter.title }}</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-
-                    {% if fieldFlickr != empty || fieldInstagram != empty %}
-                        <div class="usa-grid usa-grid-full">
-                            {% if fieldFlickr != empty %}
-                                <div class="social-links social-links-flickr usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldFlickr.url.path }}"><i class="fab fa-flickr"></i> {{ fieldFlickr.title }}</a>
-                                </div>
-                            {% endif %}
-
-                            {% if fieldInstagram != empty %}
-                                <div class="social-links social-links-instagram usa-width-one-half vads-u-margin-bottom--2">
-                                    <a target="_blank" href="{{ fieldInstagram.url.path }}"><i class="fab fa-instagram"></i> {{ fieldInstagram.title }}</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-
-                    {% if fieldEmailSubscription != empty %}
-                        <div class="usa-grid usa-grid-full">
-                            <div class="social-links social-links-email usa-width-one-half vads-u-margin-bottom--2">
-                                <a target="_blank" href="{{ fieldEmailSubscription.url.path }}"><i class="fas fa-envelope"></i> {{ fieldEmailSubscription.title }}</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </section>
+          {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
         {% endif %}
 
     </article>

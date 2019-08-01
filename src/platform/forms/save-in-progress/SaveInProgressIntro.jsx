@@ -12,7 +12,7 @@ import _ from 'platform/utilities/data';
 import {
   formDescriptions,
   formBenefits,
-} from 'applications/personalization/profile360/util/helpers';
+} from 'applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -177,7 +177,7 @@ class SaveInProgressIntro extends React.Component {
                 className="usa-button-primary"
                 onClick={this.openLoginModal}
               >
-                Sign in to Start Your Application
+                Sign in to start your application
               </button>
               {!this.props.hideUnauthedStartLink && (
                 <p>

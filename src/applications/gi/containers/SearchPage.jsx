@@ -13,26 +13,23 @@ import {
   setPageTitle,
   toggleFilter,
   updateAutocompleteSearchTerm,
+  eligibilityChange,
+  showModal,
 } from '../actions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions } from '../../../platform/utilities/ui';
-import KeywordSearch from '../components/search/KeywordSearch';
-import EligibilityForm from '../components/search/EligibilityForm';
-import InstitutionFilterForm from '../components/search/InstitutionFilterForm';
 import SearchResult from '../components/search/SearchResult';
+import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
+import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
+import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
+import environment from '../../../platform/utilities/environment';
+import { isVetTecSelected } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class SearchPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.updateSearchResults = this.updateSearchResults.bind(this);
-  }
-
   componentDidMount() {
     let title = 'Search Results';
     const searchTerm = this.props.autocomplete.term;
@@ -59,8 +56,8 @@ export class SearchPage extends React.Component {
     }
   }
 
-  updateSearchResults() {
-    const programFilters = [
+  updateSearchResults = () => {
+    const booleanFilterParams = [
       'distanceLearning',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
@@ -70,45 +67,59 @@ export class SearchPage extends React.Component {
       'stemOffered',
       'priorityEnrollment',
       'independentStudy',
+      'vetTecProvider',
+      'preferredProvider',
     ];
 
-    const query = _.pick(this.props.location.query, [
+    const stringFilterParams = [
       'version',
-      'page',
-      'name',
       'category',
       'country',
       'state',
       'type',
-      ...programFilters,
+    ];
+
+    const stringSearchParams = ['page', 'name'];
+
+    const query = _.pick(this.props.location.query, [
+      ...stringSearchParams,
+      ...stringFilterParams,
+      ...booleanFilterParams,
     ]);
 
     // Update form selections based on query.
-    const institutionFilter = _.omit(query, ['page', 'name']);
+    const institutionFilter = _.omit(query, stringSearchParams);
 
     // Convert string to bool for params associated with checkboxes.
-    programFilters.forEach(filterKey => {
+    booleanFilterParams.forEach(filterKey => {
       const filterValue = institutionFilter[filterKey];
       institutionFilter[filterKey] = filterValue === 'true';
     });
 
     this.props.institutionFilterChange(institutionFilter);
     this.props.fetchSearchResults(query);
-  }
+  };
 
-  handlePageSelect(page) {
+  handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
       query: { ...this.props.location.query, page },
     });
-  }
+  };
 
-  handleFilterChange(field, value) {
+  handleFilterChange = (field, value) => {
     // Translate form selections to query params.
-    const query = { ...this.props.location.query, [field]: value };
+    const query = {
+      ...this.props.location.query,
+      [field]: value,
+      name: this.props.autocomplete.searchTerm,
+    };
 
     // Don’t update the route if the query hasn’t changed.
-    if (_.isEqual(query, this.props.location.query)) {
+    if (
+      _.isEqual(query, this.props.location.query) ||
+      this.props.search.inProgress
+    ) {
       return;
     }
 
@@ -117,22 +128,18 @@ export class SearchPage extends React.Component {
 
     const shouldRemoveFilter =
       !value ||
-      ((field === 'category' ||
-        field === 'country' ||
-        field === 'state' ||
-        field === 'type') &&
+      ((field === 'country' || field === 'state' || field === 'type') &&
         value === 'ALL');
 
     if (shouldRemoveFilter) {
       delete query[field];
     }
     this.props.router.push({ ...this.props.location, query });
-  }
+  };
 
-  render() {
+  searchResults = () => {
     const { search, filters } = this.props;
     const {
-      count,
       pagination: { currentPage, totalPages },
     } = search;
 
@@ -142,15 +149,6 @@ export class SearchPage extends React.Component {
       'usa-width-three-fourths medium-9',
       'columns',
       { opened: !search.filterOpened },
-    );
-
-    const filtersClass = classNames(
-      'filters-sidebar',
-      'small-12',
-      'usa-width-one-fourth',
-      'medium-3',
-      'columns',
-      { opened: search.filterOpened },
     );
 
     let searchResults;
@@ -177,31 +175,43 @@ export class SearchPage extends React.Component {
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map(result => (
-              <SearchResult
-                version={this.props.location.query.version}
-                key={result.facilityCode}
-                name={result.name}
-                facilityCode={result.facilityCode}
-                type={result.type}
-                city={result.city}
-                state={result.state}
-                zip={result.zip}
-                country={result.country}
-                cautionFlag={result.cautionFlag}
-                studentCount={result.studentCount}
-                bah={result.bah}
-                dodBah={result.dodBah}
-                schoolClosing={result.schoolClosing}
-                tuitionInState={result.tuitionInState}
-                tuitionOutOfState={result.tuitionOutOfState}
-                books={result.books}
-                studentVeteran={result.studentVeteran}
-                yr={result.yr}
-                poe={result.poe}
-                eightKeys={result.eightKeys}
-              />
-            ))}
+            {search.results.map(result => {
+              // ***CT 116***
+              if (!environment.isProduction() && isVetTecSelected(filters)) {
+                return (
+                  <VetTecSearchResult
+                    version={this.props.location.query.version}
+                    key={result.facilityCode}
+                    result={result}
+                  />
+                );
+              }
+              return (
+                <SearchResult
+                  version={this.props.location.query.version}
+                  key={result.facilityCode}
+                  name={result.name}
+                  facilityCode={result.facilityCode}
+                  type={result.type}
+                  city={result.city}
+                  state={result.state}
+                  zip={result.zip}
+                  country={result.country}
+                  cautionFlag={result.cautionFlag}
+                  studentCount={result.studentCount}
+                  bah={result.bah}
+                  dodBah={result.dodBah}
+                  schoolClosing={result.schoolClosing}
+                  tuitionInState={result.tuitionInState}
+                  tuitionOutOfState={result.tuitionOutOfState}
+                  books={result.books}
+                  studentVeteran={result.studentVeteran}
+                  yr={result.yr}
+                  poe={result.poe}
+                  eightKeys={result.eightKeys}
+                />
+              );
+            })}
           </div>
 
           <Pagination
@@ -213,6 +223,23 @@ export class SearchPage extends React.Component {
       );
     }
 
+    return searchResults;
+  };
+
+  render() {
+    const { search, filters } = this.props;
+    const { count } = search;
+
+    const filtersClass = classNames(
+      'filters-sidebar',
+      'small-12',
+      'usa-width-one-fourth',
+      'medium-3',
+      'columns',
+      { opened: search.filterOpened },
+    );
+
+    const searchResults = this.searchResults();
     return (
       <ScrollElement name="searchPage" className="search-page">
         <div className="row">
@@ -224,41 +251,54 @@ export class SearchPage extends React.Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className={filtersClass}>
-            <div className="filters-sidebar-inner">
-              {search.filterOpened && <h1>Filter your search</h1>}
-              <h2>Keywords</h2>
-              <KeywordSearch
-                autocomplete={this.props.autocomplete}
-                label="City, school, or employer"
-                location={this.props.location}
-                onClearAutocompleteSuggestions={
-                  this.props.clearAutocompleteSuggestions
-                }
-                onFetchAutocompleteSuggestions={
-                  this.props.fetchAutocompleteSuggestions
-                }
-                onFilterChange={this.handleFilterChange}
-                onUpdateAutocompleteSearchTerm={
-                  this.props.updateAutocompleteSearchTerm
-                }
-              />
-              <InstitutionFilterForm
-                search={search}
-                filters={filters}
-                onFilterChange={this.handleFilterChange}
-              />
-              <EligibilityForm />
-            </div>
-            <div className="results-button">
-              <button className="usa-button" onClick={this.props.toggleFilter}>
-                See Results
-              </button>
-            </div>
-          </div>
-          {searchResults}
-        </div>
+        {/* /CT 116 */}
+        {!environment.isProduction() && isVetTecSelected(filters) ? (
+          <VetTecSearchForm
+            filtersClass={filtersClass}
+            search={search}
+            autocomplete={this.props.autocomplete}
+            location={this.props.location}
+            clearAutocompleteSuggestions={
+              this.props.clearAutocompleteSuggestions
+            }
+            fetchAutocompleteSuggestions={
+              this.props.fetchAutocompleteSuggestions
+            }
+            handleFilterChange={this.handleFilterChange}
+            updateAutocompleteSearchTerm={
+              this.props.updateAutocompleteSearchTerm
+            }
+            filters={filters}
+            toggleFilter={this.props.toggleFilter}
+            searchResults={searchResults}
+            eligibility={this.props.eligibility}
+            showModal={this.props.showModal}
+            eligibilityChange={this.props.eligibilityChange}
+          />
+        ) : (
+          <InstitutionSearchForm
+            filtersClass={filtersClass}
+            search={search}
+            autocomplete={this.props.autocomplete}
+            location={this.props.location}
+            clearAutocompleteSuggestions={
+              this.props.clearAutocompleteSuggestions
+            }
+            fetchAutocompleteSuggestions={
+              this.props.fetchAutocompleteSuggestions
+            }
+            handleFilterChange={this.handleFilterChange}
+            updateAutocompleteSearchTerm={
+              this.props.updateAutocompleteSearchTerm
+            }
+            filters={filters}
+            toggleFilter={this.props.toggleFilter}
+            searchResults={searchResults}
+            eligibility={this.props.eligibility}
+            showModal={this.props.showModal}
+            eligibilityChange={this.props.eligibilityChange}
+          />
+        )}
       </ScrollElement>
     );
   }
@@ -266,10 +306,12 @@ export class SearchPage extends React.Component {
 
 SearchPage.defaultProps = {};
 
-const mapStateToProps = state => {
-  const { autocomplete, filters, search } = state;
-  return { autocomplete, filters, search };
-};
+const mapStateToProps = state => ({
+  autocomplete: state.autocomplete,
+  filters: state.filters,
+  search: state.search,
+  eligibility: state.eligibility,
+});
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
@@ -279,6 +321,8 @@ const mapDispatchToProps = {
   setPageTitle,
   toggleFilter,
   updateAutocompleteSearchTerm,
+  eligibilityChange,
+  showModal,
 };
 
 export default withRouter(

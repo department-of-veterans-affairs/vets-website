@@ -29,7 +29,7 @@ export default function MultifactorMessage({ multifactor }) {
         your password.
       </p>
       <button className="usa-button-primary" onClick={recordAnalyticEvent}>
-        Secure your account
+        Set up 2-factor authentication
       </button>
     </div>
   );

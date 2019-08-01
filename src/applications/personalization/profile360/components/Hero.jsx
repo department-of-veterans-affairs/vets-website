@@ -2,7 +2,7 @@ import React from 'react';
 import LoadingSection from './LoadingSection';
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
 class HeroContent extends React.Component {
@@ -53,8 +53,9 @@ class HeroContent extends React.Component {
           />
           {this.props.militaryInformation && this.renderService()}
           <p className="va-introtext">
-            Review your contact, personal, and military service information—and
-            find out how to make any needed updates or corrections.
+            Review your personal, military service, direct deposit, and contact
+            information—and find out how to make any needed updates or
+            corrections.
           </p>
         </div>
       </div>

@@ -90,6 +90,7 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <ClaimDetailLayout
+        id={this.props.params.id}
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}

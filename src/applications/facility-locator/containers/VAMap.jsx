@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-closing-bracket-location */
-/* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
@@ -47,8 +45,6 @@ const urgentCareLink = (
   </p>
 );
 
-// This isn't valid JSX 2.x, better to get used to it now
-/* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
   constructor(props) {
     super(props);
@@ -106,7 +102,6 @@ class VAMap extends Component {
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
-        // eslint-disable-next-line prettier/prettier
         location: `${newQuery.position.latitude},${
           newQuery.position.longitude
         }`, // don't break the string
@@ -177,7 +172,6 @@ class VAMap extends Component {
     const { currentQuery: prevQuery } = prevProps;
     const updatedQuery = this.props.currentQuery;
 
-    /* eslint-disable prettier/prettier */
     const shouldZoomOut = // ToTriggerNewSearch
       !updatedQuery.searchBoundsInProgress &&
       prevQuery.searchBoundsInProgress && // search completed
@@ -185,7 +179,6 @@ class VAMap extends Component {
       updatedQuery.bounds &&
       parseInt(updatedQuery.zoomLevel, 10) > 2 &&
       !updatedQuery.error;
-    /* eslint-enable prettier/prettier */
 
     if (shouldZoomOut) {
       if (isMobile.any) {
@@ -243,7 +236,6 @@ class VAMap extends Component {
    *
    * @param {Object} location ReactRouter location object
    */
-  // eslint-disable-next-line prettier/prettier
   syncStateWithLocation = location => {
     if (
       location.query.address &&
@@ -263,7 +255,6 @@ class VAMap extends Component {
    *
    * @param {Object} params Object containing the current search fields
    */
-  // eslint-disable-next-line prettier/prettier
   updateUrlParams = params => {
     // TODO (bshyong): try out existing query-string npm library
     const { location, currentQuery } = this.props;
@@ -290,7 +281,6 @@ class VAMap extends Component {
    *
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
-  // eslint-disable-next-line prettier/prettier
   genBBoxFromCoords = position => {
     mapboxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
       const coordinates = res.features[0].center;
@@ -394,14 +384,12 @@ class VAMap extends Component {
         onClick: () => {
           const searchResult = document.getElementById(r.id);
           if (searchResult) {
-            // eslint-disable-next-line prettier/prettier
             Array.from(
               document.getElementsByClassName('facility-result'),
             ).forEach(e => {
               e.classList.remove('active');
             });
             searchResult.classList.add('active');
-            // eslint-disable-next-line prettier/prettier
             document.getElementById('searchResultsContainer').scrollTop =
               searchResult.offsetTop;
           }
@@ -409,12 +397,14 @@ class VAMap extends Component {
         },
       };
 
-      /* eslint-disable prettier/prettier */
       const popupContent = (
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
             <div>
-              <a onClick={linkAction.bind(this, r.id, true)}>
+              <a
+                href={`/provider/${r.id}`}
+                onClick={linkAction.bind(this, r.id, true)}
+              >
                 <h5>{r.attributes.name}</h5>
               </a>
               <h6>{r.attributes.orgName}</h6>
@@ -427,7 +417,10 @@ class VAMap extends Component {
             </div>
           ) : (
             <div>
-              <a onClick={linkAction.bind(this, r.id, false)}>
+              <a
+                href={`/facility/${r.id}`}
+                onClick={linkAction.bind(this, r.id, false)}
+              >
                 <h5>{r.attributes.name}</h5>
               </a>
               <p>
@@ -438,7 +431,6 @@ class VAMap extends Component {
           )}
         </div>
       );
-      /* eslint-enable prettier/prettier */
 
       switch (r.attributes.facilityType) {
         case FacilityType.VA_HEALTH_FACILITY:
@@ -448,13 +440,11 @@ class VAMap extends Component {
         case FacilityType.VA_BENEFITS_FACILITY:
           return <BenefitsMarker {...iconProps}>{popupContent}</BenefitsMarker>;
         case FacilityType.VET_CENTER:
-          // eslint-disable-next-line prettier/prettier
           return (
             <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
           );
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
-            // eslint-disable-next-line prettier/prettier
             return (
               <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>
             );
@@ -476,14 +466,13 @@ class VAMap extends Component {
         ? urgentCareLink
         : otherToolsLink;
     return (
-      /* eslint-disable prettier/prettier */
       <div>
         <div className="columns small-12">
           <SearchControls
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            isMobile={true}
+            isMobile
           />
           <Tabs onSelect={this.centerMap}>
             <TabList>
@@ -535,7 +524,6 @@ class VAMap extends Component {
           </Tabs>
         </div>
       </div>
-      /* eslint-enable prettier/prettier */
     );
   };
 
@@ -551,7 +539,6 @@ class VAMap extends Component {
         : otherToolsLink;
 
     return (
-      /* eslint-disable prettier/prettier */
       <div className="desktop-container">
         <div>
           <SearchControls
@@ -606,13 +593,11 @@ class VAMap extends Component {
           </div>
         </div>
       </div>
-      /* eslint-enable prettier/prettier */
     );
   };
 
   render() {
     return (
-      /* eslint-disable prettier/prettier */
       <div>
         <div className="title-section">
           <h1>Find VA Locations</h1>
@@ -620,20 +605,27 @@ class VAMap extends Component {
 
         <div className="facility-introtext">
           <p>
-          Find VA locations near you with our facility locator tool. You can
-          search for your nearest VA medical center as well as other health
-          facilities, benefit offices, cemeteries,
-          community care providers and Vet Centers. You can also filter your results by service type to
-          find locations that offer the specific service you’re looking for.
+            Find VA locations near you with our facility locator tool. You can
+            search for your nearest VA medical center as well as other health
+            facilities, benefit offices, cemeteries, community care providers
+            and Vet Centers. You can also filter your results by service type to
+            find locations that offer the specific service you’re looking for.
           </p>
           <p>
-            <strong>Need same-day care for a minor illness or injury?</strong> Search for your nearest VA health facility. Or find <a href="https://vaurgentcarelocator.triwest.com/" target="_blank" rel="noopener noreferrer">VA-approved urgent care locations and pharmacies</a> near you.
+            <strong>Need same-day care for a minor illness or injury?</strong>{' '}
+            Search for your nearest VA health facility. Or find{' '}
+            <a
+              href="https://vaurgentcarelocator.triwest.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VA-approved urgent care locations and pharmacies
+            </a>{' '}
+            near you.
           </p>
-
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>
-      /* eslint-enable prettier/prettier */
     );
   }
 }

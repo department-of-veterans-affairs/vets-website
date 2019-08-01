@@ -15,11 +15,11 @@ import {
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import get from 'platform/utilities/data/get';
+import recordEvent from 'platform/monitoring/record-event';
 
 import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
 
 import { handleDowntimeForSection } from '../components/DowntimeBanner';
-import PaymentInformationAddLink from '../components/PaymentInformationAddLink';
 import LoadFail from '../components/LoadFail';
 import PaymentInformation2FARequired from '../components/PaymentInformation2FARequired';
 import PaymentInformationEditModal from '../components/PaymentInformationEditModal';
@@ -32,10 +32,18 @@ import {
 
 import featureFlags from '../featureFlags';
 
-const AdditionalInfos = () => (
+const AdditionalInfos = props => (
   <>
     <div className="vads-u-margin-bottom--2">
-      <AdditionalInfo triggerText="How do I change my direct deposit information for GI Bill and other education benefits?">
+      <AdditionalInfo
+        triggerText="How do I change my direct deposit information for GI Bill and other education benefits?"
+        onClick={() =>
+          props.recordProfileNavEvent({
+            'profile-action': 'view-link',
+            'profile-section': 'how-to-change-direct-deposit',
+          })
+        }
+      >
         <p>
           You’ll need to sign in to the eBenefits website with your Premium DS
           Logon account to change your direct deposit information for GI Bill
@@ -60,7 +68,15 @@ const AdditionalInfos = () => (
       </AdditionalInfo>
     </div>
 
-    <AdditionalInfo triggerText="What’s my bank’s routing number?">
+    <AdditionalInfo
+      triggerText="What’s my bank’s routing number?"
+      onClick={() =>
+        props.recordProfileNavEvent({
+          'profile-action': 'view-link',
+          'profile-section': 'whats-bank-routing',
+        })
+      }
+    >
       <p>
         Your bank’s routing number is a 9-digit code that’s based on the U.S.
         location where your bank was opened. It’s the first set of numbers on
@@ -72,6 +88,13 @@ const AdditionalInfos = () => (
     </AdditionalInfo>
   </>
 );
+
+const recordProfileNavEvent = (customProps = {}) => {
+  recordEvent({
+    event: 'profile-navigation',
+    ...customProps,
+  });
+};
 
 class PaymentInformation extends React.Component {
   static propTypes = {
@@ -103,6 +126,29 @@ class PaymentInformation extends React.Component {
     }
   }
 
+  handleDirectDepositUpdateSubmit = data => {
+    this.props.savePaymentInformation(data);
+  };
+
+  handleLinkClick = (linkType, gaProfileSection) => {
+    // Open modal.
+    this.props.editModalToggled();
+
+    // Push Google Analytics event
+    recordProfileNavEvent({
+      'profile-action': linkType === 'add' ? 'add-link' : 'edit-link',
+      'profile-section': gaProfileSection,
+    });
+  };
+
+  renderSetupButton(label, gaProfileSection) {
+    return (
+      <a
+        onClick={() => this.handleLinkClick('add', gaProfileSection)}
+      >{`Please add your ${label}`}</a>
+    );
+  }
+
   render() {
     if (!this.props.isEligible) {
       return null;
@@ -113,9 +159,9 @@ class PaymentInformation extends React.Component {
     }
 
     const { paymentInformation } = this.props;
-    const directDepositNotSetup =
+    const directDepositIsSetUp =
       paymentInformation &&
-      !get('responses[0].paymentAccount.accountNumber', paymentInformation);
+      get('responses[0].paymentAccount.accountNumber', paymentInformation);
 
     let content = null;
 
@@ -123,41 +169,64 @@ class PaymentInformation extends React.Component {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
-    } else if (directDepositNotSetup) {
-      content = (
-        <PaymentInformationAddLink onClick={this.props.editModalToggled} />
-      );
     } else {
       const paymentAccount = paymentInformation.responses[0].paymentAccount;
 
       content = (
         <>
           <div className="vet360-profile-field">
-            <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            <ProfileFieldHeading
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleLinkClick('edit', 'bank-name'))
+              }
+            >
               Bank name
             </ProfileFieldHeading>
-            {paymentAccount.financialInstitutionName}
+            {directDepositIsSetUp
+              ? paymentAccount.financialInstitutionName
+              : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
-            <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            <ProfileFieldHeading
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleLinkClick('edit', 'account-number'))
+              }
+            >
               Account number
             </ProfileFieldHeading>
-            {paymentAccount.accountNumber}
+            {directDepositIsSetUp
+              ? paymentAccount.accountNumber
+              : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
-            <ProfileFieldHeading onEditClick={this.props.editModalToggled}>
+            <ProfileFieldHeading
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleLinkClick('edit', 'account-type'))
+              }
+            >
               Account type
             </ProfileFieldHeading>
-            {paymentAccount.accountType}
+            {directDepositIsSetUp
+              ? paymentAccount.accountType
+              : this.renderSetupButton(
+                  'account type (checking or savings)',
+                  'account-type',
+                )}
           </div>
-          <p>
-            <strong>Note:</strong> If you think you’ve been the victim of bank
-            fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and
-            select 5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-          </p>
+          {directDepositIsSetUp && (
+            <p>
+              <strong>Note:</strong> If you think you’ve been the victim of bank
+              fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and
+              select 5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+            </p>
+          )}
+
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
-            onSubmit={this.props.savePaymentInformation}
+            onSubmit={this.handleDirectDepositUpdateSubmit}
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
             fields={this.props.paymentInformationUiState.editModalForm}
@@ -179,7 +248,7 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          <AdditionalInfos />
+          <AdditionalInfos recordProfileNavEvent={recordProfileNavEvent} />
           {content}
         </DowntimeNotification>
       </>

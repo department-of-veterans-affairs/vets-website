@@ -78,7 +78,7 @@ class InstructionsPage extends React.Component {
                             className="usa-button-primary va-button"
                             to="questions"
                           >
-                            Get Started »
+                            Get started »
                           </Link>
                         </p>
                       </div>

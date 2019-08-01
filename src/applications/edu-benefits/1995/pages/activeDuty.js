@@ -6,8 +6,7 @@ const { isActiveDuty } = fullSchema1995.properties;
 
 export const uiSchema = {
   isActiveDuty: {
-    'ui:title': ' ',
-    'ui:description':
+    'ui:title':
       'Are you currently on active duty or do you anticipate you will be going on active duty?',
     'ui:widget': 'yesNo',
   },
