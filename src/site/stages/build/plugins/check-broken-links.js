@@ -1,25 +1,27 @@
 /* eslint-disable no-param-reassign, no-console, no-continue */
-const ENVIRONMENTS = require('../../../constants/environments');
+
 const cheerio = require('cheerio');
 const path = require('path');
 const url = require('url');
 
+const ENVIRONMENTS = require('../../../constants/environments');
+
 function isBrokenLink(link, pagePath, allPaths) {
+  if (!link) return true;
+
   const parsed = url.parse(link);
   const isExternal = !!parsed.protocol;
 
   if (isExternal) return false;
 
-  if (parsed.pathname === null) {
-    const isAnchorLink = !!parsed.hash;
-    if (isAnchorLink) {
-      return false;
-    }
+  if (!parsed.pathname) {
+    // Not empty, not external, but also no path.
+    // This has to be an hash link or query param change.
 
-    return true;
+    return false;
   }
 
-  let filePath = parsed.pathname;
+  let filePath = decodeURI(parsed.pathname);
 
   if (path.isAbsolute(filePath)) {
     filePath = path.join('.', filePath);
@@ -75,6 +77,14 @@ function getBrokenLinks(file, allPaths) {
 }
 
 function applyIgnoredRoutes(brokenPages, files) {
+  // We ignore React landing pages, because React apps have
+  // dynamic, client-side routing and only the root page
+  // will have an HTML page.
+
+  // We also ignore pages ending in .asp, because although those
+  // pages are under the same domain, they are not part of our
+  // source code, so we can't validate them.
+
   const reactLandingPages = Object.keys(files)
     .map(fileName => files[fileName])
     .filter(file => !!file.entryname)
@@ -93,6 +103,27 @@ function applyIgnoredRoutes(brokenPages, files) {
   });
 
   return brokenPages;
+}
+
+function getErrorOutput(brokenPages) {
+  const brokenLinkCount = brokenPages.reduce(
+    (sum, page) => sum + page.linkErrors.length,
+    0,
+  );
+  const separator = '\n\n---\n\n';
+  const header = `${separator}There are ${brokenLinkCount} broken links!${separator}`;
+
+  const body = brokenPages
+    .map(brokenPage => {
+      let pageChunk = `There are ${
+        brokenPage.linkErrors.length
+      } broken links on ${brokenPage.path}:\n\n`;
+      pageChunk += brokenPage.linkErrors.map(link => link.html).join('\n');
+      return pageChunk;
+    })
+    .join(separator);
+
+  return header + body + separator;
 }
 
 function checkBrokenLinks(buildOptions) {
@@ -120,24 +151,7 @@ function checkBrokenLinks(buildOptions) {
     brokenPages = applyIgnoredRoutes(brokenPages, files);
 
     if (brokenPages.length > 0) {
-      const brokenLinkCount = brokenPages.reduce(
-        (sum, page) => sum + page.linkErrors.length,
-        0,
-      );
-      const separator = '\n\n---\n\n';
-      const header = `${separator}There are ${brokenLinkCount} broken links!${separator}`;
-
-      const body = brokenPages
-        .map(brokenPage => {
-          let pageChunk = `There are ${
-            brokenPage.linkErrors.length
-          } broken links on ${brokenPage.path}:\n\n`;
-          pageChunk += brokenPage.linkErrors.map(link => link.html).join('\n');
-          return pageChunk;
-        })
-        .join(separator);
-
-      const errorOutput = header + body + separator;
+      const errorOutput = getErrorOutput(brokenPages);
 
       if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
         done(errorOutput);
@@ -151,3 +165,8 @@ function checkBrokenLinks(buildOptions) {
 }
 
 module.exports = checkBrokenLinks;
+
+module.exports.getErrorOutput = getErrorOutput;
+module.exports.applyIgnoredRoutes = applyIgnoredRoutes;
+module.exports.getBrokenLinks = getBrokenLinks;
+module.exports.isBrokenLink = isBrokenLink;
