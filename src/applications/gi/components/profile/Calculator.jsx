@@ -61,9 +61,7 @@ export class Calculator extends React.Component {
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
         {expanded ? (
-          <div className="form-expanding-group-open">
-            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
-          </div>
+          <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
         ) : null}
       </div>
     );
@@ -85,15 +83,13 @@ export class Calculator extends React.Component {
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
         {expanded ? (
-          <div className="form-expanding-group-open">
-            <CalculatorForm
-              inputs={inputs}
-              displayedInputs={displayed}
-              onShowModal={this.props.showModal}
-              onInputChange={this.props.calculatorInputChange}
-              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-            />
-          </div>
+          <CalculatorForm
+            inputs={inputs}
+            displayedInputs={displayed}
+            onShowModal={this.props.showModal}
+            onInputChange={this.props.calculatorInputChange}
+            onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+          />
         ) : null}
       </div>
     );
