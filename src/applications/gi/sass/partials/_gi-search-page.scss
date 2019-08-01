@@ -1,16 +1,15 @@
 .gi-app .search-page {
+
   .filters-sidebar {
     h2 {
       font-size: 1.15em;
     }
 
-    label,
-    legend {
+    label, legend {
       margin-top: 1em;
     }
 
-    .institution-filter-form,
-    .eligibility-form {
+    .institution-filter-form, .eligibility-form {
       margin-top: 1.5em;
     }
 
@@ -37,8 +36,7 @@
     }
   }
 
-  .filter-button,
-  .results-button {
+  .filter-button, .results-button {
     display: none;
 
     @include media-maxwidth($small-screen) {
@@ -89,7 +87,7 @@
 
     h2 {
       font-size: 1.35em;
-      margin-bottom: 0.8rem;
+      margin-bottom: .8rem;
       padding-bottom: 0;
       margin-top: 0;
       a {
@@ -113,8 +111,7 @@
     }
 
     .estimated-benefits {
-      h3,
-      h4 {
+      h3, h4 {
         margin-top: 0;
         font-size: 1em;
         font-family: $font-sans;
@@ -159,5 +156,6 @@
         margin-right: 0.4em;
       }
     }
+
   }
 }
