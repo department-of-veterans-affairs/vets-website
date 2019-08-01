@@ -61,7 +61,7 @@ export default function(state = INITIAL_STATE, action) {
     case SEARCH_STARTED:
       return {
         ...state,
-        searchTerm: action.query.name,
+        searchTerm: action.query.name ? action.query.name : '',
       };
     default:
       return state;
