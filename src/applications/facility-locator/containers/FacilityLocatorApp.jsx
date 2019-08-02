@@ -9,6 +9,26 @@ import { validateIdString } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
 
+import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
+
+const {
+  addSubscriberCallback,
+  refreshToggleValues,
+  removeSubscriberCallback,
+  startPollingToggleValues,
+  stopPollingToggleValues,
+} = new FlipperClient();
+
+// refreshToggleValues();
+
+const test = addSubscriberCallback(toggleValues => console.log(`1 ${toggleValues}`));
+const test2 = addSubscriberCallback(toggleValues => console.log(`2 ${toggleValues}`));
+
+startPollingToggleValues();
+
+window.setTimeout(() => removeSubscriberCallback(test2), 15000);
+window.setTimeout(stopPollingToggleValues, 30000);
+
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs(location, selectedResult) {
     // Map and name props for the search query object
