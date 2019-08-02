@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const path = require('path');
 const url = require('url');
 
-const ENVIRONMENTS = require('../../../constants/environments');
+const ENVIRONMENTS = require('../../../../constants/environments');
 
 function isBrokenLink(link, pagePath, allPaths) {
   if (!link) return true;
