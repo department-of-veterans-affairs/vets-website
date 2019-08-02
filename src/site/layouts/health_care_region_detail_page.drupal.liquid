@@ -19,7 +19,8 @@
           </div>
 
           {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
-          {% if isContactPage %}
+          {% assign isProgramsChildPage = entityUrl | isChildPageOf: "Programs" %}
+          {% if isContactPage || isProgramsChildPage %}
             <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
               {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
           {% endif %}
