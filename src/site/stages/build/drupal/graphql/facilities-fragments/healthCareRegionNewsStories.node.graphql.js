@@ -38,7 +38,7 @@ function queryFilter(isAll) {
         { field: "status", value: "1"}
         ${isAll ? '' : '{ field: "field_featured" value: "1"}'}
       ]} sort: {field: "changed", direction: DESC }, limit:${
-        isAll ? '500' : '1'
+        isAll ? '500' : '2'
       })
   `;
 }
