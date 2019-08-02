@@ -1,8 +1,8 @@
 const cheerio = require('cheerio');
 
-const isBrokenLink = require('./isBrokenLink');
+const _isBrokenLink = require('./isBrokenLink');
 
-function getBrokenLinks(file, allPaths) {
+function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
   const $ = cheerio.load(file.contents);
   const elements = $('a, img');
   const currentPath = file.path;
