@@ -1,0 +1,45 @@
+const cheerio = require('cheerio');
+
+const isBrokenLink = require('./isBrokenLink');
+
+function getBrokenLinks(file, allPaths) {
+  const $ = cheerio.load(file.contents);
+  const elements = $('a, img');
+  const currentPath = file.path;
+
+  const linkErrors = [];
+
+  elements.each((index, node) => {
+    const $node = $(node);
+
+    let target = null;
+
+    if ($node.is('a')) {
+      const namedAnchor = !!$node.prop('name');
+
+      target = $node.attr('href');
+
+      if (!target && namedAnchor) {
+        return;
+      }
+    }
+
+    if ($node.is('img')) {
+      target = $node.attr('src') || $node.attr('data-src');
+    }
+
+    const isBroken = isBrokenLink(target, currentPath, allPaths);
+
+    if (isBroken) {
+      const html = cheerio.html($node);
+      linkErrors.push({
+        html,
+        target,
+      });
+    }
+  });
+
+  return linkErrors;
+}
+
+module.exports = getBrokenLinks;
