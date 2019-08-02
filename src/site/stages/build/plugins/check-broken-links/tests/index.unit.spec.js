@@ -61,6 +61,7 @@ describe('build/check-broken-links', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(0);
     middleware(files, null, done);
+    expect(getBrokenLinks.callCount).to.be.equal(2);
     expect(getBrokenLinks.args[0][0]).to.be.deep.equal({
       path: 'health-care/',
     });
