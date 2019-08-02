@@ -36,9 +36,9 @@ function queryFilter(isAll) {
       conditions: [
         { field: "type", value: "news_story"}
         { field: "status", value: "1"}
-        ${isAll ? '' : '{ field: "field_featured" value: "1"}'}        
-      ]} sort: {field: "changed", direction: DESC } limit:${
-        isAll ? '500' : '2'
+        ${isAll ? '' : '{ field: "field_featured" value: "1"}'}
+      ]} sort: {field: "changed", direction: DESC }, limit:${
+        isAll ? '500' : '1'
       })
   `;
 }

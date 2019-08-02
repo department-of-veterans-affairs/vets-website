@@ -60,6 +60,11 @@ Example data:
           <div class="va-introtext vads-u-margin-bottom--4">
             {{ fieldIntroTextNewsStories.processed }}
           </div>
+          {% if paginator.prev == null %}
+          {% for storyFeature in newsStoryTeasers.entities %}
+              {% include "src/site/teasers/news_story_page_feature.drupal.liquid" with node = storyFeature %}
+          {% endfor %}
+          {% endif %}
           {% assign sortedItems = pagedItems | sort_by: 'fieldFeatured', 'desc'  %}
           {% for story in sortedItems %}
               {% include "src/site/teasers/news_story_page.drupal.liquid" with node = story %}
