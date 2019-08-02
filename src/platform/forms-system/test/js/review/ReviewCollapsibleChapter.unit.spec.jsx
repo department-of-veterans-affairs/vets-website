@@ -286,7 +286,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       },
     ];
     const chapterKey = 'test';
-    const chapter = {};
+    const chapter = {
+      title: '',
+    };
     const form = {
       pages: {
         test: {
@@ -386,7 +388,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         },
       ];
       const chapterKey = 'test';
-      const chapter = {};
+      const chapter = {
+        title: '',
+      };
       const form = {
         pages: {
           test: {
@@ -434,7 +438,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         },
       ];
       const chapterKey = 'test';
-      const chapter = {};
+      const chapter = {
+        title: '',
+      };
       const form = {
         pages: {
           test: {
