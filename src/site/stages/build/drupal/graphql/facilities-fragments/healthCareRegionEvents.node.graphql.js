@@ -40,9 +40,11 @@ function queryFilter(isAll) {
     ${
       isAll
         ? ''
-        : '{ field: "field_date", value: [$today], operator: GREATER_THAN}'
+        : '{ field: "field_featured" value: "1"}, { field: "field_date", value: [$today], operator: GREATER_THAN}'
     }
-  ]} sort: {field: "field_date", direction: ASC } limit: ${isAll ? '500' : '2'})
+  ]} sort: [{field: "field_order", direction: ASC }, {field: "field_date", direction: ASC }] limit: ${
+    isAll ? '500' : '2'
+  })
   `;
 }
 
