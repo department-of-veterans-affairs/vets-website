@@ -150,6 +150,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
     { allEventTeasers: page.allEventTeasers },
+    { eventTeasers: page.eventTeasers },
     { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
     { facilitySidebar: sidebar },
     { entityUrl: eventEntityUrl },
