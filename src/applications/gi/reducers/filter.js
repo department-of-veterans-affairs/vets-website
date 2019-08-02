@@ -9,7 +9,7 @@ const INITIAL_STATE = Object.freeze({
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
-  stemOffered: false,
+  stemIndicator: false,
   typeName: 'ALL',
   vetTecProvider: false,
   preferredProvider: false,
