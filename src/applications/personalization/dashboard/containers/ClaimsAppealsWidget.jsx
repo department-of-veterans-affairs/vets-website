@@ -15,9 +15,8 @@ import {
   getAppealsV2,
   getClaimsV2,
 } from 'applications/claims-status/actions/index.jsx';
-import { scrollToTop } from 'applications/claims-status/utils/page';
-import recordEvent from 'platform/monitoring/record-event';
 
+import AppealListItem from 'applications/claims-status/components/appeals-v2/AppealListItemV2';
 import ClaimsUnavailable from 'applications/claims-status/components/ClaimsUnavailable';
 import AppealsUnavailable from 'applications/claims-status/components/AppealsUnavailable';
 import ClaimsAppealsUnavailable from 'applications/claims-status/components/ClaimsAppealsUnavailable';
@@ -27,20 +26,10 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import { recordDashboardClick } from '../helpers';
 import ClaimsListItem from '../components/ClaimsListItem';
-import AppealListItem from '../../../claims-status/components/appeals-v2/AppealListItemV2';
 
 const appealTypes = Object.values(APPEAL_TYPES);
-
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-link',
-      'dashboard-product': product,
-    });
-  };
-}
 
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
@@ -51,8 +40,6 @@ class ClaimsAppealsWidget extends React.Component {
     if (this.props.canAccessAppeals) {
       this.props.getAppealsV2();
     }
-
-    scrollToTop();
   }
 
   renderListItem(claim) {
@@ -228,19 +215,17 @@ const mapStateToProps = state => {
     .concat(claimsV2Root.claims)
     .filter(c => {
       let updateDate;
-      let evssPhaseChangeDate;
-      let evssUpdatedAtDate;
       if (c.type === 'evss_claims') {
-        evssPhaseChangeDate = c.attributes.phaseChangeDate;
-        evssUpdatedAtDate = c.attributes.updatedAt;
-        if (evssPhaseChangeDate && evssUpdatedAtDate) {
+        const evssPhaseChangeDate = c.attributes.phaseChangeDate;
+        const evssDateFiled = c.attributes.dateFiled;
+        if (evssPhaseChangeDate && evssDateFiled) {
           updateDate = moment(evssPhaseChangeDate).isAfter(
-            moment(evssUpdatedAtDate),
+            moment(evssDateFiled),
           )
             ? evssPhaseChangeDate
-            : evssUpdatedAtDate;
+            : evssDateFiled;
         } else {
-          updateDate = evssPhaseChangeDate || evssUpdatedAtDate;
+          updateDate = evssPhaseChangeDate || evssDateFiled;
         }
       } else {
         updateDate = c.attributes.updated;

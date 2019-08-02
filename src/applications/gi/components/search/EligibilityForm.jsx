@@ -1,18 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { showModal, hideModal, eligibilityChange } from '../../actions';
+import { showModal, hideModal } from '../../actions';
+import { renderLearnMoreLabel } from '../../utils/render';
 
 import Dropdown from '../Dropdown';
-import RadioButtons from '../RadioButtons';
 import environment from 'platform/utilities/environment';
 
 export class EligibilityForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
-  }
-
   // This will be enabled via story https://app.zenhub.com/workspaces/vft-59c95ae5fda7577a9b3184f8/issues/department-of-veterans-affairs/vets.gov-team/18639
   cumulativeServiceOptions = () => {
     if (environment.isProduction()) {
@@ -51,21 +46,13 @@ export class EligibilityForm extends React.Component {
     ];
   };
 
-  renderLearnMoreLabel({ text, modal }) {
-    return (
-      <span>
-        {text} (
-        <button
-          type="button"
-          className="va-button-link learn-more-button"
-          onClick={this.props.showModal.bind(this, modal)}
-        >
-          Learn more
-        </button>
-        )
-      </span>
-    );
-  }
+  renderLearnMoreLabel = ({ text, modal }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   render() {
     return (
@@ -239,21 +226,6 @@ export class EligibilityForm extends React.Component {
           }
           onChange={this.props.eligibilityChange}
         />
-
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text: 'How do you want to take classes?',
-            modal: 'onlineOnlyDistanceLearning',
-          })}
-          name="onlineClasses"
-          options={[
-            { value: 'yes', label: 'Online only' },
-            { value: 'no', label: 'In person only' },
-            { value: 'both', label: 'In person and online' },
-          ]}
-          value={this.props.onlineClasses}
-          onChange={this.props.eligibilityChange}
-        />
       </div>
     );
   }
@@ -264,7 +236,6 @@ const mapStateToProps = state => state.eligibility;
 const mapDispatchToProps = {
   showModal,
   hideModal,
-  eligibilityChange,
 };
 
 export default connect(

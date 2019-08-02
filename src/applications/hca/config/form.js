@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -60,7 +61,6 @@ import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ConfirmationPageNew from '../containers/ConfirmationPageNew';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
@@ -185,11 +185,13 @@ const attachmentsSchema = {
   },
 };
 
+// For which page needs prefill-message, check
+// vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
-  formId: '1010ez',
+  formId: VA_FORM_IDS.FORM_10_10EZ,
   version: 6,
   migrations,
   prefillEnabled: true,
@@ -212,9 +214,7 @@ const formConfig = {
       depends: () => !hasSession(),
     },
   ],
-  confirmation: environment.isProduction()
-    ? ConfirmationPage
-    : ConfirmationPageNew,
+  confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
@@ -320,6 +320,7 @@ const formConfig = {
             },
           },
           uiSchema: {
+            'ui:description': PrefillMessage,
             gender: {
               'ui:title': 'Gender',
               'ui:options': {
@@ -429,6 +430,7 @@ const formConfig = {
           title: 'Contact information',
           initialData: {},
           uiSchema: {
+            'ui:description': PrefillMessage,
             'ui:validations': [
               validateMatch('email', 'view:emailConfirmation'),
             ],
@@ -466,9 +468,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description': !environment.isProduction()
-              ? MilitaryPrefillMessage
-              : undefined,
+            'ui:description': MilitaryPrefillMessage,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -511,7 +511,10 @@ const formConfig = {
           title: 'Service history',
           uiSchema: {
             'ui:title': 'Service history',
-            'ui:description': 'Check all that apply to you.',
+            'ui:description': MilitaryPrefillMessage,
+            'view:textObject': {
+              'ui:description': 'Check all that apply to you.',
+            },
             purpleHeartRecipient: {
               'ui:title': 'Purple Heart award recipient',
             },
@@ -549,6 +552,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:textObject': {
+                type: 'object',
+                properties: {},
+              },
               purpleHeartRecipient,
               isFormerPow,
               postNov111998Combat,
@@ -611,6 +618,7 @@ const formConfig = {
           title: 'VA benefits',
           uiSchema: {
             'ui:title': 'Current compensation',
+            'ui:description': PrefillMessage,
             vaCompensationType: {
               'ui:title':
                 'Which type of VA compensation do you currently receive?',

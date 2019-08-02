@@ -46,7 +46,7 @@ class SearchHelpSignIn extends React.Component {
       <div className="sign-in-links">
         {!isSubdomain && (
           <button className="sign-in-link" onClick={this.handleSignInSignUp}>
-            Sign In
+            Sign in
           </button>
         )}
         {isSubdomain && (
@@ -54,7 +54,7 @@ class SearchHelpSignIn extends React.Component {
             className="usa-button sign-in-link"
             href={`https://www.va.gov/my-va`}
           >
-            Sign In
+            Sign in
           </a>
         )}
       </div>

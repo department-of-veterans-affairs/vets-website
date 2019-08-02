@@ -500,7 +500,7 @@ describe('<PhotoField>', () => {
       'Some error',
     );
     expect(tree.find('ErrorableFileInput').props().buttonText).to.equal(
-      'Upload Photo Again',
+      'Upload photo again',
     );
     tree.unmount();
   });

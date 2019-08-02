@@ -39,8 +39,7 @@ export function getWarningHeadline(enrollmentStatus) {
       break;
 
     case HCA_ENROLLMENT_STATUSES.activeDuty:
-      content =
-        'Our records show that you haven’t yet received your separation or retirement orders';
+      content = 'Our records show that you’re an active-duty service member';
       break;
 
     case HCA_ENROLLMENT_STATUSES.deceased:
@@ -163,6 +162,7 @@ export function getWarningStatus(
 export function getWarningExplanation(enrollmentStatus) {
   let content = null;
   switch (enrollmentStatus) {
+    case HCA_ENROLLMENT_STATUSES.activeDuty:
     case HCA_ENROLLMENT_STATUSES.enrolled:
     case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
     case HCA_ENROLLMENT_STATUSES.ineligMedicare:
@@ -251,19 +251,6 @@ export function getWarningExplanation(enrollmentStatus) {
       );
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-      content = (
-        <p>
-          You can’t qualify for VA health care until you’ve received your
-          separation or retirement orders. We welcome you to apply again once
-          you’ve received your orders.{' '}
-          <a href="/HEALTHBENEFITS/apply/active_duty.asp">
-            Learn more about transitioning to VA health care
-          </a>
-        </p>
-      );
-      break;
-
     case HCA_ENROLLMENT_STATUSES.deceased:
       content = (
         <>
@@ -342,207 +329,175 @@ export function getWarningExplanation(enrollmentStatus) {
   return content;
 }
 
-// There are 7 options for the first block in the FAQ
-export function getFAQBlock1(enrollmentStatus) {
-  let content = null;
-  switch (enrollmentStatus) {
-    case HCA_ENROLLMENT_STATUSES.deceased:
-      content = null;
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.enrolled:
-      content = (
-        <>
-          <h4>
-            How can I change my address, income, or other information in my VA
-            health care records?
-          </h4>
-          <p>
-            To update your information, please submit a Health Benefits Update
-            Form (VA Form 10-10EZR).
-          </p>
-          <p>
-            <a href="/health-care/update-health-information/">
-              Find out how to submit VA Form 10-10EZR
-            </a>
-            .
-          </p>
-          <p>
-            Or you can update your address and other contact information in your
-            VA.gov profile. This will update your information across several VA
-            benefits and services.
-          </p>
-          <p>
-            <a href="/profile">Go to your profile to update your address</a>.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge:
-    case HCA_ENROLLMENT_STATUSES.ineligCitizens:
-    case HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts:
-    case HCA_ENROLLMENT_STATUSES.ineligGuardReserve:
-    case HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime:
-    case HCA_ENROLLMENT_STATUSES.ineligTrainingOnly:
-      content = (
-        <>
-          <h4>
-            What should I do if I think this information is incorrect, or if I
-            have questions about my eligibility?
-          </h4>
-          <p>
-            Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.ineligNotVerified:
-      content = (
-        <>
-          <h4>
-            What should I do if I want to submit proof of my military service,
-            or if I have questions about my eligibility?
-          </h4>
-          <p>
-            Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.ineligCHAMPVA:
-      content = (
-        <>
-          <h4>Do any VA medical centers treat CHAMPVA recipients?</h4>
-          <p>
-            Yes. To learn more about VA medical centers that offer services to
-            CHAMPVA recipients, or if you have any other questions, please call
-            our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-    case HCA_ENROLLMENT_STATUSES.canceledDeclined:
-    case HCA_ENROLLMENT_STATUSES.closed:
-    case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
-    case HCA_ENROLLMENT_STATUSES.ineligMedicare:
-    case HCA_ENROLLMENT_STATUSES.ineligOther:
-    case HCA_ENROLLMENT_STATUSES.ineligOver65:
-    case HCA_ENROLLMENT_STATUSES.ineligRefusedCopay:
-    case HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry:
-    case HCA_ENROLLMENT_STATUSES.rejectedRightEntry:
-    case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
-      content = (
-        <>
-          <h4>What should I do if I have questions about my eligibility?</h4>
-          <p>
-            Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.pendingMt:
-    case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
-      content = (
-        <>
-          <h4>How do I submit this information to VA?</h4>
-          <p>
-            Please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ) for directions on how to submit your information. We’re here
-            Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.pendingOther:
-    case HCA_ENROLLMENT_STATUSES.pendingUnverified:
-      content = (
-        <>
-          <h4>
-            How will I know if VA needs more information from me to verify my
-            military service?
-          </h4>
-          <p>
-            If we need more information, we’ll send you a letter in the mail. If
-            you have any questions, please call our enrollment case management
-            team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </>
-      );
-      break;
-
-    default:
-      break;
-  }
-  return content;
+function wrapJSXInKeyedFragment(arrayOfJSX) {
+  return arrayOfJSX.map((jsx, i) => (
+    <React.Fragment key={i}>{jsx}</React.Fragment>
+  ));
 }
 
-// This block is _only_ shown if the user does not qualify due to the character
-// of their discharge
-export function getFAQBlock2(enrollmentStatus) {
-  let content = null;
-  switch (enrollmentStatus) {
-    case HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge:
-      content = (
-        <>
-          <h4>
-            What if I want to review my discharge status, or think I may qualify
-            for an upgrade?
-          </h4>
-          <p>You can get more information on our website:</p>
-          <p>
-            <a href="https://www.va.gov/discharge-upgrade-instructions/">
-              Find out who may qualify for a discharge upgrade
-            </a>
-          </p>
-          <p>
-            <a href="https://www.va.gov/discharge-upgrade-instructions/#other-options">
-              Learn more about the Character of Discharge review process
-            </a>
-          </p>
-        </>
-      );
-      break;
+export function getFAQContent(enrollmentStatus) {
+  const callOurTeam = (
+    <>
+      call our enrollment case management team at 877-222-VETS (
+      <a className="help-phone-number-link" href="tel:1-877-222-8387">
+        877-222-8387
+      </a>
+      )
+    </>
+  );
 
-    default:
-      break;
-  }
-  return content;
-}
+  const ourHours = (
+    <>We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET</>
+  );
 
-// There is only one option for this block. It may or may not be displayed
-// depending on the enrollment status
-export function getFAQBlock3(enrollmentStatus) {
-  let content = (
+  const faqBlock1 = (
+    <>
+      <h4>
+        How can I change my address, income, or other information in my VA
+        health care records?
+      </h4>
+      <p>
+        To update your information, please submit a Health Benefits Update Form
+        (VA Form 10-10EZR).
+      </p>
+      <p>
+        <a href="/health-care/update-health-information/">
+          Find out how to submit VA Form 10-10EZR
+        </a>
+        .
+      </p>
+      <p>
+        Or you can update your address and other contact information in your
+        VA.gov profile. This will update your information across several VA
+        benefits and services.
+      </p>
+      <p>
+        <a href="/profile">Go to your profile to update your address</a>.
+      </p>
+    </>
+  );
+
+  const faqBlock2 = (
+    <>
+      <h4>
+        What should I do if I think this information is incorrect, or if I have
+        questions about my eligibility?
+      </h4>
+      <p>
+        Please {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock3 = (
+    <>
+      <h4>
+        What should I do if I want to submit proof of my military service, or if
+        I have questions about my eligibility?
+      </h4>
+      <p>
+        Please {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock4 = (
+    <>
+      <h4>Do any VA medical centers treat CHAMPVA recipients?</h4>
+      <p>
+        Yes. To learn more about VA medical centers that offer services to
+        CHAMPVA recipients, or if you have any other questions, please{' '}
+        {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock5 = (
+    <>
+      <h4>What should I do if I have questions about my eligibility?</h4>
+      <p>
+        Please {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock6 = (
+    <>
+      <h4>How do I submit this information to VA?</h4>
+      <p>
+        Please {callOurTeam} for directions on how to submit your information.{' '}
+        {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock7 = (
+    <>
+      <h4>
+        How will I know if VA needs more information from me to verify my
+        military service?
+      </h4>
+      <p>
+        If we need more information, we’ll send you a letter in the mail. If you
+        have any questions, please {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock8 = (
+    <>
+      <h4>Can I apply for VA health care?</h4>
+      <p>
+        As an active-duty service member, you can apply for VA health care if
+        both of the below descriptions are true for you.
+      </p>
+      <p>
+        <strong>Both of these must be true:</strong>
+      </p>
+      <ul>
+        <li>You’ve received your separation orders, and</li>
+        <li>You have less than a year until your separation date</li>
+      </ul>
+      <p>
+        <strong>If you don’t meet the requirements listed above</strong>
+      </p>
+      <p>
+        Please don’t apply at this time. We welcome you to apply once you meet
+        these requirements.
+      </p>
+      <p>
+        <strong>
+          If you’ve already applied, think you've received this message in
+          error, or have any questions
+        </strong>
+      </p>
+      <p>
+        Please {callOurTeam}. {ourHours}.
+      </p>
+    </>
+  );
+
+  const faqBlock9 = (
+    <>
+      <h4>
+        What if I want to review my discharge status, or think I may qualify for
+        an upgrade?
+      </h4>
+      <p>You can get more information on our website:</p>
+      <p>
+        <a href="https://www.va.gov/discharge-upgrade-instructions/">
+          Find out who may qualify for a discharge upgrade
+        </a>
+      </p>
+      <p>
+        <a href="https://www.va.gov/discharge-upgrade-instructions/#other-options">
+          Learn more about the Character of Discharge review process
+        </a>
+      </p>
+    </>
+  );
+
+  const faqBlockMentalHealthCare = (
     <>
       <h4>Can I still get mental health care?</h4>
       <p>
@@ -556,209 +511,212 @@ export function getFAQBlock3(enrollmentStatus) {
       </p>
     </>
   );
-  switch (enrollmentStatus) {
-    case HCA_ENROLLMENT_STATUSES.deceased:
-    case HCA_ENROLLMENT_STATUSES.enrolled:
-    case HCA_ENROLLMENT_STATUSES.ineligCHAMPVA:
-    case HCA_ENROLLMENT_STATUSES.ineligCitizens:
-    case HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts:
-    case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
-    case HCA_ENROLLMENT_STATUSES.pendingMt:
-    case HCA_ENROLLMENT_STATUSES.pendingOther:
-    case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
-    case HCA_ENROLLMENT_STATUSES.pendingUnverified:
-      content = null;
-      break;
 
-    default:
-      break;
-  }
-  return content;
-}
+  const faqBlockReapply1 = (
+    <>
+      <h4>Will applying again update my information?</h4>
+      <p>
+        <strong>No. A new application won’t update your information.</strong> If
+        you have questions about the information we have on record for you,
+        please call your nearest VA medical center.
+      </p>
+      <p>
+        <a className="usa-button-primary" href="/find-locations/">
+          Find your VA medical center
+        </a>
+      </p>
+    </>
+  );
 
-// There are 7 options for the final block in the FAQ
-export function getFAQBlock4(enrollmentStatus) {
-  let content = null;
-  switch (enrollmentStatus) {
-    case HCA_ENROLLMENT_STATUSES.deceased:
-      content = null;
-      break;
+  const faqBlockReapply2 = (
+    <>
+      <h4>Could applying again change VA’s decision?</h4>
+      <p>
+        <strong>
+          A new application most likely won’t change our decision on your
+          eligibility.
+        </strong>{' '}
+        If you’d like to talk about your options, please {callOurTeam}.
+      </p>
+      <p>
+        We only recommend applying again if you’ve already worked with our
+        enrollment case management team, and they’ve advised you to reapply.
+      </p>
+    </>
+  );
 
-    case HCA_ENROLLMENT_STATUSES.enrolled:
-      content = (
-        <>
-          <h4>Will applying again update my information?</h4>
-          <p>
-            <strong>
-              No. A new application won’t update your information.
-            </strong>{' '}
-            If you have questions about the information we have on record for
-            you, please call your nearest VA medical center.
-          </p>
-          <p>
-            <a className="usa-button-primary" href="/find-locations/">
-              Find your VA medical center
-            </a>
-          </p>
-        </>
-      );
-      break;
+  const faqBlockReapply3 = (
+    <>
+      <h4>Could applying again change VA’s decision?</h4>
+      <p>
+        <strong>
+          Only if you’ve had a change in your life since you last applied that
+          may make you eligible for VA health care now—like receiving a VA
+          rating for a service-connected disability or experiencing a decrease
+          in your income.
+        </strong>{' '}
+        If you’d like to talk about your options, please {callOurTeam}.
+      </p>
+      <p>
+        We only recommend applying again if you’ve already worked with our
+        enrollment case management team, and they’ve advised you to reapply.
+      </p>
+    </>
+  );
 
-    case HCA_ENROLLMENT_STATUSES.ineligCHAMPVA:
-    case HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge:
-    case HCA_ENROLLMENT_STATUSES.ineligCitizens:
-    case HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts:
-    case HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon:
-    case HCA_ENROLLMENT_STATUSES.ineligGuardReserve:
-    case HCA_ENROLLMENT_STATUSES.ineligMedicare:
-    case HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime:
-    case HCA_ENROLLMENT_STATUSES.ineligNotVerified:
-    case HCA_ENROLLMENT_STATUSES.ineligOther:
-    case HCA_ENROLLMENT_STATUSES.ineligOver65:
-    case HCA_ENROLLMENT_STATUSES.ineligRefusedCopay:
-    case HCA_ENROLLMENT_STATUSES.ineligTrainingOnly:
-      content = (
-        <>
-          <h4>Could applying again change VA’s decision?</h4>
-          <p>
-            <strong>
-              A new application most likely won’t change our decision on your
-              eligibility.
-            </strong>{' '}
-            If you’d like to talk about your options, please call our enrollment
-            case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-          <p>
-            We only recommend applying again if you’ve already worked with our
-            enrollment case management team, and they’ve advised you to reapply.
-          </p>
-        </>
-      );
-      break;
+  const faqBlockReapply4 = (
+    <>
+      <h4>Can I apply again?</h4>
+      <p>
+        Yes. If you have questions about how to complete your application,
+        please {callOurTeam}.
+      </p>
+    </>
+  );
 
-    case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
-    case HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry:
-    case HCA_ENROLLMENT_STATUSES.rejectedRightEntry:
-      content = (
-        <>
-          <h4>Could applying again change VA’s decision?</h4>
-          <p>
-            <strong>
-              Only if you’ve had a change in your life since you last applied
-              that may make you eligible for VA health care now—like receiving a
-              VA rating for a service-connected disability or experiencing a
-              decrease in your income.
-            </strong>{' '}
-            If you’d like to talk about your options, please call our enrollment
-            case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-          <p>
-            We only recommend applying again if you’ve already worked with our
-            enrollment case management team, and they’ve advised you to reapply.
-          </p>
-        </>
-      );
-      break;
+  const faqBlockReapply5 = (
+    <>
+      <h4>Should I just submit a new application with all my information?</h4>
+      <p>
+        <strong>
+          No. We’re in the process of reviewing your current application, and
+          submitting a new application won’t affect our decision.
+        </strong>{' '}
+        To get help providing the information we need to complete our review,
+        please {callOurTeam}.
+      </p>
+      <p>
+        We only recommend applying again if you’ve already worked with our
+        enrollment case management team, and they’ve advised you to reapply.
+      </p>
+    </>
+  );
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-      content = (
-        <>
-          <h4>Can I apply again?</h4>
-          <p>
-            Yes, but we recommend waiting until you’ve received your separation
-            or retirement orders. If you’d like to talk about your options,
-            please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.closed:
-    case HCA_ENROLLMENT_STATUSES.canceledDeclined:
-      content = (
-        <>
-          <h4>Can I apply again?</h4>
-          <p>
-            Yes. If you have questions about how to complete your application,
-            please call our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.pendingMt:
-    case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
-      content = (
-        <>
-          <h4>
-            Should I just submit a new application with all my information?
-          </h4>
-          <p>
-            <strong>
-              No. We’re in the process of reviewing your current application,
-              and submitting a new application won’t affect our decision.
-            </strong>{' '}
-            To get help providing the information we need to complete our
-            review, please call our enrollment case management team at
-            877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-          <p>
-            We only recommend applying again if you’ve already worked with our
-            enrollment case management team, and they’ve advised you to reapply.
-          </p>
-        </>
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.pendingOther:
-    case HCA_ENROLLMENT_STATUSES.pendingUnverified:
-      content = (
-        <>
-          <h4>Should I apply again?</h4>
-          <p>
-            <strong>
-              No. We’re in the process of reviewing your current application,
-              and submitting a new application won’t affect our decision.
-            </strong>{' '}
-            If you’d like to talk about your current application, please call
-            our enrollment case management team at 877-222-VETS (
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            ).
-          </p>
-          <p>
-            We only recommend applying again if you’ve already worked with our
-            enrollment case management team, and they’ve advised you to reapply.
-          </p>
-        </>
-      );
-      break;
-
-    default:
-      break;
-  }
-  return content;
+  const faqBlockReapply6 = (
+    <>
+      <h4>Should I apply again?</h4>
+      <p>
+        <strong>
+          No. We’re in the process of reviewing your current application, and
+          submitting a new application won’t affect our decision.
+        </strong>{' '}
+        If you’d like to talk about your current application, please{' '}
+        {callOurTeam}.
+      </p>
+      <p>
+        We only recommend applying again if you’ve already worked with our
+        enrollment case management team, and they’ve advised you to reapply.
+      </p>
+    </>
+  );
+  const faqMap = {
+    [HCA_ENROLLMENT_STATUSES.activeDuty]: faqBlock8,
+    [HCA_ENROLLMENT_STATUSES.canceledDeclined]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply4,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.closed]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply4,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.enrolled]: wrapJSXInKeyedFragment([
+      faqBlock1,
+      faqBlockReapply1,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]: wrapJSXInKeyedFragment([
+      faqBlock4,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge]: wrapJSXInKeyedFragment(
+      [faqBlock2, faqBlock9, faqBlockMentalHealthCare, faqBlockReapply2],
+    ),
+    [HCA_ENROLLMENT_STATUSES.ineligCitizens]: wrapJSXInKeyedFragment([
+      faqBlock2,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts]: wrapJSXInKeyedFragment([
+      faqBlock2,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligGuardReserve]: wrapJSXInKeyedFragment([
+      faqBlock2,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligMedicare]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime]: wrapJSXInKeyedFragment([
+      faqBlock2,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligNotVerified]: wrapJSXInKeyedFragment([
+      faqBlock3,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligOther]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligOver65]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligRefusedCopay]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.ineligTrainingOnly]: wrapJSXInKeyedFragment([
+      faqBlock2,
+      faqBlockMentalHealthCare,
+      faqBlockReapply2,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.pendingMt]: wrapJSXInKeyedFragment([
+      faqBlock6,
+      faqBlockReapply5,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.pendingOther]: wrapJSXInKeyedFragment([
+      faqBlock7,
+      faqBlockReapply6,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]: wrapJSXInKeyedFragment([
+      faqBlock6,
+      faqBlockReapply5,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.pendingUnverified]: wrapJSXInKeyedFragment([
+      faqBlock7,
+      faqBlockReapply6,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply3,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply3,
+    ]),
+    [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]: wrapJSXInKeyedFragment([
+      faqBlock5,
+      faqBlockMentalHealthCare,
+      faqBlockReapply3,
+    ]),
+  };
+  return faqMap[enrollmentStatus];
 }
 
 // used by YourApplications to build a DashboardAlert depending on the user's
@@ -770,7 +728,6 @@ export function getAlertType(enrollmentStatus) {
       status = DASHBOARD_ALERT_TYPES.enrolled;
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
     case HCA_ENROLLMENT_STATUSES.closed:
       status = DASHBOARD_ALERT_TYPES.closed;
       break;
@@ -816,7 +773,6 @@ export function getAlertStatusHeadline(enrollmentStatus) {
       statusHeadline = 'Enrolled';
       break;
 
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
     case HCA_ENROLLMENT_STATUSES.closed:
       statusHeadline = 'Closed';
       break;
@@ -883,11 +839,6 @@ export function getAlertStatusInfo(enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
       statusInfo =
         'You didn’t qualify for VA health care based on your previous application';
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-      statusInfo =
-        'Our records show that you haven’t yet received your separation or retirement orders';
       break;
 
     case HCA_ENROLLMENT_STATUSES.closed:
@@ -1129,25 +1080,6 @@ export function getAlertContent(
           DD214 or other discharge papers or separation documents).
         </p>,
         whatShouldIDo1,
-      );
-      break;
-
-    case HCA_ENROLLMENT_STATUSES.activeDuty:
-      blocks.push(
-        <React.Fragment key="explanation">
-          <p>
-            You can’t qualify for VA health care until you’ve received your
-            separation or retirement orders. We welcome you to apply again once
-            you've received your orders.
-          </p>
-          <p>
-            <a href="/HEALTHBENEFITS/apply/active_duty.asp">
-              Learn more about transitioning to VA health care
-            </a>
-          </p>
-        </React.Fragment>,
-        whatShouldIDo1,
-        removeNotificationButton,
       );
       break;
 

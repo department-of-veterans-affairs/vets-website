@@ -34,13 +34,15 @@ const CallToAction = ({ cta }) => {
 const FAQItem = ({ faq }) => {
   const { title, component: FAQComponent } = faq;
   return (
-    <AdditionalInfo
-      tagName={'h5'}
-      additionalClass="benefit-faq"
-      triggerText={title}
-    >
-      <FAQComponent />
-    </AdditionalInfo>
+    <div className="preference-faq-item">
+      <AdditionalInfo
+        tagName={'h4'}
+        additionalClass="benefit-faq"
+        triggerText={title}
+      >
+        <FAQComponent />
+      </AdditionalInfo>
+    </div>
   );
 };
 
@@ -92,12 +94,14 @@ export default class PreferenceItem extends React.Component {
               .”
             </p>
             <button
+              aria-label={`Remove ${title} content`}
               className="usa-button-primary"
               onClick={() => this.props.handleRemove(code)}
             >
               Remove
             </button>
             <button
+              aria-label={`Cancel this change and keep ${title} content`}
               className="usa-button-secondary"
               onClick={() => this.onCancelRemove(code)}
             >

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { object, func } from 'prop-types';
 import { fetchProviderDetail } from '../actions';
+import { focusElement } from '../../../platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
 import LocationAddress from '../components/search-results/LocationAddress';
@@ -20,6 +21,26 @@ class ProviderDetail extends Component {
   UNSAFE_componentWillMount() {
     this.props.fetchProviderDetail(this.props.params.id);
     window.scrollTo(0, 0);
+  }
+
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs');
+  }
+
+  componentDidUpdate(prevProps) {
+    const justLoaded =
+      prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
+
+    if (justLoaded) {
+      this.__previousDocTitle = document.title;
+      document.title = `${
+        this.props.location.attributes.name
+      } | Veterans Affairs`;
+    }
+  }
+
+  componentWillUnmount() {
+    document.title = this.__previousDocTitle;
   }
 
   renderFacilityInfo = () => {
@@ -138,7 +159,6 @@ ProviderDetail.propTypes = {
   params: object.isRequired,
 };
 
-// eslint-disable-next-line prettier/prettier
 const mapStateToProps = state => ({
   location: state.searchResult.selectedResult,
   currentQuery: state.searchQuery,

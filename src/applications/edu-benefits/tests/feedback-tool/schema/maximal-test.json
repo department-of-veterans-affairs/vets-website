@@ -25,7 +25,7 @@
     "phone": 1234567890,
     "educationDetails": {
       "programs": {
-        "Post-9/11 Ch 33": true
+        "chapter33": true
       },
       "school": {
         "view:manualSchoolEntry": {

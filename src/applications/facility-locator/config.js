@@ -1,5 +1,5 @@
-/* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
+import { LocationType, FacilityType } from './constants';
 
 // TODO: Remove me when done bug fixing
 // const environment = {
@@ -25,23 +25,19 @@ export const api = {
  * enable Community Care Provider Locator features of the
  * existing Facility Locator App.
  */
-export const ccLocatorEnabled = () => {
-  return true;
-};
+export const ccLocatorEnabled = () => true;
 
-/* eslint-disable camelcase */
 export const facilityTypes = {
-  all: 'All Facilities',
-  va_health_facility: 'VA Health',
-  va_cemetery: 'Cemetery',
-  va_benefits_facility: 'Benefits',
-  vet_center: 'Vet Center',
-  health: 'VA Health',
-  cc_provider: 'Community Care (Non-VA Health)',
-  cemetery: 'Cemetery',
-  benefits: 'Benefits',
+  [LocationType.ALL]: 'All Facilities',
+  [FacilityType.VA_HEALTH_FACILITY]: 'VA Health',
+  [FacilityType.VA_CEMETARY]: 'Cemetery',
+  [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
+  [FacilityType.VET_CENTER]: 'Vet Center',
+  [LocationType.HEALTH]: 'VA Health',
+  [LocationType.CC_PROVIDER]: 'Community Care (Non-VA Health)',
+  [LocationType.CEMETARY]: 'Cemetery',
+  [LocationType.BENEFITS]: 'Benefits',
 };
-/* eslint-enable camelcase */
 
 export const healthServices = {
   All: 'Show all facilities',

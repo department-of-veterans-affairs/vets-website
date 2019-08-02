@@ -2,7 +2,7 @@ import { merge, set } from 'lodash/fp';
 
 import { ELIGIBILITY_CHANGED } from '../actions';
 
-const INITIAL_STATE = {
+const INITIAL_STATE = Object.freeze({
   militaryStatus: 'veteran',
   giBillChapter: '33',
   cumulativeService: '1.0',
@@ -12,7 +12,11 @@ const INITIAL_STATE = {
   consecutiveService: '0.8',
   eligForPostGiBill: 'no',
   numberOfDependents: '0',
-};
+  learningFormat: {
+    inPerson: false,
+    online: false,
+  },
+});
 
 export default function(state = INITIAL_STATE, action) {
   if (action.type === ELIGIBILITY_CHANGED) {

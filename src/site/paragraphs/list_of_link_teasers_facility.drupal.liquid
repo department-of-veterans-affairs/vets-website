@@ -6,31 +6,30 @@
     }
 {% endcomment %}
 {% if paragraph != empty %}
-<section class="feature">
-    <h3>
+<section class="feature vads-u-padding-x--2 small-screen:vads-u-padding-x--4 vads-u-padding-top--3 vads-u-padding-bottom--2">
+    <h3 class="vads-u-margin-bottom--2">
         {{ paragraph.fieldTitle }}
     </h3>
     <div class="va-c-list-link-teasers">
         {% assign even = true %}
         {% for linkTeaser in paragraph.fieldVaParagraphs %}
-            {% for link in linkTeaser.entity.fieldLink %}
-                {% if even %}
-                    <div class="usa-grid usa-grid-full">
-                {% endif %}
-                <div class="usa-width-one-half vads-u-margin-bottom--2">
-                <a href="{{link.url.path}}">
-                        {{ link.title }}
-                    </a>
+            {% assign link = linkTeaser.entity.fieldLink %}
+            {% if even %}
+                <div class="usa-grid usa-grid-full">
+            {% endif %}
+            <div class="usa-width-one-half vads-u-margin-bottom--2">
+            <a href="{{link.url.path}}">
+                    {{ link.title }}
+                </a>
+            </div>
+            {% if !even %}
                 </div>
-                {% if !even %}
-                    </div>
-                {% endif %}
-                {% if even %}
-                    {% assign even = false %}
-                {% else %}
-                    {% assign even = true %}
-                {% endif %}
-            {% endfor %}
+            {% endif %}
+            {% if even %}
+                {% assign even = false %}
+            {% else %}
+                {% assign even = true %}
+            {% endif %}
         {% endfor %}
         {% if !even %}
       </div>

@@ -28,7 +28,7 @@ describe('<ProfilePage>', () => {
       },
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
-    expect(tree.subTree('VetTecHeadingSummary')).to.be.ok;
+    expect(tree.subTree('VetTecInstitutionProfile')).to.be.ok;
   });
 
   it('should show LoadingState when profile is fetching', () => {

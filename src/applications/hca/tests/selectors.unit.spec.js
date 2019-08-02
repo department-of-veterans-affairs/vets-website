@@ -199,7 +199,7 @@ describe('simple top-level selectors', () => {
       const state = {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
       };
-      const isInESR = selectors.isInESR(state);
+      const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.false;
     });
     it('returns `false` if the enrollmentStatus is noneOfTheAbove', () => {
@@ -209,7 +209,17 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
         },
       };
-      const isInESR = selectors.isInESR(state);
+      const isInESR = selectors.hasApplicationInESR(state);
+      expect(isInESR).to.be.false;
+    });
+    it('returns `false` if the enrollmentStatus is active duty', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDuty,
+        },
+      };
+      const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.false;
     });
     it('returns `false` if the enrollmentStatus is canceled', () => {
@@ -219,7 +229,7 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.canceledDeclined,
         },
       };
-      const isInESR = selectors.isInESR(state);
+      const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.false;
     });
     it('returns `false` if the enrollmentStatus is deceased', () => {
@@ -229,7 +239,7 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.deceased,
         },
       };
-      const isInESR = selectors.isInESR(state);
+      const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.false;
     });
     it('returns `true` if the enrollmentStatus is enrolled', () => {
@@ -239,7 +249,7 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
         },
       };
-      const isInESR = selectors.isInESR(state);
+      const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.true;
     });
     it('returns `true` if the enrollmentStatus is pending', () => {
@@ -249,7 +259,7 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.pendingOther,
         },
       };
-      const isInESR = selectors.isInESR(state);
+      const isInESR = selectors.hasApplicationInESR(state);
       expect(isInESR).to.be.true;
     });
   });

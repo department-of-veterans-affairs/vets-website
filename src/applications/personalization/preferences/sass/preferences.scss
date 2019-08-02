@@ -24,13 +24,13 @@
           margin: 0;
           padding-right: 0.5em;
           &:first-child {
-            flex: 1;
+            flex: 1 1 auto;
           }
         }
         .form-checkbox {
           margin: 0;
           margin-right: -0.3em;
-          flex: 0;
+          flex: 0 1 auto;
           input[type=checkbox] {
             cursor: pointer;
           }
@@ -79,4 +79,8 @@
 .preferences-alert {
   max-width: 77rem;
   margin-bottom: 1.5em;
+}
+
+.preference-faq-item .additional-info-title {
+  font-size: $h5-font-size;
 }

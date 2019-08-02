@@ -1,7 +1,5 @@
-import {
-  transformForSubmit,
-  recordEvent,
-} from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig) {
@@ -30,13 +28,13 @@ const submitFormFor = eventName =>
         } else {
           let error;
           if (req.status === 429) {
-            error = new Error(`throttled_error: ${req.statusText}`);
+            error = new Error(`vets_throttled_error: ${req.statusText}`);
             error.extra = parseInt(
               req.getResponseHeader('x-ratelimit-reset'),
               10,
             );
           } else {
-            error = new Error(`server_error: ${req.statusText}`);
+            error = new Error(`vets_server_error: ${req.statusText}`);
           }
           error.statusText = req.statusText;
           reject(error);

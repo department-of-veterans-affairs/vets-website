@@ -73,6 +73,8 @@ class DocumentRequestPage extends React.Component {
   }
   render() {
     let content;
+    const filesPath = `your-claims/${this.props.params.id}/files`;
+    const trackedItem = this.props.trackedItem;
 
     if (this.props.loading) {
       content = (
@@ -82,85 +84,89 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const trackedItem = this.props.trackedItem;
-      const claim = this.props.claim;
-      const filesPath = `your-claims/${claim.id}/files`;
-      const itemPath = `your-claims/${claim.id}/document-request/${
-        trackedItem.id
-      }`;
       const message = this.props.message;
 
       content = (
-        <div>
-          <div className="row">
-            <div className="medium-12 columns">
-              <ClaimsBreadcrumbs>
-                <Link to={filesPath}>Status Details</Link>
-                <Link to={itemPath}>Document Request</Link>
-              </ClaimsBreadcrumbs>
+        <>
+          {message && (
+            <div>
+              <Element name="uploadError" />
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+              />
             </div>
-          </div>
-          <div className="row">
-            <div className="usa-width-two-thirds medium-8 columns">
-              <div className="claim-container">
-                {message && (
-                  <div>
-                    <Element name="uploadError" />
-                    <Notification
-                      title={message.title}
-                      body={message.body}
-                      type={message.type}
-                    />
-                  </div>
-                )}
-                <h1 className="claims-header">{trackedItem.displayName}</h1>
-                {trackedItem.type.endsWith('you_list') ? (
-                  <DueDate date={trackedItem.suspenseDate} />
-                ) : null}
-                {trackedItem.type.endsWith('others_list') ? (
-                  <div className="optional-upload">
-                    <p>
-                      <strong>Optional</strong> - We’ve asked others to send
-                      this to us, but you may upload it if you have it.
-                    </p>
-                  </div>
-                ) : null}
-                <p>{trackedItem.description}</p>
-                <AddFilesForm
-                  field={this.props.uploadField}
-                  progress={this.props.progress}
-                  uploading={this.props.uploading}
-                  files={this.props.files}
-                  showMailOrFax={this.props.showMailOrFax}
-                  backUrl={this.props.lastPage || filesPath}
-                  onSubmit={() =>
-                    this.props.submitFiles(
-                      this.props.claim.id,
-                      this.props.trackedItem,
-                      this.props.files,
-                    )
-                  }
-                  onAddFile={this.props.addFile}
-                  onRemoveFile={this.props.removeFile}
-                  onFieldChange={this.props.updateField}
-                  onShowMailOrFax={this.props.showMailOrFaxModal}
-                  onCancel={this.props.cancelUpload}
-                  onDirtyFields={this.props.setFieldsDirty}
-                />
-              </div>
+          )}
+          <h1 className="claims-header">{trackedItem.displayName}</h1>
+          {trackedItem.type.endsWith('you_list') ? (
+            <DueDate date={trackedItem.suspenseDate} />
+          ) : null}
+          {trackedItem.type.endsWith('others_list') ? (
+            <div className="optional-upload">
+              <p>
+                <strong>Optional</strong> - We’ve asked others to send this to
+                us, but you may upload it if you have it.
+              </p>
             </div>
-            <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-              <AskVAQuestions />
-            </div>
-          </div>
-        </div>
+          ) : null}
+          <p>{trackedItem.description}</p>
+          <AddFilesForm
+            field={this.props.uploadField}
+            progress={this.props.progress}
+            uploading={this.props.uploading}
+            files={this.props.files}
+            showMailOrFax={this.props.showMailOrFax}
+            backUrl={this.props.lastPage || filesPath}
+            onSubmit={() =>
+              this.props.submitFiles(
+                this.props.claim.id,
+                this.props.trackedItem,
+                this.props.files,
+              )
+            }
+            onAddFile={this.props.addFile}
+            onRemoveFile={this.props.removeFile}
+            onFieldChange={this.props.updateField}
+            onShowMailOrFax={this.props.showMailOrFaxModal}
+            onCancel={this.props.cancelUpload}
+            onDirtyFields={this.props.setFieldsDirty}
+          />
+        </>
       );
     }
 
     return (
       <div>
         <div name="topScrollElement" />
-        {content}
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <ClaimsBreadcrumbs>
+                <Link to={filesPath}>Status details</Link>
+                <Link
+                  to={
+                    !this.props.loading
+                      ? `your-claims/${this.props.params.id}/document-request/${
+                          trackedItem.id
+                        }`
+                      : ''
+                  }
+                >
+                  Document request
+                </Link>
+              </ClaimsBreadcrumbs>
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              {content}
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
+              <AskVAQuestions />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

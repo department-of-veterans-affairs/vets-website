@@ -50,8 +50,8 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
             make an appointment today.
           </p>
           <div className="usa-grid-full">
-            <div className="usa-width-one-half vads-u-display--flex">
-              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-margin-right--1">
+            <div className="vads-u-display--flex">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
                 <p className="vads-u-margin--0">New patient</p>
                 <p
                   id={`facility-${_.camelCase(service)}-new-patient-wait-time`}
@@ -60,7 +60,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   {this.appointmentWaitTime(facility.access.health, service)}
                 </p>
               </div>
-              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding--1p5">
+              <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
                 <p className="vads-u-margin--0">Existing patient</p>
                 <p
                   id={`facility-${_.camelCase(

@@ -1,5 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import * as Sentry from '@sentry/browser';
+import sentryTestkit from 'sentry-testkit';
+
+const { testkit, sentryTransport } = sentryTestkit();
 
 import {
   ADDRESS_TYPES,
@@ -36,6 +40,11 @@ import {
   getAddressStates,
 } from '../../actions/letters';
 
+Sentry.init({
+  dsn: 'http://one@fake/dsn',
+  transport: sentryTransport,
+});
+
 /**
  * Setup() for each test requires stubbing global fetch() and setting userToken.
  * Teardown() resets everything back to normal.
@@ -43,6 +52,7 @@ import {
 let oldFetch;
 let oldWindow;
 const setup = () => {
+  testkit.reset();
   oldFetch = global.fetch;
   oldWindow = global.window;
   global.fetch = sinon.stub();
@@ -202,6 +212,7 @@ describe('getLettersList', () => {
       .catch(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_FAILURE);
+        expect(testkit.reports().length).to.equal(2); // One from apiRequest, one from getLetterList()
         done();
       });
   });
@@ -232,6 +243,12 @@ describe('getLettersList', () => {
         .then(() => {
           const action = dispatch.firstCall.args[0];
           expect(action.type).to.equal(lettersErrors[code]);
+          const reports = testkit.reports();
+          expect(reports.length).to.equal(2);
+          expect(reports[1].exception.values[0].value).to.equal(
+            `vets_letters_error_getLetterList ${code}`,
+          );
+          expect(reports[1].fingerprint).to.eql(['{{ default }}', code]);
         })
         .then(done, done);
     });

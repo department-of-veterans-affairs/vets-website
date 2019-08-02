@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-boolean-value */ // This is not valid JSX v2.x
 import React from 'react';
 import ProviderServiceDescription from './ProviderServiceDescription';
 
@@ -21,7 +20,7 @@ const ProviderDetailBlock = ({ provider }) => {
         <li>
           <strong>Services:</strong>
         </li>
-        <ProviderServiceDescription provider={provider} details={true} />
+        <ProviderServiceDescription provider={provider} details />
       </ul>
 
       <h4 className="highlight">Appointments</h4>

@@ -653,3 +653,13 @@ textarea:focus {
 .form-checkbox>input[type=checkbox]+label:before {
   margin-right: 0.6em;
 }
+
+.editable-row {
+  position: relative;
+
+  .edit-button {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+}

@@ -6,9 +6,10 @@ import {
 } from 'platform/user/selectors';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 
-const nonESRStatuses = new Set([
+const nonActiveInESRStatuses = new Set([
   null,
   HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+  HCA_ENROLLMENT_STATUSES.activeDuty,
   HCA_ENROLLMENT_STATUSES.canceledDeclined,
   HCA_ENROLLMENT_STATUSES.deceased,
 ]);
@@ -25,9 +26,9 @@ export const noESRRecordFound = state =>
   selectEnrollmentStatus(state).noESRRecordFound;
 export const isShowingHCAReapplyContent = state =>
   selectEnrollmentStatus(state).showHCAReapplyContent;
-export const isInESR = state => {
+export const hasApplicationInESR = state => {
   const status = selectEnrollmentStatus(state).enrollmentStatus;
-  return nonESRStatuses.has(status) === false;
+  return nonActiveInESRStatuses.has(status) === false;
 };
 export const isEnrolledInVAHealthCare = state =>
   selectEnrollmentStatus(state).enrollmentStatus ===

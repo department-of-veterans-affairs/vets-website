@@ -6,7 +6,7 @@
         {% for link in sidebar.links %}
             {% if forloop.first == true %}
                 <div class="left-side-nav-title">
-                    <i class="icon-small white hub-icon-{{ link.label | handleize | remove: "-benefits" }} hub-background-{{ link.label | handleize | remove: "-benefits" }}"></i>
+                    <i class="icon-small white hub-icon-{{ fieldTitleIcon }} hub-background-{{ fieldTitleIcon }}"></i>
                     <h4>{{ link.label }}</h4>
                 </div>
 

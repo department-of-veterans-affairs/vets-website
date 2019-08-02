@@ -75,6 +75,7 @@ const HEALTH_SERVICES_RESULTS = `
 
 function queryFilter(type) {
   return `
+    limit: 100,
     filter: {conditions: [{field: "field_service_name_and_descripti.entity.parent.entity.name", value: "${type}", operator: EQUAL}]}
   `;
 }
@@ -86,7 +87,7 @@ module.exports = `
     ${HEALTH_SERVICES_RESULTS}
   }
   primaryCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Primary care (Family medicine, internal medicine)',
+    'Primary care',
   )}) {
     ${HEALTH_SERVICES_RESULTS}
   }
@@ -116,7 +117,7 @@ module.exports = `
       ${HEALTH_SERVICES_RESULTS}
   }
   mentalHealthServices: queryFieldClinicalHealthServices(${queryFilter(
-    'Mental and behavioral health',
+    'Mental health',
   )}) {
     ${HEALTH_SERVICES_RESULTS}
   }
@@ -127,6 +128,11 @@ module.exports = `
   }
   veteranCareHealthServices: queryFieldClinicalHealthServices(${queryFilter(
     'Services for Veteran care',
+  )}) {
+    ${HEALTH_SERVICES_RESULTS}
+  }
+  otherHealthServices: queryFieldClinicalHealthServices(${queryFilter(
+    'Other services',
   )}) {
     ${HEALTH_SERVICES_RESULTS}
   }

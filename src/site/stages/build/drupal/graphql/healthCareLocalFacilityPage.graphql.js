@@ -3,6 +3,11 @@ const {
   featureFlags,
   enabledFeatureFlags,
 } = require('../../../../utilities/featureFlags');
+const socialMediaFields = enabledFeatureFlags[
+  featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
+]
+  ? require('./facilities-fragments/healthCareSocialMedia.fields.graphql')
+  : '';
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -11,6 +16,11 @@ module.exports = `
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
     fieldIntroText
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY]
+        ? 'fieldOperatingStatusFacility'
+        : ''
+    }
     fieldLocationServices {
       entity {
         ... on ParagraphHealthCareLocalFacilityServi {
@@ -39,6 +49,7 @@ module.exports = `
         }
       }
     }
+    ${socialMediaFields}
     fieldLocalHealthCareService {
       entity {
         ... on NodeHealthCareLocalHealthService {
@@ -60,7 +71,7 @@ module.exports = `
                 }
                 fieldServiceNameAndDescripti {
                   entity {
-                    ... on TaxonomyTermHealthCareServiceTaxonomy {
+                    ... on TaxonomyTermHealthCareServiceTaxonomy {                    
                       entityId
                       entityBundle
                       fieldAlsoKnownAs
@@ -82,9 +93,16 @@ module.exports = `
                           }
                         }
                       }
+                      ${
+                        enabledFeatureFlags[
+                          featureFlags.FEATURE_HEALTH_SERVICE_API_ID
+                        ]
+                          ? 'fieldHealthServiceApiId'
+                          : ''
+                      }
                     }
                   }
-                }    
+                }
               }
             }
           }

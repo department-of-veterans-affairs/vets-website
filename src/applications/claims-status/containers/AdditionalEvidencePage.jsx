@@ -64,33 +64,49 @@ class AdditionalEvidencePage extends React.Component {
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
   render() {
+    const claimsPath = `your-claims/${this.props.params.id}/files`;
+    const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
     if (this.props.loading) {
       content = (
-        <LoadingIndicator
-          setFocus
-          message="Loading your claim information..."
-        />
-      );
-    } else {
-      const claim = this.props.claim;
-      const claimsPath = `your-claims/${claim.id}/files`;
-      const filesPath = `your-claims/${claim.id}/additional-evidence`;
-      const message = this.props.message;
-
-      content = (
-        <div>
-          <div className="row">
-            <div className="medium-12 columns">
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
               <ClaimsBreadcrumbs>
-                <Link to={claimsPath}>Status Details</Link>
-                <Link to={filesPath}>Additional Evidence</Link>
+                <Link to={claimsPath}>Status details</Link>
+                <Link to={filesPath}>Additional evidence</Link>
               </ClaimsBreadcrumbs>
             </div>
           </div>
-          <div className="row">
-            <div className="usa-width-two-thirds medium-8 columns">
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <LoadingIndicator
+                setFocus
+                message="Loading your claim information..."
+              />
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
+              <AskVAQuestions />
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      const message = this.props.message;
+
+      content = (
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <ClaimsBreadcrumbs>
+                <Link to={claimsPath}>Status details</Link>
+                <Link to={filesPath}>Additional evidence</Link>
+              </ClaimsBreadcrumbs>
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               <div className="claim-container">
                 {message && (
                   <div>
@@ -127,7 +143,7 @@ class AdditionalEvidencePage extends React.Component {
                 />
               </div>
             </div>
-            <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
               <AskVAQuestions />
             </div>
           </div>

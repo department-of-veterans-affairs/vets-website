@@ -7,6 +7,7 @@ import {
   SEARCH_STARTED,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+import get from 'platform/utilities/data/get';
 
 const INITIAL_STATE = {
   inProgress: false,
@@ -61,7 +62,7 @@ export default function(state = INITIAL_STATE, action) {
     case SEARCH_STARTED:
       return {
         ...state,
-        searchTerm: action.name,
+        searchTerm: get('query.name', action, ''),
       };
     default:
       return state;

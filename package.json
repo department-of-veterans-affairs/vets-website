@@ -19,6 +19,7 @@
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:js:changed:fix": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
+    "new:app": "yo @department-of-veterans-affairs/vets-website",
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
@@ -102,6 +103,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.3.0",
     "@sentry/browser": "^5.4.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
@@ -192,6 +194,7 @@
     "saucelabs": "^1.4.0",
     "selenium-server": "^3.4.0",
     "semver": "^5.3.0",
+    "sentry-testkit": "^2.2.1",
     "sinon": "^3.2.1",
     "skin-deep": "^1.0.0",
     "socks-proxy-agent": "^4.0.2",
@@ -205,7 +208,8 @@
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.5.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "yo": "^3.1.0"
   },
   "optionalDependencies": {},
   "engines": {
@@ -214,8 +218,8 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^6.5.1",
-    "@department-of-veterans-affairs/formation-react": "^4.6.3",
+    "@department-of-veterans-affairs/formation": "^6.7.1",
+    "@department-of-veterans-affairs/formation-react": "^4.9.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "blob-polyfill": "^2.0.20171115",
@@ -272,7 +276,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#690941f6034314c85c3a50a7e83ba83bf3334b47",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3f8d21781eaf9cadce9669c54fb7b39d89c9321a",
     "whatwg-fetch": "^2.0.3"
   }
 }

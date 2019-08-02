@@ -1,16 +1,17 @@
 import _ from 'lodash/fp';
 
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
-import environment from '../../../../platform/utilities/environment';
-import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -29,7 +30,7 @@ const formConfig = {
   trackingPrefix: 'edu-0993',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-0993',
+  formId: VA_FORM_IDS.FORM_22_0993,
   version: 0,
   prefillEnabled: true,
   prefillTransformer,

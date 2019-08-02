@@ -25,7 +25,7 @@ $color-inactive: #9b9b9b;
 .claims-status-content {
   .help-sidebar {
     // Line up the bottom border under "Need help?" with the tab list bottom border
-    margin-top: calc(3rem - 16px);
+    margin-top: calc(3rem - 10px);
     margin-bottom: 50px;
 
     & > div {
@@ -214,7 +214,7 @@ $color-inactive: #9b9b9b;
       position: absolute;
       font-size: 1.25em;
       display: inline-block;
-      font: normal normal normal 14px/1 FontAwesome;
+      font: normal normal normal 14px/1 "Font Awesome 5 Free";
       font-size: inherit;
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
@@ -453,12 +453,6 @@ $color-inactive: #9b9b9b;
   }
 }
 
-.claims-optional-desc {
-  font-size: 0.9em;
-  line-height: 0.3em;
-  margin-top: 5px;
-}
-
 h1:focus {
   outline: none;
 }
@@ -569,6 +563,8 @@ h1:focus {
     margin: inherit;
     padding: inherit;
     z-index: inherit;
+    text-align: left;
+    padding-top: 0;
   }
 
   .section-header-button:focus {
@@ -680,7 +676,7 @@ h1:focus {
   .section-complete {
     border-left: 5px solid $color-gray-lighter;
     &::before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       content: "\f00c";
       margin-top: 5px; // Aligns the check bullets to their headers better
     }
@@ -703,7 +699,7 @@ h1:focus {
     }
 
     &::before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       content: "\f067";
       color: $color-primary;
       background-color: $color-white;
@@ -714,7 +710,7 @@ h1:focus {
   .section-expanded {
     border-left: 5px solid $color-gray-lighter;
     &::before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       content: "\f068";
       color: $color-primary;
       background-color: $color-white;
@@ -949,6 +945,7 @@ h1:focus {
   font-size: 1.15em;
   line-height: 1.5;
   padding-bottom: 0;
+  margin-top: 0;
 }
 
 .file-request-list-item-optional {
@@ -1001,7 +998,7 @@ h1:focus {
 
       .number {
         &:before {
-          font-family: FontAwesome;
+          font-family: "Font Awesome 5 Free";
           content: "\f017 "; // space added at end to keep kerning consistent
         }
       }

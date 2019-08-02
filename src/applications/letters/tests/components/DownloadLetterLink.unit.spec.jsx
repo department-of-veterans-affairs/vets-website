@@ -27,7 +27,7 @@ describe('<DownloadLetterLink>', () => {
       <DownloadLetterLink {...defaultProps} />,
     );
     const tree = getFormDOM(component);
-    expect(tree.getElement('button').textContent).to.equal('Download Letter');
+    expect(tree.getElement('button').textContent).to.equal('Download letter');
   });
 
   it('should call getLetterPdf when clicked', () => {
@@ -100,7 +100,7 @@ describe('<DownloadLetterLink>', () => {
     const heading = tree.getElement('.usa-alert-heading');
     const button = tree.getElement('button');
 
-    expect(button.textContent).to.equal('Retry Download');
+    expect(button.textContent).to.equal('Retry download');
     expect(heading.textContent).to.equal('Your letter didn’t download.');
   });
 });
