@@ -4,11 +4,16 @@ const path = require('path');
 
 const ENVIRONMENTS = require('../../../../constants/environments');
 
-const getBrokenLinks = require('./helpers/getBrokenLinks');
-const applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
-const getErrorOutput = require('./helpers/getErrorOutput');
+const _getBrokenLinks = require('./helpers/getBrokenLinks');
+const _applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
+const _getErrorOutput = require('./helpers/getErrorOutput');
 
-function middleware(buildOptions) {
+function getMiddleware(
+  buildOptions,
+  getBrokenLinks = _getBrokenLinks,
+  applyIgnoredRoutes = _applyIgnoredRoutes,
+  getErrorOutput = _getErrorOutput,
+) {
   return (files, metalsmith, done) => {
     const fileNames = Object.keys(files);
     const allPaths = new Set(fileNames);
@@ -46,4 +51,4 @@ function middleware(buildOptions) {
   };
 }
 
-module.exports = middleware;
+module.exports = getMiddleware;
