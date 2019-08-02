@@ -17,6 +17,8 @@ const QA = '... qa';
 const LIST_OF_LINK_TEASERS = '... listOfLinkTeasers';
 const REACT_WIDGET = '... reactWidget';
 const NUMBER_CALLOUT = '... numberCallout';
+const TABLE = '... table';
+const ALERT_PARAGRAPH = '... alertParagraph';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 // Get current feature flags
@@ -68,6 +70,8 @@ module.exports = `
         ${LIST_OF_LINK_TEASERS}
         ${REACT_WIDGET}
         ${NUMBER_CALLOUT}
+        ${TABLE}
+        ${ALERT_PARAGRAPH}
       }
     }
     ${FIELD_RELATED_LINKS}
