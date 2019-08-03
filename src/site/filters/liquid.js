@@ -319,9 +319,7 @@ module.exports = function registerFilters() {
   // finds if a page is a child of a certain page using the entityUrl attribute
   // returns true or false
   liquid.filters.isChildPageOf = (childPageEntityUrl, parentPage) =>
-    Boolean(
-      childPageEntityUrl.breadcrumb.find(
-        b => b.text.toLowerCase() === parentPage.toLowerCase(),
-      ),
+    !!childPageEntityUrl.breadcrumb.find(
+      b => b.text.toLowerCase() === parentPage.toLowerCase(),
     );
 };
