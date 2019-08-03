@@ -33,7 +33,7 @@
                                 <li class="vads-u-margin-bottom--2">
                                     <a href="#primary-health-services" class="vads-u-text-decoration--none">
                                         <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
-                                        Primary care (Family medicine, internal medicine)
+                                        Primary care
                                     </a>
                                 </li>
                             {% endif %}
@@ -126,7 +126,7 @@
 
                 {% if primaryCareHealthServices.entities.length %}
                     <section class="primary-health-services" id="primary-health-services">
-                        <h2>Primary care (Family medicine, internal medicine)</h2>
+                        <h2>Primary care</h2>
                         {% for primaryService in primaryCareHealthServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = primaryService %}
                         {% endfor %}
