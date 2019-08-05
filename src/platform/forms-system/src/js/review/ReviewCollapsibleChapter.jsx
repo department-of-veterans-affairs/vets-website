@@ -9,6 +9,7 @@ import { focusElement } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
+import environment from 'platform/utilities/environment';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -67,9 +68,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
     );
   }
 
-  shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
-    expandedPages.length === 1 &&
-    chapterTitle.toLowerCase() === pageTitle.toLowerCase();
+  shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) => {
+    if (environment.isProduction()) {
+      return expandedPages.length === 1;
+    }
+    return (
+      expandedPages.length === 1 &&
+      chapterTitle.toLowerCase() === pageTitle.toLowerCase()
+    );
+  };
 
   render() {
     let pageContent = null;
