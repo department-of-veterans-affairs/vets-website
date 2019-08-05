@@ -1,4 +1,4 @@
-require('axe-core').axeCore;
+import axeCore from 'axe-core'; // eslint-disable-line no-unused-vars
 
 /**
  * Runs aXe checker on the given context
@@ -6,7 +6,7 @@ require('axe-core').axeCore;
  * @param  {object} config Additional axe configuration options
  * @api commands
  */
-exports.command = function axeCheck(context, config, _callback) {
+export function command(context, config, _callback) {
   // Find the source of the axe module
 
   // TODO: since this is executed in the context of the browser,
@@ -78,4 +78,4 @@ ${nodeInfo}`;
       });
     },
   );
-};
+}
