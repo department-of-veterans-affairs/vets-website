@@ -5,7 +5,7 @@ import {
   axeCheck,
 } from '../../../platform/testing/e2e/testcafe/helpers';
 
-fixture('Facility Locator').page(`${BASE_URL}/find-locations/`);
+fixture.skip('Facility Locator').page(`${BASE_URL}/find-locations/`);
 
 test('Search facility and view details', async t => {
   await axeCheck(t);
