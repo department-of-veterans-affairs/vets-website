@@ -3,7 +3,7 @@ import React from 'react';
 import { states } from '../../../platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 
-const ARIA_LABEL = 'Learn more about Post-9/11 benefits';
+const ariaLabel = 'Learn more about Post-9/11 benefits';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -22,7 +22,7 @@ export const benefitsLabels = {
       Post-9/11 GI Bill (Chapter 33)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/about-gi-bill-benefits/post-9-11/"
         target="_blank"
       >
@@ -36,7 +36,7 @@ export const benefitsLabels = {
       Fry Scholarship (Chapter 33)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/survivor-dependent-benefits/fry-scholarship/"
         target="_blank"
       >
@@ -49,7 +49,7 @@ export const benefitsLabels = {
       Montgomery GI Bill (MGIB-AD, Chapter 30)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
       >
@@ -62,7 +62,7 @@ export const benefitsLabels = {
       Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
       >
@@ -77,7 +77,7 @@ export const benefitsLabels = {
       (VEAP, Chapter 32)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/other-va-education-benefits/veap/"
         target="_blank"
       >
@@ -90,7 +90,7 @@ export const benefitsLabels = {
       Reserve Educational Assistance Program (REAP, Chapter 1607)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/other-va-education-benefits/reap/"
         target="_blank"
       >
@@ -103,7 +103,7 @@ export const benefitsLabels = {
       Transfer of Entitlement Program (TOE)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/transfer-post-9-11-gi-bill-benefits/"
         target="_blank"
       >
@@ -122,7 +122,7 @@ export const survivorBenefitsLabels = {
       (DEA, Chapter 35)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/survivor-dependent-benefits/dependents-education-assistance/"
         target="_blank"
       >
@@ -135,7 +135,7 @@ export const survivorBenefitsLabels = {
       The Fry Scholarship (Chapter 33)
       <br />
       <a
-        aria-label={ARIA_LABEL}
+        aria-label={ariaLabel}
         href="/education/survivor-dependent-benefits/fry-scholarship/"
         target="_blank"
       >
