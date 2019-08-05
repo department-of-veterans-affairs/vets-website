@@ -3,8 +3,7 @@ import React from 'react';
 import { states } from '../../../platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 
-
-const ARIA_LABEL = "Learn more about Post-9/11 benefits";
+const ARIA_LABEL = 'Learn more about Post-9/11 benefits';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -22,7 +21,7 @@ export const benefitsLabels = {
     <p>
       Post-9/11 GI Bill (Chapter 33)
       <br />
-      <a 
+      <a
         aria-label={ARIA_LABEL}
         href="/education/about-gi-bill-benefits/post-9-11/"
         target="_blank"
@@ -77,7 +76,7 @@ export const benefitsLabels = {
       <br />
       (VEAP, Chapter 32)
       <br />
-      <a 
+      <a
         aria-label={ARIA_LABEL}
         href="/education/other-va-education-benefits/veap/"
         target="_blank"
@@ -90,7 +89,7 @@ export const benefitsLabels = {
     <p>
       Reserve Educational Assistance Program (REAP, Chapter 1607)
       <br />
-      <a 
+      <a
         aria-label={ARIA_LABEL}
         href="/education/other-va-education-benefits/reap/"
         target="_blank"
@@ -103,7 +102,7 @@ export const benefitsLabels = {
     <p>
       Transfer of Entitlement Program (TOE)
       <br />
-      <a 
+      <a
         aria-label={ARIA_LABEL}
         href="/education/transfer-post-9-11-gi-bill-benefits/"
         target="_blank"
