@@ -13,7 +13,6 @@ import {
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
-import enviornment from '../../../../platform/utilities/environment';
 import environment from '../../../../platform/utilities/environment';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
