@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
-import { LOCATION_OPTIONS /* LocationType */ } from '../constants';
+import { LOCATION_OPTIONS, LocationType } from '../constants';
+import { get } from 'https';
 
 const facilityOptionClasses = (item, selected) =>
   classNames(
@@ -19,10 +20,12 @@ const itemToString = item => facilityTypes[item] || 'All Facilities';
 class FacilityTypeDropdown extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       showBubble: false,
     };
   }
+
   /*
     Below is connected to the CC Provider Tooltip
       -- Requires Design Research per rluu/lhunt
@@ -74,7 +77,10 @@ class FacilityTypeDropdown extends Component {
 
   render() {
     const facilityType = this.props.facilityType || 'all';
-    const highlightIndex = LOCATION_OPTIONS.indexOf(facilityType);
+    const locationOptions = this.props.showCommunityCares
+      ? this.props.locationOptions
+      : this.props.locationOptions.filter(item => item !== LocationType.CC_PROVIDER);
+    const highlightIndex = locationOptions.indexOf(facilityType);
 
     return (
       <Downshift
@@ -99,7 +105,7 @@ class FacilityTypeDropdown extends Component {
             }
           };
 
-          const options = LOCATION_OPTIONS.map((item, index) => (
+          const options = locationOptions.map((item, index) => (
             <li
               key={item}
               {...getItemProps({
@@ -202,5 +208,9 @@ class FacilityTypeDropdown extends Component {
     );
   }
 }
+
+FacilityTypeDropdown.defaultProps = {
+  locationOptions: LOCATION_OPTIONS,
+};
 
 export default FacilityTypeDropdown;

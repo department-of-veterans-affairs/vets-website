@@ -529,7 +529,7 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery } = this.props;
+    const { currentQuery, showCommunityCares } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
@@ -545,6 +545,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
+            showCommunityCares={showCommunityCares}
           />
         </div>
         <div className="row">
@@ -637,6 +638,7 @@ VAMap.contextTypes = {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
+    showCommunityCares: state.featureToggles.facilityLocatorShowCommunityCares,
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,

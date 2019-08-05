@@ -1,4 +1,6 @@
-const TOGGLE_VALUES_PATH = '/toggles.json';
+import { toggleLoginModal } from "../../site-wide/user-nav/actions";
+
+const TOGGLE_VALUES_PATH = '/toggle.json';
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
@@ -35,9 +37,15 @@ function FlipperClient({
     _subscriberCallbacks.forEach(callback => callback(toggleValues));
 
   const refreshToggleValues = async function refreshToggleValues() {
-    const toggleValues = await _fetchToggleValues();
+    const { toggleValues } = await _fetchToggleValues();
 
     handleToggleValuesRetrieved(toggleValues);
+  };
+
+  const fetchToggleValues = async function fetchTogggleValues() {
+    const { toggleValues } = await _fetchToggleValues();
+
+    return toggleValues;
   };
 
   const removeSubscriberCallback = index => {
@@ -52,7 +60,7 @@ function FlipperClient({
 
   const startPollingToggleValues = async function startPollingService() {
     _pollingActive = true;
-    const toggleValues = await _fetchToggleValues();
+    const { toggleValues } = await _fetchToggleValues();
 
     if (_pollingActive) {
       handleToggleValuesRetrieved(toggleValues);
@@ -66,6 +74,7 @@ function FlipperClient({
 
   return {
     addSubscriberCallback,
+    fetchToggleValues,
     refreshToggleValues,
     removeSubscriberCallback,
     startPollingToggleValues,

@@ -103,7 +103,7 @@ class SearchControls extends Component {
   };
 
   render() {
-    const { currentQuery, isMobile } = this.props;
+    const { currentQuery, isMobile, showCommunityCares } = this.props;
 
     if (currentQuery.active && isMobile) {
       return (
@@ -114,6 +114,7 @@ class SearchControls extends Component {
         </div>
       );
     }
+    console.log(showCommunityCares);
 
     return (
       <div className="search-controls-container clearfix">
@@ -142,6 +143,7 @@ class SearchControls extends Component {
             <FacilityTypeDropdown
               facilityType={this.props.currentQuery.facilityType}
               onChange={this.handleFacilityTypeChange}
+              showCommunityCares={showCommunityCares}
             />
           </div>
           <div className="columns medium-3-4">
