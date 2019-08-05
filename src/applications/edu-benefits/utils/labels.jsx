@@ -4,7 +4,7 @@ import { states } from '../../../platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 
 
-export const ARIA_LABEL = "Learn more about Post-9/11 benefits";
+const ARIA_LABEL = "Learn more about Post-9/11 benefits";
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
