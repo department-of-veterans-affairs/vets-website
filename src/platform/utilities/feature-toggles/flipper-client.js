@@ -1,5 +1,3 @@
-import { toggleLoginModal } from "../../site-wide/user-nav/actions";
-
 const TOGGLE_VALUES_PATH = '/toggle.json';
 const TOGGLE_POLLING_INTERVAL = 5000;
 
