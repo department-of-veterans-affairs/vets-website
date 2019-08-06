@@ -34,6 +34,7 @@ const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
+const checkAccessibility = require('./plugins/check-accessibility');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -163,12 +164,14 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
   smith.use(downloadDrupalAssets(BUILD_OPTIONS));
 
-  configureAssets(smith, BUILD_OPTIONS);
+  // configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
   smith.use(checkForCMSUrls(BUILD_OPTIONS));
+
+  smith.use(checkAccessibility(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
   smith.build(err => {
