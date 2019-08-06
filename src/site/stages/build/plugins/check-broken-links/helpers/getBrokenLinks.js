@@ -15,16 +15,8 @@ function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
     let target = null;
 
     if ($node.is('a')) {
-      const namedAnchor = !!$node.prop('name');
-
       target = $node.attr('href');
-
-      if (!target && namedAnchor) {
-        return;
-      }
-    }
-
-    if ($node.is('img')) {
+    } else if ($node.is('img')) {
       target = $node.attr('src') || $node.attr('data-src');
     }
 
