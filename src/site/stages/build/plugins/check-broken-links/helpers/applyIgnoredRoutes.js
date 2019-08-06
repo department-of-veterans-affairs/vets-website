@@ -7,6 +7,15 @@ function _getReactLandingPages(files) {
   return reactLandingPages;
 }
 
+function isAspPage(target) {
+  return target ? target.endsWith('.asp') : false;
+}
+
+function isReactPage(reactLandingPages, target) {
+  if (!target) return false;
+  return reactLandingPages.some(reactPath => target.startsWith(reactPath));
+}
+
 function applyIgnoredRoutes(
   brokenPages,
   files,
@@ -25,13 +34,8 @@ function applyIgnoredRoutes(
   const filteredBrokenPages = brokenPages
     .map(brokenPage => {
       const filteredLinkErrors = brokenPage.linkErrors
-        .filter(linkError => !linkError.target.endsWith('.asp'))
-        .filter(
-          linkError =>
-            !reactLandingPages.some(reactPath =>
-              linkError.target.startsWith(reactPath),
-            ),
-        );
+        .filter(linkError => !isAspPage(linkError.target))
+        .filter(linkError => !isReactPage(reactLandingPages, linkError.target));
 
       return {
         ...brokenPage,

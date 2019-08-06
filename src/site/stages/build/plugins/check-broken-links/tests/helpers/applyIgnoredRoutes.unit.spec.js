@@ -24,6 +24,7 @@ describe('getBrokenLinks', () => {
     const brokenPage = {
       path: '/example-page',
       linkErrors: [
+        { target: '' },
         { target: '/non-react-path' },
         { target: '/react-path/child-page' },
       ],
@@ -36,7 +37,7 @@ describe('getBrokenLinks', () => {
     expect(result).to.be.deep.equal([
       {
         path: '/example-page',
-        linkErrors: [{ target: '/non-react-path' }],
+        linkErrors: [{ target: '' }, { target: '/non-react-path' }],
       },
     ]);
   });
@@ -44,7 +45,11 @@ describe('getBrokenLinks', () => {
   it('removes links ending with .asp', () => {
     const brokenPage = {
       path: '/example-page',
-      linkErrors: [{ target: '/non-asp-page' }, { target: '/healthcare.asp' }],
+      linkErrors: [
+        { target: '' },
+        { target: '/non-asp-page' },
+        { target: '/healthcare.asp' },
+      ],
     };
 
     const getReactLandingPages = sinon.stub().returns([]);
@@ -54,7 +59,7 @@ describe('getBrokenLinks', () => {
     expect(result).to.be.deep.equal([
       {
         path: '/example-page',
-        linkErrors: [{ target: '/non-asp-page' }],
+        linkErrors: [{ target: '' }, { target: '/non-asp-page' }],
       },
     ]);
   });
