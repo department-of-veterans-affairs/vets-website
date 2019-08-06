@@ -96,18 +96,6 @@ function ToggleProvider(props) {
   );
 }
 
-// refreshToggleValues();
-
-/*
-const test = addSubscriberCallback(toggleValues => console.log(`1 ${toggleValues}`));
-const test2 = addSubscriberCallback(toggleValues => console.log(`2 ${toggleValues}`));
-
-startPollingToggleValues();
-
-window.setTimeout(() => removeSubscriberCallback(test2), 15000);
-window.setTimeout(stopPollingToggleValues, 30000);
-*/
-
 const withFeatureToggleProvider = (
   WrappedComponent,
   toggleValues = initialToggleValues,
