@@ -19,7 +19,8 @@
           </div>
 
           {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
-          {% if isContactPage %}
+          {% assign isProgramsChildPage = entityUrl | isChildPageOf: "Programs" %}
+          {% if isContactPage || isProgramsChildPage %}
             <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
               {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
           {% endif %}
@@ -47,11 +48,15 @@
               {% endfor %}
             </div>
           {% endif %}
-
           {% for block in fieldContentBlock %}
+          {% if block.entity.entityBundle != "staff_profile" %}
             {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
             {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
             {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+            {% endif %}
+            {% if block.entity.entityBundle == "staff_profile" %}
+              {% include "src/site/includes/bioParagraph.drupal.liquid" with bio = block.entity.queryFieldStaffProfile.entities.0 %}
+            {% endif %}
           {% endfor %}
 
           {% if fieldMedia != empty %}

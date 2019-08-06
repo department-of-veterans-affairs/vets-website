@@ -33,7 +33,7 @@
                                 <li class="vads-u-margin-bottom--2">
                                     <a href="#primary-health-services" class="vads-u-text-decoration--none">
                                         <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
-                                        Primary care (Family medicine, internal medicine)
+                                        Primary care
                                     </a>
                                 </li>
                             {% endif %}
@@ -116,7 +116,7 @@
                 {% if featuredContentHealthServices.length %}
                     <section class="featured-services" id="featured-services">
                         <h3>In the spotlight at {{ regionOrOffice | remove: "health care" }}</h3>
-                        <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4">
+                        <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
                             {% for featuredService in featuredContentHealthServices %}
                                 {% include "src/site/paragraphs/link_teaser_featured_content.drupal.liquid" with linkTeaser = featuredService.entity %}
                             {% endfor %}
@@ -126,7 +126,7 @@
 
                 {% if primaryCareHealthServices.entities.length %}
                     <section class="primary-health-services" id="primary-health-services">
-                        <h2>Primary care (Family medicine, internal medicine)</h2>
+                        <h2>Primary care</h2>
                         {% for primaryService in primaryCareHealthServices.entities %}
                             {% include "src/site/facilities/health_service.drupal.liquid" with healthService = primaryService %}
                         {% endfor %}

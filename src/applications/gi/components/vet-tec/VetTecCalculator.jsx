@@ -29,7 +29,7 @@ export class VetTecCalculator extends React.Component {
 
     return (
       <div className="calculator-inputs vads-u-margin-x--neg1p5">
-        <div className="form-expanding-group-open">
+        <div>
           <VetTecCalculatorForm
             inputs={inputs}
             displayedInputs={displayed}

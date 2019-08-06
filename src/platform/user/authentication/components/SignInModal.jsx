@@ -87,7 +87,7 @@ class SignInModal extends React.Component {
           [EXTERNAL_SERVICES.mhv],
           'You may have trouble signing in with My HealtheVet',
           'warning',
-          'We’re sorry. We’re making some scheduled updates to our My HealtheVet sign-in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
+          'We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
         )}
         {this.downtimeBanner(
           [EXTERNAL_SERVICES.mvi],

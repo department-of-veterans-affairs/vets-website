@@ -18,8 +18,8 @@ import ExpandingGroup from '@department-of-veterans-affairs/formation-react/Expa
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class RadioButtons extends React.Component {
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
+  constructor(props) {
+    super(props);
     this.inputId = _.uniqueId('radio-buttons-');
   }
 
@@ -34,6 +34,7 @@ class RadioButtons extends React.Component {
       let optionLabel;
       let optionValue;
       let optionAdditional;
+      let learnMore;
       if (_.isString(obj)) {
         optionLabel = obj;
         optionValue = obj;
@@ -43,15 +44,18 @@ class RadioButtons extends React.Component {
         if (obj.additional) {
           optionAdditional = <div>{obj.additional}</div>;
         }
+        if (obj.learnMore) {
+          learnMore = obj.learnMore;
+        }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const radioButton = (
         <div
           key={optionAdditional ? undefined : index}
-          className="form-radio-buttons"
+          className="form-radio-buttons gids-radio-buttons"
         >
           <input
-            autoComplete="false"
+            className="gids-radio-buttons-input"
             checked={checked}
             id={`${this.inputId}-${index}`}
             name={this.props.name}
@@ -66,9 +70,11 @@ class RadioButtons extends React.Component {
             id={`${this.props.name}-${index}-label`}
             name={`${this.props.name}-${index}-label`}
             htmlFor={`${this.inputId}-${index}`}
+            className="vads-u-margin-top--1 vads-u-margin-bottom--1"
           >
             {optionLabel}
           </label>
+          {learnMore}
         </div>
       );
 
@@ -161,6 +167,7 @@ RadioButtons.propTypes = {
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
         additional: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        learnMore: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
       }),
     ]),
   ).isRequired,
