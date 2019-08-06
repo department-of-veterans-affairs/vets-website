@@ -37,12 +37,14 @@ async function connectFeatureToggle(
     payload: toggleValues,
   });
 
-  const newToggleValues = await fetchToggleValues();
+  if (!environments.isProduction) {
+    const newToggleValues = await fetchToggleValues();
 
-  dispatch({
-    type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
-    payload: newToggleValues,
-  });
+    dispatch({
+      type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+      payload: newToggleValues,
+    });
+  }
 }
 
 addSubscriberCallback(newToggleValues => {
