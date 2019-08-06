@@ -16,6 +16,11 @@ function isReactPage(reactLandingPages, target) {
   return reactLandingPages.some(reactPath => target.startsWith(reactPath));
 }
 
+/**
+ * Filters out certain links detected as broken that meet special circumstances.
+ * @param {Array} brokenPages
+ * @param {Object} files Metalsmith files data
+ */
 function applyIgnoredRoutes(
   brokenPages,
   files,

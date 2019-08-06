@@ -1,3 +1,7 @@
+/**
+ * Formats the final list of broken pages into useful console output.
+ * @param {Array} brokenPages Outcome of validating
+ */
 function getErrorOutput(brokenPages) {
   const brokenLinkCount = brokenPages.reduce(
     (sum, page) => sum + page.linkErrors.length,
