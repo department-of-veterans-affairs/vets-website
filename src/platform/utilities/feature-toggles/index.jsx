@@ -34,7 +34,7 @@ async function connectFeatureToggle(
     payload: toggleValues,
   });
 
-  if (!environments.isProduction) {
+  if (!environments.isProduction()) {
     const newToggleValues = await fetchToggleValues();
 
     dispatch({
