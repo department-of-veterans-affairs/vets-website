@@ -1,6 +1,7 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 
+// Production flag for 19418
 const VetTecApplicationProcessClassname =
   !environment.isProduction() && 'medium-screen:vads-l-col--10';
 
@@ -25,9 +26,10 @@ const VetTecApplicationProcess = () => (
         target="_blank"
         rel="noopener noreferrer"
       >
+        {/* Production flag for 19418 */}
         {!environment.isProduction()
           ? 'Apply for VET TEC (VA Form 22-0994)'
-          : '(VA Form 22-1994)'}
+          : 'Apply for VET TEC (VA Form 22-1994)'}
       </a>
     </p>
     <p>
