@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
 import environments from 'platform/utilities/environment';
 
-const { addSubscriberCallback, fetchToggleValues } = new FlipperClient();
+const { fetchToggleValues } = new FlipperClient();
 
 function makeEnvironmentToggleValues(env = environments) {
   return {
@@ -25,12 +25,9 @@ const initialToggleValues = {
   ...getBootstrappedToggleValues(),
 };
 
-let currentToggleValues = initialToggleValues;
-const getToggleValues = () => currentToggleValues;
-
 async function connectFeatureToggle(
   dispatch,
-  toggleValues = currentToggleValues,
+  toggleValues = initialToggleValues,
 ) {
   dispatch({
     type: 'FETCH_TOGGLE_VALUES_STARTED',
@@ -47,6 +44,8 @@ async function connectFeatureToggle(
   }
 }
 
+// TODO: remove or refactor
+/*
 addSubscriberCallback(newToggleValues => {
   currentToggleValues = {
     ...currentToggleValues,
@@ -138,11 +137,11 @@ const FeatureToggle = ({ children, ...props }) => {
     </ToggleContext.Consumer>
   );
 };
+*/
 
 export {
   connectFeatureToggle,
-  FeatureToggle,
-  getToggleValues,
-  subscribeToToggleUpdates,
-  withFeatureToggleProvider,
+  // FeatureToggle,
+  // subscribeToToggleUpdates,
+  // withFeatureToggleProvider,
 };
