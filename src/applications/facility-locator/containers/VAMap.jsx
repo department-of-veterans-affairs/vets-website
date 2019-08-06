@@ -27,6 +27,10 @@ import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
+import {
+  isProduction,
+  facilityLocatorShowCommunityCares,
+} from '../utils/selectors';
 
 const otherToolsLink = (
   <p>
@@ -638,7 +642,8 @@ VAMap.contextTypes = {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    showCommunityCares: state.featureToggles.facilityLocatorShowCommunityCares,
+    showCommunityCares:
+      isProduction(state) || facilityLocatorShowCommunityCares(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,

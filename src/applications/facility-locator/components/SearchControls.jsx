@@ -114,7 +114,6 @@ class SearchControls extends Component {
         </div>
       );
     }
-    console.log(showCommunityCares);
 
     return (
       <div className="search-controls-container clearfix">

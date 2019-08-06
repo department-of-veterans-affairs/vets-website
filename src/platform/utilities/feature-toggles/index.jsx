@@ -2,16 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
 import environments from 'platform/utilities/environment';
 
-const {
-  addSubscriberCallback,
-  fetchToggleValues,
-  startPollingToggleValues,
-  /*
-  refreshToggleValues,
-  removeSubscriberCallback,
-  stopPollingToggleValues,
-  */
-} = new FlipperClient();
+const { addSubscriberCallback, fetchToggleValues } = new FlipperClient();
 
 function makeEnvironmentToggleValues(env = environments) {
   return {
@@ -29,19 +20,6 @@ function getBootstrappedToggleValues() {
   };
 }
 
-async function connectFeatureToggle(dispatch) {
-  dispatch({
-    type: 'FETCH_TOGGLE_VALUES_STARTED'
-  });
-
-  const toggleValues = await fetchToggleValues();
-
-  dispatch({
-    type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
-    payload: toggleValues,
-  });
-}
-
 const initialToggleValues = {
   ...makeEnvironmentToggleValues(),
   ...getBootstrappedToggleValues(),
@@ -49,6 +27,23 @@ const initialToggleValues = {
 
 let currentToggleValues = initialToggleValues;
 const getToggleValues = () => currentToggleValues;
+
+async function connectFeatureToggle(
+  dispatch,
+  toggleValues = currentToggleValues,
+) {
+  dispatch({
+    type: 'FETCH_TOGGLE_VALUES_STARTED',
+    payload: toggleValues,
+  });
+
+  const newToggleValues = await fetchToggleValues();
+
+  dispatch({
+    type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+    payload: newToggleValues,
+  });
+}
 
 addSubscriberCallback(newToggleValues => {
   currentToggleValues = {
