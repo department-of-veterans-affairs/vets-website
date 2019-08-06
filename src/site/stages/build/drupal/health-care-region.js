@@ -121,6 +121,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const nsEntityUrl = createEntityUrlObj(drupalPagePath);
   const nsObj = {
     allNewsStoryTeasers: page.allNewsStoryTeasers,
+    newsStoryTeasers: page.newsStoryTeasers,
     fieldIntroTextNewsStories: page.fieldIntroTextNewsStories,
     facilitySidebar: sidebar,
     entityUrl: nsEntityUrl,
@@ -149,6 +150,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
     { allEventTeasers: page.allEventTeasers },
+    { eventTeasers: page.eventTeasers },
     { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
     { facilitySidebar: sidebar },
     { entityUrl: eventEntityUrl },
