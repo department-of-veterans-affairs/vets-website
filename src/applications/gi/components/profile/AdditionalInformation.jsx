@@ -7,9 +7,7 @@ export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
     const constants = this.props.constants;
 
-    return environment.isProduction()
-      ? 'Total paid (FY 2018)'
-      : 'Total paid (FY ' + constants.FISCALYEAR + ')';
+    return !environment.isProduction() ? '2018' : constants.FISCALYEAR;
   }
   renderInstitutionSummary() {
     const it = this.props.institution;
@@ -138,7 +136,6 @@ export class AdditionalInformation extends React.Component {
 
   render() {
     const it = this.props.institution;
-    const constants = this.props.constants;
     // Formats positive and negative currency values in USD
     const formatCurrency = num => {
       const str = Number(num)
@@ -178,8 +175,7 @@ export class AdditionalInformation extends React.Component {
               </div>
               <div>
                 <strong>
-                  {this.updateFiscalYear()}
-                  :&nbsp;
+                  Total paid (FY {this.updateFiscalYear()}) :&nbsp;
                 </strong>
                 {formatCurrency(it.p911TuitionFees)}
               </div>
@@ -195,8 +191,7 @@ export class AdditionalInformation extends React.Component {
               </div>
               <div>
                 <strong>
-                  {this.updateFiscalYear()}
-                  :&nbsp;
+                  Total paid (FY {this.updateFiscalYear()}) :&nbsp;
                 </strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </div>
@@ -253,7 +248,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>{this.updateFiscalYear()}</th>
+                  <th>Total paid (FY {this.updateFiscalYear()})</th>
                 </tr>
               </thead>
               <tbody>
