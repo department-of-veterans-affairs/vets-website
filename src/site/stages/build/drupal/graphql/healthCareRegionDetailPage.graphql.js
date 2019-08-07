@@ -19,6 +19,8 @@ const REACT_WIDGET = '... reactWidget';
 const NUMBER_CALLOUT = '... numberCallout';
 const TABLE = '... table';
 const ALERT_PARAGRAPH = '... alertParagraph';
+const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
+const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 // Get current feature flags
@@ -71,7 +73,16 @@ module.exports = `
         ${REACT_WIDGET}
         ${NUMBER_CALLOUT}
         ${TABLE}
-        ${ALERT_PARAGRAPH}
+        ${ALERT_PARAGRAPH}        
+        ${
+          enabledFeatureFlags[featureFlags.FEATURE_DOWNLOADABLE_FILE]
+            ? `
+                ${DOWNLOADABLE_FILE_PARAGRAPH}        
+                ${MEDIA_PARAGRAPH}
+
+              `
+            : ''
+        }        
       }
     }
     ${FIELD_RELATED_LINKS}

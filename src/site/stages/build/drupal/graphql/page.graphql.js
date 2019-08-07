@@ -18,6 +18,8 @@ const REACT_WIDGET = '... reactWidget';
 const SPANISH_SUMMARY = '... spanishSummary';
 const ALERT_PARAGRAPH = '... alertParagraph';
 const TABLE = '... table';
+const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
+const MEDIA_PARAGRAPH = '... embeddedImage';
 
 // Get current feature flags
 const {
@@ -59,6 +61,14 @@ module.exports = `
         ${SPANISH_SUMMARY}
         ${TABLE}
         ${ALERT_PARAGRAPH}
+        ${
+          enabledFeatureFlags[featureFlags.FEATURE_DOWNLOADABLE_FILE]
+            ? `
+            ${DOWNLOADABLE_FILE_PARAGRAPH}
+            ${MEDIA_PARAGRAPH}
+            `
+            : ''
+        }
       }
     }
     ${FIELD_ALERT} 
