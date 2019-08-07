@@ -7,7 +7,7 @@ export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
     const constants = this.props.constants;
 
-    return !environment.isProduction() ? '2018' : constants.FISCALYEAR;
+    return environment.isProduction() ? '2018' : constants.FISCALYEAR;
   }
   renderInstitutionSummary() {
     const it = this.props.institution;
