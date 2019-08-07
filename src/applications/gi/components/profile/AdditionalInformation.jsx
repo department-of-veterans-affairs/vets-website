@@ -175,7 +175,8 @@ export class AdditionalInformation extends React.Component {
               </div>
               <div>
                 <strong>
-                  Total paid (FY {this.updateFiscalYear()}) :&nbsp;
+                  Total paid (FY {this.updateFiscalYear()}
+                  ):&nbsp;
                 </strong>
                 {formatCurrency(it.p911TuitionFees)}
               </div>
@@ -191,7 +192,8 @@ export class AdditionalInformation extends React.Component {
               </div>
               <div>
                 <strong>
-                  Total paid (FY {this.updateFiscalYear()}) :&nbsp;
+                  Total paid (FY {this.updateFiscalYear()}
+                  ):&nbsp;
                 </strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </div>
