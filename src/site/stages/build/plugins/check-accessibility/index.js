@@ -2,7 +2,8 @@ const path = require('path');
 const cp = require('child_process');
 
 const { WORKER_MESSAGE_TYPES } = require('./helpers/worker');
-const WORKER_MODULE = path.join(__dirname, '/helpers/worker');
+
+const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/worker');
 
 function getErrorOutput(result) {
   const formattedViolations = result.violations.map(violation => {
@@ -20,57 +21,59 @@ function getErrorOutput(result) {
   return formattedViolations;
 }
 
+function getHtmlFileList(files) {
+  return Object.keys(files)
+    .filter(fileName => path.extname(fileName) === '.html')
+    .map(fileName => files[fileName])
+    .filter(file => !file.private)
+    .slice(0, 100)
+    .concat(files['index.html']);
+}
+
+function getPartition(htmlFiles, index, partitionSize) {
+  const startIndex = index * partitionSize;
+  const endIndex = startIndex + partitionSize;
+
+  return htmlFiles.slice(startIndex, endIndex).map(file => ({
+    url: `/${file.path}`,
+    html: file.contents.toString(),
+  }));
+}
+
+function beginChildProcess(child, partition) {
+  const operation = new Promise(resolve => {
+    child.on('message', message => {
+      switch (message.type) {
+        case WORKER_MESSAGE_TYPES.PROGRESS:
+          console.log(`Done with ${message.url}`);
+          break;
+        case WORKER_MESSAGE_TYPES.DONE:
+          resolve(message.result);
+          child.kill();
+      }
+    });
+  });
+
+  child.send(partition);
+  return operation;
+}
+
 function checkAccessibility(buildOptions) {
-
-  // if (buildOptions.watch) {
-  //   // Too costly
-  // }
-
   return async (files, metalsmith, done) => {
-
     console.log('Starting accessibility tests...');
-    console.time('508');
+    console.time('Accessibility');
 
-    const htmlFiles = Object
-      .keys(files)
-      .filter(fileName => path.extname(fileName) === '.html')
-      .map(fileName => files[fileName])
-      .filter(file => !file.private)
-      .slice(0, 100)
-      .concat(files['index.html']);
+    const htmlFiles = getHtmlFileList(files);
+    const totalWorkers = 10;
+    const partitionSize = Math.ceil(htmlFiles.length / totalWorkers);
+    const workers = [];
 
-    const totalWorkers = 5;
-    const workers = new Array(5);
+    for (let index = 0; index < totalWorkers; index++) {
+      const child = cp.fork(WORKER_MODULE_PATH);
+      const partition = getPartition(htmlFiles, index, partitionSize);
+      const operation = beginChildProcess(child, partition);
 
-    const sliceSize = Math.round(htmlFiles.length / totalWorkers);
-
-    for (let n = 0; n < totalWorkers; n++) {
-      const startIndex = n * totalWorkers;
-      const filesSlice = htmlFiles.slice(startIndex, startIndex + sliceSize);
-
-      const fileData = filesSlice.map(file => {
-        return {
-          url: file.path,
-          html: file.contents.toString(),
-        };
-      });
-
-      const child = cp.fork(WORKER_MODULE);
-      const operation = new Promise((resolve) => {
-        child.on('message', message => {
-          switch (message.type) {
-            case WORKER_MESSAGE_TYPES.PROGRESS:
-              console.log(`Done with ${message.url}`);
-              break;
-            case WORKER_MESSAGE_TYPES.DONE:
-              resolve(message.result);
-              child.kill();
-          }
-        });
-      });
-
-      child.send(fileData);
-      workers[n] = operation;
+      workers.push(operation);
     }
 
     try {
@@ -79,8 +82,10 @@ function checkAccessibility(buildOptions) {
 
       // const output = results.map(getErrorOutput);
       // console.log(output)
-      console.log('length ', flattened.length)
-      console.timeEnd('508');
+      console.timeEnd('Accessibility');
+      console.log(
+        `Processed ${flattened.length} out of ${htmlFiles.length} files`,
+      );
       done();
     } catch (err) {
       done(err);
