@@ -286,7 +286,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       },
     ];
     const chapterKey = 'test';
-    const chapter = {};
+    const chapter = {
+      title: '',
+    };
     const form = {
       pages: {
         test: {
@@ -375,6 +377,115 @@ describe('<ReviewCollapsibleChapter>', () => {
     });
   });
 
+  it('should show single page title when != chapter title', () => {
+    const testPageTitle = 'test page title';
+    const testChapterTitle = 'test chapter title';
+
+    const onEdit = sinon.spy();
+    const pages = [
+      {
+        pageKey: 'test',
+        title: testPageTitle,
+        updateFormData: (oldData, newData) => ({ ...newData, bar: 'baz' }),
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: testChapterTitle,
+    };
+    const form = {
+      pages: {
+        test: {
+          title: testPageTitle,
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: false,
+        },
+      },
+      data: {},
+    };
+    const setPagesViewed = sinon.spy();
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        setPagesViewed={setPagesViewed}
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        open
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const titleDiv = wrapper.find('.form-review-panel-page-header');
+
+    expect(titleDiv.length).to.equal(1);
+    expect(titleDiv.text()).to.equal(testPageTitle);
+    expect(titleDiv.text()).to.not.equal(testChapterTitle);
+
+    wrapper.unmount();
+  });
+
+  it('should not show single page title when equals chapter title', () => {
+    const testChapterTitle = 'test chapter title';
+
+    const onEdit = sinon.spy();
+    const pages = [
+      {
+        pageKey: 'test',
+        title: testChapterTitle,
+        updateFormData: (oldData, newData) => ({ ...newData, bar: 'baz' }),
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: testChapterTitle,
+    };
+    const form = {
+      pages: {
+        test: {
+          title: testChapterTitle,
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: false,
+        },
+      },
+      data: {},
+    };
+    const setPagesViewed = sinon.spy();
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        setPagesViewed={setPagesViewed}
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        open
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const titleDiv = wrapper.find('.form-review-panel-page-header');
+    expect(titleDiv.length).to.equal(1);
+    expect(titleDiv.text()).to.equal('');
+
+    wrapper.unmount();
+  });
+
   describe('updateFormData', () => {
     it('should be called on normal pages', () => {
       const setData = sinon.spy();
@@ -386,7 +497,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         },
       ];
       const chapterKey = 'test';
-      const chapter = {};
+      const chapter = {
+        title: '',
+      };
       const form = {
         pages: {
           test: {
@@ -434,7 +547,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         },
       ];
       const chapterKey = 'test';
-      const chapter = {};
+      const chapter = {
+        title: '',
+      };
       const form = {
         pages: {
           test: {

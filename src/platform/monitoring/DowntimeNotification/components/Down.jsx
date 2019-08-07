@@ -2,16 +2,8 @@ import React from 'react';
 import externalServiceStatus from '../config/externalServiceStatus';
 import DowntimeNotificationWrapper from './Wrapper';
 
+// eslint-disable-next-line no-unused-vars
 export function DownMessaging({ endTime, appTitle }) {
-  if (endTime) {
-    return (
-      <p>
-        We’re making some updates to the {appTitle}. We’re sorry it’s not
-        working right now, and we hope to be finished by{' '}
-        {endTime.format('MMMM Do, LT')} Please check back soon.
-      </p>
-    );
-  }
   return (
     <p>
       We’re making some updates to the {appTitle}. We’re sorry it’s not working
