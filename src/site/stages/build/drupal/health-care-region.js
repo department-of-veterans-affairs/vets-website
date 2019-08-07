@@ -7,6 +7,8 @@ const {
   generateBreadCrumbs,
 } = require('./page');
 
+const _ = require('lodash');
+
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
@@ -57,27 +59,23 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_region_locations_page.drupal.liquid',
   );
 
-  // Create A-Z Services Page
+  // Create "A-Z Services" || "Our health services" Page
+  // sort and group health services by their weight in drupal
+  const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
+    .sortBy('fieldServiceNameAndDescripti.entity.weight')
+    .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
+    .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
+    .value();
+
   const hsEntityUrl = createEntityUrlObj(drupalPagePath);
   const hsObj = {
-    socialProgramsPatientFamilyServices:
-      page.socialProgramsPatientFamilyServices,
-    healthWellnessPatientFamilyServices:
-      page.healthWellnessPatientFamilyServices,
-    specialtyCareHealthServices: page.specialtyCareHealthServices,
-    primaryCareHealthServices: page.primaryCareHealthServices,
-    mentalHealthServices: page.mentalHealthServices,
-    extendedCareHealthServices: page.extendedCareHealthServices,
-    homelessHealthServices: page.homelessHealthServices,
-    genomicMedicineHealthServices: page.genomicMedicineHealthServices,
-    veteranCareHealthServices: page.veteranCareHealthServices,
-    otherHealthServices: page.otherHealthServices,
     fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
     featuredContentHealthServices: page.fieldFeaturedContentHealthser,
     facilitySidebar: sidebar,
     entityUrl: hsEntityUrl,
     alert: page.alert,
     title: page.title,
+    clinicalHealthServices,
   };
   const hsPage = updateEntityUrlObj(
     hsObj,
