@@ -1,12 +1,14 @@
-// import environment from 'platform/utilities/environment';
-const TOGGLE_VALUES_PATH = '/toggle.json';
+import environment from 'platform/utilities/environment';
+
+// const TOGGLE_VALUES_PATH = '/toggle.json';
+const TOGGLE_VALUES_PATH = '/v0/feature_toggles?features=facilityLocatorShowCommunityCares';
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
 
 function FlipperClient({
-  // host = environment.API_URL,
-  host = 'http://localhost:3001',
+  host = environment.API_URL,
+  // host = 'http://localhost:3001',
   toggleValuesPath = TOGGLE_VALUES_PATH,
 } = {}) {
   let _timeoutId;
@@ -43,7 +45,30 @@ function FlipperClient({
   };
 
   const fetchToggleValues = async function fetchTogggleValues() {
-    const { toggleValues } = await _fetchToggleValues();
+    /*
+    {
+      "data":{
+          "type":"feature_toggles",
+          "features":[
+            {
+                "name":"foo",
+                "value":false
+            },
+            {
+                "name":"another_toggle",
+                "value":true
+            }
+          ]
+      }
+    }
+    */
+    const { data } = await _fetchToggleValues();
+    const { features = [] } = data;
+    const toggleValues = features.reduce((acc, toggle) => {
+      acc[toggle.name] = toggle.value;
+
+      return acc;
+    }, {})
 
     return toggleValues;
   };
