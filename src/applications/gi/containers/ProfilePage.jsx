@@ -134,6 +134,7 @@ export class ProfilePage extends React.Component {
                   <AdditionalInformation
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
+                    constants={this.props.constants}
                   />
                 </AccordionItem>
               </ul>
