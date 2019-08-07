@@ -11,13 +11,10 @@ const AXE_CONFIG = {
     type: 'tag',
     values: ['section508', 'wcag2a', 'wcag2aa'],
   },
-  rules: {
-    'color-contrast': { enabled: false }
-  }
 };
 
-function executeAxeCheck(html) {
-  const dom = new JSDOM(html);
+function executeAxeCheck(file) {
+  const dom = new JSDOM(file.html);
 
   global.document = dom;
   global.window = dom.window;
@@ -41,19 +38,23 @@ function executeAxeCheck(html) {
 }
 
 process.on('message', async function(fileList) {
-  const result = [];
+  const allResults = [];
 
   for (const file of fileList) {
-    result.push(await executeAxeCheck(file.html));
+    const result = await executeAxeCheck(file);
+
+    result.url = file.url;
+    allResults.push(result);
+
     process.send({
       type: WORKER_MESSAGE_TYPES.PROGRESS,
-      url: file.url,
+      result,
     });
   }
 
   process.send({
     type: WORKER_MESSAGE_TYPES.DONE,
-    result,
+    result: allResults,
   });
 });
 

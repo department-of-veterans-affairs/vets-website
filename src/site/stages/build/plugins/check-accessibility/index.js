@@ -2,10 +2,11 @@ const path = require('path');
 const cp = require('child_process');
 
 const { WORKER_MESSAGE_TYPES } = require('./helpers/worker');
+const ignoreSpecialPages = require('./helpers/ignoreSpecialPages');
 
 const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/worker');
 
-function getErrorOutput(result) {
+function getViolationsOutput(result) {
   const formattedViolations = result.violations.map(violation => {
     let output = `[${violation.impact}] ${violation.help}`;
 
@@ -18,16 +19,20 @@ function getErrorOutput(result) {
     return output;
   });
 
-  return formattedViolations;
+  return formattedViolations.join('\n');
 }
 
 function getHtmlFileList(files) {
+
+  return [
+    files['index.html']
+  ];
   return Object.keys(files)
     .filter(fileName => path.extname(fileName) === '.html')
+    .filter(fileName => !fileName.startsWith('playbook'))
     .map(fileName => files[fileName])
-    .filter(file => !file.private)
-    .slice(0, 100)
-    .concat(files['index.html']);
+    .slice(0, 20)
+    .concat(files['index.html'])
 }
 
 function getPartition(htmlFiles, index, partitionSize) {
@@ -44,10 +49,19 @@ function beginChildProcess(child, partition) {
   const operation = new Promise(resolve => {
     child.on('message', message => {
       switch (message.type) {
-        case WORKER_MESSAGE_TYPES.PROGRESS:
-          console.log(`Done with ${message.url}`);
+        case WORKER_MESSAGE_TYPES.PROGRESS: {
+          const totalViolations = message.result.violations.length;
+          if (totalViolations > 0) {
+            console.log(`${message.result.url}: ${totalViolations} violations!`);
+            console.log(getViolationsOutput(message.result));
+          } else {
+            console.log(`${message.result.url}: ✓`);
+          }
           break;
+        }
+
         case WORKER_MESSAGE_TYPES.DONE:
+        default:
           resolve(message.result);
           child.kill();
       }
@@ -78,15 +92,23 @@ function checkAccessibility(buildOptions) {
 
     try {
       const results = await Promise.all(workers);
-      const flattened = results.reduce((all, slice) => all.concat(slice), []);
+      const flattened = results
+        .reduce((all, slice) => all.concat(slice), []);
+      const allBadResults = flattened
+        .filter(result => result.violations.length > 0);
+      const badResults = ignoreSpecialPages(allBadResults);
 
-      // const output = results.map(getErrorOutput);
-      // console.log(output)
       console.timeEnd('Accessibility');
       console.log(
         `Processed ${flattened.length} out of ${htmlFiles.length} files`,
       );
-      done();
+
+      if (badResults.length > 0) {
+        done(`${badResults.length} pages contain accessibility violations`);
+      } else {
+        done();
+      }
+
     } catch (err) {
       done(err);
     }
