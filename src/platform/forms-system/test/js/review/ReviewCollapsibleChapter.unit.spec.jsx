@@ -482,7 +482,6 @@ describe('<ReviewCollapsibleChapter>', () => {
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     expect(titleDiv.length).to.equal(1);
     expect(titleDiv.text()).to.equal('');
-    expect(titleDiv.text()).to.not.equal(testChapterTitle);
 
     wrapper.unmount();
   });
