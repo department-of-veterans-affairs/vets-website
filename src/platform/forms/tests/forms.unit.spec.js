@@ -83,8 +83,8 @@ describe('form: ', () => {
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
 
-  describe('migrations:', () => {
-    configs.forEach(form => {
+  configs.forEach(form => {
+    describe('migrations:', () => {
       it(`${
         form.formId
       } should have a length equal to the version number`, () => {
@@ -93,10 +93,8 @@ describe('form: ', () => {
         }
       });
     });
-  });
 
-  describe('chapters:', () => {
-    configs.forEach(form => {
+    describe('chapters:', () => {
       it(`${form.formId} should have chapters`, () => {
         expect(typeof form.chapters).to.not.equal('undefined');
       });
