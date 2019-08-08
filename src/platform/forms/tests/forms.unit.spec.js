@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import fullSchema1010ez from 'applications/hca/config/form';
 import fullSchema0993 from 'applications/edu-benefits/0993/config/form';
+import fullSchema0994 from 'applications/edu-benefits/0994/config/form';
 import fullSchema1990 from 'applications/edu-benefits/1990/config/form';
 import fullSchema1990e from 'applications/edu-benefits/1990e/config/form';
 import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
@@ -26,6 +27,7 @@ const mappedIds = [
   VA_FORM_IDS.FORM_21P_527EZ,
   VA_FORM_IDS.FORM_21P_530,
   VA_FORM_IDS.FORM_22_0993,
+  VA_FORM_IDS.FORM_22_0994,
   VA_FORM_IDS.FORM_22_1990,
   VA_FORM_IDS.FORM_22_1990E,
   VA_FORM_IDS.FORM_22_1990N,
@@ -45,6 +47,7 @@ const configs = [
   fullSchema527EZ,
   fullSchema530,
   fullSchema0993,
+  fullSchema0994,
   fullSchema1990,
   fullSchema1990e,
   fullSchema1990n,
@@ -62,14 +65,13 @@ const excludedForms = new Set([
   '24-0296',
   '21-4142',
   VA_FORM_IDS.VIC,
-  VA_FORM_IDS.FORM_22_0994, // TODO: remove this when 0994 is ready
   VA_FORM_IDS.FORM_22_1995_STEM,
   'definitions',
   'constants',
   'vaMedicalFacilities',
 ]);
 
-describe('form migrations:', () => {
+describe('form: ', () => {
   it('should check all forms', () => {
     const allFormIds = Object.keys(schemas).filter(
       formId => !excludedForms.has(formId),
@@ -80,11 +82,24 @@ describe('form migrations:', () => {
     expect(new Set(allFormIds)).to.deep.equal(new Set(mappedIds));
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
-  it('should have a length equal to the version number', () => {
+
+  describe('migrations:', () => {
     configs.forEach(form => {
-      if (form.migrations || form.version > 0) {
-        expect(form.migrations.length).to.equal(form.version);
-      }
+      it(`${
+        form.formId
+      } should have a length equal to the version number`, () => {
+        if (form.migrations || form.version > 0) {
+          expect(form.migrations.length).to.equal(form.version);
+        }
+      });
+    });
+  });
+
+  describe('chapters:', () => {
+    configs.forEach(form => {
+      it(`${form.formId} should have chapters`, () => {
+        expect(typeof form.chapters).to.not.equal('undefined');
+      });
     });
   });
 });
