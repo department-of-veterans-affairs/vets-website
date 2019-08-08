@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
-import { isEmptyAddress } from '../../../../../platform/forms/address/helpers';
+import { isEmptyAddress } from 'platform/forms/address/helpers';
 
 import { FIELD_NAMES } from '../constants';
 

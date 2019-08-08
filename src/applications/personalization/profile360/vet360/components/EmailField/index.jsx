@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { API_ROUTES, FIELD_NAMES } from '../../constants';
 
-import { isValidEmail } from '../../../../../../platform/forms/validations';
+import { isValidEmail } from 'platform/forms/validations';
 
 import Vet360ProfileField from '../../containers/ProfileField';
 import EmailEditModal from './EditModal';
