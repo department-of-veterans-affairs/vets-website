@@ -63,7 +63,7 @@ export class SearchPage extends React.Component {
       'onlineOnly',
       'principlesOfExcellence',
       'eightKeysToVeteranSuccess',
-      'stemOffered',
+      'stemIndicator',
       'priorityEnrollment',
       'independentStudy',
       'vetTecProvider',

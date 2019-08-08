@@ -97,9 +97,9 @@ class InstitutionFilterForm extends React.Component {
         />
         {!environment.isProduction() && (
           <Checkbox
-            checked={filters.stemOffered}
-            name="stemOffered"
-            label="STEM (Science, Technology, Engineering, and Math)"
+            checked={filters.stemIndicator}
+            name="stemIndicator"
+            label="Rogers STEM Scholarship"
             onChange={this.handleCheckboxChange}
           />
         )}
@@ -181,7 +181,7 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
-    stemOffered: PropTypes.bool,
+    stemIndicator: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -197,7 +197,7 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
-    stemOffered: PropTypes.object,
+    stemIndicator: PropTypes.object,
   }),
 };
 
