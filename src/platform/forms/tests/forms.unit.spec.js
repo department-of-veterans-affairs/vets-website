@@ -79,23 +79,52 @@ describe('form:', () => {
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, VA_FORM_IDS.FORM_10_10EZ);
     const includedFormIds = configs.map(form => form.formId);
-    expect(new Set(allFormIds)).to.deep.equal(new Set(mappedIds));
-    expect(includedFormIds).to.deep.equal(reformattedIds);
+
+    const allFormIdsSet = new Set(allFormIds);
+    const mappedIdsSet = new Set(mappedIds);
+    expect(allFormIdsSet.size).to.not.lessThan(
+      mappedIdsSet.size,
+      'a schema may have been removed from vets-json-schema/dist/schemas',
+    );
+    expect(allFormIdsSet.size).to.not.greaterThan(
+      mappedIdsSet.size,
+      'a schema may have been added to vets-json-schema/dist/schemas',
+    );
+    expect(allFormIdsSet).to.deep.equal(mappedIdsSet);
+    expect(includedFormIds).to.deep.equal(
+      reformattedIds,
+      'possible missing formId property in a formConfig',
+    );
   });
 
   configs.forEach(form => {
     describe(`${form.formId}:`, () => {
       describe('migrations:', () => {
-        it('should have a length equal to the version number', () => {
-          if (form.migrations || form.version > 0) {
-            expect(form.migrations.length).to.equal(form.version);
-          }
-        });
+        const { migrations } = form;
+        if (migrations || form.version > 0) {
+          it('should have a length equal to the version number', () => {
+            expect(migrations.length).to.equal(form.version);
+          });
+          it('should be typeof array', () => {
+            expect(migrations).to.be.an('array');
+          });
+          it('should be array of functions', () => {
+            migrations.forEach(migration => {
+              expect(migration).to.be.a('function');
+            });
+          });
+        }
       });
 
       describe('chapters:', () => {
         it('should have chapters', () => {
-          expect(typeof form.chapters).to.not.equal('undefined');
+          expect(form.chapters).to.be.an('object');
+        });
+      });
+
+      describe('defaultDefinitions:', () => {
+        it('should have chapters', () => {
+          expect(form.defaultDefinitions).to.not.be.a('undefined');
         });
       });
     });
