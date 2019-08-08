@@ -20,8 +20,12 @@ function removeAxeFromModuleCache() {
   delete require.cache[axeModuleKey];
 }
 
-function executeAxeCheck(file) {
-  const dom = new JSDOM(file.html);
+function executeAxeCheck({ url, contents }) {
+  const dom = new JSDOM(contents, {
+    url,
+    contentType: 'text/html',
+    includeNodeLocations: false,
+  });
 
   global.document = dom;
   global.window = dom.window;
@@ -40,9 +44,7 @@ function executeAxeCheck(file) {
   const axe = require('axe-core');
 
   return new Promise((resolve, reject) => {
-    axe.run(AXE_CONFIG, (err, result) => {
-      return err ? reject(err) : resolve(result);
-    });
+    axe.run(AXE_CONFIG, (err, result) => (err ? reject(err) : resolve(result)));
     removeAxeFromModuleCache();
   });
 }

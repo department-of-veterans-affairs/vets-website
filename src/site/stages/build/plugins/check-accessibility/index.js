@@ -1,15 +1,17 @@
+/* eslint-disable no-console, no-await-in-loop */
+
 const path = require('path');
+// const url = require('url');
 
 const executeAxeCheck = require('./helpers/executeAxeCheck');
-const ignoreSpecialPages = require('./helpers/ignoreSpecialPages');
+// const ignoreSpecialPages = require('./helpers/ignoreSpecialPages');
 const getErrorOutput = require('./helpers/getErrorOutput');
-
 
 function getHtmlFileList(files) {
   return Object.keys(files)
     .filter(fileName => path.extname(fileName) === '.html')
     .map(fileName => files[fileName])
-    .slice(0, 270)
+    .slice(0, 40)
     .concat([files['index.html']]);
 }
 
@@ -19,53 +21,30 @@ function checkAccessibility(buildOptions) {
     console.time('Accessibility');
 
     const htmlFiles = getHtmlFileList(files);
-
-    // const processes = htmlFiles.map(async (file, index) => {
-    //   const props = {
-    //     url: file.path,
-    //     html: file.contents.toString(),
-    //   };
-
-    //   const delay = index * 1000;
-
-    //   await new Promise((resolve) => setTimeout(resolve, delay));
-
-    //   console.log(`enqueuing ${props.url}`);
-    //   const result = await executeAxeCheck(props);
-
-    //   result.url = props.url;
-
-    //   if (result.violations.length > 0) {
-    //     console.log(getErrorOutput(result));
-    //   } else {
-    //     console.log(`${result.url}: ✓`);
-    //   }
-
-    //   return result;
-    // });
+    const errors = [];
 
     for (const file of htmlFiles) {
-      const props = {
-        url: file.path,
-        html: file.contents.toString(),
-      };
-
-      const result = await executeAxeCheck(props);
-
-      result.url = props.url;
+      const result = await executeAxeCheck({
+        url: new URL(file.path, buildOptions.hostUrl),
+        contents: file.contents.toString(),
+      });
 
       if (result.violations.length > 0) {
-        console.log(getErrorOutput(result));
+        const output = getErrorOutput(result);
+        errors.push(output);
+        console.log(output);
       } else {
         console.log(`${result.url}: ✓`);
       }
     }
 
-    // const results = await Promise.all(processes);
-    // const output = results.map(getErrorOutput).join('\n');
-
-    // console.log(output);
     console.timeEnd('Accessibility');
+
+    if (errors.length > 0) {
+      done(`Failed with ${errors.length} accessibility errors`);
+      done(errors);
+    }
+
     done();
   };
 }
