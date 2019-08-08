@@ -123,7 +123,7 @@ describe('form:', () => {
       });
 
       describe('defaultDefinitions:', () => {
-        it('should have chapters', () => {
+        it('should have defaultDefinitions', () => {
           expect(form.defaultDefinitions).to.not.be.a('undefined');
         });
       });
